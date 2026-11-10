@@ -1,4 +1,4 @@
-# Figma Flow 0.20.0
+# Figma Flow 0.20.1
 
 그래프의 컴포넌트 디자인 토큰을 정본으로 삼아 Figma와 웹으로 내보내고, 디자이너의 직접 편집을 그래프로 역수입합니다. [Graph SSOT 절차](examples/graph-ssot/README.md)에서 최초 이관·실측 검증·충돌 복구를 확인하세요. 기존 Unslop 비평과 프로젝트별 브라우저 접근 등록도 유지합니다.
 
