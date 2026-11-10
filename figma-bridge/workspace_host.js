@@ -100,7 +100,7 @@ window.addEventListener('message', event => {
 window.addEventListener('DOMContentLoaded', () => {
   const bar = document.createElement('nav');
   bar.setAttribute('aria-label', '작업 이동');
-  bar.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:6px 14px;box-sizing:border-box;max-width:100%;border-bottom:1px solid var(--figma-color-border,#dedde5);background:var(--figma-color-bg,#fff);';
+  bar.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:6px;box-sizing:border-box;max-width:100%;';
   const button = document.createElement('button');
   button.id = 'workspace-back'; button.type = 'button'; button.textContent = '작업 목록으로';
   button.style.cssText = 'min-height:32px;padding:4px 10px;font-size:12px;';
@@ -114,7 +114,18 @@ window.addEventListener('DOMContentLoaded', () => {
     chat.onclick = () => window.parent.postMessage({pluginMessage: {type: 'workspace-chat', workspaceSession}}, '*');
     bar.appendChild(chat);
   }
-  document.body.prepend(bar);
+  const masthead = document.querySelector('.masthead');
+  if (masthead) {
+    const brand = masthead.querySelector('.brand');
+    if (brand) brand.replaceWith(bar);
+    else masthead.prepend(bar);
+    masthead.style.flexWrap = 'wrap';
+    const context = masthead.querySelector('.context');
+    if (context) {context.style.flex = '1 1 70px'; context.style.minWidth = '0';}
+  } else {
+    bar.style.cssText += 'padding:6px 14px;border-bottom:1px solid var(--figma-color-border,#dedde5);background:var(--figma-color-bg,#fff);';
+    document.body.prepend(bar);
+  }
   window.parent.postMessage({pluginMessage: {type: 'workspace-navigation-ready', workspaceSession}}, '*');
 });
 </script>`;

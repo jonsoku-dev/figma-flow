@@ -16,7 +16,7 @@ function graphSyncPaint(node, field) {
 function graphSyncFieldBinding(node, field) {
   let result;
   if (graphSyncPaintField(field)) result = graphSyncPaint(node, field).boundVariables?.color;
-  else if (field === 'fontFamily') result = node.getRangeBoundVariable(0, node.characters.length, field);
+  else if (field === 'fontFamily' || field === 'fontSize') result = node.getRangeBoundVariable(0, node.characters.length, field);
   else if (field === 'borderRadius') {
     const fields = ['topLeftRadius', 'topRightRadius', 'bottomLeftRadius', 'bottomRightRadius'];
     const aliases = fields.map(key => node.boundVariables?.[key] || node.boundVariables?.cornerRadius || null);
@@ -57,11 +57,119 @@ function graphSyncWritable(node, field) {
 }
 function graphSyncBindField(figma, node, field, variable) {
   graphSyncWritable(node, field);
+  if (node.type === 'TEXT' && ['fontSize', 'fontFamily'].includes(field) && node.textStyleId) throw Error(`Graph token sync: linked typography requires scoped style migration: ${node.id}.${field}`);
   if (graphSyncPaintField(field)) node[graphSyncNativeField(field)] = [figma.variables.setBoundVariableForPaint(graphSyncPaint(node, field), 'color', variable)];
-  else if (field === 'fontFamily') node.setRangeBoundVariable(0, node.characters.length, field, variable);
+  else if (field === 'fontFamily' || field === 'fontSize') node.setRangeBoundVariable(0, node.characters.length, field, variable);
   else if (field === 'borderRadius') for (const corner of ['topLeftRadius', 'topRightRadius', 'bottomLeftRadius', 'bottomRightRadius']) node.setBoundVariable(corner, variable);
   else node.setBoundVariable(graphSyncNativeField(field), variable);
 }
+const GRAPH_SYNC_STYLE_FIELDS = ['fontName', 'fontSize', 'textDecoration', 'letterSpacing', 'lineHeight', 'leadingTrim', 'paragraphIndent', 'paragraphSpacing', 'textWrapStyle', 'listSpacing', 'hangingPunctuation', 'hangingList', 'textCase'];
+const GRAPH_SYNC_TEXT_BINDINGS = ['fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'letterSpacing', 'lineHeight', 'paragraphSpacing', 'paragraphIndent'];
+function graphSyncTextEqual(a, b) {
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    if (Array.isArray(a) || Array.isArray(b)) return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((value, index) => graphSyncTextEqual(value, b[index]));
+    const keys = Object.keys(a);
+    return keys.length === Object.keys(b).length && keys.every(key => Object.prototype.hasOwnProperty.call(b, key) && graphSyncTextEqual(a[key], b[key]));
+  }
+  return graphSyncEqual(a, b);
+}
+
+function graphSyncTextState(node) {
+  const profile = {};
+  for (const field of GRAPH_SYNC_STYLE_FIELDS) if (field in node) {
+    if (typeof node[field] === 'symbol') throw Error(`Graph token sync: mixed text property: ${node.id}.${field}`);
+    profile[field] = JSON.parse(JSON.stringify(node[field]));
+  }
+  const bindings = {};
+  for (const field of GRAPH_SYNC_TEXT_BINDINGS) {
+    const binding = node.getRangeBoundVariable(0, node.characters.length, field);
+    if (typeof binding === 'symbol') throw Error(`Graph token sync: mixed text binding: ${node.id}.${field}`);
+    if (binding) bindings[field] = {type: binding.type, id: binding.id};
+  }
+  return {style_id: node.textStyleId || '', profile, bindings};
+}
+async function graphSyncTextStyles(figma, entries, namespace) {
+  const records = new Map(), written = [], styles = [], expectedStyles = new Map();
+  const clone = value => JSON.parse(JSON.stringify(value));
+  const same = graphSyncTextEqual;
+  for (const entry of entries) {
+    if (!['fontSize', 'fontFamily'].includes(entry.field) || entry.node.type !== 'TEXT') continue;
+    if (typeof entry.node.textStyleId === 'symbol') throw Error(`Graph token sync: mixed text styles: ${entry.node.id}`);
+    if (!entry.node.textStyleId) continue;
+    let record = records.get(entry.node.id);
+    if (!record) {
+      const before = graphSyncTextState(entry.node);
+      const source = await figma.getStyleByIdAsync(before.style_id);
+      if (!source || source.type !== 'TEXT' || typeof figma.createTextStyle !== 'function' || typeof entry.node.setTextStyleIdAsync !== 'function') throw Error('Graph token sync: scoped text style API required');
+      for (const [field, value] of Object.entries(before.profile)) if (!same(source[field], value)) throw Error(`Graph token sync: existing typography override requires explicit review: ${entry.node.id}.${field}`);
+      if (!same(source.boundVariables || {}, before.bindings)) throw Error(`Graph token sync: existing text binding override requires explicit review: ${entry.node.id}`);
+      if (!same(graphSyncTextState(entry.node), before)) throw Error('Graph token sync: text changed during style preflight');
+      record = {node: entry.node, before, source, targets: new Map(), main: entry.main}; records.set(entry.node.id, record);
+    }
+    record.targets.set(entry.field, entry.variable);
+  }
+  const styleState = style => ({profile: Object.fromEntries(GRAPH_SYNC_STYLE_FIELDS.filter(field => field in style).map(field => [field, clone(style[field])])), bindings: clone(style.boundVariables || {}), name: style.name, owner: style.getPluginData('graphSSOT')});
+  return {
+    handles(node, field) {return records.has(node.id) && ['fontSize', 'fontFamily'].includes(field);},
+    async bind(node) {
+      const record = records.get(node.id);
+      if (written.includes(record)) return;
+      if (!same(graphSyncTextState(node), record.before)) {
+        const inherited = written.find(item => node.textStyleId === item.style.id && same(node.textStyleId && graphSyncTextState(node).bindings, item.after.bindings));
+        if (inherited && [...record.targets].every(([field, variable]) => graphSyncFieldBinding(node, field)?.id === variable.id)) return;
+        throw Error(`Graph token sync: text changed before style migration: ${node.id}`);
+      }
+      const originalBindings = new Map();
+      for (const [field, alias] of Object.entries(record.before.bindings)) {
+        const variable = await figma.variables.getVariableByIdAsync(alias.id);
+        if (!variable) throw Error('Graph token sync: source text style binding unavailable');
+        originalBindings.set(field, variable);
+      }
+      const style = figma.createTextStyle();
+      styles.push(style);
+      try {
+        style.name = `${namespace || 'Graph'}/typography/${node.id}`;
+        for (const [field, value] of Object.entries(record.before.profile)) style[field] = clone(value);
+        for (const field of ['description', 'descriptionMarkdown', 'documentationLinks']) if (field in record.source) style[field] = clone(record.source[field]);
+        style.setPluginData('graphSSOT', JSON.stringify({namespace: namespace || null, source_style_id: record.before.style_id, node_id: node.id}));
+        for (const [field, variable] of originalBindings) style.setBoundVariable(field, variable);
+        for (const [field, variable] of record.targets) style.setBoundVariable(field, variable);
+      } finally {
+        // Capture partial synchronous writes before anything can yield to another editor.
+        expectedStyles.set(style.id, styleState(style));
+      }
+      if (!same(graphSyncTextState(node), record.before)) throw Error('Graph token sync: text changed before style assignment');
+      record.style = style; record.after = {style_id: style.id, profile: styleState(style).profile, bindings: styleState(style).bindings}; written.push(record);
+      await node.setTextStyleIdAsync(style.id);
+      if (!same(graphSyncTextState(node), record.after)) throw Error(`Graph token sync: scoped text style getter differs: ${node.id}`);
+    },
+    mark() {
+      for (const record of written) {
+        const state = graphSyncTextState(record.node), expected = styleState(record.style);
+        if (state.style_id !== record.style.id || !same(state.profile, expected.profile) || !same(state.bindings, expected.bindings)) throw Error('Graph token sync: owned text style state changed');
+        record.after = state;
+      }
+    },
+    async rollback(conflicts) {
+      for (const record of [...written].sort((a, b) => Number(b.main) - Number(a.main))) try {
+        const state = graphSyncTextState(record.node);
+        if (same(state, record.before)) continue;
+        if (!same(state, record.after)) {conflicts.push({kind: 'text-style-changed', node_id: record.node.id, actual: state}); continue;}
+        await record.node.setTextStyleIdAsync(record.before.style_id);
+        if (!same(graphSyncTextState(record.node), record.before)) conflicts.push({kind: 'text-style-restore-differs', node_id: record.node.id, actual: graphSyncTextState(record.node)});
+      } catch (error) {conflicts.push({kind: 'text-style-restore-failed', node_id: record.node.id, error: String(error)});}
+      for (const record of records.values()) try {
+        if (!same(graphSyncTextState(record.node), record.before) && !conflicts.some(item => item.node_id === record.node.id && item.kind.startsWith('text-style-'))) conflicts.push({kind: 'text-style-restore-differs', node_id: record.node.id, actual: graphSyncTextState(record.node)});
+      } catch (error) {conflicts.push({kind: 'text-style-restore-failed', node_id: record.node.id, error: String(error)});}
+      for (const style of styles) try {
+        if (!same(styleState(style), expectedStyles.get(style.id))) {conflicts.push({kind: 'created-text-style-changed', style_id: style.id}); continue;}
+        if (typeof style.getStyleConsumersAsync !== 'function' || (await style.getStyleConsumersAsync()).length) {conflicts.push({kind: 'created-text-style-referenced', style_id: style.id}); continue;}
+        style.remove();
+      } catch (error) {conflicts.push({kind: 'text-style-cleanup-failed', style_id: style.id, error: String(error)});}
+    }
+  };
+}
+
 function graphSyncRestoreLiteral(node, field, value) {
   if (graphSyncPaintField(field)) {
     const paint = graphSyncPaint(node, field); const {a = 1, ...color} = value;
@@ -76,7 +184,7 @@ function graphSyncRollbackError(error, plan, conflicts) {
   error.rollback_conflicts = combined;
   error.readback = {schema: 'figma-flow-graph-token-readback-v1', operation: 'apply',
     file_key: plan.file_key, page_id: plan.page_id, collection_id: plan.collection_id,
-    status: combined.length ? 'rollback-conflict' : 'rolled-back', error: error.message || String(error), stack: error.stack || null, rollback_conflicts: combined};
+    status: combined.length ? 'rollback-conflict' : 'rolled-back', binding_diagnostics: error.binding_diagnostics || null, error: error.message || String(error), stack: error.stack || null, rollback_conflicts: combined};
   if (conflicts.length) error.message += `; rollback conflicts: ${conflicts.map(item => item.kind).join(', ')}`;
   error.readback.error = error.message || String(error);
   return error;
@@ -108,7 +216,7 @@ async function graphSyncConsumerGuard(figma, admittedPages, consumers, rootIds) 
     const result = Object.entries(node.boundVariables || {});
     for (const field of ['fills', 'strokes', 'effects']) if (Array.isArray(node[field])) result.push([field, node[field]]);
     if (node.type === 'TEXT' && typeof node.getStyledTextSegments === 'function') for (const segment of node.getStyledTextSegments(['boundVariables'])) result.push(...Object.entries(segment.boundVariables || {}));
-    if (node.type === 'TEXT' && node.characters.length && typeof node.getRangeBoundVariable === 'function') result.push(['fontFamily', node.getRangeBoundVariable(0, node.characters.length, 'fontFamily')]);
+    if (node.type === 'TEXT' && node.characters.length && typeof node.getRangeBoundVariable === 'function') for (const field of ['fontFamily', 'fontSize']) result.push([field, node.getRangeBoundVariable(0, node.characters.length, field)]);
     return result;
   };
   const allNodes = () => pages.flatMap(page => [page, ...page.findAll(() => true)]);
@@ -248,7 +356,14 @@ async function graphTokenSync(figma, plan, operation = 'inspect') {
           const repair = repairs.get(`${target.id}:${field}`);
           if (repair && (repair.token !== key || (alias?.id || null) !== repair.before_variable_id || !same(actual(target, field), repair.before_value))) fail(`stale repair binding: ${target.id}.${field}`);
           const mismatch = !alias || alias.type !== 'VARIABLE_ALIAS' || alias.id !== entry.bound.id || !same(actual(target, field), entry.root.valuesByMode[mode]);
-          if (operation === 'apply' && mismatch && !repair) fail(`${alias?.id !== entry.bound.id ? 'binding mismatch' : 'native getter mismatch'}: ${target.id}.${field}`);
+          if (operation === 'apply' && mismatch && !repair) {
+            const error = Error(`Graph token sync: ${alias?.id !== entry.bound.id ? 'binding mismatch' : 'native getter mismatch'}: ${target.id}.${field}`);
+            const aggregate = target.boundVariables?.[field];
+            error.binding_diagnostics = {node_id: target.id, field, expected_variable_id: entry.bound.id, effective_range_binding: alias,
+              aggregate_bindings: (Array.isArray(aggregate) ? aggregate : [aggregate]).slice(0, 8).map(item => item?.id || null),
+              text_style_id: typeof target.textStyleId === 'string' ? target.textStyleId.slice(0, 200) : null};
+            throw error;
+          }
           consumers.push({node: target, field, entry, repair, source: sources.get(node.id) || node.id, source_node: node});
         }
       }
@@ -498,6 +613,7 @@ async function graphTokenPairMigration(figma, plan, operation) {
   const created = new Map(), createdExpected = new Map(), rebound = [];
   const snapshot = item => ({name: item.name, type: item.resolvedType, valuesByMode: clone(item.valuesByMode), ownership: item.getPluginData('graphSSOT')});
   const bindVariable = (node, field, variable) => graphSyncBindField(figma, node, field, variable);
+  let textStyles = null;
   try {
     for (const [name, definition] of definitions) {
       if (reused.has(name)) continue;
@@ -513,20 +629,25 @@ async function graphTokenPairMigration(figma, plan, operation) {
       item.setValueForMode(mode, definition.alias ? {type: 'VARIABLE_ALIAS', id: pairVariables.get(definition.alias).id} : definition.value);
       createdExpected.set(item.id, snapshot(item));
     }
+    textStyles = await graphSyncTextStyles(figma, migrations.map(item => ({...item, variable: pairVariables.get(tokenByKey.get(item.token).variable_name)})), plan.namespace);
     for (const migration of [...migrations.filter(item => item.main), ...migrations.filter(item => !item.main)]) {
       const variable = pairVariables.get(tokenByKey.get(migration.token).variable_name);
       const live = aliasOf(migration.node, migration.field);
       if (live?.id === variable.id && same(valueOf(migration.node, migration.field), tokenByKey.get(migration.token).value)) continue;
       if ((live?.id || null) !== migration.before_variable_id || !same(valueOf(migration.node, migration.field), migration.before_value)) fail('migration changed before rebinding');
+      if (textStyles.handles(migration.node, migration.field)) {await textStyles.bind(migration.node); continue;}
       rebound.push({...migration, written_variable_id: variable.id});
       bindVariable(migration.node, migration.field, variable);
     }
+    textStyles.mark();
+    if (figma.fileKey !== plan.file_key || figma.currentPage.id !== page.id || page.getPluginData('graphSSOT') !== markerBefore) fail('scope or baseline changed during style migration');
     const adopted = {...plan, migrations: undefined, tokens: plan.tokens.map(token => token.create ? ({...token, create: undefined, before: token.value, variable_id: pairVariables.get(token.variable_name).id, root_variable_id: pairVariables.get(token.root_variable_name).id, alias_chain: (token.alias_chain_names || (token.variable_name === token.root_variable_name ? [token.variable_name] : [token.variable_name, token.root_variable_name])).map(name => pairVariables.get(name).id)}) : ({...token, before: token.value}))};
     const result = await graphTokenSync(figma, adopted, 'apply');
     result.tokens.forEach(token => {const source = tokenByKey.get(token.key); if (source.alias_chain_names) token.alias_chain_names = source.alias_chain_names; else if (source.create) token.alias_chain_names = source.variable_name === source.root_variable_name ? [source.variable_name] : [source.variable_name, source.root_variable_name];});
     return result;
   } catch (error) {
     const conflicts = [];
+    if (textStyles) await textStyles.rollback(conflicts);
     for (const migration of rebound.reverse()) try {
       const old = migration.before_variable_id ? await figma.variables.getVariableByIdAsync(migration.before_variable_id) : null;
       const live = aliasOf(migration.node, migration.field);
@@ -536,7 +657,7 @@ async function graphTokenPairMigration(figma, plan, operation) {
       }
       else if ((live?.id || null) !== migration.before_variable_id) conflicts.push({kind: 'binding-changed', node_id: migration.node.id, field: migration.field, actual: live || null});
     } catch (failure) {conflicts.push({kind: 'binding-restore-failed', node_id: migration.node.id, field: migration.field, error: String(failure)});}
-    let retain = false;
+    let retain = conflicts.some(item => item.kind === 'created-text-style-changed' || item.kind === 'created-text-style-referenced' || item.kind === 'text-style-cleanup-failed');
     const createdIds = new Set([...created.values()].map(item => item.id));
     const referencesCreated = value => {
       if (!value || typeof value !== 'object') return false;
@@ -554,7 +675,7 @@ async function graphTokenPairMigration(figma, plan, operation) {
       for (const item of allPages) for (const node of item.findAll(() => true)) {
         let referenced = referencesCreated(node.boundVariables);
         for (const field of ['fills', 'strokes', 'effects']) if (Array.isArray(node[field])) referenced ||= referencesCreated(node[field]);
-        if (node.type === 'TEXT' && node.characters.length && typeof node.getRangeBoundVariable === 'function') referenced ||= referencesCreated(node.getRangeBoundVariable(0, node.characters.length, 'fontFamily'));
+        if (node.type === 'TEXT' && node.characters.length && typeof node.getRangeBoundVariable === 'function') for (const field of ['fontFamily', 'fontSize']) referenced ||= referencesCreated(node.getRangeBoundVariable(0, node.characters.length, field));
         if (node.type === 'TEXT' && typeof node.getStyledTextSegments === 'function') referenced ||= node.getStyledTextSegments(['boundVariables']).some(segment => referencesCreated(segment.boundVariables));
         if (referenced) {retain = true; conflicts.push({kind: 'created-variable-referenced', node_id: node.id});}
       }

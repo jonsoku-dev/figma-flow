@@ -164,7 +164,7 @@ test('task HTML relay wraps outgoing schemas and rejects old inbound sessions', 
   const relay = h.probe.shown.at(-1).html.match(/<script>([\s\S]*?)<\/script>/)[1];
   const posted = [], listeners = {};
   const node = () => ({style:{},children:[],setAttribute(){},appendChild(child){this.children.push(child);}});
-  const document = {body:{prepend(bar){this.bar=bar;}},createElement:node,getElementById(id){return this.body.bar?.children.find(child=>child.id===id);}};
+  const document = {body:{prepend(bar){this.bar=bar;}},querySelector:()=>null,createElement:node,getElementById(id){return this.body.bar?.children.find(child=>child.id===id);}};
   const window = {parent:{postMessage:message=>posted.push(message)},addEventListener(type,fn){listeners[type]=fn;}};
   const context = vm.createContext({window,document}); vm.runInContext(relay,context);
   vm.runInContext('parent.postMessage({pluginMessage:{type:"receipt",passed:true}},"*");',context);
@@ -182,6 +182,29 @@ test('task HTML relay wraps outgoing schemas and rejects old inbound sessions', 
   listeners.message({data:{pluginMessage:{workspaceSession:session,workspaceControl:true,busy:true}},stopImmediatePropagation(){}});
   assert.equal(document.getElementById('workspace-back').disabled,true);
   assert.equal(document.getElementById('workspace-chat').disabled,true);
+  const headListeners = {}, headPosted = [];
+  const masthead = node(), contextLabel = node();contextLabel.textContent='그래프 동기화';
+  const brand = {replaceWith(bar){masthead.controls=bar;}};
+  masthead.querySelector=selector=>selector==='.brand'?brand:selector==='.context'?contextLabel:null;
+  const headDocument = {body:{prepend(){assert.fail('existing masthead must not get an extra navigation row');}},
+    querySelector:selector=>selector==='.masthead'?masthead:null,createElement:node,
+    getElementById:id=>masthead.controls?.children.find(child=>child.id===id)};
+  const headWindow = {parent:{postMessage:message=>headPosted.push(message)},addEventListener(type,fn){headListeners[type]=fn;}};
+  vm.runInNewContext(relay,{window:headWindow,document:headDocument});
+  headListeners.DOMContentLoaded();
+  assert.equal(masthead.controls.children.length,2);
+  assert.equal(contextLabel.textContent,'그래프 동기화');
+  assert.equal(contextLabel.style.flex,'1 1 70px');
+  assert.equal(masthead.style.flexWrap,'wrap');
+  assert.equal(masthead.controls.style.cssText.includes('border-bottom'),false);
+  const back=headDocument.getElementById('workspace-back'), chat=headDocument.getElementById('workspace-chat');
+  assert.equal(back.type,'button');assert.equal(chat.type,'button');
+  back.onclick();assert.equal(headPosted.at(-1).pluginMessage.type,'workspace-back');
+  chat.onclick();assert.equal(headPosted.at(-1).pluginMessage.type,'workspace-chat');
+  headListeners.message({data:{pluginMessage:{workspaceSession:session,workspaceControl:true,busy:true}},stopImmediatePropagation(){}});
+  assert.equal(back.disabled,true);assert.equal(chat.disabled,true);
+  headListeners.message({data:{pluginMessage:{workspaceSession:session,workspaceControl:true,busy:false}},stopImmediatePropagation(){}});
+  assert.equal(back.disabled,false);assert.equal(chat.disabled,false);
 });
 
 class Element {

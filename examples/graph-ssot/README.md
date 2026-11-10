@@ -129,3 +129,5 @@ This route is an explicit export/read/import workflow. It does not run an unauth
 ## Standalone compatibility
 
 Existing separately registered discovery/export plugins remain supported with `graph_sync.py discover` / `graph_sync.py export`, explicit `--plugin-id` and a fresh `--out`. Keep their original private-data identity. New work uses `figma_workspace.py prepare` and the stable workspace home. Neither route changes actual user-selection, native/web proof or pairing requirements.
+
+When adopting uniform text linked to a local Figma style, the plugin derives a scoped style, preserves its other typography properties and variable bindings, and applies it to the declared labels. Instances can inherit the new style. Mixed runs or pre-existing style overrides require explicit inspection. If a write fails, rollback checks the original style ID, effective values and bindings for both mains and inherited labels.

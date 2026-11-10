@@ -21,7 +21,7 @@ function world() {
     const result = node(id, 'TEXT'); result.characters = 'Label'; result.width = 40; result.height = 16;
     Object.defineProperty(result, 'fontSize', {configurable: true, get: () => state.override || scalar('alias')});
     result.boundVariables = {fontSize: [{type: 'VARIABLE_ALIAS', id: 'alias'}]};
-    result.getRangeBoundVariable = () => ({type: 'VARIABLE_ALIAS', id: 'family'});
+    result.getRangeBoundVariable = (start, end, field) => field === 'fontSize' ? result.boundVariables.fontSize?.[0] || null : field === 'fontFamily' ? {type: 'VARIABLE_ALIAS', id: 'family'} : null;
     result.getRangeAllFontNames = () => [{family: scalar('family'), style: 'Regular'}];
     return result;
   };
@@ -442,7 +442,7 @@ test('width binding preserves HUG by rejecting implicit sizing conversion', asyn
 function instanceDirectEditWorld() {
   const w = world(); const original = w.instance.children[0]; let literal = 22, alias = null;
   const scalar = id => {const value = w.values.get(id).valuesByMode.mode; return value?.type === 'VARIABLE_ALIAS' ? scalar(value.id) : value;};
-  const replacement = {...original, get fontSize() {return alias ? scalar(alias.id) : literal;}, set fontSize(value) {literal = value;}, get boundVariables() {return alias ? {fontSize: [alias]} : {};}, setBoundVariable(field, variable) {assert.equal(field, 'fontSize'); alias = variable ? {type: 'VARIABLE_ALIAS', id: variable.id} : null;}};
+  const replacement = {...original, get fontSize() {return alias ? scalar(alias.id) : literal;}, set fontSize(value) {literal = value;}, get boundVariables() {return alias ? {fontSize: [alias]} : {};}, getRangeBoundVariable(start, end, field) {return field === 'fontSize' ? alias : original.getRangeBoundVariable(start, end, field);}, setBoundVariable(field, variable) {assert.equal(field, 'fontSize'); alias = variable ? {type: 'VARIABLE_ALIAS', id: variable.id} : null;}, setRangeBoundVariable(start, end, field, variable) {assert.equal(field, 'fontSize'); alias = variable ? {type: 'VARIABLE_ALIAS', id: variable.id} : null;}};
   w.instance.children = [replacement];
   const oldFind = w.figma.currentPage.findAll;
   w.figma.currentPage.findAll = fn => oldFind.call(w.figma.currentPage, () => true).map(node => node.id === replacement.id ? replacement : node).filter(fn);
@@ -542,4 +542,105 @@ test('a silently ignored resize is reported as rollback conflict rather than suc
   assert(failure); assert.equal(w.main.width, 160);
   assert.equal(failure.readback.status, 'rollback-conflict');
   assert(failure.rollback_conflicts.some(item => item.kind === 'binding-restore-failed' && item.error.includes('literal restoration differs')));
+});
+
+function styledMigrationWorld() {
+  const w = migrationWorld(), styles = new Map();
+  let styleId = 'source-style', sequence = 0;
+  const resolve = id => {const value = w.values.get(id).valuesByMode.mode; return value?.type === 'VARIABLE_ALIAS' ? resolve(value.id) : value;};
+  const makeStyle = (id, bindings) => {
+    const data = new Map(); let fontName = {family: 'Inter', style: 'Regular'}, fontSize = 14;
+    const style = {id, type: 'TEXT', name: 'Original typography', boundVariables: structuredClone(bindings), lineHeight: {unit: 'PIXELS', value: 24}, letterSpacing: {unit: 'PIXELS', value: 0}, paragraphSpacing: 0, textCase: 'ORIGINAL',
+      get fontSize() {return this.boundVariables.fontSize ? resolve(this.boundVariables.fontSize.id) : fontSize;}, set fontSize(value) {fontSize = value;},
+      get fontName() {return {...fontName, family: this.boundVariables.fontFamily ? resolve(this.boundVariables.fontFamily.id) : fontName.family};}, set fontName(value) {fontName = structuredClone(value);},
+      setBoundVariable(field, variable) {if (variable) this.boundVariables[field] = {type: 'VARIABLE_ALIAS', id: variable.id}; else delete this.boundVariables[field];},
+      getPluginData(key) {return data.get(key) || '';}, setPluginData(key, value) {data.set(key, value);},
+      async getStyleConsumersAsync() {return styleId === id ? [{node: w.main.children[0]}, {node: w.instance.children[0]}] : [];},
+      remove() {styles.delete(id);}};
+    styles.set(id, style); return style;
+  };
+  const original = makeStyle(styleId, {fontSize: {type: 'VARIABLE_ALIAS', id: 'alias'}, fontFamily: {type: 'VARIABLE_ALIAS', id: 'family'}});
+  for (const node of [w.main.children[0], w.instance.children[0]]) {
+    Object.defineProperty(node, 'textStyleId', {get: () => node === w.instance.children[0] && Object.prototype.hasOwnProperty.call(w.state, 'instanceStyleOverride') ? w.state.instanceStyleOverride : styleId});
+    Object.defineProperty(node, 'fontName', {get: () => styles.get(styleId).fontName});
+    for (const field of ['lineHeight', 'letterSpacing', 'paragraphSpacing', 'textCase']) Object.defineProperty(node, field, {get: () => styles.get(styleId)[field]});
+    node.getRangeTextStyleId = () => styleId;
+    node.setTextStyleIdAsync = async id => {
+      if (w.state.ignoreStyleRestore && id === 'source-style') return;
+      styleId = id;
+      for (const field of ['fontSize', 'fontFamily']) w.bindings.set(field, structuredClone(styles.get(id).boundVariables[field]));
+    };
+    node.setRangeBoundVariable = () => {throw Error('direct typography binding would detach the shared style');};
+    node.setBoundVariable = () => {throw Error('node typography binding would detach the shared style');};
+  }
+  w.figma.getStyleByIdAsync = async id => styles.get(id);
+  w.figma.createTextStyle = () => makeStyle('derived-' + ++sequence, {});
+  w.styles = styles; w.originalStyle = original;
+  w.makeExternalStyle = () => {const style = makeStyle('external-style', structuredClone(styles.get(styleId).boundVariables)); styleId = style.id;};
+  // Match the fresh native graph: new typography variables are concrete leaves, not aliases.
+  for (const token of w.plan.tokens) {token.root_variable_name = token.variable_name; token.alias_chain_names = [token.variable_name];}
+  return w;
+}
+
+test('styled concrete-leaf adoption derives scoped typography and preserves the original shared style', async () => {
+  const w = styledMigrationWorld();
+  const before = JSON.stringify({name: w.originalStyle.name, bindings: w.originalStyle.boundVariables, lineHeight: w.originalStyle.lineHeight, letterSpacing: w.originalStyle.letterSpacing});
+  const result = await graphTokenSync(w.figma, w.plan, 'apply');
+  assert.equal(result.tokens[0].variable_id, result.tokens[0].root_variable_id);
+  assert.match(w.main.children[0].textStyleId, /^derived-/);
+  assert.equal(w.instance.children[0].textStyleId, w.main.children[0].textStyleId);
+  assert.equal(w.main.children[0].fontSize, 18);
+  assert.deepEqual(w.main.children[0].lineHeight, {unit: 'PIXELS', value: 24});
+  assert.equal(w.styles.size, 2);
+  assert.equal(JSON.stringify({name: w.originalStyle.name, bindings: w.originalStyle.boundVariables, lineHeight: w.originalStyle.lineHeight, letterSpacing: w.originalStyle.letterSpacing}), before);
+});
+
+test('failed styled adoption restores original and inherited style links, bindings and non-target typography', async () => {
+  const w = styledMigrationWorld(); w.main.children[0].height = 90;
+  await assert.rejects(() => graphTokenSync(w.figma, w.plan, 'apply'), error => error.readback.status === 'rolled-back' && error.rollback_conflicts.length === 0);
+  for (const node of [w.main.children[0], w.instance.children[0]]) {
+    assert.equal(node.textStyleId, 'source-style'); assert.equal(node.fontSize, 14);
+    assert.equal(node.getRangeBoundVariable(0, node.characters.length, 'fontFamily').id, 'family');
+    assert.deepEqual(node.lineHeight, {unit: 'PIXELS', value: 24});
+  }
+  assert.equal(w.styles.size, 1); assert.equal(w.values.size, 3); assert.equal(w.state.marker, '');
+});
+
+test('silent text-style restoration failure is a rollback conflict and retains referenced state', async () => {
+  const w = styledMigrationWorld(); w.main.children[0].height = 90; w.state.ignoreStyleRestore = true;
+  await assert.rejects(() => graphTokenSync(w.figma, w.plan, 'apply'), error => error.readback.status === 'rollback-conflict' && error.rollback_conflicts.some(conflict => conflict.kind === 'text-style-restore-differs'));
+  assert.match(w.main.children[0].textStyleId, /^derived-/); assert.equal(w.styles.size, 2);
+});
+
+test('external text-style replacement during layout is preserved and reported', async () => {
+  const w = styledMigrationWorld();
+  w.main.exportAsync = async () => {w.makeExternalStyle(); throw Error('layout interrupted');};
+  await assert.rejects(() => graphTokenSync(w.figma, w.plan, 'apply'), error => error.readback.status === 'rollback-conflict' && error.rollback_conflicts.some(conflict => conflict.kind === 'text-style-changed'));
+  assert.equal(w.main.children[0].textStyleId, 'external-style');
+  assert.ok(w.styles.has('source-style'));
+});
+
+
+test('rollback verifies an inherited instance whose binding was skipped even when aliases and values recover', async () => {
+  const w = styledMigrationWorld();
+  w.main.exportAsync = async () => {w.state.instanceStyleOverride = ''; throw Error('layout interrupted after instance detach');};
+  await assert.rejects(() => graphTokenSync(w.figma, w.plan, 'apply'), error => error.readback.status === 'rollback-conflict' && error.rollback_conflicts.some(conflict => conflict.kind === 'text-style-restore-differs' && conflict.node_id === 'copy'));
+  assert.equal(w.main.children[0].textStyleId, 'source-style');
+  assert.equal(w.instance.children[0].textStyleId, '');
+  assert.equal(w.instance.children[0].fontSize, 14);
+  assert.equal(w.instance.children[0].getRangeBoundVariable(0, w.instance.children[0].characters.length, 'fontSize').id, 'alias');
+});
+
+test('failed style initialization removes the unassigned partial copy', async () => {
+  const w = styledMigrationWorld();
+  const create = w.figma.createTextStyle.bind(w.figma);
+  w.figma.createTextStyle = () => {
+    const style = create();
+    style.setBoundVariable = () => {throw Error('style setter failed');};
+    return style;
+  };
+  await assert.rejects(() => graphTokenSync(w.figma, w.plan, 'apply'), error =>
+    error.readback.status === 'rolled-back' && error.rollback_conflicts.length === 0);
+  assert.equal(w.styles.size, 1);
+  assert.equal(w.main.children[0].textStyleId, 'source-style');
 });
