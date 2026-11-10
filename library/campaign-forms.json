@@ -1,0 +1,36 @@
+{
+  "schema": "figma-flow-campaign-forms-v1",
+  "forms": [
+    {
+      "id": "commemorative-event",
+      "number": 1,
+      "title": "기념·행사형",
+      "sequence": ["hero", "event-program", "music", "gallery", "event-cta"],
+      "content": ["행사의 이유와 정서", "실제 일정·프로그램", "감상할 음악과 실행 상태", "관련 장면과 추억의 갤러리", "행사 참여·일정 확인 행동"],
+      "asset_coverage": ["기념 히어로", "프로그램별 이미지", "음악 커버", "갤러리 이미지", "행사 목적의 제목·CTA 장식"],
+      "primary_cta": "행사 참여 또는 프로그램·일정 확인",
+      "checks": ["행사 사실과 일정이 실제 자료에 맞는다", "음악은 실제 재생·정지와 사용자 제어가 있다", "갤러리는 실제 관련 자산을 사용한다", "행사 CTA가 실제 목적지·행동과 연결된다"]
+    },
+    {
+      "id": "launch-reveal",
+      "number": 2,
+      "title": "출시·공개형",
+      "sequence": ["world", "characters", "real-teaser", "preregistration-or-install"],
+      "content": ["세계와 신작의 차별점", "캐릭터·핵심 경험", "실제로 재생되는 티저", "사전등록 또는 설치 조건·행동"],
+      "asset_coverage": ["세계관 키아트", "캐릭터별 이미지", "같은 콘셉트 원본에서 제작한 실제 티저 미디어", "공개 목적의 제목·등록/설치 CTA 장식"],
+      "primary_cta": "실제 사전등록 또는 설치",
+      "checks": ["세계관·캐릭터 사실과 출처가 맞는다", "티저는 정적 재생 그림이 아니라 실제 미디어로 재생된다", "실제 사전등록·설치 목적지와 조건을 검증한다", "등록/설치 완료와 단순 CTA 클릭을 혼동하지 않는다"]
+    },
+    {
+      "id": "participation-promotion",
+      "number": 3,
+      "title": "참여·프로모션형",
+      "sequence": ["offer-and-reward", "rules", "participation", "earned-outcome", "share-or-save"],
+      "content": ["먼저 보이는 혜택과 보상", "자격·규칙·제한", "의미 있는 참여 행동", "참여로 얻은 결과", "결과 공유·저장"],
+      "asset_coverage": ["혜택·보상 이미지", "규칙 설명에 필요한 이미지", "참여 행동별 이미지", "획득 결과·상태 인장", "참여/결과/공유 목적별 조작 장식"],
+      "primary_cta": "혜택·규칙을 이해한 뒤 참여하고 얻은 결과를 공유·저장",
+      "checks": ["참여 전에 혜택·보상과 규칙을 이해할 수 있다", "참여 입력과 결과가 실제로 연결된다", "획득하지 않은 결과를 미리 성공으로 표시하지 않는다", "공유·저장의 실제 성공·취소·실패를 검증한다"]
+    }
+  ],
+  "combination": "Select any requested form independently or all requested forms together. Preserve each form's own content sequence, assets and primary CTA; do not collapse all forms into a mini-game or universal page template."
+}

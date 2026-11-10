@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>모음 | 흩어진 생각을 한곳에</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2725%27 font-size=%2727%27%3E✳%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="brand"><span class="mark" aria-hidden="true">✳</span><span>모음</span></header>
+    <section id="list-screen" aria-labelledby="list-title">
+      <div class="hero"><h1 id="list-title">흩어진 생각을<br><em>한곳에.</em></h1></div>
+      <div class="toolbar"><div><h2>모아둔 생각 <span id="count">0</span></h2></div><button id="add" class="primary" type="button">＋ 아이디어 추가</button></div>
+      <label class="search-label" for="search">아이디어 검색</label><input id="search" type="search" placeholder="제목이나 내용으로 검색" autocomplete="off">
+      <p id="list-error" class="error" role="alert" hidden></p><button id="retry" class="secondary" type="button" hidden>다시 불러오기</button><div id="ideas" class="ideas" aria-live="polite"></div>
+    </section>
+    <section id="form-screen" aria-labelledby="form-title" hidden>
+      <button id="back" class="back" type="button">← 목록으로</button><h1 id="form-title">새로운 생각을<br><em>기록해요.</em></h1>
+      <form id="idea-form" novalidate><label for="title">제목 <span>필수</span></label><input id="title" maxlength="60" required aria-describedby="title-hint" placeholder="어떤 생각인가요?" autocomplete="off"><p id="title-error" class="error" role="alert" hidden>공백이 아닌 제목을 입력해 주세요.</p><p id="title-hint" class="hint">최대 60자</p>
+      <label for="content">내용 <span>선택</span></label><textarea id="content" aria-describedby="content-hint" maxlength="500" rows="7" placeholder="생각을 조금 더 풀어 적어주세요."></textarea><p id="content-error" class="error" role="alert" hidden>내용은 최대 500자까지 입력해 주세요.</p><p id="content-hint" class="hint">최대 500자</p><p id="save-error" class="error" role="alert" hidden>저장하지 못했어요. 입력한 내용은 그대로 남아 있습니다. 다시 시도해 주세요.</p>
+      <div class="form-actions"><button id="cancel" type="button" class="secondary">취소</button><button id="save" type="submit" class="primary">저장하기</button></div></form>
+    </section>
+  </main>
+</body>
+</html>

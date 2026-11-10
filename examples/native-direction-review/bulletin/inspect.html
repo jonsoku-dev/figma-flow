@@ -1,0 +1,41 @@
+<!doctype html><meta charset="utf-8"><title>Planned demo notes</title><h1>planned / not native · test/demo</h1>
+<article><a href="index.html#screen-bulletin-overview">Welcome board</a>
+<p>purpose: Introduce the community workshop and its session overview.</p>
+<p>journey: Read the introduction, inspect session details, then return without registering.</p>
+<p>first_action: action-bulletin-open</p>
+<p>failure: This is a local demo; it never creates a registration.</p>
+</article>
+<article><a href="index.html#screen-bulletin-details">Session details</a>
+<p>purpose: Show the sample session information in a readable detail view.</p>
+<p>journey: Read the sample information and return to the workshop overview.</p>
+<p>first_action: action-bulletin-back</p>
+<p>failure: The sample has no booking, payment or account functionality.</p>
+</article>
+<article><a href="index.html#bulletin-open">Explore sessions</a>
+<p>control_id: bulletin-open</p>
+<p>purpose: Let visitors inspect the example and keep their place in the overview.</p>
+<p>behavior: Open the sample details view.</p>
+<p>result: The sample session text becomes visible.</p>
+<p>failure: No form data, registration, account or payment is created.</p>
+<p>functional_states: state-bulletin-overview, state-bulletin-details</p>
+<p>visual_variant: Primary</p>
+</article>
+<article><a href="index.html#bulletin-back">Back to overview</a>
+<p>control_id: bulletin-back</p>
+<p>purpose: Let visitors inspect the example and keep their place in the overview.</p>
+<p>behavior: Return to the workshop overview.</p>
+<p>result: The overview becomes visible again.</p>
+<p>failure: No form data, registration, account or payment is created.</p>
+<p>functional_states: state-bulletin-overview, state-bulletin-details</p>
+<p>visual_variant: Return</p>
+</article>
+<p>paper color · color · color/paper · #fffaf0</p>
+<p>ink color · color · color/ink · #20363d</p>
+<p>accent color · color · color/accent · #d8e8dc</p>
+<p>highlight color · color · color/highlight · #f2a65a</p>
+<p>Reading size · typography · type/body · 16px</p>
+<p>Reading family · typography · type/family/body · Inter</p>
+<p>Content gap · spacing · space/content · 24px</p>
+<p>Control radius · radius · radius/control · 6px</p>
+<p>Explore sample sessions · component-bulletin-open · Primary · action-bulletin-open · state-bulletin-details · Inspect the sample session from the overview</p>
+<p>Return to overview · component-bulletin-back · Return · action-bulletin-back · state-bulletin-overview · Return without creating a registration</p>

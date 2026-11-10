@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "tests": {
+    "TEST-CARDS-LIST": [
+      "tests/list.test.cjs"
+    ],
+    "TEST-CARDS-QUESTION": [
+      "tests/question.test.cjs"
+    ],
+    "TEST-CARDS-ANSWER": [
+      "tests/answer.test.cjs"
+    ],
+    "TEST-CARDS-RETRY": [
+      "tests/retry.test.cjs"
+    ],
+    "TEST-CARDS-COMPLETE": [
+      "tests/complete.test.cjs"
+    ],
+    "TEST-CARDS-FINISH": [
+      "tests/finish.test.cjs"
+    ],
+    "TEST-CARDS-SEARCH": [
+      "tests/search.test.cjs"
+    ]
+  }
+}

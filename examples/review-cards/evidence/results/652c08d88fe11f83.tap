@@ -1,0 +1,10 @@
+TAP version 13
+ok 1 - "opening a pending card starts at its question without marking it complete"
+ok 2 - "unknown or already completed cards cannot be opened"
+ok 3 - "returning to the list preserves the query and progress; reopening hides the prior answer"
+ok 4 - "the question view writes the selected title, prompt, and category as text"
+1..4
+# tests 4
+# pass 4
+# fail 0
+# controller {"passed":true,"tests":4,"failed":0}

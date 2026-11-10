@@ -1,0 +1,7 @@
+TAP version 13
+ok 1 - "child permissions"
+1..1
+# tests 1
+# pass 1
+# fail 0
+# controller {"passed":true,"tests":1,"failed":0}

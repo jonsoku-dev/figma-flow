@@ -1,0 +1,545 @@
+{
+  "version": 1,
+  "stage": "draft",
+  "scope": "Self-contained test/demo source; no browser or native evidence",
+  "nodes": [
+    {
+      "id": "screen-agenda-overview",
+      "type": "screen",
+      "title": "Session agenda",
+      "annotation": {
+        "purpose": "Introduce the community workshop and its session overview.",
+        "journey": "Read the introduction, inspect session details, then return without registering.",
+        "first_action": "action-agenda-open",
+        "failure": "This is a local demo; it never creates a registration."
+      },
+      "status": "planned"
+    },
+    {
+      "id": "screen-agenda-details",
+      "type": "screen",
+      "title": "Session details",
+      "annotation": {
+        "purpose": "Show the sample session information in a readable detail view.",
+        "journey": "Read the sample information and return to the workshop overview.",
+        "first_action": "action-agenda-back",
+        "failure": "The sample has no booking, payment or account functionality."
+      },
+      "status": "planned"
+    },
+    {
+      "id": "state-agenda-overview",
+      "type": "state",
+      "title": "Workshop overview visible",
+      "status": "planned"
+    },
+    {
+      "id": "state-agenda-details",
+      "type": "state",
+      "title": "Sample session details visible",
+      "status": "planned"
+    },
+    {
+      "id": "action-agenda-open",
+      "type": "action",
+      "title": "Explore sessions",
+      "source_screen": "screen-agenda-overview",
+      "source_state": "state-agenda-overview",
+      "target_ids": [
+        "state-agenda-details"
+      ],
+      "annotation": {
+        "control_id": "agenda-open",
+        "purpose": "Let visitors inspect the example and keep their place in the overview.",
+        "behavior": "Open the sample details view.",
+        "result": "The sample session text becomes visible.",
+        "failure": "No form data, registration, account or payment is created.",
+        "functional_states": [
+          "state-agenda-overview",
+          "state-agenda-details"
+        ],
+        "visual_variant": "Primary"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "action-agenda-back",
+      "type": "action",
+      "title": "Back to overview",
+      "source_screen": "screen-agenda-details",
+      "source_state": "state-agenda-details",
+      "target_ids": [
+        "state-agenda-overview"
+      ],
+      "annotation": {
+        "control_id": "agenda-back",
+        "purpose": "Let visitors inspect the example and keep their place in the overview.",
+        "behavior": "Return to the workshop overview.",
+        "result": "The overview becomes visible again.",
+        "failure": "No form data, registration, account or payment is created.",
+        "functional_states": [
+          "state-agenda-overview",
+          "state-agenda-details"
+        ],
+        "visual_variant": "Return"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "component-agenda-open",
+      "type": "component",
+      "title": "Explore sample sessions",
+      "status": "planned"
+    },
+    {
+      "id": "component-agenda-back",
+      "type": "component",
+      "title": "Return to overview",
+      "status": "planned"
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen-agenda-overview",
+      "to": "action-agenda-open",
+      "type": "enables"
+    },
+    {
+      "from": "action-agenda-open",
+      "to": "state-agenda-details",
+      "type": "shows"
+    },
+    {
+      "from": "screen-agenda-details",
+      "to": "action-agenda-back",
+      "type": "enables"
+    },
+    {
+      "from": "action-agenda-back",
+      "to": "state-agenda-overview",
+      "type": "shows"
+    }
+  ],
+  "design_foundations": {
+    "version": 1,
+    "roles": [
+      {
+        "name": "paper color",
+        "kind": "color",
+        "token": "color/paper",
+        "alias": "palette/paper",
+        "value": "#f0f5fa"
+      },
+      {
+        "name": "ink color",
+        "kind": "color",
+        "token": "color/ink",
+        "alias": "palette/ink",
+        "value": "#152d4a"
+      },
+      {
+        "name": "accent color",
+        "kind": "color",
+        "token": "color/accent",
+        "alias": "palette/accent",
+        "value": "#c7ddf1"
+      },
+      {
+        "name": "highlight color",
+        "kind": "color",
+        "token": "color/highlight",
+        "alias": "palette/highlight",
+        "value": "#3d6fd6"
+      },
+      {
+        "name": "Reading size",
+        "kind": "typography",
+        "token": "type/body",
+        "alias": "size/body",
+        "value": "16px",
+        "source_values": [
+          "16px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 16,
+          "bindings": [
+            {
+              "key": "agenda.desktop.state-agenda-overview.summary",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.row-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.row-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.row-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-details.body",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.component.Primary.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.component.Return.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.agenda-open.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-details.agenda-back.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.summary",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.row-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.row-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.row-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-details.body",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.component.Primary.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.component.Return.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.agenda-open.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-details.agenda-back.label",
+              "field": "fontSize"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Reading family",
+        "kind": "typography",
+        "token": "type/family/body",
+        "alias": "font/family/body",
+        "value": "Inter",
+        "source_values": [
+          "Inter"
+        ],
+        "native": {
+          "type": "STRING",
+          "value": "Inter",
+          "bindings": [
+            {
+              "key": "agenda.desktop.state-agenda-overview.summary",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.row-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.row-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.row-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-details.body",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.component.Primary.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.component.Return.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.agenda-open.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-details.agenda-back.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.summary",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.row-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.row-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.row-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-details.body",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.component.Primary.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.component.Return.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.agenda-open.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-details.agenda-back.label",
+              "field": "fontFamily"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Content gap",
+        "kind": "spacing",
+        "token": "space/content",
+        "alias": "space/base",
+        "value": "24px",
+        "source_values": [
+          "24px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 24,
+          "bindings": [
+            {
+              "key": "agenda.desktop.component.Primary",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.desktop.component.Primary",
+              "field": "paddingRight"
+            },
+            {
+              "key": "agenda.desktop.component.Return",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.desktop.component.Return",
+              "field": "paddingRight"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.agenda-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.agenda-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-details.agenda-back",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-details.agenda-back",
+              "field": "paddingRight"
+            },
+            {
+              "key": "agenda.mobile.component.Primary",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.mobile.component.Primary",
+              "field": "paddingRight"
+            },
+            {
+              "key": "agenda.mobile.component.Return",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.mobile.component.Return",
+              "field": "paddingRight"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.agenda-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.agenda-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-details.agenda-back",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-details.agenda-back",
+              "field": "paddingRight"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Control radius",
+        "kind": "radius",
+        "token": "radius/control",
+        "alias": "radius/base",
+        "value": "6px",
+        "source_values": [
+          "6px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 6,
+          "bindings": [
+            {
+              "key": "agenda.desktop.component.Primary",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "agenda.desktop.component.Return",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-overview.agenda-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "agenda.desktop.state-agenda-details.agenda-back",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "agenda.mobile.component.Primary",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "agenda.mobile.component.Return",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-overview.agenda-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "agenda.mobile.state-agenda-details.agenda-back",
+              "field": "cornerRadius"
+            }
+          ]
+        }
+      }
+    ],
+    "palette": {
+      "samples": [
+        {
+          "label": "Explore sample sessions",
+          "component": "component-agenda-open",
+          "variant": "Primary",
+          "action": "action-agenda-open",
+          "state": "state-agenda-details",
+          "useCases": [
+            "Inspect the sample session from the overview"
+          ]
+        },
+        {
+          "label": "Return to overview",
+          "component": "component-agenda-back",
+          "variant": "Return",
+          "action": "action-agenda-back",
+          "state": "state-agenda-overview",
+          "useCases": [
+            "Return without creating a registration"
+          ]
+        }
+      ]
+    }
+  },
+  "draft_prototype": {
+    "entry_state": "state-agenda-overview",
+    "viewports": [
+      {
+        "id": "desktop",
+        "width": 1200,
+        "height": 760
+      },
+      {
+        "id": "mobile",
+        "width": 360,
+        "height": 720
+      }
+    ],
+    "states": [
+      {
+        "id": "state-agenda-overview",
+        "screen": "screen-agenda-overview",
+        "view": "workshop-overview",
+        "title": "Session agenda",
+        "body": "A place to learn practical skills together."
+      },
+      {
+        "id": "state-agenda-details",
+        "screen": "screen-agenda-details",
+        "view": "session-detail",
+        "title": "Session details",
+        "body": "Repair skills · Saturday 10:00. Demo only; no registration."
+      }
+    ],
+    "bindings": [
+      {
+        "action": "action-agenda-open",
+        "source_state": "state-agenda-overview",
+        "target_state": "state-agenda-details",
+        "viewport": "desktop",
+        "control_id": "agenda-open"
+      },
+      {
+        "action": "action-agenda-back",
+        "source_state": "state-agenda-details",
+        "target_state": "state-agenda-overview",
+        "viewport": "desktop",
+        "control_id": "agenda-back"
+      },
+      {
+        "action": "action-agenda-open",
+        "source_state": "state-agenda-overview",
+        "target_state": "state-agenda-details",
+        "viewport": "mobile",
+        "control_id": "agenda-open"
+      },
+      {
+        "action": "action-agenda-back",
+        "source_state": "state-agenda-details",
+        "target_state": "state-agenda-overview",
+        "viewport": "mobile",
+        "control_id": "agenda-back"
+      }
+    ]
+  }
+}

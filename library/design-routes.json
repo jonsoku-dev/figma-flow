@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "checked_on": "2026-11-09",
+  "resources": [
+    {
+      "id": "anthropic-frontend",
+      "title": "frontend-design",
+      "kind": "제작자 공개 스킬",
+      "publisher": "Anthropic",
+      "url": "https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md",
+      "role": "작품 고유의 소재·제목·서체에서 첫 화면의 시각 방향을 정하고 실제 화면을 비평한다.",
+      "limit": "웹 아트 디렉션 지침이다. 특정 게임에서의 성과나 공식 게임 디자인 승인을 뜻하지 않는다."
+    },
+    {
+      "id": "anthropic-canvas",
+      "title": "canvas-design",
+      "kind": "제작자 공개 스킬",
+      "publisher": "Anthropic",
+      "url": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md",
+      "role": "포스터·승선증·정적 인쇄물의 구성과 이미지·활자 위계를 설계한다.",
+      "limit": "호스트의 동명 canvas 도구와 다른 스킬이다. 네이티브 벡터 편집이나 실제 웹 동작을 대신하지 않는다."
+    },
+    {
+      "id": "openai-imagegen",
+      "title": "imagegen",
+      "kind": "제작자 공개 스킬",
+      "publisher": "OpenAI",
+      "url": "https://github.com/openai/skills/blob/main/skills/.system/imagegen/SKILL.md",
+      "role": "새 키아트·로고 시안·일러스트를 래스터로 생성하고 프로젝트에서 사용할 실제 파일을 확인한다.",
+      "limit": "이미지 안의 철자와 작은 글자는 직접 확인한다. 편집 가능한 최종 로고·조작 아이콘은 별도 벡터 제작이 필요하다."
+    },
+    {
+      "id": "impeccable",
+      "title": "Impeccable",
+      "kind": "제작자 공개 스킬",
+      "publisher": "Paul Bakaus",
+      "url": "https://github.com/pbakaus/impeccable",
+      "role": "critique/typeset 등 대상별 검토로 활자·레이아웃·시각적 위계를 점검한다.",
+      "limit": "저자의 실무 방법론이다. 설치본의 버전과 지원 액션은 업스트림과 다를 수 있다."
+    },
+    {
+      "id": "emil-design",
+      "title": "emil-design-eng",
+      "kind": "제작자 공개 스킬",
+      "publisher": "Emil Kowalski",
+      "url": "https://github.com/emilkowalski/skills/blob/main/skills/emil-design-eng/SKILL.md",
+      "role": "사용자 조작에 응답하는 전환과 모션을 목적·시간·중단 가능성 중심으로 검토한다.",
+      "limit": "호스트에 이름이 비슷한 스킬이 있어도 동일한 버전으로 간주하지 않는다."
+    },
+    {
+      "id": "carbon-icons",
+      "title": "Carbon UI icons",
+      "kind": "공식 디자인 지침",
+      "publisher": "IBM Carbon Design System",
+      "url": "https://www.carbondesignsystem.com/building-blocks/foundations/icons/guidelines",
+      "role": "조작 아이콘의 일관된 격자·시각적 무게·실제 크기를 점검한다.",
+      "limit": "브랜드 전용 표장이나 게임 인장을 그대로 제공하는 스킬이 아니다."
+    },
+    {
+      "id": "carbon-pictograms",
+      "title": "Carbon pictograms",
+      "kind": "공식 디자인 지침",
+      "publisher": "IBM Carbon Design System",
+      "url": "https://www.carbondesignsystem.com/building-blocks/foundations/pictograms/guidelines",
+      "role": "설명용 픽토그램과 조작 아이콘의 목적과 크기를 구분한다.",
+      "limit": "Carbon의 스타일은 이 캠페인의 고유 아이덴티티를 대체하지 않는다."
+    },
+    {
+      "id": "google-symbols",
+      "title": "Material Symbols",
+      "kind": "공식 디자인 지침",
+      "publisher": "Google",
+      "url": "https://developers.google.com/fonts/docs/material_symbols",
+      "role": "채움·굵기·등급·광학 크기를 실제 표시 크기에서 검토한다.",
+      "limit": "이 캠페인이 Material 디자인 시스템을 채택한다는 의미가 아니다."
+    },
+    {
+      "id": "apple-app-icon",
+      "title": "App icons",
+      "kind": "공식 플랫폼 지침",
+      "publisher": "Apple",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/app-icons/",
+      "role": "작은 크기·실루엣·플랫폼 마스크에서도 인식되는지 확인한다.",
+      "limit": "앱 아이콘 지침이다. 모든 로고에 애플 마스크를 적용하라는 규정이 아니다."
+    },
+    {
+      "id": "jlreq",
+      "title": "Requirements for Japanese Text Layout",
+      "kind": "W3C 언어별 자료",
+      "publisher": "W3C Japanese Layout Task Force",
+      "url": "https://www.w3.org/TR/jlreq/",
+      "role": "일본어 구두점·줄바꿈·글줄 배치의 언어별 요구를 확인한다.",
+      "limit": "모든 UI에 적용할 고정 폰트 크기나 서체 하나를 정하지 않는다."
+    },
+    {
+      "id": "klreq",
+      "title": "Requirements for Korean Text Layout",
+      "kind": "W3C 언어별 자료",
+      "publisher": "W3C Korean Layout Task Force",
+      "url": "https://www.w3.org/TR/klreq/",
+      "role": "한글 조판과 라틴 문자 혼용에서 글자·단어·문단의 실제 가독성을 확인한다.",
+      "limit": "문서 성격과 상태를 확인한다. 캠페인 자체의 개성이나 흥행을 판정하지 않는다."
+    },
+    {
+      "id": "noto-cjk",
+      "title": "Noto CJK",
+      "kind": "공식 서체 자료",
+      "publisher": "Noto Fonts",
+      "url": "https://github.com/notofonts/noto-cjk",
+      "role": "한자 공유 코드포인트도 지역별 자형이 다를 수 있어 KR/JP 서체를 구분한다.",
+      "limit": "패밀리 이름만으로 실제 렌더링이나 내보내기 자형을 증명하지 않는다."
+    },
+    {
+      "id": "sil-ofl",
+      "title": "SIL Open Font License",
+      "kind": "공식 라이선스 자료",
+      "publisher": "SIL",
+      "url": "https://openfontlicense.org/",
+      "role": "배포·서브셋·변형 전 실제 서체에 동봉된 라이선스와 이름 조건을 확인한다.",
+      "limit": "모든 무료 폰트가 OFL이라는 뜻이 아니다."
+    },
+    {
+      "id": "figma-export",
+      "title": "Figma Plugin API ExportSettings",
+      "kind": "공식 기술 문서",
+      "publisher": "Figma",
+      "url": "https://developers.figma.com/docs/plugins/api/ExportSettings/",
+      "role": "현재 노드의 네이티브 SVG·PNG 내보내기와 출력 스케일을 추적한다.",
+      "limit": "내보내기 자체가 웹 기능·저장·접근성 검증을 뜻하지 않는다."
+    },
+    {
+      "id": "figma-type",
+      "title": "Figma Plugin API TextNode",
+      "kind": "공식 기술 문서",
+      "publisher": "Figma",
+      "url": "https://developers.figma.com/docs/plugins/api/TextNode/",
+      "role": "실제 TEXT 노드·범위별 서체·크기·행간을 읽어 디자인을 옮긴다.",
+      "limit": "생성 레시피의 값은 실제 문서에서 다시 읽은 값의 대체 자료가 아니다."
+    },
+    {
+      "id": "pentagram-wb",
+      "title": "Warner Bros. identity",
+      "kind": "디자인 스튜디오의 사례",
+      "publisher": "Pentagram",
+      "url": "https://www.pentagram.com/work/warner-bros",
+      "role": "엔터테인먼트 브랜드의 심볼을 여러 크기에 적용하고 심볼에서 서체 체계를 전개한 사례다.",
+      "limit": "해당 로고 형태를 복사하거나 모든 게임에 같은 스타일을 요구하지 않는다."
+    }
+  ],
+  "lanes": [
+    {
+      "id": "direction",
+      "title": "화면 아트 디렉션",
+      "resources": [
+        "anthropic-frontend",
+        "impeccable",
+        "anthropic-canvas"
+      ],
+      "steps": [
+        "주제와 주요 행동을 확인한 뒤 표면별 방향을 정한다.",
+        "메인 키비주얼·제목·참여형 결과물을 작은 화면과 큰 화면에서 따로 비평한다."
+      ],
+      "checks": [
+        "게임 이름을 가려도 해당 게임으로 인식되는 단서가 있는가",
+        "첫 화면에서 다음 행동과 핵심 아트가 서로 경쟁하지 않는가"
+      ]
+    },
+    {
+      "id": "logo",
+      "title": "전용 워드마크와 심볼",
+      "resources": [
+        "anthropic-canvas",
+        "openai-imagegen",
+        "apple-app-icon",
+        "pentagram-wb"
+      ],
+      "steps": [
+        "전용 문자·문장·단색 실루엣을 여러 크기로 검토한다. 이미지 시안은 철자를 확인하고 선택안을 네이티브 벡터와 작은 심볼로 제작한다."
+      ],
+      "checks": [
+        "가로 워드마크·심볼·흑백 반전이 준비됐는가",
+        "16·24·48px에서 형태와 이름을 식별할 수 있는가"
+      ]
+    },
+    {
+      "id": "icons",
+      "title": "조작 아이콘과 수집용 인장",
+      "resources": [
+        "carbon-icons",
+        "carbon-pictograms",
+        "google-symbols",
+        "anthropic-canvas"
+      ],
+      "steps": [
+        "다운로드·지도·재생 조작은 통일된 격자에서, 수집 인장은 포트별 고유 모티프로 설계한다.",
+        "이미지 생성 요청은 래스터 원안을 검토한 뒤 최종 크기에 맞는 Figma 벡터로 정리한다."
+      ],
+      "checks": [
+        "최종 표시 크기에서 구별되는가",
+        "아이콘 크기와 버튼의 터치 영역·접근 가능한 이름을 각각 확인했는가"
+      ]
+    },
+    {
+      "id": "images",
+      "title": "키아트·초상·이미지 원안",
+      "resources": [
+        "openai-imagegen",
+        "anthropic-canvas"
+      ],
+      "steps": [
+        "요청이 새 이미지 생성인지 기존 이미지 활용인지 확인한다.",
+        "피사체·구도·매체·투명 배경 여부를 지정하고 실제 결과를 확인한다."
+      ],
+      "checks": [
+        "모바일 크롭에서 눈·얼굴·실루엣이 잘리지 않는가",
+        "권리·생성 출처·원본 해시·실제 사용 위치가 기록됐는가"
+      ]
+    },
+    {
+      "id": "typography",
+      "title": "로고 레터링과 다국어 타이포그래피",
+      "resources": [
+        "anthropic-frontend",
+        "impeccable",
+        "jlreq",
+        "klreq",
+        "noto-cjk",
+        "sil-ofl",
+        "figma-type"
+      ],
+      "steps": [
+        "워드마크·제목·본문·숫자 인쇄의 역할을 나눈다.",
+        "한·일 자형과 줄바꿈을 각각 검토하고 실제 Figma에서 사용한 서체·굵기·행간을 고정한다."
+      ],
+      "checks": [
+        "320/390px에서 제목, 이름, 주요 행동을 읽을 수 있는가",
+        "Figma 글꼴·웹 로딩·PNG 숫자까지 각각 확인했는가",
+        "폰트 사용 권한과 배포 파일이 확인됐는가"
+      ]
+    },
+    {
+      "id": "motion",
+      "title": "상태 전환과 영상",
+      "resources": [
+        "emil-design",
+        "impeccable"
+      ],
+      "steps": [
+        "원본 프로토타입의 전환과 사용자가 시작하는 영상에만 필요한 모션을 배정한다."
+      ],
+      "checks": [
+        "선택·발급·저장 전환이 의미를 설명하는가",
+        "모션 감소와 실제 재생/닫기를 확인했는가"
+      ]
+    },
+    {
+      "id": "figma",
+      "title": "Figma 디자인 원본과 인계",
+      "resources": [
+        "figma-export",
+        "figma-type"
+      ],
+      "steps": [
+        "대상 파일·페이지·프레임을 확정하고 실제 편집 가능한 원본을 만든다.",
+        "완성된 상태를 Figma에서 다시 읽고 내보낸 자산과 좌표로만 웹에 반영한다."
+      ],
+      "checks": [
+        "실제 페이지와 노드가 존재하는가",
+        "읽은 원본과 웹의 화면·상태·언어·크기가 대응하는가"
+      ]
+    },
+    {
+      "id": "verification",
+      "title": "제품·시각 검증",
+      "resources": [
+        "impeccable",
+        "figma-export",
+        "google-symbols"
+      ],
+      "steps": [
+        "선택된 경로별 실제 결과와 제약을 기록한다.",
+        "참고 원문에서 Figma 프레임·구현·실행 테스트까지 연결한다."
+      ],
+      "checks": [
+        "다운로드된 실제 파일과 같은 데이터의 Figma 출력을 비교했는가",
+        "원본·웹·브라우저·기기별 미확인 범위를 분리했는가"
+      ]
+    }
+  ]
+}

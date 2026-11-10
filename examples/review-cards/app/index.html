@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>오늘의 복습 카드</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="components.css">
+  <script defer src="rules/list.js"></script>
+  <script defer src="rules/question.js"></script>
+  <script defer src="rules/answer.js"></script>
+  <script defer src="rules/retry.js"></script>
+  <script defer src="rules/complete.js"></script>
+  <script defer src="rules/finish.js"></script>
+  <script defer src="rules/search.js"></script>
+  <script defer src="data.js"></script>
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <div class="page">
+    <header class="masthead">
+      <p class="brand"><span aria-hidden="true" class="brand-symbol">▱</span> 하루 한 겹</p>
+    </header>
+    <main id="main">
+      <section id="SCR-CARDS-LIST" aria-labelledby="list-title">
+        <div class="intro">
+          <div><h1 id="list-title" tabindex="-1">오늘의 복습 카드<span class="accent">.</span></h1></div>
+          <div class="progress-card"><label id="progress-label" for="progress">0 / 4 완료</label><progress id="progress" value="0" max="4"></progress><p id="remaining-label"></p></div>
+        </div>
+        <div id="study-list">
+          <div class="list-toolbar"><div><h2>오늘 다시 볼 카드</h2><p id="search-count" role="status" aria-live="polite"></p></div><div class="search-field search--default"><label class="sr-only" for="search">카드 제목 검색</label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="카드 제목 검색" autocomplete="off"><button id="clear-search" class="clear-button" type="button" hidden>지우기</button></div></div>
+          <ul id="card-list" class="card-grid" aria-label="오늘 다시 볼 카드"></ul>
+          <div id="empty-search" class="empty-panel" hidden role="status"><span class="empty-mark" aria-hidden="true">⌕</span><h3>일치하는 카드가 없어요</h3><p>‘<span id="empty-query"></span>’ 대신 다른 제목을 검색해 보세요.</p></div>
+          <p class="hint">카드를 골라 질문을 떠올린 뒤, 정답을 확인해 보세요.</p>
+        </div>
+        <div id="done-panel" class="done-panel" hidden role="status"><span class="done-symbol" aria-hidden="true">✓</span><h2 id="done-title" tabindex="-1">오늘 복습, 완료!</h2><p id="done-count"></p></div>
+      </section>
+      <section id="SCR-CARDS-REVIEW" hidden aria-labelledby="review-title">
+        <button id="back-button" class="back-button" type="button">← 카드 목록</button>
+        <div class="review-heading"><p class="eyebrow" id="review-tag"></p><h1 id="review-title" tabindex="-1"></h1></div>
+        <article class="review-card card--default"><p class="card-label">질문</p><h2 id="review-question" tabindex="-1"></h2><div id="answer-panel" class="answer-panel" hidden tabindex="-1" aria-label="정답"><p class="card-label">정답</p><p id="answer-text"></p></div><button id="reveal-button" class="button button--primary primary reveal" type="button" aria-controls="answer-panel" aria-expanded="false">정답 보기 <span aria-hidden="true">↗</span></button></article>
+        <div id="review-choices" class="review-choices" hidden><p>얼마나 기억하고 있었나요?</p><div class="choice-buttons"><button id="retry-button" class="button button--secondary secondary" type="button" disabled>다시 연습</button><button id="complete-button" class="button button--primary primary" type="button" disabled>복습 완료 <span aria-hidden="true">✓</span></button></div></div>
+      </section>
+      <noscript>이 앱을 사용하려면 브라우저에서 JavaScript를 켜 주세요.</noscript>
+    </main>
+    <footer><span>예시 카드 · 진행 상황은 이 탭에서만 유지됩니다.</span></footer>
+  </div>
+</body>
+</html>

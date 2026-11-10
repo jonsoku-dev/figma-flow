@@ -1,0 +1,41 @@
+<!doctype html><meta charset="utf-8"><title>Planned demo notes</title><h1>planned / not native · test/demo</h1>
+<article><a href="index.html#screen-agenda-overview">Session agenda</a>
+<p>purpose: Introduce the community workshop and its session overview.</p>
+<p>journey: Read the introduction, inspect session details, then return without registering.</p>
+<p>first_action: action-agenda-open</p>
+<p>failure: This is a local demo; it never creates a registration.</p>
+</article>
+<article><a href="index.html#screen-agenda-details">Session details</a>
+<p>purpose: Show the sample session information in a readable detail view.</p>
+<p>journey: Read the sample information and return to the workshop overview.</p>
+<p>first_action: action-agenda-back</p>
+<p>failure: The sample has no booking, payment or account functionality.</p>
+</article>
+<article><a href="index.html#agenda-open">Explore sessions</a>
+<p>control_id: agenda-open</p>
+<p>purpose: Let visitors inspect the example and keep their place in the overview.</p>
+<p>behavior: Open the sample details view.</p>
+<p>result: The sample session text becomes visible.</p>
+<p>failure: No form data, registration, account or payment is created.</p>
+<p>functional_states: state-agenda-overview, state-agenda-details</p>
+<p>visual_variant: Primary</p>
+</article>
+<article><a href="index.html#agenda-back">Back to overview</a>
+<p>control_id: agenda-back</p>
+<p>purpose: Let visitors inspect the example and keep their place in the overview.</p>
+<p>behavior: Return to the workshop overview.</p>
+<p>result: The overview becomes visible again.</p>
+<p>failure: No form data, registration, account or payment is created.</p>
+<p>functional_states: state-agenda-overview, state-agenda-details</p>
+<p>visual_variant: Return</p>
+</article>
+<p>paper color · color · color/paper · #f0f5fa</p>
+<p>ink color · color · color/ink · #152d4a</p>
+<p>accent color · color · color/accent · #c7ddf1</p>
+<p>highlight color · color · color/highlight · #3d6fd6</p>
+<p>Reading size · typography · type/body · 16px</p>
+<p>Reading family · typography · type/family/body · Inter</p>
+<p>Content gap · spacing · space/content · 24px</p>
+<p>Control radius · radius · radius/control · 6px</p>
+<p>Explore sample sessions · component-agenda-open · Primary · action-agenda-open · state-agenda-details · Inspect the sample session from the overview</p>
+<p>Return to overview · component-agenda-back · Return · action-agenda-back · state-agenda-overview · Return without creating a registration</p>

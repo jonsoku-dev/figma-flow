@@ -1,0 +1,529 @@
+{
+  "version": 1,
+  "stage": "draft",
+  "scope": "Self-contained test/demo source; no browser or native evidence",
+  "nodes": [
+    {
+      "id": "screen-bulletin-overview",
+      "type": "screen",
+      "title": "Welcome board",
+      "annotation": {
+        "purpose": "Introduce the community workshop and its session overview.",
+        "journey": "Read the introduction, inspect session details, then return without registering.",
+        "first_action": "action-bulletin-open",
+        "failure": "This is a local demo; it never creates a registration."
+      },
+      "status": "planned"
+    },
+    {
+      "id": "screen-bulletin-details",
+      "type": "screen",
+      "title": "Session details",
+      "annotation": {
+        "purpose": "Show the sample session information in a readable detail view.",
+        "journey": "Read the sample information and return to the workshop overview.",
+        "first_action": "action-bulletin-back",
+        "failure": "The sample has no booking, payment or account functionality."
+      },
+      "status": "planned"
+    },
+    {
+      "id": "state-bulletin-overview",
+      "type": "state",
+      "title": "Workshop overview visible",
+      "status": "planned"
+    },
+    {
+      "id": "state-bulletin-details",
+      "type": "state",
+      "title": "Sample session details visible",
+      "status": "planned"
+    },
+    {
+      "id": "action-bulletin-open",
+      "type": "action",
+      "title": "Explore sessions",
+      "source_screen": "screen-bulletin-overview",
+      "source_state": "state-bulletin-overview",
+      "target_ids": [
+        "state-bulletin-details"
+      ],
+      "annotation": {
+        "control_id": "bulletin-open",
+        "purpose": "Let visitors inspect the example and keep their place in the overview.",
+        "behavior": "Open the sample details view.",
+        "result": "The sample session text becomes visible.",
+        "failure": "No form data, registration, account or payment is created.",
+        "functional_states": [
+          "state-bulletin-overview",
+          "state-bulletin-details"
+        ],
+        "visual_variant": "Primary"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "action-bulletin-back",
+      "type": "action",
+      "title": "Back to overview",
+      "source_screen": "screen-bulletin-details",
+      "source_state": "state-bulletin-details",
+      "target_ids": [
+        "state-bulletin-overview"
+      ],
+      "annotation": {
+        "control_id": "bulletin-back",
+        "purpose": "Let visitors inspect the example and keep their place in the overview.",
+        "behavior": "Return to the workshop overview.",
+        "result": "The overview becomes visible again.",
+        "failure": "No form data, registration, account or payment is created.",
+        "functional_states": [
+          "state-bulletin-overview",
+          "state-bulletin-details"
+        ],
+        "visual_variant": "Return"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "component-bulletin-open",
+      "type": "component",
+      "title": "Explore sample sessions",
+      "status": "planned"
+    },
+    {
+      "id": "component-bulletin-back",
+      "type": "component",
+      "title": "Return to overview",
+      "status": "planned"
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen-bulletin-overview",
+      "to": "action-bulletin-open",
+      "type": "enables"
+    },
+    {
+      "from": "action-bulletin-open",
+      "to": "state-bulletin-details",
+      "type": "shows"
+    },
+    {
+      "from": "screen-bulletin-details",
+      "to": "action-bulletin-back",
+      "type": "enables"
+    },
+    {
+      "from": "action-bulletin-back",
+      "to": "state-bulletin-overview",
+      "type": "shows"
+    }
+  ],
+  "design_foundations": {
+    "version": 1,
+    "roles": [
+      {
+        "name": "paper color",
+        "kind": "color",
+        "token": "color/paper",
+        "alias": "palette/paper",
+        "value": "#fffaf0"
+      },
+      {
+        "name": "ink color",
+        "kind": "color",
+        "token": "color/ink",
+        "alias": "palette/ink",
+        "value": "#20363d"
+      },
+      {
+        "name": "accent color",
+        "kind": "color",
+        "token": "color/accent",
+        "alias": "palette/accent",
+        "value": "#d8e8dc"
+      },
+      {
+        "name": "highlight color",
+        "kind": "color",
+        "token": "color/highlight",
+        "alias": "palette/highlight",
+        "value": "#f2a65a"
+      },
+      {
+        "name": "Reading size",
+        "kind": "typography",
+        "token": "type/body",
+        "alias": "size/body",
+        "value": "16px",
+        "source_values": [
+          "16px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 16,
+          "bindings": [
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.summary",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.session-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.session-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-details.body",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.desktop.component.Primary.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.desktop.component.Return.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.bulletin-open.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-details.bulletin-back.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.summary",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.session-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.session-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-details.body",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.component.Primary.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.component.Return.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.bulletin-open.label",
+              "field": "fontSize"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-details.bulletin-back.label",
+              "field": "fontSize"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Reading family",
+        "kind": "typography",
+        "token": "type/family/body",
+        "alias": "font/family/body",
+        "value": "Inter",
+        "source_values": [
+          "Inter"
+        ],
+        "native": {
+          "type": "STRING",
+          "value": "Inter",
+          "bindings": [
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.summary",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.session-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.session-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-details.body",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.desktop.component.Primary.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.desktop.component.Return.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.bulletin-open.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-details.bulletin-back.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.summary",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.session-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.session-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-details.body",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.component.Primary.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.component.Return.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.bulletin-open.label",
+              "field": "fontFamily"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-details.bulletin-back.label",
+              "field": "fontFamily"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Content gap",
+        "kind": "spacing",
+        "token": "space/content",
+        "alias": "space/base",
+        "value": "24px",
+        "source_values": [
+          "24px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 24,
+          "bindings": [
+            {
+              "key": "bulletin.desktop.component.Primary",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.desktop.component.Primary",
+              "field": "paddingRight"
+            },
+            {
+              "key": "bulletin.desktop.component.Return",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.desktop.component.Return",
+              "field": "paddingRight"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.bulletin-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.bulletin-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-details.bulletin-back",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-details.bulletin-back",
+              "field": "paddingRight"
+            },
+            {
+              "key": "bulletin.mobile.component.Primary",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.mobile.component.Primary",
+              "field": "paddingRight"
+            },
+            {
+              "key": "bulletin.mobile.component.Return",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.mobile.component.Return",
+              "field": "paddingRight"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.bulletin-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.bulletin-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-details.bulletin-back",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-details.bulletin-back",
+              "field": "paddingRight"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Control radius",
+        "kind": "radius",
+        "token": "radius/control",
+        "alias": "radius/base",
+        "value": "6px",
+        "source_values": [
+          "6px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 6,
+          "bindings": [
+            {
+              "key": "bulletin.desktop.component.Primary",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "bulletin.desktop.component.Return",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-overview.bulletin-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "bulletin.desktop.state-bulletin-details.bulletin-back",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "bulletin.mobile.component.Primary",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "bulletin.mobile.component.Return",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-overview.bulletin-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "bulletin.mobile.state-bulletin-details.bulletin-back",
+              "field": "cornerRadius"
+            }
+          ]
+        }
+      }
+    ],
+    "palette": {
+      "samples": [
+        {
+          "label": "Explore sample sessions",
+          "component": "component-bulletin-open",
+          "variant": "Primary",
+          "action": "action-bulletin-open",
+          "state": "state-bulletin-details",
+          "useCases": [
+            "Inspect the sample session from the overview"
+          ]
+        },
+        {
+          "label": "Return to overview",
+          "component": "component-bulletin-back",
+          "variant": "Return",
+          "action": "action-bulletin-back",
+          "state": "state-bulletin-overview",
+          "useCases": [
+            "Return without creating a registration"
+          ]
+        }
+      ]
+    }
+  },
+  "draft_prototype": {
+    "entry_state": "state-bulletin-overview",
+    "viewports": [
+      {
+        "id": "desktop",
+        "width": 1200,
+        "height": 760
+      },
+      {
+        "id": "mobile",
+        "width": 360,
+        "height": 720
+      }
+    ],
+    "states": [
+      {
+        "id": "state-bulletin-overview",
+        "screen": "screen-bulletin-overview",
+        "view": "workshop-overview",
+        "title": "Welcome board",
+        "body": "A place to learn practical skills together."
+      },
+      {
+        "id": "state-bulletin-details",
+        "screen": "screen-bulletin-details",
+        "view": "session-detail",
+        "title": "Session details",
+        "body": "Repair skills · Saturday 10:00. Demo only; no registration."
+      }
+    ],
+    "bindings": [
+      {
+        "action": "action-bulletin-open",
+        "source_state": "state-bulletin-overview",
+        "target_state": "state-bulletin-details",
+        "viewport": "desktop",
+        "control_id": "bulletin-open"
+      },
+      {
+        "action": "action-bulletin-back",
+        "source_state": "state-bulletin-details",
+        "target_state": "state-bulletin-overview",
+        "viewport": "desktop",
+        "control_id": "bulletin-back"
+      },
+      {
+        "action": "action-bulletin-open",
+        "source_state": "state-bulletin-overview",
+        "target_state": "state-bulletin-details",
+        "viewport": "mobile",
+        "control_id": "bulletin-open"
+      },
+      {
+        "action": "action-bulletin-back",
+        "source_state": "state-bulletin-details",
+        "target_state": "state-bulletin-overview",
+        "viewport": "mobile",
+        "control_id": "bulletin-back"
+      }
+    ]
+  }
+}

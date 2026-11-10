@@ -1,0 +1,361 @@
+{
+  "provenance": {
+    "kind": "excerpt-of-stored-native-readback-not-live-verification",
+    "source_path": "night-editions/site/native/club/readback.json",
+    "source_sha256": "e90c913c770d7d69fc130e9f95fffea689fa733465f1ab49507dc7f7907d0868",
+    "source_node_count": 1187,
+    "source_library_component_set_count": 22,
+    "source_variable_count": 6,
+    "source_alias_variable_count": 3,
+    "included_node_ids": [
+      "2:2573",
+      "2:2574",
+      "2:2581",
+      "2:2575",
+      "2:2576",
+      "2:2615"
+    ],
+    "fields_kept": [
+      "id",
+      "parentId",
+      "type",
+      "name",
+      "key",
+      "semanticKey",
+      "x",
+      "y",
+      "width",
+      "height",
+      "visible",
+      "opacity",
+      "absoluteBoundingBox",
+      "characters",
+      "fontName",
+      "fontSize",
+      "layoutMode",
+      "paddingTop",
+      "paddingRight",
+      "paddingBottom",
+      "paddingLeft",
+      "itemSpacing",
+      "cornerRadius",
+      "topLeftRadius",
+      "topRightRadius",
+      "bottomLeftRadius",
+      "bottomRightRadius",
+      "boundVariables",
+      "fills",
+      "strokes",
+      "variantProperties",
+      "componentSetId",
+      "componentIds"
+    ],
+    "representative_nodes": {
+      "bound_solid_color": "2:2575",
+      "unbound_font_size": "2:2576",
+      "unbound_layout_spacing": "2:2575",
+      "unbound_radius": "2:2581"
+    },
+    "limitations": "Selected node fields and complete color definitions only. No full campaign, assets, browser evidence, or Figma origin authentication."
+  },
+  "native": {
+    "pageId": "2:2573",
+    "nodes": [
+      {
+        "id": "2:2573",
+        "parentId": "0:0",
+        "type": "PAGE",
+        "name": "잔상클럽 · Responsive · 7bfe1e5",
+        "key": null,
+        "semanticKey": null
+      },
+      {
+        "id": "2:2574",
+        "parentId": "2:2573",
+        "type": "FRAME",
+        "name": "club.library",
+        "key": "club.library",
+        "semanticKey": "club.library",
+        "boundVariables": {},
+        "fills": [],
+        "strokes": [],
+        "x": 0,
+        "y": -900,
+        "width": 4000,
+        "height": 700,
+        "visible": true,
+        "opacity": 1,
+        "cornerRadius": 0,
+        "layoutMode": "NONE",
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "itemSpacing": 0
+      },
+      {
+        "id": "2:2581",
+        "parentId": "2:2574",
+        "type": "COMPONENT_SET",
+        "name": "club / Responsive Action / text--plain--110x44--left--28x28",
+        "key": "club.control.text--plain--110x44--left--28x28",
+        "semanticKey": "club.control.text--plain--110x44--left--28x28",
+        "boundVariables": {},
+        "fills": [],
+        "strokes": [],
+        "componentIds": [
+          "2:2575",
+          "2:2577",
+          "2:2579"
+        ],
+        "x": 0,
+        "y": 0,
+        "width": 52,
+        "height": 44,
+        "visible": true,
+        "opacity": 1,
+        "cornerRadius": 5,
+        "layoutMode": "NONE",
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "itemSpacing": 0
+      },
+      {
+        "id": "2:2575",
+        "parentId": "2:2581",
+        "type": "COMPONENT",
+        "name": "Style=Primary",
+        "key": "club.control.text--plain--110x44--left--28x28.Primary",
+        "semanticKey": "club.control.text--plain--110x44--left--28x28.Primary",
+        "boundVariables": {
+          "fills": [
+            {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:2:3205"
+            }
+          ]
+        },
+        "fills": [
+          {
+            "type": "SOLID",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "color": {
+              "r": 0.08627451211214066,
+              "g": 0.08627451211214066,
+              "b": 0.15294118225574493
+            },
+            "boundVariables": {
+              "color": {
+                "type": "VARIABLE_ALIAS",
+                "id": "VariableID:2:3205"
+              }
+            }
+          }
+        ],
+        "strokes": [],
+        "variantProperties": {
+          "Style": "Primary"
+        },
+        "componentSetId": "2:2581",
+        "x": 0,
+        "y": 0,
+        "width": 52,
+        "height": 44,
+        "visible": true,
+        "opacity": 1,
+        "cornerRadius": 0,
+        "layoutMode": "HORIZONTAL",
+        "paddingTop": 9,
+        "paddingRight": 10,
+        "paddingBottom": 9,
+        "paddingLeft": 10,
+        "itemSpacing": 10
+      },
+      {
+        "id": "2:2576",
+        "parentId": "2:2575",
+        "type": "TEXT",
+        "name": "club.control.text--plain--110x44--left--28x28.Primary.label",
+        "key": "club.control.text--plain--110x44--left--28x28.Primary.label",
+        "semanticKey": "club.control.text--plain--110x44--left--28x28.Primary.label",
+        "boundVariables": {
+          "fills": [
+            {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:2:3203"
+            }
+          ]
+        },
+        "fills": [
+          {
+            "type": "SOLID",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "color": {
+              "r": 0.9019607901573181,
+              "g": 0.9176470637321472,
+              "b": 0.2235294133424759
+            },
+            "boundVariables": {
+              "color": {
+                "type": "VARIABLE_ALIAS",
+                "id": "VariableID:2:3203"
+              }
+            }
+          }
+        ],
+        "strokes": [],
+        "x": 10,
+        "y": 10,
+        "width": 32,
+        "height": 24,
+        "characters": "무대",
+        "fontName": {
+          "family": "Hahmlet",
+          "style": "Regular",
+          "variationSettings": {
+            "wght": 400
+          }
+        },
+        "fontSize": 17,
+        "visible": true,
+        "opacity": 1
+      },
+      {
+        "id": "2:2615",
+        "parentId": "2:2574",
+        "type": "COMPONENT_SET",
+        "name": "club / Responsive Action / text--button-frame--110x44--left--28x28",
+        "key": "club.control.text--button-frame--110x44--left--28x28",
+        "semanticKey": "club.control.text--button-frame--110x44--left--28x28",
+        "boundVariables": {},
+        "fills": [],
+        "strokes": [],
+        "componentIds": [
+          "2:2582",
+          "2:2593",
+          "2:2604"
+        ],
+        "x": 0,
+        "y": 0,
+        "width": 68,
+        "height": 44,
+        "visible": true,
+        "opacity": 1,
+        "cornerRadius": 5,
+        "layoutMode": "NONE",
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "itemSpacing": 0
+      }
+    ],
+    "collections": [
+      {
+        "id": "VariableCollectionId:2:3201",
+        "name": "club · Native semantic colors · 7bfe1e59",
+        "modes": [
+          {
+            "name": "Mode 1",
+            "modeId": "2:5"
+          }
+        ],
+        "defaultModeId": "2:5",
+        "variableIds": [
+          "VariableID:2:3202",
+          "VariableID:2:3203",
+          "VariableID:2:3204",
+          "VariableID:2:3205",
+          "VariableID:2:3206",
+          "VariableID:2:3207"
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "id": "VariableID:2:3205",
+        "name": "ink",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:3201",
+        "valuesByMode": {
+          "2:5": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:3204"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:3203",
+        "name": "paper",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:3201",
+        "valuesByMode": {
+          "2:5": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:3202"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:3202",
+        "name": "palette/paper",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:3201",
+        "valuesByMode": {
+          "2:5": {
+            "r": 0.9019607901573181,
+            "g": 0.9176470637321472,
+            "b": 0.2235294133424759,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:3204",
+        "name": "palette/ink",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:3201",
+        "valuesByMode": {
+          "2:5": {
+            "r": 0.08627451211214066,
+            "g": 0.08627451211214066,
+            "b": 0.15294118225574493,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:3206",
+        "name": "palette/raspberry",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:3201",
+        "valuesByMode": {
+          "2:5": {
+            "r": 0.8705882430076599,
+            "g": 0.1921568661928177,
+            "b": 0.3529411852359772,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:3207",
+        "name": "raspberry",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:3201",
+        "valuesByMode": {
+          "2:5": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:3206"
+          }
+        }
+      }
+    ]
+  }
+}

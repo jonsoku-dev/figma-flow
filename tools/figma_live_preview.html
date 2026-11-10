@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Figma와 복습 카드 앱 비교</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,sans-serif;color:#20263a;background:#f6f7f9}
+header,main{padding:16px 20px}header,article{background:white;border-bottom:1px solid #d8dce5}
+h1{margin:0;font-size:20px}h2{margin:0 0 8px;font-size:16px}p{margin:6px 0}
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:12px}
+iframe{width:100%;height:62vh;border:1px solid #cbd1d9;border-radius:8px;background:white}
+button{font:inherit;margin:0 6px 8px 0;padding:6px 10px;cursor:pointer}
+article{padding:12px;margin-top:12px;border-radius:8px;overflow:auto}table{width:100%;border-collapse:collapse}
+th,td{padding:6px 8px;text-align:left;border-bottom:1px solid #e0e4ea}td{font-variant-numeric:tabular-nums}
+td:first-child{overflow-wrap:anywhere}.match{color:#176447}.different{color:#a72d2d}.unknown{color:#805a12}.swatch{display:inline-block;width:.9em;height:.9em;margin-right:.4em;border:1px solid #888}
+[hidden]{display:none!important}
+</style>
+<header><h1>Figma와 복습 카드 앱 비교</h1><p id="status" role="status" aria-live="polite">연결 대기 중…</p></header>
+<main><div id="screens" aria-label="확인할 화면"></div>
+<div class="views"><section id="before-view" hidden><h2>변경 전 앱</h2><iframe id="previous" sandbox="allow-scripts allow-same-origin" title="변경 전 복습 카드"></iframe></section>
+<section><h2>변경 후 앱</h2><iframe id="app" sandbox="allow-scripts allow-same-origin" title="변경 후 복습 카드"></iframe></section></div>
+<article><h2>영향받은 속성</h2><p id="scope"></p>
+<table><thead><tr><th rowspan="2">화면 / 요소 / 속성</th><th colspan="2">변경 전</th><th colspan="2">변경 후</th><th rowspan="2">결과</th></tr>
+<tr><th>Figma</th><th>앱</th><th>Figma</th><th>앱</th></tr></thead><tbody id="results"></tbody></table>
+<ul id="unknowns"></ul></article></main>
+<script>
+const $ = id => document.getElementById(id);
+const afterFrame = $('app'), beforeFrame = $('previous'), status = $('status');
+let latestKey = '', generation = 0, busy = false;
+const settle = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+const keyFor = state => state.epoch + '/' + state.revision;
+const rowKey = c => JSON.stringify([c.screen,c.element,c.property]);
+function visible(node) {
+  return Boolean(node && node.getClientRects().length && node.ownerDocument.defaultView.getComputedStyle(node).visibility !== 'hidden');
+}
+function color(value) {
+  const m = value.match(/^rgba?\(\s*([\d.]+)[, ]+([\d.]+)[, ]+([\d.]+)(?:\s*[,/]\s*([\d.]+))?\s*\)$/);
+  return m ? [+m[1],+m[2],+m[3],m[4] === undefined ? 1 : +m[4]] : null;
+}
+function pixels(value) {
+  const m = value.match(/^(-?(?:\d+(?:\.\d+)?|\.\d+))px$/);
+  return m ? Number(m[1]) : null;
+}
+function phase(check) {
+  if (check.screen !== 'SCR-CARDS-REVIEW') return 'list';
+  return ['#retry-button','#complete-button'].includes(check.selector) ? 'answer' : 'question';
+}
+async function show(frame, screen, view) {
+  const doc = frame.contentDocument, current = doc.getElementById(screen);
+  if (!current) return false;
+  const back = doc.getElementById('back-button');
+  if (view === 'list' || (view === 'question' && visible(doc.getElementById('answer-panel')))) {
+    if (visible(back)) back.click();
+  }
+  if (view !== 'list' && !visible(current)) doc.querySelector('[data-card-id]')?.click();
+  if (view === 'answer' && !visible(doc.getElementById('answer-panel'))) doc.getElementById('reveal-button')?.click();
+  await settle();
+  return visible(current);
+}
+async function openApp(frame, path) {
+  await new Promise((resolve,reject) => {
+    const timer = setTimeout(() => reject(Error('앱을 불러오는 시간이 초과됐습니다.')),12000);
+    frame.onload = () => { clearTimeout(timer); resolve(); };
+    frame.onerror = () => { clearTimeout(timer); reject(Error('앱을 열 수 없습니다.')); };
+    frame.src = path;
+  });
+  const doc = frame.contentDocument;
+  if (!doc?.querySelector('main') || [...doc.querySelectorAll('link[rel="stylesheet"]')].some(link => !link.sheet))
+    throw Error('앱 또는 스타일시트를 불러오지 못했습니다.');
+  await doc.fonts.ready;
+}
+function observe(frame, check) {
+  const nodes = [...frame.contentDocument.querySelectorAll(check.selector)].filter(visible)
+    .filter(n => !check.text || n.querySelector('.card-title')?.textContent === check.text);
+  if (nodes.length !== 1) return null;
+  const target = check.text_selector ? nodes[0].querySelector(check.text_selector) : nodes[0];
+  if (!visible(target)) return null;
+  const style = frame.contentWindow.getComputedStyle(target);
+  if (check.property === 'border-top-color' && (style.borderTopStyle === 'none' || parseFloat(style.borderTopWidth) === 0)) return null;
+  const raw = style.getPropertyValue(check.property);
+  return check.kind === 'px' ? pixels(raw) : color(raw);
+}
+async function measure(frame, checks, ticket) {
+  const result = new Map(), groups = new Map();
+  for (const c of checks) {
+    const key = c.screen + '/' + phase(c);
+    if (!groups.has(key)) groups.set(key,[]);
+    groups.get(key).push(c);
+  }
+  for (const group of groups.values()) {
+    if (generation !== ticket) break;
+    const active = await show(frame,group[0].screen,phase(group[0]));
+    for (const c of group) {
+      const actual = active ? observe(frame,c) : null;
+      let equal = null;
+      if (actual !== null) {
+        if (c.kind === 'px') equal = c.binding?.status === 'observed' ? Math.abs(actual - c.expected) <= .01 : null;
+        else equal = actual.every((v,i) => i === 3 ? Math.abs(v-c.expected[i]) <= .005 : v === c.expected[i]);
+      }
+      result.set(rowKey(c),{check:c, actual, equal});
+    }
+  }
+  return result;
+}
+function cell(row,text) {
+  const td = document.createElement('td');td.textContent = text;row.append(td);return td;
+}
+function valueCell(row, value) {
+  if (value == null) { cell(row,'—'); return; }
+  if (typeof value === 'number') { cell(row,value + ' px'); return; }
+  const css = 'rgba(' + value.join(', ') + ')', td = cell(row,css);
+  const swatch = document.createElement('span');swatch.className = 'swatch';swatch.style.background = css;td.prepend(swatch);
+}
+function renderRows(before,after) {
+  const rows = $('results');rows.replaceChildren();
+  for (const key of new Set([...after.keys(), ...before.keys()])) {
+    const a = after.get(key), b = before.get(key), check = (a || b).check, row = document.createElement('tr');
+    cell(row,[check.screen,check.element,check.property].join(' / '));
+    for (const result of [b,a]) {valueCell(row,result?.check.expected);valueCell(row,result?.actual);}
+    const values = [a,b].filter(Boolean).map(r => r.equal);
+    const label = values.includes(false) ? '차이' : values.includes(null) ? '미확인' : '일치';
+    cell(row,label).className = {'차이':'different','미확인':'unknown','일치':'match'}[label];rows.append(row);
+  }
+}
+function counts(results) {
+  const values = [...results.values()];
+  return {matches:values.filter(v => v.equal === true).length, differences:values.filter(v => v.equal === false).length,
+    missing:values.filter(v => v.equal === null).length};
+}
+async function load(snapshot) {
+  const ticket = ++generation, prefix = '/app/revision/' + snapshot.revision + '/';
+  latestKey = keyFor(snapshot);window.figmaLiveComparison = null;
+  status.textContent = '실제 앱과 스타일을 불러오는 중…';$('scope').textContent = snapshot.scope || '';
+  $('results').replaceChildren();$('unknowns').replaceChildren();$('screens').replaceChildren();
+  $('before-view').hidden = !snapshot.before_available;
+  await Promise.all([openApp(afterFrame,prefix+'index.html'), snapshot.before_available ? openApp(beforeFrame,'/before/revision/'+snapshot.revision+'/index.html') : null]);
+  const [before,after] = await Promise.all([snapshot.before_available ? measure(beforeFrame,snapshot.before_checks,ticket) : new Map(),
+    measure(afterFrame,snapshot.checks,ticket)]);
+  if (ticket !== generation) return;
+  const check = await fetch('/revision.json',{cache:'no-store'}).then(r => r.json());
+  if (keyFor(check) !== latestKey) { latestKey = '';return; }
+  renderRows(before,after);
+  const issues = [...snapshot.unknowns,...(snapshot.status==='applied' ? snapshot.before_unknowns : [])];
+  for (const text of issues) { const li=document.createElement('li');li.textContent=text;$('unknowns').append(li); }
+  for (const screen of snapshot.screens) {
+    const button=document.createElement('button');button.textContent=screen === 'SCR-CARDS-LIST' ? '카드 목록' : '카드 복습';
+    button.onclick = async () => {const view=screen==='SCR-CARDS-LIST'?'list':'question';await show(afterFrame,screen,view);if(snapshot.before_available)await show(beforeFrame,screen,view);};
+    $('screens').append(button);
+  }
+  const a=counts(after), b=counts(before), differences=a.differences+b.differences;
+  const unknowns=issues.length+a.missing+b.missing, matches=a.matches+b.matches;
+  status.textContent = '변경 전 ' + b.matches + '/' + before.size + '개 일치 · 변경 후 ' + a.matches + '/' + after.size + '개 일치 · 차이 ' + differences + ' · 미확인 ' + unknowns;
+  window.figmaLiveComparison = {epoch:snapshot.epoch, revision:snapshot.revision, beforeAvailable:snapshot.before_available,
+    before:b,after:a,matches,differences,unknowns,measured:matches+differences};
+}
+async function poll() {
+  if (busy) return;busy=true;
+  try {
+    const r=await fetch('/revision.json',{cache:'no-store'});if(!r.ok)throw Error('비교 서버에 연결할 수 없습니다.');
+    const snapshot=await r.json();if(keyFor(snapshot)!==latestKey)await load(snapshot);
+  } catch(error) {latestKey='';window.figmaLiveComparison=null;status.textContent='미확인 · '+error.message;}
+  finally { busy=false; }
+}
+poll();setInterval(poll,900);
+</script></html>

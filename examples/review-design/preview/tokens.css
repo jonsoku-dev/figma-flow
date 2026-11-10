@@ -1,0 +1,15 @@
+:root {
+  --color-brand: var(--palette-blue);
+  --color-onBrand: var(--palette-white);
+  --color-surface: var(--palette-pale);
+  --color-text: var(--palette-ink);
+  --font-body: Arial;
+  --font-size: 16px;
+  --opacity-full: 1;
+  --palette-blue: #425cc7;
+  --palette-ink: #20263a;
+  --palette-pale: #eef1ff;
+  --palette-white: #ffffff;
+  --space-card: 16px;
+  --space-round: 12px;
+}

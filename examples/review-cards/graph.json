@@ -1,0 +1,899 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "REQ-CARDS-LIST",
+      "type": "requirement",
+      "title": "오늘 복습 카드 목록",
+      "status": "observed",
+      "source": "specs/list.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/list.md. Browser behavior is unverified."
+    },
+    {
+      "id": "ACC-CARDS-LIST",
+      "type": "acceptance",
+      "title": "오늘 다시 볼 카드 목록이 표시된다.",
+      "status": "verified",
+      "source": "evidence/results/12bfa28d3b02ed45.tap",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "REQ-CARDS-QUESTION",
+      "type": "requirement",
+      "title": "카드 질문과 정답 보기",
+      "status": "observed",
+      "source": "specs/question.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/question.md. Browser behavior is unverified."
+    },
+    {
+      "id": "ACC-CARDS-QUESTION",
+      "type": "acceptance",
+      "title": "카드 선택 후 질문과 정답 보기 버튼이 표시된다.",
+      "status": "verified",
+      "source": "evidence/results/652c08d88fe11f83.tap",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "REQ-CARDS-ANSWER",
+      "type": "requirement",
+      "title": "정답 확인 후 복습 선택",
+      "status": "observed",
+      "source": "specs/answer.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/answer.md. Browser behavior is unverified."
+    },
+    {
+      "id": "ACC-CARDS-ANSWER",
+      "type": "acceptance",
+      "title": "정답을 확인한 뒤 두 선택지를 사용할 수 있다.",
+      "status": "verified",
+      "source": "evidence/results/8b78cd846b74380f.tap",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "REQ-CARDS-FINISH",
+      "type": "requirement",
+      "title": "오늘 분량 완료 안내",
+      "status": "observed",
+      "source": "specs/finish.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/finish.md. Browser behavior is unverified."
+    },
+    {
+      "id": "ACC-CARDS-FINISH",
+      "type": "acceptance",
+      "title": "오늘 분량을 다 풀면 완료 안내가 표시된다.",
+      "status": "verified",
+      "source": "evidence/results/49cc6d06e36373d0.tap",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "REQ-CARDS-SEARCH",
+      "type": "requirement",
+      "title": "카드 제목 검색과 빈 결과",
+      "status": "observed",
+      "source": "specs/search.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/search.md. Browser behavior is unverified."
+    },
+    {
+      "id": "ACC-CARDS-SEARCH",
+      "type": "acceptance",
+      "title": "제목으로 검색하고 일치 항목이 없으면 빈 결과를 알린다.",
+      "status": "verified",
+      "source": "evidence/results/cfcc3820e2829c3e.tap",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "SCR-CARDS-LIST",
+      "type": "screen",
+      "title": "오늘의 복습 카드 목록 및 제목 검색",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "detail": "Implemented screen structure. Node checks cover capabilities; actual browser layout, focus and interaction remain unverified because browser tool approval was unavailable."
+    },
+    {
+      "id": "SCR-CARDS-REVIEW",
+      "type": "screen",
+      "title": "카드 질문 및 정답",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "detail": "Implemented screen structure. Node checks cover capabilities; actual browser layout, focus and interaction remain unverified because browser tool approval was unavailable."
+    },
+    {
+      "id": "STATE-CARDS-LIST",
+      "type": "state",
+      "title": "오늘의 카드 목록",
+      "status": "observed",
+      "source": "specs/list.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/list.md. Browser behavior is unverified."
+    },
+    {
+      "id": "STATE-CARDS-EMPTY-SEARCH",
+      "type": "state",
+      "title": "일치하는 카드 없음",
+      "status": "observed",
+      "source": "specs/search.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/search.md. Browser behavior is unverified."
+    },
+    {
+      "id": "STATE-CARDS-DONE",
+      "type": "state",
+      "title": "오늘 분량 완료 안내",
+      "status": "observed",
+      "source": "specs/finish.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/finish.md. Browser behavior is unverified."
+    },
+    {
+      "id": "STATE-CARDS-QUESTION",
+      "type": "state",
+      "title": "질문과 정답 보기",
+      "status": "observed",
+      "source": "specs/question.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/question.md. Browser behavior is unverified."
+    },
+    {
+      "id": "STATE-CARDS-ANSWER",
+      "type": "state",
+      "title": "정답과 복습 선택",
+      "status": "observed",
+      "source": "specs/answer.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/answer.md. Browser behavior is unverified."
+    },
+    {
+      "id": "ACT-CARDS-SEARCH",
+      "type": "action",
+      "title": "제목으로 카드 검색",
+      "status": "observed",
+      "source": "specs/search.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/search.md. Browser behavior is unverified.",
+      "source_screen": "SCR-CARDS-LIST",
+      "target_ids": [
+        "STATE-CARDS-LIST",
+        "STATE-CARDS-EMPTY-SEARCH"
+      ]
+    },
+    {
+      "id": "ACT-CARDS-OPEN",
+      "type": "action",
+      "title": "카드 선택",
+      "status": "observed",
+      "source": "specs/question.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/question.md. Browser behavior is unverified.",
+      "source_screen": "SCR-CARDS-LIST",
+      "target_ids": [
+        "SCR-CARDS-REVIEW",
+        "STATE-CARDS-QUESTION"
+      ]
+    },
+    {
+      "id": "ACT-CARDS-REVEAL",
+      "type": "action",
+      "title": "정답 보기",
+      "status": "observed",
+      "source": "specs/answer.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/answer.md. Browser behavior is unverified.",
+      "source_screen": "SCR-CARDS-REVIEW",
+      "target_ids": [
+        "STATE-CARDS-ANSWER"
+      ]
+    },
+    {
+      "id": "ACT-CARDS-RETRY",
+      "type": "action",
+      "title": "다시 연습",
+      "status": "observed",
+      "source": "specs/retry.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/retry.md. Browser behavior is unverified.",
+      "source_screen": "SCR-CARDS-REVIEW",
+      "target_ids": [
+        "STATE-CARDS-QUESTION"
+      ]
+    },
+    {
+      "id": "ACT-CARDS-COMPLETE",
+      "type": "action",
+      "title": "복습 완료",
+      "status": "observed",
+      "source": "specs/complete.md",
+      "detail": "Implemented local capability; focused policy and limitations in specs/complete.md. Browser behavior is unverified.",
+      "source_screen": "SCR-CARDS-REVIEW",
+      "target_ids": [
+        "SCR-CARDS-LIST",
+        "STATE-CARDS-LIST",
+        "STATE-CARDS-DONE"
+      ]
+    },
+    {
+      "id": "REQ-CARDS-RETRY",
+      "type": "requirement",
+      "title": "다음 미완료 카드로 다시 연습",
+      "source": "specs/retry.md",
+      "status": "observed",
+      "detail": "Focused ownership of an existing draft action; no new screen or feature scope."
+    },
+    {
+      "id": "REQ-CARDS-COMPLETE",
+      "type": "requirement",
+      "title": "선택한 카드 복습 완료",
+      "source": "specs/complete.md",
+      "status": "observed",
+      "detail": "Focused ownership of an existing draft action; no new screen or feature scope."
+    },
+    {
+      "id": "CODE-CARDS-APP",
+      "type": "code",
+      "title": "Local screen entry and capability wiring",
+      "source": "app/index.html",
+      "status": "verified",
+      "detail": "Stable executable entry loads actual rule modules. Focused tests check those capabilities; screen wiring is additionally inspected, not browser-certified. See screen-spec.md for limits."
+    },
+    {
+      "id": "CODE-CARDS-LIST",
+      "type": "code",
+      "title": "List capability",
+      "source": "app/rules/list.js",
+      "status": "verified",
+      "detail": "Actual rule module exercised by tests/list.test.cjs; in-memory DOM doubles where relevant, not a browser."
+    },
+    {
+      "id": "TEST-CARDS-LIST",
+      "type": "test",
+      "title": "List behavior tests",
+      "source": "evidence/results/12bfa28d3b02ed45.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "CODE-CARDS-QUESTION",
+      "type": "code",
+      "title": "Question capability",
+      "source": "app/rules/question.js",
+      "status": "verified",
+      "detail": "Actual rule module exercised by tests/question.test.cjs; in-memory DOM doubles where relevant, not a browser."
+    },
+    {
+      "id": "TEST-CARDS-QUESTION",
+      "type": "test",
+      "title": "Question behavior tests",
+      "source": "evidence/results/652c08d88fe11f83.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "CODE-CARDS-ANSWER",
+      "type": "code",
+      "title": "Answer capability",
+      "source": "app/rules/answer.js",
+      "status": "verified",
+      "detail": "Actual rule module exercised by tests/answer.test.cjs; in-memory DOM doubles where relevant, not a browser."
+    },
+    {
+      "id": "TEST-CARDS-ANSWER",
+      "type": "test",
+      "title": "Answer behavior tests",
+      "source": "evidence/results/8b78cd846b74380f.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "ACC-CARDS-RETRY",
+      "type": "acceptance",
+      "title": "완료 수를 유지하고 다음 미완료 카드 질문으로 순환",
+      "source": "evidence/results/338bcba0535734bf.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "CODE-CARDS-RETRY",
+      "type": "code",
+      "title": "Retry capability",
+      "source": "app/rules/retry.js",
+      "status": "verified",
+      "detail": "Actual rule module exercised by tests/retry.test.cjs; in-memory DOM doubles where relevant, not a browser."
+    },
+    {
+      "id": "TEST-CARDS-RETRY",
+      "type": "test",
+      "title": "Retry behavior tests",
+      "source": "evidence/results/338bcba0535734bf.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "ACC-CARDS-COMPLETE",
+      "type": "acceptance",
+      "title": "Completion records only the revealed card and returns to the list",
+      "source": "evidence/results/1ee8752f46a2be62.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "CODE-CARDS-COMPLETE",
+      "type": "code",
+      "title": "Complete capability",
+      "source": "app/rules/complete.js",
+      "status": "verified",
+      "detail": "Actual rule module exercised by tests/complete.test.cjs; in-memory DOM doubles where relevant, not a browser."
+    },
+    {
+      "id": "TEST-CARDS-COMPLETE",
+      "type": "test",
+      "title": "Complete behavior tests",
+      "source": "evidence/results/1ee8752f46a2be62.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "CODE-CARDS-FINISH",
+      "type": "code",
+      "title": "Finish capability",
+      "source": "app/rules/finish.js",
+      "status": "verified",
+      "detail": "Actual rule module exercised by tests/finish.test.cjs; in-memory DOM doubles where relevant, not a browser."
+    },
+    {
+      "id": "TEST-CARDS-FINISH",
+      "type": "test",
+      "title": "Finish behavior tests",
+      "source": "evidence/results/49cc6d06e36373d0.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    },
+    {
+      "id": "CODE-CARDS-SEARCH",
+      "type": "code",
+      "title": "Search capability",
+      "source": "app/rules/search.js",
+      "status": "verified",
+      "detail": "Actual rule module exercised by tests/search.test.cjs; in-memory DOM doubles where relevant, not a browser."
+    },
+    {
+      "id": "TEST-CARDS-SEARCH",
+      "type": "test",
+      "title": "Search behavior tests",
+      "source": "evidence/results/cfcc3820e2829c3e.tap",
+      "status": "verified",
+      "detail": "로컬 Node 동작 테스트 증거. 실제 브라우저 관찰은 별도 검증 기록 참조."
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-CARDS-LIST",
+      "to": "ACC-CARDS-LIST",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-CARDS-LIST",
+      "to": "SCR-CARDS-LIST",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-CARDS-QUESTION",
+      "to": "ACC-CARDS-QUESTION",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-CARDS-QUESTION",
+      "to": "SCR-CARDS-LIST",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-CARDS-QUESTION",
+      "to": "SCR-CARDS-REVIEW",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-CARDS-ANSWER",
+      "to": "ACC-CARDS-ANSWER",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-CARDS-ANSWER",
+      "to": "SCR-CARDS-REVIEW",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-CARDS-FINISH",
+      "to": "ACC-CARDS-FINISH",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-CARDS-FINISH",
+      "to": "SCR-CARDS-LIST",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-CARDS-SEARCH",
+      "to": "ACC-CARDS-SEARCH",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-CARDS-SEARCH",
+      "to": "SCR-CARDS-LIST",
+      "type": "appears on"
+    },
+    {
+      "from": "SCR-CARDS-LIST",
+      "to": "STATE-CARDS-LIST",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-CARDS-LIST",
+      "to": "STATE-CARDS-EMPTY-SEARCH",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-CARDS-LIST",
+      "to": "STATE-CARDS-DONE",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-CARDS-REVIEW",
+      "to": "STATE-CARDS-QUESTION",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-CARDS-REVIEW",
+      "to": "STATE-CARDS-ANSWER",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-CARDS-LIST",
+      "to": "ACT-CARDS-SEARCH",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-CARDS-SEARCH",
+      "to": "STATE-CARDS-LIST",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-CARDS-SEARCH",
+      "to": "STATE-CARDS-EMPTY-SEARCH",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-CARDS-LIST",
+      "to": "ACT-CARDS-OPEN",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-CARDS-OPEN",
+      "to": "SCR-CARDS-REVIEW",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-CARDS-OPEN",
+      "to": "STATE-CARDS-QUESTION",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-CARDS-REVIEW",
+      "to": "ACT-CARDS-REVEAL",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-CARDS-REVEAL",
+      "to": "STATE-CARDS-ANSWER",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-CARDS-REVIEW",
+      "to": "ACT-CARDS-RETRY",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-CARDS-RETRY",
+      "to": "STATE-CARDS-QUESTION",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-CARDS-REVIEW",
+      "to": "ACT-CARDS-COMPLETE",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-CARDS-COMPLETE",
+      "to": "SCR-CARDS-LIST",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-CARDS-COMPLETE",
+      "to": "STATE-CARDS-LIST",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-CARDS-COMPLETE",
+      "to": "STATE-CARDS-DONE",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-CARDS-RETRY",
+      "to": "SCR-CARDS-REVIEW",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-CARDS-RETRY",
+      "to": "ACC-CARDS-RETRY",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-CARDS-COMPLETE",
+      "to": "SCR-CARDS-REVIEW",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-CARDS-COMPLETE",
+      "to": "ACC-CARDS-COMPLETE",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-CARDS-LIST",
+      "to": "CODE-CARDS-APP",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-CARDS-LIST",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "SCR-CARDS-REVIEW",
+      "to": "CODE-CARDS-APP",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-CARDS-REVIEW",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACC-CARDS-LIST",
+      "to": "TEST-CARDS-LIST",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-LIST",
+      "to": "TEST-CARDS-LIST",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-LIST",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CARDS-LIST",
+      "to": "CODE-CARDS-LIST",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-LIST",
+      "to": "TEST-CARDS-LIST",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-LIST",
+      "type": "depends-on"
+    },
+    {
+      "from": "STATE-CARDS-LIST",
+      "to": "CODE-CARDS-LIST",
+      "type": "implemented by"
+    },
+    {
+      "from": "STATE-CARDS-LIST",
+      "to": "CODE-CARDS-LIST",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACC-CARDS-QUESTION",
+      "to": "TEST-CARDS-QUESTION",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-QUESTION",
+      "to": "TEST-CARDS-QUESTION",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-QUESTION",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CARDS-QUESTION",
+      "to": "CODE-CARDS-QUESTION",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-QUESTION",
+      "to": "TEST-CARDS-QUESTION",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-QUESTION",
+      "type": "depends-on"
+    },
+    {
+      "from": "STATE-CARDS-QUESTION",
+      "to": "CODE-CARDS-QUESTION",
+      "type": "implemented by"
+    },
+    {
+      "from": "STATE-CARDS-QUESTION",
+      "to": "CODE-CARDS-QUESTION",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACT-CARDS-OPEN",
+      "to": "CODE-CARDS-QUESTION",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-CARDS-OPEN",
+      "to": "CODE-CARDS-QUESTION",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACC-CARDS-ANSWER",
+      "to": "TEST-CARDS-ANSWER",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-ANSWER",
+      "to": "TEST-CARDS-ANSWER",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-ANSWER",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CARDS-ANSWER",
+      "to": "CODE-CARDS-ANSWER",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-ANSWER",
+      "to": "TEST-CARDS-ANSWER",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-ANSWER",
+      "type": "depends-on"
+    },
+    {
+      "from": "STATE-CARDS-ANSWER",
+      "to": "CODE-CARDS-ANSWER",
+      "type": "implemented by"
+    },
+    {
+      "from": "STATE-CARDS-ANSWER",
+      "to": "CODE-CARDS-ANSWER",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACT-CARDS-REVEAL",
+      "to": "CODE-CARDS-ANSWER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-CARDS-REVEAL",
+      "to": "CODE-CARDS-ANSWER",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACC-CARDS-RETRY",
+      "to": "TEST-CARDS-RETRY",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-RETRY",
+      "to": "TEST-CARDS-RETRY",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-RETRY",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CARDS-RETRY",
+      "to": "CODE-CARDS-RETRY",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-RETRY",
+      "to": "TEST-CARDS-RETRY",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-RETRY",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACT-CARDS-RETRY",
+      "to": "CODE-CARDS-RETRY",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-CARDS-RETRY",
+      "to": "CODE-CARDS-RETRY",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACC-CARDS-COMPLETE",
+      "to": "TEST-CARDS-COMPLETE",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-COMPLETE",
+      "to": "TEST-CARDS-COMPLETE",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-COMPLETE",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CARDS-COMPLETE",
+      "to": "CODE-CARDS-COMPLETE",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-COMPLETE",
+      "to": "TEST-CARDS-COMPLETE",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-COMPLETE",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACT-CARDS-COMPLETE",
+      "to": "CODE-CARDS-COMPLETE",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-CARDS-COMPLETE",
+      "to": "CODE-CARDS-COMPLETE",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACC-CARDS-FINISH",
+      "to": "TEST-CARDS-FINISH",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-FINISH",
+      "to": "TEST-CARDS-FINISH",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-FINISH",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CARDS-FINISH",
+      "to": "CODE-CARDS-FINISH",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-FINISH",
+      "to": "TEST-CARDS-FINISH",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-FINISH",
+      "type": "depends-on"
+    },
+    {
+      "from": "STATE-CARDS-DONE",
+      "to": "CODE-CARDS-FINISH",
+      "type": "implemented by"
+    },
+    {
+      "from": "STATE-CARDS-DONE",
+      "to": "CODE-CARDS-FINISH",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACC-CARDS-SEARCH",
+      "to": "TEST-CARDS-SEARCH",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-SEARCH",
+      "to": "TEST-CARDS-SEARCH",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-SEARCH",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CARDS-SEARCH",
+      "to": "CODE-CARDS-SEARCH",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-SEARCH",
+      "to": "TEST-CARDS-SEARCH",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-APP",
+      "to": "TEST-CARDS-SEARCH",
+      "type": "depends-on"
+    },
+    {
+      "from": "STATE-CARDS-EMPTY-SEARCH",
+      "to": "CODE-CARDS-SEARCH",
+      "type": "implemented by"
+    },
+    {
+      "from": "STATE-CARDS-EMPTY-SEARCH",
+      "to": "CODE-CARDS-SEARCH",
+      "type": "depends-on"
+    },
+    {
+      "from": "ACT-CARDS-SEARCH",
+      "to": "CODE-CARDS-SEARCH",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-CARDS-SEARCH",
+      "to": "CODE-CARDS-SEARCH",
+      "type": "depends-on"
+    },
+    {
+      "from": "STATE-CARDS-QUESTION",
+      "to": "CODE-CARDS-ANSWER",
+      "type": "implemented by"
+    },
+    {
+      "from": "CODE-CARDS-LIST",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-QUESTION",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-ANSWER",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-RETRY",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-COMPLETE",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-FINISH",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-CARDS-SEARCH",
+      "to": "CODE-CARDS-APP",
+      "type": "depends-on"
+    }
+  ]
+}

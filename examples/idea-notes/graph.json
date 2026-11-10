@@ -1,0 +1,699 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "REQ-001",
+      "type": "requirement",
+      "title": "목록과 빈 저장소",
+      "status": "observed",
+      "source": "brief.md"
+    },
+    {
+      "id": "REQ-002",
+      "type": "requirement",
+      "title": "제목·내용과 입력 한계",
+      "status": "observed",
+      "source": "brief.md"
+    },
+    {
+      "id": "REQ-003",
+      "type": "requirement",
+      "title": "대소문자 무관 검색",
+      "status": "observed",
+      "source": "brief.md"
+    },
+    {
+      "id": "REQ-004",
+      "type": "requirement",
+      "title": "로컬 저장·실패 보존",
+      "status": "observed",
+      "source": "brief.md"
+    },
+    {
+      "id": "REQ-005",
+      "type": "requirement",
+      "title": "접근성과 반응형",
+      "status": "observed",
+      "source": "brief.md"
+    },
+    {
+      "id": "SCR-001",
+      "type": "screen",
+      "title": "아이디어 목록",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "SCR-002",
+      "type": "screen",
+      "title": "아이디어 작성",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "STATE-001",
+      "type": "state",
+      "title": "비어 있음",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "STATE-002",
+      "type": "state",
+      "title": "목록 있음",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "STATE-003",
+      "type": "state",
+      "title": "검색 결과 없음",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "STATE-004",
+      "type": "state",
+      "title": "작성 기본",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "STATE-005",
+      "type": "state",
+      "title": "입력 오류",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "STATE-006",
+      "type": "state",
+      "title": "저장 오류",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "STATE-007",
+      "type": "state",
+      "title": "읽기 오류",
+      "status": "observed",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "ACT-001",
+      "type": "action",
+      "title": "추가",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-001",
+      "target_ids": [
+        "SCR-002",
+        "STATE-004"
+      ]
+    },
+    {
+      "id": "ACT-002",
+      "type": "action",
+      "title": "취소",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-002",
+      "target_ids": [
+        "SCR-001"
+      ]
+    },
+    {
+      "id": "ACT-003",
+      "type": "action",
+      "title": "저장",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-002",
+      "target_ids": [
+        "SCR-001",
+        "STATE-006"
+      ]
+    },
+    {
+      "id": "ACT-004",
+      "type": "action",
+      "title": "잘못된 입력 제출",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-002",
+      "target_ids": [
+        "STATE-005"
+      ]
+    },
+    {
+      "id": "ACT-005",
+      "type": "action",
+      "title": "검색",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-001",
+      "target_ids": [
+        "STATE-002",
+        "STATE-003"
+      ]
+    },
+    {
+      "id": "ACT-006",
+      "type": "action",
+      "title": "읽기 재시도",
+      "status": "observed",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-001",
+      "target_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-007"
+      ]
+    },
+    {
+      "id": "CODE-001",
+      "type": "code",
+      "title": "로컬 앱: 동작·저장 경계·HTML·CSS",
+      "status": "verified",
+      "source": "app/app.js",
+      "detail": "Implementation includes app/app.js, app/index.html and app/style.css, all listed in bindings. Node contract evidence: evidence/node-tests.tap; browser evidence is separate."
+    },
+    {
+      "id": "AC-001",
+      "type": "acceptance",
+      "title": "빈 상태와 빈 저장소 검색의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Controlled test doubles/static checks only; see screen-spec.md for browser limits."
+    },
+    {
+      "id": "TEST-001",
+      "type": "test",
+      "title": "빈 상태와 빈 저장소 검색의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 1 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
+    },
+    {
+      "id": "AC-002",
+      "type": "acceptance",
+      "title": "공백·60/500 경계·초과 입력의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Controlled test doubles/static checks only; see screen-spec.md for browser limits."
+    },
+    {
+      "id": "TEST-002",
+      "type": "test",
+      "title": "공백·60/500 경계·초과 입력의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 2 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
+    },
+    {
+      "id": "AC-003",
+      "type": "acceptance",
+      "title": "재실행 데이터·안전한 텍스트·검색의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Controlled test doubles/static checks only; see screen-spec.md for browser limits."
+    },
+    {
+      "id": "TEST-003",
+      "type": "test",
+      "title": "재실행 데이터·안전한 텍스트·검색의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 3 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
+    },
+    {
+      "id": "AC-004",
+      "type": "acceptance",
+      "title": "취소·이동 포커스 호출의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Controlled test doubles/static checks only; see screen-spec.md for browser limits."
+    },
+    {
+      "id": "TEST-004",
+      "type": "test",
+      "title": "취소·이동 포커스 호출의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 4 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
+    },
+    {
+      "id": "AC-005",
+      "type": "acceptance",
+      "title": "저장 실패 보존·쓰기 및 읽기 재시도의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Controlled test doubles/static checks only; see screen-spec.md for browser limits."
+    },
+    {
+      "id": "TEST-005",
+      "type": "test",
+      "title": "저장 실패 보존·쓰기 및 읽기 재시도의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 5 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
+    },
+    {
+      "id": "AC-006",
+      "type": "acceptance",
+      "title": "두 앱 인스턴스 알림·레코드 추가·초안 보존의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Controlled test doubles/static checks only; see screen-spec.md for browser limits."
+    },
+    {
+      "id": "TEST-006",
+      "type": "test",
+      "title": "두 앱 인스턴스 알림·레코드 추가·초안 보존의 Node 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 6 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
+    },
+    {
+      "id": "AC-007",
+      "type": "acceptance",
+      "title": "레이블·입력 제한·오류 관계·반응형 규칙의 정적 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Controlled test doubles/static checks only; see screen-spec.md for browser limits."
+    },
+    {
+      "id": "TEST-007",
+      "type": "test",
+      "title": "레이블·입력 제한·오류 관계·반응형 규칙의 정적 계약",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 7 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
+    },
+    {
+      "id": "AC-008",
+      "type": "acceptance",
+      "title": "실제 브라우저 데스크톱·모바일·키보드·다중 탭",
+      "status": "verified",
+      "source": "evidence/browser.json",
+      "detail": "Recorded Stagehand Chromium observations (9 checks) include desktop/mobile, keyboard validation focus, persistence/search, write failure/retry, two tabs, dynamic hint/error descriptions and no-fetch favicon. See evidence/browser.json limitations. Runner pins hashes but does not rerun browser."
+    },
+    {
+      "id": "TEST-008",
+      "type": "test",
+      "title": "실제 브라우저 검증 기록",
+      "status": "verified",
+      "source": "evidence/browser.json",
+      "detail": "Recorded Stagehand Chromium observations (9 checks) include desktop/mobile, keyboard validation focus, persistence/search, write failure/retry, two tabs, dynamic hint/error descriptions and no-fetch favicon. See evidence/browser.json limitations. Runner pins hashes but does not rerun browser.",
+      "check_ids": [
+        "desktop",
+        "mobile",
+        "keyboard",
+        "persist",
+        "write-retry",
+        "two-tabs",
+        "search",
+        "console",
+        "favicon"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "SCR-001",
+      "to": "STATE-001",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-001",
+      "to": "STATE-002",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-001",
+      "to": "STATE-003",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-002",
+      "to": "STATE-004",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-002",
+      "to": "STATE-005",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-002",
+      "to": "STATE-006",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-001",
+      "to": "STATE-007",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-001",
+      "to": "ACT-001",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-001",
+      "to": "SCR-002",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-001",
+      "to": "STATE-004",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-002",
+      "to": "ACT-002",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-002",
+      "to": "SCR-001",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-002",
+      "to": "ACT-003",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-003",
+      "to": "SCR-001",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-003",
+      "to": "STATE-006",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-002",
+      "to": "ACT-004",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-004",
+      "to": "STATE-005",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-001",
+      "to": "ACT-005",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-005",
+      "to": "STATE-002",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-005",
+      "to": "STATE-003",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-001",
+      "to": "ACT-006",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-006",
+      "to": "STATE-001",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-006",
+      "to": "STATE-002",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-006",
+      "to": "STATE-003",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-006",
+      "to": "STATE-007",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-001",
+      "to": "CODE-001",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-002",
+      "to": "CODE-001",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-001",
+      "to": "SCR-001",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-002",
+      "to": "SCR-002",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-003",
+      "to": "SCR-001",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-004",
+      "to": "SCR-001",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-004",
+      "to": "SCR-002",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-005",
+      "to": "SCR-001",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-005",
+      "to": "SCR-002",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-001",
+      "to": "AC-001",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-003",
+      "to": "AC-001",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-001",
+      "to": "TEST-001",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-001",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-002",
+      "to": "AC-002",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-002",
+      "to": "TEST-002",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-002",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-001",
+      "to": "AC-003",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-003",
+      "to": "AC-003",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-004",
+      "to": "AC-003",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-003",
+      "to": "TEST-003",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-003",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-002",
+      "to": "AC-004",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-005",
+      "to": "AC-004",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-004",
+      "to": "TEST-004",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-004",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-004",
+      "to": "AC-005",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-005",
+      "to": "TEST-005",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-005",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-004",
+      "to": "AC-006",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-006",
+      "to": "TEST-006",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-006",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-005",
+      "to": "AC-007",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-007",
+      "to": "TEST-007",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-007",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-005",
+      "to": "AC-008",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-008",
+      "to": "TEST-008",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-008",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-001",
+      "to": "CODE-001",
+      "type": "depends-on"
+    },
+    {
+      "from": "REQ-002",
+      "to": "CODE-001",
+      "type": "depends-on"
+    },
+    {
+      "from": "REQ-003",
+      "to": "CODE-001",
+      "type": "depends-on"
+    },
+    {
+      "from": "REQ-004",
+      "to": "CODE-001",
+      "type": "depends-on"
+    },
+    {
+      "from": "REQ-005",
+      "to": "CODE-001",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-001",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-002",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-003",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-004",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-005",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-006",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-007",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-008",
+      "type": "depends-on"
+    }
+  ]
+}

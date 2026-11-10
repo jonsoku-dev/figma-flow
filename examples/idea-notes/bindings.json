@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "authorities": {
+    "intent": "brief.md",
+    "implementation": "app/app.js"
+  },
+  "dependency_edge_types": [
+    "depends-on"
+  ],
+  "evidence": {
+    "REQ-001": [
+      "screen-spec.md"
+    ],
+    "REQ-002": [
+      "screen-spec.md"
+    ],
+    "REQ-003": [
+      "screen-spec.md"
+    ],
+    "REQ-004": [
+      "screen-spec.md"
+    ],
+    "REQ-005": [
+      "screen-spec.md"
+    ],
+    "SCR-001": [
+      "screen-spec.md"
+    ],
+    "SCR-002": [
+      "screen-spec.md"
+    ],
+    "STATE-001": [
+      "screen-spec.md"
+    ],
+    "STATE-002": [
+      "screen-spec.md"
+    ],
+    "STATE-003": [
+      "screen-spec.md"
+    ],
+    "STATE-004": [
+      "screen-spec.md"
+    ],
+    "STATE-005": [
+      "screen-spec.md"
+    ],
+    "STATE-006": [
+      "screen-spec.md"
+    ],
+    "STATE-007": [
+      "screen-spec.md"
+    ],
+    "ACT-001": [
+      "screen-spec.md"
+    ],
+    "ACT-002": [
+      "screen-spec.md"
+    ],
+    "ACT-003": [
+      "screen-spec.md"
+    ],
+    "ACT-004": [
+      "screen-spec.md"
+    ],
+    "ACT-005": [
+      "screen-spec.md"
+    ],
+    "ACT-006": [
+      "screen-spec.md"
+    ],
+    "CODE-001": [
+      "app/app.js",
+      "app/index.html",
+      "app/style.css",
+      "evidence/node-tests.tap",
+      "evidence/browser.json"
+    ],
+    "AC-001": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "TEST-001": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "AC-002": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "TEST-002": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "AC-003": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "TEST-003": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "AC-004": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "TEST-004": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "AC-005": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "TEST-005": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "AC-006": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "TEST-006": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "AC-007": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "TEST-007": [
+      "evidence/node-tests.tap",
+      "tests/app.test.cjs"
+    ],
+    "AC-008": [
+      "evidence/browser.json",
+      "tests/app.test.cjs"
+    ],
+    "TEST-008": [
+      "evidence/browser.json",
+      "tests/app.test.cjs"
+    ]
+  }
+}

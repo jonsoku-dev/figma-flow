@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-07T19:56:58+09:00",
+  "environment": {
+    "tool": "mcp__stagehand",
+    "browser": "Chrome/156.0.0.0 on macOS",
+    "origin": "http://localhost:63898",
+    "server": "isolated Python HTTP server serving app directory",
+    "storage": "fresh localhost origin, IndexedDB"
+  },
+  "scope": "Browser observations against frozen local app files; not a Figma or cross-browser audit.",
+  "app_sha256": {
+    "app/app.js": "98432665803e7d0eb0a829798edd9e6334d7494cf48051532d1f052c4751f240",
+    "app/index.html": "30fbd1950b9fa9ba7f934bb42f09bbb388a75dec4be033649b9c0ace9acccd91",
+    "app/style.css": "729125318ffe9311dc5972f4c30081244751644915e3a82283f0281cc0b9de7a"
+  },
+  "checks": [
+    {
+      "id": "desktop",
+      "name": "Desktop list and form",
+      "passed": true,
+      "observed": "1440x900: empty state, form, validation, save, search and cancel exercised; scroll width and client width were both 1440."
+    },
+    {
+      "id": "mobile",
+      "name": "Mobile layout and save retry",
+      "passed": true,
+      "observed": "375x812: form interaction, failed-write retry, and subsequent save exercised; scroll width and client width were both 375."
+    },
+    {
+      "id": "keyboard",
+      "name": "Keyboard entry and validation focus",
+      "passed": true,
+      "observed": "Tab and Shift+Tab exercised on list and form: list reached Add/Search, form reached title/content/cancel/save/back. Enter activated Add; whitespace submit showed error and focused title. Title, content and search accessible labels found. Initial describedby referenced hints only; invalid title referenced hint and error; correcting it removed error association."
+    },
+    {
+      "id": "persist",
+      "name": "Save and reload",
+      "passed": true,
+      "observed": "Saved Alpha 제목 with Beta 내용; card with date and content remained after reload. Cancelled draft did not add a card."
+    },
+    {
+      "id": "write-retry",
+      "name": "Failed write preserves draft and retry saves",
+      "passed": true,
+      "observed": "Injected a synchronous readwrite transaction failure; error appeared, form remained open and both inputs remained. Restored transaction and retry added the card."
+    },
+    {
+      "id": "two-tabs",
+      "name": "Concurrent writes and live refresh",
+      "passed": true,
+      "observed": "Two tabs saved distinct titles concurrently; both cards appeared in both tabs. A subsequent save appeared in the other tab without manual reload."
+    },
+    {
+      "id": "search",
+      "name": "Search and empty states",
+      "passed": true,
+      "observed": "Fresh store showed empty guidance; searching it showed no-results guidance. Case-insensitive title and content searches matched; unmatched search showed no-results guidance."
+    },
+    {
+      "id": "console",
+      "name": "Browser console and page errors",
+      "passed": true,
+      "observed": "Stagehand page console and pageerror listeners on the main page captured no messages during the exercised flow. The requestfailed event is unsupported by the compatibility facade."
+    },
+    {
+      "id": "favicon",
+      "name": "Inline favicon",
+      "passed": true,
+      "observed": "Document favicon is a data SVG; isolated server log contained no favicon request."
+    }
+  ],
+  "limitations": [
+    "One Chromium browser; no screen reader audit or exhaustive keyboard-only workflow.",
+    "Failure was injected at the IndexedDB readwrite transaction boundary, not caused by a real quota or disk failure.",
+    "Console and pageerror listeners observed the main page; requestfailed event was unsupported and a complete network log was not collected.",
+    "Viewport checks do not establish behavior at every size or browser."
+  ]
+}

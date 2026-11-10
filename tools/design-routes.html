@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>디자인 라우팅 · Figma Flow</title>
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#202925;background:#f4f5f0;line-height:1.6;color-scheme:light}*{box-sizing:border-box}body{margin:0}main{max-width:1000px;margin:auto;padding:40px 24px 80px}h1{font-size:clamp(2rem,6vw,3rem);line-height:1.2;letter-spacing:-.04em}h2{margin-top:32px;font-size:1.35rem}h3{margin:0 0 12px;font-size:1.1rem}p{margin:10px 0}.eyebrow,.muted{color:#52625b}.eyebrow{font-size:.85rem;letter-spacing:.08em}label{display:block;font-weight:650;margin:20px 0 8px}textarea{display:block;width:100%;padding:14px;border:1px solid #7b8980;border-radius:8px;font:inherit;background:#fff;color:inherit;resize:vertical}button{font:inherit;cursor:pointer;border:1px solid #7b8980;border-radius:8px;padding:10px 16px;background:white;color:inherit}button:hover{background:#e5eae2}button:disabled{cursor:wait;opacity:.65}button[type=submit]{margin-top:20px;background:#224f3a;color:#fff;border-color:#224f3a;font-weight:650}button:focus-visible,textarea:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #266bd3;outline-offset:3px}.examples{display:flex;flex-wrap:wrap;gap:8px}.examples button{font-size:.9rem;text-align:left}.notice{border-left:3px solid #224f3a;padding:8px 16px;background:#e7ede3}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}.card{background:#fff;border:1px solid #d3dbd0;border-radius:10px;padding:20px;min-width:0;overflow-wrap:anywhere}ul{padding-left:22px}li+li{margin-top:7px}a{color:#15563b;text-underline-offset:3px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:.85rem}details{margin:16px 0}summary{cursor:pointer}#status{min-height:1.8em}#result:focus{outline:none}.badge{font-size:.85rem;color:#425a4b}.source{border-top:1px solid #e1e6df;padding-top:12px;margin-top:12px}footer{margin-top:40px;color:#52625b;font-size:.85rem}@media(max-width:400px){main{padding:24px 16px 50px}.card{padding:16px}button{min-height:44px}}
+</style>
+</head>
+<body><main>
+<header><p class="eyebrow">FIGMA FLOW / LOCAL PLANNER</p><h1>디자인 라우팅</h1><p>원하는 작업을 적으면 표면별 아트 디렉션과 필요한 스킬·근거를 조합합니다.</p><p class="notice">계획만 표시합니다. 스킬 실행, 이미지 생성, 설치, 파일 수정, 외부 요청은 수행하지 않습니다. 출처 링크는 직접 열 때만 이동합니다.</p></header>
+<form id="planner">
+<label for="prompt">어떤 디자인을 만들까요?</label><textarea id="prompt" name="prompt" rows="4" maxlength="16000" required placeholder="예: 한국·일본 출시용 cinematic key art와 KR/JP 폰트 조합을 만들어줘"></textarea>
+<label for="context">이전 맥락 <span class="muted">(선택)</span></label><textarea id="context" name="context" rows="2" maxlength="16000" placeholder="기존 디자인, 유지할 요소, 앞서 요청한 작업"></textarea>
+<p class="muted">스킬이나 스타일을 먼저 고를 필요가 없습니다. 아래 예시를 누르면 프롬프트에 채워집니다.</p><div class="examples" aria-label="예시 프롬프트">
+<button type="button" data-example="한국·일본 출시 캠페인용 cinematic key art 이미지를 생성하고 KR JP 폰트를 조합해줘.">시네마틱 키아트 + 한·일 폰트</button>
+<button type="button" data-example="캠페인용 bold graphic custom logo와 glyph icons를 제작하고 illustrated collectible 굿즈 이미지를 생성해줘.">맞춤 로고 + 아이콘 + 수집형 굿즈</button>
+<button type="button" data-example="Research only: 기존 디자인 조사만. 폰트 유지. 이미지 생성 없이. 모션 제외.">조사만 · 기존 폰트 유지 · 새 이미지 제외</button></div>
+<button type="submit" id="submit">조합 보기</button>
+</form>
+<p id="status" role="status" aria-live="polite"></p>
+<section id="result" tabindex="-1" aria-label="라우팅 계획" hidden></section>
+<footer>로컬 Python 라우터와 동봉 라이브러리를 사용합니다. 문구 기반 제안이며 모호한 범위와 스킬 가용성은 실제 작업 전에 확인해야 합니다.</footer>
+</main>
+<script>
+'use strict';
+const form = document.querySelector('#planner');
+const promptInput = document.querySelector('#prompt');
+const contextInput = document.querySelector('#context');
+const status = document.querySelector('#status');
+const result = document.querySelector('#result');
+const submit = document.querySelector('#submit');
+const labels = {key_visual:'키 비주얼',lettering:'로고·레터링',collectible:'수집형 굿즈',seal:'인장',web:'웹',poster:'포스터',requested_output:'요청 결과',cinematic:'시네마틱',graphic:'그래픽',illustrated_collectible:'일러스트 수집형',repository_context:'기존 디자인 확인',explicit_cue:'프롬프트의 명시적 단서',surface_fallback:'표면별 기본 제안',inspect_existing_design:'기존 디자인을 먼저 확인',required:'작업 전 확인 필요',untested:'검증 전',blocked_until_observed:'실제 관측 전 차단',creative_design_review:'폰트부터 제작·실제 디자인 검토',native_semantic_handoff:'Figma 네이티브 의미 전달 검증',figma_ssot_before_web_writes:'Figma 원본 관측 후 웹 구현'};
+const name = value => labels[value] || value;
+function el(tag, text, parent, className) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  if (className) node.className = className;
+  if (parent) parent.append(node);
+  return node;
+}
+function list(items, parent) {const ul = el('ul', undefined, parent); for (const item of items) el('li', item, ul);}
+function link(title, url, parent) {
+  try {const parsed = new URL(url); if (!['https:','http:'].includes(parsed.protocol)) return;
+    const a = el('a', title, parent); a.href = parsed.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  } catch (_) {el('span', title, parent);}
+}
+function render(plan) {
+  result.replaceChildren();
+  el('h2', plan.mode === 'research' ? '조사·추천 계획' : '제작을 위한 조합 계획', result);
+  el('p', '계획 생성 완료 · 실행 0건 · 실제 대상 검증 전', result, 'notice');
+  if (plan.workflow) {
+    el('p', '본 제작 전 사용자 선택이 필요합니다. 같은 콘텐츠로 만든 시안 2~3개와 주석·제안 팔레트를 보여준 후, 선택한 버전만 에셋 제작으로 넘깁니다. 캠페인 유형 선택은 시안 승인이 아닙니다.', result, 'notice');
+    el('p', plan.workflow.source + ' · 선택 경계 ' + plan.workflow.selection_boundary, result, 'muted');
+  }
+  if (plan.gates.some(gate => gate.id === 'native_semantic_handoff')) el('p', 'Figma 전달 검증 대기: 실제 화면·조작의 네이티브 주석, 사용 중인 컴포넌트, 연결된 변수를 읽고 검증해야 완료할 수 있습니다. MCP 없이 진행해도 같은 조건을 적용합니다.', result, 'notice');
+  el('p', '판단 근거: 프롬프트와 선택 맥락의 문구를 Python 라우터가 해석했습니다. 기본 제안은 아래에 별도로 표시합니다.', result);
+  if (plan.design_review_declaration) el('p', 'UI 제작 검증 대기: 실제 스킬 지침을 읽고 대상 언어의 폰트부터 비교합니다. 게임 자산은 같은 콘셉트 배치로 실제 이미지 생성하며 제목·버튼은 실제 텍스트에 맞춰 늘어나는 장식으로 제작합니다. 최종 검토·수정·캡처 없이는 디자인 완료가 아닙니다.', result, 'notice');
+  el('h2', '표면별 아트 디렉션', result);
+  const surfaces = el('div', undefined, result, 'grid');
+  for (const surface of plan.surfaces) {const card = el('article', undefined, surfaces, 'card'); el('h3', name(surface.surface), card); el('p', name(surface.direction), card); el('p', name(surface.basis) + (surface.fallback ? ' · 기본 제안 / 확인 필요' : ''), card, 'muted'); if (surface.cues.length) el('p', '단서: ' + surface.cues.map(name).join(', '), card);}
+  el('h2', '먼저 통과해야 할 게이트', result);
+  for (const gate of plan.gates) {const card = el('article', undefined, result, 'card'); el('h3', name(gate.id), card); el('p', name(gate.status), card, 'badge'); el('p', gate.requirement, card);}
+  if (plan.campaign_forms && plan.campaign_forms.length) {
+    el('h2', '선택한 캠페인 형태 · 각각 제작', result);
+    for (const campaign of plan.campaign_forms) {const card = el('article', undefined, result, 'card'); el('h3', campaign.title, card); el('p', campaign.sequence.join(' → '), card); el('h4', '콘텐츠 범위', card); list(campaign.content, card); el('h4', '자산 범위', card); list(campaign.asset_coverage, card); el('p', '주요 행동: ' + campaign.primary_cta, card); list(campaign.checks, card);}
+  }
+  el('h2', '라우팅된 스킬과 출처', result);
+  for (const route of plan.routes) {
+    const card = el('article', undefined, result, 'card'); el('h3', route.title, card);
+    el('p', '스킬: ' + route.skill_ids.join(' + '), card);
+    el('p', '적용 범위: ' + route.asset_scopes.map(name).join(', '), card);
+    el('p', '선행 단계: ' + (route.depends_on.join(' → ') || '없음'), card, 'muted');
+    for (const skill of route.conditional_skills || []) el('p', '조건부 스킬: ' + skill.id + ' · ' + skill.when, card);
+    el('h4', '할 일', card); list(route.actions, card); el('h4', '확인할 것 · 아직 수행하지 않음', card); list(route.checks, card);
+    for (const resource of route.resources) {const source = el('div', undefined, card, 'source'); link(resource.title, resource.url, source); el('p', resource.publisher + ' · ' + resource.kind, source, 'badge'); el('p', resource.role, source); el('p', '한계: ' + resource.limit, source, 'muted');}
+  }
+  el('h2', '요청되지 않았거나 제외된 작업', result);
+  const absent = ['logo','icons','images','typography','motion','figma'].filter(id => !plan.routes.some(route => route.id === id));
+  el('p', '조합에 포함되지 않은 경로: ' + (absent.join(', ') || '없음') + '. 실행 허가를 뜻하지 않습니다.', result);
+  list(plan.exclusions.map(item => item.lane + (item.action ? ' / ' + item.action : '') + ': ' + item.reason), result);
+  el('p', '포함된 경로도 요청한 범위에만 적용합니다. 설치·외부 변경·스킬 실행은 이 화면에서 요청하거나 수행하지 않습니다.', result);
+  const constraints = el('details', undefined, result); el('summary', '적용된 제약 보기', constraints); list(Object.entries(plan.constraints).map(([key, value]) => key + ': ' + (typeof value === 'object' ? JSON.stringify(value) : value)), constraints);
+  for (const campaign of plan.campaign_plans) {el('h2', '캠페인 근거 · ' + campaign.category, result); el('p', campaign.plan.limits, result, 'muted'); for (const pattern of campaign.plan.patterns) {const card = el('article', undefined, result, 'card'); el('h3', pattern.title, card); el('p', pattern.observation, card); el('p', '적용 제안: ' + pattern.application, card); el('p', '한계: ' + pattern.limits, card, 'muted'); list(pattern.checks.map(item => item.check + ' · 검증 전'), card); for (const source of pattern.supporting_sources) {const row = el('p', undefined, card); link(source.source_id + ' · ' + source.market + ' · ' + source.relationship, source.url, row);}}}
+  const raw = el('details', undefined, result); el('summary', '원본 라우팅 JSON', raw); el('pre', JSON.stringify(plan, null, 2), raw);
+  result.hidden = false; result.focus();
+}
+for (const button of document.querySelectorAll('[data-example]')) button.addEventListener('click', () => {promptInput.value = button.dataset.example; promptInput.focus();});
+form.addEventListener('submit', async event => {
+  event.preventDefault(); submit.disabled = true; status.textContent = '로컬 라우터에서 조합을 계산하고 있습니다…'; result.hidden = true;
+  try {const response = await fetch('/plan', {method:'POST', credentials:'omit', headers:{'Content-Type':'application/json'}, body:JSON.stringify({prompt:promptInput.value,context:contextInput.value || null})}); const plan = await response.json(); if (!response.ok) throw new Error(plan.error || '계획을 만들 수 없습니다.'); render(plan); status.textContent = '조합 계획을 표시했습니다. 실행하거나 검증한 작업은 없습니다.';}
+  catch (error) {status.textContent = error.message || '로컬 서버 연결을 확인해 주세요.';}
+  finally {submit.disabled = false;}
+});
+</script></body></html>

@@ -1,0 +1,2231 @@
+{
+  "schema": "figma-flow-authored-native-layout-v1",
+  "scope": "exploratory-only",
+  "production_admitted": false,
+  "content": {
+    "path": "content.json",
+    "sha256": "f704d1a53c9fe6fb168c187d8528a2242dbc979589b92ae237bf626320a0422d"
+  },
+  "assets": {
+    "bulletin-reference-desktop": {
+      "path": "previews/bulletin-desktop.png",
+      "sha256": "d46a25739c42528170ddaceb5d07b8c9f12dca0cec8dec5089456a4c2698f944",
+      "reference": true
+    },
+    "bulletin-reference-mobile": {
+      "path": "previews/bulletin-mobile.png",
+      "sha256": "0452e98fcb0129ccdb76e9fd3c9aa8f10f8d48e93a8c145d148ad6b0ba0be95a",
+      "reference": true
+    },
+    "agenda-reference-desktop": {
+      "path": "previews/agenda-desktop.png",
+      "sha256": "5768b892b675d6dd0f08cb2ef19b463ab4fcf64f9f97c3e9536b8315236d478d",
+      "reference": true
+    },
+    "agenda-reference-mobile": {
+      "path": "previews/agenda-mobile.png",
+      "sha256": "0ae74221ee50201f429655ebb1b82a1bd7b037961127fdd3202cd23b0699888a",
+      "reference": true
+    }
+  },
+  "candidates": [
+    {
+      "id": "bulletin",
+      "graph": {
+        "path": "bulletin/graph.json",
+        "sha256": "07a4ea1f8dedd34c22ebf7b0f2a16828a55fbc237b91acb62760aa1112bf8a00"
+      },
+      "colors": {
+        "paper": "#fffaf0",
+        "ink": "#20363d",
+        "accent": "#d8e8dc",
+        "highlight": "#f2a65a"
+      },
+      "fonts": {
+        "display": {
+          "family": "Inter",
+          "style": "Regular"
+        },
+        "body": {
+          "family": "Inter",
+          "style": "Regular"
+        }
+      },
+      "layouts": {
+        "desktop": {
+          "width": 1200,
+          "height": 760,
+          "bg": "paper",
+          "layers": [
+            {
+              "id": "sun-glow",
+              "kind": "ellipse",
+              "x": 704,
+              "y": 24,
+              "w": 456,
+              "h": 456,
+              "fill": "highlight",
+              "role": "illustration",
+              "opacity": 0.24
+            },
+            {
+              "id": "sun",
+              "kind": "ellipse",
+              "x": 760,
+              "y": 80,
+              "w": 344,
+              "h": 344,
+              "fill": "highlight",
+              "role": "illustration"
+            },
+            {
+              "id": "kicker",
+              "kind": "text",
+              "value": "SATURDAY · COMMUNITY HALL",
+              "x": 48,
+              "y": 96,
+              "w": 400,
+              "h": 24,
+              "size": 14,
+              "leading": 20,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "headline",
+              "kind": "text",
+              "value": "Community workshop",
+              "x": 48,
+              "y": 136,
+              "w": 520,
+              "h": 144,
+              "size": 56,
+              "leading": 68,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "summary",
+              "kind": "text",
+              "value": "A place to learn practical skills together.",
+              "x": 48,
+              "y": 304,
+              "w": 440,
+              "h": 56,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "table",
+              "kind": "rect",
+              "x": 632,
+              "y": 344,
+              "w": 520,
+              "h": 312,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 24
+            },
+            {
+              "id": "card-0",
+              "kind": "rect",
+              "x": 664,
+              "y": 376,
+              "w": 456,
+              "h": 112,
+              "fill": "paper",
+              "role": "surface",
+              "radius": 16,
+              "stroke": "ink",
+              "stroke_width": 2
+            },
+            {
+              "id": "time-0",
+              "kind": "text",
+              "value": "10:00",
+              "x": 696,
+              "y": 396,
+              "w": 120,
+              "h": 28,
+              "size": 20,
+              "leading": 28,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "session-0",
+              "kind": "text",
+              "value": "Repair skills",
+              "x": 696,
+              "y": 436,
+              "w": 400,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "card-1",
+              "kind": "rect",
+              "x": 664,
+              "y": 512,
+              "w": 456,
+              "h": 112,
+              "fill": "paper",
+              "role": "surface",
+              "radius": 16,
+              "stroke": "ink",
+              "stroke_width": 2
+            },
+            {
+              "id": "time-1",
+              "kind": "text",
+              "value": "13:00",
+              "x": 696,
+              "y": 532,
+              "w": 120,
+              "h": 28,
+              "size": 20,
+              "leading": 28,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "session-1",
+              "kind": "text",
+              "value": "Paper craft",
+              "x": 696,
+              "y": 572,
+              "w": 400,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            }
+          ],
+          "control_boxes": {
+            "bulletin-open": [
+              48,
+              648,
+              300,
+              56
+            ]
+          }
+        },
+        "mobile": {
+          "width": 360,
+          "height": 720,
+          "bg": "paper",
+          "layers": [
+            {
+              "id": "sun-glow",
+              "kind": "ellipse",
+              "x": 208,
+              "y": 16,
+              "w": 136,
+              "h": 136,
+              "fill": "highlight",
+              "role": "illustration",
+              "opacity": 0.24
+            },
+            {
+              "id": "sun",
+              "kind": "ellipse",
+              "x": 228,
+              "y": 36,
+              "w": 96,
+              "h": 96,
+              "fill": "highlight",
+              "role": "illustration"
+            },
+            {
+              "id": "kicker",
+              "kind": "text",
+              "value": "SATURDAY · COMMUNITY HALL",
+              "x": 24,
+              "y": 40,
+              "w": 176,
+              "h": 40,
+              "size": 14,
+              "leading": 20,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "headline",
+              "kind": "text",
+              "value": "Community workshop",
+              "x": 24,
+              "y": 160,
+              "w": 312,
+              "h": 96,
+              "size": 36,
+              "leading": 44,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "summary",
+              "kind": "text",
+              "value": "A place to learn practical skills together.",
+              "x": 24,
+              "y": 264,
+              "w": 312,
+              "h": 48,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "table",
+              "kind": "rect",
+              "x": 24,
+              "y": 328,
+              "w": 312,
+              "h": 264,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 20
+            },
+            {
+              "id": "card-0",
+              "kind": "rect",
+              "x": 40,
+              "y": 344,
+              "w": 280,
+              "h": 104,
+              "fill": "paper",
+              "role": "surface",
+              "radius": 12,
+              "stroke": "ink",
+              "stroke_width": 2
+            },
+            {
+              "id": "time-0",
+              "kind": "text",
+              "value": "10:00",
+              "x": 56,
+              "y": 360,
+              "w": 120,
+              "h": 28,
+              "size": 20,
+              "leading": 28,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "session-0",
+              "kind": "text",
+              "value": "Repair skills",
+              "x": 56,
+              "y": 400,
+              "w": 248,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "card-1",
+              "kind": "rect",
+              "x": 40,
+              "y": 464,
+              "w": 280,
+              "h": 104,
+              "fill": "paper",
+              "role": "surface",
+              "radius": 12,
+              "stroke": "ink",
+              "stroke_width": 2
+            },
+            {
+              "id": "time-1",
+              "kind": "text",
+              "value": "13:00",
+              "x": 56,
+              "y": 480,
+              "w": 120,
+              "h": 28,
+              "size": 20,
+              "leading": 28,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "session-1",
+              "kind": "text",
+              "value": "Paper craft",
+              "x": 56,
+              "y": 520,
+              "w": 248,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            }
+          ],
+          "control_boxes": {
+            "bulletin-open": [
+              24,
+              608,
+              300,
+              56
+            ]
+          }
+        }
+      },
+      "state_layouts": {
+        "desktop": {
+          "state-bulletin-overview": {
+            "width": 1200,
+            "height": 760,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "sun-glow",
+                "kind": "ellipse",
+                "x": 704,
+                "y": 24,
+                "w": 456,
+                "h": 456,
+                "fill": "highlight",
+                "role": "illustration",
+                "opacity": 0.24
+              },
+              {
+                "id": "sun",
+                "kind": "ellipse",
+                "x": 760,
+                "y": 80,
+                "w": 344,
+                "h": 344,
+                "fill": "highlight",
+                "role": "illustration"
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "SATURDAY · COMMUNITY HALL",
+                "x": 48,
+                "y": 96,
+                "w": 400,
+                "h": 24,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Community workshop",
+                "x": 48,
+                "y": 136,
+                "w": 520,
+                "h": 144,
+                "size": 56,
+                "leading": 68,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "summary",
+                "kind": "text",
+                "value": "A place to learn practical skills together.",
+                "x": 48,
+                "y": 304,
+                "w": 440,
+                "h": 56,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "table",
+                "kind": "rect",
+                "x": 632,
+                "y": 344,
+                "w": 520,
+                "h": 312,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 24
+              },
+              {
+                "id": "card-0",
+                "kind": "rect",
+                "x": 664,
+                "y": 376,
+                "w": 456,
+                "h": 112,
+                "fill": "paper",
+                "role": "surface",
+                "radius": 16,
+                "stroke": "ink",
+                "stroke_width": 2
+              },
+              {
+                "id": "time-0",
+                "kind": "text",
+                "value": "10:00",
+                "x": 696,
+                "y": 396,
+                "w": 120,
+                "h": 28,
+                "size": 20,
+                "leading": 28,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "session-0",
+                "kind": "text",
+                "value": "Repair skills",
+                "x": 696,
+                "y": 436,
+                "w": 400,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "card-1",
+                "kind": "rect",
+                "x": 664,
+                "y": 512,
+                "w": 456,
+                "h": 112,
+                "fill": "paper",
+                "role": "surface",
+                "radius": 16,
+                "stroke": "ink",
+                "stroke_width": 2
+              },
+              {
+                "id": "time-1",
+                "kind": "text",
+                "value": "13:00",
+                "x": 696,
+                "y": 532,
+                "w": 120,
+                "h": 28,
+                "size": 20,
+                "leading": 28,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "session-1",
+                "kind": "text",
+                "value": "Paper craft",
+                "x": 696,
+                "y": 572,
+                "w": 400,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "bulletin-open": [
+                48,
+                648,
+                300,
+                56
+              ]
+            }
+          },
+          "state-bulletin-details": {
+            "width": 1200,
+            "height": 760,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "sun",
+                "kind": "ellipse",
+                "x": 1056,
+                "y": 48,
+                "w": 96,
+                "h": 96,
+                "fill": "highlight",
+                "role": "illustration"
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "REPAIR SKILLS · 10:00",
+                "x": 48,
+                "y": 56,
+                "w": 976,
+                "h": 24,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Session details",
+                "x": 48,
+                "y": 88,
+                "w": 976,
+                "h": 48,
+                "size": 28,
+                "leading": 36,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "body",
+                "kind": "text",
+                "value": "Repair skills · Saturday 10:00. Demo only; no registration.",
+                "x": 48,
+                "y": 216,
+                "w": 1104,
+                "h": 72,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "bulletin-back": [
+                48,
+                648,
+                300,
+                56
+              ]
+            }
+          }
+        },
+        "mobile": {
+          "state-bulletin-overview": {
+            "width": 360,
+            "height": 720,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "sun-glow",
+                "kind": "ellipse",
+                "x": 208,
+                "y": 16,
+                "w": 136,
+                "h": 136,
+                "fill": "highlight",
+                "role": "illustration",
+                "opacity": 0.24
+              },
+              {
+                "id": "sun",
+                "kind": "ellipse",
+                "x": 228,
+                "y": 36,
+                "w": 96,
+                "h": 96,
+                "fill": "highlight",
+                "role": "illustration"
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "SATURDAY · COMMUNITY HALL",
+                "x": 24,
+                "y": 40,
+                "w": 176,
+                "h": 40,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Community workshop",
+                "x": 24,
+                "y": 160,
+                "w": 312,
+                "h": 96,
+                "size": 36,
+                "leading": 44,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "summary",
+                "kind": "text",
+                "value": "A place to learn practical skills together.",
+                "x": 24,
+                "y": 264,
+                "w": 312,
+                "h": 48,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "table",
+                "kind": "rect",
+                "x": 24,
+                "y": 328,
+                "w": 312,
+                "h": 264,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 20
+              },
+              {
+                "id": "card-0",
+                "kind": "rect",
+                "x": 40,
+                "y": 344,
+                "w": 280,
+                "h": 104,
+                "fill": "paper",
+                "role": "surface",
+                "radius": 12,
+                "stroke": "ink",
+                "stroke_width": 2
+              },
+              {
+                "id": "time-0",
+                "kind": "text",
+                "value": "10:00",
+                "x": 56,
+                "y": 360,
+                "w": 120,
+                "h": 28,
+                "size": 20,
+                "leading": 28,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "session-0",
+                "kind": "text",
+                "value": "Repair skills",
+                "x": 56,
+                "y": 400,
+                "w": 248,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "card-1",
+                "kind": "rect",
+                "x": 40,
+                "y": 464,
+                "w": 280,
+                "h": 104,
+                "fill": "paper",
+                "role": "surface",
+                "radius": 12,
+                "stroke": "ink",
+                "stroke_width": 2
+              },
+              {
+                "id": "time-1",
+                "kind": "text",
+                "value": "13:00",
+                "x": 56,
+                "y": 480,
+                "w": 120,
+                "h": 28,
+                "size": 20,
+                "leading": 28,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "session-1",
+                "kind": "text",
+                "value": "Paper craft",
+                "x": 56,
+                "y": 520,
+                "w": 248,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "bulletin-open": [
+                24,
+                608,
+                300,
+                56
+              ]
+            }
+          },
+          "state-bulletin-details": {
+            "width": 360,
+            "height": 720,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "sun",
+                "kind": "ellipse",
+                "x": 240,
+                "y": 48,
+                "w": 96,
+                "h": 96,
+                "fill": "highlight",
+                "role": "illustration"
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "REPAIR SKILLS · 10:00",
+                "x": 24,
+                "y": 56,
+                "w": 200,
+                "h": 24,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Session details",
+                "x": 24,
+                "y": 88,
+                "w": 200,
+                "h": 80,
+                "size": 28,
+                "leading": 36,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "body",
+                "kind": "text",
+                "value": "Repair skills · Saturday 10:00. Demo only; no registration.",
+                "x": 24,
+                "y": 216,
+                "w": 312,
+                "h": 72,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "bulletin-back": [
+                24,
+                608,
+                300,
+                56
+              ]
+            }
+          }
+        }
+      },
+      "references": {
+        "desktop": "bulletin-reference-desktop",
+        "mobile": "bulletin-reference-mobile"
+      },
+      "control_styles": {
+        "desktop": {
+          "Primary": {
+            "fill": "ink",
+            "ink": "paper",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 1152
+          },
+          "Return": {
+            "fill": "paper",
+            "ink": "ink",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 1152
+          }
+        },
+        "mobile": {
+          "Primary": {
+            "fill": "ink",
+            "ink": "paper",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 312
+          },
+          "Return": {
+            "fill": "paper",
+            "ink": "ink",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 312
+          }
+        }
+      }
+    },
+    {
+      "id": "agenda",
+      "graph": {
+        "path": "agenda/graph.json",
+        "sha256": "002057a5888c5bb76e18f2735b6a298c17fa14e99ad33744c9395ac895e66a0f"
+      },
+      "colors": {
+        "paper": "#f0f5fa",
+        "ink": "#152d4a",
+        "accent": "#c7ddf1",
+        "highlight": "#3d6fd6"
+      },
+      "fonts": {
+        "display": {
+          "family": "Inter",
+          "style": "Regular"
+        },
+        "body": {
+          "family": "Inter",
+          "style": "Regular"
+        }
+      },
+      "layouts": {
+        "desktop": {
+          "width": 1200,
+          "height": 760,
+          "bg": "paper",
+          "layers": [
+            {
+              "id": "masthead",
+              "kind": "rect",
+              "x": 0,
+              "y": 0,
+              "w": 1200,
+              "h": 248,
+              "fill": "accent",
+              "role": "background"
+            },
+            {
+              "id": "clock",
+              "kind": "ellipse",
+              "x": 944,
+              "y": 36,
+              "w": 176,
+              "h": 176,
+              "fill": "paper",
+              "role": "illustration",
+              "stroke": "highlight",
+              "stroke_width": 8
+            },
+            {
+              "id": "clock-hour",
+              "kind": "rect",
+              "x": 1028,
+              "y": 64,
+              "w": 8,
+              "h": 64,
+              "fill": "ink",
+              "role": "illustration",
+              "radius": 4
+            },
+            {
+              "id": "clock-minute",
+              "kind": "rect",
+              "x": 1028,
+              "y": 120,
+              "w": 56,
+              "h": 8,
+              "fill": "ink",
+              "role": "illustration",
+              "radius": 4
+            },
+            {
+              "id": "kicker",
+              "kind": "text",
+              "value": "SATURDAY · 3 SESSIONS",
+              "x": 48,
+              "y": 64,
+              "w": 400,
+              "h": 24,
+              "size": 14,
+              "leading": 20,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "headline",
+              "kind": "text",
+              "value": "Community workshop",
+              "x": 48,
+              "y": 96,
+              "w": 760,
+              "h": 64,
+              "size": 48,
+              "leading": 60,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "summary",
+              "kind": "text",
+              "value": "A place to learn practical skills together.",
+              "x": 48,
+              "y": 176,
+              "w": 760,
+              "h": 32,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "timeline",
+              "kind": "rect",
+              "x": 88,
+              "y": 296,
+              "w": 4,
+              "h": 216,
+              "fill": "highlight",
+              "role": "illustration",
+              "radius": 2
+            },
+            {
+              "id": "dot-0",
+              "kind": "ellipse",
+              "x": 78,
+              "y": 304,
+              "w": 24,
+              "h": 24,
+              "fill": "highlight",
+              "role": "illustration",
+              "stroke": "paper",
+              "stroke_width": 4
+            },
+            {
+              "id": "row-0",
+              "kind": "rect",
+              "x": 128,
+              "y": 288,
+              "w": 1024,
+              "h": 56,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 12
+            },
+            {
+              "id": "time-0",
+              "kind": "text",
+              "value": "10:00",
+              "x": 152,
+              "y": 300,
+              "w": 96,
+              "h": 32,
+              "size": 20,
+              "leading": 32,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "row-text-0",
+              "kind": "text",
+              "value": "Repair skills",
+              "x": 264,
+              "y": 304,
+              "w": 600,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "dot-1",
+              "kind": "ellipse",
+              "x": 78,
+              "y": 384,
+              "w": 24,
+              "h": 24,
+              "fill": "highlight",
+              "role": "illustration",
+              "stroke": "paper",
+              "stroke_width": 4
+            },
+            {
+              "id": "row-1",
+              "kind": "rect",
+              "x": 128,
+              "y": 368,
+              "w": 1024,
+              "h": 56,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 12
+            },
+            {
+              "id": "time-1",
+              "kind": "text",
+              "value": "13:00",
+              "x": 152,
+              "y": 380,
+              "w": 96,
+              "h": 32,
+              "size": 20,
+              "leading": 32,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "row-text-1",
+              "kind": "text",
+              "value": "Paper craft",
+              "x": 264,
+              "y": 384,
+              "w": 600,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "dot-2",
+              "kind": "ellipse",
+              "x": 78,
+              "y": 464,
+              "w": 24,
+              "h": 24,
+              "fill": "highlight",
+              "role": "illustration",
+              "stroke": "paper",
+              "stroke_width": 4
+            },
+            {
+              "id": "row-2",
+              "kind": "rect",
+              "x": 128,
+              "y": 448,
+              "w": 1024,
+              "h": 56,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 12
+            },
+            {
+              "id": "time-2",
+              "kind": "text",
+              "value": "15:00",
+              "x": 152,
+              "y": 460,
+              "w": 96,
+              "h": 32,
+              "size": 20,
+              "leading": 32,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "row-text-2",
+              "kind": "text",
+              "value": "Shared questions",
+              "x": 264,
+              "y": 464,
+              "w": 600,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            }
+          ],
+          "control_boxes": {
+            "agenda-open": [
+              48,
+              648,
+              300,
+              56
+            ]
+          }
+        },
+        "mobile": {
+          "width": 360,
+          "height": 720,
+          "bg": "paper",
+          "layers": [
+            {
+              "id": "masthead",
+              "kind": "rect",
+              "x": 0,
+              "y": 0,
+              "w": 360,
+              "h": 232,
+              "fill": "accent",
+              "role": "background"
+            },
+            {
+              "id": "clock",
+              "kind": "ellipse",
+              "x": 240,
+              "y": 32,
+              "w": 96,
+              "h": 96,
+              "fill": "paper",
+              "role": "illustration",
+              "stroke": "highlight",
+              "stroke_width": 6
+            },
+            {
+              "id": "clock-hour",
+              "kind": "rect",
+              "x": 285,
+              "y": 48,
+              "w": 6,
+              "h": 36,
+              "fill": "ink",
+              "role": "illustration",
+              "radius": 3
+            },
+            {
+              "id": "clock-minute",
+              "kind": "rect",
+              "x": 285,
+              "y": 78,
+              "w": 30,
+              "h": 6,
+              "fill": "ink",
+              "role": "illustration",
+              "radius": 3
+            },
+            {
+              "id": "kicker",
+              "kind": "text",
+              "value": "SATURDAY · 3 SESSIONS",
+              "x": 24,
+              "y": 40,
+              "w": 200,
+              "h": 24,
+              "size": 14,
+              "leading": 20,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "headline",
+              "kind": "text",
+              "value": "Community workshop",
+              "x": 24,
+              "y": 72,
+              "w": 208,
+              "h": 80,
+              "size": 32,
+              "leading": 40,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "summary",
+              "kind": "text",
+              "value": "A place to learn practical skills together.",
+              "x": 24,
+              "y": 160,
+              "w": 312,
+              "h": 48,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "timeline",
+              "kind": "rect",
+              "x": 36,
+              "y": 280,
+              "w": 4,
+              "h": 200,
+              "fill": "highlight",
+              "role": "illustration",
+              "radius": 2
+            },
+            {
+              "id": "dot-0",
+              "kind": "ellipse",
+              "x": 28,
+              "y": 282,
+              "w": 20,
+              "h": 20,
+              "fill": "highlight",
+              "role": "illustration",
+              "stroke": "paper",
+              "stroke_width": 3
+            },
+            {
+              "id": "row-0",
+              "kind": "rect",
+              "x": 64,
+              "y": 264,
+              "w": 272,
+              "h": 56,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 12
+            },
+            {
+              "id": "time-0",
+              "kind": "text",
+              "value": "10:00",
+              "x": 80,
+              "y": 276,
+              "w": 64,
+              "h": 32,
+              "size": 20,
+              "leading": 32,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "row-text-0",
+              "kind": "text",
+              "value": "Repair skills",
+              "x": 144,
+              "y": 280,
+              "w": 184,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "dot-1",
+              "kind": "ellipse",
+              "x": 28,
+              "y": 362,
+              "w": 20,
+              "h": 20,
+              "fill": "highlight",
+              "role": "illustration",
+              "stroke": "paper",
+              "stroke_width": 3
+            },
+            {
+              "id": "row-1",
+              "kind": "rect",
+              "x": 64,
+              "y": 344,
+              "w": 272,
+              "h": 56,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 12
+            },
+            {
+              "id": "time-1",
+              "kind": "text",
+              "value": "13:00",
+              "x": 80,
+              "y": 356,
+              "w": 64,
+              "h": 32,
+              "size": 20,
+              "leading": 32,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "row-text-1",
+              "kind": "text",
+              "value": "Paper craft",
+              "x": 144,
+              "y": 360,
+              "w": 184,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "dot-2",
+              "kind": "ellipse",
+              "x": 28,
+              "y": 442,
+              "w": 20,
+              "h": 20,
+              "fill": "highlight",
+              "role": "illustration",
+              "stroke": "paper",
+              "stroke_width": 3
+            },
+            {
+              "id": "row-2",
+              "kind": "rect",
+              "x": 64,
+              "y": 424,
+              "w": 272,
+              "h": 56,
+              "fill": "accent",
+              "role": "surface",
+              "radius": 12
+            },
+            {
+              "id": "time-2",
+              "kind": "text",
+              "value": "15:00",
+              "x": 80,
+              "y": 436,
+              "w": 64,
+              "h": 32,
+              "size": 20,
+              "leading": 32,
+              "font": "display",
+              "ink": "ink",
+              "align": "left"
+            },
+            {
+              "id": "row-text-2",
+              "kind": "text",
+              "value": "Shared questions",
+              "x": 144,
+              "y": 440,
+              "w": 184,
+              "h": 24,
+              "size": 16,
+              "leading": 24,
+              "font": "body",
+              "ink": "ink",
+              "align": "left"
+            }
+          ],
+          "control_boxes": {
+            "agenda-open": [
+              24,
+              608,
+              300,
+              56
+            ]
+          }
+        }
+      },
+      "state_layouts": {
+        "desktop": {
+          "state-agenda-overview": {
+            "width": 1200,
+            "height": 760,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "masthead",
+                "kind": "rect",
+                "x": 0,
+                "y": 0,
+                "w": 1200,
+                "h": 248,
+                "fill": "accent",
+                "role": "background"
+              },
+              {
+                "id": "clock",
+                "kind": "ellipse",
+                "x": 944,
+                "y": 36,
+                "w": 176,
+                "h": 176,
+                "fill": "paper",
+                "role": "illustration",
+                "stroke": "highlight",
+                "stroke_width": 8
+              },
+              {
+                "id": "clock-hour",
+                "kind": "rect",
+                "x": 1028,
+                "y": 64,
+                "w": 8,
+                "h": 64,
+                "fill": "ink",
+                "role": "illustration",
+                "radius": 4
+              },
+              {
+                "id": "clock-minute",
+                "kind": "rect",
+                "x": 1028,
+                "y": 120,
+                "w": 56,
+                "h": 8,
+                "fill": "ink",
+                "role": "illustration",
+                "radius": 4
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "SATURDAY · 3 SESSIONS",
+                "x": 48,
+                "y": 64,
+                "w": 400,
+                "h": 24,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Community workshop",
+                "x": 48,
+                "y": 96,
+                "w": 760,
+                "h": 64,
+                "size": 48,
+                "leading": 60,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "summary",
+                "kind": "text",
+                "value": "A place to learn practical skills together.",
+                "x": 48,
+                "y": 176,
+                "w": 760,
+                "h": 32,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "timeline",
+                "kind": "rect",
+                "x": 88,
+                "y": 296,
+                "w": 4,
+                "h": 216,
+                "fill": "highlight",
+                "role": "illustration",
+                "radius": 2
+              },
+              {
+                "id": "dot-0",
+                "kind": "ellipse",
+                "x": 78,
+                "y": 304,
+                "w": 24,
+                "h": 24,
+                "fill": "highlight",
+                "role": "illustration",
+                "stroke": "paper",
+                "stroke_width": 4
+              },
+              {
+                "id": "row-0",
+                "kind": "rect",
+                "x": 128,
+                "y": 288,
+                "w": 1024,
+                "h": 56,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 12
+              },
+              {
+                "id": "time-0",
+                "kind": "text",
+                "value": "10:00",
+                "x": 152,
+                "y": 300,
+                "w": 96,
+                "h": 32,
+                "size": 20,
+                "leading": 32,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "row-text-0",
+                "kind": "text",
+                "value": "Repair skills",
+                "x": 264,
+                "y": 304,
+                "w": 600,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "dot-1",
+                "kind": "ellipse",
+                "x": 78,
+                "y": 384,
+                "w": 24,
+                "h": 24,
+                "fill": "highlight",
+                "role": "illustration",
+                "stroke": "paper",
+                "stroke_width": 4
+              },
+              {
+                "id": "row-1",
+                "kind": "rect",
+                "x": 128,
+                "y": 368,
+                "w": 1024,
+                "h": 56,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 12
+              },
+              {
+                "id": "time-1",
+                "kind": "text",
+                "value": "13:00",
+                "x": 152,
+                "y": 380,
+                "w": 96,
+                "h": 32,
+                "size": 20,
+                "leading": 32,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "row-text-1",
+                "kind": "text",
+                "value": "Paper craft",
+                "x": 264,
+                "y": 384,
+                "w": 600,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "dot-2",
+                "kind": "ellipse",
+                "x": 78,
+                "y": 464,
+                "w": 24,
+                "h": 24,
+                "fill": "highlight",
+                "role": "illustration",
+                "stroke": "paper",
+                "stroke_width": 4
+              },
+              {
+                "id": "row-2",
+                "kind": "rect",
+                "x": 128,
+                "y": 448,
+                "w": 1024,
+                "h": 56,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 12
+              },
+              {
+                "id": "time-2",
+                "kind": "text",
+                "value": "15:00",
+                "x": 152,
+                "y": 460,
+                "w": 96,
+                "h": 32,
+                "size": 20,
+                "leading": 32,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "row-text-2",
+                "kind": "text",
+                "value": "Shared questions",
+                "x": 264,
+                "y": 464,
+                "w": 600,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "agenda-open": [
+                48,
+                648,
+                300,
+                56
+              ]
+            }
+          },
+          "state-agenda-details": {
+            "width": 1200,
+            "height": 760,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "masthead",
+                "kind": "rect",
+                "x": 0,
+                "y": 0,
+                "w": 1200,
+                "h": 192,
+                "fill": "accent",
+                "role": "background"
+              },
+              {
+                "id": "clock",
+                "kind": "ellipse",
+                "x": 1056,
+                "y": 48,
+                "w": 96,
+                "h": 96,
+                "fill": "paper",
+                "role": "illustration",
+                "stroke": "highlight",
+                "stroke_width": 6
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "REPAIR SKILLS · 10:00",
+                "x": 48,
+                "y": 56,
+                "w": 976,
+                "h": 24,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Session details",
+                "x": 48,
+                "y": 88,
+                "w": 976,
+                "h": 48,
+                "size": 28,
+                "leading": 36,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "body",
+                "kind": "text",
+                "value": "Repair skills · Saturday 10:00. Demo only; no registration.",
+                "x": 48,
+                "y": 216,
+                "w": 1104,
+                "h": 72,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "agenda-back": [
+                48,
+                648,
+                300,
+                56
+              ]
+            }
+          }
+        },
+        "mobile": {
+          "state-agenda-overview": {
+            "width": 360,
+            "height": 720,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "masthead",
+                "kind": "rect",
+                "x": 0,
+                "y": 0,
+                "w": 360,
+                "h": 232,
+                "fill": "accent",
+                "role": "background"
+              },
+              {
+                "id": "clock",
+                "kind": "ellipse",
+                "x": 240,
+                "y": 32,
+                "w": 96,
+                "h": 96,
+                "fill": "paper",
+                "role": "illustration",
+                "stroke": "highlight",
+                "stroke_width": 6
+              },
+              {
+                "id": "clock-hour",
+                "kind": "rect",
+                "x": 285,
+                "y": 48,
+                "w": 6,
+                "h": 36,
+                "fill": "ink",
+                "role": "illustration",
+                "radius": 3
+              },
+              {
+                "id": "clock-minute",
+                "kind": "rect",
+                "x": 285,
+                "y": 78,
+                "w": 30,
+                "h": 6,
+                "fill": "ink",
+                "role": "illustration",
+                "radius": 3
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "SATURDAY · 3 SESSIONS",
+                "x": 24,
+                "y": 40,
+                "w": 200,
+                "h": 24,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Community workshop",
+                "x": 24,
+                "y": 72,
+                "w": 208,
+                "h": 80,
+                "size": 32,
+                "leading": 40,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "summary",
+                "kind": "text",
+                "value": "A place to learn practical skills together.",
+                "x": 24,
+                "y": 160,
+                "w": 312,
+                "h": 48,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "timeline",
+                "kind": "rect",
+                "x": 36,
+                "y": 280,
+                "w": 4,
+                "h": 200,
+                "fill": "highlight",
+                "role": "illustration",
+                "radius": 2
+              },
+              {
+                "id": "dot-0",
+                "kind": "ellipse",
+                "x": 28,
+                "y": 282,
+                "w": 20,
+                "h": 20,
+                "fill": "highlight",
+                "role": "illustration",
+                "stroke": "paper",
+                "stroke_width": 3
+              },
+              {
+                "id": "row-0",
+                "kind": "rect",
+                "x": 64,
+                "y": 264,
+                "w": 272,
+                "h": 56,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 12
+              },
+              {
+                "id": "time-0",
+                "kind": "text",
+                "value": "10:00",
+                "x": 80,
+                "y": 276,
+                "w": 64,
+                "h": 32,
+                "size": 20,
+                "leading": 32,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "row-text-0",
+                "kind": "text",
+                "value": "Repair skills",
+                "x": 144,
+                "y": 280,
+                "w": 184,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "dot-1",
+                "kind": "ellipse",
+                "x": 28,
+                "y": 362,
+                "w": 20,
+                "h": 20,
+                "fill": "highlight",
+                "role": "illustration",
+                "stroke": "paper",
+                "stroke_width": 3
+              },
+              {
+                "id": "row-1",
+                "kind": "rect",
+                "x": 64,
+                "y": 344,
+                "w": 272,
+                "h": 56,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 12
+              },
+              {
+                "id": "time-1",
+                "kind": "text",
+                "value": "13:00",
+                "x": 80,
+                "y": 356,
+                "w": 64,
+                "h": 32,
+                "size": 20,
+                "leading": 32,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "row-text-1",
+                "kind": "text",
+                "value": "Paper craft",
+                "x": 144,
+                "y": 360,
+                "w": 184,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "dot-2",
+                "kind": "ellipse",
+                "x": 28,
+                "y": 442,
+                "w": 20,
+                "h": 20,
+                "fill": "highlight",
+                "role": "illustration",
+                "stroke": "paper",
+                "stroke_width": 3
+              },
+              {
+                "id": "row-2",
+                "kind": "rect",
+                "x": 64,
+                "y": 424,
+                "w": 272,
+                "h": 56,
+                "fill": "accent",
+                "role": "surface",
+                "radius": 12
+              },
+              {
+                "id": "time-2",
+                "kind": "text",
+                "value": "15:00",
+                "x": 80,
+                "y": 436,
+                "w": 64,
+                "h": 32,
+                "size": 20,
+                "leading": 32,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "row-text-2",
+                "kind": "text",
+                "value": "Shared questions",
+                "x": 144,
+                "y": 440,
+                "w": 184,
+                "h": 24,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "agenda-open": [
+                24,
+                608,
+                300,
+                56
+              ]
+            }
+          },
+          "state-agenda-details": {
+            "width": 360,
+            "height": 720,
+            "bg": "paper",
+            "layers": [
+              {
+                "id": "masthead",
+                "kind": "rect",
+                "x": 0,
+                "y": 0,
+                "w": 360,
+                "h": 192,
+                "fill": "accent",
+                "role": "background"
+              },
+              {
+                "id": "clock",
+                "kind": "ellipse",
+                "x": 240,
+                "y": 48,
+                "w": 96,
+                "h": 96,
+                "fill": "paper",
+                "role": "illustration",
+                "stroke": "highlight",
+                "stroke_width": 6
+              },
+              {
+                "id": "kicker",
+                "kind": "text",
+                "value": "REPAIR SKILLS · 10:00",
+                "x": 24,
+                "y": 56,
+                "w": 200,
+                "h": 24,
+                "size": 14,
+                "leading": 20,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "headline",
+                "kind": "text",
+                "value": "Session details",
+                "x": 24,
+                "y": 88,
+                "w": 200,
+                "h": 80,
+                "size": 28,
+                "leading": 36,
+                "font": "display",
+                "ink": "ink",
+                "align": "left"
+              },
+              {
+                "id": "body",
+                "kind": "text",
+                "value": "Repair skills · Saturday 10:00. Demo only; no registration.",
+                "x": 24,
+                "y": 216,
+                "w": 312,
+                "h": 72,
+                "size": 16,
+                "leading": 24,
+                "font": "body",
+                "ink": "ink",
+                "align": "left"
+              }
+            ],
+            "control_boxes": {
+              "agenda-back": [
+                24,
+                608,
+                300,
+                56
+              ]
+            }
+          }
+        }
+      },
+      "references": {
+        "desktop": "agenda-reference-desktop",
+        "mobile": "agenda-reference-mobile"
+      },
+      "control_styles": {
+        "desktop": {
+          "Primary": {
+            "fill": "ink",
+            "ink": "paper",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 1152
+          },
+          "Return": {
+            "fill": "paper",
+            "ink": "ink",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 1152
+          }
+        },
+        "mobile": {
+          "Primary": {
+            "fill": "ink",
+            "ink": "paper",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 312
+          },
+          "Return": {
+            "fill": "paper",
+            "ink": "ink",
+            "radius": 6,
+            "fontSize": 16,
+            "paddingX": 24,
+            "paddingY": 14,
+            "minHeight": 44,
+            "maxWidth": 312
+          }
+        }
+      }
+    }
+  ]
+}

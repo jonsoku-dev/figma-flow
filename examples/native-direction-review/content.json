@@ -1,0 +1,9 @@
+{
+  "title": "Community workshop",
+  "summary": "A place to learn practical skills together.",
+  "required_text": [
+    "Community workshop",
+    "Explore sessions"
+  ],
+  "scope": "test/demo directions; not production"
+}

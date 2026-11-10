@@ -1,0 +1,11 @@
+{
+  "name": "figma-flow-local",
+  "plugins": [
+    {
+      "name": "figma-flow",
+      "source": {"source": "local", "path": "./"},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+      "category": "Productivity"
+    }
+  ]
+}

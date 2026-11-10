@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "tokens": {
+    "palette": {
+      "ink": {
+        "$type": "color",
+        "$value": "#20263a"
+      },
+      "blue": {
+        "$type": "color",
+        "$value": "#425cc7"
+      },
+      "white": {
+        "$type": "color",
+        "$value": "#ffffff"
+      },
+      "pale": {
+        "$type": "color",
+        "$value": "#eef1ff"
+      }
+    },
+    "color": {
+      "brand": {
+        "$type": "color",
+        "$value": "{palette.blue}"
+      },
+      "onBrand": {
+        "$type": "color",
+        "$value": "{palette.white}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{palette.ink}"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "{palette.pale}"
+      }
+    },
+    "space": {
+      "card": {
+        "$type": "dimension",
+        "$value": "16px"
+      },
+      "round": {
+        "$type": "dimension",
+        "$value": "12px"
+      }
+    },
+    "font": {
+      "body": {
+        "$type": "fontFamily",
+        "$value": "Arial"
+      },
+      "size": {
+        "$type": "dimension",
+        "$value": "16px"
+      }
+    },
+    "opacity": {
+      "full": {
+        "$type": "number",
+        "$value": 1
+      }
+    }
+  },
+  "components": {
+    "card": {
+      "variants": {
+        "default": {
+          "background": "color.surface",
+          "color": "color.text",
+          "border-color": "color.surface",
+          "padding": "space.card",
+          "border-radius": "space.round"
+        }
+      }
+    },
+    "button": {
+      "variants": {
+        "primary": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size"
+        },
+        "secondary": {
+          "background": "color.surface",
+          "color": "color.text",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size"
+        }
+      }
+    },
+    "search": {
+      "variants": {
+        "default": {
+          "background": "color.onBrand",
+          "color": "color.text",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round"
+        }
+      }
+    }
+  },
+  "screens": [
+    {
+      "id": "SCR-CARDS-LIST",
+      "title": "오늘의 복습 카드",
+      "trace": [
+        "REQ-CARDS-LIST",
+        "REQ-CARDS-SEARCH",
+        "ACC-CARDS-LIST",
+        "STATE-CARDS-LIST"
+      ],
+      "annotation": "목록 상태; 검색 결과 없음과 완료 상태는 이 시안에서 생략",
+      "elements": [
+        {
+          "id": "list-title",
+          "kind": "heading",
+          "text": "오늘의 복습 카드"
+        },
+        {
+          "id": "list-intro",
+          "kind": "text",
+          "text": "오늘의 카드 4 · 0 / 4"
+        },
+        {
+          "id": "list-search",
+          "kind": "component",
+          "component": "search",
+          "variant": "default",
+          "text": "카드 제목으로 검색",
+          "action_id": "ACT-CARDS-SEARCH"
+        },
+        {
+          "id": "list-spacing",
+          "kind": "component",
+          "component": "card",
+          "variant": "default",
+          "text": "시맨틱 HTML",
+          "action_id": "ACT-CARDS-OPEN",
+          "target_screen": "SCR-CARDS-REVIEW",
+          "annotation": "선택하면 질문 화면으로 이동"
+        },
+        {
+          "id": "list-retrieval",
+          "kind": "component",
+          "component": "card",
+          "variant": "default",
+          "text": "Flexbox의 두 축",
+          "action_id": "ACT-CARDS-OPEN",
+          "target_screen": "SCR-CARDS-REVIEW",
+          "annotation": "선택하면 질문 화면으로 이동"
+        },
+        {
+          "id": "list-feedback",
+          "kind": "component",
+          "component": "card",
+          "variant": "default",
+          "text": "JavaScript 클로저",
+          "action_id": "ACT-CARDS-OPEN",
+          "target_screen": "SCR-CARDS-REVIEW",
+          "annotation": "선택하면 질문 화면으로 이동"
+        },
+        {
+          "id": "list-interleave",
+          "kind": "component",
+          "component": "card",
+          "variant": "default",
+          "text": "키보드 포커스",
+          "action_id": "ACT-CARDS-OPEN",
+          "target_screen": "SCR-CARDS-REVIEW",
+          "annotation": "선택하면 질문 화면으로 이동"
+        }
+      ]
+    },
+    {
+      "id": "SCR-CARDS-REVIEW",
+      "title": "카드 질문 및 정답",
+      "trace": [
+        "REQ-CARDS-QUESTION",
+        "ACC-CARDS-QUESTION",
+        "STATE-CARDS-QUESTION"
+      ],
+      "annotation": "질문 상태; 정답 확인 후 다시 연습과 복습 완료 선택은 이 시안에서 생략",
+      "elements": [
+        {
+          "id": "review-title",
+          "kind": "heading",
+          "text": "질문 카드"
+        },
+        {
+          "id": "review-intro",
+          "kind": "text",
+          "text": "1 / 4"
+        },
+        {
+          "id": "review-card",
+          "kind": "component",
+          "component": "card",
+          "variant": "default",
+          "text": "시맨틱 HTML을 사용하면 어떤 점이 좋아질까요?"
+        },
+        {
+          "id": "review-reveal",
+          "kind": "component",
+          "component": "button",
+          "variant": "primary",
+          "text": "정답 보기",
+          "action_id": "ACT-CARDS-REVEAL"
+        }
+      ]
+    }
+  ]
+}

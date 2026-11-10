@@ -1,0 +1,9 @@
+TAP version 13
+ok 1 - "title search trims whitespace, ignores case, and normalizes Korean Unicode"
+ok 2 - "search matches only titles, never question or answer contents, and treats symbols literally"
+ok 3 - "empty results display the query as text and clearing it restores the list"
+1..3
+# tests 3
+# pass 3
+# fail 0
+# controller {"passed":true,"tests":3,"failed":0}

@@ -1,0 +1,9 @@
+TAP version 13
+ok 1 - "a fresh session shows every supplied daily card in order, without changing the input"
+ok 2 - "the pending list excludes completed cards and supports an empty daily deck"
+ok 3 - "list rendering creates accessible buttons that open the selected card and clears obsolete results"
+1..3
+# tests 3
+# pass 3
+# fail 0
+# controller {"passed":true,"tests":3,"failed":0}

@@ -1,0 +1,556 @@
+{
+  "provenance": {
+    "kind": "excerpt-of-stored-native-readback-not-live-verification",
+    "source_path": "night-editions/site/native/postal/readback.json",
+    "source_sha256": "d209e11718ed6f402b37a22d71a4a31321953da36facd92ff06e94c6906196b8",
+    "source_node_count": 642,
+    "source_library_component_set_count": 18,
+    "source_variable_count": 18,
+    "source_alias_variable_count": 9,
+    "included_node_ids": [
+      "2:4952",
+      "2:4953",
+      "2:4963",
+      "2:4954",
+      "2:4956",
+      "2:4973"
+    ],
+    "fields_kept": [
+      "id",
+      "parentId",
+      "type",
+      "name",
+      "key",
+      "semanticKey",
+      "x",
+      "y",
+      "width",
+      "height",
+      "visible",
+      "opacity",
+      "absoluteBoundingBox",
+      "characters",
+      "fontName",
+      "fontSize",
+      "layoutMode",
+      "paddingTop",
+      "paddingRight",
+      "paddingBottom",
+      "paddingLeft",
+      "itemSpacing",
+      "cornerRadius",
+      "topLeftRadius",
+      "topRightRadius",
+      "bottomLeftRadius",
+      "bottomRightRadius",
+      "boundVariables",
+      "fills",
+      "strokes",
+      "variantProperties",
+      "componentSetId",
+      "componentIds"
+    ],
+    "representative_nodes": {
+      "bound_solid_color": "2:4954",
+      "unbound_font_size": "2:4956",
+      "unbound_layout_spacing": "2:4954",
+      "unbound_radius": "2:4963"
+    },
+    "limitations": "Selected node fields and complete color definitions only. No full campaign, assets, browser evidence, or Figma origin authentication."
+  },
+  "native": {
+    "pageId": "2:4952",
+    "nodes": [
+      {
+        "id": "2:4952",
+        "parentId": "0:0",
+        "type": "PAGE",
+        "name": "달그늘 우편국 · Responsive · 65a7b00",
+        "key": null,
+        "semanticKey": null
+      },
+      {
+        "id": "2:4953",
+        "parentId": "2:4952",
+        "type": "FRAME",
+        "name": "postal.library",
+        "key": "postal.library",
+        "semanticKey": "postal.library",
+        "x": 0,
+        "y": -900,
+        "width": 4000,
+        "height": 700,
+        "visible": true,
+        "absoluteBoundingBox": {
+          "x": 0,
+          "y": -900,
+          "width": 4000,
+          "height": 700
+        },
+        "layoutMode": "NONE",
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "itemSpacing": 0,
+        "boundVariables": {},
+        "fills": [],
+        "strokes": [],
+        "opacity": 1,
+        "cornerRadius": 0
+      },
+      {
+        "id": "2:4963",
+        "parentId": "2:4953",
+        "type": "COMPONENT_SET",
+        "name": "postal / Responsive Action / ferry--plain--318x134--top--72x72",
+        "key": "postal.control.ferry--plain--318x134--top--72x72",
+        "semanticKey": "postal.control.ferry--plain--318x134--top--72x72",
+        "x": 0,
+        "y": 0,
+        "width": 139,
+        "height": 134,
+        "visible": true,
+        "absoluteBoundingBox": {
+          "x": 0,
+          "y": -900,
+          "width": 139,
+          "height": 134
+        },
+        "layoutMode": "NONE",
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "itemSpacing": 0,
+        "boundVariables": {},
+        "fills": [],
+        "strokes": [],
+        "componentIds": [
+          "2:4954",
+          "2:4957",
+          "2:4960"
+        ],
+        "opacity": 1,
+        "cornerRadius": 5
+      },
+      {
+        "id": "2:4954",
+        "parentId": "2:4963",
+        "type": "COMPONENT",
+        "name": "Style=Primary",
+        "key": "postal.control.ferry--plain--318x134--top--72x72.Primary",
+        "semanticKey": "postal.control.ferry--plain--318x134--top--72x72.Primary",
+        "x": 0,
+        "y": 0,
+        "width": 139,
+        "height": 134,
+        "visible": true,
+        "absoluteBoundingBox": {
+          "x": 0,
+          "y": -900,
+          "width": 139,
+          "height": 134
+        },
+        "layoutMode": "VERTICAL",
+        "paddingTop": 14,
+        "paddingRight": 20,
+        "paddingBottom": 14,
+        "paddingLeft": 20,
+        "itemSpacing": 10,
+        "boundVariables": {
+          "fills": [
+            {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:2:5356"
+            }
+          ]
+        },
+        "fills": [
+          {
+            "type": "SOLID",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "color": {
+              "r": 0.9019607901573181,
+              "g": 0.7254902124404907,
+              "b": 0.4431372582912445
+            },
+            "boundVariables": {
+              "color": {
+                "type": "VARIABLE_ALIAS",
+                "id": "VariableID:2:5356"
+              }
+            }
+          }
+        ],
+        "strokes": [],
+        "variantProperties": {
+          "Style": "Primary"
+        },
+        "componentSetId": "2:4963",
+        "opacity": 1,
+        "cornerRadius": 0
+      },
+      {
+        "id": "2:4956",
+        "parentId": "2:4954",
+        "type": "TEXT",
+        "name": "postal.control.ferry--plain--318x134--top--72x72.Primary.label",
+        "key": "postal.control.ferry--plain--318x134--top--72x72.Primary.label",
+        "semanticKey": "postal.control.ferry--plain--318x134--top--72x72.Primary.label",
+        "x": 20,
+        "y": 96,
+        "width": 99,
+        "height": 24,
+        "visible": true,
+        "absoluteBoundingBox": {
+          "x": 20,
+          "y": -804,
+          "width": 99,
+          "height": 24
+        },
+        "characters": "나루터로 간다",
+        "fontName": {
+          "family": "Gowun Dodum",
+          "style": "Regular"
+        },
+        "fontSize": 17,
+        "boundVariables": {
+          "fills": [
+            {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:2:5352"
+            }
+          ]
+        },
+        "fills": [
+          {
+            "type": "SOLID",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "color": {
+              "r": 0.062745101749897,
+              "g": 0.16862745583057404,
+              "b": 0.21176470816135406
+            },
+            "boundVariables": {
+              "color": {
+                "type": "VARIABLE_ALIAS",
+                "id": "VariableID:2:5352"
+              }
+            }
+          }
+        ],
+        "strokes": [],
+        "opacity": 1
+      },
+      {
+        "id": "2:4973",
+        "parentId": "2:4953",
+        "type": "COMPONENT_SET",
+        "name": "postal / Responsive Action / observatory--plain--330x134--top--72x72",
+        "key": "postal.control.observatory--plain--330x134--top--72x72",
+        "semanticKey": "postal.control.observatory--plain--330x134--top--72x72",
+        "x": 0,
+        "y": 0,
+        "width": 139,
+        "height": 134,
+        "visible": true,
+        "absoluteBoundingBox": {
+          "x": 0,
+          "y": -900,
+          "width": 139,
+          "height": 134
+        },
+        "layoutMode": "NONE",
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "itemSpacing": 0,
+        "boundVariables": {},
+        "fills": [],
+        "strokes": [],
+        "componentIds": [
+          "2:4964",
+          "2:4967",
+          "2:4970"
+        ],
+        "opacity": 1,
+        "cornerRadius": 5
+      }
+    ],
+    "collections": [
+      {
+        "id": "VariableCollectionId:2:5350",
+        "name": "postal · Native semantic colors · 65a7b004",
+        "modes": [
+          {
+            "name": "Mode 1",
+            "modeId": "2:7"
+          }
+        ],
+        "defaultModeId": "2:7",
+        "variableIds": [
+          "VariableID:2:5351",
+          "VariableID:2:5352",
+          "VariableID:2:5353",
+          "VariableID:2:5354",
+          "VariableID:2:5355",
+          "VariableID:2:5356",
+          "VariableID:2:5357",
+          "VariableID:2:5358",
+          "VariableID:2:5359",
+          "VariableID:2:5360",
+          "VariableID:2:5361",
+          "VariableID:2:5362",
+          "VariableID:2:5363",
+          "VariableID:2:5364",
+          "VariableID:2:5365",
+          "VariableID:2:5366",
+          "VariableID:2:5367",
+          "VariableID:2:5368"
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "id": "VariableID:2:5356",
+        "name": "lamp",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5355"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5352",
+        "name": "night",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5351"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5358",
+        "name": "paper",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5357"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5362",
+        "name": "ink",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5361"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5364",
+        "name": "quiet",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5363"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5366",
+        "name": "paperQuiet",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5365"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5351",
+        "name": "palette/night",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.062745101749897,
+            "g": 0.16862745583057404,
+            "b": 0.21176470816135406,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5353",
+        "name": "palette/deep",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.04313725605607033,
+            "g": 0.125490203499794,
+            "b": 0.1568627506494522,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5354",
+        "name": "deep",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5353"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5355",
+        "name": "palette/lamp",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.9019607901573181,
+            "g": 0.7254902124404907,
+            "b": 0.4431372582912445,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5357",
+        "name": "palette/paper",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.9529411792755127,
+            "g": 0.9137254953384399,
+            "b": 0.8274509906768799,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5359",
+        "name": "palette/paperEdge",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.8470588326454163,
+            "g": 0.7882353067398071,
+            "b": 0.6745098233222961,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5360",
+        "name": "paperEdge",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5359"
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5361",
+        "name": "palette/ink",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.09019608050584793,
+            "g": 0.21568627655506134,
+            "b": 0.26274511218070984,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5363",
+        "name": "palette/quiet",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.6980392336845398,
+            "g": 0.7882353067398071,
+            "b": 0.7803921699523926,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5365",
+        "name": "palette/paperQuiet",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.32156863808631897,
+            "g": 0.40784314274787903,
+            "b": 0.4156862795352936,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5367",
+        "name": "palette/wax",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "r": 0.6784313917160034,
+            "g": 0.2862745225429535,
+            "b": 0.21568627655506134,
+            "a": 1
+          }
+        }
+      },
+      {
+        "id": "VariableID:2:5368",
+        "name": "wax",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:2:5350",
+        "valuesByMode": {
+          "2:7": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:2:5367"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "content": {
+    "path": "content.json"
+  },
+  "native_target": {
+    "mode": "current-design-file"
+  },
+  "native_layout": {
+    "path": "native-layout.json"
+  },
+  "candidates": [
+    {
+      "id": "bulletin",
+      "title": "Welcome board",
+      "source": "bulletin/index.html",
+      "review": "bulletin/inspect.html",
+      "graph": "bulletin/graph.json",
+      "composition": "A left text column and a warm sun illustration; two outlined session cards sit on a rounded sage table.",
+      "typography": "Left-aligned 56px display greeting over a 14px kicker and 16px body; asymmetric against a large sun illustration.",
+      "interaction": "Open a session from an introductory board and return to the greeting.",
+      "previews": [
+        {
+          "path": "previews/bulletin-desktop.png",
+          "viewport": "desktop",
+          "width": 1200,
+          "height": 760
+        },
+        {
+          "path": "previews/bulletin-mobile.png",
+          "viewport": "mobile",
+          "width": 360,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "agenda",
+      "title": "Session agenda",
+      "source": "agenda/index.html",
+      "review": "agenda/inspect.html",
+      "graph": "agenda/graph.json",
+      "composition": "A tinted masthead with a clock illustration over a dotted timeline of rounded time rows.",
+      "typography": "48px masthead in a tinted band with a clock illustration; 20px times on a timeline beside 16px session names.",
+      "interaction": "Inspect an agenda entry from a structured schedule and return to the list.",
+      "previews": [
+        {
+          "path": "previews/agenda-desktop.png",
+          "viewport": "desktop",
+          "width": 1200,
+          "height": 760
+        },
+        {
+          "path": "previews/agenda-mobile.png",
+          "viewport": "mobile",
+          "width": 360,
+          "height": 720
+        }
+      ]
+    }
+  ]
+}

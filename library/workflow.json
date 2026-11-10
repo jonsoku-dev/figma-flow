@@ -1,0 +1,656 @@
+{
+  "version": 1,
+  "initial": "brief",
+  "goals": [
+    "complete"
+  ],
+  "boundaries": {
+    "selection": "Explicit human selection of one exact candidate and current content hashes; never automatic approval.",
+    "generation": "Current selected candidate and complete frozen batch required before asset generation.",
+    "scope": "Technical and non-Figma branches require independently resolved scope evidence.",
+    "invalidation": "Before persisting the new state, invalidate edge-listed downstream receipts and eligibility references; preserve prior user work, assets, files and evidence as history.",
+    "terminal": "Complete has no outgoing transitions; changed scope starts a new workflow.",
+    "native_review": "Figma-target candidate review drafts may be materialized before human selection; they are review-only, never asset-generation or final production approval. Only current verified actual native reports covering candidate screens, native annotations with ordinary Design-canvas readable linked note boards, palette, tokens, click destination IDs and return links permit requesting selection. Prepared UI packages or verifier admission alone are not native observations. The direct HTML review branch requires explicit non-Figma review scope.",
+    "native_canvas": "Both draft review and production native evidence must satisfy the native_canvas evidence contract. Annotations must additionally be exposed as ordinary Design-canvas readable note boards linked to their target screens or nodes. Figma Dev Mode is never required; annotation-only or Dev Mode-only visibility cannot satisfy this contract."
+  },
+  "states": [
+    {
+      "symbol": "BRIEF",
+      "id": "brief",
+      "label": "Brief and scope",
+      "terminal": false
+    },
+    {
+      "symbol": "RESEARCH",
+      "id": "research",
+      "label": "Reference research",
+      "terminal": false
+    },
+    {
+      "symbol": "SELECTION_READY",
+      "id": "selection-ready",
+      "label": "Comparable candidates ready",
+      "terminal": false
+    },
+    {
+      "symbol": "NATIVE_REVIEW_PENDING",
+      "id": "native-review-pending",
+      "label": "Prepare and verify native review draft",
+      "terminal": false
+    },
+    {
+      "symbol": "WAIT_SELECTION",
+      "id": "awaiting-user-selection",
+      "label": "Await explicit user selection",
+      "terminal": false
+    },
+    {
+      "symbol": "SELECTED",
+      "id": "selected",
+      "label": "Exact candidate and hashes selected",
+      "terminal": false
+    },
+    {
+      "symbol": "BATCH_FROZEN",
+      "id": "batch-frozen",
+      "label": "Complete asset batch frozen",
+      "terminal": false
+    },
+    {
+      "symbol": "GENERATION",
+      "id": "generation",
+      "label": "Generate frozen asset batch",
+      "terminal": false
+    },
+    {
+      "symbol": "NATIVE",
+      "id": "native",
+      "label": "Native design handoff",
+      "terminal": false
+    },
+    {
+      "symbol": "IMPLEMENTATION",
+      "id": "implementation",
+      "label": "Implement selected scope",
+      "terminal": false
+    },
+    {
+      "symbol": "VERIFICATION",
+      "id": "verification",
+      "label": "Verify current deliverables",
+      "terminal": false
+    },
+    {
+      "symbol": "COMPLETE",
+      "id": "complete",
+      "label": "Complete",
+      "terminal": true
+    }
+  ],
+  "events": [
+    {
+      "symbol": "RESEARCH",
+      "id": "research"
+    },
+    {
+      "symbol": "PREPARE_CANDIDATES",
+      "id": "prepare-candidates"
+    },
+    {
+      "symbol": "PREPARE_NATIVE_DRAFT",
+      "id": "prepare-native-draft"
+    },
+    {
+      "symbol": "REQUEST_SELECTION",
+      "id": "request-selection"
+    },
+    {
+      "symbol": "SELECT",
+      "id": "select"
+    },
+    {
+      "symbol": "FREEZE_BATCH",
+      "id": "freeze-batch"
+    },
+    {
+      "symbol": "GENERATE",
+      "id": "generate"
+    },
+    {
+      "symbol": "HANDOFF_NATIVE",
+      "id": "handoff-native"
+    },
+    {
+      "symbol": "IMPLEMENT",
+      "id": "implement"
+    },
+    {
+      "symbol": "VERIFY",
+      "id": "verify"
+    },
+    {
+      "symbol": "COMPLETE",
+      "id": "complete"
+    },
+    {
+      "symbol": "RESELECT",
+      "id": "reselect"
+    },
+    {
+      "symbol": "REWORK",
+      "id": "rework"
+    },
+    {
+      "symbol": "REVISE_BRIEF",
+      "id": "revise-brief"
+    }
+  ],
+  "guards": [
+    {
+      "symbol": "BRIEF_CURRENT",
+      "id": "brief-current",
+      "authority": "controller"
+    },
+    {
+      "symbol": "RESEARCH_CURRENT",
+      "id": "research-current",
+      "authority": "controller"
+    },
+    {
+      "symbol": "CANDIDATES_CURRENT",
+      "id": "candidates-current",
+      "authority": "controller"
+    },
+    {
+      "symbol": "HUMAN_SELECTION_CURRENT",
+      "id": "human-selection-current",
+      "authority": "human"
+    },
+    {
+      "symbol": "BATCH_CURRENT",
+      "id": "batch-current",
+      "authority": "controller"
+    },
+    {
+      "symbol": "GENERATED_ASSETS_CURRENT",
+      "id": "generated-assets-current",
+      "authority": "controller"
+    },
+    {
+      "symbol": "NATIVE_CURRENT",
+      "id": "native-current",
+      "authority": "controller",
+      "evidence_contract": "native_canvas"
+    },
+    {
+      "symbol": "NON_FIGMA_SCOPE",
+      "id": "non-figma-scope",
+      "authority": "controller"
+    },
+    {
+      "symbol": "NO_ASSET_SCOPE",
+      "id": "no-asset-scope",
+      "authority": "controller"
+    },
+    {
+      "symbol": "TECHNICAL_SCOPE",
+      "id": "technical-scope",
+      "authority": "controller"
+    },
+    {
+      "symbol": "IMPLEMENTATION_CURRENT",
+      "id": "implementation-current",
+      "authority": "controller"
+    },
+    {
+      "symbol": "VERIFICATION_PASSED",
+      "id": "verification-passed",
+      "authority": "controller"
+    },
+    {
+      "symbol": "FIGMA_REVIEW_SCOPE",
+      "id": "figma-review-scope",
+      "authority": "controller"
+    },
+    {
+      "symbol": "NON_FIGMA_REVIEW_SCOPE",
+      "id": "non-figma-review-scope",
+      "authority": "controller"
+    },
+    {
+      "symbol": "NATIVE_REVIEW_CURRENT",
+      "id": "native-review-current",
+      "authority": "controller",
+      "evidence_contract": "native_canvas"
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "event": "research",
+      "to": "research",
+      "guards": [
+        "brief-current"
+      ]
+    },
+    {
+      "from": "research",
+      "event": "prepare-candidates",
+      "to": "selection-ready",
+      "guards": [
+        "research-current",
+        "candidates-current"
+      ]
+    },
+    {
+      "from": "selection-ready",
+      "event": "prepare-native-draft",
+      "to": "native-review-pending",
+      "guards": [
+        "candidates-current",
+        "figma-review-scope"
+      ]
+    },
+    {
+      "from": "native-review-pending",
+      "event": "request-selection",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current",
+        "figma-review-scope",
+        "native-review-current"
+      ]
+    },
+    {
+      "from": "native-review-pending",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "native-review",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "selection-ready",
+      "event": "request-selection",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current",
+        "non-figma-review-scope"
+      ]
+    },
+    {
+      "from": "awaiting-user-selection",
+      "event": "select",
+      "to": "selected",
+      "guards": [
+        "candidates-current",
+        "human-selection-current"
+      ]
+    },
+    {
+      "from": "selected",
+      "event": "freeze-batch",
+      "to": "batch-frozen",
+      "guards": [
+        "human-selection-current",
+        "batch-current"
+      ]
+    },
+    {
+      "from": "batch-frozen",
+      "event": "generate",
+      "to": "generation",
+      "guards": [
+        "human-selection-current",
+        "batch-current"
+      ]
+    },
+    {
+      "from": "generation",
+      "event": "handoff-native",
+      "to": "native",
+      "guards": [
+        "human-selection-current",
+        "generated-assets-current"
+      ]
+    },
+    {
+      "from": "selected",
+      "event": "handoff-native",
+      "to": "native",
+      "guards": [
+        "no-asset-scope",
+        "human-selection-current"
+      ]
+    },
+    {
+      "from": "native",
+      "event": "implement",
+      "to": "implementation",
+      "guards": [
+        "native-current",
+        "human-selection-current"
+      ]
+    },
+    {
+      "from": "generation",
+      "event": "implement",
+      "to": "implementation",
+      "guards": [
+        "non-figma-scope",
+        "generated-assets-current",
+        "human-selection-current"
+      ]
+    },
+    {
+      "from": "selected",
+      "event": "implement",
+      "to": "implementation",
+      "guards": [
+        "no-asset-scope",
+        "non-figma-scope",
+        "human-selection-current"
+      ]
+    },
+    {
+      "from": "brief",
+      "event": "implement",
+      "to": "implementation",
+      "guards": [
+        "brief-current",
+        "technical-scope",
+        "non-figma-scope",
+        "no-asset-scope"
+      ]
+    },
+    {
+      "from": "implementation",
+      "event": "verify",
+      "to": "verification",
+      "guards": [
+        "implementation-current"
+      ]
+    },
+    {
+      "from": "verification",
+      "event": "complete",
+      "to": "complete",
+      "guards": [
+        "verification-passed"
+      ]
+    },
+    {
+      "from": "verification",
+      "event": "rework",
+      "to": "implementation",
+      "guards": [],
+      "invalidates": [
+        "verification"
+      ]
+    },
+    {
+      "from": "selected",
+      "event": "reselect",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current"
+      ],
+      "invalidates": [
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "batch-frozen",
+      "event": "reselect",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current"
+      ],
+      "invalidates": [
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "generation",
+      "event": "reselect",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current"
+      ],
+      "invalidates": [
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "native",
+      "event": "reselect",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current"
+      ],
+      "invalidates": [
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "implementation",
+      "event": "reselect",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current"
+      ],
+      "invalidates": [
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "verification",
+      "event": "reselect",
+      "to": "awaiting-user-selection",
+      "guards": [
+        "candidates-current"
+      ],
+      "invalidates": [
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "research",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "selection-ready",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "awaiting-user-selection",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "selected",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "batch-frozen",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "generation",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "native",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "implementation",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    },
+    {
+      "from": "verification",
+      "event": "revise-brief",
+      "to": "brief",
+      "guards": [],
+      "invalidates": [
+        "research",
+        "candidates",
+        "selection",
+        "batch",
+        "assets",
+        "native",
+        "implementation",
+        "verification"
+      ]
+    }
+  ],
+  "evidence_contracts": {
+    "native_canvas": {
+      "dev_mode_required": false,
+      "required_facts": [
+        "native_screens",
+        "native_annotations",
+        "design_canvas_linked_note_boards",
+        "palette",
+        "tokens",
+        "prototype_destination_ids",
+        "prototype_return_links"
+      ],
+      "note_board_evidence": "Current actual native report must establish ordinary Design-canvas readable note board node IDs, readable note text and explicit links to the annotated target screen or node IDs. Missing boards or missing target links fail both draft-review and production native verification."
+    }
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "authorities": {
+    "intent": "brief.md",
+    "implementation": "app/index.html"
+  },
+  "dependency_edge_types": [
+    "depends-on"
+  ],
+  "evidence": {
+    "REQ-CARDS-LIST": [
+      "specs/list.md"
+    ],
+    "STATE-CARDS-LIST": [
+      "specs/list.md"
+    ],
+    "REQ-CARDS-QUESTION": [
+      "specs/question.md"
+    ],
+    "STATE-CARDS-QUESTION": [
+      "specs/question.md"
+    ],
+    "ACT-CARDS-OPEN": [
+      "specs/question.md"
+    ],
+    "REQ-CARDS-ANSWER": [
+      "specs/answer.md"
+    ],
+    "STATE-CARDS-ANSWER": [
+      "specs/answer.md"
+    ],
+    "ACT-CARDS-REVEAL": [
+      "specs/answer.md"
+    ],
+    "ACT-CARDS-RETRY": [
+      "specs/retry.md"
+    ],
+    "ACT-CARDS-COMPLETE": [
+      "specs/complete.md"
+    ],
+    "REQ-CARDS-FINISH": [
+      "specs/finish.md"
+    ],
+    "STATE-CARDS-DONE": [
+      "specs/finish.md"
+    ],
+    "REQ-CARDS-SEARCH": [
+      "specs/search.md"
+    ],
+    "STATE-CARDS-EMPTY-SEARCH": [
+      "specs/search.md"
+    ],
+    "ACT-CARDS-SEARCH": [
+      "specs/search.md"
+    ],
+    "REQ-CARDS-RETRY": [
+      "specs/retry.md"
+    ],
+    "REQ-CARDS-COMPLETE": [
+      "specs/complete.md"
+    ],
+    "SCR-CARDS-LIST": [
+      "screen-spec.md"
+    ],
+    "SCR-CARDS-REVIEW": [
+      "screen-spec.md"
+    ],
+    "CODE-CARDS-APP": [
+      "app/index.html",
+      "app/main.js",
+      "app/style.css",
+      "app/data.js",
+      "app/tokens.css",
+      "app/components.css"
+    ],
+    "CODE-CARDS-LIST": [
+      "app/rules/list.js"
+    ],
+    "TEST-CARDS-LIST": [
+      "tests/list.test.cjs",
+      "evidence/results/12bfa28d3b02ed45.tap",
+      "test-mapping.json"
+    ],
+    "ACC-CARDS-LIST": [
+      "tests/list.test.cjs",
+      "evidence/results/12bfa28d3b02ed45.tap",
+      "test-mapping.json"
+    ],
+    "CODE-CARDS-QUESTION": [
+      "app/rules/question.js"
+    ],
+    "TEST-CARDS-QUESTION": [
+      "tests/question.test.cjs",
+      "evidence/results/652c08d88fe11f83.tap",
+      "test-mapping.json"
+    ],
+    "ACC-CARDS-QUESTION": [
+      "tests/question.test.cjs",
+      "evidence/results/652c08d88fe11f83.tap",
+      "test-mapping.json"
+    ],
+    "CODE-CARDS-ANSWER": [
+      "app/rules/answer.js"
+    ],
+    "TEST-CARDS-ANSWER": [
+      "tests/answer.test.cjs",
+      "evidence/results/8b78cd846b74380f.tap",
+      "test-mapping.json"
+    ],
+    "ACC-CARDS-ANSWER": [
+      "tests/answer.test.cjs",
+      "evidence/results/8b78cd846b74380f.tap",
+      "test-mapping.json"
+    ],
+    "CODE-CARDS-RETRY": [
+      "app/rules/retry.js"
+    ],
+    "TEST-CARDS-RETRY": [
+      "tests/retry.test.cjs",
+      "evidence/results/338bcba0535734bf.tap",
+      "test-mapping.json"
+    ],
+    "ACC-CARDS-RETRY": [
+      "tests/retry.test.cjs",
+      "evidence/results/338bcba0535734bf.tap",
+      "test-mapping.json"
+    ],
+    "CODE-CARDS-COMPLETE": [
+      "app/rules/complete.js"
+    ],
+    "TEST-CARDS-COMPLETE": [
+      "tests/complete.test.cjs",
+      "evidence/results/1ee8752f46a2be62.tap",
+      "test-mapping.json"
+    ],
+    "ACC-CARDS-COMPLETE": [
+      "tests/complete.test.cjs",
+      "evidence/results/1ee8752f46a2be62.tap",
+      "test-mapping.json"
+    ],
+    "CODE-CARDS-FINISH": [
+      "app/rules/finish.js"
+    ],
+    "TEST-CARDS-FINISH": [
+      "tests/finish.test.cjs",
+      "evidence/results/49cc6d06e36373d0.tap",
+      "test-mapping.json"
+    ],
+    "ACC-CARDS-FINISH": [
+      "tests/finish.test.cjs",
+      "evidence/results/49cc6d06e36373d0.tap",
+      "test-mapping.json"
+    ],
+    "CODE-CARDS-SEARCH": [
+      "app/rules/search.js"
+    ],
+    "TEST-CARDS-SEARCH": [
+      "tests/search.test.cjs",
+      "evidence/results/cfcc3820e2829c3e.tap",
+      "test-mapping.json"
+    ],
+    "ACC-CARDS-SEARCH": [
+      "tests/search.test.cjs",
+      "evidence/results/cfcc3820e2829c3e.tap",
+      "test-mapping.json"
+    ]
+  }
+}

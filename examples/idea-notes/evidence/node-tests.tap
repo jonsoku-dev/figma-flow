@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: TEST-001 fresh store and empty-store search have distinct messages
+ok 1 - TEST-001 fresh store and empty-store search have distinct messages
+  ---
+  duration_ms: 1.705958
+  type: 'test'
+  ...
+# Subtest: TEST-002 blank title, length boundaries and defensive overlength validation preserve input
+ok 2 - TEST-002 blank title, length boundaries and defensive overlength validation preserve input
+  ---
+  duration_ms: 11.009167
+  type: 'test'
+  ...
+# Subtest: TEST-003 persistence, literal text rendering and case-insensitive title/content search
+ok 3 - TEST-003 persistence, literal text rendering and case-insensitive title/content search
+  ---
+  duration_ms: 1.554625
+  type: 'test'
+  ...
+# Subtest: TEST-004 cancel/back discard draft; native submit path focuses new title and restored add button
+ok 4 - TEST-004 cancel/back discard draft; native submit path focuses new title and restored add button
+  ---
+  duration_ms: 0.423083
+  type: 'test'
+  ...
+# Subtest: TEST-005 failed write preserves draft and explicit retry succeeds; read retry recovers
+ok 5 - TEST-005 failed write preserves draft and explicit retry succeeds; read retry recovers
+  ---
+  duration_ms: 0.632625
+  type: 'test'
+  ...
+# Subtest: TEST-006 two tabs append independently and refresh without losing an open draft
+ok 6 - TEST-006 two tabs append independently and refresh without losing an open draft
+  ---
+  duration_ms: 0.82825
+  type: 'test'
+  ...
+# Subtest: TEST-007 HTML supplies labels, limits, native keyboard controls, error relationships and responsive CSS
+ok 7 - TEST-007 HTML supplies labels, limits, native keyboard controls, error relationships and responsive CSS
+  ---
+  duration_ms: 0.517
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 57.569875

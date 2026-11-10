@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "figma-flow",
+  "version": "0.18.1",
+  "description": "Turn a product brief into traceable Figma screens, screen specifications, and frontend implementation.",
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "interface": {
+        "displayName": "Figma Flow",
+        "shortDescription": "기획을 화면과 코드로 연결",
+        "longDescription": "캠페인 프롬프트를 로고·아이콘·이미지·활자 작업으로 배정하고, Figma 디자인 원본과 실제 웹·테스트를 추적합니다.",
+        "developerName": "Figma Flow",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "defaultPrompt": [
+          "기획서에서 Figma 화면과 상세 기획, 프론트엔드까지 연결해 줘",
+          "이 Figma 파일과 기획서를 대조해 요구사항 추적 그래프를 만들어 줘",
+          "이 게임 캠페인 프롬프트에 맞게 로고·아이콘·이미지·폰트 작업을 자동으로 배정하고 Figma 원본에서 구현해 줘"
+        ],
+        "brandColor": "#2F6555"
+      }
+    }
+  }
+}

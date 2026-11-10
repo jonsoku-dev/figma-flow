@@ -1,0 +1,36 @@
+/* Generated bitmap perimeter; real label determines both dimensions. */
+.ff-content-skin {
+  display: inline-grid;
+  grid-template-areas: "label";
+  inline-size: fit-content;
+  block-size: fit-content;
+  min-inline-size: 0;
+  min-block-size: 0;
+  max-inline-size: 100%;
+  box-sizing: border-box;
+  border: var(--ff-skin-cap) solid transparent;
+  border-image-source: var(--ff-skin-image);
+  border-image-slice: var(--ff-skin-slice) fill;
+  border-image-width: var(--ff-skin-cap);
+  border-image-repeat: stretch;
+  padding: var(--ff-skin-padding);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+}
+button.ff-content-skin { min-inline-size: 44px; min-block-size: 44px; }
+.ff-content-skin > [data-skin-label] {
+  grid-area: label;
+  min-inline-size: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.ff-titled-section {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: var(--ff-section-gap, 1rem);
+  min-inline-size: 0;
+}
+.ff-titled-section > [data-title-for] { margin: 0; }
+.ff-titled-section > [data-section-content] { min-inline-size: 0; }

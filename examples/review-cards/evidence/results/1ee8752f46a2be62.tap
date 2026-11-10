@@ -1,0 +1,9 @@
+TAP version 13
+ok 1 - "completion records exactly the selected card, returns to the list, and preserves the search"
+ok 2 - "completion is unavailable before reveal, from the list, or for an unknown card"
+ok 3 - "completion never duplicates an already recorded card"
+1..3
+# tests 3
+# pass 3
+# fail 0
+# controller {"passed":true,"tests":3,"failed":0}
