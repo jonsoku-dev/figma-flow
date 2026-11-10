@@ -2,6 +2,8 @@
 
 ## 변경 검증
 
+Node는 `.nvmrc`에 고정된 LTS를 사용합니다. 회사 npm 레지스트리는 사용자가 제공한 실제 URL·적용 범위를 확인해 프로젝트 `.npmrc`에 설정합니다. 인증값은 저장소에 넣지 않습니다. npm·pnpm·Yarn·Bun lockfile은 GitHub에 올리지 않으며, `.gitignore`와 실제 추적 파일을 모두 확인합니다. 루트에는 `package.json`이 없으므로 `npm install`/`npm ci` 대신 아래 기존 검사 명령을 사용합니다. [환경 설정과 추적 해제 절차](docs/npm-environment.md)
+
 저장소 밖의 가상환경에 `requirements-optional.txt`를 설치합니다. Python 3.13, Node.js 26, Codex CLI 0.165.0을 사용한 검사 명령입니다. 코드 실행 격리 테스트는 실제 `codex sandbox` 실행 파일을 필요로 합니다. 공개 CI는 macOS에서 공식 Codex 네이티브 바이너리의 SHA-256을 확인하고 읽기 전용 OS 샌드박스를 실행합니다. Ubuntu hosted runner에서는 bubblewrap의 루프백 설정이 거부됐습니다.
 
 ```sh

@@ -3,3 +3,9 @@ __pycache__/
 .DS_Store
 node_modules/
 .venv/
+**/package-lock.json
+**/npm-shrinkwrap.json
+**/pnpm-lock.yaml
+**/yarn.lock
+**/bun.lock
+**/bun.lockb

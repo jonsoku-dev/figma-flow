@@ -2,7 +2,7 @@
 
 Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으로 만들고, 사람이 선택한 방향의 Figma 화면·컴포넌트·변수·주석을 다시 읽어 대조하는 Codex 플러그인입니다. 전문 분석 보고서, GitHub의 컴포넌트 코드, 디자인 시스템 사이트도 기획과 함께 사용할 수 있습니다.
 
-**처음 시작할 때** 아래처럼 클론한 뒤 그 폴더를 Codex에서 열고 [내 환경에 맞는 설치 프롬프트](docs/codex-setup-prompts.md)를 붙여 넣으세요. Computer Use가 없는 환경은 파일 생성과 검증을 Codex가 맡고 Figma 버튼만 사람이 조작합니다.
+**처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. Computer Use가 없으면 같은 패키지·검증을 사용하고 Figma 버튼만 사람이 조작합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
 
 ```sh
 git clone --branch v0.18.2 https://github.com/jonsoku-dev/figma-flow.git
@@ -13,6 +13,9 @@ cd figma-flow
 |---|---|
 | Figma에 처음 등록하고 첫 시안 비교하기 | [실제 스크린샷으로 따라 하는 사용 가이드](docs/figma-guide.md) |
 | Codex에서 설치와 예제 실행 맡기기 | [Computer Use 사용·미사용 프롬프트](docs/codex-setup-prompts.md) |
+| 클론 전 설치·Figma 연결·업데이트·롤백 | [단계별 가이드와 프롬프트](docs/installation-and-updates.md) · [연동 스킬](skills/figma-plugin-setup/SKILL.md) |
+| 회사 private 저장소로 복제·배포 | [Private 저장소 가이드](docs/private-repository.md) |
+| Node LTS·회사 npm 설정·lockfile 제외 | [환경 설정 가이드](docs/npm-environment.md) |
 | 지정한 디자인 시스템으로 화면 만들기 | [shadcn/ui와 MUI 비교 결과](docs/design-system-trials.md) |
 | 릴리스 내려받기·버전 확인 | [GitHub Releases](https://github.com/jonsoku-dev/figma-flow/releases) · [변경 기록](CHANGELOG.md) · [개발·릴리스 절차](CONTRIBUTING.md) |
 
@@ -136,7 +139,7 @@ python3 tools/apply_figma_change.py --project PROJECT --resolved ORIGIN_RESOLVED
 
 ## 로컬로 먼저 실행하기
 
-번들 실행에는 Python 3과 TAP 테스트를 지원하는 Node.js가 필요합니다. 이번 검증에는 Python 3.13.3과 Node.js 26.7.0을 사용했습니다. 이 폴더에서 아직 존재하지 않는 출력 경로를 지정합니다.
+번들 실행에는 Python 3과 TAP 테스트를 지원하는 Node.js가 필요합니다. 기존 번들 실행 검증에는 Python 3.13.3과 Node.js 26.7.0을 사용했습니다. 새 설치는 `.nvmrc`의 LTS를 사용합니다. 이 폴더에서 아직 존재하지 않는 출력 경로를 지정합니다.
 
 ```sh
 python3 tools/run_local.py --out /tmp/figma-flow-study-001
