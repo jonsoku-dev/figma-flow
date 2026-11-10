@@ -10,7 +10,7 @@ function host() {
     async getStyleByIdAsync(id){return {id,name:id,fontName:{family:'Inter',style:'Regular'},fontSize:17,lineHeight:{unit:'PIXELS',value:24}};}}});
   vm.runInContext(runtime, context);
   const data = new Map(), writes = [];
-  const page = {id:'page',findAll:()=>[],flowStartingPoints:[],getPluginData:key=>data.get(key)||'',setPluginData(key,value){
+  const page = {id:'page',async loadAsync(){},findAll:()=>[],flowStartingPoints:[],getPluginData:key=>data.get(key)||'',setPluginData(key,value){
     const bytes=Buffer.byteLength(key+value,'utf8');
     assert(bytes<=100000,`Figma plugin-data entry exceeds 100 kB: ${key} (${bytes})`);
     writes.push({key,bytes});if(value)data.set(key,value);else data.delete(key);
@@ -144,6 +144,41 @@ test('control instance uses both authored dimensions, centered label and inherit
   h.validate();
   h.nodes.find(n=>n.type==='INSTANCE').children[0].height=50;
   assert.throws(()=>h.validate(),/native label exceeds padding or is not centered/);
+});
+
+test('reopening review from another active page loads only the matched review before traversal',async()=>{
+  const h=geometryWorld([textLayer('title',20,20,200,20)]);
+  let loaded=false,loads=0,traversals=0,mutations=0;
+  h.page.getPluginData=key=>key==='figma-flow-direction-review-v1'?'instance':'';
+  h.page.loadAsync=async()=>{loads++;loaded=true;};
+  h.page.findAll=()=>{assert.equal(loaded,true,'matched review must load before findAll');traversals++;return h.nodes;};
+  const unrelated={id:'other-project',getPluginData:()=> 'other-instance',
+    async loadAsync(){assert.fail('must not load unrelated pages');},findAll(){assert.fail('must not traverse unrelated pages');}};
+  h.c.foundationBindings=[];h.c.foundations={roles:[]};
+  Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',instance_sha256:'instance',candidates:[h.c]});
+  h.context.admitDraftColorConsumers=()=>[];
+  h.context.figma.listAvailableFontsAsync=async()=>[{fontName:{family:'Inter',style:'Regular'}}];
+  h.context.figma.root={children:[unrelated,h.page]};h.context.figma.currentPage=unrelated;
+  h.context.figma.createPage=()=>{mutations++;assert.fail('must reuse matched review');};
+  h.context.figma.setCurrentPageAsync=async page=>{assert.equal(loaded,true);assert.equal(page,h.page);h.context.figma.currentPage=page;};
+  for(const node of h.nodes)for(const method of ['resize','clone','remove'])node[method]=()=>{mutations++;assert.fail('reopening must not mutate nodes');};
+  assert.equal(await h.context.makeDraft(),h.page);
+  h.context.readNativeSemantics=async()=>({nodes:[]});
+  const readback=await h.context.readDraft(h.page);
+  assert.equal(readback.scope,'exploratory-only');
+  assert.equal(loads,1);assert(traversals>=2);assert.equal(mutations,0);
+});
+
+test('matched review load failure propagates before selection or fallback creation',async()=>{
+  const h=host();h.page.getPluginData=()=> 'instance';
+  h.page.loadAsync=async()=>{throw Error('matched page load failed');};
+  h.page.findAll=()=>assert.fail('failed load must not traverse');
+  Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',instance_sha256:'instance',candidates:[]});
+  h.context.admitDraftColorConsumers=()=>[];h.context.figma.listAvailableFontsAsync=async()=>[];
+  h.context.figma.root={children:[h.page]};
+  h.context.figma.createPage=()=>assert.fail('must not create a fallback page');
+  h.context.figma.setCurrentPageAsync=async()=>assert.fail('must not select an unloaded page');
+  await assert.rejects(()=>h.context.makeDraft(),/matched page load failed/);
 });
 
 test('overlapping state rows are rejected on reuse and reuse cannot bypass text measurement',async()=>{
