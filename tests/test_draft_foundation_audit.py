@@ -380,3 +380,38 @@ class DraftFoundationAuditTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ProductButtonAuditTests(unittest.TestCase):
+    def fixture(self):
+        native, candidate = modeled_fixture()
+        candidate['control_styles'] = {'desktop': {'Primary': {'fontSize': 14}}}
+        candidate['state_layouts']['desktop']['ST']['product_buttons'] = {
+            'product': {'variant': 'Primary', 'box': [10, 70, 160, 50], 'label': 'Actual product'}}
+        instance = copy.deepcopy(native['nodes'][9])
+        instance.update(id='product', parentId='scene', semanticKey='a.desktop.ST.product', reactions=[])
+        instance['absoluteBoundingBox'] = {'x': 10, 'y': 70, 'width': 160, 'height': 50}
+        label = copy.deepcopy(native['nodes'][6])
+        label.update(id='product-label', parentId='product', semanticKey='a.desktop.ST.product.label', characters='Actual product')
+        label['absoluteBoundingBox'] = {'x': 34, 'y': 80, 'width': 110, 'height': 30}
+        native['nodes'].extend([instance, label])
+        return native, candidate
+
+    def test_product_button_is_an_observed_instance_with_actual_text(self):
+        native, candidate = self.fixture()
+        result = audit_draft_foundations(native, candidate)
+        self.assertTrue(result['passed'], result)
+
+    def test_missing_detached_hidden_or_interactive_product_button_fails(self):
+        for mutation in ('missing', 'type', 'main', 'hidden', 'reactions', 'missing-reactions', 'label'):
+            with self.subTest(mutation=mutation):
+                native, candidate = self.fixture()
+                instance, label = native['nodes'][-2:]
+                if mutation == 'missing': native['nodes'].remove(instance)
+                elif mutation == 'type': instance['type'] = 'FRAME'
+                elif mutation == 'main': instance['mainComponentId'] = 'missing'
+                elif mutation == 'hidden': instance['visible'] = False
+                elif mutation == 'reactions': instance['reactions'] = [{'trigger': {'type': 'ON_CLICK'}}]
+                elif mutation == 'missing-reactions': instance.pop('reactions')
+                else: label['characters'] = 'False label'
+                self.assertFalse(audit_draft_foundations(native, candidate)['passed'])

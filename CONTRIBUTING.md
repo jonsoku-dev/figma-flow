@@ -17,10 +17,10 @@ python -B -m unittest discover -s examples/native-direction-review -p test_demo.
 1. 호환되는 수정·문서는 패치, 호환되는 기능 추가는 마이너 버전을 올립니다. 호환성을 깨는 변경은 릴리스 노트에 영향과 이행 방법을 명시합니다. 코덱스·범용 매니페스트의 `version`, README의 설치 태그, `CHANGELOG.md`의 릴리스 번호를 함께 갱신합니다.
 2. 변경을 커밋하고 최종 트리에서 위 검사를 실행합니다. 처음 설치하는 경로는 깨끗한 클론에서 워크숍 예제를 만들어 Figma용 `manifest.json`까지 검증합니다. 원격의 대상 브랜치와 공개할 Git 사용자 이메일을 확인합니다.
 3. 통과한 `main` 커밋에 `vX.Y.Z`로 주석 태그를 만듭니다. `CHANGELOG.md`의 해당 항목을 Release 본문에 쓰고 테스트 범위와 남은 제한을 덧붙입니다. 기존 공개 태그와 파일은 보존하고 변경본에는 새 버전을 부여합니다.
-4. 릴리스 ZIP과 체크섬은 저장소 밖에서 만듭니다. 다음은 태그가 `v0.18.1`인 예입니다.
+4. 릴리스 ZIP과 체크섬은 저장소 밖에서 만듭니다. 다음은 태그가 `v0.18.2`인 예입니다.
 
 ```sh
-TAG=v0.18.1
+TAG=v0.18.2
 ASSET="figma-flow-plugin-${TAG#v}.zip"
 git archive --format=zip --prefix=figma-flow-plugin/ --output="../$ASSET" "$TAG"
 (cd .. && shasum -a 256 "$ASSET" > "$ASSET.sha256")

@@ -217,6 +217,35 @@ class OverflowTests(unittest.TestCase):
             self.assertEqual(quality.evaluate(fits, layout_dir=base)['metrics']['a/mobile/S-ENTRY']['text_measurement'], 'measured')
 
 
+class NativeTextAndProductTests(unittest.TestCase):
+    def test_tracking_and_line_count_use_actual_font(self):
+        with tempfile.TemporaryDirectory() as temp:
+            base = Path(temp)
+            (base/'fonts').mkdir()
+            build_font(base/'fonts/regular.ttf')
+            (base/'fonts/sources.json').write_text(json.dumps({'Gate Mono': {'styles': {
+                'Regular': {'file': 'fonts/regular.ttf'}}}}))
+            fonts = {'body': {'family': 'Gate Mono', 'style': 'Regular'}}
+            layer = text('label', 10, 10, 85, 60, 'AAAAAAAA', size=20, leading=25, max_lines=1)
+            self.assertNotIn('text-overflow', codes(quality.evaluate(layout([layer], fonts=fonts), base)))
+            layer['letter_spacing'] = 2
+            self.assertIn('text-overflow', codes(quality.evaluate(layout([layer], fonts=fonts), base), 'error'))
+
+    def test_product_button_contrast_uses_selected_variant_and_visible_outline(self):
+        doc = layout([], bg='paper')
+        c = doc['candidates'][0]
+        vp, states = next(iter(c['state_layouts'].items()))
+        state = next(iter(states.values()))
+        state['product_buttons'] = {'reset': {'box': [20,20,120,44], 'variant': 'Outline', 'label': 'Reset'}}
+        style = {'fill': 'paper','ink': 'ink','fontSize': 14,'stroke':'ink','stroke_width':1}
+        c['control_styles'][vp]['Outline'] = style
+        self.assertNotIn('control-invisible', codes(quality.evaluate(doc)))
+        style['stroke'] = 'paper'
+        self.assertIn('control-invisible', codes(quality.evaluate(doc), 'error'))
+        style['ink'] = 'paper'
+        self.assertIn('control-label-contrast', codes(quality.evaluate(doc), 'error'))
+
+
 class HeuristicWarningTests(unittest.TestCase):
     def test_placeholder_bar(self):
         bar = rect('upper-light', 60, 600, 270, 18, fill='night')

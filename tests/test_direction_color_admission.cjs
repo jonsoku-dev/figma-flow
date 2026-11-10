@@ -245,3 +245,17 @@ test('preflight passes when every font is installed and authoring is reached',as
   assert.deepEqual(missing.writes,{pages:0,variables:0,styles:0});
   assert(missing.messages.some(m=>String(m.message).includes('필수 실제 글꼴 없음: Inter Regular')));
 });
+
+test('passive product buttons are actual named fill, label and outline consumers',()=>{
+  const c=candidate();addUnused(c,'outline');
+  for(const viewport of ['desktop','mobile']) {
+    c.control_styles[viewport].Outline={fill:'paper',ink:'ink',stroke:'outline',stroke_width:1,fontSize:14};
+    c.state_layouts[viewport]['CANONICAL-OTHER'].product_buttons={passive:{box:[20,90,300,60],variant:'Outline',label:'실제 제품 버튼'}};
+  }
+  const h=host([c]),report=h.context.admitDraftColorConsumers([c]);
+  const outline=report.find(row=>row.token==='color/outline');
+  assert.equal(outline.consumers.length,2);
+  assert(outline.consumers.every(row=>row.field==='strokes'&&row.key.endsWith('.passive')));
+  c.state_layouts.desktop['CANONICAL-OTHER'].product_buttons.passive.label='';
+  assert.throws(()=>h.context.admitDraftColorConsumers([c]),/Product button box\/variant\/label required/);
+});

@@ -1,11 +1,11 @@
-# Figma Flow 0.18.1
+# Figma Flow 0.18.2
 
 Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으로 만들고, 사람이 선택한 방향의 Figma 화면·컴포넌트·변수·주석을 다시 읽어 대조하는 Codex 플러그인입니다. 전문 분석 보고서, GitHub의 컴포넌트 코드, 디자인 시스템 사이트도 기획과 함께 사용할 수 있습니다.
 
 **처음 시작할 때** 아래처럼 클론한 뒤 그 폴더를 Codex에서 열고 [내 환경에 맞는 설치 프롬프트](docs/codex-setup-prompts.md)를 붙여 넣으세요. Computer Use가 없는 환경은 파일 생성과 검증을 Codex가 맡고 Figma 버튼만 사람이 조작합니다.
 
 ```sh
-git clone --branch v0.18.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.18.2 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 ```
 

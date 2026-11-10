@@ -167,23 +167,53 @@ def audit_draft_foundations(readback, candidate):
             if kind == 'COLOR' and any(not 0 <= _color(value).get(channel, 1) <= 1 for channel in 'rgba'):
                 raise ValueError('native color outside channel range: ' + variable_id)
             return kind, value
-        expected_sizes, expected_owners = {}, {}
+        expected_sizes, expected_owners, product_buttons = {}, {}, []
         for viewport, layouts in candidate.get('state_layouts', {}).items():
             for state_id, layout in layouts.items():
                 for layer in layout.get('layers', []):
                     expected_owners[f"{identity}.{viewport}.{state_id}.{layer['id']}"] = (f"{identity}.{viewport}.{state_id}", 'FRAME')
                     if layer.get('kind') == 'text':
                         expected_sizes[f"{identity}.{viewport}.{state_id}.{layer['id']}"] = layer
+                for button_id, button in layout.get('product_buttons', {}).items():
+                    frame_key = f'{identity}.{viewport}.{state_id}'
+                    control_key = frame_key + '.' + button_id
+                    main_key = f"{identity}.{viewport}.component.{button['variant']}"
+                    style = candidate['control_styles'][viewport][button['variant']]
+                    expected_owners[control_key] = (frame_key, 'FRAME')
+                    expected_owners[control_key + '.label'] = (control_key, 'INSTANCE')
+                    expected_sizes[control_key + '.label'] = {'font': style.get('font', 'body'), 'size': style['fontSize']}
+                    product_buttons.append((control_key, main_key, frame_key, button))
         for viewport, control_styles in candidate.get('control_styles', {}).items():
             for visual in control_styles:
                 main_key = f'{identity}.{viewport}.component.{visual}'
                 expected_owners[main_key] = (f'{identity}.{viewport}.component-set', 'COMPONENT_SET')
                 expected_owners[main_key + '.label'] = (main_key, 'COMPONENT')
+                style = control_styles[visual]
+                expected_sizes[main_key + '.label'] = {'font': style.get('font', 'body'), 'size': style['fontSize']}
+        actions = {node['id']: node.get('annotation', {}).get('visual_variant') for node in graph.get('nodes', []) if node.get('type') == 'action'}
         for edge in graph.get('draft_prototype', {}).get('bindings', []):
             frame_key = f"{identity}.{edge['viewport']}.{edge['source_state']}"
             control_key = frame_key + '.' + edge['control_id']
             expected_owners[control_key] = (frame_key, 'FRAME')
             expected_owners[control_key + '.label'] = (control_key, 'INSTANCE')
+            style = candidate.get('control_styles', {}).get(edge['viewport'], {}).get(actions.get(edge.get('action')))
+            if style:
+                expected_sizes[control_key + '.label'] = {'font': style.get('font', 'body'), 'size': style['fontSize']}
+        for control_key, main_key, frame_key, button in product_buttons:
+            def exact(target):
+                matches = [node for node in nodes.values() if key(node) == target]
+                return matches[0] if len(matches) == 1 else {}
+            instance, main, label, frame = (exact(target) for target in (control_key, main_key, control_key + '.label', frame_key))
+            component_set = exact(main_key.rsplit('.component.', 1)[0] + '.component-set')
+            if (instance.get('type') != 'INSTANCE' or main.get('type') != 'COMPONENT' or
+                component_set.get('type') != 'COMPONENT_SET' or main.get('parentId') != component_set.get('id') or
+                instance.get('mainComponentId') != main.get('id') or not visible(main) or not belongs(main) or not visible(instance) or
+                not belongs(instance) or instance.get('parentId') != frame.get('id') or
+                not isinstance(instance.get('reactions'), list) or instance['reactions']):
+                fail('invalid-real-product-button', control_key)
+            if (label.get('type') != 'TEXT' or label.get('characters') != button['label'] or
+                label.get('parentId') != instance.get('id') or not visible(label)):
+                fail('missing-real-product-button-label', control_key)
         uses = report['uses']
         for node in nodes.values():
             if not belongs(node) or not visible(node):

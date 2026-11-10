@@ -102,26 +102,35 @@ class _Fonts:
             except (OSError, ValueError):
                 self.sources = {}
 
-    def get(self, family, size):
+    def get(self, role, size):
+        family, style = role.get('family'), role.get('style', 'Regular')
         record = self.sources.get(family) if isinstance(self.sources, dict) else None
+        if isinstance(record, dict) and 'styles' in record:
+            record = record['styles'].get(style) if isinstance(record['styles'], dict) else None
         if not isinstance(record, dict) or not record.get('file'):
             return None
-        key = (family, size)
+        settings = role.get('variationSettings', {})
+        key = (family, style, size, tuple(sorted(settings.items())))
         if key not in self.cache:
             self.cache[key] = None
             try:
                 from PIL import ImageFont
                 path = (self.dir / record['file']).resolve()
-                if path.is_file():
-                    font = ImageFont.truetype(str(path), max(1, round(size)))
-                    try:
-                        axes = font.get_variation_axes()
-                        font.set_variation_by_axes([400 if a.get('name') in (b'Weight', 'Weight') else a.get('default', 0) for a in axes])
-                    except (OSError, AttributeError, ValueError):
-                        pass
-                    self.cache[key] = font
-            except (ImportError, OSError, ValueError):
-                self.cache[key] = None
+                index = record.get('index', 0)
+                font = ImageFont.truetype(str(path), max(1, round(size)), index=index)
+                if settings:
+                    from fontTools.ttLib import TTFont
+                    with TTFont(path, fontNumber=index, lazy=True) as face:
+                        axes = face['fvar'].axes
+                        if set(settings) - {axis.axisTag for axis in axes}:
+                            return None
+                        font.set_variation_by_axes([settings.get(axis.axisTag, axis.defaultValue) for axis in axes])
+                elif font.getname()[1].casefold() != style.casefold():
+                    # Use the requested face; a regular face cannot certify that a bold label fits.
+                    font.set_variation_by_name(style)
+                self.cache[key] = font
+            except (ImportError, OSError, ValueError, TypeError, KeyError, AttributeError):
+                pass
         return self.cache[key]
 
 
@@ -250,18 +259,22 @@ class _State:
             if not value.strip() or size <= 0:
                 continue
             font_role = self.candidate.get('fonts', {}).get(layer.get('font', 'body'), {})
-            font = self.fonts.get(font_role.get('family'), size)
+            font = self.fonts.get(font_role, size)
             if font is not None:
-                measure = font.getlength
+                def glyph_width(text):
+                    return font.getlength(text) * size / font.size
                 measured += 1
             else:
-                def measure(text, size=size):
+                def glyph_width(text, size=size):
                     return _estimate(text, size)
                 estimated += 1
             x, y, w, h = _box(layer)
             leading = float(layer.get('leading') or size * 1.2)
+            tracking = float(layer.get('letter_spacing', 0))
+            def measure(text):
+                return glyph_width(text) + max(0, len(text) - 1) * tracking
             lines, longest = _wrap_lines(value, w + .5, measure)
-            if lines * leading > h + 1 or longest > w + .5:
+            if lines * leading > h + 1 or longest > w + .5 or ('max_lines' in layer and lines > layer['max_lines']):
                 if font is not None:
                     self.add('error', 'text-overflow', layer['id'], '텍스트가 %d줄(%gpx)로 박스 높이 %gpx를 넘습니다.' % (lines, lines * leading, h))
                 else:
@@ -270,7 +283,9 @@ class _State:
 
     def controls(self):
         min_h = CONTROL_MIN_H.get(self.viewport, 44)
-        for control_id, box in (self.state.get('control_boxes') or {}).items():
+        controls = [(key, box, self.variants.get(key)) for key, box in (self.state.get('control_boxes') or {}).items()]
+        controls.extend((key, spec.get('box'), spec.get('variant')) for key, spec in (self.state.get('product_buttons') or {}).items() if isinstance(spec, dict))
+        for control_id, box, variant in controls:
             if not (isinstance(box, list) and len(box) == 4):
                 continue
             bx = tuple(float(v) for v in box)
@@ -279,16 +294,16 @@ class _State:
             for layer in self.texts:
                 if _intersection(bx, _box(layer)) > 0:
                     self.add('error', 'control-text-overlap', control_id, '버튼 영역이 텍스트 "%s"와 겹칩니다.' % layer['id'])
-            self.control_colors(control_id, bx)
+            self.control_colors(control_id, bx, variant)
 
-    def control_colors(self, control_id, bx):
+    def control_colors(self, control_id, bx, variant):
         """A button must read against its own label and against what it sits on.
 
         The variant a control uses lives in the annotations; without them only a
         defect shared by every declared variant is certain enough to block.
         """
         styles = (self.candidate.get('control_styles') or {}).get(self.viewport) or {}
-        known = styles.get(self.variants.get(control_id))
+        known = styles.get(variant)
         rows = [known] if isinstance(known, dict) else [s for s in styles.values() if isinstance(s, dict)]
         rows = [s for s in rows if s.get('fill') in self.colors and s.get('ink') in self.colors]
         if not rows:
@@ -300,7 +315,12 @@ class _State:
             need = 3.0 if float(style.get('fontSize') or 0) >= 24 else 4.5
             labels.append((contrast_ratio(self.color(style['ink']), fill), need))
             if bg is not None:
-                fills.append(contrast_ratio(fill, bg))
+                # An outlined control can have the same surface as its container.
+                stroke = style.get('stroke')
+                if stroke in self.colors and style.get('stroke_width', 1) >= 1 and contrast_ratio(self.color(stroke), bg) >= 3:
+                    fills.append(contrast_ratio(self.color(stroke), bg))
+                else:
+                    fills.append(contrast_ratio(fill, bg))
         if all(ratio < need for ratio, need in labels):
             ratio, need = max(labels)
             self.add('error', 'control-label-contrast', control_id, '버튼 글자와 버튼 색의 대비가 %.2f:1로 기준 %.1f:1보다 낮습니다.' % (ratio, need))

@@ -27,7 +27,7 @@ def authored_fields(source, graph):
         put(key, {'cornerRadius': style['radius'], 'paddingLeft': style['paddingX'],
                   'paddingRight': style['paddingX'], 'paddingTop': style['paddingY'],
                   'paddingBottom': style['paddingY'], 'itemSpacing': 0})
-        put(key + '.label', {'fontFamily': fonts['body']['family'], 'fontSize': style['fontSize']})
+        put(key + '.label', {'fontFamily': fonts[style.get('font', 'body')]['family'], 'fontSize': style['fontSize']})
 
     for viewport, states in source['state_layouts'].items():
         styles = source['control_styles'][viewport]
@@ -45,6 +45,10 @@ def authored_fields(source, graph):
                     if visual not in styles:
                         raise ValueError('No authored component style for action ' + edge['action'])
                     control(prefix + edge['control_id'], styles[visual])
+            for button_id, button in layout.get('product_buttons', {}).items():
+                if button.get('variant') not in styles:
+                    raise ValueError('No authored component style for product button ' + button_id)
+                control(prefix + button_id, styles[button['variant']])
     return fields
 
 
@@ -82,7 +86,7 @@ def check_display_value(role, variable_type, value):
             raise ValueError(f"{role['token']}: font family {value!r} is absent from the displayed plan")
 
 
-def _legacy_native(role, source, fields):
+def _legacy_native(role, source, fields, graph):
     """Recover an unambiguous former role; never choose a consumer by a coincidental number."""
     token = role['token']
     if token == 'radius/control' and role['kind'] == 'radius':
@@ -98,8 +102,19 @@ def _legacy_native(role, source, fields):
             for state, layout in states.items():
                 keys.extend(f"{source['id']}.{viewport}.{state}.{layer['id']}" for layer in layout['layers']
                             if layer['kind'] == 'text' and layer.get('font', 'body') == font)
-        if font == 'body':
-            keys.extend(key for key in fields if key.endswith('.label') and key not in keys)
+        actions = {node['id']: node.get('annotation', {}).get('visual_variant') for node in graph['nodes'] if node.get('type') == 'action'}
+        for viewport, states in source['state_layouts'].items():
+            styles = source['control_styles'][viewport]
+            for visual, style in styles.items():
+                if style.get('font', 'body') == font:
+                    keys.append(f"{source['id']}.{viewport}.component.{visual}.label")
+            for edge in graph['draft_prototype']['bindings']:
+                if edge['viewport'] == viewport and styles[actions[edge['action']]].get('font', 'body') == font:
+                    keys.append(f"{source['id']}.{viewport}.{edge['source_state']}.{edge['control_id']}.label")
+            for state_id, layout in states.items():
+                for button_id, button in layout.get('product_buttons', {}).items():
+                    if styles[button['variant']].get('font', 'body') == font:
+                        keys.append(f"{source['id']}.{viewport}.{state_id}.{button_id}.label")
         return {'type': 'STRING', 'value': source['fonts'][font]['family'],
                 'bindings': [{'key': key, 'field': 'fontFamily'} for key in keys]}
     raise ValueError(f'{token}: declare native.type, native.value and native.bindings for the intended properties')
@@ -162,6 +177,8 @@ def _color_consumers(source, graph):
         for visual, style in styles.items():
             named(style.get('fill'), f'{identity}.{viewport}.component.{visual}')
             named(style.get('ink'), f'{identity}.{viewport}.component.{visual}.label')
+            if 'stroke' in style:
+                named(style['stroke'], f'{identity}.{viewport}.component.{visual}.stroke')
         for state in states:
             state_id = state['id']
             key = f'{identity}.{viewport}.{state_id}'
@@ -197,8 +214,24 @@ def _color_consumers(source, graph):
                 if not intersects(dict(zip(('x', 'y', 'w', 'h'), box)), layout):
                     continue
                 add(style['fill'], control_key)
+                if 'stroke' in style:
+                    add(style['stroke'], control_key, 'strokes')
                 if isinstance(action.get('title'), str) and action['title'].strip():
                     add(style['ink'], control_key + '.label')
+            for button_id, button in layout.get('product_buttons', {}).items():
+                control_key = key + '.' + button_id
+                style = styles.get(button.get('variant'))
+                box = button.get('box')
+                if (not style or not isinstance(box, list) or len(box) != 4 or
+                    any(type(v) not in (int, float) or not math.isfinite(v) for v in box) or
+                    box[2] <= 0 or box[3] <= 0 or not isinstance(button.get('label'), str) or not button['label'].strip()):
+                    raise ValueError('Actual product button box/style/label required for COLOR consumer: ' + control_key)
+                if not intersects(dict(zip(('x', 'y', 'w', 'h'), box)), layout):
+                    continue
+                add(style['fill'], control_key)
+                add(style['ink'], control_key + '.label')
+                if 'stroke' in style:
+                    add(style['stroke'], control_key, 'strokes')
     reports = []
     unused = [role['token'] for leaf, role in declared.items() if not uses[leaf]]
     if unused:  # Report every unused role at once instead of one per run.
@@ -265,7 +298,7 @@ def foundation_bindings(source, graph):
                     if not isinstance(binding, dict):
                         raise ValueError(f'{token}: invalid native COLOR binding')
                     key, field = binding.get('key'), binding.get('field')
-                    if field != 'fills' or type(binding.get('paintIndex', 0)) is not int or binding.get('paintIndex', 0) != 0 or color_targets.get((key, field)) != leaf:
+                    if field not in ('fills', 'strokes') or type(binding.get('paintIndex', 0)) is not int or binding.get('paintIndex', 0) != 0 or color_targets.get((key, field)) != leaf:
                         raise ValueError(f'{token}: native target is not its authored named paint {key}.{field}')
                     if (key, field) in assignments:
                         raise ValueError(f'{token}: {key}.{field} already declared for {assignments[key, field]}')
@@ -275,7 +308,7 @@ def foundation_bindings(source, graph):
         else:
             native = role.get('native')
             if native is None:
-                native = _legacy_native(role, source, fields)
+                native = _legacy_native(role, source, fields, graph)
             if not isinstance(native, dict):
                 raise ValueError(f'{token}: invalid native role declaration')
             variable_type, value = native.get('type'), native.get('value')
@@ -315,12 +348,20 @@ def foundation_bindings(source, graph):
     # A screen control is an instance of its main component: a FLOAT/STRING role on the instance must also be
     # declared on that main, or Figma rejects the instance binding after the page already exists.
     actions = {node['id']: node for node in graph.get('nodes', []) if node.get('type') == 'action'}
+    controls = []
     for edge in graph['draft_prototype'].get('bindings', []):
         visual = actions.get(edge.get('action'), {}).get('annotation', {}).get('visual_variant')
         instance = f"{source['id']}.{edge.get('viewport')}.{edge.get('source_state')}.{edge.get('control_id')}"
         main = f"{source['id']}.{edge.get('viewport')}.component.{visual}"
+        controls.append((instance, main))
+    for viewport, states in source['state_layouts'].items():
+        for state_id, layout in states.items():
+            for button_id, button in layout.get('product_buttons', {}).items():
+                controls.append((f"{source['id']}.{viewport}.{state_id}.{button_id}",
+                                 f"{source['id']}.{viewport}.component.{button['variant']}"))
+    for instance, main in controls:
         for suffix in ('', '.label'):
             for (key, field), token in assignments.items():
-                if key == instance + suffix and field != 'fills' and assignments.get((main + suffix, field)) != token:
+                if key == instance + suffix and field not in ('fills', 'strokes') and assignments.get((main + suffix, field)) != token:
                     raise ValueError(f'{token}: control {key}.{field} needs the same role on its main component {main + suffix}.{field}')
     return result

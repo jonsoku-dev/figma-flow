@@ -97,3 +97,63 @@ class TokenPlanTests(unittest.TestCase):
         key = f"{self.candidate['id']}.mobile.component.Return"
         role = self.role('radius/control','cornerRadius',0,key)
         self.assertEqual(self.plan(role)[0]['value'],0)
+
+
+class ProductButtonTokenTests(unittest.TestCase):
+    setUp = TokenPlanTests.setUp
+    role = TokenPlanTests.role
+    plan = TokenPlanTests.plan
+    def test_passive_buttons_bind_font_and_spacing_through_their_shared_main(self):
+        from draft_token_plan import authored_fields
+        state = self.graph['draft_prototype']['entry_state']
+        self.candidate['control_styles']['desktop']['Primary']['font'] = 'display'
+        self.candidate['state_layouts']['desktop'][state]['product_buttons'] = {
+            'product': {'box': [20, 20, 150, 60], 'variant': 'Primary', 'label': 'Actual product'}}
+        main = f"{self.candidate['id']}.desktop.component.Primary"
+        button = f"{self.candidate['id']}.desktop.{state}.product"
+        family = self.candidate['fonts']['display']['family']
+        self.assertEqual(authored_fields(self.candidate, self.graph)[button + '.label']['fontFamily'], family)
+        role = self.role('type/product', 'fontFamily', family, button + '.label')
+        with self.assertRaisesRegex(ValueError, 'same role on its main'):
+            self.plan(role)
+        role['native']['bindings'].append({'key': main + '.label', 'field': 'fontFamily'})
+        self.assertEqual(len(self.plan(role)[0]['bindings']), 2)
+
+    def test_legacy_font_roles_follow_style_role_even_when_families_match(self):
+        state = self.graph['draft_prototype']['entry_state']
+        self.candidate['fonts']['display']['family'] = self.candidate['fonts']['body']['family']
+        self.candidate['control_styles']['desktop']['Primary']['font'] = 'display'
+        self.candidate['state_layouts']['desktop'][state]['product_buttons'] = {
+            'product': {'box': [20, 20, 150, 60], 'variant': 'Primary', 'label': 'Actual product'}}
+        role = {'kind': 'typography', 'token': 'type/body', 'alias': 'font/body',
+                'value': self.candidate['fonts']['body']['family']}
+        bindings = self.plan(role)[0]['bindings']
+        self.assertNotIn(f"{self.candidate['id']}.desktop.{state}.product.label", [binding['key'] for binding in bindings])
+
+    def test_product_only_colors_and_strokes_are_real_named_consumers(self):
+        from test_draft_color_consumers import source_fixture, extra_color
+        from draft_token_plan import authored_color_consumers
+        source, graph = source_fixture()
+        extra_color(source, graph)
+        source['control_styles']['desktop']['Product'] = dict(source['control_styles']['desktop']['Primary'], stroke='tint')
+        layout = source['state_layouts']['desktop']['COVER']
+        layout['product_buttons'] = {'product': {'box': [24, 20, 200, 60], 'variant': 'Product', 'label': 'Buy item'}}
+        role = graph['design_foundations']['roles'][-1]
+        role['native'] = {'type': 'COLOR', 'value': {'r': 216 / 255, 'g': 229 / 255, 'b': 208 / 255},
+                          'bindings': [{'key': 'x.desktop.COVER.product', 'field': 'strokes'}]}
+        self.assertEqual(authored_color_consumers(source, graph)[-1]['consumers'],
+                         [{'key': 'x.desktop.COVER.product', 'field': 'strokes'}])
+        self.assertEqual(foundation_bindings(source, graph)[0]['bindings'][0]['field'], 'strokes')
+        layout['product_buttons']['product']['box'][0] = 500
+        with self.assertRaisesRegex(ValueError, 'no visible authored'):
+            foundation_bindings(source, graph)
+
+    def test_invalid_product_button_cannot_claim_a_color_consumer(self):
+        from test_draft_color_consumers import source_fixture
+        for change in ('label', 'variant', 'box'):
+            source, graph = source_fixture()
+            button = {'box': [24, 20, 200, 60], 'variant': 'Primary', 'label': 'Buy item'}
+            button[change] = {'label': ' ', 'variant': 'missing', 'box': [0, 0, 0, 60]}[change]
+            source['state_layouts']['desktop']['COVER']['product_buttons'] = {'product': button}
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                foundation_bindings(source, graph)

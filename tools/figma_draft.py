@@ -22,6 +22,7 @@ import annotation_contract
 from draft_foundation_audit import audit_draft_foundations
 from draft_token_plan import foundation_bindings
 import design_directions
+import design_quality
 
 PLUGIN=TOOLS.parent
 HELPERS=('semantic_tokens.js','native_annotations.js','native_semantic_read.js','foundation_palette.js','design_note_board.js')
@@ -49,9 +50,9 @@ def checked_review(manifest):
 
 
 BASE_LAYER=('id','kind','x','y','w','h')
-LAYER_FIELDS={'text':BASE_LAYER+('value','size','leading','ink','font','align'),
-              'rect':BASE_LAYER+('fill','radius','stroke','stroke_width','opacity','role'),
-              'ellipse':BASE_LAYER+('fill','stroke','stroke_width','opacity','role'),
+LAYER_FIELDS={'text':BASE_LAYER+('value','size','leading','ink','font','align','letter_spacing','max_lines'),
+              'rect':BASE_LAYER+('fill','radius','stroke','stroke_width','opacity','role','shadows'),
+              'ellipse':BASE_LAYER+('fill','stroke','stroke_width','opacity','role','shadows'),
               'gradient':BASE_LAYER+('direction','stops','opacity','role'),
               'image':BASE_LAYER+('asset','fit','opacity','role')}
 LAYER_ROLES={'background','surface','illustration','image','divider','ornament','frame'}
@@ -62,6 +63,26 @@ def _finite(value):
     return type(value) in (int,float) and math.isfinite(value)
 
 
+def check_shadows(shadows, where):
+    """Keep authored CSS shadow geometry explicit before constructing native effects."""
+    if not isinstance(shadows, list):
+        raise ValueError("shadows must be an ordered array: " + where)
+    fields = {"x", "y", "blur", "spread", "color", "opacity"}
+    for index, shadow in enumerate(shadows):
+        valid = (
+            isinstance(shadow, dict)
+            and set(shadow) == fields
+            and all(_finite(shadow[field]) for field in ("x", "y", "blur", "spread", "opacity"))
+            and shadow["blur"] >= 0
+            and 0 <= shadow["opacity"] <= 1
+            and isinstance(shadow["color"], str)
+            and re.fullmatch(r"#[0-9a-fA-F]{6}", shadow["color"])
+        )
+        if not valid:
+            raise ValueError(
+                f"Invalid shadows[{index}] at {where}; require finite x/y/blur/spread, blur >= 0, #RRGGBB color and opacity in [0, 1]"
+            )
+
 def check_layer(layer,colors,assets,key):
     """Reject an authored layer before any Figma write unless every property is declared and in range."""
     where=key+'.'+str(layer.get('id','?'))if isinstance(layer,dict)else key
@@ -71,7 +92,18 @@ def check_layer(layer,colors,assets,key):
     if not isinstance(layer.get('id'),str)or not layer['id']or not all(_finite(layer.get(k))for k in('x','y','w','h'))or layer['w']<=0 or layer['h']<=0:raise ValueError('Finite positive native layer geometry required: '+where)
     if 'role'in layer and layer['role']not in LAYER_ROLES:raise ValueError('Unknown native layer role '+repr(layer['role'])+' at '+where)
     if 'opacity'in layer and not(_finite(layer['opacity'])and 0<layer['opacity']<=1):raise ValueError('Native layer opacity must be within (0, 1]: '+where)
+    if kind == "text":
+        if "leading" in layer and not (_finite(layer["leading"]) and layer["leading"] > 0):
+            raise ValueError("leading must be finite and positive: " + where)
+        if "letter_spacing" in layer and not _finite(layer["letter_spacing"]):
+            raise ValueError("letter_spacing must be finite pixels: " + where)
+        if "max_lines" in layer and not (type(layer["max_lines"]) is int and layer["max_lines"] > 0):
+            raise ValueError("max_lines must be a positive integer: " + where)
+        if layer.get("align", "left") not in ("left", "center", "right", "justified"):
+            raise ValueError("Unsupported text alignment: " + where)
     if kind in('rect','ellipse'):
+        if 'shadows' in layer:
+            check_shadows(layer['shadows'], where)
         if layer.get('fill')not in colors:raise ValueError('Declared color role required for fill at '+where)
         thin=min(layer['w'],layer['h'])/2
         if ('stroke'in layer)!=('stroke_width'in layer):raise ValueError('stroke and stroke_width must be declared together: '+where)
@@ -104,17 +136,75 @@ def layout_errors(authored):
         cid=str(c.get('id','?'));colors=c.get('colors')if isinstance(c.get('colors'),dict)else{};fonts=c.get('fonts')if isinstance(c.get('fonts'),dict)else{}
         for role,font in fonts.items():
             if not isinstance(font,dict)or not isinstance(font.get('family'),str)or not font['family']or not isinstance(font.get('style'),str)or not font['style']:problems.append(f'{cid}: font role {role} needs family and style')
+        for viewport, styles in (c.get("control_styles") or {}).items():
+            for variant, style in styles.items():
+                key = f"{cid}.{viewport}.component.{variant}"
+                if not isinstance(style, dict):
+                    problems.append(key + ": control style must be an object")
+                    continue
+                if "shadows" in style:
+                    try:
+                        check_shadows(style["shadows"], key)
+                    except ValueError as error:
+                        problems.append(str(error))
+                if style.get("font", "body") not in fonts:
+                    problems.append(key + ": unknown control font role")
+                for field in ("fontSize", "minHeight", "maxWidth"):
+                    if not _finite(style.get(field)) or style[field] <= 0:
+                        problems.append(key + ": " + field + " must be finite and positive")
+                for field in ("paddingX", "paddingY", "radius"):
+                    if not _finite(style.get(field)) or style[field] < 0:
+                        problems.append(key + ": " + field + " must be finite and non-negative")
+                if "leading" in style and not (_finite(style["leading"]) and style["leading"] > 0):
+                    problems.append(key + ": leading must be finite and positive")
+                if "letter_spacing" in style and not _finite(style["letter_spacing"]):
+                    problems.append(key + ": letter_spacing must be finite pixels")
+                if "stroke" in style:
+                    if style["stroke"] not in colors:
+                        problems.append(key + ": undeclared stroke color")
+                    if not _finite(style.get("stroke_width", 1)) or style.get("stroke_width", 1) <= 0:
+                        problems.append(key + ": stroke_width must be finite and positive")
+                elif "stroke_width" in style:
+                    problems.append(key + ": stroke_width requires stroke")
         for viewport,states in(c.get('state_layouts')or{}).items():
             for state_id,l in(states or{}).items():
                 key=f'{cid}.{viewport}.{state_id}'
                 if not isinstance(l,dict)or not all(_finite(l.get(k))and l[k]>0 for k in('width','height')):problems.append(key+': width/height must be finite and > 0');continue
                 controls=set(l.get('control_boxes')or{});seen=set()
+                products = l.get("product_buttons") or {}
+                if not isinstance(products, dict):
+                    problems.append(key + ": product_buttons must be an object")
+                    products = {}
+                for button_id, button in products.items():
+                    where = key + "." + str(button_id)
+                    if (
+                        not isinstance(button_id, str)
+                        or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]*", button_id)
+                        or button_id in controls
+                    ):
+                        problems.append(where + ": unique safe product button id required")
+                    if not isinstance(button, dict) or set(button) != {"box", "variant", "label"}:
+                        problems.append(where + ": product button requires box, variant and label")
+                        continue
+                    box = button["box"]
+                    if (
+                        not isinstance(box, list)
+                        or len(box) != 4
+                        or not all(_finite(v) for v in box)
+                        or box[2] <= 0
+                        or box[3] <= 0
+                    ):
+                        problems.append(where + ": finite positive product button geometry required")
+                    if button["variant"] not in (c.get("control_styles", {}).get(viewport) or {}):
+                        problems.append(where + ": unknown product button variant")
+                    if not isinstance(button["label"], str) or not button["label"].strip():
+                        problems.append(where + ": non-empty product button label required")
                 for layer in l.get('layers')if isinstance(l.get('layers'),list)else[]:
                     try:check_layer(layer,colors,assets,key)
                     except ValueError as error:problems.append(str(error));continue
                     lid=layer['id']
                     if lid in seen:problems.append(f'{key}.{lid}: duplicate layer id')
-                    if lid in controls:problems.append(f'{key}.{lid}: layer id collides with control id')
+                    if lid in controls or lid in products:problems.append(f'{key}.{lid}: layer id collides with control id')
                     seen.add(lid)
                     if layer['kind']=='text':
                         if not isinstance(layer.get('value'),str)or not layer['value'].strip()or not _finite(layer.get('size'))or layer['size']<=0:problems.append(f'{key}.{lid}: text needs a value and a positive size')
@@ -214,13 +304,454 @@ def make_packet(manifest,layout_path=None,file_key=None):
     return {'schema':'figma-flow-native-direction-review-v1','scope':'exploratory-only','production_admitted':False,'fileKey':file_key,'prepared_target':prepared_target,'instance_sha256':instance_hash,'importer_sha256':importer_hash,'layout_sha256':layout_hash,'layout_pin':{'path':str(layout_path),'sha256':layout_hash},'packet_sha256':packet_hash,'manifest':str(Path(manifest).resolve()),'candidate_pins':{c['id']:c['sha256']for c in candidates},'content':content,'candidates':candidates,'assets':assets,'input_pins':pins,'prepared_at':now(),'execution_status':'prepared-not-executed','boundary':'Reference images are raster; authored titles/body/controls/role palette are native editable nodes. No approval, final asset batch or reservation.'}
 
 
+def _native_shadow_findings(node, authored, layer):
+    if "shadows" not in authored:
+        return []
+    shadows = authored["shadows"]
+    effects = node.get("effects")
+    message = "Read and restore declared native DROP_SHADOW effects in authored order, including geometry, visibility and RGBA color."
+    finding = {"code": "shadow-drift", "layer": layer, "message": message}
+    if not isinstance(effects, list) or len(effects) != len(shadows):
+        return [finding]
+    for effect, shadow in zip(effects, shadows):
+        if not isinstance(effect, dict):
+            return [finding]
+        if (
+            effect.get("type") != "DROP_SHADOW"
+            or effect.get("visible") is not True
+            or effect.get("blendMode") != "NORMAL"
+            or effect.get("showShadowBehindNode") is not True
+        ):
+            return [finding]
+        offset = effect.get("offset")
+        color = effect.get("color")
+        if not isinstance(offset, dict) or not isinstance(color, dict):
+            return [finding]
+        geometry = (
+            (offset.get("x"), shadow["x"]),
+            (offset.get("y"), shadow["y"]),
+            (effect.get("radius"), shadow["blur"]),
+            (effect.get("spread"), shadow["spread"]),
+        )
+        rgba = {
+            channel: int(shadow["color"][start : start + 2], 16) / 255
+            for channel, start in (("r", 1), ("g", 3), ("b", 5))
+        }
+        rgba["a"] = shadow["opacity"]
+        if any(
+            not _finite(actual) or abs(actual - expected) > 0.001 for actual, expected in geometry
+        ):
+            return [finding]
+        if any(
+            not _finite(color.get(channel)) or abs(color[channel] - expected) > 0.0001
+            for channel, expected in rgba.items()
+        ):
+            return [finding]
+    return []
+
+def _native_visibility_findings(node, layer):
+    """Older supplied reports may omit opacity; explicit hidden/invalid values never pass."""
+    visible = node.get("visible", True)
+    opacity = node.get("opacity", 1)
+    if visible is not True or not _finite(opacity) or not 0 < opacity <= 1:
+        return [
+            {
+                "code": "visibility-drift",
+                "layer": layer,
+                "message": "Restore a visible native element with positive opacity (at most 1).",
+            }
+        ]
+    return []
+
+
+def _native_readback_nodes(raw, packet):
+    rows = raw.get("nodes")
+    if not isinstance(rows, list):
+        raise ValueError("Native readback nodes must be a list")
+    required_keys = set()
+    for candidate in packet["candidates"]:
+        for viewport in ("desktop", "mobile"):
+            for state in candidate["prototype"]["states"]:
+                key = f"{candidate['id']}.{viewport}.{state['id']}"
+                required_keys.add(key)
+                layout = candidate.get("state_layouts", {}).get(viewport, {}).get(state["id"])
+                if not layout:
+                    continue
+                required_keys.update(key + "." + layer["id"] for layer in layout["layers"])
+                control_ids = set(layout.get("control_boxes") or {}) | set(
+                    layout.get("product_buttons") or {}
+                )
+                for control_id in control_ids:
+                    required_keys.update(
+                        (key + "." + control_id, key + "." + control_id + ".label")
+                    )
+            for variant in candidate.get("control_styles", {}).get(viewport, {}):
+                required_keys.add(f"{candidate['id']}.{viewport}.component.{variant}")
+
+    nodes, keyed = {}, {}
+    for node in rows:
+        if not isinstance(node, dict) or not isinstance(node.get("id"), str) or not node["id"]:
+            raise ValueError("Every native readback node requires a non-empty string id")
+        if node["id"] in nodes:
+            raise ValueError("Duplicate native node id: " + node["id"])
+        nodes[node["id"]] = node
+        key = node.get("semanticKey")
+        if key is None or key == "":
+            continue
+        if not isinstance(key, str):
+            raise ValueError("Native semanticKey must be a string: " + node["id"])
+        if key in required_keys and key in keyed:
+            raise ValueError("Duplicate required native semantic key: " + key)
+        keyed[key] = node
+    return nodes, keyed
+
+
+def _native_box(node):
+    """Return only usable native geometry; mixed or missing readback values fail closed."""
+    if not isinstance(node, dict):
+        return None
+    values = tuple(node.get(field) for field in ("x", "y", "width", "height"))
+    if not all(_finite(value) for value in values):
+        return None
+    return values if values[2] > 0 and values[3] > 0 else None
+
+
+def _native_leading(authored):
+    multiplier = 1.07 if authored.get("font") == "display" else 1.55
+    return authored.get("leading", math.ceil(authored["size"] * multiplier))
+
+
+def _native_pixels(value, font_size):
+    if not isinstance(value, dict) or not _finite(value.get("value")):
+        return None
+    if value.get("unit") == "PIXELS":
+        return value["value"]
+    if value.get("unit") == "PERCENT":
+        return value["value"] * font_size / 100
+    return None
+
+
+def _native_text_findings(candidate, node, authored, layer):
+    findings = []
+
+    def add(code, message):
+        findings.append({"code": code, "layer": layer, "message": message})
+
+    expected_font = candidate["fonts"][authored.get("font", "body")]
+    observed_font = node.get("fontName")
+    observed_font = observed_font if isinstance(observed_font, dict) else {}
+    observed_axes = observed_font.get("variationSettings")
+    observed_axes = observed_axes if isinstance(observed_axes, dict) else {}
+    font_matches = (
+        all(observed_font.get(field) == expected_font[field] for field in ("family", "style"))
+        and all(
+            observed_axes.get(axis) == value
+            for axis, value in expected_font.get("variationSettings", {}).items()
+        )
+        and _finite(node.get("fontSize"))
+        and abs(node["fontSize"] - authored["size"]) <= 0.001
+    )
+    if (
+        node.get("type") != "TEXT"
+        or node.get("characters") != authored["value"]
+        or not font_matches
+    ):
+        add(
+            "text-font-drift",
+            "Restore authored editable characters, font family/style/axes and size.",
+        )
+
+    leading = _native_leading(authored)
+    for field, expected in (
+        ("lineHeight", leading),
+        ("letterSpacing", authored.get("letter_spacing", 0)),
+    ):
+        pixels = _native_pixels(node.get(field), authored["size"])
+        if pixels is None or abs(pixels - expected) > 0.01:
+            add("text-" + field + "-drift", f"Read and restore {field} to {expected:g}px.")
+
+    alignment = authored.get("align", "left").upper()
+    if node.get("textAlignHorizontal") != alignment:
+        add("text-alignment-drift", "Read and restore textAlignHorizontal=" + alignment + ".")
+    if node.get("textAutoResize") != "HEIGHT":
+        add("text-resize-drift", "Use HEIGHT auto-resize so rendered overflow remains measurable.")
+    height = node.get("height")
+    if "max_lines" in authored and _finite(height) and height > leading * authored["max_lines"] + 1:
+        add(
+            "text-max-lines",
+            f"Rendered text exceeds max_lines={authored['max_lines']}; widen its allocation or shorten the text.",
+        )
+    return findings
+
+
+def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=None):
+    """Compare rendered native boxes with authored allocations, never estimated font widths."""
+    key = f"{candidate['id']}.{viewport}.{state_id}"
+    layout = candidate["state_layouts"][viewport][state_id]
+    findings = []
+    texts = []
+    controls = []
+    control_labels = []
+
+    def add(code, layer, message):
+        findings.append({"code": code, "layer": layer, "message": message})
+
+    def geometry(node, expected, layer, height_budget=False, parent=None):
+        actual = _native_box(node)
+        if actual is None:
+            add("geometry-missing", layer, "Read finite positive x/y/width/height from Figma.")
+            return None
+        if parent is not None and node.get("parentId") != parent:
+            add("parent-drift", layer, "Restore the authored parent frame/control.")
+        for index, field in enumerate(("x", "y", "width", "height")):
+            overflow = field == "height" and height_budget
+            differs = (
+                actual[index] > expected[index] + 1
+                if overflow
+                else abs(actual[index] - expected[index]) > 1
+            )
+            if differs:
+                remedy = (
+                    " height budget; enlarge the allocation or fix wrapping."
+                    if overflow
+                    else "; restore the authored allocation."
+                )
+                add(
+                    "text-overflow" if overflow else "geometry-drift",
+                    layer,
+                    f"Rendered {field} {actual[index]:g}px differs from authored {expected[index]:g}px"
+                    + remedy,
+                )
+        return actual
+
+    def off_canvas(box):
+        x, y, width, height = box
+        return max(-x, -y, x + width - layout["width"], y + height - layout["height"]) > 1
+
+    findings.extend(_native_visibility_findings(frame, key))
+    if page_id is not None and frame.get("parentId") != page_id:
+        add(
+            "parent-drift",
+            key,
+            "Restore the authored screen directly inside the owned review page.",
+        )
+    if _native_box(frame) is None:
+        add("geometry-missing", key, "Read finite screen x/y and positive width/height from Figma.")
+
+    for dimension in ("width", "height"):
+        observed = frame.get(dimension)
+        if not _finite(observed) or abs(observed - layout[dimension]) > 1:
+            add("frame-size-drift", key, "Restore authored screen width/height.")
+            break
+
+    for layer in layout["layers"]:
+        name = key + "." + layer["id"]
+        node = keyed.get(name)
+        if not isinstance(node, dict):
+            add("layer-missing", name, "Read the authored editable native layer.")
+            continue
+        findings.extend(_native_visibility_findings(node, name))
+        findings.extend(_native_shadow_findings(node, layer, name))
+        is_text = layer["kind"] == "text"
+        allocation = tuple(layer[field] for field in ("x", "y", "w", "h"))
+        actual = geometry(node, allocation, name, height_budget=is_text, parent=frame["id"])
+        if is_text:
+            findings.extend(_native_text_findings(candidate, node, layer, name))
+            if actual is not None and node.get("visible", True):
+                texts.append((name, actual))
+        allows_bleed = not is_text and layer.get("role") in design_quality.BLEED_ROLES
+        if actual is not None and off_canvas(actual) and not allows_bleed:
+            add(
+                "off-canvas",
+                name,
+                "Rendered box leaves the screen; restore its position or enlarge the authored screen.",
+            )
+
+    control_specs = []
+    for edge in candidate["prototype"]["bindings"]:
+        if edge["viewport"] != viewport or edge["source_state"] != state_id:
+            continue
+        note = candidate["action_notes"][edge["action"] + "|" + edge["control_id"]]
+        control_specs.append(
+            (
+                edge["control_id"],
+                layout["control_boxes"][edge["control_id"]],
+                note["visual_variant"],
+                candidate["action_labels"][edge["action"]],
+                False,
+            )
+        )
+    for control_id, spec in (layout.get("product_buttons") or {}).items():
+        control_specs.append((control_id, spec["box"], spec["variant"], spec["label"], True))
+
+    for control_id, allocation, variant, label_value, is_product in control_specs:
+        name = key + "." + control_id
+        node = keyed.get(name)
+        node = node if isinstance(node, dict) else {}
+        findings.extend(_native_visibility_findings(node, name))
+        actual = geometry(node, allocation, name, parent=frame["id"])
+        if actual is not None:
+            controls.append((name, actual))
+            if off_canvas(actual):
+                add(
+                    "off-canvas",
+                    name,
+                    "Control leaves the screen; restore its authored allocation.",
+                )
+
+        style = candidate["control_styles"][viewport][variant]
+        findings.extend(_native_shadow_findings(node, style, name))
+        main = keyed.get(candidate["id"] + "." + viewport + ".component." + variant)
+        main = main if isinstance(main, dict) else {}
+        if (
+            node.get("type") != "INSTANCE"
+            or main.get("type") != "COMPONENT"
+            or node.get("mainComponentId") != main.get("id")
+        ):
+            add(
+                "control-source-drift",
+                name,
+                "Restore the reusable " + variant + " component instance.",
+            )
+        radius = style["radius"]
+        observed_radius = node.get("cornerRadius")
+        if not _finite(observed_radius) or abs(observed_radius - radius) > 0.001:
+            add("control-shape-drift", name, f"Restore the authored cornerRadius={radius:g}px.")
+        if "stroke" in style:
+            weight = node.get("strokeWeight")
+            strokes = node.get("strokes")
+            has_stroke = isinstance(strokes, list) and any(
+                isinstance(paint, dict)
+                and paint.get("type") == "SOLID"
+                and paint.get("visible", True)
+                for paint in strokes
+            )
+            if (
+                not has_stroke
+                or not _finite(weight)
+                or abs(weight - style.get("stroke_width", 1)) > 0.001
+            ):
+                add(
+                    "control-shape-drift",
+                    name,
+                    "Restore the authored visible stroke and stroke width.",
+                )
+        if is_product and node.get("reactions"):
+            add(
+                "product-control-reaction",
+                name,
+                "Product preview controls must not perform review navigation.",
+            )
+        padding = {
+            "paddingLeft": style["paddingX"],
+            "paddingRight": style["paddingX"],
+            "paddingTop": style["paddingY"],
+            "paddingBottom": style["paddingY"],
+        }
+        for field, expected in padding.items():
+            observed = node.get(field)
+            if not _finite(observed) or abs(observed - expected) > 1:
+                add("control-padding-drift", name, "Restore " + field + "=" + str(expected) + ".")
+
+        label_name = name + ".label"
+        label = keyed.get(label_name)
+        label = label if isinstance(label, dict) else {}
+        label_style = {
+            "value": label_value,
+            "size": style["fontSize"],
+            "font": style.get("font", "body"),
+            "align": "center",
+            "max_lines": 1,
+        }
+        for field in ("leading", "letter_spacing"):
+            if field in style:
+                label_style[field] = style[field]
+        findings.extend(_native_visibility_findings(label, label_name))
+        findings.extend(_native_text_findings(candidate, label, label_style, label_name))
+        if "\n" in label_value or "\r" in label_value:
+            add("text-max-lines", label_name, "Control labels must contain one line of text.")
+        label_box = _native_box(label)
+        if label_box is None or label.get("parentId") != node.get("id"):
+            add(
+                "control-label-missing",
+                label_name,
+                "Read the editable label inside its control instance.",
+            )
+        elif actual is not None:
+            x, y, width, height = actual
+            lx, ly, lw, lh = label_box
+            px, py = style["paddingX"], style["paddingY"]
+            control_labels.append((label_name, (x + lx, y + ly, lw, lh)))
+            if lx < px - 1 or ly < py - 1 or lx + lw > width - px + 1 or ly + lh > height - py + 1:
+                add(
+                    "control-label-overflow",
+                    label_name,
+                    "Label exceeds the padded control; enlarge the authored control or shorten the label.",
+                )
+            if abs(lx + lw / 2 - width / 2) > 1 or abs(ly + lh / 2 - height / 2) > 1:
+                add(
+                    "control-label-alignment",
+                    label_name,
+                    "Center the rendered label within its control instance.",
+                )
+
+    rendered_texts = texts + control_labels
+    for index, (name, box) in enumerate(rendered_texts):
+        for other_name, other_box in rendered_texts[index + 1 :]:
+            smaller_area = min(box[2] * box[3], other_box[2] * other_box[3])
+            if (
+                design_quality._intersection(box, other_box)
+                > design_quality.OVERLAP_SHARE * smaller_area
+            ):
+                add(
+                    "text-overlap",
+                    other_name,
+                    "Rendered text overlaps "
+                    + name
+                    + "; separate their allocations or fix wrapping.",
+                )
+    for name, box in texts:
+        for control_name, control_box in controls:
+            if design_quality._intersection(box, control_box) > 0:
+                add(
+                    "control-text-overlap",
+                    name,
+                    "Rendered text intersects " + control_name + "; move text outside the control.",
+                )
+    return findings
+
 def verify_native_review(manifest_path,readback_path):
-    report={'passed':False,'errors':[],'scope':'exploratory-only','production_admitted':False,'evidence':'supplied-native-readback-not-origin-authentication','screens':[],'annotation_checks':[],'foundation_checks':[],'prototype_checks':[],'return_checks':[],'design_note_board_checks':[],'dev_mode_required':False}
+    report={'passed':False,'errors':[],'scope':'exploratory-only','production_admitted':False,'evidence':'supplied-native-readback-not-origin-authentication','screens':[],'layout_findings':[],'annotation_checks':[],'foundation_checks':[],'prototype_checks':[],'return_checks':[],'design_note_board_checks':[],'dev_mode_required':False}
     try:
-        raw=json.loads(Path(readback_path).read_text());packet=make_packet(manifest_path,raw.get('layout_pin',{}).get('path'),raw.get('prepared_target',{}).get('file_key'));nodes={n['id']:n for n in raw['nodes']};keyed={n.get('semanticKey'):n for n in raw['nodes']if n.get('semanticKey')}
+        raw=json.loads(Path(readback_path).read_text())
+        if isinstance(raw,dict) and raw.get('schema')=='figma-flow-native-geometry-failure-v1':
+            raise ValueError('Native geometry failure diagnostics are not an admissible readback')
+        packet = make_packet(manifest_path, raw.get('layout_pin', {}).get('path'), raw.get('prepared_target', {}).get('file_key'))
+        nodes, keyed = _native_readback_nodes(raw, packet)
         if not raw.get('fileKey')or packet['fileKey']and raw.get('fileKey')!=packet['fileKey']or raw.get('instance_sha256')!=packet['instance_sha256'] or raw.get('packet_sha256')!=packet['packet_sha256'] or raw.get('candidate_pins')!=packet['candidate_pins'] or raw.get('scope')!='exploratory-only'or raw.get('production_admitted')is not False or raw.get('approved')is True: raise ValueError('Exact current checked draft inputs/file/scope required')
         page=nodes.get(raw.get('pageId'),{});report.update(file_key=raw['fileKey'],page_id=raw['pageId'],packet_sha256=raw['packet_sha256'])
         if page.get('type')!='PAGE' or raw.get('page_owner')!=packet['instance_sha256']: raise ValueError('Owned draft root page required')
+        for candidate in packet['candidates']:
+            for viewport in ('desktop', 'mobile'):
+                for state in candidate['prototype']['states']:
+                    key = f"{candidate['id']}.{viewport}.{state['id']}"
+                    frame = keyed.get(key)
+                    if not frame or frame.get('type') != 'FRAME':
+                        report['layout_findings'].append({
+                            'code': 'frame-missing', 'layer': key,
+                            'message': 'Read the actual editable screen frame inside the owned review page.',
+                        })
+                        continue
+                    if frame and frame.get('type') == 'FRAME':
+                        report['layout_findings'].extend(
+                            native_screen_findings(candidate, viewport, state['id'], frame, keyed, page_id=raw['pageId'])
+                        )
+        if report['layout_findings']:
+            report['errors'].extend(
+                f"{finding['layer']}: {finding['code']}: {finding['message']}"
+                for finding in report['layout_findings']
+            )
+            return report
         for candidate in packet['candidates']:
             notes={n['id']:n for n in candidate['notes']};states={s['id']:s for s in candidate['prototype']['states']}
             for viewport in ('desktop','mobile'):
@@ -348,8 +879,79 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
     return {'manifest':str((PRIVATE/'plugin/manifest.json')if register else portable/'manifest.json'),'packet':str(out/'packet.json'),'zip':str(out/zip_name),'status':'prepared-not-executed','warnings':warnings}
 
 
-def ui_html(pair=None,night_demo=False):
-    return '''<!doctype html><meta charset="utf-8"><style>body{font:14px/1.65 system-ui;padding:18px;background:#102b36;color:#f3e9d3}button{font:inherit;padding:12px;width:100%;margin:7px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style><h2>디자인 방향 · Figma 검토</h2><p>검토용 실제 노드·주석·팔레트·클릭 이동을 만듭니다. 방향을 선택하거나 승인하지 않습니다.</p><button id="make">검토 시안 만들기</button><button id="save" disabled>결과 JSON 저장</button><pre id="status">준비됨 · 검토 패킷에 지정한 Design 파일에서 실행</pre><script>const PAIR=__PAIR__;let result;document.getElementById('make').onclick=()=>parent.postMessage({pluginMessage:{type:'draft-review'}},'*');document.getElementById('save').onclick=()=>{if(!result)return;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)],{type:'application/json'}));a.download='figma-direction-review-readback.json';a.click();};window.onmessage=async e=>{const m=e.data&&e.data.pluginMessage;if(!m)return;if(m.type==='status'){document.getElementById('status').textContent=result&&!PAIR?'검토 시안이 준비됐습니다. 결과 JSON 저장을 눌러 읽기 결과를 내보내세요.':m.message;document.getElementById('make').disabled=!!m.busy;}if(m.type==='readback'){result=m.data;document.getElementById('save').disabled=false;if(PAIR){try{const r=await fetch(PAIR.url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+PAIR.capability},body:JSON.stringify(m.data)});const receipt=await r.json();if(!r.ok)throw Error(receipt.errors?.join('; ')||receipt.error||r.status);parent.postMessage({pluginMessage:{type:'receipt',passed:receipt.passed}},'*');}catch(error){document.getElementById('status').textContent='실제 화면은 생성됨 · 로컬 결과 저장 실패: '+error+String.fromCharCode(10)+'결과 JSON 저장 버튼을 사용하세요.';}}}};</script>'''.replace('__PAIR__',json.dumps(pair))
+def ui_html(pair=None, night_demo=False):
+    return '''<!doctype html><meta charset="utf-8">
+<style>body{font:14px/1.65 system-ui;padding:18px;background:#102b36;color:#f3e9d3}button{font:inherit;padding:12px;width:100%;margin:7px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
+<h2>디자인 방향 · Figma 검토</h2>
+<p>검토용 실제 노드·주석·팔레트·클릭 이동을 만듭니다. 방향을 선택하거나 승인하지 않습니다.</p>
+<button id="make">검토 시안 만들기</button><button id="save" disabled>결과 JSON 저장</button>
+<pre id="status">준비됨 · 검토 패킷에 지정한 Design 파일에서 실행</pre>
+<script>
+const PAIR = __PAIR__;
+let result = null;
+let resultKind = null;
+const makeButton = document.getElementById('make');
+const saveButton = document.getElementById('save');
+const status = document.getElementById('status');
+
+makeButton.onclick = () => {
+  result = null;
+  resultKind = null;
+  saveButton.disabled = true;
+  saveButton.textContent = '결과 JSON 저장';
+  status.textContent = '검토 시안 생성 중';
+  parent.postMessage({pluginMessage: {type: 'draft-review'}}, '*');
+};
+saveButton.onclick = () => {
+  if (!result) return;
+  const anchor = document.createElement('a');
+  const url = URL.createObjectURL(new Blob([JSON.stringify(result, null, 2)], {type: 'application/json'}));
+  anchor.href = url;
+  anchor.download = resultKind === 'failure' ? 'figma-direction-review-failure.json' : 'figma-direction-review-readback.json';
+  anchor.click();
+  URL.revokeObjectURL(url);
+};
+window.onmessage = async event => {
+  const message = event.data && event.data.pluginMessage;
+  if (!message) return;
+  if (message.type === 'status') {
+    makeButton.disabled = !!message.busy;
+    if (resultKind === 'failure') return;
+    status.textContent = resultKind === 'readback' && !PAIR
+      ? '검토 시안이 준비됐습니다. 결과 JSON 저장을 눌러 읽기 결과를 내보내세요.'
+      : message.message;
+    return;
+  }
+  if (message.type === 'geometry-failure') {
+    const diagnostic = message.data;
+    if (!diagnostic || diagnostic.schema !== 'figma-flow-native-geometry-failure-v1' || diagnostic.passed !== false) return;
+    result = diagnostic;
+    resultKind = 'failure';
+    saveButton.disabled = false;
+    saveButton.textContent = '실패 진단 JSON 저장';
+    status.textContent = '검토 시안 생성 실패 · 승인 가능한 읽기 결과가 아닙니다. 실패 진단 JSON을 저장하세요.' + String.fromCharCode(10) + JSON.stringify(diagnostic, null, 2);
+    return;
+  }
+  if (message.type !== 'readback') return;
+  result = message.data;
+  resultKind = 'readback';
+  saveButton.disabled = false;
+  saveButton.textContent = '결과 JSON 저장';
+  if (!PAIR) return;
+  try {
+    const response = await fetch(PAIR.url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PAIR.capability},
+      body: JSON.stringify(message.data)
+    });
+    const receipt = await response.json();
+    if (!response.ok) throw Error(receipt.errors?.join('; ') || receipt.error || response.status);
+    parent.postMessage({pluginMessage: {type: 'receipt', passed: receipt.passed}}, '*');
+  } catch (error) {
+    status.textContent = '실제 화면은 생성됨 · 로컬 결과 저장 실패: ' + error + String.fromCharCode(10) + '결과 JSON 저장 버튼을 사용하세요.';
+  }
+};
+</script>'''.replace('__PAIR__', json.dumps(pair))
 
 
 class DraftReceiver(BaseHTTPRequestHandler):

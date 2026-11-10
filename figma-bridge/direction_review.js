@@ -6,10 +6,80 @@ function tag(n,key){n.name=key;n.setPluginData('semanticKey',key);return n;}
 function rgb(hex){if(!/^#[0-9a-f]{6}$/i.test(hex))throw Error('Pinned six-digit color required');return {r:parseInt(hex.slice(1,3),16)/255,g:parseInt(hex.slice(3,5),16)/255,b:parseInt(hex.slice(5,7),16)/255};}
 function noteLabel(note){const fields=[['purpose','목적'],['journey','사용 순서'],['first_action','첫 행동'],['action','동작 ID'],['behavior','동작'],['precondition','전제'],['result','결과'],['failure','경계'],['design_choice','배치 이유']];return fields.filter(([key])=>note[key]).map(([key,title])=>title+': '+note[key]).concat(note.functional_states?['기능 상태: '+note.functional_states.join(', ')]:[],note.visual_variant?['시각 변형: '+note.visual_variant]:[]).join('\n');}
 
+// Leave room for the key and Figma's per-entry overhead below its 100 kB limit.
+function writeDraftJSON(page, key, value) {
+  const raw = JSON.stringify(value);
+  const previous = page.getPluginData(key);
+  const previousValue = previous ? JSON.parse(previous) : null;
+  const previousChunkCount = previousValue?.format === 'figma-flow-json-chunks-v1' ? previousValue.chunks : 0;
+  if (!Number.isSafeInteger(previousChunkCount) || previousChunkCount < 0) {
+    throw Error('Invalid chunked draft metadata ' + key);
+  }
+  const chunks = [];
+  let chunk = '';
+  let chunkBytes = 0;
+
+  for (const character of raw) {
+    const point = character.codePointAt(0);
+    const characterBytes = point <= 0x7f ? 1 : point <= 0x7ff ? 2 : point <= 0xffff ? 3 : 4;
+    if (chunkBytes + characterBytes > 60000) {
+      chunks.push(chunk);
+      chunk = '';
+      chunkBytes = 0;
+    }
+    chunk += character;
+    chunkBytes += characterBytes;
+  }
+  chunks.push(chunk);
+
+  if (chunks.length === 1) {
+    page.setPluginData(key, raw);
+  } else {
+    chunks.forEach((part, index) => page.setPluginData(key + '__chunk_' + index, part));
+    page.setPluginData(key, JSON.stringify({format: 'figma-flow-json-chunks-v1', chunks: chunks.length}));
+  }
+  const firstUnusedChunk = chunks.length === 1 ? 0 : chunks.length;
+  for (let index = firstUnusedChunk; index < previousChunkCount; index++) {
+    page.setPluginData(key + '__chunk_' + index, '');
+  }
+}
+
+function readDraftJSON(page, key, fallback) {
+  const raw = page.getPluginData(key);
+  if (!raw) return fallback;
+  const value = JSON.parse(raw);
+  if (value?.format !== 'figma-flow-json-chunks-v1') return value;
+  if (!Number.isSafeInteger(value.chunks) || value.chunks < 2) {
+    throw Error('Invalid chunked draft metadata ' + key);
+  }
+  const parts = [];
+  for (let index = 0; index < value.chunks; index++) {
+    const part = page.getPluginData(key + '__chunk_' + index);
+    if (!part) throw Error('Missing draft metadata chunk ' + key + ' ' + index);
+    parts.push(part);
+  }
+  return JSON.parse(parts.join(''));
+}
+
+function declareDraftNumber(tokens, name, value) {
+  if (!Number.isFinite(value) || value < 0) throw Error('Finite draft role value required');
+  const safeName = name.replace(/\./g, '_');
+  const primitive = 'review/primitive/' + String(value).replace(/\./g, '_');
+  declareDraftToken(tokens, primitive, 'FLOAT', value);
+  declareDraftToken(tokens, safeName, 'FLOAT', null, primitive);
+  return safeName;
+}
+
 function sameDraftValue(a,b){if(a===b)return true;if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;const keys=Object.keys(a).sort(),other=Object.keys(b).sort();return keys.length===other.length&&keys.every((key,index)=>key===other[index]&&sameDraftValue(a[key],b[key]));}
 function declareDraftToken(tokens,name,type,value,alias){const definition=alias?{name,type,alias}:{name,type,value};const existing=tokens.find(token=>token.name===name);if(existing){if(JSON.stringify(existing)!==JSON.stringify(definition))throw Error('Conflicting native token definition '+name);return;}tokens.push(definition);}
 function intendedDraftRole(candidates,key,field){const matches=[];for(const candidate of candidates)for(const role of candidate.foundationBindings)if(role.bindings.some(target=>target.key===key&&target.field===field))matches.push({candidate,role});if(matches.length>1)throw Error('Ambiguous canonical target role '+key+'.'+field);return matches[0]||null;}
-function draftFoundationName(candidate,name){if(typeof name!=='string'||!name)throw Error('Canonical foundation name required');return name.startsWith(candidate.id+'/')?name:candidate.id+'/'+name;}
+function draftFoundationName(candidate, name) {
+  if (typeof name !== 'string' || !name) throw Error('Canonical foundation name required');
+  if (/[.{}]/.test(name) || /[.{}]/.test(candidate.id)) {
+    throw Error('Invalid Figma variable name for canonical foundation: ' + candidate.id + '/' + name + ' (periods and braces are forbidden)');
+  }
+  return name.startsWith(candidate.id + '/') ? name : candidate.id + '/' + name;
+}
 function declareDraftFoundations(candidate,add){
  const entries=candidate.foundationBindings;if(!Array.isArray(entries))throw Error('Normalized canonical foundation bindings required');const names=new Set();
  for(const entry of entries){
@@ -29,6 +99,373 @@ function applyDraftFoundations(page,candidates,jobs){const nodes=[page,...page.f
  for(let current=node;current;current=current.parent){if(current.type==='INSTANCE'){const mapping=JSON.parse(current.getPluginData('semanticComponent')||'null'),matches=mapping?(byKey.get(mapping.sourceKey)||[]):[];if(matches.length===1){source=matches[0];for(const index of path)source=source?.children[index];}break;}if(current.parent)path.unshift(current.parent.children.indexOf(current));}
  if(!source||!jobs.some(job=>job.key===source.id&&job.field===target.field&&job.token===token))throw Error('Canonical color must retain its actual named source paint: '+target.key);
 } if(claims.has(slot)&&claims.get(slot)!==token)throw Error('Conflicting canonical field roles: '+target.key+'.'+target.field);claims.set(slot,token);for(let i=jobs.length-1;i>=0;i--)if(jobs[i].key===node.id&&jobs[i].field===target.field)jobs.splice(i,1);jobs.push({key:node.id,field:target.field,token,...(target.paintIndex===undefined?{}:{paintIndex:target.paintIndex})});actual.push({... (target.paintIndex===undefined?{}:{paintIndex:target.paintIndex}),candidate:candidate.id,token,alias:entry.alias?draftFoundationName(candidate,entry.alias):null,type:entry.type,value:entry.value,key:target.key,nodeId:node.id,field:target.field});}return actual;}
+function draftBoxOverlap(first, second) {
+  const width = Math.max(0, Math.min(first.x + first.w, second.x + second.w) - Math.max(first.x, second.x));
+  const height = Math.max(0, Math.min(first.y + first.h, second.y + second.h) - Math.max(first.y, second.y));
+  return width * height / Math.min(first.w * first.h, second.w * second.h);
+}
+
+function draftTextGeometry(layer) {
+  const spacing = layer.letter_spacing ?? 0;
+  const invalidLines = layer.max_lines !== undefined && (!Number.isSafeInteger(layer.max_lines) || layer.max_lines < 1);
+  const invalidLeading = layer.leading !== undefined && (!Number.isFinite(layer.leading) || layer.leading <= 0);
+  if (!Number.isFinite(spacing) || invalidLines || invalidLeading) {
+    throw Error('Invalid authored text letter_spacing/max_lines/leading ' + layer.id);
+  }
+  return spacing;
+}
+
+function draftShadows(shadows, where) {
+  if (shadows === undefined) return [];
+  if (!Array.isArray(shadows)) throw Error('Ordered native shadows array required: ' + where);
+  const fields = ['x', 'y', 'blur', 'spread', 'color', 'opacity'];
+  return shadows.map((shadow, index) => {
+    const validFields = shadow && typeof shadow === 'object' && Object.keys(shadow).length === fields.length &&
+      fields.every(field => Object.prototype.hasOwnProperty.call(shadow, field));
+    const validNumbers = validFields && ['x', 'y', 'blur', 'spread', 'opacity'].every(field => Number.isFinite(shadow[field]));
+    if (!validNumbers || shadow.blur < 0 || shadow.opacity < 0 || shadow.opacity > 1 ||
+        typeof shadow.color !== 'string' || !/^#[0-9a-f]{6}$/i.test(shadow.color)) {
+      throw Error('Finite native shadow x/y/blur/spread, six-digit color and opacity within [0,1] required: ' + where + '[' + index + ']');
+    }
+    return {
+      type: 'DROP_SHADOW', offset: {x: shadow.x, y: shadow.y}, radius: shadow.blur, spread: shadow.spread,
+      color: {...rgb(shadow.color), a: shadow.opacity}, visible: true, blendMode: 'NORMAL', showShadowBehindNode: true
+    };
+  });
+}
+
+function draftProductButtons(candidate, viewport, state) {
+  const layout = candidate.state_layouts[viewport][state.id];
+  const buttons = layout.product_buttons ?? {};
+  if (!buttons || typeof buttons !== 'object' || Array.isArray(buttons)) {
+    throw Error('State product_buttons must be an object');
+  }
+  return Object.entries(buttons).map(([id, button]) => {
+    const duplicate = Object.prototype.hasOwnProperty.call(layout.control_boxes || {}, id) || layout.layers.some(layer => layer.id === id);
+    if (!/^[A-Za-z][A-Za-z0-9_-]*$/.test(id) || duplicate) {
+      throw Error('Unique safe product button id required ' + id);
+    }
+    const validBox = Array.isArray(button?.box) && button.box.length === 4 && button.box.every(Number.isFinite) && button.box[2] > 0 && button.box[3] > 0;
+    const validVariant = typeof button?.variant === 'string' && Object.prototype.hasOwnProperty.call(candidate.control_styles?.[viewport] || {}, button.variant);
+    const validLabel = typeof button?.label === 'string' && button.label.trim();
+    if (!validBox || !validVariant || !validLabel) {
+      throw Error('Product button box/variant/label required ' + id);
+    }
+    return {id, box: button.box, variant: button.variant, label: button.label};
+  });
+}
+
+function fitDraftControl(instance, box) {
+  instance.primaryAxisSizingMode = 'FIXED';
+  instance.counterAxisSizingMode = 'FIXED';
+  instance.minWidth = box[2];
+  instance.maxWidth = box[2];
+  instance.minHeight = box[3];
+  instance.maxHeight = box[3];
+  instance.resize(box[2], box[3]);
+  instance.x = box[0];
+  instance.y = box[1];
+  for (const label of instance.children.filter(child => child.type === 'TEXT')) {
+    label.textAlignHorizontal = 'CENTER';
+    label.maxWidth = instance.width - instance.paddingLeft - instance.paddingRight;
+    label.layoutSizingHorizontal = 'FILL';
+    label.textAutoResize = 'HEIGHT';
+  }
+}
+
+function draftNativeBox(node) {
+  if (!node) return null;
+  const box = {x: node.x, y: node.y, w: node.width, h: node.height};
+  return Object.values(box).every(Number.isFinite) && box.w > 0 && box.h > 0 ? box : null;
+}
+
+function draftBoxInside(box, width, height) {
+  return box.x >= -1 && box.y >= -1 && box.x + box.w <= width + 1 && box.y + box.h <= height + 1;
+}
+
+function draftTextWidth(layer) {
+  // Figma quantizes text width; fractional single-line bounds can otherwise wrap by less than 1px.
+  return layer.max_lines === 1 ? Math.ceil(layer.w) : layer.w;
+}
+
+function draftTextLeading(authored) {
+  return authored.leading ?? Math.ceil(authored.size * (authored.font === 'display' ? 1.07 : 1.55));
+}
+
+function validateDraftTypography(node, authored, candidate, fail) {
+  const expectedFont = candidate.fonts?.[authored.font || 'body'];
+  const actualFont = node.fontName;
+  const fontMatches = expectedFont && typeof expectedFont.family === 'string' && typeof expectedFont.style === 'string' &&
+    actualFont && typeof actualFont === 'object' &&
+    actualFont.family === expectedFont.family && actualFont.style === expectedFont.style &&
+    Object.entries(expectedFont.variationSettings || {}).every(([axis, value]) => actualFont.variationSettings?.[axis] === value);
+  if (node.type !== 'TEXT' || typeof authored.value !== 'string' || node.characters !== authored.value || !fontMatches ||
+      !Number.isFinite(authored.size) || authored.size <= 0 ||
+      !Number.isFinite(node.fontSize) || Math.abs(node.fontSize - authored.size) > .001) {
+    fail('native editable text/font differs from authored typography',
+      {value: authored.value, font: expectedFont, size: authored.size},
+      {value: node.characters, font: actualFont, size: node.fontSize});
+  }
+  const leading = draftTextLeading(authored);
+  for (const [field, expected] of [['lineHeight', leading], ['letterSpacing', draftTextGeometry(authored)]]) {
+    const observed = node[field];
+    const pixels = observed?.unit === 'PIXELS' ? observed.value : observed?.unit === 'PERCENT' ? observed.value * authored.size / 100 : NaN;
+    if (!Number.isFinite(expected) || !Number.isFinite(pixels) || Math.abs(pixels - expected) > .01) {
+      fail('native ' + field + ' differs from authored ' + expected + 'px', expected, observed);
+    }
+  }
+  if (node.textAlignHorizontal !== (authored.align || 'left').toUpperCase()) {
+    fail('native text alignment differs from authored', (authored.align || 'left').toUpperCase(), node.textAlignHorizontal);
+  }
+  if (node.textAutoResize !== 'HEIGHT' || node.textTruncation && node.textTruncation !== 'DISABLED' || node.maxLines != null) {
+    fail('native text must use HEIGHT without clipping or truncation', {textAutoResize: 'HEIGHT', textTruncation: 'DISABLED', maxLines: null},
+      {textAutoResize: node.textAutoResize, textTruncation: node.textTruncation, maxLines: node.maxLines});
+  }
+  if (authored.max_lines !== undefined && (!Number.isFinite(node.height) || node.height > authored.max_lines * leading + 1)) {
+    const lines = Math.max(1, Math.round(node.height / leading));
+    fail('native text lines ' + lines + ' exceeds max_lines ' + authored.max_lines + ' (height ' + node.height + ', leading ' + leading + ')');
+  }
+  return leading;
+}
+
+function measureDraftNaturalWidth(node) {
+  let probe;
+  try {
+    probe = node.clone();
+    probe.minWidth = null;
+    probe.maxWidth = null;
+    probe.minHeight = null;
+    probe.maxHeight = null;
+    probe.textAutoResize = 'WIDTH_AND_HEIGHT';
+    if (!Number.isFinite(probe.width) || probe.width <= 0) {
+      return {naturalWidth: null, naturalWidthError: 'Native width measurement was unavailable'};
+    }
+    return {naturalWidth: probe.width, naturalHeight: probe.height};
+  } catch (error) {
+    return {naturalWidth: null, naturalWidthError: String(error)};
+  } finally {
+    if (probe) {
+      try {
+        probe.remove();
+      } catch (error) {
+        status('Native measurement clone cleanup failed: ' + String(error));
+      }
+    }
+  }
+}
+
+function validateDraftPlacement(node, expectedParent, fail) {
+  if (!node) {
+    fail('authored native node missing');
+    return;
+  }
+  if (node.parent !== expectedParent) {
+    fail('native parent differs from authored container', {parentId: expectedParent.id}, {parentId: node.parent?.id});
+  }
+  for (let ancestor = node; ancestor; ancestor = ancestor.parent) {
+    if ('visible' in ancestor && ancestor.visible !== true ||
+        'opacity' in ancestor && (!Number.isFinite(ancestor.opacity) || ancestor.opacity <= 0)) {
+      fail('authored visible node is effectively hidden or transparent', {visible: true, opacity: 'positive'},
+        {ancestorId: ancestor.id, visible: ancestor.visible, opacity: ancestor.opacity});
+      break;
+    }
+  }
+}
+
+function validateDraftGeometry(page, candidates, measureWidths = true) {
+  const keyed = new Map([page, ...page.findAll(() => true)].map(node => [node.getPluginData('semanticKey'), node]));
+  const findings = [];
+  const stateFrames = [];
+
+  for (const candidate of candidates) {
+    for (const viewport of ['desktop', 'mobile']) {
+      for (const state of candidate.prototype.states) {
+        const key = candidate.id + '.' + viewport + '.' + state.id;
+        const layout = candidate.state_layouts[viewport][state.id];
+        const frame = keyed.get(key);
+        const frameBox = draftNativeBox(frame);
+        const occupied = [];
+        const fail = (id, message, authored, actual) => findings.push({layer: key + '.' + id, message, authored, actual});
+        if (!frameBox || frame.type !== 'FRAME') {
+          fail('frame', 'native state frame missing or non-finite');
+          continue;
+        }
+        validateDraftPlacement(frame, page, (message, expected, observed) => fail('frame', message, expected, observed));
+        stateFrames.push({key, box: frameBox});
+        if (Math.abs(frame.width - layout.width) > 1 || Math.abs(frame.height - layout.height) > 1) {
+          fail('frame', 'native frame differs from authored size', {w: layout.width, h: layout.height}, frameBox);
+        }
+
+        for (const layer of layout.layers) {
+          const node = keyed.get(key + '.' + layer.id);
+          const layerFail = (message, expected, observed) => fail(layer.id, message, expected, observed);
+          validateDraftPlacement(node, frame, layerFail);
+          const expectedType = layer.kind === 'text' ? 'TEXT' : layer.kind === 'ellipse' ? 'ELLIPSE' : 'RECTANGLE';
+          if (node && node.type !== expectedType) {
+            layerFail('native authored layer type differs', {type: expectedType}, {type: node.type});
+          }
+        }
+
+        for (const layer of layout.layers.filter(layer => layer.kind === 'text')) {
+          const node = keyed.get(key + '.' + layer.id);
+          const box = draftNativeBox(node);
+          if (!box || node.type !== 'TEXT') {
+            fail(layer.id, 'native text missing or non-finite', {x: layer.x, y: layer.y, w: layer.w, h: layer.h},
+              node ? {x: node.x, y: node.y, w: node.width, h: node.height, type: node.type} : null);
+            continue;
+          }
+          const authoredRect = {x: layer.x, y: layer.y, w: layer.w, h: layer.h};
+          const natural = measureWidths && box.h > layer.h + 1 && (layer.max_lines === 1 || layer.h <= draftTextLeading(layer) + 1) ? measureDraftNaturalWidth(node) : {};
+          const textFail = (message, expected, observed) => fail(layer.id, message,
+            {rect: authoredRect, ...(expected === undefined ? {} : {detail: expected})},
+            {rect: box, ...natural, ...(observed === undefined ? {} : {detail: observed})});
+          validateDraftTypography(node, layer, candidate, textFail);
+          if (Math.abs(box.w - layer.w) > 1 || Math.abs(box.x - layer.x) > 1 || Math.abs(box.y - layer.y) > 1) {
+            textFail('native fixed-width text geometry differs', {x: layer.x, y: layer.y, w: layer.w, h: layer.h}, box);
+          }
+          if (box.h > layer.h + 1) {
+            textFail('native text height ' + box.h + ' exceeds authored budget ' + layer.h + ' at width ' + box.w, layer, box);
+          }
+          if (!draftBoxInside(box, frame.width, frame.height)) textFail('native text off-frame', layer, box);
+          occupied.push({id: layer.id, kind: 'text', authored: layer, actual: box});
+        }
+
+        const productButtons = draftProductButtons(candidate, viewport, state);
+        const controlSpecs = [
+          ...Object.entries(layout.control_boxes || {}).map(([id, box]) => ({id, box})),
+          ...productButtons
+        ];
+        for (const spec of controlSpecs) {
+          const instance = keyed.get(key + '.' + spec.id);
+          const actual = draftNativeBox(instance);
+          const authored = {x: spec.box[0], y: spec.box[1], w: spec.box[2], h: spec.box[3]};
+          const controlFail = (message, expected, observed) => fail(spec.id, message,
+            {rect: authored, ...(expected === undefined ? {} : {detail: expected})},
+            {rect: actual, ...(observed === undefined ? {} : {detail: observed})});
+          if (!actual || instance.type !== 'INSTANCE') {
+            controlFail('native control instance missing or non-finite');
+            continue;
+          }
+          validateDraftPlacement(instance, frame, controlFail);
+          if (Object.keys(actual).some(field => Math.abs(actual[field] - authored[field]) > 1)) {
+            controlFail('native control differs from authored', authored, actual);
+          }
+          if (!draftBoxInside(actual, frame.width, frame.height)) controlFail('native control off-frame', authored, actual);
+          const edge = candidate.prototype.bindings?.find(edge => edge.viewport === viewport && edge.source_state === state.id && edge.control_id === spec.id);
+          const product = productButtons.find(button => button.id === spec.id);
+          const variant = product?.variant ?? (edge ? candidate.action_notes?.[edge.action + '|' + edge.control_id]?.visual_variant : undefined);
+          const style = candidate.control_styles?.[viewport]?.[variant];
+          const expectedLabel = product?.label ?? (edge ? candidate.action_labels?.[edge.action] : undefined);
+          const labels = instance.children.filter(child => child.type === 'TEXT' && typeof child.characters === 'string' && child.characters.trim());
+          if (labels.length !== 1 || expectedLabel !== undefined && labels[0]?.characters !== expectedLabel) {
+            controlFail('native control label missing or differs from authored text', expectedLabel, labels.map(label => label.characters));
+          }
+          if (product && instance.reactions?.length) controlFail('passive product button must have zero reactions');
+          const paddings = ['paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom'];
+          if (!paddings.every(field => Number.isFinite(instance[field]) && instance[field] >= 0)) {
+            controlFail('native control padding must be finite and non-negative');
+            continue;
+          }
+          if (style) {
+            for (const field of paddings) {
+              const expected = field === 'paddingLeft' || field === 'paddingRight' ? style.paddingX : style.paddingY;
+              if (!Number.isFinite(expected) || Math.abs(instance[field] - expected) > 1) {
+                controlFail('native control padding differs from authored ' + field, expected, instance[field]);
+              }
+            }
+          }
+          const availableWidth = instance.width - instance.paddingLeft - instance.paddingRight;
+          const availableHeight = instance.height - instance.paddingTop - instance.paddingBottom;
+          for (const label of labels) {
+            validateDraftPlacement(label, instance, controlFail);
+            const labelBox = draftNativeBox(label);
+            if (!labelBox) {
+              controlFail('native control label geometry missing or non-finite');
+              continue;
+            }
+            let leading = label.lineHeight?.unit === 'PIXELS' ? label.lineHeight.value : NaN;
+            if (style) {
+              leading = validateDraftTypography(label, {
+                value: expectedLabel, size: style.fontSize, font: style.font || 'body', align: 'center',
+                leading: style.leading, letter_spacing: style.letter_spacing, max_lines: 1
+              }, candidate, controlFail);
+            }
+            if (!Number.isFinite(leading) || leading <= 0 || labelBox.h > leading + 1 || label.textAutoResize !== 'HEIGHT') {
+              controlFail('native control label must occupy one unclipped line with HEIGHT resize', {leading, maxLines: 1},
+                {...labelBox, ...(measureWidths ? measureDraftNaturalWidth(label) : {})});
+            }
+            const inner = {...labelBox, x: labelBox.x - instance.paddingLeft, y: labelBox.y - instance.paddingTop};
+            const padded = inner.x >= -1 && inner.y >= -1 && inner.x + inner.w <= availableWidth + 1 && inner.y + inner.h <= availableHeight + 1;
+            const centered = label.textAlignHorizontal === 'CENTER' &&
+              Math.abs(inner.x + inner.w / 2 - availableWidth / 2) <= 1 &&
+              Math.abs(inner.y + inner.h / 2 - availableHeight / 2) <= 1;
+            if (!padded || !centered) {
+              controlFail('native label exceeds padding or is not centered', {availableWidth, availableHeight}, inner);
+            }
+          }
+          occupied.push({id: spec.id, kind: 'control', authored, actual});
+        }
+
+        for (let index = 0; index < occupied.length; index++) {
+          for (const other of occupied.slice(index + 1)) {
+            const first = occupied[index];
+            const share = draftBoxOverlap(first.actual, other.actual);
+            if (first.kind !== other.kind && share > 0) {
+              const text = first.kind === 'text' ? first : other;
+              const control = first.kind === 'control' ? first : other;
+              fail(text.id, 'native screen text intersects whole control ' + control.id,
+                {[text.id]: text.authored, [control.id]: control.authored},
+                {[text.id]: text.actual, [control.id]: control.actual});
+              continue;
+            }
+            if (share > .05 && (first.kind === 'text' || !(draftBoxOverlap(first.authored, other.authored) > .05))) {
+              fail(other.id, 'unexpected native overlap with ' + first.id + ' (' + (share * 100).toFixed(2) + '% of smaller box)',
+                {[first.id]: first.authored, [other.id]: other.authored}, {[first.id]: first.actual, [other.id]: other.actual});
+            }
+          }
+        }
+      }
+    }
+  }
+  for (let index = 0; index < stateFrames.length; index++) {
+    for (const other of stateFrames.slice(index + 1)) {
+      if (draftBoxOverlap(stateFrames[index].box, other.box) > 0) {
+        findings.push({layer: stateFrames[index].key, message: 'Native state frames overlap: ' + stateFrames[index].key + ' / ' + other.key,
+          actual: [stateFrames[index].box, other.box]});
+      }
+    }
+  }
+  if (findings.length) {
+    const evidence = {
+      schema: 'figma-flow-native-geometry-failure-v1', passed: false, scope: 'exploratory-only', production_admitted: false,
+      pageId: page.id, observed_at: new Date().toISOString(), packet_sha256: DRAFT.packet_sha256,
+      instance_sha256: DRAFT.instance_sha256, findings
+    };
+    figma.ui.postMessage({type: 'geometry-failure', data: copy(evidence)});
+    const error = Error('Native draft geometry failed:\n- ' + findings.map(finding => finding.layer + ': ' + finding.message +
+      (finding.actual === undefined ? '' : '; actual ' + JSON.stringify(finding.actual))).join('\n- '));
+    error.geometryEvidence = evidence;
+    throw error;
+  }
+}
+
+function measureDraftText(page, candidates) {
+  const keyed = new Map(page.findAll(() => true).map(node => [node.getPluginData('semanticKey'), node]));
+  for (const candidate of candidates) {
+    for (const viewport of ['desktop', 'mobile']) {
+      for (const state of candidate.prototype.states) {
+        for (const layer of candidate.state_layouts[viewport][state.id].layers.filter(layer => layer.kind === 'text')) {
+          const node = keyed.get(candidate.id + '.' + viewport + '.' + state.id + '.' + layer.id);
+          if (node) {
+            node.textAutoResize = 'HEIGHT';
+            node.resize(draftTextWidth(layer), node.height);
+          }
+        }
+      }
+    }
+  }
+}
+
 function preflightDraft(draft,available){
  const problems=[],seen=new Set(),push=m=>{if(!seen.has(m)){seen.add(m);problems.push(m);}};
  const fonts=Array.isArray(available)?available:[];
@@ -37,11 +474,28 @@ function preflightDraft(draft,available){
    if(!font||typeof font.family!=='string'||!font.family||typeof font.style!=='string'||!font.style){push('Font role invalid: '+c.id+'/'+role);continue;}
    if(!fonts.some(f=>f&&f.family===font.family&&f.style===font.style))push('필수 실제 글꼴 없음: '+font.family+' '+font.style);
   }
+  for (const viewport of ['desktop', 'mobile']) {
+    for (const [variant, style] of Object.entries(c.control_styles?.[viewport] || {})) {
+      try {
+        draftTextGeometry({...style, id: variant});
+        draftShadows(style.shadows, c.id + '/' + viewport + '/' + variant);
+      } catch (error) {
+        push(String(error));
+      }
+      if (!c.fonts?.[style.font || 'body']) push('Pinned control font role missing ' + c.id + '/' + variant);
+      if (style.stroke !== undefined && (!Number.isFinite(style.stroke_width ?? 1) || (style.stroke_width ?? 1) <= 0)) {
+        push('Invalid authored control leading/stroke ' + c.id + '/' + variant);
+      }
+    }
+  }
   for(const viewport of ['desktop','mobile'])for(const state of c.prototype?.states||[]){
    const key=c.id+'.'+viewport+'.'+state.id,l=c.state_layouts?.[viewport]?.[state.id];
    if(!l){push('Pinned state layout missing '+key);continue;}
+   try{draftProductButtons(c,viewport,state);}catch(error){push(String(error)+' at '+key);}
    for(const layer of l.layers||[]){
+    if(layer.shadows!==undefined){try{if(!['rect','ellipse'].includes(layer.kind))throw Error('Native shadows require rect/ellipse '+layer.id);draftShadows(layer.shadows,key+'.'+layer.id);}catch(error){push(String(error));}}
     if(layer.kind==='image'&&!Object.prototype.hasOwnProperty.call(draft.assets||{},layer.asset))push('Pinned raster reference missing '+layer.asset+' at '+key+'.'+layer.id);
+    if(layer.kind==='text'){try{draftTextGeometry(layer);}catch(error){push(String(error));}}
     if(layer.kind==='text'&&!c.fonts?.[layer.font||'body'])push('Pinned font role missing '+(layer.font||'body')+' at '+key+'.'+layer.id);
    }
    for(const edge of (c.prototype?.bindings||[]).filter(e=>e.viewport===viewport&&e.source_state===state.id)){
@@ -69,7 +523,7 @@ function admitDraftColorConsumers(candidates){
    known(name,key);
    consumers.get(name).push({key,field});
   };
-  for(const viewport of ['desktop','mobile'])for(const [variant,style]of Object.entries(c.control_styles?.[viewport]||{})){known(style.fill,c.id+'.'+viewport+'.component.'+variant);known(style.ink,c.id+'.'+viewport+'.component.'+variant+'.label');}
+  for(const viewport of ['desktop','mobile'])for(const [variant,style]of Object.entries(c.control_styles?.[viewport]||{})){known(style.fill,c.id+'.'+viewport+'.component.'+variant);known(style.ink,c.id+'.'+viewport+'.component.'+variant+'.label');if(style.stroke!==undefined)known(style.stroke,c.id+'.'+viewport+'.component.'+variant+'.stroke');}
   const intersects=(box,l)=>box&&['x','y','w','h'].every(k=>Number.isFinite(box[k]))&&box.w>0&&box.h>0&&box.x<l.width&&box.y<l.height&&box.x+box.w>0&&box.y+box.h>0;
   if(!Array.isArray(c.prototype?.states)||!c.prototype.states.length||!Array.isArray(c.prototype.bindings))throw Error('Actual named color consumers: rendered prototype required '+c.id);
   for(const viewport of ['desktop','mobile'])for(const state of c.prototype.states){
@@ -87,9 +541,22 @@ function admitDraftColorConsumers(candidates){
     const note=c.action_notes?.[edge.action+'|'+edge.control_id],style=c.control_styles?.[viewport]?.[note?.visual_variant],box=l.control_boxes?.[edge.control_id];
     if(!style||!Array.isArray(box)||box.length!==4||!box.every(Number.isFinite)||box[2]<=0||box[3]<=0)throw Error('Actual named color consumers: actual control/style required '+key+'.'+edge.control_id);
     if(!intersects({x:box[0],y:box[1],w:box[2],h:box[3]},l))continue;
-    use(style.fill,key+'.'+edge.control_id,'fills');
+    use(style.fill,key+'.'+edge.control_id,'fills');if(style.stroke!==undefined)use(style.stroke,key+'.'+edge.control_id,'strokes');
     if(typeof c.action_labels?.[edge.action]==='string'&&c.action_labels[edge.action].trim())use(style.ink,key+'.'+edge.control_id+'.label','fills');
    }
+  }
+  for (const viewport of ['desktop', 'mobile']) {
+    for (const state of c.prototype.states) {
+      const layout = c.state_layouts[viewport][state.id];
+      const key = c.id + '.' + viewport + '.' + state.id;
+      for (const button of draftProductButtons(c, viewport, state)) {
+        const style = c.control_styles[viewport][button.variant];
+        if (!intersects({x: button.box[0], y: button.box[1], w: button.box[2], h: button.box[3]}, layout)) continue;
+        use(style.fill, key + '.' + button.id, 'fills');
+        use(style.ink, key + '.' + button.id + '.label', 'fills');
+        if (style.stroke !== undefined) use(style.stroke, key + '.' + button.id, 'strokes');
+      }
+    }
   }
   for(const row of c.foundationBindings||[])if(row.type==='COLOR'&&!roles.some(role=>role.token===row.token&&role.native?.type==='COLOR'))throw Error('Actual named color consumers: undeclared typed COLOR '+row.token);
   for(const [name,uses]of consumers){
@@ -106,12 +573,12 @@ function admitDraftColorConsumers(candidates){
  }
  return reports;
 }
-async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw Error('이 검토 패킷에 지정된 Figma 파일에서만 실행할 수 있습니다.');if(DRAFT.schema!=='figma-flow-native-direction-review-v1'||DRAFT.scope!=='exploratory-only'||('production_admitted'in DRAFT&&DRAFT.production_admitted!==false))throw Error('Explicit exploratory review packet required; production admission is forbidden');admitDraftColorConsumers(DRAFT.candidates);const planned=[];for(const candidate of DRAFT.candidates){declareDraftFoundations(candidate,(...args)=>declareDraftToken(planned,...args));for(const role of candidate.foundations.roles.filter(role=>role.kind==='color')){const token=draftFoundationName(candidate,role.token),alias=role.alias?draftFoundationName(candidate,role.alias):null,value=rgb(candidate.colors[role.token.split('/').pop()]);if(alias){declareDraftToken(planned,alias,'COLOR',value);declareDraftToken(planned,token,'COLOR',null,alias);}else declareDraftToken(planned,token,'COLOR',value);}}const availableFonts=(await figma.listAvailableFontsAsync()).map(f=>f.fontName);const problems=preflightDraft(DRAFT,availableFonts);if(problems.length)throw Error('검토 초안을 만들기 전에 확인이 필요합니다 (파일은 변경되지 않았습니다):\n- '+problems.join('\n- '));let page=figma.root.children.find(p=>p.getPluginData(OWNER)===DRAFT.instance_sha256);if(page){await figma.setCurrentPageAsync(page);return page;}const previous=figma.currentPage;page=figma.createPage();page.name='DRAFT · A/B/C 방향 검토 · '+DRAFT.packet_sha256.slice(0,8);await figma.setCurrentPageAsync(page);let tokenResult;const styles=[],rollbacks=[];try{
+async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw Error('이 검토 패킷에 지정된 Figma 파일에서만 실행할 수 있습니다.');if(DRAFT.schema!=='figma-flow-native-direction-review-v1'||DRAFT.scope!=='exploratory-only'||('production_admitted'in DRAFT&&DRAFT.production_admitted!==false))throw Error('Explicit exploratory review packet required; production admission is forbidden');admitDraftColorConsumers(DRAFT.candidates);const planned=[];for(const candidate of DRAFT.candidates){declareDraftFoundations(candidate,(...args)=>declareDraftToken(planned,...args));for(const role of candidate.foundations.roles.filter(role=>role.kind==='color')){const token=draftFoundationName(candidate,role.token),alias=role.alias?draftFoundationName(candidate,role.alias):null,value=rgb(candidate.colors[role.token.split('/').pop()]);if(alias){declareDraftToken(planned,alias,'COLOR',value);declareDraftToken(planned,token,'COLOR',null,alias);}else declareDraftToken(planned,token,'COLOR',value);}}const availableFonts=(await figma.listAvailableFontsAsync()).map(f=>f.fontName);const problems=preflightDraft(DRAFT,availableFonts);if(problems.length)throw Error('검토 초안을 만들기 전에 확인이 필요합니다 (파일은 변경되지 않았습니다):\n- '+problems.join('\n- '));let page=figma.root.children.find(p=>p.getPluginData(OWNER)===DRAFT.instance_sha256);if(page){validateDraftGeometry(page,DRAFT.candidates,false);await figma.setCurrentPageAsync(page);return page;}const previous=figma.currentPage;page=figma.createPage();page.name='DRAFT · A/B/C 방향 검토 · '+DRAFT.packet_sha256.slice(0,8);await figma.setCurrentPageAsync(page);let tokenResult;const styles=[],rollbacks=[];try{
  const tokens=[],bindings=[],notes=[],colors=new Map(),numbers=new Map(),assets=new Map(),styleMap=new Map(),mains=new Map(),frames=new Map(),edges=[],palettes={},noteFrames={},gradientBindings=[];
  const add=(...args)=>declareDraftToken(tokens,...args);
  for(const candidate of DRAFT.candidates)declareDraftFoundations(candidate,add);
  const ensureDraftTokens=(api,ownedPage,contract)=>ensureSemanticTokens(api,ownedPage,{...contract,strictValues:true,bindTextStyles:true,ownedTextStyleIds:styles.map(style=>style.id)});
- const num=(name,value)=>{if(!Number.isFinite(value)||value<0)throw Error('Finite draft role value required');const primitive='review/primitive/'+String(value).replace('.','_');add(primitive,'FLOAT',value);add(name,'FLOAT',null,primitive);return name;};
+ const num=(name,value)=>declareDraftNumber(tokens,name,value);
  const bind=(n,field,token)=>bindings.push({key:n.id,field,token});
  const color=(c,name)=>{const hex=c.colors[name],roles=c.foundations.roles.filter(role=>role.kind==='color'&&role.token.split('/').pop()===name);if(!hex||roles.length!==1)throw Error('Unambiguous declared source color role required: '+c.id+'/'+name);const role=roles[0],token=draftFoundationName(c,role.token),alias=role.alias?draftFoundationName(c,role.alias):null;if(alias){add(alias,'COLOR',rgb(hex));add(token,'COLOR',null,alias);}else add(token,'COLOR',rgb(hex));return {token,paint:{type:'SOLID',color:rgb(hex)}};};
  const paint=(n,c,name,field='fills')=>{const p=color(c,name);n[field]=[p.paint];bind(n,field,p.token);};
@@ -120,24 +587,41 @@ async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw
  for(const [name,data]of Object.entries(DRAFT.assets))assets.set(name,figma.createImage(figma.base64Decode(data)).hash);
  const gradient=(parent,key,l)=>{const n=shape(figma.createRectangle(),parent,key,l.x,l.y,l.w,l.h);const stops=l.stops.map((stop,i)=>{const name=key.replace(/[.:]/g,'/')+'/gradient/stop-'+i;add(name+'/primitive','COLOR',{...rgb(stop.color),a:stop.opacity});add(name,'COLOR',null,name+'/primitive');gradientBindings.push({node:n,index:i,token:name});return {position:stop.position,color:{...rgb(stop.color),a:stop.opacity}};});n.fills=[{type:'GRADIENT_LINEAR',gradientTransform:l.direction==='horizontal'?[[1,0,0],[0,1,0]]:[[0,1,0],[-1,0,1]],gradientStops:stops}];return n;};
  const image=(parent,key,l)=>{const n=shape(figma.createRectangle(),parent,key,l.x,l.y,l.w,l.h);if(!assets.has(l.asset))throw Error('Pinned raster reference missing '+l.asset);n.fills=[{type:'IMAGE',imageHash:assets.get(l.asset),scaleMode:l.fit||'FIT'}];n.setPluginData('rasterAsset',l.asset);return n;};
- const text=async(parent,key,l,c)=>{const font=c.fonts[l.font||'body'];if(!font)throw Error('Pinned font role missing');const leading=l.leading??Math.ceil(l.size*(l.font==='display'?1.07:1.55));const styleRoles=c.foundationBindings.filter(role=>role.bindings.some(target=>target.key===key&&['fontFamily','fontSize'].includes(target.field))).map(role=>draftFoundationName(c,role.token)).sort();const styleKey=JSON.stringify([c.id,l.font||'body',l.size,leading,font,styleRoles]);let style=styleMap.get(styleKey);if(!style){style=figma.createTextStyle();styles.push(style);style.name='DRAFT '+DRAFT.instance_sha256.slice(0,8)+'/'+c.id+'/'+(l.font||'body')+'/'+l.size+' · '+leading;style.fontName=font;style.fontSize=l.size;style.lineHeight={unit:'PIXELS',value:leading};styleMap.set(styleKey,style);}const n=figma.createText();parent.appendChild(n);tag(n,key);await n.setTextStyleIdAsync(style.id);n.characters=l.value;n.textAlignHorizontal=(l.align||'left').toUpperCase();n.resize(l.w,l.h);n.textAutoResize='HEIGHT';n.x=l.x;n.y=l.y;paint(n,c,l.ink);const intendedSize=intendedDraftRole([c],key,'fontSize');bind(n,'fontSize',intendedSize?draftFoundationName(c,intendedSize.role.token):num(c.id+'/type/'+(l.font||'body')+'/'+l.size,l.size));return n;};
+ const text=async(parent,key,l,c)=>{const font=c.fonts[l.font||'body'];if(!font)throw Error('Pinned font role missing');const spacing=draftTextGeometry(l),leading=l.leading??Math.ceil(l.size*(l.font==='display'?1.07:1.55));const styleRoles=c.foundationBindings.filter(role=>role.bindings.some(target=>target.key===key&&['fontFamily','fontSize'].includes(target.field))).map(role=>draftFoundationName(c,role.token)).sort();const styleKey=JSON.stringify([c.id,l.font||'body',l.size,leading,spacing,font,styleRoles]);let style=styleMap.get(styleKey);if(!style){style=figma.createTextStyle();styles.push(style);style.name='DRAFT '+DRAFT.instance_sha256.slice(0,8)+'/'+c.id+'/'+(l.font||'body')+'/'+l.size+' · '+leading;style.fontName=font;style.fontSize=l.size;style.lineHeight={unit:'PIXELS',value:leading};style.letterSpacing={unit:'PIXELS',value:spacing};styleMap.set(styleKey,style);}const n=figma.createText();parent.appendChild(n);tag(n,key);await n.setTextStyleIdAsync(style.id);n.characters=l.value;n.textAlignHorizontal=(l.align||'left').toUpperCase();n.resize(draftTextWidth(l),l.h);n.textAutoResize='HEIGHT';n.x=l.x;n.y=l.y;paint(n,c,l.ink);const intendedSize=intendedDraftRole([c],key,'fontSize');bind(n,'fontSize',intendedSize?draftFoundationName(c,intendedSize.role.token):num(c.id+'/type/'+(l.font||'body')+'/'+l.size,l.size));return n;};
  const layoutBindings=n=>{for(const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing']){const intended=intendedDraftRole(DRAFT.candidates,n.getPluginData('semanticKey'),field);if(intended)bind(n,field,draftFoundationName(intended.candidate,intended.role.token));else if(n[field]>0)bind(n,field,num('review/space/'+n[field],n[field]));}};
  const library=figma.createFrame();page.appendChild(library);tag(library,'review.component-library');library.fills=[];library.x=0;library.y=-1400;
- for(const c of DRAFT.candidates){for(const [name,hex]of Object.entries(c.colors))color(c,name);for(const viewport of ['desktop','mobile']){const variants=[];for(const [visual,style]of Object.entries(c.control_styles[viewport])){const key=c.id+'.'+viewport+'.component.'+visual,n=figma.createComponent();library.appendChild(n);tag(n,key);n.name='Visual='+visual;n.layoutMode='HORIZONTAL';n.primaryAxisSizingMode='AUTO';n.counterAxisSizingMode='AUTO';n.paddingTop=n.paddingBottom=style.paddingY;n.paddingLeft=n.paddingRight=style.paddingX;n.minHeight=style.minHeight;n.maxWidth=style.maxWidth;n.itemSpacing=0;layoutBindings(n);const fill=style.fill,ink=style.ink;paint(n,c,fill);n.cornerRadius=style.radius;const intendedRadius=intendedDraftRole([c],key,'cornerRadius');if(intendedRadius)bind(n,'cornerRadius',draftFoundationName(c,intendedRadius.role.token));else if(n.cornerRadius>0)bind(n,'cornerRadius',num(c.id+'/radius/observed/'+n.cornerRadius,n.cornerRadius));const label=await text(n,key+'.label',{x:0,y:0,w:240,h:28,size:style.fontSize,value:(note=>note?c.action_labels[note.action]:visual)(Object.values(c.action_notes).find(note=>note.visual_variant===visual)),ink,font:'body'},c);label.textAutoResize='WIDTH_AND_HEIGHT';label.maxWidth=n.maxWidth-n.paddingLeft-n.paddingRight;mains.set(c.id+'.'+viewport+'.'+visual,n);variants.push(n);}const set=figma.combineAsVariants(variants,library);tag(set,c.id+'.'+viewport+'.component-set');set.name=c.title+' · '+viewport+' · 시각 역할';set.fills=[];set.strokes=[];const property=set.addComponentProperty('문구','TEXT','검토 행동');for(const main of variants)main.children.find(n=>n.type==='TEXT').componentPropertyReferences={characters:property};}
+ for(const c of DRAFT.candidates){for(const [name,hex]of Object.entries(c.colors))color(c,name);for(const viewport of ['desktop','mobile']){const variants=[];for(const [visual,style]of Object.entries(c.control_styles[viewport])){const key=c.id+'.'+viewport+'.component.'+visual,n=figma.createComponent();library.appendChild(n);tag(n,key);n.name='Visual='+visual;n.layoutMode='HORIZONTAL';n.primaryAxisSizingMode='AUTO';n.counterAxisSizingMode='AUTO';n.paddingTop=n.paddingBottom=style.paddingY;n.paddingLeft=n.paddingRight=style.paddingX;n.minHeight=style.minHeight;n.maxWidth=style.maxWidth;n.itemSpacing=0;n.primaryAxisAlignItems='CENTER';n.counterAxisAlignItems='CENTER';layoutBindings(n);const fill=style.fill,ink=style.ink;paint(n,c,fill);if(style.shadows!==undefined)n.effects=draftShadows(style.shadows,key);if(style.stroke!==undefined){paint(n,c,style.stroke,'strokes');n.strokeWeight=style.stroke_width??1;n.strokeAlign='INSIDE';}n.cornerRadius=style.radius;const intendedRadius=intendedDraftRole([c],key,'cornerRadius');if(intendedRadius)bind(n,'cornerRadius',draftFoundationName(c,intendedRadius.role.token));else if(n.cornerRadius>0)bind(n,'cornerRadius',num(c.id+'/radius/observed/'+n.cornerRadius,n.cornerRadius));const label=await text(n,key+'.label',{x:0,y:0,w:240,h:28,size:style.fontSize,value:(note=>note?c.action_labels[note.action]:visual)(Object.values(c.action_notes).find(note=>note.visual_variant===visual)),ink,font:style.font||'body',letter_spacing:style.letter_spacing,leading:style.leading},c);label.textAlignHorizontal='CENTER';label.textAutoResize='WIDTH_AND_HEIGHT';label.maxWidth=n.maxWidth-n.paddingLeft-n.paddingRight;mains.set(c.id+'.'+viewport+'.'+visual,n);variants.push(n);}const set=figma.combineAsVariants(variants,library);tag(set,c.id+'.'+viewport+'.component-set');set.name=c.title+' · '+viewport+' · 시각 역할';set.fills=[];set.strokes=[];const property=set.addComponentProperty('문구','TEXT','검토 행동');for(const main of variants)main.children.find(n=>n.type==='TEXT').componentPropertyReferences={characters:property};}
  }
  layoutFoundationSets(library,library.children.filter(n=>n.type==='COMPONENT_SET'));for(const n of [library,...library.findAll(n=>n.type==='COMPONENT_SET')])layoutBindings(n);library.y=-library.height-160;
- let cy=0;for(const c of DRAFT.candidates){const sourceNotes=new Map(c.notes.map(n=>[n.id,n]));let rowY=cy;for(const viewport of ['desktop','mobile']){const dimensions=c.state_layouts[viewport];let x=0;for(const state of c.prototype.states){const l=dimensions[state.id];if(!l)throw Error('Pinned state layout missing');const key=c.id+'.'+viewport+'.'+state.id,frame=shape(figma.createFrame(),page,key,x,rowY,l.width,l.height);frame.name=c.title+' · '+viewport+' · '+state.title+' · DRAFT';frame.clipsContent=true;paint(frame,c,l.bg);frames.set(key,frame);frame.setPluginData('canonicalState',state.id);notes.push({key,label:noteLabel(sourceNotes.get(state.screen))});for(const layer of l.layers){if(layer.kind==='image'||layer.kind==='gradient'){const n=(layer.kind==='image'?image:gradient)(frame,key+'.'+layer.id,layer);if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='rect'||layer.kind==='ellipse'){const n=shape(layer.kind==='rect'?figma.createRectangle():figma.createEllipse(),frame,key+'.'+layer.id,layer.x,layer.y,layer.w,layer.h);paint(n,c,layer.fill);if(layer.stroke!==undefined){paint(n,c,layer.stroke,'strokes');n.strokeWeight=layer.stroke_width;n.strokeAlign='INSIDE';}if(layer.kind==='rect'&&layer.radius>0){n.cornerRadius=layer.radius;bind(n,'cornerRadius',num(c.id+'/radius/observed/'+layer.radius,layer.radius));}if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='text')await text(frame,key+'.'+layer.id,layer,c);else throw Error('Only declared native draft layer kinds allowed');}
- for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport&&e.source_state===state.id)){const box=l.control_boxes[edge.control_id];if(!box)throw Error('Pinned canonical control position missing '+edge.control_id);const note=c.action_notes[edge.action+'|'+edge.control_id];const main=mains.get(c.id+'.'+viewport+'.'+note.visual_variant);if(!main)throw Error('Source visual role has no real native main');const n=main.createInstance();frame.appendChild(n);tag(n,key+'.'+edge.control_id);const property=Object.keys(n.componentProperties).find(k=>k.split('#')[0]==='문구');if(!property)throw Error('Real exposed text property missing');n.setProperties({[property]:c.action_labels[edge.action]});n.x=box[0];n.y=box[1];n.minWidth=box[2];n.setPluginData('semanticComponent',JSON.stringify({key:key+'.'+edge.control_id,sourceKey:main.getPluginData('semanticKey'),childKeys:main.children.map((ch,i)=>({path:[i],key:key+'.'+edge.control_id+'.label'}))}));notes.push({key:key+'.'+edge.control_id,label:noteLabel(note)});edges.push({node:n,target:c.id+'.'+viewport+'.'+edge.target_state});}
+ const control = (frame, key, main, label, box) => {
+  if (!main) throw Error('Source visual role has no real native main');
+  const instance = main.createInstance();
+  frame.appendChild(instance);
+  tag(instance, key);
+  const property = Object.keys(instance.componentProperties).find(name => name.split('#')[0] === '문구');
+  if (!property) throw Error('Real exposed text property missing');
+  instance.setProperties({[property]: label});
+  fitDraftControl(instance, box);
+  instance.setPluginData('semanticComponent', JSON.stringify({
+    key,
+    sourceKey: main.getPluginData('semanticKey'),
+    childKeys: main.children.map((child, index) => ({path: [index], key: key + '.label'}))
+  }));
+  return instance;
+ };
+ let cy=0;for(const c of DRAFT.candidates){const sourceNotes=new Map(c.notes.map(n=>[n.id,n]));let rowY=cy;for(const viewport of ['desktop','mobile']){const dimensions=c.state_layouts[viewport];let x=0;for(const state of c.prototype.states){const l=dimensions[state.id];if(!l)throw Error('Pinned state layout missing');const key=c.id+'.'+viewport+'.'+state.id,frame=shape(figma.createFrame(),page,key,x,rowY,l.width,l.height);frame.name=c.title+' · '+viewport+' · '+state.title+' · DRAFT';frame.clipsContent=true;paint(frame,c,l.bg);frames.set(key,frame);frame.setPluginData('canonicalState',state.id);notes.push({key,label:noteLabel(sourceNotes.get(state.screen))});for(const layer of l.layers){if(layer.kind==='image'||layer.kind==='gradient'){const n=(layer.kind==='image'?image:gradient)(frame,key+'.'+layer.id,layer);if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='rect'||layer.kind==='ellipse'){const n=shape(layer.kind==='rect'?figma.createRectangle():figma.createEllipse(),frame,key+'.'+layer.id,layer.x,layer.y,layer.w,layer.h);paint(n,c,layer.fill);if(layer.shadows!==undefined)n.effects=draftShadows(layer.shadows,key+'.'+layer.id);if(layer.stroke!==undefined){paint(n,c,layer.stroke,'strokes');n.strokeWeight=layer.stroke_width;n.strokeAlign='INSIDE';}if(layer.kind==='rect'&&layer.radius>0){n.cornerRadius=layer.radius;bind(n,'cornerRadius',num(c.id+'/radius/observed/'+layer.radius,layer.radius));}if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='text')await text(frame,key+'.'+layer.id,layer,c);else throw Error('Only declared native draft layer kinds allowed');}
+ for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport&&e.source_state===state.id)){const box=l.control_boxes[edge.control_id];if(!box)throw Error('Pinned canonical control position missing '+edge.control_id);const note=c.action_notes[edge.action+'|'+edge.control_id];const main=mains.get(c.id+'.'+viewport+'.'+note.visual_variant);const n=control(frame,key+'.'+edge.control_id,main,c.action_labels[edge.action],box);notes.push({key:key+'.'+edge.control_id,label:noteLabel(note)});edges.push({node:n,target:c.id+'.'+viewport+'.'+edge.target_state});}
+ for(const button of draftProductButtons(c,viewport,state))control(frame,key+'.'+button.id,mains.get(c.id+'.'+viewport+'.'+button.variant),button.label,button.box);
  x+=l.width+90;}
- const reference=c.references[viewport];if(reference){const dims=c.layouts[viewport];const ref=shape(figma.createFrame(),page,c.id+'.'+viewport+'.raster-reference',x,rowY,dims.width,dims.height);ref.name=c.title+' · 브라우저 참조 원본 (래스터)';ref.fills=[];image(ref,c.id+'.'+viewport+'.reference-image',{asset:reference,x:0,y:0,w:dims.width,h:dims.height,fit:'FIT'});}rowY+=c.layouts[viewport].height+170;}
+ const reference=c.references[viewport];if(reference){const dims=c.layouts[viewport];const ref=shape(figma.createFrame(),page,c.id+'.'+viewport+'.raster-reference',x,rowY,dims.width,dims.height);ref.name=c.title+' · 브라우저 참조 원본 (래스터)';ref.fills=[];image(ref,c.id+'.'+viewport+'.reference-image',{asset:reference,x:0,y:0,w:dims.width,h:dims.height,fit:'FIT'});}rowY+=Math.max(c.layouts[viewport].height,...Object.values(dimensions).map(layout=>layout.height))+170;}
  cy=rowY+650;
  }
  for(const edge of edges){const target=frames.get(edge.target);if(!target)throw Error('Exact candidate destination missing');await edge.node.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:target.id,navigation:'NAVIGATE',transition:null,preserveScrollPosition:false}]}]);}
  // Shared helper creates real visible cards, instances and labeled functional roles.
  const labelToken=num('review/type/palette',17),spaceToken=num('review/space/24',24);for(const c of DRAFT.candidates){const primary=c.control_styles.desktop[c.foundations.palette.samples[0].variant];const ink=color(c,primary.ink);const samples=c.foundations.palette.samples.map(sample=>({...sample,mainComponentId:mains.get(c.id+'.desktop.'+sample.variant).id}));const palette=await createFoundationPalette(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:'Direction review '+DRAFT.instance_sha256.slice(0,10),tokens,type:{token:labelToken,value:17},space:{token:spaceToken,value:24},ink:{token:ink.token,value:ink.paint.color},font:c.fonts.body,samples,name:c.title+' · 의미 있는 컴포넌트 팔레트',x:0,y:cy},ensureDraftTokens);rollbacks.push(palette.rollback);palettes[c.id]={libraryId:palette.libraryId,samples:palette.samples};for(const sample of palette.samples){const instance=await figma.getNodeByIdAsync(sample.instanceId),property=Object.keys(instance.componentProperties).find(k=>k.split('#')[0]==='문구'),main=await instance.getMainComponentAsync(),key='review.palette.'+c.id+'.'+sample.component;instance.setPluginData('semanticKey',key);instance.setPluginData('semanticComponent',JSON.stringify({key,sourceKey:main.getPluginData('semanticKey'),childKeys:main.children.map((child,index)=>({path:[index],key:key+'.'+(child.type==='TEXT'?'label':index)}))}));instance.setProperties({[property]:c.action_labels[sample.action]});const edge=c.prototype.bindings.find(e=>e.action===sample.action&&e.viewport==='desktop');if(edge){const target=frames.get(c.id+'.desktop.'+edge.target_state);await instance.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:target.id,navigation:'NAVIGATE',transition:null,preserveScrollPosition:false}]}]);}}const node=await figma.getNodeByIdAsync(palette.libraryId);paint(node,c,primary.fill);cy+=node.height+160;}
  for(const c of DRAFT.candidates){const entries=[];for(const viewport of ['desktop','mobile']){for(const state of c.prototype.states){const target=frames.get(c.id+'.'+viewport+'.'+state.id),note=c.notes.find(n=>n.id===state.screen);entries.push({key:viewport+'|'+state.id+'|'+note.id,targetId:target.id,label:viewport+' · '+state.title+' · '+state.screen+'\n'+noteLabel(note)});}for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport)){const key=c.id+'.'+viewport+'.'+edge.source_state+'.'+edge.control_id,target=page.findOne(n=>n.getPluginData('semanticKey')===key),note=c.action_notes[edge.action+'|'+edge.control_id];entries.push({key:viewport+'|'+edge.source_state+'|'+edge.control_id,targetId:target.id,label:viewport+' · '+edge.control_id+' · '+edge.action+'\n'+noteLabel(note)});}}const board=await ensureDesignNoteBoard(figma,page,{sourceHash:DRAFT.instance_sha256,font:c.fonts.body,fontSize:17,width:760,x:0,y:cy,title:'주석 읽기 · '+c.title,boardKey:'review.notes.'+c.id,notes:entries});rollbacks.push(board.rollback);noteFrames[c.id]={...board,rollback:undefined};const node=await figma.getNodeByIdAsync(board.boardId),style=c.control_styles.desktop[c.foundations.palette.samples[0].variant];paint(node,c,style.fill);for(const part of [node,...node.findAll(()=>true)]){if(part.type==='TEXT'){paint(part,c,style.ink);bind(part,'fontSize',num('review/type/note/'+part.fontSize,part.fontSize));}if(part.layoutMode&&part.layoutMode!=='NONE')layoutBindings(part);}cy+=node.height+160;}
- const canonicalBindings=applyDraftFoundations(page,DRAFT.candidates,bindings);tokenResult=await ensureDraftTokens(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:'Direction review '+DRAFT.instance_sha256.slice(0,10),tokens,bindings});for(const job of gradientBindings){const fills=copy(job.node.fills),stop=fills[0].gradientStops[job.index];stop.boundVariables={color:figma.variables.createVariableAlias(tokenResult.variables[job.token])};job.node.fills=fills;}await ensureNativeAnnotations(figma,page,{annotations:notes});page.setPluginData(OWNER,DRAFT.instance_sha256);page.setPluginData('packet_sha256',DRAFT.packet_sha256);page.setPluginData('draftCanonicalBindings',JSON.stringify(canonicalBindings));page.setPluginData('draftNoteFrames',JSON.stringify(noteFrames));page.setPluginData('draftPalettes',JSON.stringify(palettes));page.setPluginData('draftTextStyles',JSON.stringify(styles.map(s=>s.id)));page.setPluginData('scope','exploratory-only');const launch=DRAFT.candidates.map(c=>frames.get(c.id+'.desktop.'+c.entry_state));page.flowStartingPoints=launch.map((node,i)=>({nodeId:node.id,name:DRAFT.candidates[i].title+' · 검토 시작'}));figma.currentPage.selection=[launch[0]];figma.viewport.scrollAndZoomIntoView(launch);return page;
+ const canonicalBindings=applyDraftFoundations(page,DRAFT.candidates,bindings);tokenResult=await ensureDraftTokens(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:'Direction review '+DRAFT.instance_sha256.slice(0,10),tokens,bindings});for(const job of gradientBindings){const fills=copy(job.node.fills),stop=fills[0].gradientStops[job.index];stop.boundVariables={color:figma.variables.createVariableAlias(tokenResult.variables[job.token])};job.node.fills=fills;}measureDraftText(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates);await ensureNativeAnnotations(figma,page,{annotations:notes});page.setPluginData(OWNER,DRAFT.instance_sha256);page.setPluginData('packet_sha256',DRAFT.packet_sha256);writeDraftJSON(page,'draftCanonicalBindings',canonicalBindings);writeDraftJSON(page,'draftNoteFrames',noteFrames);writeDraftJSON(page,'draftPalettes',palettes);writeDraftJSON(page,'draftTextStyles',styles.map(s=>s.id));page.setPluginData('scope','exploratory-only');const launch=DRAFT.candidates.map(c=>frames.get(c.id+'.desktop.'+c.entry_state));page.flowStartingPoints=launch.map((node,i)=>({nodeId:node.id,name:DRAFT.candidates[i].title+' · 검토 시작'}));figma.currentPage.selection=[launch[0]];figma.viewport.scrollAndZoomIntoView(launch);return page;
  }catch(error){const failures=[];if(tokenResult)try{await tokenResult.rollback();}catch(e){failures.push(String(e));}for(const rollback of rollbacks.reverse())try{await rollback();}catch(e){failures.push(String(e));}for(const style of styles)try{style.remove();}catch(e){failures.push(String(e));}try{await figma.setCurrentPageAsync(previous);page.remove();}catch(e){failures.push(String(e));}throw Error(String(error)+(failures.length?' · 정리 오류: '+failures.join('; '):''));}}
-async function readDraft(page){const raw=await readNativeSemantics(figma,page),objects=new Map([page,...page.findAll(()=>true)].map(n=>[n.id,n]));for(const row of raw.nodes){const n=objects.get(row.id);for(const field of ['x','y','width','height','characters','fontName','fontSize','lineHeight','textStyleId','visible','constraints','cornerRadius','strokeWeight','opacity','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing'])if(field in n&&typeof n[field]!=='symbol')row[field]=copy(n[field]);if(n.type==='INSTANCE'&&'overrides'in n)row.overrides=copy(n.overrides);if(n.type==='TEXT'&&n.characters.length){if(typeof n.getRangeBoundVariable==='function'){const family=n.getRangeBoundVariable(0,n.characters.length,'fontFamily');row.fontFamilyBinding=typeof family==='symbol'?null:copy(family);}row.fontSegments=copy(n.getStyledTextSegments(['fontName','fontSize','textStyleId','boundVariables']));const link=n.getRangeHyperlink(0,n.characters.length);row.hyperlink=typeof link==='symbol'?null:copy(link);}row.reactions=copy(typeof n.getReactions==='function'?await n.getReactions():(n.reactions||[]));}
- const textStyles=[];for(const id of JSON.parse(page.getPluginData('draftTextStyles')||'[]')){const style=await figma.getStyleByIdAsync(id);if(style)textStyles.push({id:style.id,name:style.name,fontName:copy(style.fontName),fontSize:style.fontSize,lineHeight:copy(style.lineHeight),boundVariables:copy(style.boundVariables||{})});}return {...raw,fileKey:figma.fileKey,page_owner:page.getPluginData(OWNER),packet_sha256:DRAFT.packet_sha256,instance_sha256:DRAFT.instance_sha256,layout_sha256:DRAFT.layout_sha256,layout_pin:DRAFT.layout_pin,prepared_target:DRAFT.prepared_target,expected_file_key:DRAFT.fileKey,candidate_pins:DRAFT.candidate_pins,scope:'exploratory-only',production_admitted:false,observed_at:new Date().toISOString(),canonicalFoundationBindings:JSON.parse(page.getPluginData('draftCanonicalBindings')||'[]'),noteFrames:JSON.parse(page.getPluginData('draftNoteFrames')||'{}'),palettes:JSON.parse(page.getPluginData('draftPalettes')||'{}'),textStyles,raster_vs_editable:DRAFT.boundary,flowStartingPoints:copy(page.flowStartingPoints||[])};}
+async function readDraft(page){const raw=await readNativeSemantics(figma,page),objects=new Map([page,...page.findAll(()=>true)].map(n=>[n.id,n]));for(const row of raw.nodes){const n=objects.get(row.id);for(const field of ['x','y','width','height','characters','fontName','fontSize','lineHeight','letterSpacing','textAutoResize','textAlignHorizontal','textStyleId','visible','constraints','cornerRadius','strokeWeight','opacity','effects','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing'])if(field in n&&typeof n[field]!=='symbol')row[field]=copy(n[field]);if(n.type==='INSTANCE'&&'overrides'in n)row.overrides=copy(n.overrides);if(n.type==='TEXT'&&n.characters.length){if(typeof n.getRangeBoundVariable==='function'){const family=n.getRangeBoundVariable(0,n.characters.length,'fontFamily');row.fontFamilyBinding=typeof family==='symbol'?null:copy(family);}row.fontSegments=copy(n.getStyledTextSegments(['fontName','fontSize','textStyleId','boundVariables']));const link=n.getRangeHyperlink(0,n.characters.length);row.hyperlink=typeof link==='symbol'?null:copy(link);}row.reactions=copy(typeof n.getReactions==='function'?await n.getReactions():(n.reactions||[]));}
+ const textStyles=[];for(const id of readDraftJSON(page,'draftTextStyles',[])){const style=await figma.getStyleByIdAsync(id);if(style)textStyles.push({id:style.id,name:style.name,fontName:copy(style.fontName),fontSize:style.fontSize,lineHeight:copy(style.lineHeight),boundVariables:copy(style.boundVariables||{})});}return {...raw,fileKey:figma.fileKey,page_owner:page.getPluginData(OWNER),packet_sha256:DRAFT.packet_sha256,instance_sha256:DRAFT.instance_sha256,layout_sha256:DRAFT.layout_sha256,layout_pin:DRAFT.layout_pin,prepared_target:DRAFT.prepared_target,expected_file_key:DRAFT.fileKey,candidate_pins:DRAFT.candidate_pins,scope:'exploratory-only',production_admitted:false,observed_at:new Date().toISOString(),canonicalFoundationBindings:readDraftJSON(page,'draftCanonicalBindings',[]),noteFrames:readDraftJSON(page,'draftNoteFrames',{}),palettes:readDraftJSON(page,'draftPalettes',{}),textStyles,raster_vs_editable:DRAFT.boundary,flowStartingPoints:copy(page.flowStartingPoints||[])};}
 figma.showUI(__html__,{width:470,height:400});figma.ui.onmessage=async message=>{if(message.type==='receipt'){status(message.passed?'실제 Figma 검토 시안·이동·주석·팔레트 검증 완료 · 방향 선택은 별도입니다.':'검토 자료 검증 실패 · 결과 JSON을 확인하세요.');return;}if(message.type!=='draft-review'||busy)return;busy=true;status('A/B/C 실제 검토 프레임·글꼴·주석·팔레트를 만드는 중…');try{const page=await makeDraft();lastData=await readDraft(page);figma.ui.postMessage({type:'readback',data:lastData});status('실제 검토 노드 생성 완료 · 연결 검증/결과 저장 중…');}catch(error){status(String(error)+'\n'+String(error.stack||''));}finally{busy=false;status(last);}};
