@@ -148,11 +148,12 @@ class Node {
   getPluginData(key) { return this.data[key] || ''; }
   appendChild(child) { if (child.parent) child.parent.children = child.parent.children.filter(n => n !== child); child.parent = this; this.children.push(child); }
   resize(w,h) { assert.ok(w > 0 && h > 0); this.width = w; this.height = h; }
-  setBoundVariable(field, variable) { if(!variable){delete this.boundVariables[field];return;} assert.equal(typeof variable, 'object'); assert.ok(variable.id); this.boundVariables[field] = {type:'VARIABLE_ALIAS', id:variable.id}; }
+  setBoundVariable(field, variable) { if(!variable){delete this.boundVariables[field];return;} assert.equal(typeof variable, 'object'); assert.ok(variable.id); this.boundVariables[field] = this.type === 'TEXT' && ['fontSize','fontFamily'].includes(field) ? [{type:'VARIABLE_ALIAS', id:variable.id}] : {type:'VARIABLE_ALIAS', id:variable.id}; }
   async setReactionsAsync(reactions) { if (failure) throw Error('reaction failure'); for (const reaction of reactions) { assert.equal(reaction.trigger.type, 'ON_CLICK'); assert.ok(reaction.actions[0].destinationId); assert.equal(reaction.actions[0].navigation, 'NAVIGATE'); } this.reactions = reactions; }
   async loadAsync() {}
   findAll(test) { return this.children.flatMap(child => [...(test(child)?[child]:[]), ...child.findAll(test)]); }
   getRangeAllFontNames(){return [this.fontName];}
+  getRangeBoundVariable(start,end,field){const value=this.boundVariables[field];return Array.isArray(value)?value.every(item=>item.id===value[0]?.id)?value[0]||null:Symbol.for('mixed'):value||null;}
   setRangeHyperlink(start,end,link){assert.equal(start,0);assert.equal(end,this.characters.length);this.hyperlink=link;}
   getRangeHyperlink(start,end){assert.equal(start,0);assert.equal(end,this.characters.length);return this.hyperlink||null;}
   async setTextStyleIdAsync(id){this.textStyleId=id;}
@@ -160,7 +161,7 @@ class Node {
   findOne(test) { for (const child of this.children) { if (test(child)) return child; const found = child.findOne(test); if (found) return found; } return null; }
   createInstance() {
     assert.equal(this.type, 'COMPONENT');
-    function clone(source) { const copy = new Node(source.type); for (const key of ['data', 'boundVariables', 'fills', 'characters', 'fontName', 'fontSize', 'textStyleId','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','cornerRadius','width','height']) if(source[key]) copy[key] = JSON.parse(JSON.stringify(source[key])); for (const child of source.children) copy.appendChild(clone(child)); return copy; }
+    function clone(source) { const copy = new Node(source.type); for (const key of ['data', 'boundVariables', 'fills', 'strokes', 'strokeWeight', 'characters', 'fontName', 'fontSize', 'textStyleId','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','cornerRadius','width','height']) if(source[key]) copy[key] = JSON.parse(JSON.stringify(source[key])); for (const child of source.children) copy.appendChild(clone(child)); return copy; }
     const instance = clone(this); instance.type = 'INSTANCE'; instance.getMainComponentAsync = async () => this; return instance;
   }
 }
@@ -172,7 +173,7 @@ const figma = { root, fileKey:'fixturefile', get currentPage() { return current;
   createFrame: () => create('FRAME'), createComponent: () => create('COMPONENT'), createText: () => {const n=create('TEXT');n.fills=[{type:'SOLID',color:{r:0,g:0,b:0},opacity:1}];return n;},
   combineAsVariants(nodes,parent) { assert.ok(nodes.length>=1); assert.ok(nodes.every(node=>node.type==='COMPONENT' && node.name.startsWith('Variant='))); const set = new Node('COMPONENT_SET'); parent.appendChild(set); for(const node of nodes) { set.appendChild(node); node.variantProperties={Variant:node.name.split('=')[1]}; } return set; },
   async getNodeByIdAsync(id){return [root,...root.findAll(()=>true)].find(n=>n.id===id)||null;},
-  createTextStyle(){const style=new Node('TEXT_STYLE');style.type='TEXT';styles.push(style);return style;},
+  createTextStyle(){const style=new Node('TEXT_STYLE');style.type='TEXT';Object.defineProperty(style,'fontSize',{get(){return this._fontSize;},set(value){this._fontSize=value;delete this.boundVariables.fontSize;}});styles.push(style);return style;},
   async getStyleByIdAsync(id){return styles.find(s=>s.id===id&&!s.removed)||null;},
   async loadFontAsync(name) { assert.ok(name.family && name.style); }, viewport:{ scrollAndZoomIntoView(){} },
   showUI(){}, ui:{postMessage(message){ messages.push(message); }},
@@ -204,6 +205,10 @@ const send = message => figma.ui.onmessage({...message, session_nonce:sessionNon
   const single = page.findOne(node=>meta(node).semantic_id==='component:card/default');
   assert.equal(single.type,'COMPONENT'); assert.equal(single.parent.type,'COMPONENT_SET');
   assert.equal(title.characters, '</script><script>not code</script>');
+  assert(Array.isArray(title.boundVariables.fontSize));
+  const titleStyle = styles.find(style => style.id === title.textStyleId); assert(titleStyle);
+  assert.equal(titleStyle.fontName.family,title.fontName.family);assert.equal(titleStyle.fontSize,title.fontSize);
+  assert.equal(title.getRangeBoundVariable(0,title.characters.length,'fontSize').id,titleStyle.getRangeBoundVariable(0,0,'fontSize').id);
   await send({type:'export'});
   fs.writeFileSync(process.argv[4]+'.pristine',JSON.stringify(messages.findLast(m=>m.type==='readback').data));
   title.characters = 'Edited in Figma';
@@ -283,14 +288,14 @@ class FigmaBridgeTests(unittest.TestCase):
         html = (out / 'ui.html').read_text()
         self.assertNotIn('/* FIGMA_FLOW_PANEL_CSS */', html)
         self.assertIn('body.panel', html)
-        self.assertIn('class="masthead"', html)
+        self.assertIn('class="panel-shell masthead"', html)
         self.assertIn('class="workspace"', html)
         self.assertIn('별도 페이지로 새로 가져오기', html)
         self.assertIn('기존 가져오기는 그대로 유지됩니다.', html)
         self.assertIn('<details id="readback-details" class="details">', html)
         self.assertIn('<div id="readback-result" hidden>', html)
         self.assertLess(html.index('id="save"'), html.index('<details id="readback-details"'))
-        self.assertIn('<h1 id="heading">디자인 가져오기</h1>', html)
+        self.assertIn('<h1 id="heading" data-i18n="import.title">디자인 가져오기</h1>', html)
         self.assertIn('aria-describedby="fresh-help"', html)
         self.assertIn('aria-atomic="true"', html)
         self.assertIn('id="sync-section" class="work-section" hidden', html)

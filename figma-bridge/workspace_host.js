@@ -11,19 +11,86 @@ for (const task of FLOW_TASKS) {
 let workspaceActive = null;
 let workspaceHomeSession = '';
 let workspaceNotice = '';
+const workspaceLocales = new Set(['ko', 'en', 'ja']);
+const workspaceOperations = new Set(['import', 'export', 'sync', 'draft-review', 'read', 'apply', 'verification', 'download', 'chat:queue', 'chat:open']);
+const workspaceStatuses = new Set(['requested', 'finished', 'failed', 'readback', 'verified', 'baseline']);
+const workspaceStorageKey = figma.fileKey ? 'figma-flow-workspace-v1:' + figma.fileKey : null;
+let workspaceState = {locale: null, history: []};
+let workspaceWrites = Promise.resolve();
+let workspaceStorageError = false;
+let workspaceHomeView = 'tasks', workspaceProject = null, workspaceFocus = null;
+const workspaceLoaded = (async () => {
+  if (!workspaceStorageKey || !figma.clientStorage) return;
+  try {
+    const saved = await figma.clientStorage.getAsync(workspaceStorageKey);
+    if (!saved || typeof saved !== 'object') return;
+    if (workspaceLocales.has(saved.locale)) workspaceState.locale = saved.locale;
+    if (Array.isArray(saved.history)) workspaceState.history = saved.history.filter(event =>
+      event && typeof event.taskKey === 'string' && event.taskKey.length <= 200 &&
+      typeof event.revision === 'string' && event.revision.length <= 128 &&
+      workspaceOperations.has(event.operation) && workspaceStatuses.has(event.status) &&
+      typeof event.time === 'string' && event.time.length <= 40 && Number.isFinite(Date.parse(event.time))).slice(-80)
+      .map(({taskKey, revision, time, operation, status}) => ({taskKey, revision, time, operation, status}));
+  } catch (_) {workspaceStorageError = true;}
+})();
+function workspacePersist() {
+  if (!workspaceStorageKey || !figma.clientStorage) return;
+  const snapshot = JSON.parse(JSON.stringify(workspaceState));
+  workspaceWrites = workspaceWrites.catch(() => {}).then(() => figma.clientStorage.setAsync(workspaceStorageKey, snapshot))
+    .catch(() => {workspaceStorageError = true;});
+}
+function workspaceRecord(current, operation, status) {
+  if (!workspaceCurrent(current) || !workspaceOperations.has(operation) || !workspaceStatuses.has(status)) return;
+  workspaceState.history.push({taskKey: current.task.key, revision: current.task.revision || '',
+    time: new Date().toISOString(), operation, status});
+  workspaceState.history = workspaceState.history.slice(-80);
+  workspacePersist();
+}
+function workspaceObserve(current, message) {
+  if (!message || !current.operation) return;
+  if (message.busy === true || message.state === 'busy' || (message.type === 'busy' && message.value === true)) current.started = true;
+  if (message.type === 'geometry-failure' || message.type === 'chat:error' || message.error || message.readback?.status === 'error' ||
+      message.rollback_conflicts?.length || message.readback?.rollback_conflicts?.length ||
+      (message.type === 'sync-result' && (message.result?.preview_error || !['baseline','applied','unchanged'].includes(message.result?.status))) ||
+      (message.type === 'status' && (message.state === 'error' || /^Error:/.test(message.message || '')))) {
+    if (current.outcome !== 'failed') workspaceRecord(current, current.operation, 'failed');
+    current.outcome = 'failed';
+  } else if (message.type === 'readback' || message.readback) {
+    if (!current.outcome) workspaceRecord(current, current.operation, 'readback');
+    current.outcome = 'readback';
+  } else if (message.type === 'sync-result' || message.type === 'chat:result') {
+    const outcome = message.type === 'sync-result' && message.result.status === 'baseline' ? 'baseline' : 'finished';
+    if (!current.outcome) workspaceRecord(current, current.operation, outcome);
+    current.outcome = outcome;
+  }
+}
+function workspacePreview(task) {
+  return (Array.isArray(task.preview) ? task.preview : []).filter(item =>
+    item && typeof item.title === 'string' && item.title.length <= 120 && typeof item.src === 'string' &&
+    item.src.length <= 600000 && /^data:image\/png;base64,iVBORw0KGgo[A-Za-z0-9+/=]+$/.test(item.src)).slice(0, 2)
+    .map(({title, src}) => ({title, src}));
+}
+function workspaceLocaleHtml(html) {
+  const locale = workspaceState.locale;
+  if (!locale) return html;
+  return html.replace(/<html([^>]*)>/i, (_, attributes) => '<html' + attributes.replace(/\sdata-flow-locale=(?:"[^"]*"|'[^']*')/gi, '') +
+    ' data-flow-locale="' + locale + '">');
+}
 const workspaceSession = () => Date.now().toString(36) + '-' + Math.random().toString(36).slice(2) + '-' + Math.random().toString(36).slice(2);
 const workspaceBusy = current => current.inFlight > 0 || current.busy;
 const workspaceCurrent = current => workspaceActive === current;
 function workspaceControl(current) {
+  if (current.view === 'remote') return;
   if (workspaceCurrent(current)) figma.ui.postMessage({workspaceSession: current.session, workspaceControl: true, busy: workspaceBusy(current)});
 }
-function workspaceHome(notice = '') {
+function workspaceHome(notice = '', view = 'tasks', project = null, focus = null) {
   if (workspaceActive && workspaceBusy(workspaceActive)) return false;
   if (workspaceActive?.controller) workspaceActive.controller.close();
   workspaceActive = null;
   workspaceNotice = notice;
+  workspaceHomeView = view; workspaceProject = project; workspaceFocus = focus;
   workspaceHomeSession = workspaceSession();
-  figma.showUI(__html__, {width: 520, height: 680, themeColors: true});
+  figma.showUI(workspaceLocaleHtml(__html__), {width: 560, height: 680, themeColors: true});
   return true;
 }
 function workspaceTaskFigma() {
@@ -43,6 +110,8 @@ function workspaceTaskFigma() {
         else if (message?.type === 'busy' && typeof message.value === 'boolean') current.busy = message.value;
         else if (message?.state === 'busy') current.busy = true;
         else if (message && ('readback' in message || 'error' in message)) current.busy = false;
+        workspaceObserve(current, message);
+        if (current.view === 'remote') {if (current.onOutput) current.onOutput(message); return;}
         target.postMessage({workspaceSession: current.session, payload: message});
         workspaceControl(current);
       };
@@ -64,6 +133,7 @@ function workspaceTaskFigma() {
       return typeof value === 'function' ? (...args) => {
         assertCurrent();
         if (key === 'showUI') {
+          if (current.view === 'remote') {current.html = args[0]; current.options = args[1]; return;}
           const options = {...args[1], themeColors: true};
           const result = value.call(target, args[0], options);
           workspaceControl(current);
@@ -77,11 +147,29 @@ function workspaceTaskFigma() {
 }
 function workspaceTaskHtml(html) {
   if (!workspaceActive || typeof html !== 'string') throw Error('Task HTML requires an active workspace session');
+  html = workspaceLocaleHtml(html).replace(/<html([^>]*)>/i, (_, attributes) =>
+    '<html' + attributes.replace(/\sdata-flow-workspace=(?:"[^"]*"|'[^']*')/gi, '') + ' data-flow-workspace="true">');
   const session = JSON.stringify(workspaceActive.session);
   // The lexical parent wrapper keeps existing approved message schemas intact.
   const relay = `<script>
 const workspaceSession = ${session};
-const workspaceCanChat = ${JSON.stringify(!!workspaceActive.task.threadId && workspaceActive.view === 'task')};
+const workspaceView = ${JSON.stringify(workspaceActive.view === 'chat' ? 'codex' : 'tasks')};
+let workspaceHostBusy = false;
+window.FlowWorkspace = Object.freeze({
+  active: workspaceView,
+  canChat: ${JSON.stringify(!!workspaceActive.task.threadId)},
+  get busy() {return workspaceHostBusy;},
+  go(name) {
+    if (workspaceHostBusy || !['tasks', 'history', 'codex'].includes(name) || (name === 'codex' && workspaceView === 'codex')) return;
+    const type = name === 'history' ? 'workspace-history' : name === 'codex' ? 'workspace-chat' : 'workspace-back';
+    window.parent.postMessage({pluginMessage: {type, workspaceSession}}, '*');
+  },
+  setLocale(locale) {
+    if (!['ko', 'en', 'ja'].includes(locale)) return;
+    if (window.FlowUI) window.FlowUI.setLocale(locale);
+    window.parent.postMessage({pluginMessage: {type: 'workspace-locale', workspaceSession, locale}}, '*');
+  }
+});
 const parent = {postMessage(message) {
   window.parent.postMessage({pluginMessage: {type: 'workspace-task-message', workspaceSession, payload: message.pluginMessage}}, '*');
 }};
@@ -89,43 +177,23 @@ window.addEventListener('message', event => {
   const message = event.data && event.data.pluginMessage;
   if (!message || message.workspaceSession !== workspaceSession) {event.stopImmediatePropagation(); return;}
   if (message.workspaceControl) {
-    const button = document.getElementById('workspace-back');
-    if (button) {button.disabled = !!message.busy; button.title = message.busy ? '실행이 끝나면 작업 목록으로 돌아갈 수 있습니다.' : '';}
-    const chat = document.getElementById('workspace-chat');
-    if (chat) chat.disabled = !!message.busy;
+    workspaceHostBusy = !!message.busy;
+    window.dispatchEvent(new CustomEvent('flow:host-busy', {detail: {busy: workspaceHostBusy}}));
+    if (window.FlowPanel) window.FlowPanel.setState({busy: !!message.busy});
     event.stopImmediatePropagation(); return;
   }
   Object.defineProperty(event, 'data', {value: {pluginMessage: message.payload}});
 }, true);
 window.addEventListener('DOMContentLoaded', () => {
-  const bar = document.createElement('nav');
-  bar.setAttribute('aria-label', '작업 이동');
-  bar.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:6px;box-sizing:border-box;max-width:100%;';
-  const button = document.createElement('button');
-  button.id = 'workspace-back'; button.type = 'button'; button.textContent = '작업 목록으로';
-  button.style.cssText = 'min-height:32px;padding:4px 10px;font-size:12px;';
-  button.onclick = () => window.parent.postMessage({pluginMessage: {type: 'workspace-back', workspaceSession}}, '*');
-  bar.appendChild(button);
-  if (workspaceCanChat) {
-    const chat = document.createElement('button');
-    chat.id = 'workspace-chat'; chat.type = 'button'; chat.textContent = 'Codex 연결';
-    chat.title = '현재 패널 입력을 초기화하고 연결 화면을 엽니다.';
-    chat.style.cssText = 'min-height:32px;padding:4px 10px;font-size:12px;';
-    chat.onclick = () => window.parent.postMessage({pluginMessage: {type: 'workspace-chat', workspaceSession}}, '*');
-    bar.appendChild(chat);
-  }
-  const masthead = document.querySelector('.masthead');
-  if (masthead) {
-    const brand = masthead.querySelector('.brand');
-    if (brand) brand.replaceWith(bar);
-    else masthead.prepend(bar);
-    masthead.style.flexWrap = 'wrap';
-    const context = masthead.querySelector('.context');
-    if (context) {context.style.flex = '1 1 70px'; context.style.minWidth = '0';}
-  } else {
-    bar.style.cssText += 'padding:6px 14px;border-bottom:1px solid var(--figma-color-border,#dedde5);background:var(--figma-color-bg,#fff);';
-    document.body.prepend(bar);
-  }
+  if (window.FlowPanel) window.FlowPanel.mount({
+    mode: 'workspace', active: workspaceView,
+    onNavigate: window.FlowWorkspace.go,
+    onLocale: window.FlowWorkspace.setLocale
+  });
+  document.addEventListener('click', event => {
+    if (event.target.closest && event.target.closest('#save:not(:disabled), #download:not(:disabled)'))
+      window.parent.postMessage({pluginMessage: {type: 'workspace-download', workspaceSession}}, '*');
+  }, true);
   window.parent.postMessage({pluginMessage: {type: 'workspace-navigation-ready', workspaceSession}}, '*');
 });
 </script>`;
@@ -157,19 +225,42 @@ async function workspaceOpen(task, view = 'task') {
     }
   } catch (error) {
     current.inFlight = 0; current.busy = false;
+    if (view === 'remote') {workspaceActive = null; throw error;}
     workspaceHome(String(error.message || error));
   } finally {
     current.inFlight = 0;
     workspaceControl(current);
   }
+  return workspaceCurrent(current) ? current : null;
 }
 figma.ui.onmessage = async message => {
   if (!message || typeof message !== 'object') return;
+  const activeBeforeLoad = workspaceActive, homeBeforeLoad = workspaceHomeSession;
+  await workspaceLoaded;
+  if (workspaceActive !== activeBeforeLoad || (!workspaceActive && workspaceHomeSession !== homeBeforeLoad)) return;
+  if (message.type === 'workspace-locale') {
+    const expected = !workspaceActive || workspaceActive.view === 'remote' ? workspaceHomeSession : workspaceActive.session;
+    if (message.workspaceSession === expected && workspaceLocales.has(message.locale) &&
+        (!workspaceActive?.task.fileKey || workspaceActive.task.fileKey === figma.fileKey)) {
+      workspaceState.locale = message.locale; workspacePersist();
+    }
+    return;
+  }
+  if (message.type === 'workspace-control-tick') {
+    if (message.workspaceSession === workspaceHomeSession && message.fileKey === figma.fileKey &&
+        (!workspaceActive || workspaceActive.view === 'remote') && typeof workspaceControlTick === 'function') await workspaceControlTick();
+    return;
+  }
   if (!workspaceActive) {
     if (message.type === 'workspace-home-ready') {
+      if (!workspaceState.locale) {
+        const code = String(message.locale || '').toLowerCase().split('-')[0];
+        workspaceState.locale = workspaceLocales.has(code) ? code : 'ko'; workspacePersist();
+      }
       figma.ui.postMessage({type: 'workspace-tasks', workspaceSession: workspaceHomeSession,
-        fileKey: figma.fileKey || null, error: workspaceNotice || null, tasks: [...workspaceTasks.values()].map(({key, title, project, kind, fileKey, pageId, threadId}) =>
-          ({key, title, project, kind, fileKey: fileKey || null, pageId: pageId || null, threadId: threadId || null}))});
+        fileKey: figma.fileKey || null, controlEnabled: typeof WORKSPACE_CONTROL_CONFIG !== 'undefined' && !!WORKSPACE_CONTROL_CONFIG, locale: workspaceState.locale, history: workspaceState.history,
+        view: workspaceHomeView, project: workspaceProject, focusKey: workspaceFocus, storageError: workspaceStorageError, error: workspaceNotice || null, tasks: [...workspaceTasks.values()].map(({key, title, project, kind, fileKey, pageId, threadId, revision, preview, paired, productionAdmitted}) =>
+          ({key, title, project, kind, fileKey: fileKey || null, pageId: pageId || null, threadId: threadId || null, revision: revision || '', preview: workspacePreview({preview}), paired: paired === true, productionAdmitted: productionAdmitted === true}))});
       return;
     }
     if (!['workspace-open', 'workspace-chat-open'].includes(message.type) || message.workspaceSession !== workspaceHomeSession) return;
@@ -185,16 +276,36 @@ figma.ui.onmessage = async message => {
   }
   const current = workspaceActive;
   if (message.workspaceSession !== current.session) return;
-  if (message.type === 'workspace-back') {workspaceHome(); return;}
+  if (message.type === 'workspace-back' || message.type === 'workspace-history') {
+    workspaceHome('', message.type === 'workspace-history' ? 'history' : 'tasks', current.task.project || null, current.task.key); return;
+  }
+  if (message.type === 'workspace-download') {workspaceRecord(current, 'download', 'requested'); return;}
   if (message.type === 'workspace-navigation-ready') {workspaceControl(current); return;}
-  if (message.type === 'workspace-chat') {await workspaceOpen(current.task, 'chat'); return;}
+  if (message.type === 'workspace-chat') {
+    if (current.view === 'chat') return;
+    if (current.task.threadId) await workspaceOpen(current.task, 'chat');
+    else workspaceHome('', 'codex', current.task.project || null, current.task.key);
+    return;
+  }
   if (message.type !== 'workspace-task-message' || !current.handler) return;
   if (current.view === 'chat' && message.payload?.type === 'chat:back') {workspaceHome(); return;}
   if (current.task.fileKey && current.task.fileKey !== figma.fileKey) return;
+  const operation = message.payload?.type;
+  if (workspaceOperations.has(operation) && workspaceBusy(current)) return;
+  if (workspaceOperations.has(operation)) {current.operation = operation; current.outcome = null; current.started = false; current.verificationRecorded = false; workspaceRecord(current, operation, 'requested');}
+  if (!workspaceOperations.has(operation) && operation !== 'receipt') {current.operation = null; current.outcome = null;}
+  if (operation === 'receipt' && current.operation === 'draft-review' && current.outcome === 'readback' && !current.verificationRecorded) {
+    current.verificationRecorded = true; workspaceRecord(current, 'verification', message.payload.passed === true ? 'verified' : 'failed');
+    current.operation = 'verification'; current.outcome = message.payload.passed === true ? 'verified' : 'failed';
+  }
   current.inFlight++;
   workspaceControl(current);
-  try {await current.handler(message.payload);}
+  try {
+    await current.handler(message.payload);
+    if (workspaceOperations.has(operation) && !current.outcome && current.started && operation === 'import') workspaceRecord(current, operation, 'finished');
+  }
   catch (error) {
+    workspaceRecord(current, workspaceOperations.has(operation) ? operation : current.operation, 'failed');
     if (workspaceCurrent(current)) figma.ui.postMessage({workspaceSession: current.session,
       workspaceControl: true, busy: false, error: String(error.message || error)});
   } finally {

@@ -1,0 +1,372 @@
+{
+  "import.documentTitle": {
+    "ko": "Figma Flow · 디자인 가져오기",
+    "en": "Figma Flow · Import design",
+    "ja": "Figma Flow · デザインを読み込む"
+  },
+  "import.context": {
+    "ko": "Figma Design",
+    "en": "Figma Design",
+    "ja": "Figma Design"
+  },
+  "import.title": {
+    "ko": "디자인 가져오기",
+    "en": "Import design",
+    "ja": "デザインを読み込む"
+  },
+  "import.syncTitle": {
+    "ko": "앱 동기화",
+    "en": "App sync",
+    "ja": "アプリ同期"
+  },
+  "import.sourceWaiting": {
+    "ko": "입력 디자인을 확인하고 있습니다.",
+    "en": "Checking the source design.",
+    "ja": "元のデザインを確認しています。"
+  },
+  "import.connectingTitle": {
+    "ko": "Figma에 연결하는 중",
+    "en": "Connecting to Figma",
+    "ja": "Figma に接続中"
+  },
+  "import.connectingBody": {
+    "ko": "연결이 확인되면 작업을 시작할 수 있습니다.",
+    "en": "Actions become available once connected.",
+    "ja": "接続後に操作できるようになります。"
+  },
+  "import.importHeading": {
+    "ko": "가져오기 방식",
+    "en": "Import options",
+    "ja": "読み込み方法"
+  },
+  "import.importHelp": {
+    "ko": "처음에는 화면·컴포넌트·변수를 만들고, 같은 디자인은 편집을 유지한 채 다시 엽니다.",
+    "en": "Create screens, components and variables on first import. Reopen the same design while preserving edits.",
+    "ja": "初回は画面・コンポーネント・変数を作成します。同じデザインは編集内容を保って開きます。"
+  },
+  "import.freshLabel": {
+    "ko": "별도 페이지로 새로 가져오기",
+    "en": "Import a separate copy",
+    "ja": "別のページに新しく読み込む"
+  },
+  "import.freshHelp": {
+    "ko": "선택하면 새 페이지와 변수 컬렉션을 추가합니다. 기존 가져오기는 그대로 유지됩니다.",
+    "en": "Adds a new page and variable collection. The existing import is preserved.",
+    "ja": "新しいページと変数コレクションを追加します。既存の読み込み結果は保持されます。"
+  },
+  "import.importButton": {
+    "ko": "가져오기 · 기존 페이지 열기",
+    "en": "Import or reopen",
+    "ja": "読み込む・既存ページを開く"
+  },
+  "import.freshButton": {
+    "ko": "새 페이지로 가져오기",
+    "en": "Import to a new page",
+    "ja": "新しいページに読み込む"
+  },
+  "import.syncHeading": {
+    "ko": "연결된 앱에 반영",
+    "en": "Update the connected app",
+    "ja": "接続したアプリに反映"
+  },
+  "import.syncHelp": {
+    "ko": "연결된 Figma 페이지의 지원되는 토큰 편집을 로컬 앱에 반영합니다. 처음 실행하면 기준선을 저장합니다.",
+    "en": "Send supported token edits from the paired Figma page to the local app. The first run saves a baseline.",
+    "ja": "接続した Figma ページの対応トークン編集をローカルアプリに反映します。初回は基準を保存します。"
+  },
+  "import.syncButton": {
+    "ko": "앱에 반영",
+    "en": "Update app",
+    "ja": "アプリに反映"
+  },
+  "import.readHeading": {
+    "ko": "현재 디자인 읽기",
+    "en": "Read current design",
+    "ja": "現在のデザインを読み取る"
+  },
+  "import.readHelp": {
+    "ko": "레이어와 변수의 실제 상태를 읽어 검토용 파일로 저장합니다.",
+    "en": "Read actual layers and variables and save them for review.",
+    "ja": "実際のレイヤーと変数を読み取り、確認用ファイルに保存します。"
+  },
+  "import.readButton": {
+    "ko": "현재 디자인 읽기",
+    "en": "Read current design",
+    "ja": "現在のデザインを読み取る"
+  },
+  "import.saveButton": {
+    "ko": "JSON 파일 저장",
+    "en": "Save JSON file",
+    "ja": "JSON ファイルを保存"
+  },
+  "import.jsonDetails": {
+    "ko": "JSON 원문 확인",
+    "en": "View raw JSON",
+    "ja": "JSON 原文を表示"
+  },
+  "import.jsonLabel": {
+    "ko": "현재 디자인의 JSON",
+    "en": "Current design JSON",
+    "ja": "現在のデザインの JSON"
+  },
+  "import.jsonPlaceholder": {
+    "ko": "현재 디자인을 읽으면 여기에 결과가 표시됩니다.",
+    "en": "Read the current design to see its result here.",
+    "ja": "現在のデザインを読み取ると、ここに結果が表示されます。"
+  },
+  "import.previewHeading": {
+    "ko": "반영된 앱 확인",
+    "en": "Check the updated app",
+    "ja": "反映後のアプリを確認"
+  },
+  "import.previewLink": {
+    "ko": "실제 화면 비교를 새 창에서 열기",
+    "en": "Open the live comparison in a new window",
+    "ja": "実際の画面比較を新しいウィンドウで開く"
+  },
+  "import.previewFrame": {
+    "ko": "반영된 앱과 실제 화면 비교",
+    "en": "Updated app and live screen comparison",
+    "ja": "反映後のアプリと実際の画面の比較"
+  },
+  "import.diagnostics": {
+    "ko": "상세 진단 보기",
+    "en": "View technical details",
+    "ja": "詳細な診断を表示"
+  },
+  "import.diagnosticLabel": {
+    "ko": "원본 오류와 진단 기록",
+    "en": "Original errors and diagnostic log",
+    "ja": "元のエラーと診断ログ"
+  },
+  "import.progressImportTitle": {
+    "ko": "디자인을 여는 중",
+    "en": "Opening the design",
+    "ja": "デザインを開いています"
+  },
+  "import.progressExisting": {
+    "ko": "기존 가져오기가 있으면 편집 상태를 확인하고 해당 페이지를 엽니다.",
+    "en": "Checking for an existing import and preserving its edits.",
+    "ja": "既存の読み込み結果を確認し、編集内容を保ってページを開きます。"
+  },
+  "import.progressFresh": {
+    "ko": "새 페이지와 변수 컬렉션을 만들고 있습니다.",
+    "en": "Creating a new page and variable collection.",
+    "ja": "新しいページと変数コレクションを作成しています。"
+  },
+  "import.progressReadTitle": {
+    "ko": "현재 디자인을 읽는 중",
+    "en": "Reading the current design",
+    "ja": "現在のデザインを読み取り中"
+  },
+  "import.progressReadBody": {
+    "ko": "레이어와 변수의 실제 값을 확인하고 있습니다.",
+    "en": "Checking actual layer and variable values.",
+    "ja": "レイヤーと変数の実際の値を確認しています。"
+  },
+  "import.progressSyncTitle": {
+    "ko": "앱에 반영하는 중",
+    "en": "Updating the app",
+    "ja": "アプリに反映中"
+  },
+  "import.progressSyncBody": {
+    "ko": "연결된 Figma 페이지를 읽고 로컬 앱의 결과를 기다리고 있습니다.",
+    "en": "Reading the paired Figma page and waiting for the local app.",
+    "ja": "接続した Figma ページを読み取り、ローカルアプリの結果を待っています。"
+  },
+  "import.syncWait": {
+    "ko": "현재 페이지를 읽었습니다. 로컬 앱의 반영 결과를 기다리고 있습니다.",
+    "en": "The current page was read. Waiting for the local app result.",
+    "ja": "現在のページを読み取りました。ローカルアプリの反映結果を待っています。"
+  },
+  "import.timeoutTitle": {
+    "ko": "Figma에 연결하지 못했습니다",
+    "en": "Could not connect to Figma",
+    "ja": "Figma に接続できませんでした"
+  },
+  "import.invalidConnection": {
+    "ko": "Figma 연결 응답이 없습니다. 플러그인을 닫고 다시 실행하세요.",
+    "en": "Figma did not respond. Close and reopen the plugin.",
+    "ja": "Figma から応答がありません。プラグインを閉じて再実行してください。"
+  },
+  "import.source": {
+    "ko": "입력 · {name}",
+    "en": "Source · {name}",
+    "ja": "入力 · {name}"
+  },
+  "import.currentPage": {
+    "ko": "현재 페이지 · {name}",
+    "en": "Current page · {name}",
+    "ja": "現在のページ · {name}"
+  },
+  "import.pairedPage": {
+    "ko": "연결 페이지 · {name}",
+    "en": "Paired page · {name}",
+    "ja": "接続したページ · {name}"
+  },
+  "import.sourceMore": {
+    "ko": "{names} 외 {count}개 화면",
+    "en": "{names} · More screens: {count}",
+    "ja": "{names}、ほか {count} 画面"
+  },
+  "import.screenCount": {
+    "ko": "화면 {count}개",
+    "en": "Screens: {count}",
+    "ja": "{count} 画面"
+  },
+  "import.ready": {
+    "ko": "준비됨",
+    "en": "Ready",
+    "ja": "準備完了"
+  },
+  "import.errorTitle": {
+    "ko": "작업을 완료하지 못했습니다",
+    "en": "Could not complete the action",
+    "ja": "操作を完了できませんでした"
+  },
+  "import.errorBody": {
+    "ko": "상세 진단을 확인한 뒤 다시 시도하세요.",
+    "en": "Check the technical details, then try again.",
+    "ja": "詳細な診断を確認してから再試行してください。"
+  },
+  "import.importComplete": {
+    "ko": "디자인을 열었습니다",
+    "en": "Design opened",
+    "ja": "デザインを開きました"
+  },
+  "import.reused": {
+    "ko": "기존 페이지를 열었습니다. 편집 내용은 유지됩니다.",
+    "en": "Opened the existing page. Your edits are preserved.",
+    "ja": "既存のページを開きました。編集内容は保持されています。"
+  },
+  "import.importSummary": {
+    "ko": "화면 {screens}개 · 컴포넌트 {components}개 · 변수 {variables}개",
+    "en": "Screens: {screens} · Components: {components} · Variables: {variables}",
+    "ja": "画面 {screens} 件 · コンポーネント {components} 件 · 変数 {variables} 件"
+  },
+  "import.readComplete": {
+    "ko": "현재 디자인을 읽었습니다",
+    "en": "Current design read",
+    "ja": "現在のデザインを読み取りました"
+  },
+  "import.readSummary": {
+    "ko": "페이지 {pages}개 · 변수 {variables}개",
+    "en": "Pages: {pages} · Variables: {variables}",
+    "ja": "ページ {pages} 件 · 変数 {variables} 件"
+  },
+  "import.warningCount": {
+    "ko": "확인할 진단 {count}개가 있습니다.",
+    "en": "Diagnostic notes to review: {count}",
+    "ja": "確認が必要な診断が {count} 件あります。"
+  },
+  "import.invalidResultTitle": {
+    "ko": "반영 결과를 확인하지 못했습니다",
+    "en": "Could not verify the update result",
+    "ja": "反映結果を確認できませんでした"
+  },
+  "import.invalidResultBody": {
+    "ko": "앱에서 올바른 반영 결과를 받지 못했습니다. 연결 상태를 확인하고 다시 시도하세요.",
+    "en": "The app returned an invalid result. Check the connection and try again.",
+    "ja": "アプリから正しい反映結果を受け取れませんでした。接続を確認して再試行してください。"
+  },
+  "import.baseline": {
+    "ko": "기준선을 저장했습니다",
+    "en": "Baseline saved",
+    "ja": "基準を保存しました"
+  },
+  "import.applied": {
+    "ko": "앱 반영 완료",
+    "en": "App updated",
+    "ja": "アプリに反映しました"
+  },
+  "import.unchanged": {
+    "ko": "변경 없음",
+    "en": "No changes",
+    "ja": "変更はありません"
+  },
+  "import.resultSummary": {
+    "ko": "변경 토큰 {tokens}개 · 화면 {screens}개 · 코드 {codes}개",
+    "en": "Changed tokens: {tokens} · Screens: {screens} · Code entries: {codes}",
+    "ja": "変更トークン {tokens} 件 · 画面 {screens} 件 · コード {codes} 件"
+  },
+  "import.resultScreens": {
+    "ko": "화면: {value}",
+    "en": "Screens: {value}",
+    "ja": "画面: {value}"
+  },
+  "import.resultCode": {
+    "ko": "코드: {value}",
+    "en": "Code: {value}",
+    "ja": "コード: {value}"
+  },
+  "import.resultFiles": {
+    "ko": "파일: {value}",
+    "en": "Files: {value}",
+    "ja": "ファイル: {value}"
+  },
+  "import.resultReport": {
+    "ko": "보고서: {value}",
+    "en": "Report: {value}",
+    "ja": "レポート: {value}"
+  },
+  "import.none": {
+    "ko": "없음",
+    "en": "None",
+    "ja": "なし"
+  },
+  "import.previewError": {
+    "ko": "앱에는 반영됐지만 미리보기를 열지 못했습니다. 상세 진단을 확인하세요.",
+    "en": "The app was updated, but its preview could not open. Check the technical details.",
+    "ja": "アプリには反映されましたが、プレビューを開けませんでした。詳細な診断を確認してください。"
+  },
+  "import.recentReadback": {
+    "ko": "최근 읽은 결과",
+    "en": "Latest readback",
+    "ja": "最新の読み取り結果"
+  },
+  "import.pageCount": {
+    "ko": "페이지 {count}개",
+    "en": "Pages: {count}",
+    "ja": "{count} ページ"
+  },
+  "import.variableCount": {
+    "ko": "변수 {count}개",
+    "en": "Variables: {count}",
+    "ja": "{count} 変数"
+  },
+  "import.readSavedBody": {
+    "ko": "JSON 파일로 저장할 수 있습니다.",
+    "en": "You can now save the JSON file.",
+    "ja": "JSON ファイルを保存できます。"
+  },
+  "import.previewSource": {
+    "ko": "가져올 화면 {count}개",
+    "en": "Source screens · {count}",
+    "ja": "読み込む画面 {count} 件"
+  },
+  "import.previewReuse": {
+    "ko": "같은 원본이 있으면 기존 페이지를 엽니다.",
+    "en": "An existing import of this source will be reopened.",
+    "ja": "同じ元データの読み込み結果があれば、既存ページを開きます。"
+  },
+  "import.previewFresh": {
+    "ko": "새 페이지·컬렉션에 별도 복사본을 만듭니다.",
+    "en": "Create a separate copy in a new page and collection.",
+    "ja": "新しいページとコレクションに別のコピーを作成します。"
+  },
+  "import.previewNames": {
+    "ko": "입력 화면 이름",
+    "en": "Source screen names",
+    "ja": "入力画面の名前"
+  },
+  "import.previewMore": {
+    "ko": "외 {count}개 화면",
+    "en": "Additional screens: {count}",
+    "ja": "ほか {count} 画面"
+  },
+  "import.syncDocumentTitle": {
+    "ko": "Figma Flow · 앱 동기화",
+    "en": "Figma Flow · App sync",
+    "ja": "Figma Flow · アプリ同期"
+  }
+}

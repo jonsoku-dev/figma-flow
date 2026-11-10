@@ -1,5 +1,7 @@
 # 처음 설치해서 Figma 화면을 검증하기까지
 
+[English quick start](figma-guide-en.md) · [日本語クイックスタート](figma-guide-ja.md)
+
 이 가이드는 **내 컴퓨터의 Codex와 Figma Desktop에서** 워크숍 예제의 두 시안을 비교하는 과정부터 시작합니다. 실제 프로젝트로 옮길 때는 8단계에서 내 브리프와 디자인 시스템을 연결하세요. 클릭을 Codex에 맡기거나 직접 수행하는 두 방식 모두 같은 결과 JSON으로 검증합니다. [복사해서 쓰는 설치 프롬프트](codex-setup-prompts.md)
 
 ## 1. 두 플러그인의 위치 확인
@@ -13,13 +15,53 @@ Figma 작업공간 CLI의 준비·갱신은 현재 macOS/Linux의 POSIX 파일 �
 
 Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 파일을 엽니다. 첫 연습은 여유 페이지가 있는 연습용 파일을 권장합니다. 일반 Design 모드에서 진행합니다. Figma 계정의 가입·로그인은 사용자가 수행합니다. [Figma 개발 플러그인 안내](https://help.figma.com/hc/en-us/articles/360042786733-Create-a-classic-plugin-for-development)
 
-### 기본 동선: 한 번 등록하고 작업 선택
+## 기본 흐름: 한 번 실행하고 Codex에 맡기기
 
-Figma에는 **Figma Flow 작업공간 하나**를 등록합니다. Codex가 작업을 준비하거나 갱신하면 같은 플러그인을 다시 열어 **준비된 작업**에서 프로젝트·제목·종류·파일/페이지 범위를 확인하고 **열기**를 누릅니다. 작업을 여는 것만으로 문서는 변경되지 않습니다. 실제 실행은 아래 각 패널의 버튼에서 시작합니다. 완료하면 **작업 목록으로** 돌아갑니다. 실행 중에는 완료·오류 상태를 기다립니다.
+1. Codex가 실제 Figma ID로 고정 작업공간과 필요한 작업을 준비합니다. 최초 등록은 4~5절을 따릅니다.
+2. 사용자가 대상 Figma Design 파일에서 **Figma Flow**를 직접 한 번 실행하고 열린 상태로 둡니다. 이 실행 세션이 유지되는 동안 Codex가 아래 로컬 제어 명령을 사용할 수 있습니다.
+3. Codex가 작업 키·operation·파일·페이지·현재 revision을 고정해 실행하고, 반환된 실제 JSON을 기존 검증기로 대조합니다. 후보 선택은 여전히 사용자의 실제 답변이 필요합니다.
+4. 홈의 **다음 작업**과 **이력**에서 진행·실패·읽기·검증 상태를 확인합니다. 제어 연결이 없으면 **준비된 작업 → 열기**와 아래 패널 버튼이 수동 대체 경로입니다.
 
-![실제 Figma에서 연 Figma Flow의 준비된 작업 목록](images/panel-workspace.png)
+```sh
+# Codex가 기존 private 작업공간에서 한 번 구성합니다. 포트는 예시입니다.
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" enable --workspace "$WORKSPACE" --port 43180
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" refresh --workspace "$WORKSPACE"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" serve --workspace "$WORKSPACE"
+```
 
-아래 검토·본제작·읽기·동기화는 같은 manifest 안의 작업입니다. 이전 standalone manifest를 따로 등록하는 경로는 기존 프로젝트 호환용입니다.
+`enable`만으로 열린 플러그인 코드가 바뀌지는 않습니다. `refresh` 후 Figma Flow를 실행하세요. `serve`는 보이는 로컬 실행 세션에서 유지하고, 아래 `run`은 Codex의 다른 CLI 실행에서 사용합니다. relay와 Figma Desktop은 같은 컴퓨터의 localhost 연결을 사용합니다.
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
+  --key invite-discovery --operation read --file-key ACTUAL_FILE_KEY --page-id ACTUAL_PAGE_ID \
+  --expected-revision CURRENT_TASK_REVISION --timeout 120
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" status --workspace "$WORKSPACE" --id OPERATION_ID
+```
+
+| 준비한 작업 종류 | 허용되는 operation |
+|---|---|
+| `review` | `create` |
+| `import` | `import`, `read`; 지원되는 paired app 상태가 있을 때만 `sync` |
+| `discover` | `read` |
+| `sync` | `read`, `apply` |
+
+파일 키·페이지·revision은 실제 `list`와 현재 Figma/읽기 자료에서 가져옵니다. `--focus-page`는 **서명된 작업의 정확한 파일·페이지**가 있을 때 같은 파일 안의 그 페이지로만 이동합니다. 다른 파일을 열거나 사용자 화면을 추측하지 않습니다. `--no-wait`는 접수만 반환하므로 `status`로 완료를 확인해야 합니다.
+
+성공 결과의 `readback` 경로를 정상 읽기 자료로 검증합니다. 검토는 `verify-native-review`, 본제작은 9절의 `--require-match`·`native_handoff.py`, 그래프는 실제 웹 자료와 `pair`를 사용합니다. `state: ok`와 이력 표시가 디자인 승인·웹 일치·독립적인 출처 인증을 대신하지 않습니다. `error`·`expired`·`uncertain`이면 영수증을 보관하고 현재 상태를 다시 읽으세요. 접수된 쓰기의 결과가 불확실할 때 자동 재시도하지 않습니다.
+
+Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 닫을 수 있습니다([공식 실행 모델](https://developers.figma.com/docs/plugins/how-plugins-run/), [등록·실행 안내](https://developers.figma.com/docs/plugins/plugin-quickstart-guide/)). 닫힌 플러그인을 숨겨서 실행하거나 원격 코드를 평가하지 않습니다. 새 `prepare`/`refresh` 후 자동 재로드 여부는 Desktop 환경에 따라 다릅니다. 이전 revision이면 창을 닫고 **같은 고정 플러그인**을 다시 실행하며 영구 무재시작을 약속하지 않습니다.
+
+![실제 Figma에서 연 Figma Flow 작업공간](images/panel-workspace.png)
+
+### 이력, 다음 작업, 언어와 접근성
+
+**다음 작업**은 현재 작업 revision과 최근 실행 자료를 바탕으로 제안합니다. **이력**에서 요청·실행 완료·실제 읽기·검증·실패를 구분하고, 이전 revision의 기록을 현재 결과로 사용하지 않습니다. 최근 기록은 이 기기에 보관되며 로컬 저장소가 없으면 세션 기록만 보일 수 있습니다. 최종 근거는 실제 JSON·검증 명령·웹 관찰 자료입니다.
+
+![작업별 실행·읽기·실패를 구분하는 이력 패널](images/panel-history.png)
+
+상단 **언어 / Language / 言語**에서 한국어·English·日本語를 선택합니다. 화면명·프로젝트명·사용자 문구와 원본 오류는 번역하지 않습니다. 키보드 Tab·Shift+Tab으로 이동하고, 탭은 방향키와 Enter/Space, 펼침 영역은 Enter/Space로 조작합니다. 초점 표시, 상태 알림, Figma 밝은/어두운 테마를 지원하지만 모든 보조기기 조합의 접근성 인증을 뜻하지는 않습니다.
+
+아래 4~11절은 최초 설치, 작업 준비와 **수동 대체 경로**의 자세한 설명입니다.
 
 ### 현재 패널 빠른 찾기
 
@@ -35,7 +77,7 @@ Figma에는 **Figma Flow 작업공간 하나**를 등록합니다. Codex가 작�
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](codex-setup-prompts.md)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.22.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.23.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace add "$PWD"
@@ -43,7 +85,7 @@ codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-태그는 `v0.22.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.22.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+태그는 `v0.23.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.23.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -111,12 +153,12 @@ Codex는 작업을 요청한 기본 채팅의 `CODEX_THREAD_ID`를 기록하며 
 
 ## 6. 시안 만들기, 결과 저장, 대조
 
-1. 홈에서 검토 작업을 열고 패널에 표시된 프로젝트·후보와 대상 파일·페이지를 대조한 뒤 **검토 시안 만들기**를 누릅니다. 생성 중에는 다시 누르지 않고 완료 또는 오류 상태를 확인합니다.
+1. 수동 경로에서는 홈에서 검토 작업을 열고 패널에 표시된 프로젝트·후보와 대상 파일·페이지를 대조한 뒤 **검토 시안 만들기**를 누릅니다. 생성 중에는 다시 누르지 않고 완료 또는 오류 상태를 확인합니다.
 2. 생성된 검토 페이지에서 후보별 데스크톱·모바일 화면, 팔레트, **주석 읽기** 보드를 확인합니다. 주석의 링크가 해당 화면·버튼으로 이동하는지, 프로토타입의 주요 버튼과 복귀 경로가 각 후보 안에서 연결되는지 봅니다.
 3. 같은 창에서 **결과 JSON 저장**을 누릅니다. 예를 들어 프로젝트 안에 `review-readback.json`으로 저장합니다. Computer Use가 없는 경우 이 세 번의 조작(실행·생성·저장)은 사용자가 하고, 저장한 파일의 위치를 Codex에 알려 줍니다.
 4. 실제로 저장된 파일 경로로 아래 명령을 실행합니다.
 
-![0.22.0 검토 패널: 시안 생성, 상태, 결과 저장](images/panel-review.png)
+![0.23.0 검토 패널: 시안 생성, 상태, 결과 저장](images/panel-review.png)
 
 위 이미지는 생성 패키지의 HTML 미리보기입니다. 실제 Figma 생성·검증의 증거는 실행 후 저장한 JSON과 해당 파일의 화면으로 확인합니다.
 
@@ -180,7 +222,7 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 2. 고정 플러그인을 다시 실행하고 **준비된 작업 → 팀 초대 본제작 → 열기**를 선택합니다. 제목 근처의 입력 디자인과 현재 페이지를 확인하고 **가져오기 · 기존 페이지 열기**를 누릅니다. 같은 원본은 편집을 유지한 채 기존 페이지를 엽니다. 별도 복사본이 필요할 때만 **별도 페이지로 새로 가져오기**를 선택한 뒤 **새 페이지로 가져오기**를 누릅니다.
 3. 화면과 컴포넌트를 확인하고 **현재 디자인 읽기**를 누릅니다. 완료 후 나타나는 **JSON 파일 저장**으로 읽기 결과를 보관합니다. **JSON 원문 확인**은 선택 사항이며 파일 저장을 위해 열 필요가 없습니다. **앱에 반영**은 연결된 앱이 있는 패키지에만 나타납니다.
 
-![0.22.0 가져오기 패널: 기존 페이지 열기와 별도 복사본 선택](images/panel-import.png)
+![0.23.0 가져오기 패널: 기존 페이지 열기와 별도 복사본 선택](images/panel-import.png)
 
 위 이미지는 생성 패키지의 HTML 미리보기입니다. 본제작의 실제 Figma 실행 결과를 대신하지 않습니다.
 
@@ -215,6 +257,8 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 
 ![실제 Figma에서 연 컴포넌트 동기화 패널의 범위 확인과 적용](images/panel-graph-sync.png)
 
+![그래프 값의 적용 전·후와 색·길이 차이를 보여 주는 확인 패널](images/panel-graph-diff.png)
+
 위 이미지는 실제 Figma에서 연 동기화 패널입니다. 파일 키 등 비공개 정보는 가렸습니다. 특정 프로젝트의 실행 장면이며 다른 프로젝트의 적용 성공을 보증하지 않습니다.
 
 작업이 갱신되지 않으면 Codex 설치 버전만 확인하지 말고, 같은 작업 키의 revision과 고정 등록 경로를 대조하고 [작업을 재생성한 뒤 플러그인을 다시 실행](installation-and-updates.md#6-3-figma-개발-플러그인-갱신-computer-use-없음)했는지 확인하세요.
@@ -239,6 +283,8 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 relay를 실행하지 않아도 복사·명시적 링크 열기는 가능합니다. relay는 비공개 작업공간의 작업·thread·revision과 인증을 대조합니다. 직접 큐 전송에는 `PATH`의 공식 Codex CLI가 필요하며, Windows에서 relay를 별도로 사용하는 경우 native `codex.exe`가 필요합니다. 비밀값이 든 작업공간을 공개 ZIP·Git·지원 로그로 공유하지 않습니다. 접수 여부가 불확실하면 원래 채팅을 먼저 확인하고 같은 요청을 자동 재전송하지 않습니다.
 
 공식 동작은 [Codex 앱 명령과 채팅 링크](https://learn.chatgpt.com/docs/app/commands), [Codex CLI `queue`](https://learn.chatgpt.com/docs/cli/reference#codex-queue)를 참고하세요. 이 연결이 Figma 적용·디자인 선택·후속 실행의 승인을 대신하지 않습니다.
+
+디자인 비평의 출처와 각색 범위는 [Unslop attribution](../README.md#라이선스와-참고)을 참고하세요.
 
 ## 막힌 위치 찾기
 

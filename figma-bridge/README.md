@@ -29,6 +29,23 @@ Private plugin data belongs to the Figma plugin ID that wrote it. Foreign-ID pac
 
 For existing private loopback workflows, workspace `import` may use `--paired-state PRIVATE_STATE` only when its plugin ID, file/page, source hash and running endpoint match. Paired direction review uses explicit `--pair-dir` plus `--receiver-port` on a `review` task and the original receiver receipt/download contract. See the [private receiver commands](../docs/installation-and-updates.md#6-5-선택적-로컬-동기화-사용-중이라면); these do not send a chat message.
 
+## Default local control after manual launch
+
+The user manually runs Figma Flow in the target Design file once per plugin session. Codex may then use the explicit local controller instead of repeating UI clicks:
+
+```sh
+python3 tools/figma_control.py enable --workspace PRIVATE_DIR --port 43180
+python3 tools/figma_workspace.py refresh --workspace PRIVATE_DIR
+python3 tools/figma_control.py serve --workspace PRIVATE_DIR
+# From another Codex execution, with actual scope/revision from the prepared task:
+python3 tools/figma_control.py run --workspace PRIVATE_DIR --key workshop-review \
+  --operation create --file-key FILE --page-id PAGE --expected-revision REVISION --timeout 120
+```
+
+`review/create`, `discover/read`, `sync/read|apply` and `import/import|read` are bounded operations; an admitted paired import can also `sync`. The returned actual `readback` must pass the normal checker. Inspect `status --workspace PRIVATE_DIR --id OPERATION_ID` after asynchronous or uncertain results. The service cannot evaluate arbitrary remote code, launch a closed plugin in secret, or choose another file. `--focus-page` requires exact signed task file/page pins.
+
+Prepare/refresh updates the stable manifest and metadata. Desktop auto-reload behavior varies, so verify the running revision and manually reopen the same plugin if necessary. Manual panels remain supported. Choose **한국어 / English / 日本語** from the home language selector; user-authored names, raw JSON and native diagnostics remain unchanged. **History / 이력 / 履歴** distinguishes requests, completion, readback and reported verification; actual artifacts remain the evidence.
+
 ## Standalone compatibility
 
 The commands below describe legacy standalone packages and the optional paired companion. They are not the default registration path for new workspace tasks. Their existing ID, private-data scope and native evidence checks remain in force.

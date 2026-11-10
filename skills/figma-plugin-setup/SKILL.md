@@ -41,20 +41,22 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 **Figma Flow 작업공간�
 
 완료 기준: 실제 Codex 설치 경로·버전이 확인되고 환경·의존성이 준비된다. 브라우저 분기는 MCP 설정·실제 연결·허용 목록 적용을 각각 보고한다. 설치 성공은 Figma 연결 성공과 별도로 보고한다.
 
-## 3. 한 번 등록하고 준비된 작업 실행
+## 3. 한 번 등록·실행하고 Codex 로컬 제어
 
 1. 설치된 복사본의 `examples/native-direction-review/demo.py --out <새 폴더>`로 첫 워크숍을 만들고 `design_actions.py status`에서 `NATIVE_REVIEW_PENDING`을 확인한다. 기존 프로젝트를 무단 재생성하지 않는다.
 2. 기존 작업공간 ID가 있으면 고정 manifest에서 숫자 문자열을 읽는다. 최초 한 번만 Figma Desktop의 **플러그인 → 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI → 전용 폴더에 저장**으로 사용자 소유 ID를 발급받는다. 계정 로그인·접근 승인은 사용자 단계다.
 3. [작업공간 명령과 등록 절차](../../docs/figma-guide.md)에 따라 고정 manifest를 준비하고 Desktop에 한 번 등록한다. 실제 ID와 등록 경로를 기록한다. 작업공간 CLI의 현재 POSIX 지원 범위를 확인한다. Windows 로컬은 standalone 호환 경로를 유지한다. 원격 생성했다면 숨김 generation을 포함한 작업공간 전체를 Desktop 머신에 전달하고 실제 실행 범위를 구분한다.
-4. 현재 `CODEX_THREAD_ID` 또는 명시적인 실제 `--thread-id`로 `prepare --kind review`를 실행한다. 둘 다 없으면 오프라인 작업으로 두고 채팅 ID를 만들지 않는다. **준비된 작업**에서 프로젝트·제목·종류·파일/페이지 범위를 확인한 뒤 **열기 → 검토 시안 만들기 → 완료 확인 → 결과 JSON 저장**을 진행한다. **작업 목록으로**는 홈으로 돌아가며 실행 중에는 기다린다.
-5. 실제 JSON을 받은 뒤 현재 `directions.json`과 `verify-native-review`·`status`로 대조한다. 성공 상태는 `WAIT_SELECTION`이다. 오류 자료는 보존하고 원본 입력에서 수정해 같은 작업 키를 갱신한다. 갱신 후 이전 작업 창을 닫고 고정 manifest를 다시 실행한다.
-6. 실제 화면·프로토타입·주석을 확인하고 현재 후보를 비교·추천한다. 실제 사용자 선택 전에는 선택 기록이나 본제작을 만들지 않는다. 다음 본제작·문서 읽기·동기화도 같은 작업공간에 별도 작업 키로 준비한다.
+4. 현재 `CODEX_THREAD_ID` 또는 명시적인 실제 `--thread-id`로 `prepare --kind review`를 실행한다. 둘 다 없으면 오프라인 작업으로 두고 채팅 ID를 만들지 않는다.
+5. `figma_control.py enable --workspace DIR --port PORT` 후 workspace `refresh`와 control `serve`를 준비한다. 사용자가 대상 파일에서 플러그인을 한 번 직접 실행하면 Codex가 정확한 키·operation·파일·페이지·현재 revision으로 `run`한다. 반환 readback을 보존하며 실제 성공은 정상 검사기로 대조한다. 제어가 없으면 수동 대체 경로로 **준비된 작업 → 열기 → 검토 시안 만들기 → 완료 확인 → 결과 JSON 저장**을 사용한다. 실행 중에는 완료·오류를 기다린다.
+6. 실제 JSON을 받은 뒤 현재 `directions.json`과 `verify-native-review`·`status`로 대조한다. 성공 상태는 `WAIT_SELECTION`이다. 오류 자료는 보존하고 원본 입력에서 수정해 같은 작업 키를 갱신한다. 갱신 후 실제 실행 revision을 확인하고, 이전 코드가 남아 있으면 같은 고정 플러그인을 다시 실행한다.
+7. 실제 화면·프로토타입·주석을 확인하고 현재 후보를 비교·추천한다. 실제 사용자 선택 전에는 선택 기록이나 본제작을 만들지 않는다. 다음 본제작·문서 읽기·동기화도 같은 작업공간에 별도 작업 키로 준비한다.
 
 다른 ID의 standalone 패키지를 그대로 끼워 넣지 않는다. Figma private plugin data는 ID에 묶인다. 원래 ID가 만든 기존 페이지를 계속 다룰 때는 그 ID로 작업공간을 구성하거나 원래 패키지를 유지한다. 통합 ID로 옮길 필요가 있으면 기존 자료를 먼저 읽고 사용자가 지정한 범위의 명시적 이관을 준비한다. ID 문자열 교체로 소유권이 이전됐다고 판단하지 않는다.
 
-**Computer Use 없음:** 사용자가 고정 manifest를 최초 등록하고 홈에서 해당 작업을 열어 결과 JSON을 전달한다. CLI·파일 준비와 검사는 Codex가 완료한다. 실제 파일이 오기 전까지 연결 검증은 pending이다.
+**Computer Use 없음:** 사용자가 고정 manifest를 최초 등록하고 Figma Flow를 한 번 실행한다. 열린 플러그인의 로컬 제어로 이후 실행·읽기·검사를 Codex가 수행한다. 제어를 사용할 수 없을 때만 사용자가 수동 버튼과 JSON 전달을 담당한다. 실제 파일이 오기 전까지 연결 검증은 pending이다.
 
 **Computer Use 있음:** 지정한 Figma Desktop 파일·메뉴·관련 선택/저장 창만 조작한다. 앱의 접근 승인과 사용자 확인을 준수한다. 불가능해지면 만든 작업공간과 작업 키를 보존하고 같은 수동 경로로 이어간다.
+
 
 ## 4. 업데이트·복구 분기
 
@@ -62,7 +64,7 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 **Figma Flow 작업공간�
 
 1. 이전 설치 버전·원본/ref·재설치 가능한 소스와 Figma 패키지·등록 경로를 보존한다. 삭제될 수 있는 설치 캐시만 롤백 사본으로 삼지 않는다.
 2. 새 릴리스를 별도 클론에 준비하고 해당 마켓플레이스만 갱신한다. `marketplace upgrade`는 소스 갱신이며 고정 ref 변경이나 설치 캐시 교체의 증거가 아니다. 현재 CLI가 지원하는 해당 플러그인 재설치 후 실제 새 버전·소스·스킬을 대조한다.
-3. 새 설치 도구의 `prepare`로 기존 작업공간의 같은 ID·작업 키를 갱신한다. 바뀐 입력은 `list`의 현재 revision을 `--replace-expected`로 고정한다. 등록 manifest 경로는 유지하고 이전 실행 창을 닫아 다시 연다. 업데이트 전 작업공간 전체를 복구 가능하게 보존한다. standalone 호환 패키지는 해당 ID·등록 경로를 별도로 유지한다. 검토 수신기를 사용하던 프로젝트는 가이드의 `review --pair-dir/--receiver-port` 분기로 영수증과 서버 중단 시 수동 저장까지 확인한다.
+3. 새 설치 도구의 `prepare`로 기존 작업공간의 같은 ID·작업 키를 갱신한다. 바뀐 입력은 `list`의 현재 revision을 `--replace-expected`로 고정한다. 등록 manifest 경로는 유지하고 이전 실행 창을 닫아 다시 연다. 업데이트 전 작업공간 전체를 복구 가능하게 보존한다. enable 직후 refresh_required를 확인해 refresh하고, prepare/refresh 뒤 실제 실행 revision을 대조해 필요할 때만 같은 플러그인을 다시 연다. 자동 재로드·무재시작을 보장하지 않는다. standalone 호환 패키지는 해당 ID·등록 경로를 별도로 유지한다. 검토 수신기를 사용하던 프로젝트는 가이드의 `review --pair-dir/--receiver-port` 분기로 영수증과 서버 중단 시 수동 저장까지 확인한다.
 4. 새 코드 실행과 실제 새 readback을 검증한다. 기존 페이지를 보존하는 반복 import는 새 입력이 적용됐다는 증거가 아니다. 원본 변경·선택 무효화는 기존 워크플로의 재검토 절차로 처리한다. 실패하면 새 진단을 남기고 이전 패키지 **전체**와 설치 소스로 되돌린다.
 5. paired sync 사용 중일 때만 token-sync와 bridge 문서를 읽는다. 정확한 해당 서버만 종료하고 상태 폴더·비밀값·저널을 보존한다. 기존 컴패니언 변경을 거부하면 새 private 상태 디렉터리에서 준비한다. 일반 업데이트를 위해 `--prior-sync`를 임의 사용하지 않는다. 동일 ID의 지원되는 private paired state는 `prepare --kind import`의 `--paired-state`로 홈에 준비한다. 다른 ID는 원래 standalone 경로를 보존한다. 사용자는 해당 작업 열기·baseline·실제 결과 전달을 진행한다.
 

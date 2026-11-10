@@ -1,0 +1,18 @@
+.review-references {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+.review-reference {
+  min-width: 0;
+}
+.review-reference h2 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.review-reference .preview-strip {
+  margin: 0;
+}
+.review-reference .preview-strip figure:last-child:not(:first-child) img {
+  object-position: center;
+}

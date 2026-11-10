@@ -1,6 +1,23 @@
 # Graph SSOT for a component
 
-The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash. Use the **0.22.0** tools with one registered Figma Flow workspace. Codex prepares project tasks under its stable manifest; upgrading Codex alone does not refresh an already running Figma task.
+The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash. Use the **0.23.0** tools with one registered Figma Flow workspace. Codex prepares project tasks under its stable manifest; upgrading Codex alone does not refresh an already running Figma task.
+
+## Default: launch once, then use Codex local control
+
+After workspace preparation, the user manually launches Figma Flow in the target Design file once per plugin session. Codex can then execute signed prepared operations without repeating panel clicks:
+
+```sh
+python3 tools/figma_control.py enable --workspace WORKSPACE --port 43180
+python3 tools/figma_workspace.py refresh --workspace WORKSPACE
+python3 tools/figma_control.py serve --workspace WORKSPACE
+# Keep the local service running; issue commands from another Codex execution.
+python3 tools/figma_control.py run --workspace WORKSPACE --key invite-discovery \
+  --operation read --file-key FILE --page-id PAGE --expected-revision CURRENT_TASK_REVISION --timeout 120
+```
+
+For graph tasks, use `--operation read` or `--operation apply`; use the current `list` revision. `--focus-page` is allowed only for the task's exact signed file/page within the current file. Verify the returned `readback` artifact with normal native/web checks and pairing. An `ok` receipt is not design approval or independent origin authentication. Preserve `error`/`expired`/`uncertain` receipts, and re-read native state before retrying an uncertain write.
+
+The plugin must remain open and the localhost service must be available. New `prepare`/`refresh` publishes metadata; automatic Desktop reloading is environment-dependent. Reopen the same stable plugin if it still runs an old revision. No hidden launcher or remote code evaluation is provided. The panel actions below remain the manual fallback. [Language, history and full setup](../../docs/figma-guide.md#기본-흐름-한-번-실행하고-codex에-맡기기).
 
 ## Minimal graph shape
 
@@ -72,7 +89,7 @@ python3 tools/graph_sync.py pair --graph PROJECT/graph.json   --plan ACTUAL_PREP
 
 A generated module's bytes alone cannot prove that the actual app consumed it.
 
-## Figma panel controls
+## Manual panel controls and change preview
 
 Keep the same private workspace ID and registered manifest. New tasks use new keys; changed tasks use their current `list` value `tasks[].revision` as `--replace-expected REVISION`. Close the running plugin and reopen the same Figma Flow to load the refreshed list. Transfer the complete workspace, including hidden `.generations`, when moving machines.
 
@@ -87,6 +104,8 @@ Read/apply results download automatically. **JSON 다시 저장** retries the do
 ![Generated read-only discovery panel HTML preview](../../docs/images/panel-discovery.png)
 
 ![Component sync panel opened in actual Figma; private identifiers redacted](../../docs/images/panel-graph-sync.png)
+
+![Before/after color and dimension changes in the graph confirmation panel](../../docs/images/panel-graph-diff.png)
 
 ## Graph to Figma and web
 

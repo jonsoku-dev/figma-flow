@@ -523,14 +523,16 @@ class NativeGeometryTests(unittest.TestCase):
 const assert = require('assert');
 const fs = require('fs');
 const vm = require('vm');
-const elements = Object.fromEntries(['make', 'save', 'status', 'status-panel', 'status-title', 'status-body', 'status-details'].map(id => [id, {disabled: id === 'save', dataset: {}}]));
+const elements = Object.fromEntries(['make', 'save', 'status', 'status-panel', 'status-title', 'status-body', 'status-details', 'workspace-locale'].map(id => [id, {disabled: id === 'save', dataset: {}, setAttribute(name,value){this[name]=value;}, removeAttribute(name){delete this[name];}, addEventListener(name,callback){this['on'+name]=callback;}}]));
 const downloads = [];
 const blobs = [];
 const posts = [];
 let requests = 0;
+const translations=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
 const context = {
-  document: {getElementById: id => elements[id], createElement: () => ({click() {downloads.push(this.download);}})},
-  window: {}, parent: {postMessage: message => posts.push(message)},
+  FlowUI:{locale:'ko',apply(){},t:key=>translations[key].ko,setLocale(){}},
+  document: {documentElement:{dataset:{}},querySelectorAll:()=>[],getElementById: id => elements[id], createElement: () => ({click() {downloads.push(this.download);}})},
+  window: {addEventListener(){}}, parent: {postMessage: message => posts.push(message)},
   Blob: class {constructor(parts) {this.parts = parts; blobs.push(this);}},
   URL: {createObjectURL: () => 'blob:synthetic', revokeObjectURL() {}},
   fetch: async () => {requests++; return {ok: true, json: async () => ({passed: true})};}
@@ -564,9 +566,10 @@ const receive = message => context.window.onmessage({data: {pluginMessage: messa
 """
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "ui.js"
-            path.write_text(script)
+            shared = (ROOT / "figma-bridge/panel_components.js").read_text()
+            path.write_text(shared + "\nconst PAIR = " + script.split("const PAIR = ", 1)[1])
             result = subprocess.run(
-                ["node", "-e", harness, str(path)], capture_output=True, text=True
+                ["node", "-e", harness, str(path), str(ROOT / "figma-bridge/locales/review.json")], capture_output=True, text=True
             )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 

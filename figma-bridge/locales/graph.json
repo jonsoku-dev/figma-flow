@@ -1,0 +1,372 @@
+{
+  "graph.context": {
+    "ko": "그래프 연결",
+    "en": "Graph connection",
+    "ja": "グラフ接続"
+  },
+  "graph.baseline": {
+    "ko": "기준 자료",
+    "en": "Baseline",
+    "ja": "基準データ"
+  },
+  "graph.title": {
+    "ko": "컴포넌트 동기화",
+    "en": "Sync components",
+    "ja": "コンポーネント同期"
+  },
+  "graph.readTitle": {
+    "ko": "Figma 값 읽기",
+    "en": "Read Figma values",
+    "ja": "Figma の値を読み取る"
+  },
+  "graph.description": {
+    "ko": "그래프 값을 지정된 컴포넌트에 적용합니다.",
+    "en": "Apply graph values to the specified components.",
+    "ja": "指定したコンポーネントにグラフの値を適用します。"
+  },
+  "graph.readDescription": {
+    "ko": "지정한 페이지의 실제 값을 JSON으로 저장합니다.",
+    "en": "Save actual values from the specified pages as JSON.",
+    "ja": "指定ページの実際の値を JSON で保存します。"
+  },
+  "graph.scope": {
+    "ko": "작업 범위",
+    "en": "Scope",
+    "ja": "対象範囲"
+  },
+  "graph.scopeDetails": {
+    "ko": "파일과 적용 대상 보기",
+    "en": "File and target details",
+    "ja": "ファイルと適用対象"
+  },
+  "graph.pages": {
+    "ko": "{count}개 페이지",
+    "en": "{count} pages",
+    "ja": "{count} ページ"
+  },
+  "graph.readOnly": {
+    "ko": "Figma 파일을 변경하지 않습니다.",
+    "en": "The Figma file is unchanged.",
+    "ja": "Figma ファイルは変更しません。"
+  },
+  "graph.file": {
+    "ko": "파일",
+    "en": "File",
+    "ja": "ファイル"
+  },
+  "graph.page": {
+    "ko": "기준 페이지",
+    "en": "Baseline page",
+    "ja": "基準ページ"
+  },
+  "graph.allowed": {
+    "ko": "허용 페이지",
+    "en": "Allowed pages",
+    "ja": "対象ページ"
+  },
+  "graph.collection": {
+    "ko": "변수 컬렉션",
+    "en": "Variable collection",
+    "ja": "変数コレクション"
+  },
+  "graph.hash": {
+    "ko": "그래프 SHA-256",
+    "en": "Graph SHA-256",
+    "ja": "グラフ SHA-256"
+  },
+  "graph.mains": {
+    "ko": "메인 컴포넌트",
+    "en": "Main components",
+    "ja": "メインコンポーネント"
+  },
+  "graph.instances": {
+    "ko": "인스턴스",
+    "en": "Instances",
+    "ja": "インスタンス"
+  },
+  "graph.tokens": {
+    "ko": "토큰",
+    "en": "Tokens",
+    "ja": "トークン"
+  },
+  "graph.bindings": {
+    "ko": "연결 조정",
+    "en": "Binding changes",
+    "ja": "関連付けの変更"
+  },
+  "graph.count": {
+    "ko": "{count}개",
+    "en": "{count}",
+    "ja": "{count} 件"
+  },
+  "graph.action": {
+    "ko": "실행",
+    "en": "Actions",
+    "ja": "操作"
+  },
+  "graph.read": {
+    "ko": "Figma 값 읽고 저장",
+    "en": "Read and save values",
+    "ja": "値を読み取り保存"
+  },
+  "graph.review": {
+    "ko": "적용 범위 확인",
+    "en": "Review changes",
+    "ja": "変更内容を確認"
+  },
+  "graph.confirmTitle": {
+    "ko": "이 범위에 그래프 값을 적용합니다",
+    "en": "Apply graph values to this scope",
+    "ja": "この範囲にグラフの値を適用"
+  },
+  "graph.confirmHelp": {
+    "ko": "값과 변수 연결을 변경합니다. 기준과 현재 값이 다르면 중단합니다.",
+    "en": "Values and bindings will change. Apply stops if the baseline differs.",
+    "ja": "値と変数の関連付けを変更します。基準と現在値が異なる場合は中止します。"
+  },
+  "graph.apply": {
+    "ko": "확인한 범위에 적용",
+    "en": "Apply reviewed changes",
+    "ja": "確認した変更を適用"
+  },
+  "graph.cancel": {
+    "ko": "취소",
+    "en": "Cancel",
+    "ja": "キャンセル"
+  },
+  "graph.impact": {
+    "ko": "값 변경 {updates}개 · 새 토큰 {creates}개 · 연결 조정 {bindings}개",
+    "en": "{updates} value changes · {creates} new tokens · {bindings} binding changes",
+    "ja": "値の変更 {updates} 件 · 新規トークン {creates} 件 · 関連付け変更 {bindings} 件"
+  },
+  "graph.component": {
+    "ko": "메인 {mains}개 / 인스턴스 {instances}개",
+    "en": "{mains} mains / {instances} instances",
+    "ja": "メイン {mains} 件 / インスタンス {instances} 件"
+  },
+  "graph.before": {
+    "ko": "현재 값",
+    "en": "Before",
+    "ja": "変更前"
+  },
+  "graph.after": {
+    "ko": "적용할 값",
+    "en": "After",
+    "ja": "変更後"
+  },
+  "graph.sample": {
+    "ko": "미리보기",
+    "en": "Sample",
+    "ja": "サンプル"
+  },
+  "graph.scale": {
+    "ko": "길이 비교 (최대 96px 표시)",
+    "en": "Length comparison (display capped at 96px)",
+    "ja": "長さの比較（表示は最大 96px）"
+  },
+  "graph.raw": {
+    "ko": "원본 값과 진단",
+    "en": "Original values and diagnostics",
+    "ja": "元の値と診断"
+  },
+  "graph.evidence": {
+    "ko": "실행 결과",
+    "en": "Result",
+    "ja": "実行結果"
+  },
+  "graph.evidenceHelp": {
+    "ko": "실행 결과를 JSON으로 저장할 수 있습니다.",
+    "en": "Save the actual result as JSON.",
+    "ja": "実際の実行結果を JSON で保存できます。"
+  },
+  "graph.download": {
+    "ko": "JSON 저장",
+    "en": "Save JSON",
+    "ja": "JSON を保存"
+  },
+  "graph.downloadAgain": {
+    "ko": "JSON 다시 저장",
+    "en": "Save JSON again",
+    "ja": "JSON を再保存"
+  },
+  "graph.history": {
+    "ko": "실행 기록과 복구 정보",
+    "en": "Run history and recovery",
+    "ja": "実行履歴と復旧情報"
+  },
+  "graph.noHistory": {
+    "ko": "아직 실행 기록이 없습니다.",
+    "en": "No runs yet.",
+    "ja": "実行履歴はありません。"
+  },
+  "graph.ready": {
+    "ko": "준비되었습니다",
+    "en": "Ready",
+    "ja": "準備完了"
+  },
+  "graph.readyHelp": {
+    "ko": "작업 범위를 확인한 뒤 시작하세요.",
+    "en": "Review the scope before starting.",
+    "ja": "対象範囲を確認して開始してください。"
+  },
+  "graph.busyApply": {
+    "ko": "컴포넌트에 적용하고 있습니다",
+    "en": "Applying component changes",
+    "ja": "コンポーネントに適用中"
+  },
+  "graph.busyRead": {
+    "ko": "Figma 값을 읽고 있습니다",
+    "en": "Reading Figma values",
+    "ja": "Figma の値を読み取り中"
+  },
+  "graph.busyHelp": {
+    "ko": "완료되면 JSON을 저장합니다.",
+    "en": "JSON is saved when complete.",
+    "ja": "完了すると JSON を保存します。"
+  },
+  "graph.conflict": {
+    "ko": "복구 확인이 필요합니다",
+    "en": "Review recovery conflicts",
+    "ja": "復旧状態を確認してください"
+  },
+  "graph.rolledBack": {
+    "ko": "이전 값을 복구했습니다",
+    "en": "Previous values restored",
+    "ja": "以前の値を復元しました"
+  },
+  "graph.failed": {
+    "ko": "작업을 완료하지 못했습니다",
+    "en": "Could not complete this action",
+    "ja": "操作を完了できませんでした"
+  },
+  "graph.failedHelp": {
+    "ko": "원본 진단과 읽기 자료를 확인한 뒤 다시 시도하세요.",
+    "en": "Check the original diagnostics and readback before retrying.",
+    "ja": "元の診断と読み取りデータを確認してから再試行してください。"
+  },
+  "graph.conflictHelp": {
+    "ko": "복구 충돌 {count}개가 있습니다. 자료를 저장하고 현재 상태를 확인하세요.",
+    "en": "{count} recovery conflicts. Save the evidence and check the current state.",
+    "ja": "復旧の競合が {count} 件あります。データを保存し、現在の状態を確認してください。"
+  },
+  "graph.readDone": {
+    "ko": "Figma 값 읽기 완료",
+    "en": "Figma values read",
+    "ja": "Figma の読み取り完了"
+  },
+  "graph.applied": {
+    "ko": "Figma 적용 완료",
+    "en": "Applied to Figma",
+    "ja": "Figma に適用完了"
+  },
+  "graph.readCounts": {
+    "ko": "노드 {nodes}개 · 변수 {variables}개를 읽었습니다. 파일은 변경하지 않았습니다.",
+    "en": "Read {nodes} nodes and {variables} variables. The file is unchanged.",
+    "ja": "ノード {nodes} 件・変数 {variables} 件を読み取りました。ファイルは変更していません。"
+  },
+  "graph.pending": {
+    "ko": "적용 전 값을 저장했습니다. 새 토큰과 연결은 아직 적용되지 않았습니다.",
+    "en": "Saved the baseline. New tokens and bindings are not applied yet.",
+    "ja": "適用前の値を保存しました。新規トークンと関連付けは未適用です。"
+  },
+  "graph.appliedHelp": {
+    "ko": "변경한 값을 저장했습니다. 웹 화면은 별도로 확인하세요.",
+    "en": "Saved changed values. Check the web view separately.",
+    "ja": "変更後の値を保存しました。Web 画面は別途確認してください。"
+  },
+  "graph.readSaved": {
+    "ko": "읽은 값을 JSON으로 저장했습니다.",
+    "en": "Read values saved as JSON.",
+    "ja": "読み取った値を JSON で保存しました。"
+  },
+  "graph.evidenceCurrent": {
+    "ko": "이번 실행의 JSON을 다시 저장할 수 있습니다.",
+    "en": "You can save this run’s JSON again.",
+    "ja": "今回の実行結果を再保存できます。"
+  },
+  "graph.evidencePrevious": {
+    "ko": "이번 실행 자료는 없습니다. 이전 JSON은 계속 저장할 수 있습니다.",
+    "en": "No new evidence. The previous JSON remains available.",
+    "ja": "今回のデータはありません。以前の JSON は保存できます。"
+  },
+  "graph.field.fontFamily": {
+    "ko": "글꼴",
+    "en": "Font family",
+    "ja": "フォント"
+  },
+  "graph.field.fontSize": {
+    "ko": "글자 크기",
+    "en": "Font size",
+    "ja": "文字サイズ"
+  },
+  "graph.field.paddingLeft": {
+    "ko": "왼쪽 여백",
+    "en": "Left padding",
+    "ja": "左余白"
+  },
+  "graph.field.paddingRight": {
+    "ko": "오른쪽 여백",
+    "en": "Right padding",
+    "ja": "右余白"
+  },
+  "graph.field.paddingTop": {
+    "ko": "위 여백",
+    "en": "Top padding",
+    "ja": "上余白"
+  },
+  "graph.field.paddingBottom": {
+    "ko": "아래 여백",
+    "en": "Bottom padding",
+    "ja": "下余白"
+  },
+  "graph.field.backgroundColor": {
+    "ko": "배경색",
+    "en": "Background",
+    "ja": "背景色"
+  },
+  "graph.field.color": {
+    "ko": "글자색",
+    "en": "Text color",
+    "ja": "文字色"
+  },
+  "graph.field.borderColor": {
+    "ko": "테두리 색",
+    "en": "Border color",
+    "ja": "枠線の色"
+  },
+  "graph.field.borderWidth": {
+    "ko": "테두리 두께",
+    "en": "Border width",
+    "ja": "枠線の太さ"
+  },
+  "graph.field.borderRadius": {
+    "ko": "모서리",
+    "en": "Corner radius",
+    "ja": "角丸"
+  },
+  "graph.field.gap": {
+    "ko": "간격",
+    "en": "Gap",
+    "ja": "間隔"
+  },
+  "graph.field.width": {
+    "ko": "너비",
+    "en": "Width",
+    "ja": "幅"
+  },
+  "graph.field.height": {
+    "ko": "높이",
+    "en": "Height",
+    "ja": "高さ"
+  },
+  "graph.field.minWidth": {
+    "ko": "최소 너비",
+    "en": "Minimum width",
+    "ja": "最小幅"
+  },
+  "graph.field.minHeight": {
+    "ko": "최소 높이",
+    "en": "Minimum height",
+    "ja": "最小高さ"
+  }
+}

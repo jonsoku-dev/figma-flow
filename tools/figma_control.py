@@ -1,0 +1,373 @@
+#!/usr/bin/env python3
+"""Bounded local commands for the single running Figma Flow plugin.
+
+Uncertain writes require a successful scoped read before another write. For a
+create-only or revised task, prepare a signed discover task for the original
+file/page and run read; its actual getter reconciles the preserved receipt.
+"""
+import argparse
+import hmac
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import json
+import os
+from pathlib import Path
+import re
+import secrets
+import sys
+import time
+
+import figma_workspace as workspace
+
+SCHEMA = 'figma-flow-control-v1'
+MAX_BODY = 16 * 1024 * 1024
+MAX_READBACK = 12 * 1024 * 1024
+OPERATIONS = {'review': {'create'}, 'import': {'read', 'import', 'sync'},
+              'discover': {'read'}, 'sync': {'read', 'apply'}}
+TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
+ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
+
+
+def config(root):
+    value = workspace.read(root / 'control.json', private=True, limit=4096)
+    if set(value) != {'schema', 'port', 'token'} or value['schema'] != SCHEMA or not re.fullmatch(r'[a-f0-9]{64}', str(value['token'])):
+        raise ValueError('Invalid private control configuration')
+    workspace.checked_port(value['port'])
+    return value
+
+
+def state_dir(root):
+    directory = workspace.private_dir(root / '.control', create=True)
+    for name in ('requests', 'receipts', 'readbacks'):
+        workspace.private_dir(directory / name, create=True)
+    return directory
+
+
+def identity(value, label):
+    if not isinstance(value, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,128}', value):
+        raise ValueError('Invalid ' + label)
+    return value
+
+
+def scope(file_key, page_id, revision):
+    if not isinstance(file_key, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', file_key):
+        raise ValueError('Exact Figma file key required')
+    if not isinstance(page_id, str) or not re.fullmatch(r'[0-9]+:[0-9]+', page_id):
+        raise ValueError('Exact numeric Figma page ID required')
+    if not isinstance(revision, str) or not re.fullmatch(r'[a-f0-9]{64}', revision):
+        raise ValueError('Exact task revision SHA256 required')
+
+
+def task(root, request):
+    catalogue = workspace.current(root)
+    matches = [row for row in catalogue['tasks'] if row['key'] == request['key']]
+    if len(matches) != 1 or matches[0]['revision'] != request['revision']:
+        raise ValueError('Unknown or stale prepared task')
+    row = matches[0]
+    if request['operation'] not in OPERATIONS.get(row['kind'], set()):
+        raise ValueError('Operation is not admitted for this task kind')
+    for field, argument in (('fileKey', 'file_key'), ('pageId', 'page_id')):
+        if row.get(field) is not None and row[field] != request[argument]:
+            raise ValueError('Prepared task scope differs from command scope')
+    if not isinstance(request.get('focus_page', False), bool):
+        raise ValueError('Page focus must be an explicit boolean')
+    if request.get('focus_page') and (row.get('fileKey') != request['file_key'] or row.get('pageId') != request['page_id']):
+        raise ValueError('Page focus requires exact signed task file and page pins')
+    bundle = workspace.task_artifacts(root, row)
+    if request['operation'] == 'sync':
+        # The existing compiler seals this capability into the generated import UI.
+        if not (bundle / 'code.js').read_text(encoding='utf-8').startswith('const LOCAL_SYNC = '):
+            raise ValueError('Import task has no paired app sync capability')
+    return row
+
+
+def save(directory, request):
+    if request['state'] == 'uncertain' and request['operation'] != 'read':
+        pending = uncertainties(directory)
+        pending['operations'][request['id']] = request.copy()
+        workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
+    workspace.atomic(directory / 'requests' / (request['id'] + '.json'), workspace.encode(request))
+    if request['state'] in TERMINAL:
+        workspace.atomic(directory / 'receipts' / (request['id'] + '.json'), workspace.encode(request))
+
+
+def uncertainties(directory):
+    path = directory / 'uncertainty.json'
+    if path.exists():
+        pending = workspace.read(path, private=True, limit=1_000_000)
+        if pending.get('schema') != SCHEMA or not isinstance(pending.get('operations'), dict):
+            raise ValueError('Invalid private uncertainty marker')
+        return pending
+    # Upgrade existing queues without losing uncertainty hidden by a later read.
+    operations = {}
+    for path in (directory / 'requests').glob('*.json'):
+        request = workspace.read(path, private=True, limit=32768)
+        if request.get('state') == 'uncertain' and request.get('operation') != 'read':
+            operations[request['id']] = request
+    pending = {'schema': SCHEMA, 'operations': operations}
+    workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
+    return pending
+
+
+def recovery_read(request, row, data, original):
+    """A signed discovery of the original scope can recover create-only/revised tasks."""
+    if request['operation'] != 'read' or any(request[field] != original[field] for field in ('file_key', 'page_id')):
+        return False
+    same_task = (request['key'], request['revision']) == (original['key'], original['revision'])
+    scoped_discovery = (row['kind'] == 'discover' and row.get('fileKey') == original['file_key'] and row.get('pageId') == original['page_id'])
+    if not (same_task or scoped_discovery) or data.get('error') or data.get('status') not in (None, 'ok', 'success') or data.get('rollback_conflicts'):
+        return False
+    if data.get('schema') == 'figma-flow-graph-native-discovery-v1':
+        return (row['kind'] == 'discover' and data.get('fileKey') == original['file_key'] and data.get('pageId') == original['page_id']
+                and isinstance(data.get('allowed_page_ids'), list) and original['page_id'] in data['allowed_page_ids']
+                and all(isinstance(data.get(key), list) for key in ('nodes', 'variables', 'collections')))
+    if data.get('schema') == 'figma-flow-graph-token-readback-v1':
+        return (row['kind'] == 'sync' and data.get('operation') == 'inspect' and data.get('file_key') == original['file_key']
+                and data.get('page_id') == original['page_id'] and all(isinstance(data.get(key), list) for key in ('tokens', 'components')))
+    return (row['kind'] == 'import' and data.get('format') == 'figma-flow-readback-v1' and data.get('evidence') == 'observed-plugin-api-readback'
+            and data.get('fileKey') == original['file_key'] and isinstance(data.get('pages'), list)
+            and any(isinstance(page, dict) and page.get('id') == original['page_id'] for page in data['pages'])
+            and all(isinstance(data.get(key), list) for key in ('variables', 'collections')))
+
+
+def active(directory):
+    path = directory / 'active.json'
+    if not path.exists():
+        return None
+    pointer = workspace.read(path, private=True, limit=4096)
+    operation_id = pointer.get('id')
+    if not isinstance(operation_id, str) or not re.fullmatch(r'[a-f0-9]{32}', operation_id):
+        raise ValueError('Invalid operation pointer')
+    request = workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
+    if request['state'] not in TERMINAL and time.time() >= request['deadline']:
+        request.update(state='uncertain' if request['state'] == 'claimed' else 'expired', completed_at=time.time())
+        save(directory, request)
+    return request
+
+
+def enable(root, port):
+    port = workspace.checked_port(port)
+    with workspace.locked(root) as root:
+        workspace.current(root)
+        state_dir(root)
+        if (root / 'control.json').exists():
+            value = config(root)
+            if value['port'] != port:
+                raise ValueError('Control is already enabled on another port')
+        else:
+            workspace.atomic(root / 'control.json', workspace.encode({'schema': SCHEMA, 'port': port, 'token': secrets.token_hex(32)}))
+    return {'enabled': True, 'port': port, 'refresh_required': True}
+
+
+def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus_page=False):
+    scope(file_key, page_id, revision)
+    if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not 1 <= timeout <= 3600:
+        raise ValueError('Timeout must be between 1 and 3600 seconds')
+    with workspace.locked(root) as root:
+        config(root)
+        directory = state_dir(root)
+        previous = active(directory)
+        if previous and previous['state'] not in TERMINAL:
+            raise ValueError('An operation is already active; inspect its status')
+        if uncertainties(directory)['operations'] and operation != 'read':
+            raise ValueError('Previous claimed operation is uncertain; re-read the native state before starting another command')
+        request = {'schema': SCHEMA, 'id': secrets.token_hex(16), 'key': key, 'operation': operation,
+                   'file_key': file_key, 'page_id': page_id, 'revision': revision,
+                   'focus_page': focus_page,
+                   'created_at': time.time(), 'deadline': time.time() + timeout, 'state': 'pending'}
+        task(root, request)
+        save(directory, request)
+        workspace.atomic(directory / 'active.json', workspace.encode({'id': request['id']}))
+        return request
+
+
+def poll(root, payload):
+    if set(payload) != {'session_id', 'file_key', 'page_id'}:
+        raise ValueError('Exact plugin poll fields required')
+    session = identity(payload['session_id'], 'plugin session')
+    scope(payload['file_key'], payload['page_id'], '0' * 64)
+    with workspace.locked(root) as root:
+        directory = state_dir(root)
+        request = active(directory)
+        if not request or request['state'] != 'pending':
+            return {'operation': None}
+        if request['operation'] != 'read' and uncertainties(directory)['operations']:
+            request.update(state='error', error='Previous mutation remains uncertain', completed_at=time.time())
+            save(directory, request)
+            return {'operation': None}
+        if request['file_key'] != payload['file_key'] or request['page_id'] != payload['page_id'] and not request.get('focus_page', False):
+            return {'operation': None}
+        try:
+            task(root, request)
+        except ValueError:
+            request.update(state='error', error='Prepared task changed before claim', completed_at=time.time())
+            save(directory, request)
+            return {'operation': None}
+        request.update(state='claimed', session_id=session, claim_id=secrets.token_hex(16), claimed_at=time.time())
+        save(directory, request)
+        return {'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}}
+
+
+def result(root, payload):
+    required = {'id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision', 'status'}
+    if not required <= set(payload) or set(payload) - required - {'readback_json', 'error'} or payload['status'] not in {'ok', 'error'}:
+        raise ValueError('Exact plugin result fields required')
+    raw = payload.get('readback_json')
+    if raw is not None:
+        if not isinstance(raw, str) or len(raw.encode('utf-8')) > MAX_READBACK or not isinstance(json.loads(raw), dict):
+            raise ValueError('Readback must be a bounded JSON object string')
+    if payload.get('error') is not None and (not isinstance(payload['error'], str) or len(payload['error']) > 2000):
+        raise ValueError('Invalid plugin error')
+    with workspace.locked(root) as root:
+        directory = state_dir(root)
+        request = active(directory)
+        if not request or request['state'] != 'claimed':
+            raise ValueError('No current claim accepts this result')
+        if any(payload[key] != request[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')):
+            raise ValueError('Result claim or scope mismatch')
+        try:
+            row = task(root, request)
+        except ValueError:
+            request.update(state='uncertain', error='Prepared task changed after claim', completed_at=time.time())
+            save(directory, request)
+            raise ValueError('Prepared task changed after claim')
+        if payload['status'] == 'ok' and raw is None:
+            raise ValueError('Successful operation requires the actual native result JSON')
+        if payload['status'] == 'ok' and request['operation'] == 'sync' and json.loads(raw).get('status') not in {'baseline', 'applied', 'unchanged'}:
+            raise ValueError('Successful sync requires a native baseline, applied or unchanged result')
+        if raw is not None:
+            path = directory / 'readbacks' / (request['id'] + '.json')
+            workspace.atomic(path, raw.encode('utf-8'))
+            request['readback'] = str(path)
+        request.update(state=payload['status'], completed_at=time.time(), evidence='authenticated-running-plugin-result; not independent origin authentication')
+        if payload.get('error'):
+            request['error'] = payload['error']
+        pending = uncertainties(directory)
+        recovered = [identity for identity, original in pending['operations'].items()
+                     if payload['status'] == 'ok' and recovery_read(request, row, json.loads(raw), original)]
+        if recovered:
+            request['reconciles'] = recovered
+        save(directory, request)
+        if recovered:
+            for identity in recovered:
+                del pending['operations'][identity]
+            workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
+        return {'accepted': True, 'id': request['id'], 'state': request['state']}
+
+
+def status(root, operation_id=None):
+    with workspace.locked(root) as root:
+        directory = state_dir(root)
+        current = active(directory)
+        if operation_id is None:
+            value = current or {'state': 'idle'}
+        else:
+            if not re.fullmatch(r'[a-f0-9]{32}', operation_id):
+                raise ValueError('Invalid operation ID')
+            value = current if current and current['id'] == operation_id else workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
+        pending = uncertainties(directory)['operations']
+        return {**value, 'uncertain_operations': [{key: original[key] for key in ('id', 'key', 'operation', 'file_key', 'page_id', 'revision')} for original in pending.values()]}
+
+
+class Handler(BaseHTTPRequestHandler):
+    def log_message(self, *_args):
+        pass
+
+    def reply(self, code, value):
+        body = workspace.encode(value)
+        self.send_response(code)
+        origin = self.headers.get('Origin')
+        if origin in ORIGINS:
+            self.send_header('Access-Control-Allow-Origin', origin)
+            self.send_header('Vary', 'Origin')
+            self.send_header('Access-Control-Allow-Headers', 'Authorization, Content-Type')
+            self.send_header('Access-Control-Allow-Methods', 'POST')
+            if self.headers.get('Access-Control-Request-Private-Network') == 'true':
+                self.send_header('Access-Control-Allow-Private-Network', 'true')
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('Content-Length', str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def allowed(self):
+        return (self.path in {'/control/poll', '/control/result'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+                and self.headers.get('Origin') in ORIGINS | {None})
+
+    def do_OPTIONS(self):
+        self.reply(200 if self.allowed() else 403, {})
+
+    def do_POST(self):
+        self.connection.settimeout(15)
+        if not self.allowed() or not hmac.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.server.token):
+            return self.reply(403, {'error': 'Control authentication or endpoint rejected'})
+        length = self.headers.get('Content-Length', '')
+        if self.headers.get('Transfer-Encoding') or self.headers.get_content_type() != 'application/json' or not re.fullmatch(r'[0-9]{1,9}', length) or not 0 < int(length) <= MAX_BODY:
+            return self.reply(413, {'error': 'Invalid control request body'})
+        try:
+            payload = json.loads(self.rfile.read(int(length)))
+            if not isinstance(payload, dict):
+                raise ValueError('Object required')
+            value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
+        except (ValueError, KeyError, TypeError, OSError):
+            return self.reply(409, {'error': 'Control request rejected; inspect private operation status'})
+        self.reply(200, value)
+
+
+def serve(root):
+    root = workspace.private_dir(root)
+    with workspace.locked(root):
+        workspace.current(root)
+        value = config(root)
+        directory = state_dir(root)
+    fd = os.open(directory / 'server.lock', os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
+    with os.fdopen(fd, 'a+b') as lock:
+        if os.fstat(lock.fileno()).st_mode & 0o077 or os.fstat(lock.fileno()).st_uid != os.getuid():
+            raise ValueError('Control server lock must be owner-only')
+        workspace.fcntl.flock(lock, workspace.fcntl.LOCK_EX | workspace.fcntl.LOCK_NB)
+        with ThreadingHTTPServer(('127.0.0.1', value['port']), Handler) as server:
+            server.workspace, server.token = root, value['token']
+            print(json.dumps({'serving': True, 'port': value['port']}), flush=True)
+            server.serve_forever()
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    commands = parser.add_subparsers(dest='command', required=True)
+    for name in ('enable', 'serve', 'run', 'status'):
+        command = commands.add_parser(name)
+        command.add_argument('--workspace', type=Path, required=True)
+        if name == 'enable':
+            command.add_argument('--port', type=int, required=True)
+        elif name == 'status':
+            command.add_argument('--id')
+        elif name == 'run':
+            for field in ('key', 'file-key', 'page-id', 'expected-revision'):
+                command.add_argument('--' + field, required=True)
+            command.add_argument('--operation', choices=sorted(set.union(*OPERATIONS.values())), required=True)
+            command.add_argument('--timeout', type=float, default=120)
+            command.add_argument('--no-wait', action='store_true')
+            command.add_argument('--focus-page', action='store_true', help='Focus the exact signed task page within the current file')
+    args = parser.parse_args(argv)
+    try:
+        if args.command == 'enable':
+            value = enable(args.workspace, args.port)
+        elif args.command == 'serve':
+            serve(args.workspace)
+            return 0
+        elif args.command == 'status':
+            value = status(args.workspace, args.id)
+        else:
+            value = enqueue(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, args.timeout, focus_page=args.focus_page)
+            if not args.no_wait:
+                while value['state'] not in TERMINAL:
+                    time.sleep(min(.2, max(.01, value['deadline'] - time.time())))
+                    value = status(args.workspace, value['id'])
+        print(json.dumps(value, ensure_ascii=True, allow_nan=False))
+        return 2 if value.get('state') in {'error', 'uncertain', 'expired'} else 0
+    except (ValueError, OSError, KeyError, TypeError):
+        print('figma-control: rejected; inspect private configuration, task revision, scope and operation status', file=sys.stderr)
+        return 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

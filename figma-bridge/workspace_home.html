@@ -1,85 +1,233 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html><html lang="ko" data-flow-view="workspace" data-flow-workspace="true"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>/* FIGMA_FLOW_PANEL_CSS */
-.task-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
-.task-info{flex:1;min-width:0}.task-title{font-size:14px;font-weight:650}.task-scope{margin-top:4px;font-size:11px;color:var(--muted)}
-.task-kind{font-size:11px;color:var(--muted)}.task-row:last-child{border-bottom:0}.task-actions{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;flex-shrink:0}.task-actions button{white-space:nowrap}
-@media(max-width:380px){.task-row{flex-direction:column;align-items:stretch;gap:8px}.task-actions{flex-wrap:wrap}}
+/* Craft direction adapted from Unslop by Damir Sokolovsky, CC BY 4.0. */
+.scope-filter select,.type-filter select{max-width:100%}
+.project-context{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}.project-context>div:first-child{flex:1;min-width:0}.project-context h1{font-size:24px;line-height:1.35}.project-meta{font-size:12px;color:var(--muted);margin-top:4px}.scope-filter{position:relative;flex:none;min-width:112px;height:32px}.scope-filter label{display:none}.scope-filter select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.scope-filter:focus-within{outline:2px solid var(--accent);outline-offset:2px}.scope-label{display:flex;align-items:center;justify-content:space-between;gap:8px;height:32px;padding:4px 8px;border:1px solid var(--line);border-radius:4px;font-size:12px;color:var(--muted);pointer-events:none}.scope-label:after{content:"⌄"}
+.preview-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 24px}.preview-strip figure{margin:0;min-width:0}.preview-strip img{display:block;width:100%;height:144px;object-fit:contain;object-position:50% 0;background:#fff;border:1px solid var(--line);border-radius:4px}.preview-strip figcaption{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.4}
+.next-action{margin:0 0 24px;padding:0 0 24px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}.next-action .eyebrow{font-size:12px;line-height:16px;color:var(--muted);margin-bottom:8px}.next-line{display:flex;align-items:flex-start;gap:16px}.next-line h2{flex:1;min-width:0;font-size:20px;line-height:1.4}.next-line button{flex:none}.next-action .next-description{font-size:13px;line-height:20px;color:var(--muted);margin-top:8px}.next-action .actions{margin-top:16px}
+.list-heading{font-size:12px;color:var(--muted);margin-bottom:8px}.task-row{margin:0}.task-hit{display:flex;align-items:center;text-align:left;width:100%;gap:12px;min-height:64px;padding:12px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}.task-hit:not(:disabled):hover{background:var(--surface);border-color:var(--line)}.task-hit:disabled{background:transparent;opacity:1;color:var(--muted)}.task-info{display:block;flex:1;min-width:0}.task-title{display:block;font-size:14px;font-weight:500;line-height:20px}.task-scope{display:block;font-size:12px;color:var(--muted);margin-top:4px}.task-state{display:block;font-size:12px;color:var(--muted);margin-top:4px}.task-state[data-status="failed"]{color:var(--danger)}.task-state[data-status="verified"]{color:var(--positive)}.task-arrow{font-size:16px;color:var(--muted)}.document-mark{position:relative;display:block;width:28px;height:36px;flex:none;border:1px solid var(--line);border-radius:2px;background:var(--surface)}.document-mark:after{content:"";position:absolute;left:6px;right:6px;top:10px;height:1px;background:var(--muted);box-shadow:0 5px 0 var(--muted),0 10px 0 var(--muted)}
+.type-filter{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:16px;font-size:12px;color:var(--muted)}
+.recent-receipt{display:flex;gap:8px;align-items:flex-start;margin:0 0 24px;padding:0;color:var(--muted);font-size:12px;line-height:20px}.receipt-mark{width:8px;height:8px;border:1px solid currentColor;flex:none;margin-top:6px;border-radius:50%}.receipt-mark[data-status="failed"]{border-radius:1px;transform:rotate(45deg);color:var(--danger)}.receipt-copy{flex:1;min-width:0}.receipt-time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:11px;white-space:nowrap}
+.history-row{position:relative;padding:0 0 24px 24px;border-left:1px solid var(--line);margin-left:4px}.history-row:before{content:"";position:absolute;left:-4px;top:4px;width:7px;height:7px;border:1px solid var(--muted);border-radius:50%;background:var(--paper)}.history-row[data-status="failed"]:before{border-color:var(--danger);border-radius:0;transform:rotate(45deg)}.history-row[data-status="verified"]:before,.history-row[data-status="finished"]:before{background:var(--muted)}.history-meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px;line-height:16px;margin-bottom:4px}.history-row h3{font-size:14px;line-height:20px}.history-row p{font-size:12px;color:var(--muted);line-height:20px;margin-top:4px}.history-row button{margin-top:8px}.empty-state{padding:16px 0;color:var(--muted)}
+@media(max-width:380px){.project-context{gap:8px}.project-context h1{font-size:20px}.scope-filter{max-width:120px}.preview-strip img{height:120px}.receipt-time{display:none}}
 </style></head><body class="panel">
-<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>Figma Flow</div><span class="context">작업 목록</span></header>
-<main class="workspace"><section class="intro"><h1>준비된 작업</h1></section>
-<section class="status" id="home-status" data-state="ready" aria-live="polite"><h2 class="status-title" id="home-status-title">작업 목록을 불러오는 중</h2><p class="status-body" id="home-status-body">Codex에서 준비한 작업을 확인합니다.</p></section>
-<div id="task-list" aria-label="프로젝트별 작업"></div>
-</main>
-<script>
-const taskList = document.getElementById('task-list');
-const statusPanel = document.getElementById('home-status');
-const statusTitle = document.getElementById('home-status-title');
-const statusBody = document.getElementById('home-status-body');
-const kinds = {import:'가져오기', review:'방향 검토', discover:'현재 문서 읽기', sync:'그래프 동기화'};
-let session = null;
-function append(parent, tag, text, className) {
-  const element = document.createElement(tag);
-  if (text !== undefined) element.textContent = text;
-  if (className) element.className = className;
-  parent.appendChild(element); return element;
+<!-- FLOW_SHELL -->
+<main class="workspace">
+<section class="project-context"><div><h1 id="workspace-title">준비된 작업</h1><p id="project-subtitle" class="project-meta"></p></div><div class="scope-filter" id="project-scope"><label for="project-filter" data-i18n="workspace.project">프로젝트</label><select id="project-filter" data-i18n-aria="workspace.project"></select><span class="scope-label" aria-hidden="true" data-i18n="workspace.switchProject">프로젝트 변경</span></div></section>
+<!-- FLOW_STATUS -->
+<!-- FLOW_CONTROL_STATUS -->
+<p id="automatic-notice" class="metadata" hidden></p>
+<section id="recent-receipt" class="recent-receipt" hidden aria-live="polite"></section>
+<div class="type-filter" id="type-filter" hidden><label for="stage-filter" data-i18n="workspace.typeFilter">작업 종류</label><select id="stage-filter"></select></div>
+<div id="project-preview" class="preview-strip" hidden></div><section id="next-action" class="next-action" hidden></section>
+<section id="task-list" aria-label="프로젝트별 작업"></section><section id="history-list" hidden></section>
+<p class="metadata" id="history-boundary" hidden data-i18n="workspace.historyBoundary">최근 80건을 이 기기에 보관합니다.</p>
+</main><script>
+const byId=id=>document.getElementById(id);
+const t=(key,params={})=>window.FlowUI ? window.FlowUI.t('workspace.'+key,params) : key;
+let session=null, model={tasks:[],history:[]}, view='tasks', project='', stage='', focusKey=null, controlBusy=false;
+const taskList=byId('task-list'), historyList=byId('history-list');
+const send=(type,extra={})=>parent.postMessage({pluginMessage:{type,workspaceSession:session,...extra}},'*');
+function append(parent,tag,text,className){const element=document.createElement(tag);if(text!==undefined)element.textContent=text;if(className)element.className=className;parent.appendChild(element);return element;}
+function action(parent,label,click,primary=false){const button=append(parent,'button',label,primary?'primary':'secondary');button.type='button';button.onclick=click;return button;}
+function latest(task){return [...model.history].reverse().find(event=>event.taskKey===task.key&&event.revision===task.revision&&event.operation!=='download');}
+function statusText(event){return event.operation==='download'?t('downloadRequested'):t(event.status);}
+function scoped(){return model.tasks.filter(task=>(!project||task.project===project)&&(!stage||task.kind===stage));}
+function open(task,chat=false){send(chat?'workspace-chat-open':'workspace-open',{key:task.key});}
+function progressed(task) {
+  return task.kind !== 'review' && (task.productionAdmitted || task.paired) &&
+    model.history.some(event => event.taskKey === task.key && event.revision === task.revision &&
+      ['finished', 'readback', 'verified', 'baseline'].includes(event.status) && !event.operation.startsWith('chat:'));
+}
+function recommend(tasks) {
+  const available = tasks.filter(task => !task.fileKey || task.fileKey === model.fileKey);
+  const admitted = available.filter(task => task.productionAdmitted);
+  const continued = available.filter(task => task.kind === 'sync' && task.paired &&
+    model.tasks.some(previous => previous.project === task.project && progressed(previous)));
+  let candidates = admitted.length || continued.length ? available.filter(task => admitted.includes(task) || continued.includes(task)) : available;
+  const phase = task => task.kind === 'sync' ? 3 : task.kind === 'import' ? 2 : 1;
+  if (admitted.length || continued.length) {
+    const reached = Math.max(0, ...candidates.filter(progressed).map(phase));
+    candidates = candidates.filter(task => phase(task) >= reached);
+  }
+  const failed = candidates.find(task => latest(task)?.status === 'failed');
+  if (failed) return {task: failed, inspect: false};
+  const pending = candidates.find(task => !latest(task));
+  if (pending) return {task: pending, inspect: false};
+  const actual = [...model.history].reverse().find(event => candidates.some(task =>
+    task.key === event.taskKey && task.revision === event.revision && event.operation !== 'download'));
+  const task = candidates.find(task => task.key === actual?.taskKey) || candidates[0];
+  return task ? {task, inspect: true} : null;
+}
+function taskPreview(task) {
+  return (Array.isArray(task?.preview) ? task.preview : []).filter(item => item && typeof item.title === 'string' &&
+    typeof item.src === 'string' && item.src.length <= 600000 && /^data:image\/png;base64,iVBORw0KGgo[A-Za-z0-9+/=]+$/.test(item.src)).slice(0, 2);
+}
+function render() {
+  if (window.FlowUI) window.FlowUI.apply();
+  if (window.FlowPanel) window.FlowPanel.setState({active: view, busy: controlBusy});
+  const projects = [...new Set(model.tasks.map(task => task.project).filter(Boolean))];
+  byId('workspace-title').textContent = project || (projects.length === 1 ? projects[0] : t(projects.length ? 'allProjects' : 'title'));
+  const filter = byId('project-filter');
+  filter.replaceChildren();
+  const all = append(filter, 'option', t('allProjects')); all.value = '';
+  for (const name of projects) {const option = append(filter, 'option', name); option.value = name;}
+  filter.value = project;
+  byId('project-scope').hidden = projects.length <= 1;
+  const projectTasks = model.tasks.filter(task => !project || task.project === project);
+  byId('project-subtitle').textContent = t('currentFile') + ' · ' + t('taskCount', {count: projectTasks.length});
+  const automatic = byId('automatic-notice');
+  automatic.hidden = !model.controlEnabled;
+  automatic.textContent = window.FlowUI ? window.FlowUI.t('common.modeAutomatic') : '';
+  const status = byId('home-status');
+  status.hidden = !model.error && !model.storageError && model.tasks.length > 0;
+  if (!status.hidden && window.FlowPanel) window.FlowPanel.status({region: 'home-status', title: 'home-status-title', body: 'home-status-body',
+    state: model.error ? 'error' : 'ready', titleText: t(model.error ? 'error' : model.storageError ? 'nav.history' : 'empty'),
+    bodyText: model.error || t(model.storageError ? 'storageError' : 'emptyBody')});
+  const kinds = [...new Set(projectTasks.map(task => task.kind))];
+  const stageSelect = byId('stage-filter'); stageSelect.replaceChildren();
+  for (const kind of ['', ...kinds]) {const option = append(stageSelect, 'option', t(kind ? 'kind.' + kind : 'allStages')); option.value = kind;}
+  stageSelect.value = stage;
+  byId('type-filter').hidden = view !== 'tasks' || projectTasks.length <= 4 || kinds.length <= 1;
+  stageSelect.disabled = controlBusy;
+  const tasks = scoped();
+  const recommendation = view === 'tasks' ? recommend(tasks) : null;
+  const recommended = recommendation?.task;
+  const next = byId('next-action'); next.replaceChildren(); next.hidden = !recommended;
+  taskList.replaceChildren(); historyList.replaceChildren();
+  taskList.hidden = view === 'history'; historyList.hidden = view !== 'history';
+  byId('history-boundary').hidden = view !== 'history';
+  taskList.setAttribute('aria-labelledby', view === 'codex' ? 'tab-codex' : 'tab-tasks');
+  historyList.setAttribute('aria-labelledby', 'tab-history');
+  const recent = [...model.history].reverse().find(event => {
+    const task = projectTasks.find(task => task.key === event.taskKey && task.revision === event.revision);
+    return task && event.status !== 'requested';
+  });
+  const receipt = byId('recent-receipt'); receipt.replaceChildren(); receipt.hidden = !recent || view === 'history' || (recommendation?.inspect && recent.taskKey === recommended.key);
+  if (recent && view !== 'history') {
+    append(receipt, 'span', undefined, 'receipt-mark').dataset.status = recent.status;
+    const task = model.tasks.find(task => task.key === recent.taskKey);
+    append(receipt, 'span', task.title + ' · ' + statusText(recent), 'receipt-copy');
+    append(receipt, 'time', new Date(recent.time).toLocaleTimeString(window.FlowUI?.locale || 'ko', {hour: '2-digit', minute: '2-digit'}), 'receipt-time');
+  }
+  const preview = byId('project-preview'); preview.replaceChildren(); preview.hidden = true;
+  if (recommended) {
+    const source = taskPreview(recommended).length ? recommended : projectTasks.find(task => task.project === recommended.project && taskPreview(task).length);
+    for (const image of taskPreview(source)) {
+      preview.hidden = false;
+      const figure = append(preview, 'figure');
+      const img = append(figure, 'img'); img.src = image.src; img.alt = image.title;
+      append(figure, 'figcaption', image.title);
+    }
+    append(next, 'p', t(recommendation.inspect ? 'latestResult' : 'next'), 'eyebrow');
+    const line = append(next, 'div', undefined, 'next-line');
+    append(line, 'h2', recommended.title);
+    const event = latest(recommended);
+    const context = recommendation.inspect && event ? statusText(event) + ' · ' + new Date(event.time).toLocaleString(window.FlowUI?.locale || 'ko') :
+      t(!event ? 'nextNew' : event.status === 'failed' ? 'nextRetry' : 'nextCheck');
+    append(next, 'p', t('kind.' + recommended.kind) + ' · ' + context, 'next-description');
+    const automatic = model.controlEnabled && recommended.threadId && !recommendation.inspect;
+    const label = automatic && window.FlowUI ? window.FlowUI.t('common.continueCodex') : t(recommendation.inspect ? 'viewReceipt' : 'open');
+    const button = action(line, label, () => {
+      if (recommendation.inspect) {view = 'history'; stage = ''; focusKey = recommended.key; render();}
+      else open(recommended, !!automatic);
+    }, true);
+    button.disabled = controlBusy;
+    button.setAttribute('aria-label', t(recommendation.inspect ? 'receiptFor' : automatic ? 'chatOpen' : 'openTask', {title: recommended.title}));
+    if (recommended.key === focusKey && !controlBusy) {button.focus(); focusKey = null;}
+  }
+  if (view === 'history') {
+    const events = [...model.history].reverse().filter(event => {
+      const task = model.tasks.find(task => task.key === event.taskKey); return !project || task?.project === project;
+    });
+    if (!events.length) append(historyList, 'p', t('historyEmpty'), 'empty-state');
+    let historyFocus = null;
+    for (const event of events) {
+      const task = model.tasks.find(task => task.key === event.taskKey);
+      const stale = !task || task.revision !== event.revision;
+      const row = append(historyList, 'article', undefined, 'history-row'); row.dataset.status = event.status;
+      const meta = append(row, 'div', undefined, 'history-meta');
+      append(meta, 'time', new Date(event.time).toLocaleString(window.FlowUI?.locale || 'ko'));
+      if (stale) append(meta, 'span', t('stale'));
+      append(row, 'h3', task?.title || t('removedTask'));
+      const operation = t(event.operation === 'verification' ? 'verification' : event.operation === 'download' ? 'downloadRequested' : 'op.' + event.operation);
+      append(row, 'p', event.operation === 'download' ? operation : operation + ' · ' + statusText(event));
+      if (task) {
+        const button = action(row, t(stale ? 'openCurrent' : 'open'), () => open(task));
+        button.disabled = controlBusy || (!!task.fileKey && task.fileKey !== model.fileKey);
+        if (task.key === focusKey && !historyFocus && !button.disabled) historyFocus = button;
+      }
+    }
+    if (!controlBusy && focusKey) {(historyFocus || byId('tab-history')).focus(); focusKey = null;}
+    return;
+  }
+  const remaining = tasks.filter(task => view === 'codex' ? task.threadId : task !== recommended);
+  if (remaining.length && view === 'tasks') append(taskList, 'h2', t(recommended ? 'otherTasks' : 'allStages'), 'list-heading');
+  let firstFocus = null;
+  for (const task of remaining) {
+    const row = append(taskList, 'article', undefined, 'task-row');
+    const wrong = !!task.fileKey && task.fileKey !== model.fileKey;
+    const button = action(row, undefined, () => open(task, view === 'codex'));
+    button.className = 'task-hit'; button.disabled = controlBusy || wrong;
+    button.setAttribute('aria-label', t(view === 'codex' ? 'chatOpen' : wrong ? 'wrongOpen' : 'openTask', {title: task.title}));
+    append(button, 'span', undefined, 'document-mark').setAttribute('aria-hidden', 'true');
+    const info = append(button, 'span', undefined, 'task-info');
+    append(info, 'span', task.title, 'task-title');
+    const target = append(info, 'span', t('kind.' + task.kind) + ' · ' + t(wrong ? 'wrongFile' : 'currentFile') + (task.pageId ? ' · ' + t('page') : ''), 'task-scope');
+    target.title = [task.fileKey || '', task.pageId || ''].filter(Boolean).join(' / ');
+    const event = latest(task);
+    append(info, 'span', event ? statusText(event) : t('notRun'), 'task-state').dataset.status = event?.status || 'ready';
+    append(button, 'span', '›', 'task-arrow').setAttribute('aria-hidden', 'true');
+    if (task.key === focusKey) firstFocus = button;
+  }
+  if (!remaining.length && !recommended && model.tasks.length) append(taskList, 'p', t(view === 'codex' ? 'noChat' : 'noMatch'), 'empty-state');
+  if (firstFocus && !controlBusy) {firstFocus.focus(); focusKey = null;}
 }
 window.onmessage = event => {
   const message = event.data && event.data.pluginMessage;
   if (!message) return;
+  if (message.type === 'workspace-control-state') {
+    if (message.workspaceSession !== session) return;
+    if (Array.isArray(message.history)) model.history = message.history;
+    controlBusy = message.busy === true;
+    render();
+    byId('control-status').hidden = !message.busy && message.outcome === 'finished' && !byId('recent-receipt').hidden;
+    const outcome = ['finished', 'failed', 'uncertain'].includes(message.outcome) ? message.outcome : 'waiting';
+    if (!byId('control-status').hidden && window.FlowPanel) window.FlowPanel.status({region: 'control-status', title: 'control-title', body: 'control-body',
+      state: message.busy ? 'busy' : outcome === 'failed' || outcome === 'uncertain' ? 'error' : 'success',
+      titleText: t(message.busy ? 'controlBusy' : 'controlDone'), bodyText: t('control.' + outcome)});
+    return;
+  }
   if (message.type === 'workspace-error') {
     if (session && message.workspaceSession !== session) return;
-    statusPanel.hidden = false; statusPanel.dataset.state = 'error';
-    statusTitle.textContent = '작업을 열 수 없습니다'; statusBody.textContent = message.message;
+    model.error = message.message;
+    render();
     return;
   }
   if (message.type !== 'workspace-tasks') return;
   session = message.workspaceSession;
-  taskList.replaceChildren();
-  const tasks = message.tasks;
-  const failed = typeof message.error === 'string' && !!message.error;
-  statusPanel.hidden = tasks.length > 0 && !failed;
-  statusPanel.dataset.state = failed ? 'error' : 'ready';
-  if (failed) {
-    statusTitle.textContent = '작업을 열 수 없습니다'; statusBody.textContent = message.error;
-  } else if (!tasks.length) {
-    statusTitle.textContent = '준비된 작업이 없습니다';
-    statusBody.textContent = 'Codex에서 프로젝트의 Figma 작업을 준비한 뒤 플러그인을 다시 열어 주세요.';
-    return;
-  }
-  const groups = new Map();
-  for (const task of tasks) {
-    const project = task.project || '프로젝트';
-    if (!groups.has(project)) {
-      const section = append(taskList, 'section', undefined, 'work-section');
-      append(section, 'h2', project); groups.set(project, section);
-    }
-    const row = append(groups.get(project), 'div', undefined, 'task-row');
-    const info = append(row, 'div', undefined, 'task-info');
-    append(info, 'p', kinds[task.kind] || task.kind, 'task-kind');
-    append(info, 'h3', task.title, 'task-title');
-    const wrongFile = !!task.fileKey && task.fileKey !== message.fileKey;
-    const scope = wrongFile ? '다른 파일에서 실행' : '현재 파일';
-    const target = append(info, 'p', scope + (task.pageId ? ' · 지정 페이지' : ''), 'task-scope');
-    target.title = [task.fileKey ? '파일 ' + task.fileKey : '', task.pageId ? '페이지 ' + task.pageId : ''].filter(Boolean).join(' / ');
-    const actions = append(row, 'div', undefined, 'task-actions');
-    const button = append(actions, 'button', wrongFile ? '다른 파일' : '열기', wrongFile ? 'secondary' : 'primary');
-    button.type = 'button'; button.disabled = wrongFile;
-    button.setAttribute('aria-label', task.title + (wrongFile ? ' · 지정 파일에서 열어야 합니다' : ' 열기'));
-    button.onclick = () => parent.postMessage({pluginMessage:{type:'workspace-open',workspaceSession:session,key:task.key}}, '*');
-    const chat = append(actions, 'button', task.threadId ? 'Codex 연결' : '대화 미연결', 'secondary');
-    chat.type = 'button'; chat.disabled = wrongFile || !task.threadId;
-    chat.setAttribute('aria-label', task.title + ' Codex 연결');
-    chat.onclick = () => parent.postMessage({pluginMessage:{type:'workspace-chat-open',workspaceSession:session,key:task.key}}, '*');
-  }
+  model = message;
+  view = message.view || 'tasks';
+  const previous = [...message.history].reverse().map(event => message.tasks.find(task => task.key === event.taskKey)).find(Boolean);
+  project = message.project || previous?.project || message.tasks.find(task => !task.fileKey || task.fileKey === message.fileKey)?.project || message.tasks[0]?.project || '';
+  focusKey = message.focusKey;
+  if (window.FlowUI && message.locale) window.FlowUI.setLocale(message.locale);
+  byId('workspace-locale').value = message.locale || 'ko';
+  render();
 };
-taskList.addEventListener('keydown', event => {
-  if (!['ArrowDown','ArrowUp','Home','End'].includes(event.key)) return;
-  const buttons = [...taskList.querySelectorAll('button:not(:disabled)')];
-  const index = buttons.indexOf(document.activeElement);
-  if (!buttons.length || index < 0) return;
-  const next = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length - 1 :
-    (index + (event.key === 'ArrowDown' ? 1 : -1) + buttons.length) % buttons.length;
-  event.preventDefault(); buttons[next].focus();
-});
-parent.postMessage({pluginMessage:{type:'workspace-home-ready'}}, '*');
+function changeLocale(code) {
+  if (!['ko','en','ja'].includes(code)) return;
+  if (window.FlowUI) window.FlowUI.setLocale(code);
+  send('workspace-locale', {locale: code});
+  render();
+}
+if (window.FlowPanel) window.FlowPanel.mount({mode: 'workspace', active: view,
+  onNavigate(name) {view = name; stage = ''; render();}, onLocale: changeLocale});
+byId('stage-filter').onchange=event=>{stage=event.target.value;render();};
+byId('project-filter').onchange=event=>{project=event.target.value;stage='';render();};
+window.addEventListener('flow:locale',()=>render());
+function keys(container,names){container.addEventListener('keydown',event=>{if(!names.includes(event.key))return;const buttons=[...container.querySelectorAll('button:not(:disabled)')];const index=buttons.indexOf(document.activeElement);if(!buttons.length||index<0)return;const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(['ArrowDown','ArrowRight'].includes(event.key)?1:-1)+buttons.length)%buttons.length;event.preventDefault();buttons[next].focus();});}
+keys(taskList,['ArrowDown','ArrowUp','Home','End']);
+if(typeof setInterval==='function')setInterval(()=>{if(session)send('workspace-control-tick',{fileKey:model.fileKey});},1000);
+parent.postMessage({pluginMessage:{type:'workspace-home-ready',locale:typeof navigator==='undefined'?'ko':navigator.language}},'*');
 </script></body></html>

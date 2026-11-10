@@ -1,0 +1,90 @@
+.view-graph .graph-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-block: 12px;
+  border-block: 1px solid var(--line);
+}
+.view-graph .graph-stats span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.view-graph .graph-stat-value {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.view-graph .graph-scope-value,
+.view-graph .graph-component-list li {
+  overflow-wrap: anywhere;
+}
+.view-graph .graph-confirmation {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 2px solid var(--accent);
+}
+.view-graph .graph-component-list {
+  padding-left: 20px;
+}
+.view-graph .change-card {
+  min-width: 0;
+  margin-block: 18px;
+  padding-block: 12px;
+  border-block: 1px solid var(--line);
+}
+.view-graph .graph-token-name {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.view-graph .value-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+.view-graph .value-cell {
+  min-width: 0;
+  padding-block: 8px;
+}
+.view-graph .value-label {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.view-graph .graph-value-code {
+  display: block;
+  font:
+    11px/1.6 ui-monospace,
+    monospace;
+  overflow-wrap: anywhere;
+}
+.view-graph .swatch {
+  display: block;
+  height: 36px;
+  background-color: var(--token-color);
+  border: 1px solid var(--line);
+  margin-block: 8px;
+}
+.view-graph .type-sample {
+  display: block;
+  font-size: var(--token-font-size);
+  line-height: 1.2;
+  margin-block: 8px;
+  overflow-wrap: anywhere;
+}
+.view-graph .measure {
+  display: block;
+  width: var(--token-space);
+  max-width: 100%;
+  height: 14px;
+  background: var(--accent);
+  margin-block: 12px;
+}
+.view-graph .graph-diagnostics {
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font:
+    11px/1.6 ui-monospace,
+    monospace;
+}

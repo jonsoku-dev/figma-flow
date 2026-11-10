@@ -24,17 +24,10 @@ class WorkspaceChatTest(unittest.TestCase):
         identity.write_text(json.dumps({'id': '123456789'}))
         figma_workspace.init(self.workspace, identity, chat_port=49152)
         self.thread = str(uuid.uuid4())
-        artifact_dir = self.workspace / '.tasks' / uuid.uuid4().hex
-        artifact_dir.mkdir(mode=0o700)
-        hashes = {}
-        for name, text in {'code.js': '', 'ui.html': '<div></div>', 'manifest.json': '{}'}.items():
-            artifact = artifact_dir / name
-            artifact.write_text(text)
-            artifact.chmod(0o600)
-            hashes[name] = figma_workspace.digest(artifact.read_bytes())
-        self.task = {'key': 'project-task', 'threadId': self.thread, 'revision': 'a' * 64,
-                     'artifact_dir': str(artifact_dir.relative_to(self.workspace)), 'bundle_relative': '.',
-                     'artifact_hashes': hashes, 'domains': []}
+        figma_workspace.prepare(self.workspace, 'project-task', 'Test chat', 'discover',
+                                ['--file-key', 'fixturefile', '--page-id', '0:1'], thread_id=self.thread)
+        with figma_workspace.locked(self.workspace):
+            self.task = figma_workspace.current(self.workspace)['tasks'][0]
         self.write('chat.json', {'schema': 'figma-flow-workspace-chat-v1', 'port': 49152, 'token': 'b' * 64})
         self.publish_tasks([self.task])
         self.cli = self.workspace / 'fake-codex'

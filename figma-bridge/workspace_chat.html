@@ -1,48 +1,59 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html><html lang="ko" data-flow-view="chat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>/* FIGMA_FLOW_PANEL_CSS */
-label{display:block;margin:14px 0 6px}textarea{display:block;width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit;resize:vertical}textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.choice{display:flex;gap:8px;align-items:center}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.preview{font:11px/1.55 ui-monospace,monospace;white-space:pre-wrap}.hint{color:var(--muted);font-size:12px}.thread-id{display:block;font:11px/1.6 ui-monospace,monospace;overflow-wrap:anywhere}
+.choice{display:flex;gap:8px;align-items:center}.hint{color:var(--muted);font-size:12px}.selection-card{margin-top:16px}.selection-card h2{font-size:12px;margin:0 0 6px;color:var(--muted)}.selection-card strong{font-size:24px;color:var(--accent)}.selection-card p{margin:6px 0 0}.choice input{flex:none}.choice{align-items:flex-start}.details pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px}.thread-id{display:block;font:11px/1.6 ui-monospace,monospace;overflow-wrap:anywhere}
 </style></head><body class="panel">
-<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>Figma Flow</div><span class="context">Codex 연결</span></header>
-<main class="workspace"><section class="intro"><h1>이 작업의 채팅으로</h1><p id="task-title"></p></section>
-<p class="hint">연결된 채팅<code id="thread-destination" class="thread-id"></code></p>
-<p class="hint">요청과 선택한 노드만 확인한 뒤 보냅니다.</p>
-<label for="request">요청</label><textarea id="request" rows="3" maxlength="4000" placeholder="이 선택에서 바꾸고 싶은 내용을 적어 주세요."></textarea>
-<label class="choice"><input id="include-selection" type="checkbox" checked> 현재 선택한 노드 포함 (최대 20개)</label>
-<label class="choice"><input id="include-text" type="checkbox"> 선택한 텍스트 일부 포함 (노드당 200자, 합계 1000자)</label>
-<p class="hint">이름은 120자까지, 이메일 형태의 내용은 생략합니다. 선택이 없으면 요청만 포함합니다.</p>
-<button id="prepare" type="button" class="secondary">보낼 내용 확인</button>
-<label for="preview">실제로 전달할 내용</label><textarea id="preview" class="preview" rows="11" readonly aria-describedby="preview-hint"></textarea>
-<p id="preview-hint" class="hint">아래 보내기는 이 미리보기와 같은 내용을 현재 연결된 채팅의 대기열에 추가합니다.</p>
-<div class="actions"><button id="send" type="button" disabled>채팅에 보내기</button><button id="copy" type="button" class="secondary" disabled>내용 복사</button><button id="open" type="button" class="secondary">채팅 열기</button><button id="open-link" type="button" class="secondary">링크로 채팅 열기</button></div>
-<section class="status" role="status" aria-live="polite"><h2 class="status-title" id="status-title">보낼 내용을 먼저 확인하세요</h2><p class="status-body" id="status-body"></p></section>
-</main><script>
+<!-- FLOW_SHELL -->
+<main class="workspace"><section class="intro"><h1 data-i18n="chat.title">이 작업의 채팅으로</h1><p id="task-title"></p></section>
+<p class="hint"><span data-i18n="chat.destination">연결된 채팅</span><code id="thread-destination" class="thread-id"></code></p>
+<p class="hint" data-i18n="chat.intro">요청과 선택한 노드만 확인한 뒤 보냅니다.</p>
+<label for="request" data-i18n="chat.request">요청</label><textarea id="request" class="panel-input" rows="3" maxlength="4000" placeholder="이 선택에서 바꾸고 싶은 내용을 적어 주세요." data-i18n-placeholder="chat.placeholder"></textarea>
+<label class="choice"><input id="include-selection" type="checkbox" checked> <span data-i18n="chat.includeSelection">현재 선택한 노드 포함 (최대 20개)</span></label>
+<label class="choice"><input id="include-text" type="checkbox"> <span data-i18n="chat.includeText">선택한 텍스트 일부 포함 (노드당 200자, 합계 1000자)</span></label>
+<p class="hint" data-i18n="chat.privacy">이름은 120자까지, 이메일 형태의 내용은 생략합니다. 선택이 없으면 요청만 포함합니다.</p>
+<button id="prepare" type="button" class="secondary" data-i18n="chat.prepare">보낼 내용 확인</button>
+<section id="selection-summary" class="selection-card panel-preview" aria-labelledby="selection-title" aria-live="polite" aria-atomic="true" tabindex="-1" hidden><h2 id="selection-title" data-i18n="chat.selectionTitle">포함한 선택</h2><strong id="selection-count"></strong><p id="selection-types"></p></section>
+<label for="preview" data-i18n="chat.preview">실제로 전달할 내용</label><textarea id="preview" class="panel-input panel-code preview" rows="11" readonly aria-describedby="preview-hint"></textarea>
+<p id="preview-hint" class="hint" data-i18n="chat.previewHelp">아래 보내기는 이 미리보기와 같은 내용을 현재 연결된 채팅의 대기열에 추가합니다.</p>
+<div class="actions"><button id="send" type="button" disabled data-i18n="chat.send">채팅에 보내기</button><button id="copy" type="button" class="secondary" disabled data-i18n="chat.copy">내용 복사</button></div><details class="details" id="chat-tools"><summary data-i18n="chat.more">채팅 열기</summary><div class="actions"><button id="open" type="button" class="secondary" data-i18n="chat.open">채팅 열기</button><button id="open-link" type="button" class="secondary" data-i18n="chat.openLink">링크로 채팅 열기</button></div></details>
+<!-- FLOW_STATUS -->
+<details id="diagnostics" class="details" hidden><summary data-i18n="chat.diagnostic">원본 진단</summary><pre id="diagnostic"></pre></details></main><script>
 const chatContext = /* WORKSPACE_CHAT_CONTEXT */;
+const t = (key, params) => FlowUI.t('chat.' + key, params);
 const el = id => document.getElementById(id);
-let preparedId = null, pendingPreviewId = null, busy = false, submitted = false;
+let preparedId = null, pendingPreviewId = null, busy = false, submitted = false, lastStatus = ['ready',''], previewCount = 0, previewTypes = [];
 function requestId() {
   const rng = globalThis.crypto;
   if (typeof rng?.randomUUID === 'function') {try {return rng.randomUUID();} catch (_) {}}
-  if (typeof rng?.getRandomValues !== 'function') throw Error('보안 난수 기능을 사용할 수 없습니다. 플러그인을 다시 열어 주세요.');
+  if (typeof rng?.getRandomValues !== 'function') throw Error(t('rng'));
   const bytes = rng.getRandomValues(new Uint8Array(16));
   bytes[6] = (bytes[6] & 15) | 64; bytes[8] = (bytes[8] & 63) | 128;
   const hex = Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
   return [hex.slice(0,8),hex.slice(8,12),hex.slice(12,16),hex.slice(16,20),hex.slice(20)].join('-');
 }
 const post = message => parent.postMessage({pluginMessage: message}, '*');
-const status = (title, body = '') => {el('status-title').textContent = title; el('status-body').textContent = body;};
+const status = (title, body = '') => {lastStatus=[title,body];FlowPanel.status({region:'chat-status',title:'status-title',body:'status-body',state:'ready',titleText:t(title),bodyText:body?t(body):''});};
+function diagnostic(raw) {el('diagnostics').hidden=false;el('diagnostic').textContent=raw;}
+function render() {FlowUI.apply();el('thread-destination').textContent=chatContext.threadId||t('noThread');status(...lastStatus);el('selection-count').textContent=t(previewCount?'selectionCount':'noNodes',{count:previewCount});el('selection-types').textContent=previewTypes.map(([type,count])=>(t(type)==='chat.'+type?type:t(type))+' · '+count).join(' / ');}
+window.addEventListener('flow:locale',render);
 el('task-title').textContent = chatContext.title;
-el('thread-destination').textContent = chatContext.threadId || '연결 정보 없음 · 복사해서 전달하세요';
+el('thread-destination').textContent = chatContext.threadId || t('noThread');
 el('open').disabled = !chatContext.paired;
+el('open').hidden=!chatContext.paired;el('open-link').hidden=chatContext.paired;
 el('open-link').disabled = !chatContext.threadId;
-if (!chatContext.paired) status('복사해서 채팅에 전달할 수 있습니다', '로컬 연결이 없어 직접 보내기는 사용할 수 없습니다.');
+if (!chatContext.paired) status('unpaired','unpairedHelp');
 function controls() {
+  el('prepare').className=preparedId?'secondary':'primary';
+  el('send').hidden=!preparedId||submitted;
+  el('copy').hidden=!preparedId;
+  el('copy').className=preparedId&&!chatContext.paired?'primary':'secondary';
+  el('open').className=submitted?'primary':'secondary';
   el('send').disabled = busy || submitted || !preparedId || !chatContext.paired;
   el('copy').disabled = busy || !preparedId;
   el('prepare').disabled = busy || submitted;
   el('open').disabled = busy || !chatContext.paired;
   el('open-link').disabled = busy || !chatContext.threadId;
 }
-function invalidate() {preparedId = null; pendingPreviewId = null; el('preview').value = ''; controls();}
+function invalidate() {preparedId = null; pendingPreviewId = null; el('preview').value = ''; el('selection-summary').hidden=true; controls();}
 for (const id of ['request','include-selection','include-text']) el(id).addEventListener('input', invalidate);
 el('include-selection').addEventListener('change', () => {el('include-text').disabled = !el('include-selection').checked;});
 el('prepare').onclick = () => {
@@ -50,22 +61,22 @@ el('prepare').onclick = () => {
     preparedId = null; pendingPreviewId = requestId(); controls();
     post({type:'chat:prepare',requestId:pendingPreviewId,message:el('request').value,
       includeSelection:el('include-selection').checked,includeText:el('include-selection').checked && el('include-text').checked});
-  } catch (error) {status('미리보기를 준비할 수 없습니다', error.message); controls();}
+  } catch (error) {status('prepareFailed','errorHelp');diagnostic(error.message); controls();}
 };
 el('copy').onclick = () => {
   el('preview').focus(); el('preview').select();
   let copied = false; try {copied = document.execCommand('copy');} catch (_) {}
-  status(copied ? '내용을 복사했습니다' : '선택한 내용을 복사해 주세요', copied ? '채팅을 열고 붙여 넣은 뒤 직접 보내세요.' : '복사 단축키를 누른 뒤 채팅에 붙여 넣으세요.');
+  status(copied?'copied':'copyManual',copied?'copiedHelp':'copyHelp');
 };
 el('send').onclick = () => {
   if (!preparedId || busy || submitted) return;
-  busy = true; submitted = true; controls(); status('채팅 대기열에 추가하는 중');
+  busy = true; submitted = true; controls(); status('queueing');
   post({type:'chat:queue',requestId:preparedId});
 };
 el('open').onclick = () => {
   if (busy) return;
   try {const id = requestId(); busy = true; controls(); post({type:'chat:open',requestId:id});}
-  catch (error) {status('채팅을 열 수 없습니다', error.message); controls();}
+  catch (error) {status('openFailed','errorHelp');diagnostic(error.message); controls();}
 };
 el('open-link').onclick = () => post({type:'chat:open-fallback'});
 window.addEventListener('message', event => {
@@ -74,15 +85,19 @@ window.addEventListener('message', event => {
   if (message.type === 'chat:preview') {
     if (message.requestId !== pendingPreviewId) return;
     preparedId = message.requestId; el('preview').value = message.text;
-    status('이 내용을 전달합니다', message.count ? '선택한 노드 ' + message.count + '개가 포함됩니다.' : '선택한 노드는 없습니다.');
+    previewCount=message.count;previewTypes=[];
+    try{const data=JSON.parse(message.text.slice(message.text.lastIndexOf('\n\n{')+2));const counts={};for(const node of data.selection.nodes)counts[node.type]=(counts[node.type]||0)+1;previewTypes=Object.entries(counts);}catch(_){}
+    el('selection-summary').hidden=false;el('diagnostics').hidden=true;
+    status('reviewed',chatContext.paired?'nextSend':'nextCopy');render();el('selection-summary').focus();
   } else if (message.type === 'chat:result') {
-    busy = false;
-    status(message.status === 'queued' ? '채팅 대기열에 추가했습니다' : '채팅 열기를 요청했습니다',
-      message.status === 'queued' ? '아직 에이전트가 읽거나 실행했다는 뜻은 아닙니다. Codex 채팅에서 확인하세요.' : '앱이 열리지 않으면 링크로 열기를 사용하세요.');
+    busy = false;el('chat-tools').open=true;
+    status(message.status==='queued'?'queued':'opened',message.status==='queued'?'queuedHelp':'openedHelp');
   } else if (message.type === 'chat:error') {
-    busy = false; status('연결을 확인해 주세요', message.message);
+    busy = false; const raw=String(message.message||'');
+    const key=/불확실|접수 여부/.test(raw)?'uncertain':/20개/.test(raw)?'limitError':/이전 작업|만료/.test(raw)?'expired':/이미 처리|중복/.test(raw)?'duplicate':/파일|페이지/.test(raw)?'scopeError':/요청을 적거나/.test(raw)?'inputError':'errorHelp';
+    status('error',key);diagnostic(raw);el('open-link').hidden=false;el('chat-tools').open=true;
   }
   controls();
 });
-controls();
+controls();render();
 </script></body></html>

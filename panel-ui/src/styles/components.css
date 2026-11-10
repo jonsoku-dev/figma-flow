@@ -1,0 +1,225 @@
+/* Shared shell. Home tabs and cross-panel destinations have the same geometry. */
+.panel .masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px var(--gutter);
+  min-height: 48px;
+  border-bottom: 1px solid var(--line);
+}
+.panel .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 570;
+  letter-spacing: 0;
+}
+.panel .brand-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+}
+.panel .workspace-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.panel .workspace-toolbar select {
+  min-height: 32px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--paper);
+  max-width: 120px;
+}
+.panel .workspace-tabs,
+.panel .panel-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin: 0 var(--gutter);
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+}
+.panel .workspace-tabs button,
+.panel .panel-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  color: var(--muted);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+.panel .workspace-tabs button[aria-selected='true'],
+.panel .panel-nav button[aria-current='page'] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+.panel .workspace-tabs button:hover:not(:disabled),
+.panel .panel-nav button:hover:not(:disabled) {
+  color: var(--ink);
+  background: transparent;
+  border-bottom-color: var(--muted);
+}
+.panel .workspace-tabs svg,
+.panel .panel-nav svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+.panel .workspace {
+  padding: 20px var(--gutter) 24px;
+  max-width: 760px;
+}
+.panel h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 580;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+.panel h2,
+.panel h3 {
+  font-weight: 560;
+  letter-spacing: 0;
+}
+.panel .work-section {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.panel .actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.panel button {
+  border-radius: 5px;
+}
+.panel .status {
+  margin: 16px 0;
+  padding: 12px;
+  border-radius: 5px;
+}
+.panel .status-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+.panel .status-body {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.panel .panel-preview {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+}
+.panel :where(textarea, input:not([type='checkbox']):not([type='radio']), select):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (max-width: 380px) {
+  :root {
+    --gutter: 16px;
+  }
+  .panel .workspace-tabs,
+  .panel .panel-nav {
+    gap: 16px;
+  }
+  .panel .workspace {
+    padding-top: 16px;
+  }
+}
+
+.react-panel .brand-mark {
+  display: inline-grid;
+  place-items: center;
+}
+.react-panel .brand-mark::before,
+.react-panel .brand-mark::after,
+.react-panel .status-title::before {
+  content: none;
+}
+.panel-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+.panel-action svg,
+.status-title svg,
+.details summary svg {
+  flex: none;
+}
+.panel-action.quiet {
+  background: transparent;
+  color: var(--ink);
+  border-color: transparent;
+}
+.panel-action.quiet:not(:disabled):hover {
+  background: var(--surface);
+}
+.preview-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 12px;
+  margin: 16px 0 20px;
+}
+.preview-strip figure {
+  min-width: 0;
+}
+.preview-strip img {
+  display: block;
+  width: 100%;
+  height: clamp(92px, 25vw, 148px);
+  object-fit: contain;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.preview-strip figcaption {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.details > summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+.details > summary::-webkit-details-marker {
+  display: none;
+}
+.details[open] > summary svg {
+  transform: rotate(90deg);
+}
+.panel-status pre,
+.details pre {
+  max-height: 160px;
+  overflow: auto;
+}
+.panel .actions {
+  padding: 0;
+}

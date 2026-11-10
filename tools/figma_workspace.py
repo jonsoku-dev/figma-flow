@@ -19,7 +19,7 @@ import sys
 import tempfile
 import uuid
 
-from plugin_panel import render_panel
+from plugin_panel import render_app
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'figma-flow-workspace-v1'
@@ -379,6 +379,39 @@ def task_artifacts(workspace, task):
     return bundle
 
 
+def task_surface(kind, code, original_html, *, shared=False):
+    """Rebuild presentation from admitted data without replacing its pinned native handler."""
+    bridge = ROOT / 'figma-bridge'
+    if kind == 'review':
+        from figma_draft import review_thumbnails
+        if not code.startswith('const DRAFT='):
+            raise ValueError('Unknown prepared review entry')
+        packet, _ = json.JSONDecoder().raw_decode(code[len('const DRAFT='):])
+        pair_line = re.search(r'^const PAIR = (.*);$', original_html, re.M)
+        if not pair_line:
+            raise ValueError('Unknown review pairing contract')
+        pair = json.loads(pair_line[1])
+        candidates = []
+        for candidate in packet['candidates']:
+            previews = [{'viewport': viewport, 'src': 'data:image/png;base64,' + data}
+                        for viewport, data in review_thumbnails(packet, candidate)]
+            candidates.append({'title': candidate['title'], 'previews': previews})
+        cover = [{'title': entry['title'], 'src': entry['previews'][0]['src']}
+                 for entry in candidates[:2] if entry['previews']]
+        model = {'candidates': candidates, 'pair': pair, 'filePinned': bool(packet.get('fileKey')),
+                 'pageName': 'DRAFT · A/B/C 방향 검토 · ' + packet['packet_sha256'][:8]}
+        return {'preview': cover}, render_app('review', model, shared=shared)
+    if kind == 'import':
+        payload, _ = json.JSONDecoder().raw_decode(code.split('\nconst PAYLOAD = ', 1)[1])
+        facts = {'productionAdmitted': bool(payload.get('native_admission') and payload.get('selected_direction')),
+                 'sourceSha256': payload['source_sha256']}
+        return facts, render_app('import', shared=shared)
+    match = re.search(r'<script id="graph-panel-config" type="application/json">(.*?)</script>', original_html, re.S)
+    if not match:
+        raise ValueError('Unknown prepared graph panel')
+    return {}, render_app('graph', json.loads(match[1]), shared=shared)
+
+
 def publish(workspace, catalogue):
     generation = uuid.uuid4().hex
     folder = child(workspace, '.generations/' + generation)
@@ -389,8 +422,15 @@ def publish(workspace, catalogue):
         domains.update(task['domains'])
         metadata = {key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'fileKey', 'pageId', 'threadId', 'revision', 'handoff')}
         code = regular(bundle / 'code.js', private=True).read_text()
-        html = regular(bundle / 'ui.html', private=True).read_text()
-        tasks.append(json.dumps(metadata, ensure_ascii=True)[:-1] + ',"run":function(){const figma=workspaceTaskFigma();const __html__=workspaceTaskHtml(' + json.dumps(html, ensure_ascii=True) + ');\n' + code + '\n}}')
+        facts, html = task_surface(task['kind'], code, regular(bundle / 'ui.html', private=True).read_text(), shared=True)
+        metadata.update(facts, paired=bool(task['domains']))
+        tasks.append(json.dumps(metadata, ensure_ascii=True)[:-1] + ',"run":function(){const figma=workspaceTaskFigma();const __html__=workspaceTaskHtml(workspaceAppHtml(' + json.dumps(html, ensure_ascii=True) + '));\n' + code + '\n}}')
+    control = None
+    if (workspace / 'control.json').exists():
+        from figma_control import config
+        private = config(workspace)
+        control = {'url': f'http://localhost:{private["port"]}', 'token': private['token']}
+        domains.add(control['url'])
     relay = chat_config(workspace)
     if relay:
         domains.add(relay['url'])
@@ -398,11 +438,17 @@ def publish(workspace, catalogue):
         raise ValueError('Workspace exceeds its exact localhost origin limit')
     bridge = ROOT / 'figma-bridge'
     code = 'const FLOW_TASKS = [' + ',\n'.join(tasks) + '];\n'
+    assets = bridge / 'assets'
+    react_js = re.sub(r'</script', lambda _match: r'<\/script', (assets / 'panels.js').read_text(), flags=re.I)
+    code += 'const packagedReact = ' + json.dumps(react_js) + ';\n'
+    code += 'const packagedCSS = ' + json.dumps((assets / 'panels.css').read_text()) + ';\n'
+    code += "function workspaceAppHtml(template){return template.replace('/* FLOW_SHARED_PANEL_STYLES */',()=>packagedCSS).replace('/* FLOW_SHARED_REACT_APPLICATION */',()=>packagedReact);}" + '\n'
+    code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_CONFIG = ' + json.dumps(relay, ensure_ascii=True) + ';\n'
-    code += 'const WORKSPACE_CHAT_UI = ' + json.dumps(render_panel((bridge / 'workspace_chat.html').read_text()), ensure_ascii=True) + ';\n'
-    code += (bridge / 'workspace_chat.js').read_text() + '\n' + (bridge / 'workspace_host.js').read_text()
+    code += 'const WORKSPACE_CHAT_UI = workspaceAppHtml(' + json.dumps(render_app('chat', chat_context=True, shared=True), ensure_ascii=True) + ');\n'
+    code += (bridge / 'workspace_chat.js').read_text() + '\n' + (bridge / 'workspace_control.js').read_text() + '\n' + (bridge / 'workspace_host.js').read_text()
     atomic(folder / 'code.js', code.encode())
-    atomic(folder / 'ui.html', render_panel((bridge / 'workspace_home.html').read_text()).encode())
+    atomic(folder / 'ui.html', render_app('workspace').encode())
     result = sign_catalogue(workspace, {**catalogue, 'generation': generation})
     atomic(folder / 'catalogue.json', encode(result))
     manifest = {'name': 'Figma Flow', 'id': catalogue['plugin_id'], 'api': '1.0.0',
@@ -517,6 +563,8 @@ def main(argv=None):
     build.add_argument('--project')
     build.add_argument('--thread-id')
     build.add_argument('--replace-expected')
+    refresh = commands.add_parser('refresh', allow_abbrev=False)
+    refresh.add_argument('--workspace', required=True)
     listing = commands.add_parser('list', allow_abbrev=False)
     listing.add_argument('--workspace', required=True)
     values = list(sys.argv[1:] if argv is None else argv)
@@ -530,6 +578,12 @@ def main(argv=None):
             if separator != len(values):
                 raise ValueError('init does not accept generator arguments')
             result = init(args.workspace, args.id_from, args.chat_port)
+        elif args.command == 'refresh':
+            if separator != len(values):
+                raise ValueError('refresh does not accept generator arguments')
+            with locked(args.workspace) as root:
+                updated = publish(root, current(root))
+                result = {'manifest': str(root / 'manifest.json'), 'generation': updated['generation'], 'tasks': len(updated['tasks'])}
         elif args.command == 'prepare':
             if separator == len(values):
                 raise ValueError('prepare requires literal -- before trusted generator flags')

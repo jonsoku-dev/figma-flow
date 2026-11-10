@@ -1,0 +1,36 @@
+/* Visual system for every Figma Flow panel. Unslop by Damir Sokolovsky (CC BY 4.0) informed this treatment. */
+:root {
+  color-scheme: light;
+  --gutter: 24px;
+  --paper: #faf9f6;
+  --surface: #f0efeb;
+  --ink: #252a27;
+  --muted: #555e57;
+  --line: #d7dcd6;
+  --control-edge: #7a857b;
+  --accent: #24675a;
+  --accent-hover: #194f45;
+  --on-accent: #fff;
+  --accent-soft: #e8f0eb;
+  --positive: #315f45;
+  --positive-soft: #edf4ef;
+  --danger: #993c31;
+  --danger-soft: #f7ece8;
+}
+.figma-dark {
+  color-scheme: dark;
+  --paper: #1d211e;
+  --surface: #282e29;
+  --ink: #e7ece6;
+  --muted: #b4bfb6;
+  --line: #414a43;
+  --control-edge: #87998c;
+  --accent: #9acbb9;
+  --accent-hover: #b2ddcd;
+  --on-accent: #182b23;
+  --accent-soft: #2b3c32;
+  --positive: #a0d4b3;
+  --positive-soft: #28362c;
+  --danger: #f2aaa0;
+  --danger-soft: #3d2b2a;
+}

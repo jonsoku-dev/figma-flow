@@ -1,0 +1,232 @@
+{
+  "review.context": {
+    "ko": "디자인 방향 검토",
+    "en": "Design direction review",
+    "ja": "デザイン案のレビュー"
+  },
+  "review.heading": {
+    "ko": "검토할 방향 {count}개",
+    "en": "Review {count} directions",
+    "ja": "{count}案をレビュー"
+  },
+  "review.emptyHeading": {
+    "ko": "디자인 방향 검토",
+    "en": "Design direction review",
+    "ja": "デザイン案のレビュー"
+  },
+  "review.emptyNames": {
+    "ko": "준비된 패킷의 후보를 생성합니다.",
+    "en": "Create the candidates in the prepared packet.",
+    "ja": "準備済みパケットの候補を作成します。"
+  },
+  "review.language": {
+    "ko": "언어",
+    "en": "Language",
+    "ja": "言語"
+  },
+  "review.createStep": {
+    "ko": "1. 검토 시안 생성",
+    "en": "1. Create review drafts",
+    "ja": "1. レビュー用の案を作成"
+  },
+  "review.createBody": {
+    "ko": "참고 이미지를 바탕으로 화면·이동·설명 주석을 편집 가능한 노드로 생성합니다.",
+    "en": "Create editable screens, navigation and annotations using the prepared references.",
+    "ja": "参考画像をもとに、編集可能な画面・遷移・説明を作成します。"
+  },
+  "review.readStep": {
+    "ko": "2. 실제 노드 읽기 · 자동",
+    "en": "2. Read actual nodes · automatic",
+    "ja": "2. 実際のノードを読み取り · 自動"
+  },
+  "review.saveStep": {
+    "ko": "3. 로컬 검증 또는 직접 저장",
+    "en": "3. Validate locally or save manually",
+    "ja": "3. ローカルで検証、または手動で保存"
+  },
+  "review.saveBodyPaired": {
+    "ko": "읽은 결과는 연결된 로컬 수신기로 전달됩니다. JSON으로 직접 저장할 수도 있습니다.",
+    "en": "Readback is sent to the paired local receiver. You can also save the JSON manually.",
+    "ja": "読み取り結果を接続済みのローカル受信先に送ります。JSONを手動で保存することもできます。"
+  },
+  "review.saveBodyPortable": {
+    "ko": "로컬 수신기가 연결되지 않았습니다. 생성 후 읽기 결과 또는 실패 진단 JSON을 직접 저장하세요.",
+    "en": "No local receiver is paired. After creation, save the readback or failure diagnostics as JSON.",
+    "ja": "ローカル受信先は未接続です。作成後、読み取り結果または失敗診断をJSONで保存してください。"
+  },
+  "review.make": {
+    "ko": "검토 시안 만들기",
+    "en": "Create review drafts",
+    "ja": "レビュー用の案を作成"
+  },
+  "review.makeBusy": {
+    "ko": "검토 시안 준비 중…",
+    "en": "Preparing review drafts…",
+    "ja": "レビュー用の案を準備中…"
+  },
+  "review.save": {
+    "ko": "결과 JSON 저장",
+    "en": "Save result JSON",
+    "ja": "結果JSONを保存"
+  },
+  "review.saveFailure": {
+    "ko": "실패 진단 JSON 저장",
+    "en": "Save failure diagnostics JSON",
+    "ja": "失敗診断JSONを保存"
+  },
+  "review.details": {
+    "ko": "상세 진단 보기",
+    "en": "Show diagnostic details",
+    "ja": "診断の詳細を表示"
+  },
+  "review.boundary": {
+    "ko": "방향 선택과 승인은 별도입니다. 이 도구는 검토용 시안만 만듭니다.",
+    "en": "Direction selection and approval are separate. This tool creates review drafts only.",
+    "ja": "方向性の選択と承認は別途行います。このツールはレビュー用の案のみを作成します。"
+  },
+  "review.currentFile": {
+    "ko": "현재 Design 파일",
+    "en": "Current Design file",
+    "ja": "現在のDesignファイル"
+  },
+  "review.exactFile": {
+    "ko": "지정 Design 파일",
+    "en": "Specified Design file",
+    "ja": "指定したDesignファイル"
+  },
+  "review.reviewPage": {
+    "ko": "검토 전용 페이지",
+    "en": "Review-only page",
+    "ja": "レビュー専用ページ"
+  },
+  "review.previewLabel": {
+    "ko": "참고 이미지 · {viewport}",
+    "en": "Reference image · {viewport}",
+    "ja": "参考画像 · {viewport}"
+  },
+  "review.previewAlt": {
+    "ko": "{name} · {viewport} 방향의 검토용 참고 이미지",
+    "en": "Review reference for {name} · {viewport}",
+    "ja": "{name}・{viewport}案のレビュー用参考画像"
+  },
+  "review.desktop": {
+    "ko": "데스크톱",
+    "en": "Desktop",
+    "ja": "デスクトップ"
+  },
+  "review.mobile": {
+    "ko": "모바일",
+    "en": "Mobile",
+    "ja": "モバイル"
+  },
+  "review.noPreview": {
+    "ko": "검증된 참고 이미지를 표시할 수 없습니다.",
+    "en": "No validated reference image is available.",
+    "ja": "検証済みの参考画像を表示できません。"
+  },
+  "review.readyTitle": {
+    "ko": "실행 전",
+    "en": "Not started",
+    "ja": "未実行"
+  },
+  "review.readyBody": {
+    "ko": "시안 생성 후 실제 노드를 자동으로 읽습니다. 결과는 아래에서 검증하거나 저장합니다.",
+    "en": "Actual nodes are read automatically after creation. Validate or save the results below.",
+    "ja": "案の作成後に実際のノードを自動で読み取ります。結果は以下で検証または保存できます。"
+  },
+  "review.creatingTitle": {
+    "ko": "검토 시안 생성 중",
+    "en": "Creating review drafts",
+    "ja": "レビュー用の案を作成中"
+  },
+  "review.creatingBody": {
+    "ko": "화면·글꼴·주석·팔레트를 만들고 있습니다. 잠시 기다려 주세요.",
+    "en": "Creating screens, fonts, annotations and palettes. Please wait.",
+    "ja": "画面・フォント・注釈・パレットを作成しています。しばらくお待ちください。"
+  },
+  "review.createdTitle": {
+    "ko": "생성 준비 완료",
+    "en": "Ready to create",
+    "ja": "作成の準備が完了"
+  },
+  "review.generationFailed": {
+    "ko": "시안 생성 실패",
+    "en": "Draft creation failed",
+    "ja": "案の作成に失敗"
+  },
+  "review.errorBody": {
+    "ko": "상세 진단을 확인한 뒤 다시 실행하세요.",
+    "en": "Review the diagnostic details before trying again.",
+    "ja": "診断の詳細を確認してから再実行してください。"
+  },
+  "review.verifiedTitle": {
+    "ko": "읽기 결과 검증 완료",
+    "en": "Readback validated",
+    "ja": "読み取り結果の検証が完了"
+  },
+  "review.verifiedBody": {
+    "ko": "로컬 수신기에서 실제 노드 결과를 검증했습니다. 방향 선택과 승인은 별도입니다.",
+    "en": "The local receiver validated the actual node results. Direction selection and approval are separate.",
+    "ja": "ローカル受信先で実際のノードの結果を検証しました。方向性の選択と承認は別途行います。"
+  },
+  "review.rejectedTitle": {
+    "ko": "읽기 결과 검증 실패",
+    "en": "Readback validation failed",
+    "ja": "読み取り結果の検証に失敗"
+  },
+  "review.rejectedBody": {
+    "ko": "상세 진단 보기에서 검증 오류를 확인하세요. 결과 JSON 저장은 실제 노드의 읽기 원본을 내보냅니다.",
+    "en": "Check diagnostic details for validation errors. Save result JSON exports the original actual-node readback.",
+    "ja": "診断の詳細で検証エラーを確認してください。「結果JSONを保存」は実際のノードの元の読み取り結果を出力します。"
+  },
+  "review.sendingTitle": {
+    "ko": "읽기 결과 전달 중",
+    "en": "Sending readback",
+    "ja": "読み取り結果を送信中"
+  },
+  "review.sendingBody": {
+    "ko": "로컬 수신기에 결과를 보내고 있습니다. JSON은 직접 저장할 수도 있습니다.",
+    "en": "Sending results to the local receiver. You can also save the JSON manually.",
+    "ja": "結果をローカル受信先に送信しています。JSONを手動で保存することもできます。"
+  },
+  "review.readTitle": {
+    "ko": "실제 노드 읽기 완료",
+    "en": "Actual nodes read",
+    "ja": "実際のノードの読み取りが完了"
+  },
+  "review.readBody": {
+    "ko": "결과 JSON을 저장해 내보내세요. 연결 검증과 방향 선택은 아직 하지 않았습니다.",
+    "en": "Save the result JSON to export it. Connection validation and direction selection are still pending.",
+    "ja": "結果JSONを保存して出力してください。接続の検証と方向性の選択はまだ行っていません。"
+  },
+  "review.geometryTitle": {
+    "ko": "화면 배치 검증 실패",
+    "en": "Layout validation failed",
+    "ja": "画面レイアウトの検証に失敗"
+  },
+  "review.geometryBody": {
+    "ko": "이 결과는 정상 읽기 결과로 사용할 수 없습니다. 실패 진단 JSON을 저장해 문제를 확인하세요.",
+    "en": "This result cannot be used as valid readback. Save the failure diagnostics JSON to inspect the issue.",
+    "ja": "この結果は有効な読み取り結果として使用できません。失敗診断JSONを保存して問題を確認してください。"
+  },
+  "review.deliveryTitle": {
+    "ko": "로컬 결과 전달 실패",
+    "en": "Local delivery failed",
+    "ja": "ローカルへの結果の送信に失敗"
+  },
+  "review.deliveryBody": {
+    "ko": "실제 노드 읽기는 완료됐습니다. 결과 JSON 저장 버튼으로 직접 보관하세요.",
+    "en": "Actual nodes were read. Use Save result JSON to keep a manual copy.",
+    "ja": "実際のノードの読み取りは完了しています。「結果JSONを保存」で手動保存してください。"
+  },
+  "review.pageLabel": {
+    "ko": "페이지",
+    "en": "Page",
+    "ja": "ページ"
+  },
+  "review.mobilePreviews": {
+    "ko": "모바일 시안 보기",
+    "en": "Mobile previews",
+    "ja": "モバイル案を見る"
+  }
+}

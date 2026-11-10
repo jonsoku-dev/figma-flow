@@ -63,7 +63,7 @@ const WorkspaceChat = (() => {
       UUID.test(task.threadId || '');
     const context = {title: clean(task.title, 160), threadId: UUID.test(task.threadId || '') ? task.threadId : null, paired};
     const encoded = JSON.stringify(context).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
-    options.showUI(options.uiHtml.replace('/* WORKSPACE_CHAT_CONTEXT */', encoded), {width: 520, height: 720, themeColors: true});
+    options.showUI(options.uiHtml.replace('/* WORKSPACE_CHAT_CONTEXT */', () => encoded), {width: 520, height: 720, themeColors: true});
     async function relayAction(action, requestId, text) {
       check();
       if (!paired) throw Error('로컬 채팅 연결이 없습니다. 내용을 복사하고 채팅에서 붙여 넣어 주세요.');

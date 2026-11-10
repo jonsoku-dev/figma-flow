@@ -3,8 +3,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
+const {execFileSync} = require('node:child_process');
 const source = fs.readFileSync(path.join(root, 'figma-bridge/workspace_chat.js'), 'utf8');
-const html = fs.readFileSync(path.join(root, 'figma-bridge/workspace_chat.html'), 'utf8');
+const html = execFileSync(process.env.PYTHON || 'python3', ['-B', '-c', 'import sys;from pathlib import Path;sys.path.insert(0,str(Path(sys.argv[1])/"tools"));from panel_components import render_components;print(render_components((Path(sys.argv[1])/"figma-bridge/workspace_chat.html").read_text(),"chat"))', root], {encoding:'utf8'});
+const components = fs.readFileSync(path.join(root, 'figma-bridge/panel_components.js'), 'utf8');
+const renderedIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g), match => match[1]));
+const translations={...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/workspace.json'))),...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/chat.json')))};
+const makeFlowUI=(locale='ko')=>({locale,t:(key,params={})=>(translations[key]?.[locale]||key).replace(/\{(\w+)\}/g,(_,name)=>params[name]??'{'+name+'}'),apply(){}});
 const ctx = vm.createContext({setTimeout, clearTimeout, URL});
 vm.runInContext(source + '\nthis.Chat = WorkspaceChat;', ctx);
 const Chat = ctx.Chat;
@@ -99,17 +104,18 @@ async function main() {
   assert.ok(html.includes('textContent'));
   assert.equal(html.includes('innerHTML'),false);
   assert.equal(html.includes('fetch('),false,'Untrusted iframe must not hold relay access');
-  assert.ok(html.includes('아직 에이전트가 읽거나 실행했다는 뜻은 아닙니다'));
+  assert.ok(translations['chat.queuedHelp'].ko.includes('아직 에이전트'));
   const elements = new Map(), uiMessages = [], listeners = new Map();
   const element = key => {
-    if (!elements.has(key)) elements.set(key,{value:'',checked:key==='include-selection',disabled:false,textContent:'',
+    assert.ok(renderedIds.has(key), 'Missing prerendered chat element: ' + key);
+    if (!elements.has(key)) elements.set(key,{value:'',checked:key==='include-selection',disabled:false,textContent:'',dataset:{},setAttribute(name,value){this[name]=value;},removeAttribute(name){delete this[name];},
       addEventListener(type,handler){this[type]=handler;},focus(){},select(){this.selected=true;}});
     return elements.get(key);
   };
-  const ui = vm.createContext({document:{getElementById:element,execCommand:()=>false},
+  const ui = vm.createContext({FlowUI:makeFlowUI(),document:{documentElement:{dataset:{}},getElementById:element,execCommand:()=>false},
     parent:{postMessage:m=>uiMessages.push(m.pluginMessage)},crypto:{randomUUID:()=>id},
     window:{addEventListener:(type,handler)=>listeners.set(type,handler)}});
-  vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1].replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:task.title,threadId:id,paired:true})),ui);
+  vm.runInContext(components+'\n'+html.match(/<script>([\s\S]*?)<\/script>/)[1].replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:task.title,threadId:id,paired:true})),ui);
   assert.equal(uiMessages.length,0,'Opening chat never collects or sends automatically');
   assert.equal(element('task-title').textContent,task.title);
   assert.equal(element('thread-destination').textContent,id);
@@ -129,11 +135,12 @@ async function main() {
   function checkRng(cryptoValue) {
     const nodes = new Map(), sent = [];
     const get = key => {
-      if (!nodes.has(key)) nodes.set(key,{value:'',checked:true,disabled:false,textContent:'',addEventListener(){}});
+      assert.ok(renderedIds.has(key), 'Missing prerendered chat element: ' + key);
+      if (!nodes.has(key)) nodes.set(key,{focus(){},value:'',checked:true,disabled:false,textContent:'',dataset:{},setAttribute(name,value){this[name]=value;},removeAttribute(name){delete this[name];},addEventListener(){}});
       return nodes.get(key);
     };
-    const sandbox = vm.createContext({crypto:cryptoValue,document:{getElementById:get},parent:{postMessage:m=>sent.push(m.pluginMessage)},window:{addEventListener(){}}});
-    vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1].replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:'Task',threadId:id,paired:true})),sandbox);
+    const sandbox = vm.createContext({FlowUI:makeFlowUI(),crypto:cryptoValue,document:{documentElement:{dataset:{}},getElementById:get},parent:{postMessage:m=>sent.push(m.pluginMessage)},window:{addEventListener(){}}});
+    vm.runInContext(components+'\n'+html.match(/<script>([\s\S]*?)<\/script>/)[1].replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:'Task',threadId:id,paired:true})),sandbox);
     get('request').value='Figma Flow 통합 패널 연결 점검';get('prepare').onclick();
     return {sent,get};
   }
@@ -142,7 +149,24 @@ async function main() {
   assert.match(opaque.sent[0].requestId,/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
   const denied = checkRng(undefined);
   assert.equal(denied.sent.length,0);
-  assert.ok(denied.get('status-body').textContent.includes('보안 난수'));
+  assert.ok(denied.get('diagnostic').textContent.includes('보안 난수'));
+  for(const [key,values]of Object.entries(translations))for(const locale of ['ko','en','ja'])assert.ok(values[locale],key+' '+locale);
+  for(const match of html.matchAll(/data-i18n(?:-[a-z]+)?="([^"]+)"/g))assert.ok(translations[match[1]],match[1]);
+  const handoff='User text unchanged\n\n'+JSON.stringify({selection:{nodes:[{type:'TEXT'},{type:'TEXT'},{type:'INSTANCE'}]}});
+  for(const locale of ['ko','en','ja']) {
+    ui.FlowUI=makeFlowUI(locale);
+    element('request').input();element('prepare').onclick();
+    listeners.get('message')({data:{pluginMessage:{type:'chat:preview',requestId:id,text:handoff,count:3}}});
+    assert.equal(element('preview').value,handoff);
+    assert.equal(element('selection-count').textContent,makeFlowUI(locale).t('chat.selectionCount',{count:3}));
+    assert.ok(element('selection-types').textContent.includes(makeFlowUI(locale).t('chat.TEXT')+' · 2'));
+    assert.equal(element('selection-summary').hidden,false);
+    listeners.get('flow:locale')();assert.equal(element('preview').value,handoff);
+    assert.equal(uiMessages.filter(m=>m.type==='chat:queue').length,1,'Locale changes never queue');
+    listeners.get('message')({data:{pluginMessage:{type:'chat:error',message:'지정된 파일과 페이지에서 다시 열어 주세요.'}}});
+    assert.equal(element('status-body').textContent,makeFlowUI(locale).t('chat.scopeError'));
+    assert.equal(element('diagnostic').textContent,'지정된 파일과 페이지에서 다시 열어 주세요.');
+  }
   console.log('workspace chat: selection privacy, bounds, exact preview, scope/session pins, replay and clipboard checks passed');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

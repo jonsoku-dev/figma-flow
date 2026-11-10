@@ -20,6 +20,14 @@ function annotate(node, annotation) {
   if (!node.annotations.some(item => item.label === annotation)) throw new Error("Required native annotation not retained");
   node.setPluginData(KEY, JSON.stringify({ ...info(node), annotation_mode: "native" }));
 }
+function textVariableAlias(node, field) {
+  const ranged = node.type === "TEXT" && node.characters?.length && typeof node.getRangeBoundVariable === "function";
+  const value = ranged ? node.getRangeBoundVariable(0, node.characters.length, field) : node.boundVariables?.[field];
+  const aliases = Array.isArray(value) ? value : value ? [value] : [];
+  if (!aliases.length) return null;
+  if (aliases.some(alias => alias?.type !== "VARIABLE_ALIAS" || alias.id !== aliases[0]?.id)) throw new Error(`Mixed native typography binding: ${node.id}.${field}`);
+  return aliases[0];
+}
 async function verifyHandoff(page) {
   const data = await readback([page], "native-handoff-verification");
   if (!data.fileKey) throw new Error("Actual native Figma file key unavailable for handoff");
@@ -73,20 +81,19 @@ async function verifyHandoff(page) {
         aliases = [(target[["borderColor", "border-color"].includes(prop) ? "strokes" : "fills"] || [])[0]?.boundVariables?.color];
       } else if (numeric[prop]) aliases = numeric[prop].map(field => node.boundVariables?.[field]);
       else if (["fontSize", "font-size", "font-family"].includes(prop)) {
-        const alias = label.boundVariables?.[prop === "font-family" ? "fontFamily" : "fontSize"];
-        aliases = [Array.isArray(alias) && alias.length === 1 ? alias[0] : alias];
+        aliases = [textVariableAlias(label, prop === "font-family" ? "fontFamily" : "fontSize")];
       }
       const expectedFields = PAYLOAD.expected_native_handoff.screens.flatMap(s=>s.controls).find(c=>c.key===identity)?.token_bindings || [];
       if (numeric[prop]) aliases = numeric[prop].filter(field=>expectedFields.some(binding=>binding.property===field && binding.variable===path.replace(/\./g,"/"))).map(field=>node.boundVariables?.[field]);
       for (const alias of aliases) {
         if (!variables.get(path) || alias?.type !== "VARIABLE_ALIAS" || alias.id !== variables.get(path))
-          throw new Error(`Required native token binding missing: ${identity} ${prop}`);
+          throw new Error(`Required native token binding missing: ${identity} ${prop}; expected ${variables.get(path) || "missing"}; observed ${alias?.id || "unbound"}`);
         bindings++;
       }
     }
     if (bindings === previousBindings && PAYLOAD.foundations) {
       const type = PAYLOAD.foundations.auxiliary_type;
-      const alias = label.boundVariables?.fontSize;
+      const alias = textVariableAlias(label, "fontSize");
       if (alias?.id === variables.get(type.token.replace(/\//g,"."))) bindings++;
     }
     if (bindings === previousBindings) throw new Error(`Required native token bindings absent: ${identity}`);
@@ -109,6 +116,7 @@ async function verifyHandoff(page) {
         if (role.styleName) {
           const style = data.styles.filter(style => style.name === role.styleName);
           if (style.length !== 1 || node.textStyleId !== style[0].id) throw new Error(`Required native typography style missing: ${binding.key}`);
+          if (style[0].fontSize !== role.native_value || style[0].fontName?.family !== node.fontName?.family || style[0].fontName?.style !== node.fontName?.style || textVariableAlias(style[0], "fontSize")?.id !== variableId) throw new Error(`Required native typography style values differ: ${binding.key}`);
         }
       }
     }
@@ -265,7 +273,7 @@ async function importDesign(fresh) {
   if (same && !fresh) {
     await verifyHandoff(same);
     await focus(same);
-    status("기존 페이지를 열었습니다. 편집 내용은 유지됩니다.");
+    status("기존 페이지를 열었습니다. 편집 내용은 유지됩니다.", {event: "reused", page_id:same.id, source_sha256:PAYLOAD.source_sha256});
     return;
   }
   if (existing.length && !fresh) throw new Error("A different or incomplete import exists. Use the explicit fresh-page checkbox to add this reviewed design without changing existing work.");
@@ -319,15 +327,25 @@ async function importDesign(fresh) {
       style.name = role.token; style.fontName = authoredFont; style.fontSize = role.native_value;
       style.setBoundVariable("fontSize", variableOf(role)); styles.set(role.token, style);
     }
+    const styledRoles = new Set();
     async function decorate(node) {
       if (node.type === "INSTANCE") return;
       if (node.type === "TEXT") {
-        if (!node.boundVariables?.fontSize) { node.fontSize = type.native_value; node.setBoundVariable("fontSize", variableOf(type)); }
+        if (!textVariableAlias(node, "fontSize")) { node.fontSize = type.native_value; node.setBoundVariable("fontSize", variableOf(type)); }
         const family = roles.find(role => role.kind === "typography" && role.native_type === "STRING" && role.native_value === node.fontName?.family);
-        if (family && !node.boundVariables?.fontFamily) node.setBoundVariable("fontFamily",variableOf(family));
+        if (family && !textVariableAlias(node, "fontFamily")) node.setBoundVariable("fontFamily",variableOf(family));
         // Match by the variable the text is actually bound to: two roles may share one size value.
-        const role = sizeRoles.find(role => node.boundVariables?.fontSize?.id === variableOf(role)?.id && role.native_value === node.fontSize);
-        if (role && node.fontName?.family === authoredFont.family && node.fontName?.style === authoredFont.style) {
+        const role = sizeRoles.find(role => textVariableAlias(node, "fontSize")?.id === variableOf(role)?.id && role.native_value === node.fontSize);
+        if (role) {
+          const style = styles.get(role.token), actualFont = node.fontName;
+          if (!actualFont || typeof actualFont !== "object" || !actualFont.family || !actualFont.style) throw new Error(`Mixed native typography font: ${info(node).semantic_id}`);
+          if (styledRoles.has(role.token) && (style.fontName.family !== actualFont.family || style.fontName.style !== actualFont.style)) throw new Error(`Conflicting native fonts for typography role: ${role.token}`);
+          if (!styledRoles.has(role.token)) {
+            style.fontName = {...actualFont}; style.fontSize = role.native_value;
+            style.setBoundVariable("fontSize", variableOf(role));
+            if (family) style.setBoundVariable("fontFamily", variableOf(family));
+            styledRoles.add(role.token);
+          }
           if (typeof node.setTextStyleIdAsync !== "function") throw new Error("Native text style binding API unavailable");
           await node.setTextStyleIdAsync(styles.get(role.token).id);
         }
@@ -467,7 +485,7 @@ async function importDesign(fresh) {
     metadata(page, "design-import", { bridge: 1, source_sha256: PAYLOAD.source_sha256, complete: true,
       collection_id: collection.id, warnings: [...warnings], annotation_policy: "required native annotations, component instances and variable bindings verified" });
     await focus(page);
-    status(`화면 ${screens.size}개, 컴포넌트 ${components.size}개, 변수 ${variables.size}개를 가져왔습니다.`, { warnings: [...warnings] });
+    status(`화면 ${screens.size}개, 컴포넌트 ${components.size}개, 변수 ${variables.size}개를 가져왔습니다.`, { event: "imported", page_id:page.id, source_sha256:PAYLOAD.source_sha256, counts: {screens: screens.size, components: components.size, variables: variables.size}, warnings: [...warnings] });
   } catch (error) {
     // Only objects created by this attempt are removed; existing imports and user edits are never touched.
     await figma.setCurrentPageAsync(previousPage);
@@ -539,7 +557,7 @@ async function exportReadback() {
   if (PAYLOAD.technical_existing_only && (figma.fileKey !== LOCAL_SYNC.file_key || figma.currentPage.id !== LOCAL_SYNC.page_id)) throw new Error("Existing technical export requires paired native file/page");
   const output = await readback(pages, "active-generated-import-page");
   post({ type: "readback", data: output });
-  status(`페이지 ${output.pages.length}개 · 변수 ${output.variables.length}개`);
+  status(`페이지 ${output.pages.length}개 · 변수 ${output.variables.length}개`, {event: "read", counts: {pages: output.pages.length, variables: output.variables.length}});
 }
 async function syncToApp() {
   if (typeof LOCAL_SYNC === "undefined") throw new Error("This build is not paired with a local app.");
@@ -556,7 +574,7 @@ async function syncToApp() {
   if (!owned || info(owned).bridge !== 1 || info(owned).source_sha256 !== PAYLOAD.source_sha256)
     throw new Error("페이지가 소유한 변수 컬렉션을 확인할 수 없습니다.");
   const data = await readback([page], "paired-active-import-page");
-  status("현재 페이지를 읽었습니다. 로컬 앱의 반영 결과를 기다리고 있습니다…");
+  status("현재 페이지를 읽었습니다. 로컬 앱의 반영 결과를 기다리고 있습니다…", {event: "sync-wait"});
   const response = await fetch(LOCAL_SYNC.url, { method: "POST", headers: {
     Authorization: `Bearer ${LOCAL_SYNC.token}`, "Content-Type": "application/json"
   }, body: JSON.stringify({ file_key: LOCAL_SYNC.file_key, page_id: LOCAL_SYNC.page_id, readback: data }) });
@@ -578,7 +596,7 @@ figma.ui.onmessage = async message => {
     const targetPage = paired ? figma.root.children.find(page => page.id === LOCAL_SYNC.page_id) : figma.currentPage;
     const titles = PAYLOAD.screens.slice(0, 2).map(screen => screen.title || screen.id);
     const sourceLabel = titles.length ? titles.join(" · ") + (PAYLOAD.screens.length > 2 ? ` 외 ${PAYLOAD.screens.length - 2}개 화면` : "") : `화면 ${PAYLOAD.screens.length}개`;
-    status(`화면 ${PAYLOAD.screens.length}개`, { ready: true, paired, existing_only: PAYLOAD.technical_existing_only === true, source_label: sourceLabel, target_page_name: targetPage?.name || null });
+    status(`화면 ${PAYLOAD.screens.length}개`, { ready: true, paired, existing_only: PAYLOAD.technical_existing_only === true, source_label: sourceLabel, source_names: titles, source_count: PAYLOAD.screens.length, event: "ready", target_page_name: targetPage?.name || null });
     post({ type: "busy", value: busy });
     return;
   }
@@ -589,7 +607,7 @@ figma.ui.onmessage = async message => {
     if (message.type === "import") await importDesign(message.fresh === true);
     else if (message.type === "export") await exportReadback();
     else await syncToApp();
-  } catch (error) { status(`Error: ${error.message || String(error)}`); }
+  } catch (error) { status(`Error: ${error.message || String(error)}`, {event: "error", operation: message.type, details: String(error.message || error) + (error.stack ? "\n" + error.stack : "")}); }
   finally { busy = false; post({ type: "busy", value: false }); }
 };
 figma.showUI(__html__, { width: 480, height: 720, themeColors: true });

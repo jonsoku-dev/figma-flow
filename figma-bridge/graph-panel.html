@@ -1,34 +1,34 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-flow-view="graph">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 /* FIGMA_FLOW_PANEL_CSS */
-.graph-stats{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}.graph-stat{display:flex;gap:5px;align-items:baseline;font-size:12px}.graph-stat strong{font-weight:660}.graph-stat span{color:var(--muted)}.metadata dd,.details pre{overflow-wrap:anywhere;white-space:pre-wrap}.impact-list{padding-left:20px}.impact-list li+li{margin-top:7px}[hidden]{display:none!important}button{min-height:36px}.status:focus{outline:2px solid var(--accent);outline-offset:3px}.details pre{font-size:11px;max-height:160px;overflow:auto}.confirmation{border:1px solid var(--accent);border-radius:10px;padding:14px;margin-top:14px}@media(max-width:340px){.graph-stats{grid-template-columns:1fr}.actions{flex-wrap:wrap}.actions button{flex:1 1 100%}}
+.graph-stats{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}.graph-stat{display:flex;gap:5px;align-items:baseline;font-size:12px}.graph-stat strong{font-weight:660}.graph-stat span{color:var(--muted)}.metadata dd,.details pre{overflow-wrap:anywhere;white-space:pre-wrap}.impact-list{padding-left:20px}.impact-list li+li{margin-top:7px}.details pre{font-size:11px;max-height:160px;overflow:auto}.change-card{list-style:none;border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.value-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.value-cell{min-width:0;background:var(--surface);padding:10px;border-radius:6px}.value-cell code{display:block;overflow-wrap:anywhere;font-size:11px}.value-label{display:block;color:var(--muted);font-size:11px}.swatch{display:block;width:100%;height:34px;border:1px solid var(--line);border-radius:5px;margin:6px 0}.measure{display:block;height:14px;background:var(--accent);margin:10px 0;max-width:100%}.type-sample{display:block;overflow-wrap:anywhere;line-height:1.2;margin:8px 0}.impact-list{padding-left:0}.confirmation{border:1px solid var(--accent);border-radius:10px;padding:14px;margin-top:14px}@media(max-width:340px){.graph-stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="panel">
-<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Figma Flow</span></div><span class="context" id="context">그래프</span></header>
+<!-- FLOW_SHELL -->
 <main class="workspace">
 <section class="intro"><h1 id="title">네이티브 그래프</h1><p id="description"></p></section>
-<section class="work-section" aria-labelledby="scope-title"><h2 id="scope-title">작업 범위</h2><p id="scope-summary"></p><div class="graph-stats" id="stats"></div><details class="details"><summary>파일과 적용 대상 보기</summary><dl class="metadata" id="scope"></dl></details></section>
-<section class="work-section" aria-labelledby="action-title"><h2 id="action-title">실행</h2><p id="action-help"></p><div class="actions"><button id="read" type="button" class="secondary">네이티브 값 읽기</button><button id="review" aria-expanded="false" aria-controls="confirmation" type="button" class="primary">적용 범위 확인</button></div>
-<section id="confirmation" class="confirmation" aria-labelledby="confirmation-title" hidden><h2 id="confirmation-title">이 범위에 그래프 값을 적용합니다</h2><p id="impact-summary"></p><ul class="impact-list" id="impact"></ul><p>위 컴포넌트의 값과 변수 연결을 변경합니다. 읽은 기준과 현재 값이 다르면 중단합니다.</p><div class="actions"><button id="apply" class="primary" type="button">확인한 범위에 적용</button><button id="cancel" class="secondary" type="button">취소</button></div></section>
+<section class="work-section" aria-labelledby="scope-title"><h2 id="scope-title" data-i18n="graph.scope">작업 범위</h2><p id="scope-summary"></p><div class="graph-stats" id="stats"></div><details class="details"><summary data-i18n="graph.scopeDetails">파일과 적용 대상 보기</summary><dl class="metadata" id="scope"></dl></details></section>
+<section class="work-section" aria-labelledby="action-title"><h2 id="action-title" data-i18n="graph.action">실행</h2><p id="action-help"></p><div class="actions"><button id="read" type="button" class="secondary" data-i18n="graph.read">네이티브 값 읽기</button><button id="review" aria-expanded="false" aria-controls="confirmation" type="button" class="primary" data-i18n="graph.review">적용 범위 확인</button></div>
+<section id="confirmation" class="confirmation" aria-labelledby="confirmation-title" hidden><h2 id="confirmation-title" data-i18n="graph.confirmTitle">이 범위에 그래프 값을 적용합니다</h2><p id="impact-summary"></p><ul class="impact-list" id="impact"></ul><p data-i18n="graph.confirmHelp">위 컴포넌트의 값과 변수 연결을 변경합니다. 읽은 기준과 현재 값이 다르면 중단합니다.</p><div class="actions"><button id="apply" class="primary" type="button" data-i18n="graph.apply">확인한 범위에 적용</button><button id="cancel" class="secondary" type="button" data-i18n="graph.cancel">취소</button></div></section>
 </section>
-<section class="status" id="status" hidden data-state="ready" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"><div class="status-title" id="status-title">준비되었습니다</div><p class="status-body" id="status-body">작업 범위를 확인한 뒤 시작하세요.</p></section>
-<section class="work-section" id="evidence-section" aria-labelledby="evidence-title" hidden><h2 id="evidence-title">실행 결과</h2><p id="evidence-help">실행 후 실제 읽기 결과를 JSON으로 저장할 수 있습니다. 오류가 발생해도 마지막 자료를 유지합니다.</p><div class="actions"><button id="download" class="secondary" type="button" disabled>JSON 저장</button></div><details class="details"><summary>실행 기록과 복구 정보</summary><pre id="report">아직 실행 기록이 없습니다.</pre></details></section>
+<!-- FLOW_STATUS -->
+<section class="work-section" id="evidence-section" aria-labelledby="evidence-title" hidden><h2 id="evidence-title" data-i18n="graph.evidence">실행 결과</h2><p id="evidence-help" data-i18n="graph.evidenceHelp">실행 후 실제 읽기 결과를 JSON으로 저장할 수 있습니다. 오류가 발생해도 마지막 자료를 유지합니다.</p><div class="actions"><button id="download" class="secondary" type="button" disabled data-i18n="graph.download">JSON 저장</button></div><details class="details"><summary data-i18n="graph.history">실행 기록과 복구 정보</summary><pre id="report">아직 실행 기록이 없습니다.</pre></details></section>
 </main>
 <script id="graph-panel-config" type="application/json">__GRAPH_PANEL_CONFIG__</script>
 <script>
 (() => {
   const config = JSON.parse(document.getElementById('graph-panel-config').textContent);
   const byId = id => document.getElementById(id);
+  const t = (key, params) => FlowUI.t('graph.' + key, params);
   const discovery = config.mode === 'discovery';
-  const fieldLabels = {fontFamily:'글꼴',fontSize:'글자 크기',paddingLeft:'왼쪽 여백',paddingRight:'오른쪽 여백',paddingTop:'위 여백',paddingBottom:'아래 여백',backgroundColor:'배경색',color:'글자색',borderColor:'테두리 색',borderWidth:'테두리 두께',borderRadius:'모서리',gap:'간격',width:'너비',height:'높이',minWidth:'최소 너비',minHeight:'최소 높이'};
-  let busy = false, evidence = null, operation = null;
+  let busy = false, evidence = null, operation = null, lastStatus = null, hasResult = false, latestHasReadback = false;
   const setText = (id, value) => {byId(id).textContent = value;};
-  const status = (state, title, body) => {byId('status').hidden = false; byId('status').dataset.state = state; setText('status-title', title); setText('status-body', body);};
+  const status = (state, titleKey, bodyKey, params = {}) => {lastStatus = [state,titleKey,bodyKey,params]; const title = t(titleKey,params), body = bodyKey ? t(bodyKey,params) : ''; FlowPanel.status({region:'status',title:'status-title',body:'status-body',state,titleText:title,bodyText:body});};
   const append = (parent, tag, value) => {const element = document.createElement(tag); element.textContent = value; parent.appendChild(element); return element;};
   const entry = (label, value) => {append(byId('scope'), 'dt', label); append(byId('scope'), 'dd', value);};
   const setBusy = value => {
@@ -36,27 +36,45 @@
     for (const id of ['read', 'review', 'apply', 'cancel']) byId(id).disabled = value;
     byId('status').setAttribute('aria-busy', String(value));
   };
-  setText('context', discovery ? '기준 자료' : '그래프 연결');
-  setText('title', discovery ? 'Figma 값 읽기' : '컴포넌트 동기화');
-  setText('description', discovery ? '지정한 페이지의 실제 값을 JSON으로 저장합니다.' : '그래프 값을 지정된 컴포넌트에 적용합니다.');
-  setText('scope-summary', `${config.pages.length}개 페이지${discovery ? ' · Figma 파일을 변경하지 않습니다.' : ''}`);
-  entry('파일', config.file_key); entry('기준 페이지', config.page_id); entry('허용 페이지', config.pages.join(', '));
-  if (config.collection_id) entry('변수 컬렉션', config.collection_id);
-  if (config.graph_sha256) entry('그래프 SHA-256', config.graph_sha256);
-  if (!discovery) {
-    entry('메인 컴포넌트', config.main_ids.join(', ')); entry('인스턴스', config.instance_ids.join(', '));
-    for (const [label, value] of [['토큰', config.stats.tokens], ['메인', config.stats.mains], ['인스턴스', config.stats.instances]]) {
-      const item = append(byId('stats'), 'div', ''); item.className = 'graph-stat'; append(item, 'span', label); append(item, 'strong', `${value}개`);
-    }
-    if (config.stats.bindings) entry('연결 조정', `${config.stats.bindings}개`);
-    setText('impact-summary', `토큰 값 변경 ${config.stats.updates}개 · 새 토큰 ${config.stats.creates}개 · 연결 조정 ${config.stats.bindings}개`);
-    for (const component of config.components) append(byId('impact'), 'li', `${component.id}: ${component.fields.map(field => fieldLabels[field] || field).join(', ')} · 메인 ${component.mains}개 / 인스턴스 ${component.instances}개`);
-    for (const change of config.changes) append(byId('impact'), 'li', `${change.name}: ${change.before} → ${change.after}`);
-    setText('read', 'Figma 값 읽고 저장'); setText('action-help', '읽기는 Figma 파일을 변경하지 않습니다.');
-  } else {
-    byId('stats').hidden = true; byId('review').hidden = true; byId('read').className = 'primary';
-    setText('read', 'Figma 값 읽고 저장'); byId('action-help').hidden = true;
+  function render() {
+    FlowUI.apply();
+    setText('context', t(discovery ? 'baseline' : 'context'));
+    setText('title', t(discovery ? 'readTitle' : 'title'));
+    setText('description', t(discovery ? 'readDescription' : 'description'));
+    setText('scope-summary', t('pages',{count:config.pages.length}) + (discovery ? ' · ' + t('readOnly') : ''));
+    byId('scope').replaceChildren(); byId('stats').replaceChildren(); byId('impact').replaceChildren();
+    entry(t('file'),config.file_key);entry(t('page'),config.page_id);entry(t('allowed'),config.pages.join(', '));
+    if(config.collection_id)entry(t('collection'),config.collection_id);
+    if(config.graph_sha256)entry(t('hash'),config.graph_sha256);
+    setText('read',t('read'));setText('action-help',t('readOnly'));
+    if(!discovery) {
+      entry(t('mains'),config.main_ids.join(', '));entry(t('instances'),config.instance_ids.join(', '));
+      for(const [key,value] of [['tokens',config.stats.tokens],['mains',config.stats.mains],['instances',config.stats.instances]]) {
+        const item=append(byId('stats'),'div','');item.className='graph-stat';append(item,'span',t(key));append(item,'strong',t('count',{count:value}));
+      }
+      if(config.stats.bindings)entry(t('bindings'),t('count',{count:config.stats.bindings}));
+      setText('impact-summary',t('impact',config.stats));
+      for(const component of config.components) append(byId('impact'),'li',component.id+': '+component.fields.map(field=>t('field.'+field) === 'graph.field.'+field ? field : t('field.'+field)).join(', ')+' · '+t('component',component));
+      for(const change of config.changes) {
+        const card=append(byId('impact'),'li','');card.className='change-card';append(card,'strong',change.name);
+        const pair=append(card,'div','');pair.className='value-pair';
+        for(const side of ['before','after']) {
+          const cell=append(pair,'div','');cell.className='value-cell';append(cell,'span',t(side)).className='value-label';
+          let value;try{value=JSON.parse(change[side]);}catch(_){value=change[side];}
+          const color = typeof value === 'string' && /^#[0-9a-f]{6}(?:[0-9a-f]{2})?$/i.test(value) ? value : value && typeof value==='object' && ['r','g','b'].every(k=>Number.isFinite(value[k])&&value[k]>=0&&value[k]<=1) ? 'rgba('+['r','g','b'].map(k=>Math.round(value[k]*255)).join(',')+','+(Number.isFinite(value.a)?Math.max(0,Math.min(1,value.a)):1)+')' : null;
+          if(color){const swatch=append(cell,'span','');swatch.className='swatch';swatch.style.backgroundColor=color;swatch.setAttribute('role','img');swatch.setAttribute('aria-label',t(side)+': '+change[side]);}
+          else if(typeof value==='number'&&value>0&&/font|type|size/i.test(change.name)&&!/space|padding|gap/i.test(change.name)){const sample=append(cell,'span','Aa');sample.className='type-sample';sample.style.fontSize=Math.min(48,value)+'px';sample.setAttribute('aria-hidden','true');}
+          else if(typeof value==='number'&&value>=0&&/space|padding|gap/i.test(change.name)){const bar=append(cell,'span','');bar.className='measure';bar.style.width=Math.min(96,value)+'px';bar.setAttribute('aria-label',t('scale'));}
+          append(cell,'code',change[side]);
+        }
+      }
+    } else {byId('stats').hidden=true;byId('review').hidden=true;byId('read').className='primary';byId('action-help').hidden=true;}
+    if(!hasResult)setText('report',t('noHistory'));
+    if(evidence)setText('download',t('downloadAgain'));
+    if(hasResult)setText('evidence-help',t(latestHasReadback?'evidenceCurrent':'evidencePrevious'));
+    if(lastStatus)status(...lastStatus);
   }
+  render();window.addEventListener('flow:locale',render);
   const download = () => {
     if (!evidence) return;
     const url = URL.createObjectURL(new Blob([JSON.stringify(evidence, null, 2)], {type: 'application/json'}));
@@ -66,12 +84,13 @@
   const start = type => {
     if (busy) return;
     operation = type; setBusy(true); byId('confirmation').hidden = true; byId('review').setAttribute('aria-expanded', 'false');
-    status('busy', type === 'apply' ? '컴포넌트에 적용하고 있습니다' : 'Figma 값을 읽고 있습니다', '완료되면 JSON을 저장합니다.');
+    status('busy', type === 'apply' ? 'busyApply' : 'busyRead', 'busyHelp');
     parent.postMessage({pluginMessage: {type, session: config.session}}, '*');
   };
   byId('read').onclick = () => start('read');
   byId('review').onclick = () => {if (!busy && !discovery) {byId('confirmation').hidden = false; byId('review').setAttribute('aria-expanded', 'true'); byId('apply').focus();}};
   byId('cancel').onclick = () => {byId('confirmation').hidden = true; byId('review').setAttribute('aria-expanded', 'false'); byId('review').focus();};
+  window.addEventListener('keydown',event=>{if(event.key==='Escape'&&!busy&&!byId('confirmation').hidden){event.preventDefault();byId('cancel').click();}});
   byId('apply').onclick = () => {if (!discovery && !byId('confirmation').hidden) start('apply');};
   byId('download').onclick = download;
   window.onmessage = event => {
@@ -80,15 +99,16 @@
     if (message.state === 'busy') {setBusy(true); return;}
     if (!message.readback && !message.error) return;
     setBusy(false); byId('evidence-section').hidden = false;
-    if (message.readback) {evidence = message.readback; byId('download').disabled = false; setText('download', 'JSON 다시 저장');}
+    if (message.readback) {evidence = message.readback; byId('download').disabled = false; setText('download', t('downloadAgain'));}
     const failure = message.error || message.readback?.error || (message.readback?.status ? `실행 상태: ${message.readback.status}` : null);
     const conflicts = message.readback?.rollback_conflicts || message.rollback_conflicts || [];
     if (failure) {
-      status('error', conflicts.length ? '복구 확인이 필요합니다' : message.readback?.status === 'rolled-back' ? '적용하지 못해 이전 값을 복구했습니다' : '작업을 완료하지 못했습니다', `${failure}${conflicts.length ? `\n복구 충돌 ${conflicts.length}개가 있습니다. 읽기 자료를 저장하고 현재 상태를 확인하세요.` : '\n실행 기록과 읽기 자료를 확인한 뒤 다시 시도하세요.'}`);
-    } else if (discovery) status('success', 'Figma 값 읽기 완료', `노드 ${evidence.nodes?.length || 0}개 · 변수 ${evidence.variables?.length || 0}개를 읽었습니다. Figma 파일은 변경하지 않았습니다.`);
-    else status('success', operation === 'apply' ? 'Figma 적용 완료' : 'Figma 값 읽기 완료', evidence.migration_pending ? '적용 전 값을 저장했습니다. 새 토큰과 연결은 아직 적용되지 않았습니다.' : operation === 'apply' ? '변경한 값을 JSON으로 저장했습니다. 웹 화면은 별도로 확인하세요.' : '읽은 값을 JSON으로 저장했습니다.');
+      status('error',conflicts.length?'conflict':message.readback?.status==='rolled-back'?'rolledBack':'failed',conflicts.length?'conflictHelp':'failedHelp',{count:conflicts.length});
+    } else if(discovery)status('success','readDone','readCounts',{nodes:evidence.nodes?.length||0,variables:evidence.variables?.length||0});
+    else status('success',operation==='apply'?'applied':'readDone',evidence.migration_pending?'pending':operation==='apply'?'appliedHelp':'readSaved');
+    hasResult=true;latestHasReadback=!!message.readback;
     setText('report', JSON.stringify({operation: message.operation || operation, status: message.readback?.status || (failure ? 'error' : 'success'), error: failure, rollback_conflicts: conflicts, file_key: message.readback?.file_key || message.readback?.fileKey, page_id: message.readback?.page_id || message.readback?.pageId}, null, 2));
-    setText('evidence-help', message.readback ? '이번 실행의 JSON을 다시 저장할 수 있습니다.' : '이번 실행의 자료는 없습니다. 이전 JSON은 계속 저장할 수 있습니다.');
+    setText('evidence-help', t(message.readback ? 'evidenceCurrent' : 'evidencePrevious'));
     if (message.readback) download();
     byId('status').focus();
   };

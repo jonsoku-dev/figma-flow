@@ -1,0 +1,88 @@
+.view-import #source-meta {
+  margin-top: 8px;
+  white-space: pre-wrap;
+}
+.view-import .import-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0 0 20px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+}
+.view-import .import-preview > .mini-pages {
+  flex: none;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.view-import .import-preview figcaption {
+  min-width: 0;
+}
+.view-import .import-preview strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+.view-import .import-preview p,
+.view-import .import-preview ul {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.view-import .import-preview ul {
+  list-style: none;
+  padding: 0;
+}
+.view-import .import-options {
+  margin: 14px 0 18px;
+}
+.view-import .import-options label {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  cursor: pointer;
+}
+.view-import .import-options input {
+  margin-top: 3px;
+  flex: none;
+}
+.view-import .option-title {
+  display: block;
+  font-weight: 600;
+}
+.view-import .option-help {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.view-import .import-options input:disabled + span {
+  opacity: 0.6;
+}
+.view-import #diagnostic-text {
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.view-import #readback-result {
+  margin-top: 14px;
+}
+.view-import #json {
+  min-height: 150px;
+  resize: vertical;
+}
+.view-import #preview-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.view-import #preview-frame {
+  display: block;
+  width: 100%;
+  height: 440px;
+  padding: 0;
+}

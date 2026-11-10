@@ -1,5 +1,6 @@
 """Self-contained draft tests. Mocks/Pillow demos are never live Figma evidence."""
 import importlib.util
+from html import escape
 import json
 import os
 from pathlib import Path
@@ -17,6 +18,12 @@ draft=importlib.util.module_from_spec(spec);spec.loader.exec_module(draft)
 EXAMPLE=ROOT/'examples/native-direction-review'
 demo_spec=importlib.util.spec_from_file_location('native_review_demo',EXAMPLE/'demo.py')
 demo=importlib.util.module_from_spec(demo_spec);demo_spec.loader.exec_module(demo)
+
+
+def panel_script(html):
+    script = re.search(r'<script>([\s\S]*)</script>', html).group(1)
+    shared = (ROOT/'figma-bridge/panel_components.js').read_text()
+    return shared + '\nconst PAIR = ' + script.split('const PAIR = ', 1)[1]
 
 
 def file_hashes(folder):
@@ -102,7 +109,12 @@ class DraftReviewTests(unittest.TestCase):
         self.assertIn('검토할 방향 2개', html)
         self.assertIn('North &lt;script&gt;alert(1)&lt;/script&gt;', html)
         self.assertIn('South &amp; Studio', html)
-        self.assertIn('지정 Design 파일 / DRAFT · A/B/C 방향 검토 · abcdef12', html)
+        self.assertIn('지정 Design 파일', html)
+        self.assertIn('DRAFT · A/B/C 방향 검토 · abcdef12', html)
+        self.assertNotIn('data-i18n="review.page"', html)
+        self.assertEqual(html.count('id="workspace-locale"'), 1)
+        self.assertNotIn('id="review-locale"', html)
+        self.assertIn('data-i18n-aria="workspace.language"', html)
         self.assertNotIn('fictional-target', html)
         self.assertNotIn('만들어 보세요', html)
         self.assertEqual(html.count('<script>'), 1)
@@ -112,18 +124,27 @@ class DraftReviewTests(unittest.TestCase):
     def test_panel_exposes_task_hierarchy_theme_and_distinct_readback_states(self):
         html = draft.ui_html()
         self.assertIn('class="panel"', html)
-        self.assertIn('class="masthead"', html)
+        self.assertIn('class="panel-shell masthead"', html)
+        self.assertEqual(html.count('id="workspace-tablist"'), 1)
+        self.assertIn('class="panel-status status"', html)
+        self.assertIn('role="status"', html)
         self.assertIn('class="primary" id="make"', html)
         self.assertIn('class="secondary" id="save" disabled', html)
         self.assertIn('aria-live="polite"', html)
-        self.assertIn('figma-color-bg', html)
+        self.assertIn('.figma-dark {', html)
+        self.assertIn('color-scheme: dark', html)
+        self.assertIn('background:var(--paper)', html)
         self.assertIn('themeColors:true', (ROOT/'figma-bridge/direction_review.js').read_text())
         harness = r"""
 const fs = require('fs'), vm = require('vm'), assert = require('assert');
-const ids = ['make','save','status','status-panel','status-title','status-body','status-details'];
-const elements = Object.fromEntries(ids.map(id => [id, {dataset:{},disabled:id==='save'}]));
+const ids = ['make','save','status','status-panel','status-title','status-body','status-details','workspace-locale'];
+const elements = Object.fromEntries(ids.map(id => [id, {dataset:{},disabled:id==='save',setAttribute(name,value){this[name]=value;},removeAttribute(name){delete this[name];},addEventListener(name,callback){this['on'+name]=callback;}}]));
 const posts = []; let requests=0, reject=false, invalid=false;
-const context = {document:{getElementById:id=>elements[id]},window:{},parent:{postMessage:m=>posts.push(m)},
+const translations=JSON.parse(fs.readFileSync(process.argv[3],'utf8'));
+const locale=process.argv[4]; const listeners={};
+const flow={locale,apply(){},t(key,params={}){return Object.entries(params).reduce((value,[name,replacement])=>value.replaceAll('{'+name+'}',replacement),translations[key][this.locale]);},setLocale(value){this.locale=value;for(const callback of listeners['flow:locale']||[])callback();}};
+const expected=key=>translations['review.'+key][flow.locale];
+const context = {FlowUI:flow,document:{documentElement:{dataset:{}},getElementById:id=>elements[id],querySelectorAll:()=>[]},window:{addEventListener:(name,callback)=>(listeners[name]??=[]).push(callback)},parent:{postMessage:m=>posts.push(m)},
   fetch:async()=>{requests++;if(reject)throw Error('offline');return {ok:!invalid,json:async()=>({passed:!invalid,errors:invalid?['synthetic invalid geometry']:[]})};}};
 vm.runInNewContext(fs.readFileSync(process.argv[1], 'utf8'),context);
 const receive = m=>context.window.onmessage({data:{pluginMessage:m}});
@@ -131,9 +152,15 @@ const receive = m=>context.window.onmessage({data:{pluginMessage:m}});
   elements.make.onclick();
   assert.equal(elements.make.disabled,true);
   assert.equal(elements['status-panel'].dataset.state,'busy');
+  assert.equal(elements.make.textContent,expected('makeBusy'));
+  assert.equal(elements.make['aria-label'],expected('makeBusy'));
+  assert.equal(elements['status-body'].textContent,expected('creatingBody'));
+  flow.setLocale(locale==='ko'?'en':'ko');
+  assert.equal(elements['status-title'].textContent,expected('creatingTitle'));
+  flow.setLocale(locale);
   await receive({type:'status',busy:false,state:'error',message:'synthetic generation error'});
   assert.equal(elements['status-panel'].dataset.state,'error');
-  assert.equal(elements['status-title'].textContent,'시안 생성 실패');
+  assert.equal(elements['status-title'].textContent,expected('generationFailed'));
   elements.make.onclick();
   await receive({type:'readback',data:{nodes:[]}});
   await receive({type:'status',busy:false,state:'success',message:'done'});
@@ -144,36 +171,157 @@ const receive = m=>context.window.onmessage({data:{pluginMessage:m}});
   assert.equal(elements.make.className,'secondary');
   if(process.argv[2]==='paired'){
     assert.equal(requests,1);
-    assert.equal(elements['status-title'].textContent,'읽기 결과 검증 완료');
-    assert(elements['status-body'].textContent.includes('방향 선택과 승인은 별도'));
+    assert.equal(elements['status-title'].textContent,expected('verifiedTitle'));
+    assert.equal(elements['status-body'].textContent,expected('verifiedBody'));
     invalid=true;elements.make.onclick();
     await receive({type:'readback',data:{nodes:[]}});
     await receive({type:'status',busy:false,state:'error',message:'verification failed'});
-    assert.equal(elements['status-title'].textContent,'읽기 결과 검증 실패');
+    assert.equal(elements['status-title'].textContent,expected('rejectedTitle'));
     assert(elements.status.textContent.includes('synthetic invalid geometry'));
-    assert(elements['status-body'].textContent.includes('상세 진단 보기에서 검증 오류'));
-    assert(elements['status-body'].textContent.includes('읽기 원본을 내보냅니다'));
+    assert.equal(elements['status-body'].textContent,expected('rejectedBody'));
     assert.equal(elements['status-details'].hidden,false);
     invalid=false;reject=true;elements.make.onclick();
     await receive({type:'readback',data:{nodes:[]}});
     await receive({type:'status',busy:false,state:'success',message:'done'});
-    assert.equal(elements['status-title'].textContent,'로컬 결과 전달 실패');
+    assert.equal(elements['status-title'].textContent,expected('deliveryTitle'));
     assert.equal(elements['status-panel'].dataset.state,'error');
     assert.equal(elements.save.disabled,false);
   }else{
     assert.equal(requests,0);
-    assert.equal(elements['status-title'].textContent,'실제 노드 읽기 완료');
-    assert(elements['status-body'].textContent.includes('연결 검증과 방향 선택은 아직'));
+    assert.equal(elements['status-title'].textContent,expected('readTitle'));
+    assert.equal(elements['status-body'].textContent,expected('readBody'));
   }
 })().catch(e=>{console.error(e);process.exitCode=1;});
 """
         with tempfile.TemporaryDirectory() as folder:
             for label, pair in [('portable', None), ('paired', {'url':'http://localhost/synthetic','capability':'fictional-fixture'})]:
-                with self.subTest(mode=label):
-                    script=Path(folder)/'panel.js'
-                    script.write_text(re.search(r'<script>([\s\S]*)</script>',draft.ui_html(pair)).group(1))
-                    result=subprocess.run(['node','-e',harness,str(script),label],capture_output=True,text=True)
-                    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+                for locale in ('ko', 'en', 'ja'):
+                    with self.subTest(mode=label, locale=locale):
+                        script=Path(folder)/'panel.js'
+                        script.write_text(panel_script(draft.ui_html(pair)))
+                        result=subprocess.run(['node','-e',harness,str(script),label,str(ROOT/'figma-bridge/locales/review.json'),locale],capture_output=True,text=True)
+                        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+
+    def test_reference_thumbnails_use_only_bounded_packet_pngs(self):
+        from io import BytesIO
+        from PIL import Image
+        packet = draft.make_packet(self.manifest)
+        html = draft.ui_html(review=packet)
+        images = re.findall(r'src="data:image/png;base64,([A-Za-z0-9+/=]+)"', html)
+        self.assertEqual(len(images), sum(len(c['references']) for c in packet['candidates']))
+        for encoded in images:
+            raw = draft.base64.b64decode(encoded, validate=True)
+            self.assertLessEqual(len(raw), 256_000)
+            with Image.open(BytesIO(raw)) as image:
+                self.assertEqual(image.format, 'PNG')
+                self.assertLessEqual(image.width, 640)
+                self.assertLessEqual(image.height, 360)
+        self.assertNotRegex(html, r'<img[^>]+src="https?://')
+        for candidate in packet['candidates']:
+            self.assertIn(escape(candidate['title']), html)
+        invalid = {'schema': packet['schema'], 'candidates': [{'title': '<unsafe "name">',
+                   'references': {'desktop': 'missing', 'mobile': 'invalid'}}], 'assets': {'invalid': 'https://invalid.example/image.png'}}
+        html = draft.ui_html(review=invalid)
+        self.assertNotIn('<img', html)
+        self.assertIn('검증된 참고 이미지를 표시할 수 없습니다.', html)
+        self.assertIn('&lt;unsafe &quot;name&quot;&gt;', html)
+        self.assertNotIn('https://invalid.example', html)
+
+    def test_complete_generated_runtime_localizes_snapshots_and_accessible_names(self):
+        from html.parser import HTMLParser
+
+        class PanelElements(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.elements = []
+
+            def handle_starttag(self, tag, attrs):
+                attrs = dict(attrs)
+                if tag == 'html' or 'id' in attrs or any(key.startswith('data-i18n') for key in attrs) or 'data-preview-label' in attrs:
+                    self.elements.append({'tag': tag, 'attrs': attrs})
+
+        packet = draft.make_packet(self.manifest)
+        html = draft.ui_html({'url': 'http://localhost/synthetic', 'capability': 'fixture'}, review=packet)
+        parser = PanelElements()
+        parser.feed(html)
+        from plugin_panel import panel_messages
+        catalog = panel_messages('review')
+        for key, values in catalog.items():
+            self.assertEqual(set(values), {'ko', 'en', 'ja'}, key)
+            parameters = [set(re.findall(r'\{(\w+)\}', value)) for value in values.values()]
+            self.assertTrue(all(value.strip() for value in values.values()), key)
+            self.assertEqual(parameters[0], parameters[1], key)
+            self.assertEqual(parameters[1], parameters[2], key)
+        for element in parser.elements:
+            for attribute, key in element['attrs'].items():
+                if attribute in ('data-i18n', 'data-i18n-aria', 'data-i18n-alt', 'data-i18n-title', 'data-i18n-placeholder'):
+                    self.assertIn(key, catalog)
+        harness = r"""
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const source=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
+const listeners={};
+const nodes=source.map(({tag,attrs})=>({tag,attrs,dataset:Object.fromEntries(Object.entries(attrs).filter(([k])=>k.startsWith('data-')).map(([k,v])=>[k.slice(5).replace(/-([a-z])/g,(_,c)=>c.toUpperCase()),v])),
+  disabled:'disabled' in attrs,textContent:'',setAttribute(key,value){this.attrs[key]=value;},getAttribute(key){return this.attrs[key];},removeAttribute(key){delete this.attrs[key];},addEventListener(name,callback){this['on'+name]=callback;}}));
+const ids=Object.fromEntries(nodes.filter(n=>n.attrs.id).map(n=>[n.attrs.id,n]));
+const doc={documentElement:nodes.find(n=>n.tag==='html'),getElementById:id=>ids[id],querySelectorAll:selector=>nodes.filter(n=>selector.slice(1,-1) in n.attrs)};
+const inherited=process.argv[3]||'';
+if(inherited) doc.documentElement.dataset.flowLocale=inherited;
+let invalid=false,offline=false;
+const context={document:doc,navigator:{language:'en-US'},window:{addEventListener:(name,callback)=>(listeners[name]??=[]).push(callback),dispatchEvent:event=>(listeners[event.type]||[]).forEach(callback=>callback(event))},CustomEvent:class{constructor(type,init){this.type=type;this.detail=init.detail;}},
+  parent:{postMessage(){}},fetch:async()=>{if(offline)throw Error('raw offline diagnostic');return {ok:!invalid,json:async()=>({passed:!invalid,errors:invalid?['raw invalid diagnostic']:[]})};}};
+vm.createContext(context);vm.runInContext(fs.readFileSync(process.argv[1],'utf8'),context);
+const receive=m=>context.window.onmessage({data:{pluginMessage:m}});
+const snapshots={ko:{make:'검토 시안 만들기',busy:'검토 시안 생성 중',verified:'읽기 결과 검증 완료',rejected:'읽기 결과 검증 실패',delivery:'로컬 결과 전달 실패',language:'언어'},en:{make:'Create review drafts',busy:'Creating review drafts',verified:'Readback validated',rejected:'Readback validation failed',delivery:'Local delivery failed',language:'Language'},ja:{make:'レビュー用の案を作成',busy:'レビュー用の案を作成中',verified:'読み取り結果の検証が完了',rejected:'読み取り結果の検証に失敗',delivery:'ローカルへの結果の送信に失敗',language:'言語'}};
+(async()=>{
+  assert.equal(context.FlowUI.locale,inherited||'en');
+  for(const locale of ['ko','en','ja']){
+    context.FlowUI.setLocale(locale);
+    const expected=snapshots[locale];
+    assert.equal(doc.documentElement.lang,locale);
+    assert.equal(ids['workspace-locale'].attrs['aria-label'],expected.language);
+    assert.equal(ids.make.textContent,expected.make);
+    assert.equal(ids.make.attrs['aria-label'],expected.make);
+    ids.make.onclick();
+    assert.equal(ids['status-title'].textContent,expected.busy);
+    await receive({type:'status',busy:true,message:'raw internal progress'});
+    assert(!ids['status-body'].textContent.includes('raw internal progress'));
+    assert(ids.status.textContent.includes('raw internal progress'));
+    await receive({type:'readback',data:{nodes:[]}});
+    await receive({type:'status',busy:false,state:'success',message:'raw success'});
+    assert.equal(ids['status-title'].textContent,expected.verified);
+    invalid=true;ids.make.onclick();await receive({type:'readback',data:{nodes:[]}});
+    assert.equal(ids['status-title'].textContent,expected.rejected);
+    assert(ids.status.textContent.includes('raw invalid diagnostic'));
+    assert.equal(ids['status-details'].hidden,false);
+    assert(!ids['status-body'].textContent.includes('raw invalid diagnostic'));
+    invalid=false;offline=true;ids.make.onclick();await receive({type:'readback',data:{nodes:[]}});
+    assert.equal(ids['status-title'].textContent,expected.delivery);
+    assert.equal(ids.save.disabled,false);
+    await receive({type:'status',busy:false,state:'success',message:'raw completion'});
+    offline=false;
+    nodes.filter(n=>'data-preview-viewport' in n.attrs).forEach(image=>{
+      context.FlowUI.apply();
+      const viewport={ko:{desktop:'데스크톱',mobile:'모바일'},en:{desktop:'Desktop',mobile:'Mobile'},ja:{desktop:'デスクトップ',mobile:'モバイル'}}[locale][image.dataset.previewViewport];
+      assert(image.attrs.alt.includes(image.dataset.previewName));
+      assert(image.attrs.alt.includes(viewport),image.attrs.alt);
+      assert(!image.attrs.alt.includes('{'));
+      if(locale!=='ko') assert(!/데스크톱|모바일/.test(image.attrs.alt),image.attrs.alt);
+    });
+    nodes.filter(n=>'data-i18n' in n.attrs).forEach(n=>assert(!n.textContent.includes('{'),n.textContent));
+    assert(!ids['status-title'].textContent.startsWith('review.'));
+  }
+  ids['workspace-locale'].value='en';ids['workspace-locale'].onchange();assert.equal(context.FlowUI.locale,'en');
+})().catch(error=>{console.error(error);process.exitCode=1;});
+"""
+        with tempfile.TemporaryDirectory() as folder:
+            script = Path(folder)/'runtime.js'
+            elements = Path(folder)/'elements.json'
+            script.write_text(re.search(r'<script>([\s\S]*)</script>', html).group(1))
+            elements.write_text(json.dumps(parser.elements))
+            for inherited in ('', 'ja'):
+                with self.subTest(inherited_locale=inherited):
+                    result = subprocess.run(['node', '-e', harness, str(script), str(elements), inherited], capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_generic_portable_package_never_registers_or_approves(self):
         output=self.project/'portable'

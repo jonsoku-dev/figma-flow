@@ -881,49 +881,109 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
     return {'manifest':str((PRIVATE/'plugin/manifest.json')if register else portable/'manifest.json'),'packet':str(out/'packet.json'),'zip':str(out/zip_name),'status':'prepared-not-executed','warnings':warnings}
 
 
+def review_thumbnails(review, candidate):
+    """Only decode the packet's raster references; never read paths or fetch URLs."""
+    from io import BytesIO
+    try:
+        from PIL import Image
+    except ImportError:
+        return []
+    if not review or review.get('schema') != 'figma-flow-native-direction-review-v1':
+        return []
+    thumbnails = []
+    for viewport in ('desktop', 'mobile'):
+        name = candidate.get('references', {}).get(viewport)
+        encoded = review.get('assets', {}).get(name)
+        if not isinstance(encoded, str) or len(encoded) > 16_000_000:
+            continue
+        try:
+            raw = base64.b64decode(encoded, validate=True)
+            with Image.open(BytesIO(raw)) as image:
+                if image.format != 'PNG' or image.width * image.height > 16_000_000:
+                    continue
+                image.thumbnail((640, 360), Image.Resampling.LANCZOS)
+                output = BytesIO()
+                image.convert('RGBA').save(output, format='PNG', optimize=True)
+            if output.tell() <= 256_000:
+                thumbnails.append((viewport, base64.b64encode(output.getvalue()).decode('ascii')))
+        except (ValueError, OSError, Image.DecompressionBombError):
+            continue
+    return thumbnails
+
+
 def ui_html(pair=None, night_demo=False, review=None):
+    messages = json.loads((PLUGIN / 'figma-bridge/locales/review.json').read_text())
+
+    def text(key, **params):
+        value = messages['review.' + key]['ko']
+        for name, replacement in params.items():
+            value = value.replace('{' + name + '}', str(replacement))
+        return escape(value)
+
+    def localized(tag, key, **params):
+        attributes = ' data-i18n="review.' + key + '"'
+        if params:
+            attributes += ' data-i18n-params="' + escape(json.dumps(params, ensure_ascii=False), quote=True) + '"'
+        return '<' + tag + attributes + '>' + text(key, **params) + '</' + tag + '>'
+
     candidates = review.get('candidates', []) if review else []
-    title = f'검토할 방향 {len(candidates)}개' if candidates else '디자인 방향 검토'
-    names = ' · '.join(str(candidate['title']) for candidate in candidates) if candidates else '준비된 패킷의 후보를 생성합니다.'
-    target = '지정 Design 파일' if review and review.get('fileKey') else '현재 Design 파일'
-    page = '검토 전용 페이지'
+    context = localized('h1', 'heading', count=len(candidates)) if candidates else localized('h1', 'emptyHeading')
+    context += '<p>' + escape(' · '.join(str(candidate['title']) for candidate in candidates)) + '</p>' if candidates else localized('p', 'emptyNames')
+    target = localized('span', 'exactFile' if review and review.get('fileKey') else 'currentFile')
+    page = localized('span', 'reviewPage')
     if review and review.get('packet_sha256'):
-        page = 'DRAFT · A/B/C 방향 검토 · ' + review['packet_sha256'][:8]
-    context = '<h1>' + escape(title) + '</h1><p>' + escape(names) + '</p>'
-    scope = escape(target + ' / ' + page)
+        native_page = 'DRAFT · A/B/C 방향 검토 · ' + review['packet_sha256'][:8]
+        page = localized('span', 'pageLabel') + ': <span>' + escape(native_page) + '</span>'
+    references = []
+    for candidate in candidates:
+        title = str(candidate['title'])
+        previews = []
+        for viewport, encoded in review_thumbnails(review, candidate):
+            params = escape(json.dumps({'name': title, 'viewport': messages['review.' + viewport]['ko']}, ensure_ascii=False), quote=True)
+            previews.append('<figure><img loading="lazy" src="data:image/png;base64,' + encoded + '" alt="' + text('previewAlt', name=title, viewport=messages['review.' + viewport]['ko']) + '" data-preview-name="' + escape(title, quote=True) + '" data-preview-viewport="' + viewport + '" data-i18n-alt="review.previewAlt" data-i18n-params="' + params + '"><figcaption><span data-i18n="review.previewLabel" data-preview-label="' + viewport + '">' + text('previewLabel', viewport=messages['review.' + viewport]['ko']) + '</span></figcaption></figure>')
+        references.append('<article class="review-reference panel-preview"><h3>' + escape(title) + '</h3><div class="review-previews">' + (''.join(previews) or localized('p', 'noPreview')) + '</div></article>')
     pair_json = json.dumps(pair).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
-    return render_panel('''<!doctype html><html lang="ko"><meta charset="utf-8">
+    html = '''<!doctype html><html lang="ko" data-flow-view="review"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<style>/* FIGMA_FLOW_PANEL_CSS */</style>
+<style>/* FIGMA_FLOW_PANEL_CSS */
+.review-references {display:grid;gap:14px;margin:16px 0 20px}
+.review-reference {min-width:0}
+.review-reference h3 {font-size:13px;font-weight:650;margin-bottom:10px}
+.review-previews {display:flex;align-items:start;gap:10px;flex-wrap:wrap}
+.review-previews figure {margin:0;flex:1 1 180px;min-width:0}
+.review-previews img {display:block;width:100%;height:160px;object-fit:contain;background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.review-previews figcaption {font-size:11px;color:var(--muted);margin-top:5px}
+.review-step {font-size:14px;margin-bottom:10px}
+@media(max-width:360px){.review-previews img{height:140px}}
+</style>
 <body class="panel">
-<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>Figma Flow</div><span class="context">디자인 방향 검토</span></header>
+<!-- FLOW_SHELL -->
 <main class="workspace">
 <section class="intro">__REVIEW_CONTEXT__</section>
-<section class="work-section"><h2>1. 시안 생성</h2><p class="metadata">__REVIEW_SCOPE__</p><div class="actions"><button class="primary" id="make">검토 시안 만들기</button></div></section>
-<section class="status" id="status-panel" data-state="ready" aria-live="polite" aria-atomic="true"><h2 class="status-title" id="status-title">실행 전</h2><p class="status-body" id="status-body">화면·클릭 이동·설명 주석을 편집 가능한 노드로 생성합니다.</p><details class="details" id="status-details" hidden><summary>상세 진단 보기</summary><pre id="status"></pre></details></section>
-<section class="work-section"><h2>2. 결과 저장</h2><p>생성 후 읽기 결과 또는 실패 진단 JSON을 저장할 수 있습니다.</p><div class="actions"><button class="secondary" id="save" disabled>결과 JSON 저장</button></div></section>
-<p class="metadata">방향 선택과 승인은 별도입니다. 이 도구는 검토용 시안만 만듭니다.</p>
+<div class="review-references">__REFERENCES__</div>
+<section class="work-section"><h2 data-i18n="review.createStep">1. 검토 시안 생성</h2><p class="metadata">__REVIEW_SCOPE__</p><p data-i18n="review.createBody">참고 이미지를 바탕으로 화면·이동·설명 주석을 편집 가능한 노드로 생성합니다.</p><div class="actions"><button class="primary" id="make" data-i18n-aria="review.make" aria-label="검토 시안 만들기">검토 시안 만들기</button></div></section>
+<section class="work-section"><h2 class="review-step" data-i18n="review.readStep">2. 실제 노드 읽기 · 자동</h2><!-- FLOW_STATUS --><details class="details" id="status-details" hidden><summary data-i18n="review.details">상세 진단 보기</summary><pre id="status"></pre></details></section>
+<section class="work-section"><h2 data-i18n="review.saveStep">3. 로컬 검증 또는 직접 저장</h2>__SAVE_BODY__<div class="actions"><button class="secondary" id="save" disabled data-i18n-aria="review.save" aria-label="결과 JSON 저장">결과 JSON 저장</button></div></section>
+<p class="metadata" data-i18n="review.boundary">방향 선택과 승인은 별도입니다. 이 도구는 검토용 시안만 만듭니다.</p>
 </main>
-
 <script>
 const PAIR = __PAIR__;
+const t = (key, params) => FlowUI.t('review.' + key, params);
 let result = null;
 let resultKind = null;
 let receiptOutcome = null;
 let receiptDetails = '';
 let persistenceFailed = false;
 let nativeBusy = false;
+let currentStatus = ['ready', 'readyTitle', 'readyBody', ''];
 const makeButton = document.getElementById('make');
 const saveButton = document.getElementById('save');
 const status = document.getElementById('status');
-const statusPanel = document.getElementById('status-panel');
-const statusTitle = document.getElementById('status-title');
-const statusBody = document.getElementById('status-body');
 const statusDetails = document.getElementById('status-details');
+const localeSelect = document.getElementById('workspace-locale');
 function showStatus(state, title, body, details = '') {
-  statusPanel.dataset.state = state;
-  statusTitle.textContent = title;
-  statusBody.textContent = body;
+  currentStatus = [state, title, body, details];
+  FlowPanel.status({region:'status-panel',title:'status-title',body:'status-body',state,titleText:t(title),bodyText:t(body)});
   status.textContent = details;
   statusDetails.hidden = !details;
 }
@@ -931,18 +991,37 @@ function setBusy(busy) {
   if (typeof busy === 'boolean') nativeBusy = busy;
   const waiting = nativeBusy || (PAIR && resultKind === 'readback' && receiptOutcome === null && !persistenceFailed);
   makeButton.disabled = !!waiting;
-  makeButton.textContent = waiting ? '검토 시안 준비 중…' : '검토 시안 만들기';
+  makeButton.textContent = t(waiting ? 'makeBusy' : 'make');
+  makeButton.setAttribute('aria-label', makeButton.textContent);
 }
+function refreshLocale() {
+  FlowUI.apply();
+  localeSelect.value = FlowUI.locale;
+  setBusy();
+  saveButton.textContent = t(resultKind === 'failure' ? 'saveFailure' : 'save');
+  saveButton.setAttribute('aria-label', saveButton.textContent);
+  showStatus(...currentStatus);
+  document.querySelectorAll('[data-preview-viewport]').forEach(image => {
+    const viewport = t(image.dataset.previewViewport);
+    const params = {name:image.dataset.previewName, viewport};
+    image.dataset.i18nParams = JSON.stringify(params);
+    image.setAttribute('alt', t('previewAlt', params));
+  });
+  document.querySelectorAll('[data-preview-label]').forEach(label => {
+    const params = {viewport:t(label.dataset.previewLabel)};
+    label.dataset.i18nParams = JSON.stringify(params);
+    label.textContent = t('previewLabel', params);
+  });
+}
+window.addEventListener('flow:locale', refreshLocale);
 function showReadbackStatus() {
   if (receiptOutcome !== null) {
-    showStatus(receiptOutcome ? 'success' : 'error', receiptOutcome ? '읽기 결과 검증 완료' : '읽기 결과 검증 실패',
-      receiptOutcome ? '로컬 수신기에서 실제 노드 결과를 검증했습니다. 방향 선택과 승인은 별도입니다.' : '상세 진단 보기에서 검증 오류를 확인하세요. 결과 JSON 저장은 실제 노드의 읽기 원본을 내보냅니다.', receiptDetails);
+    showStatus(receiptOutcome ? 'success' : 'error', receiptOutcome ? 'verifiedTitle' : 'rejectedTitle',
+      receiptOutcome ? 'verifiedBody' : 'rejectedBody', receiptDetails);
   } else {
-    showStatus(PAIR ? 'busy' : 'success', PAIR ? '읽기 결과 전달 중' : '실제 노드 읽기 완료',
-      PAIR ? '로컬 수신기에 결과를 보내고 있습니다. JSON은 직접 저장할 수도 있습니다.' : '결과 JSON을 저장해 내보내세요. 연결 검증과 방향 선택은 아직 하지 않았습니다.');
+    showStatus(PAIR ? 'busy' : 'success', PAIR ? 'sendingTitle' : 'readTitle', PAIR ? 'sendingBody' : 'readBody');
   }
 }
-
 makeButton.onclick = () => {
   result = null;
   resultKind = null;
@@ -953,8 +1032,9 @@ makeButton.onclick = () => {
   saveButton.disabled = true;
   saveButton.className = 'secondary';
   makeButton.className = 'primary';
-  saveButton.textContent = '결과 JSON 저장';
-  showStatus('busy', '검토 시안 생성 중', '화면·글꼴·주석·팔레트를 만들고 있습니다. 잠시 기다려 주세요.');
+  saveButton.textContent = t('save');
+  saveButton.setAttribute('aria-label', saveButton.textContent);
+  showStatus('busy', 'creatingTitle', 'creatingBody');
   parent.postMessage({pluginMessage: {type: 'draft-review'}}, '*');
 };
 saveButton.onclick = () => {
@@ -975,13 +1055,13 @@ window.onmessage = async event => {
     if (resultKind === 'readback' && receiptOutcome !== null) {
       showReadbackStatus();
     } else if (message.state === 'error') {
-      showStatus('error', resultKind === 'readback' ? '읽기 결과 검증 실패' : '시안 생성 실패', '상세 진단을 확인한 뒤 다시 실행하세요.', message.message);
+      showStatus('error', resultKind === 'readback' ? 'rejectedTitle' : 'generationFailed', 'errorBody', message.message);
     } else if (resultKind === 'readback') {
       showReadbackStatus();
     } else if (message.busy) {
-      showStatus('busy', '검토 시안 생성 중', message.message);
+      showStatus('busy', 'creatingTitle', 'creatingBody', message.message);
     } else {
-      showStatus('ready', '생성 준비 완료', message.message);
+      showStatus('ready', 'createdTitle', 'readyBody', message.message);
     }
     return;
   }
@@ -993,8 +1073,9 @@ window.onmessage = async event => {
     saveButton.disabled = false;
     saveButton.className = 'primary';
     makeButton.className = 'secondary';
-    saveButton.textContent = '실패 진단 JSON 저장';
-    showStatus('error', '화면 배치 검증 실패', '이 결과는 정상 읽기 결과로 사용할 수 없습니다. 실패 진단 JSON을 저장해 문제를 확인하세요.', JSON.stringify(diagnostic, null, 2));
+    saveButton.textContent = t('saveFailure');
+    saveButton.setAttribute('aria-label', saveButton.textContent);
+    showStatus('error', 'geometryTitle', 'geometryBody', JSON.stringify(diagnostic, null, 2));
     return;
   }
   if (message.type !== 'readback') return;
@@ -1003,7 +1084,8 @@ window.onmessage = async event => {
   saveButton.disabled = false;
   saveButton.className = 'primary';
   makeButton.className = 'secondary';
-  saveButton.textContent = '결과 JSON 저장';
+  saveButton.textContent = t('save');
+  saveButton.setAttribute('aria-label', saveButton.textContent);
   showReadbackStatus();
   setBusy();
   if (!PAIR) return;
@@ -1023,11 +1105,12 @@ window.onmessage = async event => {
   } catch (error) {
     persistenceFailed = true;
     setBusy();
-    showStatus('error', '로컬 결과 전달 실패', '실제 노드 읽기는 완료됐습니다. 결과 JSON 저장 버튼으로 직접 보관하세요.', String(error));
+    showStatus('error', 'deliveryTitle', 'deliveryBody', String(error));
   }
 };
-</script></body></html>'''.replace('__PAIR__', pair_json).replace('__REVIEW_SCOPE__', scope).replace('__REVIEW_CONTEXT__', context))
-
+refreshLocale();
+</script></body></html>'''
+    return render_panel(html.replace('__PAIR__', pair_json).replace('__REVIEW_SCOPE__', target + ' / ' + page).replace('__REVIEW_CONTEXT__', context).replace('__REFERENCES__', ''.join(references)).replace('__SAVE_BODY__', localized('p', 'saveBodyPaired' if pair else 'saveBodyPortable')))
 
 class DraftReceiver(BaseHTTPRequestHandler):
     def do_OPTIONS(self):

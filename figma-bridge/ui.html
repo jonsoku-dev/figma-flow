@@ -1,34 +1,70 @@
 <!doctype html>
-<html lang="ko">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Figma Flow · 디자인 가져오기</title>
+<html lang="ko" data-flow-view="import">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title data-i18n="import.documentTitle">Figma Flow · 디자인 가져오기</title>
 <style>
 /* FIGMA_FLOW_PANEL_CSS */
+.import-preview{display:flex;gap:14px;align-items:center}.mini-pages{position:relative;width:42px;height:46px;flex:none}.mini-pages::before,.mini-pages::after{content:"";position:absolute;width:28px;height:36px;border:1px solid var(--line);border-radius:3px;background:var(--paper)}.mini-pages::before{left:0;top:0}.mini-pages::after{left:10px;top:8px}.import-preview figcaption{min-width:0}.import-preview strong{font-size:12px}.import-preview p,.import-preview ul{margin:3px 0 0;font-size:12px;color:var(--muted)}.import-preview ul{padding:0;list-style:none}#diagnostic-text{max-height:180px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
 #source-meta{margin-top:8px;white-space:pre-wrap}#readback-result{margin-top:14px}.import-options{margin:14px 0 18px}.import-options label{display:flex;align-items:flex-start;gap:9px;cursor:pointer}.import-options input{margin:3px 0 0;flex:none}.option-title{display:block;font-weight:600}.option-help{display:block;margin-top:3px;color:var(--muted,#666274);font-size:12px;line-height:1.6}.import-options input:disabled+span{opacity:.6}
-#json{display:block;width:100%;min-height:150px;resize:vertical;box-sizing:border-box;margin-top:12px;padding:12px;border:1px solid var(--line,#dedbe5);border-radius:8px;color:inherit;background:var(--paper,#fff);font:11px/1.6 ui-monospace,SFMono-Regular,monospace}#json:focus-visible{outline:2px solid var(--accent,#7155db);outline-offset:2px}
-#preview-frame{display:block;width:100%;height:440px;margin-top:12px;border:1px solid var(--line,#dedbe5);border-radius:8px;background:white}#preview-link{display:inline-block;margin-top:4px}#status{white-space:pre-wrap;overflow-wrap:anywhere}.readback-actions{margin-top:12px}.preview-section{margin-top:22px}[hidden]{display:none!important}
+#preview-frame{display:block;width:100%;height:440px}#preview-link{display:inline-block;margin-top:4px}.readback-actions{margin-top:12px}.preview-section{margin-top:22px}
 </style></head>
 <body class="panel">
-<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>Figma Flow</div><span class="context">Figma Design</span></header>
+<!-- FLOW_SHELL -->
 <main id="workspace" class="workspace" aria-busy="false">
-<section class="intro"><h1 id="heading">디자인 가져오기</h1><p id="source-meta" class="metadata">입력 디자인을 확인하고 있습니다.</p></section>
-<section id="status-region" class="status" data-state="busy" role="status" aria-live="polite" aria-atomic="true"><div id="status-title" class="status-title">Figma에 연결하는 중</div><p id="status" class="status-body">연결이 확인되면 작업을 시작할 수 있습니다.</p></section>
-<section id="import-section" class="work-section" aria-labelledby="import-heading"><h2 id="import-heading">가져오기 방식</h2><p>처음에는 화면·컴포넌트·변수를 만들고, 같은 디자인은 편집을 유지한 채 다시 엽니다.</p>
-<div class="import-options"><label for="fresh"><input id="fresh" type="checkbox" disabled aria-describedby="fresh-help"><span><span class="option-title">별도 페이지로 새로 가져오기</span><span id="fresh-help" class="option-help">선택하면 새 페이지와 변수 컬렉션을 추가합니다. 기존 가져오기는 그대로 유지됩니다.</span></span></label></div>
-<div class="actions"><button id="import" class="primary" disabled>가져오기 · 기존 페이지 열기</button></div></section>
-<section id="sync-section" class="work-section" hidden aria-labelledby="sync-heading"><h2 id="sync-heading">연결된 앱에 반영</h2><p>연결된 Figma 페이지의 지원되는 토큰 편집을 로컬 앱에 반영합니다. 처음 실행하면 기준선을 저장합니다.</p><div class="actions"><button id="sync" class="secondary" hidden disabled>앱에 반영</button></div></section>
-<section class="work-section" aria-labelledby="read-heading"><h2 id="read-heading">현재 디자인 읽기</h2><p>레이어와 변수의 실제 상태를 읽어 검토용 파일로 저장합니다.</p><div class="actions"><button id="export" class="secondary" disabled>현재 디자인 읽기</button></div>
-<div id="readback-result" hidden><p id="readback-meta" class="metadata"></p><div class="actions readback-actions"><button id="save" class="secondary" disabled>JSON 파일 저장</button></div><details id="readback-details" class="details"><summary>JSON 원문 확인</summary><textarea id="json" readonly aria-label="현재 디자인의 JSON" placeholder="현재 디자인을 읽으면 여기에 결과가 표시됩니다."></textarea></details></div></section>
-<section id="preview" class="preview-section" hidden aria-labelledby="preview-heading"><h2 id="preview-heading">반영된 앱 확인</h2><a id="preview-link" target="_blank" rel="noopener noreferrer">실제 화면 비교를 새 창에서 열기</a><iframe id="preview-frame" title="반영된 앱과 실제 화면 비교" referrerpolicy="no-referrer"></iframe></section>
+<section class="intro"><h1 id="heading" data-i18n="import.title">디자인 가져오기</h1><p id="source-meta" class="metadata" data-i18n="import.sourceWaiting">입력 디자인을 확인하고 있습니다.</p></section>
+<figure id="import-preview" class="import-preview panel-preview" hidden><div class="mini-pages" aria-hidden="true"></div><figcaption><strong id="preview-source-count"></strong><ul id="preview-source-names" aria-label="입력 화면 이름" data-i18n-aria="import.previewNames"></ul><p id="preview-source-mode"></p></figcaption></figure>
+<!-- FLOW_STATUS -->
+<details id="diagnostics" class="details" hidden><summary data-i18n="import.diagnostics">상세 진단 보기</summary><pre id="diagnostic-text" tabindex="0" aria-label="원본 오류와 진단 기록" data-i18n-aria="import.diagnosticLabel"></pre></details>
+<section id="import-section" class="work-section" aria-labelledby="import-heading"><h2 id="import-heading" data-i18n="import.importHeading">가져오기 방식</h2><p data-i18n="import.importHelp">처음에는 화면·컴포넌트·변수를 만들고, 같은 디자인은 편집을 유지한 채 다시 엽니다.</p>
+<div class="import-options"><label for="fresh"><input id="fresh" type="checkbox" disabled aria-describedby="fresh-help"><span><span class="option-title" data-i18n="import.freshLabel">별도 페이지로 새로 가져오기</span><span id="fresh-help" class="option-help" data-i18n="import.freshHelp">선택하면 새 페이지와 변수 컬렉션을 추가합니다. 기존 가져오기는 그대로 유지됩니다.</span></span></label></div>
+<div class="actions"><button id="import" class="primary" disabled data-i18n="import.importButton">가져오기 · 기존 페이지 열기</button></div></section>
+<section id="sync-section" class="work-section" hidden aria-labelledby="sync-heading"><h2 id="sync-heading" data-i18n="import.syncHeading">연결된 앱에 반영</h2><p data-i18n="import.syncHelp">연결된 Figma 페이지의 지원되는 토큰 편집을 로컬 앱에 반영합니다. 처음 실행하면 기준선을 저장합니다.</p><div class="actions"><button id="sync" class="secondary" hidden disabled data-i18n="import.syncButton">앱에 반영</button></div></section>
+<section class="work-section" aria-labelledby="read-heading"><h2 id="read-heading" data-i18n="import.readHeading">현재 디자인 읽기</h2><p data-i18n="import.readHelp">레이어와 변수의 실제 상태를 읽어 검토용 파일로 저장합니다.</p><div class="actions"><button id="export" class="secondary" disabled data-i18n="import.readButton">현재 디자인 읽기</button></div>
+<div id="readback-result" hidden><p id="readback-meta" class="metadata"></p><div class="actions readback-actions"><button id="save" class="secondary" disabled data-i18n="import.saveButton">JSON 파일 저장</button></div><details id="readback-details" class="details"><summary data-i18n="import.jsonDetails">JSON 원문 확인</summary><textarea id="json" class="panel-input panel-code" readonly aria-label="현재 디자인의 JSON" data-i18n-aria="import.jsonLabel" placeholder="현재 디자인을 읽으면 여기에 결과가 표시됩니다." data-i18n-placeholder="import.jsonPlaceholder"></textarea></details></div></section>
+<section id="preview" class="preview-section" hidden aria-labelledby="preview-heading"><h2 id="preview-heading" data-i18n="import.previewHeading">반영된 앱 확인</h2><a id="preview-link" target="_blank" rel="noopener noreferrer" data-i18n="import.previewLink">실제 화면 비교를 새 창에서 열기</a><iframe id="preview-frame" class="panel-preview" title="반영된 앱과 실제 화면 비교" data-i18n-title="import.previewFrame" referrerpolicy="no-referrer"></iframe></section>
 </main>
 <script>
+// UI copy uses locales/import.json and FlowUI; source names and native diagnostics stay verbatim.
 let readback = "", connected = false, paired = false, existingOnly = false, busy = false, activeOperation = null;
+let sourceNames = [], sourceCount = 0, latestReady = null, latestReadback = null, latestStatus = null;
 const byId = id => document.getElementById(id);
+const t = (key, params = {}) => FlowUI.t("import." + key, params);
 const clearPreview = () => { byId("preview").hidden = true; byId("preview-frame").src = "about:blank"; byId("preview-link").href = ""; };
-const setStatus = (state, title, body) => {
-  byId("status-region").dataset.state = state;
-  byId("status-title").textContent = title;
-  byId("status").textContent = body;
-  byId("status").hidden = !body;
+const diagnostics = value => {
+  byId("diagnostic-text").textContent = value || "";
+  byId("diagnostics").hidden = !value;
+};
+const setStatus = (state, render) => {
+  latestStatus = {state, render};
+  const [title, body = ""] = render();
+  FlowPanel.status({region:"status-region", title:"status-title", body:"status", state, titleText:title, bodyText:body});
+};
+const refreshSourcePreview = () => {
+  byId("import-preview").hidden = existingOnly || !sourceNames.length;
+  byId("preview-source-count").textContent = t("previewSource", {count: sourceCount});
+  byId("preview-source-names").replaceChildren(...sourceNames.map(name => {
+    const item = document.createElement("li"); item.textContent = name; return item;
+  }));
+  if (sourceCount > sourceNames.length) {
+    const more = document.createElement("li"); more.textContent = t("previewMore", {count: sourceCount - sourceNames.length});
+    byId("preview-source-names").appendChild(more);
+  }
+  byId("preview-source-mode").textContent = t(byId("fresh").checked ? "previewFresh" : "previewReuse");
+};
+const renderSourceContext = message => {
+  sourceNames = Array.isArray(message.source_names) ? message.source_names : [];
+  sourceCount = Number.isInteger(message.source_count) ? message.source_count : sourceNames.length;
+  const names = sourceNames.join(" · ");
+  const source = sourceNames.length ? sourceCount > sourceNames.length ? t("sourceMore", {names, count: sourceCount - sourceNames.length}) : names : Array.isArray(message.source_names) ? t("screenCount", {count: sourceCount}) : message.source_label || "";
+  document.title = t(existingOnly ? "syncDocumentTitle" : "documentTitle");
+  const target = message.target_page_name ? t(paired ? "pairedPage" : "currentPage", {name: message.target_page_name}) : "";
+  byId("source-meta").removeAttribute("data-i18n");
+  byId("source-meta").textContent = [source && (!sourceNames.length || existingOnly) ? t("source", {name: source}) : "", target].filter(Boolean).join("\n");
+};
+const renderReadbackSummary = data => {
+  const summary = [t("recentReadback")];
+  if (Array.isArray(data.pages)) summary.push(t("pageCount", {count: data.pages.length}));
+  if (Array.isArray(data.variables)) summary.push(t("variableCount", {count: data.variables.length}));
+  byId("readback-meta").textContent = summary.join(" · ");
 };
 const refreshControls = () => {
   byId("workspace").setAttribute("aria-busy", String(busy));
@@ -46,15 +82,19 @@ const refreshControls = () => {
   byId("sync").className = existingOnly && !savePrimary ? "primary" : "secondary";
   byId("save").className = savePrimary ? "primary" : "secondary";
 };
-const progress = type => ({import:["디자인을 여는 중", byId("fresh").checked ? "새 페이지와 변수 컬렉션을 만들고 있습니다." : "기존 가져오기가 있으면 편집 상태를 확인하고 해당 페이지를 엽니다."],export:["현재 디자인을 읽는 중", "레이어와 변수의 실제 값을 확인하고 있습니다."],sync:["앱에 반영하는 중", "연결된 Figma 페이지를 읽고 로컬 앱의 결과를 기다리고 있습니다."]})[type];
+const progress = type => ({import:[t("progressImportTitle"), t(byId("fresh").checked ? "progressFresh" : "progressExisting")],export:[t("progressReadTitle"), t("progressReadBody")],sync:[t("progressSyncTitle"), t("progressSyncBody")]})[type];
 const sessionNonce = Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, "0")).join("");
 const send = message => parent.postMessage({ pluginMessage: { ...message, session_nonce: sessionNonce } }, "*");
-byId("fresh").onchange = () => { byId("import").textContent = byId("fresh").checked ? "새 페이지로 가져오기" : "가져오기 · 기존 페이지 열기"; };
+byId("fresh").onchange = () => {
+  const key = byId("fresh").checked ? "freshButton" : "importButton";
+  byId("import").setAttribute("data-i18n", "import." + key);
+  byId("import").textContent = t(key); refreshSourcePreview();
+};
 for (const type of ["import", "export", "sync"]) byId(type).onclick = () => {
   if (byId(type).disabled) return;
-  activeOperation = type; busy = true;
+  activeOperation = type; busy = true; diagnostics("");
   if (type === "sync") clearPreview();
-  refreshControls(); setStatus("busy", ...progress(type));
+  refreshControls(); setStatus("busy", () => progress(type));
   send({ type, fresh: byId("fresh").checked });
 };
 byId("save").onclick = () => {
@@ -63,54 +103,67 @@ byId("save").onclick = () => {
   const link = document.createElement("a"); link.href = url; link.download = "figma-flow-readback.json";
   document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
-const connectionTimeout = setTimeout(() => { setStatus("error", "Figma에 연결하지 못했습니다", "Error: Figma 연결 응답이 없습니다. 플러그인을 닫고 다시 실행하세요."); }, 5000);
+const connectionTimeout = setTimeout(() => { setStatus("error", () => [t("timeoutTitle"), t("invalidConnection")]); }, 5000);
 window.onmessage = event => {
   const message = event.data && event.data.pluginMessage;
   if (!message || message.session_nonce !== sessionNonce) return;
   if (message.type === "status") {
     if (message.ready === true) {
       clearTimeout(connectionTimeout); connected = true; paired = message.paired === true; existingOnly = message.existing_only === true;
-      const source = message.source_label ? `입력 · ${message.source_label}` : message.message;
-      const target = message.target_page_name ? `${paired ? "연결 페이지" : "현재 페이지"} · ${message.target_page_name}` : "";
-      byId("source-meta").textContent = [source, target].filter(Boolean).join("\n");
-      byId("heading").textContent = existingOnly ? "앱 동기화" : "디자인 가져오기";
-      setStatus("ready", "준비됨", "");
-      refreshControls();
+      latestReady = message; renderSourceContext(message);
+      byId("heading").setAttribute("data-i18n", existingOnly ? "import.syncTitle" : "import.title");
+      byId("heading").textContent = t(existingOnly ? "syncTitle" : "title");
+      refreshSourcePreview(); setStatus("ready", () => [t("ready")]); refreshControls();
     } else {
-      const detail = message.message + (message.warnings?.length ? "\n" + message.warnings.join("\n") : "");
-      if (message.message.startsWith("Error:")) { clearPreview(); setStatus("error", "작업을 완료하지 못했습니다", detail + "\n오류 내용을 확인한 뒤 다시 시도하세요."); }
-      else if (activeOperation === "sync" && busy) setStatus("busy", "앱에 반영하는 중", detail);
-      else setStatus("success", activeOperation === "export" ? "현재 디자인을 읽었습니다" : "디자인을 열었습니다", detail);
+      const failed = message.event === "error" || message.message?.startsWith("Error:");
+      const raw = [message.details, ...(message.warnings || [])].filter(Boolean).join("\n") || (failed ? message.message : "");
+      diagnostics(raw);
+      if (failed) { clearPreview(); setStatus("error", () => [t("errorTitle"), t("errorBody")]); }
+      else if (message.event === "sync-wait" || activeOperation === "sync" && busy) setStatus("busy", () => [t("progressSyncTitle"), t("syncWait")]);
+      else {
+        const title = activeOperation === "export" ? "readComplete" : "importComplete";
+        setStatus("success", () => {
+          const summary = message.event === "imported" ? t("importSummary", message.counts) : message.event === "read" ? t("readSummary", message.counts) : message.event === "reused" ? t("reused") : "";
+          const warnings = message.warnings?.length ? t("warningCount", {count: message.warnings.length}) : "";
+          return [t(title), [summary, warnings].filter(Boolean).join("\n")];
+        });
+      }
     }
   }
   if (message.type === "busy") {
     busy = message.value === true;
-    if (busy && message.operation) { activeOperation = message.operation; setStatus("busy", ...progress(activeOperation)); }
+    if (busy && message.operation) { activeOperation = message.operation; setStatus("busy", () => progress(activeOperation)); }
     refreshControls();
     if (busy && message.operation === "sync") clearPreview();
   }
   if (message.type === "sync-result") {
     const result = message.result;
-    const items = value => Array.isArray(value) ? value.join(", ") || "없음" : String(value ?? "없음");
+    const items = value => Array.isArray(value) ? value.join(", ") || t("none") : String(value ?? t("none"));
     const count = value => Array.isArray(value) ? value.length : value ?? 0;
-    const title = ({ baseline: "기준선을 저장했습니다", applied: "앱 반영 완료", unchanged: "변경 없음" })[result.status];
-    if (!title) { setStatus("error", "반영 결과를 확인하지 못했습니다", "앱에서 올바른 반영 결과를 받지 못했습니다. 연결 상태를 확인하고 다시 시도하세요."); clearPreview(); return; }
-    const detail = `변경 토큰 ${count(result.changed_tokens)}개 · 화면 ${count(result.screens)}개 · 코드 ${count(result.code_ids)}개\n화면: ${items(result.screens)}\n코드: ${items(result.code_ids)}\n파일: ${items(result.files)}\n보고서: ${items(result.report)}`;
-    setStatus(result.preview_error ? "error" : "success", title, detail + (result.preview_error ? `\n미리보기 오류: ${result.preview_error}` : ""));
-    if (result.preview_error) clearPreview();
+    if (!["baseline", "applied", "unchanged"].includes(result.status)) { setStatus("error", () => [t("invalidResultTitle"), t("invalidResultBody")]); diagnostics(JSON.stringify(result, null, 2)); clearPreview(); return; }
+    if (result.preview_error) {clearPreview(); diagnostics(result.preview_error);}
+    setStatus(result.preview_error ? "error" : "success", () => {
+      const detail = [t("resultSummary", {tokens: count(result.changed_tokens), screens: count(result.screens), codes: count(result.code_ids)}), t("resultScreens", {value: items(result.screens)}), t("resultCode", {value: items(result.code_ids)}), t("resultFiles", {value: items(result.files)}), t("resultReport", {value: items(result.report)})];
+      if (result.preview_error) detail.push(t("previewError"));
+      return [t(result.status), detail.join("\n")];
+    });
   }
   if (message.type === "preview" && /^http:\/\/localhost:\d+\/$/.test(message.url)) {
     byId("preview-frame").src = message.url; byId("preview-link").href = message.url; byId("preview").hidden = false;
   }
   if (message.type === "readback") {
     readback = JSON.stringify(message.data, null, 2); byId("json").value = readback;
-    const summary = [];
-    if (Array.isArray(message.data.pages)) summary.push(`페이지 ${message.data.pages.length}개`);
-    if (Array.isArray(message.data.variables)) summary.push(`변수 ${message.data.variables.length}개`);
-    byId("readback-meta").textContent = ["최근 읽은 결과", ...summary].join(" · ");
-    setStatus("success", "현재 디자인을 읽었습니다", "JSON 파일로 저장할 수 있습니다.");
-    refreshControls();
+    latestReadback = message.data; renderReadbackSummary(message.data);
+    setStatus("success", () => [t("readComplete"), t("readSavedBody")]); refreshControls();
   }
 };
+window.addEventListener("flow:locale", () => {
+  if (latestReady) renderSourceContext(latestReady);
+  if (latestReadback) renderReadbackSummary(latestReadback);
+  byId("fresh").onchange();
+  if (latestStatus) setStatus(latestStatus.state, latestStatus.render);
+});
+FlowUI.apply();
 send({ type: "ready" });
+
 </script></body></html>

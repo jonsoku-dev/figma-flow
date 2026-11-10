@@ -1,0 +1,362 @@
+{
+  "workspace.nav.label": {
+    "ko": "작업 이동",
+    "en": "Workspace navigation",
+    "ja": "ワークスペース移動"
+  },
+  "workspace.nav.tasks": {
+    "ko": "작업 목록",
+    "en": "Tasks",
+    "ja": "タスク"
+  },
+  "workspace.nav.history": {
+    "ko": "이력",
+    "en": "History",
+    "ja": "履歴"
+  },
+  "workspace.nav.codex": {
+    "ko": "Codex",
+    "en": "Codex",
+    "ja": "Codex"
+  },
+  "workspace.language": {
+    "ko": "언어",
+    "en": "Language",
+    "ja": "言語"
+  },
+  "workspace.title": {
+    "ko": "준비된 작업",
+    "en": "Prepared tasks",
+    "ja": "準備されたタスク"
+  },
+  "workspace.loading": {
+    "ko": "작업 목록을 불러오는 중",
+    "en": "Loading tasks",
+    "ja": "タスクを読み込み中"
+  },
+  "workspace.loadingBody": {
+    "ko": "이 파일의 준비된 작업과 실행 기록을 확인합니다.",
+    "en": "Checking prepared tasks and activity for this file.",
+    "ja": "このファイルのタスクと実行履歴を確認しています。"
+  },
+  "workspace.empty": {
+    "ko": "준비된 작업이 없습니다",
+    "en": "No prepared tasks",
+    "ja": "準備されたタスクがありません"
+  },
+  "workspace.emptyBody": {
+    "ko": "Codex에서 Figma 작업을 준비한 뒤 다시 열어 주세요.",
+    "en": "Prepare a Figma task in Codex, then reopen this plugin.",
+    "ja": "CodexでFigmaタスクを準備し、プラグインを開き直してください。"
+  },
+  "workspace.error": {
+    "ko": "작업을 열 수 없습니다",
+    "en": "Cannot open task",
+    "ja": "タスクを開けません"
+  },
+  "workspace.project": {
+    "ko": "프로젝트",
+    "en": "Project",
+    "ja": "プロジェクト"
+  },
+  "workspace.allProjects": {
+    "ko": "모든 프로젝트",
+    "en": "All projects",
+    "ja": "すべてのプロジェクト"
+  },
+  "workspace.allStages": {
+    "ko": "전체 작업",
+    "en": "All tasks",
+    "ja": "すべてのタスク"
+  },
+  "workspace.kind.import": {
+    "ko": "가져오기",
+    "en": "Import",
+    "ja": "取り込み"
+  },
+  "workspace.kind.review": {
+    "ko": "방향 검토",
+    "en": "Review directions",
+    "ja": "方向を検討"
+  },
+  "workspace.kind.discover": {
+    "ko": "현재 문서 읽기",
+    "en": "Read document",
+    "ja": "ドキュメントを読み取り"
+  },
+  "workspace.kind.sync": {
+    "ko": "그래프 동기화",
+    "en": "Graph sync",
+    "ja": "グラフ同期"
+  },
+  "workspace.currentFile": {
+    "ko": "현재 파일",
+    "en": "Current file",
+    "ja": "現在のファイル"
+  },
+  "workspace.wrongFile": {
+    "ko": "다른 파일에서 실행",
+    "en": "Open in another file",
+    "ja": "別のファイルで実行"
+  },
+  "workspace.page": {
+    "ko": "지정 페이지",
+    "en": "Pinned page",
+    "ja": "指定ページ"
+  },
+  "workspace.open": {
+    "ko": "열기",
+    "en": "Open",
+    "ja": "開く"
+  },
+  "workspace.openTask": {
+    "ko": "{title} 열기",
+    "en": "Open {title}",
+    "ja": "{title} を開く"
+  },
+  "workspace.wrongOpen": {
+    "ko": "{title} · 지정 파일에서 열어야 합니다",
+    "en": "{title} · open in the pinned file",
+    "ja": "{title} · 指定ファイルで開いてください"
+  },
+  "workspace.chatOpen": {
+    "ko": "{title} Codex 연결",
+    "en": "Connect {title} to Codex",
+    "ja": "{title} をCodexに接続"
+  },
+  "workspace.chatMissing": {
+    "ko": "대화 미연결",
+    "en": "No linked chat",
+    "ja": "チャット未接続"
+  },
+  "workspace.next": {
+    "ko": "다음 작업",
+    "en": "Next action",
+    "ja": "次の操作"
+  },
+  "workspace.nextNew": {
+    "ko": "아직 실행하지 않은 작업",
+    "en": "Not run in this version",
+    "ja": "このバージョンは未実行"
+  },
+  "workspace.nextRetry": {
+    "ko": "최근 오류의 결과를 확인하고 다시 실행하세요.",
+    "en": "Review the latest failure before retrying.",
+    "ja": "直近のエラーを確認してから再実行してください。"
+  },
+  "workspace.nextCheck": {
+    "ko": "최근 결과를 확인하거나 작업을 다시 열 수 있습니다.",
+    "en": "Review the latest result or reopen the task.",
+    "ja": "直近の結果を確認するか、タスクを開き直せます。"
+  },
+  "workspace.notRun": {
+    "ko": "아직 실행하지 않음",
+    "en": "Not run yet",
+    "ja": "未実行"
+  },
+  "workspace.stale": {
+    "ko": "이전 버전 기록",
+    "en": "Previous version",
+    "ja": "旧バージョンの記録"
+  },
+  "workspace.requested": {
+    "ko": "요청됨",
+    "en": "Requested",
+    "ja": "要求済み"
+  },
+  "workspace.finished": {
+    "ko": "실행 완료",
+    "en": "Operation finished",
+    "ja": "操作完了"
+  },
+  "workspace.failed": {
+    "ko": "실패",
+    "en": "Failed",
+    "ja": "失敗"
+  },
+  "workspace.readback": {
+    "ko": "실제 노드 읽기 완료",
+    "en": "Native readback received",
+    "ja": "実ノード読み取り完了"
+  },
+  "workspace.verified": {
+    "ko": "읽기 결과 검증 완료",
+    "en": "Readback verified",
+    "ja": "読み取り結果を検証済み"
+  },
+  "workspace.downloadRequested": {
+    "ko": "JSON 다운로드 요청",
+    "en": "JSON download requested",
+    "ja": "JSONダウンロード要求"
+  },
+  "workspace.verification": {
+    "ko": "읽기 결과 검증",
+    "en": "Readback verification",
+    "ja": "読み取り結果の検証"
+  },
+  "workspace.op.import": {
+    "ko": "디자인 가져오기",
+    "en": "Import design",
+    "ja": "デザイン取り込み"
+  },
+  "workspace.op.export": {
+    "ko": "현재 디자인 읽기",
+    "en": "Read current design",
+    "ja": "現在のデザインを読み取り"
+  },
+  "workspace.op.sync": {
+    "ko": "앱에 반영",
+    "en": "Apply to app",
+    "ja": "アプリに反映"
+  },
+  "workspace.op.draft-review": {
+    "ko": "검토 시안 생성",
+    "en": "Create review draft",
+    "ja": "検討案を作成"
+  },
+  "workspace.op.read": {
+    "ko": "네이티브 값 읽기",
+    "en": "Read native values",
+    "ja": "ネイティブ値を読み取り"
+  },
+  "workspace.op.apply": {
+    "ko": "그래프 값 적용",
+    "en": "Apply graph values",
+    "ja": "グラフ値を適用"
+  },
+  "workspace.op.chat:queue": {
+    "ko": "Codex 요청 접수",
+    "en": "Queue Codex request",
+    "ja": "Codex要求を受付"
+  },
+  "workspace.op.chat:open": {
+    "ko": "Codex 대화 열기",
+    "en": "Open Codex conversation",
+    "ja": "Codex会話を開く"
+  },
+  "workspace.historyTitle": {
+    "ko": "이 파일의 실행 이력",
+    "en": "Activity in this file",
+    "ja": "このファイルの実行履歴"
+  },
+  "workspace.historyEmpty": {
+    "ko": "아직 실행 이력이 없습니다",
+    "en": "No activity yet",
+    "ja": "実行履歴はまだありません"
+  },
+  "workspace.historyBoundary": {
+    "ko": "최근 80건을 이 기기에 보관합니다. 다운로드 요청은 파일 저장 확인이 아니며, 검증은 방향 선택이나 승인을 뜻하지 않습니다.",
+    "en": "The latest 80 events stay on this device. A download request does not confirm a saved file. Verification does not mean direction selection or approval.",
+    "ja": "直近80件をこの端末に保存します。ダウンロード要求は保存の確認ではなく、検証は方向の選択や承認ではありません。"
+  },
+  "workspace.removedTask": {
+    "ko": "현재 목록에 없는 작업",
+    "en": "Task no longer available",
+    "ja": "現在の一覧にないタスク"
+  },
+  "workspace.noMatch": {
+    "ko": "이 범위에 해당하는 작업이 없습니다",
+    "en": "No tasks in this scope",
+    "ja": "この範囲にタスクがありません"
+  },
+  "workspace.noChat": {
+    "ko": "연결된 Codex 대화가 없습니다",
+    "en": "No linked Codex conversations",
+    "ja": "接続されたCodex会話がありません"
+  },
+  "workspace.storageError": {
+    "ko": "이 기기의 이력 저장을 확인할 수 없습니다. 현재 세션의 결과만 표시될 수 있습니다.",
+    "en": "Local history storage is unavailable. Only this session may be shown.",
+    "ja": "端末の履歴保存を確認できません。現在のセッションのみ表示される場合があります。"
+  },
+  "workspace.clearScope": {
+    "ko": "범위 해제",
+    "en": "Clear filter",
+    "ja": "絞り込みを解除"
+  },
+  "workspace.openCurrent": {
+    "ko": "현재 작업 열기",
+    "en": "Open current task",
+    "ja": "現在のタスクを開く"
+  },
+  "workspace.controlBusy": {
+    "ko": "Codex 작업 실행 중",
+    "en": "Running Codex task",
+    "ja": "Codexタスクを実行中"
+  },
+  "workspace.controlDone": {
+    "ko": "Codex 작업 상태",
+    "en": "Codex task status",
+    "ja": "Codexタスクの状態"
+  },
+  "workspace.control.waiting": {
+    "ko": "실행 결과를 기다리고 있습니다.",
+    "en": "Waiting for the operation result.",
+    "ja": "実行結果を待っています。"
+  },
+  "workspace.control.finished": {
+    "ko": "실행 결과를 로컬 수신기에 전달했습니다.",
+    "en": "The operation result was delivered to the local receiver.",
+    "ja": "実行結果をローカル受信側に渡しました。"
+  },
+  "workspace.control.failed": {
+    "ko": "실행에 실패했습니다. Codex에서 결과를 확인하세요.",
+    "en": "The operation failed. Check the result in Codex.",
+    "ja": "実行に失敗しました。Codexで結果を確認してください。"
+  },
+  "workspace.control.uncertain": {
+    "ko": "접수 여부가 불확실합니다. 자동으로 다시 실행하지 않습니다.",
+    "en": "The result is uncertain. This operation will not retry automatically.",
+    "ja": "結果を確認できません。自動では再実行しません。"
+  },
+  "workspace.baseline": {
+    "ko": "기준선 저장됨",
+    "en": "Baseline recorded",
+    "ja": "基準を保存済み"
+  },
+  "workspace.nav.busyTip": {
+    "ko": "실행이 끝나면 이동할 수 있습니다.",
+    "en": "Navigation is available when the operation finishes.",
+    "ja": "操作が終わると移動できます。"
+  },
+  "workspace.nav.chatTip": {
+    "ko": "현재 패널 입력을 초기화하고 Codex 연결 화면을 엽니다.",
+    "en": "Reset this panel and open the Codex connection.",
+    "ja": "現在のパネル入力をリセットし、Codex接続を開きます。"
+  },
+  "workspace.otherTasks": {
+    "ko": "다른 준비 작업",
+    "en": "Other prepared tasks",
+    "ja": "ほかの準備済みタスク"
+  },
+  "workspace.taskCount": {
+    "ko": "준비 작업 {count}개",
+    "en": "{count} prepared tasks",
+    "ja": "準備済みタスク {count}件"
+  },
+  "workspace.typeFilter": {
+    "ko": "작업 종류",
+    "en": "Task type",
+    "ja": "タスクの種類"
+  },
+  "workspace.switchProject": {
+    "ko": "프로젝트 변경",
+    "en": "Switch project",
+    "ja": "切り替え"
+  },
+  "workspace.latestResult": {
+    "ko": "최근 실행 결과",
+    "en": "Latest receipt",
+    "ja": "直近の実行結果"
+  },
+  "workspace.viewReceipt": {
+    "ko": "결과 보기",
+    "en": "View receipt",
+    "ja": "結果を見る"
+  },
+  "workspace.receiptFor": {
+    "ko": "{title} 실행 결과 보기",
+    "en": "View receipt for {title}",
+    "ja": "{title} の実行結果を見る"
+  }
+}

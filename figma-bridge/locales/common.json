@@ -1,0 +1,12 @@
+{
+  "common.modeAutomatic": {
+    "ko": "Codex 연결 · 자동 실행 대기",
+    "en": "Connected to Codex · ready to run",
+    "ja": "Codex 接続中 · 実行待ち"
+  },
+  "common.continueCodex": {
+    "ko": "Codex에서 계속",
+    "en": "Continue in Codex",
+    "ja": "Codex で続ける"
+  }
+}

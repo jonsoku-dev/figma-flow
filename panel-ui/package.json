@@ -1,0 +1,20 @@
+{
+  "name": "figma-flow-panels",
+  "version": "0.23.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "lucide-react": "1.71.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "overrides": {
+    "scheduler": "0.28.0"
+  }
+}

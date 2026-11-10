@@ -5,9 +5,11 @@ description: Use when a graph must own component design values, export them to F
 
 # Graph-owned component design
 
-Resolve tools relative to this installed plugin root. Read [the command, panel and schema guide](../../examples/graph-ssot/README.md) before pairing, importing or recovering. Use the installed 0.22.0 `figma_workspace.py` route by default. Reuse the registered stable manifest and ID; prepare `discover` / `sync` tasks with the originating thread UUID, then reopen the same Figma Flow. See the command guide for task revision/CAS updates and foreign-ID handling. The canonical values live in graph.design_system.tokens. Component properties contain token references, and generated web modules/stylesheets carry the graph hash.
+Resolve tools relative to this installed plugin root. Read [the command, panel and schema guide](../../examples/graph-ssot/README.md) before pairing, importing or recovering. Use the installed 0.23.0 `figma_workspace.py` route by default. Reuse the registered stable manifest and ID; prepare `discover` / `sync` tasks with the originating thread UUID, then reopen the same Figma Flow. See the command guide for task revision/CAS updates and foreign-ID handling. The canonical values live in graph.design_system.tokens. Component properties contain token references, and generated web modules/stylesheets carry the graph hash.
 
 Before creating or critiquing UI, follow the [bundled skill dependency contract](../figma-flow/references/skill-dependencies.md) and run the installed plugin's `tools/skill_dependencies.py --check`. Read verified bundled guidance within the graph-owned design constraints. Before browser proof, apply [target origin registration](../figma-flow/references/browser-access.md) through the current authorized host tools.
+
+Default execution uses `figma_control.py enable` → workspace `refresh` → control `serve`, followed by the user's one manual plugin launch. Run prepared `discover/read` or `sync/read|apply` with exact file/page/current revision, then verify its returned readback and actual web proof. Manual panel buttons are fallback. A closed/stale plugin may require reopening; never promise hidden background startup or permanent hot reload. `uncertain` requires a current read before another write. Home history/next-action and language settings assist operation, not design acceptance.
 
 ## Establish the source
 
@@ -15,7 +17,7 @@ Before creating or critiquing UI, follow the [bundled skill dependency contract]
 2. Discover the exact Figma file, source page and additional declared instance pages with `figma_workspace.py prepare --kind discover`. In **준비된 작업**, open that project task in the actual file. In **Figma 값 읽기**, click **Figma 값 읽고 저장** and save the downloaded actual getter JSON.
 3. Use `prepare --kind sync -- --adopt` to migrate existing components to the graph's owned token namespace. Check actual old bindings/values and every instance of each declared main. Shared variables outside the declared graph scope must stay untouched. Each normal/disabled visual variant needs its own graph property scope.
 4. Copy the exact returned web module to the app-owned module path, then import graphStylesheet or muiComponents. Preserve workspace generation files. MUI length values are explicit CSS pixels. Add the emitted graphSha256 as data-graph-sha on each matched element. Render actual web proof with exported web-probe.js through the current authorized browser.
-5. Open the prepared sync task from the same home. In **컴포넌트 동기화**, inspect **적용 범위 확인** before **확인한 범위에 적용**. **취소** closes confirmation without writing; it does not cancel a running apply. Save the automatically downloaded actual focused getter, and pair with native plan, exact generated module and actual browser proof. A generated file alone cannot complete pairing.
+5. Run the prepared sync task through local control with exact scope/current revision. The following UI sequence is the manual fallback: open the task from the same home. In **컴포넌트 동기화**, inspect **적용 범위 확인** before **확인한 범위에 적용**. **취소** closes confirmation without writing; it does not cancel a running apply. Save the automatically downloaded actual focused getter, and pair with native plan, exact generated module and actual browser proof. A generated file alone cannot complete pairing.
 
 ## Change and reconcile
 
@@ -25,7 +27,7 @@ Before creating or critiquing UI, follow the [bundled skill dependency contract]
 - Panel failures: **JSON 다시 저장** downloads the retained result without another write. Inspect **실행 기록과 복구 정보** and preserve rollback conflicts. Re-read current native state before regenerating a conflicted plan; older retained success JSON and rollback reports do not complete pairing.
 - Interrupted graph/web publication: keep the recovery journal. Use recover only when its expected graph hash still matches; otherwise export the current graph again. A conflict never advances the baseline.
 
-Return with **작업 목록으로** after task completion. Standalone manifests are a compatibility path, not the default for new work. Chat handoff targets the task's recorded thread; inspect selection/request content before copy or explicit queue, and do not infer the active desktop chat.
+Return with **작업 목록** after task completion. Standalone manifests are a compatibility path, not the default for new work. Chat handoff targets the task's recorded thread; inspect selection/request content before copy or explicit queue, and do not infer the active desktop chat.
 
 ## Acceptance
 
