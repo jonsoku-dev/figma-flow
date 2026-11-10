@@ -87,8 +87,16 @@ class DesignRoutesServerTests(unittest.TestCase):
         for body in (b'{"prompt": "\\ud800"}', b'{"prompt": "x", "context": "\\ud800"}'):
             self.assertEqual(self.request('POST', '/plan', body, {'Content-Type': 'application/json'})[0], 400)
         self.assertEqual(self.request('POST', '/plan', '{}')[0], 415)
-        self.assertEqual(self.request('POST', '/plan', b'', {'Content-Type': 'application/json', 'Content-Length': '9' * 5000})[0], 413)
-        self.assertEqual(self.request('POST', '/plan', b'x' * (app.MAX_BODY + 1), {'Content-Type': 'application/json'})[0], 413)
+        # Reject oversized headers before any body upload can race the server's connection close.
+        with patch.object(app.route_design, 'route', wraps=route_design.route) as shared:
+            for length in (str(app.MAX_BODY + 1), '9' * 5000):
+                with self.subTest(content_length_digits=len(length)):
+                    status, headers, body = self.request('POST', '/plan', headers={
+                        'Content-Type': 'application/json', 'Content-Length': length})
+                    self.assertEqual(status, 413)
+                    self.assertEqual(json.loads(body), {'error': '요청 크기 제한을 초과했습니다.'})
+                    self.assertEqual(int(headers['Content-Length']), len(body))
+            shared.assert_not_called()
 
     def test_rejects_remote_host_and_origin_without_logging_prompt(self):
         secret = 'PRIVATE_PROMPT_SENTINEL'
