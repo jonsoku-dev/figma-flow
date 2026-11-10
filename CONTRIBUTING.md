@@ -2,7 +2,7 @@
 
 ## 변경 검증
 
-저장소 밖의 가상환경에 `requirements-optional.txt`를 설치합니다. Python 3.13, Node.js 26을 사용한 검사 명령입니다.
+저장소 밖의 가상환경에 `requirements-optional.txt`를 설치합니다. Python 3.13, Node.js 26, Codex CLI 0.165.0을 사용한 검사 명령입니다. 코드 실행 격리 테스트는 실제 `codex sandbox` 실행 파일을 필요로 합니다.
 
 ```sh
 python -B -m unittest discover -s tests
