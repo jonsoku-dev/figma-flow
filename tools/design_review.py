@@ -12,6 +12,7 @@ import struct
 import zlib
 import workflow
 from workflow import State
+import skill_dependencies
 
 OPERATIONS = {'create', 'redesign', 'refine'}
 SKILLS = {'impeccable', 'design-taste-frontend'}
@@ -77,11 +78,7 @@ def generated_artifact_root():
 
 
 def resolve_skill(identity):
-    for root in (Path.home() / '.agents/skills', Path.home() / '.codex/skills'):
-        candidate = root / identity / 'SKILL.md'
-        if candidate.is_file():
-            return candidate.resolve()
-    raise ValueError('required installed skill unavailable: ' + identity)
+    return skill_dependencies.resolve_skill(identity)
 
 
 def evaluate(base, declaration, *, request_text='', required=False, expected_paths=(), native_required=False, selection_path=None, inspection=False):
@@ -166,6 +163,7 @@ def evaluate(base, declaration, *, request_text='', required=False, expected_pat
         raise ValueError('JPEG dimensions unavailable')
 
     try:
+        skill_dependencies.verify_bundle()
         if not inspection:
             import design_directions
             selected = design_directions.require_selected(selection_path)
@@ -196,24 +194,26 @@ def evaluate(base, declaration, *, request_text='', required=False, expected_pat
         actual_artifacts = {(base / name).resolve() for name in artifact_hashes}
         need(all(Path(path).resolve() in actual_artifacts for path in expected_paths if Path(path).is_file()), 'review must cover the selected current implementation/native readback artifacts')
         required_skills = set(SKILLS)
-        music_directed = declaration.get('music_directed') is True or (declaration['target_kind'] == 'game-campaign' and bool(re.search(r'\b[0-9]+\s*bpm\b|beat.synced|리듬\s*게임|박자\s*(?:게임|맞춰)|댄스|dance|music.video', corpus, re.I)))
-        if music_directed:
-            required_skills.add('taste')
         skills = receipt.get('skills')
         need(isinstance(skills, list) and {s.get('id') for s in skills if isinstance(s, dict)} >= required_skills, 'actual Impeccable and design-taste-frontend source records required')
+        identities = [s.get('id') for s in skills if isinstance(s, dict)]
+        need(len(identities) == len(skills) and len(identities) == len(set(identities)), 'skill records must have unique known ids')
         for skill in skills:
-            if skill.get('id') not in required_skills:
+            identity = skill['id']
+            need(identity in ('impeccable', 'design-taste-frontend', 'unslop'), 'unknown managed skill id: ' + str(identity))
+            managed = skill_dependencies.source_record(identity)
+            need(skill.get('source_scope') == 'plugin' and skill.get('source') == managed['source'], 'skill evidence must reference the canonical plugin-managed source')
+            need(skill.get('sha256') == managed['sha256'], 'managed skill source hash mismatch: ' + identity)
+            source = skill_dependencies.resolve_skill(identity)
+            pins[str(source)] = managed['sha256']
+            if identity == 'unslop':
                 continue
-            source, raw = pin({'path': skill.get('source'), 'sha256': skill.get('sha256')}, external=True)
-            need(source == resolve_skill(skill['id']), 'skill evidence must reference the actual installed source')
-            need(source.name == 'SKILL.md' and re.search(r'^name:\s*' + re.escape(skill['id']) + r'\s*$', raw.decode(), re.M), 'skill source identity mismatch')
+            need(identity in required_skills, 'unexpected managed skill id: ' + identity)
             application = skill.get('application', {})
             need(application.get('target') in artifact_hashes, 'skill application must name a current target artifact')
             text(application.get('decision'), 'skill application')
             need(set(application.get('phases', [])) >= {'before-authoring', 'after-critique'}, 'record required source application before authoring and after critique')
-            if skill['id'] == 'taste':
-                need(skill.get('scope') == 'rhythm-and-motion-only', 'music taste applies to rhythm/motion; do not force its genre onto unrelated UI')
-            if declaration['target_kind'] == 'product-ui' and skill['id'] == 'design-taste-frontend':
+            if declaration['target_kind'] == 'product-ui' and identity == 'design-taste-frontend':
                 need(skill.get('scope') == 'limited-to-applicable-surfaces', 'tasteskill excludes dense product UI; record bounded applicability')
         fonts = receipt.get('font_selection', {})
         need(fonts.get('sequence') == 1 and receipt.get('authoring', {}).get('sequence') == 2, 'font selection/specimen must precede authoring in recorded production sequence')

@@ -1,6 +1,6 @@
 ---
 name: figma-flow
-description: Turn any idea or brief into a canonical requirement/screen/acceptance/code/evidence graph, linked screen specifications, and frontend implementation. Use for local-only delivery, local design tokens, one-button local Figma sync, selected-page developer-plugin readback-to-app scalar sync and chained edits, explicit remote Figma MCP work, local source/brief audits, reviewed resumption after changes, mandatory font-first source-resolved Impeccable and applicable web tasteskill authoring/critique, genuine image-generated role assets and same-concept game batches, text-responsive generated skins, automatic prompt-to-design skill routing for logo, icons, raster imagery, typography, collectibles and Figma semantic handoff and SSOT, a curated Korean/Japanese mobile game campaign reference library with category-specific acceptance checklists, a searchable catalog across project manifests, selected draft builds, or pinned affected-test planning and execution; honor narrower requested scope.
+description: Turn any idea or brief into a canonical requirement/screen/acceptance/code/evidence graph, linked screen specifications, and frontend implementation. Use for local-only delivery, local design tokens, one-button local Figma sync, selected-page developer-plugin readback-to-app scalar sync and chained edits, explicit remote Figma MCP work, local source/brief audits, reviewed resumption after changes, verified bundled Impeccable and design-taste-frontend sources with font-first authoring/critique, genuine image-generated role assets and same-concept game batches, text-responsive generated skins, automatic prompt-to-design skill routing for logo, icons, raster imagery, typography, collectibles and Figma semantic handoff and SSOT, a curated Korean/Japanese mobile game campaign reference library with category-specific acceptance checklists, a searchable catalog across project manifests, selected draft builds, or pinned affected-test planning and execution; honor narrower requested scope.
 ---
 
 # Figma Flow
@@ -27,6 +27,8 @@ Maintain one canonical JSON graph with stable semantic IDs. The graph owns relat
 
 ## 디자인 제작의 첫 실행
 
+디자인 작업을 시작하기 전에 [동봉 의존성 계약](references/skill-dependencies.md)을 읽고 실제 플러그인 루트의 `tools/skill_dependencies.py --check`를 실행한다. 전역 스킬 설치에 의존하지 않고, 검증한 `vendor/skills/`의 원문과 필요한 참조를 읽는다. 누락·변조는 해당 버전의 묶음으로 복구한다.
+
 새 UI 후보 작성·기존 화면 리디자인·완성 화면 비평에는 내장 [Unslop 절차](references/unslop.md)를 읽고 적용한다. 브라우저를 열거나 Playwright 호환 API로 확인할 때는 [허용 호스트·오리진 등록](references/browser-access.md)을 먼저 마친다. 작업 대상과 실제 로컬 URL이 늘면 등록·적용 확인 후 계속한다.
 
 새 UI·캠페인 제작과 리디자인은 [시안 검토 및 사용자 선택](references/direction-selection.md)으로 시작한다. 로컬 제작과 Figma 제작에 같은 순서를 적용한다. 원본 스킬을 읽고 참조 사례를 확인한 다음, 같은 목적·문구·주 행동을 가진 비교 시안 2~3개를 제안한다. 각 안에는 데스크톱·모바일 화면, 실제 요소로 연결되는 계획 주석, 제안 토큰과 컴포넌트 샘플을 둔다. 서체 견본은 시안의 일부다.
@@ -48,7 +50,7 @@ Maintain one canonical JSON graph with stable semantic IDs. The graph owns relat
 
 ## UI 제작·리디자인의 기본 완료 조건
 
-새 UI·웹·게임 캠페인 제작/리디자인은 [정상 제작·디자인 검토](references/design-review.md)를 반드시 읽고 실행한다. 실제 Impeccable과 적용 가능한 design-taste-frontend 원문에서 방향을 정하고, 대상 언어의 실제 폰트 후보·데스크톱/모바일 표본을 먼저 만든다. 음악/박자 중심 작업은 실제 taste 원문을 리듬·모션에 한정해 사용한다. 라이브러리 아이콘을 권하는 원문보다 현재 사용자의 **로고·아이콘 이미지 생성 의무**가 우선한다.
+새 UI·웹·게임 캠페인 제작/리디자인은 [정상 제작·디자인 검토](references/design-review.md)를 반드시 읽고 실행한다. 동봉된 Impeccable과 적용 가능한 design-taste-frontend 원문에서 방향을 정하고, 대상 언어의 실제 폰트 후보·데스크톱/모바일 표본을 먼저 만든다. 라이브러리 아이콘을 권하는 원문보다 현재 사용자의 **로고·아이콘 이미지 생성 의무**가 우선한다.
 
 게임 자산은 UI 시각 제작 전에 정확한 콘셉트/참조/역할 배치를 `asset_batch.py`로 고정하고, 공통 프롬프트의 역할별 요청을 실제 호스트 image_gen 도구로 실행한다. 로고·아이콘·캐릭터·키아트·제목/버튼 장식과 필요한 인장/장식을 같은 게임 문맥에서 계획한다. 제목·버튼 그림은 실제 TEXT를 감싸는 nine-slice/HUG 구조로 만들고 titleFor·내용 래핑·아래 섹션 흐름을 보존한다. 같은 의미의 행동은 폭마다 기존 그림을 재사용하되 다른 목적의 조작 전체를 한 범용 프레임으로 덮지 않는다.
 

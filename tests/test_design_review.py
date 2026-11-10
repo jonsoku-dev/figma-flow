@@ -31,18 +31,10 @@ class DesignReviewTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.base = Path(self.temp.name)
-        self.paths = {}
-        for identity in design_review.SKILLS:
-            path = self.base / identity / 'SKILL.md'
-            path.parent.mkdir()
-            path.write_text('---\nname: ' + identity + '\n---\nExplicit synthetic skill fixture.\n')
-            self.paths[identity] = path
-        resolver = patch.object(design_review, 'resolve_skill', side_effect=lambda identity: self.paths[identity].resolve())
+        self.paths = {identity: design_review.resolve_skill(identity) for identity in design_review.SKILLS}
         managed = patch.object(design_review, 'generated_artifact_root', return_value=self.base / 'generated')
         managed.start()
         self.addCleanup(managed.stop)
-        resolver.start()
-        self.addCleanup(resolver.stop)
         (self.base / 'app.html').write_text('<main id="hero"><h1 id="title">Real target text with specific hierarchy</h1></main>')
         (self.base / 'font-first.md').write_text('Compared two rendered font candidates before the target UI authoring stage.')
         self.artifacts = [self.pin('app.html')]
@@ -53,7 +45,7 @@ class DesignReviewTests(unittest.TestCase):
         self.sample = 'Actual title and body specimen uses the selected target language.'
         desktop, mobile = self.capture('final-desktop', 1200, final=True), self.capture('final-mobile', 390, final=True)
         self.receipt = {'schema': 'figma-flow-design-review-v1', 'artifacts': self.artifacts,
-            'skills': [{'id': identity, 'source': str(path), 'sha256': self.pin(str(path))['sha256'],
+            'skills': [{'id': identity, **design_review.skill_dependencies.source_record(identity), 'source_scope': 'plugin',
                         'application': {'target': 'app.html', 'decision': 'Use the actual target hierarchy and type rhythm to govern the final responsive composition.',
                                         'phases': ['before-authoring', 'after-critique']}} for identity, path in self.paths.items()],
             'font_selection': {'sequence': 1, 'sample_text': self.sample,
@@ -114,6 +106,25 @@ class DesignReviewTests(unittest.TestCase):
         self.assertFalse(design_review.evaluate(self.base, None, required=True, inspection=True)['passed'])
         (self.base / 'app.html').write_text('changed current artifact')
         self.assertFalse(self.evaluate()['passed'])
+
+    def test_managed_skill_receipts_reject_forgery_and_do_not_infer_music_skill(self):
+        result = self.evaluate(declaration=dict(self.declaration, music_directed=True),
+                               request='A 128 BPM rhythm game with dance motion')
+        self.assertTrue(result['passed'], result['errors'])
+        for change in (
+            lambda skill: skill.update(source='../../.agents/skills/impeccable/SKILL.md'),
+            lambda skill: skill.update(source_scope='global'),
+            lambda skill: skill.update(sha256='0' * 64),
+        ):
+            receipt = copy.deepcopy(self.receipt)
+            change(receipt['skills'][0])
+            self.assertFalse(self.evaluate(receipt, request='A 128 BPM rhythm game with dance motion')['passed'])
+        receipt = copy.deepcopy(self.receipt)
+        receipt['skills'] = [skill for skill in receipt['skills'] if skill['id'] != 'impeccable']
+        result = self.evaluate(receipt, declaration=dict(self.declaration, target_kind='game-campaign'),
+                               request='A 128 BPM rhythm game with dance motion')
+        self.assertTrue(any('actual Impeccable and design-taste-frontend' in error for error in result['errors']))
+        self.assertFalse(any('taste' in error.lower() and 'skill' in error.lower() for error in result['errors']))
 
     def test_korean_requires_target_script_specimens_not_latin_only(self):
         self.assertFalse(self.evaluate(request='한국어 캠페인을 처음부터 제작한다.')['passed'])
@@ -299,6 +310,11 @@ class DesignReviewTests(unittest.TestCase):
         declaration = json.loads(Path(prepared['declaration']).read_text())['design_review']
         result = design_review.evaluate(self.base, declaration, inspection=True)
         self.assertTrue(result['passed'], result['errors'])
+        prepared_skills = json.loads(Path(prepared['receipt']).read_text())['skills']
+        self.assertEqual({skill['id'] for skill in prepared_skills}, design_review.SKILLS)
+        for skill in prepared_skills:
+            self.assertEqual(skill['source_scope'], 'plugin')
+            self.assertFalse(Path(skill['source']).is_absolute())
         pending = prepare_design_review.prepare(self.base, self.base / 'pending', ['app.html'])
         declaration = json.loads(Path(pending['declaration']).read_text())['design_review']
         self.assertFalse(design_review.evaluate(self.base, declaration, inspection=True)['passed'])
@@ -308,6 +324,13 @@ class DesignReviewTests(unittest.TestCase):
         (self.base / 'bad-font.json').write_text(json.dumps(bad))
         with self.assertRaisesRegex(ValueError, 'mismatched original'):
             prepare_design_review.prepare(self.base, self.base / 'bad-prepared', ['app.html'], font=self.base / 'bad-font.json')
+
+    def test_game_prepare_has_only_required_bundled_skills(self):
+        prepared = prepare_design_review.prepare(self.base, self.base / 'game-prepared', ['app.html'],
+            target_kind='game-campaign', game_id='synthetic-game')
+        receipt = json.loads(Path(prepared['receipt']).read_text())
+        self.assertEqual({skill['id'] for skill in receipt['skills']}, design_review.SKILLS)
+        self.assertNotIn('music_directed', json.loads(Path(prepared['declaration']).read_text())['design_review'])
 
     def test_asset_batch_freezes_context_and_complete_inventory_before_generation(self):
         (self.base / 'concept.md').write_text('Exact common game context before any role production.')

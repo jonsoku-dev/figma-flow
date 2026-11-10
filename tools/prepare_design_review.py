@@ -9,10 +9,12 @@ from pathlib import Path
 import struct
 
 import design_review
+import skill_dependencies
 
 
 def prepare(project, out, artifacts, *, operation='create', target_kind='website', font=None, critique=None,
-            applications=None, assets=None, asset_path_base=None, batch_path_base=None, skins=(), music_directed=False, game_id=None):
+            applications=None, assets=None, asset_path_base=None, batch_path_base=None, skins=(), game_id=None):
+    skill_dependencies.verify_bundle()
     project, out = Path(project).resolve(), Path(out).resolve()
     if target_kind == 'game-campaign' and not game_id:
         raise ValueError('Game profile requires the selected actual --game-id')
@@ -57,15 +59,13 @@ def prepare(project, out, artifacts, *, operation='create', target_kind='website
     hashes = {item['path']: item['sha256'] for item in pinned_artifacts}
     skill_records = []
     application_data = document(applications, {})
-    for identity in sorted(design_review.SKILLS | ({'taste'} if music_directed else set())):
-        path = design_review.resolve_skill(identity)
-        item = {'id': identity, 'source': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+    for identity in sorted(design_review.SKILLS):
+        source = skill_dependencies.source_record(identity)
+        item = {'id': identity, **source, 'source_scope': 'plugin',
                 'application': application_data.get(identity, {'target': pinned_artifacts[0]['path'],
                     'decision': 'PENDING actual source-specific decisions before authoring and after critique.',
                     'phases': ['before-authoring', 'after-critique']})}
-        if identity == 'taste':
-            item['scope'] = 'rhythm-and-motion-only'
-        elif identity == 'design-taste-frontend' and target_kind == 'product-ui':
+        if identity == 'design-taste-frontend' and target_kind == 'product-ui':
             item['scope'] = 'limited-to-applicable-surfaces'
         skill_records.append(item)
     receipt = {'schema': 'figma-flow-design-review-v1', 'skills': skill_records, 'artifacts': pinned_artifacts,
@@ -94,8 +94,6 @@ def prepare(project, out, artifacts, *, operation='create', target_kind='website
                    'receipt': os.path.relpath(out / 'design-review.json', project)}
     if game_id:
         declaration['game_id'] = game_id
-    if music_directed:
-        declaration['music_directed'] = True
     (out / 'bindings-design-review.json').write_text(json.dumps({'design_review': declaration}, ensure_ascii=False, indent=2) + '\n')
     return {'status': 'prepared-not-reviewed', 'receipt': str(out / 'design-review.json'),
             'declaration': str(out / 'bindings-design-review.json'),
@@ -112,14 +110,13 @@ def main():
     for name in ('font', 'critique', 'applications', 'assets', 'asset-path-base', 'batch-path-base'):
         p.add_argument('--' + name, type=Path)
     p.add_argument('--skin', type=Path, action='append', default=[])
-    p.add_argument('--music-directed', action='store_true')
     p.add_argument('--game-id')
     a = p.parse_args()
     try:
         print(json.dumps(prepare(a.project, a.out, a.artifact, operation=a.operation, target_kind=a.target_kind,
             font=a.font, critique=a.critique, applications=a.applications, assets=a.assets,
             asset_path_base=a.asset_path_base, batch_path_base=a.batch_path_base, skins=a.skin,
-            music_directed=a.music_directed, game_id=a.game_id), ensure_ascii=False))
+            game_id=a.game_id), ensure_ascii=False))
     except (OSError, ValueError, KeyError, ImportError) as exc:
         p.exit(1, str(exc) + '\n')
 

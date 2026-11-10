@@ -127,6 +127,16 @@ class RouteDesignTests(unittest.TestCase):
         for prompt in ('Read-only inspect a frontend website', 'Inspect a frontend website', 'Review the existing UI design', 'Technical only: inspect a backend API', 'Figma 디자인 조사만'):
             self.assertIsNone(self.plan(prompt)['design_review_declaration'])
 
+    def test_rhythm_campaign_keeps_motion_without_routing_music_taste_skill(self):
+        plan = self.plan('리듬 게임 캠페인 웹을 만들어줘. 120 BPM에 맞춘 모션도 넣어줘.')
+        lanes = self.lanes(plan)
+        self.assertIn('motion', lanes)
+        self.assertTrue({'impeccable', 'design-taste-frontend'} <= set(lanes['direction']['skill_ids']))
+        self.assertTrue({'impeccable', 'design-taste-frontend'} <= set(lanes['verification']['skill_ids']))
+        for lane in lanes.values():
+            self.assertNotIn('taste', lane['skill_ids'])
+            self.assertFalse(any('Read actual taste source' in action for action in lane['actions']))
+
     def test_three_campaign_forms_individual_and_all_numbered_context(self):
         context = '게임 웹 캠페인 제작. 1 기념·행사형, 2 출시·공개형, 3 참여·프로모션형 중 선택한다.'
         ids = ['commemorative-event', 'launch-reveal', 'participation-promotion']

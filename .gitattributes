@@ -1,0 +1,4 @@
+# Preserve the byte-identical upstream snapshots, including their whitespace.
+vendor/skills/impeccable/** -whitespace
+vendor/skills/design-taste-frontend/** -whitespace
+vendor/skills/unslop/** -whitespace

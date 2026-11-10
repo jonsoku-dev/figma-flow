@@ -66,7 +66,7 @@ python3 "$TOOLS/design_actions.py" validate-selection --selection reviews/r1/sel
 
 선택 후 Figma 원본의 실제 주석 본문, 팔레트 샘플의 ID·배치·메인 컴포넌트 연결, 문구에 따라 늘어나는 프레임, 실제로 사용하는 색상·타입·여백·간격·모서리 토큰을 확인한다. 계획 HTML이나 단순 색상 목록으로 네이티브 사용을 인정하지 않는다. 선택한 파일이나 정본 그래프가 바뀌면 재검토가 필요하며, 기존 기록은 이력으로 보관한다.
 
-설계 검토의 방법론은 [Impeccable의 시안 비교](https://github.com/pbakaus/impeccable/blob/main/skill/reference/visualize.md), [Taste Skill](https://github.com/Leonxlnx/taste-skill), [Google Design Sprint의 결정 단계](https://designsprintkit.withgoogle.com/methodology/phase4-decide)를 참고한다. 허용된 도구와 최종 결정 권한은 현재 사용자의 지시를 따른다.
+설계 검토의 방법론은 동봉된 [Impeccable의 시안 비교](../../../vendor/skills/impeccable/reference/visualize.md), [design-taste-frontend](../../../vendor/skills/design-taste-frontend/SKILL.md), [Google Design Sprint의 결정 단계](https://designsprintkit.withgoogle.com/methodology/phase4-decide)를 참고한다. 동봉 원문은 [의존성 검사](skill-dependencies.md)로 확인하며, 허용된 도구와 최종 결정 권한은 현재 사용자의 지시를 따른다.
 
 ### 색상 사용 계획
 

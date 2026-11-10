@@ -138,7 +138,6 @@ def route(prompt, registry=None, campaign_data=None, context=None):
     observational = matches(r'\binspect\b|\breview\b|\baudit\b|critique|열람|검토|리뷰|비평|분석', current) and not creation_goal and not matches(r'redesign|polish|refine|fix|리디자인|개선|수정|다듬', current)
     technical_only = technical_only or observational
     ui_creation = ui_scope and not research and not technical_only and (creation_goal or design_draft or matches(r'redesign|design|polish|refine|리디자인|디자인|개선|다듬|새로|처음부터', current) or any(matches(pattern, current) for pattern in campaign_forms.PATTERNS.values()) or (continuation and (form_plans or matches(r'create|build|design|만들|제작|구현|디자인', intent))))
-    music_ui = game_campaign and matches(r'\b[0-9]+\s*bpm\b|beat.synced|리듬\s*게임|댄스|dance|music.video', text)
     selected = {'direction', 'verification'}
     exclusions = []
     for lane, term in TERMS.items():
@@ -242,10 +241,7 @@ def route(prompt, registry=None, campaign_data=None, context=None):
             actions.insert(0, 'Use imagegen only for requested raster/illustrated ' + lane + ' ideation; preserve editable/vector delivery checks separately. Local brandkit is optional and is not verified design authority.')
         if ui_creation and lane in ('direction', 'typography', 'verification'):
             skill_ids = list(dict.fromkeys(['impeccable', 'design-taste-frontend', *skill_ids]))
-            actions.insert(0, 'Read the actual resolved Impeccable and design-taste-frontend sources before authoring; choose target-script typography first with desktop/mobile candidate specimens, then compare distinct composition drafts with the user. After explicit selection, author, critique, fix and confirm current artifacts. Respect tasteskill scope exclusions for dense product UI.')
-        if music_ui and ui_creation and lane in ('direction', 'motion', 'verification'):
-            skill_ids = list(dict.fromkeys(['taste', *skill_ids]))
-            actions.insert(0, 'Read actual taste source for rhythm/motion direction only; preserve the game concept and never force its music-video aesthetic onto unrelated UI.')
+            actions.insert(0, 'Run tools/skill_dependencies.py --check and read the verified bundled Impeccable and design-taste-frontend sources before authoring; choose target-script typography first with desktop/mobile candidate specimens, then compare distinct composition drafts with the user. After explicit selection, author, critique, fix and confirm current artifacts. Respect tasteskill scope exclusions for dense product UI.')
         if ui_creation and lane in ('logo', 'icons'):
             skill_ids = list(dict.fromkeys(['imagegen', *skill_ids]))
             actions.insert(0, 'Logo/icon original must be genuine image generation; preserve real raster/tool-result identity, raster-only derivative transforms and actual visible usage. Library icons, hand-coded/traced SVG paths, emoji and font-built marks cannot substitute. If generation is excluded, keep this required phase blocked.')

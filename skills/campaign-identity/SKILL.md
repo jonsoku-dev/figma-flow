@@ -7,6 +7,8 @@ description: Design a game campaign's custom logo, wordmark, utility icons, coll
 
 ## 입력과 경로
 
+동봉된 디자인 지침을 사용할 때는 [의존성 계약](../figma-flow/references/skill-dependencies.md)에 따라 실제 설치본을 검증하고 필요한 원문·참조만 읽는다.
+
 참조 사이트나 로컬 미리보기를 브라우저로 열면 [허용 대상 등록과 적용 확인](../figma-flow/references/browser-access.md)을 먼저 수행한다. 새 작업 대상도 같은 목록에 추가한 뒤 계속한다.
 
 현재 프롬프트와 이전에 합의한 게임명·언어·용도·제약으로 `tools/route_design.py`를 실행한다. 들어갈 매체와 크기를 먼저 정한다. 24px 내비게이션 심볼, 첫 화면의 워드마크, 인쇄용 항구 도장은 서로 다른 결과물이다. 시네마틱 키비주얼·그래픽 레터링·수집품 일러스트가 한 기획에 함께 필요하면 해당 표면에 각각 배정한다.

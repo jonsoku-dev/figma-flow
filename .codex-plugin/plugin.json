@@ -1,9 +1,10 @@
 {
   "name": "figma-flow",
-  "version": "0.19.1",
+  "version": "0.20.0",
   "description": "Turn a product brief into traceable Figma screens, screen specifications, and frontend implementation.",
   "skills": "./skills/",
   "requires_local_executor": true,
+  "onboardingSkill": "./skills/figma-plugin-setup/SKILL.md",
   "interface": {
     "displayName": "Figma Flow",
     "shortDescription": "기획을 화면과 코드로 연결",

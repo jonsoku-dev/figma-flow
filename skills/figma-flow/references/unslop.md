@@ -2,6 +2,8 @@
 
 이 문서는 Damir Sokolovsky의 [unslop](https://github.com/heydamir/unslop/tree/97daa3eb365670ea3f87ed85356cbfcee18105a5/skills/unslop)을 Figma Flow의 시안 선택·검토에 맞게 각색했다. 원문의 방향 다섯 항목, 결함 정도에 따른 수정 범위, 아홉 단계 비평을 사용한다. 격자·서체·색·아이콘·모션과 승인 절차는 아래 프로젝트 기준으로 변경했다. 이 문서는 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)으로 제공하며, 복사·각색할 때 Damir Sokolovsky와 원본 링크, 변경 사실을 유지한다.
 
+[동봉한 원문 전체](../../../vendor/skills/unslop/SKILL.md)와 이 각색 문서는 별개다. 원문의 참조 이미지·스크립트·라이선스도 고정된 커밋으로 보존하며 [의존성 검사](skill-dependencies.md)로 확인한다. 원본 패키지 보존이 원본 도구의 실행이나 현재 작업에 대한 적용 승인을 뜻하지 않는다.
+
 ## 적용 범위와 우선순위
 
 새 UI·캠페인의 후보를 작성할 때, 기존 화면을 리디자인할 때, 완성 화면을 검토할 때 읽는다. 단순 기술 수정·소스 대조에는 디자인 변경을 추가하지 않는다. 기존 Impeccable·적용 가능한 design-taste-frontend와 [디자인 검토](design-review.md)를 함께 사용한다.
@@ -58,4 +60,4 @@
 
 수정 후 현재 산출물의 데스크톱·모바일과 영향받은 상태를 다시 확인하고 기존 `prepare_design_review.py`·`check_project.py`를 실행한다. 문서·해시·체크리스트는 미적 완성도나 사용자 인수를 인증하지 않는다. 내장 참조는 외부 설치 스킬로 위장해 receipt의 `skills` 목록에 넣지 않는다.
 
-원문의 `snapshot.mjs`·`story.mjs`는 이 통합에 포함하지 않는다. 실제 브라우저 검수는 허용 목록을 적용한 호스트 도구를 사용한다. 설명 영상이 요청되면 별도 범위에서 도구·접근 권한과 결과를 확인한다.
+원문의 `snapshot.mjs`·`story.mjs`는 원본 패키지 안에 보존하지만 Figma Flow 기본 경로에서 실행하지 않는다. 실제 브라우저 검수는 허용 목록을 적용한 호스트 도구를 사용한다. 설명 영상이 요청되면 별도 범위에서 도구·접근 권한과 결과를 확인한다.
