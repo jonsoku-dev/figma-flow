@@ -4,6 +4,12 @@
 
 Register **one Figma Flow development plugin**. Launch it manually in the target Figma Design file once per plugin session. Codex can then run prepared operations through private localhost control without repeated button clicks. A closed plugin must be reopened; updates may also require reopening. There is no hidden background launcher or arbitrary remote code evaluation.
 
+## Fonts without Computer Use
+
+Set the family and style in the design source, for example **Hahmlet Bold** for a title and **Noto Sans KR Regular** for body copy. Open Figma Flow in the target file. During draft creation the plugin checks Figma’s available fonts and loads each required style. A missing style stops draft creation before a page is created. Use an organization-approved font or update the design source and prepare it again. A font bundled with the website needs to be available separately in Figma.
+
+Codex can retrieve the result while local control is connected. If loopback connections are also blocked, use **Create drafts** and the JSON download in the review panel, then give Codex that file to compare the actual font families and styles.
+
 ## Install once
 
 ```sh

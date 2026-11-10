@@ -12,7 +12,7 @@ Figma에는 **Figma Flow 하나를 등록**합니다. 사용자가 대상 Design
 
 Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으로 만들고, 사람이 선택한 방향의 Figma 화면·컴포넌트·변수·주석을 다시 읽어 대조하는 Codex 플러그인입니다. 전문 분석 보고서, GitHub의 컴포넌트 코드, 디자인 시스템 사이트도 기획과 함께 사용할 수 있습니다.
 
-**처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. Computer Use가 없으면 같은 패키지·검증을 사용하고 Figma 버튼만 사람이 조작합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
+**처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. 기본 경로는 Computer Use 없이 사용자가 Figma Flow를 열고 Codex가 로컬 연결로 실행·검증하는 방식입니다. 로컬 연결도 제한된 환경에서는 패널에서 실행하고 결과 JSON을 전달합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
 
 ```sh
 git clone --branch v0.23.0 https://github.com/jonsoku-dev/figma-flow.git
