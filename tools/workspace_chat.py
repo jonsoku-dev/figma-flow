@@ -11,6 +11,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import threading
 import uuid
 
@@ -114,8 +115,8 @@ class ChatHandler(BaseHTTPRequestHandler):
                 matches = [task for task in tasks if task.get('key') == data['key']]
                 if catalogue.get('schema') != 'figma-flow-workspace-v1' or len(matches) != 1 or any(matches[0].get(field) != data[field] for field in ('threadId', 'revision')):
                     raise ValueError('Task, revision or chat differs from the current workspace registry.')
-                side_effects_possible = True
                 status, result = self.server.perform(self.path, data)
+                side_effects_possible = result.get('status') in {'queued', 'opened', 'uncertain'}
         except (OSError, ValueError, TypeError, KeyError, AttributeError, RecursionError, RuntimeError):
             if side_effects_possible:
                 status, result = 504, {'status': 'uncertain', 'error': 'Action outcome is uncertain. Check the originating chat before creating another request.'}
@@ -156,8 +157,8 @@ class ChatServer(ThreadingHTTPServer):
             return 503, {'error': 'Use the official native codex.exe on PATH; Windows batch wrappers cannot preserve literal text safely.'}
         if endpoint == '/chat/open' and sys.platform != 'darwin' and sys.platform != 'win32':
             return 503, {'error': 'Opening Codex chats is supported on macOS and Windows.'}
-        result = {'status': 'uncertain', 'error': 'Delivery is uncertain. Check the originating chat before creating another request.'}
-        ledger[request_id] = {'fingerprint': fingerprint, 'result': result}
+        uncertain = {'status': 'uncertain', 'error': 'Delivery is uncertain. Check the originating chat before creating another request.'}
+        ledger[request_id] = {'fingerprint': fingerprint, 'result': uncertain}
         self.save_ledger(ledger_path, ledger)
         try:
             if endpoint == '/chat/queue':
@@ -173,20 +174,17 @@ class ChatServer(ThreadingHTTPServer):
                     subprocess.run(['/usr/bin/open', uri], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
                                    stderr=subprocess.DEVNULL, timeout=self.action_timeout, check=True, shell=False)
                 result = {'status': 'opened'}
-        except (OSError, subprocess.SubprocessError):
-            # The command may have delivered before its failure or timeout; never retry automatically.
-            return 504, result
-        ledger[request_id]['result'] = result
-        try:
+            ledger[request_id]['result'] = result
             self.save_ledger(ledger_path, ledger)
-        except OSError:
-            return 504, {'status': 'uncertain', 'error': 'Action started but receipt could not be saved. Check the originating chat.'}
+        except (OSError, ValueError, TypeError, KeyError, AttributeError, RecursionError, RuntimeError, subprocess.SubprocessError):
+            # The durable claim remains uncertain if the command or final receipt fails.
+            return 504, uncertain
         return 200, result
 
     @staticmethod
     def save_ledger(path, ledger):
-        temporary = path.with_suffix('.tmp')
-        fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        fd, temporary_name = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
+        temporary = Path(temporary_name)
         try:
             with os.fdopen(fd, 'w', encoding='utf-8') as handle:
                 json.dump(ledger, handle)

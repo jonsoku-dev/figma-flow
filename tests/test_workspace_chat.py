@@ -150,6 +150,41 @@ class WorkspaceChatTest(unittest.TestCase):
         self.assertEqual(self.send()[0], 200)
 
     @patch('workspace_chat.subprocess.run')
+    def test_stale_temporary_receipts_do_not_block_actions(self, run):
+        legacy = self.workspace / 'chat-requests.tmp'
+        orphan = self.workspace / '.chat-requests.json-crashed'
+        for path in (legacy, orphan):
+            path.write_text('incomplete prior receipt')
+            path.chmod(0o600)
+        self.assertEqual(self.send()[0], 200)
+        run.assert_called_once()
+        receipt = self.workspace / 'chat-requests.json'
+        self.assertEqual(receipt.stat().st_mode & 0o777, 0o600)
+        self.assertEqual(json.loads(receipt.read_text())[self.body['requestId']]['result']['status'], 'queued')
+        self.assertEqual(set(self.workspace.glob('.chat-requests.json-*')), {orphan})
+        self.assertEqual(self.send()[1]['replayed'], True)
+        run.assert_called_once()
+
+    @patch('workspace_chat.subprocess.run')
+    def test_preclaim_receipt_failures_report_definitely_not_started(self, run):
+        receipt = self.workspace / 'chat-requests.json'
+        receipt.write_text('invalid json')
+        receipt.chmod(0o600)
+        status, result = self.send()
+        self.assertEqual(status, 409)
+        self.assertIn('no action was started', result['error'])
+        self.assertNotIn('status', result)
+        run.assert_not_called()
+        receipt.unlink()
+        with patch.object(self.server, 'save_ledger', side_effect=OSError('initial claim failed')):
+            status, result = self.send()
+        self.assertEqual(status, 409)
+        self.assertIn('no action was started', result['error'])
+        self.assertNotIn('status', result)
+        self.assertFalse(receipt.exists())
+        run.assert_not_called()
+
+    @patch('workspace_chat.subprocess.run')
     def test_failed_receipt_after_enqueue_stays_uncertain_and_replay_safe(self, run):
         save = self.server.save_ledger
         calls = []
