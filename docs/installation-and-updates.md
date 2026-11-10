@@ -91,7 +91,7 @@ PROJECT="$PROJECT_PARENT/workshop-run"
 "$PY" -B "$PLUGIN_ROOT/tools/design_actions.py" status --manifest "$PROJECT/review/directions.json"
 ```
 
-사전에 [npm·LTS 설정](npm-environment.md)을 완료합니다. 이 저장소 루트는 npm 앱이 아니며 `npm install`이나 `npm ci`가 필요하지 않습니다. 예제는 Python 의존성을 사용합니다. 0.20.0의 [동봉 스킬 검사](../skills/figma-flow/references/skill-dependencies.md)가 `ready`인지 확인하고 진행합니다. 과거 릴리스에는 새 검사·동봉 원문이 없으므로 해당 버전의 설치 절차를 사용합니다. 예제 생성 뒤 상태는 `NATIVE_REVIEW_PENDING`이어야 하며, 이 단계만으로 실제 Figma 화면이 생기지는 않습니다. `workshop-run`은 새 폴더여야 합니다.
+사전에 [npm·LTS 설정](npm-environment.md)을 완료합니다. 이 저장소 루트는 npm 앱이 아니며 `npm install`이나 `npm ci`가 필요하지 않습니다. 예제는 Python 의존성을 사용합니다. 0.21.0의 [동봉 스킬 검사](../skills/figma-flow/references/skill-dependencies.md)가 `ready`인지 확인하고 진행합니다. 과거 릴리스에는 새 검사·동봉 원문이 없으므로 해당 버전의 설치 절차를 사용합니다. 예제 생성 뒤 상태는 `NATIVE_REVIEW_PENDING`이어야 하며, 이 단계만으로 실제 Figma 화면이 생기지는 않습니다. `workshop-run`은 새 폴더여야 합니다.
 
 Codex 플러그인 설치 후 새 채팅이 필요하면 다음처럼 이어갑니다. 사용자가 새 채팅을 열고 이 프롬프트를 보냅니다.
 

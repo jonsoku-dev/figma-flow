@@ -1,6 +1,8 @@
-# Figma Flow 0.20.0 · 로컬 업데이트
+# Figma Flow 0.21.0 · 로컬 업데이트
 
-이 작업트리의 로컬 0.20.0은 외부 디자인 스킬의 원문·참조·라이선스를 버전 고정해 함께 제공합니다. 첫 실행에서 동봉 파일을 검증하며 전역 스킬 설치가 필요하지 않습니다. MCP 설정은 각 사용자의 현재 프로젝트에서 생성하고 개인 설치 경로가 담긴 설정은 배포하지 않습니다. 아래 GitHub 설치 명령은 공개된 `v0.18.2`를 가리키며, 로컬 변경의 설치와 공개 릴리스는 구분합니다.
+그래프의 컴포넌트 디자인 토큰을 정본으로 삼아 Figma와 웹으로 내보내고, 디자이너의 직접 편집을 그래프로 역수입합니다. [Graph SSOT 절차](examples/graph-ssot/README.md)에서 최초 이관·실측 검증·충돌 복구를 확인하세요. 기존 Unslop 비평과 프로젝트별 브라우저 접근 등록도 유지합니다.
+
+이 작업트리의 로컬 0.21.0은 외부 디자인 스킬의 원문·참조·라이선스를 버전 고정해 함께 제공합니다. 첫 실행에서 동봉 파일을 검증하며 전역 스킬 설치가 필요하지 않습니다. MCP 설정은 각 사용자의 현재 프로젝트에서 생성하고 개인 설치 경로가 담긴 설정은 배포하지 않습니다. 아래 GitHub 설치 명령은 공개된 `v0.20.0`를 가리키며, 로컬 변경의 설치와 공개 릴리스는 구분합니다.
 
 외부 원문은 각 원본의 라이선스를 유지합니다. [동봉 패키지의 출처·라이선스·업데이트 규칙](vendor/skills/README.md)을 확인하세요.
 
@@ -9,7 +11,7 @@ Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으
 **처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. Computer Use가 없으면 같은 패키지·검증을 사용하고 Figma 버튼만 사람이 조작합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
 
 ```sh
-git clone --branch v0.18.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.20.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 ```
 
@@ -22,7 +24,7 @@ cd figma-flow
 | Node LTS·회사 npm 설정·lockfile 제외 | [환경 설정 가이드](docs/npm-environment.md) |
 | 지정한 디자인 시스템으로 화면 만들기 | [shadcn/ui와 MUI 비교 결과](docs/design-system-trials.md) |
 | 제품에 맞게 화면을 비평·수정하기 | [내장 Unslop 절차](skills/figma-flow/references/unslop.md) |
-| 외부 스킬 없이 첫 디자인 실행 준비하기 | [동봉된 원문과 첫 실행 검증](skills/figma-flow/references/skill-dependencies.md) |
+| 전역 스킬 설치 없이 첫 디자인 실행 준비하기 | [동봉된 원문과 첫 실행 검증](skills/figma-flow/references/skill-dependencies.md) |
 | 브라우저 작업 사이트를 허용 목록에 추가하기 | [로컬 URL·새 사이트의 등록과 적용 확인](skills/figma-flow/references/browser-access.md) |
 | 릴리스 내려받기·버전 확인 | [GitHub Releases](https://github.com/jonsoku-dev/figma-flow/releases) · [변경 기록](CHANGELOG.md) · [개발·릴리스 절차](CONTRIBUTING.md) |
 
@@ -277,3 +279,7 @@ strict-local 성공은 **선언된 추적 범위**가 채워졌다는 뜻이고 
 ## 라이선스
 
 [MIT](LICENSE)
+
+## Graph SSOT 동기화
+
+컴포넌트 토큰을 그래프에 한 번 정의하고 Figma·웹 사이에서 편집을 왕복할 때는 [graph-ssot](skills/graph-ssot/SKILL.md)를 사용합니다. 최초 소비자 이관, 디자이너 직접 편집, 충돌·복구 절차와 [지원 속성](examples/graph-ssot/README.md)을 확인하세요.
