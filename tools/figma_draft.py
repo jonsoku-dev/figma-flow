@@ -4,6 +4,7 @@ import argparse
 import base64
 from datetime import datetime, timezone
 import hashlib
+from html import escape
 import json
 import math
 import os
@@ -18,6 +19,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 TOOLS=Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path: sys.path.insert(0,str(TOOLS))
 from embedded_assets import embedded_asset_warnings
+from plugin_panel import render_panel
 import annotation_contract
 from draft_foundation_audit import audit_draft_foundations
 from draft_token_plan import foundation_bindings
@@ -863,7 +865,7 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
     code='const DRAFT='+payload_json+';\n'+helpers+'\n'+(PLUGIN/'figma-bridge/direction_review.js').read_text()
     portable=out/'plugin';portable.mkdir(exist_ok=True)
     manifest_data={'name':'NIGHT · A/B/C Figma 방향 검토'if register else'Figma Flow · 디자인 방향 검토','id':plugin_id,'api':'1.0.0','editorType':['figma'],'main':'code.js','ui':'ui.html','documentAccess':'dynamic-page','enablePrivatePluginApi':True,'networkAccess':{'allowedDomains':['none']}}
-    for name,value in{'code.js':code,'ui.html':ui_html(night_demo=night_demo),'manifest.json':json.dumps(manifest_data,ensure_ascii=False,indent=2)}.items():(portable/name).write_text(value)
+    for name,value in{'code.js':code,'ui.html':ui_html(night_demo=night_demo,review=packet),'manifest.json':json.dumps(manifest_data,ensure_ascii=False,indent=2)}.items():(portable/name).write_text(value)
     zip_name='NIGHT-Figma-Draft-Review.zip'if night_demo else'Figma-Direction-Review.zip'
     with zipfile.ZipFile(out/zip_name,'w',zipfile.ZIP_DEFLATED)as z:
         for path in portable.iterdir():z.write(path,path.name)
@@ -873,33 +875,86 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
         private=PRIVATE/'plugin';private.mkdir(parents=True,exist_ok=True,mode=0o700)
         for path in portable.iterdir():shutil.copyfile(path,private/path.name);(private/path.name).chmod(0o600)
         manifest_data['networkAccess']['devAllowedDomains']=[f'http://localhost:{port}']
-        (private/'manifest.json').write_text(json.dumps(manifest_data,ensure_ascii=False,indent=2));(private/'ui.html').write_text(ui_html({'url':f'http://localhost:{port}/draft-readback','capability':token_path.read_text().strip()},night_demo=True));(private/'ui.html').chmod(0o600)
+        (private/'manifest.json').write_text(json.dumps(manifest_data,ensure_ascii=False,indent=2));(private/'ui.html').write_text(ui_html({'url':f'http://localhost:{port}/draft-readback','capability':token_path.read_text().strip()},night_demo=True,review=packet));(private/'ui.html').chmod(0o600)
     (out/'사용방법.txt').write_text(('지정한 Figma 파일에서 로컬 검토 플러그인을 열고')+' 「검토 시안 만들기」를 한 번 누르세요.\n이 도구는 검토용 화면·주석·팔레트·클릭 이동만 만듭니다. 방향 선택·승인·본 제작은 하지 않습니다.\nDev Mode나 유료 업그레이드 없이 일반 Design 모드의 「주석 읽기」 프레임에서 설명을 읽고 링크로 해당 화면·조작으로 이동하세요.\n원화와 브라우저 참조는 래스터이고 제목·본문·행동 제어·팔레트는 편집 가능한 실제 Figma 노드입니다. 「결과 JSON 저장」으로 원본 읽기 결과를 내보내세요. 로컬 수신기를 연결한 경우에는 결과가 그 수신기에도 전달됩니다.\n')
     write_json(out/'prepared.json',{'status':'prepared-not-executed','packet_sha256':packet['packet_sha256'],'fileKey':packet['fileKey'],'production_admitted':False,'manifest':str(portable/'manifest.json'),'registered':register,'warnings':warnings})
     return {'manifest':str((PRIVATE/'plugin/manifest.json')if register else portable/'manifest.json'),'packet':str(out/'packet.json'),'zip':str(out/zip_name),'status':'prepared-not-executed','warnings':warnings}
 
 
-def ui_html(pair=None, night_demo=False):
-    return '''<!doctype html><meta charset="utf-8">
-<style>body{font:14px/1.65 system-ui;padding:18px;background:#102b36;color:#f3e9d3}button{font:inherit;padding:12px;width:100%;margin:7px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
-<h2>디자인 방향 · Figma 검토</h2>
-<p>검토용 실제 노드·주석·팔레트·클릭 이동을 만듭니다. 방향을 선택하거나 승인하지 않습니다.</p>
-<button id="make">검토 시안 만들기</button><button id="save" disabled>결과 JSON 저장</button>
-<pre id="status">준비됨 · 검토 패킷에 지정한 Design 파일에서 실행</pre>
+def ui_html(pair=None, night_demo=False, review=None):
+    candidates = review.get('candidates', []) if review else []
+    title = f'검토할 방향 {len(candidates)}개' if candidates else '디자인 방향 검토'
+    names = ' · '.join(str(candidate['title']) for candidate in candidates) if candidates else '준비된 패킷의 후보를 생성합니다.'
+    target = '지정 Design 파일' if review and review.get('fileKey') else '현재 Design 파일'
+    page = '검토 전용 페이지'
+    if review and review.get('packet_sha256'):
+        page = 'DRAFT · A/B/C 방향 검토 · ' + review['packet_sha256'][:8]
+    context = '<h1>' + escape(title) + '</h1><p>' + escape(names) + '</p>'
+    scope = escape(target + ' / ' + page)
+    pair_json = json.dumps(pair).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    return render_panel('''<!doctype html><html lang="ko"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>/* FIGMA_FLOW_PANEL_CSS */</style>
+<body class="panel">
+<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>Figma Flow</div><span class="context">디자인 방향 검토</span></header>
+<main class="workspace">
+<section class="intro">__REVIEW_CONTEXT__</section>
+<section class="work-section"><h2>1. 시안 생성</h2><p class="metadata">__REVIEW_SCOPE__</p><div class="actions"><button class="primary" id="make">검토 시안 만들기</button></div></section>
+<section class="status" id="status-panel" data-state="ready" aria-live="polite" aria-atomic="true"><h2 class="status-title" id="status-title">실행 전</h2><p class="status-body" id="status-body">화면·클릭 이동·설명 주석을 편집 가능한 노드로 생성합니다.</p><details class="details" id="status-details" hidden><summary>상세 진단 보기</summary><pre id="status"></pre></details></section>
+<section class="work-section"><h2>2. 결과 저장</h2><p>생성 후 읽기 결과 또는 실패 진단 JSON을 저장할 수 있습니다.</p><div class="actions"><button class="secondary" id="save" disabled>결과 JSON 저장</button></div></section>
+<p class="metadata">방향 선택과 승인은 별도입니다. 이 도구는 검토용 시안만 만듭니다.</p>
+</main>
+
 <script>
 const PAIR = __PAIR__;
 let result = null;
 let resultKind = null;
+let receiptOutcome = null;
+let receiptDetails = '';
+let persistenceFailed = false;
+let nativeBusy = false;
 const makeButton = document.getElementById('make');
 const saveButton = document.getElementById('save');
 const status = document.getElementById('status');
+const statusPanel = document.getElementById('status-panel');
+const statusTitle = document.getElementById('status-title');
+const statusBody = document.getElementById('status-body');
+const statusDetails = document.getElementById('status-details');
+function showStatus(state, title, body, details = '') {
+  statusPanel.dataset.state = state;
+  statusTitle.textContent = title;
+  statusBody.textContent = body;
+  status.textContent = details;
+  statusDetails.hidden = !details;
+}
+function setBusy(busy) {
+  if (typeof busy === 'boolean') nativeBusy = busy;
+  const waiting = nativeBusy || (PAIR && resultKind === 'readback' && receiptOutcome === null && !persistenceFailed);
+  makeButton.disabled = !!waiting;
+  makeButton.textContent = waiting ? '검토 시안 준비 중…' : '검토 시안 만들기';
+}
+function showReadbackStatus() {
+  if (receiptOutcome !== null) {
+    showStatus(receiptOutcome ? 'success' : 'error', receiptOutcome ? '읽기 결과 검증 완료' : '읽기 결과 검증 실패',
+      receiptOutcome ? '로컬 수신기에서 실제 노드 결과를 검증했습니다. 방향 선택과 승인은 별도입니다.' : '상세 진단 보기에서 검증 오류를 확인하세요. 결과 JSON 저장은 실제 노드의 읽기 원본을 내보냅니다.', receiptDetails);
+  } else {
+    showStatus(PAIR ? 'busy' : 'success', PAIR ? '읽기 결과 전달 중' : '실제 노드 읽기 완료',
+      PAIR ? '로컬 수신기에 결과를 보내고 있습니다. JSON은 직접 저장할 수도 있습니다.' : '결과 JSON을 저장해 내보내세요. 연결 검증과 방향 선택은 아직 하지 않았습니다.');
+  }
+}
 
 makeButton.onclick = () => {
   result = null;
   resultKind = null;
+  receiptOutcome = null;
+  receiptDetails = '';
+  persistenceFailed = false;
+  setBusy(true);
   saveButton.disabled = true;
+  saveButton.className = 'secondary';
+  makeButton.className = 'primary';
   saveButton.textContent = '결과 JSON 저장';
-  status.textContent = '검토 시안 생성 중';
+  showStatus('busy', '검토 시안 생성 중', '화면·글꼴·주석·팔레트를 만들고 있습니다. 잠시 기다려 주세요.');
   parent.postMessage({pluginMessage: {type: 'draft-review'}}, '*');
 };
 saveButton.onclick = () => {
@@ -915,11 +970,19 @@ window.onmessage = async event => {
   const message = event.data && event.data.pluginMessage;
   if (!message) return;
   if (message.type === 'status') {
-    makeButton.disabled = !!message.busy;
-    if (resultKind === 'failure') return;
-    status.textContent = resultKind === 'readback' && !PAIR
-      ? '검토 시안이 준비됐습니다. 결과 JSON 저장을 눌러 읽기 결과를 내보내세요.'
-      : message.message;
+    setBusy(!!message.busy);
+    if (resultKind === 'failure' || persistenceFailed) return;
+    if (resultKind === 'readback' && receiptOutcome !== null) {
+      showReadbackStatus();
+    } else if (message.state === 'error') {
+      showStatus('error', resultKind === 'readback' ? '읽기 결과 검증 실패' : '시안 생성 실패', '상세 진단을 확인한 뒤 다시 실행하세요.', message.message);
+    } else if (resultKind === 'readback') {
+      showReadbackStatus();
+    } else if (message.busy) {
+      showStatus('busy', '검토 시안 생성 중', message.message);
+    } else {
+      showStatus('ready', '생성 준비 완료', message.message);
+    }
     return;
   }
   if (message.type === 'geometry-failure') {
@@ -928,15 +991,21 @@ window.onmessage = async event => {
     result = diagnostic;
     resultKind = 'failure';
     saveButton.disabled = false;
+    saveButton.className = 'primary';
+    makeButton.className = 'secondary';
     saveButton.textContent = '실패 진단 JSON 저장';
-    status.textContent = '검토 시안 생성 실패 · 승인 가능한 읽기 결과가 아닙니다. 실패 진단 JSON을 저장하세요.' + String.fromCharCode(10) + JSON.stringify(diagnostic, null, 2);
+    showStatus('error', '화면 배치 검증 실패', '이 결과는 정상 읽기 결과로 사용할 수 없습니다. 실패 진단 JSON을 저장해 문제를 확인하세요.', JSON.stringify(diagnostic, null, 2));
     return;
   }
   if (message.type !== 'readback') return;
   result = message.data;
   resultKind = 'readback';
   saveButton.disabled = false;
+  saveButton.className = 'primary';
+  makeButton.className = 'secondary';
   saveButton.textContent = '결과 JSON 저장';
+  showReadbackStatus();
+  setBusy();
   if (!PAIR) return;
   try {
     const response = await fetch(PAIR.url, {
@@ -945,13 +1014,19 @@ window.onmessage = async event => {
       body: JSON.stringify(message.data)
     });
     const receipt = await response.json();
-    if (!response.ok) throw Error(receipt.errors?.join('; ') || receipt.error || response.status);
+    if (!response.ok && receipt.passed !== false) throw Error(receipt.errors?.join('; ') || receipt.error || response.status);
+    receiptOutcome = response.ok && receipt.passed === true;
+    receiptDetails = receiptOutcome ? '' : JSON.stringify(receipt, null, 2);
+    setBusy();
+    showReadbackStatus();
     parent.postMessage({pluginMessage: {type: 'receipt', passed: receipt.passed}}, '*');
   } catch (error) {
-    status.textContent = '실제 화면은 생성됨 · 로컬 결과 저장 실패: ' + error + String.fromCharCode(10) + '결과 JSON 저장 버튼을 사용하세요.';
+    persistenceFailed = true;
+    setBusy();
+    showStatus('error', '로컬 결과 전달 실패', '실제 노드 읽기는 완료됐습니다. 결과 JSON 저장 버튼으로 직접 보관하세요.', String(error));
   }
 };
-</script>'''.replace('__PAIR__', json.dumps(pair))
+</script></body></html>'''.replace('__PAIR__', pair_json).replace('__REVIEW_SCOPE__', scope).replace('__REVIEW_CONTEXT__', context))
 
 
 class DraftReceiver(BaseHTTPRequestHandler):

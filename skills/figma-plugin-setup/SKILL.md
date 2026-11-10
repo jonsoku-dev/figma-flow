@@ -1,13 +1,13 @@
 ---
 name: figma-plugin-setup
-description: Install Figma Flow in Codex, connect its generated Figma development plugin, verify actual readback, or update and repair that connection. Handles private repositories, company npm registry setup, and environments with or without Computer Use.
+description: Install Figma Flow in Codex, connect its stable Figma workspace and Codex-prepared task list, verify actual readback, or update and repair that connection. Handles private repositories, company npm registry setup, and environments with or without Computer Use.
 ---
 
 # Figma 플러그인 설치·연동·업데이트
 
 ## 적용 범위와 입력
 
-Figma Flow의 **Codex 설치**, 프로젝트별 **Figma 개발 플러그인**, 사용 중일 때만 **paired sync**를 구분한다. 디자인 제작·후보 선택은 기존 `figma-flow` 절차를 사용한다. 입력은 원본 URL/태그, 마켓플레이스·설치 경로, 프로젝트/현재 리뷰, 등록 manifest, Computer Use 가능 여부다. 현재 대화와 로컬 파일에서 확인한 값은 재사용한다.
+Figma Flow의 **Codex 설치**, 한 번 등록하는 **Figma Flow 작업공간과 프로젝트별 작업 목록**, 사용 중일 때만 **paired sync**를 구분한다. 디자인 제작·후보 선택은 기존 `figma-flow` 절차를 사용한다. 입력은 원본 URL/태그, 마켓플레이스·설치 경로, 프로젝트/현재 리뷰, 고정 workspace manifest·Figma 발급 ID·작업 키, Computer Use 가능 여부다. 현재 대화와 로컬 파일에서 확인한 값은 재사용한다.
 
 이 파일의 두 단계 위가 동봉된 플러그인 루트다. 경로를 설치 캐시 관례로 추정하지 말고 실제 파일로 확인한다. 첫 설치는 아직 이 스킬이 없으므로 [설치 프롬프트](../../docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 사용하고, 설치 후 이 스킬을 읽는다.
 
@@ -24,7 +24,7 @@ Figma Flow의 **Codex 설치**, 프로젝트별 **Figma 개발 플러그인**, �
 
 1. 원본 루트, `git status`, 태그/커밋, 두 plugin manifest 버전, 마켓플레이스 JSON을 읽는다. 현재 CLI의 plugin/marketplace `--help`, `list --json`으로 실제 지원 문법과 설치 소스를 확인한다. 다른 작업이 있는 클론은 보존하고 새 전용 클론에서 진행한다.
 2. 최신 요청은 해당 공개/회사 저장소의 최신 **정식 GitHub Release**를 확인한 뒤 정확한 태그·커밋으로 고정한다. 릴리스가 없으면 게시된 안정 버전을 추측하지 말고 사용할 ref를 사용자에게 받는다. 서로 다른 회사/개인 마켓플레이스가 같은 이름이면 덮어쓰기 전에 구분한다.
-3. 로컬 파일/CLI와 Figma Desktop의 위치를 확인한다. 원격 Codex가 만든 파일은 Desktop이 있는 머신으로 전체 패키지를 전달한다. Computer Use가 없으면 이후 Figma 조작만 사용자에게 넘긴다. Figma가 목적지인 요청을 HTML로 변경하지 않는다.
+3. 기존 작업공간의 고정 manifest와 실제 등록된 폴더·ID를 확인하고 재사용한다. 새 작업은 그 목록에 추가하며, standalone manifest는 기존 호환 경로가 필요한 경우에만 등록한다. 로컬 파일/CLI와 Figma Desktop의 위치를 확인한다. 원격 Codex가 만든 파일은 Desktop이 있는 머신으로 전체 패키지를 전달한다. Computer Use가 없으면 이후 Figma 조작만 사용자에게 넘긴다. Figma가 목적지인 요청을 HTML로 변경하지 않는다.
 
 완료 기준: 원본·설치·실행 머신과 대상 프로젝트를 구분하고, 변경할 경로와 보존할 경로가 특정된다.
 
@@ -41,18 +41,20 @@ Figma Flow의 **Codex 설치**, 프로젝트별 **Figma 개발 플러그인**, �
 
 완료 기준: 실제 Codex 설치 경로·버전이 확인되고 환경·의존성이 준비된다. 브라우저 분기는 MCP 설정·실제 연결·허용 목록 적용을 각각 보고한다. 설치 성공은 Figma 연결 성공과 별도로 보고한다.
 
-## 3. 검토 패키지와 실제 Figma 연결
+## 3. 한 번 등록하고 준비된 작업 실행
 
-1. 설치된 복사본의 `examples/native-direction-review/demo.py --out <새 폴더>`로 첫 워크숍을 만들고 `tools/design_actions.py status --manifest <review/directions.json>`에서 `NATIVE_REVIEW_PENDING`을 확인한다. 기존 프로젝트를 무단 재생성하지 않는다.
-2. 해당 프로젝트의 검토용 개발 ID가 있으면 manifest에서 숫자 문자열을 읽는다. 없으면 Figma Desktop의 **플러그인 → 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI → 전용 폴더에 저장**으로 발급받는다. 계정 로그인·접근 승인은 사용자 단계다. 다른 캠페인의 ID를 빌리지 않는다.
-3. `tools/design_actions.py prepare-native-review --manifest <directions.json> --plugin-id <실제 ID> --out <새 폴더>`로 패키지를 만들고 출력의 `prepared.manifest`를 확인한다. `manifest.json`, `code.js`, `ui.html`의 절대 경로를 전달한다.
-4. Figma Desktop에서 **개발 → 매니페스트에서 플러그인 가져오기 → 해당 manifest 선택 → 개발 플러그인 실행 → 검토 시안 만들기 → 결과 JSON 저장**을 진행한다. 등록 중복은 프로젝트·ID·전용 폴더를 대조하고 해당 폴더를 백업한 뒤 같은 패키지의 세 파일을 함께 사용한다.
-5. 실제 내보낸 JSON을 받은 뒤 `verify-native-review --manifest <현재 directions.json> --readback <실제 파일>`과 `status`를 실행한다. 성공 상태는 `WAIT_SELECTION`이다. 실패 진단은 보존하고 원본 입력에서 수정한다.
-6. 실제 크기의 데스크톱·모바일에서 글자 잘림·겹침·버튼 정렬, 주요 프로토타입과 복귀, 주석 링크를 확인한다. 내보낸 PNG를 사용할 수 있다. JSON 비교, 화면 관찰, 사용자 선택의 근거를 구분한다. 실제 선택 전에는 본제작을 시작하거나 선택 영수증을 만들지 않는다.
+1. 설치된 복사본의 `examples/native-direction-review/demo.py --out <새 폴더>`로 첫 워크숍을 만들고 `design_actions.py status`에서 `NATIVE_REVIEW_PENDING`을 확인한다. 기존 프로젝트를 무단 재생성하지 않는다.
+2. 기존 작업공간 ID가 있으면 고정 manifest에서 숫자 문자열을 읽는다. 최초 한 번만 Figma Desktop의 **플러그인 → 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI → 전용 폴더에 저장**으로 사용자 소유 ID를 발급받는다. 계정 로그인·접근 승인은 사용자 단계다.
+3. [작업공간 명령과 등록 절차](../../docs/figma-guide.md)에 따라 고정 manifest를 준비하고 Desktop에 한 번 등록한다. 실제 ID와 등록 경로를 기록한다. 작업공간 CLI의 현재 POSIX 지원 범위를 확인한다. Windows 로컬은 standalone 호환 경로를 유지한다. 원격 생성했다면 숨김 generation을 포함한 작업공간 전체를 Desktop 머신에 전달하고 실제 실행 범위를 구분한다.
+4. 현재 `CODEX_THREAD_ID` 또는 명시적인 실제 `--thread-id`로 `prepare --kind review`를 실행한다. 둘 다 없으면 오프라인 작업으로 두고 채팅 ID를 만들지 않는다. **준비된 작업**에서 프로젝트·제목·종류·파일/페이지 범위를 확인한 뒤 **열기 → 검토 시안 만들기 → 완료 확인 → 결과 JSON 저장**을 진행한다. **작업 목록으로**는 홈으로 돌아가며 실행 중에는 기다린다.
+5. 실제 JSON을 받은 뒤 현재 `directions.json`과 `verify-native-review`·`status`로 대조한다. 성공 상태는 `WAIT_SELECTION`이다. 오류 자료는 보존하고 원본 입력에서 수정해 같은 작업 키를 갱신한다. 갱신 후 이전 작업 창을 닫고 고정 manifest를 다시 실행한다.
+6. 실제 화면·프로토타입·주석을 확인하고 현재 후보를 비교·추천한다. 실제 사용자 선택 전에는 선택 기록이나 본제작을 만들지 않는다. 다음 본제작·문서 읽기·동기화도 같은 작업공간에 별도 작업 키로 준비한다.
 
-**Computer Use 없음:** 설치 가이드 4절의 단계별 버튼·예상 파일·다음 프롬프트를 제공하고, 사용자가 manifest 또는 readback 경로/파일을 줄 때 해당 단계부터 계속한다. 파일이 아직 없으면 연결 검증은 pending이며, 생성한 패키지와 실행할 검증 명령을 남긴다. 수동 경로도 같은 JSON 검사와 상태 기준을 사용한다.
+다른 ID의 standalone 패키지를 그대로 끼워 넣지 않는다. Figma private plugin data는 ID에 묶인다. 원래 ID가 만든 기존 페이지를 계속 다룰 때는 그 ID로 작업공간을 구성하거나 원래 패키지를 유지한다. 통합 ID로 옮길 필요가 있으면 기존 자료를 먼저 읽고 사용자가 지정한 범위의 명시적 이관을 준비한다. ID 문자열 교체로 소유권이 이전됐다고 판단하지 않는다.
 
-**Computer Use 있음:** 지정한 Figma Desktop 파일·메뉴·관련 선택/저장 창만 조작한다. 앱의 접근 승인과 사용자 확인을 준수한다. 도중에 불가능해지면 이미 만든 패키지를 보존하고 같은 수동 경로로 이어간다.
+**Computer Use 없음:** 사용자가 고정 manifest를 최초 등록하고 홈에서 해당 작업을 열어 결과 JSON을 전달한다. CLI·파일 준비와 검사는 Codex가 완료한다. 실제 파일이 오기 전까지 연결 검증은 pending이다.
+
+**Computer Use 있음:** 지정한 Figma Desktop 파일·메뉴·관련 선택/저장 창만 조작한다. 앱의 접근 승인과 사용자 확인을 준수한다. 불가능해지면 만든 작업공간과 작업 키를 보존하고 같은 수동 경로로 이어간다.
 
 ## 4. 업데이트·복구 분기
 
@@ -60,10 +62,16 @@ Figma Flow의 **Codex 설치**, 프로젝트별 **Figma 개발 플러그인**, �
 
 1. 이전 설치 버전·원본/ref·재설치 가능한 소스와 Figma 패키지·등록 경로를 보존한다. 삭제될 수 있는 설치 캐시만 롤백 사본으로 삼지 않는다.
 2. 새 릴리스를 별도 클론에 준비하고 해당 마켓플레이스만 갱신한다. `marketplace upgrade`는 소스 갱신이며 고정 ref 변경이나 설치 캐시 교체의 증거가 아니다. 현재 CLI가 지원하는 해당 플러그인 재설치 후 실제 새 버전·소스·스킬을 대조한다.
-3. 새 설치 도구로 **새 출력 폴더**에 프로젝트의 검토용 또는 본제작용 패키지를 만든다. 같은 프로젝트·용도의 ID는 유지하고 두 용도를 섞지 않는다. 등록된 Figma 경로를 새 패키지에 맞추고 실행 중인 이전 창을 닫는다.
+3. 새 설치 도구의 `prepare`로 기존 작업공간의 같은 ID·작업 키를 갱신한다. 바뀐 입력은 `list`의 현재 revision을 `--replace-expected`로 고정한다. 등록 manifest 경로는 유지하고 이전 실행 창을 닫아 다시 연다. 업데이트 전 작업공간 전체를 복구 가능하게 보존한다. standalone 호환 패키지는 해당 ID·등록 경로를 별도로 유지한다. 검토 수신기를 사용하던 프로젝트는 가이드의 `review --pair-dir/--receiver-port` 분기로 영수증과 서버 중단 시 수동 저장까지 확인한다.
 4. 새 코드 실행과 실제 새 readback을 검증한다. 기존 페이지를 보존하는 반복 import는 새 입력이 적용됐다는 증거가 아니다. 원본 변경·선택 무효화는 기존 워크플로의 재검토 절차로 처리한다. 실패하면 새 진단을 남기고 이전 패키지 **전체**와 설치 소스로 되돌린다.
-5. paired sync 사용 중일 때만 token-sync와 bridge 문서를 읽는다. 정확한 해당 서버만 종료하고 상태 폴더·비밀값·저널을 보존한다. 기존 컴패니언 변경을 거부하면 새 private 상태 디렉터리에서 준비한다. 일반 업데이트를 위해 `--prior-sync`를 임의 사용하지 않는다. 수동 사용자도 새 컴패니언 등록·baseline·결과 전달을 같은 순서로 진행한다.
+5. paired sync 사용 중일 때만 token-sync와 bridge 문서를 읽는다. 정확한 해당 서버만 종료하고 상태 폴더·비밀값·저널을 보존한다. 기존 컴패니언 변경을 거부하면 새 private 상태 디렉터리에서 준비한다. 일반 업데이트를 위해 `--prior-sync`를 임의 사용하지 않는다. 동일 ID의 지원되는 private paired state는 `prepare --kind import`의 `--paired-state`로 홈에 준비한다. 다른 ID는 원래 standalone 경로를 보존한다. 사용자는 해당 작업 열기·baseline·실제 결과 전달을 진행한다.
+
+## 원래 채팅으로 연결
+
+[채팅 가이드](../../docs/figma-guide.md#11-작업을-준비한-codex-채팅으로-연결)를 따른다. 홈이나 작업 상단의 **Codex 연결**은 기록된 thread에만 연결한다. **보낼 내용 확인** 후 복사·명시적 링크 열기가 기본이며 `init --chat-port`·`workspace_chat.py --workspace`로 구성한 relay가 있을 때만 사용자의 **채팅에 보내기**를 큐에 넣는다. 자동 전송·데스크톱 앞창 추정을 하지 않는다. 큐 접수, 실제 소비·실행과 불확실한 접수는 각각 보고한다.
+
+예전 등록 퇴역을 요청받으면 가이드 6-7절에 따라 새 프로젝트의 실제 작업·읽기 검증을 마친 뒤 지정된 ID·경로만 해제한다. 원래 패키지·등록 목록·증거를 보관하고 현재 고정 manifest와 문서 데이터는 유지하며 원래 ID로 복원할 수 있게 한다.
 
 ## 결과 보고
 
-설치 가이드 8절의 형식으로 원본·버전·실제 설치 경로, 환경, 패키지/등록 경로, 실제 명령과 종료 코드, readback 검증과 상태, 관찰한 화면, 남은 사용자 입력과 복구 경로를 보고한다. 패키지 생성·유닛 테스트만 수행한 경우 실제 Figma 실행은 미확인으로 남긴다. 인증값과 pairing 상태 파일은 보고서·공유 패키지에 넣지 않는다.
+설치 가이드 8절의 형식으로 원본·버전·실제 설치 경로, 환경, 고정 manifest/등록 경로·작업 키, 실제 명령과 종료 코드, readback 검증과 상태, 관찰한 화면, 남은 사용자 입력과 복구 경로를 보고한다. 패키지 생성·유닛 테스트만 수행한 경우 실제 Figma 실행은 미확인으로 남긴다. 인증값과 pairing 상태 파일은 보고서·공유 패키지에 넣지 않는다.

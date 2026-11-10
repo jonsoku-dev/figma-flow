@@ -1,5 +1,6 @@
 import copy
 import json
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -10,7 +11,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 from graph_design_system import load_graph, update_graph_values, emit_web_module, resolve_design_system, _atomic_write
-from graph_sync import build_plan, normalize, receipt, export_bundle, import_values, merge_roots, verify_readback, main, verify_web_proof, recover_projection, bind_adopted_plan, discovery_bundle
+from graph_sync import build_plan, normalize, receipt, export_bundle, import_values, merge_roots, verify_readback, main, verify_web_proof, recover_projection, bind_adopted_plan, discovery_bundle, graph_panel
 
 
 def fixture():
@@ -108,7 +109,19 @@ class GraphSyncTests(unittest.TestCase):
         plan = json.loads((self.directory / 'export/native-plan.json').read_text())
         self.assertEqual(plan['tokens'][1]['alias_chain'], ['alias', 'root'])
         self.assertEqual(plan['components'][0]['instance_keys'], ['instance'])
-        self.assertEqual(json.loads((self.directory / 'export/manifest.json').read_text())['id'], '12345')
+        manifest = json.loads((self.directory / 'export/manifest.json').read_text())
+        self.assertEqual(manifest['id'], '12345')
+        self.assertEqual(manifest['ui'], 'ui.html')
+        self.assertTrue(manifest['enablePrivatePluginApi'])
+        html = (self.directory / 'export' / manifest['ui']).read_text()
+        config = json.loads(re.search(r'<script id="graph-panel-config" type="application/json">(.*?)</script>', html, re.S).group(1))
+        self.assertEqual(config['mode'], 'sync')
+        self.assertGreaterEqual(len(config['session']), 32)
+        self.assertIn('const GRAPH_PANEL_SESSION = ' + json.dumps(config['session']), (self.directory / 'export/code.js').read_text())
+        self.assertEqual(config['stats'], {'tokens': 3, 'components': 1, 'mains': 1, 'instances': 1, 'updates': 0, 'creates': 0, 'bindings': 0})
+        self.assertEqual(config['main_ids'], ['main'])
+        self.assertNotIn('FIGMA_FLOW_PANEL_CSS', html)
+        self.assertNotIn('__GRAPH_PANEL_CONFIG__', html)
         self.assertEqual(result['graph_sha256'], load_graph(self.path).source_sha256)
         self.assertIn('18px', self.web.read_text())
 
@@ -168,6 +181,28 @@ class GraphSyncTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'file_key'):
             build_plan(self.graph, self.native)
 
+    def test_graph_panel_lists_primitive_root_when_alias_precedes_it(self):
+        plan = copy.deepcopy(self.plan)
+        root, alias, padding = plan['tokens']
+        root.update(key='spacing/base', variable_name='spacing/base', before=12, value=16)
+        alias.update(key='button/gap', variable_name='button/gap', before=12, value=16)
+        plan['tokens'] = [alias, root, padding]
+        plan['components'][0]['properties'] = {'gap': 'button/gap'}
+        html = graph_panel('sync', plan, plan)
+        config = json.loads(re.search(r'<script id="graph-panel-config" type="application/json">(.*?)</script>', html, re.S).group(1))
+        self.assertEqual(config['changes'], [{'name': 'spacing/base', 'before': '12', 'after': '16'}])
+        self.assertEqual(config['stats']['updates'], 1)
+
+    def test_graph_panel_escapes_untrusted_scope_without_losing_actual_values(self):
+        value = '</script><img src=x onerror=alert(1)>&'
+        html = graph_panel('discovery', {'file_key': value, 'page_id': 'page', 'allowed_page_ids': ['page']})
+        config = json.loads(re.search(r'<script id="graph-panel-config" type="application/json">(.*?)</script>', html, re.S).group(1))
+        self.assertEqual(config['file_key'], value)
+        self.assertNotIn(value, html)
+        self.assertIn('<body class="panel">', html)
+        self.assertIn('Figma Flow', html)
+        self.assertNotIn('innerHTML', html)
+
     def test_discovery_emits_scoped_read_only_installable_plugin(self):
         output = self.directory / 'discover'
         result = discovery_bundle('file', 'page', ['other-page'], output, '12345')
@@ -178,7 +213,17 @@ class GraphSyncTests(unittest.TestCase):
         self.assertIn("page.getPluginData('graphSSOT')", source)
         self.assertNotIn('setValueForMode', source)
         self.assertNotIn('setBoundVariable', source)
-        self.assertEqual(json.loads((output / 'manifest.json').read_text())['id'], '12345')
+        manifest = json.loads((output / 'manifest.json').read_text())
+        self.assertEqual(manifest['id'], '12345')
+        self.assertEqual(manifest['ui'], 'ui.html')
+        self.assertTrue(manifest['enablePrivatePluginApi'])
+        html = (output / manifest['ui']).read_text()
+        config = json.loads(re.search(r'<script id="graph-panel-config" type="application/json">(.*?)</script>', html, re.S).group(1))
+        self.assertEqual(config['mode'], 'discovery')
+        self.assertIn('const GRAPH_PANEL_SESSION = ' + json.dumps(config['session']), source)
+        self.assertEqual(config['pages'], ['page', 'other-page'])
+        self.assertIn('figma.showUI(__html__', source)
+        self.assertIn('themeColors: true', source)
         if shutil.which('node'):
             subprocess.run(['node', '--check', str(output / 'code.js')], check=True, capture_output=True)
 

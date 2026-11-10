@@ -278,6 +278,25 @@ class FigmaBridgeTests(unittest.TestCase):
         result = bridge.compile_plugin(self.source, digest or self.digest, out, selection_path=self.admission.selection_path, product_graph=self.admission.product_graph)
         return out, result
 
+    def test_generated_panel_embeds_theme_and_keeps_advanced_readback_collapsed(self):
+        out, _ = self.build()
+        html = (out / 'ui.html').read_text()
+        self.assertNotIn('/* FIGMA_FLOW_PANEL_CSS */', html)
+        self.assertIn('body.panel', html)
+        self.assertIn('class="masthead"', html)
+        self.assertIn('class="workspace"', html)
+        self.assertIn('별도 페이지로 새로 가져오기', html)
+        self.assertIn('기존 가져오기는 그대로 유지됩니다.', html)
+        self.assertIn('<details id="readback-details" class="details">', html)
+        self.assertIn('<div id="readback-result" hidden>', html)
+        self.assertLess(html.index('id="save"'), html.index('<details id="readback-details"'))
+        self.assertIn('<h1 id="heading">디자인 가져오기</h1>', html)
+        self.assertIn('aria-describedby="fresh-help"', html)
+        self.assertIn('aria-atomic="true"', html)
+        self.assertIn('id="sync-section" class="work-section" hidden', html)
+        self.assertNotIn('<link', html)
+        self.assertNotIn('https://fonts.', html)
+
     def test_pinned_compilation_is_offline_and_never_overwrites(self):
         out, result = self.build()
         self.assertFalse(result['figma_import_verified'])

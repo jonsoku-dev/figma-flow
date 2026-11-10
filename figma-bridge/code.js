@@ -539,7 +539,7 @@ async function exportReadback() {
   if (PAYLOAD.technical_existing_only && (figma.fileKey !== LOCAL_SYNC.file_key || figma.currentPage.id !== LOCAL_SYNC.page_id)) throw new Error("Existing technical export requires paired native file/page");
   const output = await readback(pages, "active-generated-import-page");
   post({ type: "readback", data: output });
-  status(`페이지 ${output.pages.length}개와 변수 ${output.variables.length}개를 읽었습니다. JSON으로 저장해 로컬에서 대조하세요.`);
+  status(`페이지 ${output.pages.length}개 · 변수 ${output.variables.length}개`);
 }
 async function syncToApp() {
   if (typeof LOCAL_SYNC === "undefined") throw new Error("This build is not paired with a local app.");
@@ -574,7 +574,11 @@ figma.ui.onmessage = async message => {
   if (message.type === "ready") {
     if (sessionNonce && message.session_nonce !== sessionNonce) return;
     sessionNonce = message.session_nonce;
-    status(`입력 ${PAYLOAD.source_sha256.slice(0, 12)} · 화면 ${PAYLOAD.screens.length}개 · 로컬 실행`, { ready: true, paired: typeof LOCAL_SYNC !== "undefined" });
+    const paired = typeof LOCAL_SYNC !== "undefined";
+    const targetPage = paired ? figma.root.children.find(page => page.id === LOCAL_SYNC.page_id) : figma.currentPage;
+    const titles = PAYLOAD.screens.slice(0, 2).map(screen => screen.title || screen.id);
+    const sourceLabel = titles.length ? titles.join(" · ") + (PAYLOAD.screens.length > 2 ? ` 외 ${PAYLOAD.screens.length - 2}개 화면` : "") : `화면 ${PAYLOAD.screens.length}개`;
+    status(`화면 ${PAYLOAD.screens.length}개`, { ready: true, paired, existing_only: PAYLOAD.technical_existing_only === true, source_label: sourceLabel, target_page_name: targetPage?.name || null });
     post({ type: "busy", value: busy });
     return;
   }
@@ -588,4 +592,4 @@ figma.ui.onmessage = async message => {
   } catch (error) { status(`Error: ${error.message || String(error)}`); }
   finally { busy = false; post({ type: "busy", value: false }); }
 };
-figma.showUI(__html__, { width: 440, height: 480, themeColors: true });
+figma.showUI(__html__, { width: 480, height: 720, themeColors: true });

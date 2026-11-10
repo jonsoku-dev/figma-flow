@@ -6,10 +6,12 @@ import hashlib
 import json
 import math
 import re
+import secrets
 from pathlib import Path
 import sys
 import tempfile
 
+from plugin_panel import render_panel
 from graph_design_system import load_graph, resolve_design_system, emit_web_module, update_graph_values, _atomic_write, _encode, _validate_value, _validate_property, SUPPORTED_PROPERTY_TYPES
 
 SCHEMA = 'figma-flow-graph-token-sync-v1'
@@ -733,6 +735,36 @@ def web_probe(graph):
 """ % json.dumps(declarations)
 
 
+def graph_panel(mode, scope, plan=None, session=None):
+    config = {'mode': mode, 'session': session or secrets.token_urlsafe(24), 'file_key': scope['file_key'], 'page_id': scope['page_id'],
+              'pages': scope.get('allowed_page_ids', [scope['page_id']])}
+    if plan is not None:
+        mains = sorted({key for component in plan['components'] for key in component['main_keys']})
+        instances = sorted({key for component in plan['components'] for key in component['instance_keys']})
+        variable_names = {token['variable_id']: token['variable_name'] for token in plan['tokens'] if token.get('variable_id')}
+        changes, roots = [], set()
+        for token in plan['tokens']:
+            root = token.get('root_variable_id', token.get('root_variable_name'))
+            if token.get('create') or root in roots or same_value(token.get('before'), token['value']):
+                continue
+            roots.add(root)
+            changes.append({'name': variable_names.get(root, token.get('root_variable_name') or root),
+                            'before': json.dumps(token.get('before'), ensure_ascii=False),
+                            'after': json.dumps(token['value'], ensure_ascii=False)})
+        config.update(collection_id=plan['collection_id'], graph_sha256=plan['graph_sha256'],
+            main_ids=mains, instance_ids=instances, changes=changes,
+            components=[{'id': component['id'], 'fields': list(component['properties']),
+                         'mains': len(component['main_keys']), 'instances': len(component['instance_keys'])}
+                        for component in plan['components']],
+            stats={'tokens': len(plan['tokens']), 'components': len(plan['components']),
+                   'mains': len(mains), 'instances': len(instances), 'updates': len(changes),
+                   'creates': sum(bool(token.get('create')) for token in plan['tokens']),
+                   'bindings': len(plan.get('migrations', [])) + len(plan.get('repair_bindings', []))})
+    template = (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'graph-panel.html').read_text(encoding='utf-8')
+    data = json.dumps(config, ensure_ascii=False, allow_nan=False).replace('&', '\\u0026').replace('<', '\\u003c').replace('>', '\\u003e')
+    return render_panel(template).replace('__GRAPH_PANEL_CONFIG__', data)
+
+
 def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plugin_id=None, adopt=False, import_report=None):
     graph = load_graph(graph_path)
     resolved = resolve_design_system(graph)
@@ -770,9 +802,11 @@ def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plug
     output.mkdir(parents=True, exist_ok=False)
     save(output / 'native-plan.json', plan)
     (output / 'web-probe.js').write_text(web_probe(graph), encoding='utf-8')
+    session = secrets.token_urlsafe(24)
+    (output / 'ui.html').write_text(graph_panel('sync', plan, plan, session), encoding='utf-8')
     bridge = Path(__file__).resolve().parents[1] / 'figma-bridge' / 'graph_token_sync.js'
-    (output / 'code.js').write_text('const GRAPH_SYNC_PLAN = ' + json.dumps(plan) + ';\n' + bridge.read_text(), encoding='utf-8')
-    manifest = {'name': 'Graph canonical token sync', 'api': '1.0.0', 'main': 'code.js', 'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}}
+    (output / 'code.js').write_text('const GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\nconst GRAPH_SYNC_PLAN = ' + json.dumps(plan) + ';\n' + bridge.read_text(), encoding='utf-8')
+    manifest = {'name': 'Graph canonical token sync', 'api': '1.0.0', 'main': 'code.js', 'ui': 'ui.html', 'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}, 'enablePrivatePluginApi': True}
     if plugin_id:
         manifest['id'] = plugin_id
     save(output / 'manifest.json', manifest)
@@ -847,7 +881,9 @@ def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None):
         raise ValueError('explicit native file and page IDs required')
     output = Path(out)
     output.mkdir(parents=True, exist_ok=False)
+    session = secrets.token_urlsafe(24)
     source = (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'native_semantic_read.js').read_text()
+    source += '\nconst GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\n'
     source += '\nconst DISCOVERY_SCOPE = ' + json.dumps({'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}) + ';\n'
     source += r"""
 async function discoverGraphNative(figma, scope) {
@@ -883,19 +919,27 @@ async function discoverGraphNative(figma, scope) {
   if (figma.fileKey !== scope.file_key || figma.currentPage.id !== scope.page_id) throw Error('Discovery scope changed during read');
   return result;
 }
-figma.showUI('<button id="read">Read scoped native graph baseline</button><pre id="status"></pre><script>document.getElementById("read").onclick=()=>parent.postMessage({pluginMessage:{type:"read"}},"*");onmessage=e=>{const msg=e.data.pluginMessage;document.getElementById("status").textContent=msg.error||"Actual native baseline saved";if(msg.readback){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(msg.readback,null,2)],{type:"application/json"}));a.download="graph-native-discovery.json";a.click();URL.revokeObjectURL(a.href);}};</script>', {width: 440, height: 160});
+figma.showUI(__html__, {width: 440, height: 390, themeColors: true});
 let discoveryBusy = false;
 figma.ui.onmessage = async message => {
-  if (message?.type !== 'read' || discoveryBusy) return;
+  if (message?.type !== 'read' || message.session !== GRAPH_PANEL_SESSION || discoveryBusy) return;
   discoveryBusy = true;
-  try { figma.ui.postMessage({readback: await discoverGraphNative(figma, DISCOVERY_SCOPE)}); }
-  catch (error) { figma.ui.postMessage({error: error.message || String(error)}); }
+  figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation: 'read'});
+  try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: 'read', readback: await discoverGraphNative(figma, DISCOVERY_SCOPE)}); }
+  catch (error) {
+    const detail = error.message || String(error);
+    const safely = getter => {try {return getter() ?? null;} catch (_) {return null;}};
+    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: 'read', error: detail, readback: {schema: 'figma-flow-graph-native-discovery-v1',
+      status: 'failed', error: detail, stack: error.stack || detail, fileKey: safely(() => figma.fileKey), pageId: safely(() => figma.currentPage.id),
+      expected_scope: DISCOVERY_SCOPE, observed_at: new Date().toISOString()}});
+  }
   finally { discoveryBusy = false; }
 };
 """
     (output / 'code.js').write_text(source, encoding='utf-8')
-    manifest = {'name': 'Graph scoped native discovery', 'api': '1.0.0', 'main': 'code.js',
-                'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}}
+    (output / 'ui.html').write_text(graph_panel('discovery', {'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}, session=session), encoding='utf-8')
+    manifest = {'name': 'Graph scoped native discovery', 'api': '1.0.0', 'main': 'code.js', 'ui': 'ui.html',
+                'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}, 'enablePrivatePluginApi': True}
     if plugin_id:
         manifest['id'] = plugin_id
     save(output / 'manifest.json', manifest)

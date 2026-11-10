@@ -94,6 +94,87 @@ class DraftReviewTests(unittest.TestCase):
             self.assertIn('color/unplayed', json.loads(result.stderr)['blocked_reason'])
             self.assertFalse(output.exists())
 
+    def test_panel_displays_packaged_candidates_and_escapes_review_context(self):
+        review = {'candidates': [{'title': 'North <script>alert(1)</script>'}, {'title': 'South & Studio'}],
+                  'fileKey': 'fictional-target', 'packet_sha256': 'abcdef1234567890'}
+        pair = {'url': 'http://localhost/</script><script>unexpected()</script>', 'capability': 'fictional'}
+        html = draft.ui_html(pair, review=review)
+        self.assertIn('검토할 방향 2개', html)
+        self.assertIn('North &lt;script&gt;alert(1)&lt;/script&gt;', html)
+        self.assertIn('South &amp; Studio', html)
+        self.assertIn('지정 Design 파일 / DRAFT · A/B/C 방향 검토 · abcdef12', html)
+        self.assertNotIn('fictional-target', html)
+        self.assertNotIn('만들어 보세요', html)
+        self.assertEqual(html.count('<script>'), 1)
+        self.assertEqual(html.count('</script>'), 1)
+        self.assertEqual(json.loads(re.search(r'const PAIR = (.*);', html).group(1)), pair)
+
+    def test_panel_exposes_task_hierarchy_theme_and_distinct_readback_states(self):
+        html = draft.ui_html()
+        self.assertIn('class="panel"', html)
+        self.assertIn('class="masthead"', html)
+        self.assertIn('class="primary" id="make"', html)
+        self.assertIn('class="secondary" id="save" disabled', html)
+        self.assertIn('aria-live="polite"', html)
+        self.assertIn('figma-color-bg', html)
+        self.assertIn('themeColors:true', (ROOT/'figma-bridge/direction_review.js').read_text())
+        harness = r"""
+const fs = require('fs'), vm = require('vm'), assert = require('assert');
+const ids = ['make','save','status','status-panel','status-title','status-body','status-details'];
+const elements = Object.fromEntries(ids.map(id => [id, {dataset:{},disabled:id==='save'}]));
+const posts = []; let requests=0, reject=false, invalid=false;
+const context = {document:{getElementById:id=>elements[id]},window:{},parent:{postMessage:m=>posts.push(m)},
+  fetch:async()=>{requests++;if(reject)throw Error('offline');return {ok:!invalid,json:async()=>({passed:!invalid,errors:invalid?['synthetic invalid geometry']:[]})};}};
+vm.runInNewContext(fs.readFileSync(process.argv[1], 'utf8'),context);
+const receive = m=>context.window.onmessage({data:{pluginMessage:m}});
+(async()=>{
+  elements.make.onclick();
+  assert.equal(elements.make.disabled,true);
+  assert.equal(elements['status-panel'].dataset.state,'busy');
+  await receive({type:'status',busy:false,state:'error',message:'synthetic generation error'});
+  assert.equal(elements['status-panel'].dataset.state,'error');
+  assert.equal(elements['status-title'].textContent,'시안 생성 실패');
+  elements.make.onclick();
+  await receive({type:'readback',data:{nodes:[]}});
+  await receive({type:'status',busy:false,state:'success',message:'done'});
+  assert.equal(elements['status-panel'].dataset.state,'success');
+  assert.equal(elements.make.disabled,false);
+  assert.equal(elements.save.disabled,false);
+  assert.equal(elements.save.className,'primary');
+  assert.equal(elements.make.className,'secondary');
+  if(process.argv[2]==='paired'){
+    assert.equal(requests,1);
+    assert.equal(elements['status-title'].textContent,'읽기 결과 검증 완료');
+    assert(elements['status-body'].textContent.includes('방향 선택과 승인은 별도'));
+    invalid=true;elements.make.onclick();
+    await receive({type:'readback',data:{nodes:[]}});
+    await receive({type:'status',busy:false,state:'error',message:'verification failed'});
+    assert.equal(elements['status-title'].textContent,'읽기 결과 검증 실패');
+    assert(elements.status.textContent.includes('synthetic invalid geometry'));
+    assert(elements['status-body'].textContent.includes('상세 진단 보기에서 검증 오류'));
+    assert(elements['status-body'].textContent.includes('읽기 원본을 내보냅니다'));
+    assert.equal(elements['status-details'].hidden,false);
+    invalid=false;reject=true;elements.make.onclick();
+    await receive({type:'readback',data:{nodes:[]}});
+    await receive({type:'status',busy:false,state:'success',message:'done'});
+    assert.equal(elements['status-title'].textContent,'로컬 결과 전달 실패');
+    assert.equal(elements['status-panel'].dataset.state,'error');
+    assert.equal(elements.save.disabled,false);
+  }else{
+    assert.equal(requests,0);
+    assert.equal(elements['status-title'].textContent,'실제 노드 읽기 완료');
+    assert(elements['status-body'].textContent.includes('연결 검증과 방향 선택은 아직'));
+  }
+})().catch(e=>{console.error(e);process.exitCode=1;});
+"""
+        with tempfile.TemporaryDirectory() as folder:
+            for label, pair in [('portable', None), ('paired', {'url':'http://localhost/synthetic','capability':'fictional-fixture'})]:
+                with self.subTest(mode=label):
+                    script=Path(folder)/'panel.js'
+                    script.write_text(re.search(r'<script>([\s\S]*)</script>',draft.ui_html(pair)).group(1))
+                    result=subprocess.run(['node','-e',harness,str(script),label],capture_output=True,text=True)
+                    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+
     def test_generic_portable_package_never_registers_or_approves(self):
         output=self.project/'portable'
         with patch.object(draft,'PRIVATE',self.project/'forbidden-private'):
@@ -104,6 +185,11 @@ class DraftReviewTests(unittest.TestCase):
         packaged=json.loads((output/'plugin/manifest.json').read_text())
         self.assertEqual(packaged['id'],'1000000000000000001')
         self.assertNotIn('NIGHT',packaged['name'])
+        panel=(output/'plugin/ui.html').read_text()
+        packet=json.loads((output/'packet.json').read_text())
+        self.assertIn(f"검토할 방향 {len(packet['candidates'])}개",panel)
+        for candidate in packet['candidates']:
+            self.assertIn(candidate['title'],panel)
         self.assertEqual(json.loads(self.manifest.read_text())['workflow_symbol'],'NATIVE_REVIEW_PENDING')
         self.assertFalse(any(self.project.rglob('*selection*.json')))
         subprocess.run(['node','--check',str(output/'plugin/code.js')],check=True,capture_output=True)

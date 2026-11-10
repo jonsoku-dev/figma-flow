@@ -523,7 +523,7 @@ class NativeGeometryTests(unittest.TestCase):
 const assert = require('assert');
 const fs = require('fs');
 const vm = require('vm');
-const elements = Object.fromEntries(['make', 'save', 'status'].map(id => [id, {disabled: id === 'save'}]));
+const elements = Object.fromEntries(['make', 'save', 'status', 'status-panel', 'status-title', 'status-body', 'status-details'].map(id => [id, {disabled: id === 'save', dataset: {}}]));
 const downloads = [];
 const blobs = [];
 const posts = [];

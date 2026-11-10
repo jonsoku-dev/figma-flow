@@ -78,6 +78,21 @@ class DesignGraphTests(unittest.TestCase):
                 item.clear()
                 item.update(saved)
 
+    def test_state_backed_prototype_requires_unambiguous_destination_and_shows_edge(self):
+        self.graph['nodes'][-1]['target_ids'] = ['detail']
+        self.graph['nodes'].append({'id': 'detail', 'type': 'state', 'title': 'Details', 'status': 'planned'})
+        self.graph['edges'][-1] = {'from': 'go', 'to': 'detail', 'type': 'shows'}
+        states = [{'id': 'detail', 'screen': 'T'}]
+        self.graph['draft_prototype'] = {'states': states}
+        self.run_augment()
+        for rows, relation in [(states, 'references'), (states + states, 'shows'),
+                               ([{'id': 'detail', 'screen': 'S'}], 'shows'), ([], 'shows')]:
+            with self.subTest(rows=rows, relation=relation):
+                self.graph['draft_prototype']['states'] = rows
+                self.graph['edges'][-1]['type'] = relation
+                with self.assertRaisesRegex(ValueError, 'action target mismatch'):
+                    self.run_augment()
+
     def test_rejects_unrelated_trace(self):
         self.design['screens'][1]['trace'] = ['go']
         self.graph['edges'] = [e for e in self.graph['edges'] if e['from'] != 'go']

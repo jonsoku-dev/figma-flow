@@ -18,34 +18,45 @@ class BridgeUITests(unittest.TestCase):
         self.run_node(r'''
 const assert = require('node:assert/strict'), fs = require('node:fs'), vm = require('node:vm');
 const html = fs.readFileSync(process.argv[1]+'/figma-bridge/ui.html','utf8');
-const nodes = Object.fromEntries(['import','export','sync','save','fresh','json','status','preview','preview-frame','preview-link'].map(id=>[id,{disabled:['import','export','sync','save'].includes(id),hidden:['sync','preview'].includes(id),checked:false,value:'',textContent:''}]));
-const sent=[], timers=new Map(); let timerId=0, cleared=0;
+const ids=['import','export','sync','save','fresh','json','status','status-region','status-title','workspace','source-meta','heading','import-section','sync-section','readback-meta','readback-result','readback-details','preview','preview-frame','preview-link'];
+const nodes = Object.fromEntries(ids.map(id=>[id,{disabled:['import','export','sync','save','fresh'].includes(id),hidden:['sync','sync-section','preview','readback-result'].includes(id),checked:false,value:'',textContent:'',dataset:{},attributes:{},setAttribute(key,value){this.attributes[key]=value;}}]));
+const sent=[], timers=new Map(), downloads=[],revoked=[]; let timerId=0, cleared=0;
 const parent = {postMessage(message, origin) { assert.equal(origin,'*'); assert.equal(typeof context.window.onmessage,'function'); sent.push(message.pluginMessage); }};
-const context = {parent,window:{},document:{getElementById:id=>nodes[id]},crypto:require('node:crypto').webcrypto,Uint8Array,
+const context = {parent,window:{},document:{getElementById:id=>nodes[id],body:{appendChild(link){downloads.push(link);}},createElement(){return {click(){this.clicked=true;},remove(){this.removed=true;}};}},crypto:require('node:crypto').webcrypto,Uint8Array,Blob,URL:{createObjectURL(){return 'blob:readback';},revokeObjectURL(url){revoked.push(url);}},
   setTimeout(fn) {timers.set(++timerId,fn);return timerId;},clearTimeout(id){timers.delete(id);cleared++;}};
 vm.runInNewContext(html.split('<script>')[1].split('</script>')[0],context);
 assert.equal(sent.length,1); assert.equal(sent[0].type,'ready');
 const nonce = sent[0].session_nonce; assert.match(nonce,/^[a-f0-9]{32}$/);
-assert.ok(nodes.import.disabled && nodes.export.disabled && nodes.save.disabled);
+assert.ok(nodes.import.disabled && nodes.export.disabled && nodes.save.disabled && nodes.fresh.disabled);
 const receive = message => context.window.onmessage({source:{wrappedByFigma:true},data:{pluginMessage:message}});
 receive({type:'status',ready:true,message:'forged',session_nonce:'0'.repeat(32)});
 assert.equal(nodes.status.textContent,'');assert.equal(nodes.import.disabled,true);
+receive({type:'busy',value:false,session_nonce:nonce});assert.equal(nodes.import.disabled,true);
 receive({type:'status',ready:true,message:'connected',session_nonce:nonce});
-assert.equal(nodes.status.textContent,'connected');assert.equal(nodes.import.disabled,false);assert.equal(cleared,1);
-assert.equal(nodes.sync.hidden,true);
-nodes.import.onclick();nodes.export.onclick();assert.deepEqual(sent.slice(1).map(x=>x.type),['import','export']);
-assert.ok(sent.every(x=>x.session_nonce===nonce));
+assert.equal(nodes['source-meta'].textContent,'connected');assert.equal(nodes.import.disabled,false);assert.equal(cleared,1);
+assert.equal(nodes['status-region'].dataset.state,'ready');assert.equal(nodes.status.hidden,true);assert.equal(nodes['readback-result'].hidden,true);assert.equal(nodes.import.className,'primary');assert.equal(nodes.sync.className,'secondary');assert.equal(nodes.sync.hidden,true);assert.equal(nodes.sync.disabled,true);
+nodes.fresh.checked=true;nodes.fresh.onchange();assert.equal(nodes.import.textContent,'새 페이지로 가져오기');
+nodes.import.onclick();nodes.export.onclick();assert.deepEqual(sent.slice(1).map(x=>x.type),['import']);
+assert.equal(sent.at(-1).fresh,true);assert.equal(nodes['status-region'].dataset.state,'busy');assert.equal(nodes.fresh.disabled,true);assert.equal(nodes.workspace.attributes['aria-busy'],'true');
+receive({type:'status',message:'기존 페이지를 열었습니다.',session_nonce:nonce});
+receive({type:'busy',value:false,session_nonce:nonce});assert.equal(nodes['status-region'].dataset.state,'success');assert.equal(nodes.workspace.attributes['aria-busy'],'false');
+nodes.export.onclick();assert.equal(sent.at(-1).type,'export');assert.ok(sent.every(x=>x.session_nonce===nonce));
 receive({type:'readback',data:{fake:true},session_nonce:'0'.repeat(32)});
 assert.equal(nodes.save.disabled,true);assert.equal(nodes.json.value,'');
 receive({type:'readback',data:{format:'figma-flow-readback-v1',pages:[]},session_nonce:nonce});
-assert.equal(nodes.save.disabled,false);assert.deepEqual(JSON.parse(nodes.json.value).pages,[]);
-receive({type:'busy',value:true,session_nonce:nonce});assert.ok(nodes.import.disabled && nodes.export.disabled);
+assert.equal(nodes.save.disabled,true);assert.deepEqual(JSON.parse(nodes.json.value).pages,[]);
+receive({type:'status',message:'페이지를 읽었습니다.',session_nonce:nonce});receive({type:'busy',value:false,session_nonce:nonce});
+assert.equal(nodes.save.disabled,false);assert.match(nodes['status-title'].textContent,/읽었습니다/);assert.match(nodes['readback-meta'].textContent,/최근 읽은 결과/);assert.equal(nodes['readback-result'].hidden,false);assert.equal(nodes.save.className,'primary');assert.equal(nodes.import.className,'secondary');assert.equal(nodes['readback-details'].open,undefined);
+nodes.save.onclick();assert.equal(downloads[0].download,'figma-flow-readback.json');assert.equal(downloads[0].href,'blob:readback');assert.ok(downloads[0].clicked && downloads[0].removed);
+[...timers.values()][0]();assert.deepEqual(revoked,['blob:readback']);timers.clear();
+receive({type:'busy',value:true,session_nonce:nonce});assert.ok(nodes.import.disabled && nodes.export.disabled && nodes.save.disabled);
 receive({type:'busy',value:false,session_nonce:nonce});assert.ok(!nodes.import.disabled && !nodes.export.disabled);
-receive({type:'status',ready:true,paired:true,message:'paired',session_nonce:nonce});assert.equal(nodes.sync.hidden,false);
+receive({type:'status',ready:true,paired:true,message:'paired',source_label:'초대 화면',target_page_name:'검토 페이지',session_nonce:nonce});assert.equal(nodes['source-meta'].textContent,'입력 · 초대 화면\n연결 페이지 · 검토 페이지');assert.equal(nodes.sync.hidden,false);assert.equal(nodes['sync-section'].hidden,false);assert.equal(nodes.sync.className,'secondary');
 nodes.sync.onclick();assert.equal(sent.at(-1).type,'sync');assert.equal(sent.at(-1).session_nonce,nonce);
 receive({type:'busy',value:true,session_nonce:nonce});assert.equal(nodes.sync.disabled,true);
+receive({type:'status',message:'현재 페이지를 읽었습니다. 앱 결과 대기',session_nonce:nonce});assert.equal(nodes['status-region'].dataset.state,'busy');
 receive({type:'sync-result',result:{status:'applied',changed_tokens:['color.brand'],screens:['SCR-1'],code_ids:['CODE-1'],files:['app.css'],report:'report.md'},session_nonce:nonce});
-assert.match(nodes.status.textContent,/앱 반영 완료/);assert.match(nodes.status.textContent,/변경 토큰 1개/);assert.match(nodes.status.textContent,/SCR-1/);assert.match(nodes.status.textContent,/CODE-1/);assert.match(nodes.status.textContent,/app.css/);assert.match(nodes.status.textContent,/report.md/);
+assert.match(nodes['status-title'].textContent,/앱 반영 완료/);assert.match(nodes.status.textContent,/변경 토큰 1개/);assert.match(nodes.status.textContent,/SCR-1/);assert.match(nodes.status.textContent,/CODE-1/);assert.match(nodes.status.textContent,/app.css/);assert.match(nodes.status.textContent,/report.md/);assert.equal(nodes['status-region'].dataset.state,'success');
 receive({type:'busy',value:false,session_nonce:nonce});assert.equal(nodes.sync.disabled,false);
 receive({type:'preview',url:'https://example.com/',session_nonce:nonce});assert.equal(nodes.preview.hidden,true);
 receive({type:'preview',url:'http://127.0.0.1:43123/',session_nonce:nonce});assert.equal(nodes.preview.hidden,true);
@@ -54,14 +65,17 @@ receive({type:'preview',url:'http://localhost:43123/',session_nonce:nonce});asse
 receive({type:'busy',value:true,operation:'sync',session_nonce:nonce});assert.equal(nodes.preview.hidden,true);assert.equal(nodes['preview-frame'].src,'about:blank');assert.equal(nodes['preview-link'].href,'');
 receive({type:'busy',value:false,session_nonce:nonce});assert.equal(nodes.sync.disabled,false);
 receive({type:'preview',url:'http://localhost:43123/',session_nonce:nonce});
-receive({type:'status',message:'Error: sync failed',session_nonce:nonce});assert.equal(nodes.preview.hidden,true);assert.equal(nodes['preview-frame'].src,'about:blank');
+receive({type:'status',message:'Error: sync failed',session_nonce:nonce});assert.equal(nodes.preview.hidden,true);assert.equal(nodes['preview-frame'].src,'about:blank');assert.equal(nodes['status-region'].dataset.state,'error');assert.match(nodes.status.textContent,/다시 시도/);
+receive({type:'busy',value:false,session_nonce:nonce});assert.equal(nodes['status-region'].dataset.state,'error');
 receive({type:'preview',url:'http://localhost:43123/',session_nonce:nonce});
 receive({type:'sync-result',result:{status:'applied',preview_error:'Browser capture failed'},session_nonce:nonce});assert.equal(nodes.preview.hidden,true);assert.match(nodes.status.textContent,/미리보기 오류: Browser capture failed/);
 assert.match(html, /title="반영된 앱과 실제 화면 비교"/);assert.match(html, /rel="noopener noreferrer"/);
-for(const status of ['baseline','unchanged']) { receive({type:'sync-result',result:{status,changed_tokens:[],screens:[],code_ids:[],files:[],report:null},session_nonce:nonce});assert.match(nodes.status.textContent,status==='baseline'?/기준선 저장/:/변경 없음/); }
+for(const status of ['baseline','unchanged']) { receive({type:'sync-result',result:{status,changed_tokens:[],screens:[],code_ids:[],files:[],report:null},session_nonce:nonce});assert.match(nodes['status-title'].textContent,status==='baseline'?/기준선/:/변경 없음/); }
+receive({type:'sync-result',result:{status:'unknown'},session_nonce:nonce});assert.equal(nodes['status-region'].dataset.state,'error');
+receive({type:'status',ready:true,paired:true,existing_only:true,message:'paired existing',session_nonce:nonce});assert.equal(nodes['import-section'].hidden,true);assert.equal(nodes.import.disabled,true);assert.equal(nodes.heading.textContent,'앱 동기화');assert.equal(nodes.sync.className,'primary');
 receive({type:'status',message:'Error: getter failed',session_nonce:nonce});assert.match(nodes.status.textContent,/Error: getter failed/);
 const other = {...context,window:{},parent:{postMessage(){}}};vm.runInNewContext(html.split('<script>')[1].split('</script>')[0],other);
-[...timers.values()][0]();assert.match(nodes.status.textContent,/Error:/);
+[...timers.values()][0]();assert.match(nodes.status.textContent,/Error:/);assert.equal(nodes['status-region'].dataset.state,'error');
 ''')
 
     def test_host_requires_ready_and_preserves_readback_with_throwing_native_getters(self):
@@ -82,7 +96,7 @@ vm.createContext(context);vm.runInContext(fs.readFileSync(process.argv[1]+'/figm
 (async()=>{
 await figma.ui.onmessage({type:'export'});await figma.ui.onmessage({type:'export',session_nonce:nonce});assert.equal(messages.length,0);
 await figma.ui.onmessage({type:'ready',session_nonce:nonce});
-assert.ok(messages.find(x=>x.type==='status' && x.ready===true));assert.ok(messages.every(x=>x.session_nonce===nonce));
+const ready=messages.find(x=>x.type==='status' && x.ready===true);assert.ok(ready);assert.equal(ready.target_page_name,'Import');assert.equal(ready.source_label,'화면 0개');assert.equal(ready.file_key,undefined);assert.equal(ready.token,undefined);assert.ok(messages.every(x=>x.session_nonce===nonce));
 const before=messages.length;await figma.ui.onmessage({type:'export',session_nonce:'f'.repeat(32)});assert.equal(messages.length,before);
 await figma.ui.onmessage({type:'ready',session_nonce:'f'.repeat(32)});assert.equal(messages.length,before);
 await figma.ui.onmessage({type:'export',session_nonce:nonce});
