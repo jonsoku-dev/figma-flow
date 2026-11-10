@@ -1,4 +1,6 @@
-# Figma Flow 0.18.2
+# Figma Flow 0.19.1 · 로컬 업데이트
+
+이 작업트리에는 내장 Unslop 비평과 브라우저 허용 대상 등록을 추가한 로컬 0.19.1이 있습니다. MCP 설정은 각 사용자의 현재 프로젝트에서 생성하며 개인 설치 경로가 담긴 설정은 배포하지 않습니다. 아래 GitHub 설치 명령은 공개된 `v0.18.2`를 가리키며, 로컬 변경의 설치와 공개 릴리스는 구분합니다.
 
 Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으로 만들고, 사람이 선택한 방향의 Figma 화면·컴포넌트·변수·주석을 다시 읽어 대조하는 Codex 플러그인입니다. 전문 분석 보고서, GitHub의 컴포넌트 코드, 디자인 시스템 사이트도 기획과 함께 사용할 수 있습니다.
 
@@ -17,6 +19,8 @@ cd figma-flow
 | 회사 private 저장소로 복제·배포 | [Private 저장소 가이드](docs/private-repository.md) |
 | Node LTS·회사 npm 설정·lockfile 제외 | [환경 설정 가이드](docs/npm-environment.md) |
 | 지정한 디자인 시스템으로 화면 만들기 | [shadcn/ui와 MUI 비교 결과](docs/design-system-trials.md) |
+| 제품에 맞게 화면을 비평·수정하기 | [내장 Unslop 절차](skills/figma-flow/references/unslop.md) |
+| 브라우저 작업 사이트를 허용 목록에 추가하기 | [로컬 URL·새 사이트의 등록과 적용 확인](skills/figma-flow/references/browser-access.md) |
 | 릴리스 내려받기·버전 확인 | [GitHub Releases](https://github.com/jonsoku-dev/figma-flow/releases) · [변경 기록](CHANGELOG.md) · [개발·릴리스 절차](CONTRIBUTING.md) |
 
 ### 이전 버전의 주요 변경

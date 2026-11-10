@@ -13,6 +13,7 @@ Figma Flow의 **Codex 설치**, 프로젝트별 **Figma 개발 플러그인**, �
 
 해당 분기의 문서만 읽는다.
 
+- 브라우저에서 설치 자료·사이트·로컬 페이지를 열 때: [허용 대상 등록과 적용 확인](../figma-flow/references/browser-access.md). 실제 작업에 필요한 새 대상은 등록 후 계속한다. Figma Desktop 자체의 접근 승인은 해당 앱 경로를 따른다.
 - 최초 설치·읽기 검증: [설치·연동 가이드](../../docs/installation-and-updates.md)의 1~5절.
 - private 복제·회사 배포: [private 저장소 가이드](../../docs/private-repository.md). 읽기 권한 확인과 원격 생성·업로드 권한은 별개다.
 - Node/npm 설정: [npm 환경 가이드](../../docs/npm-environment.md). 회사 레지스트리 도메인/전체 URL과 전체 미러·`@scope` 적용 여부를 **사용자에게 묻고** 설정한다. 기존에 확인한 설정이면 값을 대조해 재사용한다. 토큰을 대화에 요청하지 않는다.
@@ -34,7 +35,9 @@ Figma Flow의 **Codex 설치**, 프로젝트별 **Figma 개발 플러그인**, �
 4. npm 문서에 따라 사용자가 지정한 URL·스코프만 프로젝트 `.npmrc`에 반영한다. URL은 HTTPS, 정상 host, userinfo/query/fragment/공백·제어 문자 없음으로 검증하고 서비스 경로를 보존한다. 인증은 사용자별 registry 범위 설정으로 유지한다. 기존 `.npmrc`를 저장소 밖의 전용 위치에 보존하고 필요한 키만 편집한다. `npm config set`이 제거한 주석은 백업과 대조해 복원한다. `package-lock=false`, lockfile ignore와 실제 추적 여부를 확인한다. lockfile을 GitHub에 올리지 않는다.
 5. 루트에는 `package.json`이 없으므로 npm 설치를 실행하지 않는다. 저장소 밖의 Python 가상환경에 `requirements-optional.txt`를 설치하고 같은 Python으로 예제·검증 도구를 실행한다. 실제 앱에 npm 설치가 필요할 때만 그 앱의 매니페스트·레지스트리·lockfile 정책을 별도로 확인한다.
 
-완료 기준: 실제 Codex 설치 경로·버전이 확인되고 환경·의존성이 준비된다. 설치 성공은 Figma 연결 성공과 별도로 보고한다.
+6. 브라우저·Playwright 검수까지 맡긴 작업이면 [브라우저 접근 등록](../figma-flow/references/browser-access.md)에 따라 실제 로컬 URL·작업 사이트를 등록한다. 현재 프로젝트 루트에서 도구를 실행하고 반환된 `mcp_server`로 그 프로젝트의 로컬 설정을 만든다. 실행 파일은 PATH에서 확인하며 다른 사용자의 홈·클론·설치 캐시 경로를 복사하지 않는다. 허용 목록을 적용할 수 있는 MCP가 없으면 공식 Playwright MCP를 프로젝트에 설정하고 같은 등록 JSON을 `--config`로 연결한다. 프로젝트 설정·도구 목록·실제 resolved config를 확인하며, 새 연결이 현재 채팅에 로드되지 않으면 설정 경로와 재연결 후 검증할 도구를 명시한다. 브라우저를 쓰지 않는 Figma Design 전용 경로에는 MCP 설치를 요구하지 않는다.
+
+완료 기준: 실제 Codex 설치 경로·버전이 확인되고 환경·의존성이 준비된다. 브라우저 분기는 MCP 설정·실제 연결·허용 목록 적용을 각각 보고한다. 설치 성공은 Figma 연결 성공과 별도로 보고한다.
 
 ## 3. 검토 패키지와 실제 Figma 연결
 

@@ -3,6 +3,8 @@ __pycache__/
 .DS_Store
 node_modules/
 .venv/
+.figma-flow/
+/.codex/config.toml
 **/package-lock.json
 **/npm-shrinkwrap.json
 **/pnpm-lock.yaml

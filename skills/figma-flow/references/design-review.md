@@ -8,6 +8,8 @@
 
 ## 1. 실제 스킬을 먼저 읽고 폰트부터 정하기
 
+내장 [Unslop 절차](unslop.md)에서 제품·성격·세계관·강조할 장면·고유 디테일을 후보별로 정한다. 기존 디자인 시스템과 선택한 방향을 유지하며, 별도 전역 Unslop 설치는 요구하지 않는다. 실제 브라우저 관찰이 필요하면 [접근 등록](browser-access.md)을 먼저 수행한다.
+
 현재 호스트에서 `impeccable`과 `design-taste-frontend`의 실제 `SKILL.md`를 찾아 읽는다. 설치된 원문을 읽지 못하면 필요한 창작 단계를 차단하고 위치/기능을 복구한다. 해시를 기록한 것만으로 원문을 읽거나 따랐다고 주장하지 않는다.
 
 - Impeccable의 원문을 실제로 읽되, 후크나 GUI를 실행하는 상위 스킬 단계/기본 선택 폴백을 사용하지 않는다. 해당 제작/리디자인 playbook과 편집 직전 craft-floor, 제작 후 critique 지침을 읽는다. 허가된 범위에서 실제 디자인 평가와 기계/브라우저 검사를 수행하고 독립성·제약을 그대로 보고한다.
@@ -53,6 +55,8 @@ const section = createTitledSection({id: 'program-content', roleId: 'program-hea
 `responsive_skins`는 실제 선언한 `section_title`/`button_frame` 역할과 실제 웹/Figma 납품 표면에만 요구한다. 장식 없는 실제 텍스트 조작은 그 의미에 맞게 유지할 수 있다.
 
 ## 4. 구체적인 비평·수정과 최종 관측 남기기
+
+내장 [Unslop의 아홉 항목 비평](unslop.md#3-아홉-항목-순서로-비평수정하기)을 기존 자기 비평과 아래 완성 UI 검토에 적용한다. 수정 범위는 실제 결함에 맞추고, 관찰과 변경은 기존 후보 검토 메모·`critique.findings`/`critique.checks`에 남긴다.
 
 선택 전 탐색 시안에는 [시안 시각 품질 요구사항](visual-quality.md)의 자기 비평 루프가 먼저 적용된다. 미리보기 렌더 → `python3 tools/design_quality.py --layout ...`와 체크리스트 → 수정 → 경고 0개 또는 경고마다 사유 기록을 마친 뒤에 검토 패키지를 준비한다. 오류는 막고 경고는 막지 않지만, 경고를 사유 없이 남기지 않는다. 아래 비평은 선택 후 완성 UI에 대한 것이며 이 루프를 대신하지 않는다.
 
