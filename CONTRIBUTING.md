@@ -1,5 +1,19 @@
 # 개발과 릴리스
 
+## Figma 작업을 변경할 때
+
+Figma Desktop의 진입점은 비공개 작업공간의 고정 `manifest.json`입니다. Codex 플러그인 소스에는 생성기와 패널 템플릿을 두고, 프로젝트 데이터·채팅 연결 키·실행 결과는 작업공간에 둡니다.
+
+| 변경 대상 | 소유 코드 | 검증할 경계 |
+|---|---|---|
+| 작업 준비와 갱신 | [figma_workspace.py](tools/figma_workspace.py) | 허용된 생성기와 원본 선택·파일 핀, 변경 전 리비전, 중단 후 같은 매니페스트로 복구 |
+| 목록과 작업 전환 | [workspace_host.js](figma-bridge/workspace_host.js) | 지정 파일에서만 열기, 실행 중 이동 차단, 이전 패널의 응답 격리 |
+| 실제 디자인 작업 | `figma_bridge.py`, `figma_draft.py`, `graph_sync.py`와 [네이티브 실행기](figma-bridge/) | 작업의 실제 Figma 읽기 결과, 적용 범위, 저장 JSON 계약 |
+| 테마와 패널 | [panel.css](figma-bridge/panel.css), [오프라인 렌더러](tools/plugin_panel.py) | 실제 생성 HTML의 밝은·어두운 테마, 좁은 폭, 키보드, 진행·실패·복구 상태 |
+| 채팅 전달 | [workspace_chat.js](figma-bridge/workspace_chat.js), [로컬 연결](tools/workspace_chat.py) | 현재 작업의 채팅·리비전에만 전달, 미리보기와 본문 일치, 중복 전송 방지 |
+
+작업 종류를 추가하려면 원래 생성기의 입력 검증을 먼저 통과시키고 작업 목록에서 같은 등록으로 열어 봅니다. Figma 호스트 객체의 불변 속성, 플러그인 ID별 데이터 소유권, 실제 글꼴·바인딩 동작은 브라우저나 가짜 호스트와 다를 수 있습니다. 패널 표시와 실제 네이티브 작업을 각각 확인하고, 예시 JSON과 운영 증거를 구별해 기록합니다. [사용자 절차](docs/figma-guide.md)
+
 ## 변경 검증
 
 Node는 `.nvmrc`에 고정된 LTS를 사용합니다. 회사 npm 레지스트리는 사용자가 제공한 실제 URL·적용 범위를 확인해 프로젝트 `.npmrc`에 설정합니다. 인증값은 저장소에 넣지 않습니다. npm·pnpm·Yarn·Bun lockfile은 GitHub에 올리지 않으며, `.gitignore`와 실제 추적 파일을 모두 확인합니다. 루트에는 `package.json`이 없으므로 `npm install`/`npm ci` 대신 아래 기존 검사 명령을 사용합니다. [환경 설정과 추적 해제 절차](docs/npm-environment.md)
