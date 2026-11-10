@@ -1,6 +1,6 @@
 # Graph SSOT for a component
 
-The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash.
+The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash. Use the **0.22.0** tools with one registered Figma Flow workspace. Codex prepares project tasks under its stable manifest; upgrading Codex alone does not refresh an already running Figma task.
 
 ## Minimal graph shape
 
@@ -40,31 +40,65 @@ Use actual existing semantic keys or exact native IDs. Multiple declared pages r
 
 ## Discover and adopt
 
-Run from the plugin root. The discovery plugin only reads the explicitly selected pages. Values in commands below are placeholders for your actual file/page/ID.
+Run from the installed plugin root on a supported POSIX host (macOS/Linux). Windows-local workspace preparation is currently unsupported; retain the standalone compatibility route there. First initialize your private workspace once with your own Figma-issued manifest, and register only `WORKSPACE/manifest.json` in Figma Desktop:
 
 ```sh
-python3 tools/graph_sync.py discover --file-key FILE --page-id PAGE   --include-page-id ADDITIONAL_INSTANCE_PAGE --plugin-id ASSIGNED_ID --out DISCOVERY
-# Run DISCOVERY/manifest.json in Figma Desktop; save actual graph-native-discovery.json.
-python3 tools/graph_sync.py export --adopt --graph PROJECT/graph.json   --native-readback ACTUAL_DISCOVERY.json --web-module PROJECT/web/graph-tokens.mjs   --plugin-id ASSIGNED_ID --out INITIAL_EXPORT
+python3 tools/figma_workspace.py init --workspace WORKSPACE --id-from OWN_MANIFEST.json
+python3 tools/figma_workspace.py prepare --workspace WORKSPACE \
+  --key invite-discovery --title "Invite native baseline" --project "Invite" --kind discover -- \
+  --file-key FILE --page-id PAGE --include-page-id ADDITIONAL_INSTANCE_PAGE
 ```
 
-Adoption creates a graph-owned variable namespace and rebinds only declared consumers. Every existing instance of a controlled main must be declared. Existing shared variables and other components are preserved. Incremental adoption also takes --pairing PREVIOUS_RECEIPT and admits explicit new fields/tokens while retaining existing owned identities. Inspect the initial values and alias topology, then run Apply graph values and save the actual focused getter.
+`FILE`, page IDs and paths are placeholders for your actual scope. Codex supplies the originating `CODEX_THREAD_ID`; outside that session, optionally add the actual `prepare --thread-id UUID`. With neither, the task remains usable offline and chat connection is disabled; malformed explicit UUIDs are rejected. The arguments after `--` are generator flags only. `prepare` owns `--out`, `--plugin-id` and `--web-module`; do not override them.
+
+Open **Figma Flow → 준비된 작업 → Invite native baseline → 열기**, then **Figma 값 읽고 저장**. Discovery reads only the declared pages and downloads `graph-native-discovery.json`. It does not create variables or apply values. Return with **작업 목록으로** after completion.
+
+```sh
+python3 tools/figma_workspace.py prepare --workspace WORKSPACE \
+  --key invite-sync --title "Invite component sync" --project "Invite" --kind sync -- \
+  --adopt --graph PROJECT/graph.json --native-readback ACTUAL_DISCOVERY.json
+python3 tools/figma_workspace.py list --workspace WORKSPACE
+```
+
+Adoption creates graph-owned variables and rebinds only declared consumers. Every existing instance of a controlled main must be declared; unrelated shared variables stay unchanged. In **준비된 작업**, open the sync task. **적용 범위 확인** previews the changes; only **확인한 범위에 적용** writes them. Preserve the automatically downloaded actual focused getter.
+
+`prepare` returns `artifacts` (the task output folder) and `web_module` (the generated module path); the native plan is `artifacts/native-plan.json`. Preserve these returned paths with the preparation result. Use those returned paths rather than guessing internal directories. Copy the module's exact bytes to the app-owned `PROJECT/web/graph-tokens.mjs`; reverse import later updates this app copy rather than workspace generation files. Incremental adoption also takes `--pairing PREVIOUS_RECEIPT`, admitting new fields/tokens while retaining existing owned identities.
 
 The web imports the generated module. Render graphStylesheet in a style element, or consume muiComponents in MUI sx. Never pass raw numeric padding through MUI spacing conversion. Stamp graphSha256 in data-graph-sha on each mapped element. export writes web-probe.js; execute its read-only DOM probe through the authorized browser and save the actual result.
 
 ```sh
-python3 tools/graph_sync.py pair --graph PROJECT/graph.json   --plan INITIAL_EXPORT/native-plan.json --readback ACTUAL_NATIVE.json   --web-module PROJECT/web/graph-tokens.mjs --web-proof ACTUAL_WEB.json   --out PAIRING.json
+python3 tools/graph_sync.py pair --graph PROJECT/graph.json   --plan ACTUAL_PREPARED_NATIVE_PLAN.json --readback ACTUAL_NATIVE.json   --web-module PROJECT/web/graph-tokens.mjs --web-proof ACTUAL_WEB.json   --out PAIRING.json
 ```
 
 A generated module's bytes alone cannot prove that the actual app consumed it.
 
+## Figma panel controls
+
+Keep the same private workspace ID and registered manifest. New tasks use new keys; changed tasks use their current `list` value `tasks[].revision` as `--replace-expected REVISION`. Close the running plugin and reopen the same Figma Flow to load the refreshed list. Transfer the complete workspace, including hidden `.generations`, when moving machines.
+
+Private plugin data is ID-bound. Keep an original legacy plugin/ID when continuing its pages, or explicitly migrate from its actual readback. A foreign manifest or paired-state ID is not accepted as an ownership transfer. The workspace home opens only real prepared tasks; opening does not select a design or approve an apply.
+| Panel | Controls and side effects |
+|---|---|
+| **Figma 값 읽기** (discovery) | **Figma 값 읽고 저장** reads only declared pages and downloads `graph-native-discovery.json`. It creates no variables and applies no graph values. |
+| **컴포넌트 동기화** | **Figma 값 읽고 저장** reads current values. **적용 범위 확인** previews token changes, new tokens, binding repairs, mains and instances. Only **확인한 범위에 적용** starts writes. **취소** closes confirmation without applying; it cannot cancel an operation already started. |
+
+Read/apply results download automatically. **JSON 다시 저장** retries the download without rerunning the operation. **실행 기록과 복구 정보** exposes diagnostics. On failure, preserve the latest JSON and any rollback conflicts, read the actual current state, and generate a fresh plan. A retained older success JSON is not evidence for the failed run, and a rollback report cannot be paired as success.
+
+![Generated read-only discovery panel HTML preview](../../docs/images/panel-discovery.png)
+
+![Component sync panel opened in actual Figma; private identifiers redacted](../../docs/images/panel-graph-sync.png)
+
 ## Graph to Figma and web
 
-Edit canonical values with load_graph/update_graph_values or the source editor. export resolves aliases and projects web values. Apply in Figma performs exact scope/baseline checks and compensates its own partial writes; concurrent edits are preserved as conflicts.
+Edit canonical values with load_graph/update_graph_values or the source editor. The prepared sync task resolves aliases and emits the next web module. Copy its exact returned module into the app, and retain the returned native plan for pairing. Apply in Figma performs exact scope/baseline checks and compensates its own partial writes; concurrent edits are preserved as conflicts.
 
 ```sh
-python3 tools/graph_sync.py export --graph PROJECT/graph.json --pairing PAIRING.json   --web-module PROJECT/web/graph-tokens.mjs --plugin-id ASSIGNED_ID --out NEXT_EXPORT
-# Apply graph values; save getter, run actual web probe; pair the resulting current graph.
+python3 tools/figma_workspace.py prepare --workspace WORKSPACE \
+  --key invite-sync --title "Invite component sync" --project "Invite" --kind sync \
+  --replace-expected CURRENT_TASK_REVISION -- \
+  --graph PROJECT/graph.json --pairing PAIRING.json
+# Click “적용 범위 확인” → “확인한 범위에 적용”; save the actual getter.
+# Run the actual web probe and pair the resulting current graph.
 ```
 
 ## Designer edits to graph
@@ -74,7 +108,11 @@ A variable edit imports normally. Direct component/instance edits require compon
 ```sh
 python3 tools/graph_sync.py import --graph PROJECT/graph.json --pairing PAIRING.json   --readback ACTUAL_DESIGNER_EDIT.json --node-edit-scope component   --web-module PROJECT/web/graph-tokens.mjs --out PREVIEW
 python3 tools/graph_sync.py import --graph PROJECT/graph.json --pairing PAIRING.json   --readback ACTUAL_DESIGNER_EDIT.json --node-edit-scope component   --web-module PROJECT/web/graph-tokens.mjs --out ACCEPTED --apply
-python3 tools/graph_sync.py export --graph PROJECT/graph.json --pairing PAIRING.json   --native-readback ACTUAL_DESIGNER_EDIT.json --import-report ACCEPTED/import-report.json   --web-module PROJECT/web/graph-tokens.mjs --plugin-id ASSIGNED_ID --out REPAIR
+python3 tools/figma_workspace.py prepare --workspace WORKSPACE \
+  --key invite-sync --title "Invite accepted repair" --project "Invite" --kind sync \
+  --replace-expected CURRENT_TASK_REVISION -- \
+  --graph PROJECT/graph.json --pairing PAIRING.json \
+  --native-readback ACTUAL_DESIGNER_EDIT.json --import-report ACCEPTED/import-report.json
 # Apply the accepted repair; actual native/web verification and pair finish the transaction.
 ```
 
@@ -87,3 +125,7 @@ python3 tools/graph_sync.py recover --recovery ACCEPTED/recovery.json
 Supported design properties are fontFamily/fontSize, padding sides, backgroundColor/color/borderColor, borderWidth/borderRadius, gap, and supported width/height/minimum dimensions. Colors are opaque solid RGB. Normal/disabled variants can have separate graph components/selectors with nonoverlapping property scopes. Width/height require existing FIXED sizing; HUG uses minimum constraints. Complex structural/vector redesign, mixed paints and style-backed paints require explicit modeling/migration and are not silently inferred.
 
 This route is an explicit export/read/import workflow. It does not run an unauthenticated background writer, and it does not create human selection or production design acceptance records.
+
+## Standalone compatibility
+
+Existing separately registered discovery/export plugins remain supported with `graph_sync.py discover` / `graph_sync.py export`, explicit `--plugin-id` and a fresh `--out`. Keep their original private-data identity. New work uses `figma_workspace.py prepare` and the stable workspace home. Neither route changes actual user-selection, native/web proof or pairing requirements.

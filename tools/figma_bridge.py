@@ -324,6 +324,7 @@ def production_contract(data, graph):
 def compile_plugin(source, reviewed_sha256, out, plugin_id=None, *, local_sync=None, selection_path=None,
                    draft_only=False, product_graph=None, technical_existing=False, batch_path=None, asset_receipts=None):
     sys.path.insert(0, str(ROOT / 'tools'))
+    from plugin_panel import render_panel
     from design_directions import require_selected, guard_production, pin, current
     from workflow import Event
     from embedded_assets import embedded_asset_warnings
@@ -388,7 +389,7 @@ def compile_plugin(source, reviewed_sha256, out, plugin_id=None, *, local_sync=N
              'reviewed-payload.json': json.dumps(payload, ensure_ascii=True, indent=2) + '\n',
              'expected-native-handoff.json': json.dumps(payload['expected_native_handoff'], ensure_ascii=True, indent=2) + '\n',
              'code.js': prefix + '\n'.join((ROOT / 'figma-bridge' / name).read_text() for name in ('semantic_tokens.js', 'foundation_palette.js', 'native_semantic_read.js', 'design_note_board.js')) + '\nconst PAYLOAD = ' + payload_json + ';\n' + (ROOT / 'figma-bridge/code.js').read_text(),
-             'ui.html': (ROOT / 'figma-bridge/ui.html').read_text(),
+             'ui.html': render_panel((ROOT / 'figma-bridge/ui.html').read_text()),
              'README.md': (ROOT / 'figma-bridge/README.md').read_text()}
     out = Path(out)
     out.mkdir()  # A new directory is the output ownership boundary; never overwrite an existing build.

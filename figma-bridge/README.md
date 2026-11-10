@@ -9,6 +9,30 @@ application behavior. Optional `target_screen` becomes native click navigation;
 `action_id`, trace IDs and annotations are declared semantic metadata, not proof
 that the application action ran.
 
+## Primary route: one registered Figma Flow workspace
+
+Use the [install-once guide](../docs/figma-guide.md#5-고정-작업공간-등록과-검토-작업-준비). Initialize a private workspace with your own existing Figma-issued manifest ID, then register only its stable manifest:
+
+```sh
+python3 tools/figma_workspace.py init --workspace PRIVATE_DIR --id-from OWN_MANIFEST.json
+python3 tools/figma_workspace.py prepare --workspace PRIVATE_DIR \
+  --key workshop-review --title "Workshop review" --project "Workshop" --kind review -- \
+  --manifest PROJECT/review/directions.json
+python3 tools/figma_workspace.py list --workspace PRIVATE_DIR
+```
+
+`prepare` records the originating `CODEX_THREAD_ID`, or an explicit validated `--thread-id UUID`. If neither exists, preparation remains offline and chat is disabled; malformed explicit UUIDs are rejected. Workspace preparation currently uses POSIX protected files on macOS/Linux; Windows-local preparation retains the standalone compatibility route. The arguments after `--` are generator flags only; the workspace owns output paths and plugin identity. `import`, `review`, `discover` and `sync` tasks appear under **준비된 작업**. **열기** opens the chosen task UI without writing; its original explicit action starts the operation. **작업 목록으로** returns home after completion.
+
+Keep `PRIVATE_DIR/manifest.json` registered. It references immutable code/UI generations; copy the whole private workspace, including hidden directories, when transferring machines. A changed task key requires the current `list` revision as `prepare --replace-expected REVISION`; an unchanged retry is idempotent. Close the older running window and reopen the same plugin to load the new task list.
+
+Private plugin data belongs to the Figma plugin ID that wrote it. Foreign-ID packages and paired state cannot be relabeled into ownership. Preserve the original plugin/ID or prepare an explicit migration from actual old readback. Do not share the private workspace or any relay credentials as a public bundle. [Chat handoff](../docs/figma-guide.md#11-작업을-준비한-codex-채팅으로-연결) opens the task's recorded thread and previews selection/request content before an explicit copy or optional queue action.
+
+For existing private loopback workflows, workspace `import` may use `--paired-state PRIVATE_STATE` only when its plugin ID, file/page, source hash and running endpoint match. Paired direction review uses explicit `--pair-dir` plus `--receiver-port` on a `review` task and the original receiver receipt/download contract. See the [private receiver commands](../docs/installation-and-updates.md#6-5-선택적-로컬-동기화-사용-중이라면); these do not send a chat message.
+
+## Standalone compatibility
+
+The commands below describe legacy standalone packages and the optional paired companion. They are not the default registration path for new workspace tasks. Their existing ID, private-data scope and native evidence checks remain in force.
+
 ## One-button local app sync (0.9.0; same 0.8.0 setup)
 
 Start the helper once from the plugin root. Use the original imported
@@ -81,9 +105,8 @@ for scope, manual JSON planning/apply and chained edits.
    claimed import-ready.
    The compiler never invents a Figma identity. An ID's existence or ownership
    cannot be verified offline; use your own Figma-created development ID.
-4. Click **디자인 가져오기 · 기존 페이지 열기**. Import creates a dedicated page and
-   local variable collection. Repeating it first rechecks required native annotations, instance links and token bindings, then focuses the same payload and preserves edits. Missing native semantics block success; existing user edits are never removed. A changed payload requires explicitly checking **Create a
-   fresh page**. That action adds a page and collection; it never updates earlier
+4. Click **가져오기 · 기존 페이지 열기**. Import creates a dedicated page and
+   local variable collection. Repeating it first rechecks required native annotations, instance links and token bindings, then focuses the same payload and preserves edits. Missing native semantics block success; existing user edits are never removed. A changed payload requires explicitly checking **별도 페이지로 새로 가져오기**. That action adds a page and collection; it never updates earlier
    imports. Do not use fresh-page mode when you only want to find an existing
    import. A failed import rolls back only the objects that attempt created.
 
@@ -113,7 +136,7 @@ names stay in variable plugin data and readback. Color alpha is stored in the
 RGBA variable value; bound base paints keep opacity 1 to avoid applying it twice.
 
 After editing text, styles, variables, components or prototype reactions in Figma,
-click **현재 디자인 읽기**, then **읽은 결과 JSON 저장**. The textarea also
+click **현재 디자인 읽기**, then **JSON 파일 저장**. The optional **JSON 원문 확인** disclosure also
 supports manual copying if the host blocks a download. The file contains actual
 native IDs, current geometry/text/style values and bound-variable aliases, current
 instance-to-main-component IDs, reaction destination IDs, collection modes and

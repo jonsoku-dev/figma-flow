@@ -1,40 +1,36 @@
 # 클론 후 Codex에 붙여 넣는 설치 프롬프트
 
-아직 클론하지 않았다면 [빈 폴더에서 처음부터 설치하는 프롬프트](installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 사용하세요. [회사 private 배포](private-repository.md), [Node LTS·회사 npm·lockfile 정책](npm-environment.md), [Codex와 Figma 각각의 업데이트](installation-and-updates.md#6-업데이트와-되돌리기)도 별도로 안내합니다. 설치 후 반복 연동은 `$figma-plugin-setup`으로 요청할 수 있습니다.
+아직 클론하지 않았다면 [처음 설치 프롬프트](installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 사용하세요. 직접 받을 때는 `git clone --branch v0.22.0 https://github.com/jonsoku-dev/figma-flow.git`입니다. 기본은 **Figma에 고정 manifest 하나를 등록하고 Codex가 준비한 작업을 홈에서 여는 방식**입니다. 개별 작업 manifest 등록은 기존 standalone 호환용입니다. [화면과 명령 가이드](figma-guide.md)
 
-먼저 `git clone --branch v0.18.2 https://github.com/jonsoku-dev/figma-flow.git`으로 받은 폴더를 Codex에서 엽니다. 아래에서 해당하는 **코드 블록 하나**를 복사해 새 채팅에 보내세요. 첫 실행용 워크숍은 실제 회원 정보나 외부 전송을 사용하지 않습니다. [화면으로 따라가기](figma-guide.md)
+아래 두 코드 블록 중 환경에 맞는 하나를 새 채팅에 보내세요. 회사 환경은 [private 배포](private-repository.md)와 [npm·Node 정책](npm-environment.md)을 함께 확인합니다.
 
 ## A. Computer Use로 Figma Desktop까지 조작 가능한 환경
 
 ```text
-현재 열어 둔 jonsoku-dev/figma-flow 클론에서 Figma Flow를 설치하고 워크숍 검토 패키지의 실제 Figma 읽기 결과까지 확인해 줘.
+현재 figma-flow 클론에서 Figma Flow 0.22.0을 설치하고, 하나의 등록된 Figma Flow 작업공간으로 워크숍 검토까지 확인해 줘.
 
-1. 저장소 루트, git remote get-url origin, git status, HEAD와 v0.18.2의 일치, plugin.json과 .codex-plugin/plugin.json의 version을 확인해. 다른 작업 트리나 변경 파일이 있으면 보존하고, 태그의 깨끗한 워크트리를 별도로 써. docs/figma-guide.md와 동봉된 native-direction-review 예제를 읽어.
-2. Git, Codex CLI의 plugin 명령과 Python 3.13 사용 가능 여부를 확인해. Node는 .nvmrc에 고정된 LTS와 실제 실행 버전을 대조해. docs/npm-environment.md대로 회사 npm 사용 여부, 필요한 전체 HTTPS URL과 미러/스코프 범위를 내게 묻고 프로젝트 .npmrc만 설정해. package-lock=false와 lockfile 비추적을 확인하고 인증값은 요청하거나 저장하지 마. 이미 맞는 설정은 재사용해.
-3. codex plugin marketplace list에서 figma-flow-local의 소스 경로를 확인하고, 필요하면 codex plugin marketplace add <클론의 절대 경로>, codex plugin add figma-flow@figma-flow-local --json을 실행해. codex plugin list --marketplace figma-flow-local의 경로, installed, enabled, 0.18.2을 확인해. add의 installedPath에 새 skills/figma-plugin-setup/SKILL.md가 있으면 읽고 연동을 이어가. 이미 실행 중인 채팅에서 스킬이 보이지 않으면 새 채팅에서 이어갈 명령과 현재 위치를 알려 줘.
-4. 설치된 복사본을 기준으로 운영체제에 맞게 클론 밖에 Python 가상환경을 만들고 그 Python으로 pip install -r requirements-optional.txt를 실행해. Pillow 등 import를 확인하고 같은 Python으로 examples/native-direction-review/demo.py --out <새 폴더>를 실행해. <새 폴더>/review/directions.json의 현재 단계와 두 후보를 확인해. 시안이 실제 Figma에 만들어졌다는 주장은 아직 보류해.
-5. 내게 연습용 Figma Design 파일과 프로젝트 전용 검토 플러그인의 manifest.json 위치를 알려 달라고 해. ID가 없으면 허용된 Figma Desktop의 플러그인 → 개발 → 새 플러그인에서 Figma Design, 사용자 정의 UI를 선택해 전용 폴더에 저장하고, 발급된 ID를 읽어. 실제 계정 로그인, 접근 승인, 앱에서 필요한 확인은 내게 맡겨. Computer Use는 지정한 Figma 파일·메뉴·관련 파일 선택 대화상자에만 써.
-6. tools/design_actions.py prepare-native-review --manifest <directions.json> --plugin-id <실제 숫자 ID> --out <새 reviewer 폴더>를 실행해. 품질 오류는 원본에서 확인해. 생성된 reviewer/plugin/manifest.json을 지정한 Figma Desktop의 개발 플러그인 메뉴로 등록해. 실행 전 프로젝트명과 대상 파일을 대조해. 검토 시안 만들기 → 결과 JSON 저장 순서로 진행해.
-7. 저장된 실제 읽기 파일로 tools/design_actions.py verify-native-review --manifest <directions.json> --readback <결과 JSON>을 실행해. 데스크톱·모바일, 주석 보드 링크, 주요 조작의 목적지와 복귀를 확인하고 캡처에는 계정과 파일 키가 보이지 않게 해. 실행이 안 되면 패키지 경로, 막힌 버튼, 사용자가 해야 할 조작을 정확히 알려 줘.
-8. 현재 리뷰와 후보 ID를 보여 주고, 두 시안을 네가 직접 비교해서 추천해. 본제작은 실제 선택 기록이 필요한 별도 단계야. 대리 사용자 응답이나 선택 영수증을 만들지 마. 내가 실제로 특정 후보를 고른 경우에만 기존 선택 절차로 넘어가.
-9. 한국어로 설치 경로·버전, 실제 실행한 명령과 종료 코드, 검토 HTML·Figma 매니페스트·재읽기 결과의 위치, 확인한 것과 남은 것을 알려 줘.
+1. 저장소 루트·origin·git status·HEAD와 v0.22.0 태그, 두 plugin.json 버전을 확인해. 기존 변경은 보존해. docs/figma-guide.md와 설치된 skills/figma-plugin-setup/SKILL.md를 따라.
+2. 현재 Codex CLI 도움말로 marketplace/plugin 설치와 installedPath·installed/enabled/version/source를 확인해. Python 3.13 가상환경과 Pillow를 클론 밖에 준비해. 회사 npm이 필요하면 확인한 URL·범위만 프로젝트 .npmrc에 반영하고 인증값과 lockfile은 저장소에 넣지 마.
+3. 기존 Figma Flow 작업공간 manifest·ID·등록 경로가 있으면 재사용해. 최초에만 지정한 연습용 Design 파일의 개발 메뉴에서 내 ID를 발급받고, figma_workspace.py init --id-from으로 만든 고정 WORKSPACE/manifest.json을 등록해. 계정 로그인·접근 승인은 내가 해.
+4. 동봉 워크숍을 만들고 NATIVE_REVIEW_PENDING을 확인해. prepare --kind review로 프로젝트·작업 키·제목과 현재 CODEX_THREAD_ID 또는 실제 --thread-id를 고정해. Figma의 준비된 작업에서 그 검토 작업을 열고 검토 시안 만들기 → 완료 확인 → 결과 JSON 저장을 진행해. 열기 자체를 문서 생성으로 보고하지 마.
+5. 실제 결과 JSON과 현재 directions.json을 verify-native-review·status로 비교해 WAIT_SELECTION을 확인해. 데스크톱·모바일·주석 링크·주요 이동과 복귀를 실제 관찰하고, 미확인 항목은 구분해. 실제 내 선택 전에는 선택 기록·본제작을 만들지 마.
+6. 완료하면 작업 목록으로 돌아가. 이후 본제작·문서 읽기·그래프 동기화도 같은 작업공간에 준비해. 같은 키의 변경은 list의 현재 revision을 --replace-expected로 사용하고 이전 창을 닫아 다시 실행해. 다른 ID의 private data를 자동 이관하지 마.
+7. 채팅 연결은 작업을 준비한 원래 thread로만 해. 선택과 요청을 미리 확인한 뒤 복사하거나 내가 누른 채팅에 보내기로만 대기열에 넣어. 열린 창 추정이나 자동 전송을 하지 마. 설치·고정 manifest·작업 키/revision·실제 명령/종료 코드·증거와 남은 일을 한국어로 알려 줘.
 ```
 
 ## B. Computer Use가 없는 환경
 
 ```text
-현재 열어 둔 jonsoku-dev/figma-flow 클론에서 Figma Flow와 첫 워크숍 예제를 설정해 줘. 이 환경에는 Computer Use가 없어. 파일·CLI 작업은 네가 완료하고 Figma Desktop 조작은 내가 할 수 있게 단계별로 안내해.
+현재 figma-flow 클론에서 Figma Flow 0.22.0과 워크숍을 준비해 줘. CLI·파일 작업은 네가 하고 Figma Desktop 버튼은 내가 누를 거야.
 
-1. 클론 루트, origin, 현재 커밋과 v0.18.2 태그, 두 plugin.json의 버전을 확인해. 변경이 있으면 보존해. docs/figma-guide.md를 읽고 Git, Codex CLI plugin 명령, .nvmrc에 고정된 LTS와 실제 Node, Python 3.13을 확인해. docs/npm-environment.md대로 회사 npm의 전체 HTTPS URL과 미러/스코프 범위를 내게 물어보고 프로젝트 .npmrc만 설정해. lockfile을 생성·Git 추적하지 말고 인증값은 요청하지 마. 내 OS에 맞는 명령을 사용해.
-2. codex plugin marketplace list로 현재 상태를 읽고 이 클론이 등록되어 있지 않으면 codex plugin marketplace add <클론 절대 경로>를 실행해. codex plugin add figma-flow@figma-flow-local --json과 codex plugin list --marketplace figma-flow-local로 installed, enabled, 0.18.2과 소스 경로를 확인해. add의 installedPath에 새 skills/figma-plugin-setup/SKILL.md가 있으면 읽어 이어가고, 새 채팅이 필요하면 이어갈 프롬프트를 줘. 설치된 복사본을 기준으로 클론 밖의 가상환경에 requirements-optional.txt를 설치하고 같은 Python으로 Pillow 등 의존성을 확인해.
-3. examples/native-direction-review/demo.py --out <클론 밖의 새 워크숍 폴더>를 실행해. review/directions.json, HTML 비교 화면, 후보 ID, 현재 NATIVE_REVIEW_PENDING 상태를 확인해.
-4. 내게 필요한 첫 조작을 알려 줘. Figma Desktop에서 새 연습용 Design 파일을 열고 메인 메뉴 → 플러그인 → 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI → 다른 이름으로 저장을 누르면 돼. 이미 이 프로젝트의 검토용 ID가 있으면 그 전용 manifest.json 경로만 받아. 토큰이나 계정 비밀번호, 다른 프로젝트의 ID를 요청하지 마.
-5. 내가 파일 경로를 주면 발급된 id를 읽어 tools/design_actions.py prepare-native-review --manifest <directions.json> --plugin-id <실제 숫자 ID> --out <새 폴더>를 실행해. ZIP만 전달해야 하는 환경이면 어디서 압축을 풀어야 하는지 알려 줘. 생성된 plugin/manifest.json의 정확한 경로와 그림이 있는 가이드의 5~6단계를 보여 줘.
-6. 내가 할 다음 조작은 “개발 메뉴에서 매니페스트 가져오기 → 생성한 manifest.json 선택 → 해당 검토 플러그인 실행 → 검토 시안 만들기 → 결과 JSON 저장”이야. 파일이 준비되면 그 경로 또는 첨부를 받아 tools/design_actions.py verify-native-review --manifest <directions.json> --readback <저장한 결과>로 대조해. 파일을 받기 전에는 pending으로 두고, 검증 명령과 이어갈 위치를 남겨.
-7. 비교와 추천은 네가 해. 현재 후보·리뷰를 보여 주고 실제 사용자 선택 전에는 본제작 선택 기록을 만들지 마. 내가 Figma 작업 없이 HTML만 원한다고 명시하면 프로젝트 브리프를 Local HTML only로 정하고 --review-destination local인 별도 새 리뷰를 만들어. Figma 목적지를 말없이 바꾸지 마.
-8. 끝나면 실제 명령·종료 코드, 설치 위치·버전, 패키지와 다음 입력 파일의 경로, 현재 단계, 확인 못 한 범위를 한국어로 정리해.
+1. origin·git status·v0.22.0 커밋·두 manifest 버전과 Codex 설치 위치/활성 상태를 확인해. 기존 작업을 보존하고 설치된 figma-plugin-setup 스킬과 docs/figma-guide.md를 따라 환경·Python 의존성을 준비해. 회사 npm은 실제 URL·범위만 확인하고 인증값을 요청하지 마.
+2. 기존 Figma Flow 작업공간의 고정 manifest·ID가 있으면 재사용해. 없으면 내가 최초 한 번 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI로 저장한 manifest 경로를 줄게. 그 ID로 비공개 작업공간을 init하고 고정 WORKSPACE/manifest.json의 최초 등록 경로를 알려 줘.
+3. 워크숍과 검토 작업을 prepare --kind review로 준비하고 현재 채팅 UUID를 기록해. 원격이면 숨김 .generations를 포함한 작업공간 전체를 내 PC로 전달해. 개별 작업 manifest를 매번 등록하게 하지 마.
+4. 내가 할 조작은 Figma Flow → 준비된 작업 → 해당 프로젝트의 검토 작업 열기 → 검토 시안 만들기 → 완료 확인 → 결과 JSON 저장이야. JSON을 주면 verify-native-review·status로 현재 리뷰를 검증해. 파일을 받기 전 Figma 검증은 pending으로 남겨.
+5. 실제 후보를 비교·추천하되 내가 선택하기 전 본제작·선택 기록은 만들지 마. 완료하면 작업 목록으로 돌아가고 다음 작업도 같은 고정 manifest에 준비해. 다른 ID의 기존 페이지·private data는 원래 패키지를 보존하고 명시적 이관 범위를 먼저 확인해.
+6. 작업별 원래 채팅 열기·선택 내용 미리 확인·내용 복사 경로를 안내해. 선택적 로컬 relay 없이 직접 전송을 약속하지 마. 실제 명령·종료 코드, 설치와 고정 등록 경로·작업 키/revision·현재 단계·남은 수동 조작을 한국어로 정리해.
 ```
 
 ## 내 기획에 적용할 때 덧붙일 문장
 
-> 워크숍 대신 첨부한 팀 초대 기획서로 진행해 줘. 이 저장소의 테마와 컴포넌트를 디자인 시스템 기준으로 사용해. 전문 분석 보고서에서 확인한 사용자 행동과 캡처에서 확인한 화면 배치를 구분하고, 같은 시스템으로 두 시안을 만들어 직접 비교해 줘. 검토 목적지는 [Figma 또는 로컬 HTML]이야.
+> 워크숍 대신 첨부한 팀 초대 기획서와 디자인 시스템으로 진행해 줘. 자료의 관찰과 내 요구사항을 구분하고 두 시안을 비교·추천해 줘. 검토 목적지는 Figma이며 기존 Figma Flow 작업공간에 새 작업으로 준비해. 명시적으로 Local HTML only라고 요청한 경우에는 로컬 경로를 유지해.

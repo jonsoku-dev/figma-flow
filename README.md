@@ -1,20 +1,23 @@
-# Figma Flow 0.20.1
+# Figma Flow 0.22.0
 
-그래프의 컴포넌트 디자인 토큰을 정본으로 삼아 Figma와 웹으로 내보내고, 디자이너의 직접 편집을 그래프로 역수입합니다. [Graph SSOT 절차](examples/graph-ssot/README.md)에서 최초 이관·실측 검증·충돌 복구를 확인하세요. 기존 Unslop 비평과 프로젝트별 브라우저 접근 등록도 유지합니다.
+Figma에는 **Figma Flow 하나를 등록**합니다. Codex가 프로젝트의 가져오기·방향 검토·현재 문서 읽기·그래프 동기화 작업을 준비하면, 사용자는 홈의 **준비된 작업 → 열기**에서 실제 작업을 고르고 완료 후 **작업 목록으로** 돌아갑니다. 고정 manifest와 ID를 유지하며 작업별 원래 Codex 채팅에도 연결합니다. [설치 한 번으로 시작하는 가이드](docs/figma-guide.md)
+
+컴포넌트 디자인 값은 그래프를 정본으로 Figma·웹에 내보내고 직접 편집을 역수입합니다. [Graph SSOT 절차](examples/graph-ssot/README.md)에서 최초 이관·실측 검증·충돌 복구를 확인하세요. 준비된 작업 목록은 후보 선택이나 적용 승인 기록을 대신하지 않습니다.
 
 Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으로 만들고, 사람이 선택한 방향의 Figma 화면·컴포넌트·변수·주석을 다시 읽어 대조하는 Codex 플러그인입니다. 전문 분석 보고서, GitHub의 컴포넌트 코드, 디자인 시스템 사이트도 기획과 함께 사용할 수 있습니다.
 
 **처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. Computer Use가 없으면 같은 패키지·검증을 사용하고 Figma 버튼만 사람이 조작합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
 
 ```sh
-git clone --branch v0.18.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.22.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 ```
 
 | 하려는 일 | 문서 |
 |---|---|
-| Figma에 처음 등록하고 첫 시안 비교하기 | [실제 스크린샷으로 따라 하는 사용 가이드](docs/figma-guide.md) |
+| Figma에 처음 등록하고 첫 시안 비교하기 | [현재 패널과 등록 화면을 따라 하는 사용 가이드](docs/figma-guide.md) |
 | Codex에서 설치와 예제 실행 맡기기 | [Computer Use 사용·미사용 프롬프트](docs/codex-setup-prompts.md) |
+| 원래 Codex 채팅으로 선택·요청 전달 | [미리 확인·복사·선택적 큐 전송](docs/figma-guide.md#11-작업을-준비한-codex-채팅으로-연결) |
 | 클론 전 설치·Figma 연결·업데이트·롤백 | [단계별 가이드와 프롬프트](docs/installation-and-updates.md) · [연동 스킬](skills/figma-plugin-setup/SKILL.md) |
 | 회사 private 저장소로 복제·배포 | [Private 저장소 가이드](docs/private-repository.md) |
 | Node LTS·회사 npm 설정·lockfile 제외 | [환경 설정 가이드](docs/npm-environment.md) |
@@ -247,9 +250,13 @@ codex plugin add figma-flow@figma-flow-local
 codex plugin list
 ```
 
-설치는 로컬 Codex 설정과 플러그인 캐시를 변경합니다. 앱 목록이 갱신되지 않으면 새로 열어 확인하세요. Figma 연결이나 로그인은 이 패키지가 수행하지 않습니다.
+목록과 설치 복사본의 `plugin.json`·`.codex-plugin/plugin.json`은 모두 `0.22.0`인지 확인합니다. 설치는 로컬 Codex 설정과 플러그인 캐시를 변경합니다. 앱 목록이 갱신되지 않으면 새로 열어 확인하세요. Figma 연결이나 로그인은 이 패키지가 수행하지 않습니다.
 
-Figma 작업이 필요하면 [로컬 디자인·감사 절차](skills/figma-flow/references/local-design-audit.md)를 따라 번들을 검토하고 Figma Desktop에서 개발 플러그인을 등록하세요. Figma가 개발 플러그인 ID를 요구하면 해당 앱에서 새 개발 플러그인을 만들어 받은 숫자 ID를 `design_bundle.py --plugin-id ID`에 전달해 새 폴더로 다시 생성합니다. SVG는 시각적 가져오기 대안이며 변수·컴포넌트·프로토타입 관계의 보존 증거는 아닙니다.
+Codex 플러그인을 업데이트한 뒤에는 새 도구의 `figma_workspace.py prepare`로 같은 작업 키를 갱신합니다. 변경된 입력에는 `list`의 현재 revision을 `--replace-expected`로 전달합니다. 고정 manifest·ID·등록 경로는 유지하고 이전 창을 닫아 다시 실행하세요. [패키지 갱신 절차](docs/installation-and-updates.md#6-3-figma-개발-플러그인-갱신-computer-use-없음)
+
+작업공간 CLI의 현재 준비·갱신 환경은 POSIX(macOS/Linux)이며 Windows 로컬에서는 standalone 호환 경로를 유지합니다.
+
+Figma가 목적지이면 [작업공간 설치·준비](docs/figma-guide.md#5-고정-작업공간-등록과-검토-작업-준비)를 기본으로 사용합니다. 실제 Figma 발급 ID로 `figma_workspace.py init --workspace PRIVATE_DIR --id-from OWN_MANIFEST`를 한 번 준비하고 고정 `PRIVATE_DIR/manifest.json`을 등록합니다. 이후 Codex가 `prepare --kind import|review|discover|sync`로 작업을 준비합니다. standalone manifest 등록은 기존 호환 경로로만 유지합니다. SVG는 시각적 가져오기 대안이며 변수·컴포넌트·프로토타입 관계의 보존 증거는 아닙니다.
 
 사용자가 **원격 Figma MCP 사용을 명시**한 경우에는 기존 [Figma 워크플로](skills/figma-flow/references/figma-workflow.md)를 사용합니다. MCP 없는 요청에서 연결 검사나 원격 도구 호출을 하지 않습니다. 로컬 키트 생성, 실제 Figma 가져오기, 현재 파일의 재읽기, 앱과의 시각·동작 일치는 각각 별도 증거로 보고합니다. 이번 로컬 구현의 시뮬레이션 검사는 실제 Figma 가져오기·재읽기 성공을 입증하지 않습니다.
 

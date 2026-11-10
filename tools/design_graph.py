@@ -28,6 +28,18 @@ def pointer(*parts):
     return '#/' + '/'.join(str(part).replace('~', '~0').replace('/', '~1') for part in parts)
 
 
+def state_destination_matches(product, by_id, shown, action, target):
+    state_ids = {key for key in action.get('target_ids', []) if by_id[key]['type'] == 'state'}
+    if not state_ids or any((action['id'], key) not in shown for key in state_ids):
+        return False
+    states = product.get('draft_prototype', {}).get('states', [])
+    for key in state_ids:
+        screens = [row.get('screen') for row in states if isinstance(row, dict) and row.get('id') == key]
+        if screens != [target]:
+            return False
+    return by_id.get(target, {}).get('type') == 'screen'
+
+
 def augment(product, design_data, graph_path, design_path, output_path):
     graph_path, design_path, output_path = map(lambda p: Path(os.path.abspath(p)), (graph_path, design_path, output_path))
     if output_path.resolve() in {graph_path.resolve(), design_path.resolve()}:
@@ -48,6 +60,7 @@ def _build(product, design_data, graph_path, design_path, output_path, graph_sha
     design = compile_design(design_data)
     by_id = {node['id']: node for node in product['nodes']}
     edges = {(edge['from'], edge['to']) for edge in product['edges']}
+    shown = {(edge['from'], edge['to']) for edge in product['edges'] if edge['type'] == 'shows'}
     coverage = []
     used_variants, used_tokens = set(), set()
     for screen in design['screens']:
@@ -75,7 +88,8 @@ def _build(product, design_data, graph_path, design_path, output_path, graph_sha
                 if action.get('type') != 'action' or action.get('source_screen') != screen_id or (screen_id, action_id) not in edges:
                     raise ValueError(f'action does not belong to screen {screen_id}: {action_id}')
                 screen_targets = {item for item in action.get('target_ids', []) if by_id[item]['type'] == 'screen'}
-                if target and (target not in screen_targets or (action_id, target) not in edges):
+                direct_target = target in screen_targets and (action_id, target) in edges
+                if target and not direct_target and not state_destination_matches(product, by_id, shown, action, target):
                     raise ValueError(f'action target mismatch: {action_id} -> {target}')
                 if screen_targets and not target:
                     raise ValueError(f'action requires its target_screen: {action_id}')

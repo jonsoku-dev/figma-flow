@@ -572,13 +572,23 @@ async function graphTokenPairMigration(figma, plan, operation) {
 }
 if (typeof module !== 'undefined') module.exports = {graphTokenSync};
 if (typeof GRAPH_SYNC_PLAN !== 'undefined' && typeof figma !== 'undefined') {
-  figma.showUI('<button id="read">Read native values</button><button id="apply">Apply graph values</button><pre id="status"></pre><script>for(const operation of ["read","apply"])document.getElementById(operation).onclick=()=>parent.postMessage({pluginMessage:{type:operation}},"*");onmessage=event=>{const msg=event.data.pluginMessage;document.getElementById("status").textContent=msg.error||(msg.readback&&msg.readback.error)||"Readback saved";if(msg.readback){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(msg.readback,null,2)],{type:"application/json"}));a.download="graph-token-readback.json";a.click();URL.revokeObjectURL(a.href);}};</script>', {width: 420, height: 180});
+  figma.showUI(__html__, {width: 440, height: 470, themeColors: true});
   let busy = false;
   figma.ui.onmessage = async message => {
-    if (busy || !['read', 'apply'].includes(message?.type)) return;
+    if (busy || !['read', 'apply'].includes(message?.type) || message.session !== GRAPH_PANEL_SESSION) return;
     busy = true;
-    try { figma.ui.postMessage({readback: await graphTokenSync(figma, GRAPH_SYNC_PLAN, message.type === 'apply' ? 'apply' : 'inspect')}); }
-    catch (error) { figma.ui.postMessage({error: error.message || String(error), readback: error.readback, rollback_conflicts: error.rollback_conflicts || []}); }
+    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation: message.type});
+    try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: message.type, readback: await graphTokenSync(figma, GRAPH_SYNC_PLAN, message.type === 'apply' ? 'apply' : 'inspect')}); }
+    catch (error) {
+      const detail = error.message || String(error);
+      const safely = getter => {try {return getter() ?? null;} catch (_) {return null;}};
+      const readback = error.readback || {schema: 'figma-flow-graph-token-readback-v1', status: 'failed',
+        operation: message.type === 'apply' ? 'apply' : 'inspect', error: detail, stack: error.stack || detail,
+        file_key: safely(() => figma.fileKey), page_id: safely(() => figma.currentPage?.id),
+        expected_scope: {file_key: GRAPH_SYNC_PLAN.file_key, page_id: GRAPH_SYNC_PLAN.page_id, collection_id: GRAPH_SYNC_PLAN.collection_id},
+        rollback_conflicts: error.rollback_conflicts || []};
+      figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: message.type, error: detail, readback, rollback_conflicts: error.rollback_conflicts || []});
+    }
     finally { busy = false; }
   };
 }
