@@ -24,9 +24,11 @@ def authored_fields(source, graph):
         fields[key] = properties
 
     def control(key, style):
+        icon = style.get('icon')
+        item_spacing = icon.get('gap', 0) if isinstance(icon, dict) else 0
         put(key, {'cornerRadius': style['radius'], 'paddingLeft': style['paddingX'],
                   'paddingRight': style['paddingX'], 'paddingTop': style['paddingY'],
-                  'paddingBottom': style['paddingY'], 'itemSpacing': 0})
+                  'paddingBottom': style['paddingY'], 'itemSpacing': item_spacing})
         put(key + '.label', {'fontFamily': fonts[style.get('font', 'body')]['family'], 'fontSize': style['fontSize']})
 
     for viewport, states in source['state_layouts'].items():

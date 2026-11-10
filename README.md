@@ -1,4 +1,4 @@
-# Figma Flow 0.23.0
+# Figma Flow 0.23.1
 
 Figma에는 **Figma Flow 하나를 등록**합니다. 사용자가 대상 Design 파일에서 플러그인을 한 번 직접 실행하면, Codex가 비공개 로컬 제어로 준비된 검토·가져오기·읽기·동기화 작업을 수행하고 실제 읽기 자료를 검증합니다. 작업마다 버튼을 반복 누를 필요는 없습니다. 홈의 **다음 작업**과 **이력**을 확인하고, 필요하면 수동 버튼으로도 진행할 수 있습니다. [한국어 가이드](docs/figma-guide.md) · [English](docs/figma-guide-en.md) · [日本語](docs/figma-guide-ja.md)
 
@@ -15,7 +15,7 @@ Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으
 **처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. 기본 경로는 Computer Use 없이 사용자가 Figma Flow를 열고 Codex가 로컬 연결로 실행·검증하는 방식입니다. 로컬 연결도 제한된 환경에서는 패널에서 실행하고 결과 JSON을 전달합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
 
 ```sh
-git clone --branch v0.23.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 ```
 
@@ -262,7 +262,7 @@ codex plugin add figma-flow@figma-flow-local
 codex plugin list
 ```
 
-목록과 설치 복사본의 `plugin.json`·`.codex-plugin/plugin.json`은 모두 `0.23.0`인지 확인합니다. 설치는 로컬 Codex 설정과 플러그인 캐시를 변경합니다. 앱 목록이 갱신되지 않으면 새로 열어 확인하세요. Figma 연결이나 로그인은 이 패키지가 수행하지 않습니다.
+목록과 설치 복사본의 `plugin.json`·`.codex-plugin/plugin.json`은 모두 `0.23.1`인지 확인합니다. 설치는 로컬 Codex 설정과 플러그인 캐시를 변경합니다. 앱 목록이 갱신되지 않으면 새로 열어 확인하세요. Figma 연결이나 로그인은 이 패키지가 수행하지 않습니다.
 
 Codex 플러그인을 업데이트한 뒤에는 새 도구의 `figma_workspace.py prepare`로 같은 작업 키를 갱신합니다. 변경된 입력에는 `list`의 현재 revision을 `--replace-expected`로 전달합니다. 고정 manifest·ID·등록 경로는 유지하고 이전 창을 닫아 다시 실행하세요. [패키지 갱신 절차](docs/installation-and-updates.md#6-3-figma-개발-플러그인-갱신-computer-use-없음)
 

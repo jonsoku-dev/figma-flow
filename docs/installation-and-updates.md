@@ -1,24 +1,44 @@
 # 프롬프트로 설치하고 Figma 연결·업데이트까지 진행하기
 
-Codex가 저장소 확인, Codex 플러그인 설치, 한 번 등록·실행한 Figma 작업공간의 로컬 제어와 실제 읽기 결과 검증을 담당합니다. Computer Use를 사용할 수 있으면 허용된 Figma Desktop 조작도 맡깁니다. 사용할 수 없으면 같은 파일을 만들고 같은 검사 명령을 쓰며, 사용자가 Figma 버튼을 누르고 결과 JSON을 전달합니다.
+Codex가 저장소 확인, Codex 플러그인 설치, 한 번 등록·실행한 Figma 작업공간의 로컬 제어와 실제 읽기 결과 검증을 담당합니다. 사용자가 대상 파일에서 플러그인을 열면 Codex가 허용된 로컬 연결로 생성·읽기를 수행합니다. 로컬 연결도 차단된 환경에서는 사용자가 패널에서 실행하고 결과 JSON을 전달합니다.
 
 이 문서는 **로컬 파일·CLI 실행이 가능한 Codex**와 macOS/Windows의 Figma Desktop을 기준으로 합니다. Codex 자체의 최초 로그인, GitHub 인증, Figma 로그인과 조직 접근 승인은 사용자 단계입니다. Computer Use가 없다는 이유로 CLI·파일 실행까지 불가능한 것은 아닙니다. 원격 Codex에서 파일을 만들면 Figma Desktop이 있는 컴퓨터로 패키지 전체를 전달해야 합니다. 브라우저 전용 Figma에서는 이 개발 플러그인 등록 경로를 완료할 수 없습니다. [Figma 공식 개발 플러그인 안내](https://help.figma.com/hc/en-us/articles/360042786733-Create-a-classic-plugin-for-development)
 
-현재 설치 기준은 **0.23.0**입니다. 단일 작업공간 CLI는 현재 POSIX 파일 보호를 지원하는 macOS/Linux에서 준비·갱신합니다. Windows 로컬 CLI는 standalone 호환 경로를 유지하며, POSIX에서 준비한 폴더를 다른 머신으로 전달하는 경우 실제 실행 범위를 따로 검증합니다. 원본 태그 `v0.23.0`, 설치 목록, 설치 복사본의 두 플러그인 매니페스트 버전을 대조하세요. Figma에는 고정 `WORKSPACE/manifest.json` 하나를 등록합니다. Codex가 프로젝트별 작업을 준비·갱신하고 사용자는 홈에서 실제 작업을 선택합니다. 작업을 갱신한 뒤 열린 창을 닫고 같은 플러그인을 다시 실행합니다.
+현재 설치 기준은 **0.23.1**입니다. 단일 작업공간 CLI는 현재 POSIX 파일 보호를 지원하는 macOS/Linux에서 준비·갱신합니다. Windows 로컬 CLI는 standalone 호환 경로를 유지하며, POSIX에서 준비한 폴더를 다른 머신으로 전달하는 경우 실제 실행 범위를 따로 검증합니다. 원본 태그 `v0.23.1`, 설치 목록, 설치 복사본의 두 플러그인 매니페스트 버전을 대조하세요. Figma에는 고정 `WORKSPACE/manifest.json` 하나를 등록합니다. Codex가 프로젝트별 작업을 준비·갱신하고 사용자는 홈에서 실제 작업을 선택합니다. 작업을 갱신한 뒤 열린 창을 닫고 같은 플러그인을 다시 실행합니다.
 
 ## 1. 클론 전부터 Codex에 맡기기
 
 Codex에서 비어 있는 작업 폴더를 열고 아래 프롬프트 하나를 보냅니다. 회사 저장소라면 URL을 회사 private URL로 바꿉니다. 최초 설치에는 `$figma-plugin-setup`이 아직 없으므로 일반 프롬프트로 시작합니다. 새 스킬이 포함된 회사 릴리스·브랜치를 지정하세요. 과거 릴리스에 새 스킬이 있다고 가정하지 않습니다.
 
-### A. Computer Use 사용 가능
+### A. Computer Use 사용 불가능 (기본)
 
 ```text
 이 빈 작업 폴더에서 Figma Flow를 처음부터 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소: https://github.com/jonsoku-dev/figma-flow.git
-설치할 버전: v0.23.0
+설치할 버전: v0.23.1
+Computer Use: 불가능. CLI·파일 작업은 네가 하고 Figma Desktop 버튼은 내가 누를 거야.
+
+1. 기존 폴더·Git 작업·Codex 마켓플레이스·설치를 먼저 읽고 보존해. private이면 내 Git 인증으로 접근을 확인해. 새 전용 폴더에 검증한 버전을 클론하고 태그·커밋·두 매니페스트 버전·마켓플레이스 이름을 기록해. 두 매니페스트가 0.23.1인지 대조해.
+2. docs/installation-and-updates.md와 현재 CLI --help에 따라 Codex 플러그인을 먼저 설치하고 installedPath, installed/enabled/version/source를 확인해. 새 skills/figma-plugin-setup/SKILL.md를 사용해. 새 채팅이 필요하면 정확한 설치 경로와 이어가기 프롬프트를 줘.
+3. docs/npm-environment.md에 따라 회사 npm URL과 전체 미러/스코프 여부를 내게 물어보고 프로젝트 .npmrc를 설정해. 인증값은 요청하지 마. .nvmrc의 LTS, Python 가상환경과 의존성을 확인하고 lockfile은 생성·Git 추적하지 마.
+4. 새 워크숍 폴더에서 동봉 예제를 생성하고 NATIVE_REVIEW_PENDING, 후보 ID와 검토 HTML 경로를 알려 줘. 내 첫 Figma 작업은 새 연습용 Design 파일 열기 → 플러그인 → 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI → 전용 폴더에 저장이야. 이미 Figma Flow 작업공간이 있으면 고정 manifest 경로·ID를 재사용해.
+5. 내가 저장한 manifest.json에서 실제 ID를 읽어 figma_workspace.py init으로 비공개 고정 작업공간을 준비하고 prepare --kind review로 현재 채팅에 연결된 작업을 만들어. 원격이면 숨김 .generations를 포함한 작업공간 전체를 내 PC로 전달해.
+6. 최초 한 번 고정 WORKSPACE/manifest.json을 등록하고 대상 파일에서 Figma Flow를 열도록 안내해. 허용된 로컬 연결이 있으면 enable·refresh·serve를 준비하고 정확한 파일·페이지·revision으로 create를 실행해 결과를 받아. 로컬 연결도 차단됐으면 준비된 작업의 검토 시안 만들기 → 결과 JSON 저장 순서로 안내해. 글꼴은 시안 원본에 지정한 패밀리와 스타일로 플러그인이 적용하고 실제 읽기 결과와 대조해. 완료 후 작업 목록으로 돌아가. 새 프로젝트마다 새 ID나 manifest 등록을 요구하지 마. 다른 ID의 기존 private data는 자동 이관하지 마.
+7. 결과 파일을 받기 전에는 Figma 검증을 pending으로 유지해. 내가 저장 경로/파일을 주면 verify-native-review와 status를 실행해 WAIT_SELECTION을 확인해. 실제 Figma PNG와 버튼·복귀·주석 링크의 수동 확인 방법도 줘. 관찰하지 못한 항목은 미확인으로 표시해.
+8. 같은 후보를 비교·추천하고 실제 사용자 선택 전에는 선택 기록·본제작을 만들지 마. 실제 명령·종료 코드, 설치/패키지/읽기 결과의 경로와 남은 수동 단계·이어가기 프롬프트를 한국어로 보고해. Figma 목적지를 HTML로 바꾸지 마.
+```
+
+두 프롬프트는 첫 Figma 조작과 JSON 전달에서 사람이 개입합니다. Computer Use도 계정 로그인·접근 승인·앱 확인을 없애지는 못합니다. CLI나 파일 기능이 없는 Codex에서는 로컬 실행 가능한 Codex로 전환하거나 아래 명령을 사용자가 직접 실행합니다.
+
+### B. Computer Use 사용 가능
+
+```text
+이 빈 작업 폴더에서 Figma Flow를 처음부터 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+저장소: https://github.com/jonsoku-dev/figma-flow.git
+설치할 버전: v0.23.1
 Computer Use: 가능. 허용 범위는 연습용 Figma Desktop Design 파일, 개발 플러그인 메뉴와 관련 파일 선택/저장 창이야.
 
-1. 기존 폴더·Git 작업·Codex 마켓플레이스·설치를 먼저 읽고 보존해. private이면 내 Git 인증으로 읽을 수 있는지 확인해. v0.23.0 태그와 정확한 커밋을 기록해. 이미 등록된 다른 회사/개인 소스를 바꾸지 마.
+1. 기존 폴더·Git 작업·Codex 마켓플레이스·설치를 먼저 읽고 보존해. private이면 내 Git 인증으로 읽을 수 있는지 확인해. v0.23.1 태그와 정확한 커밋을 기록해. 이미 등록된 다른 회사/개인 소스를 바꾸지 마.
 2. 새 전용 폴더에 해당 버전을 클론해 docs/installation-and-updates.md, docs/npm-environment.md를 읽어. 두 플러그인 매니페스트의 버전과 마켓플레이스 이름·경로를 대조하고 현재 Codex CLI --help 문법으로 Codex 플러그인을 먼저 설치해. add 결과의 installedPath와 list의 installed/enabled/version/source를 확인해. 새 스킬이 현재 채팅에 안 보이면 정확한 이어가기 프롬프트를 남겨 새 채팅에서 쓰게 해.
 3. 설치된 skills/figma-plugin-setup/SKILL.md에 따라 나머지를 진행해. 회사 npm 레지스트리의 전체 HTTPS URL과 전체 미러/패키지 스코프 여부를 먼저 내게 물어보고 프로젝트 .npmrc만 설정해. 도메인만 주면 필요한 서비스 경로를 추가로 확인해. 토큰은 요청하지 마. .nvmrc의 LTS 버전, Python 가상환경과 의존성을 확인하고 lockfile을 생성·Git 추적하지 마.
 4. 새 워크숍 폴더에 동봉 예제를 생성하고 NATIVE_REVIEW_PENDING을 확인해. 내 연습용 Design 파일과 등록된 Figma Flow 작업공간 manifest·ID를 확인해. 최초에만 Figma Desktop의 새 플러그인에서 사용자 소유 ID를 발급받고 고정 작업공간을 등록해. 로그인·접근 승인과 앱이 요구하는 사용자 확인은 내가 해.
@@ -27,26 +47,6 @@ Computer Use: 가능. 허용 범위는 연습용 Figma Desktop Design 파일, �
 7. 실제 명령과 종료 코드, 설치/패키지/읽기 결과의 절대 경로, 검증한 범위, 사용자에게 필요한 다음 행동을 한국어로 보고해. 패키지 생성이나 오프라인 테스트를 실제 Figma 실행 성공으로 보고하지 마.
 8. 원격 Codex라면 Figma Desktop이 있는 PC에 전체 패키지 ZIP을 전달해. Computer Use가 중단되면 현재 패키지를 보존하고 문서 4절의 다음 수동 단계부터 안내해. 실제 JSON이 없으면 Figma 검증은 pending이야.
 ```
-
-### B. Computer Use 사용 불가능
-
-```text
-이 빈 작업 폴더에서 Figma Flow를 처음부터 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
-저장소: https://github.com/jonsoku-dev/figma-flow.git
-설치할 버전: v0.23.0
-Computer Use: 불가능. CLI·파일 작업은 네가 하고 Figma Desktop 버튼은 내가 누를 거야.
-
-1. 기존 폴더·Git 작업·Codex 마켓플레이스·설치를 먼저 읽고 보존해. private이면 내 Git 인증으로 접근을 확인해. 새 전용 폴더에 검증한 버전을 클론하고 태그·커밋·두 매니페스트 버전·마켓플레이스 이름을 기록해. 두 매니페스트가 0.23.0인지 대조해.
-2. docs/installation-and-updates.md와 현재 CLI --help에 따라 Codex 플러그인을 먼저 설치하고 installedPath, installed/enabled/version/source를 확인해. 새 skills/figma-plugin-setup/SKILL.md를 사용해. 새 채팅이 필요하면 정확한 설치 경로와 이어가기 프롬프트를 줘.
-3. docs/npm-environment.md에 따라 회사 npm URL과 전체 미러/스코프 여부를 내게 물어보고 프로젝트 .npmrc를 설정해. 인증값은 요청하지 마. .nvmrc의 LTS, Python 가상환경과 의존성을 확인하고 lockfile은 생성·Git 추적하지 마.
-4. 새 워크숍 폴더에서 동봉 예제를 생성하고 NATIVE_REVIEW_PENDING, 후보 ID와 검토 HTML 경로를 알려 줘. 내 첫 Figma 작업은 새 연습용 Design 파일 열기 → 플러그인 → 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI → 전용 폴더에 저장이야. 이미 Figma Flow 작업공간이 있으면 고정 manifest 경로·ID를 재사용해.
-5. 내가 저장한 manifest.json에서 실제 ID를 읽어 figma_workspace.py init으로 비공개 고정 작업공간을 준비하고 prepare --kind review로 현재 채팅에 연결된 작업을 만들어. 원격이면 숨김 .generations를 포함한 작업공간 전체를 내 PC로 전달해.
-6. 최초 한 번 고정 WORKSPACE/manifest.json 등록 → Figma Flow 실행 → 준비된 작업에서 해당 프로젝트의 검토 작업 열기 → 검토 시안 만들기 → 완료 확인 → 결과 JSON 저장 순서로 안내해. 완료 후 작업 목록으로 돌아가. 새 프로젝트마다 새 ID나 manifest 등록을 요구하지 마. 다른 ID의 기존 private data는 자동 이관하지 마.
-7. 결과 파일을 받기 전에는 Figma 검증을 pending으로 유지해. 내가 저장 경로/파일을 주면 verify-native-review와 status를 실행해 WAIT_SELECTION을 확인해. 실제 Figma PNG와 버튼·복귀·주석 링크의 수동 확인 방법도 줘. 관찰하지 못한 항목은 미확인으로 표시해.
-8. 같은 후보를 비교·추천하고 실제 사용자 선택 전에는 선택 기록·본제작을 만들지 마. 실제 명령·종료 코드, 설치/패키지/읽기 결과의 경로와 남은 수동 단계·이어가기 프롬프트를 한국어로 보고해. Figma 목적지를 HTML로 바꾸지 마.
-```
-
-두 프롬프트는 첫 Figma 조작과 JSON 전달에서 사람이 개입합니다. Computer Use도 계정 로그인·접근 승인·앱 확인을 없애지는 못합니다. CLI나 파일 기능이 없는 Codex에서는 로컬 실행 가능한 Codex로 전환하거나 아래 명령을 사용자가 직접 실행합니다.
 
 ## 2. 단계별 담당과 완료 기준
 
@@ -199,7 +199,7 @@ Codex 플러그인을 바꿔도 열린 Figma 작업은 저절로 바뀌지 않�
 4. 현재 CLI의 `marketplace add/upgrade/remove`와 `plugin add/remove` 도움말을 확인합니다. Git 소스를 같은 ref로 새로 읽을 때는 `codex plugin marketplace upgrade <정확한 이름>`을 사용합니다. **이 명령만으로 설치 캐시 갱신을 단정하지 않습니다.** 태그 고정 소스의 다음 태그 설치는 새 클론 등록 또는 해당 CLI가 지원하는 명시적 소스 재등록으로 수행합니다.
 5. 기존과 다른 이름의 마켓플레이스로 시험하면 기존 설치와 함께 활성화된 동명 스킬을 구분합니다. 확인 전 기존 설치를 삭제하지 않습니다. 같은 이름의 소스를 바꿔야 한다면 정확한 기존 경로/ref를 기록하고, 새 코드와 롤백 소스를 먼저 준비한 뒤 **그 소스만** 재등록합니다. 다른 마켓플레이스를 일괄 `upgrade`/제거하지 않습니다.
 6. 선택한 소스에서 `codex plugin add figma-flow@<실제 이름> --json`을 실행합니다. 기존 캐시가 남으면 현재 CLI 지원 절차로 **해당 플러그인만** 재설치합니다. 현재 `--help`에 없는 `codex plugin update` 명령이나 캐시 수동 삭제를 사용하지 않습니다.
-7. 목록의 `0.23.0`·소스·enabled, 실제 설치 복사본의 두 매니페스트 `0.23.0`, 새 스킬 파일을 대조합니다. 새 채팅에서 해당 스킬을 사용하고 새 워크숍 테스트로 확인합니다.
+7. 목록의 `0.23.1`·소스·enabled, 실제 설치 복사본의 두 매니페스트 `0.23.1`, 새 스킬 파일을 대조합니다. 새 채팅에서 해당 스킬을 사용하고 새 워크숍 테스트로 확인합니다.
 
 현재 CLI `0.165.0`에서 캐시 재설치가 필요할 때의 구체적인 명령은 아래와 같습니다. `MARKETPLACE`는 앞에서 읽은 실제 이름입니다. 새 소스 등록과 이전 버전 재설치 수단을 먼저 준비한 뒤 해당 플러그인만 제거·설치합니다.
 
@@ -266,13 +266,13 @@ capability는 비공개 폴더에서 생성·재사용되며 공개하지 않습
 ### 업데이트 프롬프트
 
 ```text
-$figma-plugin-setup 현재 Figma Flow를 v0.23.0으로 업데이트하고 연동을 재검증해 줘.
+$figma-plugin-setup 현재 Figma Flow를 v0.23.1으로 업데이트하고 연동을 재검증해 줘.
 저장소/마켓플레이스: [실제 값], 기존 프로젝트/등록 manifest: [절대 경로]
 Computer Use: [가능/불가능]. paired sync: [사용 안 함 / 상태 폴더의 로컬 경로만 지정]
 docs/installation-and-updates.md의 6절대로 기존 작업·페이지·선택 기록·이전 재설치 소스를 보존해.
 Codex 설치와 고정 Figma 작업공간의 작업을 각각 갱신하고 실제 새 읽기 결과를 검증해. 회사 npm URL·적용 범위는 기존 값과 대조하고, 없을 때만 내게 물어봐.
 lockfile을 생성하거나 Git 추적하지 마. 실제 명령·종료 코드, 전후 버전·소스·설치 경로, 롤백 경로와 미확인 항목을 보고해.
-Computer Use가 없으면 수동 조작을 한 단계씩 알려 주고 JSON이 올 때까지 Figma 완료를 pending으로 유지해.
+Computer Use 없이 열린 플러그인에서 허용된 로컬 연결로 실행해. 로컬 연결도 제한되면 패널에서 JSON을 저장하는 방법을 안내해. 실제 결과를 대조한 뒤 Figma 검증 완료를 보고해.
 ```
 
 ## 7. 자주 막히는 지점

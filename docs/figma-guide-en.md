@@ -1,4 +1,4 @@
-# Figma Flow 0.23.0 quick start
+# Figma Flow 0.23.1 quick start
 
 [한국어 guide](figma-guide.md) · [日本語](figma-guide-ja.md)
 
@@ -13,14 +13,14 @@ Codex can retrieve the result while local control is connected. If loopback conn
 ## Install once
 
 ```sh
-git clone --branch v0.23.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the installed version and both plugin manifests are `0.23.0`. Use a project Python environment with `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the installed version and both plugin manifests are `0.23.1`. Use a project Python environment with `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 

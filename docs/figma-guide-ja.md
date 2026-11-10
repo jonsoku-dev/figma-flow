@@ -1,4 +1,4 @@
-# Figma Flow 0.23.0 クイックスタート
+# Figma Flow 0.23.1 クイックスタート
 
 [한국어ガイド](figma-guide.md) · [English](figma-guide-en.md)
 
@@ -13,14 +13,14 @@
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.23.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-インストール先と両方の plugin manifest が `0.23.0` か確認します。プロジェクト用 Python 環境に `requirements-optional.txt` を導入してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+インストール先と両方の plugin manifest が `0.23.1` か確認します。プロジェクト用 Python 環境に `requirements-optional.txt` を導入してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 

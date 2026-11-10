@@ -216,7 +216,14 @@ const contract={sourceHash:'source',type:{token:'type/body',value:16},space:{tok
   mainComponentId:main.id,variant:'Default',action:'Join',state:'Default',useCases:['Registration']} ]};
 (async()=>{
   let rolledBack=false;
+  let configured = false;
+  contract.configureSample = (instance, actualMain, sample) => {
+    assert.equal(actualMain, main);
+    assert.equal(instance.parent.name, sample.label);
+    configured = true;
+  };
   const result=await createFoundationPalette(figma,page,contract,async(f,p,c)=>{
+    assert(configured, 'configure the attached instance before asynchronous token binding');
     assert(c.bindings.some(b=>b.field==='fontSize'&&nodes.find(n=>n.id===b.key).fontSize===16));
     assert(c.bindings.some(b=>b.field==='itemSpacing'));
     assert(c.bindings.some(b=>b.field==='paddingTop'));

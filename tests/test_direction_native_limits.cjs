@@ -381,3 +381,40 @@ test('invalid shape and control shadows fail preflight before ordinary authoring
   await assert.rejects(()=>h.context.makeDraft(),/Finite native shadow/);
   assert.equal(writes,0);
 });
+
+
+test('screen and palette instances keep their text property after Figma drops a label link',()=>{
+  const {context}=host();
+  const key='문구#13:7', replacement='문구#13:8';
+  const text={type:'TEXT',componentPropertyReferences:{}}, other={type:'TEXT',componentPropertyReferences:{visible:'Show#1'}};
+  const set={id:'s',componentPropertyDefinitions:{[key]:{type:'TEXT'}},children:[],addComponentProperty(){
+    this.componentPropertyDefinitions[replacement]={type:'TEXT'};
+    return replacement;
+  }};
+  const main={parent:set,children:[text]};
+  set.children=[main,{children:[other]}];
+  const keys=new Map([[set.id,key]]), visible={type:'TEXT',characters:'default'};
+  const instance={children:[visible],componentProperties:{},setProperties(values){
+    const prop=text.componentPropertyReferences.characters;
+    assert.equal(set.componentPropertyDefinitions[prop].type,'TEXT');
+    visible.characters=values[prop];
+  }};
+  context.setDraftControlLabel(instance,main,'장비 확인',keys);
+  assert.equal(visible.characters,'장비 확인');
+  assert.equal(other.componentPropertyReferences.visible,'Show#1');
+  delete set.componentPropertyDefinitions[key];
+  context.setDraftControlLabel(instance,main,'돌아가기',keys);
+  assert.equal(visible.characters,'돌아가기');
+  assert.equal(text.componentPropertyReferences.characters,replacement);
+  assert.equal(other.componentPropertyReferences.characters,undefined);
+  assert.throws(()=>context.setDraftControlLabel(instance,main,'label',new Map()),/unowned/);
+});
+
+test('annotation board requires its own available body font before native writes',()=>{
+  const {context}=host(), f={family:'Noto Sans KR',style:'Regular'};
+  const candidate={id:'rescue',fonts:{title:f}};
+  const check=()=>Array.from(context.preflightDraft({candidates:[candidate]},[f]));
+  assert.match(check().join(' '),/annotation font role missing: rescue\/body/);
+  candidate.fonts.body=f;
+  assert.deepEqual(check(),[]);
+});

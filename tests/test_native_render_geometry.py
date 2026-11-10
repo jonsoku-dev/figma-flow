@@ -448,6 +448,12 @@ class NativeGeometryTests(unittest.TestCase):
         self.assertFalse(report["passed"])
         self.assertIn("not an admissible readback", report["errors"][0])
 
+    def test_review_annotation_font_is_required_even_with_explicit_layer_fonts(self):
+        candidate, _, _ = fixture()
+        candidate["fonts"].pop("body")
+        errors = draft.layout_errors({"candidates": [candidate]})
+        self.assertTrue(any("annotation font role missing: body" in error for error in errors))
+
     def test_product_button_preflight_rejects_bad_geometry_identity_and_style(self):
         candidate, _, _ = fixture()
         candidate["control_styles"]["mobile"]["Primary"] = {

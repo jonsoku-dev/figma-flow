@@ -155,6 +155,103 @@ function draftProductButtons(candidate, viewport, state) {
   });
 }
 
+function linkDraftLabel(set, main, key, phase) {
+  const text = main.children.find(child => child.type === 'TEXT');
+  if (!text) throw Error('Control variant has no label: ' + main.name);
+  if (text.componentPropertyReferences?.characters === key) return;
+  try {
+    text.componentPropertyReferences = {...text.componentPropertyReferences, characters: key};
+  } catch (error) {
+    throw Error(`Cannot link owned label during ${phase}: ${set.id} / ${main.id} / ${text.id}, key ${key}, available ${JSON.stringify(Object.keys(set.componentPropertyDefinitions))}, current ${JSON.stringify(text.componentPropertyReferences)}, children ${JSON.stringify(main.children.map(child=>[child.type,child.name,child.componentPropertyReferences]))}, parent ${main.parent.id}: ${error}`);
+  }
+}
+
+function setDraftControlLabel(instance, main, label, keysBySet) {
+  const set = main.parent;
+  let key = keysBySet.get(set.id);
+  if (!key) throw Error('Control belongs to an unowned component set: ' + main.id);
+  // Figma can drop a newly authored text-property link between async operations.
+  if (!Object.prototype.hasOwnProperty.call(set.componentPropertyDefinitions, key)) {
+    key = set.addComponentProperty('문구', 'TEXT', '검토 행동');
+    keysBySet.set(set.id, key);
+  }
+  if (instance.componentProperties[key]?.type !== 'TEXT') linkDraftLabel(set, main, key, instance.name);
+  instance.setProperties({[key]: label});
+  if (instance.children.find(child => child.type === 'TEXT')?.characters !== label)
+    throw Error('Assigned label differs from the visible text on ' + instance.name);
+}
+
+function draftControlIcon(style, assets, where) {
+  const icon = style.icon;
+  if (icon === undefined) return null;
+  if (!icon || Object.keys(icon).sort().join(',') !== 'asset,gap,height,placement,width' ||
+      typeof icon.asset !== 'string' || !Object.prototype.hasOwnProperty.call(assets || {}, icon.asset) ||
+      !['before','after'].includes(icon.placement) || !['width','height','gap'].every(key => Number.isFinite(icon[key]) && (key === 'gap' ? icon[key] >= 0 : icon[key] > 0))) {
+    throw Error('Pinned raster control icon with placement, width, height and gap required: ' + where);
+  }
+  return icon;
+}
+function addDraftControlIcon(main,key,style,image) {
+  if(!style.icon)return;
+  const spec=style.icon,part=image(main,key+'.icon',{x:0,y:0,w:spec.width,h:spec.height,asset:spec.asset,fit:'FIT'});
+  part.setPluginData('controlIconAsset',spec.asset);
+  part.layoutSizingHorizontal='FIXED';part.layoutSizingVertical='FIXED';
+  if(spec.placement==='before')main.insertChild(0,part);
+}
+function draftControlChildKeys(main, key) {
+  return main.children.map((child,index) => ({path:[index],key:key+'.'+(child.type === 'TEXT' ? 'label' : child.getPluginData?.('controlIconAsset') ? 'icon' : index)}));
+}
+function validateDraftControlIcon(parent, style, label, fail) {
+  const icon = style?.icon;
+  if (!icon) return null;
+  if(!parent || !Array.isArray(parent.children)){fail('native icon-bearing reusable control missing');return null;}
+  const images = parent.children.filter(child => child.getPluginData?.('controlIconAsset'));
+  const image=images[0], box=draftNativeBox(image),labelBox=draftNativeBox(label);
+  const expectedHash=figma.createImage(figma.base64Decode(DRAFT.assets[icon.asset])).hash;
+  const fills=image?.fills;
+  if(images.length!==1 || !box || image.type!=='RECTANGLE' || image.parent!==parent || image.visible===false || image.opacity!==1 ||
+      image.getPluginData('controlIconAsset')!==icon.asset || !Array.isArray(fills) || fills.length!==1 || fills[0].type!=='IMAGE' ||
+      fills[0].imageHash!==expectedHash || fills[0].scaleMode!=='FIT' || fills[0].visible===false || (fills[0].opacity??1)!==1 ||
+      Math.abs(box.w-icon.width)>.01 || Math.abs(box.h-icon.height)>.01 || Math.abs(parent.itemSpacing-icon.gap)>.01) {
+    fail('native control icon missing or differs from pinned raster/style',icon,box);return box;
+  }
+  if(label?.textAutoResize!=='WIDTH_AND_HEIGHT'||label?.layoutSizingHorizontal!=='HUG')fail('native icon label must inherit intrinsic HUG sizing from its main');
+  if(labelBox){
+    const gap=icon.placement==='before'?labelBox.x-box.x-box.w:box.x-labelBox.x-labelBox.w;
+    const left=Math.min(box.x,labelBox.x),right=Math.max(box.x+box.w,labelBox.x+labelBox.w);
+    if(Math.abs(gap-icon.gap)>1 || Math.abs(box.y+box.h/2-parent.height/2)>1 ||
+       Math.abs((left+right)/2-parent.width/2)>1 || left<parent.paddingLeft-1 || right>parent.width-parent.paddingRight+1 ||
+       box.y<parent.paddingTop-1 || box.y+box.h>parent.height-parent.paddingBottom+1) fail('native control icon/label group gap, centering or padding differs',icon,{box,labelBox});
+  }
+  return box;
+}
+
+function validateDraftPaletteLabel(instance,main,set,expectedLabel,fail) {
+  const labels=instance?.children?.filter(child=>child.type==='TEXT')||[],label=labels[0];
+  const mainLabel=main?.children?.find(child=>child.type==='TEXT');
+  const property=mainLabel?.componentPropertyReferences?.characters;
+  const actual=instance?.componentProperties?.[property];
+  const reference=label?.componentPropertyReferences?.characters;
+  if(instance?.type!=='INSTANCE'||main?.type!=='COMPONENT'||labels.length!==1||label?.characters!==expectedLabel||
+     typeof property!=='string'||set?.componentPropertyDefinitions?.[property]?.type!=='TEXT'||actual?.type!=='TEXT'||actual.value!==expectedLabel||
+     (reference!==undefined&&reference!==property))fail('native palette action label or exposed text property differs from authored action');
+}
+async function validateDraftPaletteControls(page,candidates) {
+  const keyed=new Map(page.findAll(()=>true).map(node=>[node.getPluginData('semanticKey'),node]));
+  for(const candidate of candidates)for(const sample of candidate.foundations?.palette?.samples||[]){
+    const key='review.palette.'+candidate.id+'.'+sample.component,instance=keyed.get(key),expected=keyed.get(candidate.id+'.desktop.component.'+sample.variant);
+    const main=instance?.type==='INSTANCE'?await instance.getMainComponentAsync():null;
+    if(!main||main!==expected)throw Error('Native palette main differs from authored variant: '+key);
+    validateDraftPaletteLabel(instance,main,main.parent,candidate.action_labels[sample.action],message=>{throw Error(key+': '+message);});
+  }
+}
+
+function configureDraftControlLabel(label,main,style) {
+  label.textAlignHorizontal='CENTER';label.textAutoResize='WIDTH_AND_HEIGHT';
+  if(style.icon){label.minWidth=null;label.maxWidth=null;label.layoutSizingHorizontal='HUG';}
+  else label.maxWidth=main.maxWidth-main.paddingLeft-main.paddingRight;
+}
+
 function fitDraftControl(instance, box) {
   instance.primaryAxisSizingMode = 'FIXED';
   instance.counterAxisSizingMode = 'FIXED';
@@ -165,11 +262,10 @@ function fitDraftControl(instance, box) {
   instance.resize(box[2], box[3]);
   instance.x = box[0];
   instance.y = box[1];
+  if(instance.children.some(child=>child.getPluginData?.('controlIconAsset')))return;
   for (const label of instance.children.filter(child => child.type === 'TEXT')) {
-    label.textAlignHorizontal = 'CENTER';
-    label.maxWidth = instance.width - instance.paddingLeft - instance.paddingRight;
-    label.layoutSizingHorizontal = 'FILL';
-    label.textAutoResize = 'HEIGHT';
+    label.textAlignHorizontal='CENTER';label.maxWidth=instance.width-instance.paddingLeft-instance.paddingRight;
+    label.layoutSizingHorizontal='FILL';label.textAutoResize='HEIGHT';
   }
 }
 
@@ -192,7 +288,7 @@ function draftTextLeading(authored) {
   return authored.leading ?? Math.ceil(authored.size * (authored.font === 'display' ? 1.07 : 1.55));
 }
 
-function validateDraftTypography(node, authored, candidate, fail) {
+function validateDraftTypography(node, authored, candidate, fail, resizeMode = 'HEIGHT') {
   const expectedFont = candidate.fonts?.[authored.font || 'body'];
   const actualFont = node.fontName;
   const fontMatches = expectedFont && typeof expectedFont.family === 'string' && typeof expectedFont.style === 'string' &&
@@ -217,8 +313,8 @@ function validateDraftTypography(node, authored, candidate, fail) {
   if (node.textAlignHorizontal !== (authored.align || 'left').toUpperCase()) {
     fail('native text alignment differs from authored', (authored.align || 'left').toUpperCase(), node.textAlignHorizontal);
   }
-  if (node.textAutoResize !== 'HEIGHT' || node.textTruncation && node.textTruncation !== 'DISABLED' || node.maxLines != null) {
-    fail('native text must use HEIGHT without clipping or truncation', {textAutoResize: 'HEIGHT', textTruncation: 'DISABLED', maxLines: null},
+  if (node.textAutoResize !== resizeMode || node.textTruncation && node.textTruncation !== 'DISABLED' || node.maxLines != null) {
+    fail('native text must use authored auto-resize without clipping or truncation', {textAutoResize: resizeMode, textTruncation: 'DISABLED', maxLines: null},
       {textAutoResize: node.textAutoResize, textTruncation: node.textTruncation, maxLines: node.maxLines});
   }
   if (authored.max_lines !== undefined && (!Number.isFinite(node.height) || node.height > authored.max_lines * leading + 1)) {
@@ -388,21 +484,22 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
               leading = validateDraftTypography(label, {
                 value: expectedLabel, size: style.fontSize, font: style.font || 'body', align: 'center',
                 leading: style.leading, letter_spacing: style.letter_spacing, max_lines: 1
-              }, candidate, controlFail);
+              }, candidate, controlFail, style.icon?'WIDTH_AND_HEIGHT':'HEIGHT');
             }
-            if (!Number.isFinite(leading) || leading <= 0 || labelBox.h > leading + 1 || label.textAutoResize !== 'HEIGHT') {
-              controlFail('native control label must occupy one unclipped line with HEIGHT resize', {leading, maxLines: 1},
+            if (!Number.isFinite(leading) || leading <= 0 || labelBox.h > leading + 1 || label.textAutoResize !== (style?.icon?'WIDTH_AND_HEIGHT':'HEIGHT') || style?.icon && label.layoutSizingHorizontal!=='HUG') {
+              controlFail('native control label must occupy one unclipped line with authored auto-resize', {leading, maxLines: 1},
                 {...labelBox, ...(measureWidths ? measureDraftNaturalWidth(label) : {})});
             }
             const inner = {...labelBox, x: labelBox.x - instance.paddingLeft, y: labelBox.y - instance.paddingTop};
             const padded = inner.x >= -1 && inner.y >= -1 && inner.x + inner.w <= availableWidth + 1 && inner.y + inner.h <= availableHeight + 1;
             const centered = label.textAlignHorizontal === 'CENTER' &&
-              Math.abs(inner.x + inner.w / 2 - availableWidth / 2) <= 1 &&
+              (style?.icon || Math.abs(inner.x + inner.w / 2 - availableWidth / 2) <= 1) &&
               Math.abs(inner.y + inner.h / 2 - availableHeight / 2) <= 1;
             if (!padded || !centered) {
               controlFail('native label exceeds padding or is not centered', {availableWidth, availableHeight}, inner);
             }
           }
+          validateDraftControlIcon(instance,style,labels[0],controlFail);
           occupied.push({id: spec.id, kind: 'control', authored, actual});
         }
 
@@ -433,6 +530,18 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
         findings.push({layer: stateFrames[index].key, message: 'Native state frames overlap: ' + stateFrames[index].key + ' / ' + other.key,
           actual: [stateFrames[index].box, other.box]});
       }
+    }
+  }
+  for(const candidate of candidates){
+    for(const viewport of ['desktop','mobile'])for(const [variant,style]of Object.entries(candidate.control_styles?.[viewport]||{})){
+      if(!style.icon)continue;
+      const key=candidate.id+'.'+viewport+'.component.'+variant,main=keyed.get(key);
+      validateDraftControlIcon(main,style,main?.children?.find(n=>n.type==='TEXT'),message=>findings.push({layer:key+'.icon',message}));
+    }
+    for(const sample of candidate.foundations?.palette?.samples||[]){
+      const style=candidate.control_styles?.desktop?.[sample.variant];if(!style?.icon)continue;
+      const key='review.palette.'+candidate.id+'.'+sample.component,instance=keyed.get(key);
+      validateDraftControlIcon(instance,style,instance?.children?.find(n=>n.type==='TEXT'),message=>findings.push({layer:key+'.icon',message}));
     }
   }
   if (findings.length) {
@@ -470,6 +579,7 @@ function preflightDraft(draft,available){
  const problems=[],seen=new Set(),push=m=>{if(!seen.has(m)){seen.add(m);problems.push(m);}};
  const fonts=Array.isArray(available)?available:[];
  for(const c of draft.candidates||[]){
+  if (!c.fonts?.body) push('Required review annotation font role missing: '+c.id+'/body');
   for(const [role,font]of Object.entries(c.fonts||{})){
    if(!font||typeof font.family!=='string'||!font.family||typeof font.style!=='string'||!font.style){push('Font role invalid: '+c.id+'/'+role);continue;}
    if(!fonts.some(f=>f&&f.family===font.family&&f.style===font.style))push('필수 실제 글꼴 없음: '+font.family+' '+font.style);
@@ -479,6 +589,7 @@ function preflightDraft(draft,available){
       try {
         draftTextGeometry({...style, id: variant});
         draftShadows(style.shadows, c.id + '/' + viewport + '/' + variant);
+        draftControlIcon(style,draft.assets,c.id+'/'+viewport+'/'+variant);
       } catch (error) {
         push(String(error));
       }
@@ -573,8 +684,8 @@ function admitDraftColorConsumers(candidates){
  }
  return reports;
 }
-async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw Error('이 검토 패킷에 지정된 Figma 파일에서만 실행할 수 있습니다.');if(DRAFT.schema!=='figma-flow-native-direction-review-v1'||DRAFT.scope!=='exploratory-only'||('production_admitted'in DRAFT&&DRAFT.production_admitted!==false))throw Error('Explicit exploratory review packet required; production admission is forbidden');admitDraftColorConsumers(DRAFT.candidates);const planned=[];for(const candidate of DRAFT.candidates){declareDraftFoundations(candidate,(...args)=>declareDraftToken(planned,...args));for(const role of candidate.foundations.roles.filter(role=>role.kind==='color')){const token=draftFoundationName(candidate,role.token),alias=role.alias?draftFoundationName(candidate,role.alias):null,value=rgb(candidate.colors[role.token.split('/').pop()]);if(alias){declareDraftToken(planned,alias,'COLOR',value);declareDraftToken(planned,token,'COLOR',null,alias);}else declareDraftToken(planned,token,'COLOR',value);}}const availableFonts=(await figma.listAvailableFontsAsync()).map(f=>f.fontName);const problems=preflightDraft(DRAFT,availableFonts);if(problems.length)throw Error('검토 초안을 만들기 전에 확인이 필요합니다 (파일은 변경되지 않았습니다):\n- '+problems.join('\n- '));let page=figma.root.children.find(p=>p.getPluginData(OWNER)===DRAFT.instance_sha256);if(page){await page.loadAsync();validateDraftGeometry(page,DRAFT.candidates,false);await figma.setCurrentPageAsync(page);return page;}const previous=figma.currentPage;page=figma.createPage();page.name='DRAFT · A/B/C 방향 검토 · '+DRAFT.packet_sha256.slice(0,8);await figma.setCurrentPageAsync(page);let tokenResult;const styles=[],rollbacks=[];try{
- const tokens=[],bindings=[],notes=[],colors=new Map(),numbers=new Map(),assets=new Map(),styleMap=new Map(),mains=new Map(),frames=new Map(),edges=[],palettes={},noteFrames={},gradientBindings=[];
+async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw Error('이 검토 패킷에 지정된 Figma 파일에서만 실행할 수 있습니다.');if(DRAFT.schema!=='figma-flow-native-direction-review-v1'||DRAFT.scope!=='exploratory-only'||('production_admitted'in DRAFT&&DRAFT.production_admitted!==false))throw Error('Explicit exploratory review packet required; production admission is forbidden');admitDraftColorConsumers(DRAFT.candidates);const planned=[];for(const candidate of DRAFT.candidates){declareDraftFoundations(candidate,(...args)=>declareDraftToken(planned,...args));for(const role of candidate.foundations.roles.filter(role=>role.kind==='color')){const token=draftFoundationName(candidate,role.token),alias=role.alias?draftFoundationName(candidate,role.alias):null,value=rgb(candidate.colors[role.token.split('/').pop()]);if(alias){declareDraftToken(planned,alias,'COLOR',value);declareDraftToken(planned,token,'COLOR',null,alias);}else declareDraftToken(planned,token,'COLOR',value);}}const availableFonts=(await figma.listAvailableFontsAsync()).map(f=>f.fontName);const problems=preflightDraft(DRAFT,availableFonts);if(problems.length)throw Error('검토 초안을 만들기 전에 확인이 필요합니다 (파일은 변경되지 않았습니다):\n- '+problems.join('\n- '));let page=figma.root.children.find(p=>p.getPluginData(OWNER)===DRAFT.instance_sha256);if(page){await page.loadAsync();await validateDraftPaletteControls(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates,false);await figma.setCurrentPageAsync(page);return page;}const previous=figma.currentPage;page=figma.createPage();page.name='DRAFT · A/B/C 방향 검토 · '+DRAFT.packet_sha256.slice(0,8);await figma.setCurrentPageAsync(page);let tokenResult;const styles=[],rollbacks=[];try{
+ const tokens=[],bindings=[],notes=[],colors=new Map(),numbers=new Map(),assets=new Map(),styleMap=new Map(),mains=new Map(),labelKeys=new Map(),frames=new Map(),edges=[],palettes={},noteFrames={},gradientBindings=[];
  const add=(...args)=>declareDraftToken(tokens,...args);
  for(const candidate of DRAFT.candidates)declareDraftFoundations(candidate,add);
  const ensureDraftTokens=(api,ownedPage,contract)=>ensureSemanticTokens(api,ownedPage,{...contract,strictValues:true,bindTextStyles:true,ownedTextStyleIds:styles.map(style=>style.id)});
@@ -590,7 +701,7 @@ async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw
  const text=async(parent,key,l,c)=>{const font=c.fonts[l.font||'body'];if(!font)throw Error('Pinned font role missing');const spacing=draftTextGeometry(l),leading=l.leading??Math.ceil(l.size*(l.font==='display'?1.07:1.55));const styleRoles=c.foundationBindings.filter(role=>role.bindings.some(target=>target.key===key&&['fontFamily','fontSize'].includes(target.field))).map(role=>draftFoundationName(c,role.token)).sort();const styleKey=JSON.stringify([c.id,l.font||'body',l.size,leading,spacing,font,styleRoles]);let style=styleMap.get(styleKey);if(!style){style=figma.createTextStyle();styles.push(style);style.name='DRAFT '+DRAFT.instance_sha256.slice(0,8)+'/'+c.id+'/'+(l.font||'body')+'/'+l.size+' · '+leading;style.fontName=font;style.fontSize=l.size;style.lineHeight={unit:'PIXELS',value:leading};style.letterSpacing={unit:'PIXELS',value:spacing};styleMap.set(styleKey,style);}const n=figma.createText();parent.appendChild(n);tag(n,key);await n.setTextStyleIdAsync(style.id);n.characters=l.value;n.textAlignHorizontal=(l.align||'left').toUpperCase();n.resize(draftTextWidth(l),l.h);n.textAutoResize='HEIGHT';n.x=l.x;n.y=l.y;paint(n,c,l.ink);const intendedSize=intendedDraftRole([c],key,'fontSize');bind(n,'fontSize',intendedSize?draftFoundationName(c,intendedSize.role.token):num(c.id+'/type/'+(l.font||'body')+'/'+l.size,l.size));return n;};
  const layoutBindings=n=>{for(const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing']){const intended=intendedDraftRole(DRAFT.candidates,n.getPluginData('semanticKey'),field);if(intended)bind(n,field,draftFoundationName(intended.candidate,intended.role.token));else if(n[field]>0)bind(n,field,num('review/space/'+n[field],n[field]));}};
  const library=figma.createFrame();page.appendChild(library);tag(library,'review.component-library');library.fills=[];library.x=0;library.y=-1400;
- for(const c of DRAFT.candidates){for(const [name,hex]of Object.entries(c.colors))color(c,name);for(const viewport of ['desktop','mobile']){const variants=[];for(const [visual,style]of Object.entries(c.control_styles[viewport])){const key=c.id+'.'+viewport+'.component.'+visual,n=figma.createComponent();library.appendChild(n);tag(n,key);n.name='Visual='+visual;n.layoutMode='HORIZONTAL';n.primaryAxisSizingMode='AUTO';n.counterAxisSizingMode='AUTO';n.paddingTop=n.paddingBottom=style.paddingY;n.paddingLeft=n.paddingRight=style.paddingX;n.minHeight=style.minHeight;n.maxWidth=style.maxWidth;n.itemSpacing=0;n.primaryAxisAlignItems='CENTER';n.counterAxisAlignItems='CENTER';layoutBindings(n);const fill=style.fill,ink=style.ink;paint(n,c,fill);if(style.shadows!==undefined)n.effects=draftShadows(style.shadows,key);if(style.stroke!==undefined){paint(n,c,style.stroke,'strokes');n.strokeWeight=style.stroke_width??1;n.strokeAlign='INSIDE';}n.cornerRadius=style.radius;const intendedRadius=intendedDraftRole([c],key,'cornerRadius');if(intendedRadius)bind(n,'cornerRadius',draftFoundationName(c,intendedRadius.role.token));else if(n.cornerRadius>0)bind(n,'cornerRadius',num(c.id+'/radius/observed/'+n.cornerRadius,n.cornerRadius));const label=await text(n,key+'.label',{x:0,y:0,w:240,h:28,size:style.fontSize,value:(note=>note?c.action_labels[note.action]:visual)(Object.values(c.action_notes).find(note=>note.visual_variant===visual)),ink,font:style.font||'body',letter_spacing:style.letter_spacing,leading:style.leading},c);label.textAlignHorizontal='CENTER';label.textAutoResize='WIDTH_AND_HEIGHT';label.maxWidth=n.maxWidth-n.paddingLeft-n.paddingRight;mains.set(c.id+'.'+viewport+'.'+visual,n);variants.push(n);}const set=figma.combineAsVariants(variants,library);tag(set,c.id+'.'+viewport+'.component-set');set.name=c.title+' · '+viewport+' · 시각 역할';set.fills=[];set.strokes=[];const property=set.addComponentProperty('문구','TEXT','검토 행동');for(const main of variants)main.children.find(n=>n.type==='TEXT').componentPropertyReferences={characters:property};}
+ for(const c of DRAFT.candidates){for(const [name,hex]of Object.entries(c.colors))color(c,name);for(const viewport of ['desktop','mobile']){const variants=[];for(const [visual,style]of Object.entries(c.control_styles[viewport])){const key=c.id+'.'+viewport+'.component.'+visual,n=figma.createComponent();library.appendChild(n);tag(n,key);n.name='Visual='+visual;n.layoutMode='HORIZONTAL';n.primaryAxisSizingMode='AUTO';n.counterAxisSizingMode='AUTO';n.paddingTop=n.paddingBottom=style.paddingY;n.paddingLeft=n.paddingRight=style.paddingX;n.minHeight=style.minHeight;n.maxWidth=style.maxWidth;n.itemSpacing=style.icon?.gap??0;n.primaryAxisAlignItems='CENTER';n.counterAxisAlignItems='CENTER';layoutBindings(n);const fill=style.fill,ink=style.ink;paint(n,c,fill);if(style.shadows!==undefined)n.effects=draftShadows(style.shadows,key);if(style.stroke!==undefined){paint(n,c,style.stroke,'strokes');n.strokeWeight=style.stroke_width??1;n.strokeAlign='INSIDE';}n.cornerRadius=style.radius;const intendedRadius=intendedDraftRole([c],key,'cornerRadius');if(intendedRadius)bind(n,'cornerRadius',draftFoundationName(c,intendedRadius.role.token));else if(n.cornerRadius>0)bind(n,'cornerRadius',num(c.id+'/radius/observed/'+n.cornerRadius,n.cornerRadius));const label=await text(n,key+'.label',{x:0,y:0,w:240,h:28,size:style.fontSize,value:(note=>note?c.action_labels[note.action]:visual)(Object.values(c.action_notes).find(note=>note.visual_variant===visual)),ink,font:style.font||'body',letter_spacing:style.letter_spacing,leading:style.leading},c);configureDraftControlLabel(label,n,style);addDraftControlIcon(n,key,style,image);mains.set(c.id+'.'+viewport+'.'+visual,n);variants.push(n);}for(const main of variants){const style=c.control_styles[viewport][main.name.slice('Visual='.length)];validateDraftControlIcon(main,style,main.children.find(n=>n.type==='TEXT'),message=>{throw Error(message);});}const set=figma.combineAsVariants(variants,library);tag(set,c.id+'.'+viewport+'.component-set');set.name=c.title+' · '+viewport+' · 시각 역할';set.fills=[];set.strokes=[];const property=set.addComponentProperty('문구','TEXT','검토 행동');labelKeys.set(set.id,property);for(const main of variants)linkDraftLabel(set,main,property,'create');}
  }
  layoutFoundationSets(library,library.children.filter(n=>n.type==='COMPONENT_SET'));for(const n of [library,...library.findAll(n=>n.type==='COMPONENT_SET')])layoutBindings(n);library.y=-library.height-160;
  const control = (frame, key, main, label, box) => {
@@ -598,14 +709,12 @@ async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw
   const instance = main.createInstance();
   frame.appendChild(instance);
   tag(instance, key);
-  const property = Object.keys(instance.componentProperties).find(name => name.split('#')[0] === '문구');
-  if (!property) throw Error('Real exposed text property missing');
-  instance.setProperties({[property]: label});
+  setDraftControlLabel(instance, main, label, labelKeys);
   fitDraftControl(instance, box);
   instance.setPluginData('semanticComponent', JSON.stringify({
     key,
     sourceKey: main.getPluginData('semanticKey'),
-    childKeys: main.children.map((child, index) => ({path: [index], key: key + '.label'}))
+    childKeys: draftControlChildKeys(main,key)
   }));
   return instance;
  };
@@ -618,10 +727,11 @@ async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw
  }
  for(const edge of edges){const target=frames.get(edge.target);if(!target)throw Error('Exact candidate destination missing');await edge.node.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:target.id,navigation:'NAVIGATE',transition:null,preserveScrollPosition:false}]}]);}
  // Shared helper creates real visible cards, instances and labeled functional roles.
- const labelToken=num('review/type/palette',17),spaceToken=num('review/space/24',24);for(const c of DRAFT.candidates){const primary=c.control_styles.desktop[c.foundations.palette.samples[0].variant];const ink=color(c,primary.ink);const samples=c.foundations.palette.samples.map(sample=>({...sample,mainComponentId:mains.get(c.id+'.desktop.'+sample.variant).id}));const palette=await createFoundationPalette(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:'Direction review '+DRAFT.instance_sha256.slice(0,10),tokens,type:{token:labelToken,value:17},space:{token:spaceToken,value:24},ink:{token:ink.token,value:ink.paint.color},font:c.fonts.body,samples,name:c.title+' · 의미 있는 컴포넌트 팔레트',x:0,y:cy},ensureDraftTokens);rollbacks.push(palette.rollback);palettes[c.id]={libraryId:palette.libraryId,samples:palette.samples};for(const sample of palette.samples){const instance=await figma.getNodeByIdAsync(sample.instanceId),property=Object.keys(instance.componentProperties).find(k=>k.split('#')[0]==='문구'),main=await instance.getMainComponentAsync(),key='review.palette.'+c.id+'.'+sample.component;instance.setPluginData('semanticKey',key);instance.setPluginData('semanticComponent',JSON.stringify({key,sourceKey:main.getPluginData('semanticKey'),childKeys:main.children.map((child,index)=>({path:[index],key:key+'.'+(child.type==='TEXT'?'label':index)}))}));instance.setProperties({[property]:c.action_labels[sample.action]});const edge=c.prototype.bindings.find(e=>e.action===sample.action&&e.viewport==='desktop');if(edge){const target=frames.get(c.id+'.desktop.'+edge.target_state);await instance.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:target.id,navigation:'NAVIGATE',transition:null,preserveScrollPosition:false}]}]);}}const node=await figma.getNodeByIdAsync(palette.libraryId);paint(node,c,primary.fill);cy+=node.height+160;}
+ const labelToken=num('review/type/palette',17),spaceToken=num('review/space/24',24);for(const c of DRAFT.candidates){const primary=c.control_styles.desktop[c.foundations.palette.samples[0].variant];const ink=color(c,primary.ink);const samples=c.foundations.palette.samples.map(sample=>({...sample,mainComponentId:mains.get(c.id+'.desktop.'+sample.variant).id}));const palette=await createFoundationPalette(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:'Direction review '+DRAFT.instance_sha256.slice(0,10),tokens,type:{token:labelToken,value:17},space:{token:spaceToken,value:24},ink:{token:ink.token,value:ink.paint.color},font:c.fonts.body,samples,configureSample:(instance,main,sample)=>setDraftControlLabel(instance,main,c.action_labels[sample.action],labelKeys),name:c.title+' · 의미 있는 컴포넌트 팔레트',x:0,y:cy},ensureDraftTokens);rollbacks.push(palette.rollback);palettes[c.id]={libraryId:palette.libraryId,samples:palette.samples};for(const sample of palette.samples){const instance=await figma.getNodeByIdAsync(sample.instanceId),main=await instance.getMainComponentAsync(),key='review.palette.'+c.id+'.'+sample.component;instance.setPluginData('semanticKey',key);instance.setPluginData('semanticComponent',JSON.stringify({key,sourceKey:main.getPluginData('semanticKey'),childKeys:draftControlChildKeys(main,key)}));if (main.id !== sample.mainComponentId) throw Error('Palette linked to '+main.id+' instead of '+sample.mainComponentId);
+    const edge=c.prototype.bindings.find(e=>e.action===sample.action&&e.viewport==='desktop');if(edge){const target=frames.get(c.id+'.desktop.'+edge.target_state);await instance.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:target.id,navigation:'NAVIGATE',transition:null,preserveScrollPosition:false}]}]);}}const node=await figma.getNodeByIdAsync(palette.libraryId);paint(node,c,primary.fill);cy+=node.height+160;}
  for(const c of DRAFT.candidates){const entries=[];for(const viewport of ['desktop','mobile']){for(const state of c.prototype.states){const target=frames.get(c.id+'.'+viewport+'.'+state.id),note=c.notes.find(n=>n.id===state.screen);entries.push({key:viewport+'|'+state.id+'|'+note.id,targetId:target.id,label:viewport+' · '+state.title+' · '+state.screen+'\n'+noteLabel(note)});}for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport)){const key=c.id+'.'+viewport+'.'+edge.source_state+'.'+edge.control_id,target=page.findOne(n=>n.getPluginData('semanticKey')===key),note=c.action_notes[edge.action+'|'+edge.control_id];entries.push({key:viewport+'|'+edge.source_state+'|'+edge.control_id,targetId:target.id,label:viewport+' · '+edge.control_id+' · '+edge.action+'\n'+noteLabel(note)});}}const board=await ensureDesignNoteBoard(figma,page,{sourceHash:DRAFT.instance_sha256,font:c.fonts.body,fontSize:17,width:760,x:0,y:cy,title:'주석 읽기 · '+c.title,boardKey:'review.notes.'+c.id,notes:entries});rollbacks.push(board.rollback);noteFrames[c.id]={...board,rollback:undefined};const node=await figma.getNodeByIdAsync(board.boardId),style=c.control_styles.desktop[c.foundations.palette.samples[0].variant];paint(node,c,style.fill);for(const part of [node,...node.findAll(()=>true)]){if(part.type==='TEXT'){paint(part,c,style.ink);bind(part,'fontSize',num('review/type/note/'+part.fontSize,part.fontSize));}if(part.layoutMode&&part.layoutMode!=='NONE')layoutBindings(part);}cy+=node.height+160;}
- const canonicalBindings=applyDraftFoundations(page,DRAFT.candidates,bindings);tokenResult=await ensureDraftTokens(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:'Direction review '+DRAFT.instance_sha256.slice(0,10),tokens,bindings});for(const job of gradientBindings){const fills=copy(job.node.fills),stop=fills[0].gradientStops[job.index];stop.boundVariables={color:figma.variables.createVariableAlias(tokenResult.variables[job.token])};job.node.fills=fills;}measureDraftText(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates);await ensureNativeAnnotations(figma,page,{annotations:notes});page.setPluginData(OWNER,DRAFT.instance_sha256);page.setPluginData('packet_sha256',DRAFT.packet_sha256);writeDraftJSON(page,'draftCanonicalBindings',canonicalBindings);writeDraftJSON(page,'draftNoteFrames',noteFrames);writeDraftJSON(page,'draftPalettes',palettes);writeDraftJSON(page,'draftTextStyles',styles.map(s=>s.id));page.setPluginData('scope','exploratory-only');const launch=DRAFT.candidates.map(c=>frames.get(c.id+'.desktop.'+c.entry_state));page.flowStartingPoints=launch.map((node,i)=>({nodeId:node.id,name:DRAFT.candidates[i].title+' · 검토 시작'}));figma.currentPage.selection=[launch[0]];figma.viewport.scrollAndZoomIntoView(launch);return page;
+ const canonicalBindings=applyDraftFoundations(page,DRAFT.candidates,bindings);tokenResult=await ensureDraftTokens(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:'Direction review '+DRAFT.instance_sha256.slice(0,10),tokens,bindings});for(const job of gradientBindings){const fills=copy(job.node.fills),stop=fills[0].gradientStops[job.index];stop.boundVariables={color:figma.variables.createVariableAlias(tokenResult.variables[job.token])};job.node.fills=fills;}measureDraftText(page,DRAFT.candidates);await validateDraftPaletteControls(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates);await ensureNativeAnnotations(figma,page,{annotations:notes});page.setPluginData(OWNER,DRAFT.instance_sha256);page.setPluginData('packet_sha256',DRAFT.packet_sha256);writeDraftJSON(page,'draftCanonicalBindings',canonicalBindings);writeDraftJSON(page,'draftNoteFrames',noteFrames);writeDraftJSON(page,'draftPalettes',palettes);writeDraftJSON(page,'draftTextStyles',styles.map(s=>s.id));page.setPluginData('scope','exploratory-only');const launch=DRAFT.candidates.map(c=>frames.get(c.id+'.desktop.'+c.entry_state));page.flowStartingPoints=launch.map((node,i)=>({nodeId:node.id,name:DRAFT.candidates[i].title+' · 검토 시작'}));figma.currentPage.selection=[launch[0]];figma.viewport.scrollAndZoomIntoView(launch);return page;
  }catch(error){const failures=[];if(tokenResult)try{await tokenResult.rollback();}catch(e){failures.push(String(e));}for(const rollback of rollbacks.reverse())try{await rollback();}catch(e){failures.push(String(e));}for(const style of styles)try{style.remove();}catch(e){failures.push(String(e));}try{await figma.setCurrentPageAsync(previous);page.remove();}catch(e){failures.push(String(e));}throw Error(String(error)+(failures.length?' · 정리 오류: '+failures.join('; '):''));}}
-async function readDraft(page){const raw=await readNativeSemantics(figma,page),objects=new Map([page,...page.findAll(()=>true)].map(n=>[n.id,n]));for(const row of raw.nodes){const n=objects.get(row.id);for(const field of ['x','y','width','height','characters','fontName','fontSize','lineHeight','letterSpacing','textAutoResize','textAlignHorizontal','textStyleId','visible','constraints','cornerRadius','strokeWeight','opacity','effects','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing'])if(field in n&&typeof n[field]!=='symbol')row[field]=copy(n[field]);if(n.type==='INSTANCE'&&'overrides'in n)row.overrides=copy(n.overrides);if(n.type==='TEXT'&&n.characters.length){if(typeof n.getRangeBoundVariable==='function'){const family=n.getRangeBoundVariable(0,n.characters.length,'fontFamily');row.fontFamilyBinding=typeof family==='symbol'?null:copy(family);}row.fontSegments=copy(n.getStyledTextSegments(['fontName','fontSize','textStyleId','boundVariables']));const link=n.getRangeHyperlink(0,n.characters.length);row.hyperlink=typeof link==='symbol'?null:copy(link);}row.reactions=copy(typeof n.getReactions==='function'?await n.getReactions():(n.reactions||[]));}
+async function readDraft(page){const raw=await readNativeSemantics(figma,page),objects=new Map([page,...page.findAll(()=>true)].map(n=>[n.id,n]));for(const row of raw.nodes){const n=objects.get(row.id);for(const field of ['x','y','width','height','characters','fontName','fontSize','lineHeight','letterSpacing','textAutoResize','textAlignHorizontal','textStyleId','visible','constraints','cornerRadius','strokeWeight','opacity','effects','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','componentPropertyReferences'])if(field in n&&typeof n[field]!=='symbol')row[field]=copy(n[field]);if(n.type==='INSTANCE'&&'overrides'in n)row.overrides=copy(n.overrides);if(n.type==='TEXT'&&n.characters.length){if(typeof n.getRangeBoundVariable==='function'){const family=n.getRangeBoundVariable(0,n.characters.length,'fontFamily');row.fontFamilyBinding=typeof family==='symbol'?null:copy(family);}row.fontSegments=copy(n.getStyledTextSegments(['fontName','fontSize','textStyleId','boundVariables']));const link=n.getRangeHyperlink(0,n.characters.length);row.hyperlink=typeof link==='symbol'?null:copy(link);}if(n.getPluginData('controlIconAsset')){const paints=n.fills;if(Array.isArray(paints)&&paints.length===1&&paints[0].type==='IMAGE'&&paints[0].imageHash){const observed=figma.getImageByHash(paints[0].imageHash);if(observed)row.iconImageBytes=figma.base64Encode(await observed.getBytesAsync());}row.controlIconAsset=n.getPluginData('controlIconAsset');}row.reactions=copy(typeof n.getReactions==='function'?await n.getReactions():(n.reactions||[]));}
  const textStyles=[];for(const id of readDraftJSON(page,'draftTextStyles',[])){const style=await figma.getStyleByIdAsync(id);if(style)textStyles.push({id:style.id,name:style.name,fontName:copy(style.fontName),fontSize:style.fontSize,lineHeight:copy(style.lineHeight),boundVariables:copy(style.boundVariables||{})});}return {...raw,fileKey:figma.fileKey,page_owner:page.getPluginData(OWNER),packet_sha256:DRAFT.packet_sha256,instance_sha256:DRAFT.instance_sha256,layout_sha256:DRAFT.layout_sha256,layout_pin:DRAFT.layout_pin,prepared_target:DRAFT.prepared_target,expected_file_key:DRAFT.fileKey,candidate_pins:DRAFT.candidate_pins,scope:'exploratory-only',production_admitted:false,observed_at:new Date().toISOString(),canonicalFoundationBindings:readDraftJSON(page,'draftCanonicalBindings',[]),noteFrames:readDraftJSON(page,'draftNoteFrames',{}),palettes:readDraftJSON(page,'draftPalettes',{}),textStyles,raster_vs_editable:DRAFT.boundary,flowStartingPoints:copy(page.flowStartingPoints||[])};}
 figma.showUI(__html__,{width:470,height:650,themeColors:true});figma.ui.onmessage=async message=>{if(message.type==='receipt'){status(message.passed?'실제 Figma 검토 시안·이동·주석·팔레트 검증 완료 · 방향 선택은 별도입니다.':'검토 자료 검증 실패 · 결과 JSON을 확인하세요.',message.passed?'success':'error');return;}if(message.type!=='draft-review'||busy)return;busy=true;status('실제 검토 프레임·글꼴·주석·팔레트를 만드는 중…','busy');try{const page=await makeDraft();lastData=await readDraft(page);figma.ui.postMessage({type:'readback',data:lastData});status('실제 검토 노드 생성 완료 · 읽기 결과를 준비했습니다.','success');}catch(error){status(String(error)+'\n'+String(error.stack||''),'error');}finally{busy=false;status(last);}};

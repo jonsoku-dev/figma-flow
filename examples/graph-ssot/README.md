@@ -1,6 +1,6 @@
 # Graph SSOT for a component
 
-The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash. Use the **0.23.0** tools with one registered Figma Flow workspace. Codex prepares project tasks under its stable manifest; upgrading Codex alone does not refresh an already running Figma task.
+The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash. Use the **0.23.1** tools with one registered Figma Flow workspace. Codex prepares project tasks under its stable manifest; upgrading Codex alone does not refresh an already running Figma task.
 
 ## Default: launch once, then use Codex local control
 

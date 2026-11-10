@@ -84,7 +84,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](codex-setup-prompts.md)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.23.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace add "$PWD"
@@ -92,7 +92,7 @@ codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-태그는 `v0.23.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.23.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+태그는 `v0.23.1`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.23.1`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 

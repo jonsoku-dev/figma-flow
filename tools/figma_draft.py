@@ -127,6 +127,22 @@ def check_layer(layer,colors,assets,key):
             last=stop['position']
 
 
+def check_control_icon(style, assets, key):
+    icon = style.get('icon')
+    if icon is None:
+        if 'icon' in style:
+            raise ValueError('Explicit control icon object required: ' + key)
+        return
+    if (not isinstance(icon, dict) or set(icon) != {'asset', 'placement', 'width', 'height', 'gap'}
+            or icon.get('asset') not in assets or assets[icon['asset']].get('reference')
+            or icon.get('placement') not in ('before', 'after')
+            or any(not _finite(icon.get(k)) or icon[k] <= 0 for k in ('width', 'height'))
+            or not _finite(icon.get('gap')) or icon['gap'] < 0):
+        raise ValueError('Pinned non-reference raster control icon with placement/width/height/gap required: ' + key)
+    if _finite(style.get('maxWidth')) and _finite(style.get('paddingX')) and icon['width'] + icon['gap'] >= style['maxWidth'] - 2 * style['paddingX']:
+        raise ValueError('Control icon leaves no padded label width: ' + key)
+
+
 def layout_errors(authored):
     """Every authored-layout problem at once (before any packet or Figma write), not only the first."""
     problems=[]
@@ -136,6 +152,7 @@ def layout_errors(authored):
     for c in rows:
         if not isinstance(c,dict):problems.append('candidate row must be an object');continue
         cid=str(c.get('id','?'));colors=c.get('colors')if isinstance(c.get('colors'),dict)else{};fonts=c.get('fonts')if isinstance(c.get('fonts'),dict)else{}
+        if not fonts.get('body'): problems.append(f'{cid}: required review annotation font role missing: body')
         for role,font in fonts.items():
             if not isinstance(font,dict)or not isinstance(font.get('family'),str)or not font['family']or not isinstance(font.get('style'),str)or not font['style']:problems.append(f'{cid}: font role {role} needs family and style')
         for viewport, styles in (c.get("control_styles") or {}).items():
@@ -144,6 +161,10 @@ def layout_errors(authored):
                 if not isinstance(style, dict):
                     problems.append(key + ": control style must be an object")
                     continue
+                try:
+                    check_control_icon(style, assets, key)
+                except (ValueError, TypeError) as error:
+                    problems.append(str(error))
                 if "shadows" in style:
                     try:
                         check_shadows(style["shadows"], key)
@@ -387,8 +408,20 @@ def _native_readback_nodes(raw, packet):
                     required_keys.update(
                         (key + "." + control_id, key + "." + control_id + ".label")
                     )
-            for variant in candidate.get("control_styles", {}).get(viewport, {}):
-                required_keys.add(f"{candidate['id']}.{viewport}.component.{variant}")
+            for variant, style in candidate.get('control_styles', {}).get(viewport, {}).items():
+                main_key = f"{candidate['id']}.{viewport}.component.{variant}"
+                required_keys.add(main_key)
+                if style.get('icon'):
+                    required_keys.update((main_key + '.icon', main_key + '.label'))
+            for state in candidate['prototype']['states']:
+                layout = candidate.get('state_layouts', {}).get(viewport, {}).get(state['id'], {})
+                for control_id in set(layout.get('control_boxes') or {}) | set(layout.get('product_buttons') or {}):
+                    required_keys.add(f"{candidate['id']}.{viewport}.{state['id']}.{control_id}.icon")
+
+    for candidate in packet['candidates']:
+        for sample in candidate.get('foundations', {}).get('palette', {}).get('samples', []):
+            key = 'review.palette.' + candidate['id'] + '.' + sample['component']
+            required_keys.update((key, key + '.label', key + '.icon'))
 
     nodes, keyed = {}, {}
     for node in rows:
@@ -433,7 +466,7 @@ def _native_pixels(value, font_size):
     return None
 
 
-def _native_text_findings(candidate, node, authored, layer):
+def _native_text_findings(candidate, node, authored, layer, resize_mode='HEIGHT'):
     findings = []
 
     def add(code, message):
@@ -475,8 +508,8 @@ def _native_text_findings(candidate, node, authored, layer):
     alignment = authored.get("align", "left").upper()
     if node.get("textAlignHorizontal") != alignment:
         add("text-alignment-drift", "Read and restore textAlignHorizontal=" + alignment + ".")
-    if node.get("textAutoResize") != "HEIGHT":
-        add("text-resize-drift", "Use HEIGHT auto-resize so rendered overflow remains measurable.")
+    if node.get("textAutoResize") != resize_mode:
+        add("text-resize-drift", "Restore the authored " + resize_mode + " text auto-resize mode.")
     height = node.get("height")
     if "max_lines" in authored and _finite(height) and height > leading * authored["max_lines"] + 1:
         add(
@@ -486,7 +519,75 @@ def _native_text_findings(candidate, node, authored, layer):
     return findings
 
 
-def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=None):
+def _native_palette_label_findings(parent, label, main, main_label, component_set, expected, key):
+    main_ref = (main_label.get('componentPropertyReferences') or {}).get('characters')
+    reference = (label.get('componentPropertyReferences') or {}).get('characters')
+    definitions = component_set.get('componentPropertyDefinitions') or {}
+    properties = parent.get('componentProperties') or {}
+    actual = properties.get(main_ref, {})
+    if (parent.get('type') != 'INSTANCE' or main.get('type') != 'COMPONENT'
+            or parent.get('mainComponentId') != main.get('id') or main.get('componentSetId') != component_set.get('id')
+            or label.get('type') != 'TEXT' or label.get('parentId') != parent.get('id') or label.get('characters') != expected
+            or not isinstance(main_ref, str) or definitions.get(main_ref, {}).get('type') != 'TEXT'
+            or actual.get('type') != 'TEXT' or actual.get('value') != expected
+            or reference is not None and reference != main_ref):
+        return [{'code': 'palette-label-drift', 'layer': key + '.label',
+                 'message': 'Restore the authored action label, exact reusable main and its exposed TEXT property value.'}]
+    return []
+
+
+def _native_control_icon_findings(parent, label, icon_node, style, key, assets):
+    spec = style.get('icon')
+    if not spec:
+        return []
+    findings = []
+    def add(code, message):
+        findings.append({'code': code, 'layer': key + '.icon', 'message': message})
+    node = icon_node if isinstance(icon_node, dict) else {}
+    box, label_box = _native_box(node), _native_box(label)
+    if node.get('type') != 'RECTANGLE' or node.get('parentId') != parent.get('id') or box is None:
+        add('control-icon-missing', 'Read the pinned raster icon inside the reusable control.')
+        return findings
+    findings.extend(_native_visibility_findings(node, key + '.icon'))
+    fills = node.get('fills')
+    paint = fills[0] if isinstance(fills, list) and len(fills) == 1 and isinstance(fills[0], dict) else {}
+    if (paint.get('type') != 'IMAGE' or not paint.get('imageHash') or paint.get('scaleMode') != 'FIT'
+            or paint.get('visible', True) is not True or paint.get('opacity', 1) != 1
+            or node.get('controlIconAsset') != spec['asset']):
+        add('control-icon-asset', 'Restore the exact pinned raster IMAGE paint with FIT scale mode.')
+    try:
+        observed = base64.b64decode(node.get('iconImageBytes', ''), validate=True)
+        expected = base64.b64decode((assets or {})[spec['asset']], validate=True)
+        if not observed or sha(observed) != sha(expected):
+            raise ValueError('Raster bytes differ')
+    except (ValueError, TypeError, KeyError):
+        add('control-icon-asset', 'Read actual image bytes matching the pinned packet asset.')
+    if label.get('textAutoResize') != 'WIDTH_AND_HEIGHT' or label.get('layoutSizingHorizontal') != 'HUG':
+        add('control-icon-sizing', 'Restore intrinsic HUG text sizing on the reusable main, without fixed instance label widths.')
+    ix, iy, iw, ih = box
+    if abs(iw - spec['width']) > .01 or abs(ih - spec['height']) > .01:
+        add('control-icon-geometry', 'Restore the exact icon width and height.')
+    if label_box is None or label.get('parentId') != parent.get('id'):
+        add('control-icon-group', 'Read the label alongside its icon in the same reusable control.')
+    if label_box is not None:
+        lx, ly, lw, lh = label_box
+        width, height = parent.get('width'), parent.get('height')
+        if not _finite(width) or not _finite(height):
+            add('control-icon-geometry', 'Read finite control dimensions.')
+            return findings
+        gap = lx - ix - iw if spec['placement'] == 'before' else ix - lx - lw
+        spacing = parent.get('itemSpacing')
+        if not _finite(spacing) or abs(spacing - spec['gap']) > .01 or abs(gap - spec['gap']) > 1:
+            add('control-icon-gap', 'Restore the authored icon placement and gap.')
+        left, right = min(ix, lx), max(ix + iw, lx + lw)
+        px, py = style['paddingX'], style['paddingY']
+        if (left < px - 1 or right > width - px + 1 or iy < py - 1 or iy + ih > height - py + 1
+                or abs((left + right) / 2 - width / 2) > 1 or abs(iy + ih / 2 - height / 2) > 1):
+            add('control-icon-alignment', 'Center the combined label/icon group inside the padded control.')
+    return findings
+
+
+def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=None, assets=None):
     """Compare rendered native boxes with authored allocations, never estimated font widths."""
     key = f"{candidate['id']}.{viewport}.{state_id}"
     layout = candidate["state_layouts"][viewport][state_id]
@@ -669,7 +770,7 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
             if field in style:
                 label_style[field] = style[field]
         findings.extend(_native_visibility_findings(label, label_name))
-        findings.extend(_native_text_findings(candidate, label, label_style, label_name))
+        findings.extend(_native_text_findings(candidate, label, label_style, label_name, resize_mode='WIDTH_AND_HEIGHT' if style.get('icon') else 'HEIGHT'))
         if "\n" in label_value or "\r" in label_value:
             add("text-max-lines", label_name, "Control labels must contain one line of text.")
         label_box = _native_box(label)
@@ -690,12 +791,17 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
                     label_name,
                     "Label exceeds the padded control; enlarge the authored control or shorten the label.",
                 )
-            if abs(lx + lw / 2 - width / 2) > 1 or abs(ly + lh / 2 - height / 2) > 1:
+            if (not style.get('icon') and abs(lx + lw / 2 - width / 2) > 1) or abs(ly + lh / 2 - height / 2) > 1:
                 add(
                     "control-label-alignment",
                     label_name,
                     "Center the rendered label within its control instance.",
                 )
+
+        if style.get('icon'):
+            findings.extend(_native_control_icon_findings(node, label, keyed.get(name + '.icon'), style, name, assets))
+            main_key = candidate['id'] + '.' + viewport + '.component.' + variant
+            findings.extend(_native_control_icon_findings(main, keyed.get(main_key + '.label', {}), keyed.get(main_key + '.icon'), style, main_key, assets))
 
     rendered_texts = texts + control_labels
     for index, (name, box) in enumerate(rendered_texts):
@@ -746,8 +852,17 @@ def verify_native_review(manifest_path,readback_path):
                         continue
                     if frame and frame.get('type') == 'FRAME':
                         report['layout_findings'].extend(
-                            native_screen_findings(candidate, viewport, state['id'], frame, keyed, page_id=raw['pageId'])
+                            native_screen_findings(candidate, viewport, state['id'], frame, keyed, page_id=raw['pageId'], assets=packet.get('assets', {}))
                         )
+        for candidate in packet['candidates']:
+            for sample in candidate.get('foundations', {}).get('palette', {}).get('samples', []):
+                style = candidate['control_styles']['desktop'][sample['variant']]
+                key = 'review.palette.' + candidate['id'] + '.' + sample['component']
+                parent = keyed.get(key, {})
+                main_key = candidate['id'] + '.desktop.component.' + sample['variant']
+                report['layout_findings'].extend(_native_palette_label_findings(parent, keyed.get(key + '.label', {}), keyed.get(main_key, {}), keyed.get(main_key + '.label', {}), keyed.get(candidate['id'] + '.desktop.component-set', {}), candidate['action_labels'][sample['action']], key))
+                if style.get('icon'):
+                    report['layout_findings'].extend(_native_control_icon_findings(parent, keyed.get(key + '.label', {}), keyed.get(key + '.icon'), style, key, packet.get('assets', {})))
         if report['layout_findings']:
             report['errors'].extend(
                 f"{finding['layer']}: {finding['code']}: {finding['message']}"

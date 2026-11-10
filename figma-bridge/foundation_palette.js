@@ -89,6 +89,7 @@ async function createFoundationPalette(figma, page, contract, ensureTokens) {
       created.push(instance);
       card.appendChild(instance);
       instance.name = sample.label;
+      if (contract.configureSample) contract.configureSample(instance, mains[index], sample);
       const documentation = text(`Action: ${sample.action}\nState: ${sample.state}\nUse: ${sample.useCases.join('; ')}`);
       card.appendChild(documentation);
       samples.push({...sample, labelNodeId:label.id, documentationNodeId:documentation.id, instanceId:instance.id, mainComponentId:mains[index].id, componentSetId:mains[index].parent.id});
