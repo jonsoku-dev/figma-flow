@@ -139,6 +139,13 @@ class GraphSyncTests(unittest.TestCase):
         actual = self.changed('b/size/button', 24)
         import_values(self.path, self.pairing, actual, self.web, self.directory / 'import', True)
         export_bundle(self.path, self.directory / 'reconcile', self.web, baseline=actual, pairing=self.pairing)
+        discovery_marker = copy.deepcopy(actual)
+        discovery_marker['graphSSOT'] = discovery_marker.pop('baseline')
+        export_bundle(self.path, self.directory / 'reconcile-discovery-marker', self.web, baseline=discovery_marker, pairing=self.pairing)
+        discovery_marker['baseline'] = {'graph_sha256':'wrong'}
+        with self.assertRaisesRegex(ValueError, 'conflicting native graph markers'):
+            export_bundle(self.path, self.directory / 'reconcile-conflicting-markers', self.web, baseline=discovery_marker, pairing=self.pairing)
+
         plan = json.loads((self.directory / 'reconcile/native-plan.json').read_text())
         self.assertEqual(plan['previous_graph_sha256'], self.pairing['graph_sha256'])
         self.assertEqual(plan['graph_sha256'], load_graph(self.path).source_sha256)

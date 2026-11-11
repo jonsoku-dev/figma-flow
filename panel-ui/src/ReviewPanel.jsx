@@ -115,6 +115,17 @@ function reducer(state, action) {
   }
 }
 
+const productionCopy = new Set([
+  'heading', 'createStep', 'createBody', 'make', 'makeBusy', 'reviewPage', 'previewAlt',
+  'readyTitle', 'readyBody', 'creatingTitle', 'creatingBody', 'createdTitle',
+  'generationFailed', 'readTitle', 'readBody', 'verifiedTitle', 'verifiedBody',
+  'boundary', 'mobilePreviews',
+]);
+
+export function reviewMessageKey(selectedProduction, key) {
+  return 'review.' + (selectedProduction && productionCopy.has(key) ? 'production.' : '') + key;
+}
+
 export default function ReviewPanel({ model, locale, t, send, Shell }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const run = useRef({ id: 0, nativeBusy: false, pending: false, received: false, controller: null });
@@ -124,8 +135,10 @@ export default function ReviewPanel({ model, locale, t, send, Shell }) {
     sendRef.current = send;
   }, [send]);
   const paired = !!model.pair;
+  const candidates = model.candidates || [];
+  const selectedProduction = model.selectedProduction === true && model.scope === 'selected-production' && candidates.length === 1;
   const busy = state.nativeBusy || state.receipt === 'pending';
-  const text = (key, params) => t('review.' + key, params);
+  const text = (key, params) => t(reviewMessageKey(selectedProduction, key), params);
 
   useEffect(() => {
     let mounted = true;
@@ -250,7 +263,6 @@ export default function ReviewPanel({ model, locale, t, send, Shell }) {
     }
   }
 
-  const candidates = model.candidates || [];
   const saveLabel = text(state.resultKind === 'failure' ? 'saveFailure' : 'save');
   return (
     <Shell

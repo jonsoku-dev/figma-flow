@@ -241,18 +241,253 @@ def _hex_map(value):
     return {k:v.lower()for k,v in value.items()}if isinstance(value,dict)and all(isinstance(v,str)for v in value.values())else value
 
 
-def make_packet(manifest,layout_path=None,file_key=None):
+PRODUCTION_SCHEMA = 'figma-flow-native-selected-production-v1'
+PRODUCTION_READBACK = 'figma-flow-native-selected-production-readback-v1'
+
+
+def _production_diff(before, after, path=()):
+    if before == after:
+        return []
+    if isinstance(before, dict) and isinstance(after, dict):
+        return [change for key in sorted(set(before) | set(after))
+                for change in _production_diff(before.get(key), after.get(key), (*path, key))]
+    return [{'path': list(path), 'before': before, 'after': after}]
+
+
+def _production_layer_map(candidate, entry_state=None):
+    candidate = json.loads(json.dumps(candidate))
+    candidate.pop('graph', None)
+    if 'layouts' in candidate:
+        if not entry_state or any(layout != candidate['state_layouts'][viewport][entry_state] for viewport,layout in candidate['layouts'].items()):
+            raise ValueError('Entry layouts mirror must equal canonical state layout')
+        candidate.pop('layouts')
+    for layouts in candidate['state_layouts'].values():
+        for layout in layouts.values():
+            rows = layout['layers']
+            if len({row['id'] for row in rows}) != len(rows):
+                raise ValueError('Unique selected-production layer IDs required')
+            layout['layers'] = {row['id']: row for row in rows}
+    return candidate
+
+
+def _observed_production_geometry(request, path, expected):
+    """Check a declared subpixel correction against its pinned actual DOM observation."""
+    try:
+        record = request['measurements'][path[1] + '|' + path[2]]
+        data = json.loads(design_directions.current(record['source']).read_text())
+        if data.get('viewport') != path[1] or data.get('state') not in path[2]:
+            return False
+        if len(path) == 6 and path[3] == 'layers':
+            identity = record.get('layer_ids', {}).get(path[4], path[4])
+            layers = data['layers'] + [{**row, 'id':row['id']+'-raster'} for row in data.get('svg_layers', [])]
+            layer = next(row for row in layers if row['id'] == identity)
+            actual = layer.get(path[5])
+            return actual == expected or _finite(actual) and _finite(expected) and abs(actual-expected) <= .01
+        if len(path) == 5 and path[3] == 'control_boxes':
+            return data['control_boxes'][path[4]] == expected
+        if len(path) == 4 and path[3] in ('width','height'):
+            return data[path[3]] == expected
+    except (KeyError, ValueError, OSError, StopIteration, TypeError):
+        return False
+    return False
+
+
+def _selected_production_inputs(selected, reviewed, authored, layout_path, graph_path, request_path):
+    if not request_path or not graph_path:
+        raise ValueError('Selected production requires pinned --change-request and --product-graph')
+    request = json.loads(Path(request_path).read_text())
+    original_layout = design_directions.current(reviewed.get('native_layout') or reviewed['native_target']['layout'], Path(reviewed['project_root']))
+    original = json.loads(original_layout.read_text())
+    old = next(row for row in original['candidates'] if row['id'] == selected['candidate_id'])
+    if authored.get('schema') != 'figma-flow-authored-native-production-v1' or authored.get('scope') != 'selected-production' or len(authored.get('candidates', [])) != 1:
+        raise ValueError('Distinct single-candidate selected-production authored layout required')
+    candidate = authored['candidates'][0]
+    provenance = {'path': selected['selection_path'], 'sha256': selected['selection_sha256'],
+                  'candidate_id': selected['candidate_id'], 'candidate_sha256': selected['candidate_sha256'],
+                  'review_layout_sha256': sha(original_layout.read_bytes())}
+    if authored.get('sourceSelection') != provenance or candidate.get('id') != selected['candidate_id']:
+        raise ValueError('Production layout source selection differs from actual chosen candidate')
+    graph_pin = design_directions.pin(graph_path)
+    expected = {'schema': 'figma-flow-selected-production-change-v1', 'selection': {'path': selected['selection_path'], 'sha256': selected['selection_sha256']},
+                'candidate_id': selected['candidate_id'], 'reviewed_layout': {'path': str(original_layout.resolve()), 'sha256': provenance['review_layout_sha256']},
+                'production_layout': {'path': str(layout_path), 'sha256': sha(layout_path.read_bytes())}, 'production_graph': graph_pin}
+    if any(request.get(key) != value for key, value in expected.items()):
+        raise ValueError('Exact selected-production change-request source pins required')
+    if not isinstance(request.get('categories'), list) or not request['categories'] or set(request['categories']) - {'contrast', 'sync'}:
+        raise ValueError('Only explicitly authorized contrast/sync categories are supported')
+    user = request.get('user', {})
+    user_path = Path(user.get('path', '')).resolve()
+    if not user_path.is_relative_to(design_directions.user_record_root().resolve()) or user_path.is_symlink() or not user_path.is_file():
+        raise ValueError('Actual managed user turn required for production revision')
+    message = next((row for row in design_directions._messages(user_path) if row['prefix_length'] == user.get('prefix_length')), None)
+    directive = user.get('directive')
+    human = selected.get('human', {})
+    if (user_path != Path(human.get('path', '')).resolve()
+            or user.get('prefix_length') < human.get('prefix_length', float('inf'))):
+        raise ValueError('Production revision must come from the selected user conversation')
+
+    if not message or message['role'] != 'user' or message['prefix_sha256'] != user.get('prefix_sha256') or not isinstance(directive, str) or len(directive.strip()) < 20 or directive not in message['text']:
+        raise ValueError('Managed user prefix and literal production directive do not match')
+    if any(not re.search(r'contrast|대비|명암|가독' if category == 'contrast' else r'sync|동기화|양방향|연동', directive, re.I)
+           for category in request['categories']):
+        raise ValueError('Managed directive must explicitly authorize each production change category')
+
+    graph = json.loads(Path(graph_path).read_text())
+    previous_graph = json.loads(design_directions.current(selected['product_graph']).read_text())
+    if {k:v for k,v in graph.items() if k not in ('design_foundations','design_system')} != {k:v for k,v in previous_graph.items() if k not in ('design_foundations','design_system')}:
+        raise ValueError('Selected graph nodes, edges, actions and prototype semantics must stay unchanged')
+    if 'design_system' in graph:
+        if 'sync' not in request['categories'] or 'design_system' in previous_graph and graph['design_system'] != previous_graph['design_system']:
+            raise ValueError('Only explicitly authorized addition of selected-component design_system is supported')
+        from graph_design_system import resolve_design_system
+        resolve_design_system(graph)
+        mains = {f"{selected['candidate_id']}.{viewport}.component.{variant}" for viewport,styles in candidate['control_styles'].items() for variant in styles}
+        instances = {f"{selected['candidate_id']}.{edge['viewport']}.{edge['source_state']}.{edge['control_id']}" for edge in graph['draft_prototype']['bindings']}
+        instances.update('review.palette.'+selected['candidate_id']+'.'+sample['component'] for sample in graph['design_foundations']['palette']['samples'])
+        for component in graph['design_system']['components'].values():
+            native = component.get('native', {})
+            if not native.get('mainKeys') or not native.get('instanceKeys') or not set(native['mainKeys']) <= mains or not set(native['instanceKeys']) <= instances:
+                raise ValueError('Production sync scope must use only selected candidate native component/instance keys')
+    if candidate.get('graph') != graph_pin:
+        raise ValueError('Production candidate must pin its actual production graph')
+    prototype = graph['draft_prototype']
+    entries = [state['id'] for state in prototype['states'] if state.get('entry')]
+    entry = prototype.get('entry_state') or (entries[0] if len(entries) == 1 else prototype['states'][0]['id'])
+    normalized_old, normalized_new = _production_layer_map(old, entry), _production_layer_map(candidate, entry)
+    actual = _production_diff(normalized_old, normalized_new)
+    declarations = request.get('changes')
+    if not isinstance(declarations, list) or len({tuple(row.get('path', [])) for row in declarations}) != len(declarations):
+        raise ValueError('Unique complete production delta declarations required')
+    declared = {tuple(row['path']): row for row in declarations}
+    if {tuple(row['path']) for row in actual} != set(declared):
+        raise ValueError('Production deltas differ from declared authorization')
+    new_rects = {}
+    removed_surfaces = set()
+    for delta in actual:
+        path = tuple(delta['path']); declaration = declared[path]
+        if any(declaration.get(key) != delta[key] for key in ('before', 'after')) or declaration.get('category') not in request['categories']:
+            raise ValueError('Exact authorized before/after/category required')
+        if declaration['category'] != 'contrast':
+            raise ValueError('Sync authority does not permit visual layout edits')
+        if len(path) in (5, 6) and path[0] == 'state_layouts' and path[3] == 'layers':
+            viewport, state_id, layer_id = path[1], path[2], path[4]
+            old_layout = old['state_layouts'][viewport][state_id]
+            new_layout = candidate['state_layouts'][viewport][state_id]
+            old_layers = {row['id']:row for row in old_layout['layers']}
+            layer = next((row for row in new_layout['layers'] if row['id'] == layer_id), None)
+            if layer is None:
+                previous = old_layers.get(layer_id, {})
+                if len(path) != 5 or previous.get('kind') != 'rect' or previous.get('role') != 'surface':
+                    raise ValueError('Only obsolete contrast surface rectangles may be removed')
+                removed_surfaces.add((viewport, state_id, layer_id))
+                continue
+            if len(path) == 5:
+                if delta['before'] is not None or layer.get('kind') not in ('rect', 'gradient') or layer.get('role') not in ('surface','background'):
+                    raise ValueError('Only a declared contrast surface may be added')
+                if layer['kind'] == 'rect' and (layer.get('opacity', 1) != 1 or layer.get('fill') not in candidate['colors']):
+                    raise ValueError('A backing RECT requires an opaque named fill')
+                if layer['kind'] == 'gradient':
+                    check_layer(layer, candidate['colors'], authored['assets'], 'authorized contrast gradient')
+
+                targets = declaration.get('text_ids', [])
+                if not targets or any(key not in old_layers or old_layers[key]['kind'] != 'text' for key in targets):
+                    raise ValueError('New backing RECT must name existing text targets')
+                bleed = 1 if layer.get('role') == 'background' else 0
+                if layer['x'] < -bleed or layer['y'] < -bleed or layer['x'] + layer['w'] > new_layout['width']+bleed or layer['y'] + layer['h'] > new_layout['height']+bleed:
+                    raise ValueError('Backing RECT exceeds its selected screen')
+                for key in targets:
+                    if not any(row['id'] == key for row in new_layout['layers']): raise ValueError('Selected original text cannot be removed')
+                    text = old_layers[key]
+                    if not (layer['x'] <= text['x'] and layer['y'] <= text['y'] and layer['x']+layer['w'] >= text['x']+text['w'] and layer['y']+layer['h'] >= text['y']+text['h']):
+                        raise ValueError('Backing RECT must cover its exact existing text bounds')
+                    if new_layout['layers'].index(layer) >= next(i for i,row in enumerate(new_layout['layers']) if row['id'] == key):
+                        raise ValueError('Backing RECT must render behind its text')
+                if layer['kind'] == 'rect':
+                    new_rects[f"{selected['candidate_id']}.{viewport}.{state_id}.{layer_id}"] = layer['fill']
+            elif path[-1] in ('x','y','w','h','leading') and _finite(delta['before']) and _finite(delta['after']) and abs(delta['before'] - delta['after']) <= 1 and _observed_production_geometry(request, path, delta['after']):
+                pass
+            elif (layer['kind'] == 'text' and path[-1] == 'w' and old_layers[layer_id].get('align', 'left') == 'left'
+                  and 0 < delta['after'] <= delta['before']):
+                pass
+            elif not ((layer['kind'] == 'text' and path[-1] == 'ink') or (layer['kind'] in ('rect','ellipse') and path[-1] in ('fill','stroke','opacity'))):
+                raise ValueError('Only existing text/backing contrast fields may change')
+        elif len(path) == 2 and path[0] == 'references':
+            if path[1] not in ('desktop','mobile') or not authored['assets'].get(delta['after'], {}).get('reference'):
+                raise ValueError('Only pinned viewport reference screenshots may change')
+        elif len(path) == 4 and path[0] == 'state_layouts' and path[3] in ('width','height') and _finite(delta['before']) and _finite(delta['after']) and abs(delta['before'] - delta['after']) <= 1 and _observed_production_geometry(request, path, delta['after']):
+            pass
+        elif len(path) == 4 and path[0] == 'state_layouts' and path[3] == 'control_boxes':
+            raise ValueError('Individual measured control boxes must remain named')
+        elif len(path) == 5 and path[0] == 'state_layouts' and path[3] == 'control_boxes' and all(_finite(a) and _finite(b) and abs(a-b)<=1 for a,b in zip(delta['before'],delta['after'])) and len(delta['before'])==len(delta['after'])==4 and _observed_production_geometry(request, path, delta['after']):
+            pass
+        elif not (len(path) == 4 and path[0] == 'control_styles' and path[-1] in ('fill','ink','stroke')):
+            raise ValueError('Selected production cannot change art, text, fonts, geometry or behavior')
+    for viewport, layouts in old['state_layouts'].items():
+        for state_id, layout in layouts.items():
+            old_ids = [row['id'] for row in layout['layers'] if (viewport, state_id, row['id']) not in removed_surfaces]
+            if [row['id'] for row in candidate['state_layouts'][viewport][state_id]['layers'] if row['id'] in old_ids] != old_ids:
+                raise ValueError('Original selected layers and relative order must remain intact')
+    old_foundations = previous_graph['design_foundations']; new_foundations = graph['design_foundations']
+    if {k:v for k,v in old_foundations.items() if k != 'roles'} != {k:v for k,v in new_foundations.items() if k != 'roles'} or len(old_foundations['roles']) != len(new_foundations['roles']):
+        raise ValueError('Only new actual color consumers may extend selected foundations')
+    for before, after in zip(old_foundations['roles'], new_foundations['roles']):
+        b, a = json.loads(json.dumps(before)), json.loads(json.dumps(after))
+        old_bindings = b.get('native', {}).pop('bindings', []); new_bindings = a.get('native', {}).pop('bindings', [])
+        if b != a or new_bindings[:len(old_bindings)] != old_bindings:
+            raise ValueError('Selected foundation values and original consumers must be preserved')
+        for binding in new_bindings[len(old_bindings):]:
+            if before['kind'] != 'color' or binding.get('field') != 'fills' or new_rects.get(binding.get('key')) != before['token'].split('/')[-1]:
+                raise ValueError('New foundation consumers must be authorized backing RECT fills')
+    reference_changes = request.get('reference_assets', {})
+    for name, asset in authored.get('assets', {}).items():
+        previous = original['assets'].get(name)
+        actual_path = (layout_path.parent/asset['path']).resolve()
+        previous_path = (original_layout.parent/previous['path']).resolve() if previous else None
+        if previous and {k:v for k,v in asset.items() if k != 'path'} == {k:v for k,v in previous.items() if k != 'path'}:
+            continue
+        if not previous or not previous.get('reference') or asset.get('reference') is not True or 'contrast' not in request['categories']:
+            raise ValueError('Production must reuse the exact previously reviewed art assets')
+        if {k:v for k,v in asset.items() if k not in ('path','sha256')} != {k:v for k,v in previous.items() if k not in ('path','sha256')}:
+            raise ValueError('Reference replacement may only change screenshot file/hash')
+        if reference_changes.get(name) != {'before':design_directions.pin(previous_path),'after':design_directions.pin(actual_path)}:
+            raise ValueError('Exact original/new screenshot reference pins required')
+    if any(name not in authored['assets'] or not authored['assets'][name].get('reference') for name in reference_changes):
+        raise ValueError('Reference authority cannot replace campaign art')
+    return provenance, graph_pin, design_directions.pin(request_path)
+
+
+def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,product_graph=None,change_request=None):
+    selected = design_directions.require_selected(selection_path) if selection_path else None
+    if selected:
+        if manifest and Path(manifest).resolve() != Path(selected['draft_path']).resolve(): raise ValueError('Production selection and review manifest differ')
+        manifest = selected['draft_path']
     data=checked_review(manifest)
-    packet_hash=design_directions.review_packet_sha256(data)
+    reviewed = data
+    if selected:
+        data = json.loads(json.dumps(data)); data['candidates'] = [row for row in data['candidates'] if row['id'] == selected['candidate_id']]
+    packet_hash=design_directions.review_packet_sha256(reviewed)
     content=json.loads(design_directions.current(data['content']).read_text())
     root=Path(data['project_root']).resolve();layout_record=data.get('native_layout')or data.get('native_target',{}).get('layout')
     if not layout_record:raise ValueError('Checked review must pin its owned authored native layout before packaging')
     pinned_layout=design_directions.current(layout_record,root).resolve()
     layout_path=Path(layout_path or pinned_layout).resolve()
-    if layout_path!=pinned_layout:raise ValueError('Explicit layout differs from immutable reviewed layout pin')
+    if not selected and layout_path!=pinned_layout:raise ValueError('Explicit layout differs from immutable reviewed layout pin')
     if root not in layout_path.parents: raise ValueError('Authored layout must belong to the reviewed project')
     authored=json.loads(layout_path.read_text());layout_hash=sha(layout_path.read_bytes())
-    if authored.get('schema')!='figma-flow-authored-native-layout-v1'or authored.get('scope')!='exploratory-only':raise ValueError('Explicit exploratory native layout required')
+    if not selected and (authored.get('schema')!='figma-flow-authored-native-layout-v1'or authored.get('scope')!='exploratory-only'):raise ValueError('Explicit exploratory native layout required')
+    provenance = graph_pin = request_pin = None
+    if selected:
+        provenance, graph_pin, request_pin = _selected_production_inputs(selected, reviewed, authored, layout_path, product_graph, change_request)
+        quality = design_quality.evaluate(authored, layout_dir=root)
+        if not quality['passed']:
+            raise ValueError(design_quality.blocking_summary(quality, layout_path))
+
+        data['candidates'][0]['product_graph'] = graph_pin
+        source = authored['candidates'][0]
+        for preview in data['candidates'][0]['previews']:
+            name = source.get('references', {}).get(preview['viewport'])
+            if name not in authored['assets'] or authored['assets'][name].get('reference') is not True: raise ValueError('Production reference screenshot required')
+            preview['file'] = design_directions.pin((layout_path.parent/authored['assets'][name]['path']).resolve())
     problems=layout_errors(authored)
     if problems:raise ValueError('Authored layout invalid ('+str(len(problems))+'):\n- '+'\n- '.join(problems))
     target=data.get('native_target',{'mode':'current-design-file'})
@@ -318,13 +553,29 @@ def make_packet(manifest,layout_path=None,file_key=None):
         c={**source,'id':candidate['id'],'title':candidate['title'],'sha256':candidate['sha256'],'graph':graph,'notes':notes,'action_notes':action_notes,'action_labels':{node['id']:node['title']for node in graph['nodes']if node['type']=='action'},'foundations':foundations,'colors':colors,'prototype':prototype,'entry_state':entry,'references':refs}
         c['foundationBindings'] = foundation_bindings(source, graph)
         candidates.append(c)
+    used_assets = None
+    if selected:
+        used_assets = {name for candidate in candidates for name in candidate['references'].values()}
+        for candidate in candidates:
+            used_assets.update(layer['asset'] for layouts in candidate['state_layouts'].values() for layout in layouts.values() for layer in layout['layers'] if layer['kind'] == 'image')
+            used_assets.update(style['icon']['asset'] for styles in candidate['control_styles'].values() for style in styles.values() if style.get('icon'))
     for name,record in authored['assets'].items():
+        if used_assets is not None and name not in used_assets: continue
         path=(layout_path.parent/record['path']).resolve()
         if root not in path.parents or path.is_symlink()or sha(path.read_bytes())!=record['sha256']:raise ValueError('Pinned owned draft asset required')
         assets[name]=base64.b64encode(path.read_bytes()).decode();pins.append({'path':str(path),'sha256':record['sha256']})
     importer_hash=canonical_sha({name:sha((PLUGIN/'figma-bridge'/name).read_bytes())for name in (*HELPERS,'direction_review.js')})
     instance_hash=canonical_sha({'packet':packet_hash,'layout':layout_hash,'fileKey':file_key,'importer':importer_hash})
-    return {'schema':'figma-flow-native-direction-review-v1','scope':'exploratory-only','production_admitted':False,'fileKey':file_key,'prepared_target':prepared_target,'instance_sha256':instance_hash,'importer_sha256':importer_hash,'layout_sha256':layout_hash,'layout_pin':{'path':str(layout_path),'sha256':layout_hash},'packet_sha256':packet_hash,'manifest':str(Path(manifest).resolve()),'candidate_pins':{c['id']:c['sha256']for c in candidates},'content':content,'candidates':candidates,'assets':assets,'input_pins':pins,'prepared_at':now(),'execution_status':'prepared-not-executed','boundary':'Reference images are raster; authored titles/body/controls/role palette are native editable nodes. No approval, final asset batch or reservation.'}
+    packet = {'schema':'figma-flow-native-direction-review-v1','scope':'exploratory-only','production_admitted':False,'fileKey':file_key,'prepared_target':prepared_target,'instance_sha256':instance_hash,'importer_sha256':importer_hash,'layout_sha256':layout_hash,'layout_pin':{'path':str(layout_path),'sha256':layout_hash},'packet_sha256':packet_hash,'manifest':str(Path(manifest).resolve()),'candidate_pins':{c['id']:c['sha256']for c in candidates},'content':content,'candidates':candidates,'assets':assets,'input_pins':pins,'prepared_at':now(),'execution_status':'prepared-not-executed','boundary':'Reference images are raster; authored titles/body/controls/role palette are native editable nodes. No approval, final asset batch or reservation.'}
+    if selected:
+        packet.update(schema=PRODUCTION_SCHEMA, scope='selected-production', production_admitted=True,
+            sourceSelection=provenance, production_graph=graph_pin, change_request=request_pin,
+            excluded_candidates=[row['id'] for row in reviewed['candidates'] if row['id'] != selected['candidate_id']],
+            boundary='Selected production authoring from exact reviewed art/layout plus pinned authorized contrast changes. Native readback is required; not a new design approval.')
+        packet['packet_sha256'] = canonical_sha({'review': packet_hash, 'selection': provenance, 'graph': graph_pin, 'changes': request_pin})
+        packet['instance_sha256'] = canonical_sha({'packet': packet['packet_sha256'], 'layout': layout_hash, 'fileKey': file_key, 'importer': importer_hash})
+    return packet
+
 
 
 def _native_shadow_findings(node, authored, layer):
@@ -828,15 +1079,54 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
                 )
     return findings
 
-def verify_native_review(manifest_path,readback_path):
-    report={'passed':False,'errors':[],'scope':'exploratory-only','production_admitted':False,'evidence':'supplied-native-readback-not-origin-authentication','screens':[],'layout_findings':[],'annotation_checks':[],'foundation_checks':[],'prototype_checks':[],'return_checks':[],'design_note_board_checks':[],'dev_mode_required':False}
+def _attested_review_packet(manifest_path, raw):
+    packet = make_packet(manifest_path, raw.get('layout_pin', {}).get('path'), raw.get('prepared_target', {}).get('file_key'))
+    # The sidecar preserves the actual selected manifest bytes and its original human hash.
+    sidecar = Path(manifest_path).resolve().parent / 'renderer-snapshot.json'
+    if not sidecar.exists():
+        return packet
+    snapshot = json.loads(design_directions.current(design_directions.pin(sidecar)).read_text())
+    names = (*HELPERS, 'direction_review.js')
+    if snapshot.get('schema') != 'figma-flow-native-renderer-snapshot-v1' or set(snapshot.get('sources', {})) != set(names):
+        raise ValueError('Exact historical renderer source set required')
+    sources = {name:design_directions.current(snapshot['sources'][name]).read_bytes() for name in names}
+    original = json.loads(design_directions.current(snapshot['packet']).read_text())
+    if original.get('schema') != 'figma-flow-native-direction-review-v1' or original.get('scope') != 'exploratory-only' or original.get('production_admitted') is not False:
+        raise ValueError('Historical snapshot must be an original exploratory review packet')
+    if original['importer_sha256'] != canonical_sha({name:sha(value) for name,value in sources.items()}):
+        raise ValueError('Historical renderer implementation digest differs from exact archived sources')
+    code = 'const DRAFT=' + json.dumps(original, ensure_ascii=False) + ';\n' + '\n'.join(sources[name].decode() for name in HELPERS) + '\n' + sources['direction_review.js'].decode()
+    if design_directions.current(snapshot['code']).read_bytes() != code.encode():
+        raise ValueError('Historical generated code does not exactly contain its attested packet and sources')
+    instance = canonical_sha({'packet':original['packet_sha256'],'layout':original['layout_sha256'],'fileKey':original['fileKey'],'importer':original['importer_sha256']})
+    if original['instance_sha256'] != instance:
+        raise ValueError('Historical renderer instance digest is invalid')
+    packet['prepared_at'] = original['prepared_at']
+    ignored = {'importer_sha256', 'instance_sha256'}
+    if {k:v for k,v in packet.items() if k not in ignored} != {k:v for k,v in original.items() if k not in ignored}:
+        raise ValueError('Historical renderer logical candidate/layout/font/art/graph contract differs from current reviewed inputs')
+    if raw.get('instance_sha256') != instance:
+        raise ValueError('Actual readback does not belong to the attested original renderer')
+    return original
+
+
+def _verify_native_packet(packet,readback_path):
+    report={'passed':False,'errors':[],'scope':packet['scope'],'production_admitted':packet['production_admitted'],'evidence':'supplied-native-readback-not-origin-authentication','screens':[],'layout_findings':[],'annotation_checks':[],'foundation_checks':[],'prototype_checks':[],'return_checks':[],'design_note_board_checks':[],'dev_mode_required':False}
     try:
         raw=json.loads(Path(readback_path).read_text())
         if isinstance(raw,dict) and raw.get('schema')=='figma-flow-native-geometry-failure-v1':
             raise ValueError('Native geometry failure diagnostics are not an admissible readback')
-        packet = make_packet(manifest_path, raw.get('layout_pin', {}).get('path'), raw.get('prepared_target', {}).get('file_key'))
         nodes, keyed = _native_readback_nodes(raw, packet)
-        if not raw.get('fileKey')or packet['fileKey']and raw.get('fileKey')!=packet['fileKey']or raw.get('instance_sha256')!=packet['instance_sha256'] or raw.get('packet_sha256')!=packet['packet_sha256'] or raw.get('candidate_pins')!=packet['candidate_pins'] or raw.get('scope')!='exploratory-only'or raw.get('production_admitted')is not False or raw.get('approved')is True: raise ValueError('Exact current checked draft inputs/file/scope required')
+        if not raw.get('fileKey')or packet['fileKey']and raw.get('fileKey')!=packet['fileKey']or raw.get('instance_sha256')!=packet['instance_sha256'] or raw.get('packet_sha256')!=packet['packet_sha256'] or raw.get('candidate_pins')!=packet['candidate_pins'] or raw.get('scope')!=packet['scope']or raw.get('production_admitted')is not packet['production_admitted'] or raw.get('approved')is True: raise ValueError('Exact current checked draft inputs/file/scope required')
+        if packet['scope'] == 'selected-production':
+            if raw.get('schema') != PRODUCTION_READBACK or raw.get('sourceSelection') != packet['sourceSelection'] or raw.get('production_graph') != packet['production_graph'] or raw.get('change_request') != packet['change_request']:
+                raise ValueError('Selected production native source/scope attestation missing')
+            if set(raw.get('noteFrames', {})) != set(packet['candidate_pins']) or set(raw.get('palettes', {})) != set(packet['candidate_pins']):
+                raise ValueError('Production page must contain only selected candidate notes and palette')
+            for node in nodes.values():
+                key = node.get('semanticKey') or node.get('key') or ''
+                if any(key.startswith(other+'.') or key.startswith('review.palette.'+other+'.') for other in packet['excluded_candidates']):
+                    raise ValueError('Unselected candidate found in production page')
         page=nodes.get(raw.get('pageId'),{});report.update(file_key=raw['fileKey'],page_id=raw['pageId'],packet_sha256=raw['packet_sha256'])
         if page.get('type')!='PAGE' or raw.get('page_owner')!=packet['instance_sha256']: raise ValueError('Owned draft root page required')
         for candidate in packet['candidates']:
@@ -928,7 +1218,7 @@ def verify_native_review(manifest_path,readback_path):
                 if not isinstance(link,dict)or link.get('type')!='NODE'or link.get('value')!=target['id']:raise ValueError('Actual same-file Design target hyperlink missing')
                 if text.get('y',0)+text.get('height',0)>board_node.get('height',0)-board_node.get('paddingBottom',0)+1:raise ValueError('Ordinary note board clips readable text')
             report['design_note_board_checks'].append({'candidate':candidate['id'],'board_id':board_node['id'],'linked_targets':len(targets),'design_url':'https://www.figma.com/design/'+raw['fileKey']+'?node-id='+board_node['id'].replace(':','-')})
-            audit=audit_draft_foundations(raw,candidate);report['foundation_checks'].append(audit)
+            audit=audit_draft_foundations(raw,candidate,production_packet=packet if packet["scope"] == "selected-production" else None);report['foundation_checks'].append(audit)
             if not audit.get('passed',audit.get('ok')):raise ValueError('Actual draft foundations: '+'; '.join(audit.get('errors',[])))
         if not raw.get('variables')or not raw.get('collections')or not raw.get('textStyles'):raise ValueError('Actual native variables and typography styles required')
         variable_ids={v['id']for v in raw['variables']}
@@ -951,6 +1241,33 @@ def verify_native_review(manifest_path,readback_path):
     return report
 
 
+def verify_native_review(manifest_path,readback_path):
+    try:
+        raw = json.loads(Path(readback_path).read_text())
+        if raw.get('schema') == 'figma-flow-native-geometry-failure-v1':
+            raise ValueError('Native geometry failure diagnostics are not an admissible readback')
+        return _verify_native_packet(_attested_review_packet(manifest_path, raw), readback_path)
+    except (ValueError,KeyError,TypeError,OSError,IndexError,AttributeError) as error:
+        return {'passed':False,'scope':'exploratory-only','production_admitted':False,'errors':[str(error)]}
+
+
+def verify_native_production(packet_path,readback_path):
+    try:
+        declared = json.loads(Path(packet_path).read_text())
+        if declared.get('schema') != PRODUCTION_SCHEMA: raise ValueError('Distinct selected production packet required')
+        packet = make_packet(declared['manifest'], declared['layout_pin']['path'], declared['fileKey'],
+            selection_path=declared['sourceSelection']['path'],product_graph=declared['production_graph']['path'],change_request=declared['change_request']['path'])
+        packet['prepared_at'] = declared['prepared_at']
+        if packet != declared: raise ValueError('Prepared production packet differs from current admitted source pins')
+        report = _verify_native_packet(packet, readback_path)
+        report['schema'] = 'figma-flow-native-selected-production-verification-v1'
+        report['source_packet'] = design_directions.pin(packet_path)
+        report['sourceSelection'] = packet['sourceSelection']
+        return report
+    except (ValueError,KeyError,TypeError,OSError,IndexError,AttributeError) as error:
+        return {'passed':False,'scope':'selected-production','production_admitted':True,'errors':[str(error)]}
+
+
 def check_note(node,note):
     text='\n'.join(a.get('label','')for a in node.get('annotations',[]))
     for field in('purpose','behavior','result','journey','first_action','action'):
@@ -959,7 +1276,7 @@ def check_note(node,note):
         if state not in text:raise ValueError('Canonical native functional state missing')
 
 
-def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=None,plugin_id=None,night_demo=False):
+def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=None,plugin_id=None,night_demo=False,*,selection_path=None,product_graph=None,change_request=None):
     if register and not night_demo:raise ValueError('No implicit NIGHT registration: use an explicit task demo or the normal portable local plugin package.')
     if register:
         allowed_file = os.environ.get('FIGMA_FLOW_NIGHT_FILE_KEY')
@@ -969,8 +1286,11 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
         if file_key not in (None, allowed_file) or plugin_id not in (None, assigned_id):
             raise ValueError('Task-owned NIGHT registration cannot target another file or plugin')
         file_key, plugin_id = allowed_file, assigned_id
-    packet=make_packet(manifest,layout_path,file_key);admission=design_directions.admit_native_draft(Path(manifest))
-    if admission['packet_sha256']!=packet['packet_sha256']:raise ValueError('Draft admission packet mismatch')
+    if selection_path and register: raise ValueError('Selected production cannot use exploratory demo registration')
+    packet=make_packet(manifest,layout_path,file_key,selection_path=selection_path,product_graph=product_graph,change_request=change_request)
+    if not selection_path:
+        admission=design_directions.admit_native_draft(Path(manifest))
+        if admission['packet_sha256']!=packet['packet_sha256']:raise ValueError('Draft admission packet mismatch')
     if not isinstance(plugin_id,str) or not re.fullmatch(r'[0-9]+',plugin_id):raise ValueError('Supply the numeric local plugin ID assigned by Figma; a demo plugin identity cannot be used implicitly')
     out=Path(out).resolve();out.mkdir(parents=True,exist_ok=True)
     write_json(out/'packet.json',packet)
@@ -979,9 +1299,9 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
     warnings = embedded_asset_warnings(payload_json, packet['assets'].values())
     code='const DRAFT='+payload_json+';\n'+helpers+'\n'+(PLUGIN/'figma-bridge/direction_review.js').read_text()
     portable=out/'plugin';portable.mkdir(exist_ok=True)
-    manifest_data={'name':'NIGHT · A/B/C Figma 방향 검토'if register else'Figma Flow · 디자인 방향 검토','id':plugin_id,'api':'1.0.0','editorType':['figma'],'main':'code.js','ui':'ui.html','documentAccess':'dynamic-page','enablePrivatePluginApi':True,'networkAccess':{'allowedDomains':['none']}}
+    manifest_data={'name':'Figma Flow · Selected production'if selection_path else'NIGHT · A/B/C Figma 방향 검토'if register else'Figma Flow · 디자인 방향 검토','id':plugin_id,'api':'1.0.0','editorType':['figma'],'main':'code.js','ui':'ui.html','documentAccess':'dynamic-page','enablePrivatePluginApi':True,'networkAccess':{'allowedDomains':['none']}}
     for name,value in{'code.js':code,'ui.html':ui_html(night_demo=night_demo,review=packet),'manifest.json':json.dumps(manifest_data,ensure_ascii=False,indent=2)}.items():(portable/name).write_text(value)
-    zip_name='NIGHT-Figma-Draft-Review.zip'if night_demo else'Figma-Direction-Review.zip'
+    zip_name='Figma-Selected-Production.zip'if selection_path else'NIGHT-Figma-Draft-Review.zip'if night_demo else'Figma-Direction-Review.zip'
     with zipfile.ZipFile(out/zip_name,'w',zipfile.ZIP_DEFLATED)as z:
         for path in portable.iterdir():z.write(path,path.name)
     if register:
@@ -992,7 +1312,9 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
         manifest_data['networkAccess']['devAllowedDomains']=[f'http://localhost:{port}']
         (private/'manifest.json').write_text(json.dumps(manifest_data,ensure_ascii=False,indent=2));(private/'ui.html').write_text(ui_html({'url':f'http://localhost:{port}/draft-readback','capability':token_path.read_text().strip()},night_demo=True,review=packet));(private/'ui.html').chmod(0o600)
     (out/'사용방법.txt').write_text(('지정한 Figma 파일에서 로컬 검토 플러그인을 열고')+' 「검토 시안 만들기」를 한 번 누르세요.\n이 도구는 검토용 화면·주석·팔레트·클릭 이동만 만듭니다. 방향 선택·승인·본 제작은 하지 않습니다.\nDev Mode나 유료 업그레이드 없이 일반 Design 모드의 「주석 읽기」 프레임에서 설명을 읽고 링크로 해당 화면·조작으로 이동하세요.\n원화와 브라우저 참조는 래스터이고 제목·본문·행동 제어·팔레트는 편집 가능한 실제 Figma 노드입니다. 「결과 JSON 저장」으로 원본 읽기 결과를 내보내세요. 로컬 수신기를 연결한 경우에는 결과가 그 수신기에도 전달됩니다.\n')
-    write_json(out/'prepared.json',{'status':'prepared-not-executed','packet_sha256':packet['packet_sha256'],'fileKey':packet['fileKey'],'production_admitted':False,'manifest':str(portable/'manifest.json'),'registered':register,'warnings':warnings})
+    if selection_path:
+        (out/'사용방법.txt').write_text('Selected production authoring from the validated user choice and pinned contrast changes. Run the prepared workspace create operation, preserve its actual readback, then verify-production --packet packet.json --readback ACTUAL.json. This does not approve a new direction or final delivery.\n')
+    write_json(out/'prepared.json',{'status':'prepared-not-executed','packet_sha256':packet['packet_sha256'],'fileKey':packet['fileKey'],'production_admitted':packet['production_admitted'],'scope':packet['scope'],'manifest':str(portable/'manifest.json'),'registered':register,'warnings':warnings})
     return {'manifest':str((PRIVATE/'plugin/manifest.json')if register else portable/'manifest.json'),'packet':str(out/'packet.json'),'zip':str(out/zip_name),'status':'prepared-not-executed','warnings':warnings}
 
 
@@ -1003,7 +1325,7 @@ def review_thumbnails(review, candidate):
         from PIL import Image
     except ImportError:
         return []
-    if not review or review.get('schema') != 'figma-flow-native-direction-review-v1':
+    if not review or review.get('schema') not in ('figma-flow-native-direction-review-v1', PRODUCTION_SCHEMA):
         return []
     thumbnails = []
     for viewport in ('desktop', 'mobile'):
@@ -1027,6 +1349,15 @@ def review_thumbnails(review, candidate):
 
 
 def ui_html(pair=None, night_demo=False, review=None):
+    if review and review.get('scope') == 'selected-production':
+        if pair or night_demo: raise ValueError('Selected production is not an exploratory receiver/demo')
+        from plugin_panel import render_app
+        candidate = review['candidates'][0]
+        previews = [{'viewport':viewport,'src':'data:image/png;base64,'+data} for viewport,data in review_thumbnails(review,candidate)]
+        model = {'candidates':[{'title':candidate['title'],'previews':previews}], 'pair':None,
+                 'filePinned':bool(review.get('fileKey')), 'pageName':'PRODUCTION · '+candidate['title']+' · '+review['packet_sha256'][:8],
+                 'selectedProduction':True,'scope':review['scope'],'sourceSelection':review['sourceSelection']}
+        return render_app('review',model).replace('</head>','<script>\nconst PAIR = null;\n</script></head>',1)
     messages = json.loads((PLUGIN / 'figma-bridge/locales/review.json').read_text())
 
     def text(key, **params):
@@ -1248,8 +1579,9 @@ class DraftReceiver(BaseHTTPRequestHandler):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);commands=parser.add_subparsers(dest='command',required=True)
-    build=commands.add_parser('prepare');build.add_argument('--manifest',type=Path,required=True);build.add_argument('--out',type=Path,required=True);build.add_argument('--register-night',action='store_true');build.add_argument('--port',type=int,default=49185);build.add_argument('--layout',type=Path);build.add_argument('--file-key');build.add_argument('--plugin-id')
+    build=commands.add_parser('prepare');build.add_argument('--manifest',type=Path);build.add_argument('--out',type=Path,required=True);build.add_argument('--register-night',action='store_true');build.add_argument('--port',type=int,default=49185);build.add_argument('--layout',type=Path);build.add_argument('--file-key');build.add_argument('--plugin-id');build.add_argument('--selection',type=Path);build.add_argument('--product-graph',type=Path);build.add_argument('--change-request',type=Path)
     verify=commands.add_parser('verify');verify.add_argument('--manifest',type=Path,required=True);verify.add_argument('--readback',type=Path,required=True)
+    production=commands.add_parser('verify-production');production.add_argument('--packet',type=Path,required=True);production.add_argument('--readback',type=Path,required=True)
     serve=commands.add_parser('serve');serve.add_argument('--packet',type=Path,required=True);serve.add_argument('--out',type=Path,required=True);serve.add_argument('--port',type=int,default=49185);serve.add_argument('--pair-dir',type=Path,required=True)
     args=parser.parse_args()
     try:
@@ -1259,7 +1591,9 @@ def main():
 
 
 def _run(parser,args):
-    if args.command=='prepare':print(json.dumps(prepare(args.manifest,args.out,args.register_night,args.port,args.layout,args.file_key,args.plugin_id,night_demo=args.register_night),ensure_ascii=False))
+    if args.command=='prepare':print(json.dumps(prepare(args.manifest,args.out,args.register_night,args.port,args.layout,args.file_key,args.plugin_id,night_demo=args.register_night,selection_path=args.selection,product_graph=args.product_graph,change_request=args.change_request),ensure_ascii=False))
+    elif args.command=='verify-production':
+        result=verify_native_production(args.packet,args.readback);print(json.dumps(result,ensure_ascii=False,indent=2));sys.exit(0 if result['passed']else 2)
     elif args.command=='verify':
         result=verify_native_review(args.manifest,args.readback);print(json.dumps(result,ensure_ascii=False,indent=2));sys.exit(0 if result['passed']else 2)
     else:

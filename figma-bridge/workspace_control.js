@@ -2,7 +2,7 @@
 let controlPolling = false;
 let controlRetryAt = 0;
 const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
-const controlAllowed = {review: ['create'], import: ['read', 'import', 'sync'], discover: ['read'], sync: ['read', 'apply']};
+const controlAllowed = {review: ['create'], import: ['read', 'import', 'sync'], discover: ['read'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply']};
 
 function controlState(outcome, busy) {
   figma.ui.postMessage({type:'workspace-control-state', workspaceSession:workspaceHomeSession, history:workspaceState.history, outcome, busy});
@@ -109,6 +109,17 @@ async function controlExecute(task, cmd) {
           workspaceRecord(active,'verification','verified');
         } catch (error) {workspaceRecord(active,'verification','failed'); error.nativeReadback = data; throw error;}
       }
+      return data;
+    }
+    if (task.kind === 'native-edit') {
+      const session = model?.session;
+      if (!session) throw Error('Missing prepared native edit session.');
+      const messages = await invoke({type:operation,session});
+      const data = messages.find(m => m.session === session && m.operation === operation && m.readback)?.readback;
+      if (!data || data.schema !== 'figma-flow-graph-native-discovery-v1' ||
+          data.fileKey !== cmd.file_key || data.pageId !== cmd.page_id || data.native_edit?.operation !== operation ||
+          data.native_edit?.applied !== (operation === 'apply'))
+        throw Object.assign(Error('Native edit did not return the expected actual getter.'), {nativeReadback:data});
       return data;
     }
     const match = active.html.match(/<script id="graph-panel-config" type="application\/json">([\s\S]*?)<\/script>/);

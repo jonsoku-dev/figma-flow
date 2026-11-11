@@ -489,6 +489,8 @@ class NativeGeometryTests(unittest.TestCase):
         candidate, frame, nodes = fixture()
         nodes["candidate.mobile.idle.heading"]["height"] = 78
         packet = {
+            "scope": "exploratory-only",
+            "production_admitted": False,
             "fileKey": None,
             "instance_sha256": "instance",
             "packet_sha256": "packet",
@@ -508,7 +510,7 @@ class NativeGeometryTests(unittest.TestCase):
             "nodes": rows,
         }
         with tempfile.TemporaryDirectory() as temp, patch.object(
-            draft, "make_packet", return_value=packet
+            draft, "_attested_review_packet", return_value=packet
         ):
             path = Path(temp) / "readback.json"
             path.write_text(json.dumps(raw))

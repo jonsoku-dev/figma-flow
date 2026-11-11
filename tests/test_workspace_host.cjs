@@ -42,7 +42,7 @@ function runTask() {
   };
 }
 const FLOW_TASKS = [
- {key:'a',title:'Import A',project:'Project A',kind:'import',revision:'r1',fileKey:'file-a',pageId:'1:2',threadId:'thread-a',run:runTask},
+ {key:'a',title:'Import A',project:'Project A',kind:${JSON.stringify(options.kind || 'import')},revision:'r1',fileKey:'file-a',pageId:'1:2',threadId:'thread-a',run:runTask},
  {key:'b',title:'Review B',project:'Project B',kind:'review',revision:'r1',fileKey:null,threadId:'thread-b',run:runTask},
  {key:'foreign',title:'Other file',project:'Project A',kind:'sync',fileKey:'file-b',run:runTask}
 ];
@@ -428,4 +428,10 @@ console.log('Compiled React workspace/shared components/Lucide,3 locales and pha
   const run=spawnSync(process.execPath,['-e',built.outputFiles[0].text],{cwd:panelRoot,encoding:'utf8'});
   assert.equal(run.status,0,run.stdout+run.stderr);
   assert.match(run.stdout,/Compiled React workspace/);
+});
+
+test('every prepared scoped native edit registers in the actual host', async()=>{
+  const h=harness(false,{kind:'native-edit'});
+  const listed=await h.listing();
+  assert(listed.tasks.some(task=>task.key==='a'&&task.kind==='native-edit'));
 });

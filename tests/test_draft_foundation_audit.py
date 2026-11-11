@@ -92,6 +92,20 @@ def modeled_fixture():
 
 
 class DraftFoundationAuditTests(unittest.TestCase):
+    def test_selected_production_audit_requires_matching_validated_context(self):
+        native, candidate = modeled_fixture()
+        native.update(schema='figma-flow-native-selected-production-readback-v1',
+                      scope='selected-production', production_admitted=True,
+                      sourceSelection={'sha256':'selection'}, production_graph={'sha256':'graph'},
+                      change_request={'sha256':'request'})
+        packet = {key:native[key] for key in ('scope','production_admitted','sourceSelection','production_graph','change_request')}
+        packet['schema'] = 'figma-flow-native-selected-production-v1'
+        self.assertFalse(audit_draft_foundations(native, candidate)['passed'])
+        self.assertTrue(audit_draft_foundations(native, candidate, production_packet=packet)['passed'])
+        native['sourceSelection'] = {'sha256':'wrong'}
+        self.assertFalse(audit_draft_foundations(native, candidate, production_packet=packet)['passed'])
+
+
     def codes(self, report):
         return {item['code'] for item in report['failures']}
 

@@ -25,12 +25,13 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'figma-flow-workspace-v1'
 MAX_BYTES = 256 * 1024 * 1024
 OPTIONS = {
+    'native-edit': {'--plan'},
     'import': {'--input', '--reviewed-sha256', '--selection', '--product-graph', '--batch', '--asset-receipts', '--paired-state'},
-    'review': {'--manifest', '--layout', '--file-key', '--pair-dir', '--receiver-port'},
+    'review': {'--manifest', '--layout', '--file-key', '--pair-dir', '--receiver-port', '--selection', '--product-graph', '--change-request', '--plan'},
     'discover': {'--file-key', '--page-id', '--include-page-id'},
     'sync': {'--graph', '--pairing', '--native-readback', '--import-report', '--adopt'},
 }
-PATH_OPTIONS = {'--input', '--selection', '--product-graph', '--batch', '--asset-receipts', '--manifest', '--layout', '--graph', '--pairing', '--native-readback', '--import-report'}
+PATH_OPTIONS = {'--input', '--selection', '--product-graph', '--batch', '--asset-receipts', '--manifest', '--layout', '--graph', '--pairing', '--native-readback', '--import-report', '--change-request'}
 
 
 def encode(value):
@@ -240,6 +241,8 @@ def generate(kind, args, options, output, plugin_id):
                 if option not in ('--pair-dir', '--receiver-port'):
                     portable.extend([option, value])
             command, tail, bundle = 'figma_draft.py', ['prepare', *portable], output / 'plugin'
+        elif kind == 'native-edit':
+            command, tail, bundle = 'native_edit.py', ['prepare', *args], output
         elif kind == 'discover':
             command, tail, bundle = 'graph_sync.py', ['discover', *args], output
         else:
@@ -249,6 +252,8 @@ def generate(kind, args, options, output, plugin_id):
         if result.returncode:
             raise ValueError('Trusted generator rejected the task; verify its source pins and admission requirements')
     if kind == 'review' and ('--pair-dir' in options or '--receiver-port' in options):
+        if options.get('--selection'):
+            raise ValueError('Selected production uses its own verifier; exploratory receiver pairing is unsupported')
         if not options.get('--pair-dir') or not options.get('--receiver-port'):
             raise ValueError('Paired review requires both --pair-dir and --receiver-port')
         from figma_draft import ui_html
@@ -293,6 +298,9 @@ def generate(kind, args, options, output, plugin_id):
         file_key, identity = data.get('fileKey'), {key: value for key, value in data.items() if key != 'prepared_at'}
         if '--pair-dir' in options:
             identity = {'packet': identity, 'capability_sha256': digest(regular(Path(options['--pair-dir']) / 'capability', private=True).read_bytes())}
+    elif kind == 'native-edit':
+        identity = read(output / 'native-edit-plan.json')
+        file_key, page_id = identity['file_key'], identity['page_id']
     elif kind == 'discover':
         file_key, page_id = options.get('--file-key'), options.get('--page-id')
         identity = options
@@ -399,7 +407,8 @@ def task_surface(kind, code, original_html, *, shared=False):
         cover = [{'title': entry['title'], 'src': entry['previews'][0]['src']}
                  for entry in candidates[:2] if entry['previews']]
         model = {'candidates': candidates, 'pair': pair, 'filePinned': bool(packet.get('fileKey')),
-                 'pageName': 'DRAFT · A/B/C 방향 검토 · ' + packet['packet_sha256'][:8]}
+                 'pageName': ('PRODUCTION · ' + packet['candidates'][0]['title'] if packet.get('scope') == 'selected-production' else 'DRAFT · A/B/C 방향 검토') + ' · ' + packet['packet_sha256'][:8],
+                 'selectedProduction': packet.get('scope') == 'selected-production', 'scope': packet['scope'], 'sourceSelection': packet.get('sourceSelection')}
         return {'preview': cover}, render_app('review', model, shared=shared)
     if kind == 'import':
         payload, _ = json.JSONDecoder().raw_decode(code.split('\nconst PAYLOAD = ', 1)[1])

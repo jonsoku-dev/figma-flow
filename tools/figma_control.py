@@ -22,7 +22,7 @@ SCHEMA = 'figma-flow-control-v1'
 MAX_BODY = 16 * 1024 * 1024
 MAX_READBACK = 12 * 1024 * 1024
 OPERATIONS = {'review': {'create'}, 'import': {'read', 'import', 'sync'},
-              'discover': {'read'}, 'sync': {'read', 'apply'}}
+              'discover': {'read'}, 'sync': {'read', 'apply'}, 'native-edit': {'read', 'apply'}}
 TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
 ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
 

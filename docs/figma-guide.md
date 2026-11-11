@@ -17,6 +17,8 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 
 ## 기본 흐름: 한 번 실행하고 Codex에 맡기기
 
+소비자에게 Computer Use나 공식 Figma MCP 연결을 요구하지 않습니다. Codex는 이 플러그인의 localhost 명령을 사용합니다. 개발자는 별도로 허용된 환경에서 Computer Use로 검수할 수 있지만 제품 실행 의존성은 아닙니다.
+
 1. Codex가 실제 Figma ID로 고정 작업공간과 필요한 작업을 준비합니다. 최초 등록은 4~5절을 따릅니다.
 2. 사용자가 대상 Figma Design 파일에서 **Figma Flow**를 직접 한 번 실행하고 열린 상태로 둡니다. 이 실행 세션이 유지되는 동안 Codex가 아래 로컬 제어 명령을 사용할 수 있습니다.
 3. Codex가 작업 키·operation·파일·페이지·현재 revision을 고정해 실행하고, 반환된 실제 JSON을 기존 검증기로 대조합니다. 후보 선택은 여전히 사용자의 실제 답변이 필요합니다.
@@ -44,10 +46,11 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 | `import` | `import`, `read`; 지원되는 paired app 상태가 있을 때만 `sync` |
 | `discover` | `read` |
 | `sync` | `read`, `apply` |
+| `native-edit` | `read`, `apply` — 준비한 네이티브 편집 계획 |
 
 파일 키·페이지·revision은 실제 `list`와 현재 Figma/읽기 자료에서 가져옵니다. `--focus-page`는 **서명된 작업의 정확한 파일·페이지**가 있을 때 같은 파일 안의 그 페이지로만 이동합니다. 다른 파일을 열거나 사용자 화면을 추측하지 않습니다. `--no-wait`는 접수만 반환하므로 `status`로 완료를 확인해야 합니다.
 
-성공 결과의 `readback` 경로를 정상 읽기 자료로 검증합니다. 검토는 `verify-native-review`, 본제작은 9절의 `--require-match`·`native_handoff.py`, 그래프는 실제 웹 자료와 `pair`를 사용합니다. `state: ok`와 이력 표시가 디자인 승인·웹 일치·독립적인 출처 인증을 대신하지 않습니다. `error`·`expired`·`uncertain`이면 영수증을 보관하고 현재 상태를 다시 읽으세요. 접수된 쓰기의 결과가 불확실할 때 자동 재시도하지 않습니다.
+성공 결과의 `readback` 경로를 정상 읽기 자료로 검증합니다. 검토는 `verify-native-review`, 선택된 풍부한 본제작은 `verify-production`을 사용합니다. 구조화된 가져오기는 9절의 `--require-match`·`native_handoff.py`, 그래프는 실제 웹 자료와 `pair`로 대조합니다. `state: ok`와 이력 표시가 디자인 승인·웹 일치·독립적인 출처 인증을 대신하지 않습니다. `error`·`expired`·`uncertain`이면 영수증을 보관하고 현재 상태를 다시 읽으세요. 접수된 쓰기의 결과가 불확실할 때 자동 재시도하지 않습니다.
 
 Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 닫을 수 있습니다([공식 실행 모델](https://developers.figma.com/docs/plugins/how-plugins-run/), [등록·실행 안내](https://developers.figma.com/docs/plugins/plugin-quickstart-guide/)). 닫힌 플러그인을 숨겨서 실행하거나 원격 코드를 평가하지 않습니다. 새 `prepare`/`refresh` 후 자동 재로드 여부는 Desktop 환경에 따라 다릅니다. 이전 revision이면 창을 닫고 **같은 고정 플러그인**을 다시 실행하며 영구 무재시작을 약속하지 않습니다.
 
@@ -84,7 +87,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](codex-setup-prompts.md)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace add "$PWD"
@@ -92,7 +95,7 @@ codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-태그는 `v0.23.1`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.23.1`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+태그는 `v0.24.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.24.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -206,6 +209,50 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 
 ## 9. 선택한 안을 Figma 본제작으로 전달
 
+<a id="selected-rich-production"></a>
+
+### 선택한 이미지·배치를 보존하는 본제작
+
+풍부한 시안의 본제작은 실제 사용자 선택에 연결된 **한 방향**으로 준비합니다. Codex가 원본 검토 자료와 선택 기록을 읽고, 별도의 본제작 레이아웃·그래프·변경 요청을 고정합니다. 기존 원화·글자·글꼴·배치·이동 의미를 보존하면서 사용자가 요청한 대비 수정과 동기화 선언을 정확한 변경 전·후 값으로 연결합니다. 원래 검토 파일과 실제 읽기 자료는 덮어쓰지 않습니다.
+
+| 입력 | 검사하는 계약 |
+|---|---|
+| `--selection` | 실제 관리 대화에서 확인한 선택 기록. 경로·해시·후보·사용자 원문 접두부가 현재 검토와 일치 |
+| `--layout` | `figma-flow-authored-native-production-v1`, `scope: selected-production`, 선택된 후보 1개. `sourceSelection`에 선택 경로·해시, 후보 ID·해시, 검토 레이아웃 해시 보존 |
+| `--product-graph` | 선택한 제품의 노드·연결·동작·프로토타입 의미 유지. 허용된 디자인 기반값과 동기화 선언만 반영 |
+| `--change-request` | `figma-flow-selected-production-change-v1`. 선택·검토 레이아웃·본제작 레이아웃·본제작 그래프의 경로/해시, 실제 사용자 요청의 경로·접두부 길이/해시·원문 `directive`, `categories`, 각 변경의 `path/before/after/category` |
+
+현재 변경 범주는 실제 요청으로 연결된 `contrast`와 `sync`입니다. `sync`는 시각 배치 변경 권한이 아닙니다. 대비용 면을 명시적으로 추가할 때는 덮는 기존 `text_ids`와 실제 범위를 선언하며, 참고 캡처 교체는 원본/새 파일의 `reference_changes` 핀으로 구분합니다. 별도 승인문이나 관리 대화 기록을 만들어 선택을 대신하지 않습니다.
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare \
+  --workspace "$WORKSPACE" --key selected-production --title "선택한 방향 본제작" \
+  --project "내 프로젝트" --kind review -- \
+  --selection "$PROJECT/review/selection.json" \
+  --layout "$PROJECT/production/native-layout.json" \
+  --product-graph "$PROJECT/production/graph.json" \
+  --change-request "$PROJECT/production/change-request.json" --file-key "$FILE_KEY"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
+  --key selected-production --operation create --file-key "$FILE_KEY" --page-id "$PAGE_ID" \
+  --expected-revision "$REVISION" --timeout 120
+"$PY" -B "$PLUGIN_ROOT/tools/figma_draft.py" verify-production \
+  --packet "$PRODUCTION_ARTIFACTS/packet.json" --readback "$ACTUAL_READBACK"
+```
+
+경로·파일·페이지·revision은 실제 프로젝트와 `prepare`/`list` 출력에서 가져옵니다. `PAGE_ID`는 실행 시 열린 대상 페이지이며, 생성된 PRODUCTION 페이지 ID는 실제 읽기 결과에서 확인합니다. `PRODUCTION_ARTIFACTS`는 작업 준비가 반환한 `artifacts` 경로입니다. 독립 패키지가 필요하면 같은 입력을 `figma_draft.py prepare --out … --plugin-id …`에 전달할 수 있으나, 새 작업의 기본 등록은 고정 작업공간 하나입니다.
+
+실행 패킷은 `figma-flow-native-selected-production-v1`, 반환 자료는 `figma-flow-native-selected-production-readback-v1`입니다. `verify-production`은 `sourceSelection`, 그래프·변경 요청 핀, 실제 화면·주석·컴포넌트·변수·이동과 복귀를 대조합니다. 탐색 검토용 `verify-native-review`나 탐색용 로컬 수신기로 본제작을 검증하지 않습니다. 패널의 **본제작 화면 만들기**와 JSON 저장은 로컬 명령을 쓸 수 없는 경우의 수동 경로입니다. 준비·생성·읽기·검증 완료와 새로운 선택·승인은 각각 다른 사실입니다.
+
+<a id="contrast-evidence"></a>
+
+### 이미지·그라디언트 위 글자의 대비 확인
+
+`contrast-unknown`은 **대비를 판정할 수 없다는 경고**이며 낮은 대비를 측정했다는 뜻이 아닙니다. `design_quality.py`는 경로와 SHA-256이 고정된 원본 이미지, 지원하는 가로/세로 그라디언트와 기존 레이어의 합성을 사용해 글자 상자 아래 모든 배경 픽셀의 최소 대비를 보수적으로 계산합니다. 참조용 스크린샷을 원본 자산으로 대신하지 않습니다.
+
+해시가 다르거나 지원하지 않는 변환·효과·그리기 방식, 측정 범위 제한 등으로 계산할 수 없으면 사유와 `min_ratio: null`을 남깁니다. 실제 Figma·웹의 렌더링과 확인한 한계도 함께 기록합니다. 경고를 없애기 위해 불투명 배경판을 기본으로 추가하지 않습니다. 원래 아트와 요청한 수정 범위를 유지하고, 변경이 필요하면 실제 측정과 정확한 변경 핀으로 연결합니다.
+
+### 구조화된 `design.json` 가져오기
+
 본제작은 **검토와 별도 작업**이며 같은 Figma Flow 작업 목록에서 엽니다. Codex가 선택 기록과 정확히 같은 제품 그래프, 디자인 원본을 읽습니다. 생성 에셋이 필요한 기획은 먼저 배치를 고정해 실제 생성 결과와 영수증을 연결합니다. 아래 예시에서 파일명은 해당 프로젝트의 실제 출력으로 바꿉니다.
 
 ```sh
@@ -269,6 +316,38 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 위 이미지는 실제 Figma에서 연 동기화 패널입니다. 파일 키 등 비공개 정보는 가렸습니다. 특정 프로젝트의 실행 장면이며 다른 프로젝트의 적용 성공을 보증하지 않습니다.
 
 작업이 갱신되지 않으면 Codex 설치 버전만 확인하지 말고, 같은 작업 키의 revision과 고정 등록 경로를 대조하고 [작업을 재생성한 뒤 플러그인을 다시 실행](installation-and-updates.md#6-3-figma-개발-플러그인-갱신-computer-use-없음)했는지 확인하세요.
+
+<a id="prepared-native-edit"></a>
+
+### 준비된 JSON으로 Figma 값 편집하기
+
+`native-edit`는 그래프 동기화와 구분되는 작업 종류입니다. operation은 `read`와 `apply`이며, 허용한 JSON 계획을 플러그인 안의 Figma API로 실행합니다. 임의 JavaScript를 전달하거나 Computer Use로 버튼을 조작하지 않습니다. 계획 준비만으로 Figma를 변경하지 않습니다.
+
+예시는 ID와 값을 실제 getter 자료로 바꿔 사용합니다.
+
+```json
+{
+  "schema": "figma-flow-native-edit-plan-v1",
+  "file_key": "FILE",
+  "page_id": "12:1",
+  "edits": [
+    {"node_id": "12:3", "main_id": "12:2", "field": "fontSize", "before": 18, "after": 20}
+  ]
+}
+```
+
+현재 노드 편집은 로컬 메인 컴포넌트와 그 안의 명시된 텍스트를 대상으로 하며 `fontSize`, `fontFamily`, `paddingLeft`, `paddingRight`, `backgroundColor`, `color`, `borderRadius`를 지원합니다. 텍스트에는 `main_id`를 지정하고 한 트랜잭션에서 같은 텍스트의 글꼴 변경은 하나만 선언합니다. 노드 편집은 1–32개, 계획 JSON은 최대 128,000바이트입니다. `edits` 대신 `variableedit: {variable_id, mode_id, before, after}`로 해당 페이지에서 사용하는 로컬 변수의 한 모드 값을 준비할 수도 있습니다. 같은 변수의 연결된 소비자는 그 값을 함께 사용합니다.
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare --workspace "$WORKSPACE" \
+  --key selected-font-edit --title "선택한 컴포넌트 글자 크기" --project "내 프로젝트" \
+  --kind native-edit -- --plan "$PROJECT/native-edit.json"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
+  --key selected-font-edit --operation apply --file-key "$FILE_KEY" --page-id "$PAGE_ID" \
+  --expected-revision "$REVISION" --timeout 120
+```
+
+정확한 파일·페이지·노드/변수·모드·현재 revision과 실제 `before` 값이 일치해야 적용합니다. 반환 자료의 `native_edit.plan_sha256`, `applied`, 실제 전후 값을 확인하고, 실패 시 복구 자료와 충돌을 보존합니다. 결과가 `uncertain`이면 쓰기를 자동 재시도하지 않고 현재 범위를 다시 읽어 복구합니다. `native-edit`는 Figma 값을 먼저 편집하므로 그래프 정본 반영은 아래 [직접 편집 역수입 절차](../examples/graph-ssot/README.md#designer-edits-to-graph)로 별도 수행합니다. 새 리비전 준비·재시작·수동 JSON 대체 경로는 다른 작업과 같습니다.
 
 ## 11. 작업을 준비한 Codex 채팅으로 연결
 

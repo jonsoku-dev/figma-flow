@@ -1,8 +1,8 @@
-# Figma Flow 0.23.1 quick start
+# Figma Flow 0.24.0 quick start
 
 [한국어 guide](figma-guide.md) · [日本語](figma-guide-ja.md)
 
-Register **one Figma Flow development plugin**. Launch it manually in the target Figma Design file once per plugin session. Codex can then run prepared operations through private localhost control without repeated button clicks. A closed plugin must be reopened; updates may also require reopening. There is no hidden background launcher or arbitrary remote code evaluation.
+Computer Use and official Figma MCP are not required for consumer operation. Developers may use separately authorized Computer Use for verification. Register **one Figma Flow development plugin**. Launch it manually in the target Figma Design file once per plugin session. Codex can then run prepared operations through private localhost control without repeated button clicks. A closed plugin must be reopened; updates may also require reopening. There is no hidden background launcher or arbitrary remote code evaluation.
 
 ## Fonts without Computer Use
 
@@ -13,14 +13,14 @@ Codex can retrieve the result while local control is connected. If loopback conn
 ## Install once
 
 ```sh
-git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the installed version and both plugin manifests are `0.23.1`. Use a project Python environment with `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the installed version and both plugin manifests are `0.24.0`. Use a project Python environment with `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -57,10 +57,32 @@ Use the actual current revision from `figma_workspace.py list`. The service and 
 | `import` | `import`, `read`; `sync` only with admitted paired app state |
 | `discover` | `read` |
 | `sync` | `read`, `apply` |
+| `native-edit` | `read`, `apply` |
 
 Verify the returned `readback` artifact with the normal checker. Direction review uses `verify-native-review`; production uses `--require-match` and `native_handoff.py`; graph sync also needs actual web proof and `pair`. An `ok` receipt does not approve a design or prove browser parity. Preserve failed/expired/uncertain receipts. Re-read native state before retrying an uncertain write. Human direction selection remains separate.
 
 Changed tasks use `prepare --replace-expected CURRENT_REVISION`. `prepare` or `refresh` publishes updated metadata. Desktop auto-reload behavior varies: if the running revision is old, reopen the same plugin rather than re-registering another manifest.
+
+## Selected rich production and contrast
+
+Codex can produce the single user-selected direction on a **PRODUCTION** page while preserving reviewed art, layout and behavior. The layout uses `figma-flow-authored-native-production-v1`, `scope: selected-production` and `sourceSelection` pins. Its `figma-flow-selected-production-change-v1` request pins the selection, reviewed/production layouts, graph, actual managed user directive and exact before/after changes. Supported categories are authorized `contrast` and `sync`; sync is not permission to redesign.
+
+```sh
+python3 tools/figma_workspace.py prepare --workspace PRIVATE_DIR --key selected-production \
+  --title "Selected production" --project "My project" --kind review -- \
+  --selection PROJECT/review/selection.json --layout PROJECT/production/native-layout.json \
+  --product-graph PROJECT/production/graph.json --change-request PROJECT/production/change-request.json \
+  --file-key FILE
+python3 tools/figma_draft.py verify-production --packet ARTIFACTS/packet.json --readback ACTUAL.json
+```
+
+Run local control `--operation create` with the exact current file/page/revision. `ARTIFACTS` is the task's returned artifact directory. The dedicated verifier checks `figma-flow-native-selected-production-readback-v1` and its source pins. Creation or validation does not create a new selection or approval. Structured `design.json` imports keep their own native-handoff checks. [Input contract](figma-guide.md#selected-rich-production).
+
+`contrast-unknown` means contrast cannot be determined, not that low contrast was measured. Pinned image bytes and supported gradients are composited conservatively using the minimum over every background pixel under the text bounds. Unresolved cases retain their reason and `min_ratio: null`. Opaque backing panels are not a default fix. Preserve selected artwork and record actual Figma/web observations separately.
+
+## Prepared native edits
+
+`native-edit` is a separate task kind with `read` and `apply` operations. Prepare `figma-flow-native-edit-plan-v1` JSON containing the exact file/page, admitted node or local variable/mode, and before/after values with `prepare --kind native-edit -- --plan PLAN.json`. The plugin executes the plan through the actual Figma API, without arbitrary JavaScript. Stale values/revisions stop the write. Preserve rollback conflicts and read current state before retrying an uncertain write. Import native edits into the graph and verify the real web separately. [Plan example and limits](figma-guide.md#prepared-native-edit).
 
 ## Read the UI
 

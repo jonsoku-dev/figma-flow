@@ -41,7 +41,7 @@ def _equal(kind, left, right):
     return False
 
 
-def audit_draft_foundations(readback, candidate):
+def audit_draft_foundations(readback, candidate, *, production_packet=None):
     """Recompute actual visible use counts; never trust receipt counters or names alone."""
     failures, observations, uncovered, auxiliary = [], [], [], []
     report = {'passed': False, 'ok': False, 'scope': 'exploratory-only', 'production_admitted': False,
@@ -60,8 +60,20 @@ def audit_draft_foundations(readback, candidate):
         identity, graph = candidate.get('id'), candidate.get('graph')
         if not isinstance(identity, str) or not identity or not isinstance(graph, dict):
             raise ValueError('candidate id and exact per-candidate graph required')
-        if readback.get('scope') != 'exploratory-only' or readback.get('production_admitted') is True:
-            fail('invalid-draft-scope', identity)
+        if production_packet is None:
+            if readback.get('scope') != 'exploratory-only' or readback.get('production_admitted') is True:
+                fail('invalid-draft-scope', identity)
+        elif (production_packet.get('schema') != 'figma-flow-native-selected-production-v1'
+              or production_packet.get('scope') != 'selected-production'
+              or production_packet.get('production_admitted') is not True
+              or readback.get('schema') != 'figma-flow-native-selected-production-readback-v1'
+              or readback.get('scope') != 'selected-production'
+              or readback.get('production_admitted') is not True
+              or any(not production_packet.get(key) or readback.get(key) != production_packet[key]
+                     for key in ('sourceSelection', 'production_graph', 'change_request'))):
+            fail('invalid-selected-production-scope', identity)
+        else:
+            report.update(scope='selected-production', production_admitted=True)
         plan = graph.get('design_foundations', {})
         if candidate.get('foundations', plan) != plan:
             fail('candidate-foundations-differ-from-graph', identity)

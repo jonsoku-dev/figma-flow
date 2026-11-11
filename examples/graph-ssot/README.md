@@ -1,6 +1,6 @@
 # Graph SSOT for a component
 
-The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash. Use the **0.23.1** tools with one registered Figma Flow workspace. Codex prepares project tasks under its stable manifest; upgrading Codex alone does not refresh an already running Figma task.
+The graph owns token values once. Figma variables and generated web styles are projections. A pairing receipt pins native identities, alias topology, component consumers, baseline values and graph hash. Use the **0.24.0** tools with one registered Figma Flow workspace. Codex prepares project tasks under its stable manifest; upgrading Codex alone does not refresh an already running Figma task.
 
 ## Default: launch once, then use Codex local control
 
@@ -18,6 +18,24 @@ python3 tools/figma_control.py run --workspace WORKSPACE --key invite-discovery 
 For graph tasks, use `--operation read` or `--operation apply`; use the current `list` revision. `--focus-page` is allowed only for the task's exact signed file/page within the current file. Verify the returned `readback` artifact with normal native/web checks and pairing. An `ok` receipt is not design approval or independent origin authentication. Preserve `error`/`expired`/`uncertain` receipts, and re-read native state before retrying an uncertain write.
 
 The plugin must remain open and the localhost service must be available. New `prepare`/`refresh` publishes metadata; automatic Desktop reloading is environment-dependent. Reopen the same stable plugin if it still runs an old revision. No hidden launcher or remote code evaluation is provided. The panel actions below remain the manual fallback. [Language, history and full setup](../../docs/figma-guide.md#기본-흐름-한-번-실행하고-codex에-맡기기).
+
+## Selected rich production and scoped native edits
+
+A reviewed rich direction can enter selected production with its original artwork and layout. Prepare a `review` task with `--selection`, the separate `--layout`, `--product-graph` and `--change-request`. The layout schema is `figma-flow-authored-native-production-v1` with one candidate and exact `sourceSelection`; the change request schema is `figma-flow-selected-production-change-v1` with source hashes, the actual managed user directive and each authorized contrast/sync delta. Run `create`, then use `figma_draft.py verify-production --packet ARTIFACTS/packet.json --readback ACTUAL.json`. This is distinct from exploratory review and does not create a new approval. [Input contract and command example](../../docs/figma-guide.md#selected-rich-production).
+
+To exercise a real native-to-graph edit without Computer Use, prepare a separate `native-edit` task from `figma-flow-native-edit-plan-v1` JSON. The plan names the exact file/page and either 1–32 admitted node edits or one local variable/mode edit with actual `before` and proposed `after` values. Preparation has no native side effect; `apply` performs the admitted Figma API transaction. It is not arbitrary JavaScript, graph export or a human selection record.
+
+```sh
+python3 tools/figma_workspace.py prepare --workspace WORKSPACE \
+  --key invite-native-edit --title "Invite native edit" --project "Invite" --kind native-edit -- \
+  --plan ACTUAL_EDIT_PLAN.json
+python3 tools/figma_control.py run --workspace WORKSPACE --key invite-native-edit \
+  --operation apply --file-key FILE --page-id PAGE --expected-revision CURRENT_TASK_REVISION
+```
+
+Check the returned `native_edit.plan_sha256`, actual before/after values and `applied` state. Preserve rollback conflicts and uncertain receipts, re-read before retry, and keep the exact file/page/revision throughout. Import the real native result with the existing component-scope procedure below, then render and pair actual web evidence. Native mutation alone does not update the canonical graph or web. [Supported fields and plan example](../../docs/figma-guide.md#prepared-native-edit).
+
+Computer Use and official Figma MCP are not consumer dependencies. The user launches the registered plugin once per session; Codex uses its localhost commands. Manual panel actions and JSON transfer remain available when local control is unavailable.
 
 ## Minimal graph shape
 
@@ -150,3 +168,7 @@ This route is an explicit export/read/import workflow. It does not run an unauth
 Existing separately registered discovery/export plugins remain supported with `graph_sync.py discover` / `graph_sync.py export`, explicit `--plugin-id` and a fresh `--out`. Keep their original private-data identity. New work uses `figma_workspace.py prepare` and the stable workspace home. Neither route changes actual user-selection, native/web proof or pairing requirements.
 
 When adopting uniform text linked to a local Figma style, the plugin derives a scoped style, preserves its other typography properties and variable bindings, and applies it to the declared labels. Instances can inherit the new style. Mixed runs or pre-existing style overrides require explicit inspection. If a write fails, rollback checks the original style ID, effective values and bindings for both mains and inherited labels.
+
+## Contrast evidence
+
+`contrast-unknown` is an inability to determine contrast, not a measured low ratio. The quality checker resolves SHA-pinned source images and supported gradients, composites the original layers and measures the minimum over all background pixels under the text bounds. Unsupported transforms or unresolved sources retain a reason and `min_ratio: null`. Do not add opaque backings by default to silence this warning. Preserve selected art, use authorized changes and keep actual native/browser evidence separate from the conservative authored-raster calculation.

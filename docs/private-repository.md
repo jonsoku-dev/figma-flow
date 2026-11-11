@@ -15,7 +15,7 @@
 | 설치 선택자 | `figma-flow@acme-figma-flow-private` |
 | 배포 버전 | 검증한 태그 또는 정확한 커밋으로 고정 |
 | npm 레지스트리 | 회사가 알려 준 실제 URL·경로와 적용 스코프 |
-| Figma 개발 플러그인 ID | 각 프로젝트의 검토용·본제작용으로 별도 관리 |
+| Figma 개발 플러그인 ID | 한 번 등록한 Figma Flow 작업공간의 고정 ID 재사용 |
 
 마켓플레이스 이름은 `.agents/plugins/marketplace.json`의 최상위 `name`입니다. 회사 저장소와 원본의 이름을 구분하면 개인 설치와 회사 설치가 같은 소스로 오인되는 것을 줄일 수 있습니다. `source.path`는 저장소 루트를 기준으로 하는 `./`를 유지합니다. `.codex-plugin/plugin.json`의 `name`까지 바꿀 필요는 없습니다. `ON_INSTALL`은 설치 정책이며 GitHub 권한이나 Figma 로그인을 대신하지 않습니다. [OpenAI 플러그인 패키징](https://developers.openai.com/plugins/build/plugins)
 

@@ -1,8 +1,10 @@
-# Figma Flow 0.23.1
+# Figma Flow 0.24.0
 
 Figma에는 **Figma Flow 하나를 등록**합니다. 사용자가 대상 Design 파일에서 플러그인을 한 번 직접 실행하면, Codex가 비공개 로컬 제어로 준비된 검토·가져오기·읽기·동기화 작업을 수행하고 실제 읽기 자료를 검증합니다. 작업마다 버튼을 반복 누를 필요는 없습니다. 홈의 **다음 작업**과 **이력**을 확인하고, 필요하면 수동 버튼으로도 진행할 수 있습니다. [한국어 가이드](docs/figma-guide.md) · [English](docs/figma-guide-en.md) · [日本語](docs/figma-guide-ja.md)
 
 패널의 **언어 / Language / 言語**에서 한국어·English·日本語를 선택합니다. Figma 테마와 키보드 초점·상태 안내를 지원합니다. 플러그인을 닫거나 실행 코드가 갱신되면 다시 열어야 할 수 있으며, 숨은 백그라운드 실행이나 자동 앱 시작을 보장하지 않습니다.
+
+0.24.0은 선택한 풍부한 시안의 이미지·배치를 보존한 본제작, 준비된 네이티브 편집 계획, 고정 이미지·그라디언트의 보수적 대비 측정을 지원합니다. [본제작 입력과 검증](docs/figma-guide.md#selected-rich-production) · [네이티브 편집](docs/figma-guide.md#prepared-native-edit) · [대비 판정의 범위](docs/figma-guide.md#contrast-evidence)
 
 컴포넌트 디자인 값은 그래프를 정본으로 Figma·웹에 내보내고 직접 편집을 역수입합니다. [Graph SSOT 절차](examples/graph-ssot/README.md)에서 최초 이관·실측 검증·충돌 복구를 확인하세요. 준비된 작업 목록은 후보 선택이나 적용 승인 기록을 대신하지 않습니다.
 
@@ -12,10 +14,10 @@ Figma에는 **Figma Flow 하나를 등록**합니다. 사용자가 대상 Design
 
 Figma Flow는 기획과 디자인 시스템을 데스크톱·모바일 시안으로 만들고, 사람이 선택한 방향의 Figma 화면·컴포넌트·변수·주석을 다시 읽어 대조하는 Codex 플러그인입니다. 전문 분석 보고서, GitHub의 컴포넌트 코드, 디자인 시스템 사이트도 기획과 함께 사용할 수 있습니다.
 
-**처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. 기본 경로는 Computer Use 없이 사용자가 Figma Flow를 열고 Codex가 로컬 연결로 실행·검증하는 방식입니다. 로컬 연결도 제한된 환경에서는 패널에서 실행하고 결과 JSON을 전달합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
+**처음 시작할 때** 빈 작업 폴더에서 [클론 전부터 맡기는 설치 프롬프트](docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 Codex에 보내세요. Codex 플러그인을 먼저 설치하고 Figma 개발 플러그인 연결과 실제 읽기 검증까지 이어갑니다. 기본 경로는 Computer Use나 공식 Figma MCP 없이 사용자가 Figma Flow를 열고 Codex가 이 플러그인의 localhost 명령으로 실행·검증하는 방식입니다. 로컬 연결도 제한된 환경에서는 패널에서 실행하고 결과 JSON을 전달합니다. 직접 클론하려면 아래 명령과 [클론 후 프롬프트](docs/codex-setup-prompts.md)를 사용하세요.
 
 ```sh
-git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 ```
 
@@ -34,7 +36,7 @@ cd figma-flow
 | 브라우저 작업 사이트를 허용 목록에 추가하기 | [로컬 URL·새 사이트의 등록과 적용 확인](skills/figma-flow/references/browser-access.md) |
 | 릴리스 내려받기·버전 확인 | [GitHub Releases](https://github.com/jonsoku-dev/figma-flow/releases) · [변경 기록](CHANGELOG.md) · [개발·릴리스 절차](CONTRIBUTING.md) |
 
-#통합 UI는 React와 Lucide React로 구성되며, 실행에 필요한 JS와 CSS는 패키지에 포함됩니다. [한국어](docs/figma-guide.md) · [English](docs/figma-guide-en.md) · [日本語](docs/figma-guide-ja.md) · [프런트엔드 개발 가이드](panel-ui/README.md)
+통합 UI는 React와 Lucide React로 구성되며, 실행에 필요한 JS와 CSS는 패키지에 포함됩니다. [한국어](docs/figma-guide.md) · [English](docs/figma-guide-en.md) · [日本語](docs/figma-guide-ja.md) · [프런트엔드 개발 가이드](panel-ui/README.md)
 
 ## 이전 버전의 주요 변경
 
@@ -50,7 +52,7 @@ cd figma-flow
 
 0.17.4는 고른 시안을 본제작으로 넘기다 드러난 두 문제를 고칩니다. 검토 단계가 본제작 도구가 거부할 제품 그래프(노드 `status` 누락 등)를 통과시켰으므로, 이제 사람이 고르기 전에 같은 그래프 검사를 적용합니다. 또 본제작 키 아트 요청문에 "참조 시안의 글자·버튼을 그리지 말 것"을 명시합니다(참조로 자동 추가되는 검토 시안에 실제 UI 글자가 있기 때문입니다). 동봉 예제 그래프도 본제작 검사를 통과하도록 고쳤습니다.
 
-0.17.3: 검토 플러그인 ID는 캠페인마다 달라야 하며, 이미지 `fit`은 FILL·FIT·CROP·TILE만 허용합니다. 0.17.2: [MIT 라이선스](LICENSE).
+0.17.3의 캠페인별 검토 ID 방식은 현재의 단일 Figma Flow 작업공간으로 대체했습니다. 이미지 `fit`은 FILL·FIT·CROP·TILE만 허용합니다. 0.17.2: [MIT 라이선스](LICENSE).
 
 0.17.1은 품질 관문이 **버튼의 색**을 보도록 고칩니다. 지금까지 관문은 버튼의 위치·크기와 글자 크기만 확인했기 때문에, 배경과 같은 색으로 칠해져 보이지 않는 버튼이나 읽을 수 없는 버튼 글자가 그대로 통과했습니다(이전 캠페인 네 건 모두에서 돌아가기 버튼이 이 상태였습니다).
 
@@ -262,13 +264,13 @@ codex plugin add figma-flow@figma-flow-local
 codex plugin list
 ```
 
-목록과 설치 복사본의 `plugin.json`·`.codex-plugin/plugin.json`은 모두 `0.23.1`인지 확인합니다. 설치는 로컬 Codex 설정과 플러그인 캐시를 변경합니다. 앱 목록이 갱신되지 않으면 새로 열어 확인하세요. Figma 연결이나 로그인은 이 패키지가 수행하지 않습니다.
+목록과 설치 복사본의 `plugin.json`·`.codex-plugin/plugin.json`은 모두 `0.24.0`인지 확인합니다. 설치는 로컬 Codex 설정과 플러그인 캐시를 변경합니다. 앱 목록이 갱신되지 않으면 새로 열어 확인하세요. Figma 연결이나 로그인은 이 패키지가 수행하지 않습니다.
 
 Codex 플러그인을 업데이트한 뒤에는 새 도구의 `figma_workspace.py prepare`로 같은 작업 키를 갱신합니다. 변경된 입력에는 `list`의 현재 revision을 `--replace-expected`로 전달합니다. 고정 manifest·ID·등록 경로는 유지하고 이전 창을 닫아 다시 실행하세요. [패키지 갱신 절차](docs/installation-and-updates.md#6-3-figma-개발-플러그인-갱신-computer-use-없음)
 
 작업공간 CLI의 현재 준비·갱신 환경은 POSIX(macOS/Linux)이며 Windows 로컬에서는 standalone 호환 경로를 유지합니다.
 
-Figma가 목적지이면 [작업공간 설치·준비](docs/figma-guide.md#5-고정-작업공간-등록과-검토-작업-준비)를 기본으로 사용합니다. 실제 Figma 발급 ID로 `figma_workspace.py init --workspace PRIVATE_DIR --id-from OWN_MANIFEST`를 한 번 준비하고 고정 `PRIVATE_DIR/manifest.json`을 등록합니다. 이후 Codex가 `prepare --kind import|review|discover|sync`로 작업을 준비합니다. standalone manifest 등록은 기존 호환 경로로만 유지합니다. SVG는 시각적 가져오기 대안이며 변수·컴포넌트·프로토타입 관계의 보존 증거는 아닙니다.
+Figma가 목적지이면 [작업공간 설치·준비](docs/figma-guide.md#5-고정-작업공간-등록과-검토-작업-준비)를 기본으로 사용합니다. 실제 Figma 발급 ID로 `figma_workspace.py init --workspace PRIVATE_DIR --id-from OWN_MANIFEST`를 한 번 준비하고 고정 `PRIVATE_DIR/manifest.json`을 등록합니다. 이후 Codex가 `prepare --kind import|review|discover|sync|native-edit`로 작업을 준비합니다. standalone manifest 등록은 기존 호환 경로로만 유지합니다. SVG는 시각적 가져오기 대안이며 변수·컴포넌트·프로토타입 관계의 보존 증거는 아닙니다.
 
 사용자가 **원격 Figma MCP 사용을 명시**한 경우에는 기존 [Figma 워크플로](skills/figma-flow/references/figma-workflow.md)를 사용합니다. MCP 없는 요청에서 연결 검사나 원격 도구 호출을 하지 않습니다. 로컬 키트 생성, 실제 Figma 가져오기, 현재 파일의 재읽기, 앱과의 시각·동작 일치는 각각 별도 증거로 보고합니다. 이번 로컬 구현의 시뮬레이션 검사는 실제 Figma 가져오기·재읽기 성공을 입증하지 않습니다.
 

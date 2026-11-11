@@ -228,5 +228,100 @@
     "ko": "모바일 시안 보기",
     "en": "Mobile previews",
     "ja": "モバイル案を見る"
+  },
+  "review.production.heading": {
+    "ko": "선택한 방향 본제작",
+    "en": "Selected direction production",
+    "ja": "選択した案の本制作"
+  },
+  "review.production.createStep": {
+    "ko": "1. 선택한 방향의 본제작 생성",
+    "en": "1. Create the selected production",
+    "ja": "1. 選択した案を本制作"
+  },
+  "review.production.createBody": {
+    "ko": "선택된 방향의 화면·이동·설명 주석을 지정한 본제작 페이지에 편집 가능한 노드로 생성합니다.",
+    "en": "Create editable screens, navigation and annotations for the selected direction on its production page.",
+    "ja": "選択した案の画面・遷移・説明を、指定の本制作ページに編集可能なノードとして作成します。"
+  },
+  "review.production.make": {
+    "ko": "본제작 화면 만들기",
+    "en": "Create production screens",
+    "ja": "本制作の画面を作成"
+  },
+  "review.production.makeBusy": {
+    "ko": "본제작 화면 준비 중…",
+    "en": "Preparing production screens…",
+    "ja": "本制作の画面を準備中…"
+  },
+  "review.production.reviewPage": {
+    "ko": "선택한 방향의 본제작 페이지",
+    "en": "Selected production page",
+    "ja": "選択した案の本制作ページ"
+  },
+  "review.production.previewAlt": {
+    "ko": "선택한 {name} 방향의 본제작 참고 이미지 · {viewport}",
+    "en": "Production reference for selected {name} · {viewport}",
+    "ja": "選択した{name}案の本制作参考画像・{viewport}"
+  },
+  "review.production.readyTitle": {
+    "ko": "본제작 실행 전",
+    "en": "Production not started",
+    "ja": "本制作は未実行"
+  },
+  "review.production.readyBody": {
+    "ko": "사용자가 선택한 한 방향의 본제작 노드를 생성한 뒤 실제 노드를 자동으로 읽습니다.",
+    "en": "Create production nodes for the single user-selected direction, then read the actual nodes automatically.",
+    "ja": "ユーザーが選択した1案の本制作ノードを作成し、実際のノードを自動で読み取ります。"
+  },
+  "review.production.creatingTitle": {
+    "ko": "선택한 방향 본제작 중",
+    "en": "Creating selected production",
+    "ja": "選択した案を本制作中"
+  },
+  "review.production.creatingBody": {
+    "ko": "선택한 방향의 화면·글꼴·주석·팔레트를 생성하고 있습니다.",
+    "en": "Creating screens, fonts, annotations and palettes for the selected direction.",
+    "ja": "選択した案の画面・フォント・注釈・パレットを作成しています。"
+  },
+  "review.production.createdTitle": {
+    "ko": "본제작 읽기 결과 대기",
+    "en": "Waiting for production readback",
+    "ja": "本制作の読み取り結果を待機中"
+  },
+  "review.production.generationFailed": {
+    "ko": "본제작 생성 실패",
+    "en": "Production creation failed",
+    "ja": "本制作の作成に失敗"
+  },
+  "review.production.readTitle": {
+    "ko": "본제작 노드 읽기 완료",
+    "en": "Production nodes read",
+    "ja": "本制作ノードの読み取りが完了"
+  },
+  "review.production.readBody": {
+    "ko": "선택한 방향의 본제작 노드를 읽었습니다. 결과 JSON을 직접 저장할 수 있습니다. 로컬 수신기 검증은 아직 하지 않았습니다.",
+    "en": "The selected production nodes were read. You can save the result JSON manually. Local receiver validation is still pending.",
+    "ja": "選択した案の本制作ノードを読み取りました。結果JSONを手動で保存できます。ローカル受信先での検証はまだ行っていません。"
+  },
+  "review.production.verifiedTitle": {
+    "ko": "본제작 읽기 결과 검증 완료",
+    "en": "Production readback validated",
+    "ja": "本制作の読み取り結果の検証が完了"
+  },
+  "review.production.verifiedBody": {
+    "ko": "로컬 수신기가 선택한 방향의 본제작 노드 읽기 결과를 검증했습니다. 새로운 선택이나 승인 기록은 만들지 않습니다.",
+    "en": "The local receiver validated the selected production readback. This does not create a new selection or approval record.",
+    "ja": "ローカル受信先が選択した案の本制作の読み取り結果を検証しました。新たな選択や承認の記録は作成しません。"
+  },
+  "review.production.boundary": {
+    "ko": "사용자의 기존 선택에 연결된 한 방향을 본제작합니다. 생성과 읽기 결과 검증은 새로운 선택이나 승인을 뜻하지 않습니다.",
+    "en": "Produce the single direction linked to the existing user selection. Creation and readback validation do not constitute a new selection or approval.",
+    "ja": "ユーザーの既存の選択に紐づく1案を本制作します。作成と読み取り結果の検証は、新たな選択や承認を意味しません。"
+  },
+  "review.production.mobilePreviews": {
+    "ko": "선택한 방향의 모바일 참고",
+    "en": "Selected direction mobile references",
+    "ja": "選択した案のモバイル参考"
   }
 }

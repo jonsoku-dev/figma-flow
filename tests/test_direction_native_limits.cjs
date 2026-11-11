@@ -149,7 +149,7 @@ test('control instance uses both authored dimensions, centered label and inherit
 test('reopening review from another active page loads only the matched review before traversal',async()=>{
   const h=geometryWorld([textLayer('title',20,20,200,20)]);
   let loaded=false,loads=0,traversals=0,mutations=0;
-  h.page.getPluginData=key=>key==='figma-flow-direction-review-v1'?'instance':'';
+  h.page.getPluginData=key=>key==='figma-flow-direction-review-v1'?'instance':key==='scope'?'exploratory-only':'';
   h.page.loadAsync=async()=>{loads++;loaded=true;};
   h.page.findAll=()=>{assert.equal(loaded,true,'matched review must load before findAll');traversals++;return h.nodes;};
   const unrelated={id:'other-project',getPluginData:()=> 'other-instance',

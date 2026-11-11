@@ -793,7 +793,9 @@ def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plug
                 if repairs != import_report.get('repair_bindings') or merge_roots(graph, pairing, effective):
                     raise ValueError('accepted direct-node repair differs from current graph')
                 plan['repair_bindings'] = repairs
-            marker = baseline.get('baseline')
+            marker = baseline.get('graphSSOT', baseline.get('baseline'))
+            if baseline.get('graphSSOT') is not None and baseline.get('baseline') is not None and baseline['graphSSOT'] != baseline['baseline']:
+                raise ValueError('conflicting native graph markers')
             if not isinstance(marker, dict) or marker.get('graph_sha256') != pairing['graph_sha256']:
                 raise ValueError('native graph marker differs from pairing')
         for token in plan['tokens']:

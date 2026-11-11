@@ -24,15 +24,21 @@ python3 "$TOOLS/design_actions.py" review --manifest reviews/r1/directions.json 
 
 ## Figma에서 선택 전 검토하기
 
-새 디자인의 기본 목적지는 일반 Figma 디자인 모드다. 목적지 옵션을 생략하면 이 경로를 사용한다. 명시적인 로컬 HTML 전용 브리프만 로컬 검토를 사용할 수 있다. Dev Mode 또는 Figma MCP를 쓰지 않는 조건은 HTML 전용 요청이 아니다. 에이전트 검토 후 상태는 `State.NATIVE_REVIEW_PENDING`이다. 정본 후보의 화면, 행동, 상태, 양방향 연결 및 실제 사용할 편집 가능한 배치를 입력으로 사용한다. 대상 파일을 고정하고 `figma_draft.py prepare`로 별도의 검토 전용 로컬 플러그인을 만든다. 대상 Figma 파일에서 이 플러그인을 실행하면 기존 제작 페이지와 구분되는 초안 페이지에 시안·컴포넌트·변수·주석·프로토타입을 만든다. 참고 원화나 웹 캡처가 래스터라면 편집 가능한 요소와 구분해 표시한다.
+새 디자인의 기본 목적지는 일반 Figma 디자인 모드다. 목적지 옵션을 생략하면 이 경로를 사용한다. 명시적인 로컬 HTML 전용 브리프만 로컬 검토를 사용할 수 있다. Dev Mode 또는 Figma MCP를 쓰지 않는 조건은 HTML 전용 요청이 아니다. 에이전트 검토 후 상태는 `State.NATIVE_REVIEW_PENDING`이다. 정본 후보의 화면, 행동, 상태, 양방향 연결 및 실제 사용할 편집 가능한 배치를 입력으로 사용한다. 대상 파일을 고정하고 `figma_workspace.py prepare --kind review`로 기존 Figma Flow 작업공간에 검토 작업을 준비한다. 대상 Figma 파일에서 같은 고정 플러그인을 실행하면 기존 제작 페이지와 구분되는 초안 페이지에 시안·컴포넌트·변수·주석·프로토타입을 만든다. 참고 원화나 웹 캡처가 래스터라면 편집 가능한 요소와 구분해 표시한다.
 
-시작할 때 에이전트가 검토 자료와 같은 프로젝트에 편집 가능한 배치 파일을 만들고 후보 명세에 `"native_layout": {"path":"native-layout.json"}`을 선언한다. 아래의 `FIGMA_PLUGIN_ID`는 Figma Desktop이 발급한 해당 로컬 플러그인 ID다. **캠페인마다 다른 ID를 쓴다.** Figma는 개발 플러그인을 ID로 구분하므로, 다른 캠페인 패키지와 같은 ID를 쓰면 Figma가 먼저 등록된 다른 캠페인의 코드를 실행한다. 같은 캠페인의 패키지를 다시 만들 때만 그 캠페인의 ID를 재사용한다. 처음 한 번 등록하는 메뉴는 Figma의 **플러그인 → 개발**이며, 화면을 보는 Dev Mode나 유료 기능이 아니다. 플러그인이 반환한 원본 읽기 결과를 저장한 뒤 검증 명령을 실행한다. 검토 전용 페이지와 현재 후보가 일치하고, 실제 주석·팔레트·변수·클릭 출발지와 도착지·복귀 연결이 확인되어야 `State.WAIT_SELECTION`에 진입한다. 각 후보에는 일반 디자인 모드에서 읽을 수 있는 주석 보드를 두고, 보드의 텍스트가 실제 주석과 같은 정본을 따르며 링크가 올바른 화면·버튼 노드를 가리키는지 확인한다. Figma 페이지, 주석 보드, 프레젠테이션 시작 링크를 사용자에게 제시한다. HTML 링크만 보여주거나, 준비된 플러그인 패키지 자체를 실행 결과로 취급하지 않는다.
+시작할 때 에이전트가 검토 자료와 같은 프로젝트에 편집 가능한 배치 파일을 만들고 후보 명세에 `"native_layout": {"path":"native-layout.json"}`을 선언한다. Figma Desktop이 발급한 ID로 고정 작업공간을 한 번 등록하고 모든 프로젝트의 검토·본제작에서 재사용한다. 개별 작업의 manifest는 새로 등록하지 않는다. 다른 ID의 기존 private data는 원래 패키지를 보존하고 작업공간 이관 범위를 확인한다. 처음 한 번 등록하는 메뉴는 Figma의 **플러그인 → 개발**이며, 화면을 보는 Dev Mode나 유료 기능이 아니다. 플러그인이 반환한 원본 읽기 결과를 저장한 뒤 검증 명령을 실행한다. 검토 전용 페이지와 현재 후보가 일치하고, 실제 주석·팔레트·변수·클릭 출발지와 도착지·복귀 연결이 확인되어야 `State.WAIT_SELECTION`에 진입한다. 각 후보에는 일반 디자인 모드에서 읽을 수 있는 주석 보드를 두고, 보드의 텍스트가 실제 주석과 같은 정본을 따르며 링크가 올바른 화면·버튼 노드를 가리키는지 확인한다. Figma 페이지, 주석 보드, 프레젠테이션 시작 링크를 사용자에게 제시한다. HTML 링크만 보여주거나, 준비된 플러그인 패키지 자체를 실행 결과로 취급하지 않는다.
 
 ```sh
-python3 "$TOOLS/figma_draft.py" prepare --manifest reviews/r1/directions.json --plugin-id "$FIGMA_PLUGIN_ID" --out reviews/r1/native
-# Figma에서 native/plugin/manifest.json을 가져와 실행한 다음 실제 읽기 결과를 저장한다.
+python3 "$TOOLS/figma_workspace.py" prepare --workspace "$WORKSPACE" \
+  --key direction-review --title "디자인 방향 검토" --project "내 프로젝트" --kind review -- \
+  --manifest reviews/r1/directions.json --file-key "$FILE_KEY"
+# 고정 WORKSPACE/manifest.json의 Figma Flow를 한 번 실행한 상태에서 로컬 명령을 수행한다.
+python3 "$TOOLS/figma_control.py" run --workspace "$WORKSPACE" --key direction-review \
+  --operation create --file-key "$FILE_KEY" --page-id "$PAGE_ID" --expected-revision "$REVISION"
 python3 "$TOOLS/design_actions.py" verify-native-review --manifest reviews/r1/directions.json --readback ACTUAL_FIGMA_READBACK.json
 ```
+
+Computer Use와 공식 Figma MCP는 소비자 실행에 필요하지 않다. 로컬 명령을 쓸 수 없으면 같은 작업 패널의 생성·JSON 저장을 사용한다. [최초 등록·재시작·실제 검증](../../../docs/figma-guide.md)을 따르며, 패키지 생성 자체를 실행 결과로 기록하지 않는다.
 
 ### 0.15.0 의미 역할과 실제 값
 

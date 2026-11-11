@@ -1,15 +1,15 @@
 # 클론 후 Codex에 붙여 넣는 설치 프롬프트
 
-아직 클론하지 않았다면 [처음 설치 프롬프트](installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 사용하세요. 직접 받을 때는 `git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git`입니다. 기본은 **고정 manifest 하나를 등록하고 Figma Flow를 한 번 직접 실행한 뒤 Codex가 로컬 제어로 작업하는 방식**입니다. 반복 버튼은 수동 대체 경로입니다. 개별 작업 manifest 등록은 기존 standalone 호환용입니다. [화면과 명령 가이드](figma-guide.md)
+아직 클론하지 않았다면 [처음 설치 프롬프트](installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 사용하세요. 직접 받을 때는 `git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git`입니다. 기본은 **고정 manifest 하나를 등록하고 Figma Flow를 한 번 직접 실행한 뒤 Codex가 로컬 제어로 작업하는 방식**입니다. 반복 버튼은 수동 대체 경로입니다. 개별 작업 manifest 등록은 기존 standalone 호환용입니다. [화면과 명령 가이드](figma-guide.md)
 
 아래 두 코드 블록 중 환경에 맞는 하나를 새 채팅에 보내세요. 회사 환경은 [private 배포](private-repository.md)와 [npm·Node 정책](npm-environment.md)을 함께 확인합니다.
 
 ## A. Computer Use가 없는 환경 (기본)
 
 ```text
-현재 figma-flow 클론에서 Figma Flow 0.23.1과 워크숍을 준비해 줘. CLI·파일 작업은 네가 하고 Figma Flow 최초 실행은 내가 할 거야. Computer Use를 사용하지 마. 허용된 로컬 연결로 준비된 작업을 실행하고, 연결도 차단된 경우에는 패널에서 실행한 결과 JSON으로 검증해. 폰트는 프로젝트가 선언한 family/style로 플러그인에서 로드하고 실제 읽기 결과와 대조해. 누락된 스타일은 정확한 이름을 알려 줘.
+현재 figma-flow 클론에서 Figma Flow 0.24.0과 워크숍을 준비해 줘. CLI·파일 작업은 네가 하고 Figma Flow 최초 실행은 내가 할 거야. Computer Use를 사용하지 마. 허용된 로컬 연결로 준비된 작업을 실행하고, 연결도 차단된 경우에는 패널에서 실행한 결과 JSON으로 검증해. 폰트는 프로젝트가 선언한 family/style로 플러그인에서 로드하고 실제 읽기 결과와 대조해. 누락된 스타일은 정확한 이름을 알려 줘.
 
-1. origin·git status·v0.23.1 커밋·두 manifest 버전과 Codex 설치 위치/활성 상태를 확인해. 기존 작업을 보존하고 설치된 figma-plugin-setup 스킬과 docs/figma-guide.md를 따라 환경·Python 의존성을 준비해. 회사 npm은 실제 URL·범위만 확인하고 인증값을 요청하지 마.
+1. origin·git status·v0.24.0 커밋·두 manifest 버전과 Codex 설치 위치/활성 상태를 확인해. 기존 작업을 보존하고 설치된 figma-plugin-setup 스킬과 docs/figma-guide.md를 따라 환경·Python 의존성을 준비해. 회사 npm은 실제 URL·범위만 확인하고 인증값을 요청하지 마.
 2. 기존 Figma Flow 작업공간의 고정 manifest·ID가 있으면 재사용해. 없으면 내가 최초 한 번 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI로 저장한 manifest 경로를 줄게. 그 ID로 비공개 작업공간을 init하고 고정 WORKSPACE/manifest.json의 최초 등록 경로를 알려 줘.
 3. 워크숍과 검토 작업을 prepare --kind review로 준비하고 현재 채팅 UUID를 기록해. 원격이면 숨김 .generations를 포함한 작업공간 전체를 내 PC로 전달해. 개별 작업 manifest를 매번 등록하게 하지 마.
 4. 로컬 제어 enable → workspace refresh → control serve를 준비하고 내가 Figma Flow를 직접 한 번 실행하도록 안내해. 이후 run --operation create로 수행하고 반환 readback을 verify-native-review·status로 검증해. 제어가 불가능할 때만 준비된 작업 → 열기 → 생성·저장 버튼을 안내하고 실제 파일 전까지 pending으로 남겨.
@@ -20,9 +20,9 @@
 ## B. Computer Use로 Figma Desktop까지 조작 가능한 환경
 
 ```text
-현재 figma-flow 클론에서 Figma Flow 0.23.1을 설치하고, 하나의 등록된 Figma Flow 작업공간으로 워크숍 검토까지 확인해 줘.
+현재 figma-flow 클론에서 Figma Flow 0.24.0을 설치하고, 하나의 등록된 Figma Flow 작업공간으로 워크숍 검토까지 확인해 줘.
 
-1. 저장소 루트·origin·git status·HEAD와 v0.23.1 태그, 두 plugin.json 버전을 확인해. 기존 변경은 보존해. docs/figma-guide.md와 설치된 skills/figma-plugin-setup/SKILL.md를 따라.
+1. 저장소 루트·origin·git status·HEAD와 v0.24.0 태그, 두 plugin.json 버전을 확인해. 기존 변경은 보존해. docs/figma-guide.md와 설치된 skills/figma-plugin-setup/SKILL.md를 따라.
 2. 현재 Codex CLI 도움말로 marketplace/plugin 설치와 installedPath·installed/enabled/version/source를 확인해. Python 3.13 가상환경과 Pillow를 클론 밖에 준비해. 회사 npm이 필요하면 확인한 URL·범위만 프로젝트 .npmrc에 반영하고 인증값과 lockfile은 저장소에 넣지 마.
 3. 기존 Figma Flow 작업공간 manifest·ID·등록 경로가 있으면 재사용해. 최초에만 지정한 연습용 Design 파일의 개발 메뉴에서 내 ID를 발급받고, figma_workspace.py init --id-from으로 만든 고정 WORKSPACE/manifest.json을 등록해. 계정 로그인·접근 승인은 내가 해.
 4. 동봉 워크숍을 만들고 NATIVE_REVIEW_PENDING을 확인해. prepare --kind review로 프로젝트·작업 키·제목과 현재 CODEX_THREAD_ID 또는 실제 --thread-id를 고정해. figma_control.py enable → figma_workspace.py refresh → figma_control.py serve를 구성해. 내가 Figma Flow를 한 번 실행하면 정확한 파일·페이지·revision의 run --operation create로 검토 작업을 수행하고 반환된 실제 readback을 보관해. 연결이 없을 때만 수동 생성·저장 버튼으로 이어가. 열기 자체를 문서 생성으로 보고하지 마.
@@ -34,3 +34,5 @@
 ## 내 기획에 적용할 때 덧붙일 문장
 
 > 워크숍 대신 첨부한 팀 초대 기획서와 디자인 시스템으로 진행해 줘. 자료의 관찰과 내 요구사항을 구분하고 두 시안을 비교·추천해 줘. 검토 목적지는 Figma이며 기존 Figma Flow 작업공간에 새 작업으로 준비해. 명시적으로 Local HTML only라고 요청한 경우에는 로컬 경로를 유지해.
+
+선택한 풍부한 시안을 본제작할 때는 기존 선택 기록과 원본 아트를 유지하고 `--selection --layout --product-graph --change-request`로 준비하도록 요청하세요. 별도 사용자 승인문을 만들지 않고 실제 요청의 접두부·원문을 연결합니다. `verify-production`, 실제 그래프 왕복과 웹 확인을 구분합니다. `contrast-unknown`을 낮은 대비로 간주하거나 불투명 배경판을 기본 추가하지 않습니다. 네이티브 값 편집은 범위가 고정된 `native-edit` JSON 계획을 사용합니다. [명령과 지원 범위](figma-guide.md#selected-rich-production)

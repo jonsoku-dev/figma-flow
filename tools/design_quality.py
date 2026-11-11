@@ -7,6 +7,9 @@ weight, no visual anchor, monotone centering, type scale, density) are warnings 
 Reads JSON and optional local font files; never writes to Figma or the layout.
 """
 import argparse
+import hashlib
+import io
+import math
 import json
 from pathlib import Path
 import re
@@ -48,7 +51,7 @@ FIX = {
     'all-centered': '텍스트 열을 한쪽으로 정렬하거나 시각적 중심과 비대칭으로 배치하세요.',
     'type-scale': '글자 크기를 3–5단계로 정리하세요.',
     'low-density': '시각적 중심을 키우거나 내용을 보강하세요.',
-    'contrast-unknown': '렌더한 미리보기에서 대비를 직접 확인해 검토 메모에 적거나 텍스트 뒤에 불투명 surface를 까세요.',
+    'contrast-unknown': '고정된 실제 이미지 자산과 원래 레이어 합성 결과로 대비를 측정하세요. 측정이 불가능하면 실제 렌더를 확인하고 한계를 기록하세요.',
 }
 
 
@@ -87,6 +90,157 @@ def _covers(layer, px, py):
         rx, ry = w / 2, h / 2
         return rx > 0 and ry > 0 and ((px - x - rx) / rx) ** 2 + ((py - y - ry) / ry) ** 2 <= 1
     return x <= px <= x + w and y <= py <= y + h
+
+
+class _PixelContrast:
+    """Conservative authored-raster compositor; never treats a screenshot receipt as proof."""
+
+    def __init__(self, layout_dir, assets, colors, state):
+        self.dir = Path(layout_dir).resolve() if layout_dir else None
+        self.assets, self.colors, self.state = assets, colors, state
+        self.cache = {}
+        self.pillow = None
+        if self.dir:
+            try:
+                from PIL import Image, ImageDraw, ImageChops
+                self.pillow = (Image, ImageDraw, ImageChops)
+            except ImportError:
+                pass
+
+    def _asset(self, name):
+        record = self.assets.get(name)
+        if not isinstance(record, dict) or record.get('reference') or not isinstance(record.get('path'), str) or not re.fullmatch('[0-9a-fA-F]{64}', str(record.get('sha256', ''))):
+            raise ValueError('Missing pinned non-reference raster asset: ' + str(name))
+        path = self.dir / record['path']
+        if path.is_symlink() or not path.resolve().is_relative_to(self.dir) or not path.is_file() or path.stat().st_size > 64_000_000:
+            raise ValueError('Raster asset must be a bounded owned regular file: ' + str(name))
+        raw = path.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != record['sha256'].lower():
+            raise ValueError('Raster asset SHA-256 mismatch: ' + str(name))
+        if name in self.cache:
+            return self.cache[name]
+        Image = self.pillow[0]
+        with Image.open(io.BytesIO(raw)) as source:
+            if source.width * source.height > 32_000_000 or getattr(source, 'n_frames', 1) != 1:
+                raise ValueError('Unsupported raster dimensions or animation: ' + str(name))
+            if source.mode not in ('RGB', 'RGBA', 'L', 'LA', 'P') or source.info.get('icc_profile') or source.info.get('gamma', .45455) != .45455 or source.getexif().get(274, 1) != 1:
+                raise ValueError('Unsupported raster color profile, mode or orientation: ' + str(name))
+            image = source.convert('RGBA')
+        self.cache[name] = image
+        return image
+
+    def _color(self, role):
+        return tuple(round(channel * 255) for channel in _rgb(self.colors[role]))
+
+    def _mask(self, layer, region):
+        Image, ImageDraw, _ = self.pillow
+        left, top, right, bottom = region
+        x, y, width, height = _box(layer)
+        mask = Image.new('L', (right-left, bottom-top), 0)
+        # Pixel centers define the authored raster grid; the text crop rounds outward.
+        box = (math.ceil(x-left-.5), math.ceil(y-top-.5), math.ceil(x+width-left-.5)-1, math.ceil(y+height-top-.5)-1)
+        if box[2] >= box[0] and box[3] >= box[1]:
+            ImageDraw.Draw(mask).rectangle(box, fill=255)
+        return mask
+
+    def _paint(self, layer, region):
+        Image, _, ImageChops = self.pillow
+        left, top, right, bottom = region
+        size = (right-left, bottom-top)
+        x, y, width, height = _box(layer)
+        if not all(math.isfinite(v) for v in (x,y,width,height)) or width <= 0 or height <= 0:
+            raise ValueError('Invalid layer geometry')
+        opacity = layer.get('opacity', 1)
+        if type(opacity) not in (int,float) or not math.isfinite(opacity) or not 0 <= opacity <= 1:
+            raise ValueError('Invalid authored opacity')
+        if opacity == 0:
+            return Image.new('RGBA', size)
+        for key in ('transform', 'imageTransform', 'gradientTransform', 'crop', 'cropTransform', 'objectPosition', 'filters'):
+            if key in layer:
+                raise ValueError('Unsupported authored transform: ' + key)
+        if layer.get('rotation', 0) != 0 or layer.get('blendMode', 'NORMAL') != 'NORMAL' or layer.get('effects') or layer.get('shadows') or 'stroke' in layer or 'stroke_width' in layer:
+            raise ValueError('Unsupported authored transform, blend, effects or stroke')
+        kind = layer.get('kind')
+        if kind == 'rect':
+            if layer.get('radius', 0) != 0:
+                raise ValueError('Rounded background edges require a matching raster asset')
+            tile = Image.new('RGBA', size, self._color(layer['fill']) + (255,))
+        elif kind == 'image':
+            source = self._asset(layer.get('asset'))
+            fit = layer.get('fit', 'FIT')
+            if fit not in ('FIT','FILL','CROP'):
+                raise ValueError('Unsupported authored raster fit: ' + str(fit))
+            scale = (min if fit == 'FIT' else max)(width/source.width, height/source.height)
+            origin_x, origin_y = x+(width-source.width*scale)/2, y+(height-source.height*scale)/2
+            tile = source.transform(size, Image.Transform.AFFINE, (1/scale,0,(left-origin_x)/scale,0,1/scale,(top-origin_y)/scale), Image.Resampling.BILINEAR, fillcolor=(0,0,0,0))
+        elif kind == 'gradient':
+            stops = layer.get('stops')
+            horizontal = layer.get('direction','vertical') == 'horizontal'
+            if layer.get('direction','vertical') not in ('horizontal','vertical') or not isinstance(stops,list) or len(stops)<2:
+                raise ValueError('Unsupported authored gradient')
+            parsed=[]
+            for stop in stops:
+                position, alpha = stop.get('position'), stop.get('opacity')
+                if type(position) not in (int,float) or type(alpha) not in (int,float) or not 0<=position<=1 or not 0<=alpha<=1 or parsed and position<parsed[-1][0]:
+                    raise ValueError('Invalid authored gradient stop')
+                parsed.append((position,_rgb(stop['color']),alpha))
+            pixels=[]
+            length=size[0] if horizontal else size[1]
+            for index in range(length):
+                position=((left+index+.5-x)/width) if horizontal else ((top+index+.5-y)/height)
+                first, last = parsed[0], parsed[-1]
+                for before, after in zip(parsed,parsed[1:]):
+                    if before[0] <= position <= after[0]:
+                        first,last=before,after
+                        break
+                if position<=parsed[0][0]:first=last=parsed[0]
+                if position>=parsed[-1][0]:first=last=parsed[-1]
+                amount=0 if first[0]==last[0] else (position-first[0])/(last[0]-first[0])
+                alpha=first[2]*(1-amount)+last[2]*amount
+                rgb=tuple(round((first[1][c]*first[2]*(1-amount)+last[1][c]*last[2]*amount)/alpha*255) if alpha else 0 for c in range(3))
+                pixels.append(rgb+(round(alpha*255),))
+            tile=Image.new('RGBA',(length,1) if horizontal else (1,length));tile.putdata(pixels)
+            tile=tile.resize(size,Image.Resampling.NEAREST)
+        else:
+            raise ValueError('Unsupported authored background shape: ' + str(kind))
+        alpha=ImageChops.multiply(tile.getchannel('A'),self._mask(layer,region))
+        if opacity!=1:
+            alpha=alpha.point(lambda value: round(value*opacity))
+        tile.putalpha(alpha)
+        return tile
+
+    def measure(self, layers, text, ink):
+        unknown=lambda reason:{'method':'unresolved-authored-background','reason':str(reason),'min_ratio':None}
+        if not self.dir:
+            return unknown('Local authored layout directory is required')
+        if not self.pillow:
+            return unknown('Optional Pillow raster measurement is unavailable')
+        try:
+            x,y,width,height=_box(text)
+            if not all(math.isfinite(v)for v in(x,y,width,height)) or width<=0 or height<=0 or x<0 or y<0 or x+width>float(self.state['width']) or y+height>float(self.state['height']):
+                raise ValueError('Text bounds leave the declared canvas')
+            if text.get('opacity',1)!=1:
+                raise ValueError('Unsupported text opacity')
+            region=(math.floor(x),math.floor(y),math.ceil(x+width),math.ceil(y+height))
+            size=(region[2]-region[0],region[3]-region[1])
+            if size[0]*size[1]>4_000_000:
+                raise ValueError('Text raster bounds exceed the conservative measurement budget')
+            image=self.pillow[0].new('RGBA',size,self._color(self.state['bg'])+(255,))
+            for layer in layers:
+                if layer.get('kind')=='text' or not _intersection(_box(layer),(x,y,width,height)):
+                    continue
+                image=self.pillow[0].alpha_composite(image,self._paint(layer,region))
+            if image.getchannel('A').getextrema()!=(255,255):
+                raise ValueError('Composite background is not fully covered and opaque')
+            # Deduplicating colors does not skip any covered pixel; all distinct pixels participate.
+            rgb_image=image.convert('RGB')
+            data=rgb_image.get_flattened_data() if hasattr(rgb_image,'get_flattened_data') else rgb_image.getdata()
+            colors=set(data)
+            ratio=min(contrast_ratio(ink,tuple(c/255 for c in color))for color in colors)
+            return {'method':'pinned-raster-composite-all-bounding-pixels','min_ratio':ratio,'pixels':size[0]*size[1],
+                    'bounds':list(region),'sampling':'Pillow bilinear raster scaling; premultiplied-sRGB gradient stops; outward text crop'}
+        except (OSError,ValueError,TypeError,KeyError,AttributeError,OverflowError) as error:
+            return unknown(error)
 
 
 class _Fonts:
@@ -163,7 +317,7 @@ def _estimate(text, size):
 
 
 class _State:
-    def __init__(self, report, candidate, viewport, state_id, state, colors, fonts, entry, strict_fonts, variants=None):
+    def __init__(self, report, candidate, viewport, state_id, state, colors, fonts, entry, strict_fonts, variants=None, pixel_contrast=None):
         self.report, self.candidate, self.viewport, self.state_id = report, candidate, viewport, state_id
         self.variants = variants or {}
         self.state, self.colors, self.fonts, self.entry = state, colors, fonts, entry
@@ -173,6 +327,7 @@ class _State:
         self.shapes = [l for l in self.layers if l.get('kind') != 'text']
         self.metrics = {'text_measurement': 'none'}
         self.strict_fonts = strict_fonts
+        self.pixel_contrast = pixel_contrast or _PixelContrast(None, {}, colors, state)
 
     def add(self, severity, code, layer, message):
         self.report[severity + 's'].append({'code': code, 'severity': severity, 'candidate': self.candidate['id'],
@@ -217,20 +372,33 @@ class _State:
 
     def contrast(self):
         worst = None
+        measurements = {}
         for index, layer in enumerate(self.layers):
             if layer.get('kind') != 'text' or not str(layer.get('value', '')).strip():
                 continue
             x, y, w, h = _box(layer)
             bg = self.background_under(index, x + w / 2, y + h / 2)
-            if bg is None:
-                self.add('warning', 'contrast-unknown', layer['id'], '이미지·그라디언트 위의 텍스트라 대비를 자동으로 판정할 수 없습니다.')
+            ratio = contrast_ratio(self.color(layer['ink']), bg) if bg is not None else None
+            raster = any(previous.get('kind') in ('image','gradient') and _intersection(_box(previous),(x,y,w,h))>0 for previous in self.layers[:index])
+            if raster:
+                measured = self.pixel_contrast.measure(self.layers[:index], layer, self.color(layer['ink']))
+                measurements[layer['id']] = measured
+                if measured['min_ratio'] is not None:
+                    ratio = min(ratio, measured['min_ratio']) if ratio is not None else measured['min_ratio']
+                else:
+                    self.add('warning','contrast-unknown',layer['id'],'실제 배경 픽셀 대비를 확정할 수 없습니다: '+measured['reason'])
+            elif bg is None:
+                self.add('warning','contrast-unknown',layer['id'],'배경을 확정할 수 없습니다.')
+            else:
+                measurements[layer['id']] = {'method':'authored-solid-center','min_ratio':round(ratio,5)}
+            if ratio is None:
                 continue
-            ratio = contrast_ratio(self.color(layer['ink']), bg)
             worst = ratio if worst is None else min(worst, ratio)
             need = 3.0 if float(layer.get('size', 0)) >= 24 else 4.5
             if ratio < need:
                 self.add('error', 'contrast', layer['id'], '텍스트와 배경의 대비가 %.2f:1로 기준 %.1f:1보다 낮습니다.' % (ratio, need))
         self.metrics['min_contrast'] = round(worst, 2) if worst is not None else None
+        self.metrics['contrast_measurements'] = measurements
 
     def canvas(self):
         for layer in self.layers:
@@ -402,7 +570,7 @@ def _variants(candidate, layout_dir):
 
 
 def evaluate(layout, layout_dir=None, strict=False):
-    if not isinstance(layout, dict) or layout.get('schema') != LAYOUT_SCHEMA:
+    if not isinstance(layout, dict) or layout.get('schema') not in (LAYOUT_SCHEMA, 'figma-flow-authored-native-production-v1'):
         raise ValueError('schema %s의 authored native layout이 필요합니다.' % LAYOUT_SCHEMA)
     report = {'schema': SCHEMA, 'passed': False, 'strict': bool(strict), 'errors': [], 'warnings': [], 'metrics': {}}
     fonts = _Fonts(layout_dir)
@@ -411,7 +579,7 @@ def evaluate(layout, layout_dir=None, strict=False):
         variants = _variants(candidate, layout_dir)
         for viewport, states in (candidate.get('state_layouts') or {}).items():
             for index, (state_id, state) in enumerate(states.items()):
-                checker = _State(report, candidate, viewport, state_id, state, colors, fonts, index == 0, strict, variants)
+                checker = _State(report, candidate, viewport, state_id, state, colors, fonts, index == 0, strict, variants, _PixelContrast(layout_dir, layout.get('assets', {}), colors, state))
                 report['metrics']['%s/%s/%s' % (candidate['id'], viewport, state_id)] = checker.run()
     report['passed'] = not report['errors'] and not (strict and report['warnings'])
     report['summary'] = summarize(report)
@@ -428,9 +596,12 @@ def summarize(report):
             'error_codes': count(report['errors']), 'warning_codes': count(report['warnings'])}
 
 
-def run(path, strict=False):
+def run(path, strict=False, project_root=None):
     path = Path(path)
-    return evaluate(json.loads(path.read_text()), layout_dir=path.parent, strict=strict)
+    root = Path(project_root).resolve() if project_root else path.parent
+    if project_root and not path.resolve().is_relative_to(root):
+        raise ValueError('Layout must belong to its declared project root')
+    return evaluate(json.loads(path.read_text()), layout_dir=root, strict=strict)
 
 
 def manifest_layout(manifest):
@@ -453,10 +624,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument('--layout', type=Path, required=True)
     parser.add_argument('--out', type=Path)
+    parser.add_argument('--project-root', type=Path, help='Owning project root for nested production layouts and pinned assets')
     parser.add_argument('--strict', action='store_true', help='경고도 실패로 처리')
     args = parser.parse_args(argv)
     try:
-        report = run(args.layout, strict=args.strict)
+        report = run(args.layout, strict=args.strict, project_root=args.project_root)
     except (OSError, ValueError, TypeError, KeyError) as exc:
         print(json.dumps({'passed': False, 'error': str(exc)}, ensure_ascii=False), file=sys.stderr)
         return 1

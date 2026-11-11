@@ -5,6 +5,7 @@ No hooks, GUI automation, shell evaluation, default choice or automatic approval
 Known managed transcript records are recognized locally, not cryptographic identity proof.
 """
 import hashlib
+from datetime import datetime
 from html import escape
 from html.parser import HTMLParser
 import json
@@ -12,6 +13,7 @@ import os
 from pathlib import Path
 import re
 import uuid
+from urllib.parse import parse_qs, urlsplit
 
 import workflow
 from workflow import State, Event, Guard, VerifiedFact
@@ -336,7 +338,67 @@ def _messages(path):
                 role = 'user' if payload['type'] == 'user_message' else 'assistant'
                 text = payload.get('message', '')
             if role in ('user', 'assistant'):
-                yield {'role': role, 'text': text, 'prefix_length': offset, 'prefix_sha256': hasher.hexdigest()}
+                yield {'role': role, 'text': text, 'prefix_length': offset, 'prefix_sha256': hasher.hexdigest(),
+                       'timestamp': record.get('timestamp'),
+                       'visible_final': record.get('type') == 'response_item' and payload.get('type') == 'message'
+                       and role == 'assistant' and payload.get('phase') == 'final_answer'}
+
+
+def _title_choice(candidates, text):
+    """Recognize a leading exact title and a bounded affirmative Korean decision."""
+    mentioned = []
+    for candidate in candidates:
+        names = (candidate['id'], candidate['title'])
+        if any(re.search(r'(?<![\w-])' + re.escape(name) + r'(?![A-Za-z0-9_-])', text, re.I) for name in names):
+            mentioned.append(candidate)
+    if len(mentioned) != 1:
+        return None
+    candidate = mentioned[0]
+    title = re.escape(candidate['title'])
+    subject = '(?:' + '|'.join((title, '"' + title + '"', "'" + title + "'", '“' + title + '”', '‘' + title + '’', '「' + title + '」')) + ')'
+    decision = (r'(?:선택(?:해\s*줘|해\s*주세요|할게(?:요)?|하겠습니다)|'
+                r'(?:본제작(?:까지|으로)?\s*)?진행(?:해\s*줘|해\s*주세요|하자|할게(?:요)?))')
+    if not re.fullmatch(subject + r'(?:(?:으로|로|을|를)\s*|\s+)' + decision + r'(?:[.!。]\s*[\s\S]*)?', text):
+        return None
+    if re.search(r'(?:선택|결정|진행|본제작|제작)[^.!。\n]{0,16}(?:하지\s*(?:마|말)|하지\s*않|보류|취소|나중)', text):
+        return None
+    if re.search(r'잠깐|보류|취소|아니[,，]|(?:아직|나중)[^.!。\n]{0,12}(?:시작|진행|제작)|둘\s*다|전부\s*(?:같이\s*)?(?:제작|진행)', text):
+        return None
+    return candidate
+
+
+def _native_presentation(text, candidates, report, observed_at, presented_at):
+    """Require labeled links for every candidate in the actual verified native review."""
+    if report.get('passed') is not True or not report.get('file_key'):
+        return False
+    try:
+        observed = datetime.fromisoformat(observed_at.replace('Z', '+00:00'))
+        presented = datetime.fromisoformat(presented_at.replace('Z', '+00:00'))
+        if observed.tzinfo is None or presented.tzinfo is None or observed > presented:
+            return False
+    except (AttributeError, TypeError, ValueError):
+        return False
+    visible = re.sub(r'```[\s\S]*?```|`[^`\n]*`', '', text)
+    links = re.findall(r'(?<!!)\[([^]\n]+)\]\((https://[^\s<>]+)\)', visible)
+    shown = set()
+    for label, target in links:
+        parsed = urlsplit(target)
+        parts = parsed.path.strip('/').split('/')
+        if (parsed.hostname not in ('figma.com', 'www.figma.com') or len(parts) < 2 or
+                parts[0] not in ('design', 'file') or parts[1] != report['file_key']):
+            continue
+        nodes = parse_qs(parsed.query).get('node-id', [])
+        if len(nodes) != 1:
+            continue
+        node_id = nodes[0].replace('-', ':')
+        for candidate in candidates:
+            labels = (candidate['title'], candidate['id'])
+            if not any(re.fullmatch(re.escape(name) + r'(?:\s+Figma)?', label.strip(), re.I) for name in labels):
+                continue
+            if any(row.get('id') == node_id and row.get('key', '').startswith(candidate['id'] + '.')
+                   for row in report.get('screens', [])):
+                shown.add(candidate['id'])
+    return shown == {candidate['id'] for candidate in candidates}
 
 
 def _human(draft, source, *, expected=None):
@@ -346,10 +408,18 @@ def _human(draft, source, *, expected=None):
     messages = _messages(path)
     data, draft_pin = draft['data'], draft['draft']
     presented, answer, recorded, revoked_at = False, None, None, 0
+    native_report, native_anchor, observed_at = None, False, None
     by_id = {c['id'].casefold(): c for c in data['candidates']}
     for message in messages:
         if message['role'] == 'assistant' and data['review_id'] in message['text'] and draft_pin['sha256'] in message['text']:
-            presented = True
+            presented, native_anchor = True, False
+        elif message['role'] == 'assistant' and message['visible_final'] and 'figma.com/' in message['text'] and data.get('review_destination') == 'figma' and data.get('native_review'):
+            if native_report is None:
+                native_report = _native_review(draft_pin['path'], data)
+                observed_at = read(data['native_review']['readback']).get('observed_at')
+            matches = _native_presentation(message['text'], data['candidates'], native_report, observed_at, message['timestamp'])
+            if matches or native_anchor:
+                presented, native_anchor = matches, True
         if message['role'] != 'user':
             continue
         text = message['text'].strip()
@@ -376,8 +446,10 @@ def _human(draft, source, *, expected=None):
             revoked_at = message['prefix_length']
             answer = None
             continue
-        # Exact actual candidate answer only, never production delegation or campaign-type choice.
+        # Legacy exact IDs remain valid; title prose must be an unambiguous affirmative decision.
         matched = next((c for identity, c in by_id.items() if re.fullmatch(re.escape(identity) + r'(?:\s+' + re.escape(c['sha256']) + r')?', text.strip(), re.I)), None)
+        if matched is None:
+            matched = _title_choice(data['candidates'], text)
         if matched:
             answer = dict(message, candidate=matched)
             if expected and message['prefix_length'] == expected.get('prefix_length'):

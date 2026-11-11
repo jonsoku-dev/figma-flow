@@ -1,6 +1,8 @@
-# Figma Flow 0.23.1 クイックスタート
+# Figma Flow 0.24.0 クイックスタート
 
 [한국어ガイド](figma-guide.md) · [English](figma-guide-en.md)
+
+利用者の実行に Computer Use や公式 Figma MCP は不要です。開発者は別途許可された環境で Computer Use を検証に使えます。
 
 登録する開発プラグインは **Figma Flow ひとつ**です。対象の Figma Design ファイルで、プラグインの実行セッションごとに一度、手動で起動します。その後は Codex が非公開の localhost 接続で準備済みの操作を実行でき、毎回ボタンを押す必要はありません。閉じた場合や更新後には再起動が必要なことがあります。非表示の常駐起動や任意のリモートコード評価は行いません。
 
@@ -13,14 +15,14 @@
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.23.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-インストール先と両方の plugin manifest が `0.23.1` か確認します。プロジェクト用 Python 環境に `requirements-optional.txt` を導入してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+インストール先と両方の plugin manifest が `0.24.0` か確認します。プロジェクト用 Python 環境に `requirements-optional.txt` を導入してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 
@@ -57,10 +59,32 @@ python3 tools/figma_control.py status --workspace PRIVATE_DIR --id OPERATION_ID
 | `import` | `import`, `read`。許可済みの paired app 状態がある場合のみ `sync` |
 | `discover` | `read` |
 | `sync` | `read`, `apply` |
+| `native-edit` | `read`, `apply` |
 
 返された `readback` ファイルを通常の検証ツールに渡します。方向検討は `verify-native-review`、本制作は `--require-match` と `native_handoff.py`、グラフ同期は実際の Web 計測と `pair` も必要です。`ok` はデザイン承認やブラウザーとの一致を保証しません。失敗・期限切れ・結果不明の記録を保管し、不明な書き込みを再試行する前に実際の状態を読み直します。候補の選択は利用者の明示的な回答で行います。
 
 変更したタスクは `prepare --replace-expected CURRENT_REVISION` で更新します。`prepare` / `refresh` はメタデータを公開しますが、Desktop の自動再読み込みは環境次第です。古い revision のままなら同じプラグインを開き直し、別の manifest を追加登録しないでください。
+
+## 選択した案の本制作とコントラスト
+
+選択済みの1案を **PRODUCTION** ページに作成し、検討時の画像・配置・動作を維持します。レイアウトは `figma-flow-authored-native-production-v1`、`scope: selected-production`、`sourceSelection` を持ちます。`figma-flow-selected-production-change-v1` の変更要求に、選択・検討/本制作レイアウト・グラフ・実際の管理されたユーザー要求と変更の前後値を固定します。対応範囲は許可済みの `contrast` と `sync` です。sync は見た目の再設計を許可しません。
+
+```sh
+python3 tools/figma_workspace.py prepare --workspace PRIVATE_DIR --key selected-production \
+  --title "Selected production" --project "My project" --kind review -- \
+  --selection PROJECT/review/selection.json --layout PROJECT/production/native-layout.json \
+  --product-graph PROJECT/production/graph.json --change-request PROJECT/production/change-request.json \
+  --file-key FILE
+python3 tools/figma_draft.py verify-production --packet ARTIFACTS/packet.json --readback ACTUAL.json
+```
+
+ローカル制御の `--operation create` を現在の正確なファイル・ページ・revision で実行します。`ARTIFACTS` は準備結果が返す成果物ディレクトリです。専用の検証で実際の `figma-flow-native-selected-production-readback-v1` と元の固定情報を照合します。作成・検証は新しい選択や承認を作成しません。構造化された `design.json` の取り込みには従来の native-handoff 検査を使います。[入力契約](figma-guide.md#selected-rich-production)。
+
+`contrast-unknown` は判定できないという警告であり、低いコントラストを測定したという意味ではありません。固定された画像と対応するグラデーションを合成し、テキスト領域下の全背景ピクセルの最小値を保守的に計算します。未解決の場合は理由と `min_ratio: null` を残します。不透明な背景板を既定の修正として追加しません。選択された画像を保ち、実際の Figma・Web の確認結果を別に記録します。
+
+## 準備済みJSONによるネイティブ編集
+
+`native-edit` は独立したタスク種別で、operation は `read` と `apply` です。正確なファイル・ページ・ノードまたはローカル変数のモード・前後値を `figma-flow-native-edit-plan-v1` に固定し、`prepare --kind native-edit -- --plan PLAN.json` で準備します。実際の Figma API で変更し、任意の JavaScript は評価しません。値や revision が古ければ書き込みを停止します。復元の衝突を保管し、結果不明の書き込みを再試行する前に現在値を読み取ります。グラフへの反映と Web 照合は別途行います。[計画例と制限](figma-guide.md#prepared-native-edit)。
 
 ## 画面の見方
 

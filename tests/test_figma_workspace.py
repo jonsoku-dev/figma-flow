@@ -43,6 +43,18 @@ class WorkspaceTests(unittest.TestCase):
         manifest = json.loads((self.path / 'manifest.json').read_text())
         return manifest, (self.path / manifest['main']).read_text(), (self.path / manifest['ui']).read_text()
 
+    def test_prepared_native_edit_keeps_exact_scope_and_standard_panel(self):
+        plan = self.root / 'edit.json'
+        plan.write_text(json.dumps({'schema':'figma-flow-native-edit-plan-v1',
+            'file_key':'FILE123','page_id':'1:2',
+            'edits':[{'node_id':'3:4','field':'paddingLeft','before':12,'after':20}]}))
+        result = workspace.prepare(self.path, 'native-edit', 'Edit scoped values', 'native-edit',
+            ['--plan', str(plan)])
+        task = next(row for row in workspace.current(self.path)['tasks'] if row['key'] == 'native-edit')
+        self.assertEqual((task['fileKey'], task['pageId']), ('FILE123','1:2'))
+        self.assertEqual(task['revision'], result['revision'])
+        self.assertIn('NATIVE_EDIT_PLAN', (workspace.task_artifacts(self.path, task) / 'code.js').read_text())
+
     def test_init_preserves_assigned_identity_private_permissions_and_network_none(self):
         manifest, code, html = self.active()
         self.assertEqual(manifest['name'], 'Figma Flow')

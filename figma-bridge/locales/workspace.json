@@ -358,5 +358,10 @@
     "ko": "{title} 실행 결과 보기",
     "en": "View receipt for {title}",
     "ja": "{title} の実行結果を見る"
+  },
+  "workspace.kind.native-edit": {
+    "ko": "Figma 직접 수정",
+    "en": "Edit Figma values",
+    "ja": "Figma 値の直接編集"
   }
 }
