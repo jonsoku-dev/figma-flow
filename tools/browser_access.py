@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Register exact target origins in an @playwright/mcp config file."""
+"""Configure Figma Flow browser network access in an @playwright/mcp config file."""
 import argparse
 import ipaddress
 import json
@@ -12,7 +12,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 
-RELOAD_STATUS = "Reload or reconnect the MCP server, then verify network.allowedOrigins before using newly added origins."
+RELOAD_STATUS = "Reload or reconnect the MCP server, then verify network.allowedOrigins and network.blockedOrigins with browser_get_config before browsing."
 
 
 def _origin(value):
@@ -70,10 +70,19 @@ def _existing_origin(value):
 
 
 def register(config_path, urls):
-    """Add URL origins to a local @playwright/mcp config and return a reload notice."""
+    """Add exact URL origins while preserving existing blocked origins and options."""
+    return _configure(config_path, urls, auto_allow=False)
+
+
+def configure_auto_allow(config_path):
+    """Allow network requests in Figma Flow's dedicated isolated browser."""
+    return _configure(config_path, [], auto_allow=True)
+
+
+def _configure(config_path, urls, *, auto_allow):
     path = Path(config_path)
     urls = list(urls)
-    if not urls:
+    if not urls and not auto_allow:
         raise ValueError("Provide at least one --url")
     requested = [_origin(url) for url in urls]
     if path.is_symlink():
@@ -118,6 +127,15 @@ def register(config_path, urls):
     for origin in requested:
         if origin not in origins:
             origins.append(origin)
+    if auto_allow:
+        blocked = network.get("blockedOrigins", [])
+        if not isinstance(blocked, list) or not all(isinstance(item, str) for item in blocked):
+            raise ValueError("Existing network.blockedOrigins must be a list of strings")
+        browser["isolated"] = True
+        server["host"] = "127.0.0.1"
+        server["allowedHosts"] = ["localhost", "127.0.0.1"]
+        origins = []
+        network["blockedOrigins"] = []
     network["allowedOrigins"] = origins
 
     output = (json.dumps(config, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
@@ -139,6 +157,7 @@ def register(config_path, urls):
                 os.unlink(temporary)
 
     return {"config_path": str(path.resolve()), "origins": origins, "status": RELOAD_STATUS,
+            "network_policy": "auto-allow" if auto_allow else "exact-origins", "config": config,
             "mcp_server": {"command": "npx",
                            "args": ["-y", "@playwright/mcp@0.0.85", "--config", str(path.resolve())],
                            "cwd": str(Path.cwd().resolve()), "startup_timeout_sec": 60,
@@ -149,10 +168,14 @@ def register(config_path, urls):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, help="Path to @playwright/mcp JSON config")
-    parser.add_argument("--url", action="append", required=True, help="Explicit target URL (repeatable)")
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--url", action="append", help="Explicit target URL (repeatable)")
+    mode.add_argument("--auto-allow", action="store_true",
+                      help="Allow all network origins in Figma Flow's dedicated isolated browser")
     args = parser.parse_args(argv)
     try:
-        print(json.dumps(register(args.config, args.url), ensure_ascii=False))
+        result = configure_auto_allow(args.config) if args.auto_allow else register(args.config, args.url)
+        print(json.dumps(result, ensure_ascii=False))
     except (OSError, ValueError) as exc:
         print(f"browser_access: {exc}", file=sys.stderr)
         return 1

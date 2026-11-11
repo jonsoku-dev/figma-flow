@@ -12,13 +12,13 @@ Figma Desktop의 진입점은 비공개 작업공간의 고정 `manifest.json`�
 | 테마와 패널 | [React 공통 컴포넌트](panel-ui/src/components.jsx), [CSS 계층](panel-ui/src/styles/index.css), [오프라인 렌더러](tools/plugin_panel.py) | 실제 생성 HTML의 밝은·어두운 테마, 좁은 폭, 키보드, 진행·실패·복구 상태 |
 | 채팅 전달 | [workspace_chat.js](figma-bridge/workspace_chat.js), [로컬 연결](tools/workspace_chat.py) | 현재 작업의 채팅·리비전에만 전달, 미리보기와 본문 일치, 중복 전송 방지 |
 
-작업 종류를 추가하려면 원래 생성기의 입력 검증을 먼저 통과시키고 작업 목록에서 같은 등록으로 열어 봅니다. Figma 호스트 객체의 불변 속성, 플러그인 ID별 데이터 소유권, 실제 글꼴·바인딩 동작은 브라우저나 가짜 호스트와 다를 수 있습니다. 패널 표시와 실제 네이티브 작업을 각각 확인하고, 예시 JSON과 운영 증거를 구별해 기록합니다. [사용자 절차](docs/figma-guide.md)
+작업 종류를 추가하려면 원래 생성기의 입력 검증을 먼저 통과시키고 작업 목록에서 같은 등록으로 열어 봅니다. Figma 호스트 객체의 불변 속성, 플러그인 ID별 데이터 소유권, 실제 글꼴·바인딩 동작은 브라우저나 가짜 호스트와 다를 수 있습니다. 패널 표시와 실제 네이티브 작업을 각각 확인하고, 예시 JSON과 운영 증거를 구별해 기록합니다. [사용자 절차](docs/guide.md)
 
 React 패널을 수정할 때는 [프런트엔드 빌드와 상태 소유권](panel-ui/README.md)을 따릅니다. 전체 통합 UI는 공통 React 셸과 Lucide React 아이콘을 사용합니다.
 
 ## 변경 검증
 
-Node는 `.nvmrc`에 고정된 LTS를 사용합니다. 회사 npm 레지스트리는 사용자가 제공한 실제 URL·적용 범위를 확인해 프로젝트 `.npmrc`에 설정합니다. 인증값은 저장소에 넣지 않습니다. npm·pnpm·Yarn·Bun lockfile은 GitHub에 올리지 않으며, `.gitignore`와 실제 추적 파일을 모두 확인합니다. 루트에는 `package.json`이 없으므로 `npm install`/`npm ci` 대신 아래 기존 검사 명령을 사용합니다. [환경 설정과 추적 해제 절차](docs/npm-environment.md)
+Node는 `.nvmrc`에 고정된 LTS를 사용합니다. 회사 npm 레지스트리는 사용자가 제공한 실제 URL·적용 범위를 확인해 프로젝트 `.npmrc`에 설정합니다. 인증값은 저장소에 넣지 않습니다. npm·pnpm·Yarn·Bun lockfile은 GitHub에 올리지 않으며, `.gitignore`와 실제 추적 파일을 모두 확인합니다. 루트에는 `package.json`이 없으므로 `npm install`/`npm ci` 대신 아래 기존 검사 명령을 사용합니다. [환경 설정과 추적 해제 절차](docs/guide.md#environment)
 
 저장소 밖의 가상환경에 `requirements-optional.txt`를 설치합니다. Python 3.13, Node.js 26, Codex CLI 0.165.0을 사용한 검사 명령입니다. 코드 실행 격리 테스트는 실제 `codex sandbox` 실행 파일을 필요로 합니다. 공개 CI는 macOS에서 공식 Codex 네이티브 바이너리의 SHA-256을 확인하고 읽기 전용 OS 샌드박스를 실행합니다. Ubuntu hosted runner에서는 bubblewrap의 루프백 설정이 거부됐습니다.
 

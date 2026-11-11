@@ -20,6 +20,73 @@ class BrowserAccessTests(unittest.TestCase):
     def read(self):
         return json.loads(self.path.read_text(encoding="utf-8"))
 
+    def test_auto_allow_has_no_origin_or_port_filter_and_is_idempotent(self):
+        result = browser_access.configure_auto_allow(self.path)
+        config = self.read()
+        # @playwright/mcp@0.0.85 installs origin routes only for nonempty lists.
+        self.assertEqual(config["network"], {"allowedOrigins": [], "blockedOrigins": []})
+        self.assertEqual(result["network_policy"], "auto-allow")
+        self.assertEqual(result["config"], config)
+        self.assertTrue(config["browser"]["isolated"])
+        self.assertEqual(config["server"], {
+            "host": "127.0.0.1", "allowedHosts": ["localhost", "127.0.0.1"]
+        })
+        self.assertIn("browser_run_code_unsafe", result["mcp_server"]["disabled_tools"])
+        before = self.path.read_bytes()
+        before_stat = self.path.stat()
+        browser_access.configure_auto_allow(self.path)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(self.path.stat().st_mtime_ns, before_stat.st_mtime_ns)
+        self.assertEqual(self.path.stat().st_ino, before_stat.st_ino)
+
+    def test_auto_allow_replaces_only_dedicated_policy_and_preserves_other_options(self):
+        original = {
+            "browser": {"isolated": False, "contextOptions": {
+                "serviceWorkers": "allow", "viewport": {"width": 800, "height": 600}
+            }, "launchOptions": {"headless": True}},
+            "server": {"host": "0.0.0.0", "allowedHosts": ["*"], "port": 9999},
+            "network": {"allowedOrigins": ["https://old.example"],
+                        "blockedOrigins": ["http://localhost:*", "https://blocked.example"],
+                        "custom": True},
+            "custom": {"keep": True}, "capabilities": ["storage"],
+        }
+        self.path.parent.mkdir(parents=True)
+        self.path.write_text(json.dumps(original), encoding="utf-8")
+        browser_access.configure_auto_allow(self.path)
+        config = self.read()
+        self.assertEqual(config["network"], {"allowedOrigins": [], "blockedOrigins": [], "custom": True})
+        self.assertEqual(config["browser"]["contextOptions"], original["browser"]["contextOptions"])
+        self.assertEqual(config["browser"]["launchOptions"], original["browser"]["launchOptions"])
+        self.assertEqual(config["server"]["port"], 9999)
+        self.assertEqual(config["custom"], original["custom"])
+        self.assertEqual(config["capabilities"], ["storage", "config"])
+
+    def test_auto_allow_cli_requires_no_urls_and_rejects_combined_modes(self):
+        command = [sys.executable, str(ROOT / "tools/browser_access.py"),
+                   "--config", str(self.path), "--auto-allow"]
+        run = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(run.returncode, 0, run.stderr)
+        self.assertEqual(json.loads(run.stdout)["network_policy"], "auto-allow")
+        before = self.path.read_bytes()
+        run = subprocess.run(command + ["--url", "https://example.com"], capture_output=True, text=True)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_auto_allow_preserves_malformed_existing_config(self):
+        self.path.parent.mkdir(parents=True)
+        for content in ("{", "[]", '{"browser": null}',
+                        '{"browser": {"contextOptions": null}}',
+                        '{"network": {"allowedOrigins": "*"}}',
+                        '{"network": {"allowedOrigins": [null]}}',
+                        '{"network": {"blockedOrigins": "*"}}',
+                        '{"network": {"blockedOrigins": [null]}}',
+                        '{"capabilities": "config"}'):
+            with self.subTest(content=content):
+                self.path.write_text(content, encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    browser_access.configure_auto_allow(self.path)
+                self.assertEqual(self.path.read_text(), content)
+
     def test_new_config_has_scoped_safe_defaults_and_strips_url_details(self):
         result = browser_access.register(self.path, [
             "HTTPS://ExAmPle.com:443/private?token=secret#fragment"

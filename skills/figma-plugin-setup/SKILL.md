@@ -9,16 +9,16 @@ description: Install Figma Flow in Codex, connect its stable Figma workspace and
 
 Figma Flow의 **Codex 설치**, 한 번 등록하는 **Figma Flow 작업공간과 프로젝트별 작업 목록**, 사용 중일 때만 **paired sync**를 구분한다. 디자인 제작·후보 선택은 기존 `figma-flow` 절차를 사용한다. 입력은 원본 URL/태그, 마켓플레이스·설치 경로, 프로젝트/현재 리뷰, 고정 workspace manifest·Figma 발급 ID·작업 키, Computer Use 가능 여부다. 현재 대화와 로컬 파일에서 확인한 값은 재사용한다.
 
-이 파일의 두 단계 위가 동봉된 플러그인 루트다. 경로를 설치 캐시 관례로 추정하지 말고 실제 파일로 확인한다. 첫 설치는 아직 이 스킬이 없으므로 [설치 프롬프트](../../docs/installation-and-updates.md#1-클론-전부터-codex에-맡기기)를 사용하고, 설치 후 이 스킬을 읽는다.
+이 파일의 두 단계 위가 동봉된 플러그인 루트다. 경로를 설치 캐시 관례로 추정하지 말고 실제 파일로 확인한다. 첫 설치는 아직 이 스킬이 없으므로 [설치 프롬프트](../../docs/guide.md#setup-prompt)를 사용하고, 설치 후 이 스킬을 읽는다.
 
 해당 분기의 문서만 읽는다.
 
 - 브라우저에서 설치 자료·사이트·로컬 페이지를 열 때: [허용 대상 등록과 적용 확인](../figma-flow/references/browser-access.md). 실제 작업에 필요한 새 대상은 등록 후 계속한다. Figma Desktop 자체의 접근 승인은 해당 앱 경로를 따른다.
 - 동봉된 외부 스킬 확인: [의존성 계약](../figma-flow/references/skill-dependencies.md). 실제 설치본의 `tools/skill_dependencies.py --check`로 고정된 원문·참조·라이선스를 검증한다. 전역 스킬 설치나 최신본 다운로드로 대체하지 않는다.
-- 최초 설치·읽기 검증: [설치·연동 가이드](../../docs/installation-and-updates.md)의 1~5절.
-- private 복제·회사 배포: [private 저장소 가이드](../../docs/private-repository.md). 읽기 권한 확인과 원격 생성·업로드 권한은 별개다.
-- Node/npm 설정: [npm 환경 가이드](../../docs/npm-environment.md). 회사 레지스트리 도메인/전체 URL과 전체 미러·`@scope` 적용 여부를 **사용자에게 묻고** 설정한다. 기존에 확인한 설정이면 값을 대조해 재사용한다. 토큰을 대화에 요청하지 않는다.
-- 최신화·복구: 설치·연동 가이드의 [6절](../../docs/installation-and-updates.md#6-업데이트와-되돌리기).
+- 최초 설치·읽기 검증: [설치부터 실제 읽기 검증까지](../../docs/guide.md#2-클론하고-codex에-설치).
+- private 복제·회사 배포: [private 저장소 가이드](../../docs/guide.md#private-distribution). 읽기 권한 확인과 원격 생성·업로드 권한은 별개다.
+- Node/npm 설정: [npm 환경 가이드](../../docs/guide.md#environment). 회사 레지스트리 도메인/전체 URL과 전체 미러·`@scope` 적용 여부를 **사용자에게 묻고** 설정한다. 기존에 확인한 설정이면 값을 대조해 재사용한다. 토큰을 대화에 요청하지 않는다.
+- 최신화·복구: [업데이트와 되돌리기](../../docs/guide.md#updates).
 
 ## 1. 현재 상태 확인
 
@@ -45,7 +45,7 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 **Figma Flow 작업공간�
 
 1. 설치된 복사본의 `examples/native-direction-review/demo.py --out <새 폴더>`로 첫 워크숍을 만들고 `design_actions.py status`에서 `NATIVE_REVIEW_PENDING`을 확인한다. 기존 프로젝트를 무단 재생성하지 않는다.
 2. 기존 작업공간 ID가 있으면 고정 manifest에서 숫자 문자열을 읽는다. 최초 한 번만 Figma Desktop의 **플러그인 → 개발 → 새 플러그인 → Figma Design → 사용자 정의 UI → 전용 폴더에 저장**으로 사용자 소유 ID를 발급받는다. 계정 로그인·접근 승인은 사용자 단계다.
-3. [작업공간 명령과 등록 절차](../../docs/figma-guide.md)에 따라 고정 manifest를 준비하고 Desktop에 한 번 등록한다. 실제 ID와 등록 경로를 기록한다. 작업공간 CLI의 현재 POSIX 지원 범위를 확인한다. Windows 로컬은 standalone 호환 경로를 유지한다. 원격 생성했다면 숨김 generation을 포함한 작업공간 전체를 Desktop 머신에 전달하고 실제 실행 범위를 구분한다.
+3. [작업공간 명령과 등록 절차](../../docs/guide.md)에 따라 고정 manifest를 준비하고 Desktop에 한 번 등록한다. 실제 ID와 등록 경로를 기록한다. 작업공간 CLI의 현재 POSIX 지원 범위를 확인한다. Windows 로컬은 standalone 호환 경로를 유지한다. 원격 생성했다면 숨김 generation을 포함한 작업공간 전체를 Desktop 머신에 전달하고 실제 실행 범위를 구분한다.
 4. 현재 `CODEX_THREAD_ID` 또는 명시적인 실제 `--thread-id`로 `prepare --kind review`를 실행한다. 둘 다 없으면 오프라인 작업으로 두고 채팅 ID를 만들지 않는다.
 5. `figma_control.py enable --workspace DIR --port PORT` 후 workspace `refresh`와 control `serve`를 준비한다. 사용자가 대상 파일에서 플러그인을 한 번 직접 실행하면 Codex가 정확한 키·operation·파일·페이지·현재 revision으로 `run`한다. 반환 readback을 보존하며 실제 성공은 정상 검사기로 대조한다. 제어가 없으면 수동 대체 경로로 **준비된 작업 → 열기 → 검토 시안 만들기 → 완료 확인 → 결과 JSON 저장**을 사용한다. 실행 중에는 완료·오류를 기다린다.
 6. 실제 JSON을 받은 뒤 현재 `directions.json`과 `verify-native-review`·`status`로 대조한다. 성공 상태는 `WAIT_SELECTION`이다. 오류 자료는 보존하고 원본 입력에서 수정해 같은 작업 키를 갱신한다. 갱신 후 실제 실행 revision을 확인하고, 이전 코드가 남아 있으면 같은 고정 플러그인을 다시 실행한다.
@@ -70,9 +70,9 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 **Figma Flow 작업공간�
 
 ## 원래 채팅으로 연결
 
-[채팅 가이드](../../docs/figma-guide.md#11-작업을-준비한-codex-채팅으로-연결)를 따른다. 홈이나 작업 상단의 **Codex 연결**은 기록된 thread에만 연결한다. **보낼 내용 확인** 후 복사·명시적 링크 열기가 기본이며 `init --chat-port`·`workspace_chat.py --workspace`로 구성한 relay가 있을 때만 사용자의 **채팅에 보내기**를 큐에 넣는다. 자동 전송·데스크톱 앞창 추정을 하지 않는다. 큐 접수, 실제 소비·실행과 불확실한 접수는 각각 보고한다.
+[채팅 가이드](../../docs/guide.md#11-작업을-준비한-codex-채팅으로-연결)를 따른다. 홈이나 작업 상단의 **Codex 연결**은 기록된 thread에만 연결한다. **보낼 내용 확인** 후 복사·명시적 링크 열기가 기본이며 `init --chat-port`·`workspace_chat.py --workspace`로 구성한 relay가 있을 때만 사용자의 **채팅에 보내기**를 큐에 넣는다. 자동 전송·데스크톱 앞창 추정을 하지 않는다. 큐 접수, 실제 소비·실행과 불확실한 접수는 각각 보고한다.
 
-예전 등록 퇴역을 요청받으면 가이드 6-7절에 따라 새 프로젝트의 실제 작업·읽기 검증을 마친 뒤 지정된 ID·경로만 해제한다. 원래 패키지·등록 목록·증거를 보관하고 현재 고정 manifest와 문서 데이터는 유지하며 원래 ID로 복원할 수 있게 한다.
+예전 등록 퇴역을 요청받으면 [등록 정리와 복원 기준](../../docs/guide.md#updates)에 따라 새 프로젝트의 실제 작업·읽기 검증을 마친 뒤 지정된 ID·경로만 해제한다. 원래 패키지·등록 목록·증거를 보관하고 현재 고정 manifest와 문서 데이터는 유지하며 원래 ID로 복원할 수 있게 한다.
 
 ## 결과 보고
 

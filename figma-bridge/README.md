@@ -11,7 +11,7 @@ that the application action ran.
 
 ## Primary route: one registered Figma Flow workspace
 
-Use the [install-once guide](../docs/figma-guide.md#5-고정-작업공간-등록과-검토-작업-준비). Initialize a private workspace with your own existing Figma-issued manifest ID, then register only its stable manifest:
+Use the [install-once guide](../docs/guide.md#5-고정-작업공간-등록과-검토-작업-준비). Initialize a private workspace with your own existing Figma-issued manifest ID, then register only its stable manifest:
 
 ```sh
 python3 tools/figma_workspace.py init --workspace PRIVATE_DIR --id-from OWN_MANIFEST.json
@@ -25,9 +25,9 @@ python3 tools/figma_workspace.py list --workspace PRIVATE_DIR
 
 Keep `PRIVATE_DIR/manifest.json` registered. It references immutable code/UI generations; copy the whole private workspace, including hidden directories, when transferring machines. A changed task key requires the current `list` revision as `prepare --replace-expected REVISION`; an unchanged retry is idempotent. Close the older running window and reopen the same plugin to load the new task list.
 
-Private plugin data belongs to the Figma plugin ID that wrote it. Foreign-ID packages and paired state cannot be relabeled into ownership. Preserve the original plugin/ID or prepare an explicit migration from actual old readback. Do not share the private workspace or any relay credentials as a public bundle. [Chat handoff](../docs/figma-guide.md#11-작업을-준비한-codex-채팅으로-연결) opens the task's recorded thread and previews selection/request content before an explicit copy or optional queue action.
+Private plugin data belongs to the Figma plugin ID that wrote it. Foreign-ID packages and paired state cannot be relabeled into ownership. Preserve the original plugin/ID or prepare an explicit migration from actual old readback. Do not share the private workspace or any relay credentials as a public bundle. [Chat handoff](../docs/guide.md#11-작업을-준비한-codex-채팅으로-연결) opens the task's recorded thread and previews selection/request content before an explicit copy or optional queue action.
 
-For existing private loopback workflows, workspace `import` may use `--paired-state PRIVATE_STATE` only when its plugin ID, file/page, source hash and running endpoint match. Paired direction review uses explicit `--pair-dir` plus `--receiver-port` on a `review` task and the original receiver receipt/download contract. See the [private receiver commands](../docs/installation-and-updates.md#6-5-선택적-로컬-동기화-사용-중이라면); these do not send a chat message.
+For existing private loopback workflows, workspace `import` may use `--paired-state PRIVATE_STATE` only when its plugin ID, file/page, source hash and running endpoint match. Paired direction review uses explicit `--pair-dir` plus `--receiver-port` on a `review` task and the original receiver receipt/download contract. See the [private receiver commands](../docs/guide.md#paired-receivers); these do not send a chat message.
 
 ## Default local control after manual launch
 

@@ -38,7 +38,7 @@ python3 "$TOOLS/figma_control.py" run --workspace "$WORKSPACE" --key direction-r
 python3 "$TOOLS/design_actions.py" verify-native-review --manifest reviews/r1/directions.json --readback ACTUAL_FIGMA_READBACK.json
 ```
 
-Computer Use와 공식 Figma MCP는 소비자 실행에 필요하지 않다. 로컬 명령을 쓸 수 없으면 같은 작업 패널의 생성·JSON 저장을 사용한다. [최초 등록·재시작·실제 검증](../../../docs/figma-guide.md)을 따르며, 패키지 생성 자체를 실행 결과로 기록하지 않는다.
+Computer Use와 공식 Figma MCP는 소비자 실행에 필요하지 않다. 로컬 명령을 쓸 수 없으면 같은 작업 패널의 생성·JSON 저장을 사용한다. [최초 등록·재시작·실제 검증](../../../docs/guide.md)을 따르며, 패키지 생성 자체를 실행 결과로 기록하지 않는다.
 
 ### 0.15.0 의미 역할과 실제 값
 

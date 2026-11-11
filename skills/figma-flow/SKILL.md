@@ -9,7 +9,7 @@ Maintain one canonical JSON graph with stable semantic IDs. The graph owns relat
 
 ## Figma 작업공간 기본 경로
 
-Figma가 작업 목적지이면 하나의 등록된 **Figma Flow 작업공간**을 기본으로 사용한다. [설치·작업 목록 가이드](../../docs/figma-guide.md)를 읽고 기존 workspace manifest·실제 Figma 발급 ID·등록 경로를 먼저 확인한다. 최초 연결·업데이트가 필요하면 `figma-plugin-setup`으로 이어간다. 명시적 Local HTML only 요청은 해당 로컬 경로를 유지한다.
+Figma가 작업 목적지이면 하나의 등록된 **Figma Flow 작업공간**을 기본으로 사용한다. [설치·작업 목록 가이드](../../docs/guide.md)를 읽고 기존 workspace manifest·실제 Figma 발급 ID·등록 경로를 먼저 확인한다. 최초 연결·업데이트가 필요하면 `figma-plugin-setup`으로 이어간다. 명시적 Local HTML only 요청은 해당 로컬 경로를 유지한다.
 
 기본은 사용자가 대상 파일에서 Figma Flow를 한 번 직접 실행한 뒤 Codex가 로컬 제어를 사용하는 흐름이다. `figma_control.py enable --workspace DIR --port PORT` 후 `figma_workspace.py refresh`, `figma_control.py serve`를 구성한다. `run`은 실제 작업 키·operation·file/page·현재 revision을 고정하고 반환된 readback을 기존 검사기로 확인한다. 연결이 없을 때만 패널 버튼을 수동 대체 경로로 안내한다. 앱 시작·숨은 백그라운드 실행·임의 원격 코드 평가를 제공하지 않는다. prepare/refresh 뒤 실제 실행 revision이 이전이면 같은 플러그인을 다시 열며 환경별 자동 재로드를 단정하지 않는다.
 
