@@ -25,6 +25,12 @@ For an action node, record `source_screen` as its triggering screen ID and `targ
 
 Record assumptions and the scope of each observation in `detail` or a linked screen specification. A `verified` screenshot proves only the visual state actually inspected. A test result, a Figma metadata response, and prototype playback are separate evidence. The graph helper does not inspect Figma, run a browser, validate evidence links, or decide whether the product is done.
 
+### Native draft entries and static controls
+
+`draft_prototype.entry_state` remains the default start. Optional `entry_states` is a nonempty array of unique existing state IDs containing that default. The native draft checks forward reachability and return to any declared entry in both viewports, and verifies every explicit entry as an actual desktop/mobile flow start. Without this field, the legacy desktop-only default start is preserved. Declare extra entries only for real direct-entry routes; they do not create navigation controls. A native NAVIGATE binding must target a different state frame; current-page links stay static. Both packet validation and native preflight reject self-navigation before creating a page.
+
+An unbound `product_buttons[control_id]` may declare `specification_id` pointing to a current graph action on the same screen. The action annotation's `control_id` must identify that actual control; the action ID and control ID may differ. The compiled specification must target that control, and the action cannot also be a prototype binding. Native validation requires an actual COMPONENT-backed INSTANCE, its connected annotation and full-spec link, and an observed empty reactions array. A described web action therefore carries its real specification without claiming to run in Figma. Omitting `specification_id` retains legacy geometry-only validation and supplies no connected-spec evidence.
+
 ## Canonical relationship vocabulary
 
 Use these labels consistently in new graphs. They are authoring conventions; `graph.py` accepts other nonempty labels for compatibility and does not enforce the endpoint types in this table.

@@ -1,5 +1,5 @@
-type FieldProps = { label: string };
+type FieldProps = { label: string; value?: string };
 
 export function Field(props: FieldProps) {
-  return { component: 'Field', label: props.label };
+  return { component: 'Field', label: props.label, value: props.value || '' };
 }

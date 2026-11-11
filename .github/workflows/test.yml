@@ -39,6 +39,10 @@ jobs:
           npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
           npm --prefix panel-ui run build
           git diff --exit-code -- figma-bridge/assets
+      - name: Rebuild typed regression components
+        run: |
+          node examples/regression-program/design-system/build.mjs
+          git diff --exit-code -- examples/regression-program/design-system/runtime.js
       - run: python -B -m unittest discover -s tests
       - run: node --test tests/*.cjs
       - run: python -B -m unittest discover -s examples/native-direction-review -p test_demo.py

@@ -58,6 +58,16 @@ test('every route has a title and a primary action or an explicit denial', () =>
   }
 });
 
+test('atlas saves the displayed density and restores it after reload', () => {
+  let state = ready('atlas', { path: '/settings' });
+  assert.equal(apps.atlas.view(state).fields[0].value, 'dense');
+  state = apps.atlas.dispatch(state, 'ACT-ATLAS-14', { 'display-density': 'comfortable' });
+  assert.equal(state.savedDisplay, 'comfortable');
+  assert.equal(state.notice.kind, 'saved');
+  const restored = apps.atlas.hydrate(ready('atlas', { path: '/settings' }), apps.atlas.snapshot(state));
+  assert.equal(apps.atlas.view(restored).fields[0].value, 'comfortable');
+});
+
 test('atlas keeps a failed task draft and restores it', () => {
   let state = ready('atlas', { path: '/projects' });
   state = apps.atlas.dispatch(state, 'ACT-ATLAS-04');
@@ -197,6 +207,23 @@ test('morrow restores saved products and keeps a failed return', () => {
   returning = apps.morrow.dispatch(returning, 'ACT-MORROW-14', { 'return-reason': '파손', 'return-note': '모서리' });
   assert.equal(returning.form.note, '모서리');
   assert.equal(returning.returns['order-1'], undefined);
+});
+
+test('paper review submission sends its draft and preserves it on a failed save', () => {
+  let state = ready('paper', { role: 'author', path: '/studio/articles/draft-1/edit', faults: { autosave: true } });
+  const fields = { 'article-title': '검토할 제목', 'article-body': '검토할 본문' };
+  const request = apps.paper.payloadFor(state, 'ACT-PAPER-09', fields);
+  assert.equal(JSON.stringify(request.draft), JSON.stringify({ title: fields['article-title'], body: fields['article-body'] }));
+  assert.equal(apps.paper.decideFor('ACT-PAPER-09', request).status, 409);
+  state = apps.paper.dispatch(state, 'ACT-PAPER-09', fields);
+  assert.equal(state.path, '/studio/articles/draft-1/edit');
+  assert.equal(state.drafts['draft-1'].body, fields['article-body']);
+  assert.equal(state.articles.find(item => item.id === 'draft-1').status, 'draft');
+  state = Object.assign({}, state, { faults: {} });
+  assert.equal(apps.paper.decideFor('ACT-PAPER-09', apps.paper.payloadFor(state, 'ACT-PAPER-09', fields)).status, 200);
+  state = apps.paper.dispatch(state, 'ACT-PAPER-09', fields);
+  assert.equal(state.path, '/studio/reviews');
+  assert.equal(state.articles.find(item => item.id === 'draft-1').status, 'in-review');
 });
 
 test('paper keeps a failed autosave and publishes only for an editor', () => {

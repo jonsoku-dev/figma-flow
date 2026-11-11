@@ -218,8 +218,8 @@ def layout_errors(authored):
                         or button_id in controls
                     ):
                         problems.append(where + ": unique safe product button id required")
-                    if not isinstance(button, dict) or set(button) != {"box", "variant", "label"}:
-                        problems.append(where + ": product button requires box, variant and label")
+                    if not isinstance(button, dict) or set(button) - {"box", "variant", "label", "specification_id"} or not {"box", "variant", "label"} <= set(button):
+                        problems.append(where + ": product button requires box, variant and label, with optional specification_id")
                         continue
                     box = button["box"]
                     if (
@@ -521,6 +521,10 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
         marked=[state['id']for state in states.values()if state.get('entry')]
         entry=prototype.get('entry_state')or(marked[0]if len(marked)==1 else next(iter(states)))
         if len(marked)>1 or entry not in states:raise ValueError('Unambiguous declared entry state required')
+        entry_states=prototype.get('entry_states',[entry])
+        if not isinstance(entry_states,list) or not entry_states or any(not isinstance(state_id,str) or not state_id.strip() for state_id in entry_states) or len(set(entry_states))!=len(entry_states) or entry not in entry_states or any(state_id not in states for state_id in entry_states):raise ValueError('Unique existing entry_states including entry_state required')
+        for edge in prototype['bindings']:
+            if edge['source_state']==edge['target_state']:raise ValueError('Native NAVIGATE requires a different target state: '+candidate['id']+'.'+edge['viewport']+'.'+edge['source_state'])
         def reached(edges,start):
             found={start};todo=[start]
             while todo:
@@ -532,7 +536,7 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
             for edge in prototype['bindings']:
                 if edge['viewport']!=viewport:continue
                 forward.setdefault(edge['source_state'],[]).append(edge['target_state']);reverse.setdefault(edge['target_state'],[]).append(edge['source_state'])
-            if reached(forward,entry)!=set(states)or reached(reverse,entry)!=set(states):raise ValueError('Every canonical state must be reachable out and back in each viewport')
+            if set().union(*(reached(forward,start) for start in entry_states))!=set(states) or set().union(*(reached(reverse,start) for start in entry_states))!=set(states):raise ValueError('Every canonical state must be reachable from and return to a declared entry state in each viewport')
         for state in states.values():
             if by_node.get(state['id'],{}).get('type')!='state' or by_node.get(state['screen'],{}).get('type')!='screen': raise ValueError('State/screen must be canonical')
         for edge in prototype['bindings']:
@@ -548,6 +552,19 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
         if source['graph']['sha256']!=candidate['product_graph']['sha256']or _hex_map(source.get('colors'))!=_hex_map(colors):raise ValueError('Authored layout graph/color roles mismatch')
         if not source.get('fonts')or not source.get('control_styles'):raise ValueError('Exact configured native fonts/control styles required')
         action_notes={edge['action']+'|'+edge['control_id']:next(n for n in notes if n.get('action')==edge['action']and edge['control_id']in(set(n.get('control_ids',[]))|{n.get('control_id')}))for edge in prototype['bindings']}
+        specification_rows={}
+        if data.get('mode') in ('direct', 'compare'):
+            from specification_contract import derive_specifications
+            specification_rows={spec['id']:spec for spec in derive_specifications(graph,source_graph_sha256=candidate['product_graph']['sha256'])}
+        for viewport in ('desktop','mobile'):
+            for state_id,layout in(source.get('state_layouts',{}).get(viewport,{})or{}).items():
+                for control_id,button in(layout.get('product_buttons')or{}).items():
+                    if 'specification_id' not in button:continue
+                    spec_id=button['specification_id']
+                    if not isinstance(spec_id,str) or not spec_id.strip():raise ValueError('Nonempty product button specification_id required: '+control_id)
+                    spec=specification_rows.get(spec_id)
+                    bound=any(edge['action']==spec_id or edge['control_id']==control_id for edge in prototype['bindings'])
+                    if not spec or spec.get('screen_id')!=states[state_id]['screen'] or spec.get('kind')!='action' or spec.get('meaning',{}).get('action')!=spec_id or spec.get('target_id')!=control_id or bound:raise ValueError('Product button specification must reference its unbound current-screen graph action: '+control_id)
         for viewport in ('desktop','mobile'):
             if set(source['state_layouts'][viewport])!=set(states):raise ValueError('Exact canonical states required in every viewport')
             for state_id,state_layout in source['state_layouts'][viewport].items():
@@ -562,10 +579,9 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
             names=[name for name,record in authored['assets'].items()if record.get('reference')and record['sha256']==preview['file']['sha256']]
             if len(names)!=1:raise ValueError('Exact labeled raster reference required')
             refs[preview['viewport']]=names[0]
-        c={**source,'id':candidate['id'],'title':candidate['title'],'sha256':candidate['sha256'],'graph':graph,'notes':notes,'action_notes':action_notes,'action_labels':{node['id']:node['title']for node in graph['nodes']if node['type']=='action'},'foundations':foundations,'colors':colors,'prototype':prototype,'entry_state':entry,'references':refs}
+        c={**source,'id':candidate['id'],'title':candidate['title'],'sha256':candidate['sha256'],'graph':graph,'notes':notes,'action_notes':action_notes,'action_labels':{node['id']:node['title']for node in graph['nodes']if node['type']=='action'},'foundations':foundations,'colors':colors,'prototype':prototype,'entry_state':entry,'entry_states':entry_states,'references':refs}
         if data.get('mode') in ('direct', 'compare'):
-            from specification_contract import derive_specifications
-            specifications = derive_specifications(graph, source_graph_sha256=candidate['product_graph']['sha256'])
+            specifications = list(specification_rows.values())
             if any(spec['trace']['status'] != 'complete' for spec in specifications):
                 raise ValueError('Readable specifications need current graph requirement, acceptance and test links before native preparation')
             c['specifications'] = {spec['id']: spec for spec in specifications}
@@ -1145,6 +1161,18 @@ def _attested_review_packet(manifest_path, raw):
     return original
 
 
+def _verify_draft_flow_starts(packet,readback,keyed):
+    expected={keyed.get(f"{candidate['id']}.{viewport}.{state}",{}).get('id')
+        for candidate in packet['candidates']
+        for viewport in (('desktop','mobile') if 'entry_states' in candidate['prototype'] else ('desktop',))
+        for state in candidate.get('entry_states',[candidate['entry_state']])}
+    starts=readback.get('flowStartingPoints')
+    if not isinstance(starts,list) or any(not isinstance(item,dict) or not isinstance(item.get('nodeId'),str) for item in starts):
+        raise ValueError('Actual Figma flow starting point readback required')
+    if None in expected or len(starts)!=len(expected) or {item['nodeId'] for item in starts}!=expected:
+        raise ValueError('Actual Figma flow starting points must match declared entry states and viewports')
+
+
 def _verify_native_packet(packet,readback_path):
     report={'passed':False,'errors':[],'scope':packet['scope'],'production_admitted':packet['production_admitted'],'evidence':'supplied-native-readback-not-origin-authentication','screens':[],'layout_findings':[],'annotation_checks':[],'foundation_checks':[],'prototype_checks':[],'return_checks':[],'design_note_board_checks':[],'dev_mode_required':False}
     try:
@@ -1199,6 +1227,7 @@ def _verify_native_packet(packet,readback_path):
                 for finding in report['layout_findings']
             )
             return report
+        _verify_draft_flow_starts(packet,raw,keyed)
         for candidate in packet['candidates']:
             notes={n['id']:n for n in candidate['notes']};states={s['id']:s for s in candidate['prototype']['states']}
             for viewport in ('desktop','mobile'):
@@ -1238,7 +1267,7 @@ def _verify_native_packet(packet,readback_path):
                     actions=[a for r in node.get('reactions',[])for a in r.get('actions',[])if r.get('trigger',{}).get('type')=='ON_CLICK']
                     if not any(a.get('type')=='NODE'and a.get('navigation')=='NAVIGATE'and a.get('destinationId')==target['id']for a in actions): raise ValueError('Exact native click destination missing: '+node['semanticKey'])
                     item={'source':node['id'],'destination':target['id'],'action':edge['action']};report['prototype_checks'].append(item)
-                    if edge['target_state']==candidate['entry_state']:report['return_checks'].append(item)
+                    if edge['target_state'] in candidate.get('entry_states',[candidate['entry_state']]):report['return_checks'].append(item)
             palette=raw.get('palettes',{}).get(candidate['id'],{})
             if not palette.get('libraryId')in nodes or not nodes[palette['libraryId']].get('visible',True):raise ValueError('Visible role palette missing')
             if len(palette.get('samples',[]))<2:raise ValueError('Documented primary/secondary samples required')
@@ -1264,6 +1293,13 @@ def _verify_native_packet(packet,readback_path):
             for viewport in ('desktop','mobile'):
                 for state in states.values():targets.append((keyed[f"{candidate['id']}.{viewport}.{state['id']}"],notes[state['screen']]))
                 for edge in [e for e in candidate['prototype']['bindings']if e['viewport']==viewport]:targets.append((keyed[f"{candidate['id']}.{viewport}.{edge['source_state']}."+edge['control_id']],candidate['action_notes'][edge['action']+'|'+edge['control_id']]))
+                for state in states.values():
+                    for control_id,button in (candidate['state_layouts'][viewport][state['id']].get('product_buttons') or {}).items():
+                        if button.get('specification_id'):
+                            target=keyed[f"{candidate['id']}.{viewport}.{state['id']}.{control_id}"]
+                            spec=candidate['specifications'][button['specification_id']]
+                            _verify_static_product_button(target,spec,packet['instance_sha256'],raw,nodes)
+                            targets.append((target,{'id':spec['id']}))
             for target,note in targets:
                 entry=entries.get(target['id'],{});text=nodes.get(entry.get('textNodeId'),{})
                 if text.get('type')!='TEXT'or text.get('visible')is False or text.get('fontSize',0)<14 or text.get('parentId')!=board_node['id']:raise ValueError('Readable ordinary Design note text missing')
@@ -1326,6 +1362,14 @@ def verify_native_production(packet_path,readback_path):
         return report
     except (ValueError,KeyError,TypeError,OSError,IndexError,AttributeError) as error:
         return {'passed':False,'scope':'selected-production','production_admitted':True,'errors':[str(error)]}
+
+
+def _verify_static_product_button(target,specification,owner_hash,readback,nodes):
+    if target.get('type')!='INSTANCE' or nodes.get(target.get('mainComponentId'),{}).get('type')!='COMPONENT' or not isinstance(target.get('reactions'),list):
+        raise ValueError('Actual annotated product INSTANCE and reaction readback required: '+target.get('semanticKey',''))
+    if target['reactions']:
+        raise ValueError('Native product button must not acquire a prototype reaction: '+target.get('semanticKey',''))
+    check_note(target,{'id':specification['id']},specification,owner_hash,readback)
 
 
 def check_note(node,note,specification=None,owner_hash=None,readback=None):

@@ -203,6 +203,9 @@
     if (route.id === 'SCR-ATLAS-13') {
       return shell(state, route, { prose: '민재의 현재 역할은 ' + (state.members.find(function (item) { return item.id === 'mem-1'; }) || {}).role + '입니다.', secondary: [{ id: 'make-reviewer', label: '민재를 검토자로', focus: 'make-reviewer' }] });
     }
+    if (route.id === 'SCR-ATLAS-14') {
+      return shell(state, route, { fields: [{ id: 'display-density', label: '표시 밀도', value: state.savedDisplay }] });
+    }
     return shell(state, route);
   }
 
@@ -251,6 +254,10 @@
       return remember(state, destination, { signedIn: true, workspaceId: 'northwind' });
     }
     if (action === 'ACT-ATLAS-07') return saveTask(state, payload);
+    if (action === 'ACT-ATLAS-14') {
+      const density = String(payload['display-density'] || state.savedDisplay).trim();
+      return router.patch(state, { savedDisplay: density || state.savedDisplay, notice: { kind: 'saved', text: '표시 밀도를 저장했습니다.' } });
+    }
     if (action === 'ACT-ATLAS-09') {
       if (roleOf(state) === 'member') return router.patch(state, { notice: { kind: 'error', text: '읽기 전용입니다.' } });
       const located = router.match(state.app.routes, state.path);

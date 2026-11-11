@@ -71,13 +71,13 @@
     const located = router.match(state.app.routes, state.path);
     const articleId = located && (located.params.articleId || located.params.reviewId) || state.app.samples.articleId;
     const draft = currentDraft(state, articleId, fields || {});
-    if (action === 'autosave') return { fault: state.faults.autosave ? 'autosave' : '', draft: draft };
+    if (action === 'autosave' || action === 'ACT-PAPER-09') return { fault: state.faults.autosave ? 'autosave' : '', draft: draft };
     if (action === 'ACT-PAPER-11') return { role: state.role, fault: state.faults.publish ? 'publish' : '', draft: draft };
     return {};
   }
 
   function decideFor(action, payload) {
-    if (action === 'autosave') return decideAutosave(payload);
+    if (action === 'autosave' || action === 'ACT-PAPER-09') return decideAutosave(payload);
     if (action === 'ACT-PAPER-11') return decidePublish(payload);
     return { status: 204, body: {} };
   }
@@ -207,8 +207,11 @@
     if (action === 'ACT-PAPER-08') return remember(state, '/studio/articles/draft-1/edit');
     if (action === 'ACT-PAPER-09') {
       const articleId = located.params.articleId;
-      const draft = currentDraft(state, articleId, payload);
+      const body = payloadFor(state, action, payload);
+      const decision = decideAutosave(body);
+      const draft = body.draft;
       const drafts = Object.assign({}, state.drafts, { [articleId]: draft });
+      if (decision.status !== 200) return router.patch(state, { drafts: drafts, notice: { kind: 'error', text: '검토 요청을 저장하지 못했습니다. 초안은 유지됩니다.' }, focus: 'article-body' });
       const articles = updateArticle(state, articleId, { status: 'in-review', title: draft.title, body: draft.body });
       return remember(router.patch(state, { drafts: drafts, articles: articles }), '/studio/reviews');
     }

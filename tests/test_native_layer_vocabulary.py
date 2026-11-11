@@ -12,9 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 import figma_draft as draft  # noqa: E402
 
-OUTPUTS = ROOT.parent
 COLORS = {'paper': '#FFFFFF', 'ink': '#111111', 'accent': '#AA4422'}
 ASSETS = {'art': {'path': 'art.png', 'sha256': '0' * 64}}
+
+
+def shipped_layouts():
+    return sorted((ROOT / 'examples').glob('**/native-layout.json'))
 
 
 def check(layer):
@@ -74,9 +77,8 @@ class CheckLayerTests(unittest.TestCase):
             with self.subTest(case=name), self.assertRaisesRegex(ValueError, message):
                 check(layer)
 
-    def test_every_existing_authored_layer_still_validates(self):
-        # Every authored layout in the workspace (regression campaigns included) and the shipped example.
-        paths = sorted(set(OUTPUTS.glob('**/native-layout.json')) | {ROOT / 'examples/native-direction-review/native-layout.json'})
+    def test_every_shipped_authored_layer_still_validates(self):
+        paths = shipped_layouts()
         check(gradient())
         seen = 0
         for path in [p for p in paths if p.exists()]:
@@ -88,6 +90,18 @@ class CheckLayerTests(unittest.TestCase):
                             draft.check_layer(layer, candidate['colors'], data['assets'], f"{candidate['id']}.{viewport}.{state_id}")
                             seen += 1
         self.assertGreater(seen, 0)
+
+    def test_layout_discovery_preserves_neighbor_project_boundary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / 'plugin'
+            example = root / 'examples' / 'review' / 'native-layout.json'
+            example.parent.mkdir(parents=True)
+            example.write_text('{}')
+            neighbor = Path(tmp) / 'other-project' / 'native-layout.json'
+            neighbor.parent.mkdir()
+            neighbor.write_text('not a plugin layout')
+            with patch(__name__ + '.ROOT', root):
+                self.assertEqual(shipped_layouts(), [example])
 
 
 def instantiate_demo(base, mutate):
@@ -134,8 +148,8 @@ class LayoutErrorsTests(unittest.TestCase):
         for fragment in ('collides with control id', 'duplicate layer id', 'at least two stops', "unknown font role 'serif'"):
             self.assertTrue(any(fragment in p for p in problems), (fragment, problems))
 
-    def test_every_workspace_layout_is_clean(self):
-        for path in sorted(OUTPUTS.glob('**/native-layout.json')):
+    def test_every_shipped_layout_is_clean(self):
+        for path in shipped_layouts():
             with self.subTest(path=str(path)):
                 self.assertEqual(draft.layout_errors(json.loads(path.read_text())), [])
 

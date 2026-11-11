@@ -15,14 +15,17 @@ function candidate() {
     control_boxes:{'inspect-seed':[20,700,330,56]}};
   const result={id:'garden-any-name',colors,foundations:{roles:Object.entries(colors).map(([name,value])=>({kind:'color',token:'color/'+name,value}))},
     foundationBindings:[{token:'type/body',type:'FLOAT',value:18,bindings:[{key:'garden-any-name.desktop.CANONICAL-OTHER.title',field:'fontSize'}]}],
-    prototype:{states:[{id:'CANONICAL-OTHER',screen:'SCR-ANY'}],bindings:[
-      {viewport:'desktop',source_state:'CANONICAL-OTHER',target_state:'CANONICAL-OTHER',action:'ACT-ANY',control_id:'inspect-seed'},
-      {viewport:'mobile',source_state:'CANONICAL-OTHER',target_state:'CANONICAL-OTHER',action:'ACT-ANY',control_id:'inspect-seed'}]},
-    state_layouts:{desktop:{'CANONICAL-OTHER':clone(layout)},mobile:{'CANONICAL-OTHER':clone(layout)}},
-    action_notes:{'ACT-ANY|inspect-seed':{action:'ACT-ANY',visual_variant:'Custom seed surface'}},
-    action_labels:{'ACT-ANY':'씨앗을 살펴보기'},
+    prototype:{states:[{id:'CANONICAL-OTHER',screen:'SCR-ANY'},{id:'CANONICAL-RETURN',screen:'SCR-RETURN'}],bindings:[
+      ...['desktop','mobile'].flatMap(viewport=>[
+        {viewport,source_state:'CANONICAL-OTHER',target_state:'CANONICAL-RETURN',action:'ACT-ANY',control_id:'inspect-seed'},
+        {viewport,source_state:'CANONICAL-RETURN',target_state:'CANONICAL-OTHER',action:'ACT-BACK',control_id:'return-seed'}])]},
+    state_layouts:Object.fromEntries(['desktop','mobile'].map(viewport=>[viewport,{
+      'CANONICAL-OTHER':clone(layout),
+      'CANONICAL-RETURN':{...clone(layout),control_boxes:{'return-seed':[20,700,330,56]}}}])),
+    action_notes:{'ACT-ANY|inspect-seed':{action:'ACT-ANY',visual_variant:'Custom seed surface'},'ACT-BACK|return-seed':{action:'ACT-BACK',visual_variant:'Return surface'}},
+    action_labels:{'ACT-ANY':'씨앗을 살펴보기','ACT-BACK':'돌아가기'},
     fonts:{body:{family:'Inter',style:'Regular'}},
-    control_styles:{desktop:{'Custom seed surface':{fill:'accent',ink:'paper'}},mobile:{'Custom seed surface':{fill:'accent',ink:'paper'}}}};
+    control_styles:Object.fromEntries(['desktop','mobile'].map(viewport=>[viewport,{'Custom seed surface':{fill:'accent',ink:'paper'},'Return surface':{fill:'paper',ink:'ink'}}]))};
   result.graph={design_foundations:clone(result.foundations)};return result;
 }
 

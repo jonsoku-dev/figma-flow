@@ -621,7 +621,7 @@ def run(path, strict=False, project_root=None):
 def manifest_layout(manifest):
     """The immutable native layout a direction review manifest pins."""
     import design_directions
-    data = design_directions.validate_draft(Path(manifest), require_native_review=False)['data']
+    data = design_directions.validate_draft(Path(manifest), require_agent_review=False, require_native_review=False)['data']
     record = data.get('native_layout') or data.get('native_target', {}).get('layout')
     if not record:
         raise ValueError('검토 매니페스트에 authored native layout이 고정되어 있지 않습니다.')

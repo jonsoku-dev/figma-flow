@@ -456,6 +456,22 @@ class DesignActionsGateTests(unittest.TestCase):
             report = json.loads(result.stdout)
             self.assertIn('contrast', codes(report, 'error'))
 
+    def test_quality_precedes_critique_without_admitting_native_preparation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = instantiate_demo(tmp, make_low_contrast)
+            data = json.loads(manifest.read_text())
+            data.pop('agent_review', None)
+            manifest.write_text(json.dumps(data))
+            before = manifest.read_bytes()
+            result = self.actions('quality', '--manifest', str(manifest))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn('contrast', codes(json.loads(result.stdout), 'error'))
+            self.assertEqual(manifest.read_bytes(), before)
+            output = Path(tmp) / 'unreviewed-native'
+            blocked = self.actions('prepare-native-review', '--manifest', str(manifest), '--out', str(output), '--plugin-id', '1000000000000000001')
+            self.assertNotEqual(blocked.returncode, 0)
+            self.assertFalse(any(output.glob('**/packet.json')))
+
 
 class ControlColorTests(unittest.TestCase):
     """A button nobody can see, or whose label nobody can read, blocks packaging."""

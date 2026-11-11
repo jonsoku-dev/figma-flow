@@ -225,6 +225,7 @@ const assert = require('node:assert/strict'), fs = require('node:fs'), vm = requ
 const source=fs.readFileSync(process.argv[1]+'/figma-bridge/native_semantic_read.js','utf8')+'\n'+fs.readFileSync(process.argv[1]+'/figma-bridge/code.js','utf8');
 const nonce='1234567890abcdef1234567890abcdef', digest='a'.repeat(64);
 const config={url:'http://localhost:43123/sync',preview_url:'http://localhost:43123/',token:'test-pairing-token',page_id:'2:77',file_key:'paired-file'};
+const copy=JSON.parse(fs.readFileSync(process.argv[1]+'/figma-bridge/locales/import.json','utf8'));
 function setup(paired=true,pair=config) {
   const messages=[], requests=[];
   const meta={bridge:1,complete:true,source_sha256:digest,collection_id:'collection'};
@@ -236,7 +237,7 @@ function setup(paired=true,pair=config) {
   const sizes=[];
   const figma={fileKey:'paired-file',currentPage:page,root:{children:[page,unrelated]},ui:{postMessage(message){messages.push(message);},resize(width,height){sizes.push([width,height]);}},showUI(){},variables:{async getLocalVariableCollectionsAsync(){return [collection];},async getLocalVariablesAsync(){return [variable,otherVariable];}}};
   let reply={status:'baseline',changed_tokens:[],screens:[],code_ids:[],files:[],report:'baseline.json'}, ok=true, pending=null;
-  const context={figma,__html__:'',PAYLOAD:{source_sha256:digest,screens:[],technical_existing_only:paired},async fetch(url,options){requests.push({url,options});if(pending)await pending;if(reply instanceof Error)throw reply;return {ok,status:ok?200:409,async json(){return reply;}};}};
+  const context={figma,__html__:'',FLOW_IMPORT_COPY:{reused:copy['import.reused'].ko,syncWait:copy['import.syncWait'].ko},PAYLOAD:{source_sha256:digest,screens:[],technical_existing_only:paired},async fetch(url,options){requests.push({url,options});if(pending)await pending;if(reply instanceof Error)throw reply;return {ok,status:ok?200:409,async json(){return reply;}};}};
   vm.createContext(context);
   vm.runInContext((paired?'const LOCAL_SYNC='+JSON.stringify(pair)+';\n':'')+source,context);
   return {figma,meta,page,collection,unrelated,messages,requests,sizes,send:type=>figma.ui.onmessage({type,session_nonce:nonce}),setReply(value,success=true){reply=value;ok=success;},hold(promise){pending=promise;}};

@@ -1,6 +1,12 @@
 # 변경 기록
 
-## Unreleased
+## 0.26.0 · 2026-11-12
+
+- Support graph-declared multiple prototype entry points and connected human specifications on static product controls without inventing native reactions. Preserve legacy flow defaults.
+- Exercise three multi-page regression fixtures with typed component-source consumption, actual input effects and fault recovery. Correct review-submission payloads, pointer targets and reference styling.
+- Keep native vocabulary checks inside shipped fixtures so relocating a checkout does not scan unrelated neighboring projects.
+- Reject same-frame native navigation before any page mutation. Preserve current-menu specifications as static controls, and verify actual multiple flow starts rather than inferring them from metadata.
+- Restore the regression shell's stable navigation ID and persist Atlas display settings across reloads. Keep Paper review drafts on request failure.
 
 - Attach concise human annotations to exact screen/control nodes, link them to structured full specifications and verify both link directions against actual getters. Include source-backed conditions, recovery and Figma/web scope; preserve technical archives and other annotations. Reflow only owned description boards when their expanded content collides with artwork.
 
