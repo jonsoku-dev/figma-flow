@@ -36,6 +36,6 @@ Changed inputs keep an old prepared task non-executable. When that obsolete task
 
 ## Evidence boundary
 
-The local implementation and test paths are listed in [graph.json](graph.json), but file presence alone does not prove test execution. The initial stage prohibited Figma access. After later authorization, the running development plugin and authenticated local service were observed with matching runtime version/implementation/generation during actual tasks. Global installed package replacement, automatic update recovery and deployment remain unverified.
+The local implementation and test paths are listed in [graph.json](graph.json), but file presence alone does not prove test execution. The initial stage prohibited Figma access. After later authorization, the running development plugin and authenticated local service were observed with matching runtime version/implementation/generation during actual tasks. Package installation/deployment evidence is recorded separately in the tag-scoped Release notes; recovery-failure cases retain their stated source-test scope.
 
-Executed local checks and their installation/native limits are recorded in [text-only verification](../verification.md). No actual installed package update or recovery was performed.
+Executed source/native checks and their limits are recorded in [verification](../verification.md). Installation/deployment and recovery results must retain their own evidence; a source test does not substitute for them.

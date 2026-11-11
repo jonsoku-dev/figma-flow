@@ -24,7 +24,7 @@ Static native controls may reference their same-screen graph action with `produc
 
 ## Acceptance status
 
-Acceptance criteria below are derived from the supplied request. Implementation and test files are registered in the graph. Executed local tests are recorded in [verification](../verification.md), separately from native acceptance. The initial text-only stage prohibited Figma access. Later user authorization enabled existing-page migration/update across 16 native targets, graph-change freshness checks, repeat no-op, overlap rollback and actual annotation on/off observation. Evidence and limits are recorded in [verification](../verification.md). Global acceptance statuses remain unverified where new-page or unowned-user-note coverage is still absent.
+Acceptance criteria below are derived from the supplied request. Implementation and test files are registered in the graph. Executed local tests are recorded in [verification](../verification.md), separately from native acceptance. The initial text-only stage prohibited Figma access. Later user authorization enabled existing-page migration/update across 16 native targets, graph-change freshness checks, repeat no-op, overlap rollback and actual annotation on/off observation. Evidence and limits are recorded in [verification](../verification.md). Later 0.26.0 verification added three new apps and a focused synchronization copy, current graph updates, actual repeat/no-op and readable Design board observation. Unrelated user-note coverage and gated Dev Mode click-through remain unverified.
 
 ## Acceptance criteria
 

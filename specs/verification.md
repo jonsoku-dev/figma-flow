@@ -1,8 +1,40 @@
-# Implementation verification · 2026-11-11
+# Verification · 0.26.0 · 2026-11-12
+
+## Current source checks
+
+Python 3.13.3 and pinned Node 26.13.0: Python 1,005 tests (2 external/operator-evidence skips), Node 213 (1 external saved-packet skip), and 2 demo tests passed. Dependency, generated-workflow and three feature-graph checks also exited 0. All eight planned commands completed with unchanged source fingerprints. Separate panel and typed component rebuild checks are recorded in the private execution report. Skips remain separate from the actual native tests below.
+
+## Actual browser and Figma coverage
+
+The controlled Atlas/Morrow/Paper fixtures cover 40 routes in desktop/mobile: 80 actual browser captures and 80 editable native state frames. Six real mock-API flows and nine secondary controls exercised failures, retained drafts, roles, retry, reload and navigation. Separate local HTML/linked-asset/JavaScript fixtures and three official reference pages were inspected. These are synthetic/local input tests, not host-chat attachment or arbitrary importer proof.
+
+Normal native verification passed 28/28/24 frames and 228/200/176 connected screen/action explanations. A separate four-frame Atlas copy isolates scalar synchronization; its 32 explanations bring the checked total to 636. Actual INSTANCE/main COMPONENT identity, static empty reactions, native annotations, full human text, reciprocal links, current graph hashes and explicit flow starts were checked. Independent readback review found and corrected an internal-ID leak in the focused copy through graph → specification export → bounded native edits → fresh verification. Repeating the update changed zero objects. The three complete apps were re-executed with all 1,574/1,435/1,143 IDs preserved.
+
+Desktop observation confirmed readable source-backed save explanations in the normal Design board. Actual prototype clicks completed Today → Settings → Today in both desktop and mobile. This UI observation is distinct from getter verification and from application data operations, which Figma does not execute.
+
+## Scalar round trip and preservation
+
+For one declared desktop main and instance, four token roots control font family/size, both inline paddings and four-corner radius. Normal pairing passed graph → native + actual generated-module web consumption; four actual native variable edits were then imported into the graph, regenerated into the web module, reconciled in Figma and paired again. Both receipts cover the same ten consumer mappings. Stale web evidence was rejected; unrelated native nodes and the 50 original focused variables were unchanged, and four dedicated graph variables were added. The browser's unrelated navigation/field geometry and mobile exclusion were also checked. This proves declared scalar synchronization, not whole-page layout synchronization.
+
+After all new-page work, the original page's 1,126 nodes, 193 variables, one collection and graphSSOT data matched its baseline exactly, excluding observation time. Existing plugin identity and technical ownership archives were retained. Figma/API receipts are authenticated plugin reports, not independent cryptographic origin attestation.
+
+## Prepared-task retirement
+
+REQ-UPDATE-06 / AC-UPDATE-08 add explicit key/revision retirement after observed stale prepared inputs blocked unrelated publication. Tests cover whole-selection CAS, claims/uncertain mutations, remaining artifact checks and failure recovery. A real four-task retirement preserved all 254 checked artifact/receipt/readback file hashes; fresh tasks were then prepared successfully. Only active-list metadata is removed, with an immutable private recovery record. Source checks were retained.
+
+## Boundaries and deployment evidence
+
+Utility fixtures retain explicitly reviewed density/type-scale/visual-anchor warnings; they are not aesthetic production approvals. Native typography required source-bounded allocation/padding projections, including a 2.15625px cart-link width correction; pixel-identical browser/native rendering is not claimed. The native annotation click-through remains gated by the current account's Dev Mode access, while normal Design board content and reciprocal getter links were checked. A real unrelated user-note case, full loading/error/long-copy state coverage, host-chat delivery and arbitrary React/design-system import remain unverified. Linked fixture photo/font requests intentionally exposed missing assets and were not counted as positive asset-import success.
+
+Package installation, tag, CI and downloadable-asset validation are recorded separately in the tag-scoped [0.26.0 Release evidence](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.26.0). Private graphs, file/node IDs, runtime receipts, source fingerprints, screenshots, rollback records and migration backups remain outside the shared package.
+
+---
+
+# Historical baseline · 2026-11-11
 
 ## Source and scope
 
-Source checkout: `feat/readable-graph-specs`, based on `f64d9a9e592343a0910cec236d358cd841b8e207`, origin `https://github.com/jonsoku-dev/figma-flow.git`. Work is uncommitted and unreleased. The handoff's corporate installation/SHA is historical evidence from another installation, not this checkout's authority. Existing package version, stable plugin ID and registered manifest path are preserved.
+Recorded baseline: `feat/readable-graph-specs`, based on `f64d9a9e592343a0910cec236d358cd841b8e207`, later committed as `61c0b1e`. Origin was `https://github.com/jonsoku-dev/figma-flow.git`. The following section describes that earlier execution, before consolidation and the 0.26.0 checks above. The handoff's corporate installation/SHA is historical evidence from another installation, not this checkout's authority. Existing package version, stable plugin ID and registered manifest path are preserved.
 
 The initial no-Figma instruction was later superseded by explicit user authorization for actual testing. Follow-up used the existing registered Figma Flow plugin, authenticated local-control receipts, Desktop observation and an independent read-only web viewer. Official Figma MCP, global Codex package replacement, release, merge and deployment were not used.
 
