@@ -236,7 +236,15 @@ class ControlTests(unittest.TestCase):
     def test_changed_mutating_revision_requires_scoped_discovery_not_new_revision_read(self):
         original = self.mutation()
         claim = self.claim()
-        changed = workspace.prepare(self.root, 'mutation', 'Updated apply', 'sync', ['--graph', str(self.directory / 'graph.json'), '--native-readback', str(self.directory / 'native.json')], replace_expected=self.mutating['revision'])
+        # Simulate out-of-band catalogue drift; normal publication now rejects active claims.
+        with workspace.locked(self.root):
+            catalogue = workspace.current(self.root)
+            changed = next(row for row in catalogue['tasks'] if row['key'] == 'mutation')
+            changed['title'] = 'Updated apply'
+            changed['revision'] = workspace.digest(workspace.encode(changed))
+            sealed = workspace.encode(workspace.sign_catalogue(self.root, catalogue))
+            workspace.atomic(self.root / '.generations' / catalogue['generation'] / 'catalogue.json', sealed)
+            workspace.atomic(self.root / 'catalogue.json', sealed)
         with self.assertRaises(ValueError):
             self.result(claim)
         self.enqueue(key='mutation', revision=changed['revision'])
@@ -316,7 +324,15 @@ class ControlTests(unittest.TestCase):
     def test_result_after_catalogue_revision_change_becomes_uncertain(self):
         self.enqueue()
         claim = self.claim()
-        workspace.prepare(self.root, 'discovery', 'Updated read', 'discover', ['--file-key', 'fixturefile', '--page-id', '12:1'], replace_expected=self.prepared['revision'])
+        # Preserve the server's stale-result defense independently of the publication guard.
+        with workspace.locked(self.root):
+            catalogue = workspace.current(self.root)
+            changed = next(row for row in catalogue['tasks'] if row['key'] == 'discovery')
+            changed['title'] = 'Updated read'
+            changed['revision'] = workspace.digest(workspace.encode(changed))
+            sealed = workspace.encode(workspace.sign_catalogue(self.root, catalogue))
+            workspace.atomic(self.root / '.generations' / catalogue['generation'] / 'catalogue.json', sealed)
+            workspace.atomic(self.root / 'catalogue.json', sealed)
         with self.assertRaises(ValueError):
             self.result(claim)
         self.assertEqual(control.status(self.root)['state'], 'uncertain')

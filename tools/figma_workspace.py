@@ -340,6 +340,21 @@ def sign_catalogue(workspace, catalogue):
     return {**payload, 'signature': hmac.new(key, encode(payload), hashlib.sha256).hexdigest()}
 
 
+def require_idle_publication(workspace):
+    directory = child(workspace, '.control')
+    if not directory.exists():
+        return
+    directory = child(private_dir(directory), 'requests')
+    if not directory.exists():
+        return
+    for path in private_dir(directory).glob('*.json'):
+        request = read(path, private=True, limit=32768)
+        if not isinstance(request, dict) or request.get('schema') != 'figma-flow-control-v1':
+            raise ValueError('Invalid private control request')
+        if request.get('state') == 'claimed':
+            raise ValueError('Workspace publication blocked: wait for current native run to finish; inspect status with figma_control.py status')
+
+
 def current(workspace):
     identity = read(workspace / 'identity.json', private=True)
     if identity.get('schema') != SCHEMA or not re.fullmatch(r'[0-9]+', str(identity.get('plugin_id', ''))):
@@ -357,6 +372,7 @@ def current(workspace):
     if catalogue.get('plugin_id') != identity['plugin_id'] or catalogue.get('generation') != match[1] or catalogue.get('schema') != SCHEMA:
         raise ValueError('Workspace catalogue identity mismatch')
     if not (workspace / 'catalogue.json').exists() or read(workspace / 'catalogue.json', private=True) != catalogue:
+        require_idle_publication(workspace)
         atomic(workspace / 'catalogue.json', encode(catalogue))
     return catalogue
 
@@ -422,6 +438,7 @@ def task_surface(kind, code, original_html, *, shared=False):
 
 
 def publish(workspace, catalogue):
+    require_idle_publication(workspace)
     generation = uuid.uuid4().hex
     folder = child(workspace, '.generations/' + generation)
     folder.mkdir(mode=0o700)
@@ -481,6 +498,8 @@ def init(workspace, id_from, chat_port=None):
         raise ValueError('Refusing to overwrite unrelated workspace files')
     workspace = private_dir(workspace, create=True)
     with locked(workspace):
+        if not (workspace / 'manifest.json').exists() or chat_port is not None:
+            require_idle_publication(workspace)
         if (workspace / 'identity.json').exists():
             identity = read(workspace / 'identity.json', private=True)
             if identity != {'schema': SCHEMA, 'plugin_id': assigned}:
@@ -533,6 +552,7 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
                     raise ValueError('Task key already exists with different inputs; use --replace-expected')
                 task_artifacts(workspace, previous)
                 return {'key': key, 'revision': revision, 'unchanged': True, 'manifest': str(workspace / 'manifest.json')}
+            require_idle_publication(workspace)
             private_tree(staging)
             artifact_id = uuid.uuid4().hex
             relative = '.tasks/' + artifact_id

@@ -58,6 +58,8 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 
 Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 닫을 수 있습니다([공식 실행 모델](https://developers.figma.com/docs/plugins/how-plugins-run/), [등록·실행 안내](https://developers.figma.com/docs/plugins/plugin-quickstart-guide/)). 닫힌 플러그인을 숨겨서 실행하거나 원격 코드를 평가하지 않습니다. 새 `prepare`/`refresh` 후 자동 재로드 여부는 Desktop 환경에 따라 다릅니다. 이전 revision이면 창을 닫고 **같은 고정 플러그인**을 다시 실행하며 영구 무재시작을 약속하지 않습니다.
 
+진행 중인 네이티브 `run`이 끝난 뒤 같은 작업공간의 작업 목록을 갱신합니다. 플러그인이 이미 가져간 `claimed` 요청이 있으면 `prepare`·`refresh`의 새 게시를 거절합니다. 생성 도중 Desktop의 자동 재로드가 실행을 끊는 일을 줄이기 위한 검사이며, 게시 후의 모든 재로드를 원자적으로 제어하지는 않습니다. 먼저 `status`에서 완료를 확인하고 다음 작업을 준비하세요. 불확실한 실행은 현재 파일을 다시 읽어 복구한 뒤 검증하며, 중단된 자료를 성공 결과로 사용하지 않습니다.
+
 ![실제 Figma에서 연 Figma Flow 작업공간](images/panel-workspace.png)
 
 0.24.1부터 run은 큐를 기록하기 전에 같은 작업공간의 실행 중인 서버 버전·구현 해시·지원 작업을 확인합니다. --no-wait도 준비된 서버에 요청을 넣은 뒤 즉시 반환하는 옵션입니다. 구버전·접속 실패·인증 문제 안내가 나오면 기존 작업공간의 서비스만 정상 종료하고 현재 설치본의 serve로 다시 시작하세요. 서버 확인과 실제 Figma 플러그인 실행·읽기 결과는 각각 검증합니다.
@@ -557,6 +559,8 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 
 Version 0.24.1 checks the running local server before queueing every run, including --no-wait. Restart only this workspace's service with the current installed tools if the version, implementation or capability check fails. Full native discovery imports must match the pairing marker before writing graph or web files.
 
+Wait for native runs to finish before preparing or refreshing that workspace. A claimed request blocks new publication so an automatic Desktop reload cannot interrupt that known active run. Uncertain operations require a current read before retrying. This does not make all reload timing atomic.
+
 [한국어](#korean) · [日本語](#japanese)
 
 Computer Use and official Figma MCP are not required for consumer operation. Developers may use separately authorized Computer Use for verification. Register **one Figma Flow development plugin**. Launch it manually in the target Figma Design file once per plugin session. Codex can then run prepared operations through private localhost control without repeated button clicks. A closed plugin must be reopened; updates may also require reopening. There is no hidden background launcher or arbitrary remote code evaluation.
@@ -678,6 +682,8 @@ For updates, preserve the old source and complete workspace, install the chosen 
 `control_styles.fill: null` は塗りと色変数を追加せず透明ボタンを保ちます。文字のコントラストは元の背景を合成して確認します。不透明 RGB 専用のグラフ `backgroundColor` は宣言しません。両端配置の原本は実測幅で固定し、従来の中央配置 HUG は維持します。
 
 0.24.1 では --no-wait を含む run の前にローカルサーバーの互換性を確認します。不一致の場合は該当する作業空間のサービスだけを現在のインストール先から再起動してください。Figma の全体読み取り結果も pairing のマーカーを照合してからグラフと Web を更新します。
+
+実行中のネイティブ処理が完了してから作業一覧を更新します。claimed の要求がある間は新しい prepare・refresh の公開を拒否します。不確実な操作は現在値を読み直してから再開してください。公開後のすべての自動再ロードを原子的に制御する保証ではありません。
 
 [한국어](#korean) · [English](#english)
 
