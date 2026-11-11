@@ -330,11 +330,20 @@ class HostAdapter:
         with (workspace.locked(path) if apply else nullcontext(workspace.private_dir(path))) as root:
             directory = root / '.control'
             if directory.exists():
+                uncertain = False
                 for request in (directory / 'requests').glob('*.json'):
-                    if workspace.read(request, private=True, limit=32768).get('state') in {'pending', 'claimed', 'uncertain'}:
+                    request = workspace.read(request, private=True, limit=32768)
+                    if request.get('state') in {'pending', 'claimed'}:
                         raise ExceptionStatus('active-or-uncertain-native-operation')
-                pending = directory / 'uncertainty.json'
-                if pending.exists() and workspace.read(pending, private=True, limit=1_000_000).get('operations'):
+                    uncertain |= request.get('state') == 'uncertain' and request.get('operation') != 'read'
+                marker = directory / 'uncertainty.json'
+                if marker.exists():
+                    from figma_control import SCHEMA as CONTROL_SCHEMA
+                    pending = workspace.read(marker, private=True, limit=1_000_000)
+                    if not isinstance(pending, dict) or pending.get('schema') != CONTROL_SCHEMA or not isinstance(pending.get('operations'), dict):
+                        raise ValueError('Invalid private uncertainty marker')
+                    uncertain = bool(pending['operations'])
+                if uncertain:
                     raise ExceptionStatus('active-or-uncertain-native-operation')
             workspace.require_idle_publication(root)
             catalogue = workspace.current(root, repair=apply)

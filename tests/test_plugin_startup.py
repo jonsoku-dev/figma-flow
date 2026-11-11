@@ -515,6 +515,46 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(host.native(root,True)['status'],'files-updated')
         self.assertEqual(workspace.current(root)['tasks'][0]['generator_sha256'], workspace.trusted_sources())
 
+    def test_native_uncertainty_uses_authoritative_marker_without_read_only_writes(self):
+        empty = {'schema':'figma-flow-control-v1', 'operations':{}}
+        cases = [
+            ('recovered', 'uncertain', 'import', empty, False),
+            ('unresolved', 'completed', 'read', {**empty, 'operations':{'old':{}}}, True),
+            ('legacy-read', 'uncertain', 'read', None, False),
+            ('legacy-mutation', 'uncertain', 'import', None, True),
+            ('pending', 'pending', 'read', empty, True),
+            ('claimed', 'claimed', 'read', empty, True),
+        ]
+        malformed = [[], None, {}, {**empty, 'schema':'wrong'}, {**empty, 'operations':[]},
+                     {**empty, 'operations':None}]
+        cases.extend((f'malformed-{index}', 'completed', 'read', marker, True)
+                     for index, marker in enumerate(malformed))
+        for name, state, operation, marker, blocked in cases:
+            with self.subTest(name=name):
+                root = self.root / name
+                assigned = self.root / f'{name}-assigned.json'
+                assigned.write_text('{"id":"12345"}')
+                workspace.init(root,assigned)
+                directory = root / '.control'
+                (directory / 'requests').mkdir(mode=0o700,parents=True)
+                directory.chmod(0o700)
+                workspace.atomic(directory / 'requests/old.json',workspace.encode({
+                    'schema':'figma-flow-control-v1', 'state':state, 'operation':operation}))
+                if name.startswith('malformed-') or marker is not None:
+                    workspace.atomic(directory / 'uncertainty.json',workspace.encode(marker))
+                (root / '.workspace.lock').unlink()
+                def snapshot():
+                    return {str(p.relative_to(root)):p.read_bytes() if p.is_file() else None
+                            for p in root.rglob('*')}
+                before = snapshot()
+                host = startup.HostAdapter()
+                if blocked:
+                    with self.assertRaises(ValueError):
+                        host.native(root,False)
+                else:
+                    self.assertEqual(host.native(root,False)['status'],'files-current')
+                self.assertEqual(snapshot(),before)
+
     def adapter_for_native(self):
         host = startup.HostAdapter()
         host.inventory = Mock(side_effect=startup.ExceptionStatus('unknown-source'))

@@ -21,6 +21,8 @@ The local CLI accepts `check` and `ensure` with source, authority, workspace, `-
 
 An accepted result may refresh the liveness timestamp only when its authenticated claim belongs to the same recorded session and current runtime. It never supplies or replaces runtime identity. The 15-second offline expiry remains unchanged.
 
+Startup uses the authoritative uncertainty marker: unresolved mutations block updates, while an empty valid marker preserves completed reconciliation even if historical request records still say `uncertain`. Without a marker, legacy uncertain mutations remain blocked. Read-only checks do not create or rewrite recovery state.
+
 Changed inputs keep an old prepared task non-executable. When that obsolete task prevents publication of unrelated new work, explicit retirement selects its key and current revision, validates the entire selection, and archives its catalogue metadata before removing it from the active list. Native design, artifacts, generations and receipts remain intact. Retirement neither re-admits stale inputs nor authorizes execution. Claimed work and unresolved uncertain mutations block retirement.
 
 ## Acceptance criteria
