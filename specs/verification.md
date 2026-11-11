@@ -2,7 +2,7 @@
 
 ## Current source checks
 
-Python 3.13.3 and pinned Node 26.13.0: Python 1,005 tests (2 external/operator-evidence skips), Node 213 (1 external saved-packet skip), and 2 demo tests passed. Dependency, generated-workflow and three feature-graph checks also exited 0. All eight planned commands completed with unchanged source fingerprints. Separate panel and typed component rebuild checks are recorded in the private execution report. Skips remain separate from the actual native tests below.
+Python 3.13.3 and pinned Node 26.13.0: Python 1,006 tests (2 external/operator-evidence skips), Node 213 (1 external saved-packet skip), and 2 demo tests passed. Dependency, generated-workflow and three feature-graph checks also exited 0. All eight planned commands completed with unchanged source fingerprints. Separate panel and typed component rebuild checks are recorded in the private execution report. Skips remain separate from the actual native tests below.
 
 ## Actual browser and Figma coverage
 
