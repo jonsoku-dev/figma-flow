@@ -6,7 +6,9 @@ create-only or revised task, prepare a signed discover task for the original
 file/page and run read; its actual getter reconciles the preserved receipt.
 """
 import argparse
+import hashlib
 import hmac
+import http.client
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
@@ -25,6 +27,66 @@ OPERATIONS = {'review': {'create'}, 'import': {'read', 'import', 'sync'},
               'discover': {'read'}, 'sync': {'read', 'apply'}, 'native-edit': {'read', 'apply'}}
 TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
 ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
+MAX_READINESS = 64 * 1024
+READINESS_PROTOCOL = 'figma-flow-control-readiness-v1'
+# Capture the implementation loaded by this process, even if installation files change later.
+LOADED_VERSION = json.loads((Path(__file__).resolve().parents[1] / 'plugin.json').read_bytes())['version']
+LOADED_IMPLEMENTATION = hashlib.sha256(Path(__file__).read_bytes() + b'\0' + Path(workspace.__file__).read_bytes()).hexdigest()
+
+
+def readiness():
+    return {'schema': SCHEMA, 'protocol': READINESS_PROTOCOL, 'version': LOADED_VERSION,
+            'implementation': LOADED_IMPLEMENTATION,
+            'operations': {kind: sorted(operations) for kind, operations in OPERATIONS.items()}}
+
+
+class ReadinessError(ValueError):
+    pass
+
+
+def require_ready(root, key, operation, file_key, page_id, revision, *, focus_page=False):
+    root = workspace.private_dir(root)
+    settings = config(root)
+    row = task(root, {'key': key, 'operation': operation, 'file_key': file_key,
+                      'page_id': page_id, 'revision': revision, 'focus_page': focus_page})
+    repair = '; restart only this workspace\'s existing serve command using the current installed plugin root'
+    connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=3)
+    try:
+        connection.request('POST', '/control/readiness', b'{}',
+                           {'Host': f'localhost:{settings["port"]}', 'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + settings['token']})
+        response = connection.getresponse()
+        if response.status != 200:
+            raise ReadinessError(f'Control readiness rejected (HTTP {response.status})' + repair)
+        length = response.getheader('Content-Length')
+        if length is not None and (not re.fullmatch(r'[0-9]{1,9}', length) or int(length) > MAX_READINESS):
+            raise ReadinessError('Control readiness response is oversized or malformed' + repair)
+        raw = response.read(MAX_READINESS + 1)
+        if len(raw) > MAX_READINESS:
+            raise ReadinessError('Control readiness response is oversized' + repair)
+        try:
+            value = json.loads(raw)
+        except (ValueError, UnicodeError, RecursionError):
+            raise ReadinessError('Control readiness response is malformed' + repair) from None
+        expected = readiness()
+        if not isinstance(value, dict) or set(value) != set(expected):
+            raise ReadinessError('Control readiness response has an unsupported format' + repair)
+        if any(value[field] != expected[field] for field in ('schema', 'protocol', 'version', 'implementation')):
+            raise ReadinessError('Control server loaded version or implementation differs from this CLI' + repair)
+        capabilities = value['operations']
+        if (not isinstance(capabilities, dict) or not all(isinstance(kind, str) and isinstance(operations, list)
+                and all(isinstance(item, str) for item in operations) for kind, operations in capabilities.items())):
+            raise ReadinessError('Control readiness capabilities are malformed' + repair)
+        if operation not in capabilities.get(row['kind'], []):
+            raise ReadinessError('Control server does not support the requested task kind and operation' + repair)
+    except ConnectionRefusedError:
+        raise ReadinessError('Control server is not running' + repair) from None
+    except TimeoutError:
+        raise ReadinessError('Control readiness timed out' + repair) from None
+    except (OSError, http.client.HTTPException):
+        raise ReadinessError('Control readiness connection failed' + repair) from None
+    finally:
+        connection.close()
 
 
 def config(root):
@@ -290,7 +352,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/readiness'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
@@ -307,7 +369,12 @@ class Handler(BaseHTTPRequestHandler):
             payload = json.loads(self.rfile.read(int(length)))
             if not isinstance(payload, dict):
                 raise ValueError('Object required')
-            value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
+            if self.path == '/control/readiness':
+                if payload:
+                    raise ValueError('Exact empty readiness object required')
+                value = readiness()
+            else:
+                value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
         except (ValueError, KeyError, TypeError, OSError):
             return self.reply(409, {'error': 'Control request rejected; inspect private operation status'})
         self.reply(200, value)
@@ -345,7 +412,7 @@ def main(argv=None):
                 command.add_argument('--' + field, required=True)
             command.add_argument('--operation', choices=sorted(set.union(*OPERATIONS.values())), required=True)
             command.add_argument('--timeout', type=float, default=120)
-            command.add_argument('--no-wait', action='store_true')
+            command.add_argument('--no-wait', action='store_true', help='Return after queueing on a compatible running server')
             command.add_argument('--focus-page', action='store_true', help='Focus the exact signed task page within the current file')
     args = parser.parse_args(argv)
     try:
@@ -357,6 +424,7 @@ def main(argv=None):
         elif args.command == 'status':
             value = status(args.workspace, args.id)
         else:
+            require_ready(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, focus_page=args.focus_page)
             value = enqueue(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, args.timeout, focus_page=args.focus_page)
             if not args.no_wait:
                 while value['state'] not in TERMINAL:
@@ -364,6 +432,9 @@ def main(argv=None):
                     value = status(args.workspace, value['id'])
         print(json.dumps(value, ensure_ascii=True, allow_nan=False))
         return 2 if value.get('state') in {'error', 'uncertain', 'expired'} else 0
+    except ReadinessError as error:
+        print('figma-control: ' + str(error), file=sys.stderr)
+        return 2
     except (ValueError, OSError, KeyError, TypeError):
         print('figma-control: rejected; inspect private configuration, task revision, scope and operation status', file=sys.stderr)
         return 2

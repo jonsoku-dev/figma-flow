@@ -1,4 +1,4 @@
-# Figma Flow 0.24.0 통합 가이드
+# Figma Flow 0.24.1 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
@@ -60,6 +60,8 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 
 ![실제 Figma에서 연 Figma Flow 작업공간](images/panel-workspace.png)
 
+0.24.1부터 run은 큐를 기록하기 전에 같은 작업공간의 실행 중인 서버 버전·구현 해시·지원 작업을 확인합니다. --no-wait도 준비된 서버에 요청을 넣은 뒤 즉시 반환하는 옵션입니다. 구버전·접속 실패·인증 문제 안내가 나오면 기존 작업공간의 서비스만 정상 종료하고 현재 설치본의 serve로 다시 시작하세요. 서버 확인과 실제 Figma 플러그인 실행·읽기 결과는 각각 검증합니다.
+
 ### Computer Use 없이 글꼴 적용하기
 
 1. Codex가 시안 원본에 글꼴 패밀리와 스타일을 함께 지정합니다. 예를 들어 제목은 `Hahmlet Bold`, 본문은 `Noto Sans KR Regular`로 준비합니다.
@@ -91,7 +93,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.24.1 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -100,7 +102,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.24.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.24.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.24.1`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.24.1`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -302,6 +304,8 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 
 ## 10. 그래프와 Figma 컴포넌트 동기화
 
+전체 Figma 읽기 JSON을 역수입할 때도 현재 pairing의 그래프 마커를 대조합니다. 마커가 없거나 오래됐거나 두 형식이 충돌하면 그래프·웹 수정 전에 거절합니다. 해당 파일·페이지의 현재 값을 다시 읽고 정합 절차로 이어가며 JSON의 마커를 손으로 고치지 않습니다.
+
 그래프 왕복은 지원되는 토큰·컴포넌트 속성과 선언된 네이티브/웹 연결 범위에 한정됩니다. 임의의 그림·전체 화면 레이아웃을 자동 양방향 재설계하지 않습니다. 로컬 변수/모드, 별칭, 컴포넌트 소비자와 실제 웹 값은 각각 현재 pairing 자료로 대조합니다. Figma 직접 편집은 역수입 후 그래프 정본을 갱신하고 웹을 다시 생성·측정해야 합니다.
 
 컴포넌트의 디자인 값을 그래프 정본으로 관리하고 실제 Figma·웹과 왕복하려면 [Graph SSOT 명령 가이드](../examples/graph-ssot/README.md)를 사용합니다. 본제작의 사용자 선택과 실제 화면 검증은 계속 별도입니다.
@@ -414,7 +418,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.24.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.24.1을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -527,6 +531,8 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 
 ## English quick start
 
+Version 0.24.1 checks the running local server before queueing every run, including --no-wait. Restart only this workspace's service with the current installed tools if the version, implementation or capability check fails. Full native discovery imports must match the pairing marker before writing graph or web files.
+
 [한국어](#korean) · [日本語](#japanese)
 
 Computer Use and official Figma MCP are not required for consumer operation. Developers may use separately authorized Computer Use for verification. Register **one Figma Flow development plugin**. Launch it manually in the target Figma Design file once per plugin session. Codex can then run prepared operations through private localhost control without repeated button clicks. A closed plugin must be reopened; updates may also require reopening. There is no hidden background launcher or arbitrary remote code evaluation.
@@ -540,14 +546,14 @@ Codex can retrieve the result while local control is connected. For offline work
 ## Install once
 
 ```sh
-git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.24.1 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.24.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.24.1`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -637,6 +643,8 @@ For updates, preserve the old source and complete workspace, install the chosen 
 
 ## 日本語クイックスタート
 
+0.24.1 では --no-wait を含む run の前にローカルサーバーの互換性を確認します。不一致の場合は該当する作業空間のサービスだけを現在のインストール先から再起動してください。Figma の全体読み取り結果も pairing のマーカーを照合してからグラフと Web を更新します。
+
 [한국어](#korean) · [English](#english)
 
 利用者の実行に Computer Use や公式 Figma MCP は不要です。開発者は別途許可された環境で Computer Use を検証に使えます。
@@ -652,14 +660,14 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.24.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.24.1 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.24.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.24.1` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 

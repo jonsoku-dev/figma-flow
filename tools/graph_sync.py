@@ -765,6 +765,14 @@ def graph_panel(mode, scope, plan=None, session=None):
     return render_panel(template).replace('__GRAPH_PANEL_CONFIG__', data)
 
 
+def verify_native_marker(data, graph_sha256, required=True):
+    marker = data.get('graphSSOT', data.get('baseline'))
+    if data.get('graphSSOT') is not None and data.get('baseline') is not None and data['graphSSOT'] != data['baseline']:
+        raise ValueError('conflicting native graph markers')
+    if (required or marker is not None) and (not isinstance(marker, dict) or marker.get('graph_sha256') != graph_sha256):
+        raise ValueError('native graph marker differs from pairing')
+
+
 def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plugin_id=None, adopt=False, import_report=None):
     graph = load_graph(graph_path)
     resolved = resolve_design_system(graph)
@@ -793,11 +801,7 @@ def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plug
                 if repairs != import_report.get('repair_bindings') or merge_roots(graph, pairing, effective):
                     raise ValueError('accepted direct-node repair differs from current graph')
                 plan['repair_bindings'] = repairs
-            marker = baseline.get('graphSSOT', baseline.get('baseline'))
-            if baseline.get('graphSSOT') is not None and baseline.get('baseline') is not None and baseline['graphSSOT'] != baseline['baseline']:
-                raise ValueError('conflicting native graph markers')
-            if not isinstance(marker, dict) or marker.get('graph_sha256') != pairing['graph_sha256']:
-                raise ValueError('native graph marker differs from pairing')
+            verify_native_marker(baseline, pairing['graph_sha256'])
         for token in plan['tokens']:
             token.update(value=resolved['tokens'][token['key']], before=before[token['key']])
     output = Path(out)
@@ -825,10 +829,8 @@ def import_values(graph_path, pairing, readback, web_module, out, apply=False, n
         raise ValueError('only explicit component scope is supported for direct node edits')
     normalized = normalize(readback, pairing['plan'])
     observed, _ = verify_readback(pairing['plan'], normalized, identities=pairing['consumer_ids'], allow_node_edits=node_edit_scope == 'component')
-    if readback.get('schema') == 'figma-flow-graph-token-readback-v1':
-        marker = readback.get('baseline')
-        if not isinstance(marker, dict) or marker.get('graph_sha256') != pairing['graph_sha256']:
-            raise ValueError('native graph marker differs from pairing')
+    verify_native_marker(readback, pairing['graph_sha256'], required=readback.get('schema') in (
+        'figma-flow-graph-token-readback-v1', 'figma-flow-graph-native-discovery-v1'))
     repairs, unsupported = [], copy.deepcopy(normalized.get('unsupported_changes', []))
     if node_edit_scope == 'component':
         observed, repairs, unsupported = component_node_edits(graph, pairing, normalized, observed)

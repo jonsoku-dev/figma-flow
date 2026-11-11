@@ -135,6 +135,60 @@ class GraphSyncTests(unittest.TestCase):
         self.assertFalse(report['pairing_advanced'])
         self.assertEqual(report['graph_sha256_after'], graph.source_sha256)
 
+    def discovery_edit(self):
+        data = copy.deepcopy(self.native)
+        data['schema'] = 'figma-flow-graph-native-discovery-v1'
+        data['graphSSOT'] = copy.deepcopy(self.focused['baseline'])
+        data['variables'][0]['valuesByMode']['mode'] = 24
+        for node in data['nodes']:
+            if node['type'] == 'TEXT':
+                node['fontSize'] = 24
+        return data
+
+    def test_import_rejects_invalid_discovery_markers_without_any_writes(self):
+        self.web.write_text('existing web module')
+        before = {path.relative_to(self.directory): path.read_bytes()
+                  for path in self.directory.rglob('*') if path.is_file()}
+        for case in ('stale', 'missing', 'conflicting'):
+            data = self.discovery_edit()
+            if case == 'stale':
+                data['graphSSOT']['graph_sha256'] = '0' * 64
+            elif case == 'missing':
+                del data['graphSSOT']
+            else:
+                data['baseline'] = {'graph_sha256': '0' * 64}
+            with self.subTest(case=case), self.assertRaisesRegex(ValueError, 'native graph marker'):
+                import_values(self.path, self.pairing, data, self.web, self.directory / case, True)
+            self.assertEqual({path.relative_to(self.directory): path.read_bytes()
+                              for path in self.directory.rglob('*') if path.is_file()}, before)
+            self.assertFalse((self.directory / case).exists())
+
+    def test_import_accepts_matching_discovery_marker(self):
+        for shape in ('graphSSOT', 'baseline', 'both'):
+            data = self.discovery_edit()
+            if shape == 'baseline':
+                data['baseline'] = data.pop('graphSSOT')
+            elif shape == 'both':
+                data['baseline'] = copy.deepcopy(data['graphSSOT'])
+            with self.subTest(shape=shape):
+                report = import_values(self.path, self.pairing, data, self.web, self.directory / shape, True)
+                self.assertTrue(report['applied'])
+        self.assertEqual(load_graph(self.path)['design_system']['tokens']['b/size/button']['value'], 24)
+        self.assertIn('24px', self.web.read_text())
+
+    def test_import_rejects_conflicting_focused_markers(self):
+        data = self.changed('b/size/button', 24)
+        data['graphSSOT'] = {'graph_sha256': '0' * 64}
+        with self.assertRaisesRegex(ValueError, 'conflicting native graph markers'):
+            import_values(self.path, self.pairing, data, self.web, self.directory / 'conflicting', True)
+
+    def test_import_preserves_untyped_native_compatibility(self):
+        data = self.discovery_edit()
+        del data['schema'], data['graphSSOT']
+        report = import_values(self.path, self.pairing, data, self.web, self.directory / 'legacy', True)
+        self.assertTrue(report['applied'])
+        self.assertEqual(load_graph(self.path)['design_system']['tokens']['b/size/button']['value'], 24)
+
     def test_reverse_import_can_export_actual_before_for_marker_reconciliation(self):
         actual = self.changed('b/size/button', 24)
         import_values(self.path, self.pairing, actual, self.web, self.directory / 'import', True)

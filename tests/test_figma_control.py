@@ -1,7 +1,7 @@
 """Relay protocol tests. Synthetic plugin responses are not live Figma evidence."""
 import contextlib
 import http.client
-from http.server import ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import io
 import json
 import os
@@ -34,6 +34,24 @@ class ControlTests(unittest.TestCase):
         values = dict(root=self.root, key='discovery', operation='read', file_key='fixturefile', page_id='12:1', revision=self.prepared['revision'], timeout=120)
         values.update(changes)
         return control.enqueue(**values)
+
+    def start_server(self, handler=control.Handler):
+        settings = control.config(self.root)
+        server = ThreadingHTTPServer(('127.0.0.1', 0), handler)
+        server.workspace, server.token = self.root, settings['token']
+        settings['port'] = server.server_port
+        workspace.atomic(self.root / 'control.json', workspace.encode(settings))
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        return server
+
+    def run_args(self, *extra):
+        return ['run', '--workspace', str(self.root), '--key', 'discovery', '--operation', 'read',
+                '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', self.prepared['revision'], *extra]
+
+    def snapshot(self):
+        return {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
 
     def claim(self, **changes):
         payload = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1'}
@@ -127,6 +145,7 @@ class ControlTests(unittest.TestCase):
         self.assertFalse(claim['focus_page'])
 
     def test_cli_explicit_focus_option_is_preserved(self):
+        self.start_server()
         with contextlib.redirect_stdout(io.StringIO()) as output:
             code = control.main(['run', '--workspace', str(self.root), '--key', 'discovery', '--operation', 'read', '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', self.prepared['revision'], '--focus-page', '--no-wait'])
         self.assertEqual(code, 0)
@@ -280,6 +299,7 @@ class ControlTests(unittest.TestCase):
         self.assertIn('preview_error', Path(receipt['readback']).read_text())
 
     def test_cli_wait_exits_nonzero_on_deadline(self):
+        self.start_server()
         with contextlib.redirect_stdout(io.StringIO()) as output:
             code = control.main(['run', '--workspace', str(self.root), '--key', 'discovery', '--operation', 'read', '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', self.prepared['revision'], '--timeout', '1'])
         self.assertEqual(code, 2)
@@ -336,12 +356,119 @@ class ControlTests(unittest.TestCase):
         self.assertEqual(control.status(self.root)['state'], 'ok')
 
     def test_cli_no_wait_status_and_invalid_arguments(self):
+        self.start_server()
         with contextlib.redirect_stdout(io.StringIO()) as output:
             code = control.main(['run', '--workspace', str(self.root), '--key', 'discovery', '--operation', 'read', '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', self.prepared['revision'], '--no-wait'])
         self.assertEqual(code, 0)
         self.assertEqual(json.loads(output.getvalue())['state'], 'pending')
+        pending = control.status(self.root)
+        self.assertEqual(pending['state'], 'pending')
+        self.assertNotIn('session_id', pending)
         with self.assertRaises(ValueError):
             control.status(self.root, '../escape')
+
+    def test_readiness_is_authenticated_exact_and_read_only(self):
+        server = self.start_server()
+        settings = control.config(self.root)
+        before = self.snapshot()
+
+        def post(body=b'{}', **headers):
+            connection = http.client.HTTPConnection('127.0.0.1', server.server_port, timeout=3)
+            base = {'Host': f'localhost:{server.server_port}', 'Authorization': 'Bearer ' + settings['token'],
+                    'Content-Type': 'application/json'}
+            base.update(headers)
+            connection.request('POST', '/control/readiness', body, base)
+            response = connection.getresponse()
+            code, value = response.status, json.loads(response.read())
+            connection.close()
+            return code, value
+
+        with patch.object(control, 'state_dir', side_effect=AssertionError('Readiness touched queue')), \
+                patch.object(control, 'active', side_effect=AssertionError('Readiness checked deadline')), \
+                patch.object(control, 'poll', side_effect=AssertionError('Readiness polled')), \
+                patch.object(control, 'status', side_effect=AssertionError('Readiness checked status')):
+            self.assertEqual(post(Authorization='Bearer wrong')[0], 403)
+            self.assertEqual(post(Host='evil.example')[0], 403)
+            self.assertEqual(post(Origin='https://evil.example')[0], 403)
+            for body in (b'{"unexpected":true}', b'[]', b'null', b'{'):
+                self.assertEqual(post(body)[0], 409)
+            self.assertEqual(post(**{'Content-Length': str(control.MAX_BODY + 1)})[0], 413)
+            code, value = post(Origin='null')
+            self.assertEqual(code, 200)
+            self.assertEqual(value, control.readiness())
+        self.assertEqual(self.snapshot(), before)
+        with patch.object(Path, 'read_bytes', side_effect=AssertionError('Re-read installed files')):
+            self.assertEqual(control.readiness(), value)
+
+    def test_readiness_failures_precede_all_cli_queue_mutations(self):
+        class ResponseHandler(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_POST(self):
+                self.server.observed = (self.path, self.headers.get('Host'), self.rfile.read(int(self.headers['Content-Length'])))
+                self.send_response(self.server.code)
+                if self.server.include_length:
+                    self.send_header('Content-Length', str(len(self.server.body)))
+                self.end_headers()
+                self.wfile.write(self.server.body)
+
+        server = self.start_server(ResponseHandler)
+        server.include_length = True
+        valid = control.readiness()
+        cases = [(403, b'{}', 'HTTP 403'), (404, b'{}', 'HTTP 404'),
+                 (200, b'{', 'malformed'), (200, b'[]', 'unsupported format'),
+                 (200, b'x' * (control.MAX_READINESS + 1), 'oversized')]
+        for field in ('schema', 'protocol', 'version', 'implementation'):
+            cases.append((200, workspace.encode({**valid, field: 'old'}), 'differs'))
+        cases.extend([(200, workspace.encode({**valid, 'operations': {'discover': []}}), 'does not support'),
+                      (200, workspace.encode({**valid, 'operations': []}), 'capabilities are malformed')])
+        for code, body, message in cases:
+            server.code, server.body = code, body
+            before = self.snapshot()
+            for extra in ((), ('--no-wait',)):
+                with self.subTest(code=code, message=message, extra=extra), \
+                        contextlib.redirect_stderr(io.StringIO()) as error, \
+                        patch.object(control, 'enqueue', side_effect=AssertionError('Enqueued before readiness')):
+                    self.assertEqual(control.main(self.run_args(*extra)), 2)
+                    self.assertIn(message, error.getvalue())
+                    self.assertIn('restart only this workspace', error.getvalue())
+                    self.assertNotIn(control.config(self.root)['token'], error.getvalue())
+                self.assertEqual(self.snapshot(), before)
+            self.assertEqual(server.observed, ('/control/readiness', f'localhost:{server.server_port}', b'{}'))
+        server.include_length = False
+        server.code, server.body = 200, b'x' * (control.MAX_READINESS + 1)
+        before = self.snapshot()
+        with contextlib.redirect_stderr(io.StringIO()) as error:
+            self.assertEqual(control.main(self.run_args('--no-wait')), 2)
+        self.assertIn('oversized', error.getvalue())
+        self.assertEqual(self.snapshot(), before)
+
+    def test_current_server_admits_native_edit_after_readiness(self):
+        plan = self.directory / 'edit.json'
+        plan.write_text(json.dumps({'schema': 'figma-flow-native-edit-plan-v1',
+            'file_key': 'fixturefile', 'page_id': '12:1',
+            'edits': [{'node_id': '3:4', 'field': 'paddingLeft', 'before': 12, 'after': 20}]}))
+        prepared = workspace.prepare(self.root, 'native-edit', 'Edit scoped values', 'native-edit', ['--plan', str(plan)])
+        self.start_server()
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            code = control.main(['run', '--workspace', str(self.root), '--key', 'native-edit', '--operation', 'apply',
+                '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', prepared['revision'], '--no-wait'])
+        self.assertEqual(code, 0)
+        self.assertEqual(json.loads(output.getvalue())['state'], 'pending')
+        self.assertEqual(self.claim()['key'], 'native-edit')
+
+    def test_missing_server_rejects_before_queue_mutation(self):
+        server = ThreadingHTTPServer(('127.0.0.1', 0), control.Handler)
+        settings = control.config(self.root)
+        settings['port'] = server.server_port
+        server.server_close()
+        workspace.atomic(self.root / 'control.json', workspace.encode(settings))
+        before = self.snapshot()
+        with contextlib.redirect_stderr(io.StringIO()) as error:
+            self.assertEqual(control.main(self.run_args('--no-wait')), 2)
+        self.assertIn('Control server is not running', error.getvalue())
+        self.assertEqual(self.snapshot(), before)
 
 
 if __name__ == '__main__':
