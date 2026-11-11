@@ -2,6 +2,7 @@
 """Finite, scoped graph/native token exchange. Readbacks are evidence, not authority."""
 import argparse
 import copy
+from datetime import datetime
 import hashlib
 import json
 import math
@@ -10,12 +11,14 @@ import secrets
 from pathlib import Path
 import sys
 import tempfile
+from urllib.parse import urlsplit
 
 from plugin_panel import render_panel
 from graph_design_system import load_graph, resolve_design_system, emit_web_module, update_graph_values, _atomic_write, _encode, _validate_value, _validate_property, SUPPORTED_PROPERTY_TYPES
 
 SCHEMA = 'figma-flow-graph-token-sync-v1'
 RECEIPT = 'figma-flow-graph-pairing-v1'
+WEB_COMPOSITION = 'figma-flow-web-composition-v1'
 
 
 def read(path):
@@ -674,15 +677,28 @@ def affected_component_scope(graph, pairing, updates, repairs):
     return affected
 
 
-def verify_web_proof(graph, proof):
-    resolved = resolve_design_system(graph)
+def web_component_scope(graph, component_ids=None):
     declarations = {key: value for key, value in graph['design_system']['components'].items() if value.get('web', {}).get('selector')}
+    if component_ids is None:
+        return declarations
+    if (not isinstance(component_ids, (list, tuple)) or not component_ids or
+            any(not isinstance(key, str) or key not in declarations for key in component_ids) or
+            len(set(component_ids)) != len(component_ids)):
+        raise ValueError('web component scope must be a nonempty unique list of known web components')
+    return {key: declarations[key] for key in component_ids}
+
+
+def verify_web_proof(graph, proof, component_ids=None):
+    resolved = resolve_design_system(graph)
+    declarations = web_component_scope(graph, component_ids)
     if proof.get('schema') != 'figma-flow-graph-web-readback-v1' or proof.get('graph_sha256') != resolved['graphSha256']:
         raise ValueError('missing or stale actual web proof')
     if not isinstance(proof.get('url'), str) or not proof['url'] or not isinstance(proof.get('observed_at'), str) or not proof['observed_at']:
         raise ValueError('web proof URL and observation time required')
+    if 'component_ids' in proof and (proof['component_ids'] is None or set(web_component_scope(graph, proof['component_ids'])) != set(declarations)):
+        raise ValueError('web proof declared scope mismatch')
     components = proof.get('components', [])
-    if len(components) != len(declarations):
+    if not isinstance(components, list) or any(not isinstance(row, dict) for row in components) or len(components) != len(declarations):
         raise ValueError('web proof component coverage mismatch')
     for key, declaration in declarations.items():
         matches = [component for component in components if component.get('id') == key]
@@ -691,8 +707,11 @@ def verify_web_proof(graph, proof):
         actual = matches[0]
         if actual.get('selector') != declaration['web']['selector'] or actual.get('graph_sha256') != resolved['graphSha256']:
             raise ValueError('web proof selector or graph identity mismatch')
+        properties = actual.get('properties')
+        if not isinstance(properties, dict) or not set(resolved['components'][key]) <= set(properties):
+            raise ValueError('web proof property coverage mismatch')
         for field, value in resolved['components'][key].items():
-            observed = actual.get('properties', {}).get(field)
+            observed = properties[field]
             if isinstance(value, (int, float)) and (isinstance(observed, bool) or not isinstance(observed, (int, float))):
                 raise ValueError(f'web proof requires measured numeric pixels: {key}.{field}')
             if SUPPORTED_PROPERTY_TYPES[field] == 'COLOR':
@@ -703,18 +722,28 @@ def verify_web_proof(graph, proof):
                 same = observed == value
             if not same:
                 raise ValueError(f'web measured property mismatch: {key}.{field}')
+    if 'composition_protocol' in proof:
+        if proof['composition_protocol'] != WEB_COMPOSITION:
+            raise ValueError('unsupported web proof composition protocol')
+        sources = proof.get('sources')
+        if not isinstance(sources, list) or not sources or any(not isinstance(source, dict) or not isinstance(source.get('path'), str) for source in sources):
+            raise ValueError('web proof source provenance required')
+        expected = combine_web_proofs(graph, [source['path'] for source in sources])
+        if proof != expected:
+            raise ValueError('web proof source provenance or evidence changed')
     return True
 
 
-def web_probe(graph):
+def web_probe(graph, component_ids=None):
     declarations = {key: {'selector': value['web']['selector'], 'properties': list(value['properties'])}
-                    for key, value in graph['design_system']['components'].items() if value.get('web', {}).get('selector')}
+                    for key, value in web_component_scope(graph, component_ids).items()}
     return r"""(() => {
   const declarations = %s;
   const components = Object.entries(declarations).map(([id, declaration]) => {
     const elements = document.querySelectorAll(declaration.selector);
     if (elements.length !== 1) throw Error('Missing or ambiguous web selector: ' + declaration.selector);
     const element = elements[0], style = getComputedStyle(element), properties = {};
+    if (%s && (!Array.from(element.getClientRects()).some(rect => rect.width > 0 && rect.height > 0) || ['hidden', 'collapse'].includes(style.visibility) || style.display === 'none')) throw Error('Web component is not rendered: ' + id + ' (' + declaration.selector + ')');
     for (const field of declaration.properties) {
       const value = style[field];
       if (['backgroundColor', 'color', 'borderColor'].includes(field)) {
@@ -730,9 +759,66 @@ def web_probe(graph):
   });
   const hashes = [...new Set(components.map(component => component.graph_sha256))];
   return {schema: 'figma-flow-graph-web-readback-v1', graph_sha256: hashes.length === 1 ? hashes[0] : null,
-    components, observed_at: new Date().toISOString(), url: location.href};
+    components, observed_at: new Date().toISOString(), url: location.href,
+    viewport: {width: innerWidth, height: innerHeight, device_pixel_ratio: devicePixelRatio}%s};
 })()
-""" % json.dumps(declarations)
+""" % (json.dumps(declarations), 'true' if component_ids is not None else 'false', ', component_ids: ' + json.dumps(list(component_ids)) if component_ids is not None else '')
+
+
+def web_observation_time(value):
+    if not isinstance(value, str):
+        raise ValueError('web observation time must include timezone')
+    parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise ValueError('web observation time must include timezone')
+    return parsed
+
+
+def parse_web_proof(raw):
+    proof = json.loads(raw)
+    if isinstance(proof, str):
+        proof = json.loads(proof)
+    if not isinstance(proof, dict):
+        raise ValueError('web proof must be a JSON object or one JSON string wrapper')
+    return proof
+
+
+def combine_web_proofs(graph, proof_paths):
+    if not proof_paths:
+        raise ValueError('at least one actual web proof required')
+    rows, sources = {}, []
+    for path in proof_paths:
+        path = Path(path).resolve()
+        raw = path.read_bytes()
+        proof = parse_web_proof(raw)
+        if 'composition_protocol' in proof:
+            raise ValueError('combine requires original actual web proof files')
+        scope = proof.get('component_ids')
+        verify_web_proof(graph, proof, scope)
+        url = urlsplit(proof['url'])
+        if url.scheme not in ('http', 'https') or not url.hostname:
+            raise ValueError('actual web proof requires HTTP(S) URL')
+        web_observation_time(proof['observed_at'])
+        viewport = proof.get('viewport')
+        if not isinstance(viewport, dict) or any(type(viewport.get(key)) not in (int, float) or not math.isfinite(viewport[key]) or viewport[key] <= 0 for key in ('width', 'height')):
+            raise ValueError('actual web proof requires measured viewport dimensions')
+        if 'device_pixel_ratio' in viewport and (type(viewport['device_pixel_ratio']) not in (int, float) or not math.isfinite(viewport['device_pixel_ratio']) or viewport['device_pixel_ratio'] <= 0):
+            raise ValueError('invalid actual device pixel ratio')
+        for row in proof['components']:
+            if row['id'] in rows and rows[row['id']] != row:
+                raise ValueError('conflicting duplicate web component observation: ' + row['id'])
+            rows[row['id']] = copy.deepcopy(row)
+        sources.append({'path': str(path), 'sha256': hashlib.sha256(raw).hexdigest(),
+                        'url': proof['url'], 'observed_at': proof['observed_at'],
+                        'viewport': copy.deepcopy(viewport),
+                        'component_ids': list(web_component_scope(graph, scope))})
+    latest = max(sources, key=lambda source: web_observation_time(source['observed_at']))
+    result = {'schema': 'figma-flow-graph-web-readback-v1', 'graph_sha256': resolve_design_system(graph)['graphSha256'],
+              'url': latest['url'], 'observed_at': latest['observed_at'], 'components': list(rows.values())}
+    verify_web_proof(graph, result)
+    result['sources'] = sources
+    result['composition_protocol'] = WEB_COMPOSITION
+    return result
 
 
 def graph_panel(mode, scope, plan=None, session=None):
@@ -1008,6 +1094,14 @@ def main(argv=None):
     discovery_parser.add_argument('--out', required=True)
     recovery_parser = sub.add_parser('recover')
     recovery_parser.add_argument('--recovery', required=True)
+    for command in ('probe', 'combine-web'):
+        p = sub.add_parser(command)
+        p.add_argument('--graph', required=True)
+        p.add_argument('--out', required=True)
+        if command == 'probe':
+            p.add_argument('--component', action='append')
+        else:
+            p.add_argument('--proof', action='append', required=True)
     args = parser.parse_args(argv)
     try:
         if args.command == 'discover':
@@ -1017,6 +1111,14 @@ def main(argv=None):
             print(json.dumps(recover_projection(args.recovery)))
             return 0
         graph = load_graph(args.graph)
+        if args.command in ('probe', 'combine-web'):
+            output = Path(args.out)
+            value = web_probe(graph, args.component) if args.command == 'probe' else _encode(combine_web_proofs(graph, args.proof)).decode('utf-8')
+            output.parent.mkdir(parents=True, exist_ok=True)
+            with output.open('x', encoding='utf-8') as stream:
+                stream.write(value)
+            print(json.dumps({'output': str(output), 'kind': 'read-only-probe' if args.command == 'probe' else 'verified-supplied-composite'}))
+            return 0
         pairing = read(args.pairing) if getattr(args, 'pairing', None) else None
         if args.command == 'export':
             if not args.native_readback and not pairing:
@@ -1042,7 +1144,7 @@ def main(argv=None):
             if has_web and (not args.web_module or not args.web_proof):
                 raise ValueError('web components require --web-module and actual --web-proof')
             if args.web_proof:
-                proof = read(args.web_proof)
+                proof = parse_web_proof(Path(args.web_proof).read_bytes())
                 verify_web_proof(graph, proof)
                 result['web_proof'] = proof
             if args.web_module:
@@ -1072,7 +1174,7 @@ def main(argv=None):
                     result['native_matches_graph'] = observed == resolved['tokens']
         print(json.dumps(result, ensure_ascii=False))
         return 0
-    except (ValueError, KeyError, OSError, RuntimeError) as error:
+    except (ValueError, KeyError, OSError, RuntimeError, TypeError) as error:
         print(f'graph_sync: {error}', file=sys.stderr)
         return 2
 

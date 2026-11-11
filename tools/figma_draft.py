@@ -128,8 +128,12 @@ def check_layer(layer,colors,assets,key):
 
 
 def check_control_icon(style, assets, key):
+    if 'justifyContent' in style and style['justifyContent'] not in ('center', 'space-between'):
+        raise ValueError('Control justifyContent must be center or space-between: ' + key)
     icon = style.get('icon')
     if icon is None:
+        if style.get('justifyContent') == 'space-between':
+            raise ValueError('Control space-between requires a label and icon: ' + key)
         if 'icon' in style:
             raise ValueError('Explicit control icon object required: ' + key)
         return
@@ -792,8 +796,14 @@ def _native_control_icon_findings(parent, label, icon_node, style, key, assets):
     if not spec:
         return []
     findings = []
+    if 'justifyContent' in style and parent.get('primaryAxisAlignItems') != ('SPACE_BETWEEN' if style['justifyContent'] == 'space-between' else 'CENTER'):
+        findings.append({'code': 'control-alignment-drift', 'layer': key, 'message': 'Restore the explicit control primary axis alignment.'})
     def add(code, message):
         findings.append({'code': code, 'layer': key + '.icon', 'message': message})
+    if 'justifyContent' in style:
+        for field, expected in [('paddingLeft', style['paddingX']), ('paddingRight', style['paddingX']), ('paddingTop', style['paddingY']), ('paddingBottom', style['paddingY'])]:
+            if not _finite(parent.get(field)) or abs(parent[field] - expected) > 1:
+                add('control-padding-drift', 'Restore the explicit control padding: ' + field)
     node = icon_node if isinstance(icon_node, dict) else {}
     box, label_box = _native_box(node), _native_box(label)
     if node.get('type') != 'RECTANGLE' or node.get('parentId') != parent.get('id') or box is None:
@@ -828,13 +838,15 @@ def _native_control_icon_findings(parent, label, icon_node, style, key, assets):
             return findings
         gap = lx - ix - iw if spec['placement'] == 'before' else ix - lx - lw
         spacing = parent.get('itemSpacing')
-        if not _finite(spacing) or abs(spacing - spec['gap']) > .01 or abs(gap - spec['gap']) > 1:
+        between = style.get('justifyContent') == 'space-between'
+        if not _finite(spacing) or abs(spacing - spec['gap']) > .01 or (gap < spec['gap'] - 1 if between else abs(gap - spec['gap']) > 1):
             add('control-icon-gap', 'Restore the authored icon placement and gap.')
         left, right = min(ix, lx), max(ix + iw, lx + lw)
         px, py = style['paddingX'], style['paddingY']
         if (left < px - 1 or right > width - px + 1 or iy < py - 1 or iy + ih > height - py + 1
-                or abs((left + right) / 2 - width / 2) > 1 or abs(iy + ih / 2 - height / 2) > 1):
-            add('control-icon-alignment', 'Center the combined label/icon group inside the padded control.')
+                or (abs(left - px) > 1 or abs(right - (width - px)) > 1 if between else abs((left + right) / 2 - width / 2) > 1)
+                or abs(iy + ih / 2 - height / 2) > 1 or between and (abs(ly + lh / 2 - height / 2) > 1 or ly < py - 1 or ly + lh > height - py + 1)):
+            add('control-icon-alignment', 'Restore the combined label/icon alignment inside the padded control.')
     return findings
 
 
@@ -996,6 +1008,8 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
                 name,
                 "Product preview controls must not perform review navigation.",
             )
+        if 'justifyContent' in style and node.get('primaryAxisAlignItems') != ('SPACE_BETWEEN' if style['justifyContent'] == 'space-between' else 'CENTER'):
+            add('control-alignment-drift', name, 'Restore the explicit control primary axis alignment.')
         padding = {
             "paddingLeft": style["paddingX"],
             "paddingRight": style["paddingX"],

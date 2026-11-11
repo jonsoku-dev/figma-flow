@@ -156,6 +156,13 @@ def _product_graph_errors(graph):
     return errors
 
 
+def _layout_signature(html):
+    properties = re.compile(r'\b(position|display|width|height|min-width|max-width|min-height|max-height|inset(?:-\w+)?|top|right|bottom|left|margin(?:-\w+)?|padding(?:-\w+)?|gap|row-gap|column-gap|grid(?:-\w+)?|flex(?:-\w+)?|align-items|align-content|align-self|justify-content|justify-items|justify-self|order|overflow(?:-\w+)?|transform|aspect-ratio)\s*:\s*([^;{}]+)', re.I)
+    styles = '\n'.join(re.findall(r'<style\b[^>]*>(.*?)</style\s*>', html, re.I | re.S))
+    return sorted((name.lower(), re.sub(r'\s+', ' ', value.strip().lower()))
+                  for name, value in properties.findall(styles))
+
+
 def _candidate(candidate, content):
     import annotation_contract
     import design_foundations
@@ -200,7 +207,7 @@ def _candidate(candidate, content):
         images[preview['viewport']] = {'size': size, 'edges': edges, 'sha256': preview['file']['sha256']}
     script = re.sub(r'/\*.*?\*/|//[^\n]*', '', '\n'.join(source.script), flags=re.S)
     script = re.sub(r'([\"\']).*?\1', 'STRING', script, flags=re.S)
-    signatures = {'structure': digest(source.tags), 'interaction': digest(re.findall(r'[A-Za-z_$][\w$]*|[{}()[\].;=+!?:<>]+', script))}
+    signatures = {'structure': digest({'tags': source.tags, 'layout': _layout_signature(html)}), 'interaction': digest(re.findall(r'[A-Za-z_$][\w$]*|[{}()[\].;=+!?:<>]+', script))}
     expected = digest({key: candidate[key] for key in ('id', 'title', 'composition', 'typography', 'interaction', 'source', 'review', 'product_graph', 'previews')})
     if candidate.get('sha256') != expected:
         raise ValueError('Candidate definition/hash changed')

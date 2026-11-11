@@ -1,4 +1,4 @@
-# Figma Flow 0.24.1 통합 가이드
+# Figma Flow 0.25.0 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
@@ -93,7 +93,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.24.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.25.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -102,7 +102,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.24.1`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.24.1`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.25.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.25.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -329,6 +329,28 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 
 작업이 갱신되지 않으면 Codex 설치 버전만 확인하지 말고, 같은 작업 키의 revision과 고정 등록 경로를 대조하고 [작업을 재생성한 뒤 플러그인을 다시 실행](#updates)했는지 확인하세요.
 
+<a id="multi-screen-web-proof"></a>
+
+### 화면을 전환하며 웹 값 확인하기
+
+0.25.0부터 현재 화면에 존재하는 컴포넌트만 지정해 읽고, 여러 화면의 실제 측정 파일을 합칠 수 있습니다. 확인 화면으로 이동해 입력 양식이 사라지는 앱이나 뷰포트별 컴포넌트에 사용합니다. 각 화면의 실제 상태를 만든 뒤 해당 컴포넌트의 probe를 실행하세요.
+
+```sh
+python3 tools/graph_sync.py probe --graph PROJECT/graph.json \
+  --component desktopSubmit --out NEW/submit-probe.js
+python3 tools/graph_sync.py probe --graph PROJECT/graph.json \
+  --component desktopReturn --out NEW/return-probe.js
+# 승인된 브라우저로 각 probe를 해당 화면에서 실행하고 실제 결과를 JSON으로 보관합니다.
+python3 tools/graph_sync.py combine-web --graph PROJECT/graph.json \
+  --proof ACTUAL_SUBMIT.json --proof ACTUAL_RETURN.json --out NEW/web-proof.json
+```
+
+컴포넌트 ID는 실제 그래프의 선언과 일치해야 합니다. 모바일 등 다른 선언도 있으면 모두 측정해 `--proof`로 추가합니다. `combine-web`은 전체 선언의 실제 측정이 모였을 때만 성공하며 그래프 해시·선택자·속성값·관측 시각·웹 주소·뷰포트를 검사합니다. 충돌하는 중복 측정은 거절합니다. 원본 JSON과 해시를 보존하고 `pair`에서 다시 확인하므로 원본 파일을 이동하거나 수정하지 마세요. JSON 객체와 브라우저가 한 번 문자열로 감싼 JSON을 지원합니다. JavaScript 객체 출력은 지원하지 않습니다.
+
+합친 파일을 기존 `pair --web-proof`에 전달합니다. `--component`가 없는 probe와 최종 pairing은 계속 전체 선언을 요구합니다. 이 절차는 누락된 값을 예상값으로 채우거나 네이티브 검사를 대신하지 않습니다.
+
+네이티브 시안의 아이콘 버튼은 `control_styles`에서 선택적으로 `justifyContent: "space-between"`을 지정할 수 있습니다. 기본값은 `center`입니다. 앞뒤 아이콘·라벨 순서, 양쪽 패딩, 최소 간격과 실제 끝점 배치를 검사합니다. 아이콘 없는 버튼의 `space-between`은 지원하지 않으며 준비 단계에서 거절합니다. 서로 다른 CSS 배치의 시안은 같은 HTML 구조를 재사용할 수 있지만, 실제 모바일·데스크톱 미리보기의 배치 차이는 계속 입증해야 합니다. 색상이나 이름만 바꾼 안은 독립 방향이 아닙니다.
+
 <a id="prepared-native-edit"></a>
 
 ### 준비된 JSON으로 Figma 값 편집하기
@@ -418,7 +440,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.24.1을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.25.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -546,14 +568,14 @@ Codex can retrieve the result while local control is connected. For offline work
 ## Install once
 
 ```sh
-git clone --branch v0.24.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.25.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.24.1`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.25.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -615,6 +637,8 @@ Run local control `--operation create` with the exact current file/page/revision
 
 ## Prepared native edits
 
+Version 0.25.0 adds scoped `graph_sync.py probe --component ID` and `combine-web --proof ACTUAL.json` for components mounted on different screens or viewports. Collect actual measurements for every declared web component before pairing. Combined evidence pins and rechecks the unchanged source files, graph hash, selectors, values, timestamps, URLs and viewports. Conflicting rows and incomplete coverage fail. Default probes and final pairing still require full coverage. Keep the original JSON files. [Commands and native icon alignment](#multi-screen-web-proof).
+
 `native-edit` is a separate task kind with `read` and `apply` operations. Prepare `figma-flow-native-edit-plan-v1` JSON containing the exact file/page, admitted node or local variable/mode, and before/after values with `prepare --kind native-edit -- --plan PLAN.json`. The plugin executes the plan through the actual Figma API, without arbitrary JavaScript. Stale values/revisions stop the write. Preserve rollback conflicts and read current state before retrying an uncertain write. Import native edits into the graph and verify the real web separately. [Plan example and limits](#prepared-native-edit).
 
 ## Read the UI
@@ -643,6 +667,8 @@ For updates, preserve the old source and complete workspace, install the chosen 
 
 ## 日本語クイックスタート
 
+0.25.0 の `graph_sync.py probe --component ID` と `combine-web --proof ACTUAL.json` は、画面切替や表示幅ごとに存在するコンポーネントの実測を結合します。全宣言の実測が必要で、不足・競合・古いグラフは拒否します。元の JSON とハッシュも pairing 時に再確認するため、元ファイルを保存してください。通常の probe と最終 pairing は全範囲を要求します。[コマンドとアイコンボタンの配置](#multi-screen-web-proof)。
+
 0.24.1 では --no-wait を含む run の前にローカルサーバーの互換性を確認します。不一致の場合は該当する作業空間のサービスだけを現在のインストール先から再起動してください。Figma の全体読み取り結果も pairing のマーカーを照合してからグラフと Web を更新します。
 
 [한국어](#korean) · [English](#english)
@@ -660,14 +686,14 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.24.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.25.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.24.1` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.25.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 

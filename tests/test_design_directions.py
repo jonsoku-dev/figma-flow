@@ -19,6 +19,22 @@ from direction_fixture import selected_direction
 
 
 class DirectionAdmissionTests(unittest.TestCase):
+    def test_layout_css_is_part_of_structure_signature_but_palette_and_selectors_are_not(self):
+        with tempfile.TemporaryDirectory() as tmp, selected_direction(Path(tmp)) as f:
+            data = json.loads(f.manifest.read_text())
+            content = directions.read(data['content'])
+            html = []
+            shared_html = Path(data['candidates'][0]['source']['path']).read_text().replace('</html>', '')
+            for candidate, declarations in zip(data['candidates'], ('left: 24px; width: 680px', 'left: 360px; width: 320px')):
+                source = Path(candidate['source']['path'])
+                source.write_text(shared_html + f'<style>.panel{{{declarations};color:#123456}}</style></html>')
+                candidate['source'] = directions.pin(source)
+                candidate['sha256'] = directions.digest({key: candidate[key] for key in ('id', 'title', 'composition', 'typography', 'interaction', 'source', 'review', 'product_graph', 'previews')})
+                html.append(directions._candidate(candidate, content))
+            self.assertNotEqual(html[0]['signatures']['structure'], html[1]['signatures']['structure'])
+            self.assertEqual(directions._layout_signature('<style>.a{left:24px;color:red}</style>'),
+                             directions._layout_signature('<style>.renamed{left:24px;color:blue}</style>'))
+
     def test_selected_fixture_is_exact_idempotent_and_append_only(self):
         with tempfile.TemporaryDirectory() as tmp, selected_direction(Path(tmp)) as f:
             before = f.selection_path.read_bytes()
