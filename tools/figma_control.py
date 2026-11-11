@@ -275,7 +275,7 @@ def poll(root, payload):
         client_key = str(root.resolve())
         if len(NATIVE_CLIENTS) >= 256 and client_key not in NATIVE_CLIENTS:
             NATIVE_CLIENTS.pop(next(iter(NATIVE_CLIENTS)))
-        NATIVE_CLIENTS[client_key] = {'runtime': runtime, 'seen_at': time.time()}
+        NATIVE_CLIENTS[client_key] = {'runtime': runtime, 'session_id': session, 'seen_at': time.time()}
         native = native_state(root)
         directory = state_dir(root)
         request = active(directory)
@@ -344,6 +344,10 @@ def result(root, payload):
             for identity in recovered:
                 del pending['operations'][identity]
             workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
+        client = NATIVE_CLIENTS.get(str(root.resolve()))
+        if (client and client.get('session_id') == payload['session_id'] and client.get('runtime')
+                and client['runtime'] == workspace.current(root, repair=False).get('runtime')):
+            client['seen_at'] = time.time()
         return {'accepted': True, 'id': request['id'], 'state': request['state']}
 
 

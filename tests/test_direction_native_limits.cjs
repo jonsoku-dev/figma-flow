@@ -218,14 +218,10 @@ test('full geometry failure evidence preserves all offending rects and native na
   const h=geometryWorld([textLayer('line-0',40,22,114.938,19,{leading:19,max_lines:1})],{'line-0':{height:38}});
   const messages=[];let removed=0;
   h.context.figma.ui.postMessage=message=>messages.push(message);
-  for(const node of h.nodes.filter(node=>node.type==='TEXT'))node.clone=()=>{
-    const clone={width:128.375,height:19,remove(){removed++;}};
-    Object.defineProperty(clone,'textAutoResize',{set(value){
-      assert.equal(value,'WIDTH_AND_HEIGHT');
-      assert.equal(this.minWidth,null);assert.equal(this.maxWidth,null);
-      assert.equal(this.minHeight,null);assert.equal(this.maxHeight,null);
-    }});
-    return clone;
+  h.context.figma.createText=()=>{
+    const sample={width:128.375,height:19,remove(){removed++;}};
+    Object.defineProperty(sample,'textAutoResize',{set(value){assert.equal(value,'WIDTH_AND_HEIGHT');}});
+    return sample;
   };
   assert.throws(()=>h.validate(),/native text height 38 exceeds authored budget 19/);
   assert.equal(removed,2);
@@ -238,13 +234,13 @@ test('full geometry failure evidence preserves all offending rects and native na
   assert(overflows.every(finding=>finding.authored.rect.w===114.938&&finding.actual.rect.h===38&&finding.actual.naturalWidth===128.375));
 });
 
-test('failed width probe removes its clone and leaves the original failure actionable',()=>{
+test('failed width probe removes its fresh text sampler and leaves the original failure actionable',()=>{
   const h=geometryWorld([textLayer('line',20,20,100,20,{max_lines:1})],{line:{height:40}});
   let removed=0;
-  for(const node of h.nodes.filter(node=>node.type==='TEXT'))node.clone=()=>{
-    const clone={remove(){removed++;}};
-    Object.defineProperty(clone,'maxWidth',{set(){throw Error('native measurement unavailable');}});
-    return clone;
+  h.context.figma.createText=()=>{
+    const sample={remove(){removed++;}};
+    Object.defineProperty(sample,'fontSize',{set(){throw Error('native measurement unavailable');}});
+    return sample;
   };
   let failure;
   h.context.figma.ui.postMessage=message=>{if(message.type==='geometry-failure')failure=message.data;};

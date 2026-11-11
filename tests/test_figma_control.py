@@ -105,6 +105,68 @@ class ControlTests(unittest.TestCase):
         with patch.object(control.time, 'time', return_value=control.time.time() + 30):
             self.assertEqual(control.readiness(self.root)['native_status'], 'unverified')
 
+    def test_accepted_long_result_refreshes_only_until_next_native_timeout(self):
+        started = control.time.time()
+        for status in ('ok', 'error'):
+            with self.subTest(status=status), patch.object(control.time, 'time', return_value=started):
+                self.enqueue(timeout=300)
+                claim = self.claim()
+                before = control.native_state(self.root)
+            with patch.object(control.time, 'time', return_value=started + 120):
+                self.assertEqual(control.native_state(self.root)['native_status'], 'unverified')
+                accepted = self.result(claim, status=status, readback_json=None if status == 'error' else '{}')
+                self.assertEqual(accepted, {'accepted': True, 'id': claim['id'], 'state': status})
+                self.assertEqual(control.native_state(self.root), before)
+            with patch.object(control.time, 'time', return_value=started + 136):
+                self.assertEqual(control.native_state(self.root)['native_status'], 'unverified')
+
+    def test_rejected_result_never_refreshes_native_client(self):
+        started = control.time.time()
+        with patch.object(control.time, 'time', return_value=started):
+            self.enqueue(timeout=300)
+            claim = self.claim()
+        client = control.NATIVE_CLIENTS[str(self.root.resolve())].copy()
+        with patch.object(control.time, 'time', return_value=started + 120):
+            for changes in ({'session_id': 'spoof'}, {'claim_id': '0' * 32}, {'revision': '0' * 64},
+                            {'file_key': 'other'}, {'page_id': '12:9'}, {'status': 'unknown'},
+                            {'readback_json': None}, {'readback_json': '[]'}):
+                with self.subTest(changes=changes), self.assertRaises(ValueError):
+                    self.result(claim, **changes)
+                self.assertEqual(control.NATIVE_CLIENTS[str(self.root.resolve())], client)
+                self.assertEqual(control.native_state(self.root)['native_status'], 'unverified')
+            with patch.object(control, 'save', side_effect=OSError('Synthetic persist failure')):
+                with self.assertRaises(OSError):
+                    self.result(claim)
+            self.assertEqual(control.NATIVE_CLIENTS[str(self.root.resolve())], client)
+        with patch.object(control.time, 'time', return_value=started + 301):
+            with self.assertRaises(ValueError):
+                self.result(claim)
+            self.assertEqual(control.NATIVE_CLIENTS[str(self.root.resolve())], client)
+
+    def test_accepted_result_cannot_refresh_unknown_session_or_runtime(self):
+        started = control.time.time()
+        for case in ('other-session', 'stale-runtime', 'legacy-poll', 'legacy-client', 'absent-client'):
+            with self.subTest(case=case), patch.object(control.time, 'time', return_value=started):
+                self.enqueue(timeout=300)
+                claim = self.claim()
+                client_key = str(self.root.resolve())
+                if case == 'other-session':
+                    self.claim(session_id='other-session')
+                elif case == 'stale-runtime':
+                    self.claim(runtime={**workspace.current(self.root)['runtime'], 'generation': '0' * 32})
+                elif case == 'legacy-poll':
+                    control.poll(self.root, {'session_id': claim['session_id'], 'file_key': 'fixturefile', 'page_id': '12:1'})
+                elif case == 'legacy-client':
+                    control.NATIVE_CLIENTS[client_key].pop('session_id', None)
+                else:
+                    del control.NATIVE_CLIENTS[client_key]
+                before = control.NATIVE_CLIENTS.get(client_key)
+                before = before.copy() if before else None
+            with patch.object(control.time, 'time', return_value=started + 120):
+                self.assertTrue(self.result(claim)['accepted'])
+                self.assertEqual(control.NATIVE_CLIENTS.get(client_key), before)
+                self.assertEqual(control.native_state(self.root)['native_status'], 'unverified')
+
     def test_enable_is_private_idempotent_and_rejects_rotation(self):
         before = (self.root / 'control.json').read_bytes()
         control.enable(self.root, 49198)
@@ -377,13 +439,19 @@ class ControlTests(unittest.TestCase):
         self.assertEqual(post('/control/poll', payload, Origin='https://evil.example')[0], 403)
         self.assertEqual(post('/control/run', payload)[0], 403)
         self.assertEqual(post('/control/poll', {**payload, 'script': 'eval()'})[0], 409)
-        self.enqueue()
+        self.enqueue(timeout=300)
         code, response = post('/control/poll', payload)
         self.assertEqual(code, 200)
         claim = response['operation']
         result = {key: claim[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')}
         result.update(status='ok', readback_json='{"scope":"synthetic-http-only"}')
-        self.assertEqual(post('/control/result', result)[0], 200)
+        client = control.NATIVE_CLIENTS[str(self.root.resolve())].copy()
+        with patch.object(control.time, 'time', return_value=client['seen_at'] + 120):
+            self.assertEqual(post('/control/result', result, Authorization='Bearer wrong')[0], 403)
+            self.assertEqual(control.NATIVE_CLIENTS[str(self.root.resolve())], client)
+            self.assertEqual(control.native_state(self.root)['native_status'], 'unverified')
+            self.assertEqual(post('/control/result', result)[0], 200)
+            self.assertEqual(control.native_state(self.root)['native_status'], 'current-self-reported')
         self.assertEqual(control.status(self.root)['state'], 'ok')
 
     def test_cli_no_wait_status_and_invalid_arguments(self):

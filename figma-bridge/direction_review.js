@@ -353,18 +353,27 @@ function validateDraftTypography(node, authored, candidate, fail, resizeMode = '
 function measureDraftNaturalWidth(node) {
   let probe, container;
   try {
+    const font = node.fontName, leading = node.lineHeight, spacing = node.letterSpacing;
+    if (!font || typeof font !== 'object' || typeof font.family !== 'string' || !font.family || typeof font.style !== 'string' || !font.style ||
+        font.variationSettings !== undefined && (!font.variationSettings || typeof font.variationSettings !== 'object' || Array.isArray(font.variationSettings) || !Object.values(font.variationSettings).every(Number.isFinite)) ||
+        !Number.isFinite(node.fontSize) || node.fontSize <= 0 || typeof node.characters !== 'string' ||
+        !leading || typeof leading !== 'object' || !(leading.unit === 'AUTO' || ['PIXELS', 'PERCENT'].includes(leading.unit) && Number.isFinite(leading.value) && leading.value > 0) ||
+        !spacing || typeof spacing !== 'object' || !['PIXELS', 'PERCENT'].includes(spacing.unit) || !Number.isFinite(spacing.value)) {
+      throw Error('Uniform observed native text typography required for measurement');
+    }
     container = figma.createFrame();
     container.name = 'Temporary text measurement';
     container.layoutMode = 'NONE';
     container.visible = false;
-    probe = node.clone();
+    probe = figma.createText();
     container.appendChild(probe);
-    probe.minWidth = null;
-    probe.maxWidth = null;
-    probe.minHeight = null;
-    probe.maxHeight = null;
+    probe.fontName = copy(font);
+    probe.fontSize = node.fontSize;
+    probe.lineHeight = copy(leading);
+    probe.letterSpacing = copy(spacing);
+    probe.characters = node.characters;
     probe.textAutoResize = 'WIDTH_AND_HEIGHT';
-    if (!Number.isFinite(probe.width) || probe.width <= 0) {
+    if (!Number.isFinite(probe.width) || probe.width <= 0 || !Number.isFinite(probe.height) || probe.height <= 0) {
       return {naturalWidth: null, naturalWidthError: 'Native width measurement was unavailable'};
     }
     return {naturalWidth: probe.width, naturalHeight: probe.height};

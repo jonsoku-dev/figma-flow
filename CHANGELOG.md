@@ -8,6 +8,7 @@
 - Reject same-frame native navigation before any page mutation. Preserve current-menu specifications as static controls, and verify actual multiple flow starts rather than inferring them from metadata.
 - Restore the regression shell's stable navigation ID and persist Atlas display settings across reloads. Keep Paper review drafts on request failure.
 - Measure intrinsic text in an isolated temporary frame so inherited auto-layout constraints cannot masquerade as natural width; always clean up measurement nodes.
+- Refresh native readiness only after an authenticated result from the same current runtime, so long operations can be followed by another command without weakening the offline timeout.
 
 - Attach concise human annotations to exact screen/control nodes, link them to structured full specifications and verify both link directions against actual getters. Include source-backed conditions, recovery and Figma/web scope; preserve technical archives and other annotations. Reflow only owned description boards when their expanded content collides with artwork.
 
