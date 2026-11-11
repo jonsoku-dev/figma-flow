@@ -107,6 +107,8 @@ python3 tools/graph_sync.py pair --graph PROJECT/graph.json   --plan ACTUAL_PREP
 
 A generated module's bytes alone cannot prove that the actual app consumed it.
 
+Use the current generated probe for fractional pixels. It reads finite Typed OM pixel values where supported, preserving resolved width/height measurements and the existing fallback. The verifier accepts the exact declared number or its exact float32 representation; it does not use a general pixel tolerance. Preserve real browser output rather than replacing rounded values with expectations.
+
 ## Manual panel controls and change preview
 
 Keep the same private workspace ID and registered manifest. New tasks use new keys; changed tasks use their current `list` value `tasks[].revision` as `--replace-expected REVISION`. Close the running plugin and reopen the same Figma Flow to load the refreshed list. Transfer the complete workspace, including hidden `.generations`, when moving machines.

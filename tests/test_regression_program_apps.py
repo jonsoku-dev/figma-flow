@@ -70,6 +70,9 @@ class RegressionAppTests(unittest.TestCase):
             with urlopen(f'http://127.0.0.1:{port}/html/atlas/js/index.html') as response:
                 js_html = response.read().decode()
             self.assertNotIn('JS로 만든 승인 큐', js_html)
+            with urlopen(f'http://127.0.0.1:{port}/design-system/build.mjs') as response:
+                self.assertEqual(response.headers.get_content_type(), 'text/javascript')
+                self.assertEqual(response.read(), (FIXTURE / 'design-system/build.mjs').read_bytes())
         finally:
             server.terminate()
             server.wait(timeout=5)

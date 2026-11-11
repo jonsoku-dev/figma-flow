@@ -8,6 +8,7 @@ import json
 import math
 import re
 import secrets
+import struct
 from pathlib import Path
 import sys
 import tempfile
@@ -713,12 +714,25 @@ def verify_web_proof(graph, proof, component_ids=None):
             raise ValueError('web proof property coverage mismatch')
         for field, value in resolved['components'][key].items():
             observed = properties[field]
-            if isinstance(value, (int, float)) and (isinstance(observed, bool) or not isinstance(observed, (int, float))):
-                raise ValueError(f'web proof requires measured numeric pixels: {key}.{field}')
+            if SUPPORTED_PROPERTY_TYPES[field] == 'FLOAT':
+                try:
+                    numeric = not isinstance(observed, bool) and isinstance(observed, (int, float)) and math.isfinite(observed)
+                except OverflowError:
+                    numeric = False
+                if not numeric:
+                    raise ValueError(f'web proof requires measured numeric pixels: {key}.{field}')
             if SUPPORTED_PROPERTY_TYPES[field] == 'COLOR':
                 _validate_value('COLOR', observed, field)
                 # Browser computed RGB serializes channels at 8-bit precision.
                 same = all(math.isclose(observed[channel], value[channel], rel_tol=0, abs_tol=0.5 / 255 + 1e-6) for channel in 'rgb')
+            elif SUPPORTED_PROPERTY_TYPES[field] == 'FLOAT':
+                same = observed == value
+                if not same:
+                    try:
+                        # Typed OM can expose the browser's exact float32 representation.
+                        same = observed == struct.unpack('f', struct.pack('f', value))[0]
+                    except OverflowError:
+                        same = False
             else:
                 same = observed == value
             if not same:
@@ -744,6 +758,8 @@ def web_probe(graph, component_ids=None):
     const elements = document.querySelectorAll(declaration.selector);
     if (elements.length !== 1) throw Error('Missing or ambiguous web selector: ' + declaration.selector);
     const element = elements[0], style = getComputedStyle(element), properties = {};
+    let typedStyle;
+    try { typedStyle = element.computedStyleMap?.(); } catch {}
     if (%s && (!Array.from(element.getClientRects()).some(rect => rect.width > 0 && rect.height > 0) || ['hidden', 'collapse'].includes(style.visibility) || style.display === 'none')) throw Error('Web component is not rendered: ' + id + ' (' + declaration.selector + ')');
     for (const field of declaration.properties) {
       const value = style[field];
@@ -753,8 +769,15 @@ def web_probe(graph, component_ids=None):
         properties[field] = {r: channels[0] / 255, g: channels[1] / 255, b: channels[2] / 255, a: channels[3] ?? 1};
       }
       else if (field === 'fontFamily') properties[field] = value.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
-      else if (/^-?(?:\d+\.?\d*|\.\d+)px$/.test(value)) properties[field] = Number(value.slice(0, -2));
-      else properties[field] = value;
+      else {
+        let typed;
+        if (!['width', 'height'].includes(field)) {
+          try { typed = typedStyle?.get(field.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase())); } catch {}
+        }
+        if (typed?.unit === 'px' && Number.isFinite(typed.value)) properties[field] = typed.value;
+        else if (/^-?(?:\d+\.?\d*|\.\d+)px$/.test(value)) properties[field] = Number(value.slice(0, -2));
+        else properties[field] = value;
+      }
     }
     return {id, selector: declaration.selector, graph_sha256: element.getAttribute('data-graph-sha'), properties};
   });

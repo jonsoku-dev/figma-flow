@@ -4,6 +4,8 @@
 
 - Support graph-declared multiple prototype entry points and connected human specifications on static product controls without inventing native reactions. Preserve legacy flow defaults.
 - Exercise three multi-page regression fixtures with typed component-source consumption, actual input effects and fault recovery. Correct review-submission payloads, pointer targets and reference styling.
+- Serve generated web `.mjs` modules with JavaScript MIME so browser round-trip checks execute the real stylesheet module.
+- Read fractional browser pixels through Typed OM and accept only exact values or their exact float32 representation, retaining selector, source-hash and coverage checks.
 - Keep native vocabulary checks inside shipped fixtures so relocating a checkout does not scan unrelated neighboring projects.
 - Reject same-frame native navigation before any page mutation. Preserve current-menu specifications as static controls, and verify actual multiple flow starts rather than inferring them from metadata.
 - Restore the regression shell's stable navigation ID and persist Atlas display settings across reloads. Keep Paper review drafts on request failure.
