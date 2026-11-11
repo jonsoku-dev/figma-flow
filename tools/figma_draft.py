@@ -67,6 +67,7 @@ LAYER_FIELDS={'text':BASE_LAYER+('value','size','leading','ink','font','align','
               'image':BASE_LAYER+('asset','fit','opacity','role')}
 LAYER_ROLES={'background','surface','illustration','image','divider','ornament','frame'}
 IMAGE_FITS={'FILL','FIT','CROP','TILE'}
+FIGMA_IMAGE_SIDE_LIMIT=4096
 
 
 def _finite(value):
@@ -133,6 +134,30 @@ def check_layer(layer,colors,assets,key):
             if set(stop)!={'position','color','opacity'}or not isinstance(stop['color'],str)or not re.fullmatch(r'#[0-9a-fA-F]{6}',stop['color'])or not all(_finite(stop[k])and 0<=stop[k]<=1 for k in('position','opacity'))or stop['position']<last:
                 raise ValueError('Gradient stops need #RRGGBB color, opacity and non-decreasing position in [0, 1]: '+where)
             last=stop['position']
+
+
+def _check_native_raster(raw, name):
+    from io import BytesIO
+    try:
+        from PIL import Image
+    except ImportError as error:
+        raise ValueError('Pillow is required to validate native raster asset '+repr(name)) from error
+    try:
+        with Image.open(BytesIO(raw)) as image:
+            image_format, width, height = image.format, image.width, image.height
+    except (OSError, SyntaxError, ValueError, EOFError, Image.DecompressionBombError) as error:
+        raise ValueError(f'Native raster asset {name!r} is malformed; expected a valid PNG, JPEG, or GIF') from error
+    if image_format not in ('PNG', 'JPEG', 'GIF'):
+        raise ValueError(f'Native raster asset {name!r} uses unsupported format {image_format or "unknown"}; Figma accepts PNG, JPEG, or GIF')
+    if width > FIGMA_IMAGE_SIDE_LIMIT or height > FIGMA_IMAGE_SIDE_LIMIT:
+        raise ValueError(f'Native raster asset {name!r} is {width}x{height}; Figma createImage limit is {FIGMA_IMAGE_SIDE_LIMIT} px per side')
+    try:
+        with Image.open(BytesIO(raw)) as image:
+            image.verify()
+        with Image.open(BytesIO(raw)) as image:
+            image.load()
+    except (OSError, SyntaxError, ValueError, EOFError, Image.DecompressionBombError) as error:
+        raise ValueError(f'Native raster asset {name!r} is malformed; expected a valid PNG, JPEG, or GIF') from error
 
 
 def check_control_icon(style, assets, key):
@@ -596,8 +621,11 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
     for name,record in authored['assets'].items():
         if used_assets is not None and name not in used_assets: continue
         path=(layout_path.parent/record['path']).resolve()
-        if root not in path.parents or path.is_symlink()or sha(path.read_bytes())!=record['sha256']:raise ValueError('Pinned owned draft asset required')
-        assets[name]=base64.b64encode(path.read_bytes()).decode();pins.append({'path':str(path),'sha256':record['sha256']})
+        if root not in path.parents or path.is_symlink()or not path.is_file():raise ValueError('Pinned owned draft asset required')
+        raw=path.read_bytes()
+        if sha(raw)!=record['sha256']:raise ValueError('Pinned owned draft asset required')
+        _check_native_raster(raw, name)
+        assets[name]=base64.b64encode(raw).decode();pins.append({'path':str(path),'sha256':record['sha256']})
     importer_hash=canonical_sha({name:sha((PLUGIN/'figma-bridge'/name).read_bytes())for name in (*HELPERS,'direction_review.js')})
     instance_hash=canonical_sha({'packet':packet_hash,'layout':layout_hash,'fileKey':file_key,'importer':importer_hash})
     packet = {'schema':'figma-flow-native-direction-review-v1','scope':'exploratory-only','production_admitted':False,'fileKey':file_key,'prepared_target':prepared_target,'instance_sha256':instance_hash,'importer_sha256':importer_hash,'layout_sha256':layout_hash,'layout_pin':{'path':str(layout_path),'sha256':layout_hash},'packet_sha256':packet_hash,'manifest':str(Path(manifest).resolve()),'candidate_pins':{c['id']:c['sha256']for c in candidates},'content':content,'candidates':candidates,'assets':assets,'input_pins':pins,'prepared_at':now(),'execution_status':'prepared-not-executed','boundary':'Reference images are raster; authored titles/body/controls/role palette are native editable nodes. No approval, final asset batch or reservation.'}
@@ -670,6 +698,33 @@ def _native_visibility_findings(node, layer):
             }
         ]
     return []
+
+
+def _native_authored_image_findings(node, layer, assets, key, parent_id=None):
+    findings = []
+    def add(code, message):
+        findings.append({'code': code, 'layer': key, 'message': message})
+    if not isinstance(node, dict) or node.get('type') != 'RECTANGLE' or parent_id is not None and node.get('parentId') != parent_id:
+        add('image-missing', 'Read the authored raster inside its editable native frame.')
+        return findings
+    findings.extend(_native_visibility_findings(node, key))
+    if not _finite(node.get('opacity', 1)) or abs(node.get('opacity', 1) - layer.get('opacity', 1)) > .001:
+        add('image-opacity-drift', 'Restore the authored raster opacity.')
+    fills = node.get('fills')
+    paint = fills[0] if isinstance(fills, list) and len(fills) == 1 and isinstance(fills[0], dict) else {}
+    expected_fit = layer.get('fit', 'FIT')
+    if (paint.get('type') != 'IMAGE' or not paint.get('imageHash') or paint.get('visible', True) is not True
+            or not _finite(paint.get('opacity', 1)) or abs(paint.get('opacity', 1) - 1) > .001
+            or paint.get('scaleMode') != expected_fit or node.get('rasterAsset') != layer.get('asset')):
+        add('image-asset-drift', 'Restore the authored raster asset and exact IMAGE paint scale mode.')
+    try:
+        observed = base64.b64decode(node.get('rasterImageBytes', ''), validate=True)
+        expected = base64.b64decode((assets or {})[layer['asset']], validate=True)
+        if not observed or sha(observed) != sha(expected):
+            raise ValueError('Raster bytes differ')
+    except (ValueError, TypeError, KeyError):
+        add('image-asset-drift', 'Read actual native image bytes matching the pinned packet asset.')
+    return findings
 
 
 def _native_readback_nodes(raw, packet):
@@ -953,6 +1008,8 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
             add("layer-missing", name, "Read the authored editable native layer.")
             continue
         findings.extend(_native_visibility_findings(node, name))
+        if layer['kind'] == 'image':
+            findings.extend(_native_authored_image_findings(node, layer, assets, name, frame['id']))
         findings.extend(_native_shadow_findings(node, layer, name))
         is_text = layer["kind"] == "text"
         allocation = tuple(layer[field] for field in ("x", "y", "w", "h"))

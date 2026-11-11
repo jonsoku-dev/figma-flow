@@ -11,12 +11,13 @@ import hashlib
 import json
 import re
 from pathlib import Path, PurePosixPath
+from urllib.parse import unquote, urlsplit
 
 import design_directions
 import design_system
 
 SCHEMA = 'figma-flow-input-effect-v1'
-RESULT_SCHEMA = 'figma-flow-input-effect-result-v1'
+RESULT_SCHEMA = 'figma-flow-input-effect-result-v2'
 URL_SCHEMA = 'figma-flow-url-snapshot-v1'
 INPUT_NAMES = ('html', 'url', 'design-system')
 RENDER_STATUSES = {'rendered', 'text-only', 'js-required', 'redirect', 'login-required', 'not-found', 'rate-limited'}
@@ -51,8 +52,8 @@ def _root(root):
     return root.resolve()
 
 
-def locate(root, relative):
-    """Resolve one relative file and reject escapes, absolute paths, and symlinks."""
+def locate(root, relative, *, require_file=True):
+    """Resolve a safe local path, requiring a file except for source-state checks."""
     root = _root(root)
     if not isinstance(relative, str) or not relative or '\\' in relative or relative.startswith('/'):
         raise ValueError('Input path must be a relative path inside the fixture root')
@@ -65,7 +66,7 @@ def locate(root, relative):
         if current.is_symlink():
             raise ValueError('Input path is a symlink')
     resolved = current.resolve()
-    if not resolved.is_relative_to(root) or not current.is_file():
+    if not resolved.is_relative_to(root) or require_file and not current.is_file():
         raise ValueError('Input path escapes the fixture root or is not a file')
     return current
 
@@ -85,9 +86,18 @@ def _quarantine(text):
 
 
 def _relative_asset(html_path, root, url):
-    if url.startswith(('#', 'data:', 'http:', 'https:', '//', '/')) or '\\' in url or '?' in url:
+    if url.startswith(('#', '/')) or '\\' in url:
         return {'ref': url, 'status': 'external-unverified'}
-    parts = PurePosixPath(url).parts
+    try:
+        reference = urlsplit(url)
+    except ValueError:
+        return {'ref': url, 'status': 'rejected'}
+    if reference.scheme or reference.netloc:
+        return {'ref': url, 'status': 'external-unverified'}
+    local = unquote(reference.path)
+    if local.startswith('/') or '\\' in local or '\x00' in local:
+        return {'ref': url, 'status': 'rejected'}
+    parts = PurePosixPath(local).parts
     if not parts or any(part in ('', '.', '..') for part in parts):
         return {'ref': url, 'status': 'rejected'}
     current = html_path.parent
@@ -98,7 +108,11 @@ def _relative_asset(html_path, root, url):
     resolved = current.resolve()
     if not resolved.is_relative_to(root):
         return {'ref': url, 'status': 'rejected'}
-    return {'ref': url, 'status': 'present' if current.is_file() else '404'}
+    return {
+        'ref': url,
+        'status': 'present' if current.is_file() else '404',
+        'path': current.relative_to(root).as_posix(),
+    }
 
 
 def html_channel(path, root):
@@ -114,8 +128,8 @@ def html_channel(path, root):
             assets.append(_relative_asset(path, root, found.group(1)))
     layout = list(design_directions._layout_signature(text))
     for asset in assets:
-        if asset['status'] == 'present' and asset['ref'].endswith('.css'):
-            css_path = path.parent.joinpath(*PurePosixPath(asset['ref']).parts)
+        if asset['status'] == 'present' and asset['path'].endswith('.css'):
+            css_path = locate(root, asset['path'])
             layout.extend(design_directions._layout_signature('<style>' + css_path.read_text(encoding='utf-8') + '</style>'))
     facts = {}
     if title:
@@ -330,6 +344,13 @@ def project(root, spec):
         path = locate(root, inputs['html'])
         channels['html'] = html_channel(path, root)
         sources.append({'path': inputs['html'], 'sha256': digest(path.read_bytes())})
+        source_paths = {item['path'] for item in sources}
+        for asset in channels['html']['assets']:
+            relative = asset.get('path')
+            if relative and relative not in source_paths:
+                asset_path = locate(root, relative, require_file=False)
+                sources.append({'path': relative, 'sha256': digest(asset_path.read_bytes()) if asset_path.is_file() else None})
+                source_paths.add(relative)
     if 'url' in inputs:
         path = locate(root, inputs['url'])
         channels['url'] = url_channel(path)
@@ -349,7 +370,7 @@ def project(root, spec):
     for name, channel in channels.items():
         source = next(item for item in sources if name == 'brief' and item['path'] == spec['brief'] or name == 'html' and item['path'] == inputs.get('html') or name == 'url' and item['path'] == inputs.get('url') or name == 'design-system' and item['path'] == inputs.get('design-system'))
         consumption[name] = {'sha256': source['sha256'], 'facts': sorted(channel['facts'])}
-    material = {'blocked': blocked, 'consumption': consumption, 'decisions': decisions}
+    material = {'blocked': blocked, 'consumption': consumption, 'decisions': decisions, 'sources': sources}
     reference_complete = bool(channels.get('url', {}).get('reference_complete', False)) if 'url' in channels else False
     return {
         'schema': RESULT_SCHEMA,
@@ -368,6 +389,7 @@ def project(root, spec):
             'visual quality is unverified',
             'text extraction and HTTP status are not a browser render',
             'TSX files were not executed',
+            'only direct local HTML references are tracked',
         ],
     }
 
@@ -375,9 +397,12 @@ def project(root, spec):
 def freshness(record, root):
     if not isinstance(record, dict) or not isinstance(record.get('sources'), list):
         raise ValueError('Projection record has no source hashes')
+    if record.get('schema') != RESULT_SCHEMA:
+        raise ValueError('Projection record schema is outdated; regenerate the projection before checking freshness')
     changed = []
     for item in record['sources']:
-        current = digest(locate(root, item['path']).read_bytes())
+        path = locate(root, item['path'], require_file=False)
+        current = digest(path.read_bytes()) if path.is_file() else None
         if current != item.get('sha256'):
             changed.append(item['path'])
     return {'status': 'stale' if changed else 'current', 'changed': changed, 'previous_digest': record.get('digest')}

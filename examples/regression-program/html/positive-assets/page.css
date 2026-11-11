@@ -1,0 +1,39 @@
+@font-face { font-family: Hahmlet; src: url("fonts/Hahmlet.woff2?v=1") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+:root { --paper: #fffaf5; --ink: #30221c; --muted: #69584e; --accent: #9b261f; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--paper); font: 400 16px/28px Hahmlet, serif; }
+#app { max-width: 1200px; min-height: 860px; margin: auto; padding: 36px 48px 56px; }
+header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 56px; }
+p, h1, figure { margin: 0; }
+.brand { min-width: 144px; font-size: 22px; line-height: 32px; font-weight: 700; }
+.edition, .kicker, figcaption, .caption { color: var(--muted); font-size: 14px; line-height: 24px; }
+.story { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; grid-template-areas: "intro photo" "body photo" "actions photo"; align-items: start; }
+.intro { grid-area: intro; }
+h1 { font-size: 52px; line-height: 68px; letter-spacing: -0.02em; font-weight: 700; margin-top: 12px; }
+.story figure { grid-area: photo; margin-top: 12px; }
+img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+figcaption { margin-top: 12px; }
+.story .body { grid-area: body; margin-top: 28px; }
+.actions { grid-area: actions; margin-top: 32px; }
+button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 4px; padding: 14px 24px; min-height: 52px; max-width: 100%; font: 400 16px/24px Hahmlet, serif; color: var(--paper); background: var(--accent); cursor: pointer; }
+button:hover { background: #7f1d18; }
+button:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+.credits { max-width: 864px; }
+.credits h1 { font-size: 36px; line-height: 48px; margin-bottom: 24px; }
+.credits img { max-width: 640px; }
+.credits .body { margin-top: 24px; }
+.credits .caption { margin-top: 12px; }
+.credits button { margin-top: 24px; color: var(--paper); background: var(--ink); }
+[hidden] { display: none !important; }
+@media (max-width: 720px) {
+  #app { min-height: 844px; padding: 24px 24px 40px; }
+  header { padding-bottom: 32px; }
+  .brand { font-size: 20px; line-height: 28px; }
+  .edition { font-size: 12px; line-height: 20px; }
+  .story { grid-template-columns: 1fr; grid-template-areas: "intro" "photo" "body" "actions"; }
+  h1 { font-size: 36px; line-height: 48px; }
+  .story figure { margin-top: 24px; }
+  .story .body { margin-top: 24px; }
+  .actions { margin-top: 24px; }
+  .credits h1 { font-size: 28px; line-height: 40px; }
+}

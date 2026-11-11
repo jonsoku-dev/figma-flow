@@ -73,6 +73,10 @@ class RegressionAppTests(unittest.TestCase):
             with urlopen(f'http://127.0.0.1:{port}/design-system/build.mjs') as response:
                 self.assertEqual(response.headers.get_content_type(), 'text/javascript')
                 self.assertEqual(response.read(), (FIXTURE / 'design-system/build.mjs').read_bytes())
+            for asset, content_type in [('coffee.jpg', 'image/jpeg'), ('fonts/Hahmlet.woff2', 'font/woff2')]:
+                with self.subTest(asset=asset), urlopen(f'http://127.0.0.1:{port}/html/positive-assets/{asset}?v=1') as response:
+                    self.assertEqual(response.headers.get_content_type(), content_type)
+                    self.assertEqual(response.read(), (FIXTURE / 'html/positive-assets' / asset).read_bytes())
         finally:
             server.terminate()
             server.wait(timeout=5)

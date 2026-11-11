@@ -18,3 +18,5 @@ python3 examples/regression-program/server/serve.py --port 8765
 브라우저 확인은 `http://127.0.0.1:8765/atlas/sign-in`에서 한다. `?signed=1&workspace=northwind`를 붙이면 로그인과 작업 공간 선택을 건너뛴다. `?omit=html`은 HTML 목업 구간을 뺀다.
 
 화면 모델 검사가 통과해도 두 viewport의 시각 검수, 실제 Figma getter, 독립 검수자의 비평이 끝난 것은 아니다.
+
+정상 사진·글꼴 연결 사례는 [positive-assets](html/positive-assets/README.md)에 있다. 서버에서 `/html/positive-assets/index.html`을 열어 실제 JPEG와 Hahmlet WOFF2의 로딩 및 에세이↔출처 화면 왕복을 확인한다. 기존 `atlas/linked`의 누락 자산 사례와 구분한다.

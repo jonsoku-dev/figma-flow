@@ -60,7 +60,7 @@ async function readNativeSemantics(figma, page) {
       try { row.hyperlink = copy(node.getRangeHyperlink(0,node.characters.length) || null); }
       catch (error) { row.unavailable_fields.hyperlink = error.message || String(error); }
     }
-    for (const field of ["x", "y", "width", "height", "visible", "absoluteBoundingBox", "characters", "fontName", "fontSize", "textStyleId", "fillStyleId", "strokeStyleId", "lineHeight", "letterSpacing", "paragraphSpacing", "textCase", "textDecoration", "opacity", "cornerRadius", "topLeftRadius", "topRightRadius", "bottomLeftRadius", "bottomRightRadius", "layoutMode", "primaryAxisSizingMode", "counterAxisSizingMode", "layoutSizingHorizontal", "layoutSizingVertical", "layoutWrap", "textAutoResize", "textAlignHorizontal", "textAlignVertical", "primaryAxisAlignItems", "counterAxisAlignItems", "minWidth", "maxWidth", "minHeight", "maxHeight", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "itemSpacing", "boundVariables", "annotations", "fills", "strokes", "effects", "explicitVariableModes", "resolvedVariableModes", "variantProperties", "componentProperties", "componentPropertyDefinitions", "annotationCategoryId"]) {
+    for (const field of ["x", "y", "width", "height", "visible", "absoluteBoundingBox", "characters", "fontName", "fontSize", "textStyleId", "fillStyleId", "strokeStyleId", "lineHeight", "letterSpacing", "paragraphSpacing", "textCase", "textDecoration", "opacity", "cornerRadius", "topLeftRadius", "topRightRadius", "bottomLeftRadius", "bottomRightRadius", "layoutMode", "primaryAxisSizingMode", "counterAxisSizingMode", "layoutSizingHorizontal", "layoutSizingVertical", "layoutWrap", "textAutoResize", "textAlignHorizontal", "textAlignVertical", "primaryAxisAlignItems", "counterAxisAlignItems", "minWidth", "maxWidth", "minHeight", "maxHeight", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "itemSpacing", "boundVariables", "annotations", "reactions", "clipsContent", "fills", "strokes", "effects", "explicitVariableModes", "resolvedVariableModes", "variantProperties", "componentProperties", "componentPropertyDefinitions", "annotationCategoryId"]) {
       try {
         if (!(field in node)) { row.unavailable_fields[field] = "unsupported on this node"; continue; }
         const value = node[field];
@@ -70,6 +70,17 @@ async function readNativeSemantics(figma, page) {
         if (["textStyleId", "fillStyleId", "strokeStyleId"].includes(field) && typeof value === "string" && value) styleIds.add(value);
       } catch (error) { row.unavailable_fields[field] = error.message || String(error); }
     }
+    try {
+      const asset = node.getPluginData("rasterAsset");
+      const paint = Array.isArray(node.fills) && node.fills.length === 1 && node.fills[0]?.type === "IMAGE" ? node.fills[0] : null;
+      if (asset && paint) {
+        row.rasterAsset = asset;
+        if (typeof figma.getImageByHash !== "function" || typeof figma.base64Encode !== "function") throw new Error("native raster image read API unavailable");
+        const image = figma.getImageByHash(paint.imageHash);
+        if (!image || typeof image.getBytesAsync !== "function") throw new Error("native raster image unavailable");
+        row.rasterImageBytes = figma.base64Encode(await image.getBytesAsync());
+      }
+    } catch (error) { row.unavailable_fields.rasterImageBytes = error.message || String(error); }
     if (node.type === "TEXT" && typeof node.getStyledTextSegments === "function") {
       try {
         row.textSegments = copy(node.getStyledTextSegments(["fontSize", "fontName", "textStyleId", "fillStyleId", "boundVariables"]));
