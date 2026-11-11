@@ -1,0 +1,16 @@
+{
+  "schema": "figma-flow-url-snapshot-v1",
+  "channel": "local-file-fixture",
+  "controlled": true,
+  "original_url": "https://example.invalid/login-required",
+  "final_url": "https://example.invalid/login-required",
+  "observed_at": "2026-11-11T13:25:00Z",
+  "viewport": {"width": 1440, "height": 1000, "observed": false},
+  "body_location": "not-fetched",
+  "capture": null,
+  "render_status": "login-required",
+  "cause": "Controlled fixture: authentication wall. The body was not read.",
+  "unknown_body": true,
+  "observation_limit": "This is a controlled local status fixture, not a live browser observation.",
+  "principles": []
+}

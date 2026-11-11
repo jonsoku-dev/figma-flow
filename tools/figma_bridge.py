@@ -2,6 +2,7 @@
 """Compile a pinned, reviewed design-system payload into a local Figma plugin."""
 import argparse
 import copy
+from decimal import Decimal
 import hashlib
 import json
 import math
@@ -9,8 +10,12 @@ from pathlib import Path
 import re
 import sys
 
+from plugin_panel import panel_messages
+from specification_contract import spec_label_prelude
+
 ROOT = Path(__file__).resolve().parents[1]
 MAX_BYTES = 2_000_000
+PX_PER_REM = 16
 
 
 def read_json(path):
@@ -21,12 +26,27 @@ def read_json(path):
     return raw, json.loads(raw, parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Non-finite JSON number')))
 
 
+def dimension_px(value):
+    """Convert one px/rem token using the bridge ratio. Callers own unit checks."""
+    if not isinstance(value, str) or not re.fullmatch(r'(?:0|[0-9]+(?:\.[0-9]+)?)(?:px|rem)', value):
+        raise ValueError(f'Unsupported dimension: {value!r}')
+    return float(value[:-3]) * PX_PER_REM if value.endswith('rem') else float(value[:-2])
+
+
+def dimension_source(px, unit):
+    """Inverse of dimension_px for a preserved px or rem unit."""
+    if unit not in ('px', 'rem'):
+        raise ValueError(f'Unsupported dimension unit: {unit!r}')
+    amount = Decimal(str(px)) / (PX_PER_REM if unit == 'rem' else 1)
+    return format(amount, 'f') + unit
+
+
 def variable_value(token):
     kind, value = token.get('type'), token.get('value')
     if kind == 'color' and isinstance(value, str) and re.fullmatch(r'#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?', value):
         return 'COLOR', dict(zip(('r', 'g', 'b', 'a'), [int(value[i:i + 2], 16) / 255 for i in (1, 3, 5)] + [int(value[7:9], 16) / 255 if len(value) == 9 else 1]))
     if kind == 'dimension' and isinstance(value, str) and re.fullmatch(r'(?:0|[0-9]+(?:\.[0-9]+)?)(?:px|rem)', value):
-        return 'FLOAT', float(value[:-3]) * 16 if value.endswith('rem') else float(value[:-2])
+        return 'FLOAT', dimension_px(value)
     if kind == 'boolean' and isinstance(value, bool):
         return 'BOOLEAN', value
     if kind == 'number' and isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):
@@ -179,7 +199,7 @@ def expected_handoff(data):
             'screens': screens}
 
 
-def production_contract(data, graph):
+def production_contract(data, graph, *, readable=False, source_graph_sha256=None):
     """Project selected graph meaning onto actual compiler-supported semantic targets."""
     from annotation_contract import derive_notes
     from design_foundations import derive_foundations, validate_foundations
@@ -317,8 +337,18 @@ def production_contract(data, graph):
                 sample = next(s for s in plan['palette']['samples'] if s['component'] == element['component'])
                 required[identity] = 'Use: ' + '; '.join(sample['useCases']) + '\n' + required[screen['id']]
                 element['static_annotation'] = required[identity]
-    return {'roles': plan['roles'], 'auxiliary_type': auxiliary_type, 'auxiliary_space': auxiliary_space, 'samples': plan['palette']['samples'], 'expected': plan,
-            'required_annotations': required, 'annotation_contract': {'mode': 'strict-creation', 'product_graph': graph, 'notes': notes}}
+    result = {'roles': plan['roles'], 'auxiliary_type': auxiliary_type, 'auxiliary_space': auxiliary_space, 'samples': plan['palette']['samples'], 'expected': plan,
+              'required_annotations': required, 'annotation_contract': {'mode': 'strict-creation', 'product_graph': graph, 'notes': notes}}
+    if readable:
+        from specification_contract import derive_specifications
+        specs = derive_specifications(graph, source_graph_sha256=source_graph_sha256)
+        if any(spec['trace']['status'] != 'complete' for spec in specs):
+            raise ValueError('Readable specifications need canonical requirement, acceptance and test links before native preparation')
+        result['specifications'] = {spec['target_id']: spec for spec in specs}
+        if len(result['specifications']) != len(specs):
+            raise ValueError('Ambiguous readable specification target IDs')
+        result['annotation_contract']['specifications'] = {spec['id']: spec for spec in specs}
+    return result
 
 
 def compile_plugin(source, reviewed_sha256, out, plugin_id=None, *, local_sync=None, selection_path=None,
@@ -353,7 +383,12 @@ def compile_plugin(source, reviewed_sha256, out, plugin_id=None, *, local_sync=N
         out.mkdir()
         (out / 'draft-preview.json').write_text(json.dumps({'design': data, 'native_verified': False, 'limitations': 'Planned only; no installable plugin, native authoring or live sync.'}, ensure_ascii=True, indent=2) + '\n')
         return {'output': str(out.resolve()), 'status': 'draft-only-no-native-authoring', 'figma_import_verified': False}
-    foundation = production_contract(data, graph) if graph else None
+    readable = False
+    if selected:
+        review = json.loads(Path(selected['draft_path']).read_text())
+        readable = review.get('mode') in ('direct', 'compare')
+    foundation = production_contract(data, graph, readable=readable,
+                                     source_graph_sha256=selected['product_graph']['sha256'] if selected else None) if graph else None
     native = handoff_contract(data)
     expected = expected_handoff(data)
     if foundation:
@@ -368,9 +403,19 @@ def compile_plugin(source, reviewed_sha256, out, plugin_id=None, *, local_sync=N
     if foundation:
         expected['design_note_board'] = {'required': True, 'key': 'design-note-board', 'entries': [
             {'key': key, 'target_key': key, 'label': label} for key, label in native['required_annotations'].items()]}
+    specifications = foundation.pop('specifications', None) if foundation else None
+    if specifications is not None:
+        expected['annotation_presentation'] = 'metadata'
+        expected['annotation_contract']['source_owner_hash'] = digest
+        expected['design_note_board']['presentation'] = 'readable-specs'
+        expected['design_note_board']['entries'] = [
+            {'key': key, 'target_key': key, 'specification': spec,
+             'label': spec['title'] + '\n' + spec['display_text']} for key, spec in specifications.items()]
     payload = dict(data, source_sha256=digest, variable_values=values, native_handoff=native,
                    expected_native_handoff=expected, foundations=foundation,
                    technical_existing_only=technical_existing, selected_direction=selected, native_admission=admission)
+    if specifications is not None:
+        payload['specifications'] = specifications
     manifest = {'name': 'Figma Flow — Reviewed local design', 'api': '1.0.0', 'editorType': ['figma'],
                 'main': 'code.js', 'ui': 'ui.html', 'documentAccess': 'dynamic-page',
                 'networkAccess': {'allowedDomains': ['none']}, 'enablePrivatePluginApi': True}
@@ -385,10 +430,13 @@ def compile_plugin(source, reviewed_sha256, out, plugin_id=None, *, local_sync=N
         manifest['networkAccess']['devAllowedDomains'] = [local_sync['url'].removesuffix('/sync'), local_sync['preview_url'].rstrip('/')]
         prefix = 'const LOCAL_SYNC = ' + json.dumps(local_sync, ensure_ascii=True) + ';\n'
     payload_json = json.dumps(payload, ensure_ascii=True, allow_nan=False)
+    imported = panel_messages('import')
+    runtime = spec_label_prelude() + f'var PX_PER_REM = {PX_PER_REM};\n'
+    runtime += 'var FLOW_IMPORT_COPY = ' + json.dumps({'reused': imported['import.reused']['ko'], 'syncWait': imported['import.syncWait']['ko']}, ensure_ascii=False) + ';\n'
     files = {'manifest.json': json.dumps(manifest, indent=2) + '\n',
              'reviewed-payload.json': json.dumps(payload, ensure_ascii=True, indent=2) + '\n',
              'expected-native-handoff.json': json.dumps(payload['expected_native_handoff'], ensure_ascii=True, indent=2) + '\n',
-             'code.js': prefix + '\n'.join((ROOT / 'figma-bridge' / name).read_text() for name in ('semantic_tokens.js', 'foundation_palette.js', 'native_semantic_read.js', 'design_note_board.js')) + '\nconst PAYLOAD = ' + payload_json + ';\n' + (ROOT / 'figma-bridge/code.js').read_text(),
+             'code.js': prefix + runtime + '\n'.join((ROOT / 'figma-bridge' / name).read_text() for name in ('semantic_tokens.js', 'foundation_palette.js', 'native_semantic_read.js', 'native_annotations.js', 'design_note_board.js')) + '\nconst PAYLOAD = ' + payload_json + ';\n' + (ROOT / 'figma-bridge/code.js').read_text(),
              'ui.html': render_panel((ROOT / 'figma-bridge/ui.html').read_text()),
              'README.md': (ROOT / 'figma-bridge/README.md').read_text()}
     out = Path(out)
@@ -430,7 +478,7 @@ def same_variable_value(kind, expected, actual):
     return type(actual) is type(expected) and actual == expected
 
 
-def compare_import(page, expected, digest, variables, collections, required_annotations=None):
+def compare_import(page, expected, digest, variables, collections, required_annotations=None, specifications=None, file_key=None):
     """Compare only this page and its declared collection; a stamp is not current-state evidence."""
     stamped = page.get('source_sha256') or page.get('declared_metadata', {}).get('source_sha256')
     result = {'page_id': page['id'], 'current_name': page.get('name'), 'source_sha256': stamped,
@@ -607,8 +655,23 @@ def compare_import(page, expected, digest, variables, collections, required_anno
     for identity, note in required.items():
         node, state = find(identity)
         labels = [item.get('label') for item in node.get('annotations', []) if isinstance(item, dict)] if node else []
+        matched = note in labels
+        if specifications is not None and node:
+            spec = specifications.get(identity)
+            if spec is not None:
+                from specification_contract import validate_specification, connected_board_reference
+                from native_handoff import normalize
+                current_nodes, current_parents = normalize({'pages': [page]})
+                board_ref = connected_board_reference(current_nodes, current_parents, node['id'], spec,
+                    page_id=page['id'], source_owner_hash=digest)
+                matched = validate_specification(spec, node.get('specification'), native_id=node['id'],
+                    semantic_key=identity, source_owner_hash=digest, annotations=node.get('annotations'),
+                    file_key=file_key, board_ref=board_ref)['passed']
+            else:
+                matched = node.get('declared_metadata', {}).get('technical_annotation') == note
+            matched = matched and note not in labels
         annotations.append({'semantic_id': identity, 'status': state if state != 'match' else
-                            'match' if note in labels else 'missing'})
+                            'match' if matched else 'missing'})
     for screen in expected['screens']:
         for index, element in enumerate(screen['elements']):
             if element['kind'] != 'component':
@@ -705,13 +768,15 @@ def inspect_readback(path, source=None, expected_contract=None):
         sys.path.insert(0, str(ROOT / 'tools'))
         from native_handoff import evaluate
         selected_notes = contract.get('required_annotations') if isinstance(contract, dict) and contract.get('mode') == 'strict-creation' else None
-        import_checks = [compare_import(page, expected, digest, variable_map, collection_map, selected_notes) for page in data['pages']]
+        declarations = (contract or {}).get('annotation_contract', {}).get('specifications')
+        specs = {value['target_id']: value for value in declarations.values()} if isinstance(declarations, dict) else None
+        import_checks = [compare_import(page, expected, digest, variable_map, collection_map, selected_notes, specs, data.get('fileKey')) for page in data['pages']]
         generated = expected_handoff(expected)
         for page, check in zip(data['pages'], import_checks):
             if not check['origin_stamp_match']:
                 continue
             selected = dict(data, pages=[page])
-            native = evaluate(selected, generated, page['id'])
+            native = evaluate(selected, contract if contract is not None else generated, page['id'])
             check['native_handoff'] = native
             if not native['passed']:
                 check['status'] = comparison_status([check['status'], 'unsupported'])

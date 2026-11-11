@@ -6,8 +6,14 @@ import html
 import json
 import math
 import re
+import sys
 import textwrap
 from pathlib import Path
+
+TOOLS = Path(__file__).resolve().parent
+if str(TOOLS) not in sys.path:
+    sys.path.insert(0, str(TOOLS))
+from figma_bridge import dimension_px
 
 NAME = re.compile(r"^[a-zA-Z][a-zA-Z0-9_-]*$")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
@@ -201,8 +207,7 @@ def render_svg(design, screen, styled):
         def get(prop, fallback):
             return design["tokens"][styles[prop]]["value"] if prop in styles else fallback
         def dimension(prop, fallback):
-            value = get(prop, fallback)
-            return float(value[:-3]) * 16 if value.endswith("rem") else float(value[:-2])
+            return dimension_px(get(prop, fallback))
         padding = dimension("padding", "16px") if item["kind"] == "component" else 0
         padding_x = padding_y = padding
         for prop in styles:

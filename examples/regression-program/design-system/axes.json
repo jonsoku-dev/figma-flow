@@ -1,0 +1,10 @@
+{
+  "components": {
+    "button": {"size": ["sm", "md"], "state": ["disabled", "loading", "error"]},
+    "field": {"state": ["disabled", "error"]}
+  },
+  "unsupported": [
+    {"axis": "mode", "values": ["light", "dark"], "reason": "design_system.py compiles one value set and has no mode axis"},
+    {"axis": "brand-theme", "values": ["atlas", "morrow", "paper"], "reason": "brand themes are app choices, not compiler modes"}
+  ]
+}

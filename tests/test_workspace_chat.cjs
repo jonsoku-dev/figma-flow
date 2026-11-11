@@ -11,7 +11,7 @@ const renderedIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g), match =
 const translations={...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/workspace.json'))),...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/chat.json')))};
 const makeFlowUI=(locale='ko')=>({locale,t:(key,params={})=>(translations[key]?.[locale]||key).replace(/\{(\w+)\}/g,(_,name)=>params[name]??'{'+name+'}'),apply(){}});
 const ctx = vm.createContext({setTimeout, clearTimeout, URL});
-vm.runInContext(source + '\nthis.Chat = WorkspaceChat;', ctx);
+vm.runInContext('const FLOW_CHAT_DUPLICATE = ' + JSON.stringify(translations['chat.duplicate'].ko) + ';\n' + source + '\nthis.Chat = WorkspaceChat;', ctx);
 const Chat = ctx.Chat;
 const id = '12345678-1234-4234-8234-123456789abc';
 const secondId = '22345678-1234-4234-8234-123456789abc';

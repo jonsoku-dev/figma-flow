@@ -60,7 +60,7 @@ console.log('Production and review ready/readback/validation copy and unchanged 
   const built = await build({
     stdin: {contents: entry, resolveDir: panelRoot, loader: 'jsx'}, absWorkingDir: panelRoot,
     bundle: true, write: false, platform: 'node', format: 'cjs', jsx: 'automatic',
-    define: {'process.env.NODE_ENV': '"production"'}, logLevel: 'silent',
+    define: {'process.env.NODE_ENV': '"production"', __FLOW_DISPLAY_NAME__: JSON.stringify(JSON.parse(fs.readFileSync(path.join(panelRoot, '../plugin.json'), 'utf8')).extensions['com.openai'].interface.displayName), __FLOW_LOCALES__: JSON.stringify(Object.keys(Object.values(JSON.parse(fs.readFileSync(path.join(panelRoot, '../figma-bridge/locales/common.json'), 'utf8')))[0]))}, logLevel: 'silent',
     plugins: [{name: 'review-state-fixture', setup(builder) {
       builder.onLoad({filter: /ReviewPanel\.jsx$/}, () => ({
         contents: fs.readFileSync(reviewPath, 'utf8') + '\nexport {initialState as __initialState,reducer as __reducer};',

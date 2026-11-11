@@ -1,0 +1,74 @@
+[
+  {
+    "name": "atlas-save-fail",
+    "fn": "decideSave",
+    "path": "/api/atlas/tasks/save",
+    "payload": {"fault": "save-task", "draft": {"detail": "남김"}},
+    "status": 409,
+    "body": {"ok": false, "error": "save-failed", "draft": {"detail": "남김"}}
+  },
+  {
+    "name": "atlas-save-ok",
+    "fn": "decideSave",
+    "path": "/api/atlas/tasks/save",
+    "payload": {"fault": "", "draft": {"detail": "남김"}},
+    "status": 200,
+    "body": {"ok": true, "task": {"detail": "남김"}}
+  },
+  {
+    "name": "morrow-stock",
+    "fn": "decideOrder",
+    "path": "/api/morrow/orders",
+    "payload": {"fault": "stock", "existing": [], "existingSignatures": [], "existingOrderId": "", "signature": "linen:1", "nextOrderId": "order-1", "priceSeen": false, "nextPrice": 18000},
+    "status": 409,
+    "body": {"ok": false, "error": "stock-conflict", "orders": []}
+  },
+  {
+    "name": "morrow-price",
+    "fn": "decideOrder",
+    "path": "/api/morrow/orders",
+    "payload": {"fault": "price", "existing": [], "existingSignatures": [], "existingOrderId": "", "signature": "linen:1", "nextOrderId": "order-1", "priceSeen": false, "nextPrice": 18000},
+    "status": 409,
+    "body": {"ok": false, "error": "price-changed", "price": 18000, "orders": []}
+  },
+  {
+    "name": "morrow-duplicate",
+    "fn": "decideOrder",
+    "path": "/api/morrow/orders",
+    "payload": {"fault": "", "existing": ["order-1"], "existingSignatures": ["linen:1"], "existingOrderId": "order-1", "signature": "linen:1", "nextOrderId": "order-2", "priceSeen": false, "nextPrice": 18000},
+    "status": 200,
+    "body": {"ok": true, "duplicate": true, "orderId": "order-1"}
+  },
+  {
+    "name": "morrow-return-fail",
+    "fn": "decideReturn",
+    "path": "/api/morrow/returns",
+    "payload": {"fault": "return", "form": {"reason": "파손", "note": "모서리"}, "nextReturnId": "ret-1"},
+    "status": 409,
+    "body": {"ok": false, "error": "return-failed", "form": {"reason": "파손", "note": "모서리"}}
+  },
+  {
+    "name": "paper-autosave-fail",
+    "fn": "decideAutosave",
+    "path": "/api/paper/drafts",
+    "payload": {"fault": "autosave", "draft": {"title": "초고", "body": "남긴 문장"}},
+    "status": 409,
+    "body": {"ok": false, "error": "autosave-failed", "draft": {"title": "초고", "body": "남긴 문장"}}
+  },
+  {
+    "name": "paper-publish-virtual",
+    "fn": "decidePublish",
+    "path": "/api/paper/publish",
+    "payload": {"role": "editor", "fault": "", "draft": {"title": "초고", "body": "남긴 문장"}},
+    "status": 200,
+    "body": {"ok": true, "mode": "virtual", "article": {"title": "초고", "body": "남긴 문장", "status": "published"}}
+  },
+  {
+    "name": "paper-publish-forbidden",
+    "fn": "decidePublish",
+    "path": "/api/paper/publish",
+    "payload": {"role": "author", "fault": "", "draft": {"title": "초고", "body": "남긴 문장"}},
+    "status": 403,
+    "body": {"ok": false, "error": "editor-required"}
+  }
+]

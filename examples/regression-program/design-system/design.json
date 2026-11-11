@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "tokens": {
+    "color": {
+      "brand": {
+        "$type": "color",
+        "$value": "#0e6b4f"
+      },
+      "onBrand": {
+        "$type": "color",
+        "$value": "#ffffff"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "#1c1915"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "#f4f0e6"
+      }
+    },
+    "space": {
+      "gap": {
+        "$type": "dimension",
+        "$value": "8px"
+      },
+      "card": {
+        "$type": "dimension",
+        "$value": "12px"
+      },
+      "round": {
+        "$type": "dimension",
+        "$value": "8px"
+      }
+    },
+    "font": {
+      "body": {
+        "$type": "fontFamily",
+        "$value": "Arial"
+      },
+      "size": {
+        "$type": "dimension",
+        "$value": "16px"
+      }
+    }
+  },
+  "components": {
+    "button": {
+      "variants": {
+        "sm": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        },
+        "md": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        },
+        "disabled": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        },
+        "loading": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        },
+        "error": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        }
+      }
+    },
+    "field": {
+      "variants": {
+        "default": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        },
+        "disabled": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        },
+        "error": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        }
+      }
+    },
+    "table": {
+      "variants": {
+        "default": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        }
+      }
+    },
+    "dialog": {
+      "variants": {
+        "default": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        }
+      }
+    },
+    "tabs": {
+      "variants": {
+        "default": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        }
+      }
+    },
+    "nav": {
+      "variants": {
+        "default": {
+          "background": "color.brand",
+          "color": "color.onBrand",
+          "border-color": "color.brand",
+          "padding": "space.card",
+          "border-radius": "space.round",
+          "font-size": "font.size",
+          "font-family": "font.body",
+          "gap": "space.gap"
+        }
+      }
+    }
+  },
+  "screens": [
+    {
+      "id": "system-preview",
+      "title": "회귀 디자인 시스템 미리보기",
+      "trace": [
+        "REQ-SYSTEM-PREVIEW"
+      ],
+      "elements": [
+        {
+          "id": "preview-title",
+          "kind": "heading",
+          "text": "회귀 디자인 시스템"
+        },
+        {
+          "id": "preview-button",
+          "kind": "component",
+          "component": "button",
+          "variant": "md",
+          "text": "확인"
+        }
+      ]
+    }
+  ]
+}

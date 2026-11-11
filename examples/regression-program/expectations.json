@@ -1,0 +1,9 @@
+{
+  "schema": "figma-flow-regression-expectations-v1",
+  "pinned_before_projection": true,
+  "apps": {
+    "atlas": {"html_title": "검토 대기 열두 건", "brief_title": "오늘의 검토", "html_gap": "12px", "brief_gap": "8px", "principle": "atlas-check-answers", "brand": "#0e6b4f"},
+    "morrow": {"html_title": "주간 식탁 여섯 가지", "brief_title": "이번 주의 식탁", "html_gap": "20px", "brief_gap": "8px", "principle": "morrow-check-answers", "brand": "#0e6b4f"},
+    "paper": {"html_title": "긴 초고의 첫 문단", "brief_title": "읽는 사람의 첫 화면", "html_gap": "28px", "brief_gap": "8px", "principle": "paper-reading-measure", "brand": "#0e6b4f"}
+  }
+}

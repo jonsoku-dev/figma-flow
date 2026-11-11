@@ -1,0 +1,11 @@
+:root {
+  --color-brand: #0e6b4f;
+  --color-on-brand: #ffffff;
+  --color-text: #1c1915;
+  --color-surface: #f4f0e6;
+  --space-gap: 8px;
+  --space-card: 12px;
+  --space-round: 8px;
+  --font-size: 16px;
+  --font-body: Arial;
+}

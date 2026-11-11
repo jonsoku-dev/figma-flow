@@ -21,7 +21,7 @@ import struct
 
 import design_graph
 from design_system import compile_design, components_css, render
-from figma_bridge import MAX_BYTES, variable_value, validate
+from figma_bridge import MAX_BYTES, PX_PER_REM, dimension_source, variable_value, validate
 
 
 def read_json(path):
@@ -157,8 +157,7 @@ def scalar_edit(original, kind, observed):
         value = '#' + ''.join(f'{x:02x}' for x in (encoded[:3] if encoded[3] == 255 else encoded))
     elif kind == 'dimension':
         unit = 'rem' if original.endswith('rem') else 'px'
-        amount = Decimal(str(observed)) / (16 if unit == 'rem' else 1)
-        value = format(amount, 'f') + unit
+        value = dimension_source(observed, unit)
     else:
         value = observed
     _, encoded = variable_value({'type': kind, 'value': value})
@@ -316,7 +315,7 @@ def sync_tokens(design_path, resolved_path, before_path, after_path, page_id, gr
                                     'based_on': 'this run\'s pinned input design and source graph; scalar edits preserve dependency topology',
                                     'design_sha256': sources['design'][1], 'graph_sha256': sources['graph'][1]},
                   scope='Offline scalar token plan; graph paths describe declared dependencies, not runtime proof. Figma origin is not authenticated.',
-                  limitations=['Single fixed mode and collection; no alias topology/name/type/native identity changes.', 'Only direct scalar edits; structured values are preserved unchanged.', 'sRGB hex colors must round-trip at 8-bit precision (exact double or Figma float32 encoding); dimensions preserve px/rem with 16px/rem.', 'Screen/layout/text/binding edits are reported and never imported; raw code mapping is a separate review.'])
+                  limitations=['Single fixed mode and collection; no alias topology/name/type/native identity changes.', 'Only direct scalar edits; structured values are preserved unchanged.', f'sRGB hex colors must round-trip at 8-bit precision (exact double or Figma float32 encoding); dimensions preserve px/rem with {PX_PER_REM}px/rem.', 'Screen/layout/text/binding edits are reported and never imported; raw code mapping is a separate review.'])
     _, css = render(result, True)
     findings = ['# Figma token change plan', '', report['scope'], '', f"Changed roots: {len(changes)}; inherited aliases: {len(report['inherited_aliases'])}; consuming variants: {len(report['variants'])}; declared screens: {len(report['screens'])}.", '']
     findings += [f"- `{change['token']}`: `{change['before']}` → `{change['after']}`" for change in changes] or ['No supported token value changes.']

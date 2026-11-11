@@ -1,0 +1,8 @@
+{
+  "button": {"runtime": "Button", "source": "design-system/components/Button.tsx"},
+  "field": {"runtime": "Field", "source": "design-system/components/Field.tsx"},
+  "table": {"runtime": "Table", "source": "design-system/components/Table.tsx"},
+  "dialog": {"runtime": "Dialog", "source": "design-system/components/Dialog.tsx"},
+  "tabs": {"runtime": "Tabs", "source": "design-system/components/Tabs.tsx"},
+  "nav": {"runtime": "Nav", "source": "design-system/components/Nav.tsx"}
+}

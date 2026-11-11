@@ -1,0 +1,16 @@
+{
+  "schema": "figma-flow-url-snapshot-v1",
+  "channel": "local-file-fixture",
+  "original_url": "https://m3.material.io/components/navigation-drawer/overview",
+  "final_url": "https://m3.material.io/components/navigation-drawer/overview",
+  "http_status": 200,
+  "observed_at": "2026-11-11T13:25:00Z",
+  "viewport": {"width": 1440, "height": 1000, "observed": false},
+  "body_location": "not-rendered",
+  "capture": null,
+  "render_status": "js-required",
+  "cause": "The raw GET body is an application shell. A separate text extraction is not a browser render.",
+  "unknown_body": true,
+  "observation_limit": "JavaScript-rendered reference content stays unverified without a browser capture.",
+  "principles": []
+}

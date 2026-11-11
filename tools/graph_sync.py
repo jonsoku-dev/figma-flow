@@ -14,6 +14,7 @@ import tempfile
 from urllib.parse import urlsplit
 
 from plugin_panel import render_panel
+from specification_contract import spec_label_prelude
 from graph_design_system import load_graph, resolve_design_system, emit_web_module, update_graph_values, _atomic_write, _encode, _validate_value, _validate_property, SUPPORTED_PROPERTY_TYPES
 
 SCHEMA = 'figma-flow-graph-token-sync-v1'
@@ -897,7 +898,7 @@ def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plug
     session = secrets.token_urlsafe(24)
     (output / 'ui.html').write_text(graph_panel('sync', plan, plan, session), encoding='utf-8')
     bridge = Path(__file__).resolve().parents[1] / 'figma-bridge' / 'graph_token_sync.js'
-    (output / 'code.js').write_text('const GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\nconst GRAPH_SYNC_PLAN = ' + json.dumps(plan) + ';\n' + bridge.read_text(), encoding='utf-8')
+    (output / 'code.js').write_text('const GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\nconst GRAPH_SYNC_PLAN = ' + json.dumps(plan) + ';\nvar GRAPH_SYNC_SCHEMA = ' + json.dumps(SCHEMA) + ';\n' + bridge.read_text(), encoding='utf-8')
     manifest = {'name': 'Graph canonical token sync', 'api': '1.0.0', 'main': 'code.js', 'ui': 'ui.html', 'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}, 'enablePrivatePluginApi': True}
     if plugin_id:
         manifest['id'] = plugin_id
@@ -972,7 +973,7 @@ def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None):
     output = Path(out)
     output.mkdir(parents=True, exist_ok=False)
     session = secrets.token_urlsafe(24)
-    source = (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'native_semantic_read.js').read_text()
+    source = spec_label_prelude() + (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'native_semantic_read.js').read_text()
     source += '\nconst GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\n'
     source += '\nconst DISCOVERY_SCOPE = ' + json.dumps({'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}) + ';\n'
     source += r"""

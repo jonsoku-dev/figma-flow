@@ -65,7 +65,8 @@ function nativeEditValid(value,field) {
   return typeof value==='number'&&Number.isFinite(value)&&value>=0&&(field!=='fontSize'||value>0);
 }
 function nativeEditValidatePlan(plan) {
-  if(plan?.schema!=='figma-flow-native-edit-plan-v1'||typeof plan.file_key!=='string'||typeof plan.page_id!=='string')throw Error('Explicit scoped native edit plan required');
+  if(plan?.schema!==NATIVE_EDIT_PLAN_SCHEMA||typeof plan.file_key!=='string'||typeof plan.page_id!=='string')throw Error('Explicit scoped native edit plan required');
+  if(plan.specifications){nativeSpecificationValidate(plan);return;}
   const variable=plan.variableedit,edits=plan.edits;
   if(Boolean(variable)===Boolean(edits))throw Error('Choose node edits or one existing variable edit');
   if(variable){if(!variable.variable_id||!variable.mode_id||!('before'in variable)||!('after'in variable))throw Error('Exact existing variable/mode and values required');return;}
@@ -204,6 +205,15 @@ async function runNativeEdit(figma,plan,operation='apply') {
   nativeEditValidatePlan(plan);nativeEditScope(figma,plan);
   if(operation==='read'){const readback=await nativeEditDiscovery(figma,plan);return {...readback,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:false,operation:'read'}};}
   if(operation!=='apply')throw Error('Unsupported native edit operation');
+  if(plan.specifications){
+    let result;
+    try{result=await nativeSpecificationApply(figma,plan);const readback=await nativeEditDiscovery(figma,plan);result.assertAfter();return {...readback,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:true,operation:'apply',changed:result.changed}};}
+    catch(error){
+      try{await result?.rollback?.();}catch(rollback){error.rollback_conflicts=[...(error.rollback_conflicts||[]),String(rollback.message||rollback)];}
+      if(!error.readback)try{error.readback=await nativeEditDiscovery(figma,plan);error.readback.native_edit={plan_sha256:NATIVE_EDIT_SHA256,applied:false,operation:'apply'};error.readback.specification_error=String(error.message||error);error.readback.rollback_conflicts=error.rollback_conflicts||[];}catch(discovery){error.specification_error=String(discovery.message||discovery);}
+      throw error;
+    }
+  }
   const jobs=await nativeEditStage(figma,plan),written=[];
   try{
     for(const job of jobs){nativeEditScope(figma,plan);job.checkBindingScope?.();if(job.node)nativeEditOwner(job.node,plan,job.edit.main_id);if(!nativeEditEqual(nativeEditRaw(job),job.before))throw Error('Native edit target drifted before mutation');written.push(job);try{nativeEditWrite(job);}finally{job.written=nativeEditRaw(job);}const actual=job.variable?job.variable.valuesByMode[job.edit.mode_id]:nativeEditValue(job.node,job.edit.field);if(!nativeEditEqual(actual,job.edit.after))throw Error('Native setter getter differs from requested value');}

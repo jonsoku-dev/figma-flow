@@ -54,7 +54,8 @@ class ControlTests(unittest.TestCase):
         return {str(path.relative_to(self.root)): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
 
     def claim(self, **changes):
-        payload = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1'}
+        payload = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'runtime': workspace.current(self.root)['runtime']}
         payload.update(changes)
         return control.poll(self.root, payload)['operation']
 
@@ -90,6 +91,19 @@ class ControlTests(unittest.TestCase):
                  'allowed_page_ids': ['12:1'], 'nodes': [], 'variables': [], 'collections': [], 'observed_at': 'synthetic-test-only'}
         value.update(changes)
         return json.dumps(value)
+
+    def test_native_runtime_must_be_current_before_mutation_claim(self):
+        self.mutation()
+        self.assertIsNone(self.claim(runtime=None))
+        stale = {**workspace.current(self.root)['runtime'], 'generation': '0' * 32}
+        self.assertIsNone(self.claim(runtime=stale))
+        state = control.readiness(self.root)
+        self.assertEqual(state['native_status'], 'unverified')
+        self.assertIn('SAME', state['native_action'])
+        self.assertIsNotNone(self.claim())
+        self.assertEqual(control.readiness(self.root)['native_status'], 'current-self-reported')
+        with patch.object(control.time, 'time', return_value=control.time.time() + 30):
+            self.assertEqual(control.readiness(self.root)['native_status'], 'unverified')
 
     def test_enable_is_private_idempotent_and_rejects_rotation(self):
         before = (self.root / 'control.json').read_bytes()
@@ -356,7 +370,8 @@ class ControlTests(unittest.TestCase):
             connection.close()
             return code, body
 
-        payload = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1'}
+        payload = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'runtime': workspace.current(self.root)['runtime']}
         self.assertEqual(post('/control/poll', payload, Authorization='Bearer wrong')[0], 403)
         self.assertEqual(post('/control/poll', payload, Host='evil.example')[0], 403)
         self.assertEqual(post('/control/poll', payload, Origin='https://evil.example')[0], 403)
@@ -411,10 +426,11 @@ class ControlTests(unittest.TestCase):
             self.assertEqual(post(**{'Content-Length': str(control.MAX_BODY + 1)})[0], 413)
             code, value = post(Origin='null')
             self.assertEqual(code, 200)
-            self.assertEqual(value, control.readiness())
+            self.assertEqual(value, control.readiness(self.root))
         self.assertEqual(self.snapshot(), before)
         with patch.object(Path, 'read_bytes', side_effect=AssertionError('Re-read installed files')):
-            self.assertEqual(control.readiness(), value)
+            self.assertEqual({k:v for k,v in control.readiness().items() if not k.startswith('native_') and not k.endswith('_native')},
+                             {k:v for k,v in value.items() if not k.startswith('native_') and not k.endswith('_native')})
 
     def test_readiness_failures_precede_all_cli_queue_mutations(self):
         class ResponseHandler(BaseHTTPRequestHandler):
@@ -467,6 +483,7 @@ class ControlTests(unittest.TestCase):
             'edits': [{'node_id': '3:4', 'field': 'paddingLeft', 'before': 12, 'after': 20}]}))
         prepared = workspace.prepare(self.root, 'native-edit', 'Edit scoped values', 'native-edit', ['--plan', str(plan)])
         self.start_server()
+        self.claim()
         with contextlib.redirect_stdout(io.StringIO()) as output:
             code = control.main(['run', '--workspace', str(self.root), '--key', 'native-edit', '--operation', 'apply',
                 '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', prepared['revision'], '--no-wait'])

@@ -1,0 +1,1384 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "CODE-PAPER",
+      "type": "code",
+      "title": "Paper Room 규칙",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "로컬 모델. Figma 실행 증거가 아니다."
+    },
+    {
+      "id": "TEST-PAPER",
+      "type": "test",
+      "title": "Paper Room 모델 검사",
+      "status": "planned",
+      "source": "tests/test_regression_program_apps.cjs",
+      "detail": "Node 모델 검사. 브라우저·Figma 합격이 아니다."
+    },
+    {
+      "id": "REQ-PAPER-01",
+      "type": "requirement",
+      "title": "발행된 글의 첫 문단만 보여 준다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/"
+    },
+    {
+      "id": "SCR-PAPER-01",
+      "type": "screen",
+      "title": "읽는 사람의 첫 화면",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/"
+    },
+    {
+      "id": "STATE-PAPER-01",
+      "type": "state",
+      "title": "읽는 사람의 첫 화면 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-01",
+      "type": "acceptance",
+      "title": "읽는 사람의 첫 화면 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-01-LOADING",
+      "type": "state",
+      "title": "읽는 사람의 첫 화면 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-01-EMPTY",
+      "type": "state",
+      "title": "읽는 사람의 첫 화면 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-01-ERROR",
+      "type": "state",
+      "title": "읽는 사람의 첫 화면 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-01",
+      "type": "action",
+      "title": "글 읽기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/",
+      "source_screen": "SCR-PAPER-01",
+      "target_ids": [
+        "SCR-PAPER-03"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-02",
+      "type": "requirement",
+      "title": "제목과 본문에서 글을 찾는다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/search"
+    },
+    {
+      "id": "SCR-PAPER-02",
+      "type": "screen",
+      "title": "글 찾기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/search"
+    },
+    {
+      "id": "STATE-PAPER-02",
+      "type": "state",
+      "title": "글 찾기 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-02",
+      "type": "acceptance",
+      "title": "글 찾기 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-02-LOADING",
+      "type": "state",
+      "title": "글 찾기 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-02-EMPTY",
+      "type": "state",
+      "title": "글 찾기 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-02-ERROR",
+      "type": "state",
+      "title": "글 찾기 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-02",
+      "type": "action",
+      "title": "글 읽기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/search",
+      "source_screen": "SCR-PAPER-02",
+      "target_ids": [
+        "SCR-PAPER-03"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-03",
+      "type": "requirement",
+      "title": "긴 글을 좁은 폭으로 읽는다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/articles/:slug"
+    },
+    {
+      "id": "SCR-PAPER-03",
+      "type": "screen",
+      "title": "글",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/articles/:slug"
+    },
+    {
+      "id": "STATE-PAPER-03",
+      "type": "state",
+      "title": "글 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-03",
+      "type": "acceptance",
+      "title": "글 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-03-LOADING",
+      "type": "state",
+      "title": "글 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-03-EMPTY",
+      "type": "state",
+      "title": "글 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-03-ERROR",
+      "type": "state",
+      "title": "글 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-03",
+      "type": "action",
+      "title": "보관",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/articles/:slug",
+      "source_screen": "SCR-PAPER-03",
+      "target_ids": [
+        "SCR-PAPER-05"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-04",
+      "type": "requirement",
+      "title": "모음에 들어 있는 글을 연다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/collections/:collectionId"
+    },
+    {
+      "id": "SCR-PAPER-04",
+      "type": "screen",
+      "title": "책상 모음",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/collections/:collectionId"
+    },
+    {
+      "id": "STATE-PAPER-04",
+      "type": "state",
+      "title": "책상 모음 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-04",
+      "type": "acceptance",
+      "title": "책상 모음 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-04-LOADING",
+      "type": "state",
+      "title": "책상 모음 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-04-EMPTY",
+      "type": "state",
+      "title": "책상 모음 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-04-ERROR",
+      "type": "state",
+      "title": "책상 모음 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-04",
+      "type": "action",
+      "title": "글 읽기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/collections/:collectionId",
+      "source_screen": "SCR-PAPER-04",
+      "target_ids": [
+        "SCR-PAPER-03"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-05",
+      "type": "requirement",
+      "title": "보관한 글을 다시 연다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/saved"
+    },
+    {
+      "id": "SCR-PAPER-05",
+      "type": "screen",
+      "title": "보관한 글",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/saved"
+    },
+    {
+      "id": "STATE-PAPER-05",
+      "type": "state",
+      "title": "보관한 글 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-05",
+      "type": "acceptance",
+      "title": "보관한 글 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-05-LOADING",
+      "type": "state",
+      "title": "보관한 글 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-05-EMPTY",
+      "type": "state",
+      "title": "보관한 글 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-05-ERROR",
+      "type": "state",
+      "title": "보관한 글 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-05",
+      "type": "action",
+      "title": "글 읽기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/saved",
+      "source_screen": "SCR-PAPER-05",
+      "target_ids": [
+        "SCR-PAPER-03"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-06",
+      "type": "requirement",
+      "title": "작성자와 편집자의 작업실이다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/studio"
+    },
+    {
+      "id": "SCR-PAPER-06",
+      "type": "screen",
+      "title": "작업실",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio"
+    },
+    {
+      "id": "STATE-PAPER-06",
+      "type": "state",
+      "title": "작업실 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-06",
+      "type": "acceptance",
+      "title": "작업실 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-06-LOADING",
+      "type": "state",
+      "title": "작업실 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-06-EMPTY",
+      "type": "state",
+      "title": "작업실 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-06-ERROR",
+      "type": "state",
+      "title": "작업실 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-06",
+      "type": "action",
+      "title": "초고 목록",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio",
+      "source_screen": "SCR-PAPER-06",
+      "target_ids": [
+        "SCR-PAPER-07"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-07",
+      "type": "requirement",
+      "title": "초고와 검토 상태를 보여 준다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/studio/articles"
+    },
+    {
+      "id": "SCR-PAPER-07",
+      "type": "screen",
+      "title": "초고 목록",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/articles"
+    },
+    {
+      "id": "STATE-PAPER-07",
+      "type": "state",
+      "title": "초고 목록 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-07",
+      "type": "acceptance",
+      "title": "초고 목록 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-07-LOADING",
+      "type": "state",
+      "title": "초고 목록 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-07-EMPTY",
+      "type": "state",
+      "title": "초고 목록 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-07-ERROR",
+      "type": "state",
+      "title": "초고 목록 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-07",
+      "type": "action",
+      "title": "새 글",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/articles",
+      "source_screen": "SCR-PAPER-07",
+      "target_ids": [
+        "SCR-PAPER-08"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-08",
+      "type": "requirement",
+      "title": "새 초고를 만든다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/studio/articles/new"
+    },
+    {
+      "id": "SCR-PAPER-08",
+      "type": "screen",
+      "title": "새 글",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/articles/new"
+    },
+    {
+      "id": "STATE-PAPER-08",
+      "type": "state",
+      "title": "새 글 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-08",
+      "type": "acceptance",
+      "title": "새 글 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-PAPER-08",
+      "type": "action",
+      "title": "편집 시작",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/articles/new",
+      "source_screen": "SCR-PAPER-08",
+      "target_ids": [
+        "SCR-PAPER-09"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-09",
+      "type": "requirement",
+      "title": "자동 저장이 실패해도 본문을 유지한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/studio/articles/:articleId/edit"
+    },
+    {
+      "id": "SCR-PAPER-09",
+      "type": "screen",
+      "title": "글 편집",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/articles/:articleId/edit"
+    },
+    {
+      "id": "STATE-PAPER-09",
+      "type": "state",
+      "title": "글 편집 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-09",
+      "type": "acceptance",
+      "title": "글 편집 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-PAPER-09",
+      "type": "action",
+      "title": "검토 요청",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/articles/:articleId/edit",
+      "source_screen": "SCR-PAPER-09",
+      "target_ids": [
+        "SCR-PAPER-10"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-10",
+      "type": "requirement",
+      "title": "검토 대기 글을 연다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/studio/reviews"
+    },
+    {
+      "id": "SCR-PAPER-10",
+      "type": "screen",
+      "title": "검토 목록",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/reviews"
+    },
+    {
+      "id": "STATE-PAPER-10",
+      "type": "state",
+      "title": "검토 목록 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-10",
+      "type": "acceptance",
+      "title": "검토 목록 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-10-LOADING",
+      "type": "state",
+      "title": "검토 목록 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-10-EMPTY",
+      "type": "state",
+      "title": "검토 목록 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-10-ERROR",
+      "type": "state",
+      "title": "검토 목록 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-10",
+      "type": "action",
+      "title": "검토 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/reviews",
+      "source_screen": "SCR-PAPER-10",
+      "target_ids": [
+        "SCR-PAPER-11"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-11",
+      "type": "requirement",
+      "title": "편집자가 반려하거나 가상 발행한다. 공개 발행은 없다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/studio/reviews/:reviewId"
+    },
+    {
+      "id": "SCR-PAPER-11",
+      "type": "screen",
+      "title": "검토 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/reviews/:reviewId"
+    },
+    {
+      "id": "STATE-PAPER-11",
+      "type": "state",
+      "title": "검토 상세 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-11",
+      "type": "acceptance",
+      "title": "검토 상세 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-PAPER-11",
+      "type": "action",
+      "title": "가상 발행",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/reviews/:reviewId",
+      "source_screen": "SCR-PAPER-11",
+      "target_ids": [
+        "SCR-PAPER-01",
+        "SCR-PAPER-12"
+      ]
+    },
+    {
+      "id": "REQ-PAPER-12",
+      "type": "requirement",
+      "title": "가상 발행된 글만 달력에 올린다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/studio/calendar"
+    },
+    {
+      "id": "SCR-PAPER-12",
+      "type": "screen",
+      "title": "발행 달력",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/calendar"
+    },
+    {
+      "id": "STATE-PAPER-12",
+      "type": "state",
+      "title": "발행 달력 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-PAPER-12",
+      "type": "acceptance",
+      "title": "발행 달력 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-PAPER-12-LOADING",
+      "type": "state",
+      "title": "발행 달력 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-12-EMPTY",
+      "type": "state",
+      "title": "발행 달력 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-PAPER-12-ERROR",
+      "type": "state",
+      "title": "발행 달력 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-PAPER-12",
+      "type": "action",
+      "title": "첫 화면으로",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/studio/calendar",
+      "source_screen": "SCR-PAPER-12",
+      "target_ids": [
+        "SCR-PAPER-01"
+      ]
+    },
+    {
+      "id": "REQ-TC-F05",
+      "type": "requirement",
+      "title": "작성·자동 저장·검토",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "TC-F05"
+    },
+    {
+      "id": "AC-TC-F05",
+      "type": "acceptance",
+      "title": "작성·자동 저장·검토 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-F05"
+    },
+    {
+      "id": "REQ-TC-F06",
+      "type": "requirement",
+      "title": "역할별 검토·발행",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "TC-F06"
+    },
+    {
+      "id": "AC-TC-F06",
+      "type": "acceptance",
+      "title": "역할별 검토·발행 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-F06"
+    },
+    {
+      "id": "REF-PAPER-GOVUK",
+      "type": "reference",
+      "title": "답변 확인 패턴 메모",
+      "status": "observed",
+      "source": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "detail": "텍스트 수집이며 브라우저 렌더가 아니다."
+    }
+  ],
+  "edges": [
+    {
+      "from": "SCR-PAPER-01",
+      "to": "STATE-PAPER-01-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-01",
+      "to": "STATE-PAPER-01-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-01",
+      "to": "STATE-PAPER-01-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-01",
+      "to": "SCR-PAPER-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-01",
+      "to": "AC-PAPER-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-01",
+      "to": "STATE-PAPER-01",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-01",
+      "to": "ACT-PAPER-01",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-01",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-01",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-01",
+      "to": "SCR-PAPER-03",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-02",
+      "to": "STATE-PAPER-02-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-02",
+      "to": "STATE-PAPER-02-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-02",
+      "to": "STATE-PAPER-02-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-02",
+      "to": "SCR-PAPER-02",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-02",
+      "to": "AC-PAPER-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-02",
+      "to": "STATE-PAPER-02",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-02",
+      "to": "ACT-PAPER-02",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-02",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-02",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-02",
+      "to": "SCR-PAPER-03",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-03",
+      "to": "STATE-PAPER-03-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-03",
+      "to": "STATE-PAPER-03-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-03",
+      "to": "STATE-PAPER-03-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-03",
+      "to": "SCR-PAPER-03",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-03",
+      "to": "AC-PAPER-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-03",
+      "to": "STATE-PAPER-03",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-03",
+      "to": "ACT-PAPER-03",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-03",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-03",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-03",
+      "to": "SCR-PAPER-05",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-04",
+      "to": "STATE-PAPER-04-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-04",
+      "to": "STATE-PAPER-04-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-04",
+      "to": "STATE-PAPER-04-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-04",
+      "to": "SCR-PAPER-04",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-04",
+      "to": "AC-PAPER-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-04",
+      "to": "STATE-PAPER-04",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-04",
+      "to": "ACT-PAPER-04",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-04",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-04",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-04",
+      "to": "SCR-PAPER-03",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-05",
+      "to": "STATE-PAPER-05-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-05",
+      "to": "STATE-PAPER-05-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-05",
+      "to": "STATE-PAPER-05-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-05",
+      "to": "SCR-PAPER-05",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-05",
+      "to": "AC-PAPER-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-05",
+      "to": "STATE-PAPER-05",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-05",
+      "to": "ACT-PAPER-05",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-05",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-05",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-05",
+      "to": "SCR-PAPER-03",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-06",
+      "to": "STATE-PAPER-06-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-06",
+      "to": "STATE-PAPER-06-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-06",
+      "to": "STATE-PAPER-06-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-06",
+      "to": "SCR-PAPER-06",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-06",
+      "to": "AC-PAPER-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-06",
+      "to": "STATE-PAPER-06",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-06",
+      "to": "ACT-PAPER-06",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-06",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-06",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-06",
+      "to": "SCR-PAPER-07",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-07",
+      "to": "STATE-PAPER-07-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-07",
+      "to": "STATE-PAPER-07-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-07",
+      "to": "STATE-PAPER-07-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-07",
+      "to": "SCR-PAPER-07",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-07",
+      "to": "AC-PAPER-07",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-07",
+      "to": "STATE-PAPER-07",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-07",
+      "to": "ACT-PAPER-07",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-07",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-07",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-07",
+      "to": "SCR-PAPER-08",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-PAPER-08",
+      "to": "SCR-PAPER-08",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-08",
+      "to": "AC-PAPER-08",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-08",
+      "to": "STATE-PAPER-08",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-08",
+      "to": "ACT-PAPER-08",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-08",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-08",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-08",
+      "to": "SCR-PAPER-09",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-PAPER-09",
+      "to": "SCR-PAPER-09",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-09",
+      "to": "AC-PAPER-09",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-09",
+      "to": "STATE-PAPER-09",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-09",
+      "to": "ACT-PAPER-09",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-09",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-09",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-09",
+      "to": "SCR-PAPER-10",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-10",
+      "to": "STATE-PAPER-10-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-10",
+      "to": "STATE-PAPER-10-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-10",
+      "to": "STATE-PAPER-10-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-10",
+      "to": "SCR-PAPER-10",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-10",
+      "to": "AC-PAPER-10",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-10",
+      "to": "STATE-PAPER-10",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-10",
+      "to": "ACT-PAPER-10",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-10",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-10",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-10",
+      "to": "SCR-PAPER-11",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-PAPER-11",
+      "to": "SCR-PAPER-11",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-11",
+      "to": "AC-PAPER-11",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-11",
+      "to": "STATE-PAPER-11",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-11",
+      "to": "ACT-PAPER-11",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-11",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-11",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-11",
+      "to": "SCR-PAPER-01",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-PAPER-11",
+      "to": "SCR-PAPER-12",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-PAPER-12",
+      "to": "STATE-PAPER-12-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-12",
+      "to": "STATE-PAPER-12-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-12",
+      "to": "STATE-PAPER-12-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-PAPER-12",
+      "to": "SCR-PAPER-12",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-PAPER-12",
+      "to": "AC-PAPER-12",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PAPER-12",
+      "to": "STATE-PAPER-12",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-PAPER-12",
+      "to": "ACT-PAPER-12",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-PAPER-12",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-PAPER-12",
+      "to": "CODE-PAPER",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-PAPER-12",
+      "to": "SCR-PAPER-01",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-TC-F05",
+      "to": "AC-TC-F05",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-TC-F05",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-TC-F05",
+      "to": "SCR-PAPER-08",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F05",
+      "to": "SCR-PAPER-09",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F05",
+      "to": "SCR-PAPER-10",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F06",
+      "to": "AC-TC-F06",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-TC-F06",
+      "to": "TEST-PAPER",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-TC-F06",
+      "to": "SCR-PAPER-11",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F06",
+      "to": "SCR-PAPER-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F06",
+      "to": "SCR-PAPER-12",
+      "type": "appears on"
+    },
+    {
+      "from": "REF-PAPER-GOVUK",
+      "to": "REQ-PAPER-03",
+      "type": "informs"
+    }
+  ]
+}

@@ -1,10 +1,12 @@
-# 제작 전에 시안을 선택하기
+# 요청에 맞는 방향으로 제작하기
 
-이 절차는 새 캠페인·UI 제작 및 리디자인의 정상 진입점이다. 사용자가 선택할 시안을 확인할 수 있어야 한다. 이미지 생성·컴파일·게시처럼 뒤 단계의 비용이 큰 작업은 선택 전까지 진행할 수 없다.
+새 UI·리디자인은 실제 브리프·기존 제품·디자인 시스템부터 확인한다. 구체적인 방향·참조·단일안 요청은 `direct` 한 안으로 진행하고, 비교 요청이나 방향 선택이 필요한 작업은 `compare` 2~3개 안을 만든다. 조사·참고만 요청한 URL, 일반 정책 문장, 이전 선택은 현재 제작 권한이 아니다. 중단·보류 요청은 기존 승인을 무효화한다. Figma 금지·텍스트 전용 요청은 해당 작업에 Figma 접근을 허용하지 않는다.
+
+매번 시작할 때 [최신 실행본 확인](../../../docs/guide.md#automatic-startup)을 따른다. 사용 안내의 정본은 통합 가이드이며 이 문서는 입력·검토·승인 계약을 설명한다.
 
 ## 한 번의 비교에서 고정할 것
 
-제안한 제품과 콘텐츠, 대상 언어, 방문 목적과 주 행동을 고정한다. 2~3개의 시안은 구성·서체 역할·첫 행동 또는 다음 장면이 분명하게 달라야 한다. 기존 허가된 원화나 임시 이미지를 비교에 사용할 수 있다. 실제 원화 제작과 시안용 참조 이미지의 비용과 증거를 구분한다. 미리보기에는 실서비스 예약·공유 같은 부작용을 연결하지 않는다.
+제안한 제품과 콘텐츠, 대상 언어, 방문 목적과 주 행동을 고정한다. `compare`의 2~3개 시안은 구성·서체 역할·첫 행동 또는 다음 장면이 분명하게 달라야 한다. `direct`는 요청에 맞는 한 안에 같은 품질 검토를 적용한다. 기존 허가된 원화나 임시 이미지를 비교에 사용할 수 있다. 실제 원화 제작과 시안용 참조 이미지의 비용과 증거를 구분한다. 미리보기에는 실서비스 예약·공유 같은 부작용을 연결하지 않는다.
 
 `candidate-spec.json`은 공통 콘텐츠 파일과 후보별 `id, title, source, review, graph, composition, typography, interaction, previews`를 담는다. source는 시안 HTML, review는 설명·팔레트를 보여주는 HTML이다. previews의 두 행은 `path, viewport, width, height`로 모바일과 데스크톱의 실제 비교 이미지를 지정한다. 공통 콘텐츠의 `required_text`에는 비교할 고정 문구를 둔다. 각 후보의 그래프에 화면·행동·기능 상태와 사람이 읽을 주석, 토큰·샘플 계획을 선언한다. 주석 링크는 시안의 실제 요소를 가리켜야 하고 토큰과 컴포넌트는 검토 문서에서 볼 수 있어야 한다. 팔레트 샘플(`design_foundations.palette.samples`)은 주·보조 사용 예로 후보마다 2개 이상 둔다. 0.17.0부터 1개뿐이면 Figma에 쓰기 전에 거부된다(이전에는 원본 읽기 단계에서야 실패했다).
 
@@ -14,19 +16,21 @@
 
 ```sh
 python3 "$TOOLS/design_actions.py" graph --format mermaid
-python3 "$TOOLS/design_actions.py" draft --project . --brief brief.md --research research.md --from-existing candidate-spec.json --out reviews/r1
+python3 "$TOOLS/design_actions.py" draft --project . --brief brief.md --research research.md --from-existing candidate-spec.json --mode compare --out reviews/r1
 python3 "$TOOLS/design_actions.py" review --manifest reviews/r1/directions.json --judgement agent-review.json
 ```
 
-첫 명령으로 정본의 상태 전이를 읽는다. 두 번째 명령은 실제 후보·이미지·그래프·주석·기초 디자인 계획을 검사하고 탐색 결과를 만든다. 에이전트는 후보별 이미지에서 구도, 글자, 다음 상태, 주석·팔레트의 사실성과 한계를 살핀다. `agent-review.json`에는 `role: agent`, 후보 목록의 해시, 각 후보의 ID와 현재 해시, 구도·서체·상호작용·주석 검토 내용을 기록한다. `design_directions.digest(candidates)`로 후보 목록의 해시를 계산한다.
+첫 명령으로 정본의 상태 전이를 읽는다. `--mode`는 해결된 실제 요청을 따른다. 생략은 기존 문서 호환용이며 새 작업은 명시한다. `direct` 입력에는 실제 사용자 요청 전체인 `direct_instruction.request_text`와 그 요청을 보존한 brief의 literal excerpt를 포함한 `anchors`가 필요하다. 참조 파일을 사용할 때는 실제 경로와 해시도 고정한다. 첨부 자체나 URL만으로 제작 승인을 만들지 않는다.
 
-세 번째 명령이 출력하는 검토 HTML과 비교 이미지를 함께 보여준다. HTML 안에 미리보기 이미지와 계획 주석·토큰·컴포넌트 설명이 포함된다. 로컬 서버가 보이지 않는 환경에서는 해당 파일 자체를 전달한다. `selection-prompt.txt`에 적힌 현재 리뷰 ID·해시와 실제 시안들을 사용자에게 제시한다. 로컬만 요청한 경우 이때 실제 상태는 정본의 `State.WAIT_SELECTION`이다. Figma 요청이면 아래 절차를 먼저 완료한다.
+새 경로의 `agent-review.json`은 `figma-flow-artifact-critique-v2`를 사용한다. 현재 brief/native_layout, 후보 원본·검토·graph·미리보기의 핀과 후보 해시를 연결한다. 목적, 정보 위계, 타이포그래피, 레이아웃, 에셋, 반응형, 상호작용의 관찰마다 실제 artifact·locator·literal excerpt 또는 캡처 영역, 관찰·이유·해결 상태를 남긴다. 현재 경고는 각각 처리 이유를 적는다. 문자열 존재·해시·검토 점수는 시각 품질을 증명하지 않으며 `visual_quality: unverified`는 실제 관찰 전까지 유지한다. 금지된 이미지·브라우저·Figma 접근을 검토를 이유로 실행하지 않는다.
+
+새 비교 경로는 현재 검토 ID·해시, 모든 후보 ID·해시와 고정된 검토·미리보기 링크를 실제 최종 메시지 또는 질문에 제시한다. Figma 목적지는 검증된 각 후보의 네이티브 링크도 제시한다. 질문 응답은 실제 이전 질문 호출과 연결되어야 한다. 코드 서식과 자연스러운 질문 언어는 승인 의미를 바꾸지 않는다. 비교 경로는 검토 HTML과 실제 미리보기를 제시하고 `selection-prompt.txt`의 리뷰 ID·해시에 대한 이후 실제 사용자 선택을 기다린다. 단일안 경로는 같은 자료를 검토하지만 후보 선택 프롬프트를 만들지 않는다. 로컬 단일안은 `SELECTION_READY`, Figma 목적지는 실제 네이티브 검토 전까지 `NATIVE_REVIEW_PENDING`이다. Figma가 허용되지 않으면 해당 검토는 blocked로 남기고 허용된 로컬 작업만 계속한다.
 
 ## Figma에서 선택 전 검토하기
 
-새 디자인의 기본 목적지는 일반 Figma 디자인 모드다. 목적지 옵션을 생략하면 이 경로를 사용한다. 명시적인 로컬 HTML 전용 브리프만 로컬 검토를 사용할 수 있다. Dev Mode 또는 Figma MCP를 쓰지 않는 조건은 HTML 전용 요청이 아니다. 에이전트 검토 후 상태는 `State.NATIVE_REVIEW_PENDING`이다. 정본 후보의 화면, 행동, 상태, 양방향 연결 및 실제 사용할 편집 가능한 배치를 입력으로 사용한다. 대상 파일을 고정하고 `figma_workspace.py prepare --kind review`로 기존 Figma Flow 작업공간에 검토 작업을 준비한다. 대상 Figma 파일에서 같은 고정 플러그인을 실행하면 기존 제작 페이지와 구분되는 초안 페이지에 시안·컴포넌트·변수·주석·프로토타입을 만든다. 참고 원화나 웹 캡처가 래스터라면 편집 가능한 요소와 구분해 표시한다.
+새 디자인의 기본 목적지는 일반 Figma 디자인 모드다. 목적지 옵션을 생략하면 이 경로를 사용한다. 명시적인 로컬 HTML 전용 브리프만 로컬 검토를 사용할 수 있다. Dev Mode 또는 Figma MCP를 쓰지 않는 조건은 HTML 전용 요청이 아니다. Figma 목적지의 에이전트 검토 후 상태는 `State.NATIVE_REVIEW_PENDING`이다. 사용자에게 Figma 금지 지시가 있으면 이 경로를 실행하지 않는다. 정본 후보의 화면, 행동, 상태, 양방향 연결 및 실제 사용할 편집 가능한 배치를 입력으로 사용한다. 대상 파일을 고정하고 `figma_workspace.py prepare --kind review`로 기존 Figma Flow 작업공간에 검토 작업을 준비한다. 대상 Figma 파일에서 같은 고정 플러그인을 실행하면 기존 제작 페이지와 구분되는 초안 페이지에 시안·컴포넌트·변수·주석·프로토타입을 만든다. 참고 원화나 웹 캡처가 래스터라면 편집 가능한 요소와 구분해 표시한다.
 
-시작할 때 에이전트가 검토 자료와 같은 프로젝트에 편집 가능한 배치 파일을 만들고 후보 명세에 `"native_layout": {"path":"native-layout.json"}`을 선언한다. Figma Desktop이 발급한 ID로 고정 작업공간을 한 번 등록하고 모든 프로젝트의 검토·본제작에서 재사용한다. 개별 작업의 manifest는 새로 등록하지 않는다. 다른 ID의 기존 private data는 원래 패키지를 보존하고 작업공간 이관 범위를 확인한다. 처음 한 번 등록하는 메뉴는 Figma의 **플러그인 → 개발**이며, 화면을 보는 Dev Mode나 유료 기능이 아니다. 플러그인이 반환한 원본 읽기 결과를 저장한 뒤 검증 명령을 실행한다. 검토 전용 페이지와 현재 후보가 일치하고, 실제 주석·팔레트·변수·클릭 출발지와 도착지·복귀 연결이 확인되어야 `State.WAIT_SELECTION`에 진입한다. 각 후보에는 일반 디자인 모드에서 읽을 수 있는 주석 보드를 두고, 보드의 텍스트가 실제 주석과 같은 정본을 따르며 링크가 올바른 화면·버튼 노드를 가리키는지 확인한다. Figma 페이지, 주석 보드, 프레젠테이션 시작 링크를 사용자에게 제시한다. HTML 링크만 보여주거나, 준비된 플러그인 패키지 자체를 실행 결과로 취급하지 않는다.
+시작할 때 에이전트가 검토 자료와 같은 프로젝트에 편집 가능한 배치 파일을 만들고 후보 명세에 `"native_layout": {"path":"native-layout.json"}`을 선언한다. Figma Desktop이 발급한 ID로 고정 작업공간을 한 번 등록하고 모든 프로젝트의 검토·본제작에서 재사용한다. 개별 작업의 manifest는 새로 등록하지 않는다. 다른 ID의 기존 private data는 원래 패키지를 보존하고 작업공간 이관 범위를 확인한다. 처음 한 번 등록하는 메뉴는 Figma의 **플러그인 → 개발**이며, 화면을 보는 Dev Mode나 유료 기능이 아니다. 플러그인이 반환한 원본 읽기 결과를 저장한 뒤 검증 명령을 실행한다. 검토 전용 페이지와 현재 후보가 일치하고, 실제 주석·팔레트·변수·클릭 출발지와 도착지·복귀 연결이 확인되어야 `State.WAIT_SELECTION`에 진입한다. 각 안에는 화면 밖의 읽기 쉬운 설명 보드를 둔다. 실제 화면·버튼에는 짧은 사람용 어노테이션과 해당 보드 항목의 전체 스펙 링크를 붙이고 보드에는 정확한 대상으로 돌아가는 링크를 둔다. 설명과 private 스펙 메타데이터는 같은 graph의 화면·동작 의미를 따른다. 기술 정보·과거 소유 주석은 별도로 보존하며 [설명 계약](../../../docs/guide.md#readable-specifications)에 따라 갱신·검증한다. Figma 페이지, 주석 보드, 프레젠테이션 시작 링크를 사용자에게 제시한다. HTML 링크만 보여주거나, 준비된 플러그인 패키지 자체를 실행 결과로 취급하지 않는다.
 
 ```sh
 python3 "$TOOLS/figma_workspace.py" prepare --workspace "$WORKSPACE" \
@@ -61,10 +65,17 @@ Computer Use와 공식 Figma MCP는 소비자 실행에 필요하지 않다. 로
 
 ## 선택과 후속 작업
 
-실제 사용자 답변에 특정 후보가 있어야 한다. 답변이 새 시안을 요구하거나 보이지 않는다고 하면 선택되지 않은 상태로 둔다. 도우미가 테스트 승인 파일을 작성하거나 이전 유형 선택·위임·시간 경과를 승인으로 대체해서는 안 된다. 현재 리뷰 제시 이후의 실제 관리된 사용자 턴을 확인할 수 있는 호스트에서만 다음 명령을 실행한다. 로컬 기록 검사는 암호화된 신원 인증과 다르다.
+`compare`는 실제 사용자 답변에 특정 후보가 있어야 한다. 답변이 새 시안을 요구하거나 보이지 않는다고 하면 선택되지 않은 상태로 둔다. 도우미가 테스트 승인 파일을 작성하거나 이전 유형 선택·위임·시간 경과를 승인으로 대체해서는 안 된다. 현재 리뷰 제시 이후의 실제 관리된 사용자 턴을 확인할 수 있는 호스트에서만 다음 명령을 실행한다. 로컬 기록 검사는 암호화된 신원 인증과 다르다.
 
 ```sh
 python3 "$TOOLS/design_actions.py" select --manifest reviews/r1/directions.json --user-event ACTUAL_MANAGED_USER_EVENT --out reviews/r1/selection.json
+python3 "$TOOLS/design_actions.py" validate-selection --selection reviews/r1/selection.json
+```
+
+`direct`는 비교 선택을 꾸미지 않고 실제 요청의 범위·현재 핀을 확인한다. 실제 관리된 사용자 기록은 제작 전 요청도 사용할 수 있지만 조건부 정책·조사·보류·철회는 권한이 아니다.
+
+```sh
+python3 "$TOOLS/design_actions.py" admit-direct --manifest reviews/r1/directions.json --user-event ACTUAL_MANAGED_USER_EVENT --out reviews/r1/selection.json
 python3 "$TOOLS/design_actions.py" validate-selection --selection reviews/r1/selection.json
 ```
 

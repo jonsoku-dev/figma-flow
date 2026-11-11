@@ -1,0 +1,1605 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "CODE-MORROW",
+      "type": "code",
+      "title": "Morrow Market 규칙",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "로컬 모델. Figma 실행 증거가 아니다."
+    },
+    {
+      "id": "TEST-MORROW",
+      "type": "test",
+      "title": "Morrow Market 모델 검사",
+      "status": "planned",
+      "source": "tests/test_regression_program_apps.cjs",
+      "detail": "Node 모델 검사. 브라우저·Figma 합격이 아니다."
+    },
+    {
+      "id": "REQ-MORROW-01",
+      "type": "requirement",
+      "title": "주간 식탁 이야기를 연다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/"
+    },
+    {
+      "id": "SCR-MORROW-01",
+      "type": "screen",
+      "title": "이번 주의 식탁",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/"
+    },
+    {
+      "id": "STATE-MORROW-01",
+      "type": "state",
+      "title": "이번 주의 식탁 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-01",
+      "type": "acceptance",
+      "title": "이번 주의 식탁 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-01-LOADING",
+      "type": "state",
+      "title": "이번 주의 식탁 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-01-EMPTY",
+      "type": "state",
+      "title": "이번 주의 식탁 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-01-ERROR",
+      "type": "state",
+      "title": "이번 주의 식탁 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-01",
+      "type": "action",
+      "title": "컬렉션 보기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/",
+      "source_screen": "SCR-MORROW-01",
+      "target_ids": [
+        "SCR-MORROW-02"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-02",
+      "type": "requirement",
+      "title": "컬렉션 안의 상품으로 이동한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/collections/:slug"
+    },
+    {
+      "id": "SCR-MORROW-02",
+      "type": "screen",
+      "title": "주간 컬렉션",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/collections/:slug"
+    },
+    {
+      "id": "STATE-MORROW-02",
+      "type": "state",
+      "title": "주간 컬렉션 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-02",
+      "type": "acceptance",
+      "title": "주간 컬렉션 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-02-LOADING",
+      "type": "state",
+      "title": "주간 컬렉션 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-02-EMPTY",
+      "type": "state",
+      "title": "주간 컬렉션 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-02-ERROR",
+      "type": "state",
+      "title": "주간 컬렉션 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-02",
+      "type": "action",
+      "title": "상품 보기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/collections/:slug",
+      "source_screen": "SCR-MORROW-02",
+      "target_ids": [
+        "SCR-MORROW-04"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-03",
+      "type": "requirement",
+      "title": "이름과 재료로 상품을 찾는다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/search"
+    },
+    {
+      "id": "SCR-MORROW-03",
+      "type": "screen",
+      "title": "상품 찾기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/search"
+    },
+    {
+      "id": "STATE-MORROW-03",
+      "type": "state",
+      "title": "상품 찾기 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-03",
+      "type": "acceptance",
+      "title": "상품 찾기 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-03-LOADING",
+      "type": "state",
+      "title": "상품 찾기 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-03-EMPTY",
+      "type": "state",
+      "title": "상품 찾기 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-03-ERROR",
+      "type": "state",
+      "title": "상품 찾기 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-03",
+      "type": "action",
+      "title": "상품 보기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/search",
+      "source_screen": "SCR-MORROW-03",
+      "target_ids": [
+        "SCR-MORROW-04"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-04",
+      "type": "requirement",
+      "title": "가격과 재고를 보여 주고 담는다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/products/:productId"
+    },
+    {
+      "id": "SCR-MORROW-04",
+      "type": "screen",
+      "title": "식탁 상품",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/products/:productId"
+    },
+    {
+      "id": "STATE-MORROW-04",
+      "type": "state",
+      "title": "식탁 상품 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-04",
+      "type": "acceptance",
+      "title": "식탁 상품 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-04-LOADING",
+      "type": "state",
+      "title": "식탁 상품 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-04-EMPTY",
+      "type": "state",
+      "title": "식탁 상품 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-04-ERROR",
+      "type": "state",
+      "title": "식탁 상품 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-04",
+      "type": "action",
+      "title": "장바구니에 담기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/products/:productId",
+      "source_screen": "SCR-MORROW-04",
+      "target_ids": [
+        "SCR-MORROW-07"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-05",
+      "type": "requirement",
+      "title": "두 상품의 가격과 재고를 나란히 둔다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/compare"
+    },
+    {
+      "id": "SCR-MORROW-05",
+      "type": "screen",
+      "title": "나란히 비교",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/compare"
+    },
+    {
+      "id": "STATE-MORROW-05",
+      "type": "state",
+      "title": "나란히 비교 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-05",
+      "type": "acceptance",
+      "title": "나란히 비교 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-05-LOADING",
+      "type": "state",
+      "title": "나란히 비교 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-05-EMPTY",
+      "type": "state",
+      "title": "나란히 비교 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-05-ERROR",
+      "type": "state",
+      "title": "나란히 비교 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-05",
+      "type": "action",
+      "title": "장바구니로 이동",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/compare",
+      "source_screen": "SCR-MORROW-05",
+      "target_ids": [
+        "SCR-MORROW-07"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-06",
+      "type": "requirement",
+      "title": "새로고침 뒤에도 보관한 상품을 유지한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/saved"
+    },
+    {
+      "id": "SCR-MORROW-06",
+      "type": "screen",
+      "title": "보관한 상품",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/saved"
+    },
+    {
+      "id": "STATE-MORROW-06",
+      "type": "state",
+      "title": "보관한 상품 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-06",
+      "type": "acceptance",
+      "title": "보관한 상품 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-06-LOADING",
+      "type": "state",
+      "title": "보관한 상품 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-06-EMPTY",
+      "type": "state",
+      "title": "보관한 상품 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-06-ERROR",
+      "type": "state",
+      "title": "보관한 상품 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-06",
+      "type": "action",
+      "title": "상품 보기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/saved",
+      "source_screen": "SCR-MORROW-06",
+      "target_ids": [
+        "SCR-MORROW-04"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-07",
+      "type": "requirement",
+      "title": "담은 상품과 수량을 확인한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/cart"
+    },
+    {
+      "id": "SCR-MORROW-07",
+      "type": "screen",
+      "title": "장바구니",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/cart"
+    },
+    {
+      "id": "STATE-MORROW-07",
+      "type": "state",
+      "title": "장바구니 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-07",
+      "type": "acceptance",
+      "title": "장바구니 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-07-LOADING",
+      "type": "state",
+      "title": "장바구니 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-07-EMPTY",
+      "type": "state",
+      "title": "장바구니 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-07-ERROR",
+      "type": "state",
+      "title": "장바구니 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-07",
+      "type": "action",
+      "title": "주문 시작",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/cart",
+      "source_screen": "SCR-MORROW-07",
+      "target_ids": [
+        "SCR-MORROW-08"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-08",
+      "type": "requirement",
+      "title": "주문자 이름을 받는다. 결제는 없다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/checkout/contact"
+    },
+    {
+      "id": "SCR-MORROW-08",
+      "type": "screen",
+      "title": "주문자",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/checkout/contact"
+    },
+    {
+      "id": "STATE-MORROW-08",
+      "type": "state",
+      "title": "주문자 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-08",
+      "type": "acceptance",
+      "title": "주문자 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-MORROW-08",
+      "type": "action",
+      "title": "배송으로 이동",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/checkout/contact",
+      "source_screen": "SCR-MORROW-08",
+      "target_ids": [
+        "SCR-MORROW-09"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-09",
+      "type": "requirement",
+      "title": "배송 메모를 받고 이전 단계로 돌아갈 수 있다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/checkout/delivery"
+    },
+    {
+      "id": "SCR-MORROW-09",
+      "type": "screen",
+      "title": "배송",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/checkout/delivery"
+    },
+    {
+      "id": "STATE-MORROW-09",
+      "type": "state",
+      "title": "배송 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-09",
+      "type": "acceptance",
+      "title": "배송 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-MORROW-09",
+      "type": "action",
+      "title": "확인으로 이동",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/checkout/delivery",
+      "source_screen": "SCR-MORROW-09",
+      "target_ids": [
+        "SCR-MORROW-10"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-10",
+      "type": "requirement",
+      "title": "재고나 가격이 바뀌면 주문을 늘리지 않는다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/checkout/review"
+    },
+    {
+      "id": "SCR-MORROW-10",
+      "type": "screen",
+      "title": "주문 확인",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/checkout/review"
+    },
+    {
+      "id": "STATE-MORROW-10",
+      "type": "state",
+      "title": "주문 확인 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-10",
+      "type": "acceptance",
+      "title": "주문 확인 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-MORROW-10",
+      "type": "action",
+      "title": "주문 접수",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/checkout/review",
+      "source_screen": "SCR-MORROW-10",
+      "target_ids": [
+        "SCR-MORROW-11"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-11",
+      "type": "requirement",
+      "title": "한 번 접수된 주문 번호를 보여 준다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/orders/complete/:orderId"
+    },
+    {
+      "id": "SCR-MORROW-11",
+      "type": "screen",
+      "title": "주문 완료",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/orders/complete/:orderId"
+    },
+    {
+      "id": "STATE-MORROW-11",
+      "type": "state",
+      "title": "주문 완료 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-11",
+      "type": "acceptance",
+      "title": "주문 완료 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-11-LOADING",
+      "type": "state",
+      "title": "주문 완료 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-11-EMPTY",
+      "type": "state",
+      "title": "주문 완료 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-11-ERROR",
+      "type": "state",
+      "title": "주문 완료 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-11",
+      "type": "action",
+      "title": "주문 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/orders/complete/:orderId",
+      "source_screen": "SCR-MORROW-11",
+      "target_ids": [
+        "SCR-MORROW-13"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-12",
+      "type": "requirement",
+      "title": "접수한 주문을 다시 연다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/orders"
+    },
+    {
+      "id": "SCR-MORROW-12",
+      "type": "screen",
+      "title": "주문 목록",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/orders"
+    },
+    {
+      "id": "STATE-MORROW-12",
+      "type": "state",
+      "title": "주문 목록 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-12",
+      "type": "acceptance",
+      "title": "주문 목록 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-12-LOADING",
+      "type": "state",
+      "title": "주문 목록 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-12-EMPTY",
+      "type": "state",
+      "title": "주문 목록 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-12-ERROR",
+      "type": "state",
+      "title": "주문 목록 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-12",
+      "type": "action",
+      "title": "주문 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/orders",
+      "source_screen": "SCR-MORROW-12",
+      "target_ids": [
+        "SCR-MORROW-13"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-13",
+      "type": "requirement",
+      "title": "주문 내용을 확인하고 반품으로 이동한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/orders/:orderId"
+    },
+    {
+      "id": "SCR-MORROW-13",
+      "type": "screen",
+      "title": "주문 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/orders/:orderId"
+    },
+    {
+      "id": "STATE-MORROW-13",
+      "type": "state",
+      "title": "주문 상세 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-13",
+      "type": "acceptance",
+      "title": "주문 상세 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-MORROW-13-LOADING",
+      "type": "state",
+      "title": "주문 상세 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-13-EMPTY",
+      "type": "state",
+      "title": "주문 상세 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-13-ERROR",
+      "type": "state",
+      "title": "주문 상세 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-MORROW-13",
+      "type": "action",
+      "title": "반품 신청",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/orders/:orderId",
+      "source_screen": "SCR-MORROW-13",
+      "target_ids": [
+        "SCR-MORROW-14"
+      ]
+    },
+    {
+      "id": "REQ-MORROW-14",
+      "type": "requirement",
+      "title": "반품 실패 뒤 입력한 사유를 유지한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/returns/new/:orderId"
+    },
+    {
+      "id": "SCR-MORROW-14",
+      "type": "screen",
+      "title": "반품 신청",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/returns/new/:orderId"
+    },
+    {
+      "id": "STATE-MORROW-14",
+      "type": "state",
+      "title": "반품 신청 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-MORROW-14",
+      "type": "acceptance",
+      "title": "반품 신청 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-MORROW-14",
+      "type": "action",
+      "title": "반품 제출",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/returns/new/:orderId",
+      "source_screen": "SCR-MORROW-14",
+      "target_ids": [
+        "STATE-MORROW-14-KEPT",
+        "STATE-MORROW-14-DONE"
+      ]
+    },
+    {
+      "id": "STATE-MORROW-14-KEPT",
+      "type": "state",
+      "title": "반품 입력을 유지함",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-MORROW-14-DONE",
+      "type": "state",
+      "title": "반품을 접수함",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "REQ-TC-F03",
+      "type": "requirement",
+      "title": "주문 단계와 재고 충돌",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "TC-F03"
+    },
+    {
+      "id": "AC-TC-F03",
+      "type": "acceptance",
+      "title": "주문 단계와 재고 충돌 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-F03"
+    },
+    {
+      "id": "REQ-TC-F04",
+      "type": "requirement",
+      "title": "저장 목록과 반품",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "TC-F04"
+    },
+    {
+      "id": "AC-TC-F04",
+      "type": "acceptance",
+      "title": "저장 목록과 반품 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-F04"
+    },
+    {
+      "id": "REF-MORROW-GOVUK",
+      "type": "reference",
+      "title": "답변 확인 패턴 메모",
+      "status": "observed",
+      "source": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "detail": "텍스트 수집이며 브라우저 렌더가 아니다."
+    }
+  ],
+  "edges": [
+    {
+      "from": "SCR-MORROW-01",
+      "to": "STATE-MORROW-01-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-01",
+      "to": "STATE-MORROW-01-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-01",
+      "to": "STATE-MORROW-01-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-01",
+      "to": "SCR-MORROW-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-01",
+      "to": "AC-MORROW-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-01",
+      "to": "STATE-MORROW-01",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-01",
+      "to": "ACT-MORROW-01",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-01",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-01",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-01",
+      "to": "SCR-MORROW-02",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-02",
+      "to": "STATE-MORROW-02-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-02",
+      "to": "STATE-MORROW-02-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-02",
+      "to": "STATE-MORROW-02-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-02",
+      "to": "SCR-MORROW-02",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-02",
+      "to": "AC-MORROW-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-02",
+      "to": "STATE-MORROW-02",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-02",
+      "to": "ACT-MORROW-02",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-02",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-02",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-02",
+      "to": "SCR-MORROW-04",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-03",
+      "to": "STATE-MORROW-03-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-03",
+      "to": "STATE-MORROW-03-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-03",
+      "to": "STATE-MORROW-03-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-03",
+      "to": "SCR-MORROW-03",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-03",
+      "to": "AC-MORROW-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-03",
+      "to": "STATE-MORROW-03",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-03",
+      "to": "ACT-MORROW-03",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-03",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-03",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-03",
+      "to": "SCR-MORROW-04",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-04",
+      "to": "STATE-MORROW-04-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-04",
+      "to": "STATE-MORROW-04-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-04",
+      "to": "STATE-MORROW-04-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-04",
+      "to": "SCR-MORROW-04",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-04",
+      "to": "AC-MORROW-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-04",
+      "to": "STATE-MORROW-04",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-04",
+      "to": "ACT-MORROW-04",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-04",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-04",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-04",
+      "to": "SCR-MORROW-07",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-05",
+      "to": "STATE-MORROW-05-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-05",
+      "to": "STATE-MORROW-05-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-05",
+      "to": "STATE-MORROW-05-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-05",
+      "to": "SCR-MORROW-05",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-05",
+      "to": "AC-MORROW-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-05",
+      "to": "STATE-MORROW-05",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-05",
+      "to": "ACT-MORROW-05",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-05",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-05",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-05",
+      "to": "SCR-MORROW-07",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-06",
+      "to": "STATE-MORROW-06-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-06",
+      "to": "STATE-MORROW-06-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-06",
+      "to": "STATE-MORROW-06-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-06",
+      "to": "SCR-MORROW-06",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-06",
+      "to": "AC-MORROW-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-06",
+      "to": "STATE-MORROW-06",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-06",
+      "to": "ACT-MORROW-06",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-06",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-06",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-06",
+      "to": "SCR-MORROW-04",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-07",
+      "to": "STATE-MORROW-07-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-07",
+      "to": "STATE-MORROW-07-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-07",
+      "to": "STATE-MORROW-07-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-07",
+      "to": "SCR-MORROW-07",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-07",
+      "to": "AC-MORROW-07",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-07",
+      "to": "STATE-MORROW-07",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-07",
+      "to": "ACT-MORROW-07",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-07",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-07",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-07",
+      "to": "SCR-MORROW-08",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-MORROW-08",
+      "to": "SCR-MORROW-08",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-08",
+      "to": "AC-MORROW-08",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-08",
+      "to": "STATE-MORROW-08",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-08",
+      "to": "ACT-MORROW-08",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-08",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-08",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-08",
+      "to": "SCR-MORROW-09",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-MORROW-09",
+      "to": "SCR-MORROW-09",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-09",
+      "to": "AC-MORROW-09",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-09",
+      "to": "STATE-MORROW-09",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-09",
+      "to": "ACT-MORROW-09",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-09",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-09",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-09",
+      "to": "SCR-MORROW-10",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-MORROW-10",
+      "to": "SCR-MORROW-10",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-10",
+      "to": "AC-MORROW-10",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-10",
+      "to": "STATE-MORROW-10",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-10",
+      "to": "ACT-MORROW-10",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-10",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-10",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-10",
+      "to": "SCR-MORROW-11",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-11",
+      "to": "STATE-MORROW-11-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-11",
+      "to": "STATE-MORROW-11-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-11",
+      "to": "STATE-MORROW-11-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-11",
+      "to": "SCR-MORROW-11",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-11",
+      "to": "AC-MORROW-11",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-11",
+      "to": "STATE-MORROW-11",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-11",
+      "to": "ACT-MORROW-11",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-11",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-11",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-11",
+      "to": "SCR-MORROW-13",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-12",
+      "to": "STATE-MORROW-12-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-12",
+      "to": "STATE-MORROW-12-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-12",
+      "to": "STATE-MORROW-12-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-12",
+      "to": "SCR-MORROW-12",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-12",
+      "to": "AC-MORROW-12",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-12",
+      "to": "STATE-MORROW-12",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-12",
+      "to": "ACT-MORROW-12",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-12",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-12",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-12",
+      "to": "SCR-MORROW-13",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-MORROW-13",
+      "to": "STATE-MORROW-13-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-13",
+      "to": "STATE-MORROW-13-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-13",
+      "to": "STATE-MORROW-13-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-MORROW-13",
+      "to": "SCR-MORROW-13",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-13",
+      "to": "AC-MORROW-13",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-13",
+      "to": "STATE-MORROW-13",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-13",
+      "to": "ACT-MORROW-13",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-13",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-13",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-13",
+      "to": "SCR-MORROW-14",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-MORROW-14",
+      "to": "SCR-MORROW-14",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-MORROW-14",
+      "to": "AC-MORROW-14",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-MORROW-14",
+      "to": "STATE-MORROW-14",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-MORROW-14",
+      "to": "ACT-MORROW-14",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-MORROW-14",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-MORROW-14",
+      "to": "CODE-MORROW",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-MORROW-14",
+      "to": "STATE-MORROW-14-KEPT",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-MORROW-14",
+      "to": "STATE-MORROW-14-DONE",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-TC-F03",
+      "to": "AC-TC-F03",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-TC-F03",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-TC-F03",
+      "to": "SCR-MORROW-04",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F03",
+      "to": "SCR-MORROW-07",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F03",
+      "to": "SCR-MORROW-08",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F03",
+      "to": "SCR-MORROW-09",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F03",
+      "to": "SCR-MORROW-10",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F03",
+      "to": "SCR-MORROW-11",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F04",
+      "to": "AC-TC-F04",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-TC-F04",
+      "to": "TEST-MORROW",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-TC-F04",
+      "to": "SCR-MORROW-06",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F04",
+      "to": "SCR-MORROW-13",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F04",
+      "to": "SCR-MORROW-14",
+      "type": "appears on"
+    },
+    {
+      "from": "REF-MORROW-GOVUK",
+      "to": "REQ-MORROW-10",
+      "type": "informs"
+    }
+  ]
+}

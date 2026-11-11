@@ -10,6 +10,7 @@ import campaign_library
 import campaign_forms
 import review_destination
 import workflow
+from design_intent import direction_mode
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / 'library/design-routes.json'
@@ -41,7 +42,6 @@ STYLES = {
     'graphic': r'bold|graphic|그래픽|대담|강렬|볼드|グラフィック|大胆',
     'illustrated_collectible': r'illustrat|collectible|일러스트|수집|イラスト|コレク',
 }
-DEFAULT_STYLE = {'key_visual': 'cinematic', 'lettering': 'graphic', 'collectible': 'illustrated_collectible', 'seal': 'illustrated_collectible'}
 NEGATIVE = r'없이|제외|금지|하지\s*마|하지\s*않|말고|원치\s*않|불필요|아닌|아니라|말고|ではなく|じゃなく|不要|なし|禁止|しない|除外'
 
 # A transport constraint must not be parsed as a ban on generating artwork.
@@ -102,10 +102,9 @@ def direction_for(surface, text):
                 if nearest == surface:
                     cues.append(style)
     cues = list(dict.fromkeys(cues))
-    preferred = DEFAULT_STYLE.get(surface)
-    choice = preferred if preferred in cues else cues[0] if len(cues) == 1 else preferred or 'repository_context'
+    choice = cues[0] if len(cues) == 1 else 'repository_context'
     return {'surface': surface, 'direction': choice, 'cues': cues,
-            'basis': 'explicit_cue' if choice in cues else 'surface_fallback' if preferred else 'inspect_existing_design',
+            'basis': 'explicit_cue' if choice in cues else 'inspect_existing_design',
             'fallback': choice not in cues}
 
 
@@ -207,6 +206,16 @@ def route(prompt, registry=None, campaign_data=None, context=None):
                    'locales': locales, 'network': 'not_performed', 'install': 'never_automatic',
                    'authority': 'plan_does_not_grant_permissions',
                    'skill_capabilities': 'verify_local_availability_and_target_fit_before_dispatch; resource publisher is not execution authority'}
+    direction = dict(direction_mode(prompt), source='current_request')
+    if direction['mode'] == 'inspect-context' and direction['basis'] != 'non_authoring_request' and context:
+        inherited = direction_mode(context)
+        if inherited['mode'] != 'inspect-context':
+            direction = dict(inherited, source='provided_context')
+    direction_instruction = {
+        'direct': 'Author one direction from the specific user request. Run design_actions.py draft --mode direct and review. Admit the current artifact hashes through the actual managed user instruction with admit-direct after critique and required native verification; do not ask for a candidate choice.',
+        'compare': 'Show two or three distinct comparable directions. Run design_actions.py draft --mode compare and review. Present the current artifacts, then wait for the actual user to select an exact candidate version. Production remains blocked until that choice is verified.',
+        'inspect-context': 'Inspect the actual repository, brief, references and design system before resolving the direction protocol. No draft count or production admission is decided yet. Resolve direct or compare from that context before drafting.'
+    }[direction['mode']]
     lanes = {r['id']: r for r in registry['lanes']}
     resources = {r['id']: r for r in registry['resources']}
     routes = []
@@ -229,7 +238,7 @@ def route(prompt, registry=None, campaign_data=None, context=None):
         if lane == 'typography':
             actions.append('Inspect actual KR/JP glyph coverage, font license, weight, fallback and line breaking for requested locales.')
         if lane == 'figma':
-            actions.append('Native semantic handoff is required for every Figma-backed design: read back native screen/control annotations, real component instances and bound variables; validate supplied evidence with tools/native_handoff.py and an explicit expected contract. Unsupported or missing evidence blocks acceptance.')
+            actions.append('Native semantic handoff is required for every Figma-backed design: use actual getters to read screen/control meanings from legacy native annotations or graph-linked structured specification metadata with ordinary readable specification boards outside artboards. Verify target IDs, real component instances and bound variables against the expected graph with tools/native_handoff.py. A planned record or screenshot does not establish actual native state.')
             actions.insert(0, 'Use local developer-plugin import/readback; do not call Figma MCP.' if no_mcp else 'Use local developer-plugin flow by default; remote MCP only when explicitly requested.')
         resource_ids = row['resources']
         skill_ids = SKILLS[lane] if lane != 'images' or images_action == 'generate' else ['figma-flow']
@@ -241,17 +250,17 @@ def route(prompt, registry=None, campaign_data=None, context=None):
             actions.insert(0, 'Use imagegen only for requested raster/illustrated ' + lane + ' ideation; preserve editable/vector delivery checks separately. Local brandkit is optional and is not verified design authority.')
         if ui_creation and lane in ('direction', 'typography', 'verification'):
             skill_ids = list(dict.fromkeys(['impeccable', 'design-taste-frontend', *skill_ids]))
-            actions.insert(0, 'Run tools/skill_dependencies.py --check and read the verified bundled Impeccable and design-taste-frontend sources before authoring; choose target-script typography first with desktop/mobile candidate specimens, then compare distinct composition drafts with the user. After explicit selection, author, critique, fix and confirm current artifacts. Respect tasteskill scope exclusions for dense product UI.')
+            actions.insert(0, 'Run tools/skill_dependencies.py --check and read the verified bundled Impeccable and design-taste-frontend sources before authoring. Inspect actual purpose, content hierarchy, design-system typography, layout and assets; use desktop/mobile typography specimens. Follow the resolved direction protocol, critique actual artifacts, fix issues and confirm current hashes. Respect tasteskill scope exclusions for dense product UI.')
         if ui_creation and lane in ('logo', 'icons'):
             skill_ids = list(dict.fromkeys(['imagegen', *skill_ids]))
             actions.insert(0, 'Logo/icon original must be genuine image generation; preserve real raster/tool-result identity, raster-only derivative transforms and actual visible usage. Library icons, hand-coded/traced SVG paths, emoji and font-built marks cannot substitute. If generation is excluded, keep this required phase blocked.')
         if game_campaign and ui_creation and lane == 'direction':
-            actions.insert(0, 'After validating the exact human-selected direction, freeze its visual references plus the shared concept/reference sheets and purpose-specific full game role inventory with tools/asset_batch.py; then invoke the actual image_gen.imagegen host tool for every ready-to-run generation-requests.json request. Preserve real managed originals/tool results. Pending packets are not generation; scoped retries keep the same batch. Generated title/button skins must content-hug live labels using nine-slice/repeat-center, titleFor/wrapping/downstream flow, and actual narrow-mobile short/long probes before completion.')
+            actions.insert(0, 'After validating the exact admitted direction and its user authority, freeze its visual references plus the shared concept/reference sheets and purpose-specific full game role inventory with tools/asset_batch.py; then invoke the actual image_gen.imagegen host tool for every ready-to-run generation-requests.json request. Preserve real managed originals/tool results. Pending packets are not generation; scoped retries keep the same batch. Generated title/button skins must content-hug live labels using nine-slice/repeat-center, titleFor/wrapping/downstream flow, and actual narrow-mobile short/long probes before completion.')
         conditional_skills = []
         if not ui_creation and (lane == 'typography' or (lane == 'direction' and matches(r'critique|review|audit|비평|검토|리뷰|평가|レビュー', text))):
             conditional_skills.append({'id': 'impeccable', 'when': 'Target is a frontend typography or critique task; verify local capability and target fit.', 'status': 'conditional'})
         if ui_creation and not research and lane == 'direction':
-            actions.insert(0, 'Explore only until the human selects a current candidate. Show two or three comparable directions with visible planned screen/control annotations, role-based component samples and token uses. Run design_actions.py draft/review; the graph blocks production assets, native handoff and implementation before selection. For requested Figma scope, first build the native draft review and verify its real readback.')
+            actions.insert(0, direction_instruction + ' For requested Figma scope, verify actual getter readback of the native review, graph-linked meanings, component palette, variable bindings, prototype destinations and return links before admission.')
         if research:
             actions = ['Recommend resources and describe proposed checks; do not dispatch edits or generation.']
         routes.append({'id': lane, 'title': row['title'], 'skill_ids': skill_ids, 'conditional_skills': conditional_skills,
@@ -268,7 +277,7 @@ def route(prompt, registry=None, campaign_data=None, context=None):
                         'receipt': 'bindings.design_review -> evidence/design-review.json', 'cli': 'python3 tools/check_project.py --init --brief BRIEF --graph GRAPH --bindings BINDINGS --out NEW_DIRECTORY'})
     if figma_backed:
         gates.insert(1, {'id': 'native_semantic_handoff', 'status': 'blocked_until_observed',
-                        'requirement': 'Before accepting any Figma-backed design, observe native screen/control annotations covering actual actions and states, component-set instances used by important controls, and actual variable bindings with mode/alias values. Validate native readback against an explicit expected contract using tools/native_handoff.py. Metadata, placeholders, screenshots and unused components do not satisfy this gate. Missing or unsupported evidence stays blocked, regardless of SSOT wording or local/remote transport.',
+                        'requirement': 'Before accepting any Figma-backed design, read actual getters for screen/control meanings and action/state coverage from legacy native annotations or graph-linked structured specification metadata with readable linked specification boards outside artboards. Verify actual component-set instances used by important controls and actual variable bindings with mode/alias values against an explicit expected graph contract using tools/native_handoff.py. Planned metadata, placeholders, screenshots and unused components do not establish actual native state; missing getter evidence stays blocked.',
                         'transport': constraints['figma_transport']})
     if ssot:
         gates.insert(2, {'id': 'figma_ssot_before_web_writes', 'status': 'blocked_until_observed',
@@ -279,17 +288,19 @@ def route(prompt, registry=None, campaign_data=None, context=None):
         public = workflow.public_graph()
         creation_workflow = {'source': 'library/workflow.json', 'sha256': public['graph_sha256'],
                              'initial_state': public['graph']['initial'],
-                             'selection_boundary': workflow.State.WAIT_SELECTION.value,
-                             'approval_event': workflow.Event.SELECT.value, 'authority': 'human',
+                             'selection_boundary': (workflow.State.NATIVE_REVIEW_PENDING.value if figma_backed else workflow.State.SELECTION_READY.value) if direction['mode'] == 'direct' else workflow.State.WAIT_SELECTION.value if direction['mode'] == 'compare' else None,
+                             'approval_event': workflow.Event.ADMIT_DIRECT.value if direction['mode'] == 'direct' else workflow.Event.SELECT.value if direction['mode'] == 'compare' else None, 'authority': 'human',
+                             'direction_mode': direction,
                              'source_of_truth': 'Graph describes allowed transitions; routing is a plan, not an executed transition.'}
-        gates.insert(1, {'id': 'human_direction_selection', 'status': 'required_before_production',
-                        'state': workflow.State.WAIT_SELECTION.value,
-                        'requirement': 'Before generating final assets, an importable native bundle or product UI, compare two or three distinct drafts using the same brief. Verify their annotations and proposed component/token palette. The user must select the exact candidate version; stale selection, a choice of campaign forms or an agent recommendation cannot grant production authority.',
-                        'draft_cli': 'python3 tools/design_actions.py draft --project ROOT --brief BRIEF --research RESEARCH --from-existing SPEC --out NEW_DIR --review-destination ' + ('figma' if figma_backed else 'local'),
+        gates.insert(1, {'id': 'human_direction_selection', 'status': 'blocked_until_context_resolution' if direction['mode'] == 'inspect-context' else 'required_before_production',
+                        'state': creation_workflow['selection_boundary'],
+                        'requirement': direction_instruction + ' Current artifact critique, meaningful content, responsive checks and required actual native verification remain mandatory. Routing is a plan, not visual proof.',
+                        'draft_cli': ('python3 tools/design_actions.py draft --project ROOT --brief BRIEF --research RESEARCH --from-existing SPEC --out NEW_DIR --mode ' + direction['mode'] + ' --review-destination ' + ('figma' if figma_backed else 'local')) if direction['mode'] in ('direct', 'compare') else None,
+                        'next_action': 'Inspect actual context and resolve direct or compare before drafting.' if direction['mode'] == 'inspect-context' else 'Author the resolved direction protocol with current artifact-linked critique.',
                         'graph_sha256': public['graph_sha256']})
         if figma_backed:
             gates.insert(1, {'id': 'figma_direction_review', 'state': workflow.State.NATIVE_REVIEW_PENDING.value,
-                'status': 'required_before_selection', 'requirement': 'Present the actual editable Figma candidates. Verify native annotations on their targets, visible palette instances, variable bindings, and prototype click and return destinations before requesting a choice.',
+                'status': 'required_before_admission' if direction['mode'] == 'direct' else 'required_before_selection' if direction['mode'] == 'compare' else 'required_after_context_resolution', 'requirement': 'Verify actual editable Figma screens, graph-linked specifications and their readable boards, component palette instances, variable bindings, prototype click destinations and return links. ' + direction_instruction,
                 'verify_cli': 'python3 tools/design_actions.py verify-native-review --manifest MANIFEST --readback ACTUAL_FIGMA_READBACK'})
     categories = []
     for category, pattern in [('prelaunch', r'prelaunch|launch|사전등록|출시|事前登録|リリース'), ('anniversary', r'anniversary|주년|기념|周年'), ('update', r'update|업데이트|アップデート'), ('participation', r'mission|reward|참여|미션|보상|参加|ミッション|報酬'), ('event', r'event|collab|행사|협업|이벤트|イベント|コラボ'), ('brand-world', r'brand|character|world|브랜드|캐릭터|세계관|ブランド|キャラ|世界観')]:
@@ -308,6 +319,7 @@ def route(prompt, registry=None, campaign_data=None, context=None):
                 campaign_plans.append({'category': category, 'basis': campaign_basis, 'market': locales[0] if len(locales) == 1 else None,
                                        'plan': campaign_library.plan(data, category, locales[0] if len(locales) == 1 else None)})
     return {'version': 1, 'status': 'planned', 'mode': 'research' if research else 'execute', 'prompt': prompt, 'context': context,
+            'direction_mode': direction, 'authoring_context': {'status': 'inspection_required', 'sources': ['repository', 'brief', 'references', 'design_system'], 'decisions': ['purpose', 'content_hierarchy', 'typography', 'layout', 'asset_rationale'], 'visual_quality': 'unverified'},
             'workflow': creation_workflow, 'interpretation': 'deterministic cue-based proposal; review ambiguous scopes before acting',
             'surfaces': surfaces, 'routes': routes, 'constraints': constraints, 'exclusions': exclusions,
             'gates': gates, 'campaign_forms': form_plans, 'design_review_declaration': ({'operation': 'redesign' if matches(r'redesign|리디자인|새로|처음부터', current) else 'create', 'target_kind': 'game-campaign' if game_campaign else 'website' if form_plans or matches(r'website|landing|portfolio|웹|랜딩|사이트', text) else 'product-ui', 'receipt': 'evidence/design-review.json'} if ui_creation else None), 'campaign_plans': campaign_plans}

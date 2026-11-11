@@ -1,0 +1,1436 @@
+{
+  "schema": "figma-flow-regression-plan-v1",
+  "status": "planned",
+  "source_head": "f64d9a9e592343a0910cec236d358cd841b8e207",
+  "baseline": "current dirty source must be fingerprinted before execution; HEAD alone is insufficient",
+  "product_graph_authority": "Each app graph owns product meaning/relationships. This file inventories test coverage only.",
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 1000
+    }
+  ],
+  "apps": [
+    {
+      "id": "atlas",
+      "title": "Atlas Workspace",
+      "purpose": "업무·승인 관리",
+      "status": "planned",
+      "primary_input": "html",
+      "routes": [
+        {
+          "id": "SCR-ATLAS-01",
+          "path": "/sign-in"
+        },
+        {
+          "id": "SCR-ATLAS-02",
+          "path": "/workspaces"
+        },
+        {
+          "id": "SCR-ATLAS-03",
+          "path": "/dashboard"
+        },
+        {
+          "id": "SCR-ATLAS-04",
+          "path": "/projects"
+        },
+        {
+          "id": "SCR-ATLAS-05",
+          "path": "/projects/:projectId"
+        },
+        {
+          "id": "SCR-ATLAS-06",
+          "path": "/projects/:projectId/board"
+        },
+        {
+          "id": "SCR-ATLAS-07",
+          "path": "/tasks/:taskId"
+        },
+        {
+          "id": "SCR-ATLAS-08",
+          "path": "/approvals"
+        },
+        {
+          "id": "SCR-ATLAS-09",
+          "path": "/approvals/:approvalId"
+        },
+        {
+          "id": "SCR-ATLAS-10",
+          "path": "/members"
+        },
+        {
+          "id": "SCR-ATLAS-11",
+          "path": "/members/invite"
+        },
+        {
+          "id": "SCR-ATLAS-12",
+          "path": "/roles"
+        },
+        {
+          "id": "SCR-ATLAS-13",
+          "path": "/roles/:roleId"
+        },
+        {
+          "id": "SCR-ATLAS-14",
+          "path": "/settings"
+        }
+      ],
+      "roles": [
+        "member",
+        "reviewer",
+        "admin"
+      ],
+      "core_routes": [
+        "/dashboard",
+        "/projects",
+        "/tasks/:taskId",
+        "/approvals/:approvalId",
+        "/members/invite"
+      ]
+    },
+    {
+      "id": "morrow",
+      "title": "Morrow Market",
+      "purpose": "커머스·주문·반품",
+      "status": "planned",
+      "primary_input": "url",
+      "routes": [
+        {
+          "id": "SCR-MORROW-01",
+          "path": "/"
+        },
+        {
+          "id": "SCR-MORROW-02",
+          "path": "/collections/:slug"
+        },
+        {
+          "id": "SCR-MORROW-03",
+          "path": "/search"
+        },
+        {
+          "id": "SCR-MORROW-04",
+          "path": "/products/:productId"
+        },
+        {
+          "id": "SCR-MORROW-05",
+          "path": "/compare"
+        },
+        {
+          "id": "SCR-MORROW-06",
+          "path": "/saved"
+        },
+        {
+          "id": "SCR-MORROW-07",
+          "path": "/cart"
+        },
+        {
+          "id": "SCR-MORROW-08",
+          "path": "/checkout/contact"
+        },
+        {
+          "id": "SCR-MORROW-09",
+          "path": "/checkout/delivery"
+        },
+        {
+          "id": "SCR-MORROW-10",
+          "path": "/checkout/review"
+        },
+        {
+          "id": "SCR-MORROW-11",
+          "path": "/orders/complete/:orderId"
+        },
+        {
+          "id": "SCR-MORROW-12",
+          "path": "/orders"
+        },
+        {
+          "id": "SCR-MORROW-13",
+          "path": "/orders/:orderId"
+        },
+        {
+          "id": "SCR-MORROW-14",
+          "path": "/returns/new/:orderId"
+        }
+      ],
+      "roles": [
+        "guest",
+        "customer"
+      ],
+      "core_routes": [
+        "/products/:productId",
+        "/cart",
+        "/checkout/contact",
+        "/checkout/review",
+        "/orders/:orderId"
+      ]
+    },
+    {
+      "id": "paper",
+      "title": "Paper Room",
+      "purpose": "독자·작성자·편집자 CMS",
+      "status": "planned",
+      "primary_input": "design-system",
+      "routes": [
+        {
+          "id": "SCR-PAPER-01",
+          "path": "/"
+        },
+        {
+          "id": "SCR-PAPER-02",
+          "path": "/search"
+        },
+        {
+          "id": "SCR-PAPER-03",
+          "path": "/articles/:slug"
+        },
+        {
+          "id": "SCR-PAPER-04",
+          "path": "/collections/:collectionId"
+        },
+        {
+          "id": "SCR-PAPER-05",
+          "path": "/saved"
+        },
+        {
+          "id": "SCR-PAPER-06",
+          "path": "/studio"
+        },
+        {
+          "id": "SCR-PAPER-07",
+          "path": "/studio/articles"
+        },
+        {
+          "id": "SCR-PAPER-08",
+          "path": "/studio/articles/new"
+        },
+        {
+          "id": "SCR-PAPER-09",
+          "path": "/studio/articles/:articleId/edit"
+        },
+        {
+          "id": "SCR-PAPER-10",
+          "path": "/studio/reviews"
+        },
+        {
+          "id": "SCR-PAPER-11",
+          "path": "/studio/reviews/:reviewId"
+        },
+        {
+          "id": "SCR-PAPER-12",
+          "path": "/studio/calendar"
+        }
+      ],
+      "roles": [
+        "reader",
+        "author",
+        "editor"
+      ],
+      "core_routes": [
+        "/articles/:slug",
+        "/studio/articles",
+        "/studio/articles/:articleId/edit",
+        "/studio/reviews/:reviewId",
+        "/studio/calendar"
+      ]
+    }
+  ],
+  "input_profiles": [
+    "brief",
+    "html",
+    "url",
+    "design-system",
+    "html+url",
+    "html+design-system",
+    "url+design-system",
+    "html+url+design-system"
+  ],
+  "runs": [
+    {
+      "id": "atlas-brief",
+      "app": "atlas",
+      "input": "brief",
+      "browser": "all-routes-smoke",
+      "native": "not-requested",
+      "status": "planned"
+    },
+    {
+      "id": "atlas-html",
+      "app": "atlas",
+      "input": "html",
+      "browser": "all-routes-and-critical-flows",
+      "native": "all-default-screens",
+      "status": "planned"
+    },
+    {
+      "id": "atlas-url",
+      "app": "atlas",
+      "input": "url",
+      "browser": "all-routes-and-critical-flows",
+      "native": "five-core-routes",
+      "status": "planned"
+    },
+    {
+      "id": "atlas-design-system",
+      "app": "atlas",
+      "input": "design-system",
+      "browser": "all-routes-and-critical-flows",
+      "native": "five-core-routes",
+      "status": "planned"
+    },
+    {
+      "id": "morrow-brief",
+      "app": "morrow",
+      "input": "brief",
+      "browser": "all-routes-smoke",
+      "native": "not-requested",
+      "status": "planned"
+    },
+    {
+      "id": "morrow-html",
+      "app": "morrow",
+      "input": "html",
+      "browser": "all-routes-and-critical-flows",
+      "native": "five-core-routes",
+      "status": "planned"
+    },
+    {
+      "id": "morrow-url",
+      "app": "morrow",
+      "input": "url",
+      "browser": "all-routes-and-critical-flows",
+      "native": "all-default-screens",
+      "status": "planned"
+    },
+    {
+      "id": "morrow-design-system",
+      "app": "morrow",
+      "input": "design-system",
+      "browser": "all-routes-and-critical-flows",
+      "native": "five-core-routes",
+      "status": "planned"
+    },
+    {
+      "id": "paper-brief",
+      "app": "paper",
+      "input": "brief",
+      "browser": "all-routes-smoke",
+      "native": "not-requested",
+      "status": "planned"
+    },
+    {
+      "id": "paper-html",
+      "app": "paper",
+      "input": "html",
+      "browser": "all-routes-and-critical-flows",
+      "native": "five-core-routes",
+      "status": "planned"
+    },
+    {
+      "id": "paper-url",
+      "app": "paper",
+      "input": "url",
+      "browser": "all-routes-and-critical-flows",
+      "native": "five-core-routes",
+      "status": "planned"
+    },
+    {
+      "id": "paper-design-system",
+      "app": "paper",
+      "input": "design-system",
+      "browser": "all-routes-and-critical-flows",
+      "native": "all-default-screens",
+      "status": "planned"
+    },
+    {
+      "id": "atlas-html-url",
+      "app": "atlas",
+      "input": "html+url",
+      "browser": "changed-routes-and-critical-flows",
+      "native": "affected-targets",
+      "status": "planned"
+    },
+    {
+      "id": "morrow-html-design-system",
+      "app": "morrow",
+      "input": "html+design-system",
+      "browser": "changed-routes-and-critical-flows",
+      "native": "affected-targets",
+      "status": "planned"
+    },
+    {
+      "id": "paper-url-design-system",
+      "app": "paper",
+      "input": "url+design-system",
+      "browser": "changed-routes-and-critical-flows",
+      "native": "affected-targets",
+      "status": "planned"
+    },
+    {
+      "id": "atlas-html-url-design-system",
+      "app": "atlas",
+      "input": "html+url+design-system",
+      "browser": "changed-routes-and-critical-flows",
+      "native": "affected-targets",
+      "status": "planned"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-I01",
+      "phase": "input",
+      "title": "인라인 HTML 목업",
+      "input": "html",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "제공한 제목·배치·간격을 위치별로 대조하고 입력을 제거한 대조군과 달라지는 근거를 남긴다.",
+      "status": "planned",
+      "evidence": [],
+      "effect_control": {
+        "input": "html",
+        "comparison": "paired included/removed; mixed runs remove one source at a time",
+        "observable": "기준 brief 실행과 HTML 포함 실행의 고정 문구·배치 위치 차이",
+        "expected_values": "pin fixture source/target expectations before generation",
+        "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
+      }
+    },
+    {
+      "id": "TC-I02",
+      "phase": "input",
+      "title": "여러 HTML과 상대 경로 자산",
+      "input": "html",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "페이지별 외부 CSS·이미지·폰트·SVG를 포함한 실제 렌더가 유지되고 누락 자산과 404를 보고한다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "linked-css",
+        "relative-images",
+        "local-font",
+        "inline-svg",
+        "missing-asset"
+      ]
+    },
+    {
+      "id": "TC-I03",
+      "phase": "input",
+      "title": "JS 렌더와 깊은 경로",
+      "input": "html",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "JS가 만든 필수 콘텐츠와 라우트가 실제 브라우저에 나타나며 정적 파싱을 실행 증거로 사용하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-I04",
+      "phase": "input",
+      "title": "공개 레퍼런스 URL",
+      "input": "url",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "원래 URL·최종 URL·관측 시각·뷰포트·캡처·채택한 원칙·적용 대상을 연결한다. 입력 포함·제거 대조에서 고정한 reference 원칙의 대상 위치·레이아웃 차이와 source provenance를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "effect_control": {
+        "input": "url",
+        "comparison": "paired included/removed; mixed runs remove one source at a time",
+        "observable": "고정한 reference 원칙의 대상 위치·레이아웃 차이와 source provenance",
+        "expected_values": "pin fixture source/target expectations before generation",
+        "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
+      }
+    },
+    {
+      "id": "TC-I05",
+      "phase": "input",
+      "title": "JS가 필요한 레퍼런스",
+      "input": "url",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "문서 텍스트만 보이면 수집 완료로 통과시키지 않고 렌더 확인 또는 명시적 미검증으로 남긴다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-I06",
+      "phase": "input",
+      "title": "리다이렉트·로그인·404·요청 제한",
+      "input": "url",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "통제된 URL 상태별로 원인과 미확인 범위를 남기고 접근 실패 내용을 추정하지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "redirect",
+        "login-required",
+        "404",
+        "rate-limited"
+      ]
+    },
+    {
+      "id": "TC-I07",
+      "phase": "input",
+      "title": "여러 레퍼런스의 충돌",
+      "input": "url",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "출처별 채택·제외 이유와 위치를 남기며 어느 화면에 반영했는지 확인한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-I08",
+      "phase": "input",
+      "title": "디자인 시스템 코드·테마 재사용",
+      "input": "design-system",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "실제 프로젝트 컴포넌트를 import하고 테마 토큰·패키지 버전·파일·실제 렌더를 연결한다. 입력 포함·제거 대조에서 제공 컴포넌트의 실제 import·렌더 소비자와 고유 theme 토큰 값를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "effect_control": {
+        "input": "design-system",
+        "comparison": "paired included/removed; mixed runs remove one source at a time",
+        "observable": "제공 컴포넌트의 실제 import·렌더 소비자와 고유 theme 토큰 값",
+        "expected_values": "pin fixture source/target expectations before generation",
+        "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
+      }
+    },
+    {
+      "id": "TC-I09",
+      "phase": "input",
+      "title": "크기·상태·브랜드·모드",
+      "input": "design-system",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "선언한 버튼·필드·표의 상태와 별칭·light/dark 매핑을 대조하고 미지원 축을 누락 없이 보고한다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "size",
+        "disabled",
+        "loading",
+        "error",
+        "brand-theme",
+        "light",
+        "dark"
+      ]
+    },
+    {
+      "id": "TC-I10",
+      "phase": "input",
+      "title": "순환 별칭·누락 토큰·버전 불일치",
+      "input": "design-system",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "unit",
+      "acceptance": "잘못된 연결은 거절하고 원본 변경은 이전 투영·검토·읽기를 stale로 만든다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-I11",
+      "phase": "input",
+      "title": "HTML과 URL 함께 제공",
+      "input": "html+url",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "브리프의 내용과 HTML 구조를 유지하면서 참고한 시각 원칙의 출처를 특정한다. 입력 포함·제거 대조에서 각 입력을 하나씩 뺀 결과와 비교한 구조·참고 원칙의 분리를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "effect_control": {
+        "input": "html+url",
+        "comparison": "paired included/removed; mixed runs remove one source at a time",
+        "observable": "각 입력을 하나씩 뺀 결과와 비교한 구조·참고 원칙의 분리",
+        "expected_values": "pin fixture source/target expectations before generation",
+        "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
+      }
+    },
+    {
+      "id": "TC-I12",
+      "phase": "input",
+      "title": "HTML과 디자인 시스템 함께 제공",
+      "input": "html+design-system",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "목업 구조와 시스템 컴포넌트를 연결하고 임의의 유사 컴포넌트 복제를 검출한다. 입력 포함·제거 대조에서 각 입력을 하나씩 뺀 결과와 비교한 목업 구조·실제 시스템 import를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "effect_control": {
+        "input": "html+design-system",
+        "comparison": "paired included/removed; mixed runs remove one source at a time",
+        "observable": "각 입력을 하나씩 뺀 결과와 비교한 목업 구조·실제 시스템 import",
+        "expected_values": "pin fixture source/target expectations before generation",
+        "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
+      }
+    },
+    {
+      "id": "TC-I13",
+      "phase": "input",
+      "title": "URL과 디자인 시스템 함께 제공",
+      "input": "url+design-system",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "시스템의 컴포넌트·토큰을 지키며 참고 URL에서 가져온 배치 원칙만 반영한다. 입력 포함·제거 대조에서 각 입력을 하나씩 뺀 결과와 비교한 참고 원칙·시스템 토큰 소비를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "effect_control": {
+        "input": "url+design-system",
+        "comparison": "paired included/removed; mixed runs remove one source at a time",
+        "observable": "각 입력을 하나씩 뺀 결과와 비교한 참고 원칙·시스템 토큰 소비",
+        "expected_values": "pin fixture source/target expectations before generation",
+        "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
+      }
+    },
+    {
+      "id": "TC-I14",
+      "phase": "input",
+      "title": "세 입력의 요구 충돌",
+      "input": "html+url+design-system",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "명시된 브리프 우선순위로 해결하거나 영향을 받는 작업을 막고 충돌을 숨기지 않는다. 입력 포함·제거 대조에서 입력 하나씩 제거한 결과 및 미리 정한 우선순위별 상충 값의 채택·거절를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "explicit-authority",
+        "unresolved-conflict"
+      ],
+      "effect_control": {
+        "input": "html+url+design-system",
+        "comparison": "paired included/removed; mixed runs remove one source at a time",
+        "observable": "입력 하나씩 제거한 결과 및 미리 정한 우선순위별 상충 값의 채택·거절",
+        "expected_values": "pin fixture source/target expectations before generation",
+        "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
+      }
+    },
+    {
+      "id": "TC-I15",
+      "phase": "input",
+      "title": "자료의 지시문과 경로 경계",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "unit",
+      "acceptance": "자료 속 명령을 사용자 권한으로 취급하지 않고 경로 이탈·심볼릭 링크·입력 덮어쓰기를 거절한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-W01",
+      "phase": "browser",
+      "title": "전체 라우트·직접 진입",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "모든 route ID에 페이지·제목·주 행동·직접 새로고침 결과가 있고 누락·빈 화면이 없다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-W02",
+      "phase": "browser",
+      "title": "사용자 역할별 경로",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "각 역할의 허용·거절·읽기 전용 상태를 mock 정책과 대조하며 운영 인증 보안을 검증했다고 주장하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-W03",
+      "phase": "browser",
+      "title": "로딩·빈 결과·오류와 재시도",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "실패 응답을 주입해 해당 페이지의 안내와 재시도를 확인하고 입력·선택을 보존한다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "loading",
+        "empty",
+        "server-error",
+        "retry"
+      ]
+    },
+    {
+      "id": "TC-W04",
+      "phase": "browser",
+      "title": "키보드·포커스·다이얼로그",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "탭 순서·필드 이름·오류 포커스·닫기·포커스 복귀가 주요 흐름에서 작동한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-W05",
+      "phase": "browser",
+      "title": "모든 페이지의 반응형",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "390×844와 1440×1000에서 콘텐츠 잘림·겹침·의도하지 않은 가로 넘침이 없다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-W06",
+      "phase": "browser",
+      "title": "방문 이력과 복원",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "뒤로·앞으로·새로고침 뒤 필터·탭·초안·선택 상태가 브리프와 일치한다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "back",
+        "forward",
+        "refresh"
+      ]
+    },
+    {
+      "id": "TC-W07",
+      "phase": "browser",
+      "title": "긴 한국어·영어·일본어",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "제목·오류·버튼을 늘려도 위계와 조작을 유지하고 폰트 누락을 보고한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-W08",
+      "phase": "browser",
+      "title": "많은 목록 데이터",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "1,000개 mock 항목의 정렬·필터·페이지 이동을 확인하고 화면에 없는 행의 측정을 꾸며내지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-W09",
+      "phase": "browser",
+      "title": "좁은 폭의 조작 전환",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "320px·768px·200% 확대에서 핵심 내비게이션과 양식·표의 대체 표현을 확인한다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "320px",
+        "768px",
+        "200-percent-zoom"
+      ]
+    },
+    {
+      "id": "TC-N01",
+      "phase": "native",
+      "title": "대상과 생성 소유권",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "실제 file/page/revision과 생성 대상을 고정하고 다른 앱·사용자 디자인을 바꾸지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-N02",
+      "phase": "native",
+      "title": "실제 편집 가능한 레이어",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "제목·본문·버튼·표의 구조가 편집 가능하며 참고 스크린샷을 완성 프레임으로 대체하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-N03",
+      "phase": "native",
+      "title": "변수·컴포넌트의 사용처",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "선언한 실제 소비자의 변수·메인·인스턴스·변형 연결을 getter로 확인한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-N04",
+      "phase": "native",
+      "title": "완전한 메모와 왕복 링크",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "모든 화면과 중요한 조작의 조건·동작·결과·복구·지원 범위가 graph와 같고 양방향 링크가 정확하다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-N05",
+      "phase": "native",
+      "title": "화면 이동·돌아가기",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "선언한 출발·도착·복귀를 실제 프로토타입으로 실행하며 필요한 reactions 읽기가 없으면 검증을 막는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-N06",
+      "phase": "native",
+      "title": "웹 기능과 Figma 지원 경계",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "가짜 네이티브 입력·저장 성공을 주장하지 않고 정적 표현과 실제 웹 동작을 설명한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-N07",
+      "phase": "native",
+      "title": "같은 입력·변경·충돌·복구",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "같은 입력의 중복이 없고 graph 문장 수정은 정확한 대상만 갱신하며 사용자 편집과 다른 주석을 보존한다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "same-input",
+        "graph-text-change",
+        "user-note",
+        "owned-note-conflict",
+        "rollback"
+      ]
+    },
+    {
+      "id": "TC-N08",
+      "phase": "native",
+      "title": "여러 Figma PAGE의 범위",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "명시한 두 PAGE만 읽고 한 PAGE 누락·다른 파일·다른 앱 component 연결을 거절한다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "two-admitted-pages",
+        "missing-page",
+        "wrong-file",
+        "cross-app-component"
+      ]
+    },
+    {
+      "id": "TC-N09",
+      "phase": "native",
+      "title": "재실행 후 지연 읽기",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "플러그인 재열기와 다음 독립 읽기에도 배치·바인딩·직접 overrides·메모가 유지된다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-S01",
+      "phase": "sync",
+      "title": "graph에서 Figma와 웹으로",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "지원되는 scalar 토큰 변경을 여러 route의 소비자에 반영하고 Figma·웹의 실제 값을 다시 대조한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-S02",
+      "phase": "sync",
+      "title": "Figma에서 graph와 웹으로",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "허용된 메인·토큰 수정의 역수입 후 graph와 웹을 재생성·재측정하고 다른 필드는 보존한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-S03",
+      "phase": "sync",
+      "title": "조건부 화면의 probe 합치기",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "서로 다른 route·viewport에서 수집한 값이 전체 선언을 덮고 하나 빠지면 pairing이 실패한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-S04",
+      "phase": "sync",
+      "title": "미지원 편집의 공개",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "임의 전체 레이아웃·개별 인스턴스 변형을 자동 왕복으로 통과시키지 않고 대상과 지원 한계를 보고한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-S05",
+      "phase": "sync",
+      "title": "동시 변경·오래된 근거",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "이전 graph·다른 viewport·오래된 readback·편집 충돌을 최신 검증으로 인정하지 않는다.",
+      "status": "planned",
+      "evidence": [],
+      "variants": [
+        "stale-graph",
+        "stale-readback",
+        "wrong-viewport",
+        "concurrent-edit"
+      ]
+    },
+    {
+      "id": "TC-S06",
+      "phase": "sync",
+      "title": "앱 간 같은 이름 격리",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "동일한 Button 이름·색·의미 ID를 가진 다른 앱의 값이나 근거를 혼용하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-S07",
+      "phase": "sync",
+      "title": "변형과 모드 연결의 보존",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "지원되는 variant/mode/alias 소비자를 대조하고 지원되지 않는 조합을 조용히 버리지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-L01",
+      "phase": "lifecycle",
+      "title": "시작 버전·출처·예외",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "unit",
+      "acceptance": "Codex 패키지·Figma 파일·실행본을 구분하고 개발 변경·고정·오프라인 예외를 기록한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-L02",
+      "phase": "lifecycle",
+      "title": "작업 종류 등록과 실행기",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "unit",
+      "acceptance": "등록 가능한 종류와 실제 실행기의 허용 종류가 일치하고 직접 수정 작업의 재등록·읽기가 중단되지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-L03",
+      "phase": "lifecycle",
+      "title": "소비자의 Computer Use 없는 실행",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "최초 고정 플러그인 실행 뒤 생성·읽기·갱신을 우리 플러그인과 로컬 명령으로 재현한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-L04",
+      "phase": "lifecycle",
+      "title": "실행 중 재연결·불확실한 응답",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "claimed 작업을 바꾸지 않고 끊긴 쓰기는 실제 상태를 읽기 전 재시도하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-L05",
+      "phase": "lifecycle",
+      "title": "실패 복구와 사용자 변경",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "native",
+      "acceptance": "실패 이전·이후 snapshot과 복구 결과가 있고 그 사이 사용자 변경은 덮어쓰지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-L06",
+      "phase": "lifecycle",
+      "title": "다음 깨끗한 실행의 재현",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "새 격리 브라우저·mock 초기 데이터에서도 같은 필수 결과를 얻으며 이전 세션 상태에 의존하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-Q01",
+      "phase": "quality",
+      "title": "페이지별 정보 위계",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "목적·주 행동·보조 정보와 빈 공간을 실제 캡처 위치로 비평하고 유틸리티 화면에 장식용 히어로를 강제하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-Q02",
+      "phase": "quality",
+      "title": "자료·타이포·브랜드 일치",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "원본과 결과를 나란히 보고 채택한 구조·폰트·강조가 의도한 위치에 반영됐는지 판단한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-Q03",
+      "phase": "quality",
+      "title": "투명 배경의 실제 대비",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "합성 배경 픽셀과 텍스트를 검사하고 경고를 없애려 불투명 텍스트 배경을 추가하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-Q04",
+      "phase": "quality",
+      "title": "이미지·아이콘과 편집 구조",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "목적에 맞는 자산·일관된 아이콘을 쓰고 대체 텍스트와 편집 가능한 구조를 구분한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-Q05",
+      "phase": "quality",
+      "title": "공통 컴포넌트와 앱의 차이",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "동일 컴포넌트의 화면 간 일관성을 확인하면서 세 앱을 색만 바꾼 같은 템플릿으로 만들지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-Q06",
+      "phase": "quality",
+      "title": "고정된 근거의 전후 비평",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "human",
+      "acceptance": "원본·캡처 해시에 연결된 위치별 문제와 수정 이유를 남기며 구조 검사나 자작 점수를 미적 품질로 대체하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-P01",
+      "phase": "scale",
+      "title": "규모별 지연·오류·payload",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "perf",
+      "acceptance": "Atlas의 1·6·14 route를 같은 조건에서 측정하고 읽기 누락·메모리 증가·작업 시간·오류 수를 기록한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-P02",
+      "phase": "scale",
+      "title": "수정 전후 같은 부하 비교",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "perf",
+      "acceptance": "동일 workload의 baseline과 수정본을 교차 측정하고 정한 예산을 넘으면 성능 회귀로 남긴다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-F01",
+      "phase": "flow",
+      "title": "할 일 저장과 복구",
+      "input": "all",
+      "apps": [
+        "atlas"
+      ],
+      "level": "web",
+      "acceptance": "프로젝트 목록에서 상세·보드·할 일로 이동하고 저장 실패 뒤 초안을 보존해 재시도한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-F02",
+      "phase": "flow",
+      "title": "승인과 역할 제한",
+      "input": "all",
+      "apps": [
+        "atlas"
+      ],
+      "level": "web",
+      "acceptance": "구성원 요청을 검토자가 승인하고 역할을 바꾼 뒤 내비게이션과 접근 거절을 확인한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-F03",
+      "phase": "flow",
+      "title": "주문 단계와 재고 충돌",
+      "input": "all",
+      "apps": [
+        "morrow"
+      ],
+      "level": "web",
+      "acceptance": "상품 선택·장바구니·연락처·배송·검토·완료를 이동하고 재고 충돌 시 중복 주문 없이 복구한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-F04",
+      "phase": "flow",
+      "title": "저장 목록과 반품",
+      "input": "all",
+      "apps": [
+        "morrow"
+      ],
+      "level": "web",
+      "acceptance": "새로고침 뒤 저장 목록·주문 상세를 복원하고 반품 실패 뒤 입력을 유지한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-F05",
+      "phase": "flow",
+      "title": "작성·자동 저장·검토",
+      "input": "all",
+      "apps": [
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "새 글을 만들고 자동 저장 실패·새로고침 복구·검토 요청을 확인한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-F06",
+      "phase": "flow",
+      "title": "역할별 검토·발행",
+      "input": "all",
+      "apps": [
+        "paper"
+      ],
+      "level": "web",
+      "acceptance": "편집자가 반려·수정 요청·가상 발행을 수행하고 독자 화면과 캘린더에 반영되는지 확인한다.",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "TC-L07",
+      "phase": "lifecycle",
+      "title": "단일안·비교·실제 선택 경계",
+      "input": "all",
+      "apps": [
+        "atlas",
+        "morrow",
+        "paper"
+      ],
+      "level": "unit",
+      "acceptance": "구체적인 단일 방향은 한 안으로 준비하고 비교 요청은 선택 전 대기하며 합성 사용자 이벤트를 실제 본제작 권한으로 승격하지 않는다.",
+      "status": "planned",
+      "evidence": []
+    }
+  ],
+  "status_values": [
+    "planned",
+    "running",
+    "passed",
+    "failed",
+    "blocked",
+    "unverified",
+    "not-applicable"
+  ],
+  "closure": "Every mandatory applicable result has current raw evidence; blocked/unverified is not passed; live and visual results remain separate from source/unit checks.",
+  "execution_rules": {
+    "brief_baseline_cases": [
+      "TC-W01",
+      "TC-W05",
+      "TC-Q01",
+      "TC-Q05"
+    ],
+    "positive_inputs": "Match case input components to the run input; all applies to all non-brief runs, with app filtering.",
+    "native": "Run native cases only within recorded native scope; not-requested and unvisited routes are not verified.",
+    "separate_suites": [
+      "mode-admission unit regression",
+      "two-PAGE native scope",
+      "round-trip/conflict/recovery",
+      "scale/performance"
+    ],
+    "compound_cases": "All named state/subcase variants need evidence. One sampled variant cannot pass the compound case.",
+    "not_applicable": "Record a reason before execution; mandatory requested behavior cannot be marked not-applicable merely because unsupported.",
+    "affected_scope": "If source/component dependency coverage is missing or uncertain, rerun all app routes.",
+    "effect_controls": "TC-I01/I04/I08/I11-I14 require current paired evidence. Reuse an existing baseline/singleton only if all other input bytes, seed, source revision and environment match; otherwise rerender the control. Control rerenders are additional to 16 input runs."
+  },
+  "source_delivery": {
+    "channels": [
+      "local-file-fixture",
+      "user-chat-attachment",
+      "user-text-url"
+    ],
+    "rule": "Record actual delivery channel and original attachment metadata/path/hash. A synthetic agent/local fixture never proves host chat attachment UX. Unavailable host attachment execution stays unverified without blocking independent local-file tests."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "figma-flow-url-snapshot-v1",
+  "channel": "local-file-fixture",
+  "original_url": "https://design-system.service.gov.uk/patterns/check-answers/",
+  "final_url": "https://design-system.service.gov.uk/patterns/check-answers/",
+  "http_status": 200,
+  "observed_at": "2026-11-11T13:25:00Z",
+  "viewport": {"width": 1440, "height": 1000, "observed": false},
+  "body_location": "unverified-browser",
+  "capture": null,
+  "render_status": "text-only",
+  "cause": "HTTP GET returned the document and a text extraction was read. No browser viewport capture was taken.",
+  "unknown_body": false,
+  "observation_limit": "Text extraction and HTTP status are not a browser render or a visual check.",
+  "principles": [
+    {
+      "id": "morrow-check-answers",
+      "text": "제출 직전 화면에 답변 요약과 항목별 변경 이동을 둔다.",
+      "adopted": true,
+      "target": "SCR-MORROW-10",
+      "decision": "주문 확인에만 답변 요약과 항목별 변경 이동을 둔다."
+    }
+  ]
+}

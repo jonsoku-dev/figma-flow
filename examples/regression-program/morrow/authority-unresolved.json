@@ -1,0 +1,10 @@
+{
+  "facts": {
+    "screen-title": {"priority": ["html", "brief"]},
+    "surface-gap": {},
+    "reference-principle": {"priority": ["url"]},
+    "excluded-principle": {"priority": ["url"]},
+    "component-set": {"priority": ["design-system"]},
+    "brand-token": {"priority": ["design-system"]}
+  }
+}

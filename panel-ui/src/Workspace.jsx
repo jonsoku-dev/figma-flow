@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { Action, Section, Notice, PreviewStrip } from './components.jsx';
 
-const locales = new Set(['ko', 'en', 'ja']);
+const locales = new Set(__FLOW_LOCALES__);
 const terminal = new Set(['finished', 'readback', 'verified', 'baseline']);
 const historyOf = (model) => (Array.isArray(model.history) ? model.history : []);
 const tasksOf = (model) => (Array.isArray(model.tasks) ? model.tasks : []);

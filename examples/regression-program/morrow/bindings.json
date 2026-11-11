@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "authorities": {
+    "intent": "brief.md",
+    "implementation": "app/rules.js"
+  },
+  "dependency_edge_types": [
+    "depends-on"
+  ],
+  "evidence": {
+    "CODE-MORROW": [
+      "app/rules.js"
+    ]
+  }
+}

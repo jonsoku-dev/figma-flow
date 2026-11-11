@@ -10,7 +10,7 @@ Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design
 Figma Flow v0.25.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 기존 작업과 작업공간 ID를 보존해. Figma Flow 최초 등록과 세션별 실행은 내가 할게.
-그 뒤 localhost 제어와 실제 JSON으로 검증하고, 후보를 보여 준 뒤 내 선택을 기다려.
+그 뒤 localhost 제어와 실제 JSON으로 검증해. 구체적인 요청은 한 안으로 진행하고, 비교를 요청하면 내 선택을 기다려.
 ```
 
 | 필요한 작업 | 가이드 위치 |
@@ -21,6 +21,8 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 | 실제 Figma 값을 준비된 JSON으로 편집 | [native-edit 범위](docs/guide.md#prepared-native-edit) |
 | 이미지·그라디언트 위 글자 대비 | [전체 배경 픽셀의 최소값과 판정 불가](docs/guide.md#contrast-evidence) |
 | Figma·그래프·웹 왕복 | [동기화와 실제 증거](docs/guide.md#10-그래프와-figma-컴포넌트-동기화) |
+| 시작 시 두 플러그인 최신화 | [자동 확인과 업데이트](docs/guide.md#automatic-startup) |
+| graph 기반 사람용 스펙 설명 | [설명 보드와 기술 정보 분리](docs/guide.md#readable-specifications) |
 | 새 릴리스·서비스 교체·복구 | [업데이트](docs/guide.md#updates) |
 | 회사 Node/npm·private 배포 | [환경](docs/guide.md#environment) · [배포](docs/guide.md#private-distribution) |
 
@@ -31,6 +33,7 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 - [개발 및 검사](CONTRIBUTING.md)와 [패널 개발](panel-ui/README.md).
 - [디자인 실행 스킬](skills/figma-flow/SKILL.md), [연결 스킬](skills/figma-plugin-setup/SKILL.md), [그래프 계약](skills/figma-flow/references/graph-contract.md).
 - [Graph SSOT 명령·지원 속성](examples/graph-ssot/README.md)과 [기록된 디자인 시스템 실험](docs/design-system-trials.md).
+- [기능 스펙·요구사항·인수 조건](specs/README.md).
 - [변경 기록](CHANGELOG.md)과 [동봉 외부 스킬 계약](skills/figma-flow/references/skill-dependencies.md).
 
 ## 라이선스와 참고

@@ -1,0 +1,18 @@
+html, body { margin: 0; overflow-x: hidden; }
+body { font-family: Palatino, "Iowan Old Style", Palatino, serif; background: #f4ecdf; color: #2c2118; font-size: 18px; line-height: 1.5; }
+button, input, textarea, select { font: inherit; }
+h1 { font-size: clamp(32px, 6vw, 56px); font-weight: 500; letter-spacing: -0.03em; margin: 0; }
+h1, h2, p, button, td, th, label, a { overflow-wrap: anywhere; }
+#app { display: grid; gap: 20px; padding: 28px 20px 48px; max-width: 1100px; }
+nav { display: flex; flex-wrap: wrap; gap: 14px; font-family: ui-sans-serif, sans-serif; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+nav a { color: inherit; }
+.card { background: #fffaf3; padding: 18px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 10px 0; border-bottom: 1px solid #e2d5c3; }
+button { background: #8c3d22; color: #fffaf3; border: 0; padding: 10px 14px; }
+input, textarea { width: min(100%, 36rem); background: transparent; border: 0; border-bottom: 1px solid #8c3d22; }
+.input-section { background: #fffaf3; padding: 16px; }
+@media (max-width: 768px) {
+  #app { padding: 16px; }
+  table, thead, tbody, tr, th, td { display: block; }
+}

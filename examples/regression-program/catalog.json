@@ -1,0 +1,785 @@
+{
+  "schema": "figma-flow-regression-catalog-v1",
+  "seed": 20261111,
+  "scope": "exploratory",
+  "channel": "local-file-fixture",
+  "longText": {
+    "ko": "한국어 제목 가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가",
+    "en": "English label English label English label English label English label English label English label English label ",
+    "ja": "日本語のボタン日本語のボタン日本語のボタン日本語のボタン日本語のボタン日本語のボタン"
+  },
+  "designSystem": {
+    "importPath": "/design-system/runtime.js",
+    "components": [
+      "Button",
+      "Field",
+      "Table",
+      "Dialog",
+      "Tabs",
+      "Nav"
+    ],
+    "token": "#0e6b4f",
+    "package": "@figma-flow/regression-design-system@0.1.0"
+  },
+  "apps": {
+    "atlas": {
+      "id": "atlas",
+      "title": "Atlas Workspace",
+      "mount": "/atlas",
+      "primaryInput": "html",
+      "roles": [
+        "member",
+        "reviewer",
+        "admin"
+      ],
+      "purpose": "업무·승인 관리",
+      "html": {
+        "title": "검토 대기 열두 건",
+        "gap": "12px"
+      },
+      "url": {
+        "principle": "atlas-check-answers",
+        "target": "SCR-ATLAS-09"
+      },
+      "routes": [
+        {
+          "id": "SCR-ATLAS-01",
+          "path": "/sign-in",
+          "title": "Atlas 로그인",
+          "purpose": "모의 역할로 작업 공간에 들어간다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-ATLAS-01",
+            "label": "작업 공간 열기",
+            "to": [
+              "SCR-ATLAS-02"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-02",
+          "path": "/workspaces",
+          "title": "작업 공간 선택",
+          "purpose": "Northwind 작업 공간을 고른다.",
+          "region": "cards",
+          "primary": {
+            "id": "ACT-ATLAS-02",
+            "label": "Northwind 열기",
+            "to": [
+              "SCR-ATLAS-03"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-03",
+          "path": "/dashboard",
+          "title": "오늘의 검토",
+          "purpose": "오늘 처리할 승인과 할 일을 밀도 높게 보여 준다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-ATLAS-03",
+            "label": "승인 대기 열기",
+            "to": [
+              "SCR-ATLAS-08"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-04",
+          "path": "/projects",
+          "title": "프로젝트 목록",
+          "purpose": "프로젝트 표를 정렬하고 좁힌다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-ATLAS-04",
+            "label": "프로젝트 열기",
+            "to": [
+              "SCR-ATLAS-05"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-05",
+          "path": "/projects/:projectId",
+          "title": "프로젝트 상세",
+          "purpose": "프로젝트의 할 일 수를 보여 준다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-ATLAS-05",
+            "label": "보드로 이동",
+            "to": [
+              "SCR-ATLAS-06"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-06",
+          "path": "/projects/:projectId/board",
+          "title": "작업 보드",
+          "purpose": "칸반이 아니라 상태 열로 할 일을 연다.",
+          "region": "board",
+          "primary": {
+            "id": "ACT-ATLAS-06",
+            "label": "할 일 열기",
+            "to": [
+              "SCR-ATLAS-07"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-07",
+          "path": "/tasks/:taskId",
+          "title": "할 일 상세",
+          "purpose": "저장 실패 뒤에도 초안을 유지한다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-ATLAS-07",
+            "label": "저장",
+            "to": [
+              "STATE-ATLAS-07-SAVED",
+              "STATE-ATLAS-07-ERROR"
+            ],
+            "remote": "/api/atlas/tasks/save"
+          }
+        },
+        {
+          "id": "SCR-ATLAS-08",
+          "path": "/approvals",
+          "title": "승인 목록",
+          "purpose": "대기 중인 승인 요청을 보여 준다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-ATLAS-08",
+            "label": "요청 열기",
+            "to": [
+              "SCR-ATLAS-09"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-09",
+          "path": "/approvals/:approvalId",
+          "title": "승인 상세",
+          "purpose": "검토자가 요청을 승인하고 구성원은 읽기 전용이다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-ATLAS-09",
+            "label": "승인",
+            "to": [
+              "SCR-ATLAS-08"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-10",
+          "path": "/members",
+          "title": "구성원",
+          "purpose": "구성원과 현재 역할을 보여 준다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-ATLAS-10",
+            "label": "초대",
+            "to": [
+              "SCR-ATLAS-11"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-11",
+          "path": "/members/invite",
+          "title": "구성원 초대",
+          "purpose": "초대 대상을 입력한다. 메일은 보내지 않는다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-ATLAS-11",
+            "label": "초대 보내기",
+            "to": [
+              "SCR-ATLAS-10"
+            ]
+          }
+        },
+        {
+          "id": "SCR-ATLAS-12",
+          "path": "/roles",
+          "title": "역할",
+          "purpose": "관리자만 역할 목록을 연다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-ATLAS-12",
+            "label": "역할 열기",
+            "to": [
+              "SCR-ATLAS-13"
+            ]
+          },
+          "access": {
+            "member": "denied",
+            "reviewer": "denied",
+            "admin": "allowed"
+          }
+        },
+        {
+          "id": "SCR-ATLAS-13",
+          "path": "/roles/:roleId",
+          "title": "역할 상세",
+          "purpose": "관리자가 구성원의 역할을 바꾼다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-ATLAS-13",
+            "label": "역할 저장",
+            "to": [
+              "SCR-ATLAS-12"
+            ]
+          },
+          "access": {
+            "member": "denied",
+            "reviewer": "denied",
+            "admin": "allowed"
+          }
+        },
+        {
+          "id": "SCR-ATLAS-14",
+          "path": "/settings",
+          "title": "작업 공간 설정",
+          "purpose": "표시 밀도를 저장한다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-ATLAS-14",
+            "label": "표시 저장",
+            "to": [
+              "STATE-ATLAS-14-SAVED"
+            ]
+          }
+        }
+      ],
+      "flows": [
+        {
+          "id": "TC-F01",
+          "title": "할 일 저장과 복구",
+          "screens": [
+            "SCR-ATLAS-04",
+            "SCR-ATLAS-05",
+            "SCR-ATLAS-06",
+            "SCR-ATLAS-07"
+          ]
+        },
+        {
+          "id": "TC-F02",
+          "title": "승인과 역할 제한",
+          "screens": [
+            "SCR-ATLAS-08",
+            "SCR-ATLAS-09",
+            "SCR-ATLAS-13"
+          ]
+        }
+      ],
+      "samples": {
+        "projectId": "north",
+        "taskId": "task-0001",
+        "approvalId": "apr-1",
+        "roleId": "reviewer"
+      }
+    },
+    "morrow": {
+      "id": "morrow",
+      "title": "Morrow Market",
+      "mount": "/morrow",
+      "primaryInput": "url",
+      "roles": [
+        "guest",
+        "customer"
+      ],
+      "purpose": "커머스·주문·반품",
+      "html": {
+        "title": "주간 식탁 여섯 가지",
+        "gap": "20px"
+      },
+      "url": {
+        "principle": "morrow-check-answers",
+        "target": "SCR-MORROW-10"
+      },
+      "routes": [
+        {
+          "id": "SCR-MORROW-01",
+          "path": "/",
+          "title": "이번 주의 식탁",
+          "purpose": "주간 식탁 이야기를 연다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-MORROW-01",
+            "label": "컬렉션 보기",
+            "to": [
+              "SCR-MORROW-02"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-02",
+          "path": "/collections/:slug",
+          "title": "주간 컬렉션",
+          "purpose": "컬렉션 안의 상품으로 이동한다.",
+          "region": "cards",
+          "primary": {
+            "id": "ACT-MORROW-02",
+            "label": "상품 보기",
+            "to": [
+              "SCR-MORROW-04"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-03",
+          "path": "/search",
+          "title": "상품 찾기",
+          "purpose": "이름과 재료로 상품을 찾는다.",
+          "region": "cards",
+          "primary": {
+            "id": "ACT-MORROW-03",
+            "label": "상품 보기",
+            "to": [
+              "SCR-MORROW-04"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-04",
+          "path": "/products/:productId",
+          "title": "식탁 상품",
+          "purpose": "가격과 재고를 보여 주고 담는다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-MORROW-04",
+            "label": "장바구니에 담기",
+            "to": [
+              "SCR-MORROW-07"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-05",
+          "path": "/compare",
+          "title": "나란히 비교",
+          "purpose": "두 상품의 가격과 재고를 나란히 둔다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-MORROW-05",
+            "label": "장바구니로 이동",
+            "to": [
+              "SCR-MORROW-07"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-06",
+          "path": "/saved",
+          "title": "보관한 상품",
+          "purpose": "새로고침 뒤에도 보관한 상품을 유지한다.",
+          "region": "cards",
+          "primary": {
+            "id": "ACT-MORROW-06",
+            "label": "상품 보기",
+            "to": [
+              "SCR-MORROW-04"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-07",
+          "path": "/cart",
+          "title": "장바구니",
+          "purpose": "담은 상품과 수량을 확인한다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-MORROW-07",
+            "label": "주문 시작",
+            "to": [
+              "SCR-MORROW-08"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-08",
+          "path": "/checkout/contact",
+          "title": "주문자",
+          "purpose": "주문자 이름을 받는다. 결제는 없다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-MORROW-08",
+            "label": "배송으로 이동",
+            "to": [
+              "SCR-MORROW-09"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-09",
+          "path": "/checkout/delivery",
+          "title": "배송",
+          "purpose": "배송 메모를 받고 이전 단계로 돌아갈 수 있다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-MORROW-09",
+            "label": "확인으로 이동",
+            "to": [
+              "SCR-MORROW-10"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-10",
+          "path": "/checkout/review",
+          "title": "주문 확인",
+          "purpose": "재고나 가격이 바뀌면 주문을 늘리지 않는다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-MORROW-10",
+            "label": "주문 접수",
+            "to": [
+              "SCR-MORROW-11"
+            ],
+            "remote": "/api/morrow/orders"
+          }
+        },
+        {
+          "id": "SCR-MORROW-11",
+          "path": "/orders/complete/:orderId",
+          "title": "주문 완료",
+          "purpose": "한 번 접수된 주문 번호를 보여 준다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-MORROW-11",
+            "label": "주문 상세",
+            "to": [
+              "SCR-MORROW-13"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-12",
+          "path": "/orders",
+          "title": "주문 목록",
+          "purpose": "접수한 주문을 다시 연다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-MORROW-12",
+            "label": "주문 상세",
+            "to": [
+              "SCR-MORROW-13"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-13",
+          "path": "/orders/:orderId",
+          "title": "주문 상세",
+          "purpose": "주문 내용을 확인하고 반품으로 이동한다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-MORROW-13",
+            "label": "반품 신청",
+            "to": [
+              "SCR-MORROW-14"
+            ]
+          }
+        },
+        {
+          "id": "SCR-MORROW-14",
+          "path": "/returns/new/:orderId",
+          "title": "반품 신청",
+          "purpose": "반품 실패 뒤 입력한 사유를 유지한다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-MORROW-14",
+            "label": "반품 제출",
+            "to": [
+              "STATE-MORROW-14-KEPT",
+              "STATE-MORROW-14-DONE"
+            ],
+            "remote": "/api/morrow/returns"
+          }
+        }
+      ],
+      "flows": [
+        {
+          "id": "TC-F03",
+          "title": "주문 단계와 재고 충돌",
+          "screens": [
+            "SCR-MORROW-04",
+            "SCR-MORROW-07",
+            "SCR-MORROW-08",
+            "SCR-MORROW-09",
+            "SCR-MORROW-10",
+            "SCR-MORROW-11"
+          ]
+        },
+        {
+          "id": "TC-F04",
+          "title": "저장 목록과 반품",
+          "screens": [
+            "SCR-MORROW-06",
+            "SCR-MORROW-13",
+            "SCR-MORROW-14"
+          ]
+        }
+      ],
+      "samples": {
+        "slug": "week",
+        "productId": "linen",
+        "orderId": "order-1"
+      }
+    },
+    "paper": {
+      "id": "paper",
+      "title": "Paper Room",
+      "mount": "/paper",
+      "primaryInput": "design-system",
+      "roles": [
+        "reader",
+        "author",
+        "editor"
+      ],
+      "purpose": "독자·작성자·편집자 CMS",
+      "html": {
+        "title": "긴 초고의 첫 문단",
+        "gap": "28px"
+      },
+      "url": {
+        "principle": "paper-reading-measure",
+        "target": "SCR-PAPER-03"
+      },
+      "routes": [
+        {
+          "id": "SCR-PAPER-01",
+          "path": "/",
+          "title": "읽는 사람의 첫 화면",
+          "purpose": "발행된 글의 첫 문단만 보여 준다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-PAPER-01",
+            "label": "글 읽기",
+            "to": [
+              "SCR-PAPER-03"
+            ]
+          }
+        },
+        {
+          "id": "SCR-PAPER-02",
+          "path": "/search",
+          "title": "글 찾기",
+          "purpose": "제목과 본문에서 글을 찾는다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-PAPER-02",
+            "label": "글 읽기",
+            "to": [
+              "SCR-PAPER-03"
+            ]
+          }
+        },
+        {
+          "id": "SCR-PAPER-03",
+          "path": "/articles/:slug",
+          "title": "글",
+          "purpose": "긴 글을 좁은 폭으로 읽는다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-PAPER-03",
+            "label": "보관",
+            "to": [
+              "SCR-PAPER-05"
+            ]
+          }
+        },
+        {
+          "id": "SCR-PAPER-04",
+          "path": "/collections/:collectionId",
+          "title": "책상 모음",
+          "purpose": "모음에 들어 있는 글을 연다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-PAPER-04",
+            "label": "글 읽기",
+            "to": [
+              "SCR-PAPER-03"
+            ]
+          }
+        },
+        {
+          "id": "SCR-PAPER-05",
+          "path": "/saved",
+          "title": "보관한 글",
+          "purpose": "보관한 글을 다시 연다.",
+          "region": "prose",
+          "primary": {
+            "id": "ACT-PAPER-05",
+            "label": "글 읽기",
+            "to": [
+              "SCR-PAPER-03"
+            ]
+          }
+        },
+        {
+          "id": "SCR-PAPER-06",
+          "path": "/studio",
+          "title": "작업실",
+          "purpose": "작성자와 편집자의 작업실이다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-PAPER-06",
+            "label": "초고 목록",
+            "to": [
+              "SCR-PAPER-07"
+            ]
+          },
+          "access": {
+            "reader": "denied",
+            "author": "allowed",
+            "editor": "allowed"
+          }
+        },
+        {
+          "id": "SCR-PAPER-07",
+          "path": "/studio/articles",
+          "title": "초고 목록",
+          "purpose": "초고와 검토 상태를 보여 준다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-PAPER-07",
+            "label": "새 글",
+            "to": [
+              "SCR-PAPER-08"
+            ]
+          },
+          "access": {
+            "reader": "denied",
+            "author": "allowed",
+            "editor": "allowed"
+          }
+        },
+        {
+          "id": "SCR-PAPER-08",
+          "path": "/studio/articles/new",
+          "title": "새 글",
+          "purpose": "새 초고를 만든다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-PAPER-08",
+            "label": "편집 시작",
+            "to": [
+              "SCR-PAPER-09"
+            ]
+          },
+          "access": {
+            "reader": "denied",
+            "author": "allowed",
+            "editor": "allowed"
+          }
+        },
+        {
+          "id": "SCR-PAPER-09",
+          "path": "/studio/articles/:articleId/edit",
+          "title": "글 편집",
+          "purpose": "자동 저장이 실패해도 본문을 유지한다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-PAPER-09",
+            "label": "검토 요청",
+            "to": [
+              "SCR-PAPER-10"
+            ],
+            "remote": "/api/paper/drafts"
+          },
+          "access": {
+            "reader": "denied",
+            "author": "allowed",
+            "editor": "allowed"
+          }
+        },
+        {
+          "id": "SCR-PAPER-10",
+          "path": "/studio/reviews",
+          "title": "검토 목록",
+          "purpose": "검토 대기 글을 연다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-PAPER-10",
+            "label": "검토 열기",
+            "to": [
+              "SCR-PAPER-11"
+            ]
+          },
+          "access": {
+            "reader": "denied",
+            "author": "denied",
+            "editor": "allowed"
+          }
+        },
+        {
+          "id": "SCR-PAPER-11",
+          "path": "/studio/reviews/:reviewId",
+          "title": "검토 상세",
+          "purpose": "편집자가 반려하거나 가상 발행한다. 공개 발행은 없다.",
+          "region": "form",
+          "primary": {
+            "id": "ACT-PAPER-11",
+            "label": "가상 발행",
+            "to": [
+              "SCR-PAPER-01",
+              "SCR-PAPER-12"
+            ],
+            "remote": "/api/paper/publish"
+          },
+          "access": {
+            "reader": "denied",
+            "author": "readonly",
+            "editor": "allowed"
+          }
+        },
+        {
+          "id": "SCR-PAPER-12",
+          "path": "/studio/calendar",
+          "title": "발행 달력",
+          "purpose": "가상 발행된 글만 달력에 올린다.",
+          "region": "table",
+          "primary": {
+            "id": "ACT-PAPER-12",
+            "label": "첫 화면으로",
+            "to": [
+              "SCR-PAPER-01"
+            ]
+          },
+          "access": {
+            "reader": "denied",
+            "author": "allowed",
+            "editor": "allowed"
+          }
+        }
+      ],
+      "flows": [
+        {
+          "id": "TC-F05",
+          "title": "작성·자동 저장·검토",
+          "screens": [
+            "SCR-PAPER-08",
+            "SCR-PAPER-09",
+            "SCR-PAPER-10"
+          ]
+        },
+        {
+          "id": "TC-F06",
+          "title": "역할별 검토·발행",
+          "screens": [
+            "SCR-PAPER-11",
+            "SCR-PAPER-01",
+            "SCR-PAPER-12"
+          ]
+        }
+      ],
+      "samples": {
+        "slug": "desk-lamp",
+        "articleId": "draft-1",
+        "collectionId": "desk",
+        "reviewId": "draft-1"
+      }
+    }
+  }
+}

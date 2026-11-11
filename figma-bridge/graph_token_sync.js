@@ -255,7 +255,7 @@ async function graphTokenSync(figma, plan, operation = 'inspect') {
   const same = graphSyncEqual;
   const markerKey = 'graphSSOT';
   const fields = GRAPH_SYNC_FIELDS;
-  if (!plan || plan.schema !== 'figma-flow-graph-token-sync-v1' || !['inspect', 'apply'].includes(operation)) fail('invalid plan or operation');
+  if (!plan || plan.schema !== GRAPH_SYNC_SCHEMA || !['inspect', 'apply'].includes(operation)) fail('invalid plan or operation');
   if (!/^[a-f0-9]{64}$/.test(plan.graph_sha256 || '')) fail('graph SHA256 required');
   if (!plan.file_key || figma.fileKey !== plan.file_key || figma.currentPage.id !== plan.page_id) fail('wrong file or selected page');
   const page = figma.currentPage;
@@ -496,7 +496,7 @@ async function graphTokenPairMigration(figma, plan, operation) {
   const fail = message => {throw Error(`Graph token pairing: ${message}`);};
   const same = graphSyncEqual;
   const clone = value => JSON.parse(JSON.stringify(value));
-  if (plan.schema !== 'figma-flow-graph-token-sync-v1' || !['inspect', 'apply'].includes(operation) || !/^[a-f0-9]{64}$/.test(plan.graph_sha256 || '')) fail('invalid plan');
+  if (plan.schema !== GRAPH_SYNC_SCHEMA || !['inspect', 'apply'].includes(operation) || !/^[a-f0-9]{64}$/.test(plan.graph_sha256 || '')) fail('invalid plan');
   if (plan.pairing !== true) fail('create requires explicit all-new pairing or topology extension');
   if (!plan.file_key || figma.fileKey !== plan.file_key || figma.currentPage.id !== plan.page_id) fail('wrong file or selected page');
   const page = figma.currentPage;

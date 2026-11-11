@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 
 export const PanelContext = createContext(null);
+const localeNames = { ko: '한국어', en: 'English', ja: '日本語' };
 const destinations = [
   ['tasks', ListTodo],
   ['history', History],
@@ -62,14 +63,16 @@ export function Shell({
           <span className="brand-mark">
             <PanelsTopLeft size={16} aria-hidden="true" />
           </span>
-          Figma Flow
+          {__FLOW_DISPLAY_NAME__}
         </div>
         <label className="workspace-toolbar">
           <span>{t('workspace.language')}</span>
           <select id="workspace-locale" value={locale} onChange={(e) => language(e.target.value)}>
-            <option value="ko">한국어</option>
-            <option value="en">English</option>
-            <option value="ja">日本語</option>
+            {__FLOW_LOCALES__.map((code) => (
+              <option key={code} value={code}>
+                {localeNames[code] || code}
+              </option>
+            ))}
           </select>
         </label>
       </header>

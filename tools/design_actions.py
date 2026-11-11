@@ -42,6 +42,7 @@ def main(argv=None):
     draft = actions.add_parser('draft')
     for name in ('project', 'brief', 'research', 'from-existing', 'out'):
         draft.add_argument('--' + name, type=Path, required=True)
+    draft.add_argument('--mode', choices=('direct', 'compare'))
     draft.add_argument('--judgement', type=Path)
     draft.add_argument('--review-destination', choices=('local', 'figma'))
     review = actions.add_parser('review')
@@ -51,6 +52,9 @@ def main(argv=None):
     select.add_argument('--manifest', type=Path, required=True)
     select.add_argument('--user-event', type=Path, required=True)
     select.add_argument('--out', type=Path, required=True)
+    direct = actions.add_parser('admit-direct')
+    for name in ('manifest', 'user-event', 'out'):
+        direct.add_argument('--' + name, type=Path, required=True)
     validate = actions.add_parser('validate-selection')
     validate.add_argument('--selection', type=Path, required=True)
     generate = actions.add_parser('generate-requests')
@@ -84,9 +88,11 @@ def main(argv=None):
         if args.action != 'graph':
             directions.assert_workflow_sync()
         if args.action == 'draft':
-            result = directions.create_draft(args.project, args.brief, args.research, args.from_existing, args.out, judgement=args.judgement, review_destination=args.review_destination)
+            result = directions.create_draft(args.project, args.brief, args.research, args.from_existing, args.out, judgement=args.judgement, review_destination=args.review_destination, mode=args.mode)
         elif args.action == 'review':
             result = directions.review_draft(args.manifest, args.judgement)
+        elif args.action == 'admit-direct':
+            result = directions.record_direct_admission(args.manifest, args.user_event, args.out)
         elif args.action == 'select':
             result = directions.record_selection(args.manifest, args.user_event, args.out)
         elif args.action == 'validate-selection':

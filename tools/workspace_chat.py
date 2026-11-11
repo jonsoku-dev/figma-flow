@@ -113,7 +113,7 @@ class ChatHandler(BaseHTTPRequestHandler):
                 catalogue = figma_workspace.current(workspace)
                 tasks = catalogue['tasks']
                 matches = [task for task in tasks if task.get('key') == data['key']]
-                if catalogue.get('schema') != 'figma-flow-workspace-v1' or len(matches) != 1 or any(matches[0].get(field) != data[field] for field in ('threadId', 'revision')):
+                if catalogue.get('schema') != figma_workspace.SCHEMA or len(matches) != 1 or any(matches[0].get(field) != data[field] for field in ('threadId', 'revision')):
                     raise ValueError('Task, revision or chat differs from the current workspace registry.')
                 status, result = self.server.perform(self.path, data)
                 side_effects_possible = result.get('status') in {'queued', 'opened', 'uncertain'}

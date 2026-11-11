@@ -1,5 +1,6 @@
 """Modeled transcript/validator fixtures only; no real user consent or native execution."""
 import json
+import re
 from pathlib import Path
 import sys
 import tempfile
@@ -74,6 +75,62 @@ class DirectionSelectionTests(unittest.TestCase):
                 self.assertEqual(candidate['id'], identity)
                 self.assertEqual(self.recognize(expected=human)[0], human)
         self.native.assert_not_called()
+
+    def test_explicit_compare_requires_final_complete_packet_and_actual_question(self):
+        self.draft['data']['mode'] = 'compare'
+        self.draft['data']['review_destination'] = 'local'
+        self.draft['data']['review_surface'] = {'path': '/review.html', 'sha256': '1' * 64}
+        self.draft['data']['comparison_image'] = {'path': '/comparison.png', 'sha256': '2' * 64}
+        good = (f"Review {self.draft['data']['review_id']}\nManifest SHA256 {self.draft['draft']['sha256']}\n"
+                "Review surface /review.html\nComparison image /comparison.png\n"
+                "briefing: 현장 브리핑 · " + 'a' * 64 + "\nnotebook: 등반 수첩 · " + 'b' * 64 +
+                "\n어떤 시안으로 진행할까요？")
+        for presentation, phase in [(self.draft['data']['review_id'] + ' ' + self.draft['draft']['sha256'], 'final_answer'),
+                                    (good, 'commentary'),
+                                    (good.replace('/comparison.png', '/wrong.png'), 'final_answer'),
+                                    (good.replace('notebook: 등반 수첩 · ' + 'b' * 64, 'notebook only'), 'final_answer')]:
+            with self.subTest(phase=phase, presentation=presentation[:30]):
+                self.write(presentation=presentation, phase=phase)
+                with self.assertRaises(ValueError):
+                    self.recognize()
+        self.write(presentation=good)
+        self.assertEqual(self.recognize()[1]['id'], 'briefing')
+        formatted = re.sub(r'(Review|Manifest SHA256|Review surface|Comparison image|briefing|notebook)', r'`\1`', good)
+        formatted = formatted.replace('어떤 시안으로 진행할까요？', 'どの案で進めますか？')
+        self.write(presentation=formatted)
+        self.assertEqual(self.recognize()[1]['id'], 'briefing')
+        self.write(presentation='```text\n' + good + '\n```\nどの案で進めますか？')
+        with self.assertRaises(ValueError):
+            self.recognize()
+
+    def test_explicit_compare_accepts_verified_native_links_with_complete_final_prompt(self):
+        self.draft['data']['mode'] = 'compare'
+        self.draft['data']['review_surface'] = {'path': '/review.html', 'sha256': '1' * 64}
+        self.draft['data']['comparison_image'] = {'path': '/comparison.png', 'sha256': '2' * 64}
+        prompt = (f"Review {self.draft['data']['review_id']} {self.draft['draft']['sha256']} /review.html /comparison.png "
+                  "briefing " + 'a' * 64 + " notebook " + 'b' * 64 + " which exact candidate to carry forward\n" + self.links)
+        self.write(presentation=prompt.rsplit('\n', 1)[0])
+        with self.assertRaises(ValueError):
+            self.recognize()
+        self.write(presentation=prompt)
+        self.assertEqual(self.recognize()[1]['id'], 'briefing')
+
+    def test_explicit_compare_question_reply_requires_prior_actual_tool_question(self):
+        self.draft['data']['mode'] = 'compare'
+        self.draft['data']['review_surface'] = {'path': '/review.html', 'sha256': '1' * 64}
+        self.draft['data']['comparison_image'] = {'path': '/comparison.png', 'sha256': '2' * 64}
+        self.draft['data']['review_destination'] = 'local'
+        question = (f"Review {self.draft['data']['review_id']}\nManifest SHA256 {self.draft['draft']['sha256']}\n"
+                    "Review surface /review.html\nComparison image /comparison.png\nbriefing " + 'a' * 64 +
+                    "\nnotebook " + 'b' * 64 + "\nwhich exact candidate to carry forward")
+        reply = '<send_user_message_question_reply>' + json.dumps([{'question': question, 'questionItemId': 'q1', 'answer': CHOICE}]) + '</send_user_message_question_reply>'
+        self.source.write_text(json.dumps(self.record('user', reply), ensure_ascii=False) + '\n')
+        with self.assertRaises(ValueError):
+            self.recognize()
+        call = {'type': 'response_item', 'payload': {'type': 'function_call', 'name': 'request_user_input_async', 'arguments': json.dumps({'questions': [{'question': question, 'title': 'Choose a direction'}]})}}
+        malformed = {'type': 'response_item', 'payload': {'type': 'function_call', 'name': 'request_user_input_async', 'arguments': json.dumps({'questions': None})}}
+        self.source.write_text(json.dumps(malformed) + '\n' + json.dumps(call) + '\n' + json.dumps(self.record('user', reply), ensure_ascii=False) + '\n')
+        self.assertEqual(self.recognize()[1]['id'], 'briefing')
 
     def test_later_hold_reversal_and_aggregate_request_reject_selection(self):
         for suffix in ['잠깐, 아직 시작하지 마.', '아니, 방금 요청은 취소할게.', '둘 다 같이 제작해줘.']:

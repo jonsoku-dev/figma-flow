@@ -1,5 +1,11 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const {execFileSync} = require('node:child_process');
+const path = require('node:path');
+const vm = require('node:vm');
+vm.runInThisContext(execFileSync('python3.13', ['-B', '-c',
+  'import json,sys; sys.path.insert(0, sys.argv[1]); import graph_sync; sys.stdout.write("var GRAPH_SYNC_SCHEMA = "+json.dumps(graph_sync.SCHEMA)+";")',
+  path.join(__dirname, '../tools')], {encoding: 'utf8'}));
 const {graphTokenSync} = require('../figma-bridge/graph_token_sync.js');
 
 function world() {

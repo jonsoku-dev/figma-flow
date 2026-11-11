@@ -49,8 +49,9 @@ def normalize(readback):
 def annotations(node):
     if node.get('annotations_status') == 'unavailable':
         return []
-    return [a['label'] for a in node.get('annotations', [])
-            if isinstance(a, dict) and isinstance(a.get('label'), str) and a['label'].strip()]
+    return [a.get('label') or a['labelMarkdown'] for a in node.get('annotations', [])
+            if isinstance(a, dict) and isinstance(a.get('label') or a.get('labelMarkdown'), str)
+            and (a.get('label') or a.get('labelMarkdown')).strip()]
 
 
 def mentions(text, literal):
@@ -96,6 +97,18 @@ def evaluate(readback, expected=None, page_id=None):
         nodes, parents = normalize(readback)
         if not isinstance(expected, dict):
             raise ValueError('explicit expected contract required; no evidence-only success')
+        declaration = expected.get('annotation_contract') or {}
+        readable = isinstance(declaration.get('specifications'), dict)
+        if expected.get('annotation_presentation') == 'metadata' and not readable:
+            raise ValueError('metadata presentation requires current graph specifications')
+
+        def semantic_text(node):
+            if readable and isinstance(node.get('specification'), dict):
+                meaning = node['specification'].get('specification', {}).get('meaning', {})
+                return '\n'.join(str(value) for value in meaning.values())
+            if readable:
+                return node.get('declared_metadata', {}).get('technical_annotation', '')
+            return '\n'.join(annotations(node))
         page_id = page_id or readback.get('pageId')
         pages = [n['id'] for n in nodes.values() if n.get('type') == 'PAGE']
         if not page_id and len(pages) == 1:
@@ -207,8 +220,10 @@ def evaluate(readback, expected=None, page_id=None):
                     'observed': {k: screen[k] for k in OBSERVED_FIELDS if k in screen},
                     'native_annotations': annotations(screen), 'controls': [], 'additional_annotations': []}
             screens.append(item)
-            if not item['native_annotations']:
+            if not item['native_annotations'] and not (readable and screen.get('specification')):
                 errors.append('screen lacks native annotation: ' + sid)
+            if readable:
+                item['specification'] = screen.get('specification')
             if wanted.get('static') is True and any(n.get('reactions') and within(n['id'], sid) for n in nodes.values()):
                 errors.append('static screen contains native interactions: ' + sid)
             controls = wanted.get('controls')
@@ -231,13 +246,16 @@ def evaluate(readback, expected=None, page_id=None):
                            'native_annotations': notes, 'bindings': [], 'covered_action': None, 'covered_states': []}
                 item['controls'].append(current)
                 action, states = control.get('action'), control.get('states')
-                text = '\n'.join(notes).casefold()
+                text = semantic_text(node).casefold()
                 static = control.get('static') is True
                 current['static'] = static
                 if static:
                     current['static_annotation'] = control.get('static_annotation')
-                if not notes:
+                if not notes and not (readable and (node.get('specification') or node.get('declared_metadata', {}).get('technical_annotation'))):
                     errors.append('control lacks native annotation: ' + cid)
+                if readable:
+                    current['specification'] = node.get('specification')
+                    current['technical_annotation'] = node.get('declared_metadata', {}).get('technical_annotation')
                 if static and (action or states or any(control.get(field) for field in ('action_id', 'target', 'target_screen', 'target_ids')) or any(n.get('reactions') and within(n['id'], cid) for n in nodes.values())):
                     errors.append('static control declares interaction: ' + cid)
                 if not static and not mentions(text, action):
@@ -306,7 +324,7 @@ def evaluate(readback, expected=None, page_id=None):
                         continue
                     current['bindings'].append({'property': prop, 'variable_id': vid, 'node_id': binding_id,
                         'variable': next((v for v in token_records if v['id'] == vid), None)})
-                if valid_component and notes and current['bindings']:
+                if valid_component and (notes or readable and semantic_text(node)) and current['bindings']:
                     verified_instances += 1
             for identity, node in nodes.items():
                 notes = annotations(node)
@@ -391,7 +409,7 @@ def evaluate(readback, expected=None, page_id=None):
                         if control['id'] not in covered:
                             errors.append('annotation contract misses required native node: ' + control['id'])
                         continue
-                    text = '\n'.join(control['native_annotations'])
+                    text = semantic_text(nodes[control['id']])
                     expected_note = control.get('static_annotation')
                     if (not isinstance(expected_note, str) or len(expected_note.strip()) < 6 or expected_note not in text or
                         screen['id'] not in covered or not all(isinstance(screen_meaning.get(field), str) and
@@ -417,11 +435,14 @@ def evaluate(readback, expected=None, page_id=None):
                     target, note = nodes.get(target_id, {}), nodes.get(note_id, {})
                     label = entry.get('label')
                     link = note.get('hyperlink')
+                    source_text = (target.get('specification') or {}).get('specification', {})
+                    expected_text = source_text.get('title', '') + '\n' + source_text.get('display_text', '') if readable else None
                     if (not target_id or not within(target_id, page_id) or within(target_id, board_id) or
-                        not isinstance(label, str) or len(label.strip()) < 6 or label not in '\n'.join(annotations(target)) or
+                        not isinstance(label, str) or len(label.strip()) < 6 or
+                        (label != expected_text if readable else label not in '\n'.join(annotations(target))) or
                         not note_id or note_id in note_ids or note.get('type') != 'TEXT' or note.get('visible') is not True or
                         parents.get(note_id) != board_id or note.get('fontSize', 0) < 14 or note.get('textAutoResize') != 'HEIGHT' or
-                        label not in note.get('characters', '') or not isinstance(link, dict) or link.get('type') != 'NODE' or link.get('value') != target_id):
+                        (note.get('characters') != label if readable else label not in note.get('characters', '')) or not isinstance(link, dict) or link.get('type') != 'NODE' or link.get('value') != target_id):
                         board_errors.append('missing readable Design-mode native target link: ' + str(entry.get('key')))
                     bounds, frame_bounds = note.get('absoluteBoundingBox', {}), board.get('absoluteBoundingBox', {})
                     if not (all(isinstance(bounds.get(field), (int, float)) and math.isfinite(bounds[field]) for field in ('x', 'y', 'width', 'height')) and
@@ -441,9 +462,19 @@ def evaluate(readback, expected=None, page_id=None):
                     note_ids.add(note_id)
                     board_report['entries'].append({'text_node_id': note_id, 'target_id': target_id})
                 for screen in screens:
-                    for required_id in [screen['id']] + [control['id'] for control in screen['controls']]:
+                    for required_id in [screen['id']] + [control['id'] for control in screen['controls'] if not readable or not control['static']]:
                         if required_id not in target_ids:
                             board_errors.append('Design-mode note index misses native target: ' + required_id)
+                if readable:
+                    frame = board.get('absoluteBoundingBox', {})
+                    for screen in screens:
+                        art = nodes[screen['id']].get('absoluteBoundingBox', {})
+                        if not all(type(rect.get(field)) in (int, float) and math.isfinite(rect[field])
+                                   for rect in (frame, art) for field in ('x', 'y', 'width', 'height')):
+                            board_errors.append('specification/artwork bounds unavailable')
+                            continue
+                        if frame['x'] < art['x'] + art['width'] and art['x'] < frame['x'] + frame['width'] and frame['y'] < art['y'] + art['height'] and art['y'] < frame['y'] + frame['height']:
+                            board_errors.append('specification board overlaps artwork: ' + screen['id'])
             board_report['passed'] = not board_errors
             errors.extend('Design-mode note board: ' + error for error in board_errors)
         report['passed'] = not errors
@@ -465,9 +496,14 @@ def markdown(report):
 
     def control_lines(control, required):
         observed = control['observed']
-        title = observed.get('name') or control['id']
-        result = ['', '### ' + link(title, control.get('url')), '',
-                  '네이티브 노드: `' + text(control['id']) + '` · 유형: ' + text(observed.get('type', '미관측'))]
+        spec = (control.get('specification') or {}).get('specification')
+        title = spec['title'] if spec else observed.get('name') or control['id']
+        result = ['', '### ' + link(title, control.get('url')), '']
+        if spec:
+            result += [spec['display_text'], '', '<details><summary>기술 추적 정보</summary>', '',
+                       '그래프 원본: `' + text(spec['source_graph_sha256']) + '`',
+                       '의미 버전: `' + text(spec['meaning_sha256']) + '`']
+        result += ['네이티브 노드: `' + text(control['id']) + '` · 유형: ' + text(observed.get('type', '미관측'))]
         if required and control.get('static'):
             result += ['용도: 정적 재사용 컴포넌트 (동작·상태 검증 대상 아님)']
         elif required:
@@ -489,6 +525,8 @@ def markdown(report):
         for binding in control['bindings']:
             token = binding.get('variable') or {}
             result += ['- 토큰: `' + text(token.get('name') or binding.get('variable_id')) + '` → `' + text(binding['property']) + '`']
+        if spec:
+            result += ['', '</details>']
         return result
 
     status = '통과' if report['passed'] else '차단'
@@ -498,11 +536,18 @@ def markdown(report):
     lines += ['- 차단 사유: ' + text(error) for error in report['errors']]
     for screen in report['screens']:
         observed = screen['observed']
-        lines += ['', '## ' + link(observed.get('name') or screen['id'], screen.get('url')), '',
-                  '화면 ID: `' + text(screen['id']) + '`',
+        spec = (screen.get('specification') or {}).get('specification')
+        lines += ['', '## ' + link(spec['title'] if spec else observed.get('name') or screen['id'], screen.get('url')), '']
+        if spec:
+            lines += [spec['display_text'], '', '<details><summary>기술 추적 정보</summary>', '',
+                      '그래프 원본: `' + text(spec['source_graph_sha256']) + '`',
+                      '의미 버전: `' + text(spec['meaning_sha256']) + '`']
+        lines += ['화면 ID: `' + text(screen['id']) + '`',
                   '크기: ' + text(observed.get('width', '미관측')) + ' × ' + text(observed.get('height', '미관측')) + ' px',
                   '', '화면 설명:']
         lines += notes(screen['native_annotations'])
+        if spec:
+            lines += ['', '</details>']
         lines += ['', '### 필수 조작 검증', '', '아래 조작은 기대한 동작·상태·컴포넌트 인스턴스·토큰 바인딩을 검사합니다.']
         for control in screen['controls']:
             lines += control_lines(control, True)

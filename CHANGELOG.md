@@ -1,5 +1,18 @@
 # 변경 기록
 
+## Unreleased
+
+- Attach concise human annotations to exact screen/control nodes, link them to structured full specifications and verify both link directions against actual getters. Include source-backed conditions, recovery and Figma/web scope; preserve technical archives and other annotations. Reflow only owned description boards when their expanded content collides with artwork.
+
+- Preserve bounded finite variable-font settings returned by actual Figma getters when planning description updates; retain the observed font identity.
+
+- Bind new comparison approvals to visible current materials and real question calls. Reject symlink or concurrently changed approval files and preserve external targets during replacement.
+
+- Check the exact registered Codex package and Figma runtime files at each workflow start; safely update with independent recovery snapshots, explicit exceptions and loaded-runtime freshness checks.
+- Support one concrete `direct` direction alongside requested `compare` alternatives; retain actual user authority and artifact-linked critique without certifying visual quality from text checks.
+- Project graph-owned human specifications into an outside-artwork linked board, retain technical ownership and exact legacy annotations privately, and verify source revision, meaning and actual target/display bindings. Extend the existing bounded native-edit path for updates.
+- Register feature requirements/acceptance graphs under `specs/` and keep user instructions in the consolidated guide. Local code/mock verification is separate from real Figma observation.
+
 ## 0.25.0 · 2026-11-11
 
 - 여러 화면·뷰포트의 웹 컴포넌트를 범위별로 실측하고 원본 해시와 함께 합칩니다. 최종 pairing은 전체 컴포넌트와 현재 네이티브 값을 계속 요구합니다.

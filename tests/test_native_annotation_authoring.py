@@ -74,6 +74,8 @@ root.getPluginData=k=>k==='semanticComponent'?JSON.stringify({key:'screen.card',
 const set=node('set','set','COMPONENT_SET'), main=node('main','main','COMPONENT');attach(set,main);
 root.getMainComponentAsync=async()=>main;
 root.componentProperties={State:{type:'VARIANT',value:'Ready'}};root.variantProperties={State:'Ready'};
+const overrides=[{id:'i',overriddenFields:['itemSpacing']}];
+Object.defineProperty(root,'overrides',{get:()=>overrides});
 child.fills=[{type:'SOLID',boundVariables:{color:{type:'VARIABLE_ALIAS',id:'color'}}}];
 const vars={color:{id:'color',name:'color',resolvedType:'COLOR',variableCollectionId:'bound',valuesByMode:{light:{type:'VARIABLE_ALIAS',id:'base'}}},base:{id:'base',name:'base',resolvedType:'COLOR',variableCollectionId:'baseCollection',valuesByMode:{baseMode:{r:1,g:0,b:0}}},managed:{id:'managed',name:'size',resolvedType:'FLOAT',variableCollectionId:'managedCollection',valuesByMode:{m:12}}};
 const collection=(id,ids,marker='')=>({id,name:id,modes:[{modeId:id==='bound'?'light':'m',name:'Default'}],defaultModeId:'m',variableIds:ids,getPluginData:()=>marker});
@@ -86,6 +88,8 @@ assert.equal(result.variables.length,3);assert.equal(result.nodes.length,3);
 assert.equal(result.nodes.find(n=>n.id==='t').semanticKey,'screen.title');
 assert.equal(result.nodes.find(n=>n.id==='i').mainComponentId,'main');
 assert.equal(result.nodes.find(n=>n.id==='i').componentSetId,'set');
+assert.deepEqual(result.nodes.find(n=>n.id==='i').overrides,overrides);
+assert.notEqual(result.nodes.find(n=>n.id==='i').overrides,overrides);
 assert(result.unavailableFields.some(f=>f.field==='annotationCategoryId'));
 assert.equal(resolveInstanceSemanticKey(root),'screen.card');
 assert.equal(result.variables.find(v=>v.id==='color').valuesByMode.light.id,'base');

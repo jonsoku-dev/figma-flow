@@ -1,0 +1,535 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "REQ-SPEC-01",
+      "type": "requirement",
+      "title": "Preserve canonical screen/action meaning and source authority",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Keep stable graph screen/action meaning canonical and record source authority by fact. Add annotations to the existing meaning; do not replace graph relationships or choose one global authority for every fact."
+    },
+    {
+      "id": "REQ-SPEC-02",
+      "type": "requirement",
+      "title": "Keep readable purpose and behavior grounded in source",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Human-readable annotations may describe purpose, journey, first action, behavior, precondition, result, and failure/limits only when supported by the source; do not invent missing conditions or outcomes. Include source-backed summaries and Figma/web scope when present; organize full body copy into labeled sections."
+    },
+    {
+      "id": "REQ-SPEC-03",
+      "type": "requirement",
+      "title": "Separate internal verification and ownership metadata",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Keep technical prefixes, hashes, target ownership, and verification state separately identifiable from human-readable body copy and artwork; preserve their non-overlap."
+    },
+    {
+      "id": "REQ-SPEC-04",
+      "type": "requirement",
+      "title": "Pin graph-to-display updates to fresh target readback",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Trace each graph specification through display update to actual target readback, with graph hash/revision, target identity, and freshness; stale getters cannot count as current."
+    },
+    {
+      "id": "REQ-SPEC-05",
+      "type": "requirement",
+      "title": "Preserve IDs, paths, annotations, replay, and rollback",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Preserve semantic IDs, paths, design/user annotations, replay inputs, legacy-prefix identity, idempotent updates, conflict handling, and rollback behavior."
+    },
+    {
+      "id": "SCR-SPEC-01",
+      "type": "screen",
+      "title": "Specification display and annotation controls",
+      "status": "planned",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "ACT-SPEC-01",
+      "type": "action",
+      "title": "Update and read back target annotations",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-SPEC-01",
+      "target_ids": []
+    },
+    {
+      "id": "CODE-SPEC-01",
+      "type": "code",
+      "title": "Readable specification contract",
+      "status": "unverified",
+      "source": "../../tools/specification_contract.py",
+      "detail": "Implementation is in the working tree. Current source checks and scoped native execution are recorded in ../verification.md; this node does not certify global acceptance."
+    },
+    {
+      "id": "TEST-SPEC-01",
+      "type": "test",
+      "title": "Specification contract tests",
+      "status": "unverified",
+      "source": "../../tests/test_specification_contract.py",
+      "detail": "Test execution and scope are recorded in ../verification.md; this registration alone is not execution or native proof."
+    },
+    {
+      "id": "AC-SPEC-01",
+      "type": "acceptance",
+      "title": "Trace requirement through actual screen/action, acceptance, and evidence.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Scoped existing-page native and source-test evidence is recorded in ../verification.md. Full acceptance remains unverified where new-page, real unowned user-note or Dev Mode UI coverage is absent; the initial no-Figma-access restriction was later superseded by explicit user authorization."
+    },
+    {
+      "id": "AC-SPEC-02",
+      "type": "acceptance",
+      "title": "Keep full body copy outside artwork and native summaries linked in both directions to the exact target/spec entry.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Scoped existing-page native and source-test evidence is recorded in ../verification.md. Full acceptance remains unverified where new-page, real unowned user-note or Dev Mode UI coverage is absent; the initial no-Figma-access restriction was later superseded by explicit user authorization."
+    },
+    {
+      "id": "AC-SPEC-03",
+      "type": "acceptance",
+      "title": "On graph behavior change, update and read back the exact target while preserving other targets; mark old getters stale.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Scoped existing-page native and source-test evidence is recorded in ../verification.md. Full acceptance remains unverified where new-page, real unowned user-note or Dev Mode UI coverage is absent; the initial no-Figma-access restriction was later superseded by explicit user authorization."
+    },
+    {
+      "id": "AC-SPEC-04",
+      "type": "acceptance",
+      "title": "Retain technical/user notes for old and new prefixes.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Scoped existing-page native and source-test evidence is recorded in ../verification.md. Full acceptance remains unverified where new-page, real unowned user-note or Dev Mode UI coverage is absent; the initial no-Figma-access restriction was later superseded by explicit user authorization."
+    },
+    {
+      "id": "AC-SPEC-05",
+      "type": "acceptance",
+      "title": "Repeated updates add no duplicates; rollback and conflicts are explicit.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Scoped existing-page native and source-test evidence is recorded in ../verification.md. Full acceptance remains unverified where new-page, real unowned user-note or Dev Mode UI coverage is absent; the initial no-Figma-access restriction was later superseded by explicit user authorization."
+    },
+    {
+      "id": "AC-SPEC-06",
+      "type": "acceptance",
+      "title": "Missing target, wrong target, changed meaning, or stale readback fails or stays unverified.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Scoped existing-page native and source-test evidence is recorded in ../verification.md. Full acceptance remains unverified where new-page, real unowned user-note or Dev Mode UI coverage is absent; the initial no-Figma-access restriction was later superseded by explicit user authorization."
+    },
+    {
+      "id": "AC-SPEC-07",
+      "type": "acceptance",
+      "title": "Verify annotations both enabled and disabled in the actual UI.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Scoped existing-page native and source-test evidence is recorded in ../verification.md. Full acceptance remains unverified where new-page, real unowned user-note or Dev Mode UI coverage is absent; the initial no-Figma-access restriction was later superseded by explicit user authorization."
+    },
+    {
+      "id": "CODE-SPEC-02",
+      "type": "code",
+      "title": "Graph-to-specification export and update",
+      "status": "unverified",
+      "source": "../../tools/specifications.py",
+      "detail": "Implementation is in the working tree. Current source checks and scoped native execution are recorded in ../verification.md; this node does not certify global acceptance."
+    },
+    {
+      "id": "CODE-SPEC-03",
+      "type": "code",
+      "title": "Native specification update boundary",
+      "status": "unverified",
+      "source": "../../tools/native_edit.py",
+      "detail": "Implementation is in the working tree. Current source checks and scoped native execution are recorded in ../verification.md; this node does not certify global acceptance."
+    },
+    {
+      "id": "CODE-SPEC-04",
+      "type": "code",
+      "title": "Figma annotation display",
+      "status": "unverified",
+      "source": "../../figma-bridge/native_annotations.js",
+      "detail": "Implementation is in the working tree. Current source checks and scoped native execution are recorded in ../verification.md; this node does not certify global acceptance."
+    },
+    {
+      "id": "CODE-SPEC-05",
+      "type": "code",
+      "title": "Design-note board readback",
+      "status": "unverified",
+      "source": "../../figma-bridge/design_note_board.js",
+      "detail": "Implementation is in the working tree. Current source checks and scoped native execution are recorded in ../verification.md; this node does not certify global acceptance."
+    },
+    {
+      "id": "CODE-SPEC-06",
+      "type": "code",
+      "title": "Native semantic readback",
+      "status": "unverified",
+      "source": "../../figma-bridge/native_semantic_read.js",
+      "detail": "Implementation is in the working tree. Current source checks and scoped native execution are recorded in ../verification.md; this node does not certify global acceptance."
+    },
+    {
+      "id": "CODE-SPEC-07",
+      "type": "code",
+      "title": "Native specification display",
+      "status": "unverified",
+      "source": "../../figma-bridge/native_specifications.js",
+      "detail": "Implementation is in the working tree. Current source checks and scoped native execution are recorded in ../verification.md; this node does not certify global acceptance."
+    },
+    {
+      "id": "TEST-SPEC-02",
+      "type": "test",
+      "title": "Specification update tests",
+      "status": "unverified",
+      "source": "../../tests/test_specification_update.py",
+      "detail": "Test execution and scope are recorded in ../verification.md; this registration alone is not execution or native proof."
+    },
+    {
+      "id": "TEST-SPEC-03",
+      "type": "test",
+      "title": "Native readable specification checks",
+      "status": "unverified",
+      "source": "../../tests/test_readable_spec_native.cjs",
+      "detail": "Test execution and scope are recorded in ../verification.md; this registration alone is not execution or native proof."
+    },
+    {
+      "id": "TEST-SPEC-04",
+      "type": "test",
+      "title": "Native specification update checks",
+      "status": "unverified",
+      "source": "../../tests/test_native_specification_update.cjs",
+      "detail": "Test execution and scope are recorded in ../verification.md; this registration alone is not execution or native proof."
+    },
+    {
+      "id": "TEST-SPEC-05",
+      "type": "test",
+      "title": "Specification rendering tests",
+      "status": "unverified",
+      "source": "../../tests/test_specification_rendering.py",
+      "detail": "Test execution and scope are recorded in ../verification.md; this registration alone is not execution or native proof."
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-SPEC-01",
+      "to": "SCR-SPEC-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-SPEC-02",
+      "to": "SCR-SPEC-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-SPEC-03",
+      "to": "SCR-SPEC-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-SPEC-04",
+      "to": "SCR-SPEC-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-SPEC-05",
+      "to": "SCR-SPEC-01",
+      "type": "appears on"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "ACT-SPEC-01",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "CODE-SPEC-01",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-SPEC-01",
+      "to": "CODE-SPEC-01",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "CODE-SPEC-02",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-SPEC-01",
+      "to": "CODE-SPEC-02",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "CODE-SPEC-03",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-SPEC-01",
+      "to": "CODE-SPEC-03",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "CODE-SPEC-04",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-SPEC-01",
+      "to": "CODE-SPEC-04",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "CODE-SPEC-05",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-SPEC-01",
+      "to": "CODE-SPEC-05",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "CODE-SPEC-06",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-SPEC-01",
+      "to": "CODE-SPEC-06",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SPEC-01",
+      "to": "CODE-SPEC-07",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-SPEC-01",
+      "to": "CODE-SPEC-07",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-SPEC-01",
+      "to": "AC-SPEC-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-04",
+      "to": "AC-SPEC-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-02",
+      "to": "AC-SPEC-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-03",
+      "to": "AC-SPEC-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-04",
+      "to": "AC-SPEC-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-05",
+      "to": "AC-SPEC-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-03",
+      "to": "AC-SPEC-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-05",
+      "to": "AC-SPEC-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-05",
+      "to": "AC-SPEC-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-01",
+      "to": "AC-SPEC-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-04",
+      "to": "AC-SPEC-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-02",
+      "to": "AC-SPEC-07",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-SPEC-03",
+      "to": "AC-SPEC-07",
+      "type": "accepted by"
+    },
+    {
+      "from": "CODE-SPEC-01",
+      "to": "TEST-SPEC-01",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-02",
+      "to": "TEST-SPEC-01",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-02",
+      "to": "TEST-SPEC-02",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-02",
+      "to": "TEST-SPEC-05",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-03",
+      "to": "TEST-SPEC-02",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-04",
+      "to": "TEST-SPEC-03",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-04",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-05",
+      "to": "TEST-SPEC-03",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-05",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-06",
+      "to": "TEST-SPEC-03",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-06",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-SPEC-07",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-01",
+      "to": "TEST-SPEC-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-01",
+      "to": "TEST-SPEC-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-01",
+      "to": "TEST-SPEC-05",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-02",
+      "to": "TEST-SPEC-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-02",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-02",
+      "to": "TEST-SPEC-05",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-03",
+      "to": "TEST-SPEC-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-03",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-04",
+      "to": "TEST-SPEC-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-04",
+      "to": "TEST-SPEC-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-04",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-05",
+      "to": "TEST-SPEC-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-05",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-06",
+      "to": "TEST-SPEC-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-06",
+      "to": "TEST-SPEC-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-06",
+      "to": "TEST-SPEC-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-06",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-07",
+      "to": "TEST-SPEC-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-SPEC-07",
+      "to": "TEST-SPEC-04",
+      "type": "checked by"
+    }
+  ]
+}

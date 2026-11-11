@@ -15,6 +15,10 @@ function info(node) {
 }
 function annotate(node, annotation) {
   if (!annotation) return;
+  if (PAYLOAD.specifications) {
+    node.setPluginData(KEY, JSON.stringify({...info(node), annotation_mode: "metadata", technical_annotation: annotation}));
+    return;
+  }
   if (!("annotations" in node)) throw new Error(`Required native annotations unsupported: ${info(node).semantic_id}`);
   node.annotations = [{ label: annotation }];
   if (!node.annotations.some(item => item.label === annotation)) throw new Error("Required native annotation not retained");
@@ -40,7 +44,25 @@ async function verifyHandoff(page) {
     return found[0];
   }
   for (const [identity, note] of Object.entries(PAYLOAD.native_handoff.required_annotations)) {
-    if (!(find(identity).annotations || []).some(item => item.label === note))
+    const node = find(identity), spec = PAYLOAD.specifications?.[identity];
+    if (spec) {
+      const actual = node.specification;
+      if (actual?.state !== 'applied' || actual.target_id !== node.id || actual.semantic_key !== identity ||
+          actual.source_owner_hash !== PAYLOAD.source_sha256 || actual.specification?.meaning_sha256 !== spec.meaning_sha256 ||
+          actual.specification?.source_graph_sha256 !== spec.source_graph_sha256 || actual.specification?.display_text !== spec.display_text)
+        throw new Error(`Required graph specification missing: ${identity}`);
+      if (spec.presentation === 'connected-spec-v2') {
+        const entry = PAYLOAD.expected_native_handoff.design_note_board.entries.find(entry => entry.target_key === identity);
+        const board = find(PAYLOAD.expected_native_handoff.design_note_board.key);
+        const text = find(`${PAYLOAD.expected_native_handoff.design_note_board.key}:${entry.key}`);
+        const human = actual.human_annotation;
+        const expected = connectedSpecificationMarkdown(spec,{fileKey:data.fileKey,textNodeId:text.id,locale:spec.locale});
+        if (!human || human.board?.boardId !== board.id || human.board?.textNodeId !== text.id || human.board?.key !== entry.key ||
+            human.url !== expected.url || !nativeAnnotationMatches(node.annotations?.[human.index],expected.markdown) ||
+            JSON.stringify(node.annotations[human.index]) !== JSON.stringify(human.annotation))
+          throw new Error(`Connected human specification annotation missing: ${identity}`);
+      }
+    } else if (PAYLOAD.specifications ? node.declared_metadata?.technical_annotation !== note : !(node.annotations || []).some(item => item.label === note))
       throw new Error(`Required native annotation missing: ${identity}`);
   }
   const boardContract = PAYLOAD.expected_native_handoff.design_note_board;
@@ -273,7 +295,7 @@ async function importDesign(fresh) {
   if (same && !fresh) {
     await verifyHandoff(same);
     await focus(same);
-    status("기존 페이지를 열었습니다. 편집 내용은 유지됩니다.", {event: "reused", page_id:same.id, source_sha256:PAYLOAD.source_sha256});
+    status(FLOW_IMPORT_COPY.reused, {event: "reused", page_id:same.id, source_sha256:PAYLOAD.source_sha256});
     return;
   }
   if (existing.length && !fresh) throw new Error("A different or incomplete import exists. Use the explicit fresh-page checkbox to add this reviewed design without changing existing work.");
@@ -305,7 +327,7 @@ async function importDesign(fresh) {
       createdVariables.push(variable);
       const token = PAYLOAD.tokens[path];
       metadata(variable, path, { token_type: token.type, source_value: token.value, css_name: token.css_name || null,
-        dimension_base_px: token.type === "dimension" ? 16 : null, alias: token.alias || null });
+        dimension_base_px: token.type === "dimension" ? PX_PER_REM : null, alias: token.alias || null });
       variables.set(path, variable);
     }
     for (const [path, variable] of variables) {
@@ -469,11 +491,22 @@ async function importDesign(fresh) {
     const boardContract = PAYLOAD.expected_native_handoff.design_note_board;
     if (!boardContract?.required) throw new Error("Required Design-mode note board declaration missing");
     const designBoard = await ensureDesignNoteBoard(figma,page,{sourceHash:PAYLOAD.source_sha256,font:authoredFont,fontSize:type.native_value,
-      boardKey:boardContract.key,styleText:decorate,notes:boardContract.entries.map(entry=>{
+      ...(PAYLOAD.specifications?{presentation:'readable-specs'}:{}),boardKey:boardContract.key,styleText:decorate,notes:boardContract.entries.map(entry=>{
         const matches=noteTargets.filter(node=>info(node).semantic_id===entry.target_key);
         if(matches.length!==1) throw new Error(`Missing actual annotation target: ${entry.target_key}`);
-        return {key:entry.key,targetId:matches[0].id,label:entry.label};
+        return {key:entry.key,targetId:matches[0].id,...(entry.specification?{specification:entry.specification}:{label:entry.label})};
       })});
+    if (PAYLOAD.specifications) {
+      const notes = Object.entries(PAYLOAD.specifications).map(([key,specification])=>{
+        const matches=noteTargets.filter(node=>info(node).semantic_id===key);
+        if(matches.length!==1) throw new Error(`Missing canonical specification target: ${key}`);
+        const entry=designBoard.entries.find(entry=>entry.targetId===matches[0].id);
+        if(!entry) throw new Error(`Missing readable specification link: ${key}`);
+        return {key,label:PAYLOAD.native_handoff.required_annotations[key],specification,
+                board:{boardId:designBoard.boardId,textNodeId:entry.textNodeId,key:entry.key}};
+      });
+      await ensureNativeAnnotations(figma,page,{presentation:'readable-specs',sourceHash:PAYLOAD.source_sha256,annotations:notes});
+    }
     const designBoardNode = await figma.getNodeByIdAsync(designBoard.boardId);
     designBoardNode.fills = [];
     for (const field of ["paddingTop","paddingRight","paddingBottom","paddingLeft","itemSpacing"]) {
@@ -522,6 +555,13 @@ async function snapshot(node) {
       (data.unavailable_fields ||= {}).annotations = error.message || String(error);
     }
   }
+  const specification = node.getPluginData('figmaFlowSpecification');
+  if (specification) {
+    try { data.specification=JSON.parse(specification);data.specification_status='observed'; }
+    catch(error){data.specification_status='invalid';(data.unavailable_fields ||= {}).specification=error.message || String(error);}
+  }
+  const boardOwner = node.getPluginData('designNoteBoard');
+  if(boardOwner){try{data.designNoteBoard=JSON.parse(boardOwner);}catch(error){(data.unavailable_fields ||= {}).designNoteBoard=error.message || String(error);}}
   if (node.type === "INSTANCE") {
     try {
       const component = await node.getMainComponentAsync();
@@ -574,7 +614,7 @@ async function syncToApp() {
   if (!owned || info(owned).bridge !== 1 || info(owned).source_sha256 !== PAYLOAD.source_sha256)
     throw new Error("페이지가 소유한 변수 컬렉션을 확인할 수 없습니다.");
   const data = await readback([page], "paired-active-import-page");
-  status("현재 페이지를 읽었습니다. 로컬 앱의 반영 결과를 기다리고 있습니다…", {event: "sync-wait"});
+  status(FLOW_IMPORT_COPY.syncWait, {event: "sync-wait"});
   const response = await fetch(LOCAL_SYNC.url, { method: "POST", headers: {
     Authorization: `Bearer ${LOCAL_SYNC.token}`, "Content-Type": "application/json"
   }, body: JSON.stringify({ file_key: LOCAL_SYNC.file_key, page_id: LOCAL_SYNC.page_id, readback: data }) });

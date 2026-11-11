@@ -1,0 +1,362 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "REQ-QUALITY-01",
+      "type": "requirement",
+      "title": "Author from supplied context",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Authoring uses the actual brief/context and applicable design system rather than falling back to a preset genre or canned direction."
+    },
+    {
+      "id": "REQ-QUALITY-02",
+      "type": "requirement",
+      "title": "Critique a pinned render or preview",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Critique is tied to a pinned source/render/preview and gives concrete issue locations plus warning dispositions; it does not invent an aesthetic score."
+    },
+    {
+      "id": "REQ-QUALITY-03",
+      "type": "requirement",
+      "title": "Follow a direct direction without forced A/B",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "A single concrete direction or direct user instruction proceeds without requiring A/B alternatives."
+    },
+    {
+      "id": "REQ-QUALITY-04",
+      "type": "requirement",
+      "title": "Compare only when direction is unresolved or requested",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Candidate comparison occurs only when the direction remains unresolved or the user explicitly requests comparison."
+    },
+    {
+      "id": "REQ-QUALITY-05",
+      "type": "requirement",
+      "title": "Keep admission grounded in actual user intent",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Direction admission distinguishes an actual user instruction from an invented or synthetic candidate choice."
+    },
+    {
+      "id": "SCR-QUALITY-01",
+      "type": "screen",
+      "title": "Context-pinned design review",
+      "status": "planned",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "ACT-QUALITY-01",
+      "type": "action",
+      "title": "Review pinned preview and admit direction",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-QUALITY-01",
+      "target_ids": []
+    },
+    {
+      "id": "CODE-QUALITY-01",
+      "type": "code",
+      "title": "Design intent inputs",
+      "status": "unverified",
+      "source": "../../tools/design_intent.py",
+      "detail": "Implementation file exists in the working tree; behavior and native execution remain unverified."
+    },
+    {
+      "id": "TEST-QUALITY-01",
+      "type": "test",
+      "title": "Direct design direction tests",
+      "status": "unverified",
+      "source": "../../tests/test_direct_design.py",
+      "detail": "Test file exists in the working tree; it has not been executed in this registration task."
+    },
+    {
+      "id": "AC-QUALITY-01",
+      "type": "acceptance",
+      "title": "Show the supplied context and applicable design system as authoring inputs; do not silently substitute a preset direction.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "No visual candidates, assets, Figma inspection, browser/runtime review, or visual-quality certification are produced here. Structural/contrast checks and Pillow demo wiring are not proof of visual quality."
+    },
+    {
+      "id": "AC-QUALITY-02",
+      "type": "acceptance",
+      "title": "Tie each critique item to a location in the pinned source/render/preview and record warning disposition.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "No visual candidates, assets, Figma inspection, browser/runtime review, or visual-quality certification are produced here. Structural/contrast checks and Pillow demo wiring are not proof of visual quality."
+    },
+    {
+      "id": "AC-QUALITY-03",
+      "type": "acceptance",
+      "title": "Do not emit an invented aesthetic score as quality evidence.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "No visual candidates, assets, Figma inspection, browser/runtime review, or visual-quality certification are produced here. Structural/contrast checks and Pillow demo wiring are not proof of visual quality."
+    },
+    {
+      "id": "AC-QUALITY-04",
+      "type": "acceptance",
+      "title": "A concrete direct instruction can proceed without an A/B choice.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "No visual candidates, assets, Figma inspection, browser/runtime review, or visual-quality certification are produced here. Structural/contrast checks and Pillow demo wiring are not proof of visual quality."
+    },
+    {
+      "id": "AC-QUALITY-05",
+      "type": "acceptance",
+      "title": "Only compare candidates when explicitly requested or when direction remains unresolved.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "No visual candidates, assets, Figma inspection, browser/runtime review, or visual-quality certification are produced here. Structural/contrast checks and Pillow demo wiring are not proof of visual quality."
+    },
+    {
+      "id": "AC-QUALITY-06",
+      "type": "acceptance",
+      "title": "Do not treat generated candidates or synthetic selection as actual user direction; structural/contrast checks and demo wiring are not visual-quality certification.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "No visual candidates, assets, Figma inspection, browser/runtime review, or visual-quality certification are produced here. Structural/contrast checks and Pillow demo wiring are not proof of visual quality."
+    },
+    {
+      "id": "CODE-QUALITY-02",
+      "type": "code",
+      "title": "Pinned design critique",
+      "status": "unverified",
+      "source": "../../tools/design_critique.py",
+      "detail": "Implementation file exists in the working tree; behavior and native execution remain unverified."
+    },
+    {
+      "id": "CODE-QUALITY-03",
+      "type": "code",
+      "title": "Direction candidates",
+      "status": "unverified",
+      "source": "../../tools/design_directions.py",
+      "detail": "Implementation file exists in the working tree; behavior and native execution remain unverified."
+    },
+    {
+      "id": "CODE-QUALITY-04",
+      "type": "code",
+      "title": "Design workflow routing",
+      "status": "unverified",
+      "source": "../../tools/route_design.py",
+      "detail": "Implementation file exists in the working tree; behavior and native execution remain unverified."
+    },
+    {
+      "id": "TEST-QUALITY-02",
+      "type": "test",
+      "title": "Design routing tests",
+      "status": "unverified",
+      "source": "../../tests/test_route_design.py",
+      "detail": "Test file exists in the working tree; it has not been executed in this registration task."
+    },
+    {
+      "id": "TEST-QUALITY-03",
+      "type": "test",
+      "title": "Compile explicit direct and compare source pipelines",
+      "status": "unverified",
+      "source": "../../tests/test_explicit_mode_packets.py",
+      "detail": "Synthetic source review, canonical specifications, portable packet preparation and stale graph rejection; no actual Figma or visual-quality proof."
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-QUALITY-01",
+      "to": "SCR-QUALITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-QUALITY-02",
+      "to": "SCR-QUALITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-QUALITY-03",
+      "to": "SCR-QUALITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-QUALITY-04",
+      "to": "SCR-QUALITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-QUALITY-05",
+      "to": "SCR-QUALITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "SCR-QUALITY-01",
+      "to": "ACT-QUALITY-01",
+      "type": "triggers"
+    },
+    {
+      "from": "REQ-QUALITY-01",
+      "to": "AC-QUALITY-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-QUALITY-02",
+      "to": "AC-QUALITY-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-QUALITY-02",
+      "to": "AC-QUALITY-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-QUALITY-03",
+      "to": "AC-QUALITY-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-QUALITY-04",
+      "to": "AC-QUALITY-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-QUALITY-05",
+      "to": "AC-QUALITY-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-QUALITY-01",
+      "to": "CODE-QUALITY-01",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-QUALITY-01",
+      "to": "CODE-QUALITY-01",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-QUALITY-01",
+      "to": "CODE-QUALITY-02",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-QUALITY-01",
+      "to": "CODE-QUALITY-02",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-QUALITY-01",
+      "to": "CODE-QUALITY-03",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-QUALITY-01",
+      "to": "CODE-QUALITY-03",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-QUALITY-01",
+      "to": "CODE-QUALITY-04",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-QUALITY-01",
+      "to": "CODE-QUALITY-04",
+      "type": "implemented by"
+    },
+    {
+      "from": "CODE-QUALITY-01",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-QUALITY-02",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-QUALITY-03",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-QUALITY-04",
+      "to": "TEST-QUALITY-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-01",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-02",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-03",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-04",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-05",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-05",
+      "to": "TEST-QUALITY-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-06",
+      "to": "TEST-QUALITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-06",
+      "to": "TEST-QUALITY-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-02",
+      "to": "TEST-QUALITY-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-03",
+      "to": "TEST-QUALITY-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-04",
+      "to": "TEST-QUALITY-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-05",
+      "to": "TEST-QUALITY-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-QUALITY-06",
+      "to": "TEST-QUALITY-03",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-QUALITY-02",
+      "to": "TEST-QUALITY-03",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-QUALITY-03",
+      "to": "TEST-QUALITY-03",
+      "type": "checked by"
+    }
+  ]
+}

@@ -9,19 +9,24 @@ import secrets
 
 from graph_design_system import SUPPORTED_PROPERTY_TYPES, _validate_property, _validate_value
 from graph_sync import graph_panel
+from specification_contract import spec_label_prelude
 
 ROOT = Path(__file__).resolve().parents[1]
+PLAN_SCHEMA = 'figma-flow-native-edit-plan-v1'
 NODE_FIELDS = {'fontSize', 'fontFamily', 'paddingLeft', 'paddingRight', 'backgroundColor', 'color', 'borderRadius'}
 ID = re.compile(r'(?:I?\d+:\d+)(?:;\d+:\d+)*\Z')
 
 
 def validate_plan(plan):
-    if not isinstance(plan, dict) or plan.get('schema') != 'figma-flow-native-edit-plan-v1':
+    if not isinstance(plan, dict) or plan.get('schema') != PLAN_SCHEMA:
         raise ValueError('Explicit native edit plan schema required')
-    if set(plan) not in ({'schema', 'file_key', 'page_id', 'edits'}, {'schema', 'file_key', 'page_id', 'variableedit'}):
-        raise ValueError('Plan requires exact file/page and either edits or variableedit')
+    if set(plan) not in ({'schema', 'file_key', 'page_id', 'edits'}, {'schema', 'file_key', 'page_id', 'variableedit'}, {'schema', 'file_key', 'page_id', 'specifications'}):
+        raise ValueError('Plan requires exact file/page and one supported edit variant')
     if not isinstance(plan['file_key'], str) or not re.fullmatch(r'[A-Za-z0-9_-]+', plan['file_key']) or not isinstance(plan['page_id'], str) or not ID.fullmatch(plan['page_id']):
         raise ValueError('Exact safe native file/page identity required')
+    if 'specifications' in plan:
+        from specifications import validate_update
+        return validate_update(plan)
     if 'variableedit' in plan:
         row = plan['variableedit']
         if not isinstance(row, dict) or set(row) != {'variable_id', 'mode_id', 'before', 'after'}:
@@ -72,14 +77,22 @@ def prepare(plan_path, out, plugin_id=None):
     if plugin_id and not re.fullmatch(r'\d+', plugin_id):
         raise ValueError('Use the actual assigned numeric plugin ID')
     output = Path(out)
-    output.mkdir(parents=True, exist_ok=False)
+    output.mkdir(parents=True, exist_ok=False, mode=0o700 if 'specifications' in plan else 0o777)
     session = secrets.token_hex(16)
     digest = hashlib.sha256(raw).hexdigest()
     data = dict(file_key=plan['file_key'], page_id=plan['page_id'], allowed_page_ids=[plan['page_id']])
-    rows = plan.get('edits', [plan.get('variableedit')])
+    rows = plan['specifications']['targets'] if 'specifications' in plan else plan.get('edits', [plan.get('variableedit')])
     ui_plan = dict(tokens=[], components=[], collection_id='', graph_sha256=digest)
     # Standard graph panel carries the same read/apply consent protocol; all edits remain in the pinned plan.
     for index, row in enumerate(rows):
+        if 'specifications' in plan:
+            before = (row['before']['specification'] or {}).get('specification', {}).get('display_text', '')
+            matches = [e for e in plan['specifications']['board']['entries'] if e['hyperlink'] == {'type':'NODE','value':row['node_id']}]
+            if len(matches) != 1:
+                raise ValueError('One exact observed board hyperlink per specification target required')
+            entry = matches[0]
+            ui_plan['tokens'].append(dict(key=str(index), root_variable_name=row['after']['title']+' ('+str(index+1)+')', value=row['after']['display_text'], before=before or entry['characters']))
+            continue
         target = (row['node_id'] + '.' + row['field']) if 'node_id' in row else row['variable_id'] + ':' + row['mode_id']
         ui_plan['tokens'].append(dict(key=str(index), root_variable_name=target, value=row['after'], before=row['before']))
     grouped = {}
@@ -87,12 +100,20 @@ def prepare(plan_path, out, plugin_id=None):
         main = row.get('main_id', row['node_id'])
         grouped.setdefault(main, {})[row['field']] = str(len(grouped))
     ui_plan['components'] = [dict(id=main, main_keys=[main], instance_keys=[], properties=fields) for main, fields in grouped.items()]
-    source = (ROOT/'figma-bridge/native_semantic_read.js').read_text()
+    source = spec_label_prelude() + 'var NATIVE_EDIT_PLAN_SCHEMA = ' + json.dumps(PLAN_SCHEMA) + ';\n' + (ROOT/'figma-bridge/native_semantic_read.js').read_text()
     source += '\nconst NATIVE_EDIT_SESSION = ' + json.dumps(session) + ';\nconst NATIVE_EDIT_SHA256 = ' + json.dumps(digest) + ';\nconst NATIVE_EDIT_PLAN = ' + json.dumps(plan, ensure_ascii=True, allow_nan=False) + ';\n'
-    source += (ROOT/'figma-bridge/native_edit.js').read_text()
+    if 'specifications' in plan:
+        for helper in ('native_annotations.js', 'design_note_board.js', 'native_specifications.js'):
+            source += '\n' + (ROOT/'figma-bridge'/helper).read_text()
+    source += '\n' + (ROOT/'figma-bridge/native_edit.js').read_text()
     (output/'code.js').write_text(source)
     (output/'ui.html').write_text(graph_panel('sync', data, ui_plan, session=session))
     (output/'native-edit-plan.json').write_bytes(raw)
+    if 'specifications' in plan:
+        pins = [dict(path=str(Path(plan_path).resolve()), sha256=digest), plan['specifications']['source_graph']]
+        (output/'source-inputs.json').write_text(json.dumps({'schema':'figma-flow-source-pins-v1','pins':pins}, indent=2)+'\n')
+        (output/'source-inputs.json').chmod(0o600)
+        (output/'native-edit-plan.json').chmod(0o600)
     manifest = dict(name='Figma Flow · Scoped native edit', api='1.0.0', main='code.js', ui='ui.html', editorType=['figma'], documentAccess='dynamic-page', networkAccess={'allowedDomains':['none']}, enablePrivatePluginApi=True)
     if plugin_id:
         manifest['id'] = plugin_id

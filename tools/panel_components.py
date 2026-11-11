@@ -3,6 +3,8 @@ from html import escape
 import json
 from pathlib import Path
 
+from plugin_panel import display_name, supported_locales
+
 BRIDGE = Path(__file__).resolve().parents[1] / 'figma-bridge'
 STATUS = {
     'workspace': ('home-status', 'home-status-title', 'home-status-body', 'ready', 'workspace.loading', 'workspace.loadingBody', False),
@@ -16,15 +18,24 @@ ICONS = {
     'history': 'M2 5a6 6 0 1 1 0 6M2 1v4h4M8 4v4l3 2',
     'codex': 'M3 3h10v8H7l-4 3zM6 6h4M6 8h3',
 }
+LOCALE_NAMES = {'ko': '한국어', 'en': 'English', 'ja': '日本語'}
+
+
+def locale_options():
+    return ''.join('<option value="' + escape(code, quote=True) + '">' + escape(LOCALE_NAMES.get(code, code)) + '</option>'
+                   for code in supported_locales())
+
+
+def message(key, locale='ko'):
+    group = key.split('.')[0]
+    return json.loads((BRIDGE / 'locales' / (group + '.json')).read_text(encoding='utf-8'))[key][locale]
 
 
 def localized(tag, key, **attributes):
     attrs = ''.join(' ' + name.replace('_', '-') + '="' + escape(str(value), quote=True) + '"' for name, value in attributes.items())
     if key is None:
         return '<' + tag + attrs + '></' + tag + '>'
-    group = key.split('.')[0]
-    label = json.loads((BRIDGE / 'locales' / (group + '.json')).read_text())[key]['ko']
-    return '<' + tag + attrs + ' data-i18n="' + escape(key, quote=True) + '">' + escape(label) + '</' + tag + '>'
+    return '<' + tag + attrs + ' data-i18n="' + escape(key, quote=True) + '">' + escape(message(key)) + '</' + tag + '>'
 
 
 def navigation():
@@ -32,15 +43,15 @@ def navigation():
     for name, path in ICONS.items():
         icon = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="' + path + '"/></svg>'
         buttons.append('<button id="tab-' + name + '" type="button">' + icon + localized('span', 'workspace.nav.' + name) + '</button>')
-    return '<nav class="panel-nav workspace-tabs" id="workspace-tablist" data-i18n-aria="workspace.nav.label" aria-label="작업 이동" hidden>' + ''.join(buttons) + '</nav>'
+    return '<nav class="panel-nav workspace-tabs" id="workspace-tablist" data-i18n-aria="workspace.nav.label" aria-label="' + escape(message('workspace.nav.label'), quote=True) + '" hidden>' + ''.join(buttons) + '</nav>'
 
 
 def shell():
     language = localized('label', 'workspace.language', **{'for': 'workspace-locale'})
-    return ('<header class="panel-shell masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>Figma Flow</div>'
+    return ('<header class="panel-shell masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>' + escape(display_name()) + '</div>'
             '<span id="context" class="context" hidden></span><div class="workspace-toolbar">' + language +
-            '<select id="workspace-locale" class="panel-input" data-i18n-aria="workspace.language" aria-label="언어">'
-            '<option value="ko">한국어</option><option value="en">English</option><option value="ja">日本語</option></select></div></header>' + navigation())
+            '<select id="workspace-locale" class="panel-input" data-i18n-aria="workspace.language" aria-label="' + escape(message('workspace.language'), quote=True) + '">'
+            + locale_options() + '</select></div></header>' + navigation())
 
 
 def status(view, *, control=False):

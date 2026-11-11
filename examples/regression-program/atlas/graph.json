@@ -1,0 +1,1494 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "CODE-ATLAS",
+      "type": "code",
+      "title": "Atlas Workspace 규칙",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "로컬 모델. Figma 실행 증거가 아니다."
+    },
+    {
+      "id": "TEST-ATLAS",
+      "type": "test",
+      "title": "Atlas Workspace 모델 검사",
+      "status": "planned",
+      "source": "tests/test_regression_program_apps.cjs",
+      "detail": "Node 모델 검사. 브라우저·Figma 합격이 아니다."
+    },
+    {
+      "id": "REQ-ATLAS-01",
+      "type": "requirement",
+      "title": "모의 역할로 작업 공간에 들어간다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/sign-in"
+    },
+    {
+      "id": "SCR-ATLAS-01",
+      "type": "screen",
+      "title": "Atlas 로그인",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/sign-in"
+    },
+    {
+      "id": "STATE-ATLAS-01",
+      "type": "state",
+      "title": "Atlas 로그인 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-01",
+      "type": "acceptance",
+      "title": "Atlas 로그인 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-ATLAS-01",
+      "type": "action",
+      "title": "작업 공간 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/sign-in",
+      "source_screen": "SCR-ATLAS-01",
+      "target_ids": [
+        "SCR-ATLAS-02"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-02",
+      "type": "requirement",
+      "title": "Northwind 작업 공간을 고른다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/workspaces"
+    },
+    {
+      "id": "SCR-ATLAS-02",
+      "type": "screen",
+      "title": "작업 공간 선택",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/workspaces"
+    },
+    {
+      "id": "STATE-ATLAS-02",
+      "type": "state",
+      "title": "작업 공간 선택 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-02",
+      "type": "acceptance",
+      "title": "작업 공간 선택 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-ATLAS-02-LOADING",
+      "type": "state",
+      "title": "작업 공간 선택 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-02-EMPTY",
+      "type": "state",
+      "title": "작업 공간 선택 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-02-ERROR",
+      "type": "state",
+      "title": "작업 공간 선택 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-ATLAS-02",
+      "type": "action",
+      "title": "Northwind 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/workspaces",
+      "source_screen": "SCR-ATLAS-02",
+      "target_ids": [
+        "SCR-ATLAS-03"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-03",
+      "type": "requirement",
+      "title": "오늘 처리할 승인과 할 일을 밀도 높게 보여 준다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/dashboard"
+    },
+    {
+      "id": "SCR-ATLAS-03",
+      "type": "screen",
+      "title": "오늘의 검토",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/dashboard"
+    },
+    {
+      "id": "STATE-ATLAS-03",
+      "type": "state",
+      "title": "오늘의 검토 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-03",
+      "type": "acceptance",
+      "title": "오늘의 검토 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-ATLAS-03-LOADING",
+      "type": "state",
+      "title": "오늘의 검토 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-03-EMPTY",
+      "type": "state",
+      "title": "오늘의 검토 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-03-ERROR",
+      "type": "state",
+      "title": "오늘의 검토 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-ATLAS-03",
+      "type": "action",
+      "title": "승인 대기 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/dashboard",
+      "source_screen": "SCR-ATLAS-03",
+      "target_ids": [
+        "SCR-ATLAS-08"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-04",
+      "type": "requirement",
+      "title": "프로젝트 표를 정렬하고 좁힌다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/projects"
+    },
+    {
+      "id": "SCR-ATLAS-04",
+      "type": "screen",
+      "title": "프로젝트 목록",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/projects"
+    },
+    {
+      "id": "STATE-ATLAS-04",
+      "type": "state",
+      "title": "프로젝트 목록 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-04",
+      "type": "acceptance",
+      "title": "프로젝트 목록 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-ATLAS-04-LOADING",
+      "type": "state",
+      "title": "프로젝트 목록 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-04-EMPTY",
+      "type": "state",
+      "title": "프로젝트 목록 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-04-ERROR",
+      "type": "state",
+      "title": "프로젝트 목록 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-ATLAS-04",
+      "type": "action",
+      "title": "프로젝트 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/projects",
+      "source_screen": "SCR-ATLAS-04",
+      "target_ids": [
+        "SCR-ATLAS-05"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-05",
+      "type": "requirement",
+      "title": "프로젝트의 할 일 수를 보여 준다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/projects/:projectId"
+    },
+    {
+      "id": "SCR-ATLAS-05",
+      "type": "screen",
+      "title": "프로젝트 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/projects/:projectId"
+    },
+    {
+      "id": "STATE-ATLAS-05",
+      "type": "state",
+      "title": "프로젝트 상세 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-05",
+      "type": "acceptance",
+      "title": "프로젝트 상세 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-ATLAS-05-LOADING",
+      "type": "state",
+      "title": "프로젝트 상세 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-05-EMPTY",
+      "type": "state",
+      "title": "프로젝트 상세 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-05-ERROR",
+      "type": "state",
+      "title": "프로젝트 상세 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-ATLAS-05",
+      "type": "action",
+      "title": "보드로 이동",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/projects/:projectId",
+      "source_screen": "SCR-ATLAS-05",
+      "target_ids": [
+        "SCR-ATLAS-06"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-06",
+      "type": "requirement",
+      "title": "칸반이 아니라 상태 열로 할 일을 연다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/projects/:projectId/board"
+    },
+    {
+      "id": "SCR-ATLAS-06",
+      "type": "screen",
+      "title": "작업 보드",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/projects/:projectId/board"
+    },
+    {
+      "id": "STATE-ATLAS-06",
+      "type": "state",
+      "title": "작업 보드 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-06",
+      "type": "acceptance",
+      "title": "작업 보드 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-ATLAS-06",
+      "type": "action",
+      "title": "할 일 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/projects/:projectId/board",
+      "source_screen": "SCR-ATLAS-06",
+      "target_ids": [
+        "SCR-ATLAS-07"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-07",
+      "type": "requirement",
+      "title": "저장 실패 뒤에도 초안을 유지한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/tasks/:taskId"
+    },
+    {
+      "id": "SCR-ATLAS-07",
+      "type": "screen",
+      "title": "할 일 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/tasks/:taskId"
+    },
+    {
+      "id": "STATE-ATLAS-07",
+      "type": "state",
+      "title": "할 일 상세 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-07",
+      "type": "acceptance",
+      "title": "할 일 상세 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-ATLAS-07",
+      "type": "action",
+      "title": "저장",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/tasks/:taskId",
+      "source_screen": "SCR-ATLAS-07",
+      "target_ids": [
+        "STATE-ATLAS-07-SAVED",
+        "STATE-ATLAS-07-ERROR"
+      ]
+    },
+    {
+      "id": "STATE-ATLAS-07-SAVED",
+      "type": "state",
+      "title": "할 일을 저장함",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-07-ERROR",
+      "type": "state",
+      "title": "할 일 저장 실패",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "REQ-ATLAS-08",
+      "type": "requirement",
+      "title": "대기 중인 승인 요청을 보여 준다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/approvals"
+    },
+    {
+      "id": "SCR-ATLAS-08",
+      "type": "screen",
+      "title": "승인 목록",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/approvals"
+    },
+    {
+      "id": "STATE-ATLAS-08",
+      "type": "state",
+      "title": "승인 목록 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-08",
+      "type": "acceptance",
+      "title": "승인 목록 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-ATLAS-08-LOADING",
+      "type": "state",
+      "title": "승인 목록 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-08-EMPTY",
+      "type": "state",
+      "title": "승인 목록 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-08-ERROR",
+      "type": "state",
+      "title": "승인 목록 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-ATLAS-08",
+      "type": "action",
+      "title": "요청 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/approvals",
+      "source_screen": "SCR-ATLAS-08",
+      "target_ids": [
+        "SCR-ATLAS-09"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-09",
+      "type": "requirement",
+      "title": "검토자가 요청을 승인하고 구성원은 읽기 전용이다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/approvals/:approvalId"
+    },
+    {
+      "id": "SCR-ATLAS-09",
+      "type": "screen",
+      "title": "승인 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/approvals/:approvalId"
+    },
+    {
+      "id": "STATE-ATLAS-09",
+      "type": "state",
+      "title": "승인 상세 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-09",
+      "type": "acceptance",
+      "title": "승인 상세 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-ATLAS-09",
+      "type": "action",
+      "title": "승인",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/approvals/:approvalId",
+      "source_screen": "SCR-ATLAS-09",
+      "target_ids": [
+        "SCR-ATLAS-08"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-10",
+      "type": "requirement",
+      "title": "구성원과 현재 역할을 보여 준다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/members"
+    },
+    {
+      "id": "SCR-ATLAS-10",
+      "type": "screen",
+      "title": "구성원",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/members"
+    },
+    {
+      "id": "STATE-ATLAS-10",
+      "type": "state",
+      "title": "구성원 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-10",
+      "type": "acceptance",
+      "title": "구성원 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-ATLAS-10-LOADING",
+      "type": "state",
+      "title": "구성원 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-10-EMPTY",
+      "type": "state",
+      "title": "구성원 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-10-ERROR",
+      "type": "state",
+      "title": "구성원 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-ATLAS-10",
+      "type": "action",
+      "title": "초대",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/members",
+      "source_screen": "SCR-ATLAS-10",
+      "target_ids": [
+        "SCR-ATLAS-11"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-11",
+      "type": "requirement",
+      "title": "초대 대상을 입력한다. 메일은 보내지 않는다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/members/invite"
+    },
+    {
+      "id": "SCR-ATLAS-11",
+      "type": "screen",
+      "title": "구성원 초대",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/members/invite"
+    },
+    {
+      "id": "STATE-ATLAS-11",
+      "type": "state",
+      "title": "구성원 초대 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-11",
+      "type": "acceptance",
+      "title": "구성원 초대 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-ATLAS-11",
+      "type": "action",
+      "title": "초대 보내기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/members/invite",
+      "source_screen": "SCR-ATLAS-11",
+      "target_ids": [
+        "SCR-ATLAS-10"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-12",
+      "type": "requirement",
+      "title": "관리자만 역할 목록을 연다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/roles"
+    },
+    {
+      "id": "SCR-ATLAS-12",
+      "type": "screen",
+      "title": "역할",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/roles"
+    },
+    {
+      "id": "STATE-ATLAS-12",
+      "type": "state",
+      "title": "역할 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-12",
+      "type": "acceptance",
+      "title": "역할 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "STATE-ATLAS-12-LOADING",
+      "type": "state",
+      "title": "역할 로딩",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-12-EMPTY",
+      "type": "state",
+      "title": "역할 빈 결과",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "STATE-ATLAS-12-ERROR",
+      "type": "state",
+      "title": "역할 오류",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "ACT-ATLAS-12",
+      "type": "action",
+      "title": "역할 열기",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/roles",
+      "source_screen": "SCR-ATLAS-12",
+      "target_ids": [
+        "SCR-ATLAS-13"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-13",
+      "type": "requirement",
+      "title": "관리자가 구성원의 역할을 바꾼다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/roles/:roleId"
+    },
+    {
+      "id": "SCR-ATLAS-13",
+      "type": "screen",
+      "title": "역할 상세",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/roles/:roleId"
+    },
+    {
+      "id": "STATE-ATLAS-13",
+      "type": "state",
+      "title": "역할 상세 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-13",
+      "type": "acceptance",
+      "title": "역할 상세 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-ATLAS-13",
+      "type": "action",
+      "title": "역할 저장",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/roles/:roleId",
+      "source_screen": "SCR-ATLAS-13",
+      "target_ids": [
+        "SCR-ATLAS-12"
+      ]
+    },
+    {
+      "id": "REQ-ATLAS-14",
+      "type": "requirement",
+      "title": "표시 밀도를 저장한다.",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "/settings"
+    },
+    {
+      "id": "SCR-ATLAS-14",
+      "type": "screen",
+      "title": "작업 공간 설정",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/settings"
+    },
+    {
+      "id": "STATE-ATLAS-14",
+      "type": "state",
+      "title": "작업 공간 설정 내용",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "AC-ATLAS-14",
+      "type": "acceptance",
+      "title": "작업 공간 설정 경로 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-W01"
+    },
+    {
+      "id": "ACT-ATLAS-14",
+      "type": "action",
+      "title": "표시 저장",
+      "status": "observed",
+      "source": "app/rules.js",
+      "detail": "/settings",
+      "source_screen": "SCR-ATLAS-14",
+      "target_ids": [
+        "STATE-ATLAS-14-SAVED"
+      ]
+    },
+    {
+      "id": "STATE-ATLAS-14-SAVED",
+      "type": "state",
+      "title": "표시를 저장함",
+      "status": "observed",
+      "source": "app/rules.js"
+    },
+    {
+      "id": "REQ-TC-F01",
+      "type": "requirement",
+      "title": "할 일 저장과 복구",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "TC-F01"
+    },
+    {
+      "id": "AC-TC-F01",
+      "type": "acceptance",
+      "title": "할 일 저장과 복구 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-F01"
+    },
+    {
+      "id": "REQ-TC-F02",
+      "type": "requirement",
+      "title": "승인과 역할 제한",
+      "status": "observed",
+      "source": "brief.md",
+      "detail": "TC-F02"
+    },
+    {
+      "id": "AC-TC-F02",
+      "type": "acceptance",
+      "title": "승인과 역할 제한 인수",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "detail": "TC-F02"
+    },
+    {
+      "id": "REF-ATLAS-GOVUK",
+      "type": "reference",
+      "title": "답변 확인 패턴 메모",
+      "status": "observed",
+      "source": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "detail": "텍스트 수집이며 브라우저 렌더가 아니다."
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-ATLAS-01",
+      "to": "SCR-ATLAS-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-01",
+      "to": "AC-ATLAS-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-01",
+      "to": "STATE-ATLAS-01",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-01",
+      "to": "ACT-ATLAS-01",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-01",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-01",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-01",
+      "to": "SCR-ATLAS-02",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-ATLAS-02",
+      "to": "STATE-ATLAS-02-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-02",
+      "to": "STATE-ATLAS-02-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-02",
+      "to": "STATE-ATLAS-02-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-ATLAS-02",
+      "to": "SCR-ATLAS-02",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-02",
+      "to": "AC-ATLAS-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-02",
+      "to": "STATE-ATLAS-02",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-02",
+      "to": "ACT-ATLAS-02",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-02",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-02",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-02",
+      "to": "SCR-ATLAS-03",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-ATLAS-03",
+      "to": "STATE-ATLAS-03-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-03",
+      "to": "STATE-ATLAS-03-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-03",
+      "to": "STATE-ATLAS-03-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-ATLAS-03",
+      "to": "SCR-ATLAS-03",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-03",
+      "to": "AC-ATLAS-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-03",
+      "to": "STATE-ATLAS-03",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-03",
+      "to": "ACT-ATLAS-03",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-03",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-03",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-03",
+      "to": "SCR-ATLAS-08",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-ATLAS-04",
+      "to": "STATE-ATLAS-04-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-04",
+      "to": "STATE-ATLAS-04-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-04",
+      "to": "STATE-ATLAS-04-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-ATLAS-04",
+      "to": "SCR-ATLAS-04",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-04",
+      "to": "AC-ATLAS-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-04",
+      "to": "STATE-ATLAS-04",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-04",
+      "to": "ACT-ATLAS-04",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-04",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-04",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-04",
+      "to": "SCR-ATLAS-05",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-ATLAS-05",
+      "to": "STATE-ATLAS-05-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-05",
+      "to": "STATE-ATLAS-05-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-05",
+      "to": "STATE-ATLAS-05-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-ATLAS-05",
+      "to": "SCR-ATLAS-05",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-05",
+      "to": "AC-ATLAS-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-05",
+      "to": "STATE-ATLAS-05",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-05",
+      "to": "ACT-ATLAS-05",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-05",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-05",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-05",
+      "to": "SCR-ATLAS-06",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-ATLAS-06",
+      "to": "SCR-ATLAS-06",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-06",
+      "to": "AC-ATLAS-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-06",
+      "to": "STATE-ATLAS-06",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-06",
+      "to": "ACT-ATLAS-06",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-06",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-06",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-06",
+      "to": "SCR-ATLAS-07",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-ATLAS-07",
+      "to": "SCR-ATLAS-07",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-07",
+      "to": "AC-ATLAS-07",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-07",
+      "to": "STATE-ATLAS-07",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-07",
+      "to": "ACT-ATLAS-07",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-07",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-07",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-07",
+      "to": "STATE-ATLAS-07-SAVED",
+      "type": "navigates to"
+    },
+    {
+      "from": "ACT-ATLAS-07",
+      "to": "STATE-ATLAS-07-ERROR",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-ATLAS-08",
+      "to": "STATE-ATLAS-08-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-08",
+      "to": "STATE-ATLAS-08-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-08",
+      "to": "STATE-ATLAS-08-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-ATLAS-08",
+      "to": "SCR-ATLAS-08",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-08",
+      "to": "AC-ATLAS-08",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-08",
+      "to": "STATE-ATLAS-08",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-08",
+      "to": "ACT-ATLAS-08",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-08",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-08",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-08",
+      "to": "SCR-ATLAS-09",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-ATLAS-09",
+      "to": "SCR-ATLAS-09",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-09",
+      "to": "AC-ATLAS-09",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-09",
+      "to": "STATE-ATLAS-09",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-09",
+      "to": "ACT-ATLAS-09",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-09",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-09",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-09",
+      "to": "SCR-ATLAS-08",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-ATLAS-10",
+      "to": "STATE-ATLAS-10-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-10",
+      "to": "STATE-ATLAS-10-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-10",
+      "to": "STATE-ATLAS-10-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-ATLAS-10",
+      "to": "SCR-ATLAS-10",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-10",
+      "to": "AC-ATLAS-10",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-10",
+      "to": "STATE-ATLAS-10",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-10",
+      "to": "ACT-ATLAS-10",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-10",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-10",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-10",
+      "to": "SCR-ATLAS-11",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-ATLAS-11",
+      "to": "SCR-ATLAS-11",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-11",
+      "to": "AC-ATLAS-11",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-11",
+      "to": "STATE-ATLAS-11",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-11",
+      "to": "ACT-ATLAS-11",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-11",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-11",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-11",
+      "to": "SCR-ATLAS-10",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-ATLAS-12",
+      "to": "STATE-ATLAS-12-LOADING",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-12",
+      "to": "STATE-ATLAS-12-EMPTY",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-12",
+      "to": "STATE-ATLAS-12-ERROR",
+      "type": "has state"
+    },
+    {
+      "from": "REQ-ATLAS-12",
+      "to": "SCR-ATLAS-12",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-12",
+      "to": "AC-ATLAS-12",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-12",
+      "to": "STATE-ATLAS-12",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-12",
+      "to": "ACT-ATLAS-12",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-12",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-12",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-12",
+      "to": "SCR-ATLAS-13",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-ATLAS-13",
+      "to": "SCR-ATLAS-13",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-13",
+      "to": "AC-ATLAS-13",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-13",
+      "to": "STATE-ATLAS-13",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-13",
+      "to": "ACT-ATLAS-13",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-13",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-13",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-13",
+      "to": "SCR-ATLAS-12",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-ATLAS-14",
+      "to": "SCR-ATLAS-14",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ATLAS-14",
+      "to": "AC-ATLAS-14",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ATLAS-14",
+      "to": "STATE-ATLAS-14",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-ATLAS-14",
+      "to": "ACT-ATLAS-14",
+      "type": "triggers"
+    },
+    {
+      "from": "AC-ATLAS-14",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "SCR-ATLAS-14",
+      "to": "CODE-ATLAS",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ATLAS-14",
+      "to": "STATE-ATLAS-14-SAVED",
+      "type": "navigates to"
+    },
+    {
+      "from": "REQ-TC-F01",
+      "to": "AC-TC-F01",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-TC-F01",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-TC-F01",
+      "to": "SCR-ATLAS-04",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F01",
+      "to": "SCR-ATLAS-05",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F01",
+      "to": "SCR-ATLAS-06",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F01",
+      "to": "SCR-ATLAS-07",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F02",
+      "to": "AC-TC-F02",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-TC-F02",
+      "to": "TEST-ATLAS",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-TC-F02",
+      "to": "SCR-ATLAS-08",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F02",
+      "to": "SCR-ATLAS-09",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-TC-F02",
+      "to": "SCR-ATLAS-13",
+      "type": "appears on"
+    },
+    {
+      "from": "REF-ATLAS-GOVUK",
+      "to": "REQ-ATLAS-09",
+      "type": "informs"
+    }
+  ]
+}

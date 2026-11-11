@@ -34,8 +34,22 @@ LOADED_VERSION = json.loads((Path(__file__).resolve().parents[1] / 'plugin.json'
 LOADED_IMPLEMENTATION = hashlib.sha256(Path(__file__).read_bytes() + b'\0' + Path(workspace.__file__).read_bytes()).hexdigest()
 
 
-def readiness():
+NATIVE_CLIENTS = {}
+
+
+def native_state(root):
+    catalogue = workspace.current(workspace.private_dir(root), repair=False)
+    expected = catalogue.get('runtime')
+    client = NATIVE_CLIENTS.get(str(Path(root).resolve()))
+    observed = client['runtime'] if client and time.time() - client['seen_at'] <= 15 else None
+    return {'expected_native': expected, 'observed_native': observed,
+            'native_status': 'current-self-reported' if expected and expected == observed else 'unverified',
+            'native_action': None if expected and expected == observed else 'Reopen the SAME registered Figma Flow plugin; then wait for its authenticated poll.'}
+
+
+def readiness(root=None):
     return {'schema': SCHEMA, 'protocol': READINESS_PROTOCOL, 'version': LOADED_VERSION,
+            **(native_state(root) if root is not None else {'expected_native': None, 'observed_native': None, 'native_status': 'unverified', 'native_action': 'Reopen the SAME registered Figma Flow plugin; then wait for its authenticated poll.'}),
             'implementation': LOADED_IMPLEMENTATION,
             'operations': {kind: sorted(operations) for kind, operations in OPERATIONS.items()}}
 
@@ -77,6 +91,10 @@ def require_ready(root, key, operation, file_key, page_id, revision, *, focus_pa
         if (not isinstance(capabilities, dict) or not all(isinstance(kind, str) and isinstance(operations, list)
                 and all(isinstance(item, str) for item in operations) for kind, operations in capabilities.items())):
             raise ReadinessError('Control readiness capabilities are malformed' + repair)
+        if operation != 'read' and (value.get('native_status') != 'current-self-reported' or
+                not value.get('expected_native') or value['expected_native'] != value.get('observed_native') or
+                value['expected_native'] != workspace.current(root, repair=False).get('runtime')):
+            raise ReadinessError('Native plugin runtime is stale or unknown; reopen the SAME registered Figma Flow plugin')
         if operation not in capabilities.get(row['kind'], []):
             raise ReadinessError('Control server does not support the requested task kind and operation' + repair)
     except ConnectionRefusedError:
@@ -243,30 +261,43 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
 
 
 def poll(root, payload):
-    if set(payload) != {'session_id', 'file_key', 'page_id'}:
+    if set(payload) not in ({'session_id', 'file_key', 'page_id'}, {'session_id', 'file_key', 'page_id', 'runtime'}):
         raise ValueError('Exact plugin poll fields required')
+    runtime = payload.get('runtime')
+    if runtime is not None and (not isinstance(runtime, dict) or set(runtime) != {'version', 'implementation', 'generation'} or
+            not isinstance(runtime['version'], str) or not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', runtime['version']) or
+            not isinstance(runtime['implementation'], str) or not re.fullmatch(r'[a-f0-9]{64}', runtime['implementation']) or
+            not isinstance(runtime['generation'], str) or not re.fullmatch(r'[a-f0-9]{32}', runtime['generation'])):
+        raise ValueError('Invalid native runtime identity')
     session = identity(payload['session_id'], 'plugin session')
     scope(payload['file_key'], payload['page_id'], '0' * 64)
     with workspace.locked(root) as root:
+        client_key = str(root.resolve())
+        if len(NATIVE_CLIENTS) >= 256 and client_key not in NATIVE_CLIENTS:
+            NATIVE_CLIENTS.pop(next(iter(NATIVE_CLIENTS)))
+        NATIVE_CLIENTS[client_key] = {'runtime': runtime, 'seen_at': time.time()}
+        native = native_state(root)
         directory = state_dir(root)
         request = active(directory)
         if not request or request['state'] != 'pending':
-            return {'operation': None}
+            return {'operation': None, **native}
+        if request['operation'] != 'read' and native['native_status'] != 'current-self-reported':
+            return {'operation': None, **native}
         if request['operation'] != 'read' and uncertainties(directory)['operations']:
             request.update(state='error', error='Previous mutation remains uncertain', completed_at=time.time())
             save(directory, request)
-            return {'operation': None}
+            return {'operation': None, **native}
         if request['file_key'] != payload['file_key'] or request['page_id'] != payload['page_id'] and not request.get('focus_page', False):
-            return {'operation': None}
+            return {'operation': None, **native}
         try:
             task(root, request)
         except ValueError:
             request.update(state='error', error='Prepared task changed before claim', completed_at=time.time())
             save(directory, request)
-            return {'operation': None}
+            return {'operation': None, **native}
         request.update(state='claimed', session_id=session, claim_id=secrets.token_hex(16), claimed_at=time.time())
         save(directory, request)
-        return {'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}}
+        return {**native, 'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}}
 
 
 def result(root, payload):
@@ -372,7 +403,7 @@ class Handler(BaseHTTPRequestHandler):
             if self.path == '/control/readiness':
                 if payload:
                     raise ValueError('Exact empty readiness object required')
-                value = readiness()
+                value = readiness(self.server.workspace)
             else:
                 value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
         except (ValueError, KeyError, TypeError, OSError):

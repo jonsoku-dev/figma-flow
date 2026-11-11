@@ -19,7 +19,7 @@ import sys
 import tempfile
 import uuid
 
-from plugin_panel import render_app
+from plugin_panel import display_name, render_app, supported_locales
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'figma-flow-workspace-v1'
@@ -31,7 +31,7 @@ OPTIONS = {
     'discover': {'--file-key', '--page-id', '--include-page-id'},
     'sync': {'--graph', '--pairing', '--native-readback', '--import-report', '--adopt'},
 }
-PATH_OPTIONS = {'--input', '--selection', '--product-graph', '--batch', '--asset-receipts', '--manifest', '--layout', '--graph', '--pairing', '--native-readback', '--import-report', '--change-request'}
+PATH_OPTIONS = {'--plan', '--input', '--selection', '--product-graph', '--batch', '--asset-receipts', '--manifest', '--layout', '--graph', '--pairing', '--native-readback', '--import-report', '--change-request'}
 
 
 def encode(value):
@@ -147,7 +147,7 @@ def trusted_sources():
     return hasher.hexdigest()
 
 
-def arguments(kind, values):
+def arguments(kind, values, *, create_pair=True):
     result, parsed, pins = [], {}, {}
     index = 0
     while index < len(values):
@@ -175,7 +175,7 @@ def arguments(kind, values):
                 value = str(path.resolve())
                 pins[option] = digest(path.read_bytes())
             elif option == '--pair-dir':
-                value = str(private_dir(value, create=True).resolve())
+                value = str(private_dir(value, create=create_pair).resolve())
             elif option == '--receiver-port':
                 value = str(checked_port(int(value)))
             elif option == '--paired-state':
@@ -341,6 +341,8 @@ def sign_catalogue(workspace, catalogue):
 
 
 def require_idle_publication(workspace):
+    # figma_control imports this module, so the control schema is read at call time.
+    from figma_control import SCHEMA as CONTROL_SCHEMA
     directory = child(workspace, '.control')
     if not directory.exists():
         return
@@ -349,18 +351,18 @@ def require_idle_publication(workspace):
         return
     for path in private_dir(directory).glob('*.json'):
         request = read(path, private=True, limit=32768)
-        if not isinstance(request, dict) or request.get('schema') != 'figma-flow-control-v1':
+        if not isinstance(request, dict) or request.get('schema') != CONTROL_SCHEMA:
             raise ValueError('Invalid private control request')
         if request.get('state') == 'claimed':
             raise ValueError('Workspace publication blocked: wait for current native run to finish; inspect status with figma_control.py status')
 
 
-def current(workspace):
+def current(workspace, *, repair=True):
     identity = read(workspace / 'identity.json', private=True)
     if identity.get('schema') != SCHEMA or not re.fullmatch(r'[0-9]+', str(identity.get('plugin_id', ''))):
         raise ValueError('Unknown workspace identity')
     manifest = read(workspace / 'manifest.json', private=True)
-    if manifest.get('name') != 'Figma Flow' or manifest.get('id') != identity['plugin_id']:
+    if manifest.get('name') != display_name() or manifest.get('id') != identity['plugin_id']:
         raise ValueError('Foreign plugin identity cannot be replaced')
     match = re.fullmatch(r'\.generations/([a-f0-9]{32})/code.js', str(manifest.get('main', '')))
     if not match or manifest.get('ui') != f'.generations/{match[1]}/ui.html':
@@ -371,7 +373,7 @@ def current(workspace):
         raise ValueError('Workspace catalogue signature mismatch')
     if catalogue.get('plugin_id') != identity['plugin_id'] or catalogue.get('generation') != match[1] or catalogue.get('schema') != SCHEMA:
         raise ValueError('Workspace catalogue identity mismatch')
-    if not (workspace / 'catalogue.json').exists() or read(workspace / 'catalogue.json', private=True) != catalogue:
+    if repair and (not (workspace / 'catalogue.json').exists() or read(workspace / 'catalogue.json', private=True) != catalogue):
         require_idle_publication(workspace)
         atomic(workspace / 'catalogue.json', encode(catalogue))
     return catalogue
@@ -386,7 +388,43 @@ def chat_config(workspace):
     return {'url': f'http://localhost:{checked_port(config["port"])}', 'token': config['token']}
 
 
+def check_source_pins(pins):
+    if not isinstance(pins, list) or len(pins) > 256:
+        raise ValueError('Invalid bounded source input pins')
+    seen = set()
+    for pin in pins:
+        if not isinstance(pin, dict) or set(pin) != {'path', 'sha256'}:
+            raise ValueError('Invalid source input pin')
+        path, sha = pin['path'], pin['sha256']
+        if not isinstance(path, str) or not Path(path).is_absolute() or path in seen or not isinstance(sha, str) or not re.fullmatch(r'[a-f0-9]{64}', sha):
+            raise ValueError('Invalid source input path or digest')
+        seen.add(path)
+        if digest(regular(path).read_bytes()) != sha:
+            raise ValueError('Source inputs changed; obtain fresh admission before preparation')
+    return pins
+
+
+def source_inputs(staging):
+    sidecar = staging / 'source-inputs.json'
+    if not sidecar.exists():
+        return []
+    value = read(sidecar, private=True, limit=128 * 1024)
+    if not isinstance(value, dict) or set(value) != {'schema', 'pins'} or value['schema'] != 'figma-flow-source-pins-v1':
+        raise ValueError('Invalid generator source input sidecar')
+    return check_source_pins(value['pins'])
+
+
+def runtime_info(catalogue):
+    return {'version': read(ROOT / 'plugin.json')['version'],
+            'implementation': trusted_sources(), 'generation': catalogue['generation']}
+
+
 def task_artifacts(workspace, task):
+    check_source_pins(task.get('source_input_pins', []))
+    if 'generator_args' in task:
+        _, _, pins = arguments(task['kind'], task['generator_args'], create_pair=False)
+        if pins != task.get('input_pins'):
+            raise ValueError('Prepared task inputs changed; obtain fresh admission')
     relative = task['artifact_dir']
     if not re.fullmatch(r'\.tasks/[a-f0-9]{32}', relative):
         raise ValueError('Task artifact path escapes the private catalogue')
@@ -440,6 +478,7 @@ def task_surface(kind, code, original_html, *, shared=False):
 def publish(workspace, catalogue):
     require_idle_publication(workspace)
     generation = uuid.uuid4().hex
+    runtime = runtime_info({'generation': generation})
     folder = child(workspace, '.generations/' + generation)
     folder.mkdir(mode=0o700)
     tasks, domains = [], set()
@@ -463,7 +502,11 @@ def publish(workspace, catalogue):
     if len(domains) > 8:
         raise ValueError('Workspace exceeds its exact localhost origin limit')
     bridge = ROOT / 'figma-bridge'
-    code = 'const FLOW_TASKS = [' + ',\n'.join(tasks) + '];\n'
+    code = 'const WORKSPACE_RUNTIME = ' + json.dumps(runtime) + ';\n'
+    chat_catalog = json.loads((bridge / 'locales/chat.json').read_text(encoding='utf-8'))
+    code += 'const FLOW_LOCALES = ' + json.dumps(list(supported_locales()), ensure_ascii=True) + ';\n'
+    code += 'const FLOW_CHAT_DUPLICATE = ' + json.dumps(chat_catalog['chat.duplicate']['ko'], ensure_ascii=False) + ';\n'
+    code += 'const FLOW_TASKS = [' + ',\n'.join(tasks) + '];\n'
     assets = bridge / 'assets'
     react_js = re.sub(r'</script', lambda _match: r'<\/script', (assets / 'panels.js').read_text(), flags=re.I)
     code += 'const packagedReact = ' + json.dumps(react_js) + ';\n'
@@ -473,11 +516,13 @@ def publish(workspace, catalogue):
     code += 'const WORKSPACE_CHAT_CONFIG = ' + json.dumps(relay, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_UI = workspaceAppHtml(' + json.dumps(render_app('chat', chat_context=True, shared=True), ensure_ascii=True) + ');\n'
     code += (bridge / 'workspace_chat.js').read_text() + '\n' + (bridge / 'workspace_control.js').read_text() + '\n' + (bridge / 'workspace_host.js').read_text()
+    if runtime['implementation'] != trusted_sources():
+        raise ValueError('Trusted runtime sources changed during publication; retry')
     atomic(folder / 'code.js', code.encode())
     atomic(folder / 'ui.html', render_app('workspace').encode())
-    result = sign_catalogue(workspace, {**catalogue, 'generation': generation})
+    result = sign_catalogue(workspace, {**catalogue, 'generation': generation, 'runtime': runtime})
     atomic(folder / 'catalogue.json', encode(result))
-    manifest = {'name': 'Figma Flow', 'id': catalogue['plugin_id'], 'api': '1.0.0',
+    manifest = {'name': display_name(), 'id': catalogue['plugin_id'], 'api': '1.0.0',
         'main': f'.generations/{generation}/code.js', 'ui': f'.generations/{generation}/ui.html',
         'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'enablePrivatePluginApi': True,
         'networkAccess': {'allowedDomains': ['none']}}
@@ -523,12 +568,12 @@ def init(workspace, id_from, chat_port=None):
         return {'manifest': str(workspace / 'manifest.json'), 'plugin_id': assigned, 'tasks': len(catalogue['tasks'])}
 
 
-def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None):
+def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True):
     if not re.fullmatch(r'[a-z][a-z0-9]*(?:-[a-z0-9]+)*', key) or len(key) > 64:
         raise ValueError('Task keys must be lowercase readable kebab names, at most 64 characters')
     title = label(title, 'task title', 160)
     project = label(project, 'project label', 120) if project else ''
-    thread_id = thread_identity(thread_id)
+    thread_id = thread_identity(thread_id) if thread_id is not None or infer_thread else None
     if kind not in OPTIONS:
         raise ValueError('Unknown trusted task kind')
     args, options, pins = arguments(kind, generator_args)
@@ -546,7 +591,10 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
             bundle, file_key, page_id, domains, source_sha = generate(kind, args, options, staging, catalogue['plugin_id'])
             if before != trusted_sources():
                 raise ValueError('Trusted generator sources changed during preparation; retry')
-            revision = digest(encode({'request': request_sha, 'source': source_sha, 'generators': before}))
+            nested_pins = source_inputs(staging)
+            if arguments(kind, args, create_pair=False)[2] != pins:
+                raise ValueError('Source inputs changed during preparation')
+            revision = digest(encode({'request': request_sha, 'source': source_sha, 'generators': before, 'source_inputs': nested_pins}))
             if previous and replace_expected is None:
                 if previous['revision'] != revision:
                     raise ValueError('Task key already exists with different inputs; use --replace-expected')
@@ -558,6 +606,7 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
             relative = '.tasks/' + artifact_id
             bundle_relative = str(bundle.relative_to(staging)) or '.'
             task = {'key': key, 'title': title, 'project': project, 'kind': kind,
+                'generator_args': args, 'input_pins': pins, 'source_input_pins': nested_pins, 'generator_sha256': before,
                 'threadId': thread_id, 'fileKey': file_key, 'pageId': page_id,
                 'revision': revision, 'request_sha256': request_sha, 'artifact_dir': relative, 'bundle_relative': bundle_relative,
                 'domains': domains, 'artifact_hashes': {name: digest((bundle / name).read_bytes()) for name in ('code.js', 'ui.html', 'manifest.json')}}
@@ -570,6 +619,20 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
             return {'key': key, 'revision': revision, 'unchanged': False, 'manifest': str(workspace / 'manifest.json'),
                 'generation': result['generation'], 'artifacts': str(artifact_root),
                 'web_module': str(artifact_root / 'web-module.mjs') if kind == 'sync' else None}
+
+
+def replay(workspace, key, expected_revision):
+    with locked(workspace) as root:
+        catalogue = current(root)
+        row = next((row for row in catalogue['tasks'] if row['key'] == key), None)
+        if not row or row['revision'] != expected_revision:
+            raise ValueError('Stale task revision; list the workspace before replay')
+        if 'generator_args' not in row or 'input_pins' not in row:
+            raise ValueError('Legacy task has no replay arguments; prepare with original admission')
+        task_artifacts(root, row)
+        args = row['generator_args']
+    return prepare(workspace, key, row['title'], row['kind'], args,
+                   row.get('project'), row.get('threadId'), expected_revision, infer_thread=False)
 
 
 def list_tasks(workspace):
@@ -594,6 +657,9 @@ def main(argv=None):
     build.add_argument('--replace-expected')
     refresh = commands.add_parser('refresh', allow_abbrev=False)
     refresh.add_argument('--workspace', required=True)
+    replaying = commands.add_parser('replay', allow_abbrev=False)
+    for option in ('workspace', 'key', 'expected-revision'):
+        replaying.add_argument('--' + option, required=True)
     listing = commands.add_parser('list', allow_abbrev=False)
     listing.add_argument('--workspace', required=True)
     values = list(sys.argv[1:] if argv is None else argv)
@@ -613,6 +679,10 @@ def main(argv=None):
             with locked(args.workspace) as root:
                 updated = publish(root, current(root))
                 result = {'manifest': str(root / 'manifest.json'), 'generation': updated['generation'], 'tasks': len(updated['tasks'])}
+        elif args.command == 'replay':
+            if separator != len(values):
+                raise ValueError('replay does not accept new generator arguments')
+            result = replay(args.workspace, args.key, args.expected_revision)
         elif args.command == 'prepare':
             if separator == len(values):
                 raise ValueError('prepare requires literal -- before trusted generator flags')

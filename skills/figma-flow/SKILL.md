@@ -7,6 +7,12 @@ description: Turn any idea or brief into a canonical requirement/screen/acceptan
 
 Maintain one canonical JSON graph with stable semantic IDs. The graph owns relationships; explicitly selected sources own each fact. Screen specifications and rendered views refer to graph IDs. A graph or hash check supports review rather than proving product behavior.
 
+## 시작할 때 최신 실행본 확인
+
+작업 시작마다 실제 설치 루트의 `tools/plugin_startup.py ensure`로 Codex 패키지와 Figma 실행 파일을 확인한다. Figma 작업이 허용된 경우만 `--figma-access allowed --workspace 실제_작업공간`을 전달하고, 로컬·텍스트 전용 또는 Figma 접근 금지 요청에는 `--figma-access forbidden`을 사용한다. 금지 분기에서는 Figma 연결·파일 갱신·재로드를 실행하지 않는다. 읽기 전용 점검은 `check`를 사용한다.
+
+업데이트 원본은 현재 등록된 Git 소스나 기존의 신뢰한 출처 기록을 따른다. 로컬 스냅샷의 출처가 없으면 임의 upstream을 추정하지 않는다. `--source`와 `--authority`는 실제 설치 요청·검증된 출처가 있을 때만 지정한다. 같은 이름의 사내 복제본을 공개 저장소로 교체하지 않는다. 업데이트가 성공하면 반환된 실제 설치 경로에서 다음 명령을 실행한다. 버전 고정·개발 변경·오프라인·실행 중 작업·입력 변경·접근 금지 등의 예외는 이유를 기록하고 독립적인 허용 작업을 계속한다. 파일 최신화와 실제 로드된 Figma 버전은 구분하며, 필요한 같은 플러그인의 재실행을 숨겨서 자동화하지 않는다. [업데이트 계약](../../docs/guide.md#automatic-startup).
+
 ## Figma 작업공간 기본 경로
 
 Figma가 작업 목적지이면 하나의 등록된 **Figma Flow 작업공간**을 기본으로 사용한다. [설치·작업 목록 가이드](../../docs/guide.md)를 읽고 기존 workspace manifest·실제 Figma 발급 ID·등록 경로를 먼저 확인한다. 최초 연결·업데이트가 필요하면 `figma-plugin-setup`으로 이어간다. 명시적 Local HTML only 요청은 해당 로컬 경로를 유지한다.
@@ -43,11 +49,11 @@ Figma가 작업 목적지이면 하나의 등록된 **Figma Flow 작업공간**�
 
 새 UI 후보 작성·기존 화면 리디자인·완성 화면 비평에는 내장 [Unslop 절차](references/unslop.md)를 읽고 적용한다. 브라우저를 열거나 Playwright 호환 API로 확인할 때는 [허용 호스트·오리진 등록](references/browser-access.md)을 먼저 마친다. 작업 대상과 실제 로컬 URL이 늘면 등록·적용 확인 후 계속한다.
 
-새 UI·캠페인 제작과 리디자인은 [시안 검토 및 사용자 선택](references/direction-selection.md)으로 시작한다. 로컬 제작과 Figma 제작에 같은 순서를 적용한다. 원본 스킬을 읽고 참조 사례를 확인한 다음, 같은 목적·문구·주 행동을 가진 비교 시안 2~3개를 제안한다. 각 안에는 데스크톱·모바일 화면, 실제 요소로 연결되는 계획 주석, 제안 토큰과 컴포넌트 샘플을 둔다. 서체 견본은 시안의 일부다.
+새 UI·캠페인 제작과 리디자인은 [요청 방향과 검토 계약](references/direction-selection.md)으로 시작한다. 사용자가 구체적인 방향·참조를 지정하거나 한 안으로 진행하라고 했으면 `direct` 한 안을 작성한다. 비교를 요청했거나 방향 선택이 실제로 필요한 경우에는 `compare` 2~3개 안을 작성한다. 모호하면 먼저 기존 제품·브리프·디자인 시스템을 조사하며 표면 종류만으로 장르를 고정하지 않는다. 정상 작성은 라우터가 해결한 명시적 `--mode direct|compare`를 사용한다. mode 없는 경로는 과거 자료의 호환 경로이며 최신 품질 검토로 간주하지 않는다. 각 안에는 데스크톱·모바일 화면, 실제 요소로 연결되는 스펙, 제안 토큰·컴포넌트와 서체 표본을 둔다.
 
-코드로 후보 파일과 그래프를 검사하고, 에이전트가 시각적 차이·사용성·한계를 실제 결과물에서 평가한다. Figma가 목적지이면 시안 단계부터 Figma 데스크톱의 로컬 플러그인으로 별도 검토 페이지를 만든다. 실제 화면·버튼에 붙은 주석과 같은 내용을 읽고 원본 요소로 이동할 수 있는 일반 디자인 캔버스의 주석 보드, 메인 컴포넌트·가시적인 팔레트·변수 연결, 클릭의 정확한 목적지와 복귀 경로를 원본에서 다시 읽어 검증한 뒤 그 페이지를 제시한다. 비교 이미지와 서버 없이 열 수 있는 검토 HTML도 함께 제공한다. 사용자가 볼 수 없었다면 선택은 성립하지 않는다. 프로그램이 발행한 현재 후보 ID와 버전을 보여준 뒤 실제 사용자 답변을 기다린다. 캠페인 유형 선택이나 “계속해”는 특정 시안에 대한 동의가 아니다.
+코드로 파일과 그래프를 검사하고, 실제 결과물에서 위계·타이포·내용·반응형·상호작용을 비평해 수정한다. 새 모드의 비평은 현재 원본·미리보기 해시에 연결된 구체적인 위치와 판단, 남은 경고별 사유를 포함한다. 구조·대비 검사, 영수증, Pillow 데모는 시각 품질 인증이 아니다. 접근이 금지된 표면은 열지 않고 해당 관측을 미검증으로 남긴다. Figma 전달이 허용되면 실제 편집 노드·스펙 보드·변수·연결과 복귀 경로를 읽어 대조한다. `compare`는 실제 자료 제시 이후의 특정 후보 선택을 기다린다. `direct`는 현재 단일안과 원래의 구체적 관리 사용자 지시를 `admit-direct`로 연결하며 비교 선택을 꾸며내지 않는다. 정책 문장·일반적인 “계속해”와 자체 작성 승인 파일은 직접 제작 권한이 아니다.
 
-시안의 `source.py`·`native-layout.json`을 작성할 때는 [시안 시각 품질 요구사항](references/visual-quality.md)을 따른다. 진입 화면마다 시각적 중심(탐색용 이미지 자산, 일러스트, 원·라운드 도형 구성)을 두고, text가 아닌 모든 레이어에 `role`을 선언하며, 의미 없는 장식 막대를 쓰지 않는다. 0.17.0의 `ellipse`·`radius`·`stroke`·`stroke_width`·`opacity`를 사용한다. 검토 패키지를 준비하기 전에 **자기 비평 루프는 필수 단계다.** 미리보기를 렌더해 직접 보고, `python3 tools/design_quality.py --layout ...`(또는 `python3 tools/design_actions.py quality --manifest ...`)와 체크리스트로 확인한 뒤 고친다. 오류는 모두 고치고, 남은 경고는 0개가 되거나 경고마다 사유를 해당 시안의 검토 메모에 적은 다음에만 작업공간의 `prepare --kind review`로 넘어간다. 내부 검토 생성기는 같은 관문 오류가 있으면 패킷을 만들지 않는다. 관문 통과는 결함이 없다는 뜻일 뿐 디자인 품질이나 사용자 선택을 증명하지 않는다.
+시안의 `source.py`·`native-layout.json`은 [시각 품질 요구사항](references/visual-quality.md)을 따른다. 먼저 실제 콘텐츠와 주 행동의 위계를 설계한다. 이미지·장식은 제품 목적과 브리프가 요구할 때 사용하며 유틸리티 화면에 검사 통과용 히어로나 도형을 넣지 않는다. text 이외의 레이어에는 역할을 선언한다. 자기 비평은 실제 원본과 미리보기의 위치에 연결하고, 오류는 수정하며 휴리스틱 경고는 구체적인 수정·수용 근거를 남긴다. 볼 수 없는 상태를 비평 완료로 기록하지 않는다. 구조 검사 통과는 실제 시각 품질이나 사용자 방향 수용을 증명하지 않는다.
 
 그 선택을 검증한 후에만 에셋 배치 고정, 이미지 생성 요청, 본 제작용 Figma 번들 제작, UI 구현으로 이동한다. 명령은 입력과 현재 선택을 쓰기 전에 다시 검사한다. 자료 조사·초안 비교·기존 원본 열람은 각 범위의 결과만 보고한다. 정상 이용자는 Figma의 일반 디자인 모드에서 로컬 플러그인을 실행하고 결과를 저장한다. 검토·제작·전달에 Dev Mode, 유료 업그레이드, 훅 또는 Computer Use를 요구하지 않는다. 개발자가 GUI 사용을 승인받아 프레젠테이션을 직접 검증하는 일은 별도이며, 자동 읽기 결과만으로 실제 시연을 했다고 보고하지 않는다.
 
@@ -103,6 +109,12 @@ Figma가 작업 목적지이면 하나의 등록된 **Figma Flow 작업공간**�
 5. **Run the local gates.** Execute `graph.py validate GRAPH --strict-local`; resolve its errors rather than treating warnings from ordinary validation as a completion gate. Use the same flag with `graph.py render GRAPH --strict-local --out-dir NEW_DIRECTORY`. Bind the actual brief/spec/code/evidence files. For a project without a baseline, use the plugin-root `tools/check_project.py --init --brief BRIEF --graph GRAPH --bindings BINDINGS --out NEW_DIRECTORY` to validate declared coverage and create a local-only manifest, reports and `baseline-graph.json`. Otherwise use `ssot.py snapshot ... --scope local-only` followed by `ssot.py check MANIFEST` as appropriate for the existing chain. Save the check JSON and generate the offline viewer with `trace_report.py GRAPH --check CHECK_JSON --out NEW_FILE.html`. Read results and record exit codes. For frontend creation/redesign, bind actual design_review evidence and run the creative gate; missing whole review is blocked by default. For every Figma-backed graph or visual authority, include bindings.native_handoff and use tools/check_project.py for both initialization and subsequent checks; direct ssot.py freshness alone cannot close the native gate. Finish when declared coverage and freshness pass and required native_handoff_status is passed, or report specific remaining blockers. A source reference alone does not prove evidence content.
 
 디자인이 포함되면 같은 의미 ID를 원본 디자인·그래프·화면 명세와 가져오기 결과에 유지한다. `design_bundle.py --design FILE --graph GRAPH --selection VERIFIED_SELECTION --out NEW_DIR`는 미리보기·SVG·개발 플러그인과 `design-graph.json`을 생성한다. 원본 입력은 보존하고 투영 그래프에서 토큰 → 컴포넌트 → 화면/액션 의존성을 읽는다. 번들은 `pending_native_handoff`이며 실제 가져오기·현재 파일 재읽기와 필수 네이티브 전달 게이트 통과가 있어야 해당 범위의 Figma 전달을 완료로 주장한다. 키트 생성과 시뮬레이션 테스트만 있으면 로컬 산출물로 보고한다. Codex 모델 토큰 사용과 Figma MCP 사용을 구분하고, Figma 좌석·편집 권한·AI 크레딧을 보장하지 않는다.
+
+## Graph 의미에서 사람용 스펙으로 전달
+
+기존 `annotation`과 graph 관계를 재사용한다. 새 `direct`/`compare` 전달 전 requirement → screen/action → acceptance → test 연결을 확인하며 외부 브리프·명세가 사실 정본이면 위치·버전을 명시한다. `tools/specifications.py export --graph GRAPH --out NEW_DIR`는 같은 의미로 화면 명세를 투영한다. 목적·실제 조건·동작·결과·필요한 제한만 원문에서 가져오며 없는 기능을 만들지 않는다.
+
+기술 키·해시·소유권·원래 주석은 private 메타데이터로 보존한다. 실제 화면·버튼에는 graph의 짧은 `summary`와 전체 스펙 링크를 가진 사람용 네이티브 어노테이션을 붙인다. 전체 설명은 화면 밖 보드에서 목적·조건·동작·결과·예외와 복구·사용 순서·`platform_scope`를 구분하고 정확한 대상으로 돌아가는 링크를 둔다. 원본에 없는 항목은 만들지 않는다. `specification_locale`은 실제 브리프의 언어를 따른다. 전역 주석 표시를 API로 숨길 수 있다고 약속하지 않는다. 기존 문서는 정확한 getter 스냅샷으로 `specifications.py plan`을 준비한 후 기존 `native-edit` 경로로 갱신하고 새 getter로 `verify`한다. 이 작업도 현재 Figma 접근이 허용된 경우에만 실행한다. graph·revision·대상 ID·어노테이션·보드 본문과 양방향 링크가 다르면 실패 또는 미검증이며 과거 getter로 최신 성공을 주장하지 않는다. [상세 절차와 API 제약](../../docs/guide.md#readable-specifications), [등록된 요구사항](../../specs/README.md).
 
 ## Authority and changes
 

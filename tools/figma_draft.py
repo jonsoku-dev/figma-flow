@@ -21,6 +21,7 @@ if str(TOOLS) not in sys.path: sys.path.insert(0,str(TOOLS))
 from embedded_assets import embedded_asset_warnings
 from plugin_panel import render_panel
 import annotation_contract
+from specification_contract import spec_label_prelude
 from draft_foundation_audit import audit_draft_foundations
 from draft_token_plan import foundation_bindings
 import design_directions
@@ -32,6 +33,12 @@ PRIVATE=Path.home()/'Library/Application Support/Figma Flow/night-editions'
 
 
 def sha(raw): return hashlib.sha256(raw).hexdigest()
+def review_plugin_code(packet_json, helpers, review_source):
+    """Keep const DRAFT first so workspace review parsing can raw-decode the packet."""
+    production = ('var FLOW_PRODUCTION_SCHEMA = ' + json.dumps(PRODUCTION_SCHEMA) + ';\n'
+                  'var FLOW_PRODUCTION_READBACK = ' + json.dumps(PRODUCTION_READBACK) + ';\n')
+    return 'const DRAFT=' + packet_json + ';\n' + spec_label_prelude() + production + helpers + '\n' + review_source
+
 def canonical_sha(value): return sha(json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode())
 def now(): return datetime.now(timezone.utc).isoformat()
 def write_json(path,value): path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value,ensure_ascii=False,indent=2))
@@ -40,8 +47,9 @@ def write_json(path,value): path.parent.mkdir(parents=True,exist_ok=True);path.w
 def checked_review(manifest):
     result=design_directions.validate_draft(Path(manifest),require_native_review=False)
     data=result['data']
-    if data.get('scope')!='exploratory-only' or not 2<=len(data['candidates'])<=3:
-        raise ValueError('Two or three checked exploratory candidates required')
+    counts = (1,) if data.get('mode') == 'direct' else (2, 3)
+    if data.get('scope')!='exploratory-only' or len(data['candidates']) not in counts:
+        raise ValueError('Checked exploratory candidate count differs from the requested direction mode')
     for candidate in data['candidates']:
         for field in ('source','review','product_graph'):
             design_directions.current(candidate[field])
@@ -478,7 +486,7 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
     if not selected and layout_path!=pinned_layout:raise ValueError('Explicit layout differs from immutable reviewed layout pin')
     if root not in layout_path.parents: raise ValueError('Authored layout must belong to the reviewed project')
     authored=json.loads(layout_path.read_text());layout_hash=sha(layout_path.read_bytes())
-    if not selected and (authored.get('schema')!='figma-flow-authored-native-layout-v1'or authored.get('scope')!='exploratory-only'):raise ValueError('Explicit exploratory native layout required')
+    if not selected and (authored.get('schema')!=design_quality.LAYOUT_SCHEMA or authored.get('scope')!='exploratory-only'):raise ValueError('Explicit exploratory native layout required')
     provenance = graph_pin = request_pin = None
     if selected:
         provenance, graph_pin, request_pin = _selected_production_inputs(selected, reviewed, authored, layout_path, product_graph, change_request)
@@ -555,6 +563,12 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
             if len(names)!=1:raise ValueError('Exact labeled raster reference required')
             refs[preview['viewport']]=names[0]
         c={**source,'id':candidate['id'],'title':candidate['title'],'sha256':candidate['sha256'],'graph':graph,'notes':notes,'action_notes':action_notes,'action_labels':{node['id']:node['title']for node in graph['nodes']if node['type']=='action'},'foundations':foundations,'colors':colors,'prototype':prototype,'entry_state':entry,'references':refs}
+        if data.get('mode') in ('direct', 'compare'):
+            from specification_contract import derive_specifications
+            specifications = derive_specifications(graph, source_graph_sha256=candidate['product_graph']['sha256'])
+            if any(spec['trace']['status'] != 'complete' for spec in specifications):
+                raise ValueError('Readable specifications need current graph requirement, acceptance and test links before native preparation')
+            c['specifications'] = {spec['id']: spec for spec in specifications}
         c['foundationBindings'] = foundation_bindings(source, graph)
         candidates.append(c)
     used_assets = None
@@ -1116,7 +1130,7 @@ def _attested_review_packet(manifest_path, raw):
         raise ValueError('Historical snapshot must be an original exploratory review packet')
     if original['importer_sha256'] != canonical_sha({name:sha(value) for name,value in sources.items()}):
         raise ValueError('Historical renderer implementation digest differs from exact archived sources')
-    code = 'const DRAFT=' + json.dumps(original, ensure_ascii=False) + ';\n' + '\n'.join(sources[name].decode() for name in HELPERS) + '\n' + sources['direction_review.js'].decode()
+    code = review_plugin_code(json.dumps(original, ensure_ascii=False), '\n'.join(sources[name].decode() for name in HELPERS), sources['direction_review.js'].decode())
     if design_directions.current(snapshot['code']).read_bytes() != code.encode():
         raise ValueError('Historical generated code does not exactly contain its attested packet and sources')
     instance = canonical_sha({'packet':original['packet_sha256'],'layout':original['layout_sha256'],'fileKey':original['fileKey'],'importer':original['importer_sha256']})
@@ -1212,12 +1226,15 @@ def _verify_native_packet(packet,readback_path):
                             for stop,expected in zip(paint['gradientStops'],layer['stops']):
                                 rgb_value={k:int(expected['color'][offset:offset+2],16)/255 for k,offset in [('r',1),('g',3),('b',5)]};rgb_value['a']=expected['opacity']
                                 if abs(stop['position']-expected['position'])>.0001 or any(abs(stop['color'][k]-v)>.0001 for k,v in rgb_value.items()):raise ValueError('Native gradient differs from authored source stops')
-                    check_note(node,notes[state['screen']]);report['screens'].append({'key':key,'id':node['id'],'viewport':viewport,'state':state['id']})
+                    note = notes[state['screen']]
+                    spec = candidate['specifications'][note['id']] if 'specifications' in candidate else None
+                    check_note(node,note,spec,packet['instance_sha256'],raw);report['screens'].append({'key':key,'id':node['id'],'viewport':viewport,'state':state['id']})
                 for edge in [e for e in candidate['prototype']['bindings']if e['viewport']==viewport]:
                     src=f"{candidate['id']}.{viewport}.{edge['source_state']}";target=keyed[f"{candidate['id']}.{viewport}.{edge['target_state']}"]
                     node=keyed.get(src+'.'+edge['control_id']);note=candidate['action_notes'][edge['action']+'|'+edge['control_id']]
                     if not node or node.get('type')!='INSTANCE' or nodes.get(node.get('mainComponentId'),{}).get('type')!='COMPONENT': raise ValueError('Real reusable control missing')
-                    check_note(node,note);report['annotation_checks'].append({'key':node['semanticKey'],'action':edge['action'],'states':note['functional_states']})
+                    spec = candidate['specifications'][note['id']] if 'specifications' in candidate else None
+                    check_note(node,note,spec,packet['instance_sha256'],raw);report['annotation_checks'].append({'key':node['semanticKey'],'action':edge['action'],'states':note['functional_states']})
                     actions=[a for r in node.get('reactions',[])for a in r.get('actions',[])if r.get('trigger',{}).get('type')=='ON_CLICK']
                     if not any(a.get('type')=='NODE'and a.get('navigation')=='NAVIGATE'and a.get('destinationId')==target['id']for a in actions): raise ValueError('Exact native click destination missing: '+node['semanticKey'])
                     item={'source':node['id'],'destination':target['id'],'action':edge['action']};report['prototype_checks'].append(item)
@@ -1230,6 +1247,18 @@ def _verify_native_packet(packet,readback_path):
             note_board=raw.get('noteFrames',{}).get(candidate['id'],{})
             board_node=nodes.get(note_board.get('boardId'),{})
             if board_node.get('type')!='FRAME'or board_node.get('visible')is False or board_node.get('layoutMode')!='VERTICAL':raise ValueError('Ordinary Design-mode note board missing')
+            if 'specifications' in candidate:
+                box = _native_box(board_node)
+                if box is None:
+                    raise ValueError('Readable specification board bounds unavailable')
+                for other in packet['candidates']:
+                    for viewport in ('desktop', 'mobile'):
+                        for state in other['prototype']['states']:
+                            art = _native_box(keyed.get(f"{other['id']}.{viewport}.{state['id']}"))
+                            if art is None:
+                                raise ValueError('Artwork bounds unavailable for specification placement')
+                            if box[0] < art[0] + art[2] and art[0] < box[0] + box[2] and box[1] < art[1] + art[3] and art[1] < box[1] + box[3]:
+                                raise ValueError('Readable specification board overlaps artwork')
             entries={entry['targetId']:entry for entry in note_board.get('entries',[])}
             targets=[]
             for viewport in ('desktop','mobile'):
@@ -1238,8 +1267,13 @@ def _verify_native_packet(packet,readback_path):
             for target,note in targets:
                 entry=entries.get(target['id'],{});text=nodes.get(entry.get('textNodeId'),{})
                 if text.get('type')!='TEXT'or text.get('visible')is False or text.get('fontSize',0)<14 or text.get('parentId')!=board_node['id']:raise ValueError('Readable ordinary Design note text missing')
-                for field in ('purpose','behavior','result','journey','action'):
-                    if note.get(field)and note[field]not in text.get('characters',''):raise ValueError('Visible Design note omits source meaning')
+                if 'specifications' in candidate:
+                    spec = candidate['specifications'][note['id']]
+                    if text.get('characters') != spec['title'] + '\n' + spec['display_text']:
+                        raise ValueError('Visible Design specification differs from current graph meaning')
+                else:
+                    for field in ('purpose','behavior','result','journey','action'):
+                        if note.get(field)and note[field]not in text.get('characters',''):raise ValueError('Visible Design note omits source meaning')
                 link=text.get('hyperlink')
                 if not isinstance(link,dict)or link.get('type')!='NODE'or link.get('value')!=target['id']:raise ValueError('Actual same-file Design target hyperlink missing')
                 if text.get('y',0)+text.get('height',0)>board_node.get('height',0)-board_node.get('paddingBottom',0)+1:raise ValueError('Ordinary note board clips readable text')
@@ -1294,7 +1328,23 @@ def verify_native_production(packet_path,readback_path):
         return {'passed':False,'scope':'selected-production','production_admitted':True,'errors':[str(error)]}
 
 
-def check_note(node,note):
+def check_note(node,note,specification=None,owner_hash=None,readback=None):
+    if specification is not None:
+        from specification_contract import validate_specification, connected_board_reference
+        from native_handoff import normalize
+        current = readback or {'nodes': [node]}
+        observed_nodes, parents = normalize(current)
+        board_ref = connected_board_reference(observed_nodes, parents, node['id'], specification,
+            page_id=current.get('pageId'), source_owner_hash=owner_hash)
+        report = validate_specification(specification, node.get('specification'), native_id=node['id'],
+            semantic_key=node.get('semanticKey'), source_owner_hash=owner_hash,
+            annotations=node.get('annotations'), file_key=current.get('fileKey'), board_ref=board_ref)
+        if not report['passed']:
+            raise ValueError('Canonical readable specification differs: ' + '; '.join(report['errors'] + report['unverified']))
+        prefix = '[figma-flow:' + node.get('semanticKey', '') + '] '
+        if any(item.get('label', '').startswith(prefix) for item in node.get('annotations', [])):
+            raise ValueError('Owned technical annotation still overlays its artwork target')
+        return
     text='\n'.join(a.get('label','')for a in node.get('annotations',[]))
     for field in('purpose','behavior','result','journey','first_action','action'):
         if note.get(field)and note[field]not in text:raise ValueError('Canonical native annotation field missing: '+field)
@@ -1323,7 +1373,7 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
     helpers='\n'.join((PLUGIN/'figma-bridge'/name).read_text()for name in HELPERS)
     payload_json = json.dumps(packet, ensure_ascii=False)
     warnings = embedded_asset_warnings(payload_json, packet['assets'].values())
-    code='const DRAFT='+payload_json+';\n'+helpers+'\n'+(PLUGIN/'figma-bridge/direction_review.js').read_text()
+    code=review_plugin_code(payload_json, helpers, (PLUGIN/'figma-bridge/direction_review.js').read_text())
     portable=out/'plugin';portable.mkdir(exist_ok=True)
     manifest_data={'name':'Figma Flow · Selected production'if selection_path else'NIGHT · A/B/C Figma 방향 검토'if register else'Figma Flow · 디자인 방향 검토','id':plugin_id,'api':'1.0.0','editorType':['figma'],'main':'code.js','ui':'ui.html','documentAccess':'dynamic-page','enablePrivatePluginApi':True,'networkAccess':{'allowedDomains':['none']}}
     for name,value in{'code.js':code,'ui.html':ui_html(night_demo=night_demo,review=packet),'manifest.json':json.dumps(manifest_data,ensure_ascii=False,indent=2)}.items():(portable/name).write_text(value)
@@ -1433,10 +1483,10 @@ def ui_html(pair=None, night_demo=False, review=None):
 <main class="workspace">
 <section class="intro">__REVIEW_CONTEXT__</section>
 <div class="review-references">__REFERENCES__</div>
-<section class="work-section"><h2 data-i18n="review.createStep">1. 검토 시안 생성</h2><p class="metadata">__REVIEW_SCOPE__</p><p data-i18n="review.createBody">참고 이미지를 바탕으로 화면·이동·설명 주석을 편집 가능한 노드로 생성합니다.</p><div class="actions"><button class="primary" id="make" data-i18n-aria="review.make" aria-label="검토 시안 만들기">검토 시안 만들기</button></div></section>
-<section class="work-section"><h2 class="review-step" data-i18n="review.readStep">2. 실제 노드 읽기 · 자동</h2><!-- FLOW_STATUS --><details class="details" id="status-details" hidden><summary data-i18n="review.details">상세 진단 보기</summary><pre id="status"></pre></details></section>
-<section class="work-section"><h2 data-i18n="review.saveStep">3. 로컬 검증 또는 직접 저장</h2>__SAVE_BODY__<div class="actions"><button class="secondary" id="save" disabled data-i18n-aria="review.save" aria-label="결과 JSON 저장">결과 JSON 저장</button></div></section>
-<p class="metadata" data-i18n="review.boundary">방향 선택과 승인은 별도입니다. 이 도구는 검토용 시안만 만듭니다.</p>
+<section class="work-section"><h2 data-i18n="review.createStep">__CREATE_STEP__</h2><p class="metadata">__REVIEW_SCOPE__</p><p data-i18n="review.createBody">__CREATE_BODY__</p><div class="actions"><button class="primary" id="make" data-i18n-aria="review.make" aria-label="__MAKE__">__MAKE__</button></div></section>
+<section class="work-section"><h2 class="review-step" data-i18n="review.readStep">__READ_STEP__</h2><!-- FLOW_STATUS --><details class="details" id="status-details" hidden><summary data-i18n="review.details">__DETAILS__</summary><pre id="status"></pre></details></section>
+<section class="work-section"><h2 data-i18n="review.saveStep">__SAVE_STEP__</h2>__SAVE_BODY__<div class="actions"><button class="secondary" id="save" disabled data-i18n-aria="review.save" aria-label="__SAVE__">__SAVE__</button></div></section>
+<p class="metadata" data-i18n="review.boundary">__BOUNDARY__</p>
 </main>
 <script>
 const PAIR = __PAIR__;
@@ -1582,7 +1632,14 @@ window.onmessage = async event => {
 };
 refreshLocale();
 </script></body></html>'''
-    return render_panel(html.replace('__PAIR__', pair_json).replace('__REVIEW_SCOPE__', target + ' / ' + page).replace('__REVIEW_CONTEXT__', context).replace('__REFERENCES__', ''.join(references)).replace('__SAVE_BODY__', localized('p', 'saveBodyPaired' if pair else 'saveBodyPortable')))
+    filled = (html.replace('__PAIR__', pair_json).replace('__REVIEW_SCOPE__', target + ' / ' + page)
+              .replace('__REVIEW_CONTEXT__', context).replace('__REFERENCES__', ''.join(references))
+              .replace('__SAVE_BODY__', localized('p', 'saveBodyPaired' if pair else 'saveBodyPortable'))
+              .replace('__CREATE_STEP__', text('createStep')).replace('__CREATE_BODY__', text('createBody'))
+              .replace('__MAKE__', text('make')).replace('__READ_STEP__', text('readStep'))
+              .replace('__DETAILS__', text('details')).replace('__SAVE_STEP__', text('saveStep'))
+              .replace('__SAVE__', text('save')).replace('__BOUNDARY__', text('boundary')))
+    return render_panel(filled)
 
 class DraftReceiver(BaseHTTPRequestHandler):
     def do_OPTIONS(self):

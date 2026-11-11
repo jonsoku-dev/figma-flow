@@ -6,7 +6,7 @@
 
 설치·사용·업데이트 안내의 정본은 이 문서 하나입니다. [설치 프롬프트](#setup-prompt) · [환경 설정](#environment) · [업데이트와 복구](#updates) · [회사 private 배포](#private-distribution)
 
-이 가이드는 **내 컴퓨터의 Codex와 Figma Desktop에서** 워크숍 예제의 두 시안을 비교하는 과정부터 시작합니다. 실제 프로젝트로 옮길 때는 8단계에서 내 브리프와 디자인 시스템을 연결하세요. 사용자가 Figma Flow를 실행 세션마다 한 번 직접 열면 Codex가 localhost 명령으로 작업합니다. 수동 패널도 같은 결과 JSON으로 검증합니다. [복사해서 쓰는 설치 프롬프트](#setup-prompt)
+이 가이드의 워크숍 예제는 두 시안을 비교합니다. 실제 작업은 구체적인 방향·참조가 있으면 한 안으로 진행하고, 비교를 요청했거나 방향 선택이 필요할 때만 여러 안을 만듭니다. 실제 프로젝트로 옮길 때는 8단계에서 내 브리프와 디자인 시스템을 연결하세요. 사용자가 Figma Flow를 실행 세션마다 한 번 직접 열면 Codex가 localhost 명령으로 작업합니다. 수동 패널도 같은 결과 JSON으로 검증합니다. [복사해서 쓰는 설치 프롬프트](#setup-prompt)
 
 ## 1. 두 플러그인의 위치 확인
 
@@ -25,7 +25,7 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 
 1. Codex가 실제 Figma ID로 고정 작업공간과 필요한 작업을 준비합니다. 최초 등록은 4~5절을 따릅니다.
 2. 사용자가 대상 Figma Design 파일에서 **Figma Flow**를 직접 한 번 실행하고 열린 상태로 둡니다. 이 실행 세션이 유지되는 동안 Codex가 아래 로컬 제어 명령을 사용할 수 있습니다.
-3. Codex가 작업 키·operation·파일·페이지·현재 revision을 고정해 실행하고, 반환된 실제 JSON을 기존 검증기로 대조합니다. 후보 선택은 여전히 사용자의 실제 답변이 필요합니다.
+3. Codex가 작업 키·operation·파일·페이지·현재 revision을 고정해 실행하고, 반환된 실제 JSON을 기존 검증기로 대조합니다. 비교 경로의 후보 선택은 실제 사용자 답변을 사용하며, 단일안 경로는 해당 작업을 요청한 실제 지시를 검증합니다.
 4. 홈의 **다음 작업**과 **이력**에서 진행·실패·읽기·검증 상태를 확인합니다. 제어 연결이 없으면 **준비된 작업 → 열기**와 아래 패널 버튼이 수동 대체 경로입니다.
 
 ```sh
@@ -355,6 +355,28 @@ python3 tools/graph_sync.py combine-web --graph PROJECT/graph.json \
 
 양 끝 정렬의 원본 컴포넌트는 실측 `maxWidth`로 고정합니다. Figma는 HUG 너비에서 최소 아이콘 간격을 유지하지 않기 때문입니다. 투명 버튼은 `fill: null`로 명시하면 채우기와 색 변수 연결 없이 생성되며 실제 읽기에서도 빈 채우기를 요구합니다. `fill` 누락은 투명 지정이 아닙니다. 투명 버튼의 글자는 원래 배경의 합성 픽셀로 대비를 계산하며, 대비를 확정할 수 없는 경우는 계속 경고로 남습니다. 그래프 동기화의 `backgroundColor`는 불투명 RGB만 지원하므로 투명 버튼에는 해당 속성을 선언하지 않습니다.
 
+<a id="readable-specifications"></a>
+
+## 화면을 가리지 않는 스펙 설명
+
+화면·버튼의 목적·조건·동작·결과·필요한 제한은 기존 graph annotation에서 가져옵니다. 원본에 없는 조건이나 기능을 만들지 않습니다. graph가 관계 정본이고 별도 브리프·명세가 사실의 정본이면 해당 위치·버전을 함께 연결합니다. 요구사항 → 화면/조작 → 인수 조건 → 검사 연결이 누락되면 새 전달을 미검증으로 남깁니다.
+
+새 `direct`/`compare` 작성 경로에서는 실제 화면·버튼에 짧은 사람용 네이티브 어노테이션을 붙이고 **전체 스펙 보기**로 해당 설명 보드 항목을 연결합니다. 화면 밖의 Design 설명 보드는 목적·사용 조건·동작·결과·예외와 복구·사용 순서·Figma와 웹의 지원 범위를 원본에 있는 항목만 구분해 보여 줍니다. 보드에서 화면·버튼으로 돌아가는 링크도 함께 검증합니다. graph의 `summary`는 짧은 어노테이션, `platform_scope`는 매체별 차이를 설명하며, `specification_locale`은 `ko`·`en`·`ja` 중 브리프의 언어를 지정합니다. 요약을 전체 본문에 반복하거나 서로 다른 동작에 같은 제한 문구를 복사하지 않습니다.
+
+`[figma-flow:…]`, 의미 ID·해시·소유권과 원래 주석 슬롯은 private 메타데이터에 보존합니다. 사용자 주석은 그대로 둡니다. private plugin data는 비밀 저장소가 아닙니다. 기존 prefix 문서는 정확한 소유권·변경 전 자료를 확인한 뒤 같은 노드와 보드 항목을 갱신합니다. 추적 prefix를 지우기만 하거나 전체 주석을 덮어쓰지 않습니다. 사람이 편집한 소유 어노테이션이나 중복 연결은 덮어쓰지 않고 충돌로 남깁니다.
+
+```sh
+# 텍스트 작업: graph와 같은 의미를 화면 명세로 내보냅니다.
+"$PY" -B "$PLUGIN_ROOT/tools/specifications.py" export --graph "$PROJECT/graph.json" --out "$PROJECT/spec-export"
+# 아래 계획도 로컬 파일만 생성합니다. CACHED_GETTER는 새로 읽었다는 뜻이 아닙니다.
+"$PY" -B "$PLUGIN_ROOT/tools/specifications.py" plan --graph "$PROJECT/graph.json" \
+  --readback "$CACHED_GETTER" --target "$NOTE_ID=$NATIVE_SEMANTIC_KEY" --out "$PROJECT/spec-plan.json"
+```
+
+실제 적용이 허용된 경우에만 기존 `native-edit` 작업의 `--plan`으로 준비·실행합니다. 변경 전 주석·메타데이터·보드 본문·대상 링크가 다르면 충돌로 남깁니다. graph를 바꾸면 계획을 다시 만들어야 하며, 이후의 실제 getter를 `specifications.py verify --graph … --plan … --readback …`와 대조합니다. 동일 입력은 중복을 만들지 않고, 실패 복구 중 사용자 편집을 발견하면 덮어쓰지 않습니다. 파일명이나 그럴듯한 설명만으로 최신 성공을 인정하지 않습니다.
+
+공개 [Figma Plugin API](https://developers.figma.com/docs/plugins/api/Annotation/)는 Markdown 어노테이션을 지원합니다. 전역 **보기 → 주석** 표시를 제어하는 지원 API는 확인되지 않아 자동 숨김은 제공하지 않습니다. 기술 본문은 메타데이터로 분리하되 짧은 사람용 어노테이션의 대상 연결은 유지하고, 긴 스펙은 화면 밖에 둡니다. 네이티브 어노테이션을 보는 Dev Mode에는 계정·요금제 제한이 있을 수 있으며, 일반 Design 설명 보드는 별도로 사용할 수 있습니다. 사용자 주석 표시 설정을 바꾸지 않으며, 표시 켜짐/꺼짐과 네이티브 링크 클릭의 실제 UI 확인은 getter 검사와 구분합니다. [요구사항과 인수 조건](../specs/readable-specifications/spec.md)
+
 <a id="prepared-native-edit"></a>
 
 ### 준비된 JSON으로 Figma 값 편집하기
@@ -449,7 +471,7 @@ Figma Flow v0.25.0을 설치하고 실제 Figma 연결 테스트까지 진행해
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
 회사 npm이 필요할 때만 정확한 HTTPS URL과 전체 미러/스코프를 확인하고 인증값은 요청하지 마.
-실제 readback으로 검증하고 미관찰 항목은 미확인으로 남겨. 후보를 보여 준 뒤 내 실제 선택 전에는 본제작하지 마.
+실제 readback으로 검증하고 미관찰 항목은 미확인으로 남겨. 구체적인 요청은 한 안으로 진행하고, 비교를 요청한 경우 후보를 보여 준 뒤 내 실제 선택을 기다려.
 ```
 
 설치 후 스킬이 보이지 않으면 새 채팅에서 `$figma-plugin-setup`과 실제 설치 경로·버전·프로젝트·Python·workspace·완료 단계를 전달합니다. 개발자는 별도로 허용된 Computer Use로 테스트할 수 있으며 소비자의 필수 설치 요소는 아닙니다.
@@ -475,6 +497,25 @@ npm ping --registry="$REGISTRY_URL"
 인증은 `npm login --registry="$REGISTRY_URL"`로 사용자 설정이나 회사 승인 자격 증명 도구에 저장합니다. 스코프가 있으면 `--scope="$REGISTRY_SCOPE"`를 추가합니다. 토큰·비밀번호를 프롬프트·명령 인자·프로젝트 `.npmrc`·Git에 넣지 않습니다. 회사 CA는 승인된 파일을 `npm config set cafile "/absolute/path/company-ca.pem" --location=user`로 설정하며 TLS 검증을 끄지 않습니다. 사용자 `.npmrc` 전체를 로그에 출력하지 않습니다.
 
 프로젝트 `.npmrc`의 `package-lock=false`와 `.gitignore`의 lockfile 제외를 유지합니다. `git ls-files '*lock*'`와 `git diff --cached --name-only`로 실제 패키지 매니저 잠금 파일을 확인합니다. `blocks.py` 같은 일반 소스를 혼동하지 않습니다. 이미 추적 중이면 정확한 lockfile 경로만 `git rm --cached -- PATH`로 로컬 파일을 보존하며 제외합니다. 과거 이력은 그대로 남으므로 새 private 배포에 이력이 필요 없으면 아래 스냅샷 방식을 씁니다. pnpm·Yarn·Bun 생성 옵션은 npm 설정과 별도입니다. 잠금 파일을 제외하면 간접 의존성 해석이 달라질 수 있으므로 실제 도구 버전과 검증 결과를 남깁니다. [npm 설정·인증 범위](https://docs.npmjs.com/files/npmrc/)
+
+<a id="automatic-startup"></a>
+
+## 매번 시작할 때 최신 플러그인 확인
+
+Codex 작업 시작마다 두 플러그인의 상태를 함께 확인합니다. 등록된 원본의 최신 안정 태그와 실제 설치 파일을 대조한 뒤 안전한 경우 Codex 패키지와 Figma 실행 파일·준비된 작업을 갱신합니다. 이 자동 확인·단일안·사람용 스펙 경로는 현재 소스의 미출시 변경이며, 기존 0.25.0 설치에 적용됐다는 뜻은 아닙니다. Codex 앱이나 Figma 앱의 버전을 바꾸는 기능은 아닙니다. 아래 명령의 `PLUGIN_ROOT`는 현재 호스트가 반환한 실제 설치 경로입니다.
+
+```sh
+# Figma 작업이 허용된 세션
+"$PY" -B "$PLUGIN_ROOT/tools/plugin_startup.py" ensure \
+  --figma-access allowed --workspace "$WORKSPACE"
+# 로컬/텍스트 전용 또는 Figma 접근이 금지된 세션
+"$PY" -B "$PLUGIN_ROOT/tools/plugin_startup.py" ensure --figma-access forbidden
+# 설치를 바꾸지 않는 점검은 ensure 대신 check
+```
+
+버전 고정, 개발 체크아웃·사용자 변경, 출처 불명, 공유 marketplace, 오프라인·인증 실패, 실행 중이거나 결과가 불확실한 작업, 변경된 입력은 예외로 남깁니다. 사내 복제본을 공개 upstream으로 바꾸지 않습니다. `--authority`는 확인한 원래 출처가 있을 때만 지정합니다. 정상 업데이트는 제거 전에 이전 설치의 독립적인 복구 사본을 검증합니다. 등록할 릴리스와 복구 사본은 임시 폴더 밖의 사용자 전용 영구 상태 폴더에 보관하며, 일반 임시 폴더 정리로 지워지지 않습니다. 실패하면 원래 바이트를 복원하고 예외를 보고합니다. Git 등록의 복구에 로컬 사본을 사용하면 그 변경과 원래 authority/SHA를 기록합니다. 복구 근거가 없으면 제거 전에 중단합니다.
+
+Codex 갱신 결과가 `current` 또는 `updated`일 때만 Figma 파일 갱신을 진행합니다. `--figma-access forbidden`은 Figma 작업공간·연결·읽기·갱신을 실행하지 않습니다. 성공 후에는 반환한 실제 설치 경로에서 다음 명령을 실행합니다. 파일이 최신이어도 열린 Figma 플러그인이 최신이라는 뜻은 아닙니다. 같은 고정 플러그인을 다시 열고 인증된 실행 버전·코드 해시·generation을 확인합니다. 오래되었거나 버전을 보내지 않는 실행기는 쓰기를 거부합니다. 실제 실행 확인 전에는 `loaded: unverified`로 남깁니다.
 
 <a id="updates"></a>
 
@@ -556,6 +597,8 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 <a id="english"></a>
 
 ## English quick start
+
+At each workflow start, check and safely update both plugin packages/runtime files from the exact registered source. Pins, active work, unknown source, offline/auth failures and forbidden Figma access are explicit exceptions; actual loaded runtime remains separately verified. A concrete direction uses one `direct` draft; `compare` is for requested alternatives. Human specifications come from graph meaning and appear outside artwork, with technical ownership retained separately. [Startup](#automatic-startup) · [Readable specifications](#readable-specifications) · [Direction contract](../skills/figma-flow/references/direction-selection.md).
 
 Version 0.24.1 checks the running local server before queueing every run, including --no-wait. Restart only this workspace's service with the current installed tools if the version, implementation or capability check fails. Full native discovery imports must match the pairing marker before writing graph or web files.
 
@@ -676,6 +719,8 @@ For updates, preserve the old source and complete workspace, install the chosen 
 <a id="japanese"></a>
 
 ## 日本語クイックスタート
+
+各作業の開始時に、登録済みの正確な配布元から Codex パッケージと Figma 実行ファイルを確認し、安全な場合は更新します。バージョン固定・実行中・配布元不明・オフライン・認証失敗・Figma アクセス禁止は例外として記録し、実際に読み込まれた実行版は別途確認します。具体的な方向指定は `direct` 一案、比較の依頼は `compare` を使います。説明は graph の意味から生成して画面の外に表示し、技術情報と所有権は別に保持します。[開始時の確認](#automatic-startup) · [説明の契約](#readable-specifications) · [方向の契約](../skills/figma-flow/references/direction-selection.md)。
 
 0.25.0 の `graph_sync.py probe --component ID` と `combine-web --proof ACTUAL.json` は、画面切替や表示幅ごとに存在するコンポーネントの実測を結合します。全宣言の実測が必要で、不足・競合・古いグラフは拒否します。元の JSON とハッシュも pairing 時に再確認するため、元ファイルを保存してください。通常の probe と最終 pairing は全範囲を要求します。[コマンドとアイコンボタンの配置](#multi-screen-web-proof)。
 

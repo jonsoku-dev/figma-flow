@@ -2,9 +2,10 @@
   const messages = __FLOW_MESSAGES__;
   const root = document.documentElement;
   const normalize = value => String(value || '').toLowerCase().split(/[-_]/)[0];
-  const supported = value => ['ko', 'en', 'ja'].includes(normalize(value));
+  const localeCodes = () => Object.keys(Object.values(messages).find(entry => entry && typeof entry === 'object') || {});
+  const supported = value => localeCodes().includes(normalize(value));
   const preferences = [root?.dataset?.flowLocale, ...(globalThis.navigator?.languages || []), globalThis.navigator?.language];
-  let locale = normalize(preferences.find(supported) || 'ko');
+  let locale = normalize(preferences.find(supported) || localeCodes()[0]);
   function t(key, params = {}) {
     const entry = messages[key];
     if (!entry) return key;
@@ -24,7 +25,7 @@
     }
   }
   globalThis.FlowUI = Object.freeze({
-    get locale() { return locale; }, t, apply,
+    get locale() { return locale; }, get locales() { return localeCodes(); }, t, apply,
     setLocale(value) {
       if (!supported(value)) return false;
       const next = normalize(value), changed = next !== locale;

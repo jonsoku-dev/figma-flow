@@ -1,0 +1,337 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "REQ-UPDATE-01",
+      "type": "requirement",
+      "title": "Check both plugin installations at workflow start",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Every plugin workflow starts by checking and safely ensuring that the Codex package and Figma runtime files are current; exceptions are explicit and bounded."
+    },
+    {
+      "id": "REQ-UPDATE-02",
+      "type": "requirement",
+      "title": "Prove exact plugin source authority",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Identify the exact plugin name and its registered Git URI or private provenance. Never guess a public upstream from similar names or installed files."
+    },
+    {
+      "id": "REQ-UPDATE-03",
+      "type": "requirement",
+      "title": "Preserve installation identity and private state",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Preserve stable manifests, plugin IDs, secrets, workspace/pairing state, and other workspaces during checks and updates."
+    },
+    {
+      "id": "REQ-UPDATE-04",
+      "type": "requirement",
+      "title": "Verify the actual loaded Figma runtime",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Use authenticated runtime information for the actually loaded Figma plugin version. A package version, server version, or on-disk file version alone does not establish what Figma loaded."
+    },
+    {
+      "id": "REQ-UPDATE-05",
+      "type": "requirement",
+      "title": "Replay startup inputs and block uncertain writes",
+      "status": "observed",
+      "source": "request.md",
+      "detail": "Persist and replay startup arguments, input pins, and nested source inputs privately. Pin, development, offline, authentication, claimed/uncertain state, unknown source, or forbidden access are explicit exceptions; stale or versionless runtime state blocks writes. Reopen the same plugin only when Desktop did not reload it."
+    },
+    {
+      "id": "SCR-UPDATE-01",
+      "type": "screen",
+      "title": "Plugin workflow startup check",
+      "status": "planned",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "ACT-UPDATE-01",
+      "type": "action",
+      "title": "Check and safely ensure package/runtime freshness",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-UPDATE-01",
+      "target_ids": []
+    },
+    {
+      "id": "CODE-UPDATE-01",
+      "type": "code",
+      "title": "Startup check and safe ensure implementation",
+      "status": "unverified",
+      "source": "../../tools/plugin_startup.py",
+      "detail": "File exists; this registration does not assert its execution or native effects."
+    },
+    {
+      "id": "CODE-UPDATE-02",
+      "type": "code",
+      "title": "Figma workspace and runtime identity helpers",
+      "status": "unverified",
+      "source": "../../tools/figma_workspace.py",
+      "detail": "Existing local dependency; actual authenticated Figma runtime readback is forbidden in this task."
+    },
+    {
+      "id": "TEST-UPDATE-01",
+      "type": "test",
+      "title": "Plugin startup policy tests",
+      "status": "unverified",
+      "source": "../../tests/test_plugin_startup.py",
+      "detail": "Test file exists; execution is not claimed."
+    },
+    {
+      "id": "TEST-UPDATE-02",
+      "type": "test",
+      "title": "Loaded runtime version tests",
+      "status": "unverified",
+      "source": "../../tests/test_native_runtime_version.cjs",
+      "detail": "Test file exists; execution is not claimed. Mock coverage is not actual Figma runtime proof."
+    },
+    {
+      "id": "TEST-UPDATE-03",
+      "type": "test",
+      "title": "Private workspace replay tests",
+      "status": "unverified",
+      "source": "../../tests/test_workspace_replay.py",
+      "detail": "Test file exists; execution is not claimed."
+    },
+    {
+      "id": "AC-UPDATE-01",
+      "type": "acceptance",
+      "title": "At each workflow start, check and safely ensure both the Codex package and Figma runtime files, unless a recorded exception applies.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Acceptance source is registered. No Figma runtime/server/cache/install/deploy inspection was performed; actual native proof remains blocked/unverified."
+    },
+    {
+      "id": "AC-UPDATE-02",
+      "type": "acceptance",
+      "title": "Keep pin, development, offline, authentication, claimed/uncertain, unknown-source, and forbidden-Figma-access exceptions explicit; do not auto-update through them.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Acceptance source is registered. No Figma runtime/server/cache/install/deploy inspection was performed; actual native proof remains blocked/unverified."
+    },
+    {
+      "id": "AC-UPDATE-03",
+      "type": "acceptance",
+      "title": "Require the exact registered plugin name and Git URI/private provenance; do not infer authority from a public upstream or installed version.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Acceptance source is registered. No Figma runtime/server/cache/install/deploy inspection was performed; actual native proof remains blocked/unverified."
+    },
+    {
+      "id": "AC-UPDATE-04",
+      "type": "acceptance",
+      "title": "Preserve stable manifest/plugin identity, secrets, workspace and pairing state, and unrelated workspaces.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Acceptance source is registered. No Figma runtime/server/cache/install/deploy inspection was performed; actual native proof remains blocked/unverified."
+    },
+    {
+      "id": "AC-UPDATE-05",
+      "type": "acceptance",
+      "title": "Determine the loaded Figma version from authenticated runtime information, with a fresh runtime generation/digest; package/server/filesystem versions alone cannot authorize writes.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Acceptance source is registered. No Figma runtime/server/cache/install/deploy inspection was performed; actual native proof remains blocked/unverified."
+    },
+    {
+      "id": "AC-UPDATE-06",
+      "type": "acceptance",
+      "title": "Provide local `check` and safe `ensure` commands with source, authority, workspace, Figma-access, and pin inputs; `ensure` updates only when identity, provenance, and runtime conditions are verified safe.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Acceptance source is registered. No Figma runtime/server/cache/install/deploy inspection was performed; actual native proof remains blocked/unverified."
+    },
+    {
+      "id": "AC-UPDATE-07",
+      "type": "acceptance",
+      "title": "When Figma access is forbidden, keep native/server/cache/install/deploy state unverified; local checks and mock tests cannot be reported as actual Figma proof.",
+      "status": "unverified",
+      "source": "spec.md",
+      "detail": "Acceptance source is registered. No Figma runtime/server/cache/install/deploy inspection was performed; actual native proof remains blocked/unverified."
+    },
+    {
+      "id": "CODE-UPDATE-03",
+      "type": "code",
+      "title": "Authenticated native runtime version and generation reporting",
+      "status": "unverified",
+      "source": "../../figma-bridge/workspace_control.js",
+      "detail": "File exists; authenticated Figma runtime execution is not performed in this task."
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-UPDATE-01",
+      "to": "SCR-UPDATE-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-UPDATE-02",
+      "to": "SCR-UPDATE-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-UPDATE-03",
+      "to": "SCR-UPDATE-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-UPDATE-04",
+      "to": "SCR-UPDATE-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-UPDATE-05",
+      "to": "SCR-UPDATE-01",
+      "type": "appears on"
+    },
+    {
+      "from": "SCR-UPDATE-01",
+      "to": "ACT-UPDATE-01",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-UPDATE-01",
+      "to": "CODE-UPDATE-01",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-UPDATE-01",
+      "to": "CODE-UPDATE-01",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-UPDATE-01",
+      "to": "CODE-UPDATE-02",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-UPDATE-01",
+      "to": "AC-UPDATE-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-02",
+      "to": "AC-UPDATE-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-03",
+      "to": "AC-UPDATE-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-04",
+      "to": "AC-UPDATE-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-05",
+      "to": "AC-UPDATE-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-05",
+      "to": "AC-UPDATE-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-05",
+      "to": "AC-UPDATE-07",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-02",
+      "to": "AC-UPDATE-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-03",
+      "to": "AC-UPDATE-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-UPDATE-04",
+      "to": "AC-UPDATE-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-UPDATE-01",
+      "to": "TEST-UPDATE-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-UPDATE-02",
+      "to": "TEST-UPDATE-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-UPDATE-03",
+      "to": "TEST-UPDATE-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-UPDATE-04",
+      "to": "TEST-UPDATE-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-UPDATE-05",
+      "to": "TEST-UPDATE-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-UPDATE-06",
+      "to": "TEST-UPDATE-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-UPDATE-07",
+      "to": "TEST-UPDATE-02",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-UPDATE-01",
+      "to": "TEST-UPDATE-01",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-UPDATE-01",
+      "to": "TEST-UPDATE-02",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-UPDATE-01",
+      "to": "TEST-UPDATE-03",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-UPDATE-02",
+      "to": "TEST-UPDATE-01",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-UPDATE-02",
+      "to": "TEST-UPDATE-02",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-UPDATE-02",
+      "to": "TEST-UPDATE-03",
+      "type": "checked by"
+    },
+    {
+      "from": "ACT-UPDATE-01",
+      "to": "CODE-UPDATE-03",
+      "type": "implemented by"
+    },
+    {
+      "from": "CODE-UPDATE-03",
+      "to": "TEST-UPDATE-02",
+      "type": "checked by"
+    }
+  ]
+}

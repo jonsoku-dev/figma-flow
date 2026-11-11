@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
+import tempfile
 import uuid
 from urllib.parse import parse_qs, urlsplit
 
@@ -217,6 +218,8 @@ def _candidate(candidate, content):
 
 def review_packet_sha256(data):
     keys = ('review_id', 'workflow_graph_sha256', 'project_root', 'brief', 'research', 'content', 'candidates', 'agent_review', 'review_destination', 'native_target', 'native_layout')
+    if 'mode' in data:
+        keys += ('mode', 'direct_instruction')
     return digest({key: data.get(key) for key in keys})
 
 
@@ -274,8 +277,11 @@ def validate_draft(path, *, require_agent_review=True, _data=None, require_nativ
     current(data['brief']); current(data['research'])
     content = read(data['content'])
     candidates = data.get('candidates', [])
-    if len(candidates) not in (2, 3) or len({c.get('id') for c in candidates}) != len(candidates):
-        raise ValueError('Exactly two or three independent visible candidates required')
+    mode = data.get('mode', 'compare')
+    if mode not in ('direct', 'compare') or len(candidates) not in ((1,) if mode == 'direct' else (2, 3)) or len({c.get('id') for c in candidates}) != len(candidates):
+        raise ValueError('Direct mode requires exactly one candidate; compare requires two or three independent visible candidates')
+    if mode == 'direct' and not isinstance(data.get('direct_instruction'), dict):
+        raise ValueError('Direct mode requires a literal request basis and brief/source anchors')
     checked = [_candidate(candidate, content) for candidate in candidates]
     if native_scope and data.get('native_layout'):
         from draft_token_plan import foundation_bindings
@@ -310,6 +316,9 @@ def validate_draft(path, *, require_agent_review=True, _data=None, require_nativ
             item = next(r for r in observations if r['id'] == candidate['id'])
             if item.get('candidate_sha256') != candidate['sha256'] or any(not isinstance(item.get(k), str) or not item[k].strip() for k in ('composition', 'typography', 'interaction', 'truth_and_notes')):
                 raise ValueError('Generic/stale agent judgement is not concrete direction review')
+    if require_agent_review and 'mode' in data:
+        import design_critique
+        design_critique.validate(data, review, current, digest)
     if require_agent_review:
         surface = current(data['review_surface'])
         if surface.read_text() != _gallery(data, surface.parent):
@@ -317,7 +326,9 @@ def validate_draft(path, *, require_agent_review=True, _data=None, require_nativ
     if require_agent_review and require_native_review and native_scope and phase == State.WAIT_SELECTION:
         _native_review(path, data)
     record = pin(path) if path.is_file() else {'path': str(path), 'sha256': digest(data)}
-    return {'data': data, 'draft': record, 'checked': checked}
+    return {'data': data, 'draft': record, 'checked': checked,
+            'critique_evidence': 'current-artifact-linked-agent-critique' if 'mode' in data and require_agent_review else 'legacy-prose-unverified' if 'mode' not in data else 'not-reviewed',
+            'visual_quality': 'unverified'}
 
 
 def user_record_root():
@@ -347,6 +358,7 @@ def _messages(path):
             if role in ('user', 'assistant'):
                 yield {'role': role, 'text': text, 'prefix_length': offset, 'prefix_sha256': hasher.hexdigest(),
                        'timestamp': record.get('timestamp'),
+                       'tool_call': record.get('type') == 'response_item' and payload.get('type') == 'function_call',
                        'visible_final': record.get('type') == 'response_item' and payload.get('type') == 'message'
                        and role == 'assistant' and payload.get('phase') == 'final_answer'}
 
@@ -385,7 +397,7 @@ def _native_presentation(text, candidates, report, observed_at, presented_at):
             return False
     except (AttributeError, TypeError, ValueError):
         return False
-    visible = re.sub(r'```[\s\S]*?```|`[^`\n]*`', '', text)
+    visible = re.sub(r'```[\s\S]*?```', '', text).replace('`', '')
     links = re.findall(r'(?<!!)\[([^]\n]+)\]\((https://[^\s<>]+)\)', visible)
     shown = set()
     for label, target in links:
@@ -408,6 +420,47 @@ def _native_presentation(text, candidates, report, observed_at, presented_at):
     return shown == {candidate['id'] for candidate in candidates}
 
 
+def _compare_prompt(text, data, draft_sha256):
+    """Current compare presentation must expose the pinned review and every candidate."""
+    visible = re.sub(r'```[\s\S]*?```', '', text).replace('`', '')
+    required = [data['review_id'], draft_sha256]
+    required.extend(value for candidate in data['candidates'] for value in (candidate['id'], candidate['sha256']))
+    required.extend((data['review_surface']['path'], data['comparison_image']['path']))
+    return all(value in visible for value in required)
+
+
+def _persist_admission(path, result, *, replace_identity=None, replace_bytes=None):
+    """Create exclusively or replace the exact revoked regular file without following links."""
+    path = Path(path)
+    if path.is_symlink():
+        raise ValueError('Admission endpoint must not be a symlink')
+    identity = None
+    if replace_identity is not None:
+        info = path.lstat()
+        identity = (info.st_dev, info.st_ino)
+        if not path.is_file() or path.read_bytes() != replace_bytes or identity != replace_identity:
+            raise ValueError('Revocation record changed before fresh admission')
+    fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '.', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as handle:
+            json.dump(result, handle, ensure_ascii=False, indent=2)
+            handle.write('\n')
+            handle.flush()
+            os.fsync(handle.fileno())
+        if replace_identity is None:
+            os.link(temporary, path)
+        else:
+            info = path.lstat()
+            if path.is_symlink() or not path.is_file() or (info.st_dev, info.st_ino) != identity or path.read_bytes() != replace_bytes:
+                raise ValueError('Revocation record changed before fresh admission')
+            os.replace(temporary, path)
+    finally:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+
+
 def _human(draft, source, *, expected=None):
     path = Path(source).absolute()
     if not path.resolve().is_relative_to(user_record_root().resolve()) or path.is_symlink() or not path.is_file():
@@ -416,17 +469,35 @@ def _human(draft, source, *, expected=None):
     data, draft_pin = draft['data'], draft['draft']
     presented, answer, recorded, revoked_at = False, None, None, 0
     native_report, native_anchor, observed_at = None, False, None
+    actual_questions = set()
     by_id = {c['id'].casefold(): c for c in data['candidates']}
     for message in messages:
-        if message['role'] == 'assistant' and data['review_id'] in message['text'] and draft_pin['sha256'] in message['text']:
+        if message['role'] == 'assistant' and message.get('tool_call'):
+            try:
+                arguments = json.loads(message['text'])
+            except (TypeError, ValueError):
+                arguments = {}
+            if isinstance(arguments, dict):
+                if isinstance(arguments.get('question'), str):
+                    actual_questions.add(arguments['question'])
+                questions = arguments.get('questions', [])
+                for item in questions if isinstance(questions, list) else []:
+                    if isinstance(item, dict):
+                        for key in ('question', 'title'):
+                            if isinstance(item.get(key), str):
+                                actual_questions.add(item[key])
+        compare = data.get('mode') == 'compare'
+        if (message['role'] == 'assistant' and data['review_id'] in message['text'] and draft_pin['sha256'] in message['text'] and
+                not (compare and data.get('review_destination') == 'figma') and
+                (not compare or (message['visible_final'] and _compare_prompt(message['text'], data, draft_pin['sha256'])))):
             presented, native_anchor = True, False
         elif message['role'] == 'assistant' and message['visible_final'] and 'figma.com/' in message['text'] and data.get('review_destination') == 'figma' and data.get('native_review'):
             if native_report is None:
                 native_report = _native_review(draft_pin['path'], data)
                 observed_at = read(data['native_review']['readback']).get('observed_at')
             matches = _native_presentation(message['text'], data['candidates'], native_report, observed_at, message['timestamp'])
-            if matches or native_anchor:
-                presented, native_anchor = matches, True
+            matches = matches and (not compare or (message['visible_final'] and _compare_prompt(message['text'], data, draft_pin['sha256'])))
+            presented, native_anchor = matches, matches
         if message['role'] != 'user':
             continue
         text = message['text'].strip()
@@ -438,7 +509,9 @@ def _human(draft, source, *, expected=None):
                 replies = []
             if len(replies) == 1 and isinstance(replies[0], dict):
                 question = replies[0].get('question', '')
-                if data['review_id'] in question and draft_pin['sha256'] in question and replies[0].get('questionItemId'):
+                if (data['review_id'] in question and draft_pin['sha256'] in question and replies[0].get('questionItemId') and
+                        (not compare or (_compare_prompt(question, data, draft_pin['sha256']) and question in actual_questions and
+                         (data.get('review_destination') != 'figma' or native_anchor)))):
                     presented = True
                     text = replies[0].get('answer', '')
                 else:
@@ -624,7 +697,7 @@ def _write_surface(data, out):
     return write_surface(data, out)
 
 
-def create_draft(project, brief, research, spec, out, *, judgement=None, review_destination=None):
+def create_draft(project, brief, research, spec, out, *, judgement=None, review_destination=None, mode=None):
     assert_workflow_sync()
     project, out = Path(project).resolve(), Path(out).absolute()
     if not out.resolve().is_relative_to(project):
@@ -658,6 +731,12 @@ def create_draft(project, brief, research, spec, out, *, judgement=None, review_
             'native_target': source.get('native_target', {'mode': 'current-design-file'} if destination == 'figma' else None),
             'scope': 'exploratory-only', 'native_annotations': 'planned-not-applied',
             'boundary': 'Static supplied artifacts and local managed-event recognition are not cryptographic proof of human identity or GUI execution. Host must show these real artifacts and wait for the actual user turn.'}
+    if mode is not None:
+        if mode not in ('direct', 'compare'):
+            raise ValueError('Mode must be direct or compare')
+        data['mode'] = mode
+        if mode == 'direct':
+            data['direct_instruction'] = source.get('direct_instruction')
     layout_record = source.get('native_layout') or (source.get('native_target') or {}).get('layout')
     if layout_record:
         layout_record = {'path': layout_record} if isinstance(layout_record, str) else layout_record
@@ -704,7 +783,7 @@ def review_draft(manifest, judgement):
     data['review_surface'] = pin(written['review_page'])
     data['comparison_image'] = pin(written['comparison_image'])
     validate_draft(manifest, _data=data)
-    if State(data['workflow_state']) == State.SELECTION_READY:
+    if State(data['workflow_state']) == State.SELECTION_READY and (_figma_scope(data) or data.get('mode') != 'direct'):
         event = Event.PREPARE_NATIVE_DRAFT if _figma_scope(data) else Event.REQUEST_SELECTION
         stage = workflow.transition(State.SELECTION_READY, event,
             evidence={'draft': str(manifest), 'draft_data': data}, resolver=_resolver)
@@ -714,6 +793,11 @@ def review_draft(manifest, judgement):
     data['comparison_image'] = pin(written['comparison_image'])
     manifest.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     actual = pin(manifest)
+    if data.get('mode') == 'direct':
+        return {'manifest': str(manifest), 'draft_sha256': actual['sha256'], 'packet_sha256': review_packet_sha256(data), 'workflow_state': data['workflow_state'],
+                'workflow_symbol': data['workflow_symbol'], 'review_page': str(surface), 'production_admitted': False,
+                'pending': 'Current native review and actual specific managed user instruction required.' if _figma_scope(data) else 'Actual specific managed user instruction required; run admit-direct.',
+                'critique_evidence': 'current-artifact-linked-agent-critique', 'visual_quality': 'unverified'}
     if State(data['workflow_state']) != State.WAIT_SELECTION:
         return {'manifest': str(manifest), 'draft_sha256': actual['sha256'], 'packet_sha256': review_packet_sha256(data),
                 'workflow_state': data['workflow_state'], 'workflow_symbol': data['workflow_symbol'],
@@ -721,13 +805,16 @@ def review_draft(manifest, judgement):
                 'executed': ['validate-agent-review', 'write-exploratory-review-surface'],
                 'pending': 'Actual native draft import/readback with annotations, foundations and prototype+return is required before human selection.'}
     question = f"Review {data['review_id']}\nManifest SHA256 {actual['sha256']}\n"
+    question += f"Review surface {data['review_surface']['path']}\nComparison image {data['comparison_image']['path']}\n"
     question += '\n'.join(f"{c['id']}: {c['title']} · {c['sha256']}" for c in data['candidates'])
     question += '\nShow these actual candidate images and their review links together. Ask the human which exact candidate to carry forward, then wait. Reply with one candidate id; campaign type numbers or delegation are not style approval.\n'
     (manifest.parent / 'selection-prompt.txt').write_text(question)
     return {'manifest': str(manifest), 'draft_sha256': actual['sha256'], 'workflow_state': data['workflow_state'],
             'workflow_symbol': data['workflow_symbol'], 'review_page': str(surface), 'comparison_image': written['comparison_image'],
             'question': str(manifest.parent / 'selection-prompt.txt'), 'executed': ['validate-agent-review', 'write-human-review-surface'],
-            'pending': 'Actual user choice; production remains barred.'}
+            'pending': 'Actual user choice; production remains barred.',
+            'critique_evidence': 'current-artifact-linked-agent-critique' if 'mode' in data else 'legacy-prose-unverified',
+            'visual_quality': 'unverified'}
 
 
 def record_selection(manifest, user_event, out):
@@ -797,17 +884,24 @@ def require_selected(selection_path, project_root=None):
         # Compare normalized lexical paths: a project manifest reaches the record as 'checks/001/../../review/selection.json'.
         if selection.get('self_path') != os.path.normpath(str(Path(selection_path).absolute())):
             raise ValueError('Archived/copied selection records are not the active review endpoint')
-        if selection.get('schema') != 'figma-flow-design-selection-v1' or selection.get('workflow_graph_sha256') != workflow.graph_hash() or State(selection['workflow_state']) != State.SELECTED:
+        if selection.get('schema') not in ('figma-flow-design-selection-v1', 'figma-flow-direct-design-admission-v1') or selection.get('workflow_graph_sha256') != workflow.graph_hash() or State(selection['workflow_state']) != State.SELECTED:
             raise ValueError('Unknown/stale selection state or graph')
         draft = validate_draft(current(selection['draft']))
-        if State(draft['data']['workflow_state']) != State.WAIT_SELECTION:
+        direct = selection.get('schema') == 'figma-flow-direct-design-admission-v1'
+        if direct:
+            if selection.get('authority') != 'direct-user-instruction' or selection.get('packet_sha256') != review_packet_sha256(draft['data']):
+                raise ValueError('Direct admission authority/mode/packet changed')
+            human, candidate = _direct_human(draft, selection['human']['path'], expected=selection['human'])
+            _direct_transition(draft, selection['human']['path'])
+        elif State(draft['data']['workflow_state']) != State.WAIT_SELECTION:
             raise ValueError('Direction selection no longer admitted by current review state')
-        human, candidate = _human(draft, selection['human']['path'], expected=selection['human'])
+        if not direct:
+            human, candidate = _human(draft, selection['human']['path'], expected=selection['human'])
         if candidate['id'] != selection.get('candidate_id') or candidate['sha256'] != selection.get('candidate_sha256'):
             raise ValueError('Selected exact candidate/hash mismatch')
         if project_root and Path(project_root).resolve() != Path(draft['data']['project_root']).resolve():
             raise ValueError('Selection belongs to a different project')
-        return {'state': State.SELECTED.value, 'workflow_graph_sha256': workflow.graph_hash(), 'draft_path': str(current(selection['draft'])),
+        return {'authority': selection.get('authority', 'post-presentation-user-choice'), 'state': State.SELECTED.value, 'workflow_graph_sha256': workflow.graph_hash(), 'draft_path': str(current(selection['draft'])),
                 'draft_sha256': selection['draft']['sha256'], 'selection_path': str(Path(selection_path).absolute()),
                 'selection_sha256': selection_pin['sha256'], 'candidate_id': candidate['id'], 'candidate_sha256': candidate['sha256'],
                 'product_graph': candidate['product_graph'], 'candidate': candidate, 'human': human,
@@ -962,10 +1056,120 @@ def verify_native_review(manifest_path, readback_path):
     report = _native_review(manifest_path, data, readback_path)
     data['native_review'] = {'readback': pin(readback_path), 'packet_sha256': review_packet_sha256(data),
                              'report': report, 'evidence_boundary': 'Supplied actual native getter evidence; not automatic prototype playback or platform-origin authentication.'}
-    stage = workflow.transition(State.NATIVE_REVIEW_PENDING, Event.REQUEST_SELECTION,
+    stage = State.NATIVE_REVIEW_PENDING if data.get('mode') == 'direct' else workflow.transition(State.NATIVE_REVIEW_PENDING, Event.REQUEST_SELECTION,
         evidence={'draft': str(manifest_path), 'draft_data': data, 'native_readback': str(readback_path)}, resolver=_resolver)
     data.update(workflow_state=stage.value, workflow_symbol=stage.name)
     written = _write_surface(data, manifest_path.parent)
     data['review_surface'], data['comparison_image'] = pin(written['review_page']), pin(written['comparison_image'])
     manifest_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     return review_draft(manifest_path, data['agent_review']['path'])
+
+
+def _direct_human(draft, source, *, expected=None):
+    """Recognize a literal specific instruction, never manufacture a candidate choice."""
+    from design_intent import direction_mode, authoring_excluded, authoring_held, authoring_requested, native_excluded
+    data = draft['data']
+    if data.get('mode') != 'direct' or len(data['candidates']) != 1:
+        raise ValueError('Direct instruction requires the exact one-direction protocol')
+    instruction = data.get('direct_instruction') or {}
+    request = instruction.get('request_text')
+    if not isinstance(request, str) or not request.strip() or not authoring_requested(request) or direction_mode(request)['mode'] != 'direct':
+        raise ValueError('Actual specific design request required; generic continuation is not authority')
+    if re.search(r'\b(?:if|whenever)\s+(?:the\s+)?(?:user|request|brief|direction)\b|(?:workflow|comparison|direction)\s+policy|구체적.{0,8}(?:이면|경우)', request, re.I):
+        raise ValueError('A conditional workflow policy is not a product design instruction')
+    if _figma_scope(data) and native_excluded(request):
+        raise ValueError('Current user instruction excludes native Figma work')
+    if request not in current(data['brief']).read_text():
+        raise ValueError('Literal direct request must occur in the current brief')
+    candidate = data['candidates'][0]
+    anchors = instruction.get('anchors', [])
+    roles = {a.get('artifact') for a in anchors}
+    if 'brief' not in roles or not roles <= {'brief', 'source', 'reference'}:
+        raise ValueError('Direct request needs current brief lineage; source/reference anchors are optional')
+    for anchor in anchors:
+        role, excerpt = anchor['artifact'], anchor.get('excerpt')
+        record = data['brief'] if role == 'brief' else candidate['source'] if role == 'source' else anchor.get('record')
+        artifact = current(record)
+        if not artifact.resolve().is_relative_to(Path(data['project_root']).resolve()):
+            raise ValueError('Direct instruction reference escapes declared project root')
+        if role == 'reference' and excerpt is None:
+            continue
+        if not isinstance(excerpt, str) or not excerpt.strip() or excerpt not in artifact.read_text():
+            raise ValueError('Direct instruction anchor missing from current artifact')
+        if role == 'brief' and request not in excerpt:
+            raise ValueError('Brief anchor must include the literal actual design request')
+    path = Path(source).absolute()
+    if not path.resolve().is_relative_to(user_record_root().resolve()) or path.is_symlink() or not path.is_file():
+        raise ValueError('Actual managed user-turn evidence required; self-written approval declarations are not admitted')
+    answer, recorded = None, None
+    for message in _messages(path):
+        if message['role'] != 'user':
+            continue
+        if authoring_held(message['text']) or (_figma_scope(data) and native_excluded(message['text'])):
+            answer, recorded = None, None
+            continue
+        if message['text'].strip() != request.strip() and (authoring_excluded(message['text']) or direction_mode(message['text'])['mode'] in ('direct', 'compare') or re.search(r'\b(?:instead|actually|change)\b|대신|바꿔|수정해', message['text'], re.I)):
+            answer, recorded = None, None
+        if message['text'].strip() == request.strip():
+            answer = message
+            if expected and message['prefix_length'] == expected.get('prefix_length'):
+                recorded = message
+    if answer is None or (expected is not None and recorded is None):
+        raise ValueError('No actual current managed user instruction matches the literal product request')
+    answer = recorded if expected is not None else answer
+    result = {'path': str(path), 'prefix_length': answer['prefix_length'], 'prefix_sha256': answer['prefix_sha256'],
+              'text_sha256': hashlib.sha256(answer['text'].encode()).hexdigest(), 'candidate_id': candidate['id']}
+    if expected is not None and result != expected:
+        raise ValueError('Direct user instruction source prefix changed')
+    return result, candidate
+
+
+def _direct_transition(draft, user_event):
+    data = draft['data']
+    human, candidate = _direct_human(draft, user_event)
+    def resolver(guard, evidence):
+        if guard == Guard.DIRECT_INSTRUCTION_CURRENT:
+            return VerifiedFact(guard, candidate['sha256'], human['prefix_sha256'], 'human')
+        return _resolver(guard, evidence)
+    return workflow.transition(State(data['workflow_state']), Event.ADMIT_DIRECT,
+                               evidence={'draft': draft['draft']['path']}, resolver=resolver)
+
+
+def record_direct_admission(manifest, user_event, out):
+    assert_workflow_sync()
+    draft = validate_draft(manifest)
+    stage = _direct_transition(draft, user_event)
+    human, candidate = _direct_human(draft, user_event)
+    out = Path(out).absolute()
+    if out != Path(manifest).absolute().parent / 'selection.json':
+        raise ValueError('Admission must use current review-owned selection.json endpoint')
+    if out.is_symlink():
+        raise ValueError('Admission endpoint must not be a symlink')
+    previous_bytes = out.read_bytes() if out.exists() else None
+    previous_identity = None
+    if previous_bytes is not None:
+        info = out.lstat()
+        if not out.is_file():
+            raise ValueError('Admission endpoint must be a regular file')
+        previous_identity = (info.st_dev, info.st_ino)
+    previous = json.loads(previous_bytes) if previous_bytes is not None else None
+    revoked = previous and previous.get('schema') == 'figma-flow-design-selection-revocation-v1'
+    if revoked:
+        if previous.get('self_path') != str(out) or previous.get('draft') != draft['draft'] or previous.get('workflow_graph_sha256') != workflow.graph_hash():
+            raise ValueError('Foreign or stale direct admission revocation')
+        if human['path'] == previous.get('revoked_user_source_path') and human['prefix_length'] <= previous['after_user_prefix_length']:
+            raise ValueError('Fresh actual instruction required after revocation')
+    elif previous:
+        admitted = require_selected(out)
+        if admitted['candidate_sha256'] != candidate['sha256'] or admitted['authority'] != 'direct-user-instruction':
+            raise ValueError('Existing admission must be explicitly revoked before replacement')
+        return admitted
+    result = {'schema': 'figma-flow-direct-design-admission-v1', 'authority': 'direct-user-instruction',
+              'self_path': str(out), 'draft': draft['draft'], 'packet_sha256': review_packet_sha256(draft['data']),
+              'candidate_id': candidate['id'], 'candidate_sha256': candidate['sha256'], 'human': human,
+              'workflow_graph_sha256': workflow.graph_hash(), 'workflow_state': stage.value, 'workflow_symbol': stage.name,
+              'review_destination': draft['data']['review_destination'], 'native_review': draft['data'].get('native_review'),
+              'authority_boundary': 'Actual managed product instruction; no assertion of a comparative choice. Local source provenance is not cryptographic human authentication.'}
+    _persist_admission(out, result, replace_identity=previous_identity if revoked else None,
+                       replace_bytes=previous_bytes if revoked else None)
+    return require_selected(out)

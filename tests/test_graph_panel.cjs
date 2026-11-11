@@ -7,6 +7,9 @@ const os = require('node:os');
 const {execFileSync} = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
+const graphSyncSchema = JSON.parse(execFileSync('python3.13', ['-B', '-c',
+  'import json,sys; sys.path.insert(0, sys.argv[1]); import graph_sync; sys.stdout.write(json.dumps(graph_sync.SCHEMA))',
+  path.join(root, 'tools')], {encoding: 'utf8'}));
 const template = execFileSync(process.env.PYTHON || 'python3', ['-B', '-c', 'import sys;from pathlib import Path;sys.path.insert(0,str(Path(sys.argv[1])/"tools"));from panel_components import render_components;print(render_components((Path(sys.argv[1])/"figma-bridge/graph-panel.html").read_text(),"graph"))', root], {encoding: 'utf8'});
 const components = fs.readFileSync(path.join(root, 'figma-bridge/panel_components.js'), 'utf8');
 const translations={...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/workspace.json'))),...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/graph.json')))};
@@ -99,7 +102,7 @@ test('discovery only reads, accepts Figma relay frames and rejects unrelated ses
 test('packaged sync host uses themed HTML and returns downloadable failure evidence on preflight errors', async () => {
   const shown = [], messages = [];
   const figma = {fileKey: 'actual-file', currentPage: {id: 'actual-page'}, showUI(...args) {shown.push(args);}, ui: {postMessage(message) {messages.push(message);}}};
-  const context = {figma, GRAPH_PANEL_SESSION: 'host-session', __html__: '<html>packaged panel</html>', GRAPH_SYNC_PLAN: {schema: 'figma-flow-graph-token-sync-v1', graph_sha256: 'a'.repeat(64), file_key: 'expected-file', page_id: 'expected-page', collection_id: 'expected-collection'}};
+  const context = {figma, GRAPH_PANEL_SESSION: 'host-session', __html__: '<html>packaged panel</html>', GRAPH_SYNC_SCHEMA: graphSyncSchema, GRAPH_SYNC_PLAN: {schema: graphSyncSchema, graph_sha256: 'a'.repeat(64), file_key: 'expected-file', page_id: 'expected-page', collection_id: 'expected-collection'}};
   vm.runInNewContext(fs.readFileSync(path.join(root, 'figma-bridge/graph_token_sync.js'), 'utf8'), context);
   assert.equal(shown[0][0], context.__html__); assert.equal(shown[0][1].themeColors, true); assert.equal(shown[0][1].height, 470);
   const pending = figma.ui.onmessage({type: 'read', session: 'host-session'});

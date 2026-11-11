@@ -81,9 +81,13 @@ def _render(data, out):
                      '</ul><h3>제안 토큰</h3><table><tbody>' + roles +
                      '</tbody></table><p>이 내용은 탐색 시안의 제안입니다. Figma 네이티브 관측을 나타내지 않습니다.</p></details>' +
                      '<a href="' + source + '">프로젝트 원본에서 동작 보기</a></article>')
-    html = '''<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>디자인 시안 비교</title>
+    direct = data.get('mode') == 'direct'
+    heading = '디자인 방향 검토' if direct else '디자인 시안 비교'
+    instruction = ('지정한 한 방향의 첫 화면과 모바일 구도를 검토합니다. 후보 선택은 요구하지 않습니다. 현재 산출물 검토와 실제 사용자 지시 근거를 확인한 뒤 진행합니다.' if direct else
+                   '같은 내용의 첫 화면과 모바일 구도를 비교하고, 원하는 후보의 ID를 알려주세요. 이미지는 이 파일에 포함돼 있습니다.')
+    html = '''<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>''' + heading + '''</title>
 <style>*{box-sizing:border-box}body{margin:auto;max-width:1640px;padding:clamp(18px,3vw,52px);background:#f3f0e9;color:#183036;font:17px/1.65 system-ui,sans-serif}h1,h2,h3{line-height:1.3}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px}.shots{display:grid;grid-template-columns:2fr 1fr;align-items:start;gap:6px}img{display:block;height:auto;width:100%}figure{margin:0}figcaption{font-size:14px}article{border-top:1px solid #6b7978}details{margin:1em 0}summary{cursor:pointer;font-weight:600}table{width:100%;border-collapse:collapse}td{border-bottom:1px solid #c9c8bf;padding:.4em;overflow-wrap:anywhere}a{color:#315465}code{overflow-wrap:anywhere}</style>
-<h1>디자인 시안 비교</h1><p>같은 내용의 첫 화면과 모바일 구도를 비교하고, 원하는 후보의 ID를 알려주세요. 이미지는 이 파일에 포함돼 있습니다.</p><p>현재 단계 <code>''' + escape(state.name) + '</code></p><main class="cards">' + ''.join(cards) + '</main></html>'
+<h1>''' + heading + '</h1><p>' + instruction + '''</p><p>현재 단계 <code>''' + escape(state.name) + '</code></p><main class="cards">' + ''.join(cards) + '</main></html>'
     comparison = BytesIO()
     sheet.save(comparison, 'JPEG', quality=91, optimize=True)
     return html, comparison.getvalue()

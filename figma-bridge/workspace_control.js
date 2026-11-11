@@ -147,7 +147,8 @@ async function workspaceControlTick() {
   controlPolling = true;
   let cmd = null;
   try {
-    const reply = await controlRequest('poll', {session_id:controlRunSession,file_key:figma.fileKey,page_id:figma.currentPage.id});
+    const reply = await controlRequest('poll', {session_id:controlRunSession,file_key:figma.fileKey,page_id:figma.currentPage.id,
+      ...(typeof WORKSPACE_RUNTIME === 'undefined' ? {} : {runtime:WORKSPACE_RUNTIME})});
     cmd = reply.operation;
     if (!cmd) return;
     const receipt = Object.fromEntries(['id','claim_id','session_id','revision','file_key','page_id'].map(k=>[k,cmd[k]]));

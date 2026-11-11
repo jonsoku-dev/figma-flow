@@ -4,6 +4,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const host = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_host.js'), 'utf8');
+const localeCatalog = JSON.parse(fs.readFileSync(path.join(__dirname, '../figma-bridge/locales/common.json'), 'utf8'));
+const flowLocales = JSON.stringify(Object.keys(Object.values(localeCatalog)[0]));
 const home = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_home.html'), 'utf8');
 function harness(frozen = false, options = {}) {
   const messages = [], shown = [], writes = [], commands = [], proxies = [];
@@ -21,6 +23,7 @@ function harness(frozen = false, options = {}) {
   }
   const context = vm.createContext({figma, __html__: 'HOME', probe});
   vm.runInContext(`
+const FLOW_LOCALES = ${flowLocales};
 const WORKSPACE_CHAT_UI = '<html><head></head><body>CHAT</body></html>';
 const WORKSPACE_CHAT_CONFIG = {url:'http://127.0.0.1:1234',token:'host-only-secret'};
 const WorkspaceChat = {open(figma,task,options) {
@@ -423,8 +426,10 @@ const laterProject={key:'other',title:'Other admitted project',project:'Other',k
 assert.equal(selectRecommendation({...model,tasks:[...tasks,laterProject]},[...tasks,laterProject]).task.key,'other','later phase in another project must not hide this project pending work');
 console.log('Compiled React workspace/shared components/Lucide,3 locales and phase/result policy verified.');
 `;
+  const plugin=JSON.parse(fs.readFileSync(path.join(__dirname,'../plugin.json'),'utf8'));
+  const common=JSON.parse(fs.readFileSync(path.join(__dirname,'../figma-bridge/locales/common.json'),'utf8'));
   const built=buildSync({stdin:{contents:entry,resolveDir:panelRoot,loader:'jsx'},absWorkingDir:panelRoot,
-    bundle:true,write:false,platform:'node',format:'cjs',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},logLevel:'silent'});
+    bundle:true,write:false,platform:'node',format:'cjs',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"',__FLOW_DISPLAY_NAME__:JSON.stringify(plugin.extensions['com.openai'].interface.displayName),__FLOW_LOCALES__:JSON.stringify(Object.keys(Object.values(common)[0]))},logLevel:'silent'});
   const run=spawnSync(process.execPath,['-e',built.outputFiles[0].text],{cwd:panelRoot,encoding:'utf8'});
   assert.equal(run.status,0,run.stdout+run.stderr);
   assert.match(run.stdout,/Compiled React workspace/);

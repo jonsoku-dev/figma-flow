@@ -1,0 +1,15 @@
+html, body { margin: 0; overflow-x: hidden; }
+body { font-family: ui-sans-serif, sans-serif; background: #e7edf2; color: #17202a; font-size: 13px; line-height: 1.35; }
+button, input, textarea, select { font: inherit; }
+h1, h2, p, button, td, th, label, a { overflow-wrap: anywhere; }
+#app { display: grid; gap: 8px; padding: 12px; }
+nav { display: flex; flex-wrap: wrap; gap: 6px; }
+nav a { color: inherit; text-decoration: none; border: 1px solid #9aabba; padding: 4px 6px; background: #f8fafc; }
+table { width: 100%; border-collapse: collapse; background: #f8fafc; }
+th, td { border-bottom: 1px solid #d5dee6; text-align: left; padding: 4px 6px; }
+button { background: #1f3a5f; color: #fff; border: 0; padding: 6px 8px; }
+input, textarea { width: min(100%, 40rem); }
+.input-section { border-left: 3px solid #1f3a5f; padding-left: 8px; }
+@media (max-width: 768px) {
+  table, thead, tbody, tr, th, td { display: block; }
+}

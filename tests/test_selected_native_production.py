@@ -142,7 +142,7 @@ class RendererAttestationTests(unittest.TestCase):
         self.packet['instance_sha256']=draft.canonical_sha({'packet':self.packet['packet_sha256'],'layout':self.packet['layout_sha256'],'fileKey':'fixture','importer':importer})
         self.packet_path=self.root/'packet.json';write(self.packet_path,self.packet)
         self.code_path=self.root/'code.js'
-        code='const DRAFT='+json.dumps(self.packet,ensure_ascii=False)+';\n'+'\n'.join((self.root/name).read_text()for name in draft.HELPERS)+'\n'+(self.root/'direction_review.js').read_text()
+        code=draft.review_plugin_code(json.dumps(self.packet,ensure_ascii=False),'\n'.join((self.root/name).read_text()for name in draft.HELPERS),(self.root/'direction_review.js').read_text())
         self.code_path.write_text(code)
         self.snapshot={'schema':'figma-flow-native-renderer-snapshot-v1','packet':directions.pin(self.packet_path),'code':directions.pin(self.code_path),'sources':sources}
         self.sidecar=self.root/'renderer-snapshot.json';write(self.sidecar,self.snapshot)

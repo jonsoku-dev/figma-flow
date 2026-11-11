@@ -38,6 +38,28 @@ async function readNativeSemantics(figma, page) {
     const semanticKey = resolveInstanceSemanticKey(node) || node.getPluginData("semanticKey") || null;
     const row = { id: node.id, parentId: node.parent?.id || null, type: node.type, name: node.name, key: semanticKey, semanticKey, frameKey: node.getPluginData("frameKey") || null };
     row.unavailable_fields = {};
+    const boardMarker = node.getPluginData("designNoteBoard");
+    if (boardMarker) {
+      try { row.designNoteBoard = JSON.parse(boardMarker); }
+      catch (_) { row.designNoteBoard = {status:"invalid",raw:boardMarker}; }
+    }
+    const specification = node.getPluginData("figmaFlowSpecification");
+    if (specification) {
+      try {
+        const value = JSON.parse(specification), spec = value.specification;
+        const human=value.human_annotation,board=human&&nodes.find(item=>item.id===human.board?.boardId),text=board?.children?.find(item=>item.id===human.board?.textNodeId),expectedUrl=human&&typeof figma.fileKey==='string'?`https://www.figma.com/design/${encodeURIComponent(figma.fileKey)}?node-id=${encodeURIComponent(human.board.textNodeId.replace(/:/g,'-'))}`:null;
+        if (unescape(encodeURIComponent(specification)).length >= 90000 || value.schema !== FLOW_SPEC.schemas.native || value.semantic_key !== semanticKey || value.target_id !== node.id || typeof value.source_owner_hash !== "string" || !value.source_owner_hash || !["applied","pending","conflict"].includes(value.state) || !Array.isArray(value.legacy_annotations) || value.legacy_annotations.some(slot => !Number.isInteger(slot?.index) || slot.index < 0 || typeof slot.annotation?.label !== "string") || spec?.schema !== FLOW_SPEC.schemas.readable || !["id","kind","screen_id","target_id","title","meaning_sha256","source_graph_sha256","source_graph_encoding","display_text"].every(key => typeof spec[key] === "string" && spec[key].trim()) || !spec.meaning || !spec.trace || (spec.presentation==='connected-spec-v2'&&(!Object.keys(FLOW_SPEC_LABELS).includes(spec.locale)||!Array.isArray(spec.sections)||typeof spec.annotation_text!=='string'||!spec.annotation_text.trim())) || (spec.presentation==='connected-spec-v2'&&value.state==='applied'&&!human) || (human && (human.schema!==FLOW_SPEC.schemas.human || !Number.isInteger(human.index) || human.index<0 || !human.annotation || !board || board.parent!==page || !text || text.parent!==board || text.getPluginData('semanticKey')!==board.getPluginData('semanticKey')+':'+human.board.key || human.board.key!==human.board.key.trim() || human.board.key==='' || text.characters!==spec.title+'\n'+spec.display_text || JSON.stringify(JSON.parse(board.getPluginData('designNoteBoard')||'null'))!==JSON.stringify({pageId:page.id,sourceHash:value.source_owner_hash}) || typeof human.url!=="string" || human.url!==expectedUrl || !Array.isArray(node.annotations) || !equalNativeValue(node.annotations[human.index],human.annotation) || !nativeHumanMarkdownMatches(human.annotation,spec,human.url) || node.annotations.filter(annotation=>nativeHumanMarkdownMatches(annotation,spec,human.url)).length!==1 || text.getRangeHyperlink?.(0,text.characters.length)?.type!=='NODE' || text.getRangeHyperlink?.(0,text.characters.length)?.value!==node.id))) throw new Error("invalid native specification wrapper");
+        row.specification = copy(value);
+        row.specification_status = "observed";
+      } catch (error) {
+        row.specification = {raw:specification,error:error.message || String(error)};
+        row.specification_status = "invalid";
+      }
+    }
+    if (node.type === "TEXT" && typeof node.getRangeHyperlink === "function") {
+      try { row.hyperlink = copy(node.getRangeHyperlink(0,node.characters.length) || null); }
+      catch (error) { row.unavailable_fields.hyperlink = error.message || String(error); }
+    }
     for (const field of ["x", "y", "width", "height", "visible", "absoluteBoundingBox", "characters", "fontName", "fontSize", "textStyleId", "fillStyleId", "strokeStyleId", "lineHeight", "letterSpacing", "paragraphSpacing", "textCase", "textDecoration", "opacity", "cornerRadius", "topLeftRadius", "topRightRadius", "bottomLeftRadius", "bottomRightRadius", "layoutMode", "primaryAxisSizingMode", "counterAxisSizingMode", "layoutSizingHorizontal", "layoutSizingVertical", "layoutWrap", "textAutoResize", "textAlignHorizontal", "textAlignVertical", "primaryAxisAlignItems", "counterAxisAlignItems", "minWidth", "maxWidth", "minHeight", "maxHeight", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "itemSpacing", "boundVariables", "annotations", "fills", "strokes", "effects", "explicitVariableModes", "resolvedVariableModes", "variantProperties", "componentProperties", "componentPropertyDefinitions", "annotationCategoryId"]) {
       try {
         if (!(field in node)) { row.unavailable_fields[field] = "unsupported on this node"; continue; }
@@ -58,6 +80,8 @@ async function readNativeSemantics(figma, page) {
       } catch (error) { row.unavailable_fields.textSegments = error.message || String(error); }
     }
     if (node.type === "INSTANCE") {
+      try { if ("overrides" in node) row.overrides = copy(node.overrides); }
+      catch (error) { row.unavailable_fields.overrides = error.message || String(error); }
       try {
         if (typeof node.getMainComponentAsync !== "function") throw new Error("main component API unavailable");
         const main = await node.getMainComponentAsync();
@@ -133,3 +157,6 @@ async function readNativeSemantics(figma, page) {
   return { pageId: page.id, selectedPageIds: [page.id], collectionIds: [...collections.keys()], collections: [...collections.values()], variables: [...variables.values()], nodes: rows, styles, unavailableFields };
 }
 if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics };
+
+function equalNativeValue(a,b){return JSON.stringify(a,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value)===JSON.stringify(b,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value);}
+function nativeHumanMarkdownMatches(annotation,spec,url){const label=FLOW_SPEC_LABELS[spec.locale];return Boolean(label&&typeof spec.annotation_text==="string"&&annotation?.labelMarkdown===`${spec.title}\n${spec.annotation_text.trim()}\n\n[${label}](${url})`);}

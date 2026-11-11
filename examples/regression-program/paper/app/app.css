@@ -1,0 +1,20 @@
+html, body { margin: 0; overflow-x: hidden; }
+body { font-family: Georgia, serif; background: #fbfaf6; color: #241e18; font-size: 20px; line-height: 1.6; }
+button, input, textarea, select { font: inherit; }
+h1 { font-weight: 500; font-size: clamp(28px, 5vw, 44px); margin: 0; }
+h1, h2, p, button, td, th, label, a { overflow-wrap: anywhere; }
+#app { display: grid; gap: 18px; padding: 32px 20px 64px; }
+#prose, .prose { max-width: 66ch; }
+nav { display: flex; flex-wrap: wrap; gap: 12px; font-family: ui-sans-serif, sans-serif; font-size: 14px; }
+nav a { color: inherit; }
+button { font-family: ui-sans-serif, sans-serif; background: #243026; color: #fbfaf6; border: 0; padding: 8px 12px; }
+input, textarea { width: min(100%, 66ch); font-family: Georgia, serif; }
+textarea { min-height: 12rem; }
+.input-section { max-width: 66ch; }
+table { width: min(100%, 66ch); border-collapse: collapse; font-family: ui-sans-serif, sans-serif; font-size: 15px; }
+th, td { text-align: left; padding: 8px 0; border-bottom: 1px solid #ddd6c8; }
+@media (max-width: 768px) {
+  body { font-size: 18px; }
+  #app { padding: 16px; }
+  table, thead, tbody, tr, th, td { display: block; }
+}

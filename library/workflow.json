@@ -5,13 +5,13 @@
     "complete"
   ],
   "boundaries": {
-    "selection": "Explicit human selection of one exact candidate and current content hashes; never automatic approval.",
+    "selection": "Admit one current exact direction through an actual specific managed user instruction in direct mode, or an actual post-presentation candidate choice in compare mode. Never automatic approval.",
     "generation": "Current selected candidate and complete frozen batch required before asset generation.",
     "scope": "Technical and non-Figma branches require independently resolved scope evidence.",
     "invalidation": "Before persisting the new state, invalidate edge-listed downstream receipts and eligibility references; preserve prior user work, assets, files and evidence as history.",
     "terminal": "Complete has no outgoing transitions; changed scope starts a new workflow.",
     "native_review": "Figma-target candidate review drafts may be materialized before human selection; they are review-only, never asset-generation or final production approval. Only current verified actual native reports covering candidate screens, native annotations with ordinary Design-canvas readable linked note boards, palette, tokens, click destination IDs and return links permit requesting selection. Prepared UI packages or verifier admission alone are not native observations. The direct HTML review branch requires explicit non-Figma review scope.",
-    "native_canvas": "Both draft review and production native evidence must satisfy the native_canvas evidence contract. Annotations must additionally be exposed as ordinary Design-canvas readable note boards linked to their target screens or nodes. Figma Dev Mode is never required; annotation-only or Dev Mode-only visibility cannot satisfy this contract."
+    "native_canvas": "Both draft review and production native evidence must satisfy the native_canvas evidence contract. Annotations must additionally be exposed as ordinary Design-canvas readable note boards linked to their target screens or nodes. Figma Dev Mode is never required; annotation-only or Dev Mode-only visibility cannot satisfy this contract. Structured specification metadata and ordinary readable specification outside artboards carry engineering details; do not force technical strings into product screens."
   },
   "states": [
     {
@@ -47,7 +47,7 @@
     {
       "symbol": "SELECTED",
       "id": "selected",
-      "label": "Exact candidate and hashes selected",
+      "label": "Exact direction and hashes admitted",
       "terminal": false
     },
     {
@@ -143,6 +143,10 @@
     {
       "symbol": "REVISE_BRIEF",
       "id": "revise-brief"
+    },
+    {
+      "symbol": "ADMIT_DIRECT",
+      "id": "admit-direct"
     }
   ],
   "guards": [
@@ -222,6 +226,11 @@
       "id": "native-review-current",
       "authority": "controller",
       "evidence_contract": "native_canvas"
+    },
+    {
+      "symbol": "DIRECT_INSTRUCTION_CURRENT",
+      "id": "direct-instruction-current",
+      "authority": "human"
     }
   ],
   "edges": [
@@ -635,6 +644,27 @@
         "native",
         "implementation",
         "verification"
+      ]
+    },
+    {
+      "from": "selection-ready",
+      "event": "admit-direct",
+      "to": "selected",
+      "guards": [
+        "candidates-current",
+        "direct-instruction-current",
+        "non-figma-review-scope"
+      ]
+    },
+    {
+      "from": "native-review-pending",
+      "event": "admit-direct",
+      "to": "selected",
+      "guards": [
+        "candidates-current",
+        "direct-instruction-current",
+        "figma-review-scope",
+        "native-review-current"
       ]
     }
   ],

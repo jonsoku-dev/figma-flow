@@ -11,7 +11,7 @@ for (const task of FLOW_TASKS) {
 let workspaceActive = null;
 let workspaceHomeSession = '';
 let workspaceNotice = '';
-const workspaceLocales = new Set(['ko', 'en', 'ja']);
+const workspaceLocales = new Set(FLOW_LOCALES);
 const workspaceOperations = new Set(['import', 'export', 'sync', 'draft-review', 'read', 'apply', 'verification', 'download', 'chat:queue', 'chat:open']);
 const workspaceStatuses = new Set(['requested', 'finished', 'failed', 'readback', 'verified', 'baseline']);
 const workspaceStorageKey = figma.fileKey ? 'figma-flow-workspace-v1:' + figma.fileKey : null;
@@ -165,7 +165,7 @@ window.FlowWorkspace = Object.freeze({
     window.parent.postMessage({pluginMessage: {type, workspaceSession}}, '*');
   },
   setLocale(locale) {
-    if (!['ko', 'en', 'ja'].includes(locale)) return;
+    if (!${JSON.stringify([...workspaceLocales])}.includes(locale)) return;
     if (window.FlowUI) window.FlowUI.setLocale(locale);
     window.parent.postMessage({pluginMessage: {type: 'workspace-locale', workspaceSession, locale}}, '*');
   }

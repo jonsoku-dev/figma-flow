@@ -39,7 +39,8 @@
   }
   locale?.addEventListener('change', () => {
     const value = locale.value;
-    if (!['ko', 'en', 'ja'].includes(value)) return;
+    const codes = locale.options ? [...locale.options].map(option => option.value) : null;
+    if (codes && codes.length && !codes.includes(value)) return;
     if (settings.onLocale) settings.onLocale(value);
     else globalThis.FlowUI?.setLocale(value);
   });

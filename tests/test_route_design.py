@@ -35,15 +35,41 @@ class RouteDesignTests(unittest.TestCase):
         self.assertEqual(plan['workflow']['sha256'], workflow.graph_hash())
         self.assertEqual(plan['workflow']['initial_state'], workflow.load_graph()['initial'])
         gate = next(g for g in plan['gates'] if g['id'] == 'human_direction_selection')
-        self.assertEqual(gate['state'], workflow.State.WAIT_SELECTION.value)
-        self.assertEqual(plan['workflow']['approval_event'], workflow.Event.SELECT.value)
+        self.assertIsNone(gate['state'])
+        self.assertIsNone(plan['workflow']['approval_event'])
         self.assertNotIn('selection_sha256', plan)
-        self.assertIn('--review-destination figma', gate['draft_cli'])
+        self.assertIsNone(gate['draft_cli'])
+        self.assertIn('resolve direct or compare', gate['next_action'])
         native = self.plan('Figma 원본으로 게임 캠페인 UI 만들어줘')
         gates = {row['id']: row for row in native['gates']}
-        self.assertIn('--review-destination figma', gates['human_direction_selection']['draft_cli'])
+        self.assertIsNone(gates['human_direction_selection']['draft_cli'])
         self.assertEqual(gates['figma_direction_review']['state'], workflow.State.NATIVE_REVIEW_PENDING.value)
         self.assertIsNone(self.plan('디자인 자료 조사만')['workflow'])
+
+    def test_every_action_uses_the_resolved_direction_protocol(self):
+        direct = self.plan('Figma에서 게임 캠페인 시안 하나만 디자인해줘. 폰트와 로고도 만들어줘.')
+        self.assertEqual(direct['direction_mode']['mode'], 'direct')
+        actions = ' '.join(action for lane in direct['routes'] for action in lane['actions'])
+        self.assertIn('Author one direction', actions)
+        self.assertIn('actual managed user instruction with admit-direct', actions)
+        for stale in ('Show two or three', 'then compare distinct', 'After explicit selection', 'before selection', 'human-selected'):
+            self.assertNotIn(stale, actions)
+        native = next(g for g in direct['gates'] if g['id'] == 'native_semantic_handoff')['requirement']
+        for evidence in ('actual getters', 'graph-linked structured specification metadata', 'readable linked specification boards', 'actual variable bindings'):
+            self.assertIn(evidence, native)
+        unresolved = self.plan('게임 캠페인 웹사이트 만들어줘')
+        self.assertEqual(unresolved['direction_mode']['mode'], 'inspect-context')
+        actions = ' '.join(action for lane in unresolved['routes'] for action in lane['actions'])
+        self.assertIn('No draft count or production admission is decided yet', actions)
+        self.assertNotIn('Show two or three', actions)
+        self.assertIsNone(unresolved['workflow']['approval_event'])
+        self.assertIsNone(unresolved['workflow']['selection_boundary'])
+        compare = self.plan('게임 캠페인 시안 세 가지 만들어줘')
+        self.assertEqual(compare['direction_mode']['mode'], 'compare')
+        self.assertIn('Show two or three', ' '.join(self.lanes(compare)['direction']['actions']))
+        continued = router.route('계속 만들어줘', registry(), context='Figma에서 시안 하나만 디자인해줘')
+        self.assertEqual(continued['direction_mode']['source'], 'provided_context')
+        self.assertIn('Author one direction', ' '.join(self.lanes(continued)['direction']['actions']))
 
     def test_multi_surface_multi_lane_directions_and_dependencies(self):
         result = self.plan('한국 일본 출시 캠페인: cinematic KV와 bold graphic 로고 레터링, illustrated collectible 굿즈 이미지 생성, 아이콘, KR JP typography, motion, Figma SSOT 웹')
@@ -214,6 +240,16 @@ class RouteDesignTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.plan('  ')
 
+    def test_no_surface_style_preset_and_context_first_route(self):
+        plan = self.plan('Create a landing page with a key visual and a logo')
+        self.assertTrue(all(s['direction'] == 'repository_context' for s in plan['surfaces']))
+        self.assertEqual(plan['direction_mode']['mode'], 'inspect-context')
+        self.assertEqual(plan['authoring_context']['visual_quality'], 'unverified')
+        direct = self.plan('Create one direction for our reading dashboard without comparison')
+        self.assertEqual(direct['direction_mode']['mode'], 'direct')
+        self.assertEqual(direct['workflow']['approval_event'], 'admit-direct')
+        self.assertEqual(self.plan('Create cinematic key art')['surfaces'][0]['direction'], 'cinematic')
+
     def test_real_registry_korean_campaign_brief_and_normal_cli(self):
         prompt = '일본 모바일 RPG 캠페인의 시네마틱 키아트와 대담한 전용 로고, 항구 인장 아이콘, 수집용 승선증을 이미지로 생성하고 한일 폰트를 정해줘. Figma 원본 그대로 웹으로 옮겨줘. Figma MCP 없이.'
         result = router.route(prompt)
@@ -221,7 +257,7 @@ class RouteDesignTests(unittest.TestCase):
         self.assertEqual(surfaces['key_visual']['cues'], ['cinematic'])
         self.assertEqual(surfaces['lettering']['cues'], ['graphic'])
         self.assertEqual(surfaces['collectible']['direction'], 'illustrated_collectible')
-        self.assertEqual(surfaces['seal']['direction'], 'illustrated_collectible')
+        self.assertEqual(surfaces['seal']['direction'], 'repository_context')
         self.assertEqual(self.lanes(result)['icons']['asset_scopes'], ['seal'])
         self.assertNotIn('lettering', self.lanes(result)['images']['asset_scopes'])
         self.assertEqual(result['constraints']['locales'], ['KR', 'JP'])

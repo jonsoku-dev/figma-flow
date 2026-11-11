@@ -1,6 +1,6 @@
 # 복습 카드 디자인 예시
 
-`design.json`은 편집 가능한 토큰, 컴포넌트 변형, 두 화면의 명세입니다. 화면과 요구사항, 행동 ID는 `figma-flow-local-0.4.0/drafts/cards-graph.json`을 참조합니다. 화면 배치와 예시 문구는 디자인 제안입니다.
+`design.json`은 편집 가능한 토큰, 컴포넌트 변형, 두 화면의 명세입니다. 화면과 요구사항, 행동 ID는 `product-graph.json`을 참조합니다. 화면 배치와 예시 문구는 디자인 제안입니다.
 
 ```sh
 python3 tools/design_system.py --input examples/review-design/design.json --out /tmp/review-design-new

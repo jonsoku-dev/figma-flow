@@ -5,7 +5,7 @@ import re
 from urllib.parse import unquote, urlsplit
 
 
-TEXT_FIELDS = ('purpose', 'behavior', 'precondition', 'result', 'failure', 'design_choice', 'journey')
+TEXT_FIELDS = ('purpose', 'behavior', 'precondition', 'result', 'failure', 'design_choice', 'journey', 'summary', 'platform_scope')
 SEMANTIC_FIELDS = TEXT_FIELDS + ('first_action', 'functional_states', 'visual_variant', 'control_id')
 
 
@@ -219,6 +219,20 @@ def validate_native_annotations(readback, declaration, page_id=None):
             raise ValueError('explicit strict-creation annotation declaration required')
         graph = declaration.get('product_graph')
         expected = derive_notes(graph)
+        specifications = declaration.get('specifications')
+        if specifications is not None and not isinstance(specifications, dict):
+            raise ValueError('current readable specification map required')
+        if specifications is not None:
+            from specification_contract import derive_specifications
+            revisions = {(spec.get('source_graph_sha256'), spec.get('source_graph_encoding'))
+                         for spec in specifications.values() if isinstance(spec, dict)}
+            if len(revisions) != 1 or len(specifications) != len(expected):
+                raise ValueError('one complete current graph specification revision required')
+            revision, encoding = next(iter(revisions))
+            compiled = derive_specifications(graph, source_graph_sha256=revision
+                if encoding == 'file-bytes-sha256' else None)
+            if specifications != {spec['id']: spec for spec in compiled}:
+                raise ValueError('specifications differ from canonical graph meaning or relationships')
         supplied = declaration.get('notes')
         semantic_report = validate_notes(supplied, graph)
         errors.extend(semantic_report['errors'])
@@ -246,6 +260,24 @@ def validate_native_annotations(readback, declaration, page_id=None):
                 errors.append('missing/ambiguous annotation target on selected native page: ' + note['id'])
                 continue
             node = found[0]
+            if specifications is not None:
+                from specification_contract import validate_specification, connected_board_reference
+                spec = specifications.get(note['id'])
+                board_ref = connected_board_reference(nodes, parents, node['id'], spec, page_id=selected,
+                    source_owner_hash=declaration.get('source_owner_hash')) if spec else None
+                checked = validate_specification(spec, node.get('specification'), native_id=node['id'],
+                    semantic_key=key, source_owner_hash=declaration.get('source_owner_hash'),
+                    annotations=node.get('annotations'), file_key=readback.get('fileKey'), board_ref=board_ref)
+                errors.extend('specification ' + note['id'] + ': ' + item for item in checked['errors'] + checked['unverified'])
+                prefix = '[figma-flow:' + key + '] '
+                if any(text.startswith(prefix) for text in annotations(node)):
+                    errors.append('owned technical annotation remains on artwork: ' + node['id'])
+                meaning = (node.get('specification') or {}).get('specification', {}).get('meaning', {})
+                claim_text = '\n'.join(str(value) for value in meaning.values())
+                errors.extend(_native_claim_errors(node, nodes, parents, claim_text))
+                report['nodes'].append({'id': node['id'], 'semantic_id': note['id'],
+                                        'native_annotations': annotations(node), 'specification': node.get('specification')})
+                continue
             text = '\n'.join(annotations(node))
             if not text:
                 errors.append('actual native annotations missing: ' + node['id'])
@@ -262,7 +294,11 @@ def validate_native_annotations(readback, declaration, page_id=None):
         # Unsupported claims on other annotated objects cannot hide outside the required controls.
         for node in nodes.values():
             if within(node['id']):
-                errors.extend(error for error in _native_claim_errors(node, nodes, parents, '\n'.join(annotations(node))) if error not in errors)
+                text = '\n'.join(annotations(node))
+                if specifications is not None and isinstance(node.get('specification'), dict):
+                    meaning = node['specification'].get('specification', {}).get('meaning', {})
+                    text += '\n' + '\n'.join(str(value) for value in meaning.values())
+                errors.extend(error for error in _native_claim_errors(node, nodes, parents, text) if error not in errors)
     except (ValueError, TypeError, KeyError, AttributeError) as exc:
         errors.append(str(exc))
     report['passed'] = not errors

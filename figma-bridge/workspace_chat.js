@@ -67,7 +67,7 @@ const WorkspaceChat = (() => {
     async function relayAction(action, requestId, text) {
       check();
       if (!paired) throw Error('로컬 채팅 연결이 없습니다. 내용을 복사하고 채팅에서 붙여 넣어 주세요.');
-      if (!UUID.test(requestId || '') || used.has(requestId)) throw Error('이미 처리한 요청입니다. 중복 전송하지 않았습니다.');
+      if (!UUID.test(requestId || '') || used.has(requestId)) throw Error(FLOW_CHAT_DUPLICATE);
       used.add(requestId);
       const body = {key: task.key, threadId: task.threadId, revision: task.revision, requestId};
       if (action === 'queue') body.text = text;
