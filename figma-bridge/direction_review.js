@@ -351,9 +351,14 @@ function validateDraftTypography(node, authored, candidate, fail, resizeMode = '
 }
 
 function measureDraftNaturalWidth(node) {
-  let probe;
+  let probe, container;
   try {
+    container = figma.createFrame();
+    container.name = 'Temporary text measurement';
+    container.layoutMode = 'NONE';
+    container.visible = false;
     probe = node.clone();
+    container.appendChild(probe);
     probe.minWidth = null;
     probe.maxWidth = null;
     probe.minHeight = null;
@@ -366,11 +371,12 @@ function measureDraftNaturalWidth(node) {
   } catch (error) {
     return {naturalWidth: null, naturalWidthError: String(error)};
   } finally {
-    if (probe) {
+    for (const temporary of [probe, container]) {
+      if (!temporary) continue;
       try {
-        probe.remove();
+        temporary.remove();
       } catch (error) {
-        status('Native measurement clone cleanup failed: ' + String(error));
+        status('Native measurement cleanup failed: ' + String(error));
       }
     }
   }

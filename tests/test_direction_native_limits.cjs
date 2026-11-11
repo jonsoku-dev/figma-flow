@@ -6,7 +6,9 @@ const path = require('node:path');
 const vm = require('node:vm');
 const runtime = fs.readFileSync(path.join(__dirname, '../figma-bridge/direction_review.js'), 'utf8');
 function host() {
+  const measurementFrames = [];
   const context = vm.createContext({DRAFT:{}, __html__:'', figma:{showUI(){},ui:{postMessage(){}},
+    createFrame(){const frame={children:[],appendChild(node){this.children.push(node);node.parent=this;},remove(){this.removed=true;this.children=[];}};measurementFrames.push(frame);return frame;},
     async getStyleByIdAsync(id){return {id,name:id,fontName:{family:'Inter',style:'Regular'},fontSize:17,lineHeight:{unit:'PIXELS',value:24}};}}});
   vm.runInContext(runtime, context);
   const data = new Map(), writes = [];
@@ -15,7 +17,7 @@ function host() {
     assert(bytes<=100000,`Figma plugin-data entry exceeds 100 kB: ${key} (${bytes})`);
     writes.push({key,bytes});if(value)data.set(key,value);else data.delete(key);
   }};
-  return {context,page,data,writes};
+  return {context,page,data,writes,measurementFrames};
 }
 const plain = value => JSON.parse(JSON.stringify(value));
 
@@ -227,6 +229,7 @@ test('full geometry failure evidence preserves all offending rects and native na
   };
   assert.throws(()=>h.validate(),/native text height 38 exceeds authored budget 19/);
   assert.equal(removed,2);
+  assert.equal(h.measurementFrames.length,2);assert(h.measurementFrames.every(frame=>frame.removed));
   const failure=messages.find(message=>message.type==='geometry-failure').data;
   assert.equal(failure.passed,false);
   assert.equal(failure.schema,'figma-flow-native-geometry-failure-v1');
@@ -247,6 +250,7 @@ test('failed width probe removes its clone and leaves the original failure actio
   h.context.figma.ui.postMessage=message=>{if(message.type==='geometry-failure')failure=message.data;};
   assert.throws(()=>h.validate(),/native text height 40 exceeds authored budget 20/);
   assert.equal(removed,2);
+  assert.equal(h.measurementFrames.length,2);assert(h.measurementFrames.every(frame=>frame.removed));
   const overflow=failure.findings.find(finding=>finding.message.startsWith('native text height'));
   assert.equal(overflow.actual.naturalWidth,null);
   assert.match(overflow.actual.naturalWidthError,/native measurement unavailable/);
