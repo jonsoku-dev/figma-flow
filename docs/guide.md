@@ -547,6 +547,18 @@ codex plugin list --marketplace "$MARKETPLACE" --json
 
 선택적 paired sync는 기존 상태·인증·페이지·키·baseline 체인을 보존하고 새 전용 상태에서 확인합니다. 새 JSON을 과거 성공 자료로 대체하지 않습니다. 예전 개발 플러그인 등록 정리는 새 연결 검증 후 해당 등록만 대상으로 합니다. 원래 ID·manifest 경로·전체 패키지를 복원 가능하게 보관하고, 다른 ID의 private data를 새 ID로 자동 이관하지 않습니다.
 
+원본 graph나 검증된 manifest를 바꾼 뒤 이전 준비 작업이 새 목록 게시를 막으면, `list`의 정확한 키·revision을 선택해 이전 작업을 퇴역시킬 수 있습니다. 다음 선택 파일의 revision은 실제 값으로 바꿉니다.
+
+```json
+{"schema":"figma-flow-workspace-retirement-v1","tasks":[{"key":"obsolete-review","revision":"CURRENT_REVISION_SHA256"}]}
+```
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" retire --workspace "$WORKSPACE" --tasks "$RETIRE_SELECTION"
+```
+
+선택 전체를 확인한 뒤 활성 목록에서만 제외하고 비공개 `.retired`에 복구 기록을 남깁니다. 실제 디자인·작업 파일·이전 세대·영수증은 유지합니다. 실행 중이거나 변경 결과가 불확실하면 먼저 확인해야 하며, 원본을 과거 바이트로 되돌려 검사를 통과시키지 않습니다. 다시 사용할 작업은 현재 입력으로 새로 준비합니다. 큰 스펙 갱신 계획은 128,000바이트 한도 안에서 나누고, 다음 계획은 직전 실행 후 새로 읽은 자료로 만듭니다.
+
 <a id="paired-receivers"></a>
 
 ### 기존 paired 동기화와 검토 수신기

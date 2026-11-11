@@ -305,6 +305,143 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(failures, [])
         self.assertEqual({task['key'] for task in workspace.list_tasks(self.path)['tasks']}, {'read-one', 'read-two'})
 
+    def retirement_selection(self, rows):
+        path = self.root / 'retirement.json'
+        path.write_text(json.dumps({'schema': 'figma-flow-workspace-retirement-v1', 'tasks': rows}))
+        return path
+
+    def snapshot(self):
+        return {str(path.relative_to(self.path)): path.read_bytes() if path.is_file() else None
+                for path in self.path.rglob('*')}
+
+    def test_retirement_unblocks_stale_sources_without_removing_artifacts_or_history(self):
+        for key in ('edit-one', 'edit-two'):
+            plan = self.root / (key + '.json')
+            plan.write_text(json.dumps({'schema': 'figma-flow-native-edit-plan-v1',
+                'file_key': 'FILE123', 'page_id': '1:2',
+                'edits': [{'node_id': '3:4', 'field': 'paddingLeft', 'before': 12, 'after': 20}]}))
+            workspace.prepare(self.path, key, key, 'native-edit', ['--plan', str(plan)])
+        self.prepare(key='keep-read')
+        before = workspace.current(self.path)
+        selected = [{'key': row['key'], 'revision': row['revision']} for row in before['tasks'] if row['kind'] == 'native-edit']
+        receipts = self.path / '.readbacks'
+        receipts.mkdir(mode=0o700)
+        workspace.atomic(receipts / 'receipt.json', b'{"preserved":true}')
+        preserved = self.snapshot()
+        for key in ('edit-one', 'edit-two'):
+            (self.root / (key + '.json')).write_text('{}')
+        with self.assertRaisesRegex(ValueError, 'inputs changed'):
+            self.prepare(key='fresh-read')
+        self.assertEqual(len(workspace.current(self.path)['tasks']), 3)
+        partial = self.retirement_selection(selected[:1])
+        with self.assertRaisesRegex(ValueError, 'inputs changed'):
+            workspace.retire(self.path, partial)
+        self.assertFalse((self.path / '.retired').exists())
+        selection = self.retirement_selection(selected)
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            self.assertEqual(workspace.main(['retire', '--workspace', str(self.path), '--tasks', str(selection)]), 0)
+        result = json.loads(output.getvalue())
+        self.assertEqual(result['retired'], selected)
+        self.assertNotEqual(result['generation'], before['generation'])
+        record = workspace.read(result['record'], private=True)
+        self.assertEqual(record['catalogue_before'], before)
+        self.assertEqual(record['before_generation'], before['generation'])
+        self.assertEqual(record['retired_tasks'], before['tasks'][:2])
+        self.assertTrue(record['created_at'])
+        self.assertEqual(Path(result['record']).stat().st_mode & 0o777, 0o600)
+        self.assertEqual(Path(result['record']).parent.stat().st_mode & 0o777, 0o700)
+        for path, content in preserved.items():
+            if path.startswith(('.tasks/', '.generations/', '.readbacks/')) and content is not None:
+                self.assertEqual((self.path / path).read_bytes(), content)
+        self.assertEqual([row['key'] for row in workspace.current(self.path)['tasks']], ['keep-read'])
+        self.assertFalse(self.prepare(key='fresh-read')['unchanged'])
+        snapshot = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'conflict'):
+            workspace.retire(self.path, selection)
+        self.assertEqual(self.snapshot(), snapshot)
+
+    def test_retirement_rejects_entire_invalid_selection_without_changes(self):
+        task = self.prepare()
+        row = {'key': task['key'], 'revision': task['revision']}
+        for rows in ([], [row] * 129, [row, row], [row, {'key': 'missing', 'revision': task['revision']}],
+                     [{**row, 'revision': '0' * 64}], [{**row, 'extra': True}], [{'key': [], 'revision': task['revision']}],
+                     [{**row, 'revision': 'invalid'}]):
+            with self.subTest(rows=rows[:2]):
+                selection = self.retirement_selection(rows)
+                before = self.snapshot()
+                with self.assertRaises(ValueError):
+                    workspace.retire(self.path, selection)
+                self.assertEqual(self.snapshot(), before)
+        selection.write_text('{"schema":"wrong","tasks":[]}')
+        with self.assertRaisesRegex(ValueError, 'schema'):
+            workspace.retire(self.path, selection)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_retirement_blocks_claims_and_unresolved_mutations_but_allows_recovered_history(self):
+        import figma_control as control
+        task = self.prepare()
+        selection = self.retirement_selection([{'key': task['key'], 'revision': task['revision']}])
+        control.enable(self.path, 49198)
+        directory = self.path / '.control'
+        request_path = directory / 'requests' / 'synthetic.json'
+        for state in ('claimed', 'uncertain'):
+            workspace.atomic(request_path, workspace.encode({'schema': control.SCHEMA, 'state': state, 'operation': 'native-edit'}))
+            before = self.snapshot()
+            with self.assertRaisesRegex(ValueError, 'blocked'):
+                workspace.retire(self.path, selection)
+            self.assertEqual(self.snapshot(), before)
+        marker = directory / 'uncertainty.json'
+        workspace.atomic(marker, workspace.encode({'schema': control.SCHEMA, 'operations': {'original': {'operation': 'native-edit'}}}))
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'uncertain'):
+            workspace.retire(self.path, selection)
+        self.assertEqual(self.snapshot(), before)
+        workspace.atomic(marker, workspace.encode({'schema': control.SCHEMA, 'operations': {}}))
+        workspace.retire(self.path, selection)
+        self.assertEqual(workspace.current(self.path)['tasks'], [])
+
+    def test_retirement_keeps_remaining_bundle_validation_strict(self):
+        retired = self.prepare(key='retire-read')
+        self.prepare(key='keep-read')
+        kept = workspace.current(self.path)['tasks'][1]
+        bundle = workspace.task_artifacts(self.path, kept)
+        workspace.atomic(bundle / 'code.js', b'tampered')
+        before = self.snapshot()
+        selection = self.retirement_selection([{'key': retired['key'], 'revision': retired['revision']}])
+        with self.assertRaisesRegex(ValueError, 'artifacts changed'):
+            workspace.retire(self.path, selection)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_retirement_allows_uncertain_read_without_mutation_marker(self):
+        import figma_control as control
+        task = self.prepare()
+        selection = self.retirement_selection([{'key': task['key'], 'revision': task['revision']}])
+        control.enable(self.path, 49198)
+        workspace.atomic(self.path / '.control/requests/read.json', workspace.encode(
+            {'schema': control.SCHEMA, 'state': 'uncertain', 'operation': 'read'}))
+        workspace.retire(self.path, selection)
+        self.assertEqual(workspace.current(self.path)['tasks'], [])
+
+    def test_failed_retirement_publication_restores_catalogue_and_retains_intent_record(self):
+        task = self.prepare()
+        selection = self.retirement_selection([{'key': task['key'], 'revision': task['revision']}])
+        before = workspace.current(self.path)
+        manifest = (self.path / 'manifest.json').read_bytes()
+        original = workspace.atomic
+        def fail_manifest(path, raw):
+            if Path(path) == self.path / 'manifest.json':
+                raise OSError('injected publication failure')
+            return original(path, raw)
+        with patch.object(workspace, 'atomic', side_effect=fail_manifest), self.assertRaises(OSError):
+            workspace.retire(self.path, selection)
+        self.assertEqual((self.path / 'manifest.json').read_bytes(), manifest)
+        self.assertEqual(workspace.read(self.path / 'catalogue.json', private=True), before)
+        self.assertEqual(workspace.current(self.path), before)
+        records = list((self.path / '.retired').glob('*.json'))
+        self.assertEqual(len(records), 1)
+        self.assertEqual(workspace.read(records[0], private=True)['catalogue_before'], before)
+
 
 if __name__ == '__main__':
     unittest.main()

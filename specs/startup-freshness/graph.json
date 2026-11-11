@@ -160,6 +160,36 @@
       "status": "unverified",
       "source": "../../figma-bridge/workspace_control.js",
       "detail": "File exists; authenticated Figma runtime execution is not performed in this task."
+    },
+    {
+      "id": "REQ-UPDATE-06",
+      "type": "requirement",
+      "title": "Explicitly retire obsolete prepared tasks without losing recovery data",
+      "status": "observed",
+      "source": "request.md"
+    },
+    {
+      "id": "ACT-UPDATE-02",
+      "type": "action",
+      "title": "Retire selected obsolete prepared tasks by exact revision",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-UPDATE-01",
+      "target_ids": []
+    },
+    {
+      "id": "AC-UPDATE-08",
+      "type": "acceptance",
+      "title": "Atomic revision-checked retirement preserves artifacts and keeps other work usable",
+      "status": "unverified",
+      "source": "spec.md"
+    },
+    {
+      "id": "TEST-UPDATE-04",
+      "type": "test",
+      "title": "Prepared task retirement and preservation checks",
+      "status": "planned",
+      "source": "../../tests/test_figma_workspace.py"
     }
   ],
   "edges": [
@@ -331,6 +361,36 @@
     {
       "from": "CODE-UPDATE-03",
       "to": "TEST-UPDATE-02",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-UPDATE-06",
+      "to": "SCR-UPDATE-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-UPDATE-06",
+      "to": "AC-UPDATE-08",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-UPDATE-01",
+      "to": "ACT-UPDATE-02",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-UPDATE-02",
+      "to": "CODE-UPDATE-02",
+      "type": "implemented by"
+    },
+    {
+      "from": "AC-UPDATE-08",
+      "to": "TEST-UPDATE-04",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-UPDATE-02",
+      "to": "TEST-UPDATE-04",
       "type": "checked by"
     }
   ]

@@ -2,6 +2,7 @@
 """Compile trusted Figma Flow tasks into one private, atomically published plugin."""
 import argparse
 from contextlib import contextmanager
+from datetime import datetime, timezone
 try:
     import fcntl
 except ImportError:
@@ -642,6 +643,64 @@ def list_tasks(workspace):
             'tasks': [{key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'threadId', 'fileKey', 'pageId', 'revision')} for task in catalogue['tasks']]}
 
 
+def retire(workspace, tasks):
+    selection = read(tasks, limit=32768)
+    if not isinstance(selection, dict) or set(selection) != {'schema', 'tasks'} or selection['schema'] != 'figma-flow-workspace-retirement-v1':
+        raise ValueError('Invalid retirement selection schema')
+    selected = selection['tasks']
+    if not isinstance(selected, list) or not 1 <= len(selected) <= 128:
+        raise ValueError('Retirement requires 1 to 128 exact task revisions')
+    expected = {}
+    for row in selected:
+        if not isinstance(row, dict) or set(row) != {'key', 'revision'}:
+            raise ValueError('Invalid retirement task row')
+        key, revision = row['key'], row['revision']
+        if not isinstance(key, str) or not re.fullmatch(r'[a-z][a-z0-9]*(?:-[a-z0-9]+)*', key) or len(key) > 64 or key in expected or not isinstance(revision, str) or not re.fullmatch(r'[a-f0-9]{64}', revision):
+            raise ValueError('Invalid or duplicate retirement key or revision')
+        expected[key] = revision
+    with locked(workspace) as root:
+        catalogue = current(root, repair=False)
+        rows = {row['key']: row for row in catalogue['tasks']}
+        if any(key not in rows or rows[key]['revision'] != revision for key, revision in expected.items()):
+            raise ValueError('Retirement conflict: unknown task or stale revision; list the workspace')
+        require_idle_publication(root)
+        directory = child(root, '.control')
+        marker = child(root, '.control/uncertainty.json')
+        if marker.exists():
+            from figma_control import SCHEMA as CONTROL_SCHEMA
+            pending = read(marker, private=True, limit=1_000_000)
+            if not isinstance(pending, dict) or pending.get('schema') != CONTROL_SCHEMA or not isinstance(pending.get('operations'), dict):
+                raise ValueError('Invalid private uncertainty marker')
+            uncertain = bool(pending['operations'])
+        else:
+            uncertain = any(request.get('state') == 'uncertain' and request.get('operation') != 'read'
+                for request in (read(path, private=True, limit=32768) for path in child(directory, 'requests').glob('*.json')))
+        if uncertain:
+            raise ValueError('Retirement blocked: native mutation remains uncertain; re-read the native state')
+        remaining = [row for row in catalogue['tasks'] if row['key'] not in expected]
+        for row in remaining:
+            task_artifacts(root, row)
+        record = {'schema': 'figma-flow-workspace-retirement-record-v1',
+            'created_at': datetime.now(timezone.utc).isoformat(), 'before_generation': catalogue['generation'],
+            'catalogue_before': catalogue, 'retired_tasks': [rows[key] for key in expected]}
+        records = private_dir(child(root, '.retired'), create=True)
+        record_path = records / (uuid.uuid4().hex + '.json')
+        with record_path.open('xb') as stream:
+            os.fchmod(stream.fileno(), 0o600)
+            stream.write(encode(record))
+            stream.flush()
+            os.fsync(stream.fileno())
+        before = regular(root / 'catalogue.json', private=True).read_bytes()
+        try:
+            result = publish(root, {**catalogue, 'tasks': remaining})
+        except Exception:
+            # The manifest is the commit point; retain the intent record on failure.
+            atomic(root / 'catalogue.json', before)
+            raise
+        return {'retired': selected, 'record': str(record_path), 'generation': result['generation'],
+            'manifest': str(root / 'manifest.json')}
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     commands = parser.add_subparsers(dest='command', required=True)
@@ -662,6 +721,9 @@ def main(argv=None):
         replaying.add_argument('--' + option, required=True)
     listing = commands.add_parser('list', allow_abbrev=False)
     listing.add_argument('--workspace', required=True)
+    retiring = commands.add_parser('retire', allow_abbrev=False)
+    retiring.add_argument('--workspace', required=True)
+    retiring.add_argument('--tasks', required=True)
     values = list(sys.argv[1:] if argv is None else argv)
     separator = values.index('--') if '--' in values else len(values)
     args = parser.parse_args(values[:separator])
@@ -683,6 +745,10 @@ def main(argv=None):
             if separator != len(values):
                 raise ValueError('replay does not accept new generator arguments')
             result = replay(args.workspace, args.key, args.expected_revision)
+        elif args.command == 'retire':
+            if separator != len(values):
+                raise ValueError('retire does not accept generator arguments')
+            result = retire(args.workspace, args.tasks)
         elif args.command == 'prepare':
             if separator == len(values):
                 raise ValueError('prepare requires literal -- before trusted generator flags')

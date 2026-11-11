@@ -11,12 +11,17 @@ See [request.md](request.md). Requirements are registered as observed source fac
 - **REQ-UPDATE-03** — Preserve installation identity and private state
 - **REQ-UPDATE-04** — Verify the actual loaded Figma runtime
 - **REQ-UPDATE-05** — Replay startup inputs and block uncertain writes
+- **REQ-UPDATE-06** — Explicitly retire selected obsolete prepared tasks by exact revision while preserving their artifacts, receipts and recovery metadata.
 
 ## Startup contract
 
 At every workflow start, run the local check/ensure path for the Codex package and Figma runtime files. Only update when source authority, workspace, package identity, and applicable runtime freshness are known and verified. Pin/dev/offline/auth/claimed-or-uncertain/unknown-source/access-forbidden states remain explicit exceptions. An installed version that resembles a known release does not prove repository identity.
 
 The local CLI accepts `check` and `ensure` with source, authority, workspace, `--figma-access forbidden|allowed`, and optional pin inputs. Persisted arguments and input pins, including nested source inputs, remain private and replayable. A stale or versionless loaded runtime blocks writes. The actual loaded version must come from authenticated runtime information and include an authenticated generation/digest no older than 15 seconds; filesystem, package, or server version is insufficient. If Desktop did not reload after an update, reopen the same plugin. This does not authorize updating another app, workspace, or plugin.
+
+An accepted result may refresh the liveness timestamp only when its authenticated claim belongs to the same recorded session and current runtime. It never supplies or replaces runtime identity. The 15-second offline expiry remains unchanged.
+
+Changed inputs keep an old prepared task non-executable. When that obsolete task prevents publication of unrelated new work, explicit retirement selects its key and current revision, validates the entire selection, and archives its catalogue metadata before removing it from the active list. Native design, artifacts, generations and receipts remain intact. Retirement neither re-admits stale inputs nor authorizes execution. Claimed work and unresolved uncertain mutations block retirement.
 
 ## Acceptance criteria
 
@@ -27,6 +32,7 @@ The local CLI accepts `check` and `ensure` with source, authority, workspace, `-
 - **AC-UPDATE-05** — Determine the loaded Figma version from authenticated runtime information, with a runtime generation/digest no older than 15 seconds; package/server/filesystem versions alone cannot authorize writes.
 - **AC-UPDATE-06** — Provide local `check` and safe `ensure` commands with source, authority, workspace, Figma-access, and pin inputs; `ensure` updates only when identity, provenance, and runtime conditions are verified safe.
 - **AC-UPDATE-07** — When Figma access is forbidden, keep native/server/cache/install/deploy state unverified; local checks and mock tests cannot be reported as actual Figma proof.
+- **AC-UPDATE-08** — Retire multiple selected stale tasks atomically with exact revision checks; retain their immutable artifacts/receipts and a recovery record; allow remaining valid/new work. Unknown keys, mismatched revisions, active claims, uncertain mutations and corrupted remaining artifacts fail without silently dropping tasks.
 
 ## Evidence boundary
 
