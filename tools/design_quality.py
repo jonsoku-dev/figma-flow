@@ -473,23 +473,37 @@ class _State:
         styles = (self.candidate.get('control_styles') or {}).get(self.viewport) or {}
         known = styles.get(variant)
         rows = [known] if isinstance(known, dict) else [s for s in styles.values() if isinstance(s, dict)]
-        rows = [s for s in rows if s.get('fill') in self.colors and s.get('ink') in self.colors]
+        rows = [s for s in rows if 'fill' in s and (s['fill'] is None or s['fill'] in self.colors) and s.get('ink') in self.colors]
         if not rows:
             return
         bg = self.background_under(len(self.layers), bx[0] + bx[2] / 2, bx[1] + bx[3] / 2)
         labels, fills = [], []
         for style in rows:
-            fill = self.color(style['fill'])
+            fill = self.color(style['fill']) if style['fill'] is not None else None
             need = 3.0 if float(style.get('fontSize') or 0) >= 24 else 4.5
-            labels.append((contrast_ratio(self.color(style['ink']), fill), need))
+            if fill is None:
+                px, py = style.get('paddingX', 0), style.get('paddingY', 0)
+                label = dict(x=bx[0]+px, y=bx[1]+py, w=bx[2]-2*px, h=bx[3]-2*py)
+                measured = self.pixel_contrast.measure(self.layers, label, self.color(style['ink']))
+                self.metrics.setdefault('contrast_measurements', {})[control_id+'.label'] = measured
+                ratio = measured['min_ratio']
+                if ratio is None:
+                    raster = any(l.get('kind') in ('image','gradient') and _intersection(_box(l), bx)>0 for l in self.layers)
+                    ratio = contrast_ratio(self.color(style['ink']), bg) if bg is not None and not raster else None
+                    if ratio is None:
+                        self.add('warning', 'contrast-unknown', control_id, '실제 버튼 배경 픽셀 대비를 확정할 수 없습니다: '+measured['reason'])
+                if ratio is not None:
+                    labels.append((ratio, need))
+            else:
+                labels.append((contrast_ratio(self.color(style['ink']), fill), need))
             if bg is not None:
                 # An outlined control can have the same surface as its container.
                 stroke = style.get('stroke')
                 if stroke in self.colors and style.get('stroke_width', 1) >= 1 and contrast_ratio(self.color(stroke), bg) >= 3:
                     fills.append(contrast_ratio(self.color(stroke), bg))
-                else:
+                elif fill is not None:
                     fills.append(contrast_ratio(fill, bg))
-        if all(ratio < need for ratio, need in labels):
+        if labels and all(ratio < need for ratio, need in labels):
             ratio, need = max(labels)
             self.add('error', 'control-label-contrast', control_id, '버튼 글자와 버튼 색의 대비가 %.2f:1로 기준 %.1f:1보다 낮습니다.' % (ratio, need))
         if fills and all(ratio < CONTROL_FILL_MIN for ratio in fills):

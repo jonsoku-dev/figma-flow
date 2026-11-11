@@ -351,6 +351,8 @@ python3 tools/graph_sync.py combine-web --graph PROJECT/graph.json \
 
 네이티브 시안의 아이콘 버튼은 `control_styles`에서 선택적으로 `justifyContent: "space-between"`을 지정할 수 있습니다. 기본값은 `center`입니다. 앞뒤 아이콘·라벨 순서, 양쪽 패딩, 최소 간격과 실제 끝점 배치를 검사합니다. 아이콘 없는 버튼의 `space-between`은 지원하지 않으며 준비 단계에서 거절합니다. 서로 다른 CSS 배치의 시안은 같은 HTML 구조를 재사용할 수 있지만, 실제 모바일·데스크톱 미리보기의 배치 차이는 계속 입증해야 합니다. 색상이나 이름만 바꾼 안은 독립 방향이 아닙니다.
 
+양 끝 정렬의 원본 컴포넌트는 실측 `maxWidth`로 고정합니다. Figma는 HUG 너비에서 최소 아이콘 간격을 유지하지 않기 때문입니다. 투명 버튼은 `fill: null`로 명시하면 채우기와 색 변수 연결 없이 생성되며 실제 읽기에서도 빈 채우기를 요구합니다. `fill` 누락은 투명 지정이 아닙니다. 투명 버튼의 글자는 원래 배경의 합성 픽셀로 대비를 계산하며, 대비를 확정할 수 없는 경우는 계속 경고로 남습니다. 그래프 동기화의 `backgroundColor`는 불투명 RGB만 지원하므로 투명 버튼에는 해당 속성을 선언하지 않습니다.
+
 <a id="prepared-native-edit"></a>
 
 ### 준비된 JSON으로 Figma 값 편집하기
@@ -635,9 +637,13 @@ Run local control `--operation create` with the exact current file/page/revision
 
 `contrast-unknown` means contrast cannot be determined, not that low contrast was measured. Pinned image bytes and supported gradients are composited conservatively using the minimum over every background pixel under the text bounds. Unresolved cases retain their reason and `min_ratio: null`. Opaque backing panels are not a default fix. Preserve selected artwork and record actual Figma/web observations separately.
 
-## Prepared native edits
+## Measure components on different screens
 
 Version 0.25.0 adds scoped `graph_sync.py probe --component ID` and `combine-web --proof ACTUAL.json` for components mounted on different screens or viewports. Collect actual measurements for every declared web component before pairing. Combined evidence pins and rechecks the unchanged source files, graph hash, selectors, values, timestamps, URLs and viewports. Conflicting rows and incomplete coverage fail. Default probes and final pairing still require full coverage. Keep the original JSON files. [Commands and native icon alignment](#multi-screen-web-proof).
+
+Explicit `control_styles.fill: null` preserves a transparent button without a fill or color binding. Label contrast uses the original composite background. Do not declare opaque-only graph `backgroundColor` for that button. Distributed icon controls use the measured fixed main width because Figma HUG spacing does not preserve the minimum gap. Existing centered HUG controls remain supported.
+
+## Prepared native edits
 
 `native-edit` is a separate task kind with `read` and `apply` operations. Prepare `figma-flow-native-edit-plan-v1` JSON containing the exact file/page, admitted node or local variable/mode, and before/after values with `prepare --kind native-edit -- --plan PLAN.json`. The plugin executes the plan through the actual Figma API, without arbitrary JavaScript. Stale values/revisions stop the write. Preserve rollback conflicts and read current state before retrying an uncertain write. Import native edits into the graph and verify the real web separately. [Plan example and limits](#prepared-native-edit).
 
@@ -668,6 +674,8 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 日本語クイックスタート
 
 0.25.0 の `graph_sync.py probe --component ID` と `combine-web --proof ACTUAL.json` は、画面切替や表示幅ごとに存在するコンポーネントの実測を結合します。全宣言の実測が必要で、不足・競合・古いグラフは拒否します。元の JSON とハッシュも pairing 時に再確認するため、元ファイルを保存してください。通常の probe と最終 pairing は全範囲を要求します。[コマンドとアイコンボタンの配置](#multi-screen-web-proof)。
+
+`control_styles.fill: null` は塗りと色変数を追加せず透明ボタンを保ちます。文字のコントラストは元の背景を合成して確認します。不透明 RGB 専用のグラフ `backgroundColor` は宣言しません。両端配置の原本は実測幅で固定し、従来の中央配置 HUG は維持します。
 
 0.24.1 では --no-wait を含む run の前にローカルサーバーの互換性を確認します。不一致の場合は該当する作業空間のサービスだけを現在のインストール先から再起動してください。Figma の全体読み取り結果も pairing のマーカーを照合してからグラフと Web を更新します。
 

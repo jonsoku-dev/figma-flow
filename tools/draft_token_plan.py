@@ -177,7 +177,8 @@ def _color_consumers(source, graph):
         # These paints are also authored as mains; validate their names, but do
         # not credit their existence as actual screen usage.
         for visual, style in styles.items():
-            named(style.get('fill'), f'{identity}.{viewport}.component.{visual}')
+            if 'fill' not in style or style['fill'] is not None:
+                named(style.get('fill'), f'{identity}.{viewport}.component.{visual}')
             named(style.get('ink'), f'{identity}.{viewport}.component.{visual}.label')
             if 'stroke' in style:
                 named(style['stroke'], f'{identity}.{viewport}.component.{visual}.stroke')
@@ -215,7 +216,8 @@ def _color_consumers(source, graph):
                     raise ValueError('Actual control box/style required for COLOR consumer: ' + control_key)
                 if not intersects(dict(zip(('x', 'y', 'w', 'h'), box)), layout):
                     continue
-                add(style['fill'], control_key)
+                if style['fill'] is not None:
+                    add(style['fill'], control_key)
                 if 'stroke' in style:
                     add(style['stroke'], control_key, 'strokes')
                 if isinstance(action.get('title'), str) and action['title'].strip():
@@ -230,7 +232,8 @@ def _color_consumers(source, graph):
                     raise ValueError('Actual product button box/style/label required for COLOR consumer: ' + control_key)
                 if not intersects(dict(zip(('x', 'y', 'w', 'h'), box)), layout):
                     continue
-                add(style['fill'], control_key)
+                if style['fill'] is not None:
+                    add(style['fill'], control_key)
                 add(style['ink'], control_key + '.label')
                 if 'stroke' in style:
                     add(style['stroke'], control_key, 'strokes')

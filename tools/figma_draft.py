@@ -791,6 +791,12 @@ def _native_palette_label_findings(parent, label, main, main_label, component_se
     return []
 
 
+def _native_control_fill_findings(node, style, key):
+    if 'fill' in style and style['fill'] is None and (node.get('fills') != [] or (node.get('boundVariables') or {}).get('fills')):
+        return [{'code': 'control-fill-drift', 'layer': key, 'message': 'Explicit null control fill requires empty native fills and no fill variable.'}]
+    return []
+
+
 def _native_control_icon_findings(parent, label, icon_node, style, key, assets):
     spec = style.get('icon')
     if not spec:
@@ -967,6 +973,7 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
 
         style = candidate["control_styles"][viewport][variant]
         findings.extend(_native_shadow_findings(node, style, name))
+        findings.extend(_native_control_fill_findings(node, style, name))
         main = keyed.get(candidate["id"] + "." + viewport + ".component." + variant)
         main = main if isinstance(main, dict) else {}
         if (
@@ -1159,10 +1166,15 @@ def _verify_native_packet(packet,readback_path):
                             native_screen_findings(candidate, viewport, state['id'], frame, keyed, page_id=raw['pageId'], assets=packet.get('assets', {}))
                         )
         for candidate in packet['candidates']:
+            for viewport, styles in candidate['control_styles'].items():
+                for variant, style in styles.items():
+                    key = candidate['id'] + '.' + viewport + '.component.' + variant
+                    report['layout_findings'].extend(_native_control_fill_findings(keyed.get(key, {}), style, key))
             for sample in candidate.get('foundations', {}).get('palette', {}).get('samples', []):
                 style = candidate['control_styles']['desktop'][sample['variant']]
                 key = 'review.palette.' + candidate['id'] + '.' + sample['component']
                 parent = keyed.get(key, {})
+                report['layout_findings'].extend(_native_control_fill_findings(parent, style, key))
                 main_key = candidate['id'] + '.desktop.component.' + sample['variant']
                 report['layout_findings'].extend(_native_palette_label_findings(parent, keyed.get(key + '.label', {}), keyed.get(main_key, {}), keyed.get(main_key + '.label', {}), keyed.get(candidate['id'] + '.desktop.component-set', {}), candidate['action_labels'][sample['action']], key))
                 if style.get('icon'):
