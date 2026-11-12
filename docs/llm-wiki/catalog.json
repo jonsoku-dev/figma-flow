@@ -3033,6 +3033,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8",
+      "diff_sha256": "cbc70e30553e79138015ccac1b04908d4721b4cda4b53a9234c61a2763f9d2b3",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/8421b31163333c0b75e24e096ad6975d07138a33.md",
+        "docs/llm-wiki/patches/942d0cf9a5c194b8decd79918062c84767a0d1ec.md",
+        "docs/llm-wiki/patches/946717804fcf45d0d4c85c3e624132ed0c48455f.md"
+      ],
+      "parents": [
+        "946717804fcf45d0d4c85c3e624132ed0c48455f"
+      ],
+      "subject": "docs: record native readback of declared container links",
+      "tree": "eecbeaeeaabea707a59b7214b36cfaead25d9c98",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "c7a4dfffb39aaa26eca0f6571a3bf0af97762822",
+      "diff_sha256": "9768df33e8571369dc417b9402979bd002b66ae3a706f83f15c6fbc149e22607",
+      "files": [
+        "tests/rd02_container_sizing_oracle.cjs"
+      ],
+      "parents": [
+        "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8"
+      ],
+      "subject": "test: require hug fill and fixed sizing to follow text and parent resize",
+      "tree": "fb0261efd1e0bde3c6c5a915babc14eb425f077a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "4ebdb77a73746f95dc985507b2ba0d704975cf9c",
+      "diff_sha256": "3d8d200acdefeaa2cb5cdfc2e07013f04eaa06a3eea60891fb8ef385db8b0553",
+      "files": [
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "figma-bridge/direction_review.js"
+      ],
+      "parents": [
+        "c7a4dfffb39aaa26eca0f6571a3bf0af97762822"
+      ],
+      "subject": "feat: refresh declared hug, fill, and fixed sizing after text growth",
+      "tree": "36806dd24067a6e52253af5807d88cb934a64218",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3062,6 +3132,7 @@
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
     "47bd10f10263a0f7bd2db9bed0511f2532053532": "de6538b6ce1650e2ba88544d4694669b30d85fb9a34b2b6824e31e7df064e691",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
+    "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
@@ -3084,6 +3155,7 @@
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
+    "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
     "aa3acddf626642b7bf0db2f04730cab9cc533a4b": "e87cc5c94ced516465ba20410c25d59481af350f6e3ed16b53dac6d051950e69",
@@ -3098,6 +3170,7 @@
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
+    "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
@@ -3137,6 +3210,10 @@
     },
     {
       "observed_at_commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "4ebdb77a73746f95dc985507b2ba0d704975cf9c",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3350,7 +3427,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "946717804fcf45d0d4c85c3e624132ed0c48455f",
+  "source_commit": "4ebdb77a73746f95dc985507b2ba0d704975cf9c",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
