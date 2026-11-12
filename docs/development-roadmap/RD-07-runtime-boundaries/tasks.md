@@ -12,6 +12,14 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
+1은 `load_runtime_boundary_trace`가 현재 전송 경로 poll, native-started, result와 source pin 범위 tools, figma-bridge, library를 고정한다.
+
+| 모듈 | 책임 |
+| --- | --- |
+| workspace_transport | 제안된 순수 전송이다. 이 단위에서는 분리하지 않는다. 후보는 poll, native-started, result이다. |
+| workspace_control | 도메인 검사는 workspace_control에 남긴다. kind와 operation, scope, revision을 검사한다. |
+| figma_workspace.py | publisher 조립과 trusted_sources는 이 단위에서 옮기지 않는다. source pin은 tools, figma-bridge, library이다. |
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
