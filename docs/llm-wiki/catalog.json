@@ -4537,6 +4537,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "9983aab6bfca1bb70ddb9dc1573a6efb054845df",
+      "diff_sha256": "765d36732e4481073a09e3c9f3ff015a8f623c88971b6af5e426abc06627db8e",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/29198999ebfe2aa9975576dc5792939315fbc850.md",
+        "docs/llm-wiki/patches/b89ee860423de1716456931197d1adffac0dba89.md",
+        "docs/llm-wiki/patches/dbd4c0eb275a75dd5519e924c3c209716aa0578d.md"
+      ],
+      "parents": [
+        "29198999ebfe2aa9975576dc5792939315fbc850"
+      ],
+      "subject": "docs: record one font asset for two stylesheets and a stale byte change",
+      "tree": "6b449aadabea54f0e8aed6253280ec453a9ae1ec",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "a069898acd764f726494c713c2b742cb834fcd0b",
+      "diff_sha256": "f322f8f1f4b3d7f0bbfa36b06ca5837f3e706c91094d3d696fee61d8fe4bd845",
+      "files": [
+        "tests/test_rd05_browser_contrast.py"
+      ],
+      "parents": [
+        "9983aab6bfca1bb70ddb9dc1573a6efb054845df"
+      ],
+      "subject": "test: keep the asset list apart from the files a browser actually loads",
+      "tree": "f65b3b6f8b0d500f1bb1525d6ceb04cdff079c84",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "56839c3af04e0be13fa306bc2f743a4d0bbde87d",
+      "diff_sha256": "c0c91042fe3ed9d2315fda1580de9b88904b6edff641ef945883d222e3b83000",
+      "files": [
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "a069898acd764f726494c713c2b742cb834fcd0b"
+      ],
+      "subject": "feat: record the asset list apart from the files Chrome loads",
+      "tree": "4d1757767634ee6c80bea3c7982ca416cac45a6b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4587,6 +4657,7 @@
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
+    "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
@@ -4615,12 +4686,14 @@
     "946717804fcf45d0d4c85c3e624132ed0c48455f": "e9108746702eaf2927bed0c5e4fdbc5c6a826ba206a31562a6ad238515e23544",
     "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
     "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b": "7f89387eaff41cf48c99bb65484ef1fc592113c01a43e4e67f51a80b9e9ace72",
+    "9983aab6bfca1bb70ddb9dc1573a6efb054845df": "d8e02ee6d2cac0bb33a492e79c6067bfc73b50ad9814717b42e26a1adb1fd23f",
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
+    "a069898acd764f726494c713c2b742cb834fcd0b": "db4ab871a10f73355adb1128293d70cfd30fd1ee4b46556677489292fea2e14e",
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
@@ -4752,6 +4825,10 @@
     },
     {
       "observed_at_commit": "4f451eec0b49366519297f878867b05aff0ff197",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "56839c3af04e0be13fa306bc2f743a4d0bbde87d",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5001,7 +5078,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "29198999ebfe2aa9975576dc5792939315fbc850",
+  "source_commit": "56839c3af04e0be13fa306bc2f743a4d0bbde87d",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
