@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 /* FIGMA_FLOW_PANEL_CSS */
-.graph-stats{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}.graph-stat{display:flex;gap:5px;align-items:baseline;font-size:12px}.graph-stat strong{font-weight:660}.graph-stat span{color:var(--muted)}.metadata dd,.details pre{overflow-wrap:anywhere;white-space:pre-wrap}.impact-list{padding-left:20px}.impact-list li+li{margin-top:7px}.details pre{font-size:11px;max-height:160px;overflow:auto}.change-card{list-style:none;border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.value-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.value-cell{min-width:0;background:var(--surface);padding:10px;border-radius:6px}.value-cell code{display:block;overflow-wrap:anywhere;font-size:11px}.value-label{display:block;color:var(--muted);font-size:11px}.swatch{display:block;width:100%;height:34px;border:1px solid var(--line);border-radius:5px;margin:6px 0}.measure{display:block;height:14px;background:var(--accent);margin:10px 0;max-width:100%}.type-sample{display:block;overflow-wrap:anywhere;line-height:1.2;margin:8px 0}.impact-list{padding-left:0}.confirmation{border:1px solid var(--accent);border-radius:10px;padding:14px;margin-top:14px}@media(max-width:340px){.graph-stats{grid-template-columns:1fr}}
+.graph-stats{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}.graph-stat{display:flex;gap:5px;align-items:baseline;font-size:12px}.graph-stat strong{font-weight:660}.graph-stat span{color:var(--muted)}.metadata dd,.details pre{overflow-wrap:anywhere;white-space:pre-wrap}.impact-list{padding-left:20px}.impact-list li+li{margin-top:7px}.details pre{font-size:11px;max-height:160px;overflow:auto}.change-card{list-style:none;border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.value-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.value-cell{min-width:0;background:var(--surface);padding:10px;border-radius:6px}.value-cell code{display:block;overflow-wrap:anywhere;font-size:11px}.value-label{display:block;color:var(--muted);font-size:11px}.swatch{display:block;width:100%;height:34px;border:1px solid var(--line);border-radius:5px;margin:6px 0}.measure{display:block;height:14px;background:var(--accent);margin:10px 0;max-width:100%}.type-sample{display:block;overflow-wrap:anywhere;line-height:1.2;margin:8px 0}.impact-list{padding-left:0}.confirmation{border:1px solid var(--accent);border-radius:10px;padding:14px;margin-top:14px}@media(max-width:340px){.graph-stats{grid-template-columns:1fr}}#audit-text{display:block;width:100%;min-height:9em;margin-top:10px;box-sizing:border-box;font:11px/1.45 ui-monospace,monospace}
 </style>
 </head>
 <body class="panel">
@@ -18,6 +18,16 @@
 </section>
 <!-- FLOW_STATUS -->
 <section class="work-section" id="evidence-section" aria-labelledby="evidence-title" hidden><h2 id="evidence-title" data-i18n="graph.evidence">실행 결과</h2><p id="evidence-help" data-i18n="graph.evidenceHelp">실행 후 실제 읽기 결과를 JSON으로 저장할 수 있습니다. 오류가 발생해도 마지막 자료를 유지합니다.</p><div class="actions"><button id="download" class="secondary" type="button" disabled data-i18n="graph.download">JSON 저장</button></div><details class="details"><summary data-i18n="graph.history">실행 기록과 복구 정보</summary><pre id="report">아직 실행 기록이 없습니다.</pre></details></section>
+<section class="work-section" id="audit-section" aria-labelledby="audit-title">
+<h2 id="audit-title">진단 기록</h2>
+<p id="audit-help">개발자가 문제를 이어서 고칠 수 있도록 진단 기록을 복사하거나 저장합니다. 문서를 바꾸지 않습니다. 네이티브 쓰기를 보내지 않습니다. 페어링을 바꾸지 않습니다.</p>
+<div class="actions">
+<button id="audit-copy" type="button">진단 기록 복사</button>
+<button id="audit-download-md" type="button">마크다운 저장</button>
+<button id="audit-download-json" type="button">JSON 저장</button>
+</div>
+<textarea id="audit-text" readonly aria-label="진단 기록 본문"></textarea>
+</section>
 </main>
 <script id="graph-panel-config" type="application/json">__GRAPH_PANEL_CONFIG__</script>
 <script>
@@ -144,6 +154,307 @@
     byId('status').focus();
   };
 })();
+</script>
+<script id="audit-log-module">
+/* Read-only diagnostic record for a developer or agent. Nothing here writes a document. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  root.FlowAuditLog = api;
+})(typeof globalThis === 'undefined' ? this : globalThis, function () {
+  const SCHEMA = 'figma-flow-audit-log-v1';
+  const SECRET_QUERY = /([?&](?:access_token|refresh_token|id_token|sync_token|local_sync_token|chat_token|token|api_key|apikey|key|secret|password|capability|bearer|auth)=)[^&#\s"'<>]*/gi;
+  const HOME_PATH = /(?:\/Users\/[^/\s"'<>]+|\/home\/[^/\s"'<>]+|[A-Za-z]:\\Users\\[^\\/\s"'<>]+)/g;
+
+  function redactText(value) {
+    return String(value)
+      .replace(HOME_PATH, '[home]')
+      .replace(SECRET_QUERY, '$1[redacted]')
+      .replace(/Bearer\s+[A-Za-z0-9._~+/=-]{6,}/g, 'Bearer [redacted]');
+  }
+
+  function asObject(value) {
+    return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+  }
+
+  function textOrNull(value) {
+    return typeof value === 'string' && value ? redactText(value) : null;
+  }
+
+  function pairingView(value) {
+    const source = asObject(value);
+    const state = textOrNull(source.state || source.status);
+    const freshness = textOrNull(source.freshness);
+    return {state: state, freshness: freshness, observed: Boolean(state || freshness)};
+  }
+
+  function lifecycleView(value) {
+    if (!Array.isArray(value)) return {events: [], observed: false};
+    return {
+      observed: true,
+      events: value.filter((event) => event && typeof event === 'object').map((event) => ({
+        phase: textOrNull(event.phase) || 'unknown',
+        status: textOrNull(event.status) || 'unknown',
+        error: event.error == null || event.error === '' ? null : redactText(event.error),
+        time: textOrNull(event.time),
+      })),
+    };
+  }
+
+  function uncertaintyView(value, events) {
+    const reasons = [];
+    let observed = false;
+    let blocked = null;
+    const source = asObject(value);
+    if (typeof source.blocked_write === 'boolean') {
+      observed = true;
+      blocked = source.blocked_write;
+      if (Array.isArray(source.reasons)) {
+        for (const reason of source.reasons) {
+          const text = redactText(reason);
+          if (text && !reasons.includes(text)) reasons.push(text);
+        }
+      }
+    }
+    for (const event of events) {
+      if (event.error && (event.status === 'blocked' || event.phase === 'uncertain')) {
+        if (!reasons.includes(event.error)) reasons.push(event.error);
+        if (blocked == null) blocked = true;
+        observed = true;
+      }
+    }
+    return {blocked_write: blocked, reasons: reasons, observed: observed};
+  }
+
+  function rowsView(value, mapRow) {
+    if (!Array.isArray(value)) return {rows: [], observed: false};
+    return {rows: value.filter((row) => row && typeof row === 'object').map(mapRow), observed: true};
+  }
+
+  function nativeCoverage(value) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    const coverage = value.coverage && typeof value.coverage === 'object' ? value.coverage : null;
+    const nodes = Array.isArray(value.nodes) ? value.nodes : [];
+    if (!coverage && !nodes.length) return null;
+    const nodeIds = [];
+    const addId = (id) => {
+      if (typeof id === 'string' && id && !nodeIds.includes(id)) nodeIds.push(id);
+    };
+    const listed = coverage && (coverage.nodeIds || coverage.node_ids);
+    if (Array.isArray(listed)) listed.forEach(addId);
+    nodes.forEach((node) => addId(node && node.id));
+    const fields = [];
+    const addField = (field) => {
+      if (typeof field === 'string' && field && field !== 'id' && !fields.includes(field)) fields.push(redactText(field));
+    };
+    if (coverage && Array.isArray(coverage.fields) && coverage.fields.length) coverage.fields.forEach(addField);
+    else nodes.forEach((node) => node && typeof node === 'object' && Object.keys(node).forEach(addField));
+    const omittedSource = coverage && Array.isArray(coverage.omitted) ? coverage.omitted : (Array.isArray(value.omitted) ? value.omitted : []);
+    const omitted = omittedSource.map((item) => redactText(item));
+    const profile = coverage && typeof coverage.profile === 'string' && coverage.profile
+      ? coverage.profile
+      : (value.schema === 'figma-flow-native-read-summary-v1' ? 'summary' : 'full');
+    const complete = coverage && typeof coverage.complete === 'boolean' ? coverage.complete : profile !== 'summary';
+    return {profile: profile, node_ids: nodeIds, fields: fields, omitted: omitted, complete: complete};
+  }
+
+  function buildAuditRecord(input) {
+    const source = asObject(input);
+    const pairing = pairingView(source.pairing);
+    const lifecycle = lifecycleView(source.lifecycle);
+    const uncertainty = uncertaintyView(source.uncertainty, lifecycle.events);
+    const summary = rowsView(source.input_summary, (row) => ({
+      ref: textOrNull(row.ref || row.path) || '',
+      kind: textOrNull(row.kind) || 'file',
+      status: textOrNull(row.status) || '',
+      source: textOrNull(row.source) || '',
+    }));
+    const dependencies = rowsView(source.dependency_freshness, (row) => ({
+      label: textOrNull(row.label || row.path || row.ref) || '',
+      freshness: textOrNull(row.freshness || row.state) || '',
+    }));
+    const native = nativeCoverage(source.native_read);
+    const page = asObject(source.page);
+    const record = {
+      schema: SCHEMA,
+      plugin_version: textOrNull(source.plugin_version),
+      file_key: textOrNull(source.file_key),
+      page: {id: textOrNull(source.page_id) || textOrNull(page.id), name: textOrNull(source.page_name) || textOrNull(page.name)},
+      task_key: textOrNull(source.task_key),
+      revision: textOrNull(source.revision),
+      operation_id: textOrNull(source.operation_id),
+      pairing: {state: pairing.state, freshness: pairing.freshness},
+      runtime_freshness: textOrNull(source.runtime_freshness),
+      lifecycle: lifecycle.events,
+      uncertainty: {blocked_write: uncertainty.blocked_write, reasons: uncertainty.reasons},
+      input_summary: summary.rows,
+      dependency_freshness: dependencies.rows,
+      native_read: native,
+      unobserved: [],
+    };
+    const gaps = [
+      ['plugin-version', record.plugin_version, '플러그인 버전이 이 내보내기에 없다.'],
+      ['file-key', record.file_key, '파일 키가 이 내보내기에 없다.'],
+      ['page-id', record.page.id, '페이지 ID가 이 내보내기에 없다.'],
+      ['page-name', record.page.name, '페이지 이름이 이 내보내기에 없다.'],
+      ['task-key', record.task_key, '작업 키가 이 내보내기에 없다.'],
+      ['revision', record.revision, '리비전이 이 내보내기에 없다.'],
+      ['operation-id', record.operation_id, '작업 식별자가 이 내보내기에 없다.'],
+      ['pairing', pairing.observed, '페어링 상태가 이 내보내기에 없다.'],
+      ['runtime-freshness', record.runtime_freshness, '런타임 신선도가 이 내보내기에 없다.'],
+      ['lifecycle', lifecycle.observed, '실행 단계가 이 내보내기에 없다.'],
+      ['blocked-write', uncertainty.observed, '불확실 쓰기 차단 이유가 이 내보내기에 없다.'],
+      ['input-summary', summary.observed, '입력 요약 행이 이 내보내기에 없다.'],
+      ['dependency-freshness', dependencies.observed, '의존성 신선도 표시가 이 내보내기에 없다.'],
+      ['native-read', native, '요약 또는 전체 네이티브 읽기가 이 내보내기에 없다.'],
+    ];
+    for (const [check, present, reason] of gaps) {
+      if (!present) record.unobserved.push({check: check, reason: reason});
+    }
+    record.unobserved.push({check: 'live-figma-panel', reason: '이 내보내기를 만드는 동안 실제 Figma 패널은 관찰하지 않았다.'});
+    return record;
+  }
+
+  function show(value) {
+    return value == null || value === '' ? '없음' : String(value);
+  }
+
+  function renderMarkdown(record, json) {
+    const lines = [
+      '# Figma Flow 진단 기록',
+      '',
+      '이 기록은 문서를 바꾸지 않는 읽기 전용 내보내기입니다. 같은 사실은 아래 JSON에 있습니다.',
+      '',
+      '- 스키마: ' + record.schema,
+      '- 플러그인 버전: ' + show(record.plugin_version),
+      '- 파일 키: ' + show(record.file_key),
+      '- 페이지 ID: ' + show(record.page.id),
+      '- 페이지 이름: ' + show(record.page.name),
+      '- 작업 키: ' + show(record.task_key),
+      '- 리비전: ' + show(record.revision),
+      '- 작업 식별자: ' + show(record.operation_id),
+      '',
+      '## 페어링과 신선도',
+      '',
+      '- 페어링: ' + show(record.pairing.state),
+      '- 페어링 신선도: ' + show(record.pairing.freshness),
+      '- 런타임 신선도: ' + show(record.runtime_freshness),
+      '',
+      '## 실행 단계',
+      '',
+    ];
+    if (!record.lifecycle.length) lines.push('기록된 단계가 없습니다.');
+    for (const event of record.lifecycle) {
+      lines.push('- ' + event.phase + ' · ' + event.status + ' · ' + show(event.time));
+      lines.push('  오류: ' + (event.error == null ? '없음' : event.error));
+    }
+    lines.push('', '## 불확실 쓰기', '', '- 쓰기 차단: ' + (record.uncertainty.blocked_write == null ? '알 수 없음' : record.uncertainty.blocked_write ? '예' : '아니오'));
+    if (!record.uncertainty.reasons.length) lines.push('- 이유: 없음');
+    for (const reason of record.uncertainty.reasons) lines.push('- 이유: ' + reason);
+    lines.push('', '## 입력 요약', '');
+    if (!record.input_summary.length) lines.push('요약 행이 없습니다.');
+    for (const row of record.input_summary) lines.push('- ' + row.ref + ' · ' + row.kind + ' · ' + row.status + ' · ' + row.source);
+    lines.push('', '## 의존성 신선도', '');
+    if (!record.dependency_freshness.length) lines.push('표시할 의존성이 없습니다.');
+    for (const row of record.dependency_freshness) lines.push('- ' + row.label + ': ' + row.freshness);
+    lines.push('', '## 네이티브 읽기 범위', '');
+    if (!record.native_read) lines.push('요약 또는 전체 읽기가 이 내보내기에 없습니다.');
+    else {
+      const read = record.native_read;
+      lines.push('- 프로파일: ' + read.profile);
+      lines.push('- 완료: ' + (read.complete ? '예' : '아니오'));
+      lines.push('- 노드: ' + (read.node_ids.join(', ') || '없음'));
+      lines.push('- 필드: ' + (read.fields.join(', ') || '없음'));
+      lines.push('- 빠뜨린 닫힘: ' + (read.omitted.join(', ') || '없음'));
+    }
+    lines.push('', '## 관찰하지 않은 검사', '');
+    for (const item of record.unobserved) lines.push('- ' + item.check + ': ' + item.reason);
+    lines.push('', '## 같은 사실의 JSON', '', '```json', json, '```', '');
+    return lines.join('\n');
+  }
+
+  function renderAuditExport(input) {
+    const record = buildAuditRecord(input);
+    const json = JSON.stringify(record, null, 2);
+    const markdown = renderMarkdown(record, json);
+    return {schema: SCHEMA, record: record, json: json, markdown: markdown, text: markdown};
+  }
+
+  return {SCHEMA: SCHEMA, buildAuditRecord: buildAuditRecord, renderAuditExport: renderAuditExport};
+});
+</script>
+<script id="audit-export-bind">
+function bindAuditExport() {
+  const pluginVersion = '0.26.3';
+  const config = JSON.parse(document.getElementById('graph-panel-config').textContent);
+  const output = document.getElementById('audit-text');
+  const seen = {events: [], native_read: null};
+  function payload() {
+    return {
+      plugin_version: pluginVersion,
+      file_key: config.file_key,
+      page_id: config.page_id,
+      page_name: config.page_name || null,
+      task_key: config.task_key || null,
+      revision: config.revision || null,
+      operation_id: config.operation_id || null,
+      pairing: config.pairing || null,
+      runtime_freshness: config.runtime_freshness || null,
+      lifecycle: seen.events.length ? seen.events : null,
+      uncertainty: config.uncertainty || null,
+      input_summary: config.input_summary || null,
+      dependency_freshness: config.dependency_freshness || null,
+      native_read: seen.native_read,
+    };
+  }
+  function paint() {
+    const view = FlowAuditLog.renderAuditExport(payload());
+    output.value = view.text;
+    return view;
+  }
+  function save(name, body, type) {
+    const url = URL.createObjectURL(new Blob([body], {type: type}));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  document.getElementById('audit-copy').onclick = function () {
+    const view = paint();
+    output.focus();
+    output.select();
+    try { document.execCommand('copy'); } catch (error) { return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(view.text);
+  };
+  document.getElementById('audit-download-md').onclick = function () {
+    const view = paint();
+    save('figma-flow-audit.md', view.markdown, 'text/markdown');
+  };
+  document.getElementById('audit-download-json').onclick = function () {
+    const view = paint();
+    save('figma-flow-audit.json', view.json, 'application/json');
+  };
+  window.addEventListener('message', function (event) {
+    const message = event.data && event.data.pluginMessage;
+    if (!message || typeof message !== 'object' || message.session !== config.session) return;
+    if (message.readback) seen.native_read = message.readback;
+    const failure = message.error || (message.readback && message.readback.error) || null;
+    if (message.operation || failure || message.readback) {
+      seen.events.push({
+        phase: message.operation || 'result',
+        status: failure ? 'error' : ((message.readback && message.readback.status) || 'observed'),
+        error: failure,
+        time: null,
+      });
+    }
+    paint();
+  });
+  paint();
+}
+bindAuditExport();
 </script>
 </body>
 </html>
