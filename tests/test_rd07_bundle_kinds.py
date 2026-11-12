@@ -23,7 +23,7 @@ class BundleKindTests(unittest.TestCase):
             path = Path(directory) / 'bundle.js'
             path.write_text(bundle, encoding='utf-8')
             completed = subprocess.run(
-                ['node', str(ROOT / 'tests/rd07_bundle_kinds.cjs'), str(path)],
+                ['node', str(ROOT / 'tests/helpers/rd07_bundle_kinds.cjs'), str(path)],
                 capture_output=True, text=True, check=False,
             )
         self.assertEqual(completed.returncode, 0, completed.stderr)

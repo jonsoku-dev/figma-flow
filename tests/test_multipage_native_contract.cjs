@@ -90,12 +90,13 @@ test('static INSTANCE gets connected human summary, full board and real getter r
   page.flowStartingPoints = [];
   target.main = main; target.reactions = [];
   page.appendChild(main);
-  Object.assign(h, {c: candidate(), viewport: 'desktop', state: {id: 'one', screen: 'screen'}, frame: page, key: 'app.desktop.one', mains: new Map([['app.desktop.Primary', main]]), notes: [],
+  const c = candidate();
+  Object.assign(h, {c, viewport: 'desktop', state: {id: 'one', screen: 'screen'}, frame: page, page, l: c.state_layouts.desktop.one, key: 'app.desktop.one', mains: new Map([['app.desktop.Primary', main]]), notes: [],
     control(frame, key, main, label, box) {target.setPluginData('semanticKey', key); frame.appendChild(target); return target;}});
   const start = runtime.indexOf(' for(const button of draftProductButtons(c,viewport,state)){control(');
   const end = runtime.indexOf('\n x+=', start);
   assert(start > 0 && end > start);
-  vm.runInContext(runtime.slice(start, end), h);
+  await vm.runInContext('(async () => {' + runtime.slice(start, end) + '\n})()', h);
   assert.equal(h.notes.length, 1);
   assert.equal(h.notes[0].specification.id, 'deliver');
   const button = h.draftProductButtons(candidate(), 'desktop', {id: 'one', screen: 'screen'})[0];

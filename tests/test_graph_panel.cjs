@@ -14,7 +14,9 @@ const template = execFileSync(process.env.PYTHON || 'python3', ['-B', '-c', 'imp
 const components = fs.readFileSync(path.join(root, 'figma-bridge/panel_components.js'), 'utf8');
 const translations={...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/workspace.json'))),...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/graph.json')))};
 const translate=(locale,key,params={})=>(translations[key]?.[locale]||key).replace(/\{(\w+)\}/g,(_,name)=>params[name]??'{'+name+'}');
-const script = [...template.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].at(-1)[1];
+const scripts = [...template.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)]
+  .filter(([, attributes]) => !/\btype=["']application\/json["']/.test(attributes))
+  .map(([, , source]) => source);
 function panel(mode = 'sync', extra = {}, locale='ko') {
   const listeners=new Map();
   const posted = [], downloads = [], urls = new Map(), elements = new Map();
@@ -43,7 +45,8 @@ function panel(mode = 'sync', extra = {}, locale='ko') {
   const context = {document: {documentElement:{dataset:{}},getElementById: id => elements.get(id), createElement: tag => new Element(tag), body: new Element('body')},
     FlowUI:{get locale(){return locale;},t:(key,params)=>translate(locale,key,params),apply(){}},addEventListener(type,handler){const previous=listeners.get(type);listeners.set(type,previous?(...args)=>{previous(...args);handler(...args);}:handler);},parent, Blob, URL: {createObjectURL(blob) {const key = 'blob:' + urls.size; urls.set(key, blob); return key;}, revokeObjectURL() {}}, setTimeout() {}};
   context.window = context;
-  vm.runInNewContext(components+'\n'+script, context);
+  vm.runInNewContext(components, context);
+  for (const script of scripts) vm.runInNewContext(script, context);
   return {elements, posted, downloads, locale(code){locale=code;listeners.get('flow:locale')();},key(key){listeners.get('keydown')({key,preventDefault(){}});},receive(message, source = parent) {context.onmessage({source, data: {pluginMessage: {session: config.session, ...message}}});}};
 }
 
