@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-runtime-boundary-v1",
+  "transport": {
+    "routes": ["poll", "native-started", "result"],
+    "method": "POST",
+    "authorization": "Bearer"
+  },
+  "allowed": {
+    "review": ["create"],
+    "import": ["read", "import", "sync"],
+    "discover": ["read"],
+    "sync": ["read", "apply"],
+    "native-edit": ["read", "apply"]
+  },
+  "source_pins": {
+    "folders": ["figma-bridge", "library", "tools"],
+    "suffixes": [".css", ".html", ".js", ".json", ".py"]
+  }
+}

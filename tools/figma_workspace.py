@@ -149,6 +149,15 @@ def trusted_sources():
     return hasher.hexdigest()
 
 
+def load_runtime_boundary_trace():
+    """Return the pinned control routes and trusted source range. Transport stays in place."""
+    path = ROOT / 'tests' / 'fixtures' / 'rd07' / 'protocol-trace.json'
+    trace = json.loads(path.read_text(encoding='utf-8'))
+    if trace.get('schema') != 'figma-flow-runtime-boundary-v1':
+        raise ValueError('runtime boundary trace schema mismatch')
+    return trace
+
+
 def arguments(kind, values, *, create_pair=True):
     result, parsed, pins = [], {}, {}
     index = 0
