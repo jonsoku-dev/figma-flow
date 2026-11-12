@@ -476,7 +476,78 @@ def task_surface(kind, code, original_html, *, shared=False):
     return {}, render_app('graph', json.loads(match[1]), shared=shared)
 
 
+def normalize_task_dependencies(tasks, dependencies=None):
+    """Validate explicit uses-output edges. Same project does not create an edge."""
+    if not isinstance(tasks, list):
+        raise ValueError('Task dependency catalogue required')
+    by_key = {}
+    for task in tasks:
+        key = task.get('key') if isinstance(task, dict) else None
+        if not isinstance(key, str) or key in by_key:
+            raise ValueError('duplicate or invalid task')
+        by_key[key] = task
+    if dependencies is not None and not isinstance(dependencies, dict):
+        raise ValueError('Task dependencies must be a map')
+    provided = dependencies or {}
+    normalized = []
+    outgoing = {}
+    for task in tasks:
+        explicit = task['key'] in provided or 'depends_on' in task
+        raw = provided[task['key']] if task['key'] in provided else task.get('depends_on', [])
+        if not isinstance(raw, list):
+            raise ValueError('Task dependencies must be a list')
+        edges = []
+        seen = set()
+        for edge in raw:
+            if not isinstance(edge, dict) or set(edge) != {'task_key', 'revision', 'relation', 'artifact', 'artifact_sha256'}:
+                raise ValueError('Invalid task dependency')
+            target = edge['task_key']
+            if target == task['key']:
+                raise ValueError(f'self edge: {task["key"]}')
+            if target not in by_key:
+                raise ValueError(f'missing target: {target}')
+            if edge['relation'] != 'uses-output':
+                raise ValueError(f'unsupported dependency relation: {edge["relation"]}')
+            if edge['revision'] != by_key[target].get('revision'):
+                raise ValueError(f'dependency revision is not current: {target}')
+            artifact = edge['artifact']
+            if not isinstance(artifact, str) or artifact not in {'code.js', 'ui.html', 'manifest.json'}:
+                raise ValueError(f'unregistered artifact: {artifact}')
+            digest_value = edge['artifact_sha256']
+            if by_key[target].get('artifact_hashes', {}).get(artifact) != digest_value:
+                raise ValueError(f'artifact hash mismatch: {target}/{artifact}')
+            identity = (target, edge['revision'], edge['relation'], artifact, digest_value)
+            if identity in seen:
+                raise ValueError(f'duplicate edge: {task["key"]} -> {target}')
+            seen.add(identity)
+            edges.append(dict(edge))
+        outgoing[task['key']] = [item['task_key'] for item in edges]
+        if explicit:
+            stored = dict(task)
+            stored['depends_on'] = edges
+            normalized.append(stored)
+        else:
+            normalized.append(task)
+    visiting, visited = set(), set()
+
+    def walk(key):
+        if key in visiting:
+            raise ValueError(f'cycle: {key}')
+        if key in visited:
+            return
+        visiting.add(key)
+        for target in outgoing.get(key, []):
+            walk(target)
+        visiting.remove(key)
+        visited.add(key)
+
+    for key in outgoing:
+        walk(key)
+    return normalized
+
+
 def publish(workspace, catalogue):
+    catalogue = {**catalogue, 'tasks': normalize_task_dependencies(catalogue['tasks'])}
     require_idle_publication(workspace)
     generation = uuid.uuid4().hex
     runtime = runtime_info({'generation': generation})
@@ -569,7 +640,7 @@ def init(workspace, id_from, chat_port=None):
         return {'manifest': str(workspace / 'manifest.json'), 'plugin_id': assigned, 'tasks': len(catalogue['tasks'])}
 
 
-def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True):
+def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True, depends_on=None):
     if not re.fullmatch(r'[a-z][a-z0-9]*(?:-[a-z0-9]+)*', key) or len(key) > 64:
         raise ValueError('Task keys must be lowercase readable kebab names, at most 64 characters')
     title = label(title, 'task title', 160)
@@ -578,7 +649,10 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
     if kind not in OPTIONS:
         raise ValueError('Unknown trusted task kind')
     args, options, pins = arguments(kind, generator_args)
-    request_sha = digest(encode({'kind': kind, 'args': args, 'pins': pins, 'title': title, 'project': project, 'threadId': thread_id}))
+    payload = {'kind': kind, 'args': args, 'pins': pins, 'title': title, 'project': project, 'threadId': thread_id}
+    if depends_on is not None:
+        payload['depends_on'] = depends_on
+    request_sha = digest(encode(payload))
     with locked(workspace) as workspace:
         catalogue = current(workspace)
         previous = next((task for task in catalogue['tasks'] if task['key'] == key), None)
@@ -611,6 +685,9 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
                 'threadId': thread_id, 'fileKey': file_key, 'pageId': page_id,
                 'revision': revision, 'request_sha256': request_sha, 'artifact_dir': relative, 'bundle_relative': bundle_relative,
                 'domains': domains, 'artifact_hashes': {name: digest((bundle / name).read_bytes()) for name in ('code.js', 'ui.html', 'manifest.json')}}
+            if depends_on is not None:
+                merged = normalize_task_dependencies([*(item for item in catalogue['tasks'] if item['key'] != key), task], {key: depends_on})
+                task = next(item for item in merged if item['key'] == key)
             os.replace(staging, child(workspace, relative))
             tasks = [task if item['key'] == key else item for item in catalogue['tasks']]
             if previous is None:
