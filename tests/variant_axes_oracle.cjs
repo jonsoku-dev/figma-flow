@@ -14,14 +14,18 @@ const button = {
   variant_axes: {size: ['sm', 'md'], state: ['disabled', 'loading', 'error']}
 };
 const groups = context.componentVariantGroups(button);
-assert.deepEqual(groups.map(group => group.axis), ['size', 'state']);
-const created = groups.flatMap(group => group.variants.map(([variant]) => group.axis + '=' + variant));
-assert.deepEqual(created, ['size=sm', 'size=md', 'state=disabled', 'state=loading', 'state=error']);
+const summary = groups.map(group => ({axis: group.axis, variants: group.variants.map(([variant]) => variant)}));
+assert.equal(JSON.stringify(summary), JSON.stringify([
+  {axis: 'size', variants: ['sm', 'md']},
+  {axis: 'state', variants: ['disabled', 'loading', 'error']}
+]));
+const created = summary.flatMap(group => group.variants.map(variant => group.axis + '=' + variant));
 assert.equal(created.length, Object.keys(button.variants).length);
 assert.equal(created.some(name => name.includes('sm') && name.includes('disabled')), false);
 
 const legacy = context.componentVariantGroups({variants: {primary: {}, secondary: {}}});
-assert.deepEqual(legacy, [{axis: 'Variant', variants: [['primary', {}], ['secondary', {}]]}]);
+assert.equal(JSON.stringify(legacy.map(group => ({axis: group.axis, variants: group.variants.map(([variant]) => variant)}))),
+  JSON.stringify([{axis: 'Variant', variants: ['primary', 'secondary']}]));
 assert.equal(context.componentUsageText(button), undefined);
 assert.equal(context.componentUsageText({...button, usage: '확인에 사용'}), '확인에 사용');
 assert.equal(context.componentSwapTargets(button), undefined);

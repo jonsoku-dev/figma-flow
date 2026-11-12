@@ -24,7 +24,7 @@
 | variant_axes | 축 이름과 선언한 값 목록 | 독립 축, 조합 unique, 존재하는 정의만 연결 |
 | usage | 기존 스펙의 사용 설명과 문서 참조 | 로컬 출처·해시 유지, 외부 설명 생성 금지 |
 
-`properties`와 `variant_axes`는 아직 구현되지 않은 제안이다. 기존 평면 variant map은 단일 축으로 해석한다. 런타임 identity와 시각 profile을 분리하되, 기존 semantic key를 버리지 않는다.
+`variant_axes`는 회귀 디자인 시스템의 `axes.json`에 선언된 값만 기존 variant에 연결한다. 선언되지 않은 조합은 만들지 않는다. 사용 설명은 입력에 있는 문장만 description으로 옮긴다. 축 선언이 없으면 기존 평면 variant map을 단일 `Variant` 축으로 해석한다. 런타임 identity와 시각 profile을 분리하되, 기존 semantic key를 버리지 않는다.
 
 ## 구현 결정
 

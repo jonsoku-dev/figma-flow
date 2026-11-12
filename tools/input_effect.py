@@ -379,6 +379,7 @@ def design_channel(path, root, expected_version):
     if not isinstance(version, str) or not version:
         raise ValueError('Design-system package version is missing')
     axes = _load_json(loaded['axes.json'])
+    design_system.attach_declared_axes(compiled['components'], axes.get('components') or {})
     unsupported = axes.get('unsupported')
     if not isinstance(unsupported, list) or not unsupported:
         raise ValueError('Design-system axes must report unsupported axes')
@@ -408,6 +409,7 @@ def design_channel(path, root, expected_version):
         'package_version': version,
         'package_name': package.get('name'),
         'unsupported_axes': unsupported,
+        'variant_axes': {name: component['variant_axes'] for name, component in compiled['components'].items() if 'variant_axes' in component},
         'components': sorted(compiled['components']),
         'brand_token': brand,
         'tsx_execution': 'not-run',

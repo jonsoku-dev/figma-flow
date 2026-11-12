@@ -32,4 +32,4 @@
 - **RD-01-AC-04** — 같은 패킷 재실행 후 main/set/instance 수와 ID가 유지된다. 사용자가 바꾼 instance override를 초기화하지 않는다.
 - **RD-01-AC-05** — 선언하지 않은 variant 조합·사용 설명·swap target은 만들어지지 않는다.
 
-인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. AC-01과 AC-04는 일반 가져오기 mock에서, AC-02와 AC-03은 semantic component oracle에서 재현했다. 실제 Figma 관찰이 없으므로 이 문서의 조건은 통과로 기록하지 않는다. AC-05는 아직 구현하지 않았다.
+인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. AC-01과 AC-04는 일반 가져오기 mock에서, AC-02와 AC-03은 semantic component oracle에서, AC-05는 회귀 디자인 시스템의 실제 `axes.json`과 variant oracle에서 재현했다. 실제 Figma 관찰이 없으므로 이 문서의 조건은 통과로 기록하지 않는다.

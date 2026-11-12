@@ -285,6 +285,30 @@ function validateProductionColors(payload) {
   }
 }
 
+function componentVariantGroups(definition) {
+  const entries = Object.entries(definition.variants || {});
+  const axes = definition.variant_axes;
+  if (!axes) return [{axis: "Variant", variants: entries}];
+  const groups = new Map();
+  for (const entry of entries) {
+    const hits = Object.entries(axes).filter(([, values]) => Array.isArray(values) && values.includes(entry[0]));
+    if (hits.length !== 1) throw new Error(`Declared variant axis must be unique: ${entry[0]}`);
+    const [axis] = hits[0];
+    if (!groups.has(axis)) groups.set(axis, []);
+    groups.get(axis).push(entry);
+  }
+  return [...groups.entries()].map(([axis, variants]) => ({axis, variants}));
+}
+function componentUsageText(definition) {
+  if (!Object.prototype.hasOwnProperty.call(definition, "usage")) return undefined;
+  if (typeof definition.usage !== "string" || !definition.usage.trim()) throw new Error("Usage description must be the source text");
+  return definition.usage;
+}
+function componentSwapTargets(definition) {
+  if (!Object.prototype.hasOwnProperty.call(definition, "swap_targets")) return undefined;
+  if (!Array.isArray(definition.swap_targets)) throw new Error("Swap targets must be declared");
+  return definition.swap_targets;
+}
 function bindOwnedLabelProperty(owner, mains, warnings) {
   const labels = mains.map(main => {
     const label = (main.children || []).find(child => child.type === "TEXT");
@@ -425,35 +449,42 @@ async function importDesign(fresh) {
     const components = new Map();
     const componentSets = [];
     for (const [name, definition] of Object.entries(PAYLOAD.components)) {
-      const variants = [];
-      for (const [variant, props] of Object.entries(definition.variants)) {
-        const node = figma.createComponent();
-        library.appendChild(node);
-        node.name = `${name}/${variant}`;
-        layout(node, 320);
-        const label = text(name);
-        node.appendChild(label);
-        metadata(node, `component:${name}/${variant}`, { kind: "component", token_properties: props });
-        metadata(label, `component:${name}/${variant}/label`);
-        applyProps(node, label, props, variables, warnings, fonts);
-        await decorate(node);
-        components.set(JSON.stringify([name, variant]), node);
-        variants.push([variant, node]);
-      }
-      if (variants.length) {
-        if (typeof figma.combineAsVariants === "function") {
-          for (const [variant, node] of variants) node.name = `Variant=${variant}`;
-          const set = figma.combineAsVariants(variants.map(([, node]) => node), library);
-          set.name = name;
-          // Figma gives a new variant set a 5px corner radius; leave no unbound rendered radius on the container.
-          if ('cornerRadius' in set) set.cornerRadius = 0;
-          layout(set, 360);
-          componentSets.push(set);
-          metadata(set, `component-set:${name}`, { kind: "component-set", variant_property: "Variant" });
-          bindOwnedLabelProperty(set, variants.map(([, node]) => node), warnings);
-        } else {
-          warnings.add(`Native variant sets unavailable for ${name}; individual main components are preserved.`);
-          for (const [, node] of variants) bindOwnedLabelProperty(node, [node], warnings);
+      const groups = componentVariantGroups(definition);
+      const multiple = groups.length > 1;
+      const usage = componentUsageText(definition);
+      componentSwapTargets(definition);
+      for (const group of groups) {
+        const variants = [];
+        for (const [variant, props] of group.variants) {
+          const node = figma.createComponent();
+          library.appendChild(node);
+          node.name = `${name}/${variant}`;
+          layout(node, 320);
+          const label = text(name);
+          node.appendChild(label);
+          metadata(node, `component:${name}/${variant}`, { kind: "component", token_properties: props });
+          metadata(label, `component:${name}/${variant}/label`);
+          applyProps(node, label, props, variables, warnings, fonts);
+          await decorate(node);
+          components.set(JSON.stringify([name, variant]), node);
+          variants.push([variant, node]);
+        }
+        if (variants.length) {
+          if (typeof figma.combineAsVariants === "function") {
+            for (const [variant, node] of variants) node.name = `${group.axis}=${variant}`;
+            const set = figma.combineAsVariants(variants.map(([, node]) => node), library);
+            set.name = multiple ? `${name}/${group.axis}` : name;
+            // Figma gives a new variant set a 5px corner radius; leave no unbound rendered radius on the container.
+            if ('cornerRadius' in set) set.cornerRadius = 0;
+            layout(set, 360);
+            componentSets.push(set);
+            metadata(set, multiple ? `component-set:${name}:${group.axis}` : `component-set:${name}`, { kind: "component-set", variant_property: group.axis });
+            if (usage) set.description = usage;
+            bindOwnedLabelProperty(set, variants.map(([, node]) => node), warnings);
+          } else {
+            warnings.add(`Native variant sets unavailable for ${name}; individual main components are preserved.`);
+            for (const [, node] of variants) bindOwnedLabelProperty(node, [node], warnings);
+          }
         }
       }
     }

@@ -115,8 +115,10 @@ def compile_design(data):
         raise ValueError("components and screens are required")
     classes = set()
     for name, component in components.items():
-        if not NAME.fullmatch(name) or not isinstance(component, dict) or set(component) != {"variants"} or not isinstance(component["variants"], dict) or not component["variants"]:
+        if not NAME.fullmatch(name) or not isinstance(component, dict) or set(component) - {"usage"} != {"variants"} or not isinstance(component.get("variants"), dict) or not component["variants"]:
             raise ValueError(f"invalid component: {name}")
+        if "usage" in component and (not isinstance(component["usage"], str) or not component["usage"].strip()):
+            raise ValueError(f"usage description must be source text: {name}")
         for variant, styles in component["variants"].items():
             if not NAME.fullmatch(variant) or not isinstance(styles, dict) or not styles:
                 raise ValueError(f"invalid variant: {name}.{variant}")
@@ -154,7 +156,33 @@ def compile_design(data):
                     raise ValueError(f"unknown component variant in {screen['id']}")
             elif set(element) - metadata != {"kind", "text"}:
                 raise ValueError(f"invalid element in {screen['id']}")
+    if "variant_axes" in data:
+        attach_declared_axes(components, data["variant_axes"])
     return {"version": 1, "tokens": resolved, "components": components, "screens": screens}
+
+
+def attach_declared_axes(components, axes):
+    """Record declared independent axes without creating missing combinations."""
+    if not isinstance(axes, dict):
+        raise ValueError("variant axes must be declared")
+    for name, declared in axes.items():
+        component = components.get(name)
+        if not isinstance(component, dict) or not isinstance(component.get("variants"), dict):
+            raise ValueError(f"variant axes require an existing component: {name}")
+        if not isinstance(declared, dict) or not declared:
+            raise ValueError(f"variant axes require declared values: {name}")
+        seen = {}
+        cleaned = {}
+        for axis, values in declared.items():
+            if not isinstance(axis, str) or not NAME.fullmatch(axis) or not isinstance(values, list) or not values or len(values) != len(set(values)):
+                raise ValueError(f"invalid variant axis: {name}.{axis}")
+            for value in values:
+                if not isinstance(value, str) or value not in component["variants"] or value in seen:
+                    raise ValueError(f"variant axis value must be one existing definition: {name}.{axis}.{value}")
+                seen[value] = axis
+            cleaned[axis] = list(values)
+        component["variant_axes"] = cleaned
+    return components
 
 
 def components_css(design):

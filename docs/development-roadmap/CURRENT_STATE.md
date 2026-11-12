@@ -13,7 +13,7 @@ RD-03의 작업 간 `depends_on`과 RD-08의 영속적인 단계 journal은 이 
 | 구현 위치 | 현재 동작 | 남은 개선 |
 | --- | --- | --- |
 | [일반 가져오기](../../figma-bridge/code.js)의 `importDesign` | 정의·변형별 main을 만들고, 화면 문구는 반환된 TEXT 속성 key로 instance에 설정 | 지원 너비만 다른 재사용 분류와 선언된 variant 축은 아직 |
-| [의미 컴포넌트](../../figma-bridge/semantic_components.js)의 `ensureSemanticComponents` | 같은 구조에서 root 너비만 다르면 main을 공유하고 instance를 그 너비로 맞춘다. 자식 크기·transform·높이가 다르면 Layout 변형을 유지한다 | 선언된 독립 variant 축과 사용 설명은 아직 |
+| [의미 컴포넌트](../../figma-bridge/semantic_components.js)의 `ensureSemanticComponents` | 같은 구조에서 root 너비만 다르면 main을 공유하고 instance를 그 너비로 맞춘다. 자식 크기·transform·높이가 다르면 Layout 변형을 유지한다 | 선언된 축은 기존 정의만 연결하고 없는 조합은 만들지 않는다 |
 | [방향 검토](../../figma-bridge/direction_review.js) | 버튼 main/set의 TEXT 속성과 실제 instance를 사용 | 화면 내부 레이어가 평평해 의미 계층이 부족 |
 | [기초 요소 팔레트](../../figma-bridge/foundation_palette.js) | main/set과 연결된 instance, 토큰 binding과 설명을 사용 | 다른 생성 경로와 속성·사용 설명의 일관성 보완 |
 
