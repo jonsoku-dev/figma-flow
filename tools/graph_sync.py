@@ -698,6 +698,8 @@ def verify_readback(plan, data, expected=None, identities=None, allow_node_edits
 
 
 def receipt(graph, plan, data):
+    if data.get('partial_apply'):
+        raise ValueError('partial apply cannot certify a complete pairing')
     plan = copy.deepcopy(bind_adopted_plan(plan, data))
     plan.pop('repair_bindings', None)
     resolved = resolve_design_system(graph)
@@ -987,8 +989,42 @@ def combine_web_proofs(graph, proof_paths):
     return result
 
 
+def selection_manifest(plan):
+    """Host-owned identities and indivisible root/consumer closure for the exact plan."""
+    def identity(value):
+        return hashlib.sha256(_encode(value)).hexdigest()
+    roots = {}
+    for token in plan['tokens']:
+        root = token.get('root_variable_id') or token.get('root_variable_name')
+        roots.setdefault(root, []).append(token)
+    changes = []
+    for root, tokens in roots.items():
+        token = tokens[0]
+        if not token.get('create') and same_value(token.get('before'), token['value']):
+            continue
+        group = identity({'root': root})
+        keys = sorted(item['key'] for item in tokens)
+        common = {'group': group, 'token_keys': keys, 'root': root,
+                  'before': json.dumps(token.get('before'), ensure_ascii=False),
+                  'after': json.dumps(token['value'], ensure_ascii=False)}
+        root_token = next((item for item in tokens if item.get('variable_id') == root), token)
+        changes.append({**common, 'identity': identity({'kind': 'token', 'root': root}),
+                        'kind': 'token', 'name': root_token.get('variable_name', root),
+                        'targets': [component['id'] + '.' + field for component in plan['components']
+                                    for field, key in component['properties'].items() if key in keys]})
+        for component in plan['components']:
+            for field, key in component['properties'].items():
+                if key in keys:
+                    changes.append({**common, 'identity': identity({'kind': 'component_field', 'component': component['id'], 'field': field}),
+                                    'kind': 'component_field', 'component_id': component['id'], 'field': field,
+                                    'name': component['id'] + '.' + field,
+                                    'targets': component['main_keys'] + component['instance_keys']})
+    return {'schema': 'figma-flow-selection-v2', 'plan_sha256': identity(plan), 'changes': changes}
+
+
 def graph_panel(mode, scope, plan=None, session=None):
     config = {'mode': mode, 'session': session or secrets.token_urlsafe(24), 'file_key': scope['file_key'], 'page_id': scope['page_id'],
+              'plugin_version': read(Path(__file__).resolve().parents[1] / 'plugin.json')['version'],
               'pages': scope.get('allowed_page_ids', [scope['page_id']])}
     if plan is not None:
         mains = sorted({key for component in plan['components'] for key in component['main_keys']})
@@ -1004,7 +1040,8 @@ def graph_panel(mode, scope, plan=None, session=None):
                             'before': json.dumps(token.get('before'), ensure_ascii=False),
                             'after': json.dumps(token['value'], ensure_ascii=False)})
         config.update(collection_id=plan['collection_id'], graph_sha256=plan['graph_sha256'],
-            main_ids=mains, instance_ids=instances, changes=changes,
+            main_ids=mains, instance_ids=instances, changes=selection_manifest(plan)['changes'],
+            selection_manifest=selection_manifest(plan),
             components=[{'id': component['id'], 'fields': list(component['properties']),
                          'mains': len(component['main_keys']), 'instances': len(component['instance_keys'])}
                         for component in plan['components']],
@@ -1063,7 +1100,7 @@ def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plug
     session = secrets.token_urlsafe(24)
     (output / 'ui.html').write_text(graph_panel('sync', plan, plan, session), encoding='utf-8')
     bridge = Path(__file__).resolve().parents[1] / 'figma-bridge' / 'graph_token_sync.js'
-    (output / 'code.js').write_text('const GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\nconst GRAPH_SYNC_PLAN = ' + json.dumps(plan) + ';\nvar GRAPH_SYNC_SCHEMA = ' + json.dumps(SCHEMA) + ';\n' + bridge.read_text(), encoding='utf-8')
+    (output / 'code.js').write_text('const GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\nconst GRAPH_SYNC_PLAN = ' + json.dumps(plan) + ';\nconst GRAPH_SELECTION_MANIFEST = ' + json.dumps(selection_manifest(plan)) + ';\nvar GRAPH_SYNC_SCHEMA = ' + json.dumps(SCHEMA) + ';\n' + bridge.read_text(), encoding='utf-8')
     manifest = {'name': 'Graph canonical token sync', 'api': '1.0.0', 'main': 'code.js', 'ui': 'ui.html', 'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}, 'enablePrivatePluginApi': True}
     if plugin_id:
         manifest['id'] = plugin_id
@@ -1073,6 +1110,8 @@ def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plug
 
 
 def import_values(graph_path, pairing, readback, web_module, out, apply=False, node_edit_scope=None):
+    if readback.get('partial_apply'):
+        raise ValueError('partial apply is not native edit intent; export again with its full readback')
     if Path(graph_path).resolve() == Path(web_module).resolve():
         raise ValueError('web module must not overwrite graph')
     graph = load_graph(graph_path)
@@ -1176,17 +1215,32 @@ async function discoverGraphNative(figma, scope) {
   if (figma.fileKey !== scope.file_key || figma.currentPage.id !== scope.page_id) throw Error('Discovery scope changed during read');
   return result;
 }
+async function discoverGraphSummary(figma, scope) {
+  const checkScope = () => {
+    if (figma.fileKey !== scope.file_key || figma.currentPage.id !== scope.page_id) throw Error('Wrong native discovery file or main page');
+  };
+  checkScope();
+  const page = await figma.getNodeByIdAsync(scope.page_id);
+  if (!page || page.type !== 'PAGE') throw Error('Missing admitted discovery page: ' + scope.page_id);
+  await page.loadAsync();
+  const nodeIds = [page, ...page.findAll(() => true)].map(node => node.id);
+  const summary = await readNativeSemantics(figma, page, {profile: 'summary', nodeIds, fields: ['width', 'height']});
+  checkScope();
+  return {...summary, fileKey: figma.fileKey, pageId: scope.page_id, expected_scope: scope,
+    coverage: {...summary.coverage, pageIds: [scope.page_id]}, observed_at: new Date().toISOString()};
+}
 figma.showUI(__html__, {width: 440, height: 390, themeColors: true});
 let discoveryBusy = false;
 figma.ui.onmessage = async message => {
-  if (message?.type !== 'read' || message.session !== GRAPH_PANEL_SESSION || discoveryBusy) return;
+  if (!['read', 'native-summary'].includes(message?.type) || message.session !== GRAPH_PANEL_SESSION || discoveryBusy) return;
+  const operation = message.type;
   discoveryBusy = true;
-  figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation: 'read'});
-  try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: 'read', readback: await discoverGraphNative(figma, DISCOVERY_SCOPE)}); }
+  figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation});
+  try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation, readback: await (operation === 'native-summary' ? discoverGraphSummary : discoverGraphNative)(figma, DISCOVERY_SCOPE)}); }
   catch (error) {
     const detail = error.message || String(error);
     const safely = getter => {try {return getter() ?? null;} catch (_) {return null;}};
-    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: 'read', error: detail, readback: {schema: 'figma-flow-graph-native-discovery-v1',
+    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation, error: detail, readback: {schema: 'figma-flow-graph-native-discovery-v1',
       status: 'failed', error: detail, stack: error.stack || detail, fileKey: safely(() => figma.fileKey), pageId: safely(() => figma.currentPage.id),
       expected_scope: DISCOVERY_SCOPE, observed_at: new Date().toISOString()}});
   }

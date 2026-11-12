@@ -462,6 +462,8 @@ def runtime_info(catalogue):
 
 
 def task_artifacts(workspace, task):
+    if task_input_freshness(workspace, task)['status'] == 'stale':
+        raise ValueError('Task input sources changed; prepare a fresh admitted input record')
     check_source_pins(task.get('source_input_pins', []))
     if 'generator_args' in task:
         _, _, pins = arguments(task['kind'], task['generator_args'], create_pair=False)
@@ -481,6 +483,37 @@ def task_artifacts(workspace, task):
         if name not in ('code.js', 'ui.html', 'manifest.json') or digest(regular(bundle / name, private=True).read_bytes()) != sha:
             raise ValueError('Prepared task artifacts changed; prepare a fresh admitted task')
     return bundle
+
+
+def task_input_record(workspace, task):
+    pin = task.get('input_record')
+    if pin is None:
+        return None
+    if (not isinstance(pin, dict) or set(pin) != {'artifact', 'sha256'}
+            or pin['artifact'] != 'input-record.json' or not isinstance(pin['sha256'], str)
+            or not re.fullmatch(r'[a-f0-9]{64}', pin['sha256'])
+            or not isinstance(task.get('artifact_dir'), str)
+            or not re.fullmatch(r'\.tasks/[a-f0-9]{32}', task['artifact_dir'])
+            or task.get('bundle_relative') not in ('.', 'plugin', 'paired-plugin')):
+        raise ValueError('Invalid task input record pin')
+    folder = private_dir(child(Path(workspace), task['artifact_dir']))
+    raw = regular(child(folder, task['bundle_relative']) / pin['artifact'], private=True, limit=1_000_000).read_bytes()
+    if digest(raw) != pin['sha256']:
+        raise ValueError('Task input record changed; prepare a fresh admitted record')
+    record = json.loads(raw)
+    input_effect.summarize_input_record(record)
+    return record
+
+
+def task_input_freshness(workspace, task):
+    """Read exact pinned input bytes without repairing state or revealing private roots."""
+    result = {'taskKey': task['key'], 'revision': task['revision'], 'status': 'unverified', 'changed': []}
+    record = task_input_record(workspace, task)
+    if record is None or task.get('input_root') is None:
+        return result
+    state = input_effect.freshness(record, task['input_root'])
+    return {**result, 'status': state['status'],
+            'changed': [input_effect._safe_ref(path) for path in state['changed']]}
 
 
 def task_surface(kind, code, original_html, *, shared=False):
@@ -517,7 +550,7 @@ def task_surface(kind, code, original_html, *, shared=False):
     return {}, render_app('graph', json.loads(match[1]), shared=shared)
 
 
-def normalize_task_dependencies(tasks, dependencies=None):
+def normalize_task_dependencies(tasks, dependencies=None, *, history=()):
     """Validate explicit uses-output edges. Same project does not create an edge."""
     if not isinstance(tasks, list):
         raise ValueError('Task dependency catalogue required')
@@ -530,6 +563,7 @@ def normalize_task_dependencies(tasks, dependencies=None):
     if dependencies is not None and not isinstance(dependencies, dict):
         raise ValueError('Task dependencies must be a map')
     provided = dependencies or {}
+    historical = {(row['key'], row['revision']): row for row in history}
     normalized = []
     outgoing = {}
     for task in tasks:
@@ -543,19 +577,26 @@ def normalize_task_dependencies(tasks, dependencies=None):
             if not isinstance(edge, dict) or set(edge) != {'task_key', 'revision', 'relation', 'artifact', 'artifact_sha256'}:
                 raise ValueError('Invalid task dependency')
             target = edge['task_key']
+            if any(not isinstance(edge[field], str) for field in edge):
+                raise ValueError('Invalid task dependency field type')
+            if not re.fullmatch(r'[a-f0-9]{64}', edge['artifact_sha256']):
+                raise ValueError('Invalid task dependency artifact digest')
             if target == task['key']:
                 raise ValueError(f'self edge: {task["key"]}')
-            if target not in by_key:
+            pinned = historical.get((target, edge['revision']))
+            if target not in by_key and pinned is None:
                 raise ValueError(f'missing target: {target}')
             if edge['relation'] != 'uses-output':
                 raise ValueError(f'unsupported dependency relation: {edge["relation"]}')
-            if edge['revision'] != by_key[target].get('revision'):
+            if target in by_key and edge['revision'] == by_key[target].get('revision'):
+                pinned = by_key[target]
+            if pinned is None:
                 raise ValueError(f'dependency revision is not current: {target}')
             artifact = edge['artifact']
             if not isinstance(artifact, str) or artifact not in {'code.js', 'ui.html', 'manifest.json'}:
                 raise ValueError(f'unregistered artifact: {artifact}')
             digest_value = edge['artifact_sha256']
-            if by_key[target].get('artifact_hashes', {}).get(artifact) != digest_value:
+            if pinned.get('artifact_hashes', {}).get(artifact) != digest_value:
                 raise ValueError(f'artifact hash mismatch: {target}/{artifact}')
             identity = (target, edge['revision'], edge['relation'], artifact, digest_value)
             if identity in seen:
@@ -587,6 +628,36 @@ def normalize_task_dependencies(tasks, dependencies=None):
     return normalized
 
 
+def dependency_history(workspace):
+    """Use committed signed pins and retirement archives, never uncommitted generations."""
+    previous = current(workspace, repair=False) if (workspace / 'manifest.json').exists() else None
+    history = list(previous.get('dependency_artifacts', [])) + previous['tasks'] if previous else []
+    retired = {}
+    records = child(workspace, '.retired')
+    if records.exists():
+        entries = [read(path, private=True) for path in sorted(private_dir(records).glob('*.json'))]
+        if any(not isinstance(record, dict) or not isinstance(record.get('created_at'), str) for record in entries):
+            raise ValueError('Invalid retirement archive')
+        for record in sorted(entries, key=lambda item: item['created_at']):
+            archived = record.get('catalogue_before') if isinstance(record, dict) else None
+            if (not isinstance(record, dict) or record.get('schema') != 'figma-flow-workspace-retirement-record-v1'
+                    or not isinstance(archived, dict)
+                    or archived.get('schema') != SCHEMA
+                    or archived.get('plugin_id') != previous['plugin_id']
+                    or archived.get('generation') != record.get('before_generation')
+                    or not hmac.compare_digest(str(archived.get('signature', '')), sign_catalogue(workspace, archived)['signature'])):
+                raise ValueError('Invalid retirement archive')
+            rows = record.get('retired_tasks')
+            if not isinstance(rows, list):
+                raise ValueError('Invalid retirement archive tasks')
+            for row in rows:
+                if not isinstance(row, dict) or row not in archived.get('tasks', []):
+                    raise ValueError('Invalid retirement archive task')
+                history.append(row)
+                retired[row['key']] = {'key': row['key'], 'revision': row['revision']}
+    return history, retired
+
+
 def load_task_dependency_fixtures(root):
     """Load the pinned legacy catalogue and the one declared uses-output edge."""
     root = Path(root)
@@ -599,7 +670,9 @@ def load_task_dependency_fixtures(root):
 
 def public_task_metadata(task):
     """Copy the public task fields and explicit dependency edges. Extra edge fields stay out."""
+    from input_effect import _safe_ref
     metadata = {key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'fileKey', 'pageId', 'threadId', 'revision', 'handoff')}
+    metadata['has_input_record'] = isinstance(task.get('input_record'), dict)
     summary = task.get('input_summary')
     if isinstance(summary, list):
         rows = []
@@ -607,7 +680,8 @@ def public_task_metadata(task):
             ref = row.get('ref') if isinstance(row, dict) else None
             if not isinstance(ref, str) or '/Users/' in ref or ref.startswith('/'):
                 continue
-            rows.append({field: row.get(field) for field in ('ref', 'kind', 'status', 'source', 'digest')})
+            rows.append({**{field: row.get(field) for field in ('kind', 'status', 'digest')},
+                         'ref': _safe_ref(ref), 'source': _safe_ref(row.get('source', ''))})
         if rows:
             metadata['input_summary'] = rows
     edges = task.get('depends_on')
@@ -624,7 +698,25 @@ def public_task_metadata(task):
 
 
 def publish(workspace, catalogue):
-    catalogue = {**catalogue, 'tasks': normalize_task_dependencies(catalogue['tasks'])}
+    history, retired = dependency_history(workspace)
+    if not isinstance(catalogue.get('tasks'), list):
+        raise ValueError('Task dependency catalogue required')
+    admitted_keys = {row['key'] for row in catalogue['tasks']
+                     if isinstance(row, dict) and isinstance(row.get('key'), str)} | retired.keys()
+    history = [row for row in history if row['key'] in admitted_keys]
+    catalogue = {**catalogue, 'tasks': normalize_task_dependencies(catalogue['tasks'], history=history)}
+    active = {(row['key'], row['revision']) for row in catalogue['tasks']}
+    required = {(edge['task_key'], edge['revision']) for row in catalogue['tasks']
+                for edge in row.get('depends_on', [])} - active
+    pins = {(row['key'], row['revision']): row for row in history}
+    retained = [pins[identity] for identity in sorted(required)]
+    for row in retained:
+        # Historical source inputs can change; only the immutable output remains pinned.
+        task_artifacts(workspace, {key: value for key, value in row.items()
+                                  if key not in ('generator_args', 'source_input_pins', 'input_root')})
+    catalogue['dependency_artifacts'] = retained
+    active_keys = {row['key'] for row in catalogue['tasks']}
+    tombstones = [row for key, row in sorted(retired.items()) if key not in active_keys]
     require_idle_publication(workspace)
     generation = uuid.uuid4().hex
     runtime = runtime_info({'generation': generation})
@@ -656,6 +748,7 @@ def publish(workspace, catalogue):
     code += 'const FLOW_LOCALES = ' + json.dumps(list(supported_locales()), ensure_ascii=True) + ';\n'
     code += 'const FLOW_CHAT_DUPLICATE = ' + json.dumps(chat_catalog['chat.duplicate']['ko'], ensure_ascii=False) + ';\n'
     code += 'const FLOW_TASKS = [' + ',\n'.join(tasks) + '];\n'
+    code += 'const FLOW_RETIRED = ' + json.dumps(tombstones, ensure_ascii=True) + ';\n'
     assets = bridge / 'assets'
     react_js = re.sub(r'</script', lambda _match: r'<\/script', (assets / 'panels.js').read_text(), flags=re.I)
     code += 'const packagedReact = ' + json.dumps(react_js) + ';\n'
@@ -717,7 +810,7 @@ def init(workspace, id_from, chat_port=None):
         return {'manifest': str(workspace / 'manifest.json'), 'plugin_id': assigned, 'tasks': len(catalogue['tasks'])}
 
 
-def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True, depends_on=None, input_record=None):
+def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True, depends_on=None, input_record=None, input_root=None):
     if not re.fullmatch(r'[a-z][a-z0-9]*(?:-[a-z0-9]+)*', key) or len(key) > 64:
         raise ValueError('Task keys must be lowercase readable kebab names, at most 64 characters')
     title = label(title, 'task title', 160)
@@ -727,15 +820,37 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
         raise ValueError('Unknown trusted task kind')
     args, options, pins = arguments(kind, generator_args)
     pinned = input_effect.summarize_input_record(input_record) if input_record is not None else None
+    if pinned is not None and len(pinned['bytes']) > 1_000_000:
+        raise ValueError('Input record exceeds the admission limit')
+    if input_root is not None:
+        if pinned is None:
+            raise ValueError('--input-root requires an input record')
+        input_root = str(input_effect._root(input_root))
+        sources = input_record.get('sources')
+        if not isinstance(sources, list) or not 1 <= len(sources) <= 4096:
+            raise ValueError('Input record requires bounded source hashes')
+        for source in sources:
+            if (not isinstance(source, dict) or not isinstance(source.get('path'), str)
+                    or 'sha256' not in source
+                    or (source['sha256'] is not None
+                        and (not isinstance(source['sha256'], str)
+                             or not re.fullmatch(r'[a-f0-9]{64}', source['sha256'])))):
+                raise ValueError('Invalid input record source hash')
+        if input_effect.freshness(input_record, input_root)['status'] != 'current':
+            raise ValueError('Input record sources changed; project and admit a fresh record')
     payload = {'kind': kind, 'args': args, 'pins': pins, 'title': title, 'project': project, 'threadId': thread_id}
     if depends_on is not None:
         payload['depends_on'] = depends_on
     if pinned is not None:
         payload['input_record'] = pinned['sha256']
+    if input_root is not None:
+        payload['input_root'] = input_root
     request_sha = digest(encode(payload))
     with locked(workspace) as workspace:
         catalogue = current(workspace)
         previous = next((task for task in catalogue['tasks'] if task['key'] == key), None)
+        if previous and previous.get('input_root') is not None and (pinned is None or input_root is None):
+            raise ValueError('Existing task requires its admitted input record and root')
         if previous and replace_expected is None and previous.get('request_sha256') != request_sha:
             raise ValueError('Task key already exists with different inputs; use --replace-expected')
         if replace_expected is not None and (not previous or previous['revision'] != replace_expected):
@@ -749,13 +864,35 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
             nested_pins = source_inputs(staging)
             if arguments(kind, args, create_pair=False)[2] != pins:
                 raise ValueError('Source inputs changed during preparation')
+            if input_root is not None and input_effect.freshness(input_record, input_root)['status'] != 'current':
+                raise ValueError('Input record sources changed during preparation; admit a fresh record')
             revision = digest(encode({'request': request_sha, 'source': source_sha, 'generators': before, 'source_inputs': nested_pins}))
-            if previous and replace_expected is None:
-                if previous['revision'] != revision:
-                    raise ValueError('Task key already exists with different inputs; use --replace-expected')
+            if previous and previous['revision'] == revision:
                 task_artifacts(workspace, previous)
+                if replace_expected is not None and previous.get('generator_sha256') != before:
+                    require_idle_publication(workspace)
+                    repaired = {**previous, 'generator_sha256': before}
+                    result = publish(workspace, {**catalogue, 'tasks': [repaired if item['key'] == key else item for item in catalogue['tasks']]})
+                    return {'key': key, 'revision': revision, 'unchanged': False, 'metadata_only': True,
+                            'manifest': str(workspace / 'manifest.json'), 'generation': result['generation']}
                 return {'key': key, 'revision': revision, 'unchanged': True, 'manifest': str(workspace / 'manifest.json')}
+            if previous and replace_expected is None:
+                raise ValueError('Task key already exists with different inputs; use --replace-expected')
             require_idle_publication(workspace)
+            history, _ = dependency_history(workspace)
+            retained = next((row for row in history if row['key'] == key and row['revision'] == revision
+                             and row.get('request_sha256') == request_sha), None)
+            if retained is not None:
+                artifact_root = workspace / retained['artifact_dir']
+                task_artifacts(workspace, retained)
+                tasks = [retained if item['key'] == key else item for item in catalogue['tasks']]
+                if previous is None:
+                    tasks.append(retained)
+                result = publish(workspace, {**catalogue, 'tasks': tasks})
+                return {'key': key, 'revision': revision, 'unchanged': False,
+                        'manifest': str(workspace / 'manifest.json'), 'generation': result['generation'],
+                        'artifacts': str(artifact_root),
+                        'web_module': str(artifact_root / 'web-module.mjs') if kind == 'sync' else None}
             private_tree(staging)
             artifact_id = uuid.uuid4().hex
             relative = '.tasks/' + artifact_id
@@ -766,18 +903,27 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
                 'revision': revision, 'request_sha256': request_sha, 'artifact_dir': relative, 'bundle_relative': bundle_relative,
                 'domains': domains, 'artifact_hashes': {name: digest((bundle / name).read_bytes()) for name in ('code.js', 'ui.html', 'manifest.json')}}
             if depends_on is not None:
-                merged = normalize_task_dependencies([*(item for item in catalogue['tasks'] if item['key'] != key), task], {key: depends_on})
-                task = next(item for item in merged if item['key'] == key)
+                task['depends_on'] = depends_on
             if pinned is not None:
-                (bundle / 'input-record.json').write_bytes(pinned['bytes'])
+                atomic(bundle / 'input-record.json', pinned['bytes'])
                 task['input_record'] = {'artifact': 'input-record.json', 'sha256': pinned['sha256']}
                 task['input_summary'] = pinned['summary']
-            os.replace(staging, child(workspace, relative))
+                if input_root is not None:
+                    task['input_root'] = input_root
             tasks = [task if item['key'] == key else item for item in catalogue['tasks']]
             if previous is None:
                 tasks.append(task)
-            result = publish(workspace, {**catalogue, 'tasks': tasks})
-            artifact_root = workspace / relative
+            tasks = normalize_task_dependencies(tasks, history=history)
+            artifact_root = child(workspace, relative)
+            manifest_before = regular(workspace / 'manifest.json', private=True).read_bytes()
+            os.replace(staging, artifact_root)
+            try:
+                result = publish(workspace, {**catalogue, 'tasks': tasks})
+            except Exception:
+                # The manifest is the commit marker; never reclaim an admitted artifact.
+                if regular(workspace / 'manifest.json', private=True).read_bytes() == manifest_before:
+                    os.replace(artifact_root, staging)
+                raise
             return {'key': key, 'revision': revision, 'unchanged': False, 'manifest': str(workspace / 'manifest.json'),
                 'generation': result['generation'], 'artifacts': str(artifact_root),
                 'web_module': str(artifact_root / 'web-module.mjs') if kind == 'sync' else None}
@@ -792,9 +938,11 @@ def replay(workspace, key, expected_revision):
         if 'generator_args' not in row or 'input_pins' not in row:
             raise ValueError('Legacy task has no replay arguments; prepare with original admission')
         task_artifacts(root, row)
+        input_record = task_input_record(root, row)
         args = row['generator_args']
     return prepare(workspace, key, row['title'], row['kind'], args,
-                   row.get('project'), row.get('threadId'), expected_revision, infer_thread=False)
+                   row.get('project'), row.get('threadId'), expected_revision, infer_thread=False,
+                   depends_on=row.get('depends_on'), input_record=input_record, input_root=row.get('input_root'))
 
 
 def list_tasks(workspace):
@@ -802,6 +950,12 @@ def list_tasks(workspace):
         catalogue = current(workspace)
         return {'manifest': str(workspace / 'manifest.json'), 'plugin_id': catalogue['plugin_id'],
             'tasks': [{key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'threadId', 'fileKey', 'pageId', 'revision')} for task in catalogue['tasks']]}
+
+
+def refresh(workspace):
+    with locked(workspace) as root:
+        updated = publish(root, current(root))
+        return {'manifest': str(root / 'manifest.json'), 'generation': updated['generation'], 'tasks': len(updated['tasks'])}
 
 
 def retire(workspace, tasks):
@@ -875,8 +1029,11 @@ def main(argv=None):
     build.add_argument('--project')
     build.add_argument('--thread-id')
     build.add_argument('--replace-expected')
-    refresh = commands.add_parser('refresh', allow_abbrev=False)
-    refresh.add_argument('--workspace', required=True)
+    build.add_argument('--depends-on')
+    build.add_argument('--input-record')
+    build.add_argument('--input-root')
+    refreshing = commands.add_parser('refresh', allow_abbrev=False)
+    refreshing.add_argument('--workspace', required=True)
     replaying = commands.add_parser('replay', allow_abbrev=False)
     for option in ('workspace', 'key', 'expected-revision'):
         replaying.add_argument('--' + option, required=True)
@@ -899,9 +1056,7 @@ def main(argv=None):
         elif args.command == 'refresh':
             if separator != len(values):
                 raise ValueError('refresh does not accept generator arguments')
-            with locked(args.workspace) as root:
-                updated = publish(root, current(root))
-                result = {'manifest': str(root / 'manifest.json'), 'generation': updated['generation'], 'tasks': len(updated['tasks'])}
+            result = refresh(args.workspace)
         elif args.command == 'replay':
             if separator != len(values):
                 raise ValueError('replay does not accept new generator arguments')
@@ -913,7 +1068,10 @@ def main(argv=None):
         elif args.command == 'prepare':
             if separator == len(values):
                 raise ValueError('prepare requires literal -- before trusted generator flags')
-            result = prepare(args.workspace, args.key, args.title, args.kind, values[separator + 1:], args.project, args.thread_id, args.replace_expected)
+            result = prepare(args.workspace, args.key, args.title, args.kind, values[separator + 1:], args.project, args.thread_id, args.replace_expected,
+                depends_on=read(args.depends_on, limit=1_000_000) if args.depends_on else None,
+                input_record=read(args.input_record, limit=1_000_000) if args.input_record else None,
+                input_root=args.input_root)
         else:
             if separator != len(values):
                 raise ValueError('list does not accept generator arguments')

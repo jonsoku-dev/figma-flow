@@ -10,6 +10,7 @@
 
   function redactText(value) {
     return String(value)
+      .replace(/([a-z][a-z0-9+.-]*:\/\/)[^/\s"'<>]+@/gi, '$1')
       .replace(HOME_PATH, '[home]')
       .replace(SECRET_QUERY, '$1[redacted]')
       .replace(/Bearer\s+[A-Za-z0-9._~+/=-]{6,}/g, 'Bearer [redacted]');

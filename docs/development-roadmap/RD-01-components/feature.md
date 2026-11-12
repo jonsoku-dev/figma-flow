@@ -1,6 +1,6 @@
 # RD-01 기능서 · 재사용 컴포넌트와 편집 속성
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는0.27 첫 구현 범위의 기능 계약이다. 조건별 fixture·실제 관측과 미지원 확장은 [최종 인수 현황](../FINAL_ACCEPTANCE.md)을 따른다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 사용자 문제
 
@@ -32,4 +32,4 @@
 - **RD-01-AC-04** — 같은 패킷 재실행 후 main/set/instance 수와 ID가 유지된다. 사용자가 바꾼 instance override를 초기화하지 않는다.
 - **RD-01-AC-05** — 선언하지 않은 variant 조합·사용 설명·swap target은 만들어지지 않는다.
 
-인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. AC-01과 AC-04는 일반 가져오기 mock에서, AC-02와 AC-03은 semantic component oracle에서, AC-05는 회귀 디자인 시스템의 실제 `axes.json`과 variant oracle에서 재현했다. 실제 Figma 관찰이 없으므로 이 문서의 조건은 통과로 기록하지 않는다.
+인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 조건별 판정과 실제 관측·fixture의 구분, 후속 확장과 출시·설치 근거는 [최종 인수 현황](../FINAL_ACCEPTANCE.md)과 패치 Wiki에서 확인한다.

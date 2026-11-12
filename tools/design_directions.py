@@ -9,6 +9,7 @@ from datetime import datetime
 from html import escape
 from html.parser import HTMLParser
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -1183,6 +1184,7 @@ def normalize_layer_containers(fixture):
     containers = fixture.get('containers')
     if not isinstance(layers, list) or not isinstance(containers, list):
         raise ValueError('layers and containers are required')
+    finite = lambda value: isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
     layer_ids = []
     for layer in layers:
         if not isinstance(layer, dict) or not isinstance(layer.get('id'), str) or not layer['id'] or layer['id'] in layer_ids:
@@ -1197,22 +1199,28 @@ def normalize_layer_containers(fixture):
         kind = item.get('kind')
         if kind not in {'group', 'frame', 'auto-layout'}:
             raise ValueError(f'unsupported container: {key}')
+        if 'scroll' in item and (not isinstance(item['scroll'], str) or item['scroll'] not in {'none', 'horizontal', 'vertical', 'both'} or
+                                 kind != 'frame' or item.get('clip') is not True):
+            raise ValueError(f'scroll requires a clipped frame and none/horizontal/vertical/both: {key}')
         if kind == 'group' and any(field in item for field in ('layout', 'fill', 'clip')):
             raise ValueError(f'group cannot own layout, fill, or clip: {key}')
         if kind == 'frame':
             box = item.get('box')
-            if not isinstance(box, list) or len(box) != 4 or not all(isinstance(number, (int, float)) and not isinstance(number, bool) for number in box):
+            if not isinstance(box, list) or len(box) != 4 or not all(finite(number) for number in box) or box[2] <= 0 or box[3] <= 0:
                 raise ValueError(f'frame box required: {key}')
+            if 'clip' in item and not isinstance(item['clip'], bool):
+                raise ValueError(f'frame clip must be boolean: {key}')
         if kind == 'auto-layout':
             layout = item.get('layout')
             padding = layout.get('padding') if isinstance(layout, dict) else None
             if (not isinstance(layout, dict) or layout.get('direction') not in {'VERTICAL', 'HORIZONTAL'} or
                     not isinstance(padding, list) or len(padding) != 4 or
+                    not all(finite(value) and value >= 0 for value in padding) or
                     layout.get('width') not in {'fixed', 'hug', 'fill'} or layout.get('height') not in {'fixed', 'hug', 'fill'} or
-                    not isinstance(layout.get('gap'), (int, float)) or isinstance(layout.get('gap'), bool) or layout['gap'] < 0):
+                    not finite(layout.get('gap')) or layout['gap'] < 0):
                 raise ValueError(f'auto-layout declaration required: {key}')
         children = item.get('children')
-        if not isinstance(children, list) or not children or len(children) != len(set(children)):
+        if not isinstance(children, list) or not children or not all(isinstance(child, str) and child for child in children) or len(children) != len(set(children)):
             raise ValueError(f'container children required: {key}')
         by_key[key] = item
     for item in containers:
@@ -1229,8 +1237,13 @@ def normalize_layer_containers(fixture):
                 raise ValueError(f'parent mismatch: {child}')
     for item in containers:
         parent = item.get('parent', None)
+        if parent is not None and (not isinstance(parent, str) or not parent):
+            raise ValueError(f'invalid parent: {item["key"]}')
         if parent is not None and parent not in by_key:
             raise ValueError(f'missing parent: {item["key"]}')
+        if item['kind'] == 'auto-layout' and any(item['layout'][axis] == 'fill' for axis in ('width', 'height')):
+            if parent is None or by_key[parent]['kind'] != 'auto-layout':
+                raise ValueError(f'fill requires a declared Auto Layout parent: {item["key"]}')
         seen = set()
         cursor = item['key']
         while cursor is not None:
@@ -1251,6 +1264,45 @@ def normalize_layer_containers(fixture):
             walk(item['key'])
     if len(ordered) != len(containers):
         raise ValueError('cycle or disconnected container')
+    # Vocabulary-only fixtures have no geometry; actual packet targets always do.
+    if all(all(finite(layer.get(field)) for field in ('x', 'y', 'w', 'h')) for layer in layers):
+        boxes = {layer['id']: [layer[field] for field in ('x', 'y', 'w', 'h')] for layer in layers}
+
+        def bounds(key):
+            if key in boxes:
+                return boxes[key]
+            item = by_key[key]
+            children = [bounds(child) for child in item['children']]
+            x, y = min(box[0] for box in children), min(box[1] for box in children)
+            right, bottom = max(box[0] + box[2] for box in children), max(box[1] + box[3] for box in children)
+            if item['kind'] == 'frame':
+                x, y, width, height = item['box']
+                parent = item.get('parent')
+                while parent is not None:
+                    ancestor = by_key[parent]
+                    if ancestor['kind'] == 'frame':
+                        x += ancestor['box'][0]
+                        y += ancestor['box'][1]
+                    parent = ancestor.get('parent')
+                right, bottom = x + width, y + height
+            elif item['kind'] == 'auto-layout':
+                layout = item['layout']
+                vertical = layout['direction'] == 'VERTICAL'
+                cursor = y if vertical else x
+                for box in children:
+                    if abs(box[1 if vertical else 0] - cursor) > .5 or abs(box[0 if vertical else 1] - (x if vertical else y)) > .5:
+                        raise ValueError(f'declared flow contradicts pinned geometry: {key}')
+                    cursor += box[3 if vertical else 2] + layout['gap']
+                top, right_pad, bottom_pad, left = layout['padding']
+                x -= left
+                y -= top
+                right += right_pad
+                bottom += bottom_pad
+            boxes[key] = [x, y, right - x, bottom - y]
+            return boxes[key]
+
+        for item in ordered:
+            bounds(item['key'])
     result = json.loads(json.dumps(fixture))
     result['containers'] = [json.loads(json.dumps(by_key[item['key']])) for item in ordered]
     return result

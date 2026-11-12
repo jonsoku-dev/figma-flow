@@ -1,0 +1,17 @@
+{
+  "schema": "little-hands-design-source-status-v1",
+  "actual_captures": 44,
+  "unverified_ua_internals": [],
+  "metadata_pending": [],
+  "stylesheet_epochs": [
+    "/static/littlehands/app.3539de012f0c.css"
+  ],
+  "current_manifest_stylesheet": "/static/littlehands/app.3539de012f0c.css",
+  "source_epoch_current": true,
+  "pending_measurements": [],
+  "pending_previews": [],
+  "native_handoff": "pending",
+  "visual_quality": "unverified",
+  "approval": "not-recorded",
+  "graph_acceptance": "unverified"
+}

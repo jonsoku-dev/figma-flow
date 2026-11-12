@@ -1,0 +1,454 @@
+{
+  "files": [
+    {
+      "path": "native-font-calibration.json",
+      "sha256": "2ff3cb5177965628ce7cd4cfdd4eaa8ae3bba46e35471ce866f2a31959fd96fb",
+      "mtime_ns": 1794499832816891217
+    },
+    {
+      "path": "measure.js",
+      "sha256": "289243bda278442e3e08742397e89680d99ba580228029f235a728733a40bf06",
+      "mtime_ns": 1794499518711068655
+    },
+    {
+      "path": "captures/403-desktop.json",
+      "sha256": "8752aa4d3e10b41637daaa941cba99b7c66571802eb9fa3602f7f14ab0d4d26d",
+      "mtime_ns": 1794498868352988276
+    },
+    {
+      "path": "captures/403-mobile.json",
+      "sha256": "5a07717512a8f8c05b5e9c5d6b67c77ce31d8e12d50dc8c27aa892d2a0d7a3e5",
+      "mtime_ns": 1794498868379780995
+    },
+    {
+      "path": "captures/404-desktop.json",
+      "sha256": "96865eedd95d515f6605f47c80bfa8a10e27cc1ab3ceb51846b95e95b43d24c1",
+      "mtime_ns": 1794498868517648400
+    },
+    {
+      "path": "captures/404-mobile.json",
+      "sha256": "d2f9a0715dd8b5e3803a647a5316a63dfb263935d939238b529fec538ccf01ad",
+      "mtime_ns": 1794498868542752698
+    },
+    {
+      "path": "captures/cancelconfirm-desktop.json",
+      "sha256": "46120bc6f51b541bb1afe9534cf3ec0c9a313957925f25b3ca19d7abe05a9e26",
+      "mtime_ns": 1794499683533143697
+    },
+    {
+      "path": "captures/cancelconfirm-mobile.json",
+      "sha256": "cb78b755a58178cbd5defcd004cedb4ffab97d4c5a5d2615b5ebcc06e1242f00",
+      "mtime_ns": 1794499683564962842
+    },
+    {
+      "path": "captures/cancelled-desktop.json",
+      "sha256": "fa09e922609d3048d1d4c5a8ce205c21444ca84a270829e881759e931f2c9331",
+      "mtime_ns": 1794499713453431830
+    },
+    {
+      "path": "captures/cancelled-mobile.json",
+      "sha256": "13c836f48f63a289a1ced6a02bce48445684c172aef93887571066406acfff96",
+      "mtime_ns": 1794499713492758635
+    },
+    {
+      "path": "captures/confirmed-desktop.json",
+      "sha256": "015c80ca7a7d43f975a6d264f1420f9de912abc1ced75fcd2f715f46d1db3e3b",
+      "mtime_ns": 1794499599134267051
+    },
+    {
+      "path": "captures/confirmed-mobile.json",
+      "sha256": "6a89f16c7dd5209160c6ddef307d3aff0004871df145bedd9a1b6367915ec686",
+      "mtime_ns": 1794499599169227406
+    },
+    {
+      "path": "captures/conflict-desktop.json",
+      "sha256": "46368d112a1335be6c67b122d2b5b1a559e807629c7f571dec213206b93daf88",
+      "mtime_ns": 1794501280412729105
+    },
+    {
+      "path": "captures/conflict-mobile.json",
+      "sha256": "d6800e2ab5558871e10338b11d72cb2b17dbd66ebf01c3473ffbc16ca94065c9",
+      "mtime_ns": 1794501280440148771
+    },
+    {
+      "path": "captures/login-desktop.json",
+      "sha256": "9c290a1814e2991c7c1bd75b93bfcf9b73d810a60ae184525d692de2e705571e",
+      "mtime_ns": 1794498824091100331
+    },
+    {
+      "path": "captures/login-mobile.json",
+      "sha256": "7db65b318df1d6040bf1db98231d39914c6ec7a4a5daea539c26490c1be5de45",
+      "mtime_ns": 1794498824116990609
+    },
+    {
+      "path": "captures/memberhome-desktop.json",
+      "sha256": "ed0e32c73edb9df0127e09522107ad7ea9fc682ff19f8e63effaac09c0fbdf08",
+      "mtime_ns": 1794500241677608781
+    },
+    {
+      "path": "captures/memberhome-mobile.json",
+      "sha256": "e2a5856ad0af2c6176917e9f2f962a1a1695ed8c2e7ceaa07eed8bbe4585eef5",
+      "mtime_ns": 1794500241737242559
+    },
+    {
+      "path": "captures/mybookings-desktop.json",
+      "sha256": "1712fd71066ed1e9b5ed03c55500cb9e1d0d54dadfad31dfb84a86a844ae9f44",
+      "mtime_ns": 1794499713690959408
+    },
+    {
+      "path": "captures/mybookings-mobile.json",
+      "sha256": "66f2091cefc1aba2dae4680dcc9ef849f1405e746fc7993efb6c43f25b9927b8",
+      "mtime_ns": 1794499713725406707
+    },
+    {
+      "path": "captures/notifications-desktop.json",
+      "sha256": "3e84c3ae7af7bf32fd510e5f7b94590f8c35aeb9c3fc1be959635520842909be",
+      "mtime_ns": 1794499713960928231
+    },
+    {
+      "path": "captures/notifications-mobile.json",
+      "sha256": "89d13981cd9c450dcb0d76c702907d6f31e472206dd9ecebfa569224ca0f04cc",
+      "mtime_ns": 1794499714024873821
+    },
+    {
+      "path": "captures/publichome-desktop.json",
+      "sha256": "9d4dbb27add3bcba06f37f6897e4e3cedd08b36584ed3793afa5fa3f9130a24f",
+      "mtime_ns": 1794500241994978044
+    },
+    {
+      "path": "captures/publichome-mobile.json",
+      "sha256": "c8513969e07f293aaf729e2efe5ddd73c60a188574b6389d69f7262614ae5190",
+      "mtime_ns": 1794500242073253937
+    },
+    {
+      "path": "captures/reschedule-desktop.json",
+      "sha256": "d5108507e0edcf1d6280bf8ae708ececedf39ededf74698beb263ea9ca5b24ac",
+      "mtime_ns": 1794499683144134973
+    },
+    {
+      "path": "captures/reschedule-mobile.json",
+      "sha256": "d37aa643a14c1aa3e75b2978273a66f4c1c47ebdf337fddee84ad69d7a985391",
+      "mtime_ns": 1794499683186921454
+    },
+    {
+      "path": "captures/review-desktop.json",
+      "sha256": "6610f01d40e454011ac54833f369ef0d86b5f05d907ac6bfcc31d4add9226a0a",
+      "mtime_ns": 1794499598865193377
+    },
+    {
+      "path": "captures/review-mobile.json",
+      "sha256": "4d12c905c80ff4fae56c4e9184ca5b5c2c538ca838475e201e973401142b1a5c",
+      "mtime_ns": 1794499598902528753
+    },
+    {
+      "path": "captures/sessionavailable-desktop.json",
+      "sha256": "c388eb203276ff32d6457ec6ce6aae39d93f11640299dc9600083c0db0c5b78b",
+      "mtime_ns": 1794499598620787281
+    },
+    {
+      "path": "captures/sessionavailable-mobile.json",
+      "sha256": "d74fd4c8049fd7e79a7bbc1da422049ba9fabf10ac2ef6f81aa7d8934fdc2b1a",
+      "mtime_ns": 1794499598660924441
+    },
+    {
+      "path": "captures/signup-desktop.json",
+      "sha256": "77b3648350d5ae8cf66a8cc45d69ef4a682fb03a4eca4e0909320f43c91a19da",
+      "mtime_ns": 1794498824299912056
+    },
+    {
+      "path": "captures/signup-mobile.json",
+      "sha256": "d62d6d9aede36beafb65062610ca05d3e085adc2da4d6007caf38f6a03dc5812",
+      "mtime_ns": 1794498824333718129
+    },
+    {
+      "path": "captures/staffaudit-desktop.json",
+      "sha256": "b40fcb1a309bf9b3a83dcddbc14355c70d6de40565505ab1c5bcb1b257ef86d0",
+      "mtime_ns": 1794498794727249871
+    },
+    {
+      "path": "captures/staffaudit-mobile.json",
+      "sha256": "68edb9b03d7aa9b4928a8f44ef3f07dd788d2711224788aa4e360942fcbc5a1f",
+      "mtime_ns": 1794498794930559156
+    },
+    {
+      "path": "captures/staffcreate-desktop.json",
+      "sha256": "24ca3cc26b73260d38a66b9a4b176d8f2826d18fe38cf064e694645d3b05a42a",
+      "mtime_ns": 1794498793764317297
+    },
+    {
+      "path": "captures/staffcreate-mobile.json",
+      "sha256": "89184cf0eb9771365a4e0dbc298055eee4c0f68f34cbff8d9bc7255e92bcfd75",
+      "mtime_ns": 1794498793813097605
+    },
+    {
+      "path": "captures/staffdashboard-desktop.json",
+      "sha256": "cbecec240b2b23faf082c2e17f45085237649f710252ec91cb0b2c4948227e28",
+      "mtime_ns": 1794501666071053276
+    },
+    {
+      "path": "captures/staffdashboard-mobile.json",
+      "sha256": "3ae06e395b715ec5e8dbb61fc15c3027714f2f5befd8c1548725d5fa5f263440",
+      "mtime_ns": 1794501666150495856
+    },
+    {
+      "path": "captures/staffedit-desktop.json",
+      "sha256": "355592bbd1ab8829bf87c79927781ffac75fa8b5c7fa219b24a86afa920b90a0",
+      "mtime_ns": 1794498794250840011
+    },
+    {
+      "path": "captures/staffedit-mobile.json",
+      "sha256": "7de9db7ecb279ab44698dc84498a9c00d49ee7d9a596b383b8a6606593eba602",
+      "mtime_ns": 1794498794295757757
+    },
+    {
+      "path": "captures/staffroster-desktop.json",
+      "sha256": "77a3abc8b074484549764bf8fee0c6678a82ee4e1044669864890df724e289d8",
+      "mtime_ns": 1794501665754856898
+    },
+    {
+      "path": "captures/staffroster-mobile.json",
+      "sha256": "d0b34b57aca3d79758253e9b6fa64a278f3646c69470e49268941a138cbeee31",
+      "mtime_ns": 1794501665806693600
+    },
+    {
+      "path": "captures/staffsessions-desktop.json",
+      "sha256": "97021f1a928333b17ce4429ac055ac50a2c9fb74074b31eda3f568844d3490da",
+      "mtime_ns": 1794498793519582692
+    },
+    {
+      "path": "captures/staffsessions-mobile.json",
+      "sha256": "e656eeb9d02c3c3402684114c3416f6be2a25fe69ae557676b0f805f359d317a",
+      "mtime_ns": 1794498793583328110
+    },
+    {
+      "path": "captures/waitlisted-desktop.json",
+      "sha256": "6d70281bb3b8593aa5a2e546e1d94f4f6d3c7a515e14e1ca5110309242090bdd",
+      "mtime_ns": 1794501195037951198
+    },
+    {
+      "path": "captures/waitlisted-mobile.json",
+      "sha256": "a3eb70b5f364a8c64cfee7be4df7dd3e2f6b434134f284f15ae7e287463a6b6c",
+      "mtime_ns": 1794501195073436444
+    },
+    {
+      "path": "snapshots/403-desktop.html",
+      "sha256": "cb42f86d6d3bd3d58ec39517fcf4196437786272b9826e252191cb17494d2cf5",
+      "mtime_ns": 1794503095428353145
+    },
+    {
+      "path": "snapshots/403-mobile.html",
+      "sha256": "cb42f86d6d3bd3d58ec39517fcf4196437786272b9826e252191cb17494d2cf5",
+      "mtime_ns": 1794503095428668358
+    },
+    {
+      "path": "snapshots/404-desktop.html",
+      "sha256": "6e361456116db8ef7c92fd3f69ef1545e039c3980699359c1b6e194459b7e718",
+      "mtime_ns": 1794503095428955071
+    },
+    {
+      "path": "snapshots/404-mobile.html",
+      "sha256": "6e361456116db8ef7c92fd3f69ef1545e039c3980699359c1b6e194459b7e718",
+      "mtime_ns": 1794503095429227450
+    },
+    {
+      "path": "snapshots/cancelconfirm-desktop.html",
+      "sha256": "8731e980daaf922b0f0c5d0b85853854bbc53b99f0f5a8561c43cfc230b58562",
+      "mtime_ns": 1794503095429509871
+    },
+    {
+      "path": "snapshots/cancelconfirm-mobile.html",
+      "sha256": "8731e980daaf922b0f0c5d0b85853854bbc53b99f0f5a8561c43cfc230b58562",
+      "mtime_ns": 1794503095430062296
+    },
+    {
+      "path": "snapshots/cancelled-desktop.html",
+      "sha256": "fd246426f4ee77715eb190182373ba3306f3afb6c0784dc462facc11037db1ff",
+      "mtime_ns": 1794503095430365426
+    },
+    {
+      "path": "snapshots/cancelled-mobile.html",
+      "sha256": "fd246426f4ee77715eb190182373ba3306f3afb6c0784dc462facc11037db1ff",
+      "mtime_ns": 1794503095430676347
+    },
+    {
+      "path": "snapshots/confirmed-desktop.html",
+      "sha256": "0383648f70442b89a9f04aa4fe2988a6afce51f4c4be9459d298e951ec90c285",
+      "mtime_ns": 1794503095430993894
+    },
+    {
+      "path": "snapshots/confirmed-mobile.html",
+      "sha256": "0383648f70442b89a9f04aa4fe2988a6afce51f4c4be9459d298e951ec90c285",
+      "mtime_ns": 1794503095431294982
+    },
+    {
+      "path": "snapshots/conflict-desktop.html",
+      "sha256": "b2eb845748364ce0f3cf0a7fe93fbccea0154e0156c258548831862b30fc857b",
+      "mtime_ns": 1794503095431591694
+    },
+    {
+      "path": "snapshots/conflict-mobile.html",
+      "sha256": "b2eb845748364ce0f3cf0a7fe93fbccea0154e0156c258548831862b30fc857b",
+      "mtime_ns": 1794503095431849823
+    },
+    {
+      "path": "snapshots/login-desktop.html",
+      "sha256": "48351b13ff68e9974afbe0a7d8d391451aee41291b3e5c83a1cc445c9115484f",
+      "mtime_ns": 1794503095432118869
+    },
+    {
+      "path": "snapshots/login-mobile.html",
+      "sha256": "48351b13ff68e9974afbe0a7d8d391451aee41291b3e5c83a1cc445c9115484f",
+      "mtime_ns": 1794503095432498541
+    },
+    {
+      "path": "snapshots/memberhome-desktop.html",
+      "sha256": "08cc2c9cb9e0d5e861b74f63a18550f84425e63988d1f9727d4b6ece4b2f3859",
+      "mtime_ns": 1794503095432857630
+    },
+    {
+      "path": "snapshots/memberhome-mobile.html",
+      "sha256": "08cc2c9cb9e0d5e861b74f63a18550f84425e63988d1f9727d4b6ece4b2f3859",
+      "mtime_ns": 1794503095433321179
+    },
+    {
+      "path": "snapshots/mybookings-desktop.html",
+      "sha256": "03de4a522c14b4557f729d634e53299a24bd6428a6f44ec674d09d5ff26b444f",
+      "mtime_ns": 1794503095433742519
+    },
+    {
+      "path": "snapshots/mybookings-mobile.html",
+      "sha256": "03de4a522c14b4557f729d634e53299a24bd6428a6f44ec674d09d5ff26b444f",
+      "mtime_ns": 1794503095434090899
+    },
+    {
+      "path": "snapshots/notifications-desktop.html",
+      "sha256": "319ccfebac80c47aa11ee565faf624c6d7854968a48c264fc6242f189021fd0c",
+      "mtime_ns": 1794503095434451196
+    },
+    {
+      "path": "snapshots/notifications-mobile.html",
+      "sha256": "319ccfebac80c47aa11ee565faf624c6d7854968a48c264fc6242f189021fd0c",
+      "mtime_ns": 1794503095435094456
+    },
+    {
+      "path": "snapshots/publichome-desktop.html",
+      "sha256": "dee242a90a0662dd263ebdadccaa7ffaff202f1796608c3aff8b1864216288a1",
+      "mtime_ns": 1794503095435519629
+    },
+    {
+      "path": "snapshots/publichome-mobile.html",
+      "sha256": "dee242a90a0662dd263ebdadccaa7ffaff202f1796608c3aff8b1864216288a1",
+      "mtime_ns": 1794503095435897135
+    },
+    {
+      "path": "snapshots/reschedule-desktop.html",
+      "sha256": "74123484b851eacb369b20819c8e4c1b5d3e56e430c70851a9c9f418ba8a4dec",
+      "mtime_ns": 1794503095436421851
+    },
+    {
+      "path": "snapshots/reschedule-mobile.html",
+      "sha256": "74123484b851eacb369b20819c8e4c1b5d3e56e430c70851a9c9f418ba8a4dec",
+      "mtime_ns": 1794503095436747148
+    },
+    {
+      "path": "snapshots/review-desktop.html",
+      "sha256": "c025eee61f55edeaca034be1cd6019d29a0fca77a9cf6bf870dcd8a0d42be33b",
+      "mtime_ns": 1794503095437063986
+    },
+    {
+      "path": "snapshots/review-mobile.html",
+      "sha256": "c025eee61f55edeaca034be1cd6019d29a0fca77a9cf6bf870dcd8a0d42be33b",
+      "mtime_ns": 1794503095437385824
+    },
+    {
+      "path": "snapshots/sessionavailable-desktop.html",
+      "sha256": "dc90bc88abd4ee411fe1b491565ed2287b690141e4162f012de052ba42c4978e",
+      "mtime_ns": 1794503095437829581
+    },
+    {
+      "path": "snapshots/sessionavailable-mobile.html",
+      "sha256": "dc90bc88abd4ee411fe1b491565ed2287b690141e4162f012de052ba42c4978e",
+      "mtime_ns": 1794503095438136794
+    },
+    {
+      "path": "snapshots/signup-desktop.html",
+      "sha256": "ee0c4dcf37a7d80c95f1fc848f5cb61da5cc9c4c2ae6dd7fb08ec53a89c2ee23",
+      "mtime_ns": 1794503095438436507
+    },
+    {
+      "path": "snapshots/signup-mobile.html",
+      "sha256": "ee0c4dcf37a7d80c95f1fc848f5cb61da5cc9c4c2ae6dd7fb08ec53a89c2ee23",
+      "mtime_ns": 1794503095438732219
+    },
+    {
+      "path": "snapshots/staffaudit-desktop.html",
+      "sha256": "0098930ce00f3fea65e5295f84e7ec90c475b03c4ecf55013d0fe5593c40a55b",
+      "mtime_ns": 1794503095439078058
+    },
+    {
+      "path": "snapshots/staffaudit-mobile.html",
+      "sha256": "0098930ce00f3fea65e5295f84e7ec90c475b03c4ecf55013d0fe5593c40a55b",
+      "mtime_ns": 1794503095439727526
+    },
+    {
+      "path": "snapshots/staffcreate-desktop.html",
+      "sha256": "08c68a60aa81dfcfaea350a5193e82b9f2c0d335254172d00d161f7360c85c77",
+      "mtime_ns": 1794503095440415078
+    },
+    {
+      "path": "snapshots/staffcreate-mobile.html",
+      "sha256": "08c68a60aa81dfcfaea350a5193e82b9f2c0d335254172d00d161f7360c85c77",
+      "mtime_ns": 1794503095440750375
+    },
+    {
+      "path": "snapshots/staffdashboard-desktop.html",
+      "sha256": "4cd295a890e97ab267d1fb0a7e15e124674197fd547a5c02b0a72e02680b74c4",
+      "mtime_ns": 1794503095441232716
+    },
+    {
+      "path": "snapshots/staffdashboard-mobile.html",
+      "sha256": "4cd295a890e97ab267d1fb0a7e15e124674197fd547a5c02b0a72e02680b74c4",
+      "mtime_ns": 1794503095441752557
+    },
+    {
+      "path": "snapshots/staffedit-desktop.html",
+      "sha256": "294edad72a4e2e89b13c2cc1c95f558e24e87bd9f7777f248d95ee6217fc18d5",
+      "mtime_ns": 1794503095442259815
+    },
+    {
+      "path": "snapshots/staffedit-mobile.html",
+      "sha256": "294edad72a4e2e89b13c2cc1c95f558e24e87bd9f7777f248d95ee6217fc18d5",
+      "mtime_ns": 1794503095442730488
+    },
+    {
+      "path": "snapshots/staffroster-desktop.html",
+      "sha256": "7e8ce0539b88934f96595842616a51d10872068281e8360ecaf2b6a915fda908",
+      "mtime_ns": 1794503095443105869
+    },
+    {
+      "path": "snapshots/staffroster-mobile.html",
+      "sha256": "7e8ce0539b88934f96595842616a51d10872068281e8360ecaf2b6a915fda908",
+      "mtime_ns": 1794503095443501958
+    },
+    {
+      "path": "snapshots/staffsessions-desktop.html",
+      "sha256": "922932d6246ff7aea09ca8cec82a939ac9cd33d03d8d68a0bffdbacb4380dd98",
+      "mtime_ns": 1794503095443865214
+    },
+    {
+      "path": "snapshots/staffsessions-mobile.html",
+      "sha256": "922932d6246ff7aea09ca8cec82a939ac9cd33d03d8d68a0bffdbacb4380dd98",
+      "mtime_ns": 1794503095444254803
+    },
+    {
+      "path": "snapshots/waitlisted-desktop.html",
+      "sha256": "308d1f6e2387cb485556c48f9972ce897257b8e8ec71eb2b55d4c618845f1c71",
+      "mtime_ns": 1794503095444644142
+    },
+    {
+      "path": "snapshots/waitlisted-mobile.html",
+      "sha256": "308d1f6e2387cb485556c48f9972ce897257b8e8ec71eb2b55d4c618845f1c71",
+      "mtime_ns": 1794503095444977981
+    }
+  ]
+}

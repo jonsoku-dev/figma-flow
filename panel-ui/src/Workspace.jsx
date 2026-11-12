@@ -96,30 +96,42 @@ export function workspacePreviews(task) {
     .slice(0, 2);
 }
 
-function AssetDisclosure({ summary }) {
+function AssetDisclosure({ summary, freshness, tr }) {
   const [status, setStatus] = React.useState('');
-  const inventory = assetInventory(summary, { status });
-  const label = { present: '있음', 404: '없음', rejected: '거절', 'external-unverified': '외부 미확인' };
+  const [kind, setKind] = React.useState('');
+  const [query, setQuery] = React.useState('');
+  const inventory = assetInventory(summary, { status, kind, query });
+  const states = ['present', '404', 'rejected', 'external-unverified'];
+  const current = ['current', 'stale'].includes(freshness?.status) ? freshness.status : 'unverified';
   return (
     <details className="workspace-asset-list">
       <summary>
-        {inventory.empty ? '입력 자산 없음' : `문제 ${inventory.problems}개`}
+        {tr('assetTitle')} · {tr('assetProblems', {count: inventory.problems})}
       </summary>
+      <p role="status" data-state={current}>{tr('assetFreshness.' + current)}</p>
+      {current === 'stale' && <p>{(freshness.changed || []).join(', ')}</p>}
+      <label>{tr('assetSearch')}<input type="search" value={query} onChange={event => setQuery(event.target.value)} /></label>
+      <label>{tr('assetKind')}<select value={kind} onChange={event => setKind(event.target.value)}>
+        <option value="">{tr('assetAllKinds')}</option>
+        {Object.keys(inventory.counts).map(value => <option key={value} value={value}>{tr('assetKind.' + value)} · {inventory.counts[value]}</option>)}
+      </select></label>
       <label>
-        상태
+        {tr('assetStatus')}
         <select value={status} onChange={(event) => setStatus(event.target.value)}>
-          <option value="">모든 상태</option>
-          {Object.keys(label).map((item) => (
+          <option value="">{tr('assetAllStatuses')}</option>
+          {states.map((item) => (
             <option key={item} value={item}>
-              {label[item]}
+              {tr('assetStatus.' + item)}
             </option>
           ))}
         </select>
       </label>
+      {inventory.empty && <p>{tr('assetEmpty')}</p>}
+      {!inventory.empty && !inventory.rows.length && <p>{tr('assetNoMatches')}</p>}
       <ul>
         {inventory.rows.map((row) => (
           <li key={row.ref + row.status}>
-            {row.ref} · {row.kind} · {label[row.status] || row.status} · {row.source}
+            {row.ref} · {tr('assetKind.' + row.kind)} · {tr('assetStatus.' + row.status)} · {row.source}
           </li>
         ))}
       </ul>
@@ -127,36 +139,48 @@ function AssetDisclosure({ summary }) {
   );
 }
 
-function DependencyText({ tasks, selected, retired, onSelect }) {
+function DependencyText({ tasks, selected, retired, onSelect, tr }) {
+  const heading = useRef(null);
+  useEffect(() => { heading.current?.focus(); }, [selected]);
   const view = dependencyView(tasks, selected);
   const freshness = dependencyFreshness(tasks, Array.isArray(retired) ? retired : []);
   const related = freshness.labels.filter((label) => label.task_key === selected || label.dependency === selected);
-  const stateLabel = { current: '현재 개정', stale: '오래됨', retired: '은퇴', orphan: '대상 없음' };
-  const rows = [...view.predecessors, ...view.successors];
-  const height = 36 + Math.max(rows.length, 1) * 28;
+  const missing = related.filter(row => row.task_key === selected && !tasks.some(task => task.key === row.dependency))
+    .map(row => ({role:'predecessor', key:row.dependency, title:row.dependency, unavailable:true}));
+  const rows = [...new Map([...view.predecessors, ...missing, ...view.successors].map(row => [row.role + ':' + row.key, row])).values()];
+  const before = rows.filter(row => row.role === 'predecessor'), after = rows.filter(row => row.role === 'successor');
+  const height = Math.max(112, Math.max(before.length, after.length) * 52 + 20);
+  const title = key => tasks.find(task => task.key === key)?.title || key;
+  const label = value => value.length > 14 ? value.slice(0, 13) + '…' : value;
+  const marker = React.useId().replace(/:/g, '');
   return (
     <div className="workspace-dependency-view">
-      <svg className="workspace-dependency-graph" aria-hidden="true" viewBox={`0 0 280 ${height}`}>
-        <rect x="70" y="8" width="140" height="24" />
-        {rows.map((item, index) => (
-          <line key={item.role + item.key} x1="140" y1="32" x2="140" y2={40 + index * 28} />
-        ))}
+      <h3 tabIndex={-1} ref={heading}>{tr('dependencySelected', {title:title(selected)})}</h3>
+      <svg className="workspace-dependency-graph" aria-hidden="true" viewBox={`0 0 600 ${height}`}>
+        <defs><marker id={marker} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
+        {[before, after].map((items, side) => items.map((item, index) => <g key={item.role + item.key}>
+          <line x1={side ? 380 : 180} y1={side ? height / 2 : 30 + index * 52} x2={side ? 420 : 220} y2={side ? 30 + index * 52 : height / 2} markerEnd={`url(#${marker})`} />
+          <rect x={side ? 420 : 0} y={10 + index * 52} width="180" height="40" rx="6" />
+          <text x={side ? 510 : 90} y={34 + index * 52} textAnchor="middle">{label(item.title)}</text>
+        </g>))}
+        <rect className="selected" x="220" y={height / 2 - 20} width="160" height="40" rx="6" />
+        <text x="300" y={height / 2 + 4} textAnchor="middle">{label(title(selected))}</text>
       </svg>
-      <ol className="workspace-dependency-text">
+      <details><summary>{tr('dependencyEvidence')}</summary><ol className="workspace-dependency-text">
         {view.text.map((line) => (
           <li key={line}>{line}</li>
         ))}
-      </ol>
+      </ol></details>
       <ul className="workspace-dependency-state">
-        {related.map((label) => (
-          <li key={label.task_key + label.dependency} data-state={label.state}>
-            {label.task_key} {label.dependency} {stateLabel[label.state]}
+        {related.map((label, index) => (
+          <li key={label.task_key + label.dependency + index} data-state={label.state}>
+            {title(label.dependency)} → {title(label.task_key)} · {tr('dependencyState.' + label.state)}
           </li>
         ))}
       </ul>
       {rows.map((item) => (
-        <button type="button" key={item.role + item.key} onClick={() => onSelect(item.key)}>
-          {item.title}
+        <button type="button" key={item.role + item.key} disabled={item.unavailable} onClick={() => onSelect(item.key)}>
+          {tr('dependencyRole.' + item.role)} · {item.title}
         </button>
       ))}
     </div>
@@ -220,6 +244,10 @@ export default function Workspace({
         setControl({ busy: message.busy === true, outcome: message.outcome });
         if (Array.isArray(message.history))
           setModel((previous) => ({ ...previous, history: message.history }));
+        if (Array.isArray(message.journalHistory))
+          setModel((previous) => ({ ...previous, journalHistory: message.journalHistory, journalUnavailable: message.journalUnavailable === true }));
+        if (Array.isArray(message.inputFreshness))
+          setModel(previous => ({...previous, inputFreshness:message.inputFreshness}));
       } else if (message.type === 'workspace-error') {
         if (session.current && message.workspaceSession !== session.current) return;
         setModel((previous) => ({ ...previous, error: message.message }));
@@ -267,6 +295,7 @@ export default function Workspace({
   const history = historyOf(model);
   const projects = [...new Set(tasks.map((task) => task.project).filter(Boolean))];
   const projectTasks = tasks.filter((task) => !project || task.project === project);
+  const inputFreshness = task => (Array.isArray(model.inputFreshness) ? model.inputFreshness : []).find(row => row.taskKey === task.key && row.revision === task.revision);
   const activityHistory = history.filter(event => !project || tasks.find(task => task.key === event.taskKey)?.project === project);
   const activity = workspaceActivity(projectTasks, activityHistory);
   const scoped = projectTasks.filter((task) => !stage || task.kind === stage);
@@ -341,6 +370,7 @@ export default function Workspace({
             {tr('currentFile')} · {tr('taskCount', { count: projectTasks.length })}
           </p>
         </div>
+        {view === 'tasks' && model.controlEnabled && <Action variant="quiet" icon={RefreshCw} disabled={busy} onClick={() => sendRef.current({type:'workspace-home-ready',locale})}>{tr('refreshInputs')}</Action>}
         {projects.length > 1 && (
           <label className="workspace-project">
             <span aria-hidden="true">{tr('switchProject')}</span>
@@ -460,11 +490,30 @@ export default function Workspace({
                         : 'nextCheck',
                   )}
             </p>
+            <button type="button" className="workspace-dependency-link" onClick={() => setDependencyKey(dependencyKey === recommended.key ? '' : recommended.key)} aria-expanded={dependencyKey === recommended.key}>{tr('dependencyHeading')}</button>
+            {(recommended.has_input_record || Array.isArray(recommended.input_summary)) && <AssetDisclosure summary={recommended.input_summary} freshness={inputFreshness(recommended)} tr={tr} />}
           </Section>
         </>
       )}
       {view === 'history' ? (
         <>
+        <Section title={tr('journalTitle')}>
+          <p className="workspace-boundary">{tr('journalBoundary')}</p>
+          {model.journalUnavailable && <p role="status">{tr('journalUnavailable')}</p>}
+          {!model.journalUnavailable && !(model.journalHistory || []).length && <p>{tr('journalEmpty')}</p>}
+          <ol className="workspace-history">
+            {(Array.isArray(model.journalHistory) ? model.journalHistory : []).filter(row =>
+              (!project || tasks.find(task => task.key === row.taskKey)?.project === project) && (!activityTask || row.taskKey === activityTask))
+              .slice(-80).reverse().map(row => <li key={row.operationId}>
+                <h3>{tasks.find(task => task.key === row.taskKey)?.title || tr('removedTask')}</h3>
+                <p>{tr('journalOperation')} · <code>{row.operationId}</code></p>
+                <p>{tr(row.classification === 'recorded' ? 'journalRecorded' : row.classification === 'legacy' ? 'journalLegacy' : 'journalUnknown')} · {row.phase}</p>
+                <ol>{(Array.isArray(row.phases) ? row.phases : []).map((event, index) => <li key={index}>
+                  <span>{event.phase}</span> · <time dateTime={event.time}>{date(event.time)}</time>
+                </li>)}</ol>
+              </li>)}
+          </ol>
+        </Section>
         <Section title={tr('historyTitle')}>
           <p className="workspace-activity-caption">{tr('flowBoundary')}</p>
           <label className="workspace-filter">
@@ -530,7 +579,7 @@ export default function Workspace({
       ) : (
         <Section>
           {view === 'tasks' && dependencyKey && tasks.some((task) => task.key === dependencyKey) && (
-            <DependencyText tasks={tasks} selected={dependencyKey} retired={model.retired} onSelect={setDependencyKey} />
+            <DependencyText tasks={tasks} selected={dependencyKey} retired={model.retired} onSelect={setDependencyKey} tr={tr} />
           )}
           {!!remaining.length && view === 'tasks' && (
             <h2 className="workspace-list-title">{tr(recommended ? 'otherTasks' : 'allStages')}</h2>
@@ -570,7 +619,7 @@ export default function Workspace({
               </Action>
               <button type="button" className="workspace-history-link" onClick={() => jumpToReceipt(task)}>{tr('viewTaskFlow')}</button>
               <button type="button" className="workspace-dependency-link" onClick={() => setDependencyKey(task.key)}>{tr('dependencyHeading')}</button>
-              {Array.isArray(task.input_summary) && <AssetDisclosure summary={task.input_summary} />}
+              {(task.has_input_record || Array.isArray(task.input_summary)) && <AssetDisclosure summary={task.input_summary} freshness={inputFreshness(task)} tr={tr} />}
               </div>
             );
           })}

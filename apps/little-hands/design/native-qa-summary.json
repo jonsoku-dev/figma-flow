@@ -1,0 +1,349 @@
+{
+  "schema": "little-hands-native-qa-summary-v1",
+  "status": "scoped-verification-record",
+  "source_commit": "1e64ada88f76180ab72d6be01c79841d9714335e",
+  "source_state": "0.27.0 verification snapshot; code commit, release and installation status are recorded separately in the patch Wiki",
+  "native_r7": {
+    "scope": "normal actual full getter read; exploratory design, not human production admission",
+    "raw_sha256": "d098f397c7e33bc1c48d4f6ca3a4f5d2270f525d9ae3b4230f537a41f95175ee",
+    "raw_bytes": 30103016,
+    "nodes": 4818,
+    "screens": 44,
+    "main_components": 24,
+    "component_sets": 2,
+    "instances": 494,
+    "screen_control_instances": 492,
+    "palette_instances": 2,
+    "variables": 69,
+    "collections": 1,
+    "report_passed": true,
+    "prototype_getter_checks": 312,
+    "return_getter_checks": 110,
+    "board_linked_targets": 536,
+    "instance_override_field_counts": {
+      "fills": 0,
+      "fontName": 0,
+      "fontSize": 0,
+      "letterSpacing": 0
+    }
+  },
+  "idempotent_r7": {
+    "same_page": true,
+    "same_node_identity_set": true,
+    "receipt_elapsed_seconds": 14.99,
+    "pure_check_passed": true,
+    "raw_sha256": "bbda3696ed0aa5b6f191c70297d4690479dac7c55276208762d83c00eed887cf"
+  },
+  "copied_component_lab": {
+    "scope": "earlier manual CUA copies of the real application component set; original not edited during that copy-lab experiment only",
+    "created_instances": 5,
+    "same_solid_main_instances": 3,
+    "distinct_text_properties_and_labels": true,
+    "widths": [
+      180,
+      240,
+      300
+    ],
+    "copied_main_color_propagated_label_count": 3,
+    "labels_and_widths_preserved": true,
+    "visual_color_restored": true,
+    "copy_bindings_intentionally_detached": true,
+    "initial_raw_sha256": "567beedeb10d0229231419d88036827df8e493e66d68d5dbe21a1a25cabb4012",
+    "applied_raw_sha256": "5f7ccc68645e0b510c2aa4e43968e024bfbae6e22f0a9e43401279c689122945",
+    "restored_raw_sha256": "1fdce0efabfb7c94541bb7058036ae48af2b009add797fd4dd0972b5b316e9b7",
+    "korean_growth_and_sizing": {
+      "parent_widths": [
+        360,
+        420
+      ],
+      "parent_horizontal": "FIXED",
+      "parent_vertical": "HUG",
+      "child_widths": [
+        340,
+        400
+      ],
+      "child_horizontal": "FILL",
+      "child_vertical": "HUG",
+      "child_height": 48,
+      "label_horizontal": "HUG",
+      "label_vertical": "HUG",
+      "same_main_and_instance_identity": true,
+      "all_five_labels_widths_heights_mains_parents_restored": true,
+      "owned_wrapper_removed": true,
+      "evidence_sha256": "edd5dad57ac5ef77603a1051c45130b02b7441267aa367e71a353e7de65a183a"
+    }
+  },
+  "application": {
+    "postgresql_backend_tests": 58,
+    "packaging_tests": 4,
+    "browser_source_captures": 44,
+    "primary_image_review_reported_by_primary": 47,
+    "signup_http_role_injection_denied": true,
+    "signup_evidence_sha256": "35102326a7da7c2c1868e646f1dd982dfce9265bf1b583f2aea421896bd42f10",
+    "postgresql_test_log_sha256": "f164a86edc7fe36d8ac6119af68a38d50cd5e29cef5cb9dff12833766bbbe5b9",
+    "backup_restored_tables": 21,
+    "backup_all_rows_match": true
+  },
+  "pending": [
+    "remaining prototype UI links and states beyond observed navigation and table scrolling",
+    "creative quality and human production admission",
+    "persistent application Graph SSOT binding",
+    "physical devices",
+    "public DNS and TLS deployment",
+    "entire post-Group clean-package full checks and CI finalization",
+    "final code commit, release and installation status in Wiki",
+    "independent remote API cryptographic persistence confirmation",
+    "legacy 61-case full acceptance coverage and chat attachments"
+  ],
+  "limits": [
+    "Getter checks are not prototype playback.",
+    "No design_system in application graph; observed component profiles are not accepted Graph SSOT bindings.",
+    "Raw protected evidence is not embedded or publicly linked.",
+    "Scoped temporary Django external CSS roundtrip completed and removed; persistent application integration remains pending.",
+    "Current positive component authoring scope is TEXT, declared Visual axes and usage; BOOLEAN and INSTANCE_SWAP authoring remain NF-01 proposals."
+  ],
+  "scoped_graph_ssot_experiment": {
+    "scope": "copied real application library, temporary same-origin real Django external CSS consumer, three color fields; not persistent application Graph SSOT adoption or all 44 screens",
+    "selective_apply": {
+      "selected_primitive_roots": 2,
+      "total_primitive_roots": 3,
+      "selected_manifest_rows": 4,
+      "two_values_changed": true,
+      "third_preserved": true,
+      "previous_marker_preserved": true,
+      "partial_pair_rejected": true,
+      "forbidden_pair_output_absent": true,
+      "remaining_apply_required_fresh_full_read_and_plan": true,
+      "full_pair_verified": true
+    },
+    "native_to_graph_to_web": {
+      "actual_finite_variable_edit": true,
+      "import_applied": true,
+      "imported_field": "navigation/ink",
+      "roundtrip_field_count": 1,
+      "reverse_full_pair_verified": true,
+      "web_component_checks": 3,
+      "unsupported_sizing_changes_retained": 5
+    },
+    "restoration": {
+      "original_graph_bytes_restored": true,
+      "template_source_hashes_restored": true,
+      "temporary_external_css_and_mjs_removed": true,
+      "restored_full_pair_verified": true,
+      "restored_web_component_checks": 3,
+      "live_graph_attributes": 0,
+      "live_overlay_links": 0,
+      "live_photo_loaded": true
+    },
+    "evidence_sha256": {
+      "partial_scope": "0aa07478dc8f1f4195dfc180ed3235093c1c92167583b3c14983f33e75e16053",
+      "native_import_report": "aba080fa20fc55936c2501d88001dfb3bff3b006de37ec85f6baa5fa32324da4",
+      "reverse_pair": "be68bb5c16ee05b994af548a2913061d487869e42f1a494e3e9e9609dc8cb300",
+      "restored_pair": "2f3a1f89a2078226ef4c8c4c1cee192862ea649ab8612713bd221f58ee75e2fa",
+      "overlay_restoration": "991c90d75c8cde2206f20fa684f4c2c01669446cd4644a52d2c6e79d73d814a6",
+      "clean_live_app": "fa2617442bdbe4536b988124f5703b7c12cda6c7b9e92f1621ac32c49881cd41"
+    },
+    "original_r7_unchanged_during_this_experiment": true
+  },
+  "prototype_ui_observed": {
+    "scope": "primary session actual CUA observation of static native prototype; separate from live Django authentication and business POST",
+    "desktop_publichome_login_publichome": true,
+    "mobile_publichome_login_publichome": true,
+    "mobile_operator_dashboard_vertical_scroll_to_table": true,
+    "mobile_table_horizontal_scroll_revealed_capacity_confirmed_wait_status_manage": true,
+    "mobile_table_reverse_scroll_restored_course_date": true,
+    "all_312_links_gui_exercised": false,
+    "protected_artifact_sha256": {
+      "r7-prototype-desktop-home.png": "7801c7932c5183151095bff35bf95d9e1f5b2b00fe94e87806be3f94c1c7712f",
+      "r7-prototype-desktop-return.txt": "02da0a2e96dddd1061f431f5b82e9e5bbd2a9fad7d25f9f998d8a66b3f806143",
+      "r7-prototype-mobile-home.png": "f9ec59e8578db0be74655c8cdcf60efaba04b2bcacfbf82faace22c0555f8e34",
+      "r7-prototype-mobile-return.txt": "6f5f451d86507d535ba4e97d5470dec8d9139aa154c523833391e6c303a4a9b4",
+      "r7-prototype-mobile-table-left.png": "1fa13a1ac8b92abcbfc3478ded2204dbb8990a3aa3fdb237f10489b370bd5b0b",
+      "r7-prototype-mobile-table-right.png": "c4df34a58320e19c072601c0085150f9bbbddf712ea15a8257c30c4b7cecd964",
+      "r7-prototype-mobile-table-restored.png": "f5f99395e2ef19b103a5a9beb8ae0dc2fce673ce41ded878074decf23a34dea2"
+    }
+  },
+  "actual_graph_panel_full_read": {
+    "scope": "actual normal R7 discovery GraphPanel full read and diagnostic export; not summary acceptance",
+    "nodes": 4818,
+    "variables": 69,
+    "diagnostic_profile": "full",
+    "diagnostic_complete": true,
+    "diagnostic_fields": 76,
+    "diagnostic_node_identity_set_matches_raw": true,
+    "readback_sha256": "e36d14393c18023800e9c3f4ad470be05d0d328d358f32a9a3794c7d8ac4dbda",
+    "diagnostic_sha256": "b238a9fb90892958cb6d3c5a1bf1612dbc3a8f44302b9e7b5279d255d9ea914b"
+  },
+  "installed_release_status": {
+    "verification_version": "0.27.0",
+    "final_status_source": "docs/llm-wiki/releases.md",
+    "release_or_installation_not_certified_by_this_record": true
+  },
+  "summary_and_full_transition": {
+    "scope": "actual R7 primary page, standard discovery UI, summary width/height only",
+    "summary_nodes": 4818,
+    "dimension_mismatches_vs_full": 0,
+    "summary_complete": false,
+    "summary_fields": [
+      "width",
+      "height"
+    ],
+    "heavy_fields_absent": true,
+    "diagnostic_identity_fields_omissions_match": true,
+    "normal_import_apply_and_pair_rejected_summary": true,
+    "rejected_output_absent": true,
+    "graph_bytes_unchanged": true,
+    "full_after_summary_complete": true,
+    "full_after_summary_nodes": 4818,
+    "full_diagnostic_fields": 76,
+    "nodes_variables_collections_unchanged": true,
+    "evidence_sha256": "04e46ea9a1063cd0b511df90e6b328cabc03413d299f0eccb7d01d862f181ece"
+  },
+  "actual_original_text_properties": {
+    "scope": "three original R7 same-main instances; distinct properties and visible text, not new GUI editing of originals",
+    "instances": 3,
+    "labels": [
+      "수업 둘러보기",
+      "로그인",
+      "나의 예약"
+    ],
+    "main_text_definition_and_label_reference_match": true,
+    "evidence_sha256": "ecca49996d6b8bbf6186a9cca74be4f8936a79f9e652aaad490ecc1fc218bb70"
+  },
+  "post_interaction": {
+    "same_page": true,
+    "normal_verifier_passed": true,
+    "human_production_admitted": false,
+    "local_fig_backup_bytes": 2100822,
+    "local_fig_backup_sha256": "aadcd19718b21a2f2bd0c615e94336dc21457083886cf9aa9ab78e920b49c65e",
+    "cloud_persistence": "not independently confirmed",
+    "verifier_evidence_sha256": "22a898e6b01a853a51ede9f8d93db94c18a15617a21214cba0b99bbc6cd70f49"
+  },
+  "diagnostic_version_and_download": {
+    "native_plugin_version": "0.27.0",
+    "no_read_marked_unobserved": true,
+    "standalone_compiled_legacy_version": "0.27.0",
+    "markdown_file_matches_visible_textarea": true,
+    "fenced_json_matches_download": true,
+    "clipboard_delivery_observed": true,
+    "clipboard_api_chars": 2464,
+    "version_evidence_sha256": "def602c853d9f9297d23e4591e275a5455ad2888c5536d531400469e06efc1df",
+    "download_evidence_sha256": "a4b5ccb29d5c199294ed283901464445388db1e45f4a2db2d88420e332d70e3d",
+    "historical_clipboard_keyboard_observation": {
+      "delivery_observed": false,
+      "api_chars": 0
+    },
+    "clipboard_retest": {
+      "marker_ready": true,
+      "trusted_click_delivery_observed": true,
+      "equals_markdown_download_and_visible_text": true,
+      "fenced_json_equals_json_download": true,
+      "version": "0.27.0",
+      "evidence_sha256": "552dea495474c33d5cb8b8cd5a7b66769b5ec6e8c7ff09e383dc9d9035d3ae2f"
+    }
+  },
+  "dependency_ui": {
+    "scope": "actual native current/stale pinned dependencies and actual catalogue browser projection",
+    "native_current_and_stale_pins_observed": true,
+    "browser_enter_focuses_h3": true,
+    "browser_320_client_width": 305,
+    "browser_320_scroll_width": 305,
+    "browser_text_relations": 6,
+    "browser_320_svg_hidden": true,
+    "browser_560_svg_width": 497,
+    "browser_560_horizontal_overflow": false,
+    "native_evidence_sha256": "65fe7d33474acf8d1a635e05e0c6bdbd41655411ac1ba8ff24b93f8a913ac52a",
+    "browser_320_evidence_sha256": "6cadc9e49a510b6e795551642dc20904bdac36fc242df9740888fa77bbec84a7",
+    "browser_560_evidence_sha256": "73170d42d4039b43cfca0b58201fa809a06abf5a71a4dcd1bc70891434ccff0d"
+  },
+  "stable_suite_snapshot": {
+    "scope": "earlier stable candidate before later terminal-idempotency fix; not final post-fix full validation",
+    "python_tests": 1107,
+    "python_skipped": 2,
+    "python_ok": true,
+    "node_tests": 289,
+    "node_passed": 288,
+    "node_skipped": 1,
+    "node_failed": 0,
+    "python_log_sha256": "876737267b5fd095c88ffc9b2e69921e3b5b5a75e3e1d70fbfe2e613d010a6ab",
+    "node_log_sha256": "d308883c94cd4cb46bf610dcd7edd800817ac3d93ed2f7f1e1174f1fd4135aa1"
+  },
+  "source_commit_role": "historical base for the recorded integration snapshot, not proof of final release state",
+  "native_r8": {
+    "scope": "final normal producer verification snapshot with portable two-footer-Group overlay; base layout and protected capture inputs retained",
+    "raw_sha256": "64b7bec2c9965b1f855a2686a384cd010e0176a0d456773858014cbb00d91904",
+    "raw_bytes": 30278208,
+    "nodes": 4820,
+    "screens": 44,
+    "groups": 2,
+    "main_components": 24,
+    "component_sets": 2,
+    "instances": 494,
+    "variables": 69,
+    "collections": 1,
+    "normal_verifier_passed": true,
+    "producer_receipt_elapsed_seconds": 485.154,
+    "prototype_getter_checks": 312,
+    "return_getter_checks": 110,
+    "board_linked_targets": 536,
+    "preservation": {
+      "product_leaf_absolute_bbox_count": 3171,
+      "bbox_nonzero_delta_fields": 0,
+      "bbox_max_delta": 0,
+      "existing_frame_clips_unchanged": 550,
+      "nonempty_reaction_nodes_semantic_links_unchanged": 314
+    },
+    "same_packet_rerun": {
+      "same_page_and_all_node_identities": true,
+      "elapsed_seconds": 15.502,
+      "fresh_opacity_override_count": 0,
+      "elapsed_is_not_paired_benchmark": true
+    },
+    "component_property_scope": {
+      "text_and_visual_only": true,
+      "sets": 2,
+      "declared_visual_variants_per_set": 12,
+      "actual_visuals_equal_declared": true,
+      "positive_boolean_or_instance_swap_authoring_implemented": false
+    },
+    "ui": {
+      "both_sets_configuration_description_empty": true,
+      "both_sets_documentation_link_empty": true,
+      "official_named_history_entry_observed": true,
+      "independent_remote_api_persistence_verified": false
+    },
+    "local_fig_backup": {
+      "bytes": 2767296,
+      "sha256": "49902af34aaec9417d37b4512897a39c1ec095d90b0fad9b2e5344dbb299f4ff"
+    },
+    "prototype_ui": {
+      "recorded_steps": 14,
+      "desktop_extended_static_navigation_observed": true,
+      "mobile_operator_vertical_and_horizontal_table_scroll_restored": true,
+      "all_312_links_gui_exercised": false,
+      "authentication_or_business_post_executed_in_figma": false
+    },
+    "evidence_sha256": {
+      "normal_check": "4ff54bcf8e60ef0b35acb0715294dcce7e0e47a2804bd316fa9d3ca4d47a03e7",
+      "group_preservation": "6483b14053ce3e45b8023c65c9ad2f61798796436248cf67aa1709feb8cab643",
+      "idempotency": "bc25406a55d168d29d3db4ed1e9bdead491cc7f8899ea428ece42cbfea9cacef",
+      "final_ui": "6ea640347c591663a6acbe006ce0225a3a2edf0a621e7a138fc5e44eafde7e1e",
+      "prototype_trace": "ab686085b60995cfbce1b0451a32c76c06f2afbb29a98f4ead2e09c93214736c"
+    }
+  },
+  "archived_r7_user_override": {
+    "scope": "later actual GUI opacity override on archived R7; distinct from earlier untouched-original copy lab and fresh delivered R8",
+    "same_page_all_node_ids_and_main_after_rerun": true,
+    "main_set_instance_counts": [
+      24,
+      2,
+      494
+    ],
+    "opacity_after_rerun": 0.8999999761581421,
+    "opacity_override_metadata_preserved": true,
+    "numeric_opacity_restored_to_one": true,
+    "normal_verifier_after_restore_passed": true,
+    "explicit_opacity_override_flag_still_present_on_archived_r7": true,
+    "evidence_sha256": "e09eacd8b90335f63d24c5f710213537c8ac3ef0286a26c2edb2e5a2f337f8df"
+  }
+}

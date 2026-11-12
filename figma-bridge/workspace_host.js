@@ -16,6 +16,26 @@ const workspaceOperations = new Set(['import', 'export', 'sync', 'draft-review',
 const workspaceStatuses = new Set(['requested', 'running', 'finished', 'failed', 'readback', 'verified', 'baseline']);
 const workspaceStorageKey = figma.fileKey ? 'figma-flow-workspace-v1:' + figma.fileKey : null;
 let workspaceState = {locale: null, history: []};
+let workspaceServerHistory = [], workspaceJournalUnavailable = false;
+let workspaceInputFreshness = [];
+async function workspaceRefreshJournal() {
+  if (typeof WORKSPACE_CONTROL_CONFIG === 'undefined' || !WORKSPACE_CONTROL_CONFIG || typeof WORKSPACE_RUNTIME === 'undefined') return;
+  const file = figma.fileKey, page = figma.currentPage.id, home = workspaceHomeSession;
+  try {
+    const reply = await controlRequest('history', {session_id:controlRunSession, file_key:file, page_id:page, runtime:WORKSPACE_RUNTIME});
+    if (file !== figma.fileKey || page !== figma.currentPage.id || home !== workspaceHomeSession) return;
+    workspaceServerHistory = (Array.isArray(reply.journalHistory) ? reply.journalHistory : []).slice(-80).filter(row =>
+      row && typeof row.taskKey === 'string' && row.taskKey.length <= 200 && typeof row.revision === 'string' && /^[a-f0-9]{64}$/.test(row.revision) &&
+      typeof row.operationId === 'string' && /^[a-f0-9]{32}$/.test(row.operationId) && ['read','import','sync','create','apply'].includes(row.operation))
+      .map(row => ({taskKey:row.taskKey, revision:row.revision, operationId:row.operationId, operation:row.operation, ...workspaceJournalHistory(row)}));
+    workspaceJournalUnavailable = false;
+    workspaceInputFreshness = (Array.isArray(reply.inputFreshness) ? reply.inputFreshness : []).slice(0, 80).filter(row =>
+      row && typeof row.taskKey === 'string' && row.taskKey.length <= 200 && typeof row.revision === 'string' && /^[a-f0-9]{64}$/.test(row.revision) && ['current','stale','unverified'].includes(row.status))
+      .map(row => ({taskKey:row.taskKey, revision:row.revision, status:row.status, changed:(Array.isArray(row.changed) ? row.changed : []).filter(path => typeof path === 'string' && path.length <= 2048 && !/^(?:\/|[A-Za-z]:|~)/.test(path)).slice(0, 100)}));
+  } catch (_) {
+    if (file === figma.fileKey && page === figma.currentPage.id && home === workspaceHomeSession) {workspaceServerHistory = []; workspaceInputFreshness = []; workspaceJournalUnavailable = true;}
+  }
+}
 let workspaceWrites = Promise.resolve();
 let workspaceStorageError = false;
 let workspaceHomeView = 'tasks', workspaceProject = null, workspaceFocus = null;
@@ -43,7 +63,8 @@ function workspacePersist() {
 function workspaceJournalHistory(view) {
   if (!view || typeof view !== 'object' || view.classification === 'legacy') return {classification: 'legacy', phase: 'unknown', phases: []};
   if (view.classification !== 'recorded' || !Array.isArray(view.phases)) return {classification: 'unknown', phase: 'unknown', phases: []};
-  const phases = view.phases.filter(item => item && typeof item.phase === 'string' && typeof item.time === 'string').map(item => ({phase: item.phase, time: item.time}));
+  const phases = view.phases.slice(-32).filter(item => item && ['queued','claimed','native-started','result-received','reconciled','uncertain'].includes(item.phase) &&
+    typeof item.time === 'string' && item.time.length <= 40 && Number.isFinite(Date.parse(item.time))).map(item => ({phase: item.phase, time: item.time}));
   return {classification: 'recorded', phase: phases.length ? phases[phases.length - 1].phase : 'unknown', phases};
 }
 function workspaceRecord(current, operation, status, journal) {
@@ -294,12 +315,18 @@ figma.ui.onmessage = async message => {
         const code = String(message.locale || '').toLowerCase().split('-')[0];
         workspaceState.locale = workspaceLocales.has(code) ? code : 'ko'; workspacePersist();
       }
+      await workspaceRefreshJournal();
+      if (workspaceActive || workspaceHomeSession !== homeBeforeLoad) return;
+      const retired = typeof FLOW_RETIRED === 'undefined' || !Array.isArray(FLOW_RETIRED) ? [] : FLOW_RETIRED.filter(row =>
+        row && typeof row.key === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(row.key) && typeof row.revision === 'string' && /^[a-f0-9]{64}$/.test(row.revision))
+        .map(({key, revision}) => ({key, revision}));
       figma.ui.postMessage({type: 'workspace-tasks', workspaceSession: workspaceHomeSession,
         fileKey: figma.fileKey || null, controlEnabled: typeof WORKSPACE_CONTROL_CONFIG !== 'undefined' && !!WORKSPACE_CONTROL_CONFIG, locale: workspaceState.locale, history: workspaceState.history,
+        journalHistory:workspaceServerHistory, journalUnavailable:workspaceJournalUnavailable, inputFreshness:workspaceInputFreshness, retired,
         view: workspaceHomeView, project: workspaceProject, focusKey: workspaceFocus, storageError: workspaceStorageError, error: workspaceNotice || null, tasks: [...workspaceTasks.values()].map(task => {
           const dependsOn = workspaceDependencyEdges(task.depends_on);
           const assets = workspaceAssetSummary(task.input_summary);
-          return {key: task.key, title: task.title, project: task.project, kind: task.kind, fileKey: task.fileKey || null, pageId: task.pageId || null, threadId: task.threadId || null, revision: task.revision || '', preview: workspacePreview(task), paired: task.paired === true, productionAdmitted: task.productionAdmitted === true, ...(dependsOn ? {depends_on: dependsOn} : {}), ...(assets ? {input_summary: assets} : {})};
+          return {key: task.key, title: task.title, project: task.project, kind: task.kind, fileKey: task.fileKey || null, pageId: task.pageId || null, threadId: task.threadId || null, revision: task.revision || '', preview: workspacePreview(task), paired: task.paired === true, productionAdmitted: task.productionAdmitted === true, has_input_record:task.has_input_record === true, ...(dependsOn ? {depends_on: dependsOn} : {}), ...(assets ? {input_summary: assets} : {})};
         })});
       return;
     }

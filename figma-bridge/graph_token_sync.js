@@ -393,6 +393,7 @@ async function graphTokenSync(figma, syncPlan, operation = 'inspect') {
   const readback = () => ({
     schema: 'figma-flow-graph-token-readback-v1', operation,
     file_key: figma.fileKey, page_id: page.id, collection_id: collection.id, allowed_page_ids: pages.map(item => item.id),
+    partial_apply: plan.partial_apply === true, selected_ids: plan.selected_ids || null,
     graph_sha256: JSON.parse(page.getPluginData(markerKey) || 'null')?.graph_sha256 || null,
     baseline: JSON.parse(page.getPluginData(markerKey) || 'null'),
     tokens: [...tokens.values()].map(({token, bound, root, chain}) => ({
@@ -464,7 +465,8 @@ async function graphTokenSync(figma, syncPlan, operation = 'inspect') {
       guardScope();
       geometry();
       markerWritten = JSON.stringify({page_id: page.id, collection_id: collection.id, graph_sha256: plan.graph_sha256, system_id: plan.system_id, namespace: plan.namespace, owned_variable_ids: [...new Set([...tokens.values()].flatMap(item => item.chain.map(part => part.id)))], token_topology: [...tokens.values()].map(({token, chain}) => ({key: token.key, variable_ids: chain.map(item => item.id)})), consumers: consumers.map(({node, field, entry}) => ({node_id: node.id, page_id: nodePages.get(node.id), field, token: entry.token.key}))});
-      page.setPluginData(markerKey, markerWritten);
+      if (!plan.partial_apply) page.setPluginData(markerKey, markerWritten);
+      else markerWritten = null;
       return readback();
     } catch (error) {
       const conflicts = [];
@@ -774,18 +776,25 @@ function commitComponentFields(spec, selection, observed) {
   };
 }
 function graphSyncPlanForMessage(plan, message) {
-  if (!message || (message.selection == null && message.component_fields == null)) return plan;
-  let next = plan;
-  if (message.selection != null) {
-    const committed = commitGraphSelection(message.fixture, message.selection, message.observed);
-    const selected = new Set(committed.applied.map(item => item.key));
-    next = {...next, tokens: (plan.tokens || []).filter(token => selected.has(token.key)), selection_baseline: committed.baseline, partial_apply: committed.full_apply !== true};
+  const selectionFields = ['selection', 'component_fields', 'field_selection', 'field_observed', 'fixture', 'observed', 'selected_ids', 'plan_sha256'];
+  if (message.protocol !== 2) {
+    if (message.protocol != null && message.protocol !== 1 || selectionFields.some(key => Object.prototype.hasOwnProperty.call(message, key))) throw Error('selection requires protocol v2');
+    return plan;
   }
-  if (message.component_fields != null) {
-    const fields = commitComponentFields(message.component_fields, message.field_selection, message.field_observed);
-    next = {...next, component_field_baseline: fields.baseline, component_node_id: fields.node_id, main_component_id: fields.main_component_id};
-  }
-  return next;
+  const manifest = typeof GRAPH_SELECTION_MANIFEST === 'undefined' ? null : GRAPH_SELECTION_MANIFEST;
+  if (!manifest || message.plan_sha256 !== manifest.plan_sha256) throw Error('stale or missing selection plan');
+  if (selectionFields.slice(0, 6).some(key => Object.prototype.hasOwnProperty.call(message, key))) throw Error('untrusted selection payload');
+  const ids = message.selected_ids;
+  if (!Array.isArray(ids) || !ids.length || new Set(ids).size !== ids.length || ids.some(id => typeof id !== 'string')) throw Error('empty or duplicate selection');
+  const rows = new Map(manifest.changes.map(row => [row.identity, row]));
+  if (ids.some(id => !rows.has(id))) throw Error('unknown selection');
+  const chosen = new Set(ids), groups = new Set(ids.map(id => rows.get(id).group));
+  if (manifest.changes.some(row => groups.has(row.group) && !chosen.has(row.identity))) throw Error('indivisible alias or shared-consumer group');
+  const keys = new Set(ids.flatMap(id => rows.get(id).token_keys));
+  const partial = ids.length !== manifest.changes.length;
+  if (partial && (plan.tokens.some(token => token.create) || plan.repair_bindings?.length)) throw Error('partial migration or binding repair requires a full apply');
+  return {...plan, partial_apply: partial, selected_ids: ids,
+    tokens: plan.tokens.map(token => keys.has(token.key) ? {...token} : {...token, value: token.before})};
 }
 if (typeof GRAPH_SYNC_PLAN !== 'undefined' && typeof figma !== 'undefined') {
   figma.showUI(__html__, {width: 440, height: 470, themeColors: true});
@@ -794,8 +803,9 @@ if (typeof GRAPH_SYNC_PLAN !== 'undefined' && typeof figma !== 'undefined') {
     if (busy || !['read', 'apply'].includes(message?.type) || message.session !== GRAPH_PANEL_SESSION) return;
     busy = true;
     figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation: message.type});
-    const plan = graphSyncPlanForMessage(GRAPH_SYNC_PLAN, message);
-    try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: message.type, readback: await graphTokenSync(figma, plan, message.type === 'apply' ? 'apply' : 'inspect')}); }
+    try {
+      const plan = message.type === 'apply' ? graphSyncPlanForMessage(GRAPH_SYNC_PLAN, message) : GRAPH_SYNC_PLAN;
+      figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: message.type, readback: await graphTokenSync(figma, plan, message.type === 'apply' ? 'apply' : 'inspect')}); }
     catch (error) {
       const detail = error.message || String(error);
       const safely = getter => {try {return getter() ?? null;} catch (_) {return null;}};

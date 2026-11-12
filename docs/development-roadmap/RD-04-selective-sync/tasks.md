@@ -1,18 +1,22 @@
 # RD-04 작업서 · 동기화 변경을 골라 적용하기
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
-## Cursor 구현 단위
+## 구현 경로와 검증 단위
 
-1. 독립 token 두 개와 alias 묶음 fixture에 관찰 가능한 부분 적용 조건을 고정한다.
-2. 계획에서 stable change identity와 선택 묶음을 만들고 직렬화한다.
-3. UI 선택·전체 선택·선택 수·영향 target을 기존 행에 추가한다.
-4. Python/JS 양쪽에서 선택을 검증하고 transaction 적용·readback·baseline 갱신을 연결한다.
-5. component field 단위는 첫 단위의 실제 왕복이 끝난 뒤 추가한다.
+1. 독립 token과 alias 묶음 fixture의 부분 적용 조건을 확인한다.
+2. host manifest의 stable identity와 plan hash를 검증한다.
+3. UI 선택·전체 선택·선택 수·영향 target을 확인한다.
+4. protocol 2의 atomic group, CAS와 실제 readback을 대조한다.
+5. 부분 결과가 전체 marker와 pairing을 진전시키지 않는지 확인한다.
 
-한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
+아래 순서는 구현 경로와 검증 항목이다. 검사 파일의 존재나 과거 fixture 결과는 현재 실행 성공 또는 실제 Figma 인수를 뜻하지 않는다. 현재 실행 결과와 실제 관찰은 [최종 인수 기록](../FINAL_ACCEPTANCE.md)에 별도로 남긴다.
+
+다음은 fixture helper의 검증 범위다. 실제 실행 권한은 아래 host manifest 경로에 있다.
 
 1은 `tests/fixtures/rd04/partial-apply.json`을 `load_selective_sync_fixture`로 읽는다. 독립 token 셋 중 color/action과 color/quiet만 after가 적용되고 space/gap은 before 8이 남는다. alias 묶음 type/body·type/size는 반만 고를 수 없고 button.font·text.font가 함께 보인다. 이 조건 조회는 값을 쓰지 않는다. 2는 `serialize_selection`이 kind와 key의 stable identity와 alias bundle id를 만들고, 선택과 분리된 plan_sha256를 직렬화한다. 같은 선택의 순서가 바뀌어도 직렬 결과는 같다. 3은 `graphSelection`이 기존 변경 행에 선택, 전체 선택, 선택 수, 영향 target을 붙인다. 변경이 있는데 하나도 고르지 않으면 적용을 열지 않는다. 4는 `commit_selective_apply`와 `commitGraphSelection`이 같은 선택을 검증한다. 고른 token만 새 값이 되고 나머지는 readback에 남는다. baseline은 적용한 값만 기록하며, 관측값이 before와 다르면 아무것도 쓰지 않는다. 5는 `commit_component_fields`가 같은 token을 쓰는 padding 필드를 함께만 적용한다. `node_id`와 `main_component_id`는 유지되고, 고르지 않은 fontSize는 baseline에 들어가지 않는다.
+
+현재 실행 경로는 `selection_manifest`의 `figma-flow-selection-v2`를 번들에 pin하고 `selectedPlan`이 protocol 2의 `selected_ids`, `plan_sha256`와 공유 root group 전체를 검증한다. 부분 readback은 `partial_apply`를 남기고 전체 page marker를 갱신하지 않는다. 생성·binding repair migration은 전체 선택만 허용한다.
 
 ## 기존 검사에서 시작하기
 

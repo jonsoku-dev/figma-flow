@@ -1,0 +1,6 @@
+{
+  "source": "../../static/littlehands/fonts/Hahmlet.woff2",
+  "source_sha256": "e6fafa62e9957bab9a0065bfb43a611b040e921e67967a466cec2e9a8d861bcb",
+  "license": "../../static/littlehands/fonts/OFL.txt",
+  "operation": "FontTools variable wght instantiation and WOFF2-to-TTF container conversion for local metric checks only; no browser/Figma observation"
+}

@@ -1,6 +1,6 @@
 # RD-07 기능서 · 제어 전송과 실행 정책의 모듈 경계
 
-상태는 제안이다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는0.27 첫 구현 범위의 기능 계약이다. 조건별 fixture·실제 관측과 미지원 확장은 [최종 인수 현황](../FINAL_ACCEPTANCE.md)을 따른다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 사용자 문제
 
@@ -32,4 +32,4 @@ HTTP poll/result 전송만 작은 adapter로 분리하고 task별 scope·실행�
 - **RD-07-AC-04** — 실패·timeout·duplicate result·복구 경로가 기존과 동일하게 fail closed한다.
 - **RD-07-AC-05** — 실제 생성 bundle을 실행하는 검사와 source/생성 재빌드 비교를 모두 통과한다.
 
-인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 이 문서의 조건은 통과로 기록되지 않았다.
+인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 조건별 판정과 실제 관측·fixture의 구분, 후속 확장과 출시·설치 근거는 [최종 인수 현황](../FINAL_ACCEPTANCE.md)과 패치 Wiki에서 확인한다.

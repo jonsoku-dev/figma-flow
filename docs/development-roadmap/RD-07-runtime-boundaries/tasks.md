@@ -1,24 +1,24 @@
 # RD-07 작업서 · 제어 전송과 실행 정책의 모듈 경계
 
-상태는 제안이다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
-## Cursor 구현 단위
+## 구현 경로와 검증 단위
 
-1. 현재 protocol trace와 source pin 범위를 고정하고 모듈 책임을 표로 적는다.
-2. 순수 전송 함수만 이동하고 domain validator 호출 위치를 유지한다.
-3. publisher 조립과 trusted_sources를 같은 변경에서 이관한다.
-4. 실제 generated bundle의 모든 task kind를 실행하고 오류·uncertainty도 비교한다.
-5. 구 경로를 지우고 필요한 공개 심볼만 남긴다.
+1. protocol trace와 source pin 범위를 확인한다.
+2. transport의 bounded loopback 전송과 domain 검사 분리를 확인한다.
+3. publisher 조립과 trusted_sources가 같은 모듈 목록을 쓰는지 확인한다.
+4. generated bundle의 task kind와 오류·uncertainty를 대조한다.
+5. controlRequest 정의와 공개 심볼을 확인한다.
 
-한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
+아래 순서는 구현 경로와 검증 항목이다. 검사 파일의 존재나 과거 fixture 결과는 현재 실행 성공 또는 실제 Figma 인수를 뜻하지 않는다. 현재 실행 결과와 실제 관찰은 [최종 인수 기록](../FINAL_ACCEPTANCE.md)에 별도로 남긴다.
 
 1은 `load_runtime_boundary_trace`가 현재 전송 경로 poll, native-started, result와 source pin 범위 tools, figma-bridge, library를 고정한다.
 
 | 모듈 | 책임 |
 | --- | --- |
-| workspace_transport | 제안된 순수 전송이다. 이 단위에서는 분리하지 않는다. 후보는 poll, native-started, result이다. |
+| workspace_transport | 현재 controlRequest의 순수 전송이다. poll, result, readiness, native-started, history만 허용한다. |
 | workspace_control | 도메인 검사는 workspace_control에 남긴다. kind와 operation, scope, revision을 검사한다. |
-| figma_workspace.py | publisher 조립과 trusted_sources는 이 단위에서 옮기지 않는다. source pin은 tools, figma-bridge, library이다. |
+| figma_workspace.py | 초기 trace 고정 단계의 범위는 "publisher 조립과 trusted_sources는 이 단위에서 옮기지 않는다"였다. 현재 조립은 아래 3의 공유 모듈 목록을 사용한다. |
 
 2는 controlRequest만 figma-bridge/workspace_transport.js로 옮긴다. kind, operation, scope, revision 검사는 workspace_control.js에 남긴다.
 
@@ -27,6 +27,8 @@
 4는 bundle_task_kinds가 assemble_shared_runtime으로 discover, import, native-edit, review, sync를 실행하고 오류와 uncertainty를 구분한다.
 
 5는 public_runtime_symbols가 경계의 공개 이름만 반환한다. controlRequest 정의는 workspace_transport.js 하나에 남는다.
+
+현재 전송은 loopback origin, route, 객체 envelope, 32 MiB readback·40 MiB request·16 MiB response 크기와 15초 deadline을 검사한다. readiness의 64 KiB 상한도 유지한다. [실제 용량 경계 검사](../../../tests/finalize_control_capacity.py)와 [클라이언트 UTF-8 검사](../../../tests/finalize_control_capacity.cjs)를 함께 실행한다. timeout을 native 취소나 쓰기 미발생으로 해석하지 않는다.
 
 ## 기존 검사에서 시작하기
 

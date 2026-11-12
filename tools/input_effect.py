@@ -10,21 +10,13 @@ unverified.
 import hashlib
 import json
 import re
-import shutil
-import subprocess
-import tempfile
-import threading
-import time
-import urllib.request
 from collections import deque
 from html.parser import HTMLParser
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit, urlunsplit
 
 import design_directions
 import design_system
-import websocket
 
 SCHEMA = 'figma-flow-input-effect-v1'
 RESULT_SCHEMA = 'figma-flow-input-effect-result-v3'
@@ -150,7 +142,8 @@ class _HTMLAssets(HTMLParser):
                 ref = attrs[key]
                 rel = set((attrs.get('rel') or '').lower().split())
                 is_stylesheet = tag.lower() == 'link' and ('stylesheet' in rel or (attrs.get('type') or '').lower() == 'text/css' or ref.split('?', 1)[0].split('#', 1)[0].lower().endswith('.css'))
-                self.references.append((ref, is_stylesheet))
+                kind = 'stylesheet' if is_stylesheet else 'script' if tag.lower() == 'script' else 'image' if tag.lower() == 'img' else attrs.get('as')
+                self.references.append((ref, is_stylesheet, kind))
         if attrs.get('style'):
             self.inline_styles.append(attrs['style'])
         if tag.lower() == 'style':
@@ -237,8 +230,28 @@ def _css_text(data):
     return data.decode(encoding.name)
 
 
-def _ingress(asset, source):
+def _asset_kind(ref):
+    if not isinstance(ref, str):
+        return 'file'
+    try:
+        extension = PurePosixPath(urlsplit(ref).path.lower()).suffix
+    except ValueError:
+        return 'file'
+    if extension in {'.woff', '.woff2', '.ttf', '.otf', '.eot'}:
+        return 'font'
+    if extension in {'.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.avif', '.apng', '.bmp', '.ico'}:
+        return 'image'
+    if extension == '.css':
+        return 'stylesheet'
+    if extension in {'.js', '.mjs', '.cjs'}:
+        return 'script'
+    return 'file'
+
+
+def _ingress(asset, source, kind=None):
     copied = dict(asset)
+    inferred = _asset_kind(asset.get('ref', ''))
+    copied['kind'] = inferred if inferred != 'file' else kind if kind in {'font', 'image', 'stylesheet', 'script'} else 'file'
     if source:
         copied['sources'] = [source]
     return copied
@@ -250,7 +263,7 @@ def _merge_ingress(assets):
     order = []
     for asset in assets:
         identity = {key: value for key, value in asset.items() if key != 'sources'}
-        key = canonical(identity)
+        key = canonical({name: identity[name] for name in ('path', 'kind', 'status')}) if isinstance(identity.get('path'), str) else canonical(identity)
         if key not in merged:
             merged[key] = {**identity, 'sources': list(asset.get('sources') or [])}
             order.append(key)
@@ -261,7 +274,7 @@ def _merge_ingress(assets):
     return [merged[key] for key in order]
 
 
-def html_channel(path, root):
+def html_channel(path, root, *, required_facts=None):
     root = _root(root)
     raw = path.read_bytes()
     text = raw.decode('utf-8')
@@ -277,8 +290,8 @@ def html_channel(path, root):
     seen_css = set()
     direct_css_paths = set()
     html_relative = Path(path).resolve().relative_to(root).as_posix()
-    for ref, is_stylesheet in parser.references:
-        asset = _ingress(_relative_asset(path, root, ref), html_relative)
+    for ref, is_stylesheet, kind in parser.references:
+        asset = _ingress(_relative_asset(path, root, ref), html_relative, kind)
         assets.append(asset)
         if is_stylesheet and asset.get('status') == 'present':
             css_queue.append((locate(root, asset['path']), asset['path'], None))
@@ -286,7 +299,7 @@ def html_channel(path, root):
     for style in parser.styles:
         refs, encoding = _css_references(style.encode('utf-8'))
         for ref, kind in refs:
-            assets.append(_ingress(_relative_asset(path, root, ref), html_relative))
+            assets.append(_ingress(_relative_asset(path, root, ref), html_relative, 'stylesheet' if kind == 'import' else None))
             asset = assets[-1]
             if kind == 'import' and asset.get('status') == 'present':
                 css_queue.append((locate(root, asset['path']), asset['path'], encoding))
@@ -303,7 +316,7 @@ def html_channel(path, root):
         seen_css.add(css_key)
         refs, child_encoding = _css_references(css_path.read_bytes(), environment_encoding=environment_encoding)
         for ref, kind in refs:
-            asset = _ingress(_relative_asset(css_path, root, ref), css_relative)
+            asset = _ingress(_relative_asset(css_path, root, ref), css_relative, 'stylesheet' if kind == 'import' else None)
             assets.append(asset)
             if asset.get('status') == 'present' and (kind == 'import' or asset.get('path', '').lower().endswith('.css')):
                 css_queue.append((locate(root, asset['path']), asset['path'], child_encoding))
@@ -316,11 +329,14 @@ def html_channel(path, root):
     if title:
         facts['screen-title'] = title
     gaps = sorted({value for name, value in layout if name == 'gap'})
+    unresolved = {}
     if len(gaps) == 1:
         facts['surface-gap'] = gaps[0]
     elif len(gaps) > 1:
-        raise ValueError('HTML fixture must declare one gap fact')
-    return {
+        if required_facts is None or 'surface-gap' in required_facts:
+            raise ValueError('HTML fixture must declare one gap fact')
+        unresolved['surface-gap'] = gaps
+    result = {
         'facts': facts,
         'title': title,
         'layout': layout,
@@ -329,6 +345,9 @@ def html_channel(path, root):
         'quarantine': _quarantine(text),
         'render': 'unverified',
     }
+    if unresolved:
+        result['unresolved_facts'] = unresolved
+    return result
 
 
 def url_channel(path):
@@ -514,6 +533,8 @@ def project(root, spec):
     facts = locate(root, spec.get('facts', ''))
     authority_path = locate(root, spec.get('authority', ''))
     authority = _load_json(authority_path)
+    fact_rules = authority.get('facts')
+    required_facts = fact_rules if isinstance(fact_rules, dict) else ()
     channels = {'brief': _brief_channel(brief, facts)}
     sources = [
         {'path': spec['brief'], 'sha256': digest(brief.read_bytes())},
@@ -525,7 +546,7 @@ def project(root, spec):
         raise ValueError('Unknown input channel')
     if 'html' in inputs:
         path = locate(root, inputs['html'])
-        channels['html'] = html_channel(path, root)
+        channels['html'] = html_channel(path, root, required_facts=required_facts)
         sources.append({'path': inputs['html'], 'sha256': digest(path.read_bytes())})
         source_paths = {item['path'] for item in sources}
         for asset in channels['html']['assets']:
@@ -625,19 +646,27 @@ def confirm_input_record_route():
         'task_boundary': 'figma_workspace.prepare',
         'consumer': 'private task artifact',
         'not_consumer': 'ImportPanel',
-        'cli_flag': None,
+            'cli_flag': '--input-record',
     }
 
 
 def _safe_ref(value):
     if not isinstance(value, str) or not value:
         return ''
+    path = value.replace('\\', '/')
+    if (path.startswith('/') and not path.startswith('//')) or path.startswith('~') or re.match(r'^[A-Za-z]:/', path):
+        return PurePosixPath(path.split('?', 1)[0].split('#', 1)[0]).name
     try:
         parts = urlsplit(value)
+        hostname = parts.hostname or ''
+        port = parts.port
     except ValueError:
         return ''
     if parts.scheme or parts.netloc:
-        return urlunsplit((parts.scheme, parts.netloc, parts.path, '', ''))
+        host = '[' + hostname + ']' if ':' in hostname else hostname
+        if port is not None:
+            host += ':' + str(port)
+        return urlunsplit((parts.scheme, host, parts.path, '', ''))
     path = parts.path.replace('\\', '/')
     if path.startswith('/') or path.startswith('~') or '/Users/' in path:
         return PurePosixPath(path).name
@@ -657,9 +686,13 @@ def summarize_input_record(record):
     for asset in assets:
         if not isinstance(asset, dict) or asset.get('status') not in allowed:
             raise ValueError('Invalid input record')
-        kind = asset.get('kind') if isinstance(asset.get('kind'), str) and asset['kind'] else 'file'
+        raw_kind = asset.get('kind')
+        kind = raw_kind if isinstance(raw_kind, str) and raw_kind in {'font', 'image', 'stylesheet', 'script', 'file'} else _asset_kind(asset.get('ref', ''))
         shown = _safe_ref(asset.get('ref', ''))
-        source = _safe_ref(asset.get('source', ''))
+        sources = asset.get('sources', [])
+        if not isinstance(sources, list):
+            raise ValueError('Invalid asset sources')
+        source = ', '.join(dict.fromkeys(filter(None, (_safe_ref(value) for value in [*sources, asset.get('source', '')]))))
         rows.append({
             'ref': shown,
             'kind': kind,
@@ -671,76 +704,17 @@ def summarize_input_record(record):
     return {'sha256': digest(payload), 'summary': rows, 'bytes': payload}
 
 
-def contrast_css_browser_loading(root):
-    """Read the asset list, then record which of those files headless Chrome requests."""
+def contrast_css_browser_loading(root, *, requested_paths=None):
+    """Compare inventory with an explicit observation from the caller's approved browser."""
     root = _root(root)
     page = root / 'index.html'
     if not page.is_file():
         raise ValueError('Browser contrast requires index.html')
-    listed = [{'path': asset['path'], 'status': asset['status']} for asset in html_channel(page, root)['assets'] if asset.get('path')]
-    requested = _chrome_requested_paths(root)
-    return {'list': listed, 'browser': {'requested': sorted(requested)}, 'separate': True}
-
-
-def _chrome_requested_paths(root):
-    chrome = Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-    if not chrome.is_file():
-        raise ValueError('Chrome is required for the browser contrast')
-
-    class Handler(SimpleHTTPRequestHandler):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, directory=str(root), **kwargs)
-
-        def log_message(self, format, *args):
-            return
-
-    server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
-    profile = Path(tempfile.mkdtemp())
-    proc = None
-    sock = None
-    try:
-        proc = subprocess.Popen(
-            [str(chrome), '--headless=new', '--disable-gpu', '--remote-debugging-port=0', f'--user-data-dir={profile}', 'about:blank'],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        port_file = profile / 'DevToolsActivePort'
-        deadline = time.time() + 8
-        while not port_file.exists():
-            if time.time() > deadline:
-                raise ValueError('Chrome did not open a debugging port')
-            time.sleep(0.1)
-        debug_port = int(port_file.read_text(encoding='utf-8').splitlines()[0])
-        targets = json.load(urllib.request.urlopen(f'http://127.0.0.1:{debug_port}/json'))
-        sock = websocket.create_connection(targets[0]['webSocketDebuggerUrl'], timeout=5)
-        message_id = 0
-
-        def send(method, params=None):
-            nonlocal message_id
-            message_id += 1
-            sock.send(json.dumps({'id': message_id, 'method': method, 'params': params or {}}))
-
-        send('Network.enable')
-        send('Page.navigate', {'url': f'http://127.0.0.1:{server.server_address[1]}/index.html'})
-        requested = set()
-        end = time.time() + 3
-        while time.time() < end:
-            sock.settimeout(0.4)
-            try:
-                message = json.loads(sock.recv())
-            except Exception:
-                continue
-            url = ((message.get('params') or {}).get('request') or {}).get('url', '')
-            path = unquote(urlsplit(url).path).lstrip('/')
-            if path and path != 'favicon.ico':
-                requested.add(path)
-        return requested
-    finally:
-        if sock is not None:
-            sock.close()
-        if proc is not None:
-            proc.kill()
-            proc.wait(timeout=5)
-        server.shutdown()
-        server.server_close()
-        shutil.rmtree(profile, ignore_errors=True)
+    if not isinstance(requested_paths, list) or len(requested_paths) > 4096:
+        raise ValueError('An approved browser observation of relative request paths is required')
+    for value in requested_paths:
+        if not isinstance(value, str) or not value or len(value) > 2048 or urlsplit(value).query or urlsplit(value).fragment:
+            raise ValueError('Browser observations require bounded relative paths')
+        locate(root, value, require_file=False)
+    listed = [{'path': asset['path'], 'status': asset['status']} for asset in html_channel(page, root, required_facts=())['assets'] if asset.get('path')]
+    return {'list': listed, 'browser': {'requested': sorted(set(requested_paths)), 'source': 'provided-observation'}, 'separate': True}

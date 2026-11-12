@@ -15,6 +15,8 @@ from pathlib import Path
 import re
 import sys
 
+from design_directions import normalize_layer_containers
+
 SCHEMA = 'figma-flow-design-quality-v1'
 LAYOUT_SCHEMA = 'figma-flow-authored-native-layout-v1'
 ROLES = {'background', 'surface', 'illustration', 'image', 'divider', 'ornament', 'frame'}
@@ -401,12 +403,49 @@ class _State:
         self.metrics['contrast_measurements'] = measurements
 
     def canvas(self):
+        containers, owners = {}, {}
+        if self.state.get('containers'):
+            try:
+                targets = [*self.layers,
+                           *({'id': key, **dict(zip(('x', 'y', 'w', 'h'), box))} for key, box in (self.state.get('control_boxes') or {}).items()),
+                           *({'id': key, **dict(zip(('x', 'y', 'w', 'h'), button.get('box', [])))} for key, button in (self.state.get('product_buttons') or {}).items() if isinstance(button, dict))]
+                normalized = normalize_layer_containers({**self.state, 'layers': targets})
+                containers = {item['key']: item for item in normalized['containers']}
+                owners = {child: item['key'] for item in containers.values() for child in item['children']}
+            except (ValueError, TypeError):
+                # Invalid declarations grant no exception to the ordinary off-canvas check.
+                pass
+
+        def inside_scroll(layer):
+            projected = list(_box(layer))
+            owner = owners.get(layer['id'])
+            while owner is not None:
+                item = containers[owner]
+                if item['kind'] == 'frame' and item.get('clip') is True:
+                    clip = list(item['box'])
+                    parent = item.get('parent')
+                    while parent is not None:
+                        ancestor = containers[parent]
+                        if ancestor['kind'] == 'frame':
+                            clip[0] += ancestor['box'][0]
+                            clip[1] += ancestor['box'][1]
+                        parent = ancestor.get('parent')
+                    for position, size, axis in ((0, 2, 'horizontal'), (1, 3, 'vertical')):
+                        if projected[position] < clip[position] - CANVAS_SLACK or projected[position] + projected[size] > clip[position] + clip[size] + CANVAS_SLACK:
+                            if item.get('scroll') not in (axis, 'both'):
+                                return False
+                            # Only this canvas check projects scroll viewports; every other check keeps raw boxes.
+                            projected[position], projected[size] = clip[position], clip[size]
+                owner = item.get('parent')
+            x, y, w, h = projected
+            return max(-x, -y, x + w - self.width, y + h - self.height) <= CANVAS_SLACK
+
         for layer in self.layers:
             if not all(k in layer for k in ('x', 'y', 'w', 'h')):
                 continue
             x, y, w, h = _box(layer)
             outside = max(-x, -y, x + w - self.width, y + h - self.height)
-            if outside > CANVAS_SLACK:
+            if outside > CANVAS_SLACK and not inside_scroll(layer):
                 bleed = layer.get('kind') != 'text' and layer.get('role') in BLEED_ROLES
                 self.add('warning' if bleed else 'error', 'off-canvas', layer['id'],
                          '레이어가 프레임 밖으로 %gpx 나갑니다.' % round(outside, 1))

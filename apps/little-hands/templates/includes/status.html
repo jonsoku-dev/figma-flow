@@ -1,0 +1,1 @@
+<span class="badge {{ booking.status }}" data-native-key="booking-status-{{ booking.public_id }}" data-native-type="text">{% if booking.status == 'confirmed' %}예약 확정{% elif booking.status == 'waitlisted' %}대기 중{% elif booking.status == 'cancelled' %}취소 완료{% else %}{{ booking.get_status_display }}{% endif %}</span>

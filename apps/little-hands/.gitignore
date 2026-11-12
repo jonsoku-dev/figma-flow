@@ -1,0 +1,10 @@
+.env
+.venv/
+staticfiles/
+*.sqlite3
+__pycache__/
+*.pyc
+
+# Local workflow manifests pin machine paths and managed user provenance.
+design/reviews/
+design/fonts/*.ttf

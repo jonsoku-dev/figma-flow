@@ -230,6 +230,13 @@ def layout_errors(authored):
             for state_id,l in(states or{}).items():
                 key=f'{cid}.{viewport}.{state_id}'
                 if not isinstance(l,dict)or not all(_finite(l.get(k))and l[k]>0 for k in('width','height')):problems.append(key+': width/height must be finite and > 0');continue
+                if 'containers' in l:
+                    try:
+                        targets = [*l.get('layers', []), *({'id': control_id, **dict(zip(('x', 'y', 'w', 'h'), box))} for control_id, box in l.get('control_boxes', {}).items()),
+                                   *({'id': control_id, **dict(zip(('x', 'y', 'w', 'h'), button.get('box', [])))} for control_id, button in (l.get('product_buttons') or {}).items())]
+                        design_directions.normalize_layer_containers({**l, 'layers': targets})
+                    except (ValueError, TypeError) as error:
+                        problems.append(key + ': invalid containers: ' + str(error))
                 controls=set(l.get('control_boxes')or{});seen=set()
                 products = l.get("product_buttons") or {}
                 if not isinstance(products, dict):
@@ -593,6 +600,10 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
         for viewport in ('desktop','mobile'):
             if set(source['state_layouts'][viewport])!=set(states):raise ValueError('Exact canonical states required in every viewport')
             for state_id,state_layout in source['state_layouts'][viewport].items():
+                if 'containers' in state_layout:
+                    targets = [*state_layout['layers'], *({'id': control_id, **dict(zip(('x', 'y', 'w', 'h'), box))} for control_id, box in state_layout['control_boxes'].items()),
+                               *({'id': control_id, **dict(zip(('x', 'y', 'w', 'h'), button['box']))} for control_id, button in (state_layout.get('product_buttons') or {}).items())]
+                    state_layout['containers'] = design_directions.normalize_layer_containers({**state_layout, 'layers': targets})['containers']
                 expected_controls={e['control_id']for e in prototype['bindings']if e['viewport']==viewport and e['source_state']==state_id}
                 if set(state_layout['control_boxes'])!=expected_controls:raise ValueError('Exact state control layout required')
                 if not any(l['kind']=='text'for l in state_layout['layers']):raise ValueError('Editable text required; screenshots-only review is invalid')
@@ -836,6 +847,23 @@ def _native_leading(authored):
     return authored.get("leading", math.ceil(authored["size"] * multiplier))
 
 
+def _native_single_line_height_ceil(authored, actual, control_source, control_actual):
+    leading = authored.get('leading')
+    return (type(authored.get('max_lines')) is int and authored['max_lines'] == 1 and
+            _finite(leading) and leading > 0 and leading != math.ceil(leading) and
+            authored['h'] == leading and actual[3] == math.ceil(leading) and
+            actual[:3] == tuple(authored[field] for field in ('x', 'y', 'w')) and
+            control_actual == control_source and
+            design_quality._intersection(tuple(authored[field] for field in ('x', 'y', 'w', 'h')), control_source) == 0)
+
+
+def _native_single_line_allocation_ceil(authored, actual):
+    return (type(authored.get('max_lines')) is int and authored['max_lines'] == 1 and
+            _finite(authored.get('leading')) and authored['leading'] > 0 and authored['h'] == authored['leading'] and
+            actual[:2] == (authored['x'], authored['y']) and
+            actual[2] == math.ceil(authored['w']) and actual[3] == math.ceil(authored['h']))
+
+
 def _native_pixels(value, font_size):
     if not isinstance(value, dict) or not _finite(value.get("value")):
         return None
@@ -989,14 +1017,39 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
     texts = []
     controls = []
     control_labels = []
+    text_sources, control_sources = {}, {}
+    container_owners = {child: item['key'] for item in layout.get('containers', []) for child in item['children']}
+    by_id = {row.get('id'): row for row in keyed.values() if isinstance(row, dict)}
+
+    def authored_parent(target_id):
+        owner = container_owners.get(target_id)
+        return keyed.get(key + '.' + owner, {}).get('id') if owner else frame['id']
 
     def add(code, layer, message):
         findings.append({"code": code, "layer": layer, "message": message})
 
-    def geometry(node, expected, layer, height_budget=False, parent=None):
+    def screen_box(node, layer):
         actual = _native_box(node)
         if actual is None:
             add("geometry-missing", layer, "Read finite positive x/y/width/height from Figma.")
+            return None
+        x, y, width, height = actual
+        cursor, seen = node.get('parentId'), set()
+        while cursor != frame['id']:
+            ancestor = by_id.get(cursor)
+            if cursor in seen or ancestor is None or not all(_finite(ancestor.get(field)) for field in ('x', 'y')):
+                add('parent-drift', layer, 'Read the complete authored container ancestry inside the screen.')
+                return None
+            seen.add(cursor)
+            if ancestor.get('type') not in ('GROUP', 'BOOLEAN_OPERATION'):
+                x += ancestor['x']
+                y += ancestor['y']
+            cursor = ancestor.get('parentId')
+        return (x, y, width, height)
+
+    def geometry(node, expected, layer, height_budget=False, parent=None):
+        actual = screen_box(node, layer)
+        if actual is None:
             return None
         if parent is not None and node.get("parentId") != parent:
             add("parent-drift", layer, "Restore the authored parent frame/control.")
@@ -1021,9 +1074,52 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
                 )
         return actual
 
-    def off_canvas(box):
-        x, y, width, height = box
+    def off_canvas(box, node):
+        projected = list(box)
+        cursor, seen = node.get('parentId'), set()
+        declarations = {keyed.get(key + '.' + item['key'], {}).get('id'): item for item in layout.get('containers', [])}
+        while cursor != frame['id']:
+            ancestor = by_id.get(cursor)
+            if cursor in seen or ancestor is None:
+                return True
+            seen.add(cursor)
+            if ancestor.get('clipsContent') is True:
+                clip = screen_box(ancestor, key + '.container')
+                if clip is None:
+                    return True
+                item = declarations.get(cursor, {})
+                scroll = item.get('scroll', 'none')
+                if (item.get('kind') != 'frame' or item.get('clip') is not True or ancestor.get('type') != 'FRAME' or
+                        not isinstance(scroll, str) or ancestor.get('overflowDirection') != scroll.upper()):
+                    scroll = 'none'
+                for position, size, axis in ((0, 2, 'horizontal'), (1, 3, 'vertical')):
+                    if projected[position] < clip[position] - 1 or projected[position] + projected[size] > clip[position] + clip[size] + 1:
+                        if scroll not in (axis, 'both'):
+                            return True
+                        # Project through each scroll viewport without changing raw geometry or failure evidence.
+                        projected[position], projected[size] = clip[position], clip[size]
+            cursor = ancestor.get('parentId')
+        x, y, width, height = projected
         return max(-x, -y, x + width - layout["width"], y + height - layout["height"]) > 1
+
+    for item in layout.get('containers', []):
+        name = key + '.' + item['key']
+        row = keyed.get(name, {})
+        expected_type = 'GROUP' if item['kind'] == 'group' else 'FRAME'
+        if row.get('type') != expected_type or row.get('parentId') != authored_parent(item['key']):
+            add('container-drift', name, 'Restore the declared native container type and parent.')
+        if 'scroll' in item and (row.get('type') != 'FRAME' or row.get('clipsContent') is not True or
+                                 row.get('overflowDirection') != item['scroll'].upper()):
+            add('container-scroll-drift', name, 'Restore the declared native scroll overflow and clipping getters.')
+        if item['kind'] == 'auto-layout':
+            declaration = item['layout']
+            if row.get('layoutMode') != declaration['direction'] or row.get('itemSpacing') != declaration['gap'] or any(
+                    row.get(field) != value for field, value in zip(('paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'), declaration['padding'])):
+                add('container-layout-drift', name, 'Restore the declared native Auto Layout direction, gap and padding.')
+            for child in item['children']:
+                child_row = keyed.get(key + '.' + child, {})
+                if child_row.get('layoutPositioning') != 'AUTO':
+                    add('container-flow-drift', key + '.' + child, 'Read an AUTO child participating in native Auto Layout.')
 
     findings.extend(_native_visibility_findings(frame, key))
     if page_id is not None and frame.get("parentId") != page_id:
@@ -1049,17 +1145,18 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
             continue
         findings.extend(_native_visibility_findings(node, name))
         if layer['kind'] == 'image':
-            findings.extend(_native_authored_image_findings(node, layer, assets, name, frame['id']))
+            findings.extend(_native_authored_image_findings(node, layer, assets, name, authored_parent(layer['id'])))
         findings.extend(_native_shadow_findings(node, layer, name))
         is_text = layer["kind"] == "text"
         allocation = tuple(layer[field] for field in ("x", "y", "w", "h"))
-        actual = geometry(node, allocation, name, height_budget=is_text, parent=frame["id"])
+        actual = geometry(node, allocation, name, height_budget=is_text, parent=authored_parent(layer['id']))
         if is_text:
             findings.extend(_native_text_findings(candidate, node, layer, name))
             if actual is not None and node.get("visible", True):
                 texts.append((name, actual))
+                text_sources[name] = layer
         allows_bleed = not is_text and layer.get("role") in design_quality.BLEED_ROLES
-        if actual is not None and off_canvas(actual) and not allows_bleed:
+        if actual is not None and off_canvas(actual, node) and not allows_bleed:
             add(
                 "off-canvas",
                 name,
@@ -1088,10 +1185,11 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
         node = keyed.get(name)
         node = node if isinstance(node, dict) else {}
         findings.extend(_native_visibility_findings(node, name))
-        actual = geometry(node, allocation, name, parent=frame["id"])
+        actual = geometry(node, allocation, name, parent=authored_parent(control_id))
         if actual is not None:
             controls.append((name, actual))
-            if off_canvas(actual):
+            control_sources[name] = tuple(allocation)
+            if off_canvas(actual, node):
                 add(
                     "off-canvas",
                     name,
@@ -1210,6 +1308,11 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
                 design_quality._intersection(box, other_box)
                 > design_quality.OVERLAP_SHARE * smaller_area
             ):
+                if (name in text_sources and other_name in text_sources and
+                        _native_single_line_allocation_ceil(text_sources[name], box) and
+                        _native_single_line_allocation_ceil(text_sources[other_name], other_box) and
+                        design_quality._intersection(design_quality._box(text_sources[name]), design_quality._box(text_sources[other_name])) == 0):
+                    continue
                 add(
                     "text-overlap",
                     other_name,
@@ -1220,6 +1323,8 @@ def native_screen_findings(candidate, viewport, state_id, frame, keyed, page_id=
     for name, box in texts:
         for control_name, control_box in controls:
             if design_quality._intersection(box, control_box) > 0:
+                if _native_single_line_height_ceil(text_sources[name], box, control_sources[control_name], control_box):
+                    continue
                 add(
                     "control-text-overlap",
                     name,

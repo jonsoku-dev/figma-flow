@@ -433,5 +433,235 @@
     "ko": "전체 시간순 기록 펼치기",
     "en": "Expand chronological events",
     "ja": "時系列の記録を展開"
+  },
+  "workspace.journalTitle": {
+    "ko": "서버 실행 기록",
+    "en": "Server operation journal",
+    "ja": "サーバー実行記録"
+  },
+  "workspace.journalBoundary": {
+    "ko": "서버가 기록한 실행 단계입니다. 이 기기의 관측 이력과 별개이며 제품 인수를 인증하지 않습니다.",
+    "en": "Lifecycle facts from the server, separate from local observations. Phases do not certify product acceptance.",
+    "ja": "サーバーに記録された段階です。端末の観測履歴とは別で、製品の受入を証明しません。"
+  },
+  "workspace.journalEmpty": {
+    "ko": "이 파일·페이지의 서버 실행 기록이 없습니다.",
+    "en": "No server operations recorded for this file and page.",
+    "ja": "このファイルとページのサーバー実行記録はありません。"
+  },
+  "workspace.journalUnavailable": {
+    "ko": "서버 실행 기록을 읽을 수 없습니다. 연결과 현재 런타임을 확인하세요.",
+    "en": "Server journal unavailable. Check the connection and current runtime.",
+    "ja": "サーバー記録を取得できません。接続と現在のランタイムを確認してください。"
+  },
+  "workspace.journalRecorded": {
+    "ko": "기록 있음",
+    "en": "Recorded",
+    "ja": "記録あり"
+  },
+  "workspace.journalLegacy": {
+    "ko": "이전 형식",
+    "en": "Legacy",
+    "ja": "旧形式"
+  },
+  "workspace.journalUnknown": {
+    "ko": "확인 불가",
+    "en": "Unknown",
+    "ja": "不明"
+  },
+  "workspace.journalPhase": {
+    "ko": "실행 단계",
+    "en": "Phase",
+    "ja": "実行段階"
+  },
+  "workspace.journalOperation": {
+    "ko": "실행 식별자",
+    "en": "Operation ID",
+    "ja": "実行識別子"
+  },
+  "workspace.journalPhase.queued": {
+    "ko": "요청 대기",
+    "en": "Queued",
+    "ja": "待機中"
+  },
+  "workspace.journalPhase.claimed": {
+    "ko": "실행 요청 수신",
+    "en": "Claimed",
+    "ja": "要求を受信"
+  },
+  "workspace.journalPhase.native-started": {
+    "ko": "네이티브 실행 시작",
+    "en": "Native execution started",
+    "ja": "ネイティブ実行開始"
+  },
+  "workspace.journalPhase.result-received": {
+    "ko": "결과 수신",
+    "en": "Result received",
+    "ja": "結果受信"
+  },
+  "workspace.journalPhase.reconciled": {
+    "ko": "현재 읽기로 조정됨",
+    "en": "Reconciled by current read",
+    "ja": "現在の読み取りで照合"
+  },
+  "workspace.journalPhase.uncertain": {
+    "ko": "쓰기 결과 미확정",
+    "en": "Uncertain outcome",
+    "ja": "結果未確定"
+  },
+  "workspace.journalPhase.unknown": {
+    "ko": "단계 확인 불가",
+    "en": "Unknown phase",
+    "ja": "段階不明"
+  },
+  "workspace.assetTitle": {
+    "ko": "입력 사진·글꼴·파일",
+    "en": "Input photos, fonts and files",
+    "ja": "入力画像・フォント・ファイル"
+  },
+  "workspace.assetProblems": {
+    "ko": "문제 {count}개",
+    "en": "{count} issues",
+    "ja": "問題 {count} 件"
+  },
+  "workspace.assetSearch": {
+    "ko": "자산 검색",
+    "en": "Search assets",
+    "ja": "素材を検索"
+  },
+  "workspace.assetKind": {
+    "ko": "파일 종류",
+    "en": "File type",
+    "ja": "ファイル種類"
+  },
+  "workspace.assetAllKinds": {
+    "ko": "모든 종류",
+    "en": "All types",
+    "ja": "すべての種類"
+  },
+  "workspace.assetStatus": {
+    "ko": "자산 상태",
+    "en": "Asset status",
+    "ja": "素材の状態"
+  },
+  "workspace.assetAllStatuses": {
+    "ko": "모든 상태",
+    "en": "All statuses",
+    "ja": "すべての状態"
+  },
+  "workspace.assetEmpty": {
+    "ko": "이 입력 기록에는 연결된 자산이 없습니다.",
+    "en": "This input record has no linked assets.",
+    "ja": "この入力記録に関連素材はありません。"
+  },
+  "workspace.assetNoMatches": {
+    "ko": "조건에 맞는 자산이 없습니다.",
+    "en": "No matching assets.",
+    "ja": "条件に合う素材はありません。"
+  },
+  "workspace.assetKind.font": {
+    "ko": "글꼴",
+    "en": "Font",
+    "ja": "フォント"
+  },
+  "workspace.assetKind.image": {
+    "ko": "이미지",
+    "en": "Image",
+    "ja": "画像"
+  },
+  "workspace.assetKind.stylesheet": {
+    "ko": "스타일시트",
+    "en": "Stylesheet",
+    "ja": "スタイルシート"
+  },
+  "workspace.assetKind.script": {
+    "ko": "스크립트",
+    "en": "Script",
+    "ja": "スクリプト"
+  },
+  "workspace.assetKind.file": {
+    "ko": "파일",
+    "en": "File",
+    "ja": "ファイル"
+  },
+  "workspace.assetStatus.present": {
+    "ko": "있음",
+    "en": "Present",
+    "ja": "存在"
+  },
+  "workspace.assetStatus.404": {
+    "ko": "없음",
+    "en": "Missing",
+    "ja": "欠落"
+  },
+  "workspace.assetStatus.rejected": {
+    "ko": "안전하지 않은 참조",
+    "en": "Unsafe reference",
+    "ja": "安全でない参照"
+  },
+  "workspace.assetStatus.external-unverified": {
+    "ko": "외부 미확인",
+    "en": "External, unverified",
+    "ja": "外部・未確認"
+  },
+  "workspace.assetFreshness.current": {
+    "ko": "현재 원본과 일치합니다. 파일 존재와 실제 화면 로딩은 별개입니다.",
+    "en": "Matches current sources. File presence and actual rendering are separate.",
+    "ja": "現在の原本と一致します。ファイルの存在と実際の表示は別です。"
+  },
+  "workspace.assetFreshness.stale": {
+    "ko": "원본이 바뀌었습니다. 새 입력 기록으로 다시 준비하세요.",
+    "en": "Sources changed. Prepare again with a new input record.",
+    "ja": "原本が変更されました。新しい入力記録で再準備してください。"
+  },
+  "workspace.assetFreshness.unverified": {
+    "ko": "현재 원본 변경 여부는 확인되지 않았습니다.",
+    "en": "Current source freshness is unverified.",
+    "ja": "現在の原本の新鮮性は未確認です。"
+  },
+  "workspace.refreshInputs": {
+    "ko": "현재 상태 다시 읽기",
+    "en": "Refresh current status",
+    "ja": "現在の状態を再取得"
+  },
+  "workspace.dependencySelected": {
+    "ko": "선택한 작업 · {title}",
+    "en": "Selected task · {title}",
+    "ja": "選択したタスク · {title}"
+  },
+  "workspace.dependencyEvidence": {
+    "ko": "연결 근거와 고정 원본 보기",
+    "en": "View relationship evidence and pinned sources",
+    "ja": "関連の根拠と固定原本を表示"
+  },
+  "workspace.dependencyState.current": {
+    "ko": "현재 개정",
+    "en": "Current revision",
+    "ja": "現在のリビジョン"
+  },
+  "workspace.dependencyState.stale": {
+    "ko": "오래된 개정",
+    "en": "Stale revision",
+    "ja": "古いリビジョン"
+  },
+  "workspace.dependencyState.retired": {
+    "ko": "은퇴한 작업",
+    "en": "Retired task",
+    "ja": "引退したタスク"
+  },
+  "workspace.dependencyState.orphan": {
+    "ko": "대상 확인 불가",
+    "en": "Unknown target",
+    "ja": "対象不明"
+  },
+  "workspace.dependencyRole.predecessor": {
+    "ko": "선행 작업",
+    "en": "Predecessor",
+    "ja": "先行タスク"
+  },
+  "workspace.dependencyRole.successor": {
+    "ko": "후속 작업",
+    "en": "Successor",
+    "ja": "後続タスク"
   }
 }

@@ -131,6 +131,7 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
   }
   const beforePosition = board ? {x:board.x,y:board.y} : null;
   const beforeEntries = board ? board.children.map(node => ({node,semantic:node.getPluginData("semanticKey"),characters:node.characters,link:copy(node.getRangeHyperlink(0,node.characters.length) || null),revision:node.getPluginData(revisionKey)})) : [];
+  const entryNodes = new Map(beforeEntries.map(before => [before.semantic, before.node]));
   const unchanged = before => before.node.parent === board && before.node.getPluginData("semanticKey") === before.semantic && before.node.characters === before.characters && same(before.node.getRangeHyperlink(0,before.node.characters.length) || null,before.link) && before.node.getPluginData(revisionKey) === before.revision;
   await figma.loadFontAsync(contract.font);
   if (board && (board.getPluginData("designNoteBoard") !== owner || board.x !== beforePosition.x || board.y !== beforePosition.y || board.children.length !== beforeEntries.length || !beforeEntries.every(unchanged))) fail("concurrent board preflight conflict");
@@ -166,7 +167,7 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
   };
   const makeText = async (text,semantic) => {
     const node = figma.createText(); board.appendChild(node); newNodes.push(node); newText.set(node,{text,semantic});
-    node.name = semantic; node.setPluginData("semanticKey",semantic);
+    node.name = semantic; node.setPluginData("semanticKey",semantic); entryNodes.set(semantic,node);
     node.fontName = contract.font; node.fontSize = fontSize; node.characters = text;
     node.resize(width - 48,node.height); node.textAutoResize = "HEIGHT";
     node.fills = [{type:"SOLID",color:{r:0,g:0,b:0}}];
@@ -189,7 +190,7 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
       await makeText(board.name,key + ":title");
     }
     for (const note of notes) {
-      let node = board.children.find(node => node.getPluginData("semanticKey") === key + ":" + note.key);
+      let node = entryNodes.get(key + ":" + note.key);
       const link = {type:"NODE",value:note.targetId};
       if (node) {
         const before = beforeEntries.find(before => before.node === node);
@@ -214,7 +215,23 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
       if (overlaps()) fail("board overlaps artwork after reflow");
       changed++;
     }
-    return {boardId:board.id,changed,entries:notes.map(note => ({key:note.key,textNodeId:board.children.find(node => node.getPluginData("semanticKey") === key + ":" + note.key).id,targetId:note.targetId,label:note.specification.title,displayText:note.specification.display_text,specification_id:note.specification.id,meaning_sha256:note.specification.meaning_sha256})),rollback};
+    if (board.getPluginData("designNoteBoard") !== owner || board.parent !== page || board.type !== "FRAME" || board.visible === false || board.layoutMode !== "VERTICAL" || !(board.itemSpacing > 0)) fail("concurrent board ownership conflict");
+    const actualEntries = new Map();
+    for (const node of board.children) {
+      const semantic = node.getPluginData("semanticKey");
+      if (actualEntries.has(semantic) || entryNodes.get(semantic) !== node || node.parent !== board || node.type !== "TEXT" || node.visible === false || node.fontSize < 14) fail("unknown or ambiguous board child after update");
+      actualEntries.set(semantic,node);
+    }
+    if (actualEntries.size !== entryNodes.size) fail("concurrent board children conflict");
+    if ([...newText].some(([node,expected]) => actualEntries.get(expected.semantic) !== node || node.characters !== expected.text)) fail("concurrent new board text conflict");
+    const updated = new Set(snapshots.map(snapshot => snapshot.node));
+    if (beforeEntries.some(before => !updated.has(before.node) && !unchanged(before))) fail("concurrent board entry conflict");
+    const entries = notes.map(note => {
+      const node = actualEntries.get(key + ":" + note.key);
+      if (!node || node.characters !== note.characters || node.getPluginData(revisionKey) !== note.revision || !same(node.getRangeHyperlink(0,node.characters.length),{type:"NODE",value:note.targetId})) fail(`native target hyperlink not retained ${note.key}`);
+      return {key:note.key,textNodeId:node.id,targetId:note.targetId,label:note.specification.title,displayText:note.specification.display_text,specification_id:note.specification.id,meaning_sha256:note.specification.meaning_sha256};
+    });
+    return {boardId:board.id,changed,entries,rollback};
   } catch (error) {
     try { await rollback(); } catch (rollbackError) { throw new Error(`${error.message}; ${rollbackError.message}`); }
     throw error;

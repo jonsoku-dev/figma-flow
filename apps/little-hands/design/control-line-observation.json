@@ -1,0 +1,64 @@
+{
+  "schema": "littlehands-control-line-observation-v1",
+  "alignItems": "center",
+  "box": {
+    "height": 48,
+    "width": 149.46875,
+    "x": 72.5,
+    "y": 518.921875
+  },
+  "display": "inline-flex",
+  "environment": "staging",
+  "flexDirection": "row",
+  "html": "<a class=\"button\" href=\"#classes\" data-action=\"browse-classes\" data-native-key=\"hero-browse\" data-native-type=\"control\">수업 일정 보기 <span aria-hidden=\"true\">↓</span></a>",
+  "innerText": "수업 일정 보기\n↓",
+  "runs": [
+    {
+      "ariaHidden": null,
+      "display": "inline-flex",
+      "parent": "A",
+      "rects": [
+        {
+          "height": 20,
+          "width": 85.34375,
+          "x": 95.5,
+          "y": 532.71875
+        }
+      ],
+      "text": "수업 일정 보기 ",
+      "whiteSpace": "normal"
+    },
+    {
+      "ariaHidden": "true",
+      "display": "block",
+      "parent": "SPAN",
+      "rects": [
+        {
+          "height": 20,
+          "width": 10.125,
+          "x": 188.84375,
+          "y": 532.71875
+        }
+      ],
+      "text": "↓",
+      "whiteSpace": "normal"
+    }
+  ],
+  "textContent": "수업 일정 보기 ↓",
+  "url": "http://localhost:8769/",
+  "css": [
+    "/static/littlehands/app.3539de012f0c.css"
+  ],
+  "font": {
+    "family": "Hahmlet, serif",
+    "leading": "22.4px",
+    "letterSpacing": "normal",
+    "size": "14px",
+    "weight": "700"
+  },
+  "viewport": {
+    "height": 720,
+    "width": 1280
+  },
+  "scope": "Primary agent read-only measurement of the actual Django staging response; authorizes no general newline collapsing."
+}

@@ -1,0 +1,4551 @@
+{
+  "schema": "little-hands-browser-measurement-v1",
+  "state": "state-staffcreate",
+  "viewport": {
+    "width": 1200,
+    "height": 900
+  },
+  "document": {
+    "width": 1185,
+    "height": 1356
+  },
+  "route": "/staff/sessions/new/",
+  "title": "수업 일정 등록 · 작은손 커피공방",
+  "body_background": "rgb(246, 242, 233)",
+  "fonts_ready": "loaded",
+  "captured_at": "2026-11-12T15:53:13.757Z",
+  "controls": [
+    {
+      "id": "state-staffcreate-brand",
+      "native_key": "brand",
+      "selector": "[data-native-key=\"brand\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        14,
+        144.906,
+        48
+      ],
+      "label": "작은손 커피공방",
+      "action": "home",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 22,
+        "leading": 33,
+        "letter_spacing": -0.5,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-nav-sessions",
+      "native_key": "nav-sessions",
+      "selector": "[data-native-key=\"nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        771.75,
+        26,
+        81.594,
+        44
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-nav-bookings",
+      "native_key": "nav-bookings",
+      "selector": "[data-native-key=\"nav-bookings\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        877.344,
+        26,
+        55.563,
+        44
+      ],
+      "label": "나의 예약",
+      "action": "bookings",
+      "href": "/bookings/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-nav-notifications",
+      "native_key": "nav-notifications",
+      "selector": "[data-native-key=\"nav-notifications\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        956.906,
+        26,
+        44,
+        44
+      ],
+      "label": "알림 1",
+      "action": "notifications",
+      "href": "/notifications/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-nav-staff",
+      "native_key": "nav-staff",
+      "selector": "[data-native-key=\"nav-staff\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1024.906,
+        26,
+        44,
+        44
+      ],
+      "label": "운영",
+      "action": "staff",
+      "href": "/staff/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-nav-logout",
+      "native_key": "nav-logout",
+      "selector": "[data-native-key=\"nav-logout\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        1092.906,
+        26,
+        52.094,
+        44
+      ],
+      "label": "로그아웃",
+      "action": "logout",
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/logout/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-staff-nav-dashboard",
+      "native_key": "staff-nav-dashboard",
+      "selector": "[data-native-key=\"staff-nav-dashboard\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        133,
+        55.563,
+        48
+      ],
+      "label": "운영 현황",
+      "action": "staff-dashboard",
+      "href": "/staff/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-staff-nav-sessions",
+      "native_key": "staff-nav-sessions",
+      "selector": "[data-native-key=\"staff-nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        119.563,
+        133,
+        55.563,
+        48
+      ],
+      "label": "수업 일정",
+      "action": "staff-sessions",
+      "href": "/staff/sessions/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-staff-nav-audit",
+      "native_key": "staff-nav-audit",
+      "selector": "[data-native-key=\"staff-nav-audit\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        199.125,
+        133,
+        55.563,
+        48
+      ],
+      "label": "변경 기록",
+      "action": "staff-audit",
+      "href": "/staff/audit/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-a-1-0",
+      "native_key": "staff-session_form-a-1-0",
+      "selector": "[data-native-key=\"staff-session_form-a-1-0\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        214,
+        64.219,
+        44
+      ],
+      "label": "← 수업 일정",
+      "action": "navigate",
+      "href": "/staff/sessions/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-id_course",
+      "native_key": null,
+      "selector": "#id_course",
+      "tag": "select",
+      "type": null,
+      "box": [
+        73,
+        473.188,
+        568.188,
+        48
+      ],
+      "label": "---------",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 22.5,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-id_room",
+      "native_key": null,
+      "selector": "#id_room",
+      "tag": "select",
+      "type": null,
+      "box": [
+        73,
+        578.375,
+        568.188,
+        48
+      ],
+      "label": "---------",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 22.5,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-id_starts_at",
+      "native_key": null,
+      "selector": "#id_starts_at",
+      "tag": "input",
+      "type": "datetime-local",
+      "box": [
+        73,
+        683.563,
+        568.188,
+        51
+      ],
+      "label": "",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-id_ends_at",
+      "native_key": null,
+      "selector": "#id_ends_at",
+      "tag": "input",
+      "type": "datetime-local",
+      "box": [
+        73,
+        791.75,
+        568.188,
+        51
+      ],
+      "label": "",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-id_capacity",
+      "native_key": null,
+      "selector": "#id_capacity",
+      "tag": "input",
+      "type": "number",
+      "box": [
+        73,
+        899.938,
+        568.188,
+        49
+      ],
+      "label": "",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-id_price_krw",
+      "native_key": null,
+      "selector": "#id_price_krw",
+      "tag": "input",
+      "type": "number",
+      "box": [
+        73,
+        1006.125,
+        568.188,
+        49
+      ],
+      "label": "",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-staff-session-save",
+      "native_key": "staff-session-save",
+      "selector": "[data-native-key=\"staff-session-save\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        73,
+        1083.125,
+        101.703,
+        48
+      ],
+      "label": "일정 등록",
+      "action": "session-save",
+      "href": null,
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(142, 62, 40)",
+        "ink": "rgb(255, 253, 248)",
+        "stroke": "rgb(142, 62, 40)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-a-3-0",
+      "native_key": "staff-session_form-a-3-0",
+      "selector": "[data-native-key=\"staff-session_form-a-3-0\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        186.703,
+        1083.125,
+        98.094,
+        48
+      ],
+      "label": "돌아가기",
+      "action": "navigate",
+      "href": "/staff/sessions/",
+      "method": "POST",
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "state-staffcreate-site-header-surface",
+      "selector": "[data-native-key=\"site-header\"]",
+      "tag": "header",
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-staff-session-form-surface",
+      "selector": "[data-native-key=\"staff-session-form\"]",
+      "tag": "form",
+      "box": [
+        40,
+        407,
+        634.188,
+        757.125
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-field-course-surface",
+      "selector": "[data-native-key=\"field-course\"]",
+      "tag": "div",
+      "box": [
+        73,
+        440,
+        568.188,
+        81.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-id_course-surface",
+      "selector": "#id_course",
+      "tag": "select",
+      "box": [
+        73,
+        473.188,
+        568.188,
+        48
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 22.5,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-field-room-surface",
+      "selector": "[data-native-key=\"field-room\"]",
+      "tag": "div",
+      "box": [
+        73,
+        545.188,
+        568.188,
+        81.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-id_room-surface",
+      "selector": "#id_room",
+      "tag": "select",
+      "box": [
+        73,
+        578.375,
+        568.188,
+        48
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 22.5,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-field-starts_at-surface",
+      "selector": "[data-native-key=\"field-starts_at\"]",
+      "tag": "div",
+      "box": [
+        73,
+        650.375,
+        568.188,
+        84.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-id_starts_at-surface",
+      "selector": "#id_starts_at",
+      "tag": "input",
+      "box": [
+        73,
+        683.563,
+        568.188,
+        51
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-field-ends_at-surface",
+      "selector": "[data-native-key=\"field-ends_at\"]",
+      "tag": "div",
+      "box": [
+        73,
+        758.563,
+        568.188,
+        84.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-id_ends_at-surface",
+      "selector": "#id_ends_at",
+      "tag": "input",
+      "box": [
+        73,
+        791.75,
+        568.188,
+        51
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-field-capacity-surface",
+      "selector": "[data-native-key=\"field-capacity\"]",
+      "tag": "div",
+      "box": [
+        73,
+        866.75,
+        568.188,
+        82.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-id_capacity-surface",
+      "selector": "#id_capacity",
+      "tag": "input",
+      "box": [
+        73,
+        899.938,
+        568.188,
+        49
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-field-price_krw-surface",
+      "selector": "[data-native-key=\"field-price_krw\"]",
+      "tag": "div",
+      "box": [
+        73,
+        972.938,
+        568.188,
+        82.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-id_price_krw-surface",
+      "selector": "#id_price_krw",
+      "tag": "input",
+      "box": [
+        73,
+        1006.125,
+        568.188,
+        49
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffcreate-site-footer-surface",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "tag": "footer",
+      "box": [
+        0,
+        1244.125,
+        1185,
+        112.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    }
+  ],
+  "images": [],
+  "texts": [
+    {
+      "id": "state-staffcreate-brand-tagline-text-0",
+      "selector": "[data-native-key=\"brand-tagline\"]",
+      "value": "커피를 배우는 작은 시간",
+      "raw_value": "커피를 배우는 작은 시간",
+      "box": [
+        40,
+        64,
+        144.906,
+        18
+      ],
+      "glyph_box": [
+        40,
+        64,
+        134.828,
+        17
+      ],
+      "element_box": [
+        40,
+        64,
+        144.906,
+        18
+      ],
+      "content_box": [
+        40,
+        64,
+        144.906,
+        18
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "small",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 18,
+        "letter_spacing": 1.1,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-session-form-title-text-0",
+      "selector": "[data-native-key=\"session-form-title\"]",
+      "value": "수업 일정 등록",
+      "raw_value": "수업 일정 등록",
+      "box": [
+        40,
+        278,
+        294.422,
+        58
+      ],
+      "glyph_box": [
+        40,
+        278,
+        234.25,
+        58
+      ],
+      "element_box": [
+        40,
+        278,
+        294.422,
+        58
+      ],
+      "content_box": [
+        40,
+        278,
+        294.422,
+        58
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h1",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 40,
+        "leading": 58,
+        "letter_spacing": -1.2,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-p-2-0-text-0",
+      "selector": "[data-native-key=\"staff-session_form-p-2-0\"]",
+      "value": "운영할 수업의 시간, 공간과 정원을 입력하세요.",
+      "raw_value": "운영할 수업의 시간, 공간과 정원을 입력하세요.",
+      "box": [
+        40,
+        348,
+        294.422,
+        27
+      ],
+      "glyph_box": [
+        40,
+        351,
+        294.422,
+        21
+      ],
+      "element_box": [
+        40,
+        348,
+        294.422,
+        27
+      ],
+      "content_box": [
+        40,
+        348,
+        294.422,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-includes-form-label-4-1-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-1\"]",
+      "value": "강좌",
+      "raw_value": "강좌",
+      "box": [
+        73,
+        439.4,
+        26.047,
+        25.2
+      ],
+      "glyph_box": [
+        73,
+        442,
+        26.047,
+        20
+      ],
+      "element_box": [
+        73,
+        440,
+        568.188,
+        25.188
+      ],
+      "content_box": [
+        73,
+        440,
+        568.188,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>form:nth-child(1)>div:nth-child(2)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        99.047,
+        439.4,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        99.047,
+        442,
+        13.141,
+        20
+      ],
+      "element_box": [
+        99.047,
+        442,
+        13.141,
+        20
+      ],
+      "content_box": [
+        99.047,
+        442,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-includes-form-label-4-2-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-2\"]",
+      "value": "공간",
+      "raw_value": "공간",
+      "box": [
+        73,
+        544.588,
+        26.047,
+        25.2
+      ],
+      "glyph_box": [
+        73,
+        547.188,
+        26.047,
+        20
+      ],
+      "element_box": [
+        73,
+        545.188,
+        568.188,
+        25.188
+      ],
+      "content_box": [
+        73,
+        545.188,
+        568.188,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>form:nth-child(1)>div:nth-child(3)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        99.047,
+        544.588,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        99.047,
+        547.188,
+        13.141,
+        20
+      ],
+      "element_box": [
+        99.047,
+        547.188,
+        13.141,
+        20
+      ],
+      "content_box": [
+        99.047,
+        547.188,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-includes-form-label-4-3-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-3\"]",
+      "value": "시작 일시",
+      "raw_value": "시작 일시",
+      "box": [
+        73,
+        649.775,
+        55.703,
+        25.2
+      ],
+      "glyph_box": [
+        73,
+        652.375,
+        55.703,
+        20
+      ],
+      "element_box": [
+        73,
+        650.375,
+        568.188,
+        25.188
+      ],
+      "content_box": [
+        73,
+        650.375,
+        568.188,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>form:nth-child(1)>div:nth-child(4)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        128.703,
+        649.775,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        128.703,
+        652.375,
+        13.141,
+        20
+      ],
+      "element_box": [
+        128.703,
+        652.375,
+        13.141,
+        20
+      ],
+      "content_box": [
+        128.703,
+        652.375,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-includes-form-label-4-4-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-4\"]",
+      "value": "종료 일시",
+      "raw_value": "종료 일시",
+      "box": [
+        73,
+        757.963,
+        55.703,
+        25.2
+      ],
+      "glyph_box": [
+        73,
+        760.563,
+        55.703,
+        20
+      ],
+      "element_box": [
+        73,
+        758.563,
+        568.188,
+        25.188
+      ],
+      "content_box": [
+        73,
+        758.563,
+        568.188,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-5-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>form:nth-child(1)>div:nth-child(5)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        128.703,
+        757.963,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        128.703,
+        760.563,
+        13.141,
+        20
+      ],
+      "element_box": [
+        128.703,
+        760.563,
+        13.141,
+        20
+      ],
+      "content_box": [
+        128.703,
+        760.563,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-includes-form-label-4-5-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-5\"]",
+      "value": "회차 정원",
+      "raw_value": "회차 정원",
+      "box": [
+        73,
+        866.15,
+        55.703,
+        25.2
+      ],
+      "glyph_box": [
+        73,
+        868.75,
+        55.703,
+        20
+      ],
+      "element_box": [
+        73,
+        866.75,
+        568.188,
+        25.188
+      ],
+      "content_box": [
+        73,
+        866.75,
+        568.188,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-6-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>form:nth-child(1)>div:nth-child(6)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        128.703,
+        866.15,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        128.703,
+        868.75,
+        13.141,
+        20
+      ],
+      "element_box": [
+        128.703,
+        868.75,
+        13.141,
+        20
+      ],
+      "content_box": [
+        128.703,
+        868.75,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-includes-form-label-4-6-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-6\"]",
+      "value": "참가비(원)",
+      "raw_value": "참가비(원)",
+      "box": [
+        73,
+        972.338,
+        64.125,
+        25.2
+      ],
+      "glyph_box": [
+        73,
+        974.938,
+        64.125,
+        20
+      ],
+      "element_box": [
+        73,
+        972.938,
+        568.188,
+        25.188
+      ],
+      "content_box": [
+        73,
+        972.938,
+        568.188,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-7-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>form:nth-child(1)>div:nth-child(7)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        137.125,
+        972.338,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        137.125,
+        974.938,
+        13.141,
+        20
+      ],
+      "element_box": [
+        137.125,
+        974.938,
+        13.141,
+        20
+      ],
+      "content_box": [
+        137.125,
+        974.938,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-h2-4-0-text-0",
+      "selector": "[data-native-key=\"staff-session_form-h2-4-0\"]",
+      "value": "등록 전에 확인해 주세요",
+      "raw_value": "등록 전에 확인해 주세요",
+      "box": [
+        722.188,
+        407,
+        422.797,
+        39
+      ],
+      "glyph_box": [
+        722.188,
+        408,
+        254.125,
+        37
+      ],
+      "element_box": [
+        722.188,
+        407,
+        422.797,
+        39
+      ],
+      "content_box": [
+        722.188,
+        407,
+        422.797,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-p-5-0-text-0",
+      "selector": "[data-native-key=\"staff-session_form-p-5-0\"]",
+      "value": "같은 공간의 수업 시간이 겹치면 등록할 수 없습니다. 정원은 공간의",
+      "raw_value": "같은 공간의 수업 시간이 겹치면 등록할 수 없습니다. 정원은 공간의",
+      "box": [
+        722.188,
+        470,
+        422.797,
+        27
+      ],
+      "glyph_box": [
+        722.188,
+        473,
+        415.531,
+        21
+      ],
+      "element_box": [
+        722.188,
+        470,
+        422.797,
+        54
+      ],
+      "content_box": [
+        722.188,
+        470,
+        422.797,
+        54
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-p-5-0-text-1",
+      "selector": "[data-native-key=\"staff-session_form-p-5-0\"]",
+      "value": "수용 인원을 넘을 수 없습니다.",
+      "raw_value": "수용 인원을 넘을 수 없습니다.",
+      "box": [
+        722.188,
+        497,
+        422.797,
+        27
+      ],
+      "glyph_box": [
+        722.188,
+        500,
+        187.688,
+        21
+      ],
+      "element_box": [
+        722.188,
+        470,
+        422.797,
+        54
+      ],
+      "content_box": [
+        722.188,
+        470,
+        422.797,
+        54
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-p-6-0-text-0",
+      "selector": "[data-native-key=\"staff-session_form-p-6-0\"]",
+      "value": "예약 이력이 있는 수업은 강좌·시간·공간을 바꿀 수 없습니다. 정원과 가격은 수",
+      "raw_value": "예약 이력이 있는 수업은 강좌·시간·공간을 바꿀 수 없습니다. 정원과 가격은 수",
+      "box": [
+        722.188,
+        569,
+        422.797,
+        23.4
+      ],
+      "glyph_box": [
+        722.188,
+        571,
+        421.438,
+        19
+      ],
+      "element_box": [
+        722.188,
+        548,
+        422.797,
+        91.172
+      ],
+      "content_box": [
+        722.188,
+        569,
+        422.797,
+        70.172
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-p-6-0-text-1",
+      "selector": "[data-native-key=\"staff-session_form-p-6-0\"]",
+      "value": "정할 수 있으며, 기존 예약의 수업료는 유지됩니다. 정원을 늘리면 신청 순서에",
+      "raw_value": "정할 수 있으며, 기존 예약의 수업료는 유지됩니다. 정원을 늘리면 신청 순서에",
+      "box": [
+        722.188,
+        592.4,
+        422.797,
+        23.4
+      ],
+      "glyph_box": [
+        722.188,
+        594.391,
+        416.375,
+        19
+      ],
+      "element_box": [
+        722.188,
+        548,
+        422.797,
+        91.172
+      ],
+      "content_box": [
+        722.188,
+        569,
+        422.797,
+        70.172
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-staff-session_form-p-6-0-text-2",
+      "selector": "[data-native-key=\"staff-session_form-p-6-0\"]",
+      "value": "따라 대기자가 승급할 수 있습니다.",
+      "raw_value": "따라 대기자가 승급할 수 있습니다.",
+      "box": [
+        722.188,
+        615.8,
+        422.797,
+        23.4
+      ],
+      "glyph_box": [
+        722.188,
+        617.781,
+        186.844,
+        19
+      ],
+      "element_box": [
+        722.188,
+        548,
+        422.797,
+        91.172
+      ],
+      "content_box": [
+        722.188,
+        569,
+        422.797,
+        70.172
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(1)>strong:nth-child(1)",
+      "value": "작은손 커피공방",
+      "raw_value": "작은손 커피공방",
+      "box": [
+        40,
+        1276.825,
+        81.219,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1279.125,
+        81.219,
+        17
+      ],
+      "element_box": [
+        40,
+        1279.125,
+        81.219,
+        17
+      ],
+      "content_box": [
+        40,
+        1279.125,
+        81.219,
+        17
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "strong",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-base-p-2-0-text-0",
+      "selector": "[data-native-key=\"base-p-2-0\"]",
+      "value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "raw_value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "box": [
+        40,
+        1298.419,
+        202.063,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1300.719,
+        202.063,
+        17
+      ],
+      "element_box": [
+        40,
+        1277.125,
+        202.063,
+        47.188
+      ],
+      "content_box": [
+        40,
+        1277.125,
+        202.063,
+        47.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "strong",
+          "br"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-base-p-3-0-text-0",
+      "selector": "[data-native-key=\"base-p-3-0\"]",
+      "value": "수업료는 현장에서 결제합니다.",
+      "raw_value": "수업료는 현장에서 결제합니다.",
+      "box": [
+        989.641,
+        1276.825,
+        155.359,
+        21.6
+      ],
+      "glyph_box": [
+        989.641,
+        1279.125,
+        155.359,
+        17
+      ],
+      "element_box": [
+        989.641,
+        1277.125,
+        155.359,
+        47.188
+      ],
+      "content_box": [
+        989.641,
+        1277.125,
+        155.359,
+        47.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "br",
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffcreate-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(2)>span:nth-child(2)",
+      "value": "staging 환경",
+      "raw_value": "staging 환경",
+      "box": [
+        1005.641,
+        1300.419,
+        67.922,
+        21.6
+      ],
+      "glyph_box": [
+        1005.641,
+        1302.719,
+        67.922,
+        17
+      ],
+      "element_box": [
+        997.641,
+        1298.719,
+        83.922,
+        25.594
+      ],
+      "content_box": [
+        1005.641,
+        1300.719,
+        67.922,
+        21.594
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          1,
+          7,
+          1,
+          7
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    }
+  ],
+  "containers": [
+    {
+      "id": "state-staffcreate-site-header-container",
+      "selector": "[data-native-key=\"site-header\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "tag": "header",
+      "classes": "site-header",
+      "members": [
+        "state-staffcreate-brand",
+        "state-staffcreate-nav-sessions",
+        "state-staffcreate-nav-bookings",
+        "state-staffcreate-nav-notifications",
+        "state-staffcreate-nav-staff",
+        "state-staffcreate-nav-logout",
+        "state-staffcreate-site-header-surface",
+        "state-staffcreate-brand-tagline-text-0",
+        "state-staffcreate-site-header-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-body-header-nth-child-2-div-nth-child-1--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "parent_selector": "[data-native-key=\"site-header\"]",
+      "box": [
+        40,
+        0,
+        1105,
+        96
+      ],
+      "tag": "div",
+      "classes": "wrap header-inner",
+      "members": [
+        "state-staffcreate-brand",
+        "state-staffcreate-nav-sessions",
+        "state-staffcreate-nav-bookings",
+        "state-staffcreate-nav-notifications",
+        "state-staffcreate-nav-staff",
+        "state-staffcreate-nav-logout",
+        "state-staffcreate-brand-tagline-text-0",
+        "state-staffcreate-body-header-nth-child-2-div-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "space-between",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "box": [
+        771.75,
+        26,
+        373.25,
+        44
+      ],
+      "tag": "nav",
+      "classes": "nav",
+      "members": [
+        "state-staffcreate-nav-sessions",
+        "state-staffcreate-nav-bookings",
+        "state-staffcreate-nav-notifications",
+        "state-staffcreate-nav-staff",
+        "state-staffcreate-nav-logout",
+        "state-staffcreate-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-5--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)>form:nth-child(5)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "box": [
+        1092.906,
+        26,
+        52.094,
+        44
+      ],
+      "tag": "form",
+      "classes": "",
+      "members": [
+        "state-staffcreate-nav-logout",
+        "state-staffcreate-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-5--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-main-container",
+      "selector": "#main",
+      "parent_selector": null,
+      "box": [
+        0,
+        97,
+        1185,
+        1147.125
+      ],
+      "tag": "main",
+      "classes": "page staff-page",
+      "members": [
+        "state-staffcreate-staff-nav-dashboard",
+        "state-staffcreate-staff-nav-sessions",
+        "state-staffcreate-staff-nav-audit",
+        "state-staffcreate-staff-session_form-a-1-0",
+        "state-staffcreate-id_course",
+        "state-staffcreate-id_room",
+        "state-staffcreate-id_starts_at",
+        "state-staffcreate-id_ends_at",
+        "state-staffcreate-id_capacity",
+        "state-staffcreate-id_price_krw",
+        "state-staffcreate-staff-session-save",
+        "state-staffcreate-staff-session_form-a-3-0",
+        "state-staffcreate-staff-session-form-surface",
+        "state-staffcreate-field-course-surface",
+        "state-staffcreate-id_course-surface",
+        "state-staffcreate-field-room-surface",
+        "state-staffcreate-id_room-surface",
+        "state-staffcreate-field-starts_at-surface",
+        "state-staffcreate-id_starts_at-surface",
+        "state-staffcreate-field-ends_at-surface",
+        "state-staffcreate-id_ends_at-surface",
+        "state-staffcreate-field-capacity-surface",
+        "state-staffcreate-id_capacity-surface",
+        "state-staffcreate-field-price_krw-surface",
+        "state-staffcreate-id_price_krw-surface",
+        "state-staffcreate-session-form-title-text-0",
+        "state-staffcreate-staff-session_form-p-2-0-text-0",
+        "state-staffcreate-includes-form-label-4-1-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-2-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-3-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-4-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-5-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-5-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-6-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-6-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-7-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-staff-session_form-h2-4-0-text-0",
+        "state-staffcreate-staff-session_form-p-5-0-text-0",
+        "state-staffcreate-staff-session_form-p-5-0-text-1",
+        "state-staffcreate-staff-session_form-p-6-0-text-0",
+        "state-staffcreate-staff-session_form-p-6-0-text-1",
+        "state-staffcreate-staff-session_form-p-6-0-text-2",
+        "state-staffcreate-main-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          48,
+          40,
+          80,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-nav-nth-child-1--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>nav:nth-child(1)",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        133,
+        1105,
+        49
+      ],
+      "tag": "nav",
+      "classes": "staff-nav",
+      "members": [
+        "state-staffcreate-staff-nav-dashboard",
+        "state-staffcreate-staff-nav-sessions",
+        "state-staffcreate-staff-nav-audit",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-nav-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "auto",
+        "overflow_y": "auto"
+      }
+    },
+    {
+      "id": "state-staffcreate-staff-session-form-container",
+      "selector": "[data-native-key=\"staff-session-form\"]",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        407,
+        634.188,
+        757.125
+      ],
+      "tag": "form",
+      "classes": "paper",
+      "members": [
+        "state-staffcreate-id_course",
+        "state-staffcreate-id_room",
+        "state-staffcreate-id_starts_at",
+        "state-staffcreate-id_ends_at",
+        "state-staffcreate-id_capacity",
+        "state-staffcreate-id_price_krw",
+        "state-staffcreate-staff-session-save",
+        "state-staffcreate-staff-session_form-a-3-0",
+        "state-staffcreate-staff-session-form-surface",
+        "state-staffcreate-field-course-surface",
+        "state-staffcreate-id_course-surface",
+        "state-staffcreate-field-room-surface",
+        "state-staffcreate-id_room-surface",
+        "state-staffcreate-field-starts_at-surface",
+        "state-staffcreate-id_starts_at-surface",
+        "state-staffcreate-field-ends_at-surface",
+        "state-staffcreate-id_ends_at-surface",
+        "state-staffcreate-field-capacity-surface",
+        "state-staffcreate-id_capacity-surface",
+        "state-staffcreate-field-price_krw-surface",
+        "state-staffcreate-id_price_krw-surface",
+        "state-staffcreate-includes-form-label-4-1-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-2-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-3-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-4-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-5-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-5-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-6-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-includes-form-label-4-6-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-7-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-staff-session-form-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-field-course-container",
+      "selector": "[data-native-key=\"field-course\"]",
+      "parent_selector": "[data-native-key=\"staff-session-form\"]",
+      "box": [
+        73,
+        440,
+        568.188,
+        81.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-staffcreate-id_course",
+        "state-staffcreate-field-course-surface",
+        "state-staffcreate-id_course-surface",
+        "state-staffcreate-includes-form-label-4-1-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-field-course-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-field-room-container",
+      "selector": "[data-native-key=\"field-room\"]",
+      "parent_selector": "[data-native-key=\"staff-session-form\"]",
+      "box": [
+        73,
+        545.188,
+        568.188,
+        81.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-staffcreate-id_room",
+        "state-staffcreate-field-room-surface",
+        "state-staffcreate-id_room-surface",
+        "state-staffcreate-includes-form-label-4-2-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-field-room-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-field-starts_at-container",
+      "selector": "[data-native-key=\"field-starts_at\"]",
+      "parent_selector": "[data-native-key=\"staff-session-form\"]",
+      "box": [
+        73,
+        650.375,
+        568.188,
+        84.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-staffcreate-id_starts_at",
+        "state-staffcreate-field-starts_at-surface",
+        "state-staffcreate-id_starts_at-surface",
+        "state-staffcreate-includes-form-label-4-3-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-field-starts_at-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-field-ends_at-container",
+      "selector": "[data-native-key=\"field-ends_at\"]",
+      "parent_selector": "[data-native-key=\"staff-session-form\"]",
+      "box": [
+        73,
+        758.563,
+        568.188,
+        84.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-staffcreate-id_ends_at",
+        "state-staffcreate-field-ends_at-surface",
+        "state-staffcreate-id_ends_at-surface",
+        "state-staffcreate-includes-form-label-4-4-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-5-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-field-ends_at-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-field-capacity-container",
+      "selector": "[data-native-key=\"field-capacity\"]",
+      "parent_selector": "[data-native-key=\"staff-session-form\"]",
+      "box": [
+        73,
+        866.75,
+        568.188,
+        82.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-staffcreate-id_capacity",
+        "state-staffcreate-field-capacity-surface",
+        "state-staffcreate-id_capacity-surface",
+        "state-staffcreate-includes-form-label-4-5-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-6-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-field-capacity-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-field-price_krw-container",
+      "selector": "[data-native-key=\"field-price_krw\"]",
+      "parent_selector": "[data-native-key=\"staff-session-form\"]",
+      "box": [
+        73,
+        972.938,
+        568.188,
+        82.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-staffcreate-id_price_krw",
+        "state-staffcreate-field-price_krw-surface",
+        "state-staffcreate-id_price_krw-surface",
+        "state-staffcreate-includes-form-label-4-6-text-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-7-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffcreate-field-price_krw-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-10--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>form:nth-child(1)>div:nth-child(10)",
+      "parent_selector": "[data-native-key=\"staff-session-form\"]",
+      "box": [
+        73,
+        1083.125,
+        568.188,
+        48
+      ],
+      "tag": "div",
+      "classes": "actions",
+      "members": [
+        "state-staffcreate-staff-session-save",
+        "state-staffcreate-staff-session_form-a-3-0",
+        "state-staffcreate-body-main-nth-child-3-div-nth-child-1-div-nth-child-4-form-nth-child-1-div-nth-child-10--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 12,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffcreate-site-footer-container",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        1244.125,
+        1185,
+        112.188
+      ],
+      "tag": "footer",
+      "classes": "site-footer",
+      "members": [
+        "state-staffcreate-site-footer-surface",
+        "state-staffcreate-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+        "state-staffcreate-base-p-2-0-text-0",
+        "state-staffcreate-base-p-3-0-text-0",
+        "state-staffcreate-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+        "state-staffcreate-site-footer-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    }
+  ],
+  "html": "<!doctype html>\n<html lang=\"ko\"><head><title>수업 일정 등록 · 작은손 커피공방</title><link rel=\"stylesheet\" href=\"/static/littlehands/app.3539de012f0c.css\"></head>\n<body data-app=\"little-hands\" data-environment=\"staging\"><header class=\"site-header\" data-native-key=\"site-header\" data-native-type=\"surface\"><div class=\"wrap header-inner\"><div class=\"brand\" data-native-key=\"brand-stack\"><a class=\"brand-link\" href=\"/\" aria-label=\"작은손 커피공방 홈\" data-native-key=\"brand\" data-native-type=\"control\" data-action=\"home\">작은손 커피공방</a><small data-native-key=\"brand-tagline\" data-native-type=\"text\">커피를 배우는 작은 시간</small></div><nav class=\"nav\" aria-label=\"회원 메뉴\"><a href=\"/\" data-action=\"sessions\" data-native-key=\"nav-sessions\" data-native-type=\"control\">수업 둘러보기</a><a href=\"/bookings/\" data-action=\"bookings\" data-native-key=\"nav-bookings\" data-native-type=\"control\">나의 예약</a><a href=\"/notifications/\" data-action=\"notifications\" data-native-key=\"nav-notifications\" data-native-type=\"control\">알림 1</a><a href=\"/staff/\" data-action=\"staff\" data-native-key=\"nav-staff\" data-native-type=\"control\">운영</a><form inert data-export-only=\"true\" method=\"post\"><button class=\"text-button\" data-action=\"logout\" data-native-key=\"nav-logout\" data-native-type=\"control\" type=\"button\">로그아웃</button></form></nav></div></header>\n<main id=\"main\" class=\"page staff-page\" tabindex=\"-1\"><div class=\"wrap\"><nav class=\"staff-nav\" aria-label=\"운영 메뉴\"><a href=\"/staff/\" data-action=\"staff-dashboard\" data-native-key=\"staff-nav-dashboard\" data-native-type=\"control\">운영 현황</a><a href=\"/staff/sessions/\" data-action=\"staff-sessions\" data-native-key=\"staff-nav-sessions\" data-native-type=\"control\">수업 일정</a><a href=\"/staff/audit/\" data-action=\"staff-audit\" data-native-key=\"staff-nav-audit\" data-native-type=\"control\">변경 기록</a></nav>\n<a class=\"back\" href=\"/staff/sessions/\" data-native-key=\"staff-session_form-a-1-0\" data-native-type=\"control\" data-action=\"navigate\">← 수업 일정</a><div class=\"page-heading\"><div><h1 data-native-key=\"session-form-title\" data-native-type=\"text\">수업 일정 등록</h1><p data-native-key=\"staff-session_form-p-2-0\" data-native-type=\"text\">운영할 수업의 시간, 공간과 정원을 입력하세요.</p></div></div><div class=\"split\"><form class=\"paper\" data-native-key=\"staff-session-form\" data-native-type=\"surface\" inert data-export-only=\"true\" method=\"post\">\n<div class=\"field \" data-native-key=\"field-course\" data-native-type=\"surface\"><label for=\"id_course\" data-native-key=\"includes-form-label-4-1\" data-native-type=\"text\">강좌<span aria-hidden=\"true\"> *</span></label><select name=\"course\" required=\"\" id=\"id_course\">\n  <option selected=\"\" selected>---------</option>\n\n  <option>나의 첫 핸드드립</option>\n\n  <option>우유 위 작은 그림</option>\n\n</select></div><div class=\"field \" data-native-key=\"field-room\" data-native-type=\"surface\"><label for=\"id_room\" data-native-key=\"includes-form-label-4-2\" data-native-type=\"text\">공간<span aria-hidden=\"true\"> *</span></label><select name=\"room\" required=\"\" id=\"id_room\">\n  <option selected=\"\" selected>---------</option>\n\n  <option>드립 테이블</option>\n\n  <option>에스프레소 바</option>\n\n</select></div><div class=\"field \" data-native-key=\"field-starts_at\" data-native-type=\"surface\"><label for=\"id_starts_at\" data-native-key=\"includes-form-label-4-3\" data-native-type=\"text\">시작 일시<span aria-hidden=\"true\"> *</span></label><input type=\"datetime-local\" name=\"starts_at\" required=\"\" id=\"id_starts_at\" value=\"\"></div><div class=\"field \" data-native-key=\"field-ends_at\" data-native-type=\"surface\"><label for=\"id_ends_at\" data-native-key=\"includes-form-label-4-4\" data-native-type=\"text\">종료 일시<span aria-hidden=\"true\"> *</span></label><input type=\"datetime-local\" name=\"ends_at\" required=\"\" id=\"id_ends_at\" value=\"\"></div><div class=\"field \" data-native-key=\"field-capacity\" data-native-type=\"surface\"><label for=\"id_capacity\" data-native-key=\"includes-form-label-4-5\" data-native-type=\"text\">회차 정원<span aria-hidden=\"true\"> *</span></label><input type=\"number\" name=\"capacity\" min=\"1\" max=\"32767\" required=\"\" id=\"id_capacity\" value=\"\"></div><div class=\"field \" data-native-key=\"field-price_krw\" data-native-type=\"surface\"><label for=\"id_price_krw\" data-native-key=\"includes-form-label-4-6\" data-native-type=\"text\">참가비(원)<span aria-hidden=\"true\"> *</span></label><input type=\"number\" name=\"price_krw\" min=\"0\" max=\"2147483647\" required=\"\" id=\"id_price_krw\" value=\"\"></div>\n<div class=\"actions\"><button class=\"button\" data-action=\"session-save\" data-native-key=\"staff-session-save\" data-native-type=\"control\" type=\"button\">일정 등록</button><a class=\"button secondary\" href=\"/staff/sessions/\" data-native-key=\"staff-session_form-a-3-0\" data-native-type=\"control\" data-action=\"navigate\">돌아가기</a></div>\n</form><aside class=\"stack\"><h2 data-native-key=\"staff-session_form-h2-4-0\" data-native-type=\"text\">등록 전에 확인해 주세요</h2><p class=\"muted\" data-native-key=\"staff-session_form-p-5-0\" data-native-type=\"text\">같은 공간의 수업 시간이 겹치면 등록할 수 없습니다. 정원은 공간의 수용 인원을 넘을 수 없습니다.</p><p class=\"policy\" data-native-key=\"staff-session_form-p-6-0\" data-native-type=\"text\">예약 이력이 있는 수업은 강좌·시간·공간을 바꿀 수 없습니다. 정원과 가격은 수정할 수 있으며, 기존 예약의 수업료는 유지됩니다. 정원을 늘리면 신청 순서에 따라 대기자가 승급할 수 있습니다.</p></aside></div></div></main>\n<footer class=\"site-footer\" data-native-key=\"site-footer\" data-native-type=\"surface\"><div class=\"wrap footer-inner\"><p data-native-key=\"base-p-2-0\" data-native-type=\"text\"><strong>작은손 커피공방</strong><br>수업의 작은 시작부터, 나만의 한 잔까지.</p><p data-native-key=\"base-p-3-0\" data-native-type=\"text\">수업료는 현장에서 결제합니다.<br><span class=\"environment\">staging 환경</span></p></div></footer>\n</body><div id=\"codex-browser-sidebar-comments-root\"></div></html>",
+  "scope": "Actual visible DOM geometry. Visual source only; no authentication, SQL, action execution, acceptance result, or Figma observation is proved."
+}

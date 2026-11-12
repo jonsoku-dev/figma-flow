@@ -1,0 +1,5759 @@
+{
+  "schema": "little-hands-browser-measurement-v1",
+  "state": "state-staffroster",
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "viewport": {
+    "width": 1200,
+    "height": 900
+  },
+  "document": {
+    "width": 1185,
+    "height": 1603
+  },
+  "route": "/staff/sessions/1/",
+  "title": "수업 명단 · 작은손 커피공방",
+  "body_background": "rgb(246, 242, 233)",
+  "fonts_ready": "loaded",
+  "captured_at": "2026-11-12T16:41:05.746Z",
+  "controls": [
+    {
+      "id": "state-staffroster-brand",
+      "native_key": "brand",
+      "selector": "[data-native-key=\"brand\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        14,
+        144.90625,
+        48
+      ],
+      "label": "작은손 커피공방",
+      "action": "home",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 22,
+        "leading": 33,
+        "letter_spacing": -0.5,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-nav-sessions",
+      "native_key": "nav-sessions",
+      "selector": "[data-native-key=\"nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        771.75,
+        26,
+        81.59375,
+        44
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-nav-bookings",
+      "native_key": "nav-bookings",
+      "selector": "[data-native-key=\"nav-bookings\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        877.34375,
+        26,
+        55.5625,
+        44
+      ],
+      "label": "나의 예약",
+      "action": "bookings",
+      "href": "/bookings/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-nav-notifications",
+      "native_key": "nav-notifications",
+      "selector": "[data-native-key=\"nav-notifications\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        956.90625,
+        26,
+        44,
+        44
+      ],
+      "label": "알림 1",
+      "action": "notifications",
+      "href": "/notifications/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-nav-staff",
+      "native_key": "nav-staff",
+      "selector": "[data-native-key=\"nav-staff\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1024.90625,
+        26,
+        44,
+        44
+      ],
+      "label": "운영",
+      "action": "staff",
+      "href": "/staff/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-nav-logout",
+      "native_key": "nav-logout",
+      "selector": "[data-native-key=\"nav-logout\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        1092.90625,
+        26,
+        52.09375,
+        44
+      ],
+      "label": "로그아웃",
+      "action": "logout",
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/logout/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-staff-nav-dashboard",
+      "native_key": "staff-nav-dashboard",
+      "selector": "[data-native-key=\"staff-nav-dashboard\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        133,
+        55.5625,
+        48
+      ],
+      "label": "운영 현황",
+      "action": "staff-dashboard",
+      "href": "/staff/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-staff-nav-sessions",
+      "native_key": "staff-nav-sessions",
+      "selector": "[data-native-key=\"staff-nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        119.5625,
+        133,
+        55.5625,
+        48
+      ],
+      "label": "수업 일정",
+      "action": "staff-sessions",
+      "href": "/staff/sessions/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-staff-nav-audit",
+      "native_key": "staff-nav-audit",
+      "selector": "[data-native-key=\"staff-nav-audit\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        199.125,
+        133,
+        55.5625,
+        48
+      ],
+      "label": "변경 기록",
+      "action": "staff-audit",
+      "href": "/staff/audit/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-staff-session_detail-a-1-0",
+      "native_key": "staff-session_detail-a-1-0",
+      "selector": "[data-native-key=\"staff-session_detail-a-1-0\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        214,
+        64.21875,
+        44
+      ],
+      "label": "← 수업 일정",
+      "action": "navigate",
+      "href": "/staff/sessions/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-roster-edit",
+      "native_key": "roster-edit",
+      "selector": "[data-native-key=\"roster-edit\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1043.296875,
+        376.390625,
+        101.703125,
+        48
+      ],
+      "label": "일정 수정",
+      "action": "session-edit",
+      "href": "/staff/sessions/1/edit/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-id_reason",
+      "native_key": null,
+      "selector": "#id_reason",
+      "tag": "textarea",
+      "type": null,
+      "box": [
+        73,
+        1185.6875,
+        1039,
+        120
+      ],
+      "label": "",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": "/staff/sessions/1/cancel/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-staffroster-staff-session-cancel-submit",
+      "native_key": "staff-session-cancel-submit",
+      "selector": "[data-native-key=\"staff-session-cancel-submit\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        73,
+        1329.6875,
+        131.34375,
+        48
+      ],
+      "label": "수업 취소 확정",
+      "action": "session-cancel",
+      "href": null,
+      "method": "POST",
+      "form_action": "/staff/sessions/1/cancel/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(142, 62, 40)",
+        "stroke": "rgb(142, 62, 40)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "state-staffroster-site-header-surface",
+      "selector": "[data-native-key=\"site-header\"]",
+      "tag": "header",
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-confirmed-roster-surface",
+      "selector": "[data-native-key=\"confirmed-roster\"]",
+      "tag": "div",
+      "box": [
+        40,
+        511.390625,
+        1105,
+        220.15625
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-confirmed-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+      "selector": "[data-native-key=\"confirmed-booking-e7da31f1-7773-4bb7-90c3-3e088455663a\"]",
+      "tag": "tr",
+      "box": [
+        40,
+        556.984375,
+        1105,
+        57.6875
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-confirmed-booking-6dc39df4-8ba7-4ee8-b5bd-e44c16636193-surface",
+      "selector": "[data-native-key=\"confirmed-booking-6dc39df4-8ba7-4ee8-b5bd-e44c16636193\"]",
+      "tag": "tr",
+      "box": [
+        40,
+        614.671875,
+        1105,
+        58.1875
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-confirmed-booking-022452e4-0c3a-4994-96ed-8b4f818de02f-surface",
+      "selector": "[data-native-key=\"confirmed-booking-022452e4-0c3a-4994-96ed-8b4f818de02f\"]",
+      "tag": "tr",
+      "box": [
+        40,
+        672.859375,
+        1105,
+        58.1875
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-waitlisted-roster-surface",
+      "selector": "[data-native-key=\"waitlisted-roster\"]",
+      "tag": "div",
+      "box": [
+        40,
+        861.9375,
+        1105,
+        103.78125
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-waitlisted-booking-d45e153e-4258-4050-aa77-9ca9c7183f3b-surface",
+      "selector": "[data-native-key=\"waitlisted-booking-d45e153e-4258-4050-aa77-9ca9c7183f3b\"]",
+      "tag": "tr",
+      "box": [
+        40,
+        907.53125,
+        1105,
+        57.6875
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-staff-session-cancel-surface",
+      "selector": "[data-native-key=\"staff-session-cancel\"]",
+      "tag": "section",
+      "box": [
+        40,
+        1025.71875,
+        1105,
+        384.96875
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-field-reason-surface",
+      "selector": "[data-native-key=\"field-reason\"]",
+      "tag": "div",
+      "box": [
+        73,
+        1152.5,
+        1039,
+        153.1875
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-id_reason-surface",
+      "selector": "#id_reason",
+      "tag": "textarea",
+      "box": [
+        73,
+        1185.6875,
+        1039,
+        120
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-staffroster-site-footer-surface",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "tag": "footer",
+      "box": [
+        0,
+        1490.6875,
+        1185,
+        112.1875
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    }
+  ],
+  "images": [],
+  "texts": [
+    {
+      "id": "state-staffroster-brand-tagline-text-0",
+      "selector": "[data-native-key=\"brand-tagline\"]",
+      "value": "커피를 배우는 작은 시간",
+      "raw_value": "커피를 배우는 작은 시간",
+      "box": [
+        40,
+        64,
+        144.90625,
+        18
+      ],
+      "glyph_box": [
+        40,
+        64,
+        134.828125,
+        17
+      ],
+      "element_box": [
+        40,
+        64,
+        144.90625,
+        18
+      ],
+      "content_box": [
+        40,
+        64,
+        144.90625,
+        18
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "small",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 18,
+        "letter_spacing": 1.1,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-session_detail-p-2-0-text-0",
+      "selector": "[data-native-key=\"staff-session_detail-p-2-0\"]",
+      "value": "수업 명단 / 운영",
+      "raw_value": "수업 명단 / 운영",
+      "box": [
+        40,
+        290,
+        426.359375,
+        23.4
+      ],
+      "glyph_box": [
+        40,
+        292,
+        87.78125,
+        19
+      ],
+      "element_box": [
+        40,
+        290,
+        426.359375,
+        23.390625
+      ],
+      "content_box": [
+        40,
+        290,
+        426.359375,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-roster-title-text-0",
+      "selector": "[data-native-key=\"roster-title\"]",
+      "value": "나의 첫 핸드드립",
+      "raw_value": "나의 첫 핸드드립",
+      "box": [
+        40,
+        327.390625,
+        426.359375,
+        58
+      ],
+      "glyph_box": [
+        40,
+        327.390625,
+        270.25,
+        58
+      ],
+      "element_box": [
+        40,
+        327.390625,
+        426.359375,
+        58
+      ],
+      "content_box": [
+        40,
+        327.390625,
+        426.359375,
+        58
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h1",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 40,
+        "leading": 58,
+        "letter_spacing": -1.2,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-session_detail-p-3-0-text-0",
+      "selector": "[data-native-key=\"staff-session_detail-p-3-0\"]",
+      "value": "2026년 11월 14일 (토요일) 11:00–12:30 · 드립 테이블 · 정원 5명",
+      "raw_value": "2026년 11월 14일 (토요일) 11:00–12:30 · 드립 테이블 · 정원 5명",
+      "box": [
+        40,
+        397.390625,
+        426.359375,
+        27
+      ],
+      "glyph_box": [
+        40,
+        400.390625,
+        426.359375,
+        21
+      ],
+      "element_box": [
+        40,
+        397.390625,
+        426.359375,
+        27
+      ],
+      "content_box": [
+        40,
+        397.390625,
+        426.359375,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-confirmed-roster-title-text-0",
+      "selector": "[data-native-key=\"confirmed-roster-title\"]",
+      "value": "확정 명단",
+      "raw_value": "확정 명단",
+      "box": [
+        40,
+        456.390625,
+        100.4375,
+        39
+      ],
+      "glyph_box": [
+        40,
+        457.390625,
+        100.4375,
+        37
+      ],
+      "element_box": [
+        40,
+        456.390625,
+        100.4375,
+        39
+      ],
+      "content_box": [
+        40,
+        456.390625,
+        100.4375,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-1-0-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(1)",
+      "value": "순서",
+      "raw_value": "순서",
+      "box": [
+        56,
+        523.390625,
+        66.09375,
+        21.6
+      ],
+      "glyph_box": [
+        56,
+        525.390625,
+        22.328125,
+        17
+      ],
+      "element_box": [
+        40,
+        511.390625,
+        98.09375,
+        45.59375
+      ],
+      "content_box": [
+        56,
+        523.390625,
+        66.09375,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-2-0-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(2)",
+      "value": "회원",
+      "raw_value": "회원",
+      "box": [
+        154.09375,
+        523.390625,
+        154.4375,
+        21.6
+      ],
+      "glyph_box": [
+        154.09375,
+        525.390625,
+        22.328125,
+        17
+      ],
+      "element_box": [
+        138.09375,
+        511.390625,
+        186.4375,
+        45.59375
+      ],
+      "content_box": [
+        154.09375,
+        523.390625,
+        154.4375,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-3-0-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(3)",
+      "value": "인원",
+      "raw_value": "인원",
+      "box": [
+        340.53125,
+        523.390625,
+        66.09375,
+        21.6
+      ],
+      "glyph_box": [
+        340.53125,
+        525.390625,
+        22.328125,
+        17
+      ],
+      "element_box": [
+        324.53125,
+        511.390625,
+        98.09375,
+        45.59375
+      ],
+      "content_box": [
+        340.53125,
+        523.390625,
+        66.09375,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-4-0-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(4)",
+      "value": "예약 수업료 / 1인",
+      "raw_value": "예약 수업료 / 1인",
+      "box": [
+        438.625,
+        523.390625,
+        184.5625,
+        21.6
+      ],
+      "glyph_box": [
+        438.625,
+        525.390625,
+        87.9375,
+        17
+      ],
+      "element_box": [
+        422.625,
+        511.390625,
+        216.5625,
+        45.59375
+      ],
+      "content_box": [
+        438.625,
+        523.390625,
+        184.5625,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-5-0-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(5)",
+      "value": "예약 번호",
+      "raw_value": "예약 번호",
+      "box": [
+        655.1875,
+        523.390625,
+        473.8125,
+        21.6
+      ],
+      "glyph_box": [
+        655.1875,
+        525.390625,
+        47.75,
+        17
+      ],
+      "element_box": [
+        639.1875,
+        511.390625,
+        505.8125,
+        45.59375
+      ],
+      "content_box": [
+        655.1875,
+        523.390625,
+        473.8125,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-6-1-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(1)",
+      "value": "1",
+      "raw_value": "1",
+      "box": [
+        56,
+        572.984375,
+        66.09375,
+        25.2
+      ],
+      "glyph_box": [
+        56,
+        574.984375,
+        6.953125,
+        20
+      ],
+      "element_box": [
+        40,
+        556.984375,
+        98.09375,
+        57.6875
+      ],
+      "content_box": [
+        56,
+        572.984375,
+        66.09375,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-7-1-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(2)",
+      "value": "member-a",
+      "raw_value": "member-a",
+      "box": [
+        154.09375,
+        572.984375,
+        154.4375,
+        25.2
+      ],
+      "glyph_box": [
+        154.09375,
+        574.984375,
+        70.25,
+        20
+      ],
+      "element_box": [
+        138.09375,
+        556.984375,
+        186.4375,
+        57.6875
+      ],
+      "content_box": [
+        154.09375,
+        572.984375,
+        154.4375,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-8-1-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(3)",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        340.53125,
+        572.984375,
+        66.09375,
+        25.2
+      ],
+      "glyph_box": [
+        340.53125,
+        574.984375,
+        21.5,
+        20
+      ],
+      "element_box": [
+        324.53125,
+        556.984375,
+        98.09375,
+        57.6875
+      ],
+      "content_box": [
+        340.53125,
+        572.984375,
+        66.09375,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-9-1-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(4)",
+      "value": "45,000원",
+      "raw_value": "45,000원",
+      "box": [
+        438.625,
+        572.984375,
+        184.5625,
+        25.2
+      ],
+      "glyph_box": [
+        438.625,
+        574.984375,
+        63.609375,
+        20
+      ],
+      "element_box": [
+        422.625,
+        556.984375,
+        216.5625,
+        57.6875
+      ],
+      "content_box": [
+        438.625,
+        572.984375,
+        184.5625,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-10-1-text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(5)",
+      "value": "e7da31f1-7773-4bb7-90c3-3e088455663a",
+      "raw_value": "e7da31f1-7773-4bb7-90c3-3e088455663a",
+      "box": [
+        655.1875,
+        572.984375,
+        473.8125,
+        21.6
+      ],
+      "glyph_box": [
+        655.1875,
+        574.984375,
+        241.703125,
+        17
+      ],
+      "element_box": [
+        639.1875,
+        556.984375,
+        505.8125,
+        57.6875
+      ],
+      "content_box": [
+        655.1875,
+        572.984375,
+        473.8125,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-6-2-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-6-2\"]",
+      "value": "2",
+      "raw_value": "2",
+      "box": [
+        56,
+        630.671875,
+        66.09375,
+        25.2
+      ],
+      "glyph_box": [
+        56,
+        633.171875,
+        8.484375,
+        20
+      ],
+      "element_box": [
+        40,
+        614.671875,
+        98.09375,
+        58.1875
+      ],
+      "content_box": [
+        56,
+        630.671875,
+        66.09375,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-7-2-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-7-2\"]",
+      "value": "member-b",
+      "raw_value": "member-b",
+      "box": [
+        154.09375,
+        630.671875,
+        154.4375,
+        25.2
+      ],
+      "glyph_box": [
+        154.09375,
+        633.171875,
+        71.25,
+        20
+      ],
+      "element_box": [
+        138.09375,
+        614.671875,
+        186.4375,
+        58.1875
+      ],
+      "content_box": [
+        154.09375,
+        630.671875,
+        154.4375,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-8-2-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-8-2\"]",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        340.53125,
+        630.671875,
+        66.09375,
+        25.2
+      ],
+      "glyph_box": [
+        340.53125,
+        633.171875,
+        21.5,
+        20
+      ],
+      "element_box": [
+        324.53125,
+        614.671875,
+        98.09375,
+        58.1875
+      ],
+      "content_box": [
+        340.53125,
+        630.671875,
+        66.09375,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-9-2-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-9-2\"]",
+      "value": "45,000원",
+      "raw_value": "45,000원",
+      "box": [
+        438.625,
+        630.671875,
+        184.5625,
+        25.2
+      ],
+      "glyph_box": [
+        438.625,
+        633.171875,
+        63.609375,
+        20
+      ],
+      "element_box": [
+        422.625,
+        614.671875,
+        216.5625,
+        58.1875
+      ],
+      "content_box": [
+        438.625,
+        630.671875,
+        184.5625,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-10-2-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-10-2\"]",
+      "value": "6dc39df4-8ba7-4ee8-b5bd-e44c16636193",
+      "raw_value": "6dc39df4-8ba7-4ee8-b5bd-e44c16636193",
+      "box": [
+        655.1875,
+        630.671875,
+        473.8125,
+        21.6
+      ],
+      "glyph_box": [
+        655.1875,
+        633.171875,
+        244.296875,
+        17
+      ],
+      "element_box": [
+        639.1875,
+        614.671875,
+        505.8125,
+        58.1875
+      ],
+      "content_box": [
+        655.1875,
+        630.671875,
+        473.8125,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-6-3-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-6-3\"]",
+      "value": "3",
+      "raw_value": "3",
+      "box": [
+        56,
+        688.859375,
+        66.09375,
+        25.2
+      ],
+      "glyph_box": [
+        56,
+        691.359375,
+        8.125,
+        20
+      ],
+      "element_box": [
+        40,
+        672.859375,
+        98.09375,
+        58.1875
+      ],
+      "content_box": [
+        56,
+        688.859375,
+        66.09375,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-7-3-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-7-3\"]",
+      "value": "member-c",
+      "raw_value": "member-c",
+      "box": [
+        154.09375,
+        688.859375,
+        154.4375,
+        25.2
+      ],
+      "glyph_box": [
+        154.09375,
+        691.359375,
+        70.015625,
+        20
+      ],
+      "element_box": [
+        138.09375,
+        672.859375,
+        186.4375,
+        58.1875
+      ],
+      "content_box": [
+        154.09375,
+        688.859375,
+        154.4375,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-8-3-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-8-3\"]",
+      "value": "1명",
+      "raw_value": "1명",
+      "box": [
+        340.53125,
+        688.859375,
+        66.09375,
+        25.2
+      ],
+      "glyph_box": [
+        340.53125,
+        691.359375,
+        19.96875,
+        20
+      ],
+      "element_box": [
+        324.53125,
+        672.859375,
+        98.09375,
+        58.1875
+      ],
+      "content_box": [
+        340.53125,
+        688.859375,
+        66.09375,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-9-3-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-9-3\"]",
+      "value": "45,000원",
+      "raw_value": "45,000원",
+      "box": [
+        438.625,
+        688.859375,
+        184.5625,
+        25.2
+      ],
+      "glyph_box": [
+        438.625,
+        691.359375,
+        63.609375,
+        20
+      ],
+      "element_box": [
+        422.625,
+        672.859375,
+        216.5625,
+        58.1875
+      ],
+      "content_box": [
+        438.625,
+        688.859375,
+        184.5625,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-10-3-text-0",
+      "selector": "[data-native-key=\"staff-roster_table-td-10-3\"]",
+      "value": "022452e4-0c3a-4994-96ed-8b4f818de02f",
+      "raw_value": "022452e4-0c3a-4994-96ed-8b4f818de02f",
+      "box": [
+        655.1875,
+        688.859375,
+        473.8125,
+        21.6
+      ],
+      "glyph_box": [
+        655.1875,
+        691.359375,
+        248.109375,
+        17
+      ],
+      "element_box": [
+        639.1875,
+        672.859375,
+        505.8125,
+        58.1875
+      ],
+      "content_box": [
+        655.1875,
+        688.859375,
+        473.8125,
+        25.1875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-waitlisted-roster-title-text-0",
+      "selector": "[data-native-key=\"waitlisted-roster-title\"]",
+      "value": "대기 명단",
+      "raw_value": "대기 명단",
+      "box": [
+        40,
+        783.546875,
+        235.203125,
+        39
+      ],
+      "glyph_box": [
+        40,
+        784.546875,
+        100.4375,
+        37
+      ],
+      "element_box": [
+        40,
+        783.546875,
+        235.203125,
+        39
+      ],
+      "content_box": [
+        40,
+        783.546875,
+        235.203125,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-session_detail-p-4-0-text-0",
+      "selector": "[data-native-key=\"staff-session_detail-p-4-0\"]",
+      "value": "먼저 신청한 그룹부터 순서대로 안내합니다.",
+      "raw_value": "먼저 신청한 그룹부터 순서대로 안내합니다.",
+      "box": [
+        40,
+        822.546875,
+        235.203125,
+        23.4
+      ],
+      "glyph_box": [
+        40,
+        824.546875,
+        235.203125,
+        19
+      ],
+      "element_box": [
+        40,
+        822.546875,
+        235.203125,
+        23.390625
+      ],
+      "content_box": [
+        40,
+        822.546875,
+        235.203125,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-1-0-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(1)",
+      "value": "순서",
+      "raw_value": "순서",
+      "box": [
+        56,
+        873.9375,
+        68.90625,
+        21.6
+      ],
+      "glyph_box": [
+        56,
+        875.9375,
+        22.328125,
+        17
+      ],
+      "element_box": [
+        40,
+        861.9375,
+        100.90625,
+        45.59375
+      ],
+      "content_box": [
+        56,
+        873.9375,
+        68.90625,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-2-0-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(2)",
+      "value": "회원",
+      "raw_value": "회원",
+      "box": [
+        156.90625,
+        873.9375,
+        136.421875,
+        21.6
+      ],
+      "glyph_box": [
+        156.90625,
+        875.9375,
+        22.328125,
+        17
+      ],
+      "element_box": [
+        140.90625,
+        861.9375,
+        168.421875,
+        45.59375
+      ],
+      "content_box": [
+        156.90625,
+        873.9375,
+        136.421875,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-3-0-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(3)",
+      "value": "인원",
+      "raw_value": "인원",
+      "box": [
+        325.328125,
+        873.9375,
+        68.90625,
+        21.6
+      ],
+      "glyph_box": [
+        325.328125,
+        875.9375,
+        22.328125,
+        17
+      ],
+      "element_box": [
+        309.328125,
+        861.9375,
+        100.90625,
+        45.59375
+      ],
+      "content_box": [
+        325.328125,
+        873.9375,
+        68.90625,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-4-0-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(4)",
+      "value": "예약 수업료 / 1인",
+      "raw_value": "예약 수업료 / 1인",
+      "box": [
+        426.234375,
+        873.9375,
+        190.78125,
+        21.6
+      ],
+      "glyph_box": [
+        426.234375,
+        875.9375,
+        87.9375,
+        17
+      ],
+      "element_box": [
+        410.234375,
+        861.9375,
+        222.78125,
+        45.59375
+      ],
+      "content_box": [
+        426.234375,
+        873.9375,
+        190.78125,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-th-5-0-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>thead:nth-child(2)>tr:nth-child(1)>th:nth-child(5)",
+      "value": "예약 번호",
+      "raw_value": "예약 번호",
+      "box": [
+        649.015625,
+        873.9375,
+        479.984375,
+        21.6
+      ],
+      "glyph_box": [
+        649.015625,
+        875.9375,
+        47.75,
+        17
+      ],
+      "element_box": [
+        633.015625,
+        861.9375,
+        511.984375,
+        45.59375
+      ],
+      "content_box": [
+        649.015625,
+        873.9375,
+        479.984375,
+        21.59375
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "th",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgb(232, 223, 208)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "left",
+        "padding": [
+          12,
+          16,
+          12,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-6-1-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(1)",
+      "value": "1",
+      "raw_value": "1",
+      "box": [
+        56,
+        923.53125,
+        68.90625,
+        25.2
+      ],
+      "glyph_box": [
+        56,
+        925.53125,
+        6.953125,
+        20
+      ],
+      "element_box": [
+        40,
+        907.53125,
+        100.90625,
+        57.6875
+      ],
+      "content_box": [
+        56,
+        923.53125,
+        68.90625,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-7-1-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(2)",
+      "value": "operator",
+      "raw_value": "operator",
+      "box": [
+        156.90625,
+        923.53125,
+        136.421875,
+        25.2
+      ],
+      "glyph_box": [
+        156.90625,
+        925.53125,
+        58.671875,
+        20
+      ],
+      "element_box": [
+        140.90625,
+        907.53125,
+        168.421875,
+        57.6875
+      ],
+      "content_box": [
+        156.90625,
+        923.53125,
+        136.421875,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-8-1-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(3)",
+      "value": "1명",
+      "raw_value": "1명",
+      "box": [
+        325.328125,
+        923.53125,
+        68.90625,
+        25.2
+      ],
+      "glyph_box": [
+        325.328125,
+        925.53125,
+        19.96875,
+        20
+      ],
+      "element_box": [
+        309.328125,
+        907.53125,
+        100.90625,
+        57.6875
+      ],
+      "content_box": [
+        325.328125,
+        923.53125,
+        68.90625,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-9-1-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(4)",
+      "value": "48,000원",
+      "raw_value": "48,000원",
+      "box": [
+        426.234375,
+        923.53125,
+        190.78125,
+        25.2
+      ],
+      "glyph_box": [
+        426.234375,
+        925.53125,
+        64.125,
+        20
+      ],
+      "element_box": [
+        410.234375,
+        907.53125,
+        222.78125,
+        57.6875
+      ],
+      "content_box": [
+        426.234375,
+        923.53125,
+        190.78125,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-roster_table-td-10-1-text-0-occurrence-2",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(5)",
+      "value": "d45e153e-4258-4050-aa77-9ca9c7183f3b",
+      "raw_value": "d45e153e-4258-4050-aa77-9ca9c7183f3b",
+      "box": [
+        649.015625,
+        923.53125,
+        479.984375,
+        21.6
+      ],
+      "glyph_box": [
+        649.015625,
+        925.53125,
+        243.59375,
+        17
+      ],
+      "element_box": [
+        633.015625,
+        907.53125,
+        511.984375,
+        57.6875
+      ],
+      "content_box": [
+        649.015625,
+        923.53125,
+        479.984375,
+        24.6875
+      ],
+      "text_context": {
+        "display": "table-cell",
+        "tag": "td",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-session_detail-h2-5-0-text-0",
+      "selector": "[data-native-key=\"staff-session_detail-h2-5-0\"]",
+      "value": "수업 취소",
+      "raw_value": "수업 취소",
+      "box": [
+        73,
+        1058.71875,
+        1039,
+        39
+      ],
+      "glyph_box": [
+        73,
+        1059.71875,
+        100.4375,
+        37
+      ],
+      "element_box": [
+        73,
+        1058.71875,
+        1039,
+        39
+      ],
+      "content_box": [
+        73,
+        1058.71875,
+        1039,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-session_detail-p-6-0-text-0",
+      "selector": "[data-native-key=\"staff-session_detail-p-6-0\"]",
+      "value": "이 회차의 모든 확정·대기 예약이 취소되고 회원에게 앱 알림이 표시됩니다. 취소 사유를 확인한 뒤 진행해 주세",
+      "raw_value": "이 회차의 모든 확정·대기 예약이 취소되고 회원에게 앱 알림이 표시됩니다. 취소 사유를 확인한 뒤 진행해 주세",
+      "box": [
+        73,
+        1105.71875,
+        602,
+        23.4
+      ],
+      "glyph_box": [
+        73,
+        1107.71875,
+        589.875,
+        19
+      ],
+      "element_box": [
+        73,
+        1105.71875,
+        602,
+        46.78125
+      ],
+      "content_box": [
+        73,
+        1105.71875,
+        602,
+        46.78125
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-staff-session_detail-p-6-0-text-1",
+      "selector": "[data-native-key=\"staff-session_detail-p-6-0\"]",
+      "value": "요.",
+      "raw_value": "요.",
+      "box": [
+        73,
+        1129.11875,
+        602,
+        23.4
+      ],
+      "glyph_box": [
+        73,
+        1131.109375,
+        16.78125,
+        19
+      ],
+      "element_box": [
+        73,
+        1105.71875,
+        602,
+        46.78125
+      ],
+      "content_box": [
+        73,
+        1105.71875,
+        602,
+        46.78125
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-includes-form-label-4-3-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-3\"]",
+      "value": "취소 사유",
+      "raw_value": "취소 사유",
+      "box": [
+        73,
+        1151.9,
+        55.703125,
+        25.2
+      ],
+      "glyph_box": [
+        73,
+        1154.5,
+        55.703125,
+        20
+      ],
+      "element_box": [
+        73,
+        1152.5,
+        1039,
+        25.1875
+      ],
+      "content_box": [
+        73,
+        1152.5,
+        1039,
+        25.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-5-form-nth-child-3-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(5)>form:nth-child(3)>div:nth-child(4)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        128.703125,
+        1151.9,
+        13.140625,
+        25.2
+      ],
+      "glyph_box": [
+        128.703125,
+        1154.5,
+        13.140625,
+        20
+      ],
+      "element_box": [
+        128.703125,
+        1154.5,
+        13.140625,
+        20
+      ],
+      "content_box": [
+        128.703125,
+        1154.5,
+        13.140625,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(1)>strong:nth-child(1)",
+      "value": "작은손 커피공방",
+      "raw_value": "작은손 커피공방",
+      "box": [
+        40,
+        1523.3875,
+        81.21875,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1525.6875,
+        81.21875,
+        17
+      ],
+      "element_box": [
+        40,
+        1525.6875,
+        81.21875,
+        17
+      ],
+      "content_box": [
+        40,
+        1525.6875,
+        81.21875,
+        17
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "strong",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-base-p-2-0-text-0",
+      "selector": "[data-native-key=\"base-p-2-0\"]",
+      "value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "raw_value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "box": [
+        40,
+        1544.98125,
+        202.0625,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1547.28125,
+        202.0625,
+        17
+      ],
+      "element_box": [
+        40,
+        1523.6875,
+        202.0625,
+        47.1875
+      ],
+      "content_box": [
+        40,
+        1523.6875,
+        202.0625,
+        47.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "strong",
+          "br"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-base-p-3-0-text-0",
+      "selector": "[data-native-key=\"base-p-3-0\"]",
+      "value": "수업료는 현장에서 결제합니다.",
+      "raw_value": "수업료는 현장에서 결제합니다.",
+      "box": [
+        989.640625,
+        1523.3875,
+        155.359375,
+        21.6
+      ],
+      "glyph_box": [
+        989.640625,
+        1525.6875,
+        155.359375,
+        17
+      ],
+      "element_box": [
+        989.640625,
+        1523.6875,
+        155.359375,
+        47.1875
+      ],
+      "content_box": [
+        989.640625,
+        1523.6875,
+        155.359375,
+        47.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "br",
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-staffroster-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(2)>span:nth-child(2)",
+      "value": "staging 환경",
+      "raw_value": "staging 환경",
+      "box": [
+        1005.640625,
+        1546.98125,
+        67.921875,
+        21.6
+      ],
+      "glyph_box": [
+        1005.640625,
+        1549.28125,
+        67.921875,
+        17
+      ],
+      "element_box": [
+        997.640625,
+        1545.28125,
+        83.921875,
+        25.59375
+      ],
+      "content_box": [
+        1005.640625,
+        1547.28125,
+        67.921875,
+        21.59375
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          1,
+          7,
+          1,
+          7
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    }
+  ],
+  "containers": [
+    {
+      "id": "state-staffroster-site-header-container",
+      "selector": "[data-native-key=\"site-header\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "tag": "header",
+      "classes": "site-header",
+      "members": [
+        "state-staffroster-brand",
+        "state-staffroster-nav-sessions",
+        "state-staffroster-nav-bookings",
+        "state-staffroster-nav-notifications",
+        "state-staffroster-nav-staff",
+        "state-staffroster-nav-logout",
+        "state-staffroster-site-header-surface",
+        "state-staffroster-brand-tagline-text-0",
+        "state-staffroster-site-header-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-body-header-nth-child-2-div-nth-child-1--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "parent_selector": "[data-native-key=\"site-header\"]",
+      "box": [
+        40,
+        0,
+        1105,
+        96
+      ],
+      "tag": "div",
+      "classes": "wrap header-inner",
+      "members": [
+        "state-staffroster-brand",
+        "state-staffroster-nav-sessions",
+        "state-staffroster-nav-bookings",
+        "state-staffroster-nav-notifications",
+        "state-staffroster-nav-staff",
+        "state-staffroster-nav-logout",
+        "state-staffroster-brand-tagline-text-0",
+        "state-staffroster-body-header-nth-child-2-div-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "space-between",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "box": [
+        771.75,
+        26,
+        373.25,
+        44
+      ],
+      "tag": "nav",
+      "classes": "nav",
+      "members": [
+        "state-staffroster-nav-sessions",
+        "state-staffroster-nav-bookings",
+        "state-staffroster-nav-notifications",
+        "state-staffroster-nav-staff",
+        "state-staffroster-nav-logout",
+        "state-staffroster-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-5--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)>form:nth-child(5)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "box": [
+        1092.90625,
+        26,
+        52.09375,
+        44
+      ],
+      "tag": "form",
+      "classes": "",
+      "members": [
+        "state-staffroster-nav-logout",
+        "state-staffroster-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-5--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-main-container",
+      "selector": "#main",
+      "parent_selector": null,
+      "box": [
+        0,
+        97,
+        1185,
+        1393.6875
+      ],
+      "tag": "main",
+      "classes": "page staff-page",
+      "members": [
+        "state-staffroster-staff-nav-dashboard",
+        "state-staffroster-staff-nav-sessions",
+        "state-staffroster-staff-nav-audit",
+        "state-staffroster-staff-session_detail-a-1-0",
+        "state-staffroster-roster-edit",
+        "state-staffroster-id_reason",
+        "state-staffroster-staff-session-cancel-submit",
+        "state-staffroster-confirmed-roster-surface",
+        "state-staffroster-confirmed-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+        "state-staffroster-confirmed-booking-6dc39df4-8ba7-4ee8-b5bd-e44c16636193-surface",
+        "state-staffroster-confirmed-booking-022452e4-0c3a-4994-96ed-8b4f818de02f-surface",
+        "state-staffroster-waitlisted-roster-surface",
+        "state-staffroster-waitlisted-booking-d45e153e-4258-4050-aa77-9ca9c7183f3b-surface",
+        "state-staffroster-staff-session-cancel-surface",
+        "state-staffroster-field-reason-surface",
+        "state-staffroster-id_reason-surface",
+        "state-staffroster-staff-session_detail-p-2-0-text-0",
+        "state-staffroster-roster-title-text-0",
+        "state-staffroster-staff-session_detail-p-3-0-text-0",
+        "state-staffroster-confirmed-roster-title-text-0",
+        "state-staffroster-staff-roster_table-th-1-0-text-0",
+        "state-staffroster-staff-roster_table-th-2-0-text-0",
+        "state-staffroster-staff-roster_table-th-3-0-text-0",
+        "state-staffroster-staff-roster_table-th-4-0-text-0",
+        "state-staffroster-staff-roster_table-th-5-0-text-0",
+        "state-staffroster-staff-roster_table-td-6-1-text-0",
+        "state-staffroster-staff-roster_table-td-7-1-text-0",
+        "state-staffroster-staff-roster_table-td-8-1-text-0",
+        "state-staffroster-staff-roster_table-td-9-1-text-0",
+        "state-staffroster-staff-roster_table-td-10-1-text-0",
+        "state-staffroster-staff-roster_table-td-6-2-text-0",
+        "state-staffroster-staff-roster_table-td-7-2-text-0",
+        "state-staffroster-staff-roster_table-td-8-2-text-0",
+        "state-staffroster-staff-roster_table-td-9-2-text-0",
+        "state-staffroster-staff-roster_table-td-10-2-text-0",
+        "state-staffroster-staff-roster_table-td-6-3-text-0",
+        "state-staffroster-staff-roster_table-td-7-3-text-0",
+        "state-staffroster-staff-roster_table-td-8-3-text-0",
+        "state-staffroster-staff-roster_table-td-9-3-text-0",
+        "state-staffroster-staff-roster_table-td-10-3-text-0",
+        "state-staffroster-waitlisted-roster-title-text-0",
+        "state-staffroster-staff-session_detail-p-4-0-text-0",
+        "state-staffroster-staff-roster_table-th-1-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-2-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-3-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-4-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-5-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-6-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-7-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-8-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-9-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-10-1-text-0-occurrence-2",
+        "state-staffroster-staff-session_detail-h2-5-0-text-0",
+        "state-staffroster-staff-session_detail-p-6-0-text-0",
+        "state-staffroster-staff-session_detail-p-6-0-text-1",
+        "state-staffroster-includes-form-label-4-3-text-0",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-5-form-nth-child-3-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffroster-main-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          48,
+          40,
+          80,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-body-main-nth-child-3-div-nth-child-1-nav-nth-child-1--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>nav:nth-child(1)",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        133,
+        1105,
+        49
+      ],
+      "tag": "nav",
+      "classes": "staff-nav",
+      "members": [
+        "state-staffroster-staff-nav-dashboard",
+        "state-staffroster-staff-nav-sessions",
+        "state-staffroster-staff-nav-audit",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-nav-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "auto",
+        "overflow_y": "auto"
+      }
+    },
+    {
+      "id": "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-4--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        456.390625,
+        1105,
+        537.328125
+      ],
+      "tag": "section",
+      "classes": "stack",
+      "members": [
+        "state-staffroster-confirmed-roster-surface",
+        "state-staffroster-confirmed-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+        "state-staffroster-confirmed-booking-6dc39df4-8ba7-4ee8-b5bd-e44c16636193-surface",
+        "state-staffroster-confirmed-booking-022452e4-0c3a-4994-96ed-8b4f818de02f-surface",
+        "state-staffroster-waitlisted-roster-surface",
+        "state-staffroster-waitlisted-booking-d45e153e-4258-4050-aa77-9ca9c7183f3b-surface",
+        "state-staffroster-confirmed-roster-title-text-0",
+        "state-staffroster-staff-roster_table-th-1-0-text-0",
+        "state-staffroster-staff-roster_table-th-2-0-text-0",
+        "state-staffroster-staff-roster_table-th-3-0-text-0",
+        "state-staffroster-staff-roster_table-th-4-0-text-0",
+        "state-staffroster-staff-roster_table-th-5-0-text-0",
+        "state-staffroster-staff-roster_table-td-6-1-text-0",
+        "state-staffroster-staff-roster_table-td-7-1-text-0",
+        "state-staffroster-staff-roster_table-td-8-1-text-0",
+        "state-staffroster-staff-roster_table-td-9-1-text-0",
+        "state-staffroster-staff-roster_table-td-10-1-text-0",
+        "state-staffroster-staff-roster_table-td-6-2-text-0",
+        "state-staffroster-staff-roster_table-td-7-2-text-0",
+        "state-staffroster-staff-roster_table-td-8-2-text-0",
+        "state-staffroster-staff-roster_table-td-9-2-text-0",
+        "state-staffroster-staff-roster_table-td-10-2-text-0",
+        "state-staffroster-staff-roster_table-td-6-3-text-0",
+        "state-staffroster-staff-roster_table-td-7-3-text-0",
+        "state-staffroster-staff-roster_table-td-8-3-text-0",
+        "state-staffroster-staff-roster_table-td-9-3-text-0",
+        "state-staffroster-staff-roster_table-td-10-3-text-0",
+        "state-staffroster-waitlisted-roster-title-text-0",
+        "state-staffroster-staff-session_detail-p-4-0-text-0",
+        "state-staffroster-staff-roster_table-th-1-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-2-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-3-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-4-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-5-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-6-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-7-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-8-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-9-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-10-1-text-0-occurrence-2",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-4--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-confirmed-roster-container",
+      "selector": "[data-native-key=\"confirmed-roster\"]",
+      "parent_selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)",
+      "box": [
+        40,
+        511.390625,
+        1105,
+        220.15625
+      ],
+      "tag": "div",
+      "classes": "table-wrap",
+      "members": [
+        "state-staffroster-confirmed-roster-surface",
+        "state-staffroster-confirmed-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+        "state-staffroster-confirmed-booking-6dc39df4-8ba7-4ee8-b5bd-e44c16636193-surface",
+        "state-staffroster-confirmed-booking-022452e4-0c3a-4994-96ed-8b4f818de02f-surface",
+        "state-staffroster-staff-roster_table-th-1-0-text-0",
+        "state-staffroster-staff-roster_table-th-2-0-text-0",
+        "state-staffroster-staff-roster_table-th-3-0-text-0",
+        "state-staffroster-staff-roster_table-th-4-0-text-0",
+        "state-staffroster-staff-roster_table-th-5-0-text-0",
+        "state-staffroster-staff-roster_table-td-6-1-text-0",
+        "state-staffroster-staff-roster_table-td-7-1-text-0",
+        "state-staffroster-staff-roster_table-td-8-1-text-0",
+        "state-staffroster-staff-roster_table-td-9-1-text-0",
+        "state-staffroster-staff-roster_table-td-10-1-text-0",
+        "state-staffroster-staff-roster_table-td-6-2-text-0",
+        "state-staffroster-staff-roster_table-td-7-2-text-0",
+        "state-staffroster-staff-roster_table-td-8-2-text-0",
+        "state-staffroster-staff-roster_table-td-9-2-text-0",
+        "state-staffroster-staff-roster_table-td-10-2-text-0",
+        "state-staffroster-staff-roster_table-td-6-3-text-0",
+        "state-staffroster-staff-roster_table-td-7-3-text-0",
+        "state-staffroster-staff-roster_table-td-8-3-text-0",
+        "state-staffroster-staff-roster_table-td-9-3-text-0",
+        "state-staffroster-staff-roster_table-td-10-3-text-0",
+        "state-staffroster-confirmed-roster-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "auto",
+        "overflow_y": "auto"
+      }
+    },
+    {
+      "id": "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-4-div-nth-child-1-div-nth-child-2-table-nth-child-1--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(1)>div:nth-child(2)>table:nth-child(1)",
+      "parent_selector": "[data-native-key=\"confirmed-roster\"]",
+      "box": [
+        40,
+        511.390625,
+        1105,
+        220.15625
+      ],
+      "tag": "table",
+      "classes": "data-table",
+      "members": [
+        "state-staffroster-confirmed-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+        "state-staffroster-confirmed-booking-6dc39df4-8ba7-4ee8-b5bd-e44c16636193-surface",
+        "state-staffroster-confirmed-booking-022452e4-0c3a-4994-96ed-8b4f818de02f-surface",
+        "state-staffroster-staff-roster_table-th-1-0-text-0",
+        "state-staffroster-staff-roster_table-th-2-0-text-0",
+        "state-staffroster-staff-roster_table-th-3-0-text-0",
+        "state-staffroster-staff-roster_table-th-4-0-text-0",
+        "state-staffroster-staff-roster_table-th-5-0-text-0",
+        "state-staffroster-staff-roster_table-td-6-1-text-0",
+        "state-staffroster-staff-roster_table-td-7-1-text-0",
+        "state-staffroster-staff-roster_table-td-8-1-text-0",
+        "state-staffroster-staff-roster_table-td-9-1-text-0",
+        "state-staffroster-staff-roster_table-td-10-1-text-0",
+        "state-staffroster-staff-roster_table-td-6-2-text-0",
+        "state-staffroster-staff-roster_table-td-7-2-text-0",
+        "state-staffroster-staff-roster_table-td-8-2-text-0",
+        "state-staffroster-staff-roster_table-td-9-2-text-0",
+        "state-staffroster-staff-roster_table-td-10-2-text-0",
+        "state-staffroster-staff-roster_table-td-6-3-text-0",
+        "state-staffroster-staff-roster_table-td-7-3-text-0",
+        "state-staffroster-staff-roster_table-td-8-3-text-0",
+        "state-staffroster-staff-roster_table-td-9-3-text-0",
+        "state-staffroster-staff-roster_table-td-10-3-text-0",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-4-div-nth-child-1-div-nth-child-2-table-nth-child-1--container"
+      ],
+      "css": {
+        "display": "table",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-waitlisted-roster-container",
+      "selector": "[data-native-key=\"waitlisted-roster\"]",
+      "parent_selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)",
+      "box": [
+        40,
+        861.9375,
+        1105,
+        103.78125
+      ],
+      "tag": "div",
+      "classes": "table-wrap",
+      "members": [
+        "state-staffroster-waitlisted-roster-surface",
+        "state-staffroster-waitlisted-booking-d45e153e-4258-4050-aa77-9ca9c7183f3b-surface",
+        "state-staffroster-staff-roster_table-th-1-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-2-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-3-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-4-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-5-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-6-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-7-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-8-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-9-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-10-1-text-0-occurrence-2",
+        "state-staffroster-waitlisted-roster-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "auto",
+        "overflow_y": "auto"
+      }
+    },
+    {
+      "id": "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-4-div-nth-child-2-div-nth-child-2-table-nth-child-1--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(4)>div:nth-child(2)>div:nth-child(2)>table:nth-child(1)",
+      "parent_selector": "[data-native-key=\"waitlisted-roster\"]",
+      "box": [
+        40,
+        861.9375,
+        1105,
+        103.78125
+      ],
+      "tag": "table",
+      "classes": "data-table",
+      "members": [
+        "state-staffroster-waitlisted-booking-d45e153e-4258-4050-aa77-9ca9c7183f3b-surface",
+        "state-staffroster-staff-roster_table-th-1-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-2-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-3-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-4-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-th-5-0-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-6-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-7-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-8-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-9-1-text-0-occurrence-2",
+        "state-staffroster-staff-roster_table-td-10-1-text-0-occurrence-2",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-4-div-nth-child-2-div-nth-child-2-table-nth-child-1--container"
+      ],
+      "css": {
+        "display": "table",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-staff-session-cancel-container",
+      "selector": "[data-native-key=\"staff-session-cancel\"]",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        1025.71875,
+        1105,
+        384.96875
+      ],
+      "tag": "section",
+      "classes": "paper",
+      "members": [
+        "state-staffroster-id_reason",
+        "state-staffroster-staff-session-cancel-submit",
+        "state-staffroster-staff-session-cancel-surface",
+        "state-staffroster-field-reason-surface",
+        "state-staffroster-id_reason-surface",
+        "state-staffroster-staff-session_detail-h2-5-0-text-0",
+        "state-staffroster-staff-session_detail-p-6-0-text-0",
+        "state-staffroster-staff-session_detail-p-6-0-text-1",
+        "state-staffroster-includes-form-label-4-3-text-0",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-5-form-nth-child-3-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffroster-staff-session-cancel-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-5-form-nth-child-3--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(5)>form:nth-child(3)",
+      "parent_selector": "[data-native-key=\"staff-session-cancel\"]",
+      "box": [
+        73,
+        1152.5,
+        1039,
+        225.1875
+      ],
+      "tag": "form",
+      "classes": "",
+      "members": [
+        "state-staffroster-id_reason",
+        "state-staffroster-staff-session-cancel-submit",
+        "state-staffroster-field-reason-surface",
+        "state-staffroster-id_reason-surface",
+        "state-staffroster-includes-form-label-4-3-text-0",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-5-form-nth-child-3-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-5-form-nth-child-3--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-field-reason-container",
+      "selector": "[data-native-key=\"field-reason\"]",
+      "parent_selector": "body>main:nth-child(3)>div:nth-child(1)>section:nth-child(5)>form:nth-child(3)",
+      "box": [
+        73,
+        1152.5,
+        1039,
+        153.1875
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-staffroster-id_reason",
+        "state-staffroster-field-reason-surface",
+        "state-staffroster-id_reason-surface",
+        "state-staffroster-includes-form-label-4-3-text-0",
+        "state-staffroster-body-main-nth-child-3-div-nth-child-1-section-nth-child-5-form-nth-child-3-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-staffroster-field-reason-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-staffroster-site-footer-container",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        1490.6875,
+        1185,
+        112.1875
+      ],
+      "tag": "footer",
+      "classes": "site-footer",
+      "members": [
+        "state-staffroster-site-footer-surface",
+        "state-staffroster-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+        "state-staffroster-base-p-2-0-text-0",
+        "state-staffroster-base-p-3-0-text-0",
+        "state-staffroster-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+        "state-staffroster-site-footer-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    }
+  ],
+  "html": "<!doctype html>\n<html lang=\"ko\"><head><title>수업 명단 · 작은손 커피공방</title><link rel=\"stylesheet\" href=\"/static/littlehands/app.3539de012f0c.css\"></head>\n<body data-app=\"little-hands\" data-environment=\"staging\"><header class=\"site-header\" data-native-key=\"site-header\" data-native-type=\"surface\"><div class=\"wrap header-inner\"><div class=\"brand\" data-native-key=\"brand-stack\"><a class=\"brand-link\" href=\"/\" aria-label=\"작은손 커피공방 홈\" data-native-key=\"brand\" data-native-type=\"control\" data-action=\"home\">작은손 커피공방</a><small data-native-key=\"brand-tagline\" data-native-type=\"text\">커피를 배우는 작은 시간</small></div><nav class=\"nav\" aria-label=\"회원 메뉴\"><a href=\"/\" data-action=\"sessions\" data-native-key=\"nav-sessions\" data-native-type=\"control\">수업 둘러보기</a><a href=\"/bookings/\" data-action=\"bookings\" data-native-key=\"nav-bookings\" data-native-type=\"control\">나의 예약</a><a href=\"/notifications/\" data-action=\"notifications\" data-native-key=\"nav-notifications\" data-native-type=\"control\">알림 1</a><a href=\"/staff/\" data-action=\"staff\" data-native-key=\"nav-staff\" data-native-type=\"control\">운영</a><form inert data-export-only=\"true\" method=\"post\"><button class=\"text-button\" data-action=\"logout\" data-native-key=\"nav-logout\" data-native-type=\"control\" type=\"button\">로그아웃</button></form></nav></div></header>\n<main id=\"main\" class=\"page staff-page\" tabindex=\"-1\"><div class=\"wrap\"><nav class=\"staff-nav\" aria-label=\"운영 메뉴\"><a href=\"/staff/\" data-action=\"staff-dashboard\" data-native-key=\"staff-nav-dashboard\" data-native-type=\"control\">운영 현황</a><a href=\"/staff/sessions/\" data-action=\"staff-sessions\" data-native-key=\"staff-nav-sessions\" data-native-type=\"control\">수업 일정</a><a href=\"/staff/audit/\" data-action=\"staff-audit\" data-native-key=\"staff-nav-audit\" data-native-type=\"control\">변경 기록</a></nav>\n<a class=\"back\" href=\"/staff/sessions/\" data-native-key=\"staff-session_detail-a-1-0\" data-native-type=\"control\" data-action=\"navigate\">← 수업 일정</a><div class=\"page-heading\"><div><p class=\"kicker\" data-native-key=\"staff-session_detail-p-2-0\" data-native-type=\"text\">수업 명단 / 운영</p><h1 data-native-key=\"roster-title\" data-native-type=\"text\">나의 첫 핸드드립</h1><p data-native-key=\"staff-session_detail-p-3-0\" data-native-type=\"text\">2026년 11월 14일 (토요일) 11:00–12:30 · 드립 테이블 · 정원 5명</p></div><a class=\"button secondary\" href=\"/staff/sessions/1/edit/\" data-action=\"session-edit\" data-native-key=\"roster-edit\" data-native-type=\"control\">일정 수정</a></div><section class=\"stack\"><div><div class=\"section-heading\"><h2 data-native-key=\"confirmed-roster-title\" data-native-type=\"text\">확정 명단</h2></div><div class=\"table-wrap\" tabindex=\"0\" role=\"region\" aria-label=\"참석자 명단 표 가로 스크롤\" data-native-key=\"confirmed-roster\" data-native-type=\"surface\"><table class=\"data-table\"><thead><tr><th scope=\"col\" data-native-key=\"staff-roster_table-th-1-0\" data-native-type=\"text\">순서</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-2-0\" data-native-type=\"text\">회원</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-3-0\" data-native-type=\"text\">인원</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-4-0\" data-native-type=\"text\">예약 수업료 / 1인</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-5-0\" data-native-type=\"text\">예약 번호</th></tr></thead><tbody><tr data-native-key=\"confirmed-booking-e7da31f1-7773-4bb7-90c3-3e088455663a\" data-native-type=\"surface\"><td data-native-key=\"staff-roster_table-td-6-1\" data-native-type=\"text\">1</td><td data-native-key=\"staff-roster_table-td-7-1\" data-native-type=\"text\">member-a</td><td data-native-key=\"staff-roster_table-td-8-1\" data-native-type=\"text\">2명</td><td data-native-key=\"staff-roster_table-td-9-1\" data-native-type=\"text\">45,000원</td><td class=\"booking-id\" data-native-key=\"staff-roster_table-td-10-1\" data-native-type=\"text\">e7da31f1-7773-4bb7-90c3-3e088455663a</td></tr><tr data-native-key=\"confirmed-booking-6dc39df4-8ba7-4ee8-b5bd-e44c16636193\" data-native-type=\"surface\"><td data-native-key=\"staff-roster_table-td-6-2\" data-native-type=\"text\">2</td><td data-native-key=\"staff-roster_table-td-7-2\" data-native-type=\"text\">member-b</td><td data-native-key=\"staff-roster_table-td-8-2\" data-native-type=\"text\">2명</td><td data-native-key=\"staff-roster_table-td-9-2\" data-native-type=\"text\">45,000원</td><td class=\"booking-id\" data-native-key=\"staff-roster_table-td-10-2\" data-native-type=\"text\">6dc39df4-8ba7-4ee8-b5bd-e44c16636193</td></tr><tr data-native-key=\"confirmed-booking-022452e4-0c3a-4994-96ed-8b4f818de02f\" data-native-type=\"surface\"><td data-native-key=\"staff-roster_table-td-6-3\" data-native-type=\"text\">3</td><td data-native-key=\"staff-roster_table-td-7-3\" data-native-type=\"text\">member-c</td><td data-native-key=\"staff-roster_table-td-8-3\" data-native-type=\"text\">1명</td><td data-native-key=\"staff-roster_table-td-9-3\" data-native-type=\"text\">45,000원</td><td class=\"booking-id\" data-native-key=\"staff-roster_table-td-10-3\" data-native-type=\"text\">022452e4-0c3a-4994-96ed-8b4f818de02f</td></tr></tbody></table></div>\n</div><div><div class=\"section-heading\"><div><h2 data-native-key=\"waitlisted-roster-title\" data-native-type=\"text\">대기 명단</h2><p data-native-key=\"staff-session_detail-p-4-0\" data-native-type=\"text\">먼저 신청한 그룹부터 순서대로 안내합니다.</p></div></div><div class=\"table-wrap\" tabindex=\"0\" role=\"region\" aria-label=\"참석자 명단 표 가로 스크롤\" data-native-key=\"waitlisted-roster\" data-native-type=\"surface\"><table class=\"data-table\"><thead><tr><th scope=\"col\" data-native-key=\"staff-roster_table-th-1-0\" data-native-type=\"text\">순서</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-2-0\" data-native-type=\"text\">회원</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-3-0\" data-native-type=\"text\">인원</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-4-0\" data-native-type=\"text\">예약 수업료 / 1인</th><th scope=\"col\" data-native-key=\"staff-roster_table-th-5-0\" data-native-type=\"text\">예약 번호</th></tr></thead><tbody><tr data-native-key=\"waitlisted-booking-d45e153e-4258-4050-aa77-9ca9c7183f3b\" data-native-type=\"surface\"><td data-native-key=\"staff-roster_table-td-6-1\" data-native-type=\"text\">1</td><td data-native-key=\"staff-roster_table-td-7-1\" data-native-type=\"text\">operator</td><td data-native-key=\"staff-roster_table-td-8-1\" data-native-type=\"text\">1명</td><td data-native-key=\"staff-roster_table-td-9-1\" data-native-type=\"text\">48,000원</td><td class=\"booking-id\" data-native-key=\"staff-roster_table-td-10-1\" data-native-type=\"text\">d45e153e-4258-4050-aa77-9ca9c7183f3b</td></tr></tbody></table></div>\n</div></section><section class=\"paper\" data-native-key=\"staff-session-cancel\" data-native-type=\"surface\"><h2 data-native-key=\"staff-session_detail-h2-5-0\" data-native-type=\"text\">수업 취소</h2><p class=\"help\" data-native-key=\"staff-session_detail-p-6-0\" data-native-type=\"text\">이 회차의 모든 확정·대기 예약이 취소되고 회원에게 앱 알림이 표시됩니다. 취소 사유를 확인한 뒤 진행해 주세요.</p><form inert data-export-only=\"true\" method=\"post\">\n<div class=\"field \" data-native-key=\"field-reason\" data-native-type=\"surface\"><label for=\"id_reason\" data-native-key=\"includes-form-label-4-3\" data-native-type=\"text\">취소 사유<span aria-hidden=\"true\"> *</span></label><textarea name=\"reason\" cols=\"40\" rows=\"3\" required=\"\" id=\"id_reason\"></textarea></div>\n<button class=\"button danger\" data-action=\"session-cancel\" data-native-key=\"staff-session-cancel-submit\" data-native-type=\"control\" type=\"button\">수업 취소 확정</button>\n</form></section></div></main>\n<footer class=\"site-footer\" data-native-key=\"site-footer\" data-native-type=\"surface\"><div class=\"wrap footer-inner\"><p data-native-key=\"base-p-2-0\" data-native-type=\"text\"><strong>작은손 커피공방</strong><br>수업의 작은 시작부터, 나만의 한 잔까지.</p><p data-native-key=\"base-p-3-0\" data-native-type=\"text\">수업료는 현장에서 결제합니다.<br><span class=\"environment\">staging 환경</span></p></div></footer>\n</body><div id=\"codex-browser-sidebar-comments-root\"></div></html>",
+  "scope": "Actual visible DOM geometry. Visual source only; no authentication, SQL, action execution, acceptance result, or Figma observation is proved."
+}

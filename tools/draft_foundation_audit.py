@@ -197,7 +197,7 @@ def audit_draft_foundations(readback, candidate, *, production_packet=None):
                     expected_owners[control_key] = (frame_key, 'FRAME')
                     expected_owners[control_key + '.label'] = (control_key, 'INSTANCE')
                     expected_sizes[control_key + '.label'] = {'font': style.get('font', 'body'), 'size': style['fontSize']}
-                    product_buttons.append((control_key, main_key, frame_key, button))
+                    product_buttons.append((control_key, main_key, frame_key, button, layout, button_id))
         for viewport, control_styles in candidate.get('control_styles', {}).items():
             for visual in control_styles:
                 main_key = f'{identity}.{viewport}.component.{visual}'
@@ -214,7 +214,42 @@ def audit_draft_foundations(readback, candidate, *, production_packet=None):
             style = candidate.get('control_styles', {}).get(edge['viewport'], {}).get(actions.get(edge.get('action')))
             if style:
                 expected_sizes[control_key + '.label'] = {'font': style.get('font', 'body'), 'size': style['fontSize']}
-        for control_key, main_key, frame_key, button in product_buttons:
+        def product_parent_matches(instance, frame, frame_key, layout, button_id, exact):
+            if frame.get('type') != 'FRAME':
+                return False
+            containers = layout.get('containers', [])
+            if not isinstance(containers, list):
+                return False
+            def parents(child):
+                return [row for row in containers if isinstance(row, dict) and child in row.get('children', [])]
+            owners = parents(button_id)
+            if not owners:
+                return instance.get('parentId') == frame.get('id')
+            if len(owners) != 1:
+                return False
+            declaration, current, seen = owners[0], instance, set()
+            while True:
+                name, kind = declaration.get('key'), declaration.get('kind')
+                if (not isinstance(name, str) or not name or name in seen or
+                        sum(row.get('key') == name for row in containers if isinstance(row, dict)) != 1):
+                    return False
+                seen.add(name)
+                expected_type = {'frame': 'FRAME', 'group': 'GROUP', 'auto-layout': 'FRAME'}.get(kind)
+                actual = exact(frame_key + '.' + name)
+                if not expected_type or actual.get('type') != expected_type or current.get('parentId') != actual.get('id'):
+                    return False
+                if kind == 'auto-layout':
+                    direction = declaration.get('layout', {}).get('direction')
+                    if direction not in ('HORIZONTAL', 'VERTICAL') or actual.get('layoutMode') != direction:
+                        return False
+                current = actual
+                owner_key, ancestors = declaration.get('parent'), parents(name)
+                if owner_key is None:
+                    return not ancestors and current.get('parentId') == frame.get('id') and within(instance.get('id'), frame.get('id'))
+                if len(ancestors) != 1 or ancestors[0].get('key') != owner_key:
+                    return False
+                declaration = ancestors[0]
+        for control_key, main_key, frame_key, button, layout, button_id in product_buttons:
             def exact(target):
                 matches = [node for node in nodes.values() if key(node) == target]
                 return matches[0] if len(matches) == 1 else {}
@@ -223,7 +258,7 @@ def audit_draft_foundations(readback, candidate, *, production_packet=None):
             if (instance.get('type') != 'INSTANCE' or main.get('type') != 'COMPONENT' or
                 component_set.get('type') != 'COMPONENT_SET' or main.get('parentId') != component_set.get('id') or
                 instance.get('mainComponentId') != main.get('id') or not visible(main) or not belongs(main) or not visible(instance) or
-                not belongs(instance) or instance.get('parentId') != frame.get('id') or
+                not belongs(instance) or not product_parent_matches(instance, frame, frame_key, layout, button_id, exact) or
                 not isinstance(instance.get('reactions'), list) or instance['reactions']):
                 fail('invalid-real-product-button', control_key)
             if (label.get('type') != 'TEXT' or label.get('characters') != button['label'] or

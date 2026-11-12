@@ -1,0 +1,3389 @@
+{
+  "schema": "little-hands-browser-measurement-v1",
+  "state": "state-review",
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "viewport": {
+    "width": 390,
+    "height": 960
+  },
+  "document": {
+    "width": 375,
+    "height": 1479
+  },
+  "route": "/sessions/10/review/",
+  "title": "예약 내용 확인 · 작은손 커피공방",
+  "body_background": "rgb(246, 242, 233)",
+  "fonts_ready": "loaded",
+  "captured_at": "2026-11-12T16:06:38.897Z",
+  "controls": [
+    {
+      "id": "state-review-brand",
+      "native_key": "brand",
+      "selector": "[data-native-key=\"brand\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        16,
+        124.59375,
+        48
+      ],
+      "label": "작은손 커피공방",
+      "action": "home",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 28.5,
+        "letter_spacing": -0.5,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-review-nav-sessions",
+      "native_key": "nav-sessions",
+      "selector": "[data-native-key=\"nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        96,
+        75.765625,
+        44
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-review-nav-bookings",
+      "native_key": "nav-bookings",
+      "selector": "[data-native-key=\"nav-bookings\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        117.765625,
+        96,
+        51.59375,
+        44
+      ],
+      "label": "나의 예약",
+      "action": "bookings",
+      "href": "/bookings/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-review-nav-notifications",
+      "native_key": "nav-notifications",
+      "selector": "[data-native-key=\"nav-notifications\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        187.359375,
+        96,
+        44,
+        44
+      ],
+      "label": "알림 10",
+      "action": "notifications",
+      "href": "/notifications/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-review-nav-logout",
+      "native_key": "nav-logout",
+      "selector": "[data-native-key=\"nav-logout\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        249.359375,
+        96,
+        48.375,
+        44
+      ],
+      "label": "로그아웃",
+      "action": "logout",
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/logout/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-review-booking-reserve_review-a-1-0",
+      "native_key": "booking-reserve_review-a-1-0",
+      "selector": "[data-native-key=\"booking-reserve_review-a-1-0\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        189,
+        91.625,
+        44
+      ],
+      "label": "← 인원 다시 선택",
+      "action": "navigate",
+      "href": "/sessions/10/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-review-review-submit",
+      "native_key": "review-submit",
+      "selector": "[data-native-key=\"review-submit\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        24,
+        1207.640625,
+        101.703125,
+        48
+      ],
+      "label": "예약 신청",
+      "action": "reserve",
+      "href": null,
+      "method": "POST",
+      "form_action": "/sessions/10/reserve/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(142, 62, 40)",
+        "ink": "rgb(255, 253, 248)",
+        "stroke": "rgb(142, 62, 40)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-review-review-back",
+      "native_key": "review-back",
+      "selector": "[data-native-key=\"review-back\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        137.703125,
+        1207.640625,
+        101.703125,
+        48
+      ],
+      "label": "다시 선택",
+      "action": "review-back",
+      "href": "/sessions/10/",
+      "method": "POST",
+      "form_action": "/sessions/10/reserve/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "state-review-site-header-surface",
+      "selector": "[data-native-key=\"site-header\"]",
+      "tag": "header",
+      "box": [
+        0,
+        0,
+        375,
+        157
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          24,
+          0,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-review-review-summary-surface",
+      "selector": "[data-native-key=\"review-summary\"]",
+      "tag": "section",
+      "box": [
+        24,
+        408.890625,
+        327,
+        588.578125
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          24,
+          24,
+          24,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-review-site-footer-surface",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "tag": "footer",
+      "box": [
+        0,
+        1311.640625,
+        375,
+        167.375
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          24,
+          32,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    }
+  ],
+  "images": [],
+  "texts": [
+    {
+      "id": "state-review-brand-tagline-text-0",
+      "selector": "[data-native-key=\"brand-tagline\"]",
+      "value": "커피를 배우는 작은 시간",
+      "raw_value": "커피를 배우는 작은 시간",
+      "box": [
+        24,
+        66,
+        134.828125,
+        18
+      ],
+      "glyph_box": [
+        24,
+        66,
+        134.828125,
+        17
+      ],
+      "element_box": [
+        24,
+        66,
+        134.828125,
+        18
+      ],
+      "content_box": [
+        24,
+        66,
+        134.828125,
+        18
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "small",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 18,
+        "letter_spacing": 1.1,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-p-2-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-p-2-0\"]",
+      "value": "예약 전 마지막 확인",
+      "raw_value": "예약 전 마지막 확인",
+      "box": [
+        24,
+        265,
+        296.078125,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        267,
+        106.40625,
+        19
+      ],
+      "element_box": [
+        24,
+        265,
+        296.078125,
+        23.390625
+      ],
+      "content_box": [
+        24,
+        265,
+        296.078125,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-review-title-text-0",
+      "selector": "[data-native-key=\"review-title\"]",
+      "value": "이 일정으로 함께할까요?",
+      "raw_value": "이 일정으로 함께할까요?",
+      "box": [
+        24,
+        302.390625,
+        296.078125,
+        43.5
+      ],
+      "glyph_box": [
+        24,
+        301.390625,
+        296.078125,
+        44
+      ],
+      "element_box": [
+        24,
+        302.390625,
+        296.078125,
+        43.5
+      ],
+      "content_box": [
+        24,
+        302.390625,
+        296.078125,
+        43.5
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h1",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 30,
+        "leading": 43.5,
+        "letter_spacing": -1.2,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-p-3-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-p-3-0\"]",
+      "value": "아래 내용을 확인한 뒤 예약을 신청해 주세요.",
+      "raw_value": "아래 내용을 확인한 뒤 예약을 신청해 주세요.",
+      "box": [
+        24,
+        357.890625,
+        296.078125,
+        27
+      ],
+      "glyph_box": [
+        24,
+        360.890625,
+        278.828125,
+        21
+      ],
+      "element_box": [
+        24,
+        357.890625,
+        296.078125,
+        27
+      ],
+      "content_box": [
+        24,
+        357.890625,
+        296.078125,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-review-course-text-0",
+      "selector": "[data-native-key=\"review-course\"]",
+      "value": "나의 첫 핸드드립",
+      "raw_value": "나의 첫 핸드드립",
+      "box": [
+        49,
+        433.890625,
+        277,
+        39
+      ],
+      "glyph_box": [
+        49,
+        434.890625,
+        177.28125,
+        37
+      ],
+      "element_box": [
+        49,
+        433.890625,
+        277,
+        39
+      ],
+      "content_box": [
+        49,
+        433.890625,
+        277,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dt-4-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dt-4-0\"]",
+      "value": "일시",
+      "raw_value": "일시",
+      "box": [
+        49,
+        486.890625,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        488.890625,
+        24.1875,
+        19
+      ],
+      "element_box": [
+        49,
+        486.890625,
+        88,
+        81
+      ],
+      "content_box": [
+        49,
+        486.890625,
+        88,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dd-5-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dd-5-0\"]",
+      "value": "2026년 11월 17일 (화요",
+      "raw_value": "2026년 11월 17일 (화요",
+      "box": [
+        153,
+        486.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        489.890625,
+        156.234375,
+        21
+      ],
+      "element_box": [
+        153,
+        486.890625,
+        173,
+        81
+      ],
+      "content_box": [
+        153,
+        486.890625,
+        173,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [
+          "br"
+        ],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dd-5-0-text-1",
+      "selector": "[data-native-key=\"booking-reserve_review-dd-5-0\"]",
+      "value": "일)",
+      "raw_value": "일)",
+      "box": [
+        153,
+        513.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        516.890625,
+        20.140625,
+        21
+      ],
+      "element_box": [
+        153,
+        486.890625,
+        173,
+        81
+      ],
+      "content_box": [
+        153,
+        486.890625,
+        173,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [
+          "br"
+        ],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dd-5-0-text-0-occurrence-2",
+      "selector": "[data-native-key=\"booking-reserve_review-dd-5-0\"]",
+      "value": "11:00–12:30",
+      "raw_value": "11:00–12:30",
+      "box": [
+        153,
+        540.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        543.890625,
+        91.59375,
+        21
+      ],
+      "element_box": [
+        153,
+        486.890625,
+        173,
+        81
+      ],
+      "content_box": [
+        153,
+        486.890625,
+        173,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [
+          "br"
+        ],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dt-6-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dt-6-0\"]",
+      "value": "공간",
+      "raw_value": "공간",
+      "box": [
+        49,
+        596.890625,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        598.890625,
+        24.1875,
+        19
+      ],
+      "element_box": [
+        49,
+        596.890625,
+        88,
+        27
+      ],
+      "content_box": [
+        49,
+        596.890625,
+        88,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dd-7-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dd-7-0\"]",
+      "value": "드립 테이블",
+      "raw_value": "드립 테이블",
+      "box": [
+        153,
+        596.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        599.890625,
+        73.484375,
+        21
+      ],
+      "element_box": [
+        153,
+        596.890625,
+        173,
+        27
+      ],
+      "content_box": [
+        153,
+        596.890625,
+        173,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dt-8-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dt-8-0\"]",
+      "value": "참석 인원",
+      "raw_value": "참석 인원",
+      "box": [
+        49,
+        652.890625,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        654.890625,
+        51.59375,
+        19
+      ],
+      "element_box": [
+        49,
+        652.890625,
+        88,
+        27
+      ],
+      "content_box": [
+        49,
+        652.890625,
+        88,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dd-9-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dd-9-0\"]",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        153,
+        652.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        655.890625,
+        23.03125,
+        21
+      ],
+      "element_box": [
+        153,
+        652.890625,
+        173,
+        27
+      ],
+      "content_box": [
+        153,
+        652.890625,
+        173,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dt-10-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dt-10-0\"]",
+      "value": "1인 수업료",
+      "raw_value": "1인 수업료",
+      "box": [
+        49,
+        708.890625,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        710.890625,
+        58.046875,
+        19
+      ],
+      "element_box": [
+        49,
+        708.890625,
+        88,
+        27
+      ],
+      "content_box": [
+        49,
+        708.890625,
+        88,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-dd-11-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-dd-11-0\"]",
+      "value": "45,000원",
+      "raw_value": "45,000원",
+      "box": [
+        153,
+        708.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        711.890625,
+        68.15625,
+        21
+      ],
+      "element_box": [
+        153,
+        708.890625,
+        173,
+        27
+      ],
+      "content_box": [
+        153,
+        708.890625,
+        173,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-review-waitlist-label-text-0",
+      "selector": "[data-native-key=\"review-waitlist-label\"]",
+      "value": "대기 등록",
+      "raw_value": "대기 등록",
+      "box": [
+        49,
+        764.890625,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        766.890625,
+        51.59375,
+        19
+      ],
+      "element_box": [
+        49,
+        764.890625,
+        88,
+        54
+      ],
+      "content_box": [
+        49,
+        764.890625,
+        88,
+        54
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-review-waitlist-consent-text-0",
+      "selector": "[data-native-key=\"review-waitlist-consent\"]",
+      "value": "잔여석이 없으면 대기 신청",
+      "raw_value": "잔여석이 없으면 대기 신청",
+      "box": [
+        153,
+        764.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        767.890625,
+        164.625,
+        21
+      ],
+      "element_box": [
+        153,
+        764.890625,
+        173,
+        54
+      ],
+      "content_box": [
+        153,
+        764.890625,
+        173,
+        54
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-review-waitlist-consent-text-1",
+      "selector": "[data-native-key=\"review-waitlist-consent\"]",
+      "value": "에 동의함",
+      "raw_value": "에 동의함",
+      "box": [
+        153,
+        791.890625,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        794.890625,
+        59.53125,
+        21
+      ],
+      "element_box": [
+        153,
+        764.890625,
+        173,
+        54
+      ],
+      "content_box": [
+        153,
+        764.890625,
+        173,
+        54
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(1)>p:nth-child(3)>span:nth-child(1)",
+      "value": "총 수업료",
+      "raw_value": "총 수업료",
+      "box": [
+        49,
+        882.890625,
+        75.59375,
+        34.2
+      ],
+      "glyph_box": [
+        49,
+        885.890625,
+        75.59375,
+        27
+      ],
+      "element_box": [
+        49,
+        882.890625,
+        75.59375,
+        34.1875
+      ],
+      "content_box": [
+        49,
+        882.890625,
+        75.59375,
+        34.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 34.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(1)>p:nth-child(3)>span:nth-child(2)",
+      "value": "90,000원",
+      "raw_value": "90,000원",
+      "box": [
+        233.09375,
+        882.890625,
+        92.90625,
+        34.2
+      ],
+      "glyph_box": [
+        233.09375,
+        885.890625,
+        92.90625,
+        27
+      ],
+      "element_box": [
+        233.09375,
+        882.890625,
+        92.90625,
+        34.1875
+      ],
+      "content_box": [
+        233.09375,
+        882.890625,
+        92.90625,
+        34.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 34.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-p-12-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-p-12-0\"]",
+      "value": "현장에서 결제합니다.",
+      "raw_value": "현장에서 결제합니다.",
+      "box": [
+        49,
+        949.078125,
+        277,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        951.078125,
+        116.71875,
+        19
+      ],
+      "element_box": [
+        49,
+        949.078125,
+        277,
+        23.390625
+      ],
+      "content_box": [
+        49,
+        949.078125,
+        277,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-review-notice-title-text-0",
+      "selector": "[data-native-key=\"review-notice-title\"]",
+      "value": "신청 전 확인해 주세요",
+      "raw_value": "신청 전 확인해 주세요",
+      "box": [
+        24,
+        1025.46875,
+        327,
+        39
+      ],
+      "glyph_box": [
+        24,
+        1026.46875,
+        230.546875,
+        37
+      ],
+      "element_box": [
+        24,
+        1025.46875,
+        327,
+        39
+      ],
+      "content_box": [
+        24,
+        1025.46875,
+        327,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-p-13-0-text-0",
+      "selector": "[data-native-key=\"booking-reserve_review-p-13-0\"]",
+      "value": "수업 시작 120분 전까지 취소와 일정 변경이 가능합니다. 신",
+      "raw_value": "수업 시작 120분 전까지 취소와 일정 변경이 가능합니다. 신",
+      "box": [
+        24,
+        1109.46875,
+        327,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        1111.46875,
+        319.625,
+        19
+      ],
+      "element_box": [
+        24,
+        1088.46875,
+        327,
+        91.171875
+      ],
+      "content_box": [
+        24,
+        1109.46875,
+        327,
+        70.171875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-p-13-0-text-1",
+      "selector": "[data-native-key=\"booking-reserve_review-p-13-0\"]",
+      "value": "청 시점의 잔여석에 따라, 동의한 경우에만 대기로 등록됩니",
+      "raw_value": "청 시점의 잔여석에 따라, 동의한 경우에만 대기로 등록됩니",
+      "box": [
+        24,
+        1132.86875,
+        327,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        1134.859375,
+        317.390625,
+        19
+      ],
+      "element_box": [
+        24,
+        1088.46875,
+        327,
+        91.171875
+      ],
+      "content_box": [
+        24,
+        1109.46875,
+        327,
+        70.171875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-booking-reserve_review-p-13-0-text-2",
+      "selector": "[data-native-key=\"booking-reserve_review-p-13-0\"]",
+      "value": "다. 예약 결과는 다음 화면에서 확인할 수 있습니다.",
+      "raw_value": "다. 예약 결과는 다음 화면에서 확인할 수 있습니다.",
+      "box": [
+        24,
+        1156.26875,
+        327,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        1158.25,
+        273.734375,
+        19
+      ],
+      "element_box": [
+        24,
+        1088.46875,
+        327,
+        91.171875
+      ],
+      "content_box": [
+        24,
+        1109.46875,
+        327,
+        70.171875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(1)>strong:nth-child(1)",
+      "value": "작은손 커피공방",
+      "raw_value": "작은손 커피공방",
+      "box": [
+        24,
+        1344.340625,
+        81.21875,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        1346.640625,
+        81.21875,
+        17
+      ],
+      "element_box": [
+        24,
+        1346.640625,
+        81.21875,
+        17
+      ],
+      "content_box": [
+        24,
+        1346.640625,
+        81.21875,
+        17
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "strong",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-base-p-2-0-text-0",
+      "selector": "[data-native-key=\"base-p-2-0\"]",
+      "value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "raw_value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "box": [
+        24,
+        1365.934375,
+        202.0625,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        1368.234375,
+        202.0625,
+        17
+      ],
+      "element_box": [
+        24,
+        1344.640625,
+        327,
+        43.1875
+      ],
+      "content_box": [
+        24,
+        1344.640625,
+        327,
+        43.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "strong",
+          "br"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-base-p-3-0-text-0",
+      "selector": "[data-native-key=\"base-p-3-0\"]",
+      "value": "수업료는 현장에서 결제합니다.",
+      "raw_value": "수업료는 현장에서 결제합니다.",
+      "box": [
+        24,
+        1399.528125,
+        155.359375,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        1401.828125,
+        155.359375,
+        17
+      ],
+      "element_box": [
+        24,
+        1399.828125,
+        327,
+        47.1875
+      ],
+      "content_box": [
+        24,
+        1399.828125,
+        327,
+        47.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "br",
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-review-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(2)>span:nth-child(2)",
+      "value": "staging 환경",
+      "raw_value": "staging 환경",
+      "box": [
+        40,
+        1423.121875,
+        67.921875,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1425.421875,
+        67.921875,
+        17
+      ],
+      "element_box": [
+        32,
+        1421.421875,
+        83.921875,
+        25.59375
+      ],
+      "content_box": [
+        40,
+        1423.421875,
+        67.921875,
+        21.59375
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          1,
+          7,
+          1,
+          7
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    }
+  ],
+  "containers": [
+    {
+      "id": "state-review-site-header-container",
+      "selector": "[data-native-key=\"site-header\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        0,
+        375,
+        157
+      ],
+      "tag": "header",
+      "classes": "site-header",
+      "members": [
+        "state-review-brand",
+        "state-review-nav-sessions",
+        "state-review-nav-bookings",
+        "state-review-nav-notifications",
+        "state-review-nav-logout",
+        "state-review-site-header-surface",
+        "state-review-brand-tagline-text-0",
+        "state-review-site-header-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          24,
+          0,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-body-header-nth-child-2-div-nth-child-1--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "parent_selector": "[data-native-key=\"site-header\"]",
+      "box": [
+        24,
+        0,
+        327,
+        156
+      ],
+      "tag": "div",
+      "classes": "wrap header-inner",
+      "members": [
+        "state-review-brand",
+        "state-review-nav-sessions",
+        "state-review-nav-bookings",
+        "state-review-nav-notifications",
+        "state-review-nav-logout",
+        "state-review-brand-tagline-text-0",
+        "state-review-body-header-nth-child-2-div-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 12,
+        "align_items": "center",
+        "justify_content": "space-between",
+        "padding": [
+          16,
+          0,
+          16,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "box": [
+        24,
+        96,
+        327,
+        44
+      ],
+      "tag": "nav",
+      "classes": "nav",
+      "members": [
+        "state-review-nav-sessions",
+        "state-review-nav-bookings",
+        "state-review-nav-notifications",
+        "state-review-nav-logout",
+        "state-review-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 18,
+        "align_items": "center",
+        "justify_content": "flex-start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-4--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)>form:nth-child(4)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "box": [
+        249.359375,
+        96,
+        48.375,
+        44
+      ],
+      "tag": "form",
+      "classes": "",
+      "members": [
+        "state-review-nav-logout",
+        "state-review-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-4--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-main-container",
+      "selector": "#main",
+      "parent_selector": null,
+      "box": [
+        0,
+        157,
+        375,
+        1154.640625
+      ],
+      "tag": "main",
+      "classes": "page ",
+      "members": [
+        "state-review-booking-reserve_review-a-1-0",
+        "state-review-review-submit",
+        "state-review-review-back",
+        "state-review-review-summary-surface",
+        "state-review-booking-reserve_review-p-2-0-text-0",
+        "state-review-review-title-text-0",
+        "state-review-booking-reserve_review-p-3-0-text-0",
+        "state-review-review-course-text-0",
+        "state-review-booking-reserve_review-dt-4-0-text-0",
+        "state-review-booking-reserve_review-dd-5-0-text-0",
+        "state-review-booking-reserve_review-dd-5-0-text-1",
+        "state-review-booking-reserve_review-dd-5-0-text-0-occurrence-2",
+        "state-review-booking-reserve_review-dt-6-0-text-0",
+        "state-review-booking-reserve_review-dd-7-0-text-0",
+        "state-review-booking-reserve_review-dt-8-0-text-0",
+        "state-review-booking-reserve_review-dd-9-0-text-0",
+        "state-review-booking-reserve_review-dt-10-0-text-0",
+        "state-review-booking-reserve_review-dd-11-0-text-0",
+        "state-review-review-waitlist-label-text-0",
+        "state-review-review-waitlist-consent-text-0",
+        "state-review-review-waitlist-consent-text-1",
+        "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-review-booking-reserve_review-p-12-0-text-0",
+        "state-review-review-notice-title-text-0",
+        "state-review-booking-reserve_review-p-13-0-text-0",
+        "state-review-booking-reserve_review-p-13-0-text-1",
+        "state-review-booking-reserve_review-p-13-0-text-2",
+        "state-review-main-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          24,
+          56,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-review-summary-container",
+      "selector": "[data-native-key=\"review-summary\"]",
+      "parent_selector": "#main",
+      "box": [
+        24,
+        408.890625,
+        327,
+        588.578125
+      ],
+      "tag": "section",
+      "classes": "paper",
+      "members": [
+        "state-review-review-summary-surface",
+        "state-review-review-course-text-0",
+        "state-review-booking-reserve_review-dt-4-0-text-0",
+        "state-review-booking-reserve_review-dd-5-0-text-0",
+        "state-review-booking-reserve_review-dd-5-0-text-1",
+        "state-review-booking-reserve_review-dd-5-0-text-0-occurrence-2",
+        "state-review-booking-reserve_review-dt-6-0-text-0",
+        "state-review-booking-reserve_review-dd-7-0-text-0",
+        "state-review-booking-reserve_review-dt-8-0-text-0",
+        "state-review-booking-reserve_review-dd-9-0-text-0",
+        "state-review-booking-reserve_review-dt-10-0-text-0",
+        "state-review-booking-reserve_review-dd-11-0-text-0",
+        "state-review-review-waitlist-label-text-0",
+        "state-review-review-waitlist-consent-text-0",
+        "state-review-review-waitlist-consent-text-1",
+        "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-review-booking-reserve_review-p-12-0-text-0",
+        "state-review-review-summary-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          24,
+          24,
+          24,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)",
+      "parent_selector": "#main",
+      "box": [
+        24,
+        1025.46875,
+        327,
+        230.171875
+      ],
+      "tag": "section",
+      "classes": "",
+      "members": [
+        "state-review-review-submit",
+        "state-review-review-back",
+        "state-review-review-notice-title-text-0",
+        "state-review-booking-reserve_review-p-13-0-text-0",
+        "state-review-booking-reserve_review-p-13-0-text-1",
+        "state-review-booking-reserve_review-p-13-0-text-2",
+        "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2-form-nth-child-3--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)>form:nth-child(3)",
+      "parent_selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)",
+      "box": [
+        24,
+        1207.640625,
+        327,
+        48
+      ],
+      "tag": "form",
+      "classes": "",
+      "members": [
+        "state-review-review-submit",
+        "state-review-review-back",
+        "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2-form-nth-child-3--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2-form-nth-child-3-div-nth-child-6--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)>form:nth-child(3)>div:nth-child(6)",
+      "parent_selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)>form:nth-child(3)",
+      "box": [
+        24,
+        1207.640625,
+        327,
+        48
+      ],
+      "tag": "div",
+      "classes": "actions",
+      "members": [
+        "state-review-review-submit",
+        "state-review-review-back",
+        "state-review-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2-form-nth-child-3-div-nth-child-6--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 12,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-review-site-footer-container",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        1311.640625,
+        375,
+        167.375
+      ],
+      "tag": "footer",
+      "classes": "site-footer",
+      "members": [
+        "state-review-site-footer-surface",
+        "state-review-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+        "state-review-base-p-2-0-text-0",
+        "state-review-base-p-3-0-text-0",
+        "state-review-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+        "state-review-site-footer-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          24,
+          32,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    }
+  ],
+  "html": "<!doctype html>\n<html lang=\"ko\"><head><title>예약 내용 확인 · 작은손 커피공방</title><link rel=\"stylesheet\" href=\"/static/littlehands/app.3539de012f0c.css\"></head>\n<body data-app=\"little-hands\" data-environment=\"staging\"><header class=\"site-header\" data-native-key=\"site-header\" data-native-type=\"surface\"><div class=\"wrap header-inner\"><div class=\"brand\" data-native-key=\"brand-stack\"><a class=\"brand-link\" href=\"/\" aria-label=\"작은손 커피공방 홈\" data-native-key=\"brand\" data-native-type=\"control\" data-action=\"home\">작은손 커피공방</a><small data-native-key=\"brand-tagline\" data-native-type=\"text\">커피를 배우는 작은 시간</small></div><nav class=\"nav\" aria-label=\"회원 메뉴\"><a href=\"/\" data-action=\"sessions\" data-native-key=\"nav-sessions\" data-native-type=\"control\">수업 둘러보기</a><a href=\"/bookings/\" data-action=\"bookings\" data-native-key=\"nav-bookings\" data-native-type=\"control\">나의 예약</a><a href=\"/notifications/\" data-action=\"notifications\" data-native-key=\"nav-notifications\" data-native-type=\"control\">알림 10</a><form inert data-export-only=\"true\" method=\"post\"><button class=\"text-button\" data-action=\"logout\" data-native-key=\"nav-logout\" data-native-type=\"control\" type=\"button\">로그아웃</button></form></nav></div></header>\n<main id=\"main\" class=\"page \" tabindex=\"-1\"><div class=\"wrap\"><a class=\"back\" href=\"/sessions/10/\" data-native-key=\"booking-reserve_review-a-1-0\" data-native-type=\"control\" data-action=\"navigate\">← 인원 다시 선택</a><div class=\"page-heading\"><div><p class=\"kicker\" data-native-key=\"booking-reserve_review-p-2-0\" data-native-type=\"text\">예약 전 마지막 확인</p><h1 data-native-key=\"review-title\" data-native-type=\"text\">이 일정으로 함께할까요?</h1><p data-native-key=\"booking-reserve_review-p-3-0\" data-native-type=\"text\">아래 내용을 확인한 뒤 예약을 신청해 주세요.</p></div></div><div class=\"split\"><section class=\"paper\" data-native-key=\"review-summary\" data-native-type=\"surface\"><h2 data-native-key=\"review-course\" data-native-type=\"text\">나의 첫 핸드드립</h2><dl class=\"facts\"><div><dt data-native-key=\"booking-reserve_review-dt-4-0\" data-native-type=\"text\">일시</dt><dd data-native-key=\"booking-reserve_review-dd-5-0\" data-native-type=\"text\">2026년 11월 17일 (화요일)<br>11:00–12:30</dd></div><div><dt data-native-key=\"booking-reserve_review-dt-6-0\" data-native-type=\"text\">공간</dt><dd data-native-key=\"booking-reserve_review-dd-7-0\" data-native-type=\"text\">드립 테이블</dd></div><div><dt data-native-key=\"booking-reserve_review-dt-8-0\" data-native-type=\"text\">참석 인원</dt><dd data-native-key=\"booking-reserve_review-dd-9-0\" data-native-type=\"text\">2명</dd></div><div><dt data-native-key=\"booking-reserve_review-dt-10-0\" data-native-type=\"text\">1인 수업료</dt><dd data-native-key=\"booking-reserve_review-dd-11-0\" data-native-type=\"text\">45,000원</dd></div><div><dt data-native-key=\"review-waitlist-label\" data-native-type=\"text\">대기 등록</dt><dd data-native-key=\"review-waitlist-consent\" data-native-type=\"text\">잔여석이 없으면 대기 신청에 동의함</dd></div></dl><p class=\"total\" data-native-key=\"review-total\" data-native-type=\"text\"><span>총 수업료</span><span>90,000원</span></p><p class=\"help\" data-native-key=\"booking-reserve_review-p-12-0\" data-native-type=\"text\">현장에서 결제합니다.</p></section><section><h2 data-native-key=\"review-notice-title\" data-native-type=\"text\">신청 전 확인해 주세요</h2><p class=\"policy\" data-native-key=\"booking-reserve_review-p-13-0\" data-native-type=\"text\">수업 시작 120분 전까지 취소와 일정 변경이 가능합니다. 신청 시점의 잔여석에 따라, 동의한 경우에만 대기로 등록됩니다. 예약 결과는 다음 화면에서 확인할 수 있습니다.</p><form inert data-export-only=\"true\" method=\"post\"><div class=\"actions\"><button class=\"button\" data-action=\"reserve\" data-native-key=\"review-submit\" data-native-type=\"control\" type=\"button\">예약 신청</button><a class=\"button secondary\" href=\"/sessions/10/\" data-action=\"review-back\" data-native-key=\"review-back\" data-native-type=\"control\">다시 선택</a></div>\n</form></section></div></div></main>\n<footer class=\"site-footer\" data-native-key=\"site-footer\" data-native-type=\"surface\"><div class=\"wrap footer-inner\"><p data-native-key=\"base-p-2-0\" data-native-type=\"text\"><strong>작은손 커피공방</strong><br>수업의 작은 시작부터, 나만의 한 잔까지.</p><p data-native-key=\"base-p-3-0\" data-native-type=\"text\">수업료는 현장에서 결제합니다.<br><span class=\"environment\">staging 환경</span></p></div></footer>\n</body><div id=\"codex-browser-sidebar-comments-root\"></div></html>",
+  "scope": "Actual visible DOM geometry. Visual source only; no authentication, SQL, action execution, acceptance result, or Figma observation is proved."
+}

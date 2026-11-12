@@ -1,0 +1,3443 @@
+{
+  "schema": "little-hands-browser-measurement-v1",
+  "state": "state-mybookings",
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "viewport": {
+    "width": 1200,
+    "height": 900
+  },
+  "document": {
+    "width": 1185,
+    "height": 1141
+  },
+  "route": "/bookings/",
+  "title": "나의 예약 · 작은손 커피공방",
+  "body_background": "rgb(246, 242, 233)",
+  "fonts_ready": "loaded",
+  "captured_at": "2026-11-12T16:08:33.685Z",
+  "controls": [
+    {
+      "id": "state-mybookings-brand",
+      "native_key": "brand",
+      "selector": "[data-native-key=\"brand\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        14,
+        144.90625,
+        48
+      ],
+      "label": "작은손 커피공방",
+      "action": "home",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 22,
+        "leading": 33,
+        "letter_spacing": -0.5,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-nav-sessions",
+      "native_key": "nav-sessions",
+      "selector": "[data-native-key=\"nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        838.8125,
+        26,
+        81.59375,
+        44
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-nav-bookings",
+      "native_key": "nav-bookings",
+      "selector": "[data-native-key=\"nav-bookings\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        944.40625,
+        26,
+        55.5625,
+        44
+      ],
+      "label": "나의 예약",
+      "action": "bookings",
+      "href": "/bookings/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-nav-notifications",
+      "native_key": "nav-notifications",
+      "selector": "[data-native-key=\"nav-notifications\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1023.96875,
+        26,
+        44.9375,
+        44
+      ],
+      "label": "알림 12",
+      "action": "notifications",
+      "href": "/notifications/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-nav-logout",
+      "native_key": "nav-logout",
+      "selector": "[data-native-key=\"nav-logout\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        1092.90625,
+        26,
+        52.09375,
+        44
+      ],
+      "label": "로그아웃",
+      "action": "logout",
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/logout/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-bookings-browse",
+      "native_key": "bookings-browse",
+      "selector": "[data-native-key=\"bookings-browse\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1017.265625,
+        194,
+        127.734375,
+        48
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-my_bookings-a-2-1",
+      "native_key": "booking-my_bookings-a-2-1",
+      "selector": "[data-native-key=\"booking-my_bookings-a-2-1\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        339.1875,
+        133.5,
+        44
+      ],
+      "label": "나의 첫 핸드드립",
+      "action": "navigate",
+      "href": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 30.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+      "native_key": "booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+      "selector": "[data-native-key=\"booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1043.296875,
+        334.78125,
+        101.703125,
+        48
+      ],
+      "label": "예약 상세",
+      "action": "booking-detail",
+      "href": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-my_bookings-a-2-2",
+      "native_key": "booking-my_bookings-a-2-2",
+      "selector": "[data-native-key=\"booking-my_bookings-a-2-2\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        507.765625,
+        133.5,
+        44
+      ],
+      "label": "나의 첫 핸드드립",
+      "action": "navigate",
+      "href": "/bookings/34f803be-11f4-4cd7-a3f1-37a4ba79aee5/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 30.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+      "native_key": "booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+      "selector": "[data-native-key=\"booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1043.296875,
+        503.359375,
+        101.703125,
+        48
+      ],
+      "label": "예약 상세",
+      "action": "booking-detail",
+      "href": "/bookings/34f803be-11f4-4cd7-a3f1-37a4ba79aee5/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-my_bookings-a-2-3",
+      "native_key": "booking-my_bookings-a-2-3",
+      "selector": "[data-native-key=\"booking-my_bookings-a-2-3\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        676.34375,
+        133.5,
+        44
+      ],
+      "label": "나의 첫 핸드드립",
+      "action": "navigate",
+      "href": "/bookings/0297033d-6bec-43b2-88f4-7a57208fe13f/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 30.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+      "native_key": "booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+      "selector": "[data-native-key=\"booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1043.296875,
+        671.9375,
+        101.703125,
+        48
+      ],
+      "label": "예약 상세",
+      "action": "booking-detail",
+      "href": "/bookings/0297033d-6bec-43b2-88f4-7a57208fe13f/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-my_bookings-a-2-4",
+      "native_key": "booking-my_bookings-a-2-4",
+      "selector": "[data-native-key=\"booking-my_bookings-a-2-4\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        844.921875,
+        133.5,
+        44
+      ],
+      "label": "나의 첫 핸드드립",
+      "action": "navigate",
+      "href": "/bookings/e7da31f1-7773-4bb7-90c3-3e088455663a/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 30.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+      "native_key": "booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+      "selector": "[data-native-key=\"booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1043.296875,
+        840.515625,
+        101.703125,
+        48
+      ],
+      "label": "예약 상세",
+      "action": "booking-detail",
+      "href": "/bookings/e7da31f1-7773-4bb7-90c3-3e088455663a/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "state-mybookings-site-header-surface",
+      "selector": "[data-native-key=\"site-header\"]",
+      "tag": "header",
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-surface",
+      "selector": "[data-native-key=\"booking-20a1fb73-757b-464d-b9fb-98057fedf35d\"]",
+      "tag": "article",
+      "box": [
+        40,
+        274,
+        1105,
+        168.578125
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-surface",
+      "selector": "[data-native-key=\"booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5\"]",
+      "tag": "article",
+      "box": [
+        40,
+        442.578125,
+        1105,
+        168.578125
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-surface",
+      "selector": "[data-native-key=\"booking-0297033d-6bec-43b2-88f4-7a57208fe13f\"]",
+      "tag": "article",
+      "box": [
+        40,
+        611.15625,
+        1105,
+        168.578125
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+      "selector": "[data-native-key=\"booking-e7da31f1-7773-4bb7-90c3-3e088455663a\"]",
+      "tag": "article",
+      "box": [
+        40,
+        779.734375,
+        1105,
+        168.578125
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-mybookings-site-footer-surface",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "tag": "footer",
+      "box": [
+        0,
+        1028.3125,
+        1185,
+        112.1875
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    }
+  ],
+  "images": [],
+  "texts": [
+    {
+      "id": "state-mybookings-brand-tagline-text-0",
+      "selector": "[data-native-key=\"brand-tagline\"]",
+      "value": "커피를 배우는 작은 시간",
+      "raw_value": "커피를 배우는 작은 시간",
+      "box": [
+        40,
+        64,
+        144.90625,
+        18
+      ],
+      "glyph_box": [
+        40,
+        64,
+        134.828125,
+        17
+      ],
+      "element_box": [
+        40,
+        64,
+        144.90625,
+        18
+      ],
+      "content_box": [
+        40,
+        64,
+        144.90625,
+        18
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "small",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 18,
+        "letter_spacing": 1.1,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-bookings-title-text-0",
+      "selector": "[data-native-key=\"bookings-title\"]",
+      "value": "나의 예약",
+      "raw_value": "나의 예약",
+      "box": [
+        40,
+        145,
+        243.484375,
+        58
+      ],
+      "glyph_box": [
+        40,
+        145,
+        153.125,
+        58
+      ],
+      "element_box": [
+        40,
+        145,
+        243.484375,
+        58
+      ],
+      "content_box": [
+        40,
+        145,
+        243.484375,
+        58
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h1",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 40,
+        "leading": 58,
+        "letter_spacing": -1.2,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-booking-my_bookings-p-1-0-text-0",
+      "selector": "[data-native-key=\"booking-my_bookings-p-1-0\"]",
+      "value": "함께할 수업과 신청 내역을 확인하세요.",
+      "raw_value": "함께할 수업과 신청 내역을 확인하세요.",
+      "box": [
+        40,
+        215,
+        243.484375,
+        27
+      ],
+      "glyph_box": [
+        40,
+        218,
+        243.484375,
+        21
+      ],
+      "element_box": [
+        40,
+        215,
+        243.484375,
+        27
+      ],
+      "content_box": [
+        40,
+        215,
+        243.484375,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d-text-0",
+      "selector": "[data-native-key=\"booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d\"]",
+      "value": "취소 완료",
+      "raw_value": "취소 완료",
+      "box": [
+        51,
+        307.9,
+        47.625,
+        19.2
+      ],
+      "glyph_box": [
+        51,
+        309,
+        47.625,
+        17
+      ],
+      "element_box": [
+        40,
+        304,
+        69.625,
+        27.1875
+      ],
+      "content_box": [
+        51,
+        308,
+        47.625,
+        19.1875
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 19.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          3,
+          10,
+          3,
+          10
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(2)>div:nth-child(1)>p:nth-child(3)>span:nth-child(1)",
+      "value": "2026.11.17 (화요일) 11:00",
+      "raw_value": "2026.11.17 (화요일) 11:00",
+      "box": [
+        40,
+        391.1875,
+        157.734375,
+        23.4
+      ],
+      "glyph_box": [
+        40,
+        393.1875,
+        157.734375,
+        19
+      ],
+      "element_box": [
+        40,
+        391.1875,
+        157.734375,
+        23.390625
+      ],
+      "content_box": [
+        40,
+        391.1875,
+        157.734375,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(2)>div:nth-child(1)>p:nth-child(3)>span:nth-child(2)",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        217.734375,
+        391.1875,
+        19.96875,
+        23.4
+      ],
+      "glyph_box": [
+        217.734375,
+        393.1875,
+        19.96875,
+        19
+      ],
+      "element_box": [
+        217.734375,
+        391.1875,
+        19.96875,
+        23.390625
+      ],
+      "content_box": [
+        217.734375,
+        391.1875,
+        19.96875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(2)>div:nth-child(1)>p:nth-child(3)>span:nth-child(3)",
+      "value": "드립 테이블",
+      "raw_value": "드립 테이블",
+      "box": [
+        257.703125,
+        391.1875,
+        63.6875,
+        23.4
+      ],
+      "glyph_box": [
+        257.703125,
+        393.1875,
+        63.6875,
+        19
+      ],
+      "element_box": [
+        257.703125,
+        391.1875,
+        63.6875,
+        23.390625
+      ],
+      "content_box": [
+        257.703125,
+        391.1875,
+        63.6875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-booking-status-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-text-0",
+      "selector": "[data-native-key=\"booking-status-34f803be-11f4-4cd7-a3f1-37a4ba79aee5\"]",
+      "value": "취소 완료",
+      "raw_value": "취소 완료",
+      "box": [
+        51,
+        476.478125,
+        47.625,
+        19.2
+      ],
+      "glyph_box": [
+        51,
+        477.578125,
+        47.625,
+        17
+      ],
+      "element_box": [
+        40,
+        472.578125,
+        69.625,
+        27.1875
+      ],
+      "content_box": [
+        51,
+        476.578125,
+        47.625,
+        19.1875
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 19.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          3,
+          10,
+          3,
+          10
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(3)>div:nth-child(1)>p:nth-child(3)>span:nth-child(1)",
+      "value": "2026.11.17 (화요일) 11:00",
+      "raw_value": "2026.11.17 (화요일) 11:00",
+      "box": [
+        40,
+        559.765625,
+        157.734375,
+        23.4
+      ],
+      "glyph_box": [
+        40,
+        561.765625,
+        157.734375,
+        19
+      ],
+      "element_box": [
+        40,
+        559.765625,
+        157.734375,
+        23.390625
+      ],
+      "content_box": [
+        40,
+        559.765625,
+        157.734375,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(3)>div:nth-child(1)>p:nth-child(3)>span:nth-child(2)",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        217.734375,
+        559.765625,
+        19.96875,
+        23.4
+      ],
+      "glyph_box": [
+        217.734375,
+        561.765625,
+        19.96875,
+        19
+      ],
+      "element_box": [
+        217.734375,
+        559.765625,
+        19.96875,
+        23.390625
+      ],
+      "content_box": [
+        217.734375,
+        559.765625,
+        19.96875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(3)>div:nth-child(1)>p:nth-child(3)>span:nth-child(3)",
+      "value": "드립 테이블",
+      "raw_value": "드립 테이블",
+      "box": [
+        257.703125,
+        559.765625,
+        63.6875,
+        23.4
+      ],
+      "glyph_box": [
+        257.703125,
+        561.765625,
+        63.6875,
+        19
+      ],
+      "element_box": [
+        257.703125,
+        559.765625,
+        63.6875,
+        23.390625
+      ],
+      "content_box": [
+        257.703125,
+        559.765625,
+        63.6875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-booking-status-0297033d-6bec-43b2-88f4-7a57208fe13f-text-0",
+      "selector": "[data-native-key=\"booking-status-0297033d-6bec-43b2-88f4-7a57208fe13f\"]",
+      "value": "취소 완료",
+      "raw_value": "취소 완료",
+      "box": [
+        51,
+        645.05625,
+        47.625,
+        19.2
+      ],
+      "glyph_box": [
+        51,
+        646.15625,
+        47.625,
+        17
+      ],
+      "element_box": [
+        40,
+        641.15625,
+        69.625,
+        27.1875
+      ],
+      "content_box": [
+        51,
+        645.15625,
+        47.625,
+        19.1875
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 19.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          3,
+          10,
+          3,
+          10
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(4)>div:nth-child(1)>p:nth-child(3)>span:nth-child(1)",
+      "value": "2026.11.15 (일요일) 11:00",
+      "raw_value": "2026.11.15 (일요일) 11:00",
+      "box": [
+        40,
+        728.34375,
+        157.96875,
+        23.4
+      ],
+      "glyph_box": [
+        40,
+        730.34375,
+        157.96875,
+        19
+      ],
+      "element_box": [
+        40,
+        728.34375,
+        157.96875,
+        23.390625
+      ],
+      "content_box": [
+        40,
+        728.34375,
+        157.96875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(4)>div:nth-child(1)>p:nth-child(3)>span:nth-child(2)",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        217.96875,
+        728.34375,
+        19.96875,
+        23.4
+      ],
+      "glyph_box": [
+        217.96875,
+        730.34375,
+        19.96875,
+        19
+      ],
+      "element_box": [
+        217.96875,
+        728.34375,
+        19.96875,
+        23.390625
+      ],
+      "content_box": [
+        217.96875,
+        728.34375,
+        19.96875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(4)>div:nth-child(1)>p:nth-child(3)>span:nth-child(3)",
+      "value": "드립 테이블",
+      "raw_value": "드립 테이블",
+      "box": [
+        257.9375,
+        728.34375,
+        63.6875,
+        23.4
+      ],
+      "glyph_box": [
+        257.9375,
+        730.34375,
+        63.6875,
+        19
+      ],
+      "element_box": [
+        257.9375,
+        728.34375,
+        63.6875,
+        23.390625
+      ],
+      "content_box": [
+        257.9375,
+        728.34375,
+        63.6875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-booking-status-e7da31f1-7773-4bb7-90c3-3e088455663a-text-0",
+      "selector": "[data-native-key=\"booking-status-e7da31f1-7773-4bb7-90c3-3e088455663a\"]",
+      "value": "예약 확정",
+      "raw_value": "예약 확정",
+      "box": [
+        51,
+        813.634375,
+        47.625,
+        19.2
+      ],
+      "glyph_box": [
+        51,
+        814.734375,
+        47.625,
+        17
+      ],
+      "element_box": [
+        40,
+        809.734375,
+        69.625,
+        27.1875
+      ],
+      "content_box": [
+        51,
+        813.734375,
+        47.625,
+        19.1875
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(53, 89, 70)",
+        "stroke": "rgb(53, 89, 70)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(53, 89, 70)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(53, 89, 70)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(53, 89, 70)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(53, 89, 70)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 19.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          3,
+          10,
+          3,
+          10
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(5)>div:nth-child(1)>p:nth-child(3)>span:nth-child(1)",
+      "value": "2026.11.14 (토요일) 11:00",
+      "raw_value": "2026.11.14 (토요일) 11:00",
+      "box": [
+        40,
+        896.921875,
+        158.015625,
+        23.4
+      ],
+      "glyph_box": [
+        40,
+        898.921875,
+        158.015625,
+        19
+      ],
+      "element_box": [
+        40,
+        896.921875,
+        158.015625,
+        23.390625
+      ],
+      "content_box": [
+        40,
+        896.921875,
+        158.015625,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(5)>div:nth-child(1)>p:nth-child(3)>span:nth-child(2)",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        218.015625,
+        896.921875,
+        19.96875,
+        23.4
+      ],
+      "glyph_box": [
+        218.015625,
+        898.921875,
+        19.96875,
+        19
+      ],
+      "element_box": [
+        218.015625,
+        896.921875,
+        19.96875,
+        23.390625
+      ],
+      "content_box": [
+        218.015625,
+        896.921875,
+        19.96875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>article:nth-child(5)>div:nth-child(1)>p:nth-child(3)>span:nth-child(3)",
+      "value": "드립 테이블",
+      "raw_value": "드립 테이블",
+      "box": [
+        257.984375,
+        896.921875,
+        63.6875,
+        23.4
+      ],
+      "glyph_box": [
+        257.984375,
+        898.921875,
+        63.6875,
+        19
+      ],
+      "element_box": [
+        257.984375,
+        896.921875,
+        63.6875,
+        23.390625
+      ],
+      "content_box": [
+        257.984375,
+        896.921875,
+        63.6875,
+        23.390625
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(1)>strong:nth-child(1)",
+      "value": "작은손 커피공방",
+      "raw_value": "작은손 커피공방",
+      "box": [
+        40,
+        1061.0125,
+        81.21875,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1063.3125,
+        81.21875,
+        17
+      ],
+      "element_box": [
+        40,
+        1063.3125,
+        81.21875,
+        17
+      ],
+      "content_box": [
+        40,
+        1063.3125,
+        81.21875,
+        17
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "strong",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-base-p-2-0-text-0",
+      "selector": "[data-native-key=\"base-p-2-0\"]",
+      "value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "raw_value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "box": [
+        40,
+        1082.60625,
+        202.0625,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1084.90625,
+        202.0625,
+        17
+      ],
+      "element_box": [
+        40,
+        1061.3125,
+        202.0625,
+        47.1875
+      ],
+      "content_box": [
+        40,
+        1061.3125,
+        202.0625,
+        47.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "strong",
+          "br"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-base-p-3-0-text-0",
+      "selector": "[data-native-key=\"base-p-3-0\"]",
+      "value": "수업료는 현장에서 결제합니다.",
+      "raw_value": "수업료는 현장에서 결제합니다.",
+      "box": [
+        989.640625,
+        1061.0125,
+        155.359375,
+        21.6
+      ],
+      "glyph_box": [
+        989.640625,
+        1063.3125,
+        155.359375,
+        17
+      ],
+      "element_box": [
+        989.640625,
+        1061.3125,
+        155.359375,
+        47.1875
+      ],
+      "content_box": [
+        989.640625,
+        1061.3125,
+        155.359375,
+        47.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "br",
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-mybookings-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(2)>span:nth-child(2)",
+      "value": "staging 환경",
+      "raw_value": "staging 환경",
+      "box": [
+        1005.640625,
+        1084.60625,
+        67.921875,
+        21.6
+      ],
+      "glyph_box": [
+        1005.640625,
+        1086.90625,
+        67.921875,
+        17
+      ],
+      "element_box": [
+        997.640625,
+        1082.90625,
+        83.921875,
+        25.59375
+      ],
+      "content_box": [
+        1005.640625,
+        1084.90625,
+        67.921875,
+        21.59375
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          1,
+          7,
+          1,
+          7
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    }
+  ],
+  "containers": [
+    {
+      "id": "state-mybookings-site-header-container",
+      "selector": "[data-native-key=\"site-header\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "tag": "header",
+      "classes": "site-header",
+      "members": [
+        "state-mybookings-brand",
+        "state-mybookings-nav-sessions",
+        "state-mybookings-nav-bookings",
+        "state-mybookings-nav-notifications",
+        "state-mybookings-nav-logout",
+        "state-mybookings-site-header-surface",
+        "state-mybookings-brand-tagline-text-0",
+        "state-mybookings-site-header-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-body-header-nth-child-2-div-nth-child-1--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "parent_selector": "[data-native-key=\"site-header\"]",
+      "box": [
+        40,
+        0,
+        1105,
+        96
+      ],
+      "tag": "div",
+      "classes": "wrap header-inner",
+      "members": [
+        "state-mybookings-brand",
+        "state-mybookings-nav-sessions",
+        "state-mybookings-nav-bookings",
+        "state-mybookings-nav-notifications",
+        "state-mybookings-nav-logout",
+        "state-mybookings-brand-tagline-text-0",
+        "state-mybookings-body-header-nth-child-2-div-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "space-between",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "box": [
+        838.8125,
+        26,
+        306.1875,
+        44
+      ],
+      "tag": "nav",
+      "classes": "nav",
+      "members": [
+        "state-mybookings-nav-sessions",
+        "state-mybookings-nav-bookings",
+        "state-mybookings-nav-notifications",
+        "state-mybookings-nav-logout",
+        "state-mybookings-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-4--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)>form:nth-child(4)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "box": [
+        1092.90625,
+        26,
+        52.09375,
+        44
+      ],
+      "tag": "form",
+      "classes": "",
+      "members": [
+        "state-mybookings-nav-logout",
+        "state-mybookings-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-4--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-main-container",
+      "selector": "#main",
+      "parent_selector": null,
+      "box": [
+        0,
+        97,
+        1185,
+        931.3125
+      ],
+      "tag": "main",
+      "classes": "page ",
+      "members": [
+        "state-mybookings-bookings-browse",
+        "state-mybookings-booking-my_bookings-a-2-1",
+        "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+        "state-mybookings-booking-my_bookings-a-2-2",
+        "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+        "state-mybookings-booking-my_bookings-a-2-3",
+        "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+        "state-mybookings-booking-my_bookings-a-2-4",
+        "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+        "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-surface",
+        "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-surface",
+        "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-surface",
+        "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+        "state-mybookings-bookings-title-text-0",
+        "state-mybookings-booking-my_bookings-p-1-0-text-0",
+        "state-mybookings-booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-booking-status-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-booking-status-0297033d-6bec-43b2-88f4-7a57208fe13f-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-booking-status-e7da31f1-7773-4bb7-90c3-3e088455663a-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-main-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          48,
+          40,
+          80,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-container",
+      "selector": "[data-native-key=\"booking-20a1fb73-757b-464d-b9fb-98057fedf35d\"]",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        274,
+        1105,
+        168.578125
+      ],
+      "tag": "article",
+      "classes": "booking-row",
+      "members": [
+        "state-mybookings-booking-my_bookings-a-2-1",
+        "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+        "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-surface",
+        "state-mybookings-booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-2-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-container"
+      ],
+      "css": {
+        "display": "grid",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-container",
+      "selector": "[data-native-key=\"booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5\"]",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        442.578125,
+        1105,
+        168.578125
+      ],
+      "tag": "article",
+      "classes": "booking-row",
+      "members": [
+        "state-mybookings-booking-my_bookings-a-2-2",
+        "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+        "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-surface",
+        "state-mybookings-booking-status-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-3-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-container"
+      ],
+      "css": {
+        "display": "grid",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-container",
+      "selector": "[data-native-key=\"booking-0297033d-6bec-43b2-88f4-7a57208fe13f\"]",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        611.15625,
+        1105,
+        168.578125
+      ],
+      "tag": "article",
+      "classes": "booking-row",
+      "members": [
+        "state-mybookings-booking-my_bookings-a-2-3",
+        "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+        "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-surface",
+        "state-mybookings-booking-status-0297033d-6bec-43b2-88f4-7a57208fe13f-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-4-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-container"
+      ],
+      "css": {
+        "display": "grid",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-container",
+      "selector": "[data-native-key=\"booking-e7da31f1-7773-4bb7-90c3-3e088455663a\"]",
+      "parent_selector": "#main",
+      "box": [
+        40,
+        779.734375,
+        1105,
+        168.578125
+      ],
+      "tag": "article",
+      "classes": "booking-row",
+      "members": [
+        "state-mybookings-booking-my_bookings-a-2-4",
+        "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+        "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-surface",
+        "state-mybookings-booking-status-e7da31f1-7773-4bb7-90c3-3e088455663a-text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-mybookings-body-main-nth-child-3-div-nth-child-1-article-nth-child-5-div-nth-child-1-p-nth-child-3-span-nth-child-3--text-0",
+        "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-container"
+      ],
+      "css": {
+        "display": "grid",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          28,
+          0,
+          28,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-mybookings-site-footer-container",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        1028.3125,
+        1185,
+        112.1875
+      ],
+      "tag": "footer",
+      "classes": "site-footer",
+      "members": [
+        "state-mybookings-site-footer-surface",
+        "state-mybookings-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+        "state-mybookings-base-p-2-0-text-0",
+        "state-mybookings-base-p-3-0-text-0",
+        "state-mybookings-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+        "state-mybookings-site-footer-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    }
+  ],
+  "html": "<!doctype html>\n<html lang=\"ko\"><head><title>나의 예약 · 작은손 커피공방\n</title><link rel=\"stylesheet\" href=\"/static/littlehands/app.3539de012f0c.css\"></head>\n<body data-app=\"little-hands\" data-environment=\"staging\"><header class=\"site-header\" data-native-key=\"site-header\" data-native-type=\"surface\"><div class=\"wrap header-inner\"><div class=\"brand\" data-native-key=\"brand-stack\"><a class=\"brand-link\" href=\"/\" aria-label=\"작은손 커피공방 홈\" data-native-key=\"brand\" data-native-type=\"control\" data-action=\"home\">작은손 커피공방</a><small data-native-key=\"brand-tagline\" data-native-type=\"text\">커피를 배우는 작은 시간</small></div><nav class=\"nav\" aria-label=\"회원 메뉴\"><a href=\"/\" data-action=\"sessions\" data-native-key=\"nav-sessions\" data-native-type=\"control\">수업 둘러보기</a><a href=\"/bookings/\" data-action=\"bookings\" data-native-key=\"nav-bookings\" data-native-type=\"control\">나의 예약</a><a href=\"/notifications/\" data-action=\"notifications\" data-native-key=\"nav-notifications\" data-native-type=\"control\">알림 12</a><form inert data-export-only=\"true\" method=\"post\"><button class=\"text-button\" data-action=\"logout\" data-native-key=\"nav-logout\" data-native-type=\"control\" type=\"button\">로그아웃</button></form></nav></div></header>\n<main id=\"main\" class=\"page \" tabindex=\"-1\"><div class=\"wrap\"><div class=\"page-heading\"><div><h1 data-native-key=\"bookings-title\" data-native-type=\"text\">나의 예약</h1><p data-native-key=\"booking-my_bookings-p-1-0\" data-native-type=\"text\">함께할 수업과 신청 내역을 확인하세요.</p></div><a class=\"button secondary\" href=\"/\" data-action=\"sessions\" data-native-key=\"bookings-browse\" data-native-type=\"control\">수업 둘러보기</a></div><article class=\"booking-row\" data-native-key=\"booking-20a1fb73-757b-464d-b9fb-98057fedf35d\" data-native-type=\"surface\"><div><span class=\"badge cancelled\" data-native-key=\"booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d\" data-native-type=\"text\">취소 완료</span>\n<h3 data-native-key=\"booking-20a1fb73-757b-464d-b9fb-98057fedf35d-title\" data-native-type=\"text\"><a href=\"/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/\" data-native-key=\"booking-my_bookings-a-2-1\" data-native-type=\"control\" data-action=\"navigate\">나의 첫 핸드드립</a></h3><p class=\"inline-meta\" data-native-key=\"booking-20a1fb73-757b-464d-b9fb-98057fedf35d-meta\" data-native-type=\"text\"><span>2026.11.17 (화요일) 11:00</span><span>2명</span><span>드립 테이블</span></p></div><a class=\"button secondary\" href=\"/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/\" data-action=\"booking-detail\" data-native-key=\"booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open\" data-native-type=\"control\">예약 상세</a></article><article class=\"booking-row\" data-native-key=\"booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5\" data-native-type=\"surface\"><div><span class=\"badge cancelled\" data-native-key=\"booking-status-34f803be-11f4-4cd7-a3f1-37a4ba79aee5\" data-native-type=\"text\">취소 완료</span>\n<h3 data-native-key=\"booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-title\" data-native-type=\"text\"><a href=\"/bookings/34f803be-11f4-4cd7-a3f1-37a4ba79aee5/\" data-native-key=\"booking-my_bookings-a-2-2\" data-native-type=\"control\" data-action=\"navigate\">나의 첫 핸드드립</a></h3><p class=\"inline-meta\" data-native-key=\"booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-meta\" data-native-type=\"text\"><span>2026.11.17 (화요일) 11:00</span><span>2명</span><span>드립 테이블</span></p></div><a class=\"button secondary\" href=\"/bookings/34f803be-11f4-4cd7-a3f1-37a4ba79aee5/\" data-action=\"booking-detail\" data-native-key=\"booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open\" data-native-type=\"control\">예약 상세</a></article><article class=\"booking-row\" data-native-key=\"booking-0297033d-6bec-43b2-88f4-7a57208fe13f\" data-native-type=\"surface\"><div><span class=\"badge cancelled\" data-native-key=\"booking-status-0297033d-6bec-43b2-88f4-7a57208fe13f\" data-native-type=\"text\">취소 완료</span>\n<h3 data-native-key=\"booking-0297033d-6bec-43b2-88f4-7a57208fe13f-title\" data-native-type=\"text\"><a href=\"/bookings/0297033d-6bec-43b2-88f4-7a57208fe13f/\" data-native-key=\"booking-my_bookings-a-2-3\" data-native-type=\"control\" data-action=\"navigate\">나의 첫 핸드드립</a></h3><p class=\"inline-meta\" data-native-key=\"booking-0297033d-6bec-43b2-88f4-7a57208fe13f-meta\" data-native-type=\"text\"><span>2026.11.15 (일요일) 11:00</span><span>2명</span><span>드립 테이블</span></p></div><a class=\"button secondary\" href=\"/bookings/0297033d-6bec-43b2-88f4-7a57208fe13f/\" data-action=\"booking-detail\" data-native-key=\"booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open\" data-native-type=\"control\">예약 상세</a></article><article class=\"booking-row\" data-native-key=\"booking-e7da31f1-7773-4bb7-90c3-3e088455663a\" data-native-type=\"surface\"><div><span class=\"badge confirmed\" data-native-key=\"booking-status-e7da31f1-7773-4bb7-90c3-3e088455663a\" data-native-type=\"text\">예약 확정</span>\n<h3 data-native-key=\"booking-e7da31f1-7773-4bb7-90c3-3e088455663a-title\" data-native-type=\"text\"><a href=\"/bookings/e7da31f1-7773-4bb7-90c3-3e088455663a/\" data-native-key=\"booking-my_bookings-a-2-4\" data-native-type=\"control\" data-action=\"navigate\">나의 첫 핸드드립</a></h3><p class=\"inline-meta\" data-native-key=\"booking-e7da31f1-7773-4bb7-90c3-3e088455663a-meta\" data-native-type=\"text\"><span>2026.11.14 (토요일) 11:00</span><span>2명</span><span>드립 테이블</span></p></div><a class=\"button secondary\" href=\"/bookings/e7da31f1-7773-4bb7-90c3-3e088455663a/\" data-action=\"booking-detail\" data-native-key=\"booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open\" data-native-type=\"control\">예약 상세</a></article>\n</div></main>\n<footer class=\"site-footer\" data-native-key=\"site-footer\" data-native-type=\"surface\"><div class=\"wrap footer-inner\"><p data-native-key=\"base-p-2-0\" data-native-type=\"text\"><strong>작은손 커피공방</strong><br>수업의 작은 시작부터, 나만의 한 잔까지.</p><p data-native-key=\"base-p-3-0\" data-native-type=\"text\">수업료는 현장에서 결제합니다.<br><span class=\"environment\">staging 환경</span></p></div></footer>\n</body><div id=\"codex-browser-sidebar-comments-root\"></div></html>",
+  "scope": "Actual visible DOM geometry. Visual source only; no authentication, SQL, action execution, acceptance result, or Figma observation is proved."
+}

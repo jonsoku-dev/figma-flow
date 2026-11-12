@@ -1,16 +1,26 @@
 /* Project-owned native notes; labels remain readable in Figma's annotation panel. */
+function indexAnnotationNodes(nodes) {
+  const byKey = new Map();
+  for (const node of nodes) {
+    const key = node.getPluginData("semanticKey");
+    if (!byKey.has(key)) byKey.set(key, []);
+    byKey.get(key).push(node);
+  }
+  return byKey;
+}
+
 async function ensureNativeAnnotations(figma, page, contract) {
   if (contract?.presentation === "readable-specs") return ensureReadableNativeSpecifications(figma, page, contract);
   const fail = message => { throw new Error(`Native annotations: ${message}`); };
   if (!page || !Array.isArray(contract?.annotations)) fail("page and annotations are required");
   await page.loadAsync();
   const nodes = [page, ...page.findAll(() => true)];
-  const seen = new Set();
+  const seen = new Set(), byKey = indexAnnotationNodes(nodes);
   const jobs = contract.annotations.map(note => {
     if (!note || typeof note.key !== "string" || !note.key || seen.has(note.key) || typeof note.label !== "string" || !note.label.trim()) fail("unique keys and nonempty readable labels are required");
     seen.add(note.key);
     if (note.properties !== undefined && (!Array.isArray(note.properties) || note.properties.some(value => typeof value !== "string" || !value))) fail(`invalid properties for ${note.key}`);
-    const matches = nodes.filter(node => node.getPluginData("semanticKey") === note.key);
+    const matches = byKey.get(note.key) || [];
     if (matches.length !== 1) fail(`missing or ambiguous semanticKey ${note.key}`);
     const node = matches[0];
     if (!("annotations" in node) || !Array.isArray(node.annotations)) fail(`unsupported annotations on ${note.key}`);
@@ -89,19 +99,30 @@ async function ensureReadableNativeSpecifications(figma, page, contract) {
   await page.loadAsync();
   if (contract.preflight) await contract.preflight();
   const nodes = [page, ...page.findAll(() => true)], seen = new Set();
+  const byKey = indexAnnotationNodes(nodes), byId = new Map(nodes.map(node => [node.id,node])), boardChildren = new Map();
+  const indexChildren = board => {
+    const indexed = new Map();
+    for (const child of board.children || []) {
+      const id = child.id;
+      if (indexed.has(id)) fail("ambiguous readable board child");
+      indexed.set(id,child);
+    }
+    return indexed;
+  };
   const owner = JSON.stringify({pageId:page.id,sourceHash:contract.sourceHash});
   const jobs = (contract.annotations || contract.notes).map(note => {
     if (!note?.key || seen.has(note.key)) fail("unique semantic keys required");
     seen.add(note.key);
-    const matches = nodes.filter(node => node.getPluginData("semanticKey") === note.key);
+    const matches = byKey.get(note.key) || [];
     if (matches.length !== 1) fail(`missing or ambiguous semanticKey ${note.key}`);
     const node = matches[0], spec = note.specification;
     if (!spec || spec.schema !== FLOW_SPEC.schemas.readable || !["id","kind","screen_id","target_id","title","meaning_sha256","source_graph_sha256","source_graph_encoding","display_text"].every(key => typeof spec[key] === "string" && spec[key].trim()) || !spec.title.trim() || !spec.display_text.trim() || !spec.meaning || !spec.trace) fail(`invalid compiled specification ${note.key}`);
     const rich = spec.presentation === "connected-spec-v2";
     if (rich && (!Object.keys(FLOW_SPEC_LABELS).includes(spec.locale) || !Array.isArray(spec.sections) || !spec.sections.some(section => section && typeof section.key === 'string' && typeof section.title === 'string' && typeof section.body === 'string') || typeof spec.annotation_text !== 'string' || !spec.annotation_text.trim())) fail(`invalid connected specification ${note.key}`);
-    const board = nodes.find(item => item.id === note.board?.boardId);
-    const text = board?.children?.find(item => item.id === note.board?.textNodeId);
-    if (!board || board.parent !== page || board.getPluginData("designNoteBoard") !== owner || typeof note.board?.key !== "string" || !note.board.key || board.visible === false || text?.getPluginData("semanticKey") !== board.getPluginData("semanticKey") + ":" + note.board.key || text?.type !== "TEXT" || text.visible === false || text.characters !== `${spec.title}\n${spec.display_text}` || text.fontSize < 14) fail(`owned readable board required for ${note.key}`);
+    const board = byId.get(note.board?.boardId);
+    if (board && !boardChildren.has(board)) boardChildren.set(board,indexChildren(board));
+    const text = boardChildren.get(board)?.get(note.board?.textNodeId);
+    if (!board || board.parent !== page || board.getPluginData("designNoteBoard") !== owner || typeof note.board?.key !== "string" || !note.board.key || board.visible === false || text?.getPluginData("semanticKey") !== board.getPluginData("semanticKey") + ":" + note.board.key || text?.type !== "TEXT" || text.parent !== board || text.visible === false || text.characters !== `${spec.title}\n${spec.display_text}` || text.fontSize < 14) fail(`owned readable board required for ${note.key}`);
     const link = text.getRangeHyperlink?.(0, text.characters.length);
     if (link?.type !== "NODE" || link.value !== node.id) fail(`same-file target hyperlink required for ${note.key}`);
     const previous = node.getPluginData(field);
@@ -154,6 +175,11 @@ async function ensureReadableNativeSpecifications(figma, page, contract) {
     if (bytes(pending) >= 90000 || bytes(written) >= 90000) fail(`metadata exceeds safe UTF-8 limit ${note.key}`);
     return {key:note.key,node,previous,written,pending,before,slots,after:before.filter((_,index) => !removedIndices.has(index)),human,oldHuman:prior?.human_annotation||null,markdown,rich,wrapper};
   });
+  for (const [board, indexed] of boardChildren) {
+    const actual = indexChildren(board);
+    if (board.parent !== page || board.visible === false || board.getPluginData("designNoteBoard") !== owner ||
+        actual.size !== indexed.size || [...actual].some(([id,node]) => indexed.get(id) !== node || node.parent !== board)) fail("concurrent readable board children or ownership conflict");
+  }
   const undo = [];
   let rolledBack = false;
   const rollback = async () => {

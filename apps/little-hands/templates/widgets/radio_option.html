@@ -1,0 +1,1 @@
+{% if widget.wrap_label %}<label{% if widget.attrs.id %} for="{{ widget.attrs.id }}"{% endif %}>{% endif %}<span class="choice-paint">{% include 'django/forms/widgets/input.html' %}<span class="choice-radio-mark" aria-hidden="true" data-native-key="{{ widget.attrs.id }}-mark" data-native-type="surface"></span></span>{% if widget.wrap_label %} {{ widget.label }}</label>{% endif %}

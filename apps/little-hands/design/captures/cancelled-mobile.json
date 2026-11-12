@@ -1,0 +1,3442 @@
+{
+  "schema": "little-hands-browser-measurement-v1",
+  "state": "state-cancelled",
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "viewport": {
+    "width": 390,
+    "height": 960
+  },
+  "document": {
+    "width": 375,
+    "height": 1449
+  },
+  "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/",
+  "title": "예약 상세 · 작은손 커피공방",
+  "body_background": "rgb(246, 242, 233)",
+  "fonts_ready": "loaded",
+  "captured_at": "2026-11-12T16:08:33.487Z",
+  "controls": [
+    {
+      "id": "state-cancelled-brand",
+      "native_key": "brand",
+      "selector": "[data-native-key=\"brand\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        16,
+        124.59375,
+        48
+      ],
+      "label": "작은손 커피공방",
+      "action": "home",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 28.5,
+        "letter_spacing": -0.5,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-cancelled-nav-sessions",
+      "native_key": "nav-sessions",
+      "selector": "[data-native-key=\"nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        96,
+        75.765625,
+        44
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-cancelled-nav-bookings",
+      "native_key": "nav-bookings",
+      "selector": "[data-native-key=\"nav-bookings\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        117.765625,
+        96,
+        51.59375,
+        44
+      ],
+      "label": "나의 예약",
+      "action": "bookings",
+      "href": "/bookings/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-cancelled-nav-notifications",
+      "native_key": "nav-notifications",
+      "selector": "[data-native-key=\"nav-notifications\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        187.359375,
+        96,
+        44,
+        44
+      ],
+      "label": "알림 12",
+      "action": "notifications",
+      "href": "/notifications/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-cancelled-nav-logout",
+      "native_key": "nav-logout",
+      "selector": "[data-native-key=\"nav-logout\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        249.359375,
+        96,
+        48.375,
+        44
+      ],
+      "label": "로그아웃",
+      "action": "logout",
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/logout/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-cancelled-booking-back",
+      "native_key": "booking-back",
+      "selector": "[data-native-key=\"booking-back\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        189,
+        64.21875,
+        44
+      ],
+      "label": "← 나의 예약",
+      "action": "bookings",
+      "href": "/bookings/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "state-cancelled-site-header-surface",
+      "selector": "[data-native-key=\"site-header\"]",
+      "tag": "header",
+      "box": [
+        0,
+        0,
+        375,
+        157
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          24,
+          0,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-cancelled-booking-detail-facts-surface",
+      "selector": "[data-native-key=\"booking-detail-facts\"]",
+      "tag": "section",
+      "box": [
+        24,
+        414.6875,
+        327,
+        573.375
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          24,
+          24,
+          24,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-cancelled-booking-facts-surface",
+      "selector": "[data-native-key=\"booking-facts\"]",
+      "tag": "dl",
+      "box": [
+        49,
+        478.6875,
+        277,
+        334
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-cancelled-site-footer-surface",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "tag": "footer",
+      "box": [
+        0,
+        1281.234375,
+        375,
+        167.375
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          24,
+          32,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    }
+  ],
+  "images": [],
+  "texts": [
+    {
+      "id": "state-cancelled-brand-tagline-text-0",
+      "selector": "[data-native-key=\"brand-tagline\"]",
+      "value": "커피를 배우는 작은 시간",
+      "raw_value": "커피를 배우는 작은 시간",
+      "box": [
+        24,
+        66,
+        134.828125,
+        18
+      ],
+      "glyph_box": [
+        24,
+        66,
+        134.828125,
+        17
+      ],
+      "element_box": [
+        24,
+        66,
+        134.828125,
+        18
+      ],
+      "content_box": [
+        24,
+        66,
+        134.828125,
+        18
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "small",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 18,
+        "letter_spacing": 1.1,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d-text-0",
+      "selector": "[data-native-key=\"booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d\"]",
+      "value": "취소 완료",
+      "raw_value": "취소 완료",
+      "box": [
+        35,
+        257.9,
+        47.625,
+        19.2
+      ],
+      "glyph_box": [
+        35,
+        259,
+        47.625,
+        17
+      ],
+      "element_box": [
+        24,
+        254,
+        69.625,
+        27.1875
+      ],
+      "content_box": [
+        35,
+        258,
+        47.625,
+        19.1875
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 19.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          3,
+          10,
+          3,
+          10
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-detail-title-text-0",
+      "selector": "[data-native-key=\"booking-detail-title\"]",
+      "value": "예약이 취소되었습니다.",
+      "raw_value": "예약이 취소되었습니다.",
+      "box": [
+        24,
+        281.1875,
+        327,
+        43.5
+      ],
+      "glyph_box": [
+        24,
+        280.1875,
+        283.390625,
+        44
+      ],
+      "element_box": [
+        24,
+        281.1875,
+        327,
+        43.5
+      ],
+      "content_box": [
+        24,
+        281.1875,
+        327,
+        43.5
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h1",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 30,
+        "leading": 43.5,
+        "letter_spacing": -1.2,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-1-0-text-0",
+      "selector": "[data-native-key=\"booking-booking_detail-p-1-0\"]",
+      "value": "취소된 예약은 다시 활성화되지 않습니다. 새 예약은",
+      "raw_value": "취소된 예약은 다시 활성화되지 않습니다. 새 예약은",
+      "box": [
+        24,
+        336.6875,
+        327,
+        27
+      ],
+      "glyph_box": [
+        24,
+        339.6875,
+        320.671875,
+        21
+      ],
+      "element_box": [
+        24,
+        336.6875,
+        327,
+        54
+      ],
+      "content_box": [
+        24,
+        336.6875,
+        327,
+        54
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-1-0-text-1",
+      "selector": "[data-native-key=\"booking-booking_detail-p-1-0\"]",
+      "value": "수업 목록에서 신청할 수 있습니다.",
+      "raw_value": "수업 목록에서 신청할 수 있습니다.",
+      "box": [
+        24,
+        363.6875,
+        327,
+        27
+      ],
+      "glyph_box": [
+        24,
+        366.6875,
+        215.59375,
+        21
+      ],
+      "element_box": [
+        24,
+        336.6875,
+        327,
+        54
+      ],
+      "content_box": [
+        24,
+        336.6875,
+        327,
+        54
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-h2-2-0-text-0",
+      "selector": "[data-native-key=\"booking-booking_detail-h2-2-0\"]",
+      "value": "나의 첫 핸드드립",
+      "raw_value": "나의 첫 핸드드립",
+      "box": [
+        49,
+        439.6875,
+        277,
+        39
+      ],
+      "glyph_box": [
+        49,
+        440.6875,
+        177.28125,
+        37
+      ],
+      "element_box": [
+        49,
+        439.6875,
+        277,
+        39
+      ],
+      "content_box": [
+        49,
+        439.6875,
+        277,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dt-1-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dt-1-0\"]",
+      "value": "수업",
+      "raw_value": "수업",
+      "box": [
+        49,
+        492.6875,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        494.6875,
+        24.1875,
+        19
+      ],
+      "element_box": [
+        49,
+        492.6875,
+        88,
+        27
+      ],
+      "content_box": [
+        49,
+        492.6875,
+        88,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dd-2-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dd-2-0\"]",
+      "value": "나의 첫 핸드드립",
+      "raw_value": "나의 첫 핸드드립",
+      "box": [
+        153,
+        492.6875,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        495.6875,
+        105.09375,
+        21
+      ],
+      "element_box": [
+        153,
+        492.6875,
+        173,
+        27
+      ],
+      "content_box": [
+        153,
+        492.6875,
+        173,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dt-3-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dt-3-0\"]",
+      "value": "일시",
+      "raw_value": "일시",
+      "box": [
+        49,
+        548.6875,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        550.6875,
+        24.1875,
+        19
+      ],
+      "element_box": [
+        49,
+        548.6875,
+        88,
+        81
+      ],
+      "content_box": [
+        49,
+        548.6875,
+        88,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dd-4-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dd-4-0\"]",
+      "value": "2026년 11월 17일 (화요",
+      "raw_value": "2026년 11월 17일 (화요",
+      "box": [
+        153,
+        548.6875,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        551.6875,
+        156.234375,
+        21
+      ],
+      "element_box": [
+        153,
+        548.6875,
+        173,
+        81
+      ],
+      "content_box": [
+        153,
+        548.6875,
+        173,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [
+          "br"
+        ],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dd-4-0-text-1",
+      "selector": "[data-native-key=\"includes-booking_facts-dd-4-0\"]",
+      "value": "일)",
+      "raw_value": "일)",
+      "box": [
+        153,
+        575.6875,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        578.6875,
+        20.140625,
+        21
+      ],
+      "element_box": [
+        153,
+        548.6875,
+        173,
+        81
+      ],
+      "content_box": [
+        153,
+        548.6875,
+        173,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [
+          "br"
+        ],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+      "selector": "[data-native-key=\"includes-booking_facts-dd-4-0\"]",
+      "value": "11:00–12:30",
+      "raw_value": "11:00–12:30",
+      "box": [
+        153,
+        602.6875,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        605.6875,
+        91.59375,
+        21
+      ],
+      "element_box": [
+        153,
+        548.6875,
+        173,
+        81
+      ],
+      "content_box": [
+        153,
+        548.6875,
+        173,
+        81
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [
+          "br"
+        ],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dt-5-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dt-5-0\"]",
+      "value": "공간",
+      "raw_value": "공간",
+      "box": [
+        49,
+        658.6875,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        660.6875,
+        24.1875,
+        19
+      ],
+      "element_box": [
+        49,
+        658.6875,
+        88,
+        27
+      ],
+      "content_box": [
+        49,
+        658.6875,
+        88,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dd-6-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dd-6-0\"]",
+      "value": "드립 테이블",
+      "raw_value": "드립 테이블",
+      "box": [
+        153,
+        658.6875,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        661.6875,
+        73.484375,
+        21
+      ],
+      "element_box": [
+        153,
+        658.6875,
+        173,
+        27
+      ],
+      "content_box": [
+        153,
+        658.6875,
+        173,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dt-7-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dt-7-0\"]",
+      "value": "참석 인원",
+      "raw_value": "참석 인원",
+      "box": [
+        49,
+        714.6875,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        716.6875,
+        51.59375,
+        19
+      ],
+      "element_box": [
+        49,
+        714.6875,
+        88,
+        27
+      ],
+      "content_box": [
+        49,
+        714.6875,
+        88,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dd-8-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dd-8-0\"]",
+      "value": "2명",
+      "raw_value": "2명",
+      "box": [
+        153,
+        714.6875,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        717.6875,
+        23.03125,
+        21
+      ],
+      "element_box": [
+        153,
+        714.6875,
+        173,
+        27
+      ],
+      "content_box": [
+        153,
+        714.6875,
+        173,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dt-9-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dt-9-0\"]",
+      "value": "1인 수업료",
+      "raw_value": "1인 수업료",
+      "box": [
+        49,
+        770.6875,
+        88,
+        23.4
+      ],
+      "glyph_box": [
+        49,
+        772.6875,
+        58.046875,
+        19
+      ],
+      "element_box": [
+        49,
+        770.6875,
+        88,
+        27
+      ],
+      "content_box": [
+        49,
+        770.6875,
+        88,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dt",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-includes-booking_facts-dd-10-0-text-0",
+      "selector": "[data-native-key=\"includes-booking_facts-dd-10-0\"]",
+      "value": "45,000원 · 현장 결제",
+      "raw_value": "45,000원 · 현장 결제",
+      "box": [
+        153,
+        770.6875,
+        173,
+        27
+      ],
+      "glyph_box": [
+        153,
+        773.6875,
+        140.71875,
+        21
+      ],
+      "element_box": [
+        153,
+        770.6875,
+        173,
+        27
+      ],
+      "content_box": [
+        153,
+        770.6875,
+        173,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "dd",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(1)>p:nth-child(3)>span:nth-child(1)",
+      "value": "총 수업료",
+      "raw_value": "총 수업료",
+      "box": [
+        49,
+        861.6875,
+        75.59375,
+        34.2
+      ],
+      "glyph_box": [
+        49,
+        864.6875,
+        75.59375,
+        27
+      ],
+      "element_box": [
+        49,
+        861.6875,
+        75.59375,
+        34.1875
+      ],
+      "content_box": [
+        49,
+        861.6875,
+        75.59375,
+        34.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 34.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(1)>p:nth-child(3)>span:nth-child(2)",
+      "value": "90,000원",
+      "raw_value": "90,000원",
+      "box": [
+        233.09375,
+        861.6875,
+        92.90625,
+        34.2
+      ],
+      "glyph_box": [
+        233.09375,
+        864.6875,
+        92.90625,
+        27
+      ],
+      "element_box": [
+        233.09375,
+        861.6875,
+        92.90625,
+        34.1875
+      ],
+      "content_box": [
+        233.09375,
+        861.6875,
+        92.90625,
+        34.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 34.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-3-0-text-0",
+      "selector": "[data-native-key=\"booking-booking_detail-p-3-0\"]",
+      "value": "예약 번호 20a1fb73-757b-464d-b9fb-",
+      "raw_value": "예약 번호 20a1fb73-757b-464d-b9fb-",
+      "box": [
+        49,
+        919.875,
+        277,
+        21.6
+      ],
+      "glyph_box": [
+        49,
+        921.875,
+        208.859375,
+        17
+      ],
+      "element_box": [
+        49,
+        919.875,
+        277,
+        43.1875
+      ],
+      "content_box": [
+        49,
+        919.875,
+        277,
+        43.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-3-0-text-1",
+      "selector": "[data-native-key=\"booking-booking_detail-p-3-0\"]",
+      "value": "98057fedf35d",
+      "raw_value": "98057fedf35d",
+      "box": [
+        49,
+        941.475,
+        277,
+        21.6
+      ],
+      "glyph_box": [
+        49,
+        943.46875,
+        83.28125,
+        17
+      ],
+      "element_box": [
+        49,
+        919.875,
+        277,
+        43.1875
+      ],
+      "content_box": [
+        49,
+        919.875,
+        277,
+        43.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-manage-title-text-0",
+      "selector": "[data-native-key=\"booking-manage-title\"]",
+      "value": "예약 관리",
+      "raw_value": "예약 관리",
+      "box": [
+        24,
+        1016.0625,
+        327,
+        39
+      ],
+      "glyph_box": [
+        24,
+        1017.0625,
+        100.4375,
+        37
+      ],
+      "element_box": [
+        24,
+        1016.0625,
+        327,
+        39
+      ],
+      "content_box": [
+        24,
+        1016.0625,
+        327,
+        39
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h2",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 26,
+        "leading": 39,
+        "letter_spacing": -0.6,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-4-0-text-0",
+      "selector": "[data-native-key=\"booking-booking_detail-p-4-0\"]",
+      "value": "수업 시작 120분 전까지 취소와 일정 변경이 가능합니다. 일",
+      "raw_value": "수업 시작 120분 전까지 취소와 일정 변경이 가능합니다. 일",
+      "box": [
+        24,
+        1100.0625,
+        327,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        1102.0625,
+        319.625,
+        19
+      ],
+      "element_box": [
+        24,
+        1079.0625,
+        327,
+        91.171875
+      ],
+      "content_box": [
+        24,
+        1100.0625,
+        327,
+        70.171875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-4-0-text-1",
+      "selector": "[data-native-key=\"booking-booking_detail-p-4-0\"]",
+      "value": "정 변경은 같은 수업의 다른 회차로만 가능하며, 새 자리를 확",
+      "raw_value": "정 변경은 같은 수업의 다른 회차로만 가능하며, 새 자리를 확",
+      "box": [
+        24,
+        1123.4625,
+        327,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        1125.453125,
+        323.84375,
+        19
+      ],
+      "element_box": [
+        24,
+        1079.0625,
+        327,
+        91.171875
+      ],
+      "content_box": [
+        24,
+        1100.0625,
+        327,
+        70.171875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-4-0-text-2",
+      "selector": "[data-native-key=\"booking-booking_detail-p-4-0\"]",
+      "value": "보하지 못하면 기존 예약을 유지합니다.",
+      "raw_value": "보하지 못하면 기존 예약을 유지합니다.",
+      "box": [
+        24,
+        1146.8625,
+        327,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        1148.84375,
+        211.03125,
+        19
+      ],
+      "element_box": [
+        24,
+        1079.0625,
+        327,
+        91.171875
+      ],
+      "content_box": [
+        24,
+        1100.0625,
+        327,
+        70.171875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-booking-booking_detail-p-5-0-text-0",
+      "selector": "[data-native-key=\"booking-booking_detail-p-5-0\"]",
+      "value": "현재 이 예약은 취소하거나 변경할 수 없습니다.",
+      "raw_value": "현재 이 예약은 취소하거나 변경할 수 없습니다.",
+      "box": [
+        24,
+        1198.234375,
+        292.78125,
+        27
+      ],
+      "glyph_box": [
+        24,
+        1201.234375,
+        292.78125,
+        21
+      ],
+      "element_box": [
+        24,
+        1198.234375,
+        292.78125,
+        27
+      ],
+      "content_box": [
+        24,
+        1198.234375,
+        292.78125,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(1)>strong:nth-child(1)",
+      "value": "작은손 커피공방",
+      "raw_value": "작은손 커피공방",
+      "box": [
+        24,
+        1313.934375,
+        81.21875,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        1316.234375,
+        81.21875,
+        17
+      ],
+      "element_box": [
+        24,
+        1316.234375,
+        81.21875,
+        17
+      ],
+      "content_box": [
+        24,
+        1316.234375,
+        81.21875,
+        17
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "strong",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-base-p-2-0-text-0",
+      "selector": "[data-native-key=\"base-p-2-0\"]",
+      "value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "raw_value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "box": [
+        24,
+        1335.528125,
+        202.0625,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        1337.828125,
+        202.0625,
+        17
+      ],
+      "element_box": [
+        24,
+        1314.234375,
+        327,
+        43.1875
+      ],
+      "content_box": [
+        24,
+        1314.234375,
+        327,
+        43.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "strong",
+          "br"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-base-p-3-0-text-0",
+      "selector": "[data-native-key=\"base-p-3-0\"]",
+      "value": "수업료는 현장에서 결제합니다.",
+      "raw_value": "수업료는 현장에서 결제합니다.",
+      "box": [
+        24,
+        1369.121875,
+        155.359375,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        1371.421875,
+        155.359375,
+        17
+      ],
+      "element_box": [
+        24,
+        1369.421875,
+        327,
+        47.1875
+      ],
+      "content_box": [
+        24,
+        1369.421875,
+        327,
+        47.1875
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "br",
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-cancelled-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(2)>span:nth-child(2)",
+      "value": "staging 환경",
+      "raw_value": "staging 환경",
+      "box": [
+        40,
+        1392.715625,
+        67.921875,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1395.015625,
+        67.921875,
+        17
+      ],
+      "element_box": [
+        32,
+        1391.015625,
+        83.921875,
+        25.59375
+      ],
+      "content_box": [
+        40,
+        1393.015625,
+        67.921875,
+        21.59375
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          1,
+          7,
+          1,
+          7
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    }
+  ],
+  "containers": [
+    {
+      "id": "state-cancelled-site-header-container",
+      "selector": "[data-native-key=\"site-header\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        0,
+        375,
+        157
+      ],
+      "tag": "header",
+      "classes": "site-header",
+      "members": [
+        "state-cancelled-brand",
+        "state-cancelled-nav-sessions",
+        "state-cancelled-nav-bookings",
+        "state-cancelled-nav-notifications",
+        "state-cancelled-nav-logout",
+        "state-cancelled-site-header-surface",
+        "state-cancelled-brand-tagline-text-0",
+        "state-cancelled-site-header-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          24,
+          0,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-body-header-nth-child-2-div-nth-child-1--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "parent_selector": "[data-native-key=\"site-header\"]",
+      "box": [
+        24,
+        0,
+        327,
+        156
+      ],
+      "tag": "div",
+      "classes": "wrap header-inner",
+      "members": [
+        "state-cancelled-brand",
+        "state-cancelled-nav-sessions",
+        "state-cancelled-nav-bookings",
+        "state-cancelled-nav-notifications",
+        "state-cancelled-nav-logout",
+        "state-cancelled-brand-tagline-text-0",
+        "state-cancelled-body-header-nth-child-2-div-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 12,
+        "align_items": "center",
+        "justify_content": "space-between",
+        "padding": [
+          16,
+          0,
+          16,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "box": [
+        24,
+        96,
+        327,
+        44
+      ],
+      "tag": "nav",
+      "classes": "nav",
+      "members": [
+        "state-cancelled-nav-sessions",
+        "state-cancelled-nav-bookings",
+        "state-cancelled-nav-notifications",
+        "state-cancelled-nav-logout",
+        "state-cancelled-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 18,
+        "align_items": "center",
+        "justify_content": "flex-start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-4--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)>form:nth-child(4)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "box": [
+        249.359375,
+        96,
+        48.375,
+        44
+      ],
+      "tag": "form",
+      "classes": "",
+      "members": [
+        "state-cancelled-nav-logout",
+        "state-cancelled-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2-form-nth-child-4--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-main-container",
+      "selector": "#main",
+      "parent_selector": null,
+      "box": [
+        0,
+        157,
+        375,
+        1124.234375
+      ],
+      "tag": "main",
+      "classes": "page ",
+      "members": [
+        "state-cancelled-booking-back",
+        "state-cancelled-booking-detail-facts-surface",
+        "state-cancelled-booking-facts-surface",
+        "state-cancelled-booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d-text-0",
+        "state-cancelled-booking-detail-title-text-0",
+        "state-cancelled-booking-booking_detail-p-1-0-text-0",
+        "state-cancelled-booking-booking_detail-p-1-0-text-1",
+        "state-cancelled-booking-booking_detail-h2-2-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-1-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-2-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-3-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-4-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-4-0-text-1",
+        "state-cancelled-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+        "state-cancelled-includes-booking_facts-dt-5-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-6-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-7-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-8-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-9-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-10-0-text-0",
+        "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-cancelled-booking-booking_detail-p-3-0-text-0",
+        "state-cancelled-booking-booking_detail-p-3-0-text-1",
+        "state-cancelled-booking-manage-title-text-0",
+        "state-cancelled-booking-booking_detail-p-4-0-text-0",
+        "state-cancelled-booking-booking_detail-p-4-0-text-1",
+        "state-cancelled-booking-booking_detail-p-4-0-text-2",
+        "state-cancelled-booking-booking_detail-p-5-0-text-0",
+        "state-cancelled-main-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          24,
+          56,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-booking-detail-facts-container",
+      "selector": "[data-native-key=\"booking-detail-facts\"]",
+      "parent_selector": "#main",
+      "box": [
+        24,
+        414.6875,
+        327,
+        573.375
+      ],
+      "tag": "section",
+      "classes": "paper",
+      "members": [
+        "state-cancelled-booking-detail-facts-surface",
+        "state-cancelled-booking-facts-surface",
+        "state-cancelled-booking-booking_detail-h2-2-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-1-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-2-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-3-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-4-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-4-0-text-1",
+        "state-cancelled-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+        "state-cancelled-includes-booking_facts-dt-5-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-6-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-7-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-8-0-text-0",
+        "state-cancelled-includes-booking_facts-dt-9-0-text-0",
+        "state-cancelled-includes-booking_facts-dd-10-0-text-0",
+        "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-1--text-0",
+        "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-1-p-nth-child-3-span-nth-child-2--text-0",
+        "state-cancelled-booking-booking_detail-p-3-0-text-0",
+        "state-cancelled-booking-booking_detail-p-3-0-text-1",
+        "state-cancelled-booking-detail-facts-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          24,
+          24,
+          24,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)",
+      "parent_selector": "#main",
+      "box": [
+        24,
+        1016.0625,
+        327,
+        209.171875
+      ],
+      "tag": "section",
+      "classes": "",
+      "members": [
+        "state-cancelled-booking-manage-title-text-0",
+        "state-cancelled-booking-booking_detail-p-4-0-text-0",
+        "state-cancelled-booking-booking_detail-p-4-0-text-1",
+        "state-cancelled-booking-booking_detail-p-4-0-text-2",
+        "state-cancelled-booking-booking_detail-p-5-0-text-0",
+        "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2--container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2-div-nth-child-3--container",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)>div:nth-child(3)",
+      "parent_selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>section:nth-child(2)",
+      "box": [
+        24,
+        1198.234375,
+        327,
+        27
+      ],
+      "tag": "div",
+      "classes": "actions",
+      "members": [
+        "state-cancelled-booking-booking_detail-p-5-0-text-0",
+        "state-cancelled-body-main-nth-child-3-div-nth-child-1-div-nth-child-3-section-nth-child-2-div-nth-child-3--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 12,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-cancelled-site-footer-container",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        1281.234375,
+        375,
+        167.375
+      ],
+      "tag": "footer",
+      "classes": "site-footer",
+      "members": [
+        "state-cancelled-site-footer-surface",
+        "state-cancelled-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+        "state-cancelled-base-p-2-0-text-0",
+        "state-cancelled-base-p-3-0-text-0",
+        "state-cancelled-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+        "state-cancelled-site-footer-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          24,
+          32,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    }
+  ],
+  "html": "<!doctype html>\n<html lang=\"ko\"><head><title>예약 상세 · 작은손 커피공방</title><link rel=\"stylesheet\" href=\"/static/littlehands/app.3539de012f0c.css\"></head>\n<body data-app=\"little-hands\" data-environment=\"staging\"><header class=\"site-header\" data-native-key=\"site-header\" data-native-type=\"surface\"><div class=\"wrap header-inner\"><div class=\"brand\" data-native-key=\"brand-stack\"><a class=\"brand-link\" href=\"/\" aria-label=\"작은손 커피공방 홈\" data-native-key=\"brand\" data-native-type=\"control\" data-action=\"home\">작은손 커피공방</a><small data-native-key=\"brand-tagline\" data-native-type=\"text\">커피를 배우는 작은 시간</small></div><nav class=\"nav\" aria-label=\"회원 메뉴\"><a href=\"/\" data-action=\"sessions\" data-native-key=\"nav-sessions\" data-native-type=\"control\">수업 둘러보기</a><a href=\"/bookings/\" data-action=\"bookings\" data-native-key=\"nav-bookings\" data-native-type=\"control\">나의 예약</a><a href=\"/notifications/\" data-action=\"notifications\" data-native-key=\"nav-notifications\" data-native-type=\"control\">알림 12</a><form inert data-export-only=\"true\" method=\"post\"><button class=\"text-button\" data-action=\"logout\" data-native-key=\"nav-logout\" data-native-type=\"control\" type=\"button\">로그아웃</button></form></nav></div></header>\n<main id=\"main\" class=\"page \" tabindex=\"-1\"><div class=\"wrap\"><a class=\"back\" href=\"/bookings/\" data-action=\"bookings\" data-native-key=\"booking-back\" data-native-type=\"control\">← 나의 예약</a><div class=\"page-heading\"><div><span class=\"badge cancelled\" data-native-key=\"booking-status-20a1fb73-757b-464d-b9fb-98057fedf35d\" data-native-type=\"text\">취소 완료</span>\n<h1 data-native-key=\"booking-detail-title\" data-native-type=\"text\">예약이 취소되었습니다.</h1><p data-native-key=\"booking-booking_detail-p-1-0\" data-native-type=\"text\">취소된 예약은 다시 활성화되지 않습니다. 새 예약은 수업 목록에서 신청할 수 있습니다.</p></div></div><div class=\"split\"><section class=\"paper\" data-native-key=\"booking-detail-facts\" data-native-type=\"surface\"><h2 data-native-key=\"booking-booking_detail-h2-2-0\" data-native-type=\"text\">나의 첫 핸드드립</h2><dl class=\"facts\" data-native-key=\"booking-facts\" data-native-type=\"surface\"><div><dt data-native-key=\"includes-booking_facts-dt-1-0\" data-native-type=\"text\">수업</dt><dd data-native-key=\"includes-booking_facts-dd-2-0\" data-native-type=\"text\">나의 첫 핸드드립</dd></div><div><dt data-native-key=\"includes-booking_facts-dt-3-0\" data-native-type=\"text\">일시</dt><dd data-native-key=\"includes-booking_facts-dd-4-0\" data-native-type=\"text\">2026년 11월 17일 (화요일)<br>11:00–12:30</dd></div><div><dt data-native-key=\"includes-booking_facts-dt-5-0\" data-native-type=\"text\">공간</dt><dd data-native-key=\"includes-booking_facts-dd-6-0\" data-native-type=\"text\">드립 테이블</dd></div><div><dt data-native-key=\"includes-booking_facts-dt-7-0\" data-native-type=\"text\">참석 인원</dt><dd data-native-key=\"includes-booking_facts-dd-8-0\" data-native-type=\"text\">2명</dd></div><div><dt data-native-key=\"includes-booking_facts-dt-9-0\" data-native-type=\"text\">1인 수업료</dt><dd data-native-key=\"includes-booking_facts-dd-10-0\" data-native-type=\"text\">45,000원 · 현장 결제</dd></div></dl>\n<p class=\"total\" data-native-key=\"booking-total\" data-native-type=\"text\"><span>총 수업료</span><span>90,000원</span></p><p class=\"booking-id\" data-native-key=\"booking-booking_detail-p-3-0\" data-native-type=\"text\">예약 번호 20a1fb73-757b-464d-b9fb-98057fedf35d</p></section><section><h2 data-native-key=\"booking-manage-title\" data-native-type=\"text\">예약 관리</h2><p class=\"policy\" data-native-key=\"booking-booking_detail-p-4-0\" data-native-type=\"text\">수업 시작 120분 전까지 취소와 일정 변경이 가능합니다. 일정 변경은 같은 수업의 다른 회차로만 가능하며, 새 자리를 확보하지 못하면 기존 예약을 유지합니다.</p><div class=\"actions\"><p class=\"muted\" data-native-key=\"booking-booking_detail-p-5-0\" data-native-type=\"text\">현재 이 예약은 취소하거나 변경할 수 없습니다.</p></div></section></div></div></main>\n<footer class=\"site-footer\" data-native-key=\"site-footer\" data-native-type=\"surface\"><div class=\"wrap footer-inner\"><p data-native-key=\"base-p-2-0\" data-native-type=\"text\"><strong>작은손 커피공방</strong><br>수업의 작은 시작부터, 나만의 한 잔까지.</p><p data-native-key=\"base-p-3-0\" data-native-type=\"text\">수업료는 현장에서 결제합니다.<br><span class=\"environment\">staging 환경</span></p></div></footer>\n</body><div id=\"codex-browser-sidebar-comments-root\"></div></html>",
+  "scope": "Actual visible DOM geometry. Visual source only; no authentication, SQL, action execution, acceptance result, or Figma observation is proved."
+}

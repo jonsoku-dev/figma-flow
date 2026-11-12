@@ -292,8 +292,9 @@ function componentVariantGroups(definition) {
   const groups = new Map();
   for (const entry of entries) {
     const hits = Object.entries(axes).filter(([, values]) => Array.isArray(values) && values.includes(entry[0]));
-    if (hits.length !== 1) throw new Error(`Declared variant axis must be unique: ${entry[0]}`);
-    const [axis] = hits[0];
+    if (hits.length > 1) throw new Error(`Declared variant axis must be unique: ${entry[0]}`);
+    const axis = hits.length ? hits[0][0] : 'Variant';
+    if (!hits.length && Object.prototype.hasOwnProperty.call(axes, axis)) throw new Error(`Unassigned definition conflicts with declared ${axis} axis: ${entry[0]}`);
     if (!groups.has(axis)) groups.set(axis, []);
     groups.get(axis).push(entry);
   }

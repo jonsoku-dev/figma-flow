@@ -1,17 +1,19 @@
 # RD-09 작업서 · 진단 기록 내보내기
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
-## Cursor 구현 단위
+## 구현 경로와 검증 단위
 
-1. 진단 기록이 없을 때의 실패를 `tests/rd09_audit_log.cjs`로 고정한다.
-2. `buildAuditRecord`와 `renderAuditExport`로 마크다운·JSON·텍스트를 만들고, 그래프 패널에서 읽기 전용으로 복사·저장한다.
-3. 로컬 게이트로 기준 실패와 구현 통과를 다시 실행한다.
-4. 실제 Figma 패널 관찰이 없으면 그 인수 조건을 통과로 바꾸지 않는다.
+1. 진단 schema, redaction과 없는 사실의 unobserved를 검사한다.
+2. 현재 React 진단 표시와 JSON 다운로드가 읽기 전용인지 확인한다.
+3. standalone 호환 경로와 실제 React 번들 경로를 구분해 검사한다.
+4. 실제 Figma 패널 관찰이 없으면 해당 인수 조건을 대기로 유지한다.
 
-한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
+아래 순서는 구현 경로와 검증 항목이다. 검사 파일의 존재나 과거 fixture 결과는 현재 실행 성공 또는 실제 Figma 인수를 뜻하지 않는다. 현재 실행 결과와 실제 관찰은 [최종 인수 기록](../FINAL_ACCEPTANCE.md)에 별도로 남긴다.
 
-1은 기록 스키마 `figma-flow-audit-log-v1`과 비밀값 가리기, 노드 ID·리비전·오류·작업 식별자 유지, 요약·전체 읽기 범위, 없는 읽기의 `native-read`, 실제 Figma 패널의 `live-figma-panel`을 검사한다. 2는 `figma-bridge/audit_log.js`가 그 기록을 만들고 `graph-panel.html`이 같은 스크립트를 실어 `bindAuditExport`로 복사·마크다운 저장·JSON 저장만 한다. 이 함수는 적용 메시지를 보내지 않는다. 플러그인 버전은 패널에 적힌 0.26.3이다. 입력 객체와 pairing plan은 바꾸지 않는다. `graph_sync.py`가 다른 작업으로 수정 중이면 그 파일은 건드리지 않는다. 3은 같은 Node 검사를 구현 전과 후에 다시 실행한다. 4는 라이브 Figma를 열지 않은 관찰을 성공으로 적지 않는다.
+`tests/rd09_audit_log.cjs`는 기록 schema, redaction, 식별자 보존, full과 summary coverage 및 unobserved를 검사한다. `audit_log.js`의 `buildAuditRecord`와 `renderAuditExport`가 전달된 사실만 고른다. 없는 pairing, runtime, lifecycle과 blocked-write는 unknown으로 남는다.
+
+현재 React 경로는 `GraphPanel.jsx`에서 `DiagnosticExport.jsx`로 model과 evidence를 전달한다. readOnly textarea와 로컬 JSON 다운로드만 제공하고 네트워크 요청이나 mutation 메시지를 보내지 않는다. plugin version은 현재 model에서 받으며 입력 객체와 pairing plan은 바꾸지 않는다. standalone `graph-panel.html`의 `bindAuditExport`는 별도 호환 경로다. React 생성 자산과 실제 패널 연결은 standalone fixture 결과와 구분해 검증한다.
 
 ## 기존 검사에서 시작하기
 
@@ -23,7 +25,7 @@ python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'
 python3 -B -m unittest discover -s tests -p 'test_panel_components.py'
 ```
 
-React 번들과 가져오기 패널은 이 단위의 소유 파일이 아니다. 그 파일을 같은 변경에 넣지 않는다.
+React를 바꾸면 `npm --prefix panel-ui run build`로 생성 자산을 갱신하고 실제 렌더 경로를 확인한다. 진단 export 함수 검사는 React 버튼 상호작용이나 설치된 Figma 패널 관찰을 대신하지 않는다.
 
 ## 실제 동작 확인
 

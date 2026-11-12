@@ -1,8 +1,10 @@
-# Figma Flow 0.26.2 통합 가이드
+# Figma Flow 0.27.0 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
 <a id="korean"></a>
+
+이 문서는 0.27.0 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md)에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다.
 
 설치·사용·업데이트 안내의 정본은 이 문서 하나입니다. [설치 프롬프트](#setup-prompt) · [환경 설정](#environment) · [업데이트와 복구](#updates) · [회사 private 배포](#private-distribution)
 
@@ -89,6 +91,36 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 
 아래 4~11절은 최초 설치, 작업 준비와 **수동 대체 경로**의 자세한 설명입니다.
 
+### 0.27에서 준비하고 확인할 범위
+
+반복 컨트롤의 문구는 실제 TEXT property로 연결되고 같은 구조·지원된 너비 차이의 사용처는 main을 공유합니다. 선언한 variant만 유지합니다. Group은 정적 묶음, Frame은 크기·clip, Auto Layout은 선언한 행·열 관계를 맡습니다. 스크롤은 명시한 clipped Frame의 방향만 적용하고 실제 `overflowDirection` getter로 확인합니다. 입력·선택·표 전체를 자동 계열화하는 기능은 [후속 제안](next-roadmap/README.md)입니다.
+
+작업 의존성과 입력 자료는 `prepare`의 `--` 앞에 지정합니다. `--depends-on`은 아래 JSON 배열 파일이며 `task_key`, `revision`, `relation`, `artifact`, `artifact_sha256` 다섯 필드를 받습니다. revision과 hash는 실제 `list`/준비 산출물의 64자리 값을 사용합니다. artifact는 `code.js`, `ui.html`, `manifest.json` 중 하나이고 relation은 `uses-output`입니다. 같은 프로젝트라는 이유로 edge를 만들지 않습니다. 아래 꺾쇠 값은 실제 값으로 바꿔야 하며 그대로 실행할 입력이 아닙니다.
+
+```json
+[{"task_key":"source-review","revision":"<exact-64-hex-task-revision>","relation":"uses-output","artifact":"code.js","artifact_sha256":"<exact-64-hex-artifact-sha256>"}]
+```
+
+이미 생성·검증한 입력 record를 사용합니다. 개인 원본은 비공개 root에 두고 공유 JSON에 비밀이나 개인 경로를 넣지 않습니다.
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare \
+  --workspace "$WORKSPACE" --key linked-review --title "입력에 연결한 검토" \
+  --kind review --depends-on "$PROJECT/depends-on.json" \
+  --input-record "$PROJECT/input-record.json" --input-root "$INPUT_ROOT" -- \
+  --manifest "$PROJECT/review/directions.json"
+```
+
+`INPUT_ROOT`는 record를 만든 실제 원본 root입니다. `--input-root`는 record 없이 사용할 수 없습니다. 기존 작업을 바꿀 때는 현재 revision을 `--replace-expected`로 추가합니다. pin·해시·출처가 바뀌면 record와 작업을 다시 준비합니다. 의존성은 현재·오래됨·은퇴·확인 불가를 구분하며 자동 실행하지 않습니다. 보존된 정확한 revision의 bundle은 재사용하고 발행 실패 때는 아직 admission되지 않은 새 산출물만 정리합니다.
+
+기존 문서의 **Figma 값 읽기**에서 **너비·높이 요약 읽기**를 선택하면 기본 페이지의 해당 필드만 읽습니다. 화면과 JSON에 부분 범위·제외 항목을 표시하며 동기화 근거로 사용할 수 없습니다. 전체 읽기는 모든 허용 페이지의 근거로 교체합니다. 진단 버전은 실제 빌드 매니페스트를 사용하고 전달되지 않은 작업 정보는 미관측으로 남깁니다.
+
+입력 자산은 kind·status·모든 CSS 출처와 freshness로 확인합니다. `present`, `404`, `rejected`, `external-unverified`를 구분하며 목록은 실제 요청·렌더 성공을 뜻하지 않습니다. 여러 CSS gap 값 중 요청하지 않은 값은 `unresolved_facts`로 남기고 임의의 scalar를 만들지 않습니다. 요청한 fact가 모호하면 준비를 거절합니다.
+
+선택 동기화는 고정 selection manifest와 protocol을 확인합니다. alias·공유 consumer 묶음은 반만 적용할 수 없고 before 값·revision을 대조합니다. 부분 적용은 미선택 값·binding과 기존 marker를 보존합니다. 전체 pairing은 최신 full getter와 전체 범위 확인이 필요합니다. summary의 node/field coverage는 부분 관측이며 complete false를 전체 증거로 바꾸지 않습니다. 검증용 session snapshot cache는 없습니다.
+
+이력의 canonical 실행 단계는 exact file/page/runtime 범위의 서버 journal에서 읽습니다. 로컬 cache의 UI 관측·실행 ID는 그 단계를 대신하지 않습니다. 읽기 전용 진단 내보내기는 기존 관측을 표시·다운로드하며 native 쓰기를 추가하지 않습니다. URL 자격 정보·토큰·개인 홈 경로를 제거하고 알 수 없는 사실은 unknown/unobserved로 남깁니다. 진단 파일도 공유 전에 내용을 확인합니다.
+
 ### 현재 패널 빠른 찾기
 
 | 패널 | 실제 조작과 결과 |
@@ -103,7 +135,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.26.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.27.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -112,7 +144,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.26.2`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.26.2`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.27.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.27.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -480,7 +512,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.26.2을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.27.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -624,6 +656,8 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 
 ## English quick start
 
+This guide targets 0.27.0. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md).
+
 At each workflow start, check and safely update both plugin packages/runtime files from the exact registered source. Pins, active work, unknown source, offline/auth failures and forbidden Figma access are explicit exceptions; actual loaded runtime remains separately verified. A concrete direction uses one `direct` draft; `compare` is for requested alternatives. Human specifications come from graph meaning and appear outside artwork, with technical ownership retained separately. [Startup](#automatic-startup) · [Readable specifications](#readable-specifications) · [Direction contract](../skills/figma-flow/references/direction-selection.md).
 
 Version 0.24.1 checks the running local server before queueing every run, including --no-wait. Restart only this workspace's service with the current installed tools if the version, implementation or capability check fails. Full native discovery imports must match the pairing marker before writing graph or web files.
@@ -643,14 +677,14 @@ Codex can retrieve the result while local control is connected. For offline work
 ## Install once
 
 ```sh
-git clone --branch v0.26.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.27.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.26.2`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.27.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -726,6 +760,9 @@ Explicit `control_styles.fill: null` preserves a transparent button without a fi
 
 ## Read the UI
 
+Version 0.27 supports pinned `prepare --depends-on FILE --input-record FILE --input-root ROOT` before `--`. Dependency JSON uses `task_key`, exact `revision`, `relation: uses-output`, registered `artifact` and `artifact_sha256`; copy actual 64-hex values from prepared artifacts. See the [complete example](#027에서-준비하고-확인할-범위). Asset kind/status, every CSS source and freshness describe inventory, not rendering. Unrequested ambiguous CSS gaps remain unresolved. TEXT labels/shared mains and explicit Group/Frame/Auto Layout preserve declared structure; scrolling requires an explicit clipped Frame. Selection pins keep alias bundles atomic and preserve partial markers; full pairing needs fresh full coverage. Discovery also offers a primary-page width/height summary with explicit omissions; full reads replace that evidence. Diagnostics use the build manifest version. Summary is partial. Scoped server journal phases differ from local UI history. Redacted diagnostic export is read-only and adds no native write. [Acceptance](development-roadmap/FINAL_ACCEPTANCE.md) · [Standalone Django/PostgreSQL app](../apps/little-hands/README.md) · [Proposed next work](next-roadmap/README.md).
+
+
 The task-state chart counts the last observation for each current task revision. It is not an overall acceptance percentage. Expand an execution to follow its request and results, or filter by task. Legacy events remain unlinked. Reduced motion removes the short expansion feedback.
 
 Use **Language** to choose **한국어 / English / 日本語**. Source names, actual values, raw JSON and native diagnostics stay unchanged. **Next action** suggests the next prepared step; **History** distinguishes requests, execution, readback, verification and failures. Older revision records do not prove the current revision. Local history can be unavailable; retain actual result artifacts.
@@ -752,6 +789,8 @@ For updates, preserve the old source and complete workspace, install the chosen 
 
 ## 日本語クイックスタート
 
+このガイドは0.27.0向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)で確認します。
+
 各作業の開始時に、登録済みの正確な配布元から Codex パッケージと Figma 実行ファイルを確認し、安全な場合は更新します。バージョン固定・実行中・配布元不明・オフライン・認証失敗・Figma アクセス禁止は例外として記録し、実際に読み込まれた実行版は別途確認します。具体的な方向指定は `direct` 一案、比較の依頼は `compare` を使います。説明は graph の意味から生成して画面の外に表示し、技術情報と所有権は別に保持します。[開始時の確認](#automatic-startup) · [説明の契約](#readable-specifications) · [方向の契約](../skills/figma-flow/references/direction-selection.md)。
 
 0.25.0 の `graph_sync.py probe --component ID` と `combine-web --proof ACTUAL.json` は、画面切替や表示幅ごとに存在するコンポーネントの実測を結合します。全宣言の実測が必要で、不足・競合・古いグラフは拒否します。元の JSON とハッシュも pairing 時に再確認するため、元ファイルを保存してください。通常の probe と最終 pairing は全範囲を要求します。[コマンドとアイコンボタンの配置](#multi-screen-web-proof)。
@@ -777,14 +816,14 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.26.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.27.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.26.2` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.27.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 
@@ -853,6 +892,9 @@ python3 tools/figma_draft.py verify-production --packet ARTIFACTS/packet.json --
 `native-edit` は独立したタスク種別で、operation は `read` と `apply` です。正確なファイル・ページ・ノードまたはローカル変数のモード・前後値を `figma-flow-native-edit-plan-v1` に固定し、`prepare --kind native-edit -- --plan PLAN.json` で準備します。実際の Figma API で変更し、任意の JavaScript は評価しません。値や revision が古ければ書き込みを停止します。復元の衝突を保管し、結果不明の書き込みを再試行する前に現在値を読み取ります。グラフへの反映と Web 照合は別途行います。[計画例と制限](#prepared-native-edit)。
 
 ## 画面の見方
+
+0.27では `prepare` の `--` 前に `--depends-on FILE --input-record FILE --input-root ROOT` を指定できます。依存 JSON は `task_key`、正確な `revision`、`relation: uses-output`、登録済み `artifact`、`artifact_sha256` を使います。64桁の実値は準備した成果物から取得します。[例と契約](#027에서-준비하고-확인할-범위)を参照してください。資産の種類・状態・全CSS出典・freshnessは一覧情報であり、描画成功ではありません。要求していない曖昧なgapは未解決のまま残します。TEXTラベルと共有main、明示したGroup/Frame/Auto Layoutを使い、scrollはclip付きFrameの宣言を検証します。選択pinはaliasの分割適用を防ぎ、部分markerを保持します。全体pairingには最新full読み取りが必要です。summaryは部分観測です。scopeを固定したserver journalとローカルUI履歴を区別し、秘密を除去した診断exportはnative書き込みを追加しません。[受入状況](development-roadmap/FINAL_ACCEPTANCE.md)・[独立Django/PostgreSQLアプリ](../apps/little-hands/README.md)・[次の提案](next-roadmap/README.md)。
+
 
 状態チャートは現在の各タスクリビジョンの最終観測を集計します。全体の受入完了率ではありません。実行を展開すると要求と結果を追跡でき、タスク別に絞り込めます。実行 ID のない旧履歴は関連付けません。動きを減らす設定では短い展開効果を省きます。
 

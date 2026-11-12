@@ -1,0 +1,2920 @@
+{
+  "schema": "little-hands-browser-measurement-v1",
+  "state": "state-signup",
+  "viewport": {
+    "width": 1200,
+    "height": 900
+  },
+  "document": {
+    "width": 1185,
+    "height": 1146
+  },
+  "route": "/accounts/signup/",
+  "title": "회원 가입 · 작은손 커피공방",
+  "body_background": "rgb(246, 242, 233)",
+  "fonts_ready": "loaded",
+  "captured_at": "2026-11-12T15:53:44.295Z",
+  "controls": [
+    {
+      "id": "state-signup-brand",
+      "native_key": "brand",
+      "selector": "[data-native-key=\"brand\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        40,
+        14,
+        144.906,
+        48
+      ],
+      "label": "작은손 커피공방",
+      "action": "home",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 22,
+        "leading": 33,
+        "letter_spacing": -0.5,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-signup-nav-sessions",
+      "native_key": "nav-sessions",
+      "selector": "[data-native-key=\"nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        995.406,
+        26,
+        81.594,
+        44
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-signup-nav-login",
+      "native_key": "nav-login",
+      "selector": "[data-native-key=\"nav-login\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        1101,
+        26,
+        44,
+        44
+      ],
+      "label": "로그인",
+      "action": "login",
+      "href": "/accounts/login/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-signup-id_username",
+      "native_key": null,
+      "selector": "#id_username",
+      "tag": "input",
+      "type": "text",
+      "box": [
+        385.5,
+        349.969,
+        414,
+        49
+      ],
+      "label": "",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/signup/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-signup-signup-submit",
+      "native_key": "signup-submit",
+      "selector": "[data-native-key=\"signup-submit\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        385.5,
+        804.688,
+        414,
+        48
+      ],
+      "label": "회원 가입",
+      "action": "signup-submit",
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/signup/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(142, 62, 40)",
+        "ink": "rgb(255, 253, 248)",
+        "stroke": "rgb(142, 62, 40)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-signup-registration-signup-a-4-0",
+      "native_key": "registration-signup-a-4-0",
+      "selector": "[data-native-key=\"registration-signup-a-4-0\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        633.938,
+        909.688,
+        44,
+        44
+      ],
+      "label": "로그인",
+      "action": "navigate",
+      "href": "/accounts/login/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "state-signup-site-header-surface",
+      "selector": "[data-native-key=\"site-header\"]",
+      "tag": "header",
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-signup-form-surface",
+      "selector": "[data-native-key=\"signup-form\"]",
+      "tag": "form",
+      "box": [
+        352.5,
+        283.781,
+        480,
+        601.906
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-field-username-surface",
+      "selector": "[data-native-key=\"field-username\"]",
+      "tag": "div",
+      "box": [
+        385.5,
+        316.781,
+        414,
+        113.578
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-id_username-surface",
+      "selector": "#id_username",
+      "tag": "input",
+      "box": [
+        385.5,
+        349.969,
+        414,
+        49
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-field-password1-surface",
+      "selector": "[data-native-key=\"field-password1\"]",
+      "tag": "div",
+      "box": [
+        385.5,
+        454.359,
+        414,
+        188.75
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-id_password1-surface",
+      "selector": "#id_password1",
+      "tag": "input",
+      "box": [
+        385.5,
+        487.547,
+        414,
+        49
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-field-password2-surface",
+      "selector": "[data-native-key=\"field-password2\"]",
+      "tag": "div",
+      "box": [
+        385.5,
+        667.109,
+        414,
+        113.578
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-id_password2-surface",
+      "selector": "#id_password2",
+      "tag": "input",
+      "box": [
+        385.5,
+        700.297,
+        414,
+        49
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-signup-site-footer-surface",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "tag": "footer",
+      "box": [
+        0,
+        1033.688,
+        1185,
+        112.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    }
+  ],
+  "images": [],
+  "texts": [
+    {
+      "id": "state-signup-brand-tagline-text-0",
+      "selector": "[data-native-key=\"brand-tagline\"]",
+      "value": "커피를 배우는 작은 시간",
+      "raw_value": "커피를 배우는 작은 시간",
+      "box": [
+        40,
+        64,
+        144.906,
+        18
+      ],
+      "glyph_box": [
+        40,
+        64,
+        134.828,
+        17
+      ],
+      "element_box": [
+        40,
+        64,
+        144.906,
+        18
+      ],
+      "content_box": [
+        40,
+        64,
+        144.906,
+        18
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "small",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 18,
+        "letter_spacing": 1.1,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-registration-signup-p-1-0-text-0",
+      "selector": "[data-native-key=\"registration-signup-p-1-0\"]",
+      "value": "나만의 커피 시간",
+      "raw_value": "나만의 커피 시간",
+      "box": [
+        352.5,
+        145,
+        480,
+        23.4
+      ],
+      "glyph_box": [
+        352.5,
+        147,
+        91.078,
+        19
+      ],
+      "element_box": [
+        352.5,
+        145,
+        480,
+        23.391
+      ],
+      "content_box": [
+        352.5,
+        145,
+        480,
+        23.391
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(142, 62, 40)",
+        "stroke": "rgb(142, 62, 40)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-signup-title-text-0",
+      "selector": "[data-native-key=\"signup-title\"]",
+      "value": "작은손과 함께해요",
+      "raw_value": "작은손과 함께해요",
+      "box": [
+        352.5,
+        182.391,
+        480,
+        46.4
+      ],
+      "glyph_box": [
+        352.5,
+        182.391,
+        235.547,
+        46
+      ],
+      "element_box": [
+        352.5,
+        182.391,
+        480,
+        46.391
+      ],
+      "content_box": [
+        352.5,
+        182.391,
+        480,
+        46.391
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h1",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 32,
+        "leading": 46.4,
+        "letter_spacing": -1.2,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-registration-signup-p-2-0-text-0",
+      "selector": "[data-native-key=\"registration-signup-p-2-0\"]",
+      "value": "계정을 만들고 원하는 수업을 예약하세요.",
+      "raw_value": "계정을 만들고 원하는 수업을 예약하세요.",
+      "box": [
+        352.5,
+        228.781,
+        480,
+        27
+      ],
+      "glyph_box": [
+        352.5,
+        231.781,
+        257.438,
+        21
+      ],
+      "element_box": [
+        352.5,
+        228.781,
+        480,
+        27
+      ],
+      "content_box": [
+        352.5,
+        228.781,
+        480,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-includes-form-label-4-1-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-1\"]",
+      "value": "사용자 이름",
+      "raw_value": "사용자 이름",
+      "box": [
+        385.5,
+        316.181,
+        68.719,
+        25.2
+      ],
+      "glyph_box": [
+        385.5,
+        318.781,
+        68.719,
+        20
+      ],
+      "element_box": [
+        385.5,
+        316.781,
+        414,
+        25.188
+      ],
+      "content_box": [
+        385.5,
+        316.781,
+        414,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(2)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        454.219,
+        316.181,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        454.219,
+        318.781,
+        13.141,
+        20
+      ],
+      "element_box": [
+        454.219,
+        318.781,
+        13.141,
+        20
+      ],
+      "content_box": [
+        454.219,
+        318.781,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-id_username_helptext-text-0",
+      "selector": "#id_username_helptext",
+      "value": "150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.",
+      "raw_value": "150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.",
+      "box": [
+        385.5,
+        406.969,
+        414,
+        23.4
+      ],
+      "glyph_box": [
+        385.5,
+        408.969,
+        309.844,
+        19
+      ],
+      "element_box": [
+        385.5,
+        406.969,
+        414,
+        23.391
+      ],
+      "content_box": [
+        385.5,
+        406.969,
+        414,
+        23.391
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "div",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-includes-form-label-4-2-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-2\"]",
+      "value": "비밀번호",
+      "raw_value": "비밀번호",
+      "box": [
+        385.5,
+        453.759,
+        52.094,
+        25.2
+      ],
+      "glyph_box": [
+        385.5,
+        456.359,
+        52.094,
+        20
+      ],
+      "element_box": [
+        385.5,
+        454.359,
+        414,
+        25.188
+      ],
+      "content_box": [
+        385.5,
+        454.359,
+        414,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(3)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        437.594,
+        453.759,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        437.594,
+        456.359,
+        13.141,
+        20
+      ],
+      "element_box": [
+        437.594,
+        456.359,
+        13.141,
+        20
+      ],
+      "content_box": [
+        437.594,
+        456.359,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(3)>div:nth-child(3)>ul:nth-child(1)>li:nth-child(1)",
+      "value": "다른 개인 정보와 유사한 비밀번호는 사용할 수 없습니다.",
+      "raw_value": "다른 개인 정보와 유사한 비밀번호는 사용할 수 없습니다.",
+      "box": [
+        425.5,
+        549.547,
+        374,
+        23.4
+      ],
+      "glyph_box": [
+        425.5,
+        551.547,
+        305.328,
+        19
+      ],
+      "element_box": [
+        425.5,
+        549.547,
+        374,
+        23.391
+      ],
+      "content_box": [
+        425.5,
+        549.547,
+        374,
+        23.391
+      ],
+      "text_context": {
+        "display": "list-item",
+        "tag": "li",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-2--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(3)>div:nth-child(3)>ul:nth-child(1)>li:nth-child(2)",
+      "value": "비밀번호는 최소 12자 이상이어야 합니다.",
+      "raw_value": "비밀번호는 최소 12자 이상이어야 합니다.",
+      "box": [
+        425.5,
+        572.938,
+        374,
+        23.4
+      ],
+      "glyph_box": [
+        425.5,
+        574.938,
+        225.344,
+        19
+      ],
+      "element_box": [
+        425.5,
+        572.938,
+        374,
+        23.391
+      ],
+      "content_box": [
+        425.5,
+        572.938,
+        374,
+        23.391
+      ],
+      "text_context": {
+        "display": "list-item",
+        "tag": "li",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-3--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(3)>div:nth-child(3)>ul:nth-child(1)>li:nth-child(3)",
+      "value": "통상적으로 자주 사용되는 비밀번호는 사용할 수 없습니다.",
+      "raw_value": "통상적으로 자주 사용되는 비밀번호는 사용할 수 없습니다.",
+      "box": [
+        425.5,
+        596.328,
+        374,
+        23.4
+      ],
+      "glyph_box": [
+        425.5,
+        598.328,
+        314.188,
+        19
+      ],
+      "element_box": [
+        425.5,
+        596.328,
+        374,
+        23.391
+      ],
+      "content_box": [
+        425.5,
+        596.328,
+        374,
+        23.391
+      ],
+      "text_context": {
+        "display": "list-item",
+        "tag": "li",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-4--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(3)>div:nth-child(3)>ul:nth-child(1)>li:nth-child(4)",
+      "value": "숫자로만 이루어진 비밀번호는 사용할 수 없습니다.",
+      "raw_value": "숫자로만 이루어진 비밀번호는 사용할 수 없습니다.",
+      "box": [
+        425.5,
+        619.719,
+        374,
+        23.4
+      ],
+      "glyph_box": [
+        425.5,
+        621.719,
+        274.703,
+        19
+      ],
+      "element_box": [
+        425.5,
+        619.719,
+        374,
+        23.391
+      ],
+      "content_box": [
+        425.5,
+        619.719,
+        374,
+        23.391
+      ],
+      "text_context": {
+        "display": "list-item",
+        "tag": "li",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-includes-form-label-4-3-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-3\"]",
+      "value": "비밀번호 확인",
+      "raw_value": "비밀번호 확인",
+      "box": [
+        385.5,
+        666.509,
+        81.734,
+        25.2
+      ],
+      "glyph_box": [
+        385.5,
+        669.109,
+        81.734,
+        20
+      ],
+      "element_box": [
+        385.5,
+        667.109,
+        414,
+        25.188
+      ],
+      "content_box": [
+        385.5,
+        667.109,
+        414,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(4)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        467.234,
+        666.509,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        467.234,
+        669.109,
+        13.141,
+        20
+      ],
+      "element_box": [
+        467.234,
+        669.109,
+        13.141,
+        20
+      ],
+      "content_box": [
+        467.234,
+        669.109,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-id_password2_helptext-text-0",
+      "selector": "#id_password2_helptext",
+      "value": "확인을 위해 이전과 동일한 비밀번호를 입력하세요.",
+      "raw_value": "확인을 위해 이전과 동일한 비밀번호를 입력하세요.",
+      "box": [
+        385.5,
+        757.297,
+        414,
+        23.4
+      ],
+      "glyph_box": [
+        385.5,
+        759.297,
+        274.703,
+        19
+      ],
+      "element_box": [
+        385.5,
+        757.297,
+        414,
+        23.391
+      ],
+      "content_box": [
+        385.5,
+        757.297,
+        414,
+        23.391
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "div",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-registration-signup-p-3-0-text-0",
+      "selector": "[data-native-key=\"registration-signup-p-3-0\"]",
+      "value": "이미 계정이 있나요?",
+      "raw_value": "이미 계정이 있나요?",
+      "box": [
+        507.063,
+        918.494,
+        118.875,
+        25.2
+      ],
+      "glyph_box": [
+        507.063,
+        921.094,
+        118.875,
+        20
+      ],
+      "element_box": [
+        352.5,
+        909.688,
+        480,
+        44
+      ],
+      "content_box": [
+        352.5,
+        909.688,
+        480,
+        44
+      ],
+      "text_context": {
+        "display": "flex",
+        "tag": "p",
+        "child_tags": [
+          "a"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(1)>strong:nth-child(1)",
+      "value": "작은손 커피공방",
+      "raw_value": "작은손 커피공방",
+      "box": [
+        40,
+        1066.388,
+        81.219,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1068.688,
+        81.219,
+        17
+      ],
+      "element_box": [
+        40,
+        1068.688,
+        81.219,
+        17
+      ],
+      "content_box": [
+        40,
+        1068.688,
+        81.219,
+        17
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "strong",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-base-p-2-0-text-0",
+      "selector": "[data-native-key=\"base-p-2-0\"]",
+      "value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "raw_value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "box": [
+        40,
+        1087.981,
+        202.063,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        1090.281,
+        202.063,
+        17
+      ],
+      "element_box": [
+        40,
+        1066.688,
+        202.063,
+        47.188
+      ],
+      "content_box": [
+        40,
+        1066.688,
+        202.063,
+        47.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "strong",
+          "br"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-base-p-3-0-text-0",
+      "selector": "[data-native-key=\"base-p-3-0\"]",
+      "value": "수업료는 현장에서 결제합니다.",
+      "raw_value": "수업료는 현장에서 결제합니다.",
+      "box": [
+        989.641,
+        1066.388,
+        155.359,
+        21.6
+      ],
+      "glyph_box": [
+        989.641,
+        1068.688,
+        155.359,
+        17
+      ],
+      "element_box": [
+        989.641,
+        1066.688,
+        155.359,
+        47.188
+      ],
+      "content_box": [
+        989.641,
+        1066.688,
+        155.359,
+        47.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "br",
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-signup-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(2)>span:nth-child(2)",
+      "value": "staging 환경",
+      "raw_value": "staging 환경",
+      "box": [
+        1005.641,
+        1089.981,
+        67.922,
+        21.6
+      ],
+      "glyph_box": [
+        1005.641,
+        1092.281,
+        67.922,
+        17
+      ],
+      "element_box": [
+        997.641,
+        1088.281,
+        83.922,
+        25.594
+      ],
+      "content_box": [
+        1005.641,
+        1090.281,
+        67.922,
+        21.594
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          1,
+          7,
+          1,
+          7
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    }
+  ],
+  "containers": [
+    {
+      "id": "state-signup-site-header-container",
+      "selector": "[data-native-key=\"site-header\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        0,
+        1185,
+        97
+      ],
+      "tag": "header",
+      "classes": "site-header",
+      "members": [
+        "state-signup-brand",
+        "state-signup-nav-sessions",
+        "state-signup-nav-login",
+        "state-signup-site-header-surface",
+        "state-signup-brand-tagline-text-0",
+        "state-signup-site-header-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          40,
+          0,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-body-header-nth-child-2-div-nth-child-1--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "parent_selector": "[data-native-key=\"site-header\"]",
+      "box": [
+        40,
+        0,
+        1105,
+        96
+      ],
+      "tag": "div",
+      "classes": "wrap header-inner",
+      "members": [
+        "state-signup-brand",
+        "state-signup-nav-sessions",
+        "state-signup-nav-login",
+        "state-signup-brand-tagline-text-0",
+        "state-signup-body-header-nth-child-2-div-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "space-between",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "box": [
+        995.406,
+        26,
+        149.594,
+        44
+      ],
+      "tag": "nav",
+      "classes": "nav",
+      "members": [
+        "state-signup-nav-sessions",
+        "state-signup-nav-login",
+        "state-signup-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 24,
+        "align_items": "center",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-main-container",
+      "selector": "#main",
+      "parent_selector": null,
+      "box": [
+        0,
+        97,
+        1185,
+        936.688
+      ],
+      "tag": "main",
+      "classes": "page ",
+      "members": [
+        "state-signup-id_username",
+        "state-signup-signup-submit",
+        "state-signup-registration-signup-a-4-0",
+        "state-signup-signup-form-surface",
+        "state-signup-field-username-surface",
+        "state-signup-id_username-surface",
+        "state-signup-field-password1-surface",
+        "state-signup-id_password1-surface",
+        "state-signup-field-password2-surface",
+        "state-signup-id_password2-surface",
+        "state-signup-registration-signup-p-1-0-text-0",
+        "state-signup-signup-title-text-0",
+        "state-signup-registration-signup-p-2-0-text-0",
+        "state-signup-includes-form-label-4-1-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-id_username_helptext-text-0",
+        "state-signup-includes-form-label-4-2-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-1--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-2--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-3--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-4--text-0",
+        "state-signup-includes-form-label-4-3-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-id_password2_helptext-text-0",
+        "state-signup-registration-signup-p-3-0-text-0",
+        "state-signup-main-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          48,
+          40,
+          80,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-signup-form-container",
+      "selector": "[data-native-key=\"signup-form\"]",
+      "parent_selector": "#main",
+      "box": [
+        352.5,
+        283.781,
+        480,
+        601.906
+      ],
+      "tag": "form",
+      "classes": "paper",
+      "members": [
+        "state-signup-id_username",
+        "state-signup-signup-submit",
+        "state-signup-signup-form-surface",
+        "state-signup-field-username-surface",
+        "state-signup-id_username-surface",
+        "state-signup-field-password1-surface",
+        "state-signup-id_password1-surface",
+        "state-signup-field-password2-surface",
+        "state-signup-id_password2-surface",
+        "state-signup-includes-form-label-4-1-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-id_username_helptext-text-0",
+        "state-signup-includes-form-label-4-2-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-1--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-2--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-3--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-4--text-0",
+        "state-signup-includes-form-label-4-3-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-id_password2_helptext-text-0",
+        "state-signup-signup-form-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-field-username-container",
+      "selector": "[data-native-key=\"field-username\"]",
+      "parent_selector": "[data-native-key=\"signup-form\"]",
+      "box": [
+        385.5,
+        316.781,
+        414,
+        113.578
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-signup-id_username",
+        "state-signup-field-username-surface",
+        "state-signup-id_username-surface",
+        "state-signup-includes-form-label-4-1-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-id_username_helptext-text-0",
+        "state-signup-field-username-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-field-password1-container",
+      "selector": "[data-native-key=\"field-password1\"]",
+      "parent_selector": "[data-native-key=\"signup-form\"]",
+      "box": [
+        385.5,
+        454.359,
+        414,
+        188.75
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-signup-field-password1-surface",
+        "state-signup-id_password1-surface",
+        "state-signup-includes-form-label-4-2-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-1--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-2--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-3--text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-div-nth-child-3-ul-nth-child-1-li-nth-child-4--text-0",
+        "state-signup-field-password1-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-field-password2-container",
+      "selector": "[data-native-key=\"field-password2\"]",
+      "parent_selector": "[data-native-key=\"signup-form\"]",
+      "box": [
+        385.5,
+        667.109,
+        414,
+        113.578
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-signup-field-password2-surface",
+        "state-signup-id_password2-surface",
+        "state-signup-includes-form-label-4-3-text-0",
+        "state-signup-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-4-label-nth-child-1-span-nth-child-1--text-0",
+        "state-signup-id_password2_helptext-text-0",
+        "state-signup-field-password2-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-signup-site-footer-container",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        1033.688,
+        1185,
+        112.188
+      ],
+      "tag": "footer",
+      "classes": "site-footer",
+      "members": [
+        "state-signup-site-footer-surface",
+        "state-signup-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+        "state-signup-base-p-2-0-text-0",
+        "state-signup-base-p-3-0-text-0",
+        "state-signup-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+        "state-signup-site-footer-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          40,
+          32,
+          40
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    }
+  ],
+  "html": "<!doctype html>\n<html lang=\"ko\"><head><title>회원 가입 · 작은손 커피공방</title><link rel=\"stylesheet\" href=\"/static/littlehands/app.3539de012f0c.css\"></head>\n<body data-app=\"little-hands\" data-environment=\"staging\"><header class=\"site-header\" data-native-key=\"site-header\" data-native-type=\"surface\"><div class=\"wrap header-inner\"><div class=\"brand\" data-native-key=\"brand-stack\"><a class=\"brand-link\" href=\"/\" aria-label=\"작은손 커피공방 홈\" data-native-key=\"brand\" data-native-type=\"control\" data-action=\"home\">작은손 커피공방</a><small data-native-key=\"brand-tagline\" data-native-type=\"text\">커피를 배우는 작은 시간</small></div><nav class=\"nav\" aria-label=\"회원 메뉴\"><a href=\"/\" data-action=\"sessions\" data-native-key=\"nav-sessions\" data-native-type=\"control\">수업 둘러보기</a><a href=\"/accounts/login/\" data-action=\"login\" data-native-key=\"nav-login\" data-native-type=\"control\">로그인</a></nav></div></header>\n<main id=\"main\" class=\"page \" tabindex=\"-1\"><div class=\"wrap\"><div class=\"auth\"><p class=\"kicker\" data-native-key=\"registration-signup-p-1-0\" data-native-type=\"text\">나만의 커피 시간</p><h1 data-native-key=\"signup-title\" data-native-type=\"text\">작은손과 함께해요</h1><p class=\"muted\" data-native-key=\"registration-signup-p-2-0\" data-native-type=\"text\">계정을 만들고 원하는 수업을 예약하세요.</p><form class=\"paper\" data-native-key=\"signup-form\" data-native-type=\"surface\" inert data-export-only=\"true\" method=\"post\">\n<div class=\"field \" data-native-key=\"field-username\" data-native-type=\"surface\"><label for=\"id_username\" data-native-key=\"includes-form-label-4-1\" data-native-type=\"text\">사용자 이름<span aria-hidden=\"true\"> *</span></label><input type=\"text\" name=\"username\" required=\"\" aria-describedby=\"id_username_helptext\" id=\"id_username\" value=\"\"><div class=\"help\" id=\"id_username_helptext\">150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.</div></div><div class=\"field \" data-native-key=\"field-password1\" data-native-type=\"surface\"><label for=\"id_password1\" data-native-key=\"includes-form-label-4-2\" data-native-type=\"text\">비밀번호<span aria-hidden=\"true\"> *</span></label><input type=\"password\" name=\"password1\" required=\"\" aria-describedby=\"id_password1_helptext\" id=\"id_password1\"><div class=\"help\" id=\"id_password1_helptext\"><ul><li>다른 개인 정보와 유사한 비밀번호는 사용할 수 없습니다.</li><li>비밀번호는 최소 12자 이상이어야 합니다.</li><li>통상적으로 자주 사용되는 비밀번호는 사용할 수 없습니다.</li><li>숫자로만 이루어진 비밀번호는 사용할 수 없습니다.</li></ul></div></div><div class=\"field \" data-native-key=\"field-password2\" data-native-type=\"surface\"><label for=\"id_password2\" data-native-key=\"includes-form-label-4-3\" data-native-type=\"text\">비밀번호 확인<span aria-hidden=\"true\"> *</span></label><input type=\"password\" name=\"password2\" required=\"\" aria-describedby=\"id_password2_helptext\" id=\"id_password2\"><div class=\"help\" id=\"id_password2_helptext\">확인을 위해 이전과 동일한 비밀번호를 입력하세요. </div></div>\n<button class=\"button full\" data-action=\"signup-submit\" data-native-key=\"signup-submit\" data-native-type=\"control\" type=\"button\">회원 가입</button>\n</form><p class=\"auth-footer\" data-native-key=\"registration-signup-p-3-0\" data-native-type=\"text\">이미 계정이 있나요? <a href=\"/accounts/login/\" data-native-key=\"registration-signup-a-4-0\" data-native-type=\"control\" data-action=\"navigate\">로그인</a></p></div></div></main>\n<footer class=\"site-footer\" data-native-key=\"site-footer\" data-native-type=\"surface\"><div class=\"wrap footer-inner\"><p data-native-key=\"base-p-2-0\" data-native-type=\"text\"><strong>작은손 커피공방</strong><br>수업의 작은 시작부터, 나만의 한 잔까지.</p><p data-native-key=\"base-p-3-0\" data-native-type=\"text\">수업료는 현장에서 결제합니다.<br><span class=\"environment\">staging 환경</span></p></div></footer>\n</body><div id=\"codex-browser-sidebar-comments-root\"></div></html>",
+  "scope": "Actual visible DOM geometry. Visual source only; no authentication, SQL, action execution, acceptance result, or Figma observation is proved."
+}

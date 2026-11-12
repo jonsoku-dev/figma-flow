@@ -1,0 +1,26 @@
+{% extends 'base.html' %}{% load audit_display %}
+{% block title %}변경 기록 · 작은손 커피공방{% endblock %}
+{% block page_class %}staff-page{% endblock %}
+{% block content %}
+{% include 'includes/staff_nav.html' %}
+<div class="page-heading"><div><h1 data-native-key="audit-title" data-native-type="text">변경 기록</h1><p data-native-key="audit-description" data-native-type="text">예약과 수업 운영에 반영된 변경을 시간순으로 확인합니다. 당시 저장된 값과 계정·예약·회차 ID를 표시합니다.</p></div></div>
+{% if events %}
+<div class="table-wrap" role="region" tabindex="0" aria-label="변경 기록 표 가로 스크롤" data-native-key="audit-table" data-native-type="surface">
+<table class="data-table"><caption class="visually-hidden">예약과 수업의 변경 이력</caption><thead><tr>
+<th scope="col" data-native-key="audit-heading-time" data-native-type="text">변경 일시 / 기록 번호</th>
+<th scope="col" data-native-key="audit-heading-actor" data-native-type="text">수행 계정</th>
+<th scope="col" data-native-key="audit-heading-action" data-native-type="text">행동</th>
+<th scope="col" data-native-key="audit-heading-target" data-native-type="text">대상 ID</th>
+<th scope="col" data-native-key="audit-heading-changes" data-native-type="text">변경 전후</th>
+</tr></thead><tbody>
+{% for event in events %}<tr data-native-key="audit-{{ event.pk }}" data-native-type="surface">
+<td data-native-key="audit-{{ event.pk }}-time" data-native-type="text">{{ event.created_at|date:'Y.n.j H:i:s' }}<br><span class="small muted">기록 #{{ event.pk }}</span></td>
+<td data-native-key="audit-{{ event.pk }}-actor" data-native-type="text">계정 #{{ event.actor_id }}</td>
+<td data-native-key="audit-{{ event.pk }}-action" data-native-type="text">{{ event.action|audit_action }}</td>
+<td data-native-key="audit-{{ event.pk }}-target" data-native-type="text">{% if event.booking_id %}예약 #{{ event.booking_id }}<br>{% endif %}{% if event.session_id %}회차 #{{ event.session_id }}{% endif %}{% if not event.booking_id and not event.session_id %}대상 기록 없음{% endif %}</td>
+<td>{% for change in event|audit_changes %}<p class="small" data-native-key="audit-{{ event.pk }}-change-{{ forloop.counter }}" data-native-type="text"><strong>{{ change.label }}</strong> · 이전: {{ change.before }} → 이후: {{ change.after }}</p>{% empty %}<p class="small" data-native-key="audit-{{ event.pk }}-no-facts" data-native-type="text">저장된 변경 항목 없음</p>{% endfor %}</td>
+</tr>{% endfor %}
+</tbody></table></div>
+{% else %}<div class="empty" data-native-key="audit-empty" data-native-type="surface"><h2 data-native-key="audit-empty-title" data-native-type="text">아직 변경 기록이 없습니다.</h2><p data-native-key="audit-empty-copy" data-native-type="text">예약과 일정의 변경이 반영되면 이곳에 기록됩니다.</p></div>{% endif %}
+{% include 'includes/pagination.html' %}
+{% endblock %}

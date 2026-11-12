@@ -1,6 +1,6 @@
 # RD-08 기능서 · 실행 수명주기와 충돌 복구 내역
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는0.27 첫 구현 범위의 기능 계약이다. 조건별 fixture·실제 관측과 미지원 확장은 [최종 인수 현황](../FINAL_ACCEPTANCE.md)을 따른다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 사용자 문제
 
@@ -32,4 +32,4 @@ Python control은 private request·claim·terminal receipt·readback·uncertaint
 - **RD-08-AC-04** — 중복 결과는 기존 terminal receipt와 정확히 같을 때만 결정적으로 처리하고 상충 결과를 거절한다.
 - **RD-08-AC-05** — rollback conflict 각 항목이 정확한 관측 값과 plan hash를 보존하며 legacy history는 phase unknown으로 보인다.
 
-인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 이 문서의 조건은 통과로 기록되지 않았다.
+인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 조건별 판정과 실제 관측·fixture의 구분, 후속 확장과 출시·설치 근거는 [최종 인수 현황](../FINAL_ACCEPTANCE.md)과 패치 Wiki에서 확인한다.

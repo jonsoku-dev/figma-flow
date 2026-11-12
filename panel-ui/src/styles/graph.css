@@ -88,3 +88,7 @@
     11px/1.6 ui-monospace,
     monospace;
 }
+.audit-export { margin-top: 12px; }
+.audit-export label { display: grid; gap: 6px; font-size: 12px; }
+.audit-export textarea { width: 100%; resize: vertical; min-height: 140px; padding: 10px; border: 1px solid var(--control-edge); border-radius: 6px; background: var(--paper); color: var(--ink); font: 11px/1.5 monospace; }
+.audit-export textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

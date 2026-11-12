@@ -1,0 +1,159 @@
+{
+  "schema": "littlehands-native-font-calibration-v1",
+  "fileKey": "QN4Ght8gjyfLTFd7IFjur3",
+  "pageId": "0:1",
+  "scope": "Manually authored Figma text, observed through ordinary authenticated full discovery; no font binary identity claim",
+  "texts": [
+    {
+      "id": "5:2",
+      "type": "TEXT",
+      "characters": "이 일정으로 함께할까요?",
+      "width": 402,
+      "height": 58,
+      "fontName": {
+        "family": "Hahmlet",
+        "style": "Bold",
+        "variationSettings": {
+          "wght": 700
+        }
+      },
+      "fontSize": 40,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 58
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": -1.2000000476837158
+      },
+      "textAutoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:3",
+      "type": "TEXT",
+      "characters": "수업에서 만나요.",
+      "width": 276,
+      "height": 58,
+      "fontName": {
+        "family": "Hahmlet",
+        "style": "Bold",
+        "variationSettings": {
+          "wght": 700
+        }
+      },
+      "fontSize": 40,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 58
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": -1.2000000476837158
+      },
+      "textAutoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:4",
+      "type": "TEXT",
+      "characters": "이 예약을 취소할까요?",
+      "width": 366,
+      "height": 58,
+      "fontName": {
+        "family": "Hahmlet",
+        "style": "Bold",
+        "variationSettings": {
+          "wght": 700
+        }
+      },
+      "fontSize": 40,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 58
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": -1.2000000476837158
+      },
+      "textAutoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:5",
+      "type": "TEXT",
+      "characters": "다른 시간으로 옮겨볼까요?",
+      "width": 438,
+      "height": 58,
+      "fontName": {
+        "family": "Hahmlet",
+        "style": "Bold",
+        "variationSettings": {
+          "wght": 700
+        }
+      },
+      "fontSize": 40,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 58
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": -1.2000000476837158
+      },
+      "textAutoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:6",
+      "type": "TEXT",
+      "characters": "나의 첫 핸드드립",
+      "width": 202,
+      "height": 44,
+      "fontName": {
+        "family": "Hahmlet",
+        "style": "Bold",
+        "variationSettings": {
+          "wght": 700
+        }
+      },
+      "fontSize": 30,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 43.5
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": -1.2000000476837158
+      },
+      "textAutoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:7",
+      "type": "TEXT",
+      "characters": "다른 시간으로 옮겨볼까요?",
+      "width": 324,
+      "height": 44,
+      "fontName": {
+        "family": "Hahmlet",
+        "style": "Bold",
+        "variationSettings": {
+          "wght": 700
+        }
+      },
+      "fontSize": 30,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 43.5
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": -1.2000000476837158
+      },
+      "textAutoResize": "WIDTH_AND_HEIGHT"
+    }
+  ],
+  "source_evidence": {
+    "kind": "sanitized ordinary authenticated full-getter projection",
+    "artifact_sha256": "fe32d419c4f937146f740bda580163986803f3034870ecdd3c4ee4201da03cb6",
+    "source_artifact": ".figma-flow/codex-finalization-20261112/native-font-calibration-values.json",
+    "scope": "Six manually created actual Figma TEXT nodes; calibration only, not application native handoff or font-binary identity.",
+    "raw_getter_sha256": "0087d508561b0a0e87a29370dd45436b7334751db94b61a2e9eece76e5d391a5"
+  }
+}

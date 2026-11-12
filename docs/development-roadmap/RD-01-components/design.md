@@ -1,6 +1,6 @@
 # RD-01 설계서 · 재사용 컴포넌트와 편집 속성
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보의 검증 스냅샷이다. RD-01 AC 5개는 명시된 fixture/runtime 범위에서 통과했으며 모든 REQ의 양성 경로 완료를 뜻하지 않는다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 소유 코드와 호출 경로
 
@@ -14,17 +14,17 @@
 
 해당 모듈의 작성자는 한 명으로 정한다. 다른 항목이 같은 파일을 쓰면 먼저 완료하거나 소유권을 넘긴 뒤 통합한다.
 
-## 데이터와 인터페이스 제안
+## 현재 데이터와 인터페이스
 
-제안하는 추가 입력은 선택적 `properties`와 `variant_axes`다. 첫 단위는 기존 단일 label로 구현하므로 입력 schema를 늘릴 필요가 없다.
+`code.js`의 `componentVariantGroups`는 `definition.variants`와 선택적 `variant_axes`를 읽는다. 축 값은 기존 variant 이름에 대응한다. 하나의 정의가 여러 축에 속하면 거절하며 축 선언이 없으면 `Variant`를 사용한다. 축에 배정되지 않은 `default` 같은 기존 정의도 `Variant` 그룹에 보존한다. 누락 조합을 Cartesian product로 만들지 않는다.
 
-| 값 | 제안 의미 | 검증 |
-| --- | --- | --- |
-| properties.label | TEXT 속성의 표시 이름·기본값·label 대상 | 실제 label 하나, 중복 이름 금지 |
-| variant_axes | 축 이름과 선언한 값 목록 | 독립 축, 조합 unique, 존재하는 정의만 연결 |
-| usage | 기존 스펙의 사용 설명과 문서 참조 | 로컬 출처·해시 유지, 외부 설명 생성 금지 |
+`usage`는 입력의 비어 있지 않은 문자열만 사용한다. `componentSwapTargets`는 `swap_targets`가 선언된 배열인지 검사하지만 반환값은 생성에 사용하지 않는다. 선언된 swap target의 실제 property 생성은 구현하지 않았다. 별도 `properties.label` 입력 schema를 추가한 구현은 아니다. `bindOwnedLabelProperty`는 실제 TEXT label과 Figma가 반환한 TEXT property key를 연결하고, instance가 그 key로 문구를 설정한다. API가 없으면 직접 label 문구를 보존하며 warning을 반환한다.
 
-`variant_axes`는 회귀 디자인 시스템의 `axes.json`에 선언된 값만 기존 variant에 연결한다. 선언되지 않은 조합은 만들지 않는다. 사용 설명은 입력에 있는 문장만 description으로 옮긴다. 축 선언이 없으면 기존 평면 variant map을 단일 `Variant` 축으로 해석한다. 런타임 identity와 시각 profile을 분리하되, 기존 semantic key를 버리지 않는다.
+## 첫 구현과 남은 REQ 범위
+
+현재 지원은 실제 TEXT key 연결·supported sizing 재사용·선언된 독립 축·원문 usage다. RD-01-REQ-04의 optional label/icon BOOLEAN·INSTANCE_SWAP 양성 생성은 첫 범위에 없다. producer schema에도 optional icon property가 없다. AC-05의 미선언 생성 금지 통과는 이 양성 기능 구현을 증명하지 않는다. 후속 [NF-01](../../next-roadmap/NF-01-component-families.md)은 PROPOSED다.
+
+R8 실제 두 set은 TEXT·Visual만 가지며 Visual 각 12개가 control_styles와 일치했다. 실제 Component Configuration의 description·link는 원문 선언과 같이 비어 있었다. 모든 variant 가져오기를 GUI에서 실행했다거나 임의 optional 속성이 지원된다고 표시하지 않는다.
 
 ## 구현 결정
 
@@ -50,3 +50,7 @@ TEXT property를 만드는 책임은 main 작성 경로 한 곳에 둔다. Figma
 - [컴포넌트 관리](https://help.figma.com/hc/en-us/articles/39747637290263-Components-collection-Tips-for-component-management)는 사용 설명과 관리 관행의 근거다.
 
 조사일은 2026-11-12다. API를 구현할 때 현재 공식 문서와 실제 getter를 다시 대조한다.
+
+## 검증 스냅샷
+
+R7 원본 TEXT getter·세 복사 instance의 같은 main/180·240·300 너비·구조 분리 oracle을 확인했다. R7 실제 opacity 0.9 편집은 재실행 후 보존됐고 숫자 복원 뒤 정상 검증이 통과했으나 explicit flag는 보관된 R7에 남는다. 새 R8은 main 24개·set 2개·instance 494개와 전체 4,820개 ID를 재사용하고 opacity override 0개였다. 상세 범위는 [최종 인수 기록](../FINAL_ACCEPTANCE.md)·[실제 검증 요약](../../../apps/little-hands/design/VERIFICATION.md)을 따른다. 향후 release 소스·설치 영수증은 Wiki release 기록에서 확인한다.

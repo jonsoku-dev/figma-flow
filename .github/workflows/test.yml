@@ -43,6 +43,11 @@ jobs:
         run: |
           node examples/regression-program/design-system/build.mjs
           git diff --exit-code -- examples/regression-program/design-system/runtime.js
+      - name: Verify the production app design adapter
+        run: |
+          python -B apps/little-hands/design/prepare_fonts.py
+          python -B -m unittest discover -s apps/little-hands/design -p test_source.py
       - run: python -B -m unittest discover -s tests
+      - run: python -B -m unittest discover -s tests -p 'finalize_*.py'
       - run: node --test tests/*.cjs
       - run: python -B -m unittest discover -s examples/native-direction-review -p test_demo.py

@@ -1,0 +1,59 @@
+{
+  "schema": "littlehands-grouping-regression-v1",
+  "base_layout_sha256": "049723943cef16a7dd2be87d2def7624325744f362494cda076bee5342eda7e3",
+  "scope": "Two static footer Groups in the real44-screen app; default source captures and original layout stay unchanged",
+  "candidate": "littlehands",
+  "groups": [
+    {
+      "viewport": "desktop",
+      "state": "state-publichome",
+      "group": {
+        "key": "state-publichome-footer-static-note-group",
+        "kind": "group",
+        "box": [
+          40,
+          2068.653125,
+          1105.0,
+          45.19374999999991
+        ],
+        "children": [
+          "state-publichome-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+          "state-publichome-base-p-2-0-text-0",
+          "state-publichome-base-p-3-0-text-0",
+          "state-publichome-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0"
+        ],
+        "parent": "state-publichome-site-footer-container"
+      }
+    },
+    {
+      "viewport": "mobile",
+      "state": "state-publichome",
+      "group": {
+        "key": "state-publichome-footer-static-note-group",
+        "kind": "group",
+        "box": [
+          24,
+          2707.6375,
+          202.0625,
+          100.38124999999991
+        ],
+        "children": [
+          "state-publichome-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+          "state-publichome-base-p-2-0-text-0",
+          "state-publichome-base-p-3-0-text-0",
+          "state-publichome-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0"
+        ],
+        "parent": "state-publichome-site-footer-container"
+      }
+    }
+  ],
+  "observed": {
+    "screens": 44,
+    "groups": 2,
+    "screen_leaf_count": 3171,
+    "leaf_absolute_bbox_max_delta": 0,
+    "existing_frame_clips_unchanged": 550,
+    "nonempty_reaction_nodes_unchanged": 314,
+    "raw_getter_sha256": "64b7bec2c9965b1f855a2686a384cd010e0176a0d456773858014cbb00d91904"
+  }
+}

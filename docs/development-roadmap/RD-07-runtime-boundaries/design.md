@@ -1,6 +1,6 @@
 # RD-07 설계서 · 제어 전송과 실행 정책의 모듈 경계
 
-상태는 제안이다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 소유 코드와 호출 경로
 
@@ -13,21 +13,19 @@
 
 해당 모듈의 작성자는 한 명으로 정한다. 다른 항목이 같은 파일을 쓰면 먼저 완료하거나 소유권을 넘긴 뒤 통합한다.
 
-## 데이터와 인터페이스 제안
+## 현재 데이터와 인터페이스
 
-새 파일 이름 `workspace_transport.js`는 제안이다. 역할은 `poll(runtimeIdentity)`와 `submit(claim,result)`에 한정한다. 실제 envelope는 기존 wire schema를 유지하며 새로운 operation 권한을 추가하지 않는다.
+`workspace_transport.js`의 `controlRequest(route,body)`는 HTTP 전송만 담당한다. `workspace_control.js`가 kind, operation, scope, revision, claim과 domain 실행·검증을 맡는다. transport의 HTTP 성공은 native 성공 증거가 아니다.
 
-domain executor가 검증된 `{operation,scope,revision,claim}`을 받고 기존 domain 경로를 실행한다. 반환 결과는 해당 domain validator가 검사한다. transport adapter가 성공 문자열만 보고 native evidence를 인증하지 않는다.
+endpoint는 port 1~65535의 `http://localhost` 또는 `http://127.0.0.1` loopback origin만 받는다. route는 `poll`, `result`, `readiness`, `native-started`, `history`로 제한한다. body는 객체이고 readback JSON은 32 MiB, 전체 request는 40 MiB, response JSON은 16 MiB 이내다. readiness는 별도 64 KiB 제한을 유지한다. 요청은 15초 deadline을 가진다. deadline 경과는 native 실행 취소나 결과 미발생을 증명하지 않는다.
 
-생성 모듈 목록과 source digest를 deterministic하게 조립한다. 실행 시 동적 import·외부 eval로 연결하지 않는다.
+실제 앱 44개 화면의 전체 getter 결과는 compact UTF-8 29,991,516바이트였고, 전송 envelope는 약 33.4 MB였다. 기존 12/16 MiB 제한에서 전달이 확정되지 않아 요청 경계만 확장했다. 응답·인증·origin·route·nonce·timeout 검사는 유지하며, 용량 수용은 native 내용 검증이나 전체 인수 통과를 뜻하지 않는다.
 
 ## 구현 결정
 
-먼저 현재 control의 전송 입출력을 fixture로 고정한다. HTTP 로직을 함수 단위로 이동하고 기존 실행 정책을 호출자로 남긴다. shared runtime의 source 목록은 publisher의 단일 선언에서 읽되 trusted_sources에 모든 새 파일을 포함한다.
+`controlRequest` 정의는 transport 한 곳에 있고 domain 정책은 control에 남긴다. `runtime_module_names`와 `assemble_shared_runtime`이 runtime 조립과 trusted source 검사의 같은 모듈 목록을 사용한다. task별 closure를 유지하며 동적 import나 외부 eval을 추가하지 않는다.
 
-task code를 각각 closure에 넣는 것은 lexical 격리를 위한 현재 계약이다. 그 안에 동일 helper가 있다는 이유로 전부 합치지 않는다. 공유해도 상태·상수·scope가 섞이지 않는 코드만 후속 측정과 함께 옮긴다.
-
-이 변경의 성공은 파일 수 감소가 아니라 책임과 검사 경로의 명료화다. 재시도·결과 전달 오류 수정이 domain 검사 기준을 바꾸지 않고 가능해야 한다. RD-08과 같은 파일을 동시에 편집하지 않는다.
+bundle 검사는 discover, import, native-edit, review, sync를 대상으로 하며 공개 심볼과 source digest를 검사한다. 이 fixture 검사는 설치된 Figma runtime의 재개·쓰기 성공과 구분한다. transport는 token과 private 설정을 추가 저장하거나 진단 UI에 노출하지 않는다.
 
 ## 호환성·이관·복구
 

@@ -192,6 +192,22 @@ function draftBoxOverlap(first, second) {
   return width * height / Math.min(first.w * first.h, second.w * second.h);
 }
 
+function draftSingleLineHeightCeil(text, control) {
+  const source = text.authored, leading = source.leading;
+  return source.max_lines === 1 && Number.isFinite(leading) && leading > 0 && !Number.isInteger(leading) &&
+    source.h === leading && text.actual.h === Math.ceil(leading) &&
+    ['x', 'y', 'w'].every(field => text.actual[field] === source[field]) &&
+    ['x', 'y', 'w', 'h'].every(field => control.actual[field] === control.authored[field]) &&
+    draftBoxOverlap(source, control.authored) === 0;
+}
+
+function draftSingleLineAllocationCeil(text) {
+  const source = text.authored;
+  return source.max_lines === 1 && Number.isFinite(source.leading) && source.leading > 0 && source.h === source.leading &&
+    text.actual.x === source.x && text.actual.y === source.y &&
+    text.actual.w === Math.ceil(source.w) && text.actual.h === Math.ceil(source.h);
+}
+
 function draftTextGeometry(layer) {
   const spacing = layer.letter_spacing ?? 0;
   const invalidLines = layer.max_lines !== undefined && (!Number.isSafeInteger(layer.max_lines) || layer.max_lines < 1);
@@ -390,8 +406,10 @@ function draftOffsetWithin(node, ancestor) {
   let y = 0;
   let current = node;
   while (current && current !== ancestor) {
-    x += current.x || 0;
-    y += current.y || 0;
+    if (current === node || !['GROUP', 'BOOLEAN_OPERATION'].includes(current.type)) {
+      x += current.x || 0;
+      y += current.y || 0;
+    }
     current = current.parent;
   }
   return current === ancestor ? {x, y} : null;
@@ -414,6 +432,31 @@ function declaredDraftParent(layout, id, frame, keyed, stateKey) {
 
 function draftBoxInside(box, width, height) {
   return box.x >= -1 && box.y >= -1 && box.x + box.w <= width + 1 && box.y + box.h <= height + 1;
+}
+
+function draftBoxWithinScrollClips(node, box, frame, layout, keyed, key) {
+  let projected = {...box}, ancestor = node?.parent;
+  const seen = new Set();
+  while (ancestor && ancestor !== frame) {
+    if (seen.has(ancestor)) return false;
+    seen.add(ancestor);
+    if (ancestor.clipsContent === true) {
+      const clip = draftAbsoluteBox(ancestor, frame);
+      if (!clip) return false;
+      const item = (layout.containers || []).find(item => keyed.get(key + '.' + item.key) === ancestor);
+      const scroll = item?.kind === 'frame' && item.clip === true && ancestor.type === 'FRAME' &&
+        ['horizontal', 'vertical', 'both'].includes(item.scroll) && ancestor.overflowDirection === item.scroll.toUpperCase() ? item.scroll : 'none';
+      for (const [position, size, axis] of [['x', 'w', 'horizontal'], ['y', 'h', 'vertical']]) {
+        if (projected[position] < clip[position] - 1 || projected[position] + projected[size] > clip[position] + clip[size] + 1) {
+          if (scroll !== axis && scroll !== 'both') return false;
+          // Project reachable scroll content through each viewport; retain the raw box for geometry checks and evidence.
+          projected[position] = clip[position]; projected[size] = clip[size];
+        }
+      }
+    }
+    ancestor = ancestor.parent;
+  }
+  return ancestor === frame && draftBoxInside(projected, frame.width, frame.height);
 }
 
 function draftTextWidth(layer) {
@@ -544,6 +587,15 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
           fail('frame', 'native frame differs from authored size', {w: layout.width, h: layout.height}, frameBox);
         }
 
+        for (const item of layout.containers || []) {
+          if (!('scroll' in item)) continue;
+          const node = keyed.get(key + '.' + item.key);
+          if (!node || node.type !== 'FRAME' || node.clipsContent !== true || node.overflowDirection !== item.scroll.toUpperCase()) {
+            fail(item.key, 'native scroll clip or overflow differs', item,
+              node ? {type: node.type, clipsContent: node.clipsContent, overflowDirection: node.overflowDirection} : null);
+          }
+        }
+
         for (const layer of layout.layers) {
           const node = keyed.get(key + '.' + layer.id);
           const layerFail = (message, expected, observed) => fail(layer.id, message, expected, observed);
@@ -574,7 +626,7 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
           if (box.h > layer.h + 1) {
             textFail('native text height ' + box.h + ' exceeds authored budget ' + layer.h + ' at width ' + box.w, layer, box);
           }
-          if (!draftBoxInside(box, frame.width, frame.height)) textFail('native text off-frame', layer, box);
+          if (!draftBoxWithinScrollClips(node, box, frame, layout, keyed, key)) textFail('native text off-frame', layer, box);
           occupied.push({id: layer.id, kind: 'text', authored: layer, actual: box});
         }
 
@@ -599,7 +651,7 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
           if (Object.keys(actual).some(field => Math.abs(actual[field] - authored[field]) > 1)) {
             controlFail('native control differs from authored', authored, actual);
           }
-          if (!draftBoxInside(actual, frame.width, frame.height)) controlFail('native control off-frame', authored, actual);
+          if (!draftBoxWithinScrollClips(instance, actual, frame, layout, keyed, key)) controlFail('native control off-frame', authored, actual);
           const edge = candidate.prototype.bindings?.find(edge => edge.viewport === viewport && edge.source_state === state.id && edge.control_id === spec.id);
           const product = productButtons.find(button => button.id === spec.id);
           const variant = product?.variant ?? (edge ? candidate.action_notes?.[edge.action + '|' + edge.control_id]?.visual_variant : undefined);
@@ -665,12 +717,15 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
             if (first.kind !== other.kind && share > 0) {
               const text = first.kind === 'text' ? first : other;
               const control = first.kind === 'control' ? first : other;
+              if (draftSingleLineHeightCeil(text, control)) continue;
               fail(text.id, 'native screen text intersects whole control ' + control.id,
                 {[text.id]: text.authored, [control.id]: control.authored},
                 {[text.id]: text.actual, [control.id]: control.actual});
               continue;
             }
             if (share > .05 && (first.kind === 'text' || !(draftBoxOverlap(first.authored, other.authored) > .05))) {
+              if (first.kind === 'text' && other.kind === 'text' && draftSingleLineAllocationCeil(first) &&
+                  draftSingleLineAllocationCeil(other) && draftBoxOverlap(first.authored, other.authored) === 0) continue;
               fail(other.id, 'unexpected native overlap with ' + first.id + ' (' + (share * 100).toFixed(2) + '% of smaller box)',
                 {[first.id]: first.authored, [other.id]: other.authored}, {[first.id]: first.actual, [other.id]: other.actual});
             }
@@ -761,6 +816,7 @@ function preflightDraft(draft,available){
   for(const viewport of ['desktop','mobile'])for(const state of c.prototype?.states||[]){
    const key=c.id+'.'+viewport+'.'+state.id,l=c.state_layouts?.[viewport]?.[state.id];
    if(!l){push('Pinned state layout missing '+key);continue;}
+   try{validateDeclaredContainers(l);}catch(error){push(String(error)+' at '+key);}
    try{draftProductButtons(c,viewport,state);}catch(error){push(String(error)+' at '+key);}
    for(const layer of l.layers||[]){
     if(layer.shadows!==undefined){try{if(!['rect','ellipse'].includes(layer.kind))throw Error('Native shadows require rect/ellipse '+layer.id);draftShadows(layer.shadows,key+'.'+layer.id);}catch(error){push(String(error));}}
@@ -843,6 +899,90 @@ function admitDraftColorConsumers(candidates){
  }
  return reports;
 }
+function validateDeclaredContainers(layout) {
+  if (!('containers' in layout)) return [];
+  if (!Array.isArray(layout.containers)) throw Error('containers must be an array');
+  const leaves = new Map();
+  for (const layer of layout.layers || []) {
+    if (!layer || typeof layer.id !== 'string' || !layer.id || leaves.has(layer.id)) throw Error('invalid container target identity');
+    leaves.set(layer.id, [layer.x, layer.y, layer.w, layer.h]);
+  }
+  for (const [id, box] of Object.entries(layout.control_boxes || {})) {
+    if (leaves.has(id)) throw Error('duplicate container target: ' + id);
+    leaves.set(id, box);
+  }
+  for (const [id, button] of Object.entries(layout.product_buttons || {})) {
+    if (leaves.has(id)) throw Error('duplicate container target: ' + id);
+    leaves.set(id, button.box);
+  }
+  const byKey = new Map(), owners = new Map();
+  const finiteBox = box => Array.isArray(box) && box.length === 4 && box.every(Number.isFinite) && box[2] > 0 && box[3] > 0;
+  for (const item of layout.containers) {
+    if (!item || typeof item.key !== 'string' || !item.key || byKey.has(item.key) || leaves.has(item.key)) throw Error('duplicate or invalid container key');
+    if (!['frame', 'group', 'auto-layout'].includes(item.kind)) throw Error('unsupported container: ' + item.key);
+    if ('scroll' in item && (!['none', 'horizontal', 'vertical', 'both'].includes(item.scroll) || item.kind !== 'frame' || item.clip !== true)) throw Error('scroll requires a clipped frame and none/horizontal/vertical/both: ' + item.key);
+    if (item.parent != null && (typeof item.parent !== 'string' || !item.parent)) throw Error('invalid container parent: ' + item.key);
+    if (!Array.isArray(item.children) || !item.children.length || item.children.some(id => typeof id !== 'string' || !id) || new Set(item.children).size !== item.children.length) throw Error('invalid container children: ' + item.key);
+    if (item.kind === 'group' && ['layout', 'fill', 'clip'].some(field => field in item)) throw Error('group cannot own layout, fill, or clip: ' + item.key);
+    if (item.kind === 'frame' && !finiteBox(item.box)) throw Error('finite positive container box required: ' + item.key);
+    if (item.kind === 'frame' && 'clip' in item && typeof item.clip !== 'boolean') throw Error('invalid container clip: ' + item.key);
+    if (item.kind === 'auto-layout') {
+      const l = item.layout;
+      if (!l || !['VERTICAL', 'HORIZONTAL'].includes(l.direction) || !['fixed', 'hug', 'fill'].includes(l.width) || !['fixed', 'hug', 'fill'].includes(l.height) || !Number.isFinite(l.gap) || l.gap < 0 || !Array.isArray(l.padding) || l.padding.length !== 4 || !l.padding.every(v => Number.isFinite(v) && v >= 0)) throw Error('invalid auto-layout container declaration: ' + item.key);
+    }
+    byKey.set(item.key, item);
+  }
+  for (const item of layout.containers) for (const child of item.children) {
+    if (!byKey.has(child) && !leaves.has(child)) throw Error('missing container target: ' + child);
+    if (owners.has(child)) throw Error('duplicate container parent: ' + child);
+    owners.set(child, item.key);
+    if (byKey.has(child) && byKey.get(child).parent !== item.key) throw Error('container parent mismatch: ' + child);
+  }
+  const ordered = [], active = new Set(), visited = new Set();
+  function visit(item) {
+    if (active.has(item.key)) throw Error('container cycle: ' + item.key);
+    if (visited.has(item.key)) return;
+    active.add(item.key);
+    if (item.parent != null) {
+      if (!byKey.has(item.parent) || owners.get(item.key) !== item.parent) throw Error('missing container parent: ' + item.key);
+      visit(byKey.get(item.parent));
+    }
+    active.delete(item.key); visited.add(item.key); ordered.push(item);
+  }
+  for (const item of layout.containers) visit(item);
+  for (const item of ordered) {
+    if (item.kind === 'auto-layout' && [item.layout.width, item.layout.height].includes('fill') && byKey.get(item.parent)?.kind !== 'auto-layout') throw Error('fill requires a declared Auto Layout parent: ' + item.key);
+  }
+  const boxes = new Map();
+  function bounds(id) {
+    if (boxes.has(id)) return boxes.get(id);
+    if (leaves.has(id)) {
+      const box = leaves.get(id);
+      if (!finiteBox(box)) throw Error('finite positive container target geometry required: ' + id);
+      return box;
+    }
+    const item = byKey.get(id), children = item.children.map(bounds);
+    let x = Math.min(...children.map(b => b[0])), y = Math.min(...children.map(b => b[1]));
+    let right = Math.max(...children.map(b => b[0] + b[2])), bottom = Math.max(...children.map(b => b[1] + b[3]));
+    if (item.kind === 'frame') {
+      let dx = 0, dy = 0, parent = item.parent;
+      while (parent != null) {const ancestor = byKey.get(parent); if (ancestor.kind === 'frame') {dx += ancestor.box[0]; dy += ancestor.box[1];} parent = ancestor.parent;}
+      [x, y, right, bottom] = [item.box[0] + dx, item.box[1] + dy, item.box[0] + dx + item.box[2], item.box[1] + dy + item.box[3]];
+    } else if (item.kind === 'auto-layout') {
+      const l = item.layout, vertical = l.direction === 'VERTICAL';
+      let cursor = vertical ? y : x;
+      for (const box of children) {
+        if (Math.abs((vertical ? box[1] : box[0]) - cursor) > 0.5 || Math.abs((vertical ? box[0] : box[1]) - (vertical ? x : y)) > 0.5) throw Error('declared flow contradicts pinned geometry: ' + item.key);
+        cursor += (vertical ? box[3] : box[2]) + l.gap;
+      }
+      x -= l.padding[3]; y -= l.padding[0]; right += l.padding[1]; bottom += l.padding[2];
+    }
+    const box = [x, y, right - x, bottom - y]; boxes.set(id, box); return box;
+  }
+  for (const item of ordered) bounds(item.key);
+  return ordered;
+}
+
 function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
   if (!Array.isArray(containers) || containers.length === 0) return;
   if (!screen || typeof resolve !== 'function') throw Error('authored screen and leaf resolver required');
@@ -865,6 +1005,8 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
     parent: node.parent,
     x: node.x,
     y: node.y,
+    width: node.width,
+    height: node.height,
     index: node.parent && node.parent.children ? node.parent.children.indexOf(node) : -1,
     layoutPositioning: node.layoutPositioning
   }));
@@ -877,13 +1019,20 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
     let y = 0;
     let current = node;
     while (current && current !== ancestor) {
-      x += current.x || 0;
-      y += current.y || 0;
+      if (current === node || !['GROUP', 'BOOLEAN_OPERATION'].includes(current.type)) {
+        x += current.x || 0;
+        y += current.y || 0;
+      }
       current = current.parent;
     }
     if (current !== ancestor) throw Error('authored leaf is outside the screen');
     return {x, y};
   }
+
+  containers = validateDeclaredContainers({containers, layers: [...leaves].map(([id, node]) => {
+    const {x, y} = offsetWithin(node, screen);
+    return {id, x, y, w: node.width, h: node.height};
+  })});
 
   function reparent(node, parent) {
     const abs = offsetWithin(node, screen);
@@ -891,14 +1040,6 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
     const parentAbs = parent === screen ? {x: 0, y: 0} : offsetWithin(parent, screen);
     node.x = abs.x - parentAbs.x;
     node.y = abs.y - parentAbs.y;
-    if (parent.layoutMode && parent.layoutMode !== 'NONE') node.layoutPositioning = 'ABSOLUTE';
-  }
-
-  function parentNode(item) {
-    if (item.parent == null) return screen;
-    const parent = nodes.get(item.parent);
-    if (!parent) throw Error('missing parent: ' + item.key);
-    return parent;
   }
 
   function mark(node, item) {
@@ -915,7 +1056,7 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
       for (const child of [...(node.children || [])]) if (parent) parent.appendChild(child);
       node.remove();
     }
-    for (const snap of snapshots) {
+    for (const snap of snapshots.slice().sort((a, b) => a.index - b.index)) {
       if (snap.parent) {
         const index = snap.index < 0 ? snap.parent.children.length : Math.min(snap.index, snap.parent.children.length);
         if (typeof snap.parent.insertChild === 'function') snap.parent.insertChild(index, snap.node);
@@ -923,90 +1064,75 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
       }
       snap.node.x = snap.x;
       snap.node.y = snap.y;
+      if (snap.node.width !== snap.width || snap.node.height !== snap.height) snap.node.resize(snap.width, snap.height);
       if (snap.layoutPositioning === undefined) delete snap.node.layoutPositioning;
       else snap.node.layoutPositioning = snap.layoutPositioning;
     }
   }
 
   try {
-    for (const item of containers) {
-      if (item.kind === 'group') continue;
-      const parent = parentNode(item);
-      const node = figma.createFrame();
-      parent.appendChild(node);
-      if (node.fills.length) node.fills = [];
-      node.clipsContent = false;
-      node.layoutMode = 'NONE';
-      mark(node, item);
-      if (item.kind === 'frame') {
-        const box = item.box;
-        node.resize(box[2], box[3]);
-        node.x = box[0];
-        node.y = box[1];
-        node.clipsContent = item.clip === true;
-        if (typeof item.fill === 'string' && item.fill) node.setPluginData('containerFill', item.fill);
-      } else if (item.kind === 'auto-layout') {
-        const layout = item.layout;
-        const padding = layout.padding;
-        node.x = 0;
-        node.y = 0;
-        node.layoutMode = layout.direction;
-        node.paddingTop = padding[0];
-        node.paddingRight = padding[1];
-        node.paddingBottom = padding[2];
-        node.paddingLeft = padding[3];
-        node.itemSpacing = layout.gap;
-      } else throw Error('unsupported container: ' + item.key);
-    }
-    for (const item of containers) {
-      if (item.kind === 'group') continue;
-      for (const child of item.children) {
-        if (byKey.has(child)) continue;
-        reparent(leaves.get(child), nodes.get(item.key));
+    const building = new Set();
+    function build(item) {
+      if (nodes.has(item.key)) return nodes.get(item.key);
+      if (building.has(item.key)) throw Error('container cycle: ' + item.key);
+      building.add(item.key);
+      const members = item.children.map(key => byKey.has(key) ? build(byKey.get(key)) : leaves.get(key));
+      let node;
+      if (item.kind === 'group') {
+        if (typeof figma.group !== 'function') throw Error('group is unavailable');
+        for (const member of members) reparent(member, screen);
+        node = figma.group(members, screen);
+        mark(node, item);
+      } else {
+        node = figma.createFrame();
+        screen.appendChild(node);
+        mark(node, item);
+        node.fills = [];
+        node.layoutMode = 'NONE';
+        node.clipsContent = item.kind === 'frame' && item.clip === true;
+        if ('scroll' in item) node.overflowDirection = item.scroll.toUpperCase();
+        if (item.kind === 'frame') {
+          let x = item.box[0], y = item.box[1], parent = item.parent;
+          while (parent != null) {
+            const ancestor = byKey.get(parent);
+            if (!ancestor) throw Error('missing parent: ' + item.key);
+            if (ancestor.kind === 'frame') {x += ancestor.box[0]; y += ancestor.box[1];}
+            parent = ancestor.parent;
+          }
+          node.resize(item.box[2], item.box[3]); node.x = x; node.y = y;
+          if (typeof item.fill === 'string' && item.fill) node.setPluginData('containerFill', item.fill);
+        } else if (item.kind === 'auto-layout') {
+          const padding = item.layout.padding, positions = members.map(member => ({...offsetWithin(member, screen), width: member.width, height: member.height}));
+          node.x = Math.min(...positions.map(p => p.x)) - padding[3];
+          node.y = Math.min(...positions.map(p => p.y)) - padding[0];
+          node.resize(Math.max(...positions.map(p => p.x + p.width)) - node.x + padding[1], Math.max(...positions.map(p => p.y + p.height)) - node.y + padding[2]);
+          [node.paddingTop, node.paddingRight, node.paddingBottom, node.paddingLeft] = padding;
+          node.itemSpacing = item.layout.gap;
+        } else throw Error('unsupported container: ' + item.key);
+        for (const member of members) reparent(member, node);
       }
+      building.delete(item.key);
+      return node;
     }
+    for (const item of containers) build(item);
+    // Children are assembled with layout disabled so reparenting cannot disturb pinned positions.
     for (const item of [...containers].reverse()) {
-      if (item.kind !== 'group') continue;
-      const parent = parentNode(item);
-      const members = [];
-      for (const child of item.children) {
-        const node = nodes.get(child) || leaves.get(child);
-        if (!node) throw Error('missing target: ' + child);
-        if (node.parent !== parent) reparent(node, parent);
-        members.push(node);
-      }
-      if (typeof figma.group !== 'function') throw Error('group is unavailable');
-      const group = figma.group(members, parent);
-      if (group.fills.length) group.fills = [];
-      group.clipsContent = false;
-      if ('layoutMode' in group) group.layoutMode = 'NONE';
-      mark(group, item);
-    }
-    for (const item of containers) {
-      const node = nodes.get(item.key);
-      const ordered = item.children.map(child => nodes.get(child) || leaves.get(child));
-      for (const child of ordered) {
-        node.appendChild(child);
-        if (node.layoutMode && node.layoutMode !== 'NONE') child.layoutPositioning = 'ABSOLUTE';
-      }
       if (item.kind !== 'auto-layout') continue;
-      let maxX = 1;
-      let maxY = 1;
-      for (const child of ordered) {
-        maxX = Math.max(maxX, child.x + child.width);
-        maxY = Math.max(maxY, child.y + child.height);
-      }
-      const width = item.layout.width === 'fill' && node.parent && node.parent.width ? node.parent.width : maxX;
-      const height = item.layout.height === 'fill' && node.parent && node.parent.height ? node.parent.height : maxY;
-      node.resize(width, height);
-      if (item.layout.width === 'fixed') node.setPluginData('containerFixedWidth', String(width));
-      if (item.layout.height === 'fixed') node.setPluginData('containerFixedHeight', String(height));
-      node.layoutSizingHorizontal = item.layout.width === 'hug' ? 'HUG' : item.layout.width === 'fill' ? 'FILL' : 'FIXED';
-      node.layoutSizingVertical = item.layout.height === 'hug' ? 'HUG' : item.layout.height === 'fill' ? 'FILL' : 'FIXED';
+      const node = nodes.get(item.key), ordered = item.children.map(key => nodes.get(key) || leaves.get(key));
+      node.setPluginData('containerFixedWidth', String(node.width));
+      node.setPluginData('containerFixedHeight', String(node.height));
+      node.layoutMode = item.layout.direction;
+      for (const child of ordered) child.layoutPositioning = 'AUTO';
       const primary = item.layout.direction === 'VERTICAL' ? item.layout.height : item.layout.width;
       const counter = item.layout.direction === 'VERTICAL' ? item.layout.width : item.layout.height;
       node.primaryAxisSizingMode = primary === 'hug' ? 'AUTO' : 'FIXED';
       node.counterAxisSizingMode = counter === 'hug' ? 'AUTO' : 'FIXED';
+    }
+    for (const item of containers) {
+      if (item.kind !== 'auto-layout') continue;
+      const node = nodes.get(item.key), parentHasLayout = node.parent && node.parent.layoutMode && node.parent.layoutMode !== 'NONE';
+      node.layoutSizingHorizontal = item.layout.width === 'hug' ? 'HUG' : item.layout.width === 'fill' && parentHasLayout ? 'FILL' : 'FIXED';
+      node.layoutSizingVertical = item.layout.height === 'hug' ? 'HUG' : item.layout.height === 'fill' && parentHasLayout ? 'FILL' : 'FIXED';
     }
     if (screen.id !== screenMark.id || screen.width !== screenMark.width || screen.height !== screenMark.height || screen.clipsContent !== screenMark.clipsContent) {
       throw Error('screen frame changed during container placement');
@@ -1018,6 +1144,7 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
         }
       }
     }
+    return nodes;
   } catch (error) {
     restore();
     throw error;
@@ -1042,15 +1169,16 @@ function refreshDeclaredContainerSizing(screen, containers, resolve, prefix = ''
     for (const child of item.children) {
       const target = byKey.has(child) ? find(child) : resolve(child);
       if (!target) throw Error('missing target: ' + child);
-      maxX = Math.max(maxX, target.x + target.width);
-      maxY = Math.max(maxY, target.y + target.height);
+      maxX = Math.max(maxX, target.x + target.width + item.layout.padding[1]);
+      maxY = Math.max(maxY, target.y + target.height + item.layout.padding[2]);
     }
-    const width = item.layout.width === 'fixed' ? Number(node.getPluginData('containerFixedWidth')) : item.layout.width === 'fill' ? node.parent.width : maxX;
-    const height = item.layout.height === 'fixed' ? Number(node.getPluginData('containerFixedHeight')) : item.layout.height === 'fill' ? node.parent.height : maxY;
+    const width = item.layout.width === 'fixed' ? node.width : item.layout.width === 'fill' ? node.parent.width - (node.parent.paddingLeft || 0) - (node.parent.paddingRight || 0) : maxX;
+    const height = item.layout.height === 'fixed' ? node.height : item.layout.height === 'fill' ? node.parent.height - (node.parent.paddingTop || 0) - (node.parent.paddingBottom || 0) : maxY;
     if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) throw Error('declared sizing is incomplete: ' + item.key);
     node.resize(width, height);
-    node.layoutSizingHorizontal = item.layout.width === 'hug' ? 'HUG' : item.layout.width === 'fill' ? 'FILL' : 'FIXED';
-    node.layoutSizingVertical = item.layout.height === 'hug' ? 'HUG' : item.layout.height === 'fill' ? 'FILL' : 'FIXED';
+    const parentHasLayout = node.parent && node.parent.layoutMode && node.parent.layoutMode !== 'NONE';
+    node.layoutSizingHorizontal = item.layout.width === 'hug' ? 'HUG' : item.layout.width === 'fill' && parentHasLayout ? 'FILL' : 'FIXED';
+    node.layoutSizingVertical = item.layout.height === 'hug' ? 'HUG' : item.layout.height === 'fill' && parentHasLayout ? 'FILL' : 'FIXED';
     const primary = item.layout.direction === 'VERTICAL' ? item.layout.height : item.layout.width;
     const counter = item.layout.direction === 'VERTICAL' ? item.layout.width : item.layout.height;
     node.primaryAxisSizingMode = primary === 'hug' ? 'AUTO' : 'FIXED';
@@ -1058,11 +1186,15 @@ function refreshDeclaredContainerSizing(screen, containers, resolve, prefix = ''
   }
 }
 
-async function readDeclaredContainerLinks(page, screen, containers, prefix = '') {
+function indexDeclaredContainerRead(read) {
+  requireFullNativeRead(read);
+  return {byId: new Map(read.nodes.map(row => [row.id, row])),
+    byKey: new Map(read.nodes.filter(row => row.semanticKey).map(row => [row.semanticKey, row]))};
+}
+
+async function readDeclaredContainerLinks(page, screen, containers, prefix = '', nativeIndex = null) {
   if (typeof readNativeSemantics !== 'function') throw Error('native reader required');
-  const read = requireFullNativeRead(await readNativeSemantics(figma, page));
-  const byId = new Map(read.nodes.map(row => [row.id, row]));
-  const byKey = new Map(read.nodes.filter(row => row.semanticKey).map(row => [row.semanticKey, row]));
+  const {byId, byKey} = nativeIndex || indexDeclaredContainerRead(await readNativeSemantics(figma, page));
   const screenRow = byId.get(screen.id);
   if (!screenRow) throw Error('screen missing from native reader');
   const containerRows = new Map();
@@ -1078,6 +1210,7 @@ async function readDeclaredContainerLinks(page, screen, containers, prefix = '')
     if (item.kind === 'group' && row.clipsContent) throw Error('group clip differs: ' + item.key);
     if (item.kind === 'auto-layout' && row.layoutMode !== item.layout.direction) throw Error('auto-layout direction differs: ' + item.key);
     if (item.kind === 'frame' && row.clipsContent !== (item.clip === true)) throw Error('frame clip differs: ' + item.key);
+    if ('scroll' in item && row.overflowDirection !== item.scroll.toUpperCase()) throw Error('frame scroll overflow differs: ' + item.key);
   }
   const containerIds = new Set([...containerRows.values()].map(row => row.id));
   const leaves = [];
@@ -1094,8 +1227,10 @@ async function readDeclaredContainerLinks(page, screen, containers, prefix = '')
       while (current && current.id !== screen.id) {
         if (seen.has(current.id)) throw Error('cycle in native parent chain');
         seen.add(current.id);
-        x += current.x || 0;
-        y += current.y || 0;
+        if (current === row || !['GROUP', 'BOOLEAN_OPERATION'].includes(current.type)) {
+          x += current.x || 0;
+          y += current.y || 0;
+        }
         current = current.parentId ? byId.get(current.parentId) : null;
       }
       if (!current) throw Error('leaf is outside the screen: ' + child);
@@ -1126,6 +1261,7 @@ async function readDeclaredContainerLinks(page, screen, containers, prefix = '')
         parentId: row.parentId,
         layoutMode: row.layoutMode || 'NONE',
         clipsContent: row.clipsContent === true,
+        ...('scroll' in item ? {overflowDirection: row.overflowDirection} : {}),
         annotations: row.annotations || [],
         specificationStatus: row.specification_status || null
       };
@@ -1135,7 +1271,7 @@ async function readDeclaredContainerLinks(page, screen, containers, prefix = '')
 }
 
 async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw Error('이 검토 패킷에 지정된 Figma 파일에서만 실행할 수 있습니다.');if(SELECTED_PRODUCTION){const source=DRAFT.sourceSelection,hash=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);if(DRAFT.scope!=='selected-production'||DRAFT.production_admitted!==true||DRAFT.candidates.length!==1||!source||!hash(source.sha256)||!hash(source.candidate_sha256)||!hash(source.review_layout_sha256)||!hash(DRAFT.change_request?.sha256)||!hash(DRAFT.production_graph?.sha256)||DRAFT.candidates[0].id!==source.candidate_id||DRAFT.candidate_pins[source.candidate_id]!==source.candidate_sha256)throw Error('Exact selected-production scope and selection/source pins required');}else if(DRAFT.schema!=='figma-flow-native-direction-review-v1'||DRAFT.scope!=='exploratory-only'||('production_admitted'in DRAFT&&DRAFT.production_admitted!==false))throw Error('Explicit exploratory review packet required; production admission is forbidden');admitDraftColorConsumers(DRAFT.candidates);const planned=[];for(const candidate of DRAFT.candidates){declareDraftFoundations(candidate,(...args)=>declareDraftToken(planned,...args));for(const role of candidate.foundations.roles.filter(role=>role.kind==='color')){const token=draftFoundationName(candidate,role.token),alias=role.alias?draftFoundationName(candidate,role.alias):null,value=rgb(candidate.colors[role.token.split('/').pop()]);if(alias){declareDraftToken(planned,alias,'COLOR',value);declareDraftToken(planned,token,'COLOR',null,alias);}else declareDraftToken(planned,token,'COLOR',value);}}const availableFonts=(await figma.listAvailableFontsAsync()).map(f=>f.fontName);const problems=preflightDraft(DRAFT,availableFonts);if(problems.length)throw Error('검토 초안을 만들기 전에 확인이 필요합니다 (파일은 변경되지 않았습니다):\n- '+problems.join('\n- '));const previous=figma.currentPage;let page= null,tokenResult,createdPage=false;const styles=[],rollbacks=[];try{page=await findInterruptedDraftReview();if(page){await validateDraftPaletteControls(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates,false);await figma.setCurrentPageAsync(page);return page;}page=figma.createPage();createdPage=true;page.name=(SELECTED_PRODUCTION?'PRODUCTION · '+DRAFT.candidates[0].title:(DRAFT.candidates.length===1?'DRAFT · '+DRAFT.candidates[0].title:'DRAFT · A/B/C 방향 검토'))+' · '+DRAFT.packet_sha256.slice(0,8);page.setPluginData(RESERVATION,JSON.stringify({state:'preparing',identity:draftReviewIdentity()}));await figma.setCurrentPageAsync(page);
- const tokens=[],bindings=[],notes=[],colors=new Map(),numbers=new Map(),assets=new Map(),styleMap=new Map(),mains=new Map(),labelKeys=new Map(),frames=new Map(),edges=[],palettes={},noteFrames={},gradientBindings=[];
+ const tokens=[],bindings=[],notes=[],colors=new Map(),numbers=new Map(),assets=new Map(),styleMap=new Map(),mains=new Map(),labelKeys=new Map(),frames=new Map(),edges=[],palettes={},noteFrames={},gradientBindings=[],containerChecks=[];
  const add=(...args)=>declareDraftToken(tokens,...args);
  for(const candidate of DRAFT.candidates)declareDraftFoundations(candidate,add);
  const ensureDraftTokens=(api,ownedPage,contract)=>ensureSemanticTokens(api,ownedPage,{...contract,strictValues:true,bindTextStyles:true,ownedTextStyleIds:styles.map(style=>style.id)});
@@ -1171,18 +1307,22 @@ async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw
  let cy=0;for(const c of DRAFT.candidates){const sourceNotes=new Map(c.notes.map(n=>[n.id,n]));let rowY=cy;for(const viewport of ['desktop','mobile']){const dimensions=c.state_layouts[viewport];let x=0;for(const state of c.prototype.states){const l=dimensions[state.id];if(!l)throw Error('Pinned state layout missing');const key=c.id+'.'+viewport+'.'+state.id,frame=shape(figma.createFrame(),page,key,x,rowY,l.width,l.height);frame.name=c.title+' · '+viewport+' · '+state.title+' · '+(SELECTED_PRODUCTION?'PRODUCTION':'DRAFT');frame.clipsContent=true;paint(frame,c,l.bg);frames.set(key,frame);frame.setPluginData('canonicalState',state.id);notes.push(draftAnnotation(c,key,sourceNotes.get(state.screen)));for(const layer of l.layers){if(layer.kind==='image'||layer.kind==='gradient'){const n=(layer.kind==='image'?image:gradient)(frame,key+'.'+layer.id,layer);if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='rect'||layer.kind==='ellipse'){const n=shape(layer.kind==='rect'?figma.createRectangle():figma.createEllipse(),frame,key+'.'+layer.id,layer.x,layer.y,layer.w,layer.h);paint(n,c,layer.fill);if(layer.shadows!==undefined)n.effects=draftShadows(layer.shadows,key+'.'+layer.id);if(layer.stroke!==undefined){paint(n,c,layer.stroke,'strokes');n.strokeWeight=layer.stroke_width;n.strokeAlign='INSIDE';}if(layer.kind==='rect'&&layer.radius>0){n.cornerRadius=layer.radius;bind(n,'cornerRadius',num(c.id+'/radius/observed/'+layer.radius,layer.radius));}if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='text')await text(frame,key+'.'+layer.id,layer,c);else throw Error('Only declared native draft layer kinds allowed');}
  for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport&&e.source_state===state.id)){const box=l.control_boxes[edge.control_id];if(!box)throw Error('Pinned canonical control position missing '+edge.control_id);const note=c.action_notes[edge.action+'|'+edge.control_id];const main=mains.get(c.id+'.'+viewport+'.'+note.visual_variant);const n=control(frame,key+'.'+edge.control_id,main,c.action_labels[edge.action],box);notes.push(draftAnnotation(c,key+'.'+edge.control_id,note));edges.push({node:n,target:c.id+'.'+viewport+'.'+edge.target_state});}
  for(const button of draftProductButtons(c,viewport,state)){control(frame,key+'.'+button.id,mains.get(c.id+'.'+viewport+'.'+button.variant),button.label,button.box);if(button.specification)notes.push({key:c.id+'.'+viewport+'.'+state.id+'.'+button.id,label:button.specification.title+'\n'+button.specification.display_text,specification:button.specification});}
- if (Array.isArray(l.containers) && l.containers.length) { placeDeclaredLayerParents(frame, l.containers, id => page.findOne(node => node.getPluginData('semanticKey') === key + '.' + id), key + '.'); for (const item of l.containers) if (item.fill) paint(page.findOne(node => node.getPluginData('semanticKey') === key + '.' + item.key), c, item.fill); await readDeclaredContainerLinks(page, frame, l.containers, key + '.'); }
+ if (Array.isArray(l.containers) && l.containers.length) { const containers = placeDeclaredLayerParents(frame, l.containers, id => page.findOne(node => node.getPluginData('semanticKey') === key + '.' + id), key + '.'); for (const item of l.containers) { const node = containers.get(item.key); if (item.fill) paint(node, c, item.fill); if (item.kind === 'auto-layout') layoutBindings(node); } containerChecks.push({frame, l, prefix: key + '.'}); }
  x+=l.width+90;}
  const reference=c.references[viewport];if(reference){const dims=c.layouts[viewport];const ref=shape(figma.createFrame(),page,c.id+'.'+viewport+'.raster-reference',x,rowY,dims.width,dims.height);ref.name=c.title+' · 브라우저 참조 원본 (래스터)';ref.fills=[];image(ref,c.id+'.'+viewport+'.reference-image',{asset:reference,x:0,y:0,w:dims.width,h:dims.height,fit:'FIT'});}rowY+=Math.max(c.layouts[viewport].height,...Object.values(dimensions).map(layout=>layout.height))+170;}
  cy=rowY+650;
  }
  for(const edge of edges){const target=frames.get(edge.target);if(!target)throw Error('Exact candidate destination missing');await edge.node.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:target.id,navigation:'NAVIGATE',transition:null,preserveScrollPosition:false}]}]);}
+ if (containerChecks.length) {
+  const nativeIndex = indexDeclaredContainerRead(await readNativeSemantics(figma, page));
+  for (const {frame, l, prefix} of containerChecks) await readDeclaredContainerLinks(page, frame, l.containers, prefix, nativeIndex);
+ }
  // Shared helper creates real visible cards, instances and labeled functional roles.
  const labelToken=num('review/type/palette',17),spaceToken=num('review/space/24',24);for(const c of DRAFT.candidates){const primary=c.control_styles.desktop[c.foundations.palette.samples[0].variant];const ink=color(c,primary.ink);const samples=c.foundations.palette.samples.map(sample=>({...sample,mainComponentId:mains.get(c.id+'.desktop.'+sample.variant).id}));const palette=await createFoundationPalette(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:(SELECTED_PRODUCTION?'Selected production ':'Direction review ')+DRAFT.instance_sha256.slice(0,10),tokens,type:{token:labelToken,value:17},space:{token:spaceToken,value:24},ink:{token:ink.token,value:ink.paint.color},font:c.fonts.body,samples,configureSample:(instance,main,sample)=>setDraftControlLabel(instance,main,c.action_labels[sample.action],labelKeys),name:c.title+' · 의미 있는 컴포넌트 팔레트',x:0,y:cy},ensureDraftTokens);rollbacks.push(palette.rollback);palettes[c.id]={libraryId:palette.libraryId,samples:palette.samples};for(const sample of palette.samples){const instance=await figma.getNodeByIdAsync(sample.instanceId),main=await instance.getMainComponentAsync(),key='review.palette.'+c.id+'.'+sample.component;instance.setPluginData('semanticKey',key);instance.setPluginData('semanticComponent',JSON.stringify({key,sourceKey:main.getPluginData('semanticKey'),childKeys:draftControlChildKeys(main,key)}));if (main.id !== sample.mainComponentId) throw Error('Palette linked to '+main.id+' instead of '+sample.mainComponentId);
     const edge=c.prototype.bindings.find(e=>e.action===sample.action&&e.viewport==='desktop');if(edge){const target=frames.get(c.id+'.desktop.'+edge.target_state);await instance.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:target.id,navigation:'NAVIGATE',transition:null,preserveScrollPosition:false}]}]);}}const node=await figma.getNodeByIdAsync(palette.libraryId);if(primary.fill===null)node.fills=[];else paint(node,c,primary.fill);cy+=node.height+160;}
  for(const c of DRAFT.candidates){const entries=[];for(const viewport of ['desktop','mobile']){for(const state of c.prototype.states){const target=frames.get(c.id+'.'+viewport+'.'+state.id),note=c.notes.find(n=>n.id===state.screen);entries.push(draftBoardEntry(c,viewport+'|'+state.id+'|'+note.id,target.id,note,viewport+' · '+state.title+' · '+state.screen+'\n'+noteLabel(note)));for(const button of draftProductButtons(c,viewport,state)){if(button.specification){const product=page.findOne(n=>n.getPluginData('semanticKey')===c.id+'.'+viewport+'.'+state.id+'.'+button.id);entries.push({key:viewport+'|'+state.id+'|'+button.id,targetId:product.id,specification:button.specification});}}}for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport)){const key=c.id+'.'+viewport+'.'+edge.source_state+'.'+edge.control_id,target=page.findOne(n=>n.getPluginData('semanticKey')===key),note=c.action_notes[edge.action+'|'+edge.control_id];entries.push(draftBoardEntry(c,viewport+'|'+edge.source_state+'|'+edge.control_id,target.id,note,viewport+' · '+edge.control_id+' · '+edge.action+'\n'+noteLabel(note)));}}const board=await ensureDesignNoteBoard(figma,page,{...(c.specifications?{presentation:'readable-specs'}:{}),sourceHash:DRAFT.instance_sha256,font:c.fonts.body,fontSize:17,width:760,x:0,y:cy,title:'주석 읽기 · '+c.title,boardKey:'review.notes.'+c.id,notes:entries});rollbacks.push(board.rollback);noteFrames[c.id]={...board,rollback:undefined};const node=await figma.getNodeByIdAsync(board.boardId),style=c.control_styles.desktop[c.foundations.palette.samples[0].variant];if(style.fill===null)node.fills=[];else paint(node,c,style.fill);for(const part of [node,...node.findAll(()=>true)]){if(part.type==='TEXT'){paint(part,c,style.ink);bind(part,'fontSize',num('review/type/note/'+part.fontSize,part.fontSize));}if(part.layoutMode&&part.layoutMode!=='NONE')layoutBindings(part);}cy+=node.height+160;}
  const canonicalBindings=applyDraftFoundations(page,DRAFT.candidates,bindings);tokenResult=await ensureDraftTokens(figma,page,{sourceHash:DRAFT.instance_sha256,collectionName:(SELECTED_PRODUCTION?'Selected production ':'Direction review ')+DRAFT.instance_sha256.slice(0,10),tokens,bindings});for(const job of gradientBindings){const fills=copy(job.node.fills),stop=fills[0].gradientStops[job.index];stop.boundVariables={color:figma.variables.createVariableAlias(tokenResult.variables[job.token])};job.node.fills=fills;}measureDraftText(page,DRAFT.candidates);await validateDraftPaletteControls(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates);const readable=notes.some(note=>note.specification);if(readable){for(const note of notes){if(!note.specification)throw Error('Mixed legacy/readable annotation package');const target=page.findOne(node=>node.getPluginData('semanticKey')===note.key),matches=Object.values(noteFrames).flatMap(board=>board.entries.filter(entry=>entry.targetId===target?.id).map(entry=>({board,entry})));if(matches.length!==1)throw Error('Exact readable board binding required: '+note.key);const {board,entry}=matches[0];note.board={boardId:board.boardId,textNodeId:entry.textNodeId,key:entry.key};}}const annotationResult=await ensureNativeAnnotations(figma,page,{...(readable?{presentation:'readable-specs',sourceHash:DRAFT.instance_sha256}:{}),annotations:notes});rollbacks.push(annotationResult.rollback);page.setPluginData('packet_sha256',DRAFT.packet_sha256);writeDraftJSON(page,'draftCanonicalBindings',canonicalBindings);writeDraftJSON(page,'draftNoteFrames',noteFrames);writeDraftJSON(page,'draftPalettes',palettes);writeDraftJSON(page,'draftTextStyles',styles.map(s=>s.id));page.setPluginData('scope',DRAFT.scope);page.setPluginData('productionAdmitted',String(SELECTED_PRODUCTION));if(SELECTED_PRODUCTION)writeDraftJSON(page,'selectedProductionSource',{sourceSelection:DRAFT.sourceSelection,production_graph:DRAFT.production_graph,change_request:DRAFT.change_request});const launch=draftFlowStarts(DRAFT.candidates,frames);page.flowStartingPoints=launch.map(({candidate,node})=>({nodeId:node.id,name:candidate.title+' · '+node.name+(SELECTED_PRODUCTION?' · 원정 시작':' · 검토 시작')}));figma.currentPage.selection=[launch[0].node];figma.viewport.scrollAndZoomIntoView(launch.map(item=>item.node));page.setPluginData(OWNER,DRAFT.instance_sha256);page.setPluginData(RESERVATION,JSON.stringify({state:'complete',identity:draftReviewIdentity()}));return page;
  }catch(error){const failures=[];if(createdPage){if(tokenResult)try{await tokenResult.rollback();}catch(e){failures.push(String(e));}for(const rollback of rollbacks.reverse())try{await rollback();}catch(e){failures.push(String(e));}for(const style of styles)try{style.remove();}catch(e){failures.push(String(e));}try{await figma.setCurrentPageAsync(previous);page.remove();}catch(e){failures.push(String(e));}}throw Error(String(error)+(failures.length?' · 정리 오류: '+failures.join('; '):''));}}
-async function readDraft(page){const raw=requireFullNativeRead(await readNativeSemantics(figma,page)),objects=new Map([page,...page.findAll(()=>true)].map(n=>[n.id,n]));for(const row of raw.nodes){const n=objects.get(row.id);for(const field of ['x','y','width','height','characters','fontName','fontSize','lineHeight','letterSpacing','textAutoResize','textAlignHorizontal','textStyleId','visible','constraints','cornerRadius','strokeWeight','opacity','effects','layoutMode','primaryAxisAlignItems','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','componentPropertyReferences'])if(field in n&&typeof n[field]!=='symbol')row[field]=copy(n[field]);if(n.type==='INSTANCE'&&'overrides'in n)row.overrides=copy(n.overrides);if(n.type==='TEXT'&&n.characters.length){if(typeof n.getRangeBoundVariable==='function'){const family=n.getRangeBoundVariable(0,n.characters.length,'fontFamily');row.fontFamilyBinding=typeof family==='symbol'?null:copy(family);}row.fontSegments=copy(n.getStyledTextSegments(['fontName','fontSize','textStyleId','boundVariables']));const link=n.getRangeHyperlink(0,n.characters.length);row.hyperlink=typeof link==='symbol'?null:copy(link);}if(n.getPluginData('controlIconAsset')){const paints=n.fills;if(Array.isArray(paints)&&paints.length===1&&paints[0].type==='IMAGE'&&paints[0].imageHash){const observed=figma.getImageByHash(paints[0].imageHash);if(observed)row.iconImageBytes=figma.base64Encode(await observed.getBytesAsync());}row.controlIconAsset=n.getPluginData('controlIconAsset');}if(typeof n.getReactions==='function')row.reactions=copy(await n.getReactions());else if('reactions'in n&&Array.isArray(n.reactions))row.reactions=copy(n.reactions);}
+async function readDraft(page){const raw=requireFullNativeRead(await readNativeSemantics(figma,page)),objects=new Map([page,...page.findAll(()=>true)].map(n=>[n.id,n]));for(const row of raw.nodes){const n=objects.get(row.id);for(const field of ['x','y','width','height','characters','fontName','fontSize','lineHeight','letterSpacing','textAutoResize','textAlignHorizontal','textStyleId','visible','constraints','cornerRadius','strokeWeight','opacity','effects','layoutMode','layoutPositioning','primaryAxisAlignItems','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','componentPropertyReferences'])if(field in n&&typeof n[field]!=='symbol')row[field]=copy(n[field]);if(n.type==='INSTANCE'&&'overrides'in n)row.overrides=copy(n.overrides);if(n.type==='TEXT'&&n.characters.length){if(typeof n.getRangeBoundVariable==='function'){const family=n.getRangeBoundVariable(0,n.characters.length,'fontFamily');row.fontFamilyBinding=typeof family==='symbol'?null:copy(family);}row.fontSegments=copy(n.getStyledTextSegments(['fontName','fontSize','textStyleId','boundVariables']));const link=n.getRangeHyperlink(0,n.characters.length);row.hyperlink=typeof link==='symbol'?null:copy(link);}if(n.getPluginData('controlIconAsset')){const paints=n.fills;if(Array.isArray(paints)&&paints.length===1&&paints[0].type==='IMAGE'&&paints[0].imageHash){const observed=figma.getImageByHash(paints[0].imageHash);if(observed)row.iconImageBytes=figma.base64Encode(await observed.getBytesAsync());}row.controlIconAsset=n.getPluginData('controlIconAsset');}if(typeof n.getReactions==='function')row.reactions=copy(await n.getReactions());else if('reactions'in n&&Array.isArray(n.reactions))row.reactions=copy(n.reactions);}
  const textStyles=[];for(const id of readDraftJSON(page,'draftTextStyles',[])){const style=await figma.getStyleByIdAsync(id);if(style)textStyles.push({id:style.id,name:style.name,fontName:copy(style.fontName),fontSize:style.fontSize,lineHeight:copy(style.lineHeight),boundVariables:copy(style.boundVariables||{})});}return {...raw,fileKey:figma.fileKey,page_owner:page.getPluginData(OWNER),packet_sha256:DRAFT.packet_sha256,instance_sha256:DRAFT.instance_sha256,layout_sha256:DRAFT.layout_sha256,layout_pin:DRAFT.layout_pin,prepared_target:DRAFT.prepared_target,expected_file_key:DRAFT.fileKey,candidate_pins:DRAFT.candidate_pins,schema:SELECTED_PRODUCTION?FLOW_PRODUCTION_READBACK:'figma-flow-native-direction-readback-v1',scope:page.getPluginData('scope'),production_admitted:page.getPluginData('productionAdmitted')==='true',...(SELECTED_PRODUCTION?readDraftJSON(page,'selectedProductionSource',{}):{}),observed_at:new Date().toISOString(),canonicalFoundationBindings:readDraftJSON(page,'draftCanonicalBindings',[]),noteFrames:readDraftJSON(page,'draftNoteFrames',{}),palettes:readDraftJSON(page,'draftPalettes',{}),textStyles,raster_vs_editable:DRAFT.boundary,flowStartingPoints:copy(page.flowStartingPoints||[])};}
 figma.showUI(__html__,{width:470,height:650,themeColors:true});figma.ui.onmessage=async message=>{if(message.type==='receipt'){status(message.passed?'실제 Figma 검토 시안·이동·주석·팔레트 검증 완료 · 방향 선택은 별도입니다.':'검토 자료 검증 실패 · 결과 JSON을 확인하세요.',message.passed?'success':'error');return;}if(message.type!=='draft-review'||busy)return;busy=true;status('실제 검토 프레임·글꼴·주석·팔레트를 만드는 중…','busy');try{const page=await makeDraft();lastData=await readDraft(page);figma.ui.postMessage({type:'readback',data:lastData});status('실제 검토 노드 생성 완료 · 읽기 결과를 준비했습니다.','success');}catch(error){status(String(error)+'\n'+String(error.stack||''),'error');}finally{busy=false;status(last);}};

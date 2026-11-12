@@ -1,22 +1,22 @@
 # RD-06 작업서 · 목적별 네이티브 읽기와 제한된 캐시
 
-상태는 제안이다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 표준 discovery 요약의 실제 관찰은 일부 확인됐다. RD-06 전체 Figma 인수는 대기다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
-## Cursor 구현 단위
+## 구현 경로와 검증 단위
 
-1. 동일 fixture의 full 반환과 실제 getter 목록을 먼저 고정한다.
-2. summary projection과 coverage를 추가하고 한 읽기 전용 UI에 연결한다.
-3. full 소비자들이 partial을 받지 않는 negative test를 추가한다.
-4. 실제 문서 변경 이벤트 coverage를 확인한 경우에만 session cache를 추가한다.
-5. 동일 결과·변경 무효화·getters·전송 크기를 대조하고 실측한 범위만 보고한다.
+1. 동일 fixture의 full 반환과 실제 getter 목록을 대조한다.
+2. summary projection과 coverage 및 읽기 전용 UI를 확인한다.
+3. full 소비자의 partial 거절 검사를 실행한다.
+4. session snapshot을 보관하지 않고 새 값을 다시 읽는지 확인한다.
+5. getter와 전송 bytes의 fixture 측정 범위 및 실제 Figma 관찰을 구분한다.
 
-한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
+아래 순서는 구현 경로와 검증 항목이다. 검사 파일의 존재나 과거 fixture 결과는 현재 실행 성공 또는 실제 Figma 인수를 뜻하지 않는다. 현재 실행 결과와 실제 관찰은 [최종 인수 기록](../FINAL_ACCEPTANCE.md)에 별도로 남긴다.
 
 1은 `nativeReadGetterLedger`가 같은 fixture의 full `readNativeSemantics` 결과와 실제로 읽은 getter 이름을 함께 남긴다. 기존 호출은 인자 없는 full이다. `rect.width`와 `rect.fills`는 기록되고 `rect.exportAsync`는 호출하지 않는다.
 
-2는 native summary coverage를 공유 reader의 summary profile로 반환한다. schema는 `figma-flow-native-read-summary-v1`이고 `coverage.complete`는 false다. 요청한 `width`는 같은 fixture의 full과 같고, `fills`처럼 이미지 closure가 필요한 필드는 full로 돌아간다. 스타일·변수·raster는 생략 목록에 남긴다. ImportPanel의 `NativeSummary`는 그 결과만 보여주고 보내지 않는다.
+2는 native summary coverage를 공유 reader의 summary profile로 반환한다. schema는 `figma-flow-native-read-summary-v1`이고 `coverage.complete`는 false다. 요청한 `width`는 같은 fixture의 full과 같고, `fills`처럼 이미지 closure가 필요한 필드는 full로 돌아간다. 스타일·변수·raster는 생략 목록에 남긴다. ImportPanel의 `NativeSummary`는 그 결과만 보여주고 보내지 않는다. 표준 discovery의 별도 요약 버튼은 주 페이지의 width/height만 요청하며 full fallback 없이 `coverage.pageIds`·nodeIds·fields·omitted·complete false를 표시한다. `expected_scope`의 전체 허용 범위는 실제 읽은 주 페이지 범위와 구분한다.
 
-3은 `requireFullNativeRead`가 summary coverage를 full evidence로 받지 않는다. readback, native edit, draft read, graph discovery는 그 검사를 통과한 읽기만 저장한다. 요약 버튼은 partial을 그대로 보여 준다.
+3은 `requireFullNativeRead`가 summary coverage를 full evidence로 받지 않는다. full readback·native edit·draft read·graph import/apply/pair는 full 경계를 유지한다. graph discovery의 기본 `read`는 모든 허용 페이지를 full로 읽으며 별도 요약 버튼은 partial을 그대로 보여 준다. React·legacy 패널은 별도 summary 파일명을 사용하고 진단에는 최신 읽기 결과를 연결한다.
 
 4는 공식 documentchange가 원격 편집, 비동기 페이지 로드, 변수 변경까지 이 런타임에서 보장되는 것을 확인하지 못해 session cache를 넣지 않는다. TTL은 coverage가 아니다. 공유 reader는 호출마다 다시 읽고 저장한 snapshot을 돌려주지 않는다.
 
@@ -37,7 +37,17 @@ React를 바꾸면 `npm --prefix panel-ui run build`를 실행하고 원본과 �
 
 ## 실제 동작 확인
 
-실제 Figma에서 요약·전체 읽기 비교와 편집·페이지 전환 후 무효화를 확인한다. fixture의 getter count 감소와 실사용 지연 감소는 따로 보고한다.
+주 세션의 실제 R7 요약은 4,818개 노드의 width/height가 이전 full과 모두 일치했다. 진단 JSON에서 summary profile·complete false와 정확한 node ID/field/omission 목록 및 무거운 필드 부재를 확인했다. 일반 graph import `--apply`와 pair는 summary를 거절했으며 출력 없음·graph bytes 보존을 확인했다. 이는 주 세션 관찰이며 문서 작성자가 재실행한 결과가 아니다.
+
+실제 GUI에서 이후 full 읽기로 최신 진단이 교체되는 동작, 편집·페이지 전환별 새 읽기와 나머지 AC·보존 검사 연결은 아직 대기다. fixture getter count와 실제 지연은 따로 보고하며 요약 수치만으로 속도 향상을 주장하지 않는다.
+
+[finalize_discovery_summary.cjs](../../../tests/finalize_discovery_summary.cjs)는 제품 변경 전 기준 커밋 `dca7dfcb4ec97ee52427a40050e815f53880d47e`에 고정됐다. 변경 전 `0 !== 2` 예상 assertion 실패 후 동일 blob의 변경 후 통과가 주 세션 근거다. host의 주 페이지 범위·scope 변경 거절·busy 중복 차단·full 기본값·모든 허용 페이지 읽기·mutation 거절·진단·React/legacy 버튼·번역을 확인한다. 추가 확인의 시작점은 아래 명령이며 이번 문서 갱신에서는 실행하지 않았다.
+
+```sh
+node tests/finalize_discovery_summary.cjs
+```
+
+session cache는 도입하지 않았다. Codex 설치 0.26.3과 native 0.27 후보를 구분하고 push·후보 설치 후 검증을 별도로 남긴다.
 
 ## 완료 조건과 반환
 

@@ -1,0 +1,621 @@
+{
+  "schema": "little-hands-actual-visual-snapshots-v1",
+  "snapshots": [
+    {
+      "state": "state-403",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/staff/",
+      "path": "snapshots/403-desktop.html",
+      "capture": "captures/403-desktop.json",
+      "capture_sha256": "8752aa4d3e10b41637daaa941cba99b7c66571802eb9fa3602f7f14ab0d4d26d",
+      "html_sha256": "cb42f86d6d3bd3d58ec39517fcf4196437786272b9826e252191cb17494d2cf5",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-403",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/staff/",
+      "path": "snapshots/403-mobile.html",
+      "capture": "captures/403-mobile.json",
+      "capture_sha256": "5a07717512a8f8c05b5e9c5d6b67c77ce31d8e12d50dc8c27aa892d2a0d7a3e5",
+      "html_sha256": "cb42f86d6d3bd3d58ec39517fcf4196437786272b9826e252191cb17494d2cf5",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-404",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/6dc39df4-8ba7-4ee8-b5bd-e44c16636193/",
+      "path": "snapshots/404-desktop.html",
+      "capture": "captures/404-desktop.json",
+      "capture_sha256": "96865eedd95d515f6605f47c80bfa8a10e27cc1ab3ceb51846b95e95b43d24c1",
+      "html_sha256": "6e361456116db8ef7c92fd3f69ef1545e039c3980699359c1b6e194459b7e718",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-404",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/6dc39df4-8ba7-4ee8-b5bd-e44c16636193/",
+      "path": "snapshots/404-mobile.html",
+      "capture": "captures/404-mobile.json",
+      "capture_sha256": "d2f9a0715dd8b5e3803a647a5316a63dfb263935d939238b529fec538ccf01ad",
+      "html_sha256": "6e361456116db8ef7c92fd3f69ef1545e039c3980699359c1b6e194459b7e718",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-cancelconfirm",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/cancel/",
+      "path": "snapshots/cancelconfirm-desktop.html",
+      "capture": "captures/cancelconfirm-desktop.json",
+      "capture_sha256": "46120bc6f51b541bb1afe9534cf3ec0c9a313957925f25b3ca19d7abe05a9e26",
+      "html_sha256": "8731e980daaf922b0f0c5d0b85853854bbc53b99f0f5a8561c43cfc230b58562",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-cancelconfirm",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/cancel/",
+      "path": "snapshots/cancelconfirm-mobile.html",
+      "capture": "captures/cancelconfirm-mobile.json",
+      "capture_sha256": "cb78b755a58178cbd5defcd004cedb4ffab97d4c5a5d2615b5ebcc06e1242f00",
+      "html_sha256": "8731e980daaf922b0f0c5d0b85853854bbc53b99f0f5a8561c43cfc230b58562",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-cancelled",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/",
+      "path": "snapshots/cancelled-desktop.html",
+      "capture": "captures/cancelled-desktop.json",
+      "capture_sha256": "fa09e922609d3048d1d4c5a8ce205c21444ca84a270829e881759e931f2c9331",
+      "html_sha256": "fd246426f4ee77715eb190182373ba3306f3afb6c0784dc462facc11037db1ff",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-cancelled",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/",
+      "path": "snapshots/cancelled-mobile.html",
+      "capture": "captures/cancelled-mobile.json",
+      "capture_sha256": "13c836f48f63a289a1ced6a02bce48445684c172aef93887571066406acfff96",
+      "html_sha256": "fd246426f4ee77715eb190182373ba3306f3afb6c0784dc462facc11037db1ff",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-confirmed",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/",
+      "path": "snapshots/confirmed-desktop.html",
+      "capture": "captures/confirmed-desktop.json",
+      "capture_sha256": "015c80ca7a7d43f975a6d264f1420f9de912abc1ced75fcd2f715f46d1db3e3b",
+      "html_sha256": "0383648f70442b89a9f04aa4fe2988a6afce51f4c4be9459d298e951ec90c285",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-confirmed",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/",
+      "path": "snapshots/confirmed-mobile.html",
+      "capture": "captures/confirmed-mobile.json",
+      "capture_sha256": "6a89f16c7dd5209160c6ddef307d3aff0004871df145bedd9a1b6367915ec686",
+      "html_sha256": "0383648f70442b89a9f04aa4fe2988a6afce51f4c4be9459d298e951ec90c285",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-conflict",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/cancel/",
+      "path": "snapshots/conflict-desktop.html",
+      "capture": "captures/conflict-desktop.json",
+      "capture_sha256": "46368d112a1335be6c67b122d2b5b1a559e807629c7f571dec213206b93daf88",
+      "html_sha256": "b2eb845748364ce0f3cf0a7fe93fbccea0154e0156c258548831862b30fc857b",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-conflict",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/cancel/",
+      "path": "snapshots/conflict-mobile.html",
+      "capture": "captures/conflict-mobile.json",
+      "capture_sha256": "d6800e2ab5558871e10338b11d72cb2b17dbd66ebf01c3473ffbc16ca94065c9",
+      "html_sha256": "b2eb845748364ce0f3cf0a7fe93fbccea0154e0156c258548831862b30fc857b",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-login",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/accounts/login/",
+      "path": "snapshots/login-desktop.html",
+      "capture": "captures/login-desktop.json",
+      "capture_sha256": "9c290a1814e2991c7c1bd75b93bfcf9b73d810a60ae184525d692de2e705571e",
+      "html_sha256": "48351b13ff68e9974afbe0a7d8d391451aee41291b3e5c83a1cc445c9115484f",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-login",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/accounts/login/",
+      "path": "snapshots/login-mobile.html",
+      "capture": "captures/login-mobile.json",
+      "capture_sha256": "7db65b318df1d6040bf1db98231d39914c6ec7a4a5daea539c26490c1be5de45",
+      "html_sha256": "48351b13ff68e9974afbe0a7d8d391451aee41291b3e5c83a1cc445c9115484f",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-memberhome",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/",
+      "path": "snapshots/memberhome-desktop.html",
+      "capture": "captures/memberhome-desktop.json",
+      "capture_sha256": "ed0e32c73edb9df0127e09522107ad7ea9fc682ff19f8e63effaac09c0fbdf08",
+      "html_sha256": "08cc2c9cb9e0d5e861b74f63a18550f84425e63988d1f9727d4b6ece4b2f3859",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-memberhome",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/",
+      "path": "snapshots/memberhome-mobile.html",
+      "capture": "captures/memberhome-mobile.json",
+      "capture_sha256": "e2a5856ad0af2c6176917e9f2f962a1a1695ed8c2e7ceaa07eed8bbe4585eef5",
+      "html_sha256": "08cc2c9cb9e0d5e861b74f63a18550f84425e63988d1f9727d4b6ece4b2f3859",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-mybookings",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/",
+      "path": "snapshots/mybookings-desktop.html",
+      "capture": "captures/mybookings-desktop.json",
+      "capture_sha256": "1712fd71066ed1e9b5ed03c55500cb9e1d0d54dadfad31dfb84a86a844ae9f44",
+      "html_sha256": "03de4a522c14b4557f729d634e53299a24bd6428a6f44ec674d09d5ff26b444f",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-mybookings",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/",
+      "path": "snapshots/mybookings-mobile.html",
+      "capture": "captures/mybookings-mobile.json",
+      "capture_sha256": "66f2091cefc1aba2dae4680dcc9ef849f1405e746fc7993efb6c43f25b9927b8",
+      "html_sha256": "03de4a522c14b4557f729d634e53299a24bd6428a6f44ec674d09d5ff26b444f",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-notifications",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/notifications/",
+      "path": "snapshots/notifications-desktop.html",
+      "capture": "captures/notifications-desktop.json",
+      "capture_sha256": "3e84c3ae7af7bf32fd510e5f7b94590f8c35aeb9c3fc1be959635520842909be",
+      "html_sha256": "319ccfebac80c47aa11ee565faf624c6d7854968a48c264fc6242f189021fd0c",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-notifications",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/notifications/",
+      "path": "snapshots/notifications-mobile.html",
+      "capture": "captures/notifications-mobile.json",
+      "capture_sha256": "89d13981cd9c450dcb0d76c702907d6f31e472206dd9ecebfa569224ca0f04cc",
+      "html_sha256": "319ccfebac80c47aa11ee565faf624c6d7854968a48c264fc6242f189021fd0c",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-publichome",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/",
+      "path": "snapshots/publichome-desktop.html",
+      "capture": "captures/publichome-desktop.json",
+      "capture_sha256": "9d4dbb27add3bcba06f37f6897e4e3cedd08b36584ed3793afa5fa3f9130a24f",
+      "html_sha256": "dee242a90a0662dd263ebdadccaa7ffaff202f1796608c3aff8b1864216288a1",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-publichome",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/",
+      "path": "snapshots/publichome-mobile.html",
+      "capture": "captures/publichome-mobile.json",
+      "capture_sha256": "c8513969e07f293aaf729e2efe5ddd73c60a188574b6389d69f7262614ae5190",
+      "html_sha256": "dee242a90a0662dd263ebdadccaa7ffaff202f1796608c3aff8b1864216288a1",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-reschedule",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/reschedule/",
+      "path": "snapshots/reschedule-desktop.html",
+      "capture": "captures/reschedule-desktop.json",
+      "capture_sha256": "d5108507e0edcf1d6280bf8ae708ececedf39ededf74698beb263ea9ca5b24ac",
+      "html_sha256": "74123484b851eacb369b20819c8e4c1b5d3e56e430c70851a9c9f418ba8a4dec",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-reschedule",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/20a1fb73-757b-464d-b9fb-98057fedf35d/reschedule/",
+      "path": "snapshots/reschedule-mobile.html",
+      "capture": "captures/reschedule-mobile.json",
+      "capture_sha256": "d37aa643a14c1aa3e75b2978273a66f4c1c47ebdf337fddee84ad69d7a985391",
+      "html_sha256": "74123484b851eacb369b20819c8e4c1b5d3e56e430c70851a9c9f418ba8a4dec",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-review",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/sessions/10/review/",
+      "path": "snapshots/review-desktop.html",
+      "capture": "captures/review-desktop.json",
+      "capture_sha256": "6610f01d40e454011ac54833f369ef0d86b5f05d907ac6bfcc31d4add9226a0a",
+      "html_sha256": "c025eee61f55edeaca034be1cd6019d29a0fca77a9cf6bf870dcd8a0d42be33b",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-review",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/sessions/10/review/",
+      "path": "snapshots/review-mobile.html",
+      "capture": "captures/review-mobile.json",
+      "capture_sha256": "4d12c905c80ff4fae56c4e9184ca5b5c2c538ca838475e201e973401142b1a5c",
+      "html_sha256": "c025eee61f55edeaca034be1cd6019d29a0fca77a9cf6bf870dcd8a0d42be33b",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-sessionavailable",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/sessions/10/",
+      "path": "snapshots/sessionavailable-desktop.html",
+      "capture": "captures/sessionavailable-desktop.json",
+      "capture_sha256": "c388eb203276ff32d6457ec6ce6aae39d93f11640299dc9600083c0db0c5b78b",
+      "html_sha256": "dc90bc88abd4ee411fe1b491565ed2287b690141e4162f012de052ba42c4978e",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-sessionavailable",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/sessions/10/",
+      "path": "snapshots/sessionavailable-mobile.html",
+      "capture": "captures/sessionavailable-mobile.json",
+      "capture_sha256": "d74fd4c8049fd7e79a7bbc1da422049ba9fabf10ac2ef6f81aa7d8934fdc2b1a",
+      "html_sha256": "dc90bc88abd4ee411fe1b491565ed2287b690141e4162f012de052ba42c4978e",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-signup",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/accounts/signup/",
+      "path": "snapshots/signup-desktop.html",
+      "capture": "captures/signup-desktop.json",
+      "capture_sha256": "77b3648350d5ae8cf66a8cc45d69ef4a682fb03a4eca4e0909320f43c91a19da",
+      "html_sha256": "ee0c4dcf37a7d80c95f1fc848f5cb61da5cc9c4c2ae6dd7fb08ec53a89c2ee23",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-signup",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/accounts/signup/",
+      "path": "snapshots/signup-mobile.html",
+      "capture": "captures/signup-mobile.json",
+      "capture_sha256": "d62d6d9aede36beafb65062610ca05d3e085adc2da4d6007caf38f6a03dc5812",
+      "html_sha256": "ee0c4dcf37a7d80c95f1fc848f5cb61da5cc9c4c2ae6dd7fb08ec53a89c2ee23",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffaudit",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/staff/audit/",
+      "path": "snapshots/staffaudit-desktop.html",
+      "capture": "captures/staffaudit-desktop.json",
+      "capture_sha256": "b40fcb1a309bf9b3a83dcddbc14355c70d6de40565505ab1c5bcb1b257ef86d0",
+      "html_sha256": "0098930ce00f3fea65e5295f84e7ec90c475b03c4ecf55013d0fe5593c40a55b",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffaudit",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/staff/audit/",
+      "path": "snapshots/staffaudit-mobile.html",
+      "capture": "captures/staffaudit-mobile.json",
+      "capture_sha256": "68edb9b03d7aa9b4928a8f44ef3f07dd788d2711224788aa4e360942fcbc5a1f",
+      "html_sha256": "0098930ce00f3fea65e5295f84e7ec90c475b03c4ecf55013d0fe5593c40a55b",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffcreate",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/staff/sessions/new/",
+      "path": "snapshots/staffcreate-desktop.html",
+      "capture": "captures/staffcreate-desktop.json",
+      "capture_sha256": "24ca3cc26b73260d38a66b9a4b176d8f2826d18fe38cf064e694645d3b05a42a",
+      "html_sha256": "08c68a60aa81dfcfaea350a5193e82b9f2c0d335254172d00d161f7360c85c77",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffcreate",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/staff/sessions/new/",
+      "path": "snapshots/staffcreate-mobile.html",
+      "capture": "captures/staffcreate-mobile.json",
+      "capture_sha256": "89184cf0eb9771365a4e0dbc298055eee4c0f68f34cbff8d9bc7255e92bcfd75",
+      "html_sha256": "08c68a60aa81dfcfaea350a5193e82b9f2c0d335254172d00d161f7360c85c77",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffdashboard",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/staff/",
+      "path": "snapshots/staffdashboard-desktop.html",
+      "capture": "captures/staffdashboard-desktop.json",
+      "capture_sha256": "8916c57f10a54afb52f04125467d44177bc999ca442a61700b6a2cc1c95dd741",
+      "html_sha256": "5137e08551c2f918f2fdd55547af8db174016ba67f94c4bf6a69cf5f02f20d06",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffdashboard",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/staff/",
+      "path": "snapshots/staffdashboard-mobile.html",
+      "capture": "captures/staffdashboard-mobile.json",
+      "capture_sha256": "b2fef67ce556039494180d8d883fbb79c7b033751b873ecaf14ddda7d032ce55",
+      "html_sha256": "5137e08551c2f918f2fdd55547af8db174016ba67f94c4bf6a69cf5f02f20d06",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffedit",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/staff/sessions/1/edit/",
+      "path": "snapshots/staffedit-desktop.html",
+      "capture": "captures/staffedit-desktop.json",
+      "capture_sha256": "355592bbd1ab8829bf87c79927781ffac75fa8b5c7fa219b24a86afa920b90a0",
+      "html_sha256": "294edad72a4e2e89b13c2cc1c95f558e24e87bd9f7777f248d95ee6217fc18d5",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffedit",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/staff/sessions/1/edit/",
+      "path": "snapshots/staffedit-mobile.html",
+      "capture": "captures/staffedit-mobile.json",
+      "capture_sha256": "7de9db7ecb279ab44698dc84498a9c00d49ee7d9a596b383b8a6606593eba602",
+      "html_sha256": "294edad72a4e2e89b13c2cc1c95f558e24e87bd9f7777f248d95ee6217fc18d5",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffroster",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/staff/sessions/1/",
+      "path": "snapshots/staffroster-desktop.html",
+      "capture": "captures/staffroster-desktop.json",
+      "capture_sha256": "5dafb7363bea00f12ba83c5a3f037ad96ca0b1fe2fc147706f81e89cce235e56",
+      "html_sha256": "310373289fa6f321f57faacb300d847b3e8137b0f442dffe7cef370fbfef5abc",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffroster",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/staff/sessions/1/",
+      "path": "snapshots/staffroster-mobile.html",
+      "capture": "captures/staffroster-mobile.json",
+      "capture_sha256": "9d9c4255814375d7a775174bb5bbe0e383250810327c7ad02f66165965329f2e",
+      "html_sha256": "310373289fa6f321f57faacb300d847b3e8137b0f442dffe7cef370fbfef5abc",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffsessions",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/staff/sessions/",
+      "path": "snapshots/staffsessions-desktop.html",
+      "capture": "captures/staffsessions-desktop.json",
+      "capture_sha256": "97021f1a928333b17ce4429ac055ac50a2c9fb74074b31eda3f568844d3490da",
+      "html_sha256": "922932d6246ff7aea09ca8cec82a939ac9cd33d03d8d68a0bffdbacb4380dd98",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-staffsessions",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/staff/sessions/",
+      "path": "snapshots/staffsessions-mobile.html",
+      "capture": "captures/staffsessions-mobile.json",
+      "capture_sha256": "e656eeb9d02c3c3402684114c3416f6be2a25fe69ae557676b0f805f359d317a",
+      "html_sha256": "922932d6246ff7aea09ca8cec82a939ac9cd33d03d8d68a0bffdbacb4380dd98",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-waitlisted",
+      "viewport": "desktop",
+      "css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "route": "/bookings/d45e153e-4258-4050-aa77-9ca9c7183f3b/",
+      "path": "snapshots/waitlisted-desktop.html",
+      "capture": "captures/waitlisted-desktop.json",
+      "capture_sha256": "6d70281bb3b8593aa5a2e546e1d94f4f6d3c7a515e14e1ca5110309242090bdd",
+      "html_sha256": "308d1f6e2387cb485556c48f9972ce897257b8e8ec71eb2b55d4c618845f1c71",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    },
+    {
+      "state": "state-waitlisted",
+      "viewport": "mobile",
+      "css_viewport": {
+        "width": 390,
+        "height": 960
+      },
+      "route": "/bookings/d45e153e-4258-4050-aa77-9ca9c7183f3b/",
+      "path": "snapshots/waitlisted-mobile.html",
+      "capture": "captures/waitlisted-mobile.json",
+      "capture_sha256": "a3eb70b5f364a8c64cfee7be4df7dd3e2f6b434134f284f15ae7e287463a6b6c",
+      "html_sha256": "308d1f6e2387cb485556c48f9972ce897257b8e8ec71eb2b55d4c618845f1c71",
+      "scope": "The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation."
+    }
+  ]
+}

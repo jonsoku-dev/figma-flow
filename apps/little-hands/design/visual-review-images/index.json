@@ -1,0 +1,1067 @@
+{
+  "schema": "little-hands-browser-visual-render-v1",
+  "records": [
+    {
+      "state": "state-403",
+      "viewport": "desktop",
+      "path": "visual-review-images/403-desktop.jpg",
+      "capture_sha256": "8752aa4d3e10b41637daaa941cba99b7c66571802eb9fa3602f7f14ab0d4d26d",
+      "html_sha256": "cb42f86d6d3bd3d58ec39517fcf4196437786272b9826e252191cb17494d2cf5",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "403 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "00720d8871997133a3cd58dd6c220c91c52f897541ec89ea221c26b557581054",
+      "image_pixels": [
+        1200,
+        900
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-404",
+      "viewport": "desktop",
+      "path": "visual-review-images/404-desktop.jpg",
+      "capture_sha256": "96865eedd95d515f6605f47c80bfa8a10e27cc1ab3ceb51846b95e95b43d24c1",
+      "html_sha256": "6e361456116db8ef7c92fd3f69ef1545e039c3980699359c1b6e194459b7e718",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "404 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "ed2a89de4a7b27bf6fa320ced7ee66057ef4f6861e04faff06f897f2cac7f8e4",
+      "image_pixels": [
+        1200,
+        900
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-cancelconfirm",
+      "viewport": "desktop",
+      "path": "visual-review-images/cancelconfirm-desktop.jpg",
+      "capture_sha256": "46120bc6f51b541bb1afe9534cf3ec0c9a313957925f25b3ca19d7abe05a9e26",
+      "html_sha256": "8731e980daaf922b0f0c5d0b85853854bbc53b99f0f5a8561c43cfc230b58562",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "gutter": "40px",
+        "height": 720,
+        "inert": true,
+        "scrollY": 0,
+        "title": "예약 취소 확인 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "capture_mode": "viewport-pair",
+      "capture_boundary": "The full-page compositor was unreliable. Actual top and bottom viewport screenshots cover this unchanged 1200px-wide source; the source geometry was independently measured at 1200x900.",
+      "source_css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "supplementary_path": "visual-review-images/cancelconfirm-desktop-bottom.jpg",
+      "bottom_scroll_y": 183,
+      "image_sha256": "e4deb0ce4d08f5c07fec93f27276af5cb55111a7c2a786b51499abc0f9e73963",
+      "image_pixels": [
+        1185,
+        711
+      ],
+      "visually_reviewed_by": "primary-agent",
+      "supplementary_sha256": "250b34d40835335ed80c139346b737e4aeb145a6833bb60303bf40afb1da2f82"
+    },
+    {
+      "state": "state-cancelled",
+      "viewport": "desktop",
+      "path": "visual-review-images/cancelled-desktop.jpg",
+      "capture_sha256": "fa09e922609d3048d1d4c5a8ce205c21444ca84a270829e881759e931f2c9331",
+      "html_sha256": "fd246426f4ee77715eb190182373ba3306f3afb6c0784dc462facc11037db1ff",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "예약 상세 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "101e75132c331813ca7bb2bafcbea8b82c8fc519dba2ed9d544151a3f0cb2085",
+      "image_pixels": [
+        1185,
+        1099
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-confirmed",
+      "viewport": "desktop",
+      "path": "visual-review-images/confirmed-desktop.jpg",
+      "capture_sha256": "015c80ca7a7d43f975a6d264f1420f9de912abc1ced75fcd2f715f46d1db3e3b",
+      "html_sha256": "0383648f70442b89a9f04aa4fe2988a6afce51f4c4be9459d298e951ec90c285",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "예약 상세 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "675460b8b6ab1f11752f5b8376f0255b5762ede87ac4042469089a194845bbe1",
+      "image_pixels": [
+        1185,
+        1192
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-conflict",
+      "viewport": "desktop",
+      "path": "visual-review-images/conflict-desktop.jpg",
+      "capture_sha256": "46368d112a1335be6c67b122d2b5b1a559e807629c7f571dec213206b93daf88",
+      "html_sha256": "b2eb845748364ce0f3cf0a7fe93fbccea0154e0156c258548831862b30fc857b",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "요청 내용 확인 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of UTF-8 inert captured visual source; business execution evidence is separate.",
+      "image_sha256": "01687ff3ffdf1641b92131db264d8ea9de2353bc54975fcfb34457b45cfbe495",
+      "image_pixels": [
+        1200,
+        900
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-login",
+      "viewport": "desktop",
+      "path": "visual-review-images/login-desktop.jpg",
+      "capture_sha256": "9c290a1814e2991c7c1bd75b93bfcf9b73d810a60ae184525d692de2e705571e",
+      "html_sha256": "48351b13ff68e9974afbe0a7d8d391451aee41291b3e5c83a1cc445c9115484f",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "로그인 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "a1e990fbd76437605479bd361bc687100259c7418872b061fd04b27aebfc225c",
+      "image_pixels": [
+        1200,
+        900
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-memberhome",
+      "viewport": "desktop",
+      "path": "visual-review-images/memberhome-desktop.jpg",
+      "capture_sha256": "ed0e32c73edb9df0127e09522107ad7ea9fc682ff19f8e63effaac09c0fbdf08",
+      "html_sha256": "08cc2c9cb9e0d5e861b74f63a18550f84425e63988d1f9727d4b6ece4b2f3859",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [
+          {
+            "complete": true,
+            "width": 1600
+          }
+        ],
+        "inert": true,
+        "title": "수업 둘러보기 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "9739d276b4748dbf4f9a663ce8800e8d1e14072d21830e9035d7561710407b25",
+      "image_pixels": [
+        1185,
+        2148
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-mybookings",
+      "viewport": "desktop",
+      "path": "visual-review-images/mybookings-desktop.jpg",
+      "capture_sha256": "1712fd71066ed1e9b5ed03c55500cb9e1d0d54dadfad31dfb84a86a844ae9f44",
+      "html_sha256": "03de4a522c14b4557f729d634e53299a24bd6428a6f44ec674d09d5ff26b444f",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "나의 예약 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "439b9550eb13ab208ecea1b68a9e33af1f769e783cd985886ca08cba56d20b3a",
+      "image_pixels": [
+        1185,
+        1141
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-notifications",
+      "viewport": "desktop",
+      "path": "visual-review-images/notifications-desktop.jpg",
+      "capture_sha256": "3e84c3ae7af7bf32fd510e5f7b94590f8c35aeb9c3fc1be959635520842909be",
+      "html_sha256": "319ccfebac80c47aa11ee565faf624c6d7854968a48c264fc6242f189021fd0c",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "알림 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "db8ddedc381d31ba488edc471f0e7efa2bd3a2dc359a848b17e8a1d7242c9cb4",
+      "image_pixels": [
+        1185,
+        4459
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-publichome",
+      "viewport": "desktop",
+      "path": "visual-review-images/publichome-desktop.jpg",
+      "capture_sha256": "9d4dbb27add3bcba06f37f6897e4e3cedd08b36584ed3793afa5fa3f9130a24f",
+      "html_sha256": "dee242a90a0662dd263ebdadccaa7ffaff202f1796608c3aff8b1864216288a1",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [
+          {
+            "complete": true,
+            "width": 1600
+          }
+        ],
+        "inert": true,
+        "title": "수업 둘러보기 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "613455ed0ef79084bce7f0d2fa7a459bf8b304b840c6711efb327881d572d8ea",
+      "image_pixels": [
+        1185,
+        2148
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-reschedule",
+      "viewport": "desktop",
+      "path": "visual-review-images/reschedule-desktop.jpg",
+      "capture_sha256": "d5108507e0edcf1d6280bf8ae708ececedf39ededf74698beb263ea9ca5b24ac",
+      "html_sha256": "74123484b851eacb369b20819c8e4c1b5d3e56e430c70851a9c9f418ba8a4dec",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "gutter": "40px",
+        "height": 720,
+        "inert": true,
+        "scrollY": 0,
+        "title": "일정 변경 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "capture_mode": "viewport-pair",
+      "capture_boundary": "The full-page compositor was unreliable. Actual top and bottom viewport screenshots cover this unchanged 1200px-wide source; the source geometry was independently measured at 1200x900.",
+      "source_css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "supplementary_path": "visual-review-images/reschedule-desktop-bottom.jpg",
+      "bottom_scroll_y": 254,
+      "image_sha256": "38f3e55e50a039a3da83442e0564cc1317c274937bce70283de35b1757921624",
+      "image_pixels": [
+        1185,
+        711
+      ],
+      "visually_reviewed_by": "primary-agent",
+      "supplementary_sha256": "46ec9835fe1b76a9fc507370f4bada7e7fddb92a8c5a8bd3b05f92712830007b"
+    },
+    {
+      "state": "state-review",
+      "viewport": "desktop",
+      "path": "visual-review-images/review-desktop.jpg",
+      "capture_sha256": "6610f01d40e454011ac54833f369ef0d86b5f05d907ac6bfcc31d4add9226a0a",
+      "html_sha256": "c025eee61f55edeaca034be1cd6019d29a0fca77a9cf6bf870dcd8a0d42be33b",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "예약 내용 확인 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "51c587b4059be07d58977734b06a7521243db0346490ec767fdf6fa6c2d48b2a",
+      "image_pixels": [
+        1185,
+        1130
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-sessionavailable",
+      "viewport": "desktop",
+      "path": "visual-review-images/sessionavailable-desktop.jpg",
+      "capture_sha256": "c388eb203276ff32d6457ec6ce6aae39d93f11640299dc9600083c0db0c5b78b",
+      "html_sha256": "dc90bc88abd4ee411fe1b491565ed2287b690141e4162f012de052ba42c4978e",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "gutter": "40px",
+        "height": 720,
+        "inert": true,
+        "scrollY": 0,
+        "title": "나의 첫 핸드드립 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "capture_mode": "viewport-pair",
+      "capture_boundary": "The full-page compositor was unreliable. Actual top and bottom viewport screenshots cover this unchanged 1200px-wide source; the source geometry was independently measured at 1200x900.",
+      "source_css_viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "supplementary_path": "visual-review-images/sessionavailable-desktop-bottom.jpg",
+      "bottom_scroll_y": 325,
+      "image_sha256": "327dd344f92798d6e43e66acd2a994103e49975e5960289b1eb753903db49536",
+      "image_pixels": [
+        1185,
+        711
+      ],
+      "visually_reviewed_by": "primary-agent",
+      "supplementary_sha256": "19a84d5187037e4c284ae9807feba6df4905bac1610149191ecb7e5f1f1a2614"
+    },
+    {
+      "state": "state-signup",
+      "viewport": "desktop",
+      "path": "visual-review-images/signup-desktop.jpg",
+      "capture_sha256": "77b3648350d5ae8cf66a8cc45d69ef4a682fb03a4eca4e0909320f43c91a19da",
+      "html_sha256": "ee0c4dcf37a7d80c95f1fc848f5cb61da5cc9c4c2ae6dd7fb08ec53a89c2ee23",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "회원 가입 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "bc8ef5dfcfc4aee7aa6ec9574a85a99128d98762d15de009aa1f2a05cdcc966d",
+      "image_pixels": [
+        1185,
+        1146
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffaudit",
+      "viewport": "desktop",
+      "path": "visual-review-images/staffaudit-desktop.jpg",
+      "capture_sha256": "b40fcb1a309bf9b3a83dcddbc14355c70d6de40565505ab1c5bcb1b257ef86d0",
+      "html_sha256": "0098930ce00f3fea65e5295f84e7ec90c475b03c4ecf55013d0fe5593c40a55b",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "변경 기록 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "612d15d17401c508e4824f48c762cea6145f0412824f33e4a3743c00fac885aa",
+      "image_pixels": [
+        1185,
+        4198
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffcreate",
+      "viewport": "desktop",
+      "path": "visual-review-images/staffcreate-desktop.jpg",
+      "capture_sha256": "24ca3cc26b73260d38a66b9a4b176d8f2826d18fe38cf064e694645d3b05a42a",
+      "html_sha256": "08c68a60aa81dfcfaea350a5193e82b9f2c0d335254172d00d161f7360c85c77",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "수업 일정 등록 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "30fa3d57c6eba74434cff6d0be9a374929b6c5635887f1318d4bb204f4318355",
+      "image_pixels": [
+        1185,
+        1356
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffdashboard",
+      "viewport": "desktop",
+      "path": "visual-review-images/staffdashboard-desktop.jpg",
+      "capture_sha256": "cbecec240b2b23faf082c2e17f45085237649f710252ec91cb0b2c4948227e28",
+      "html_sha256": "4cd295a890e97ab267d1fb0a7e15e124674197fd547a5c02b0a72e02680b74c4",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "inert": true,
+        "title": "운영 현황 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "capture_mode": "full-page",
+      "image_sha256": "f5f42ded990186e69c861e35587729acc401b5674cb05785e8f3c3fbde47292f",
+      "image_pixels": [
+        1185,
+        1748
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffedit",
+      "viewport": "desktop",
+      "path": "visual-review-images/staffedit-desktop.jpg",
+      "capture_sha256": "355592bbd1ab8829bf87c79927781ffac75fa8b5c7fa219b24a86afa920b90a0",
+      "html_sha256": "294edad72a4e2e89b13c2cc1c95f558e24e87bd9f7777f248d95ee6217fc18d5",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "수업 일정 수정 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "de2038fa6fb9e445c88e1ce1d0911853976a900a1ac38ca847066fc1117ea449",
+      "image_pixels": [
+        1185,
+        1388
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffroster",
+      "viewport": "desktop",
+      "path": "visual-review-images/staffroster-desktop.jpg",
+      "capture_sha256": "77a3abc8b074484549764bf8fee0c6678a82ee4e1044669864890df724e289d8",
+      "html_sha256": "7e8ce0539b88934f96595842616a51d10872068281e8360ecaf2b6a915fda908",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "inert": true,
+        "title": "수업 명단 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "capture_mode": "full-page",
+      "image_sha256": "fc2682d0543a6dd0d173e185c3a7b246a5cb7e5938fcacd22d9233cbe5a240bf",
+      "image_pixels": [
+        1185,
+        1547
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffsessions",
+      "viewport": "desktop",
+      "path": "visual-review-images/staffsessions-desktop.jpg",
+      "capture_sha256": "97021f1a928333b17ce4429ac055ac50a2c9fb74074b31eda3f568844d3490da",
+      "html_sha256": "922932d6246ff7aea09ca8cec82a939ac9cd33d03d8d68a0bffdbacb4380dd98",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "수업 일정 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "69c0f7c933e93863910beb1944b4062d39fa5f555acdbb630cb457f0cd1025bb",
+      "image_pixels": [
+        1185,
+        1164
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-waitlisted",
+      "viewport": "desktop",
+      "path": "visual-review-images/waitlisted-desktop.jpg",
+      "capture_sha256": "6d70281bb3b8593aa5a2e546e1d94f4f6d3c7a515e14e1ca5110309242090bdd",
+      "html_sha256": "308d1f6e2387cb485556c48f9972ce897257b8e8ec71eb2b55d4c618845f1c71",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 900,
+        "images": [],
+        "inert": true,
+        "title": "예약 상세 · 작은손 커피공방",
+        "width": 1200
+      },
+      "scope": "Actual browser render of UTF-8 inert captured visual source; business execution evidence is separate.",
+      "image_sha256": "44a14759ac7c2b14d63a3c3cf3dc4eeb76561cdeffb3e6e1d8a6e3b1442f44c7",
+      "image_pixels": [
+        1185,
+        1099
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-403",
+      "viewport": "mobile",
+      "path": "visual-review-images/403-mobile.jpg",
+      "capture_sha256": "5a07717512a8f8c05b5e9c5d6b67c77ce31d8e12d50dc8c27aa892d2a0d7a3e5",
+      "html_sha256": "cb42f86d6d3bd3d58ec39517fcf4196437786272b9826e252191cb17494d2cf5",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "403 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "323e16f1f696f4c1186275e6682f2f60d36b4a8ad9522201ee090a61dde03943",
+      "image_pixels": [
+        390,
+        960
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-404",
+      "viewport": "mobile",
+      "path": "visual-review-images/404-mobile.jpg",
+      "capture_sha256": "d2f9a0715dd8b5e3803a647a5316a63dfb263935d939238b529fec538ccf01ad",
+      "html_sha256": "6e361456116db8ef7c92fd3f69ef1545e039c3980699359c1b6e194459b7e718",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "404 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "fbdbe4bbcedd78a2e6d3debd4878b883f6701b7c5ce8e81945e069d6635d39fc",
+      "image_pixels": [
+        390,
+        960
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-cancelconfirm",
+      "viewport": "mobile",
+      "path": "visual-review-images/cancelconfirm-mobile.jpg",
+      "capture_sha256": "cb78b755a58178cbd5defcd004cedb4ffab97d4c5a5d2615b5ebcc06e1242f00",
+      "html_sha256": "8731e980daaf922b0f0c5d0b85853854bbc53b99f0f5a8561c43cfc230b58562",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "예약 취소 확인 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "5788ccb34c3de6cdd00a35da99bc56fbb6e6ccd26e4aa310a27ff281c19b0ed7",
+      "image_pixels": [
+        375,
+        1229
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-cancelled",
+      "viewport": "mobile",
+      "path": "visual-review-images/cancelled-mobile.jpg",
+      "capture_sha256": "13c836f48f63a289a1ced6a02bce48445684c172aef93887571066406acfff96",
+      "html_sha256": "fd246426f4ee77715eb190182373ba3306f3afb6c0784dc462facc11037db1ff",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "예약 상세 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "eece5dfaaa29fd5196e9e5e28ea20dc43262e844111d0defdc65a0b4a0aa92ef",
+      "image_pixels": [
+        375,
+        1449
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-confirmed",
+      "viewport": "mobile",
+      "path": "visual-review-images/confirmed-mobile.jpg",
+      "capture_sha256": "6a89f16c7dd5209160c6ddef307d3aff0004871df145bedd9a1b6367915ec686",
+      "html_sha256": "0383648f70442b89a9f04aa4fe2988a6afce51f4c4be9459d298e951ec90c285",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "예약 상세 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "afc0854ef3b8a7918db4c313f58a9a0a16ddf60e3cbbf35daa30ce8fe999dbf4",
+      "image_pixels": [
+        375,
+        1563
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-conflict",
+      "viewport": "mobile",
+      "path": "visual-review-images/conflict-mobile.jpg",
+      "capture_sha256": "d6800e2ab5558871e10338b11d72cb2b17dbd66ebf01c3473ffbc16ca94065c9",
+      "html_sha256": "b2eb845748364ce0f3cf0a7fe93fbccea0154e0156c258548831862b30fc857b",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "요청 내용 확인 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of UTF-8 inert captured visual source; business execution evidence is separate.",
+      "image_sha256": "b9636b9435f72668df34540db0321632c69d87e3e49741f27aee0d5907840a06",
+      "image_pixels": [
+        390,
+        960
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-login",
+      "viewport": "mobile",
+      "path": "visual-review-images/login-mobile.jpg",
+      "capture_sha256": "7db65b318df1d6040bf1db98231d39914c6ec7a4a5daea539c26490c1be5de45",
+      "html_sha256": "48351b13ff68e9974afbe0a7d8d391451aee41291b3e5c83a1cc445c9115484f",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "로그인 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "f39e629b0127d9c4b390f4c8b95d808d158645032a3fe9c43bc0998feb30fffd",
+      "image_pixels": [
+        390,
+        960
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-memberhome",
+      "viewport": "mobile",
+      "path": "visual-review-images/memberhome-mobile.jpg",
+      "capture_sha256": "e2a5856ad0af2c6176917e9f2f962a1a1695ed8c2e7ceaa07eed8bbe4585eef5",
+      "html_sha256": "08cc2c9cb9e0d5e861b74f63a18550f84425e63988d1f9727d4b6ece4b2f3859",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [
+          {
+            "complete": true,
+            "width": 1600
+          }
+        ],
+        "inert": true,
+        "title": "수업 둘러보기 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "3879b653ffa7ee58e2df530a20fbfc869473753d005ad7e111117242400049e6",
+      "image_pixels": [
+        375,
+        2842
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-mybookings",
+      "viewport": "mobile",
+      "path": "visual-review-images/mybookings-mobile.jpg",
+      "capture_sha256": "66f2091cefc1aba2dae4680dcc9ef849f1405e746fc7993efb6c43f25b9927b8",
+      "html_sha256": "03de4a522c14b4557f729d634e53299a24bd6428a6f44ec674d09d5ff26b444f",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "나의 예약 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "44d02445014bbd83dacb744429a594a9e8a6a6f89183c7698e6f570f33d8214e",
+      "image_pixels": [
+        375,
+        1513
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-notifications",
+      "viewport": "mobile",
+      "path": "visual-review-images/notifications-mobile.jpg",
+      "capture_sha256": "89d13981cd9c450dcb0d76c702907d6f31e472206dd9ecebfa569224ca0f04cc",
+      "html_sha256": "319ccfebac80c47aa11ee565faf624c6d7854968a48c264fc6242f189021fd0c",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "알림 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "13ee794c2d216a241403b94ff43646eca04af40a54ea53140601e5e57e8e6e4f",
+      "image_pixels": [
+        375,
+        4808
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-publichome",
+      "viewport": "mobile",
+      "path": "visual-review-images/publichome-mobile.jpg",
+      "capture_sha256": "c8513969e07f293aaf729e2efe5ddd73c60a188574b6389d69f7262614ae5190",
+      "html_sha256": "dee242a90a0662dd263ebdadccaa7ffaff202f1796608c3aff8b1864216288a1",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [
+          {
+            "complete": true,
+            "width": 1600
+          }
+        ],
+        "inert": true,
+        "title": "수업 둘러보기 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "834c2b69fa335fae07b43443bf29f85332c1041e3da3d469699a81e640a56254",
+      "image_pixels": [
+        375,
+        2842
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-reschedule",
+      "viewport": "mobile",
+      "path": "visual-review-images/reschedule-mobile.jpg",
+      "capture_sha256": "d37aa643a14c1aa3e75b2978273a66f4c1c47ebdf337fddee84ad69d7a985391",
+      "html_sha256": "74123484b851eacb369b20819c8e4c1b5d3e56e430c70851a9c9f418ba8a4dec",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "일정 변경 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "d6a9276b8c43ef8466a738c8b6b814330c2f5f02ed2c85d328b83bfb9905b7a6",
+      "image_pixels": [
+        375,
+        1519
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-review",
+      "viewport": "mobile",
+      "path": "visual-review-images/review-mobile.jpg",
+      "capture_sha256": "4d12c905c80ff4fae56c4e9184ca5b5c2c538ca838475e201e973401142b1a5c",
+      "html_sha256": "c025eee61f55edeaca034be1cd6019d29a0fca77a9cf6bf870dcd8a0d42be33b",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "예약 내용 확인 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "408e925c7b1eaf3643b5c5bccb13ea9b06bd088b881881d06ffc769b963bedba",
+      "image_pixels": [
+        375,
+        1479
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-sessionavailable",
+      "viewport": "mobile",
+      "path": "visual-review-images/sessionavailable-mobile.jpg",
+      "capture_sha256": "d74fd4c8049fd7e79a7bbc1da422049ba9fabf10ac2ef6f81aa7d8934fdc2b1a",
+      "html_sha256": "dc90bc88abd4ee411fe1b491565ed2287b690141e4162f012de052ba42c4978e",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "나의 첫 핸드드립 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "68ee5f4a19a1dc98020e9990f4beb27b003e6a87b91068d03a4d6ec54b06df73",
+      "image_pixels": [
+        375,
+        1633
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-signup",
+      "viewport": "mobile",
+      "path": "visual-review-images/signup-mobile.jpg",
+      "capture_sha256": "d62d6d9aede36beafb65062610ca05d3e085adc2da4d6007caf38f6a03dc5812",
+      "html_sha256": "ee0c4dcf37a7d80c95f1fc848f5cb61da5cc9c4c2ae6dd7fb08ec53a89c2ee23",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "회원 가입 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "8edcd9c52be9552ff1da9c35a4c5a81c6a19f6958df5bae5e4295dbe92442290",
+      "image_pixels": [
+        375,
+        1299
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffaudit",
+      "viewport": "mobile",
+      "path": "visual-review-images/staffaudit-mobile.jpg",
+      "capture_sha256": "68edb9b03d7aa9b4928a8f44ef3f07dd788d2711224788aa4e360942fcbc5a1f",
+      "html_sha256": "0098930ce00f3fea65e5295f84e7ec90c475b03c4ecf55013d0fe5593c40a55b",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "변경 기록 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "1c6e3d8b9312aa5888a95d2f72b2d758e31804c73c21f3aea6322c430712c127",
+      "image_pixels": [
+        375,
+        7161
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffcreate",
+      "viewport": "mobile",
+      "path": "visual-review-images/staffcreate-mobile.jpg",
+      "capture_sha256": "89184cf0eb9771365a4e0dbc298055eee4c0f68f34cbff8d9bc7255e92bcfd75",
+      "html_sha256": "08c68a60aa81dfcfaea350a5193e82b9f2c0d335254172d00d161f7360c85c77",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "수업 일정 등록 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "de48ce2a83508fd20fc06f0be0ed22d75a653836c1bfba14836fdc1d7b78c7e3",
+      "image_pixels": [
+        375,
+        1739
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffdashboard",
+      "viewport": "mobile",
+      "path": "visual-review-images/staffdashboard-mobile.jpg",
+      "capture_sha256": "3ae06e395b715ec5e8dbb61fc15c3027714f2f5befd8c1548725d5fa5f263440",
+      "html_sha256": "4cd295a890e97ab267d1fb0a7e15e124674197fd547a5c02b0a72e02680b74c4",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "inert": true,
+        "title": "운영 현황 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "capture_mode": "full-page",
+      "image_sha256": "21b9b32c4d785503f9043dc4a56529da8ed09af2537eb258bdde593c03636c8f",
+      "image_pixels": [
+        375,
+        2117
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffedit",
+      "viewport": "mobile",
+      "path": "visual-review-images/staffedit-mobile.jpg",
+      "capture_sha256": "7de9db7ecb279ab44698dc84498a9c00d49ee7d9a596b383b8a6606593eba602",
+      "html_sha256": "294edad72a4e2e89b13c2cc1c95f558e24e87bd9f7777f248d95ee6217fc18d5",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "수업 일정 수정 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "7d60ccca141c1bcdb3822452eaa0eb29f6e34caa4a7f7f2a5a433842e1263ea1",
+      "image_pixels": [
+        375,
+        1793
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffroster",
+      "viewport": "mobile",
+      "path": "visual-review-images/staffroster-mobile.jpg",
+      "capture_sha256": "d0b34b57aca3d79758253e9b6fa64a278f3646c69470e49268941a138cbeee31",
+      "html_sha256": "7e8ce0539b88934f96595842616a51d10872068281e8360ecaf2b6a915fda908",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "inert": true,
+        "title": "수업 명단 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "capture_mode": "full-page",
+      "image_sha256": "47d06fd84058747e795d6c6a85b83c435082dba73284565ddbf0f918c247d521",
+      "image_pixels": [
+        375,
+        1758
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-staffsessions",
+      "viewport": "mobile",
+      "path": "visual-review-images/staffsessions-mobile.jpg",
+      "capture_sha256": "e656eeb9d02c3c3402684114c3416f6be2a25fe69ae557676b0f805f359d317a",
+      "html_sha256": "922932d6246ff7aea09ca8cec82a939ac9cd33d03d8d68a0bffdbacb4380dd98",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "수업 일정 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of the UTF-8 inert captured visual source; business execution acceptance is recorded separately.",
+      "image_sha256": "77898106e65658aee5b28458a30642fb5584f873d53fe6654815ec08a8ee6801",
+      "image_pixels": [
+        375,
+        1302
+      ],
+      "visually_reviewed_by": "primary-agent"
+    },
+    {
+      "state": "state-waitlisted",
+      "viewport": "mobile",
+      "path": "visual-review-images/waitlisted-mobile.jpg",
+      "capture_sha256": "a3eb70b5f364a8c64cfee7be4df7dd3e2f6b434134f284f15ae7e287463a6b6c",
+      "html_sha256": "308d1f6e2387cb485556c48f9972ce897257b8e8ec71eb2b55d4c618845f1c71",
+      "observed": {
+        "family": "Hahmlet, serif",
+        "fonts": "loaded",
+        "height": 960,
+        "images": [],
+        "inert": true,
+        "title": "예약 상세 · 작은손 커피공방",
+        "width": 390
+      },
+      "scope": "Actual browser render of UTF-8 inert captured visual source; business execution evidence is separate.",
+      "image_sha256": "88df7952cb41fe203c174c9c0dd3d1f2345f903a2364e0681a0aa5de1e75dd4d",
+      "image_pixels": [
+        375,
+        1532
+      ],
+      "visually_reviewed_by": "primary-agent"
+    }
+  ]
+}

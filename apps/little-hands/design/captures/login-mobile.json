@@ -1,0 +1,2118 @@
+{
+  "schema": "little-hands-browser-measurement-v1",
+  "state": "state-login",
+  "viewport": {
+    "width": 390,
+    "height": 960
+  },
+  "document": {
+    "width": 390,
+    "height": 960
+  },
+  "route": "/accounts/login/",
+  "title": "로그인 · 작은손 커피공방",
+  "body_background": "rgb(246, 242, 233)",
+  "fonts_ready": "loaded",
+  "captured_at": "2026-11-12T15:53:44.114Z",
+  "controls": [
+    {
+      "id": "state-login-brand",
+      "native_key": "brand",
+      "selector": "[data-native-key=\"brand\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        16,
+        124.594,
+        48
+      ],
+      "label": "작은손 커피공방",
+      "action": "home",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 19,
+        "leading": 28.5,
+        "letter_spacing": -0.5,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-login-nav-sessions",
+      "native_key": "nav-sessions",
+      "selector": "[data-native-key=\"nav-sessions\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        24,
+        96,
+        75.766,
+        44
+      ],
+      "label": "수업 둘러보기",
+      "action": "sessions",
+      "href": "/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-login-nav-login",
+      "native_key": "nav-login",
+      "selector": "[data-native-key=\"nav-login\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        117.766,
+        96,
+        44,
+        44
+      ],
+      "label": "로그인",
+      "action": "login",
+      "href": "/accounts/login/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-login-id_username",
+      "native_key": null,
+      "selector": "#id_username",
+      "tag": "input",
+      "type": "text",
+      "box": [
+        49,
+        385.969,
+        292,
+        49
+      ],
+      "label": "",
+      "action": null,
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/login/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-login-login-submit",
+      "native_key": "login-submit",
+      "selector": "[data-native-key=\"login-submit\"]",
+      "tag": "button",
+      "type": "submit",
+      "box": [
+        49,
+        565.156,
+        292,
+        48
+      ],
+      "label": "로그인",
+      "action": "login-submit",
+      "href": null,
+      "method": "POST",
+      "form_action": "/accounts/login/",
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgb(142, 62, 40)",
+        "ink": "rgb(255, 253, 248)",
+        "stroke": "rgb(142, 62, 40)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(142, 62, 40)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 22.4,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          11,
+          22,
+          11,
+          22
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    },
+    {
+      "id": "state-login-login-signup",
+      "native_key": "login-signup",
+      "selector": "[data-native-key=\"login-signup\"]",
+      "tag": "a",
+      "type": null,
+      "box": [
+        215.906,
+        662.156,
+        55.563,
+        44
+      ],
+      "label": "회원 가입",
+      "action": "signup",
+      "href": "/accounts/signup/",
+      "method": null,
+      "form_action": null,
+      "disabled": false,
+      "checked": null,
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "label_styles": []
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "state-login-site-header-surface",
+      "selector": "[data-native-key=\"site-header\"]",
+      "tag": "header",
+      "box": [
+        0,
+        0,
+        390,
+        157
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          24,
+          0,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-login-login-form-surface",
+      "selector": "[data-native-key=\"login-form\"]",
+      "tag": "form",
+      "box": [
+        24,
+        327.781,
+        342,
+        310.375
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          24,
+          24,
+          24,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-login-field-username-surface",
+      "selector": "[data-native-key=\"field-username\"]",
+      "tag": "div",
+      "box": [
+        49,
+        352.781,
+        292,
+        82.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-login-id_username-surface",
+      "selector": "#id_username",
+      "tag": "input",
+      "box": [
+        49,
+        385.969,
+        292,
+        49
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-login-field-password-surface",
+      "selector": "[data-native-key=\"field-password\"]",
+      "tag": "div",
+      "box": [
+        49,
+        458.969,
+        292,
+        82.188
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-login-id_password-surface",
+      "selector": "#id_password",
+      "tag": "input",
+      "box": [
+        49,
+        492.156,
+        292,
+        49
+      ],
+      "style": {
+        "fill": "rgb(255, 253, 248)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    },
+    {
+      "id": "state-login-site-footer-surface",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "tag": "footer",
+      "box": [
+        0,
+        781,
+        390,
+        167.375
+      ],
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          32,
+          24,
+          32,
+          24
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "semantic": "surface"
+    }
+  ],
+  "images": [],
+  "texts": [
+    {
+      "id": "state-login-brand-tagline-text-0",
+      "selector": "[data-native-key=\"brand-tagline\"]",
+      "value": "커피를 배우는 작은 시간",
+      "raw_value": "커피를 배우는 작은 시간",
+      "box": [
+        24,
+        66,
+        134.828,
+        18
+      ],
+      "glyph_box": [
+        24,
+        66,
+        134.828,
+        17
+      ],
+      "element_box": [
+        24,
+        66,
+        134.828,
+        18
+      ],
+      "content_box": [
+        24,
+        66,
+        134.828,
+        18
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "small",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 18,
+        "letter_spacing": 1.1,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-registration-login-p-1-0-text-0",
+      "selector": "[data-native-key=\"registration-login-p-1-0\"]",
+      "value": "다시 만나 반가워요",
+      "raw_value": "다시 만나 반가워요",
+      "box": [
+        24,
+        189,
+        342,
+        23.4
+      ],
+      "glyph_box": [
+        24,
+        191,
+        103.172,
+        19
+      ],
+      "element_box": [
+        24,
+        189,
+        342,
+        23.391
+      ],
+      "content_box": [
+        24,
+        189,
+        342,
+        23.391
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(142, 62, 40)",
+        "stroke": "rgb(142, 62, 40)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(142, 62, 40)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 13,
+        "leading": 23.4,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-login-title-text-0",
+      "selector": "[data-native-key=\"login-title\"]",
+      "value": "작은손에 로그인",
+      "raw_value": "작은손에 로그인",
+      "box": [
+        24,
+        226.391,
+        342,
+        46.4
+      ],
+      "glyph_box": [
+        24,
+        226.391,
+        206.984,
+        46
+      ],
+      "element_box": [
+        24,
+        226.391,
+        342,
+        46.391
+      ],
+      "content_box": [
+        24,
+        226.391,
+        342,
+        46.391
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "h1",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 32,
+        "leading": 46.4,
+        "letter_spacing": -1.2,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-registration-login-p-2-0-text-0",
+      "selector": "[data-native-key=\"registration-login-p-2-0\"]",
+      "value": "예약한 수업과 새로운 배움이 기다리고 있어요.",
+      "raw_value": "예약한 수업과 새로운 배움이 기다리고 있어요.",
+      "box": [
+        24,
+        272.781,
+        342,
+        27
+      ],
+      "glyph_box": [
+        24,
+        275.781,
+        289.063,
+        21
+      ],
+      "element_box": [
+        24,
+        272.781,
+        342,
+        27
+      ],
+      "content_box": [
+        24,
+        272.781,
+        342,
+        27
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [],
+        "block_content": true,
+        "allocation": "actual CSS block content area"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 15,
+        "leading": 27,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-includes-form-label-4-1-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-1\"]",
+      "value": "사용자 이름",
+      "raw_value": "사용자 이름",
+      "box": [
+        49,
+        352.181,
+        68.719,
+        25.2
+      ],
+      "glyph_box": [
+        49,
+        354.781,
+        68.719,
+        20
+      ],
+      "element_box": [
+        49,
+        352.781,
+        292,
+        25.188
+      ],
+      "content_box": [
+        49,
+        352.781,
+        292,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(2)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        117.719,
+        352.181,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        117.719,
+        354.781,
+        13.141,
+        20
+      ],
+      "element_box": [
+        117.719,
+        354.781,
+        13.141,
+        20
+      ],
+      "content_box": [
+        117.719,
+        354.781,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-includes-form-label-4-2-text-0",
+      "selector": "[data-native-key=\"includes-form-label-4-2\"]",
+      "value": "비밀번호",
+      "raw_value": "비밀번호",
+      "box": [
+        49,
+        458.369,
+        52.094,
+        25.2
+      ],
+      "glyph_box": [
+        49,
+        460.969,
+        52.094,
+        20
+      ],
+      "element_box": [
+        49,
+        458.969,
+        292,
+        25.188
+      ],
+      "content_box": [
+        49,
+        458.969,
+        292,
+        25.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "label",
+        "child_tags": [
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+      "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(1)>form:nth-child(4)>div:nth-child(3)>label:nth-child(1)>span:nth-child(1)",
+      "value": "*",
+      "raw_value": " *",
+      "box": [
+        101.094,
+        458.369,
+        13.141,
+        25.2
+      ],
+      "glyph_box": [
+        101.094,
+        460.969,
+        13.141,
+        20
+      ],
+      "element_box": [
+        101.094,
+        460.969,
+        13.141,
+        20
+      ],
+      "content_box": [
+        101.094,
+        460.969,
+        13.141,
+        20
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-registration-login-p-3-0-text-0",
+      "selector": "[data-native-key=\"registration-login-p-3-0\"]",
+      "value": "처음 오셨나요?",
+      "raw_value": "처음 오셨나요?",
+      "box": [
+        118.531,
+        670.963,
+        89.375,
+        25.2
+      ],
+      "glyph_box": [
+        118.531,
+        673.563,
+        89.375,
+        20
+      ],
+      "element_box": [
+        24,
+        662.156,
+        342,
+        44
+      ],
+      "content_box": [
+        24,
+        662.156,
+        342,
+        44
+      ],
+      "text_context": {
+        "display": "flex",
+        "tag": "p",
+        "child_tags": [
+          "a"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "leading": 25.2,
+        "letter_spacing": 0,
+        "align": "center",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(1)>strong:nth-child(1)",
+      "value": "작은손 커피공방",
+      "raw_value": "작은손 커피공방",
+      "box": [
+        24,
+        813.7,
+        81.219,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        816,
+        81.219,
+        17
+      ],
+      "element_box": [
+        24,
+        816,
+        81.219,
+        17
+      ],
+      "content_box": [
+        24,
+        816,
+        81.219,
+        17
+      ],
+      "text_context": {
+        "display": "inline",
+        "tag": "strong",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(41, 39, 32)",
+        "stroke": "rgb(41, 39, 32)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(41, 39, 32)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 700,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-base-p-2-0-text-0",
+      "selector": "[data-native-key=\"base-p-2-0\"]",
+      "value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "raw_value": "수업의 작은 시작부터, 나만의 한 잔까지.",
+      "box": [
+        24,
+        835.294,
+        202.063,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        837.594,
+        202.063,
+        17
+      ],
+      "element_box": [
+        24,
+        814,
+        342,
+        43.188
+      ],
+      "content_box": [
+        24,
+        814,
+        342,
+        43.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "strong",
+          "br"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-base-p-3-0-text-0",
+      "selector": "[data-native-key=\"base-p-3-0\"]",
+      "value": "수업료는 현장에서 결제합니다.",
+      "raw_value": "수업료는 현장에서 결제합니다.",
+      "box": [
+        24,
+        868.888,
+        155.359,
+        21.6
+      ],
+      "glyph_box": [
+        24,
+        871.188,
+        155.359,
+        17
+      ],
+      "element_box": [
+        24,
+        869.188,
+        342,
+        47.188
+      ],
+      "content_box": [
+        24,
+        869.188,
+        342,
+        47.188
+      ],
+      "text_context": {
+        "display": "block",
+        "tag": "p",
+        "child_tags": [
+          "br",
+          "span"
+        ],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(105, 98, 86)",
+        "stroke_width": 0,
+        "borders": [
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          },
+          {
+            "width": 0,
+            "color": "rgb(105, 98, 86)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    },
+    {
+      "id": "state-login-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+      "selector": "body>footer:nth-child(4)>div:nth-child(1)>p:nth-child(2)>span:nth-child(2)",
+      "value": "staging 환경",
+      "raw_value": "staging 환경",
+      "box": [
+        40,
+        892.481,
+        67.922,
+        21.6
+      ],
+      "glyph_box": [
+        40,
+        894.781,
+        67.922,
+        17
+      ],
+      "element_box": [
+        32,
+        890.781,
+        83.922,
+        25.594
+      ],
+      "content_box": [
+        40,
+        892.781,
+        67.922,
+        21.594
+      ],
+      "text_context": {
+        "display": "inline-block",
+        "tag": "span",
+        "child_tags": [],
+        "block_content": false,
+        "allocation": "actual inline fragment range"
+      },
+      "style": {
+        "fill": "rgba(0, 0, 0, 0)",
+        "ink": "rgb(105, 98, 86)",
+        "stroke": "rgb(214, 207, 193)",
+        "stroke_width": 1,
+        "borders": [
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          },
+          {
+            "width": 1,
+            "color": "rgb(214, 207, 193)"
+          }
+        ],
+        "radius": 0,
+        "fontFamily": "Hahmlet",
+        "fontWeight": 400,
+        "fontSize": 12,
+        "leading": 21.6,
+        "letter_spacing": 0,
+        "align": "start",
+        "padding": [
+          1,
+          7,
+          1,
+          7
+        ],
+        "objectFit": "fill",
+        "objectPosition": "50% 50%",
+        "boxShadow": "none",
+        "opacity": 1
+      },
+      "max_lines": 1
+    }
+  ],
+  "containers": [
+    {
+      "id": "state-login-site-header-container",
+      "selector": "[data-native-key=\"site-header\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        0,
+        390,
+        157
+      ],
+      "tag": "header",
+      "classes": "site-header",
+      "members": [
+        "state-login-brand",
+        "state-login-nav-sessions",
+        "state-login-nav-login",
+        "state-login-site-header-surface",
+        "state-login-brand-tagline-text-0",
+        "state-login-site-header-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          24,
+          0,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-login-body-header-nth-child-2-div-nth-child-1--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "parent_selector": "[data-native-key=\"site-header\"]",
+      "box": [
+        24,
+        0,
+        342,
+        156
+      ],
+      "tag": "div",
+      "classes": "wrap header-inner",
+      "members": [
+        "state-login-brand",
+        "state-login-nav-sessions",
+        "state-login-nav-login",
+        "state-login-brand-tagline-text-0",
+        "state-login-body-header-nth-child-2-div-nth-child-1--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 12,
+        "align_items": "center",
+        "justify_content": "space-between",
+        "padding": [
+          16,
+          0,
+          16,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-login-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container",
+      "selector": "body>header:nth-child(2)>div:nth-child(1)>nav:nth-child(2)",
+      "parent_selector": "body>header:nth-child(2)>div:nth-child(1)",
+      "box": [
+        24,
+        96,
+        342,
+        44
+      ],
+      "tag": "nav",
+      "classes": "nav",
+      "members": [
+        "state-login-nav-sessions",
+        "state-login-nav-login",
+        "state-login-body-header-nth-child-2-div-nth-child-1-nav-nth-child-2--container"
+      ],
+      "css": {
+        "display": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "wrap",
+        "gap": 18,
+        "align_items": "center",
+        "justify_content": "flex-start",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-login-main-container",
+      "selector": "#main",
+      "parent_selector": null,
+      "box": [
+        0,
+        157,
+        390,
+        624
+      ],
+      "tag": "main",
+      "classes": "page ",
+      "members": [
+        "state-login-id_username",
+        "state-login-login-submit",
+        "state-login-login-signup",
+        "state-login-login-form-surface",
+        "state-login-field-username-surface",
+        "state-login-id_username-surface",
+        "state-login-field-password-surface",
+        "state-login-id_password-surface",
+        "state-login-registration-login-p-1-0-text-0",
+        "state-login-login-title-text-0",
+        "state-login-registration-login-p-2-0-text-0",
+        "state-login-includes-form-label-4-1-text-0",
+        "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-login-includes-form-label-4-2-text-0",
+        "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-login-registration-login-p-3-0-text-0",
+        "state-login-main-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          24,
+          56,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-login-login-form-container",
+      "selector": "[data-native-key=\"login-form\"]",
+      "parent_selector": "#main",
+      "box": [
+        24,
+        327.781,
+        342,
+        310.375
+      ],
+      "tag": "form",
+      "classes": "paper",
+      "members": [
+        "state-login-id_username",
+        "state-login-login-submit",
+        "state-login-login-form-surface",
+        "state-login-field-username-surface",
+        "state-login-id_username-surface",
+        "state-login-field-password-surface",
+        "state-login-id_password-surface",
+        "state-login-includes-form-label-4-1-text-0",
+        "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-login-includes-form-label-4-2-text-0",
+        "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-login-login-form-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          24,
+          24,
+          24,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-login-field-username-container",
+      "selector": "[data-native-key=\"field-username\"]",
+      "parent_selector": "[data-native-key=\"login-form\"]",
+      "box": [
+        49,
+        352.781,
+        292,
+        82.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-login-id_username",
+        "state-login-field-username-surface",
+        "state-login-id_username-surface",
+        "state-login-includes-form-label-4-1-text-0",
+        "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-2-label-nth-child-1-span-nth-child-1--text-0",
+        "state-login-field-username-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-login-field-password-container",
+      "selector": "[data-native-key=\"field-password\"]",
+      "parent_selector": "[data-native-key=\"login-form\"]",
+      "box": [
+        49,
+        458.969,
+        292,
+        82.188
+      ],
+      "tag": "div",
+      "classes": "field ",
+      "members": [
+        "state-login-field-password-surface",
+        "state-login-id_password-surface",
+        "state-login-includes-form-label-4-2-text-0",
+        "state-login-body-main-nth-child-3-div-nth-child-1-div-nth-child-1-form-nth-child-4-div-nth-child-3-label-nth-child-1-span-nth-child-1--text-0",
+        "state-login-field-password-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    },
+    {
+      "id": "state-login-site-footer-container",
+      "selector": "[data-native-key=\"site-footer\"]",
+      "parent_selector": null,
+      "box": [
+        0,
+        781,
+        390,
+        167.375
+      ],
+      "tag": "footer",
+      "classes": "site-footer",
+      "members": [
+        "state-login-site-footer-surface",
+        "state-login-body-footer-nth-child-4-div-nth-child-1-p-nth-child-1-strong-nth-child-1--text-0",
+        "state-login-base-p-2-0-text-0",
+        "state-login-base-p-3-0-text-0",
+        "state-login-body-footer-nth-child-4-div-nth-child-1-p-nth-child-2-span-nth-child-2--text-0",
+        "state-login-site-footer-container"
+      ],
+      "css": {
+        "display": "block",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "gap": 0,
+        "align_items": "normal",
+        "justify_content": "normal",
+        "padding": [
+          32,
+          24,
+          32,
+          24
+        ],
+        "overflow_x": "visible",
+        "overflow_y": "visible"
+      }
+    }
+  ],
+  "html": "<!doctype html>\n<html lang=\"ko\"><head><title>로그인 · 작은손 커피공방</title><link rel=\"stylesheet\" href=\"/static/littlehands/app.3539de012f0c.css\"></head>\n<body data-app=\"little-hands\" data-environment=\"staging\"><header class=\"site-header\" data-native-key=\"site-header\" data-native-type=\"surface\"><div class=\"wrap header-inner\"><div class=\"brand\" data-native-key=\"brand-stack\"><a class=\"brand-link\" href=\"/\" aria-label=\"작은손 커피공방 홈\" data-native-key=\"brand\" data-native-type=\"control\" data-action=\"home\">작은손 커피공방</a><small data-native-key=\"brand-tagline\" data-native-type=\"text\">커피를 배우는 작은 시간</small></div><nav class=\"nav\" aria-label=\"회원 메뉴\"><a href=\"/\" data-action=\"sessions\" data-native-key=\"nav-sessions\" data-native-type=\"control\">수업 둘러보기</a><a href=\"/accounts/login/\" data-action=\"login\" data-native-key=\"nav-login\" data-native-type=\"control\">로그인</a></nav></div></header>\n<main id=\"main\" class=\"page \" tabindex=\"-1\"><div class=\"wrap\"><div class=\"auth\"><p class=\"kicker\" data-native-key=\"registration-login-p-1-0\" data-native-type=\"text\">다시 만나 반가워요</p><h1 data-native-key=\"login-title\" data-native-type=\"text\">작은손에 로그인</h1><p class=\"muted\" data-native-key=\"registration-login-p-2-0\" data-native-type=\"text\">예약한 수업과 새로운 배움이 기다리고 있어요.</p><form class=\"paper\" data-native-key=\"login-form\" data-native-type=\"surface\" inert data-export-only=\"true\" method=\"post\">\n<div class=\"field \" data-native-key=\"field-username\" data-native-type=\"surface\"><label for=\"id_username\" data-native-key=\"includes-form-label-4-1\" data-native-type=\"text\">사용자 이름<span aria-hidden=\"true\"> *</span></label><input type=\"text\" name=\"username\" required=\"\" id=\"id_username\" value=\"\"></div><div class=\"field \" data-native-key=\"field-password\" data-native-type=\"surface\"><label for=\"id_password\" data-native-key=\"includes-form-label-4-2\" data-native-type=\"text\">비밀번호<span aria-hidden=\"true\"> *</span></label><input type=\"password\" name=\"password\" required=\"\" id=\"id_password\"></div>\n<button class=\"button full\" data-action=\"login-submit\" data-native-key=\"login-submit\" data-native-type=\"control\" type=\"button\">로그인</button>\n</form><p class=\"auth-footer\" data-native-key=\"registration-login-p-3-0\" data-native-type=\"text\">처음 오셨나요? <a href=\"/accounts/signup/\" data-action=\"signup\" data-native-key=\"login-signup\" data-native-type=\"control\">회원 가입</a></p></div></div></main>\n<footer class=\"site-footer\" data-native-key=\"site-footer\" data-native-type=\"surface\"><div class=\"wrap footer-inner\"><p data-native-key=\"base-p-2-0\" data-native-type=\"text\"><strong>작은손 커피공방</strong><br>수업의 작은 시작부터, 나만의 한 잔까지.</p><p data-native-key=\"base-p-3-0\" data-native-type=\"text\">수업료는 현장에서 결제합니다.<br><span class=\"environment\">staging 환경</span></p></div></footer>\n</body><div id=\"codex-browser-sidebar-comments-root\"></div></html>",
+  "scope": "Actual visible DOM geometry. Visual source only; no authentication, SQL, action execution, acceptance result, or Figma observation is proved."
+}

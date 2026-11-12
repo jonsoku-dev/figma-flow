@@ -1,0 +1,78 @@
+name: littlehands-production
+x-app: &app
+  image: littlehands:production
+  build: .
+  read_only: true
+  tmpfs:
+    - /tmp:size=64m,mode=1777
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  environment: &app-env
+    LH_ENV: production
+    LH_ALLOWED_HOSTS: ${LH_ALLOWED_HOSTS:?Set exact allowed hosts}
+    LH_SITE_URL: ${LH_SITE_URL:?Set HTTPS origin}
+    LH_TRUST_PROXY: "1"
+    LH_SECRET_KEY_FILE: /run/secrets/django_secret
+    LH_DB_NAME: littlehands
+    LH_DB_HOST: db
+    LH_DB_PORT: "5432"
+    LH_DB_USER: littlehands_runtime
+    LH_DB_PASSWORD_FILE: /run/secrets/runtime_password
+  secrets: [django_secret, runtime_password]
+  depends_on:
+    db:
+      condition: service_healthy
+  networks: [backend]
+services:
+  db:
+    image: postgres:17-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: littlehands
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    secrets: [postgres_password, owner_password, runtime_password]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./deploy/roles.sql:/docker-entrypoint-initdb.d/10-roles.sql:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -h 127.0.0.1 -U postgres -d littlehands']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks: [backend]
+  web:
+    <<: *app
+    restart: unless-stopped
+    ports: ["127.0.0.1:${LH_HTTP_PORT:-8870}:8000"]
+    networks: [backend, ingress]
+    healthcheck:
+      test: [CMD, python, deploy/healthcheck.py]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+  migrate:
+    <<: *app
+    profiles: [tools]
+    environment:
+      <<: *app-env
+      LH_DB_USER: littlehands_owner
+      LH_DB_PASSWORD_FILE: /run/secrets/owner_password
+    secrets: [django_secret, owner_password]
+    command: [python, manage.py, migrate, --noinput]
+secrets:
+  django_secret:
+    file: ${LH_SECRETS_DIR:?Set absolute secret directory outside the checkout}/django_secret
+  postgres_password:
+    file: ${LH_SECRETS_DIR}/postgres_password
+  owner_password:
+    file: ${LH_SECRETS_DIR}/owner_password
+  runtime_password:
+    file: ${LH_SECRETS_DIR}/runtime_password
+volumes:
+  pgdata:
+networks:
+  backend:
+    internal: true
+  ingress: {}

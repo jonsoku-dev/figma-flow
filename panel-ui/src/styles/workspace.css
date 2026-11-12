@@ -294,9 +294,10 @@
   margin: 8px 0 16px;
 }
 .workspace-dependency-graph {
+  display: block;
   width: 100%;
-  max-width: 280px;
   height: auto;
+  margin: 12px 0;
 }
 .workspace-dependency-text {
   margin: 0;
@@ -323,3 +324,13 @@
 @media (max-width: 320px) {
   .workspace-dependency-graph { display: none; }
 }
+.workspace-asset-list { margin: 12px 0; font-size: 12px; }
+.workspace-asset-list summary { cursor: pointer; padding: 8px 0; font-weight: 600; }
+.workspace-asset-list label { display: grid; gap: 4px; margin: 8px 0; }
+.workspace-asset-list input, .workspace-asset-list select { width: 100%; min-width: 0; min-height: 36px; font: inherit; }
+.workspace-asset-list p[data-state='stale'] { color: var(--danger); }
+.workspace-dependency-graph text { fill: var(--ink); font: 12px sans-serif; }
+.workspace-dependency-graph line { stroke: var(--control-edge); stroke-width: 1.5; }
+.workspace-dependency-graph marker path { fill: var(--control-edge); }
+.workspace-dependency-graph rect { fill: var(--surface); stroke: var(--line); }
+.workspace-dependency-graph rect.selected { fill: var(--accent-soft); stroke: var(--accent); }

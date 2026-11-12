@@ -1,0 +1,31 @@
+{
+  "schema": "figma-flow-positive-asset-sources-v1",
+  "photo": {
+    "page": "https://commons.wikimedia.org/wiki/File:Coffee_cup_seen_from_above.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Coffee_cup_seen_from_above.jpg",
+    "author": "www.Pixel.la Free Stock Photos",
+    "license": "CC0-1.0",
+    "path": "coffee.jpg",
+    "sha256": "ec64c2a8fb87eb02d48bfe9404697769493fcb2c440b2223d468151c0ea32d47",
+    "original_sha256": "351eb4ccac402eb1f683c741248b80f1efa195c85a247bd9abcdd15fb93ac681",
+    "original_dimensions": [
+      5422,
+      3050
+    ],
+    "dimensions": [
+      1600,
+      900
+    ],
+    "transformation": "Pillow LANCZOS proportional thumbnail to 1600px maximum; JPEG quality92, subsampling0; original retained in private execution evidence"
+  },
+  "font": {
+    "repository": "https://github.com/google/fonts/tree/main/ofl/hahmlet",
+    "upstream_blob": "f2802e6cb92f7e811d695875fc12a003cf11b7fe",
+    "upstream_sha256": "892bffe530255770a7435226154a02f519055ff6bedf64254f37f21d15a59279",
+    "license": "OFL-1.1",
+    "license_path": "fonts/OFL.txt",
+    "path": "fonts/Hahmlet.woff2",
+    "sha256": "e6fafa62e9957bab9a0065bfb43a611b040e921e67967a466cec2e9a8d861bcb",
+    "transformation": "fontTools WOFF2 encoding, glyphs and family retained"
+  }
+}

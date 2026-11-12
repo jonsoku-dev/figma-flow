@@ -1,6 +1,6 @@
 # RD-03 기능서 · 작업 간 의존성과 영향 시각화
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는0.27 첫 구현 범위의 기능 계약이다. 조건별 fixture·실제 관측과 미지원 확장은 [최종 인수 현황](../FINAL_ACCEPTANCE.md)을 따른다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 사용자 문제
 
@@ -32,4 +32,4 @@ workspace task에는 key, project, kind, revision과 대상 범위가 있다. �
 - **RD-03-AC-04** — edge 없는 기존 task는 독립 작업으로 보이고 기존 실행·추천 동작이 유지된다.
 - **RD-03-AC-05** — 320px에서 목록형 대체 보기, 키보드로 node/edge 이동, 같은 정보의 텍스트 설명을 제공한다.
 
-인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 이 문서의 조건은 통과로 기록되지 않았다.
+인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 조건별 판정과 실제 관측·fixture의 구분, 후속 확장과 출시·설치 근거는 [최종 인수 현황](../FINAL_ACCEPTANCE.md)과 패치 Wiki에서 확인한다.

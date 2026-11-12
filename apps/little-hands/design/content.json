@@ -1,0 +1,1 @@
+{"schema":"little-hands-shared-content-v1","locale":"ko","product":"작은손 커피공방","required_text":["작은손 커피공방","수업료는 현장에서 결제합니다."],"source":"../templates/base.html","policy":"Only literal current SSR text; no invented business values, marketing claims, or success states."}

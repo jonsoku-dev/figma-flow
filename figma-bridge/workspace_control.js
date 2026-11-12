@@ -5,10 +5,11 @@ const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString
 const controlAllowed = {review: ['create'], import: ['read', 'import', 'sync'], discover: ['read'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply']};
 
 function controlState(outcome, busy) {
-  figma.ui.postMessage({type:'workspace-control-state', workspaceSession:workspaceHomeSession, history:workspaceState.history, outcome, busy});
+  figma.ui.postMessage({type:'workspace-control-state', workspaceSession:workspaceHomeSession, history:workspaceState.history,
+    journalHistory:workspaceServerHistory, journalUnavailable:workspaceJournalUnavailable, inputFreshness:workspaceInputFreshness, outcome, busy});
 }
 
-async function controlExecute(task, cmd) {
+async function controlExecute(task, cmd, beforeDispatch) {
   if (!task || task.revision !== cmd.revision || !controlAllowed[task.kind]?.includes(cmd.operation))
     throw Error('Prepared task changed. Reopen Figma Flow and issue a new command.');
   const checkCommand = () => {
@@ -37,9 +38,17 @@ async function controlExecute(task, cmd) {
   let outputPage = cmd.page_id;
   active.executionId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
   active.onOutput = msg => output.push(msg);
+  let dispatched = false;
   async function invoke(message) {
-    if (Date.now() >= cmd.deadline * 1000 || figma.fileKey !== cmd.file_key || figma.currentPage.id !== outputPage)
+    if (Date.now() >= cmd.deadline * 1000 || figma.fileKey !== cmd.file_key || figma.currentPage.id !== outputPage || task.revision !== cmd.revision || active.busy)
       throw Error('Scope or deadline changed before native dispatch.');
+    if (workspaceActive !== active) throw Error('Workspace task session expired before native dispatch.');
+    if (!dispatched && beforeDispatch) {
+      await beforeDispatch();
+      if (workspaceActive !== active || Date.now() >= cmd.deadline * 1000 || figma.fileKey !== cmd.file_key || figma.currentPage.id !== outputPage)
+        throw Error('Scope or deadline changed while admitting native dispatch.');
+    }
+    dispatched = true;
     output = [];
     active.operation = message.type;
     active.outcome = null;
@@ -148,11 +157,13 @@ async function workspaceControlTick() {
     cmd = reply.operation;
     if (!cmd) return;
     const receipt = Object.fromEntries(['id','claim_id','session_id','revision','file_key','page_id'].map(k=>[k,cmd[k]]));
-    if (typeof WORKSPACE_RUNTIME !== 'undefined') await controlRequest('native-started', {...receipt, runtime: WORKSPACE_RUNTIME});
     controlState('running', true);
     try {
       if (workspaceActive || home !== workspaceHomeSession || cmd.session_id !== controlRunSession) throw Error('The open workspace session changed.');
-      const data = await controlExecute(workspaceTasks.get(cmd.key), cmd);
+      const data = await controlExecute(workspaceTasks.get(cmd.key), cmd, async () => {
+        if (home !== workspaceHomeSession || cmd.session_id !== controlRunSession) throw Error('The open workspace session changed.');
+        if (typeof WORKSPACE_RUNTIME !== 'undefined') await controlRequest('native-started', {...receipt, runtime: WORKSPACE_RUNTIME});
+      });
       receipt.status = 'ok';
       receipt.readback_json = JSON.stringify(data);
     } catch (error) {
@@ -161,9 +172,11 @@ async function workspaceControlTick() {
       if (error.nativeReadback) receipt.readback_json = JSON.stringify(error.nativeReadback);
     }
     await controlRequest('result', receipt);
+    await workspaceRefreshJournal();
     controlState(receipt.status === 'ok' ? 'finished' : 'failed', false);
   } catch (_error) {
     controlRetryAt = Date.now() + 8000;
+    await workspaceRefreshJournal();
     if (cmd) controlState('uncertain', false);
   } finally {controlPolling = false;}
 }

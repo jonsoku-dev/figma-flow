@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Download, Eye, RefreshCw, Check, X } from 'lucide-react';
 import { Action, Notice, Section, Disclosure, PreviewStrip } from './components.jsx';
+import DiagnosticExport from './DiagnosticExport.jsx';
+import { nativeSummaryView } from './nativeSummary.mjs';
 import { graphSelection } from './graphSelection.mjs';
 
 function parsed(value) {
@@ -66,7 +68,7 @@ function saveEvidence(evidence, discovery) {
   );
   const link = document.createElement('a');
   link.href = url;
-  link.download = discovery ? 'graph-native-discovery.json' : 'graph-token-readback.json';
+  link.download = evidence.schema === 'figma-flow-native-read-summary-v1' ? 'graph-native-summary.json' : discovery ? 'graph-native-discovery.json' : 'graph-token-readback.json';
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -125,6 +127,8 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
           body: conflicts.length ? 'conflictHelp' : 'failedHelp',
           params: { count: conflicts.length },
         });
+      else if (discovery && actual?.schema === 'figma-flow-native-read-summary-v1')
+        setNotice({ state: 'success', title: 'summaryRead', body: 'summaryBoundary', params: { page: model.page_id } });
       else if (discovery)
         setNotice({
           state: 'success',
@@ -141,7 +145,7 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
     };
     window.addEventListener('message', receive);
     return () => window.removeEventListener('message', receive);
-  }, [model.session, discovery]);
+  }, [model.session, model.page_id, discovery]);
   useEffect(() => {
     if (confirm) applyRef.current?.focus();
   }, [confirm]);
@@ -166,14 +170,17 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
   const selection = graphSelection(model.changes, chosen);
   const applyBlocked = Array.isArray(model.changes) && model.changes.length > 0 && selection.count === 0;
   function start(type) {
-    if (busyRef.current || (type === 'apply' && (discovery || !confirm || applyBlocked))) return;
+    if (busyRef.current || (type === 'native-summary' && !discovery) || (type === 'apply' && (discovery || !confirm || applyBlocked))) return;
     busyRef.current = true;
     setBusy(true);
     operation.current = type;
     setConfirm(false);
     setNotice({ state: 'busy', title: type === 'apply' ? 'busyApply' : 'busyRead', body: 'busyHelp' });
-    send({ type, session: model.session });
+    const message = { type, session: model.session };
+    if (type === 'apply' && model.selection_manifest?.changes.length) Object.assign(message, { protocol: 2, plan_sha256: model.selection_manifest.plan_sha256, selected_ids: selection.rows.filter(row => row.selected).map(row => row.identity) });
+    send(message);
   }
+  const summary = nativeSummaryView(evidence);
   const field = (name) => {
     const label = t('graph.field.' + name);
     return label === 'graph.field.' + name ? name : label;
@@ -234,6 +241,11 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
           >
             {t('graph.read')}
           </Action>
+          {discovery && (
+            <Action variant="secondary" icon={Eye} disabled={busy} onClick={() => start('native-summary')}>
+              {t('graph.summaryRead')}
+            </Action>
+          )}
           {!discovery && (
             <Action
               ref={reviewRef}
@@ -250,6 +262,7 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
             </Action>
           )}
         </div>
+        {discovery && <p>{t('graph.summaryBoundary', { page: model.page_id })}</p>}
         {confirm && (
           <section
             id="graph-confirmation"
@@ -259,7 +272,7 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
             <h2 id="graph-confirm-title">{t('graph.confirmTitle')}</h2>
             <p>{t('graph.impact', model.stats)}</p>
             <p className="graph-selection-count">{t('graph.selectionCount', { count: selection.count })}</p>
-            <button type="button" onClick={() => setChosen(null)}>{t('graph.selectAll')}</button>
+            <button type="button" disabled={busy} onClick={() => setChosen(null)}>{t('graph.selectAll')}</button>
             <ul className="graph-component-list">
               {(model.components || []).map((component) => (
                 <li key={component.id}>
@@ -279,11 +292,15 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
                 <label className="graph-selection-row">
                   <input
                     type="checkbox"
+                    aria-label={change.name + ' · ' + selection.rows[index].targets.join(', ')}
+                    disabled={busy}
                     checked={selection.rows[index].selected}
                     onChange={() => {
                       const current = new Set(selection.rows.filter((row) => row.selected).map((row) => row.identity));
-                      if (current.has(selection.rows[index].identity)) current.delete(selection.rows[index].identity);
-                      else current.add(selection.rows[index].identity);
+                      const selected = !current.has(selection.rows[index].identity);
+                      for (const row of model.changes) if ((change.group && row.group === change.group) || row.identity === selection.rows[index].identity) {
+                        if (selected) current.add(row.identity); else current.delete(row.identity);
+                      }
                       setChosen([...current]);
                     }}
                   />
@@ -331,11 +348,17 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
           >
             {t('graph.downloadAgain')}
           </Action>
+          {summary.ready && <div className="native-summary">
+            <p>{t('graph.summaryBoundary', { page: evidence.pageId })}</p>
+            <ul>{summary.rows.map(row => <li key={row.id}>{row.id} · {row.values.map(item => `${item.field} ${item.value}`).join(' · ')}</li>)}</ul>
+            <pre className="graph-diagnostics">{JSON.stringify(evidence.coverage, null, 2)}</pre>
+          </div>}
           <Disclosure title={t('graph.history')}>
             <pre className="graph-diagnostics">{JSON.stringify(result, null, 2)}</pre>
           </Disclosure>
         </Section>
       )}
+      <DiagnosticExport model={model} evidence={evidence} operation={operation.current} t={t} />
     </Shell>
   );
 }

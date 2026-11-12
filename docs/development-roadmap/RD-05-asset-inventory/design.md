@@ -1,6 +1,6 @@
 # RD-05 설계서 · 입력 사진·글꼴·CSS 자산 목록
 
-상태는 제안이다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 소유 코드와 호출 경로
 
@@ -13,23 +13,23 @@
 
 해당 모듈의 작성자는 한 명으로 정한다. 다른 항목이 같은 파일을 쓰면 먼저 완료하거나 소유권을 넘긴 뒤 통합한다.
 
-## 데이터와 인터페이스 제안
+## 현재 데이터와 인터페이스
 
-제안하는 task 부가 참조는 `input_record:{artifact,sha256}`다. 실제 원시 record는 private task artifact에 유지하고 UI에는 안전한 상대 경로·종류·상태·출처와 truncated digest를 projection한다. 이 필드와 UI 소비자는 아직 없다.
+확정 경로: input_effect.project가 html_channel로 HTML 자산을 모으고, freshness와 write_record를 거친 뒤 figma_workspace.prepare가 검증된 record만 private task artifact로 복사한다. ImportPanel은 이 목록의 소비자가 아니다.
 
-첫 구현 전에 producer에서 해당 task까지의 전달 경로를 확정한다. 권장 범위는 `figma_workspace.prepare`가 선택적 input record를 받고 검증된 artifact로 복사하는 방식이다. 실제 code path와 authority를 확인하기 전 새 CLI flag 이름을 확정하지 않는다.
+CLI `prepare --input-record <JSON> --input-root <root>`는 Python `prepare(..., input_record=..., input_root=...)`로 전달한다. `--input-root`에는 input record가 필요하다. `--depends-on <JSON>`은 같은 prepare의 독립적인 명시적 dependency 입력이다. input-effect에 별도 argparse를 만들지 않는다.
 
-확정 경로: input_effect.project가 html_channel로 HTML 자산을 모으고, freshness와 write_record를 거친 뒤 figma_workspace.prepare가 검증된 record만 private task artifact로 복사한다. ImportPanel은 이 목록의 소비자가 아니다. 새 CLI flag는 만들지 않는다.
+record는 현재 `RESULT_SCHEMA`를 따르며 task에는 `input_record:{artifact:"input-record.json",sha256}`를 저장한다. record는 1 MB 이내이고 root를 준 경우 `sources`의 상대 path와 SHA-256을 검증한다. 준비 전후 실제 source hash가 current여야 한다. 원본 root는 private task에만 남고 공개 metadata에서 제거한다. root 없이 record만 준비한 경우 현재성은 `unverified`다.
 
-기존 status enum과 hash를 재사용한다. 미지원 확장자·파싱 불가·외부 확인 불가를 present로 바꾸지 않는다.
+`summarize_input_record`는 `input_summary`의 `ref`, `kind`, `status`, `source`, 짧은 `digest`만 투영한다. 상태는 `present`, `404`, `rejected`, `external-unverified`를 보존한다. 같은 로컬 path·kind·status의 자산은 canonical identity로 합치고 여러 CSS 출처는 `sources`로 보존한다.
 
 ## 구현 결정
 
-데이터 원본은 input-effect record 하나다. UI가 HTML/CSS를 다시 파싱하지 않는다. freshness 결과와 목록의 source digest를 같은 task revision에 묶는다.
+input-effect record 하나를 사용하며 UI는 HTML이나 CSS를 다시 파싱하지 않는다. private artifact의 실제 bytes와 pin을 조회 때 다시 확인한다. replay는 저장한 input record와 root를 다시 admission에 넣으며 stale source를 기존 성공으로 재사용하지 않는다. root가 있던 기존 task를 교체할 때 record나 root를 누락하면 거절한다.
 
-현재 Workspace의 작업 상세 안에 자산 disclosure를 추가한다. 첫 화면은 문제 있는 항목과 종류별 수를 보여주고 검색 시 전체 목록을 읽는다. 목록 count는 파일 준비 상태이며 실제 렌더 성공률이 아니다. path와 파일명은 text로 렌더하고 HTML로 삽입하지 않는다.
+`task_input_freshness`와 scoped history 응답의 `inputFreshness`는 task key와 exact revision에 current, stale, unverified를 연결한다. 변경 경로는 안전한 참조로만 보낸다. `Workspace.jsx`의 `AssetDisclosure`는 종류별 수, 문제 우선 정렬, 상태·종류·검색 필터와 더 보기로 `assetInventory`를 표시한다. 파일 준비 상태는 브라우저 요청 성공이나 실제 렌더 성공을 뜻하지 않는다.
 
-민감한 외부 URL query·fragment와 개인 절대 경로를 UI 요약에서 제거한다. 원시 record는 기존 private 저장 규칙을 따른다. 긴 목록은 제한된 행을 먼저 보여주되 전체 수와 나머지 보기 동작을 명시한다.
+외부 URL의 credentials·query·fragment와 개인 절대 경로를 요약에서 제거한다. path는 React text로 렌더한다. raw record와 source root는 private 저장 규칙을 따른다.
 
 ## 호환성·이관·복구
 

@@ -1,0 +1,14 @@
+{
+  "Hahmlet": {
+    "styles": {
+      "Regular": {
+        "file": "fonts/Hahmlet-Regular.ttf",
+        "index": 0
+      },
+      "Bold": {
+        "file": "fonts/Hahmlet-Bold.ttf",
+        "index": 0
+      }
+    }
+  }
+}

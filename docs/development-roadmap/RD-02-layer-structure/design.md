@@ -1,6 +1,6 @@
 # RD-02 설계서 · 의미 있는 레이어 계층과 컨테이너
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 소유 코드와 호출 경로
 
@@ -14,23 +14,17 @@
 
 해당 모듈의 작성자는 한 명으로 정한다. 다른 항목이 같은 파일을 쓰면 먼저 완료하거나 소유권을 넘긴 뒤 통합한다.
 
-## 데이터와 인터페이스 제안
+## 현재 데이터와 인터페이스
 
-아직 구현되지 않은 선택적 입력 예시다.
+선택적 `containers`는 `key`, `kind`, `parent`, `children`과 종류별 geometry, layout, fill, clip을 선언한다. `kind`는 `frame`, `group`, `auto-layout`이다. `parent:null`은 기존 화면 Frame이다. `normalize_layer_containers`와 `validateDeclaredContainers`가 중복 key, 잘못된 부모·자식, cycle, 지원하지 않는 layout을 거절한다.
 
-```json
-{"containers":[{"key":"card","kind":"auto-layout","parent":null,"children":["title","actions"],"layout":{"direction":"VERTICAL","gap":12,"padding":[16,16,16,16],"width":"fixed","height":"hug"}}]}
-```
-
-`parent:null`은 기존 화면 Frame을 뜻한다. key는 화면 안에서 유일하다. leaf와 container가 같은 key를 쓰지 않는다. Group에는 layout/fill/clip을 허용하지 않는다. 미지원 grid·absolute hybrid는 첫 단위에서 오류로 알리고 추정하지 않는다.
+Auto Layout의 방향은 `HORIZONTAL` 또는 `VERTICAL`이고 gap, padding, width와 height의 `fixed`, `hug`, `fill`을 사용한다. Group에는 layout, fill, clip을 넣지 않는다. `scroll`은 `kind:"frame"`과 `clip:true`를 함께 선언한 경우에만 `none`, `horizontal`, `vertical`, `both`를 받는다. 생략하면 스크롤을 추론하지 않는다. 작성 뒤 `clipsContent`와 실제 `overflowDirection` getter를 읽고 선언과 다르면 실패한다.
 
 ## 구현 결정
 
-검증기가 트리를 먼저 정상화하고 전위 순서로 container를 만든다. Group은 자식 생성 후 실제 자식으로 묶으며, Frame은 부모 geometry를 기준으로 자식을 재배치한다. 부모 좌표로 바꿀 때 absolute transform과 의도한 화면 기준 geometry를 함께 보존한다.
+`placeDeclaredLayerParents`는 선언한 Frame과 Auto Layout Frame을 만들고 정적 묶음은 실제 자식으로 Group을 만든다. 화면 기준 geometry를 부모 좌표로 바꾸고 실패 시 변경을 복구한다. semantic key와 main/instance 관계, 화면 Frame과 prototype target은 유지한다.
 
-기존 leaf의 ownership, token binding, main component 관계와 annotations를 옮겨도 key와 target identity는 유지한다. 상위 상태 Frame의 ID·크기·clip·flow start는 고정한다. 실제 prototype target이 내부 Group으로 이동하면 실패로 처리한다.
-
-Auto Layout은 원본이 선언한 관계를 투영한다. linear container에서 지원되는 hug/fill/fixed를 먼저 구현하고, 임의 wrap/grid 추론은 후속으로 남긴다.
+Auto Layout 부모에 붙인 뒤 `layoutSizingHorizontal`과 `layoutSizingVertical`을 설정한다. `fill`은 Auto Layout 부모에서만 `FILL`이 되고 그 밖에서는 `FIXED`다. 재사용 경로도 `refreshDeclaredContainerSizing`으로 다시 맞춘다. `readDeclaredContainerLinks`는 실제 부모, 순서, geometry, sizing과 선언된 스크롤을 읽는다. 일반 getter에 없는 값을 선언으로 채워 넣어 성공시키지 않는다.
 
 ## 호환성·이관·복구
 
@@ -46,3 +40,9 @@ containers가 없으면 기존 경로를 그대로 사용한다. 새 트리를 �
 - [Frames](https://help.figma.com/hc/en-us/articles/360041539473-Frames-in-Figma-Design)는 화면·배치·clipping 등 Frame의 역할을 설명한다.
 - [Auto Layout](https://help.figma.com/hc/en-us/articles/360040451373-Guide-to-auto-layout-in-Figma)은 방향·간격·padding·정렬·sizing의 근거다.
 - [접근 가능한 prototype](https://help.figma.com/hc/en-us/articles/7810391964695-Accessible-prototypes-in-Figma)은 상위 frame/component/instance의 의미 있는 이름을 설명한다.
+
+## Figma Group의 실제 좌표계
+
+Group과 boolean operation은 자식의 좌표 원점을 만들지 않습니다. 자식의 `x/y`·`relativeTransform`은 가장 가까운 page·frame·component·instance를 기준으로 하므로, 절대 좌표를 계산할 때 Group의 위치를 다시 더하면 안 됩니다. `figma.group(nodes, parent)`는 자식의 절대 위치를 보존하며 Group의 bounds는 자식으로부터 파생됩니다. 실제 Group getter에서도 부모와 첫 자식의 x/y가 같은 값인 경우와 동일한 absolute bounding box를 확인했습니다. [공식 좌표 기준](https://developers.figma.com/docs/plugins/api/properties/nodes-relativetransform/) · [공식 group 계약](https://developers.figma.com/docs/plugins/api/properties/figma-group/).
+
+Frame은 크기·clip의 기준이고 Auto Layout Frame은 자식 배치·Hug/Fill을 소유합니다. Group은 clip·padding·layout 부모의 대체물이 아닙니다. 정적 장식 묶음에 Group을 선언하되 native 배치·읽기·Python 감사와 fixture 모두 같은 containing-parent 좌표 규칙을 사용해야 합니다. 최종 실제 인수와 수정 여부는 [인수 현황](../FINAL_ACCEPTANCE.md)에 연결합니다.

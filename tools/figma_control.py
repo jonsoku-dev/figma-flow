@@ -22,8 +22,8 @@ import time
 import figma_workspace as workspace
 
 SCHEMA = 'figma-flow-control-v1'
-MAX_BODY = 16 * 1024 * 1024
-MAX_READBACK = 12 * 1024 * 1024
+MAX_BODY = 40 * 1024 * 1024
+MAX_READBACK = 32 * 1024 * 1024
 OPERATIONS = {'review': {'create'}, 'import': {'read', 'import', 'sync'},
               'discover': {'read'}, 'sync': {'read', 'apply'}, 'native-edit': {'read', 'apply'}}
 TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
@@ -436,14 +436,30 @@ def result(root, payload):
     required = {'id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision', 'status'}
     if not required <= set(payload) or set(payload) - required - {'readback_json', 'error'} or payload['status'] not in {'ok', 'error'}:
         raise ValueError('Exact plugin result fields required')
+    for field in ('id', 'claim_id'):
+        if not isinstance(payload[field], str) or not re.fullmatch(r'[a-f0-9]{32}', payload[field]):
+            raise ValueError('Invalid result ' + field)
+    identity(payload['session_id'], 'plugin session')
+    scope(payload['file_key'], payload['page_id'], payload['revision'])
     raw = payload.get('readback_json')
     if raw is not None:
         if not isinstance(raw, str) or len(raw.encode('utf-8')) > MAX_READBACK or not isinstance(json.loads(raw), dict):
             raise ValueError('Readback must be a bounded JSON object string')
     if payload.get('error') is not None and (not isinstance(payload['error'], str) or len(payload['error']) > 2000):
         raise ValueError('Invalid plugin error')
+    fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()
     with workspace.locked(root) as root:
         directory = state_dir(root)
+        receipt_path = directory / 'receipts' / (payload['id'] + '.json')
+        if receipt_path.exists():
+            receipt = workspace.read(receipt_path, private=True, limit=32768)
+            if (receipt.get('state') not in {'ok', 'error'} or receipt.get('state') != payload['status'] or
+                    receipt.get('result_payload_sha256') != fingerprint or
+                    any(payload[key] != receipt.get(key) for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision'))):
+                raise ValueError('Terminal result differs from the accepted plugin result')
+            if lifecycle_present(receipt):
+                validate_lifecycle(receipt)
+            return {'accepted': True, 'id': receipt['id'], 'state': receipt['state']}
         request = active(directory)
         if not request or request['state'] != 'claimed':
             raise ValueError('No current claim accepts this result')
@@ -467,7 +483,8 @@ def result(root, payload):
             path = directory / 'readbacks' / (request['id'] + '.json')
             workspace.atomic(path, raw.encode('utf-8'))
             request['readback'] = str(path)
-        request.update(state=payload['status'], completed_at=time.time(), evidence='authenticated-running-plugin-result; not independent origin authentication')
+        request.update(state=payload['status'], completed_at=time.time(), result_payload_sha256=fingerprint,
+                       evidence='authenticated-running-plugin-result; not independent origin authentication')
         if payload.get('error'):
             request['error'] = payload['error']
         pending = uncertainties(directory)
@@ -482,8 +499,8 @@ def result(root, payload):
                 record_phase(request, 'reconciled')
         save(directory, request)
         if recovered:
-            for identity in recovered:
-                del pending['operations'][identity]
+            for operation_id in recovered:
+                del pending['operations'][operation_id]
             workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
         client = NATIVE_CLIENTS.get(str(root.resolve()))
         if (client and client.get('session_id') == payload['session_id'] and client.get('runtime')
@@ -505,6 +522,41 @@ def status(root, operation_id=None):
         pending = uncertainties(directory)['operations']
         journal = journal_history(value if isinstance(value, dict) else {})
         return {**value, 'journal': journal, 'uncertain_operations': [{key: original[key] for key in ('id', 'key', 'operation', 'file_key', 'page_id', 'revision')} for original in pending.values()]}
+
+
+def history(root, payload):
+    """Bounded canonical summaries, never native readback or client telemetry."""
+    if set(payload) != {'session_id', 'file_key', 'page_id', 'runtime'}:
+        raise ValueError('Exact history scope required')
+    identity(payload['session_id'], 'native session')
+    scope(payload['file_key'], payload['page_id'], '0' * 64)
+    with workspace.locked(root) as root:
+        catalogue = workspace.current(root, repair=False)
+        if payload['runtime'] != catalogue.get('runtime'):
+            raise ValueError('History runtime differs from the current prepared workspace')
+        directory = state_dir(root)
+        active(directory)
+        rows = []
+        paths = sorted(directory.joinpath('requests').glob('*.json'), key=lambda path: path.stat().st_mtime_ns, reverse=True)
+        for path in paths:
+            if not re.fullmatch(r'[a-f0-9]{32}\.json', path.name):
+                continue
+            request = workspace.read(path, private=True, limit=32768)
+            if request.get('file_key') != payload['file_key'] or request.get('page_id') != payload['page_id']:
+                continue
+            journal = journal_history(request)
+            if request.get('id') != path.stem or not isinstance(request.get('key'), str) or len(request['key']) > 200:
+                continue
+            revision = request.get('revision')
+            if not isinstance(revision, str) or not re.fullmatch(r'[a-f0-9]{64}', revision) or request.get('operation') not in {'read', 'import', 'sync', 'create', 'apply'}:
+                continue
+            rows.append({'taskKey': request['key'], 'revision': revision, 'operation': request['operation'],
+                         'operationId': request['id'], **{key: journal[key] for key in ('classification', 'phase', 'phases')}})
+            if len(rows) == 80:
+                break
+        inputs = [workspace.task_input_freshness(root, task) for task in catalogue['tasks']
+                  if task.get('input_record') and task.get('fileKey') in {None, payload['file_key']}]
+        return {'journalHistory': list(reversed(rows)), 'inputFreshness': inputs[:80]}
 
 
 def pinned_operation_transitions(root, discovery_revision, mutation_revision, other_revision):
@@ -589,6 +641,11 @@ def pinned_operation_transitions(root, discovery_revision, mutation_revision, ot
             duplicate_terminal_result = 'accepted'
         except ValueError:
             duplicate_terminal_result = 'rejected'
+        try:
+            finish(recovery_claim, discovery('12:1') + '\n')
+            conflicting_duplicate_terminal_result = 'accepted'
+        except ValueError:
+            conflicting_duplicate_terminal_result = 'rejected'
     finally:
         time.time = original_time
     return {
@@ -603,6 +660,7 @@ def pinned_operation_transitions(root, discovery_revision, mutation_revision, ot
         'other_page_read_reconciles': other_page_read_reconciles,
         'same_scope_discovery_reconciles': same_scope_discovery_reconciles,
         'duplicate_terminal_result': duplicate_terminal_result,
+        'conflicting_duplicate_terminal_result': conflicting_duplicate_terminal_result,
         'native_started': native_started,
     }
 
@@ -722,7 +780,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result', '/control/readiness', '/control/native-started'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/readiness', '/control/native-started', '/control/history'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
@@ -745,6 +803,8 @@ class Handler(BaseHTTPRequestHandler):
                 value = readiness(self.server.workspace)
             elif self.path == '/control/native-started':
                 value = note_native_started(self.server.workspace, payload)
+            elif self.path == '/control/history':
+                value = history(self.server.workspace, payload)
             else:
                 value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
         except (ValueError, KeyError, TypeError, OSError):

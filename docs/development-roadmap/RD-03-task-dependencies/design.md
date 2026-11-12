@@ -1,6 +1,6 @@
 # RD-03 설계서 · 작업 간 의존성과 영향 시각화
 
-상태는 제안이다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 소유 코드와 호출 경로
 
@@ -13,23 +13,21 @@
 
 해당 모듈의 작성자는 한 명으로 정한다. 다른 항목이 같은 파일을 쓰면 먼저 완료하거나 소유권을 넘긴 뒤 통합한다.
 
-## 데이터와 인터페이스 제안
+## 현재 데이터와 인터페이스
 
-제안 필드이며 현재 CLI에는 존재하지 않는다.
+`figma_workspace prepare --depends-on <JSON>`과 Python `prepare(..., depends_on=...)`가 명시적 `uses-output` edge를 받는다.
 
 ```json
-{"depends_on":[{"task_key":"review-a","revision":"exact-revision","relation":"uses-output","artifact":"readback.json","artifact_sha256":"64-hex-digest"}]}
+{"depends_on":[{"task_key":"review-a","revision":"exact-revision","relation":"uses-output","artifact":"code.js","artifact_sha256":"64-hex-digest"}]}
 ```
 
-첫 relation은 `uses-output`만 지원한다. artifact는 선행 revision의 서명된 artifact 목록에 등록된 상대 이름이다. 절대 경로·..·symlink·등록되지 않은 이름은 거절한다. 같은 바이트를 가진 파일이 여럿이어도 이름과 hash를 함께 고정한다. 같은 프로젝트라는 관계는 dependency로 저장하지 않는다. 원본 관계 inventory는 workspace catalogue 하나로 유지하고 UI adjacency는 projection이다. 의미 requirement graph를 task 실행 graph로 대체하지 않는다.
+`normalize_task_dependencies`는 현재 task 또는 검증된 history의 exact revision과 등록된 `code.js`, `ui.html`, `manifest.json`의 digest를 대조한다. 임의 readback 이름, 경로, self edge, 중복 edge와 cycle은 거절한다. 같은 프로젝트나 단계 순서는 dependency를 만들지 않는다. 원본은 catalogue이고 UI adjacency는 읽기 전용 projection이다.
 
 ## 구현 결정
 
-prepare 경계에서 artifact 존재와 source pins를 확인한 뒤 exact revision edge를 저장한다. publish는 전체 task 집합에서 DAG를 검사한다. JSON 입력과 catalogue 서명에 dependency를 포함하고 UI에는 안전한 key/revision/relation과 artifact의 상대 이름·digest를 전달한다. 상세에서 exact artifact identity와 pinned hash를 볼 수 있다.
+prepare, publish, replay는 검증된 artifact와 source pin을 보존한다. retire된 선행 작업의 exact artifact가 trusted history에 남아 있으면 역사 edge를 유지한다. 선행 revision 변경·retire·unavailable은 `dependencyFreshness`가 구분하며 자동 재준비나 자동 실행을 하지 않는다.
 
-처음에는 SVG와 HTML 목록을 함께 사용한다. node 수가 많으면 선택 task의 한 단계 선행·후속만 펼친다. 선은 명시적 dependency에만 그리며 step 위치나 task kind에서 추론하지 않는다. 연결선 애니메이션은 선택·변경에만 한정하고 reduced motion에서 제거한다.
-
-RD-08의 영속 operation ID와 task dependency key는 별개다. 실행의 request/result 관계와 제작 산출물의 uses-output 관계를 다른 레이블로 표현한다.
+`Workspace.jsx`의 `DependencyText`는 `dependencyView` 결과를 SVG와 같은 내용의 텍스트 목록으로 보여준다. 선택한 task의 한 단계 선행·후속, 고정 revision과 현재 revision, artifact 이름과 digest를 표시한다. 의미 requirement graph나 RD-08의 operation journal을 이 graph로 대체하지 않는다. UI 관계 표시는 native mutation 권한을 만들지 않는다.
 
 ## 호환성·이관·복구
 

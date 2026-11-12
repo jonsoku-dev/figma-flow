@@ -1,6 +1,6 @@
 # RD-06 기능서 · 목적별 네이티브 읽기와 제한된 캐시
 
-상태는 제안이다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는0.27 첫 구현 범위의 기능 계약이다. 조건별 fixture·실제 관측과 미지원 확장은 [최종 인수 현황](../FINAL_ACCEPTANCE.md)을 따른다. 우선순위는 보통이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 사용자 문제
 
@@ -32,4 +32,4 @@ mutation gate에서 전체 근거 생략, document 간 전역 cache, 영속 clie
 - **RD-06-AC-04** — partial 결과로 graph import/apply/recovery를 시도하면 거절되거나 fresh full read를 수행한다.
 - **RD-06-AC-05** — 기존 inline raster와 raster table 호환·paint/ref·원본 SHA 검사를 유지한다.
 
-인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 이 문서의 조건은 통과로 기록되지 않았다.
+인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 조건별 판정과 실제 관측·fixture의 구분, 후속 확장과 출시·설치 근거는 [최종 인수 현황](../FINAL_ACCEPTANCE.md)과 패치 Wiki에서 확인한다.

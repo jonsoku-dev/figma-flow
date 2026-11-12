@@ -383,5 +383,40 @@
     "ko": "최소 높이",
     "en": "Minimum height",
     "ja": "最小高さ"
+  },
+  "graph.auditTitle": {
+    "ko": "진단 기록",
+    "en": "Diagnostics",
+    "ja": "診断記録"
+  },
+  "graph.auditBoundary": {
+    "ko": "현재 전달된 근거만 요약합니다. 확인하지 않은 정보는 미관측으로 남기며 문서를 변경하지 않습니다.",
+    "en": "Summarizes only supplied evidence. Missing facts remain unobserved; the document is unchanged.",
+    "ja": "渡された根拠だけを要約します。不明な情報は未観測のまま残し、ドキュメントを変更しません。"
+  },
+  "graph.auditOpen": {
+    "ko": "진단 기록 내보내기",
+    "en": "Export diagnostics",
+    "ja": "診断記録を書き出す"
+  },
+  "graph.auditText": {
+    "ko": "복사할 진단 요약",
+    "en": "Diagnostic summary to copy",
+    "ja": "コピー用診断要約"
+  },
+  "graph.auditDownload": {
+    "ko": "진단 JSON 저장",
+    "en": "Save diagnostic JSON",
+    "ja": "診断 JSON を保存"
+  },
+  "graph.summaryRead": {
+    "ko": "너비·높이 요약 읽기",
+    "en": "Read width/height summary",
+    "ja": "幅・高さの要約を読み取る"
+  },
+  "graph.summaryBoundary": {
+    "ko": "부분 읽기 · 기본 페이지 {page}의 너비·높이만 읽습니다. 다른 허용 페이지·스타일·변수·이미지·텍스트 구간은 포함하지 않습니다. 동기화·적용 근거로 사용할 수 없습니다. 전체 읽기는 모든 허용 페이지를 읽습니다.",
+    "en": "Partial read · width and height only on primary page {page}. Other admitted pages, styles, variables, images and text segments are omitted. Cannot be used for sync or apply. Full read covers all admitted pages.",
+    "ja": "部分読み取り · 主ページ {page} の幅・高さのみ。他の許可ページ、スタイル、変数、画像、テキスト区間は含みません。同期・適用の根拠には使用できません。全体読み取りはすべての許可ページが対象です。"
   }
 }

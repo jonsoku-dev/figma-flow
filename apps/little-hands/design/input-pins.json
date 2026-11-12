@@ -1,0 +1,323 @@
+{
+  "schema": "little-hands-design-input-pins-v1",
+  "source": [
+    {
+      "path": "../ARCHITECTURE.md",
+      "sha256": "c34bed6b767304b74fa5f15285df3308c8d28abeaa4a8f7de1174693b00e0338"
+    },
+    {
+      "path": "../booking/views.py",
+      "sha256": "c74dfd39bdf18c65dc2685dc5291315ae0fc445a00f9fd5bb10dafd0b510f922"
+    },
+    {
+      "path": "../booking/services.py",
+      "sha256": "0d2b4bfd9e137018bd70bfce7b31af4adca4c4dbc4165ef07f60d888be54dec7"
+    },
+    {
+      "path": "../static/littlehands/app.css",
+      "sha256": "c408c1aa4661bea071a34b0a2e2920c076f9c735c69e1bdaf3415c0bc31f8768"
+    },
+    {
+      "path": "../static/littlehands/app.js",
+      "sha256": "75122b711cbf51a18055334a3ffe4315468e700471d5d60aa774eae65d3b8a05"
+    },
+    {
+      "path": "../templates/403.html",
+      "sha256": "f74910e97c2f659f4825cb4b8383b951a2b4092c5a0f6ca6a1be74ba8770e8df"
+    },
+    {
+      "path": "../templates/404.html",
+      "sha256": "0cc5c1b7a99ade2fcbbb15353072df72cfe26a0df10a7a51b4f79a5ac2d18fe8"
+    },
+    {
+      "path": "../templates/500.html",
+      "sha256": "caff365d5380814561322b1cbf38f61d7b5e146af56d7173d0399bb7e1a08b23"
+    },
+    {
+      "path": "../templates/base.html",
+      "sha256": "c87928fd8cf7b9829aac780ab6bca47aa0e32c2d9720ae5e0500005438690a30"
+    },
+    {
+      "path": "../templates/booking/booking_detail.html",
+      "sha256": "8a61ac6ea9a34b32723a0968fe32ab4122cc0f996f107e4fa73b30e18d16c308"
+    },
+    {
+      "path": "../templates/booking/cancel.html",
+      "sha256": "596aacf4552a5c5699b79491bfec6dfb2b93ca6e0d37de2a9791bab0346e4ab6"
+    },
+    {
+      "path": "../templates/booking/conflict.html",
+      "sha256": "bfa13b56a328fc1b743aed9f72e9fceb1c2fb0d3f2bcdd1de669b1e8cc8c4709"
+    },
+    {
+      "path": "../templates/booking/my_bookings.html",
+      "sha256": "6ca45bbf79641de6d164cef2f4f68e11b218dbaf5579ddf7cbe50588d3df9b47"
+    },
+    {
+      "path": "../templates/booking/notifications.html",
+      "sha256": "16761d42bcc6adecf09a0c47c61f36212e338ebaf25433bc8af995f4d96bde1f"
+    },
+    {
+      "path": "../templates/booking/reschedule.html",
+      "sha256": "e1db09ea50e3df0faf1b49992d556f6fe70b7970aea3d7aff246eeb5a1a74f5d"
+    },
+    {
+      "path": "../templates/booking/reserve_review.html",
+      "sha256": "494edd57858655a23e80870c9f9941b87987951b6b54017ae24f685275c3fba7"
+    },
+    {
+      "path": "../templates/booking/session_detail.html",
+      "sha256": "c51dea78880edf8452c230591a2373cd01738c36036901f52a87fde2c170ad92"
+    },
+    {
+      "path": "../templates/booking/session_list.html",
+      "sha256": "b5eb6fe9cb7ca56ab853a75b91deeea11c8a749fcffc785da080b9b04712e9a6"
+    },
+    {
+      "path": "../templates/includes/booking_facts.html",
+      "sha256": "238fc7072c481e75e4bb3ad0aeb6d8300b938b1adb5ea7a00f7ae8f8413448fd"
+    },
+    {
+      "path": "../templates/includes/busy.html",
+      "sha256": "0f1d538b7136805149db32bbbb68d43b5d885545e9f625df634c746c128c5e2a"
+    },
+    {
+      "path": "../templates/includes/form.html",
+      "sha256": "8ff75d9d322966f277de8260c3bb512a52f66ff5a1d44e5949e7964f1ccf8209"
+    },
+    {
+      "path": "../templates/includes/pagination.html",
+      "sha256": "ca620ab40bae9687e81cbcd70ba2222e975853dd66fc81b6a286bcc8f92ce860"
+    },
+    {
+      "path": "../templates/includes/staff_nav.html",
+      "sha256": "30ef36b4a5fa6430bf4e292da973ae5b6cd96f44e3c255d25f5a3c8663db6fb4"
+    },
+    {
+      "path": "../templates/includes/status.html",
+      "sha256": "dfd39e61e01c87baa4de7ad6108ecd778a06c7ffb0b0ae1583b2da52c5c63d84"
+    },
+    {
+      "path": "../templates/registration/login.html",
+      "sha256": "2b39ea92f403a3e675e3ddc0a4ba86f61afe204e3c8e091f2aa5e876bcd0f778"
+    },
+    {
+      "path": "../templates/registration/signup.html",
+      "sha256": "fece1abe64090cf7f2b30a1c378338da20657c4e098bbb64fcfd21ab212e1589"
+    },
+    {
+      "path": "../templates/staff/audit.html",
+      "sha256": "3ea4f7d2e0cb75d376276a96c659e3a27d506ab724e1b34426c44ba71d637687"
+    },
+    {
+      "path": "../templates/staff/dashboard.html",
+      "sha256": "c247cc483f4701e2060f0d8d52cc333f35c32234739d17ae38a6fcee7ec57912"
+    },
+    {
+      "path": "../templates/staff/roster_table.html",
+      "sha256": "9ec76424da772adb522509c80681e46599b74b65dfe4cffb763b1230b3480c7c"
+    },
+    {
+      "path": "../templates/staff/session_detail.html",
+      "sha256": "275566d537d2e6282a6a3dc9878aea64ecacb8bc5dc92d6f1000a577c3109863"
+    },
+    {
+      "path": "../templates/staff/session_form.html",
+      "sha256": "3a4737003531d0c317cf1879ee0918a3617cce5436760630d33770d51b18bbe0"
+    },
+    {
+      "path": "../templates/staff/session_list.html",
+      "sha256": "629761f749d5678f87e94de04107507da025c10e306a6205272891347114551e"
+    },
+    {
+      "path": "../templates/staff/session_table.html",
+      "sha256": "c3582a3244c6c4dbc7062586c441572aa22ef7b69ec5a4959ca8d16998397f49"
+    },
+    {
+      "path": "../templates/widgets/checkbox.html",
+      "sha256": "bc742f94311e02b4edee02335581984195f99923e82f98c74d8c5a0cd8ce8463"
+    },
+    {
+      "path": "../templates/widgets/radio_option.html",
+      "sha256": "f8f9c55ea8737f83857b8730a361f525feea151847416197f94b65cd6ba2c0c2"
+    }
+  ],
+  "captures": [
+    {
+      "path": "captures/403-desktop.json",
+      "sha256": "8752aa4d3e10b41637daaa941cba99b7c66571802eb9fa3602f7f14ab0d4d26d"
+    },
+    {
+      "path": "captures/403-mobile.json",
+      "sha256": "5a07717512a8f8c05b5e9c5d6b67c77ce31d8e12d50dc8c27aa892d2a0d7a3e5"
+    },
+    {
+      "path": "captures/404-desktop.json",
+      "sha256": "96865eedd95d515f6605f47c80bfa8a10e27cc1ab3ceb51846b95e95b43d24c1"
+    },
+    {
+      "path": "captures/404-mobile.json",
+      "sha256": "d2f9a0715dd8b5e3803a647a5316a63dfb263935d939238b529fec538ccf01ad"
+    },
+    {
+      "path": "captures/cancelconfirm-desktop.json",
+      "sha256": "46120bc6f51b541bb1afe9534cf3ec0c9a313957925f25b3ca19d7abe05a9e26"
+    },
+    {
+      "path": "captures/cancelconfirm-mobile.json",
+      "sha256": "cb78b755a58178cbd5defcd004cedb4ffab97d4c5a5d2615b5ebcc06e1242f00"
+    },
+    {
+      "path": "captures/cancelled-desktop.json",
+      "sha256": "fa09e922609d3048d1d4c5a8ce205c21444ca84a270829e881759e931f2c9331"
+    },
+    {
+      "path": "captures/cancelled-mobile.json",
+      "sha256": "13c836f48f63a289a1ced6a02bce48445684c172aef93887571066406acfff96"
+    },
+    {
+      "path": "captures/confirmed-desktop.json",
+      "sha256": "015c80ca7a7d43f975a6d264f1420f9de912abc1ced75fcd2f715f46d1db3e3b"
+    },
+    {
+      "path": "captures/confirmed-mobile.json",
+      "sha256": "6a89f16c7dd5209160c6ddef307d3aff0004871df145bedd9a1b6367915ec686"
+    },
+    {
+      "path": "captures/conflict-desktop.json",
+      "sha256": "46368d112a1335be6c67b122d2b5b1a559e807629c7f571dec213206b93daf88"
+    },
+    {
+      "path": "captures/conflict-mobile.json",
+      "sha256": "d6800e2ab5558871e10338b11d72cb2b17dbd66ebf01c3473ffbc16ca94065c9"
+    },
+    {
+      "path": "captures/login-desktop.json",
+      "sha256": "9c290a1814e2991c7c1bd75b93bfcf9b73d810a60ae184525d692de2e705571e"
+    },
+    {
+      "path": "captures/login-mobile.json",
+      "sha256": "7db65b318df1d6040bf1db98231d39914c6ec7a4a5daea539c26490c1be5de45"
+    },
+    {
+      "path": "captures/memberhome-desktop.json",
+      "sha256": "ed0e32c73edb9df0127e09522107ad7ea9fc682ff19f8e63effaac09c0fbdf08"
+    },
+    {
+      "path": "captures/memberhome-mobile.json",
+      "sha256": "e2a5856ad0af2c6176917e9f2f962a1a1695ed8c2e7ceaa07eed8bbe4585eef5"
+    },
+    {
+      "path": "captures/mybookings-desktop.json",
+      "sha256": "1712fd71066ed1e9b5ed03c55500cb9e1d0d54dadfad31dfb84a86a844ae9f44"
+    },
+    {
+      "path": "captures/mybookings-mobile.json",
+      "sha256": "66f2091cefc1aba2dae4680dcc9ef849f1405e746fc7993efb6c43f25b9927b8"
+    },
+    {
+      "path": "captures/notifications-desktop.json",
+      "sha256": "3e84c3ae7af7bf32fd510e5f7b94590f8c35aeb9c3fc1be959635520842909be"
+    },
+    {
+      "path": "captures/notifications-mobile.json",
+      "sha256": "89d13981cd9c450dcb0d76c702907d6f31e472206dd9ecebfa569224ca0f04cc"
+    },
+    {
+      "path": "captures/publichome-desktop.json",
+      "sha256": "9d4dbb27add3bcba06f37f6897e4e3cedd08b36584ed3793afa5fa3f9130a24f"
+    },
+    {
+      "path": "captures/publichome-mobile.json",
+      "sha256": "c8513969e07f293aaf729e2efe5ddd73c60a188574b6389d69f7262614ae5190"
+    },
+    {
+      "path": "captures/reschedule-desktop.json",
+      "sha256": "d5108507e0edcf1d6280bf8ae708ececedf39ededf74698beb263ea9ca5b24ac"
+    },
+    {
+      "path": "captures/reschedule-mobile.json",
+      "sha256": "d37aa643a14c1aa3e75b2978273a66f4c1c47ebdf337fddee84ad69d7a985391"
+    },
+    {
+      "path": "captures/review-desktop.json",
+      "sha256": "6610f01d40e454011ac54833f369ef0d86b5f05d907ac6bfcc31d4add9226a0a"
+    },
+    {
+      "path": "captures/review-mobile.json",
+      "sha256": "4d12c905c80ff4fae56c4e9184ca5b5c2c538ca838475e201e973401142b1a5c"
+    },
+    {
+      "path": "captures/sessionavailable-desktop.json",
+      "sha256": "c388eb203276ff32d6457ec6ce6aae39d93f11640299dc9600083c0db0c5b78b"
+    },
+    {
+      "path": "captures/sessionavailable-mobile.json",
+      "sha256": "d74fd4c8049fd7e79a7bbc1da422049ba9fabf10ac2ef6f81aa7d8934fdc2b1a"
+    },
+    {
+      "path": "captures/signup-desktop.json",
+      "sha256": "77b3648350d5ae8cf66a8cc45d69ef4a682fb03a4eca4e0909320f43c91a19da"
+    },
+    {
+      "path": "captures/signup-mobile.json",
+      "sha256": "d62d6d9aede36beafb65062610ca05d3e085adc2da4d6007caf38f6a03dc5812"
+    },
+    {
+      "path": "captures/staffaudit-desktop.json",
+      "sha256": "b40fcb1a309bf9b3a83dcddbc14355c70d6de40565505ab1c5bcb1b257ef86d0"
+    },
+    {
+      "path": "captures/staffaudit-mobile.json",
+      "sha256": "68edb9b03d7aa9b4928a8f44ef3f07dd788d2711224788aa4e360942fcbc5a1f"
+    },
+    {
+      "path": "captures/staffcreate-desktop.json",
+      "sha256": "24ca3cc26b73260d38a66b9a4b176d8f2826d18fe38cf064e694645d3b05a42a"
+    },
+    {
+      "path": "captures/staffcreate-mobile.json",
+      "sha256": "89184cf0eb9771365a4e0dbc298055eee4c0f68f34cbff8d9bc7255e92bcfd75"
+    },
+    {
+      "path": "captures/staffdashboard-desktop.json",
+      "sha256": "cbecec240b2b23faf082c2e17f45085237649f710252ec91cb0b2c4948227e28"
+    },
+    {
+      "path": "captures/staffdashboard-mobile.json",
+      "sha256": "3ae06e395b715ec5e8dbb61fc15c3027714f2f5befd8c1548725d5fa5f263440"
+    },
+    {
+      "path": "captures/staffedit-desktop.json",
+      "sha256": "355592bbd1ab8829bf87c79927781ffac75fa8b5c7fa219b24a86afa920b90a0"
+    },
+    {
+      "path": "captures/staffedit-mobile.json",
+      "sha256": "7de9db7ecb279ab44698dc84498a9c00d49ee7d9a596b383b8a6606593eba602"
+    },
+    {
+      "path": "captures/staffroster-desktop.json",
+      "sha256": "77a3abc8b074484549764bf8fee0c6678a82ee4e1044669864890df724e289d8"
+    },
+    {
+      "path": "captures/staffroster-mobile.json",
+      "sha256": "d0b34b57aca3d79758253e9b6fa64a278f3646c69470e49268941a138cbeee31"
+    },
+    {
+      "path": "captures/staffsessions-desktop.json",
+      "sha256": "97021f1a928333b17ce4429ac055ac50a2c9fb74074b31eda3f568844d3490da"
+    },
+    {
+      "path": "captures/staffsessions-mobile.json",
+      "sha256": "e656eeb9d02c3c3402684114c3416f6be2a25fe69ae557676b0f805f359d317a"
+    },
+    {
+      "path": "captures/waitlisted-desktop.json",
+      "sha256": "6d70281bb3b8593aa5a2e546e1d94f4f6d3c7a515e14e1ca5110309242090bdd"
+    },
+    {
+      "path": "captures/waitlisted-mobile.json",
+      "sha256": "a3eb70b5f364a8c64cfee7be4df7dd3e2f6b434134f284f15ae7e287463a6b6c"
+    }
+  ]
+}

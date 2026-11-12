@@ -13,11 +13,12 @@
 <main class="workspace">
 <section class="intro"><h1 id="title">네이티브 그래프</h1><p id="description"></p></section>
 <section class="work-section" aria-labelledby="scope-title"><h2 id="scope-title" data-i18n="graph.scope">작업 범위</h2><p id="scope-summary"></p><div class="graph-stats" id="stats"></div><details class="details"><summary data-i18n="graph.scopeDetails">파일과 적용 대상 보기</summary><dl class="metadata" id="scope"></dl></details></section>
-<section class="work-section" aria-labelledby="action-title"><h2 id="action-title" data-i18n="graph.action">실행</h2><p id="action-help"></p><div class="actions"><button id="read" type="button" class="secondary" data-i18n="graph.read">네이티브 값 읽기</button><button id="review" aria-expanded="false" aria-controls="confirmation" type="button" class="primary" data-i18n="graph.review">적용 범위 확인</button></div>
+<section class="work-section" aria-labelledby="action-title"><h2 id="action-title" data-i18n="graph.action">실행</h2><p id="action-help"></p><div class="actions"><button id="read" type="button" class="secondary" data-i18n="graph.read">네이티브 값 읽기</button><button id="summary-read" type="button" class="secondary" data-i18n="graph.summaryRead" hidden>너비·높이 요약 읽기</button><button id="review" aria-expanded="false" aria-controls="confirmation" type="button" class="primary" data-i18n="graph.review">적용 범위 확인</button></div>
+<p id="summary-boundary" hidden></p>
 <section id="confirmation" class="confirmation" aria-labelledby="confirmation-title" hidden><h2 id="confirmation-title" data-i18n="graph.confirmTitle">이 범위에 그래프 값을 적용합니다</h2><p id="impact-summary"></p><p id="selection-count" data-i18n="graph.selectionCount">선택 {count}개</p><button id="select-all" type="button" data-i18n="graph.selectAll">전체 선택</button><ul class="impact-list" id="impact"></ul><p data-i18n="graph.confirmHelp">위 컴포넌트의 값과 변수 연결을 변경합니다. 읽은 기준과 현재 값이 다르면 중단합니다.</p><div class="actions"><button id="apply" class="primary" type="button" data-i18n="graph.apply">확인한 범위에 적용</button><button id="cancel" class="secondary" type="button" data-i18n="graph.cancel">취소</button></div></section>
 </section>
 <!-- FLOW_STATUS -->
-<section class="work-section" id="evidence-section" aria-labelledby="evidence-title" hidden><h2 id="evidence-title" data-i18n="graph.evidence">실행 결과</h2><p id="evidence-help" data-i18n="graph.evidenceHelp">실행 후 실제 읽기 결과를 JSON으로 저장할 수 있습니다. 오류가 발생해도 마지막 자료를 유지합니다.</p><div class="actions"><button id="download" class="secondary" type="button" disabled data-i18n="graph.download">JSON 저장</button></div><details class="details"><summary data-i18n="graph.history">실행 기록과 복구 정보</summary><pre id="report">아직 실행 기록이 없습니다.</pre></details></section>
+<section class="work-section" id="evidence-section" aria-labelledby="evidence-title" hidden><h2 id="evidence-title" data-i18n="graph.evidence">실행 결과</h2><p id="evidence-help" data-i18n="graph.evidenceHelp">실행 후 실제 읽기 결과를 JSON으로 저장할 수 있습니다. 오류가 발생해도 마지막 자료를 유지합니다.</p><div id="native-summary" hidden></div><div class="actions"><button id="download" class="secondary" type="button" disabled data-i18n="graph.download">JSON 저장</button></div><details class="details"><summary data-i18n="graph.history">실행 기록과 복구 정보</summary><pre id="report">아직 실행 기록이 없습니다.</pre></details></section>
 <section class="work-section" id="audit-section" aria-labelledby="audit-title">
 <h2 id="audit-title">진단 기록</h2>
 <p id="audit-help">개발자가 문제를 이어서 고칠 수 있도록 진단 기록을 복사하거나 저장합니다. 문서를 바꾸지 않습니다. 네이티브 쓰기를 보내지 않습니다. 페어링을 바꾸지 않습니다.</p>
@@ -59,7 +60,7 @@
   const entry = (label, value) => {append(byId('scope'), 'dt', label); append(byId('scope'), 'dd', value);};
   const setBusy = value => {
     busy = value;
-    for (const id of ['read', 'review', 'cancel']) byId(id).disabled = value;
+    for (const id of ['read', 'summary-read', 'review', 'cancel']) byId(id).disabled = value;
     byId('apply').disabled = value || applyBlocked();
     byId('status').setAttribute('aria-busy', String(value));
   };
@@ -74,6 +75,9 @@
     if(config.collection_id)entry(t('collection'),config.collection_id);
     if(config.graph_sha256)entry(t('hash'),config.graph_sha256);
     setText('read',t('read'));setText('action-help',t('readOnly'));
+    byId('summary-read').hidden = !discovery;
+    byId('summary-boundary').hidden = !discovery;
+    setText('summary-boundary', t('summaryBoundary', {page: config.page_id}));
     if(!discovery) {
       entry(t('mains'),config.main_ids.join(', '));entry(t('instances'),config.instance_ids.join(', '));
       for(const [key,value] of [['tokens',config.stats.tokens],['mains',config.stats.mains],['instances',config.stats.instances]]) {
@@ -96,7 +100,8 @@
         }
         const identity = String(change.identity || change.name || change.key || index);
         const box = document.createElement('input'); box.type = 'checkbox'; box.checked = chosen.has(identity);
-        box.onchange = () => { if (busy) return; if (chosen.has(identity)) chosen.delete(identity); else chosen.add(identity); render(); };
+        box.setAttribute('aria-label', change.name + ' · ' + graphSelection([change], null).rows[0].targets.join(', '));
+        box.onchange = () => { if (busy) return; const selected = !chosen.has(identity); for (const row of config.changes) { if ((change.group && row.group === change.group) || row.identity === identity) { if (selected) chosen.add(row.identity); else chosen.delete(row.identity); } } render(); };
         const targets = document.createElement('span'); targets.className = 'graph-selection-targets';
         targets.textContent = t('selectionTargets', {targets: graphSelection([change], null).rows[0].targets.join(', ')});
         const label = document.createElement('label'); label.appendChild(box); label.appendChild(targets); card.appendChild(label);
@@ -113,22 +118,37 @@
     if(!hasResult)setText('report',t('noHistory'));
     if(evidence)setText('download',t('downloadAgain'));
     if(hasResult)setText('evidence-help',t(latestHasReadback?'evidenceCurrent':'evidencePrevious'));
+    renderSummary();
     if(lastStatus)status(...lastStatus);
+  }
+  function renderSummary() {
+    const container = byId('native-summary');
+    container.replaceChildren();
+    const summary = evidence?.schema === 'figma-flow-native-read-summary-v1' && evidence.coverage?.profile === 'summary' && evidence.coverage.complete === false;
+    container.hidden = !summary;
+    if (!summary) return;
+    append(container, 'p', t('summaryBoundary', {page: evidence.pageId}));
+    const list = append(container, 'ul', '');
+    for (const row of evidence.nodes || []) append(list, 'li', row.id + ' · ' + evidence.coverage.fields.map(field => field + ' ' + row[field]).join(' · '));
+    append(container, 'pre', JSON.stringify(evidence.coverage, null, 2));
   }
   render();window.addEventListener('flow:locale',render);
   const download = () => {
     if (!evidence) return;
     const url = URL.createObjectURL(new Blob([JSON.stringify(evidence, null, 2)], {type: 'application/json'}));
-    const link = document.createElement('a'); link.href = url; link.download = discovery ? 'graph-native-discovery.json' : 'graph-token-readback.json';
+    const link = document.createElement('a'); link.href = url; link.download = evidence.schema === 'figma-flow-native-read-summary-v1' ? 'graph-native-summary.json' : discovery ? 'graph-native-discovery.json' : 'graph-token-readback.json';
     document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   const start = type => {
-    if (busy || (type === 'apply' && applyBlocked())) return;
+    if (busy || (type === 'native-summary' && !discovery) || (type === 'apply' && (discovery || applyBlocked()))) return;
     operation = type; setBusy(true); byId('confirmation').hidden = true; byId('review').setAttribute('aria-expanded', 'false');
     status('busy', type === 'apply' ? 'busyApply' : 'busyRead', 'busyHelp');
-    parent.postMessage({pluginMessage: {type, session: config.session}}, '*');
+    const message = {type, session: config.session};
+    if (type === 'apply' && config.selection_manifest?.changes.length) Object.assign(message, {protocol: 2, plan_sha256: config.selection_manifest.plan_sha256, selected_ids: [...chosen]});
+    parent.postMessage({pluginMessage: message}, '*');
   };
   byId('read').onclick = () => start('read');
+  byId('summary-read').onclick = () => start('native-summary');
   byId('review').onclick = () => {if (!busy && !discovery) {byId('confirmation').hidden = false; byId('review').setAttribute('aria-expanded', 'true'); byId('apply').focus();}};
   byId('cancel').onclick = () => {byId('confirmation').hidden = true; byId('review').setAttribute('aria-expanded', 'false'); byId('review').focus();};
   window.addEventListener('keydown',event=>{if(event.key==='Escape'&&!busy&&!byId('confirmation').hidden){event.preventDefault();byId('cancel').click();}});
@@ -145,8 +165,10 @@
     const conflicts = message.readback?.rollback_conflicts || message.rollback_conflicts || [];
     if (failure) {
       status('error',conflicts.length?'conflict':message.readback?.status==='rolled-back'?'rolledBack':'failed',conflicts.length?'conflictHelp':'failedHelp',{count:conflicts.length});
-    } else if(discovery)status('success','readDone','readCounts',{nodes:evidence.nodes?.length||0,variables:evidence.variables?.length||0});
+    } else if(discovery && evidence.schema === 'figma-flow-native-read-summary-v1')status('success','summaryRead','summaryBoundary',{page: evidence.pageId});
+    else if(discovery)status('success','readDone','readCounts',{nodes:evidence.nodes?.length||0,variables:evidence.variables?.length||0});
     else status('success',operation==='apply'?'applied':'readDone',evidence.migration_pending?'pending':operation==='apply'?'appliedHelp':'readSaved');
+    renderSummary();
     hasResult=true;latestHasReadback=!!message.readback;
     setText('report', JSON.stringify({operation: message.operation || operation, status: message.readback?.status || (failure ? 'error' : 'success'), error: failure, rollback_conflicts: conflicts, file_key: message.readback?.file_key || message.readback?.fileKey, page_id: message.readback?.page_id || message.readback?.pageId}, null, 2));
     setText('evidence-help', t(message.readback ? 'evidenceCurrent' : 'evidencePrevious'));
@@ -168,6 +190,7 @@
 
   function redactText(value) {
     return String(value)
+      .replace(/([a-z][a-z0-9+.-]*:\/\/)[^/\s"'<>]+@/gi, '$1')
       .replace(HOME_PATH, '[home]')
       .replace(SECRET_QUERY, '$1[redacted]')
       .replace(/Bearer\s+[A-Za-z0-9._~+/=-]{6,}/g, 'Bearer [redacted]');
@@ -382,16 +405,16 @@
 
   return {SCHEMA: SCHEMA, buildAuditRecord: buildAuditRecord, renderAuditExport: renderAuditExport};
 });
+
 </script>
 <script id="audit-export-bind">
 function bindAuditExport() {
-  const pluginVersion = '0.26.3';
   const config = JSON.parse(document.getElementById('graph-panel-config').textContent);
   const output = document.getElementById('audit-text');
   const seen = {events: [], native_read: null};
   function payload() {
     return {
-      plugin_version: pluginVersion,
+      plugin_version: config.plugin_version,
       file_key: config.file_key,
       page_id: config.page_id,
       page_name: config.page_name || null,
