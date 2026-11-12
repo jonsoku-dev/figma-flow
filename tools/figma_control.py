@@ -514,6 +514,38 @@ def pinned_operation_transitions(root, discovery_revision, mutation_revision, ot
     }
 
 
+def note_native_started(root, payload):
+    """Record one explicit native start after the claim and current runtime match."""
+    required = {'id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision', 'runtime'}
+    if set(payload) != required:
+        raise ValueError('Exact native start fields required')
+    runtime = payload['runtime']
+    if (not isinstance(runtime, dict) or set(runtime) != {'version', 'implementation', 'generation'} or
+            not isinstance(runtime['version'], str) or not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', runtime['version']) or
+            not isinstance(runtime['implementation'], str) or not re.fullmatch(r'[a-f0-9]{64}', runtime['implementation']) or
+            not isinstance(runtime['generation'], str) or not re.fullmatch(r'[a-f0-9]{32}', runtime['generation'])):
+        raise ValueError('Invalid native runtime identity')
+    with workspace.locked(root) as root:
+        directory = state_dir(root)
+        request = active(directory)
+        if not request or request['state'] != 'claimed':
+            raise ValueError('No current claim accepts native start')
+        if any(payload[key] != request[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')):
+            raise ValueError('Native start claim or scope mismatch')
+        if not lifecycle_present(request):
+            raise ValueError('Invalid operation lifecycle')
+        validate_lifecycle(request)
+        current = workspace.current(root, repair=False).get('runtime')
+        client = NATIVE_CLIENTS.get(str(root.resolve()))
+        if payload['runtime'] != current or not client or client.get('session_id') != payload['session_id'] or client.get('runtime') != payload['runtime']:
+            raise ValueError('Native start runtime does not match the claimed session')
+        if any(isinstance(event, dict) and event.get('phase') == 'native-started' for event in request['phase_events']):
+            raise ValueError('Native start was already recorded')
+        record_phase(request, 'native-started')
+        save(directory, request)
+        return {'accepted': True, 'id': request['id'], 'state': request['state'], 'phase': 'native-started'}
+
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, *_args):
         pass
@@ -536,7 +568,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result', '/control/readiness'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/readiness', '/control/native-started'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
@@ -557,6 +589,8 @@ class Handler(BaseHTTPRequestHandler):
                 if payload:
                     raise ValueError('Exact empty readiness object required')
                 value = readiness(self.server.workspace)
+            elif self.path == '/control/native-started':
+                value = note_native_started(self.server.workspace, payload)
             else:
                 value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
         except (ValueError, KeyError, TypeError, OSError):

@@ -158,6 +158,7 @@ async function workspaceControlTick() {
     cmd = reply.operation;
     if (!cmd) return;
     const receipt = Object.fromEntries(['id','claim_id','session_id','revision','file_key','page_id'].map(k=>[k,cmd[k]]));
+    if (typeof WORKSPACE_RUNTIME !== 'undefined') await controlRequest('native-started', {...receipt, runtime: WORKSPACE_RUNTIME});
     controlState('running', true);
     try {
       if (workspaceActive || home !== workspaceHomeSession || cmd.session_id !== controlRunSession) throw Error('The open workspace session changed.');
