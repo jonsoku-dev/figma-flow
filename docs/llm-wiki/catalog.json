@@ -4678,6 +4678,80 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "9408fdabedc720a7dd266f7a819953dd1abef969",
+      "diff_sha256": "9cdd152463e054c9cb84a03a5c1e5c15312b805436a80229f496ac1393081930",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/9c9d5575eea6d883620407e591972c7e92cc244f.md",
+        "docs/llm-wiki/patches/ed846239ebafe20621f61d44517ec0eb8b3737eb.md",
+        "docs/llm-wiki/patches/f943bc9f1f316f0f7c6624087e1bba2c1b6f45eb.md"
+      ],
+      "parents": [
+        "9c9d5575eea6d883620407e591972c7e92cc244f"
+      ],
+      "subject": "docs: record the getters used by one full native read",
+      "tree": "ef40f62017ac7f0279ca996b60abfe37ef790d6c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "e0f34c2d2db5673cc17a63bf8bb99489445c2492",
+      "diff_sha256": "7154ec949b998e0f14a8bc3f38ca97a8056a51373b9202ec4cb2e4e9d6cbcdab",
+      "files": [
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "tests/rd06_summary_coverage.cjs"
+      ],
+      "parents": [
+        "9408fdabedc720a7dd266f7a819953dd1abef969"
+      ],
+      "subject": "test: pin partial native summary coverage",
+      "tree": "47f91f6508da51312516feeeb23996efb4817ce4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3",
+      "diff_sha256": "93e452b825d0700141ff6fb963880583d22f391c5aa5ddef87459b492db6f917",
+      "files": [
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/code.js",
+        "figma-bridge/native_semantic_read.js",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/nativeSummary.mjs"
+      ],
+      "parents": [
+        "e0f34c2d2db5673cc17a63bf8bb99489445c2492"
+      ],
+      "subject": "feat: show a partial native summary in the import panel",
+      "tree": "0f7eb00a8f8c6691fb3cd03d357b739e648fa361",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4723,6 +4797,7 @@
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
     "47bd10f10263a0f7bd2db9bed0511f2532053532": "de6538b6ce1650e2ba88544d4694669b30d85fb9a34b2b6824e31e7df064e691",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
+    "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3": "d87d9197acf7e107e3986fdb175b95f59e3262383bec955165f74e43257a4fde",
     "4dc23d6d98a7953572228b6bbf829e54c5417d13": "4614f0de857de2a6a8366f20a635591e74458142ba2573fd747d067cf84ec7f6",
     "4eab91b666eaeead1fe04395f248f936cdb51b7d": "da5bfbe556d77c32c8ec650fee0d17ccf97885063c570ab81b9b70c4136b767b",
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
@@ -4753,6 +4828,7 @@
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
+    "9408fdabedc720a7dd266f7a819953dd1abef969": "61b0dbf5ddf56891eda23a57922d7ae34264ba0ccc49b60430390bf947d0e690",
     "942d0cf9a5c194b8decd79918062c84767a0d1ec": "51f289feb528da76ec699c6af67bba30f0dd4ff789190fa3a9eaae1f9cf7db06",
     "946717804fcf45d0d4c85c3e624132ed0c48455f": "e9108746702eaf2927bed0c5e4fdbc5c6a826ba206a31562a6ad238515e23544",
     "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
@@ -4805,6 +4881,7 @@
     "dbd4c0eb275a75dd5519e924c3c209716aa0578d": "8d7bad5d0d5802b9d1acbcc8b423bf84e68d94bfea0218edd5909d353f021a69",
     "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d": "8be1bcfc43ae3c3b3969ec1b3c925367087a5d0edd83240ddaca66a6574d5766",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
+    "e0f34c2d2db5673cc17a63bf8bb99489445c2492": "8645b1223ce0695b4bdc76c801660ed704bdf3cfbe05f238a0ba56552c9aeb7a",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
@@ -4883,6 +4960,10 @@
     },
     {
       "observed_at_commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5156,7 +5237,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "9c9d5575eea6d883620407e591972c7e92cc244f",
+  "source_commit": "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
