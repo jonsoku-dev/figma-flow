@@ -1003,7 +1003,7 @@ def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None):
 async function discoverGraphNative(figma, scope) {
   if (figma.fileKey !== scope.file_key || figma.currentPage.id !== scope.page_id) throw Error('Wrong native discovery file or main page');
   const result = {schema: 'figma-flow-graph-native-discovery-v1', fileKey: figma.fileKey,
-    pageId: scope.page_id, allowed_page_ids: scope.allowed_page_ids, collections: [], variables: [], nodes: [], observed_at: new Date().toISOString()};
+    pageId: scope.page_id, allowed_page_ids: scope.allowed_page_ids, collections: [], variables: [], nodes: [], rasterImages: Object.create(null), observed_at: new Date().toISOString()};
   const collections = new Map(), variables = new Map();
   for (const pageId of scope.allowed_page_ids) {
     const page = await figma.getNodeByIdAsync(pageId);
@@ -1022,6 +1022,7 @@ async function discoverGraphNative(figma, scope) {
       }
     }
     result.nodes.push(...actual.nodes);
+    mergeNativeRasterImages(result.rasterImages, actual.rasterImages);
     for (const variable of actual.variables) variables.set(variable.id, variable);
     for (const collection of actual.collections) {
       const native = await figma.variables.getVariableCollectionByIdAsync(collection.id);

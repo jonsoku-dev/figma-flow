@@ -17,6 +17,15 @@ function resolveInstanceSemanticKey(node) {
   return null;
 }
 
+function mergeNativeRasterImages(target, source) {
+  for (const [hash, bytes] of Object.entries(source || {})) {
+    if (Object.prototype.hasOwnProperty.call(target, hash) && target[hash] !== bytes)
+      throw new Error(`Conflicting native raster bytes for image hash ${hash}`);
+    target[hash] = bytes;
+  }
+  return target;
+}
+
 async function readNativeSemantics(figma, page) {
   const fail = message => { throw new Error(`Native semantic read: ${message}`); };
   if (!page?.id || typeof page.loadAsync !== "function") fail("selected page required");
@@ -174,7 +183,7 @@ async function readNativeSemantics(figma, page) {
   }
   return { pageId: page.id, selectedPageIds: [page.id], collectionIds: [...collections.keys()], collections: [...collections.values()], variables: [...variables.values()], nodes: rows, styles, unavailableFields, rasterImages };
 }
-if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics };
+if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages };
 
 function equalNativeValue(a,b){return JSON.stringify(a,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value)===JSON.stringify(b,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value);}
 function nativeHumanMarkdownMatches(annotation,spec,url){const label=FLOW_SPEC_LABELS[spec.locale];return Boolean(label&&typeof spec.annotation_text==="string"&&annotation?.labelMarkdown===`${spec.title}\n${spec.annotation_text.trim()}\n\n[${label}](${url})`);}

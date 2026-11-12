@@ -586,10 +586,7 @@ async function readback(pages, scope) {
     snapshots.push(await snapshot(page));
     const read = await readNativeSemantics(figma,page);
     nativeReads.push(read);
-    for (const [hash, bytes] of Object.entries(read.rasterImages || {})) {
-      if (Object.prototype.hasOwnProperty.call(rasterImages, hash) && rasterImages[hash] !== bytes) throw new Error(`Conflicting native raster bytes for image hash ${hash}`);
-      rasterImages[hash] = bytes;
-    }
+    mergeNativeRasterImages(rasterImages, read.rasterImages);
   }
   const collections = (await figma.variables.getLocalVariableCollectionsAsync()).filter(collection => collectionIds.has(collection.id));
   const variables = (await figma.variables.getLocalVariablesAsync()).filter(variable => collectionIds.has(variable.variableCollectionId));
