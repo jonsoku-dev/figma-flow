@@ -27,7 +27,8 @@ EXPECTED = {
     'mutation_reenqueued_while_uncertain': 'blocked',
     'other_page_read_reconciles': False,
     'same_scope_discovery_reconciles': True,
-    'duplicate_terminal_result': 'rejected',
+    'duplicate_terminal_result': 'accepted',
+    'conflicting_duplicate_terminal_result': 'rejected',
     'native_started': False,
 }
 
