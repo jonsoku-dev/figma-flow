@@ -3666,6 +3666,78 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a",
+      "diff_sha256": "cbc9e45615bdef3041e17f8d5728670eb8fecdad0409a4ac0bd11e5b5cdc9842",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0cf1823f9225b694b40961f2b6fb5d6eaa79834c.md",
+        "docs/llm-wiki/patches/1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f.md",
+        "docs/llm-wiki/patches/bd53b61a4da349e5857b01f5abfd47ed80e378bd.md"
+      ],
+      "parents": [
+        "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f"
+      ],
+      "subject": "docs: record declared task dependency checks before catalogue publication",
+      "tree": "afdae64a47c36e04d47f04241b483de7759870c6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "7bff2100bccf6db00203cc5351c8773026783d72",
+      "diff_sha256": "a4ebb65cab3a62bd8219bcbe9eb4d8da94e8936af1f4848e868da267450d58b7",
+      "files": [
+        "tests/fixtures/rd03/declared-edges.json",
+        "tests/fixtures/rd03/legacy-tasks.json",
+        "tests/test_rd03_task_fixtures.py"
+      ],
+      "parents": [
+        "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a"
+      ],
+      "subject": "test: pin a legacy catalogue apart from one declared dependency edge",
+      "tree": "8009af22102f764cd7093e372101618af44d981e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "19b6e1a9d879272179c120cd9c0d303a3e765910",
+      "diff_sha256": "60f7eb8204660d17fb901c82f4ffa87dad90fad5b4d80784f1ab2dee079bccfd",
+      "files": [
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "7bff2100bccf6db00203cc5351c8773026783d72"
+      ],
+      "subject": "feat: load the legacy catalogue apart from the declared dependency fixture",
+      "tree": "8cbc3a869f96f33367acf6e92e73ed9e56add7ad",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3684,6 +3756,7 @@
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
+    "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
@@ -3715,6 +3788,7 @@
     "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
+    "7bff2100bccf6db00203cc5351c8773026783d72": "4bf77332ec7b7f05f26b5da425a0f61bee71c346e6e1e8eb8fd28d12681d9f1d",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
@@ -3748,6 +3822,7 @@
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
+    "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
     "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
@@ -3785,6 +3860,10 @@
     },
     {
       "observed_at_commit": "108ecded7a1e99ee040a4c4b067a837a85d4d67c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "19b6e1a9d879272179c120cd9c0d303a3e765910",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4046,7 +4125,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f",
+  "source_commit": "19b6e1a9d879272179c120cd9c0d303a3e765910",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
