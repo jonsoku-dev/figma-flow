@@ -4466,6 +4466,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "b89ee860423de1716456931197d1adffac0dba89",
+      "diff_sha256": "509cbe6d414bb7babfe5feaf1e4389fd6a3a62b8dcbf55de0135270cfb92d231",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/306f26c7454a310f9f9b61f5ddb8b9f557d71318.md",
+        "docs/llm-wiki/patches/325e122cb48aebe61663333db337e093bc6a1429.md",
+        "docs/llm-wiki/patches/f49dba18aa822a9b6463514b66e2079d8e0a7e05.md"
+      ],
+      "parents": [
+        "306f26c7454a310f9f9b61f5ddb8b9f557d71318"
+      ],
+      "subject": "docs: record the asset list that filters status without loading files",
+      "tree": "9edef6a5575d58d1e8fe2cff45c74a0a6cbd7627",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "dbd4c0eb275a75dd5519e924c3c209716aa0578d",
+      "diff_sha256": "59a6c85de720c7d35a672bd1fffe0a270a982ae0b68fa93932e3e9e30af23c93",
+      "files": [
+        "tests/test_rd05_asset_freshness.py"
+      ],
+      "parents": [
+        "b89ee860423de1716456931197d1adffac0dba89"
+      ],
+      "subject": "test: keep one font when two stylesheets import it and mark byte changes stale",
+      "tree": "7994d0ee716e1845a016b3b2d64036be6553e4ae",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "29198999ebfe2aa9975576dc5792939315fbc850",
+      "diff_sha256": "15fa345f617d828f1604fc9e18b748211c2cc6bf6daaf94aa67fd6af1099f584",
+      "files": [
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "dbd4c0eb275a75dd5519e924c3c209716aa0578d"
+      ],
+      "subject": "feat: keep one font asset when two stylesheets import it",
+      "tree": "cc42cdbff9f51e6c2c8163673d730962683ef679",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4495,6 +4566,7 @@
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
+    "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
@@ -4563,6 +4635,7 @@
     "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
+    "b89ee860423de1716456931197d1adffac0dba89": "bb0d5493febe7552de1d29dd9a52e222da2b7637898e328097e796579728c283",
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
@@ -4584,6 +4657,7 @@
     "d85d6388ae1c50a853278af33ca790a411b1e59e": "bd097342130b482c55505a0541bea97bd013bdddd5446538f808cc527558975a",
     "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba": "50631091c707315abe98de13323d7f44722622c85c19c334fefae1fe55fcb34c",
     "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
+    "dbd4c0eb275a75dd5519e924c3c209716aa0578d": "8d7bad5d0d5802b9d1acbcc8b423bf84e68d94bfea0218edd5909d353f021a69",
     "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d": "8be1bcfc43ae3c3b3969ec1b3c925367087a5d0edd83240ddaca66a6574d5766",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
@@ -4646,6 +4720,10 @@
     },
     {
       "observed_at_commit": "24730598c912ef01c3da487193fa44e011981e7d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "29198999ebfe2aa9975576dc5792939315fbc850",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4923,7 +5001,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "306f26c7454a310f9f9b61f5ddb8b9f557d71318",
+  "source_commit": "29198999ebfe2aa9975576dc5792939315fbc850",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
