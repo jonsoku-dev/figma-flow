@@ -4178,6 +4178,78 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b",
+      "diff_sha256": "0109ed7d70e0ad86cdea798e427ee79aeaa156af06de3463359cb632a088e07d",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/5caacfd96b70a03abd80d331a5a8b5317a38e2bf.md",
+        "docs/llm-wiki/patches/91a6408d4ba0029144bc3f08c90ba7dbe59b85cc.md",
+        "docs/llm-wiki/patches/95c8714f29ec1af8094e88896f14b114c4afa63c.md"
+      ],
+      "parents": [
+        "95c8714f29ec1af8094e88896f14b114c4afa63c"
+      ],
+      "subject": "docs: record the partial apply that limits the baseline",
+      "tree": "ff458a94cbc1a396531a365314d5fb18155f77d0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "80742c55590c46e85ca8289298abc0a58371a9a8",
+      "diff_sha256": "924ec9608b0ce3bd92f035cabfe002477187c12a0bb227f81571e4cacad60a99",
+      "files": [
+        "tests/fixtures/rd04/component-fields.json",
+        "tests/test_rd04_component_fields.py"
+      ],
+      "parents": [
+        "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b"
+      ],
+      "subject": "test: require shared component fields to keep the same main component",
+      "tree": "589a484d37a6fe38034a7247e47b96c47d4e77a4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "f5e853a2056798c94b5cf5419484255998f6bd85",
+      "diff_sha256": "edace1cb8b32a67bbdf883cb8aca6d8ac8ecde3dae0dd6297836920c844fd983",
+      "files": [
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "figma-bridge/graph_token_sync.js",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "80742c55590c46e85ca8289298abc0a58371a9a8"
+      ],
+      "subject": "feat: apply shared component fields without a new main component",
+      "tree": "3d42a1a94604244472217cea9807da983286b88d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4237,6 +4309,7 @@
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
     "7bff2100bccf6db00203cc5351c8773026783d72": "4bf77332ec7b7f05f26b5da425a0f61bee71c346e6e1e8eb8fd28d12681d9f1d",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
+    "80742c55590c46e85ca8289298abc0a58371a9a8": "c446cccd82c9fa35acfcd6885b96461f92ee0dd56a6eb3f46d92f7d1c41c8c15",
     "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
@@ -4248,6 +4321,7 @@
     "942d0cf9a5c194b8decd79918062c84767a0d1ec": "51f289feb528da76ec699c6af67bba30f0dd4ff789190fa3a9eaae1f9cf7db06",
     "946717804fcf45d0d4c85c3e624132ed0c48455f": "e9108746702eaf2927bed0c5e4fdbc5c6a826ba206a31562a6ad238515e23544",
     "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
+    "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b": "7f89387eaff41cf48c99bb65484ef1fc592113c01a43e4e67f51a80b9e9ace72",
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
@@ -4303,6 +4377,7 @@
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
     "f290f48aba0bbabe12a8eda3f315d8cf2205457b": "e7f236ee01f526a36361927398d796f430a1f0336b91ebf48d3c2815ac0720f5",
     "f3ec102c6dbe436495ff15391f599cddfd86a449": "e4c6ee3db8f9e045bafc1d629567150280ee52b78ab1082fc35eb9dcb928075e",
+    "f5e853a2056798c94b5cf5419484255998f6bd85": "37b7291658a8e7725b27a8ee6d0683cebc9f1c9514ddc4cf3567d0fdfa693475",
     "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02",
     "f838d46167cc8078e755c579bc3340c85968f8aa": "58cfcc4d03a25f590a3d2d6ab7ee4b696d048b24355567a317cd497419cbc524",
     "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f"
@@ -4422,6 +4497,10 @@
     },
     {
       "observed_at_commit": "f3ec102c6dbe436495ff15391f599cddfd86a449",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "f5e853a2056798c94b5cf5419484255998f6bd85",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     }
   ],
@@ -4607,7 +4686,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "95c8714f29ec1af8094e88896f14b114c4afa63c",
+  "source_commit": "f5e853a2056798c94b5cf5419484255998f6bd85",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
