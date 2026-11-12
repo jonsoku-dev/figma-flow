@@ -1,0 +1,9 @@
+{
+  "schema": "figma-flow-component-field-v1",
+  "component": {"id": "button", "node_id": "main-1", "main_component_id": "main-1"},
+  "fields": [
+    {"field": "paddingLeft", "token": "space/inset", "before": 8, "after": 12},
+    {"field": "paddingRight", "token": "space/inset", "before": 8, "after": 12},
+    {"field": "fontSize", "token": "type/size", "before": 14, "after": 16}
+  ]
+}
