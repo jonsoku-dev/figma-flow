@@ -1,0 +1,12 @@
+{
+  "schema": "figma-flow-layer-fixture-v1",
+  "screen": "state.idle",
+  "layers": [
+    {"id": "title", "kind": "text", "name": "title"},
+    {"id": "body", "kind": "text", "name": "body"},
+    {"id": "ornament", "kind": "rect", "name": "ornament"},
+    {"id": "save", "kind": "text", "name": "save"},
+    {"id": "cancel", "kind": "text", "name": "cancel"}
+  ],
+  "containers": []
+}

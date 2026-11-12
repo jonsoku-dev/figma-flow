@@ -1,0 +1,46 @@
+{
+  "schema": "figma-flow-layer-fixture-v1",
+  "screen": "state.idle",
+  "layers": [
+    {"id": "title", "kind": "text", "name": "title"},
+    {"id": "body", "kind": "text", "name": "body"},
+    {"id": "ornament", "kind": "rect", "name": "ornament"},
+    {"id": "save", "kind": "text", "name": "save"},
+    {"id": "cancel", "kind": "text", "name": "cancel"}
+  ],
+  "containers": [
+    {
+      "key": "card",
+      "kind": "frame",
+      "name": "card",
+      "parent": null,
+      "children": ["copy", "ornament-cluster", "actions"],
+      "box": [24, 24, 320, 180],
+      "fill": "surface",
+      "clip": true
+    },
+    {
+      "key": "copy",
+      "kind": "auto-layout",
+      "name": "copy",
+      "parent": "card",
+      "children": ["title", "body"],
+      "layout": {"direction": "VERTICAL", "gap": 12, "padding": [16, 16, 16, 16], "width": "fixed", "height": "hug"}
+    },
+    {
+      "key": "ornament-cluster",
+      "kind": "group",
+      "name": "ornament",
+      "parent": "card",
+      "children": ["ornament"]
+    },
+    {
+      "key": "actions",
+      "kind": "auto-layout",
+      "name": "actions",
+      "parent": "card",
+      "children": ["save", "cancel"],
+      "layout": {"direction": "HORIZONTAL", "gap": 8, "padding": [0, 0, 0, 0], "width": "fill", "height": "hug"}
+    }
+  ]
+}
