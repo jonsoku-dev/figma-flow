@@ -3314,6 +3314,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58",
+      "diff_sha256": "56b2fab70a170dbf9c56ff0d890a7ccce989fb7eb54c9998e891d20aafd8fa58",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0664a3113792752d37096d12ee02aae08a488b2b.md",
+        "docs/llm-wiki/patches/16f728ae07a92f515225020fe61779e852eba285.md",
+        "docs/llm-wiki/patches/24730598c912ef01c3da487193fa44e011981e7d.md"
+      ],
+      "parents": [
+        "24730598c912ef01c3da487193fa44e011981e7d"
+      ],
+      "subject": "docs: record explicit native-started delivery from the claimed runtime",
+      "tree": "0c2bcf9c123f58caaa990327d5d4e8717143fa1d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "c71aabb35f06b4ce860b36837be44d17b8bd2d6c",
+      "diff_sha256": "42b8e68ae021e71aefa6c82cf89a0866069f2656829a57b421ca3b60d2b00620",
+      "files": [
+        "tests/test_rd08_journal_history.py"
+      ],
+      "parents": [
+        "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58"
+      ],
+      "subject": "test: require execution history to read the server journal",
+      "tree": "bdc2daaf1f90ffcd6d0abb7fe9807b06ec0b7d66",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "da3c7c51c4bc20733a5bf27278f9b459de1773ff",
+      "diff_sha256": "fdf7a42546502840e94759a05c52d4403a27e4ead55fe871ad6c372177ae3f24",
+      "files": [
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "figma-bridge/workspace_host.js",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "c71aabb35f06b4ce860b36837be44d17b8bd2d6c"
+      ],
+      "subject": "feat: let execution history read the server journal",
+      "tree": "c8f7f8ad73b0753ec1c3b9070c1516c5dbbbd6c7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3387,6 +3458,7 @@
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
+    "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
     "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
@@ -3394,12 +3466,14 @@
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
+    "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
     "e3bb0505b011f77a656e096b821c7d0d01f2990c": "3f706b2efe5791d50864dc484452b0faf592f55a8cb7bf056adbb2e4dd6510e1",
     "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
+    "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
     "f3ec102c6dbe436495ff15391f599cddfd86a449": "e4c6ee3db8f9e045bafc1d629567150280ee52b78ab1082fc35eb9dcb928075e",
@@ -3462,6 +3536,10 @@
     },
     {
       "observed_at_commit": "9a465e535cafbf7e8be7fd4d7a2693b70ada4400",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "da3c7c51c4bc20733a5bf27278f9b459de1773ff",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3659,7 +3737,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "24730598c912ef01c3da487193fa44e011981e7d",
+  "source_commit": "da3c7c51c4bc20733a5bf27278f9b459de1773ff",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
