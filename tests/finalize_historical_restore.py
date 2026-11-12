@@ -92,7 +92,7 @@ class HistoricalRestore(unittest.TestCase):
         self.assertEqual(self.task('consumer')['depends_on'], [self.edge])
         self.assertEqual(workspace.task_input_freshness(self.path, restored), {
             'taskKey': 'source', 'revision': self.original['revision'], 'status': 'current', 'changed': []})
-        self.assertEqual(restored['input_root'], str(self.root))
+        self.assertEqual(restored['input_root'], str(self.root.resolve()))
 
     def test_retained_revision_revives_exact_authenticated_bundle(self):
         before_directories = self.task_directories()
