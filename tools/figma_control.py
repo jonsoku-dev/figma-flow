@@ -260,6 +260,31 @@ def journal_history(request):
     return {'operation_id': request['operation_id'], 'classification': 'recorded', 'phase': phases[-1]['phase'] if phases else 'unknown', 'phases': phases}
 
 
+def task_operation_boundary(root, revision):
+    """Show that a prepared task revision is not a control operation id."""
+    before = workspace.current(root)
+    task = next((row for row in before['tasks'] if row.get('key') == 'discovery'), None)
+    if not task or task.get('revision') != revision:
+        raise ValueError('Prepared task revision mismatch')
+    request = enqueue(root, 'discovery', 'read', 'fixturefile', '12:1', revision, 30)
+    journal = journal_history(status(root))
+    after = workspace.current(root)
+    current = next(row for row in after['tasks'] if row.get('key') == 'discovery')
+    return {
+        'schema': 'figma-flow-identity-boundary-v1',
+        'task_key': task['key'],
+        'revision_length': len(task['revision']),
+        'operation_id_length': len(request['operation_id']),
+        'identities_differ': request['operation_id'] not in {task['revision'], task['key']},
+        'operation_uses_task_key': request['key'] == task['key'],
+        'catalogue_contains_operation_id': any(row.get('key') == request['operation_id'] for row in after['tasks']),
+        'catalogue_revision_unchanged': current.get('revision') == task['revision'],
+        'journal_operation_id_matches': journal.get('operation_id') == request['operation_id'],
+        'dependency_inferred': 'depends_on' in task or 'depends_on' in current,
+        'request_count': len(list((Path(root) / '.control' / 'requests').glob('*.json'))),
+    }
+
+
 def conflict_detail(readback):
     """Explicit conflict lookup. It does not overwrite the observed value or offer a rerun."""
     if not isinstance(readback, dict):

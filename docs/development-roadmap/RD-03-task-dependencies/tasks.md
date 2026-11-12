@@ -12,6 +12,8 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
+1은 `figma_control.task_operation_boundary`가 준비된 task revision과 서버 operation id가 다르다는 것을 확인한다. operation은 task key를 가리키지만 catalogue에 operation id를 task로 넣지 않고, status 조회는 revision을 바꾸거나 dependency를 만들지 않는다. 요청 파일은 하나다. UI 통합은 아직이다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
