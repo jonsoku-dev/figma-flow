@@ -277,3 +277,41 @@
   }
   .workspace-activity-counts { grid-template-columns: 1fr; }
 }
+.workspace-dependency-link {
+  display: block;
+  margin: -4px 0 10px 32px;
+  padding: 4px 0;
+  border: 0;
+  color: var(--accent);
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.workspace-dependency-view {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+.workspace-dependency-graph {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+}
+.workspace-dependency-text {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.workspace-dependency-text button,
+.workspace-dependency-view > button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+@media (max-width: 320px) {
+  .workspace-dependency-graph { display: none; }
+}

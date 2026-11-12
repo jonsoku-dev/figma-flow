@@ -329,6 +329,11 @@
     "en": "Other prepared tasks",
     "ja": "ほかの準備済みタスク"
   },
+  "workspace.dependencyHeading": {
+    "ko": "선행과 후속",
+    "en": "Predecessors and successors",
+    "ja": "先行と後続"
+  },
   "workspace.taskCount": {
     "ko": "준비 작업 {count}개",
     "en": "{count} prepared tasks",

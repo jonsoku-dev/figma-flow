@@ -250,6 +250,17 @@ async function workspaceOpen(task, view = 'task') {
   }
   return workspaceCurrent(current) ? current : null;
 }
+function workspaceDependencyEdges(value) {
+  if (!Array.isArray(value)) return undefined;
+  const names = new Set(['code.js', 'ui.html', 'manifest.json']);
+  const edges = [];
+  for (const edge of value) {
+    if (!edge || edge.relation !== 'uses-output' || !names.has(edge.artifact)) continue;
+    if (typeof edge.task_key !== 'string' || typeof edge.revision !== 'string' || typeof edge.artifact_sha256 !== 'string') continue;
+    edges.push({task_key: edge.task_key, revision: edge.revision, relation: edge.relation, artifact: edge.artifact, artifact_sha256: edge.artifact_sha256});
+  }
+  return edges.length ? edges : undefined;
+}
 figma.ui.onmessage = async message => {
   if (!message || typeof message !== 'object') return;
   const activeBeforeLoad = workspaceActive, homeBeforeLoad = workspaceHomeSession;
@@ -276,8 +287,10 @@ figma.ui.onmessage = async message => {
       }
       figma.ui.postMessage({type: 'workspace-tasks', workspaceSession: workspaceHomeSession,
         fileKey: figma.fileKey || null, controlEnabled: typeof WORKSPACE_CONTROL_CONFIG !== 'undefined' && !!WORKSPACE_CONTROL_CONFIG, locale: workspaceState.locale, history: workspaceState.history,
-        view: workspaceHomeView, project: workspaceProject, focusKey: workspaceFocus, storageError: workspaceStorageError, error: workspaceNotice || null, tasks: [...workspaceTasks.values()].map(({key, title, project, kind, fileKey, pageId, threadId, revision, preview, paired, productionAdmitted}) =>
-          ({key, title, project, kind, fileKey: fileKey || null, pageId: pageId || null, threadId: threadId || null, revision: revision || '', preview: workspacePreview({preview}), paired: paired === true, productionAdmitted: productionAdmitted === true}))});
+        view: workspaceHomeView, project: workspaceProject, focusKey: workspaceFocus, storageError: workspaceStorageError, error: workspaceNotice || null, tasks: [...workspaceTasks.values()].map(task => {
+          const dependsOn = workspaceDependencyEdges(task.depends_on);
+          return {key: task.key, title: task.title, project: task.project, kind: task.kind, fileKey: task.fileKey || null, pageId: task.pageId || null, threadId: task.threadId || null, revision: task.revision || '', preview: workspacePreview(task), paired: task.paired === true, productionAdmitted: task.productionAdmitted === true, ...(dependsOn ? {depends_on: dependsOn} : {})};
+        })});
       return;
     }
     if (!['workspace-open', 'workspace-chat-open'].includes(message.type) || message.workspaceSession !== workspaceHomeSession) return;

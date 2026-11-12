@@ -556,6 +556,22 @@ def load_task_dependency_fixtures(root):
     return {'legacy': normalize_task_dependencies(legacy['tasks']), 'declared': normalize_task_dependencies(declared['tasks'])}
 
 
+def public_task_metadata(task):
+    """Copy the public task fields and explicit dependency edges. Extra edge fields stay out."""
+    metadata = {key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'fileKey', 'pageId', 'threadId', 'revision', 'handoff')}
+    edges = task.get('depends_on')
+    if not isinstance(edges, list) or not edges:
+        return metadata
+    safe = []
+    for edge in edges:
+        if not isinstance(edge, dict):
+            continue
+        safe.append({field: edge[field] for field in ('task_key', 'revision', 'relation', 'artifact', 'artifact_sha256')})
+    if safe:
+        metadata['depends_on'] = safe
+    return metadata
+
+
 def publish(workspace, catalogue):
     catalogue = {**catalogue, 'tasks': normalize_task_dependencies(catalogue['tasks'])}
     require_idle_publication(workspace)
@@ -567,7 +583,7 @@ def publish(workspace, catalogue):
     for task in catalogue['tasks']:
         bundle = task_artifacts(workspace, task)
         domains.update(task['domains'])
-        metadata = {key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'fileKey', 'pageId', 'threadId', 'revision', 'handoff')}
+        metadata = public_task_metadata(task)
         code = regular(bundle / 'code.js', private=True).read_text()
         facts, html = task_surface(task['kind'], code, regular(bundle / 'ui.html', private=True).read_text(), shared=True)
         metadata.update(facts, paired=bool(task['domains']))

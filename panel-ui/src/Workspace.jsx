@@ -12,6 +12,7 @@ import {
 import { Action, Section, Notice, PreviewStrip } from './components.jsx';
 import { workspaceActivity } from './WorkspaceActivity.mjs';
 import { ActivitySummary, ExecutionFlows } from './WorkspaceActivity.jsx';
+import { dependencyView } from './dependencyView.mjs';
 
 const locales = new Set(__FLOW_LOCALES__);
 const terminal = new Set(['finished', 'readback', 'verified', 'baseline']);
@@ -94,6 +95,32 @@ export function workspacePreviews(task) {
     .slice(0, 2);
 }
 
+function DependencyText({ tasks, selected, onSelect }) {
+  const view = dependencyView(tasks, selected);
+  const rows = [...view.predecessors, ...view.successors];
+  const height = 36 + Math.max(rows.length, 1) * 28;
+  return (
+    <div className="workspace-dependency-view">
+      <svg className="workspace-dependency-graph" aria-hidden="true" viewBox={`0 0 280 ${height}`}>
+        <rect x="70" y="8" width="140" height="24" />
+        {rows.map((item, index) => (
+          <line key={item.role + item.key} x1="140" y1="32" x2="140" y2={40 + index * 28} />
+        ))}
+      </svg>
+      <ol className="workspace-dependency-text">
+        {view.text.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ol>
+      {rows.map((item) => (
+        <button type="button" key={item.role + item.key} onClick={() => onSelect(item.key)}>
+          {item.title}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function EventIcon({ status, ...props }) {
   const Icon =
     status === 'failed'
@@ -124,6 +151,7 @@ export default function Workspace({
   const [activityTask, setActivityTask] = useState('');
   const [control, setControl] = useState(null);
   const [focusTask, setFocusTask] = useState(null);
+  const [dependencyKey, setDependencyKey] = useState('');
   const session = useRef(null);
   const modelRef = useRef(initialModel);
   const sendRef = useRef(send);
@@ -459,6 +487,9 @@ export default function Workspace({
         </>
       ) : (
         <Section>
+          {view === 'tasks' && dependencyKey && tasks.some((task) => task.key === dependencyKey) && (
+            <DependencyText tasks={tasks} selected={dependencyKey} onSelect={setDependencyKey} />
+          )}
           {!!remaining.length && view === 'tasks' && (
             <h2 className="workspace-list-title">{tr(recommended ? 'otherTasks' : 'allStages')}</h2>
           )}
@@ -496,6 +527,7 @@ export default function Workspace({
                 <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
               </Action>
               <button type="button" className="workspace-history-link" onClick={() => jumpToReceipt(task)}>{tr('viewTaskFlow')}</button>
+              <button type="button" className="workspace-dependency-link" onClick={() => setDependencyKey(task.key)}>{tr('dependencyHeading')}</button>
               </div>
             );
           })}
