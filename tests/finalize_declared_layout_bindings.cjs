@@ -54,7 +54,20 @@ test('normal makeDraft binds declared positive gap and padding to actual FLOAT v
     assert.equal(observed.boundVariables.itemSpacing.id, spacing.id, 'normal fresh native read must report the actual binding');
     const variable = raw.variables.find(row => row.id === spacing.id);
     assert.equal(variable.resolvedType, 'FLOAT');
-    assert(Object.values(variable.valuesByMode).includes(12));
+    let current = variable, value;
+    const seen = new Set();
+    while (current) {
+      assert(!seen.has(current.id), 'fresh raw binding must not contain an alias cycle');
+      seen.add(current.id);
+      assert.equal(current.resolvedType, 'FLOAT');
+      const collection = raw.collections.find(row => row.id === current.variableCollectionId);
+      assert(collection, 'fresh raw alias target must have its actual collection');
+      value = current.valuesByMode[collection.defaultModeId];
+      if (value?.type !== 'VARIABLE_ALIAS') break;
+      current = raw.variables.find(row => row.id === value.id);
+      assert(current, 'fresh raw alias target must exist');
+    }
+    assert.equal(value, 12, 'fresh raw alias chain must resolve to the authored gap');
   }
 });
 
