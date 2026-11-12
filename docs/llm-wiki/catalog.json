@@ -5191,6 +5191,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "59e4a57ba67a2efa1cace67c54e37b13ce747e1b",
+      "diff_sha256": "7621d618ce6f3e2d1722a968a0a913f78ba3eaf688a368572dded91a37a68988",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/199683f8c221fcac718991dd91ad96b6a50ab144.md",
+        "docs/llm-wiki/patches/2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797.md",
+        "docs/llm-wiki/patches/2fb34775511c631fb60f9889fea86c01f676578c.md",
+        "docs/llm-wiki/patches/4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8.md"
+      ],
+      "parents": [
+        "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8"
+      ],
+      "subject": "docs: record the control transport move",
+      "tree": "04e01b8770252069e1bf964b4becd6673975584e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "5fb446a3ea368317de9b56df62f93597a25a6251",
+      "diff_sha256": "e15e7f4b34f09139cb0ff21d82a60c742bad8bd3ec643fe2df6a4d328147bf1c",
+      "files": [
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "tests/test_rd07_runtime_assembly.py"
+      ],
+      "parents": [
+        "59e4a57ba67a2efa1cace67c54e37b13ce747e1b"
+      ],
+      "subject": "test: require one runtime module list for publish and trust",
+      "tree": "3d392be021dce468ae8e146e9589c94a36b62a65",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "d26df89c9f8b0ec5ca704c02acc07c23222e6047",
+      "diff_sha256": "64085d117aaf2e759faa1c73d0eb8d4ba83964075f3e879861fc60544c25b3cc",
+      "files": [
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "5fb446a3ea368317de9b56df62f93597a25a6251"
+      ],
+      "subject": "feat: share one runtime module list for publish and trust",
+      "tree": "e834d430d7cf042af2bf4234a94a84e1ba82cfa1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -5249,9 +5320,11 @@
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
     "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
+    "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
+    "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "64d89e40f048197c3f09545cbecf4630bf9ea8ab": "f5309490ce7062a6b8286c7c6a3133e18ed2a007d216f09c8cc90d9a2f8cdc99",
@@ -5326,6 +5399,7 @@
     "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
     "d161ee42784220bf20a3fb0649fcb7d3c3c3af18": "81899b8b791caf981018417dcb41425411a6356308303a68ecfdca51b6322098",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
+    "d26df89c9f8b0ec5ca704c02acc07c23222e6047": "44136ad2fbad548dccea5a15cc40d7c47852d9494ad54088a7aa094d03828da3",
     "d2de8c2b7c390e259c0535a7ca32d6fea7e83661": "41cc02ea7db9324c6f2e6ccc146d7d02a949f3d0dbd715b051953172933c69e2",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d6e35da1559f20ba25c443f8c4bb5e387211652b": "7b607f99cb3837cbc31550dd6a0c76a3c55cc1dd08bfb1c2431ddd57034953a5",
@@ -5497,6 +5571,10 @@
     },
     {
       "observed_at_commit": "c072439ece24499776eb80e9d74f2e600c7461a6",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "d26df89c9f8b0ec5ca704c02acc07c23222e6047",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5714,7 +5792,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8",
+  "source_commit": "d26df89c9f8b0ec5ca704c02acc07c23222e6047",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
