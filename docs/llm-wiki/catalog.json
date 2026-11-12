@@ -3890,6 +3890,78 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "e6b71d55b51c980224e130e399e53502bd79e04d",
+      "diff_sha256": "8ec0b2a817d2627da4b2484083ed046f8ae3ff6779fb1bef82f08d70b689af67",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1c813e3b05c271f043b1360247864ebd216102ae.md",
+        "docs/llm-wiki/patches/d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999.md",
+        "docs/llm-wiki/patches/d93b801dad2cfd6fdb853cb8d8a01f01c26538ba.md"
+      ],
+      "parents": [
+        "1c813e3b05c271f043b1360247864ebd216102ae"
+      ],
+      "subject": "docs: record stale retired and orphan dependency labels",
+      "tree": "f9ddb8b48d0375c1b4bba899a6c8cbe490397813",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "3f642cea8eaa461f35508b151b448233a0a4272a",
+      "diff_sha256": "c3156aeed39890c02f32cbe57b74860a1e9c58f53dd8efcdb52b352bc4075046",
+      "files": [
+        "tests/fixtures/rd04/partial-apply.json",
+        "tests/test_rd04_selective_fixture.py"
+      ],
+      "parents": [
+        "e6b71d55b51c980224e130e399e53502bd79e04d"
+      ],
+      "subject": "test: pin two independent token changes apart from one alias bundle",
+      "tree": "b2113ae16158a7823c22644904e844680963a6d0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "5fb07911e3a1b1530f34aee2cca47f9df7319910",
+      "diff_sha256": "da27027f6c43d7dcc9355f3caf99db27da0e776b7a2f35d41ec532a071e5a711",
+      "files": [
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "3f642cea8eaa461f35508b151b448233a0a4272a"
+      ],
+      "subject": "feat: read the partial token fixture without writing values",
+      "tree": "8f4409c3968b3f7b39fe243247bca4ddadfa4236",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3925,6 +3997,7 @@
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
+    "3f642cea8eaa461f35508b151b448233a0a4272a": "60f8c12cff7c84c233a87cb97fe16f5130644b0befe97e8c448d79adb43a0589",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
     "47bd10f10263a0f7bd2db9bed0511f2532053532": "de6538b6ce1650e2ba88544d4694669b30d85fb9a34b2b6824e31e7df064e691",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
@@ -3933,6 +4006,7 @@
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
+    "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "66278decfd7f49906bb32d75f71a0be70fafa7ee": "876ceebcc8296420027aee84f6224eb9b3083d92adf779b69b4a9158bfad6020",
@@ -3996,6 +4070,7 @@
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
     "e3bb0505b011f77a656e096b821c7d0d01f2990c": "3f706b2efe5791d50864dc484452b0faf592f55a8cb7bf056adbb2e4dd6510e1",
     "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
+    "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
@@ -4062,6 +4137,10 @@
     },
     {
       "observed_at_commit": "4f451eec0b49366519297f878867b05aff0ff197",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "5fb07911e3a1b1530f34aee2cca47f9df7319910",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4291,7 +4370,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "1c813e3b05c271f043b1360247864ebd216102ae",
+  "source_commit": "5fb07911e3a1b1530f34aee2cca47f9df7319910",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
