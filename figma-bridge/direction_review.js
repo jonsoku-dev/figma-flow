@@ -999,6 +999,8 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
       const width = item.layout.width === 'fill' && node.parent && node.parent.width ? node.parent.width : maxX;
       const height = item.layout.height === 'fill' && node.parent && node.parent.height ? node.parent.height : maxY;
       node.resize(width, height);
+      if (item.layout.width === 'fixed') node.setPluginData('containerFixedWidth', String(width));
+      if (item.layout.height === 'fixed') node.setPluginData('containerFixedHeight', String(height));
       node.layoutSizingHorizontal = item.layout.width === 'hug' ? 'HUG' : item.layout.width === 'fill' ? 'FILL' : 'FIXED';
       node.layoutSizingVertical = item.layout.height === 'hug' ? 'HUG' : item.layout.height === 'fill' ? 'FILL' : 'FIXED';
       const primary = item.layout.direction === 'VERTICAL' ? item.layout.height : item.layout.width;
@@ -1019,6 +1021,40 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
   } catch (error) {
     restore();
     throw error;
+  }
+}
+
+function refreshDeclaredContainerSizing(screen, containers, resolve, prefix = '') {
+  if (!screen || typeof screen.findAll !== 'function' || typeof resolve !== 'function' || !Array.isArray(containers)) {
+    throw Error('authored screen and leaf resolver required');
+  }
+  const byKey = new Map(containers.map(item => [item.key, item]));
+  const find = key => {
+    const matches = screen.findAll(node => node.getPluginData('semanticKey') === prefix + key);
+    if (matches.length !== 1) throw Error('container missing from sizing refresh: ' + key);
+    return matches[0];
+  };
+  for (const item of containers) {
+    if (item.kind !== 'auto-layout') continue;
+    const node = find(item.key);
+    let maxX = 1;
+    let maxY = 1;
+    for (const child of item.children) {
+      const target = byKey.has(child) ? find(child) : resolve(child);
+      if (!target) throw Error('missing target: ' + child);
+      maxX = Math.max(maxX, target.x + target.width);
+      maxY = Math.max(maxY, target.y + target.height);
+    }
+    const width = item.layout.width === 'fixed' ? Number(node.getPluginData('containerFixedWidth')) : item.layout.width === 'fill' ? node.parent.width : maxX;
+    const height = item.layout.height === 'fixed' ? Number(node.getPluginData('containerFixedHeight')) : item.layout.height === 'fill' ? node.parent.height : maxY;
+    if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) throw Error('declared sizing is incomplete: ' + item.key);
+    node.resize(width, height);
+    node.layoutSizingHorizontal = item.layout.width === 'hug' ? 'HUG' : item.layout.width === 'fill' ? 'FILL' : 'FIXED';
+    node.layoutSizingVertical = item.layout.height === 'hug' ? 'HUG' : item.layout.height === 'fill' ? 'FILL' : 'FIXED';
+    const primary = item.layout.direction === 'VERTICAL' ? item.layout.height : item.layout.width;
+    const counter = item.layout.direction === 'VERTICAL' ? item.layout.width : item.layout.height;
+    node.primaryAxisSizingMode = primary === 'hug' ? 'AUTO' : 'FIXED';
+    node.counterAxisSizingMode = counter === 'hug' ? 'AUTO' : 'FIXED';
   }
 }
 
