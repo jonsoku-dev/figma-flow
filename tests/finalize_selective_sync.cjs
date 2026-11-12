@@ -32,7 +32,7 @@ function panel() {
     elements.set(match[1], element);
   }
   elements.get('graph-panel-config').textContent = JSON.stringify(config);
-  const context = {document: {getElementById: id => elements.get(id), createElement: tag => new Element(tag)},
+  const context = {document: {documentElement: {dataset: {}}, getElementById: id => elements.get(id), createElement: tag => new Element(tag)},
     FlowUI: {t: key => key, apply() {}}, FlowPanel: {status() {}},
     parent: {postMessage(message) {posted.push(clone(message.pluginMessage));}}, addEventListener() {}};
   context.window = context;
