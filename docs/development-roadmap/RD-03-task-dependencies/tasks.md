@@ -12,7 +12,7 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
-1은 `figma_control.task_operation_boundary`가 준비된 task revision과 서버 operation id가 다르다는 것을 확인한다. operation은 task key를 가리키지만 catalogue에 operation id를 task로 넣지 않고, status 조회는 revision을 바꾸거나 dependency를 만들지 않는다. 요청 파일은 하나다. UI 통합은 아직이다. 2는 `normalize_task_dependencies`가 선택적 `uses-output` edge만 정규화하고 publish 전에 DAG를 검사한다. 같은 project는 edge가 되지 않는다. 없는 target, self edge, cycle, 중복 edge, 현재가 아닌 revision, 등록되지 않은 artifact와 hash 불일치는 서명 전에 거절한다.
+1은 `figma_control.task_operation_boundary`가 준비된 task revision과 서버 operation id가 다르다는 것을 확인한다. operation은 task key를 가리키지만 catalogue에 operation id를 task로 넣지 않고, status 조회는 revision을 바꾸거나 dependency를 만들지 않는다. 요청 파일은 하나다. UI 통합은 아직이다. 2는 `normalize_task_dependencies`가 선택적 `uses-output` edge만 정규화하고 publish 전에 DAG를 검사한다. 같은 project는 edge가 되지 않는다. 없는 target, self edge, cycle, 중복 edge, 현재가 아닌 revision, 등록되지 않은 artifact와 hash 불일치는 서명 전에 거절한다. 3은 `tests/fixtures/rd03/legacy-tasks.json`과 `declared-edges.json`을 `load_task_dependency_fixtures`로 읽는다. legacy에는 depends_on이 없고, 선언한 fixture는 import-task에서 review의 code.js로 가는 edge 하나만 가진다. notes는 같은 project여도 edge가 없다.
 
 ## 기존 검사에서 시작하기
 

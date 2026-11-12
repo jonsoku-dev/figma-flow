@@ -546,6 +546,16 @@ def normalize_task_dependencies(tasks, dependencies=None):
     return normalized
 
 
+def load_task_dependency_fixtures(root):
+    """Load the pinned legacy catalogue and the one declared uses-output edge."""
+    root = Path(root)
+    legacy = json.loads((root / 'tests/fixtures/rd03/legacy-tasks.json').read_text(encoding='utf-8'))
+    declared = json.loads((root / 'tests/fixtures/rd03/declared-edges.json').read_text(encoding='utf-8'))
+    if legacy.get('schema') != 'figma-flow-task-fixture-v1' or declared.get('schema') != 'figma-flow-task-fixture-v1':
+        raise ValueError('Invalid task dependency fixture')
+    return {'legacy': normalize_task_dependencies(legacy['tasks']), 'declared': normalize_task_dependencies(declared['tasks'])}
+
+
 def publish(workspace, catalogue):
     catalogue = {**catalogue, 'tasks': normalize_task_dependencies(catalogue['tasks'])}
     require_idle_publication(workspace)
