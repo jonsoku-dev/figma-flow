@@ -4032,6 +4032,80 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d",
+      "diff_sha256": "a6ae190d076875635465ff370617c326aaa1539497db521796a9c563533d41d0",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0ce837ccf732354cf2a0f94cbb42042c9ca6fda2.md",
+        "docs/llm-wiki/patches/4ef1c8e5c6b038ea26f097d67a962daf4ae6f477.md",
+        "docs/llm-wiki/patches/cc53d88e91da49ac33c54c720b1be228b78c93bd.md"
+      ],
+      "parents": [
+        "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2"
+      ],
+      "subject": "docs: record stable change identities apart from selection order",
+      "tree": "0ee6a2cf8a18c22f937eb87d8b76fa05d249710d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "88398e9b2186fb6dac1512eecda2c9e8d8e74af3",
+      "diff_sha256": "f15996a34977d839d8a438ba66b5667822366aafd2c99397d0caa2bcb72a9a9f",
+      "files": [
+        "tests/test_rd04_selection_rows.py"
+      ],
+      "parents": [
+        "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d"
+      ],
+      "subject": "test: require the selection count, select-all, and affected targets",
+      "tree": "84e0e0680555ff09b055ea47a16fb5446f98482c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "d85d6388ae1c50a853278af33ca790a411b1e59e",
+      "diff_sha256": "f7e8b4f9b8037be6757165a5dccb2cd96d89d85e511227f280853b887fb9e440",
+      "files": [
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/locales/graph.json",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/graphSelection.mjs"
+      ],
+      "parents": [
+        "88398e9b2186fb6dac1512eecda2c9e8d8e74af3"
+      ],
+      "subject": "feat: show the selection count, select-all, and affected targets",
+      "tree": "b0bc73b6d5c3c9064a22781ef7eb49178c91533b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4092,6 +4166,7 @@
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
+    "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
@@ -4135,8 +4210,10 @@
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d6e35da1559f20ba25c443f8c4bb5e387211652b": "7b607f99cb3837cbc31550dd6a0c76a3c55cc1dd08bfb1c2431ddd57034953a5",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
+    "d85d6388ae1c50a853278af33ca790a411b1e59e": "bd097342130b482c55505a0541bea97bd013bdddd5446538f808cc527558975a",
     "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba": "50631091c707315abe98de13323d7f44722622c85c19c334fefae1fe55fcb34c",
     "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
+    "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d": "8be1bcfc43ae3c3b3969ec1b3c925367087a5d0edd83240ddaca66a6574d5766",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
@@ -4242,6 +4319,10 @@
     },
     {
       "observed_at_commit": "b91d26553b3343a61f8094a1ac041e3043506787",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "d85d6388ae1c50a853278af33ca790a411b1e59e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4447,7 +4528,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2",
+  "source_commit": "d85d6388ae1c50a853278af33ca790a411b1e59e",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
