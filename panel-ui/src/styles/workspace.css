@@ -312,6 +312,14 @@
   text-align: left;
   cursor: pointer;
 }
+.workspace-dependency-state {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 12px;
+}
+.workspace-dependency-state [data-state='stale'],
+.workspace-dependency-state [data-state='orphan'] { color: var(--danger); }
+.workspace-dependency-state [data-state='retired'] { color: var(--muted); }
 @media (max-width: 320px) {
   .workspace-dependency-graph { display: none; }
 }

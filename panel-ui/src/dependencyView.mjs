@@ -54,3 +54,47 @@ export function dependencyView(tasks, selected) {
   if (!text.length) text.push('연결된 선행·후속이 없습니다');
   return { selected, predecessors, successors, text };
 }
+
+export function dependencyFreshness(tasks, retired = []) {
+  if (!Array.isArray(tasks) || !Array.isArray(retired)) throw new Error('dependency freshness requires tasks');
+  const active = new Map();
+  for (const task of tasks) {
+    if (!task || typeof task.key !== 'string' || active.has(task.key)) throw new Error('dependency freshness requires tasks');
+    active.set(task.key, task);
+  }
+  const retiredRevision = new Map();
+  for (const row of retired) {
+    if (!row || typeof row.key !== 'string' || typeof row.revision !== 'string' || retiredRevision.has(row.key)) {
+      throw new Error('dependency freshness requires tasks');
+    }
+    retiredRevision.set(row.key, row.revision);
+  }
+  const labels = [];
+  for (const task of tasks) {
+    for (const edge of Array.isArray(task.depends_on) ? task.depends_on : []) {
+      if (!explicit(edge)) continue;
+      const target = active.get(edge.task_key);
+      let state = 'current';
+      let currentRevision = target ? target.revision : null;
+      if (!target && retiredRevision.has(edge.task_key)) {
+        state = 'retired';
+        currentRevision = retiredRevision.get(edge.task_key);
+      } else if (!target) {
+        state = 'orphan';
+        currentRevision = null;
+      } else if (target.revision !== edge.revision) {
+        state = 'stale';
+        currentRevision = target.revision;
+      }
+      labels.push({
+        task_key: task.key,
+        dependency: edge.task_key,
+        state,
+        pinned_revision: edge.revision,
+        current_revision: currentRevision,
+        read_only: true,
+      });
+    }
+  }
+  return { read_only: true, labels, execution: 'unchanged' };
+}

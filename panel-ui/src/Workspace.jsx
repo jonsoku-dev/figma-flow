@@ -12,7 +12,7 @@ import {
 import { Action, Section, Notice, PreviewStrip } from './components.jsx';
 import { workspaceActivity } from './WorkspaceActivity.mjs';
 import { ActivitySummary, ExecutionFlows } from './WorkspaceActivity.jsx';
-import { dependencyView } from './dependencyView.mjs';
+import { dependencyFreshness, dependencyView } from './dependencyView.mjs';
 
 const locales = new Set(__FLOW_LOCALES__);
 const terminal = new Set(['finished', 'readback', 'verified', 'baseline']);
@@ -95,8 +95,11 @@ export function workspacePreviews(task) {
     .slice(0, 2);
 }
 
-function DependencyText({ tasks, selected, onSelect }) {
+function DependencyText({ tasks, selected, retired, onSelect }) {
   const view = dependencyView(tasks, selected);
+  const freshness = dependencyFreshness(tasks, Array.isArray(retired) ? retired : []);
+  const related = freshness.labels.filter((label) => label.task_key === selected || label.dependency === selected);
+  const stateLabel = { current: '현재 개정', stale: '오래됨', retired: '은퇴', orphan: '대상 없음' };
   const rows = [...view.predecessors, ...view.successors];
   const height = 36 + Math.max(rows.length, 1) * 28;
   return (
@@ -112,6 +115,13 @@ function DependencyText({ tasks, selected, onSelect }) {
           <li key={line}>{line}</li>
         ))}
       </ol>
+      <ul className="workspace-dependency-state">
+        {related.map((label) => (
+          <li key={label.task_key + label.dependency} data-state={label.state}>
+            {label.task_key} {label.dependency} {stateLabel[label.state]}
+          </li>
+        ))}
+      </ul>
       {rows.map((item) => (
         <button type="button" key={item.role + item.key} onClick={() => onSelect(item.key)}>
           {item.title}
@@ -488,7 +498,7 @@ export default function Workspace({
       ) : (
         <Section>
           {view === 'tasks' && dependencyKey && tasks.some((task) => task.key === dependencyKey) && (
-            <DependencyText tasks={tasks} selected={dependencyKey} onSelect={setDependencyKey} />
+            <DependencyText tasks={tasks} selected={dependencyKey} retired={model.retired} onSelect={setDependencyKey} />
           )}
           {!!remaining.length && view === 'tasks' && (
             <h2 className="workspace-list-title">{tr(recommended ? 'otherTasks' : 'allStages')}</h2>
