@@ -251,7 +251,12 @@ class GraphSyncTests(unittest.TestCase):
         plan['components'][0]['properties'] = {'gap': 'button/gap'}
         html = graph_panel('sync', plan, plan)
         config = json.loads(re.search(r'<script id="graph-panel-config" type="application/json">(.*?)</script>', html, re.S).group(1))
-        self.assertEqual(config['changes'], [{'name': 'spacing/base', 'before': '12', 'after': '16'}])
+        token_change = next(change for change in config['changes'] if change['kind'] == 'token')
+        self.assertEqual((token_change['name'], token_change['before'], token_change['after']),
+                         ('spacing/base', '12', '16'))
+        self.assertEqual(token_change['root'], 'root')
+        self.assertRegex(token_change['identity'], r'^[a-f0-9]{64}$')
+        self.assertRegex(token_change['group'], r'^[a-f0-9]{64}$')
         self.assertEqual(config['stats']['updates'], 1)
 
     def test_graph_panel_escapes_untrusted_scope_without_losing_actual_values(self):

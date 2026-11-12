@@ -28,6 +28,7 @@ assert.ok(tasks.includes('controlRequest만'));
   let seen;
   const env = {
     WORKSPACE_CONTROL_CONFIG: {url: 'http://localhost:9', token: 'private'},
+    setTimeout, clearTimeout,
     fetch: async (url, options) => {
       seen = {url, options};
       return {ok: true, json: async () => ({ok: true})};

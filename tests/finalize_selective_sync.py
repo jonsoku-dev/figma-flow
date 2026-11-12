@@ -47,7 +47,7 @@ def main():
         export_bundle(path, directory / 'bundle', directory / 'tokens.mjs', pairing=paired)
         (directory / 'native.json').write_text(json.dumps(native))
         (directory / 'marker.json').write_text(json.dumps(readback['baseline']))
-        subprocess.run(['node', '--test', str(ROOT / 'tests/finalize_selective_sync.cjs')],
+        subprocess.run(['node', '--test', str(ROOT / 'tests/helpers/finalize_selective_sync.cjs')],
                        env={**__import__('os').environ, 'RD04_BUNDLE': str(directory)}, check=True)
 
 

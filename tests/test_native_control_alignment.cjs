@@ -28,5 +28,5 @@ test('fixed instances retain alignment, authored minimum gap and side padding',(
  const h=host(),f=fixture();f.parent.resize=function(w,height){this.width=w;this.height=height;};h.fitDraftControl(f.parent,[0,0,320,46]);
  assert.equal(f.parent.width,320);assert.equal(f.parent.primaryAxisAlignItems,'SPACE_BETWEEN');assert.equal(f.parent.itemSpacing,12);assert.equal(f.parent.paddingLeft,16);assert.equal(f.parent.paddingRight,16);
  assert.match(source,/primaryAxisAlignItems=style\.justifyContent==='space-between'\?'SPACE_BETWEEN':'CENTER'/);
- assert.match(source,/'layoutMode','primaryAxisAlignItems','primaryAxisSizingMode'/);
+ for(const field of ['layoutMode','layoutPositioning','primaryAxisAlignItems','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing'])assert.ok(source.includes("'"+field+"'"),'native readback includes '+field);
 });

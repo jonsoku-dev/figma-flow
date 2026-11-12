@@ -32,7 +32,7 @@ async function main() {
     assert.equal(row?.phase, 'queued', 'real HTTP journal must reach the actual published host model');
     assert.equal(row.classification, 'recorded');
     assert.equal(initial.history.length, 0, 'journal cannot masquerade as clientStorage telemetry');
-    const {build} = require('../panel-ui/node_modules/esbuild');
+    const {build} = require('../../panel-ui/node_modules/esbuild');
     const bundle = await build({entryPoints:[path.resolve('panel-ui/src/Workspace.jsx')],bundle:true,write:false,
       platform:'node',format:'cjs',jsx:'automatic',external:['react','react-dom'],
       define:{__FLOW_LOCALES__:'["ko"]',__FLOW_DISPLAY_NAME__:'"Figma Flow"'}});

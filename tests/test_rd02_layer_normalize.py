@@ -25,9 +25,9 @@ class LayerContainerNormalizationTests(unittest.TestCase):
         self.assertEqual(flat['containers'], [])
         self.assertEqual([layer['id'] for layer in flat['layers']], ['title', 'body', 'ornament', 'save', 'cancel'])
         declared = normalize(load('declared-containers.json'))
-        self.assertEqual([item['kind'] for item in declared['containers']], ['frame', 'auto-layout', 'group', 'auto-layout'])
-        self.assertEqual([item['key'] for item in declared['containers']], ['card', 'copy', 'ornament-cluster', 'actions'])
-        self.assertEqual(declared['containers'][0]['children'], ['copy', 'ornament-cluster', 'actions'])
+        self.assertEqual([item['kind'] for item in declared['containers']], ['frame', 'auto-layout', 'group', 'auto-layout', 'auto-layout'])
+        self.assertEqual([item['key'] for item in declared['containers']], ['card', 'copy', 'ornament-cluster', 'actions-parent', 'actions'])
+        self.assertEqual(declared['containers'][0]['children'], ['copy', 'ornament-cluster', 'actions-parent'])
         self.assertTrue({'layout', 'fill', 'clip'}.isdisjoint(declared['containers'][2]))
         cycled = load('declared-containers.json')
         cycled['containers'][0]['parent'] = 'copy'

@@ -14,7 +14,7 @@
       "kind": "frame",
       "name": "card",
       "parent": null,
-      "children": ["copy", "ornament-cluster", "actions"],
+      "children": ["copy", "ornament-cluster", "actions-parent"],
       "box": [24, 24, 320, 180],
       "fill": "surface",
       "clip": true
@@ -35,10 +35,18 @@
       "children": ["ornament"]
     },
     {
+      "key": "actions-parent",
+      "kind": "auto-layout",
+      "name": "actions-parent",
+      "parent": "card",
+      "children": ["actions"],
+      "layout": {"direction": "VERTICAL", "gap": 0, "padding": [0, 0, 0, 0], "width": "fixed", "height": "hug"}
+    },
+    {
       "key": "actions",
       "kind": "auto-layout",
       "name": "actions",
-      "parent": "card",
+      "parent": "actions-parent",
       "children": ["save", "cancel"],
       "layout": {"direction": "HORIZONTAL", "gap": 8, "padding": [0, 0, 0, 0], "width": "fill", "height": "hug"}
     }

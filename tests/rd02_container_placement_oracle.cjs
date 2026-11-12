@@ -147,10 +147,16 @@ function checkDeclaredParents() {
   assert.deepEqual([card.x, card.y, card.width, card.height], [24, 24, 320, 180]);
   assert.equal(card.clipsContent, true);
   assert.equal(card.getPluginData('containerFill'), 'surface');
-  assert.deepEqual(card.children.map(node => node.getPluginData('semanticKey')), ['copy', 'ornament-cluster', 'actions']);
+  assert.deepEqual(card.children.map(node => node.getPluginData('semanticKey')), ['copy', 'ornament-cluster', 'actions-parent']);
   const copy = card.children[0];
   const cluster = card.children[1];
-  const actions = card.children[2];
+  const actionsParent = card.children[2];
+  const actions = actionsParent.children[0];
+  assert.equal(actionsParent.layoutMode, 'VERTICAL');
+  assert.equal(actionsParent.itemSpacing, 0);
+  assert.equal(actionsParent.layoutSizingHorizontal, 'FIXED');
+  assert.equal(actionsParent.layoutSizingVertical, 'HUG');
+  assert.deepEqual([actionsParent.paddingTop, actionsParent.paddingRight, actionsParent.paddingBottom, actionsParent.paddingLeft], [0, 0, 0, 0]);
   assert.equal(copy.type, 'FRAME');
   assert.equal(copy.name, 'copy');
   assert.equal(copy.layoutMode, 'VERTICAL');

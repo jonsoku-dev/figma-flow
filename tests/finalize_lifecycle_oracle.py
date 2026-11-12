@@ -68,8 +68,8 @@ class FinalizeLifecycle(unittest.TestCase):
 
     def run_runtime(self, mode):
         manifest = workspace.read(self.root / 'manifest.json')
-        result = subprocess.run(['node', str(ROOT / 'tests/finalize_lifecycle_runtime.cjs'), mode,
-                                 str(self.root / manifest['main']), self.request['id']],
+        helper = ROOT / 'tests/helpers/finalize_lifecycle_runtime.cjs'
+        result = subprocess.run(['node', str(helper), mode, str(self.root / manifest['main']), self.request['id']],
                                 cwd=ROOT, text=True, capture_output=True, timeout=20)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 

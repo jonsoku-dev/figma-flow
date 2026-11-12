@@ -9,6 +9,7 @@ test('authenticated native poll reports the compiled runtime and generation', as
   let request;
   const env = {WORKSPACE_RUNTIME:runtime, WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'private'},
     workspaceActive:null, workspaceHomeSession:'home', figma:{fileKey:'file',currentPage:{id:'1:2'}},
+    setTimeout, clearTimeout, workspaceRefreshJournal:async()=>{},
     fetch:async (url, options) => {request={url,...options};return {ok:true,json:async()=>({operation:null})};}};
   vm.runInNewContext(source, env);
   await env.workspaceControlTick();
@@ -20,6 +21,7 @@ test('legacy native poll stays versionless without inventing current identity', 
   let payload;
   const env = {WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'private'},
     workspaceActive:null, workspaceHomeSession:'home', figma:{fileKey:'file',currentPage:{id:'1:2'}},
+    setTimeout, clearTimeout, workspaceRefreshJournal:async()=>{},
     fetch:async (_url, options) => {payload=JSON.parse(options.body);return {ok:true,json:async()=>({operation:null})};}};
   vm.runInNewContext(source, env);
   await env.workspaceControlTick();

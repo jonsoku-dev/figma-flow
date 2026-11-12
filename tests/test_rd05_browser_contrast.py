@@ -1,7 +1,4 @@
-"""The asset list and a real browser load of indirect CSS assets stay separate.
-
-Chrome headless is the browser. A present list row is not by itself a load.
-"""
+"""Inventory and caller-provided browser observations are separate evidence."""
 from pathlib import Path
 import sys
 import tempfile
@@ -30,7 +27,7 @@ class CssBrowserContrastTests(unittest.TestCase):
             'p { font-family: Body, sans-serif; background: url(../photos/mark.png); }',
             encoding='utf-8')
         (root / 'index.html').write_text('<!doctype html><link rel="stylesheet" href="css/site.css"><p>가</p>', encoding='utf-8')
-        result = contrast(root)
+        result = contrast(root, requested_paths=['css/site.css', 'fonts/body.woff2', 'photos/mark.png'])
         listed = {item['path']: item['status'] for item in result['list']}
         self.assertEqual(listed['photos/mark.png'], 'present')
         self.assertEqual(listed['fonts/body.woff2'], 'present')
@@ -40,6 +37,9 @@ class CssBrowserContrastTests(unittest.TestCase):
         self.assertIn('fonts/body.woff2', requested)
         self.assertNotIn('fonts/spare.woff2', requested)
         self.assertTrue(result['separate'])
+        self.assertEqual(result['browser']['source'], 'provided-observation')
+        with self.assertRaises(ValueError):
+            contrast(root)
         self.assertNotIn('fetch(', Path(input_effect.__file__).read_text(encoding='utf-8')[Path(input_effect.__file__).read_text(encoding='utf-8').index('def contrast_css_browser_loading'):])
         tasks_doc = (Path(__file__).resolve().parents[1] / 'docs/development-roadmap/RD-05-asset-inventory/tasks.md').read_text(encoding='utf-8')
         self.assertIn('contrast_css_browser_loading', tasks_doc)

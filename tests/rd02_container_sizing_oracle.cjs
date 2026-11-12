@@ -127,6 +127,7 @@ function checkDeclaredSizing() {
   const copy = find('copy');
   const card = find('card');
   const actions = find('actions');
+  const actionsParent = find('actions-parent');
   const title = placed.leaves.get('title');
   const body = placed.leaves.get('body');
   const save = placed.leaves.get('save');
@@ -134,10 +135,10 @@ function checkDeclaredSizing() {
   const longText = '긴 한글 문구가 늘어나면 hug 높이만 따라가고 fixed 너비는 유지됩니다';
   title.characters = longText;
   title.resize(220, 80);
-  card.resize(400, 180);
+  actionsParent.resize(400, actionsParent.height);
   context.refreshDeclaredContainerSizing(placed.screen, fixture.containers, placed.resolve, '');
   assert.equal(copy.width, fixedWidth);
-  assert.equal(copy.height, Math.max(title.y + title.height, body.y + body.height));
+  assert.equal(copy.height, Math.max(title.y + title.height, body.y + body.height) + 16);
   assert.equal(actions.width, 400);
   assert.equal(actions.height, Math.max(save.y + save.height, placed.leaves.get('cancel').y + placed.leaves.get('cancel').height));
   assert.notEqual(actions.height, card.height);
