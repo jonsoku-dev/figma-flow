@@ -3,6 +3,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 import unittest
 from pathlib import Path
 
@@ -55,10 +56,29 @@ class AffectedTests(unittest.TestCase):
 
     def test_detects_drift_and_skipped_tests(self):
         (self.root / 'a.test.js').write_text("const {test}=require('node:test'); test('drift',async()=>new Promise(r=>setTimeout(r, 700)));\n")
-        timer = threading.Timer(0.4, lambda: (self.root / 'a.txt').write_text('drift'))
-        timer.start()
-        self.assertNotEqual(self.run_cli('drift', '--all', '--run').returncode, 0)
-        timer.join()
+        ready = threading.Event()
+        mutated = threading.Event()
+        stop = threading.Event()
+
+        def mutate_during_execution():
+            deadline = time.monotonic() + 10
+            while time.monotonic() < deadline and not stop.wait(0.01):
+                if (self.root / 'drift/node-tests').is_dir():
+                    ready.set()
+                    (self.root / 'a.txt').write_text('drift')
+                    mutated.set()
+                    return
+
+        thread = threading.Thread(target=mutate_during_execution)
+        thread.start()
+        try:
+            result = self.run_cli('drift', '--all', '--run')
+        finally:
+            stop.set()
+            thread.join()
+        self.assertTrue(ready.is_set(), 'Execution-ready directory was not observed')
+        self.assertTrue(mutated.is_set(), 'Runtime input mutation did not complete')
+        self.assertNotEqual(result.returncode, 0, result.stderr)
         self.assertTrue(json.loads((self.root / 'drift/receipt.json').read_text())['drift'])
         (self.root / 'a.test.js').write_text("const {test}=require('node:test'); test('passes',()=>{}); test.skip('skipped',()=>{});\n")
         self.assertNotEqual(self.run_cli('skip', '--all', '--run').returncode, 0)
