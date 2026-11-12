@@ -693,11 +693,13 @@
       "status": "unverified",
       "evidence": [
         {
-          "path": "tests/test_regression_program_inputs.py",
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401.py",
           "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
           "kind": "unit",
           "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
-          "availability": "owner-local-not-shipped"
+          "availability": "owner-local-not-shipped",
+          "original_path": "tests/test_regression_program_inputs.py",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
         },
         {
           "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
@@ -743,11 +745,13 @@
           "availability": "owner-local-not-shipped"
         },
         {
-          "path": "tests/test_regression_program_inputs.py",
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401.py",
           "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
           "kind": "unit",
           "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
-          "availability": "owner-local-not-shipped"
+          "availability": "owner-local-not-shipped",
+          "original_path": "tests/test_regression_program_inputs.py",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
         }
       ],
       "verified_scope": [
@@ -898,11 +902,13 @@
       "status": "unverified",
       "evidence": [
         {
-          "path": "tests/test_regression_program_inputs.py",
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401.py",
           "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
           "kind": "unit",
           "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
-          "availability": "owner-local-not-shipped"
+          "availability": "owner-local-not-shipped",
+          "original_path": "tests/test_regression_program_inputs.py",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
         },
         {
           "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
@@ -1263,11 +1269,13 @@
           "availability": "owner-local-not-shipped"
         },
         {
-          "path": "tests/test_regression_program_inputs.py",
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401.py",
           "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
           "kind": "unit",
           "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
-          "availability": "owner-local-not-shipped"
+          "availability": "owner-local-not-shipped",
+          "original_path": "tests/test_regression_program_inputs.py",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
         },
         {
           "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
@@ -1353,18 +1361,22 @@
       "status": "unverified",
       "evidence": [
         {
-          "path": "tools/input_effect.py",
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/3ab9d5599413430fe0b8d36a92bc1c699c021e5d66eb4cc301e14ae9998be8a0.py",
           "sha256": "3ab9d5599413430fe0b8d36a92bc1c699c021e5d66eb4cc301e14ae9998be8a0",
           "kind": "source",
           "claim": "Shared input boundary implementation checks relative paths, symlinks, output overwrite, and quarantines directive-like text.",
-          "availability": "owner-local-not-shipped"
+          "availability": "owner-local-not-shipped",
+          "original_path": "tools/input_effect.py",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
         },
         {
-          "path": "tests/test_regression_program_inputs.py",
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401.py",
           "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
           "kind": "unit",
           "claim": "Current shared boundary test source exercises instruction quarantine and traversal/symlink/output-overwrite rejection.",
-          "availability": "owner-local-not-shipped"
+          "availability": "owner-local-not-shipped",
+          "original_path": "tests/test_regression_program_inputs.py",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
         },
         {
           "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
@@ -3224,6 +3236,22 @@
     "evidence_references": 183,
     "meaning": "Partial actual execution is recorded per case; only every mandatory applicable variant/run with current evidence can close a case.",
     "evidence_distribution": "Owner-local actual browser/Figma receipts are excluded from distribution; relative paths and hashes identify those witnesses, not portable proof supplied to fork users. Re-execution is required when unavailable.",
-    "supplemental_scope": "Coffee Notes normal photo/font browser/Figma evidence is a separate two-state fixture, not full completion of TC-I02 or the40-route program."
+    "supplemental_scope": "Coffee Notes normal photo/font browser/Figma evidence is a separate two-state fixture, not full completion of TC-I02 or the40-route program.",
+    "historical_source_evidence_materialization": {
+      "source_revision": "0bd817701f3df66673e314007f768a6de404fd78",
+      "references_moved_to_content_addressed_snapshots": 6,
+      "reason": "Current CSS implementation changed; retain original witness bytes without claiming they certify the new code."
+    }
+  },
+  "supplemental_validation": {
+    "date": "2026-11-12",
+    "source_code": "e179df281a870086582ad25cf649931af5a8eaa2",
+    "scope": "controlled supplementary CSS, hostCLIimage, recovery/concurrency and repeated-raster fixtures; not the complete threeapp/16run matrix",
+    "complete_case_status_unchanged": "61 unverified",
+    "report": {
+      "path": ".figma-flow/roadmap-20261112/supplemental-evidence/8483b44de0beb43d9be923b645329d8c95ae3df23df372e4e4daced9ca8e92ce.json",
+      "sha256": "8483b44de0beb43d9be923b645329d8c95ae3df23df372e4e4daced9ca8e92ce"
+    },
+    "distribution": "Owner-local witnesses are not shipped fork proof;reexecute missingevidence."
   }
 }
