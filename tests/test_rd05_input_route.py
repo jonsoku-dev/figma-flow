@@ -25,7 +25,7 @@ class InputRecordRouteTests(unittest.TestCase):
             'task_boundary': 'figma_workspace.prepare',
             'consumer': 'private task artifact',
             'not_consumer': 'ImportPanel',
-            'cli_flag': None,
+            'cli_flag': '--input-record',
         })
         effect = Path(input_effect.__file__).read_text(encoding='utf-8')
         self.assertLess(effect.index('def project('), effect.index("channels['html'] = html_channel(path, root)"))
@@ -33,8 +33,11 @@ class InputRecordRouteTests(unittest.TestCase):
         self.assertNotIn('--input-record', effect)
         workspace = (ROOT / 'tools/figma_workspace.py').read_text(encoding='utf-8')
         self.assertIn('def prepare(', workspace)
-        self.assertNotIn('--input-record', workspace)
+        self.assertIn('--input-record', workspace)
+        self.assertIn('--input-root', workspace)
         design = (ROOT / 'docs/development-roadmap/RD-05-asset-inventory/design.md').read_text(encoding='utf-8')
-        self.assertIn('확정 경로: input_effect.project가 html_channel로 HTML 자산을 모으고, freshness와 write_record를 거친 뒤 figma_workspace.prepare가 검증된 record만 private task artifact로 복사한다. ImportPanel은 이 목록의 소비자가 아니다. 새 CLI flag는 만들지 않는다.', design)
+        self.assertIn('확정 경로: input_effect.project', design)
+        self.assertIn('--input-record', design)
+        self.assertIn('--input-root', design)
         tasks_doc = (ROOT / 'docs/development-roadmap/RD-05-asset-inventory/tasks.md').read_text(encoding='utf-8')
         self.assertIn('confirm_input_record_route', tasks_doc)

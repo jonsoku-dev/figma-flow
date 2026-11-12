@@ -21,7 +21,7 @@ class InputAuditBoundary(unittest.TestCase):
             (root / folder).mkdir()
         (root / 'index.html').write_text('<link rel="stylesheet" href="css/a.css"><link rel="stylesheet" href="css/b.css"><p>가</p>')
         (root / 'css/a.css').write_text('@font-face{font-family:Body;src:url(../fonts/body.woff2)}p{background:url(../photos/card.png)}')
-        (root / 'css/b.css').write_text('@font-face{font-family:Other;src:url(../fonts/body.woff2)}')
+        (root / 'css/b.css').write_text('@font-face{font-family:Other;src:url(../fonts/./body.woff2)}')
         (root / 'fonts/body.woff2').write_bytes(b'font-fixture')
         (root / 'photos/card.png').write_bytes(b'image-fixture')
         return root
@@ -41,6 +41,7 @@ class InputAuditBoundary(unittest.TestCase):
         record = {'schema': input_effect.RESULT_SCHEMA, 'channels': {'html': channel}}
         rows = input_effect.summarize_input_record(record)['summary']
         font = next(row for row in rows if row['ref'].endswith('body.woff2'))
+        self.assertEqual(sum(row['kind'] == 'font' for row in rows), 1, 'one local file must keep all equivalent references together')
         image = next(row for row in rows if row['ref'].endswith('card.png'))
         self.assertEqual(font['kind'], 'font', 'real producer rows must retain font kind')
         self.assertEqual(image['kind'], 'image')
