@@ -137,15 +137,29 @@ def network(manifest):
     return domains
 
 
+def runtime_module_names():
+    return ('workspace_chat.js', 'workspace_transport.js', 'workspace_control.js', 'workspace_host.js')
+
+
+def assemble_shared_runtime(bridge):
+    return '\n'.join((Path(bridge) / name).read_text(encoding='utf-8') for name in runtime_module_names())
+
+
 def trusted_sources():
     hasher = hashlib.sha256()
+    seen = set()
     for folder in ('tools', 'figma-bridge', 'library'):
         for path in sorted((ROOT / folder).rglob('*')):
             if path.is_file() and path.suffix in {'.py', '.js', '.html', '.css', '.json'}:
                 if path.is_symlink():
                     raise ValueError('Trusted generator sources cannot be symlinks')
-                hasher.update(str(path.relative_to(ROOT)).encode())
+                relative = str(path.relative_to(ROOT))
+                seen.add(relative)
+                hasher.update(relative.encode())
                 hasher.update(path.read_bytes())
+    missing = [name for name in runtime_module_names() if f'figma-bridge/{name}' not in seen]
+    if missing:
+        raise ValueError('runtime module missing from trusted sources')
     return hasher.hexdigest()
 
 
@@ -633,7 +647,7 @@ def publish(workspace, catalogue):
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_CONFIG = ' + json.dumps(relay, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_UI = workspaceAppHtml(' + json.dumps(render_app('chat', chat_context=True, shared=True), ensure_ascii=True) + ');\n'
-    code += (bridge / 'workspace_chat.js').read_text() + '\n' + (bridge / 'workspace_transport.js').read_text() + '\n' + (bridge / 'workspace_control.js').read_text() + '\n' + (bridge / 'workspace_host.js').read_text()
+    code += assemble_shared_runtime(bridge)
     if runtime['implementation'] != trusted_sources():
         raise ValueError('Trusted runtime sources changed during publication; retry')
     atomic(folder / 'code.js', code.encode())
