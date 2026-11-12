@@ -62,7 +62,7 @@ class ComponentFieldSelectionTests(unittest.TestCase):
         self.assertEqual(json.loads(completed.stdout), result)
         source = (ROOT / 'figma-bridge/graph_token_sync.js').read_text(encoding='utf-8')
         self.assertNotIn('commitComponentFields(message.component_fields', source)
-        self.assertIn('selection_manifest', source)
+        self.assertIn('GRAPH_SELECTION_MANIFEST', source)
         self.assertIn('selected_ids', source)
         tasks_doc = (ROOT / 'docs/development-roadmap/RD-04-selective-sync/tasks.md').read_text(encoding='utf-8')
         self.assertIn('commit_component_fields', tasks_doc)

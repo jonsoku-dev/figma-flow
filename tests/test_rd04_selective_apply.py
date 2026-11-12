@@ -81,7 +81,7 @@ class SelectiveApplyTests(unittest.TestCase):
         self.assertIn('stale before value', stale.stderr)
         source = (ROOT / 'figma-bridge/graph_token_sync.js').read_text(encoding='utf-8')
         self.assertLess(source.index('graphSyncPlanForMessage(GRAPH_SYNC_PLAN, message)'), source.index('graphTokenSync(figma, plan,'))
-        self.assertIn('selection_manifest', source)
+        self.assertIn('GRAPH_SELECTION_MANIFEST', source)
         tasks_doc = (ROOT / 'docs/development-roadmap/RD-04-selective-sync/tasks.md').read_text(encoding='utf-8')
         self.assertIn('commit_selective_apply', tasks_doc)
         self.assertIn('baseline', tasks_doc)
