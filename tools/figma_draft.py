@@ -728,9 +728,25 @@ def _native_authored_image_findings(node, layer, assets, key, parent_id=None):
 
 
 def _native_readback_nodes(raw, packet):
+    if not isinstance(raw, dict):
+        raise ValueError("Native readback must be an object")
     rows = raw.get("nodes")
     if not isinstance(rows, list):
         raise ValueError("Native readback nodes must be a list")
+    raster_images = raw.get("rasterImages", {})
+    if not isinstance(raster_images, dict):
+        raise ValueError("Native rasterImages must be an object")
+    decoded_raster_images = {}
+    for image_hash, encoded in raster_images.items():
+        if not isinstance(image_hash, str) or not image_hash or not isinstance(encoded, str):
+            raise ValueError("Native rasterImages entries require non-empty string hashes and base64 bytes")
+        try:
+            decoded = base64.b64decode(encoded, validate=True)
+        except (ValueError, TypeError):
+            raise ValueError("Native rasterImages entries must contain valid base64 bytes") from None
+        if not decoded:
+            raise ValueError("Native rasterImages entries must contain non-empty bytes")
+        decoded_raster_images[image_hash] = (encoded, decoded)
     required_keys = set()
     for candidate in packet["candidates"]:
         for viewport in ("desktop", "mobile"):
@@ -764,7 +780,31 @@ def _native_readback_nodes(raw, packet):
             required_keys.update((key, key + '.label', key + '.icon'))
 
     nodes, keyed = {}, {}
-    for node in rows:
+    for source_node in rows:
+        if not isinstance(source_node, dict):
+            raise ValueError("Every native readback node requires a non-empty string id")
+        node = dict(source_node)
+        image_ref = node.get("rasterImageRef")
+        if "rasterImageRef" in node:
+            if not isinstance(image_ref, str) or not image_ref:
+                raise ValueError("Native rasterImageRef must be a non-empty string")
+            fills = node.get("fills")
+            if (not isinstance(fills, list) or len(fills) != 1 or not isinstance(fills[0], dict)
+                    or fills[0].get("type") != "IMAGE" or fills[0].get("imageHash") != image_ref):
+                raise ValueError("Native rasterImageRef must match the node's single IMAGE paint")
+            if image_ref not in decoded_raster_images:
+                raise ValueError("Native rasterImageRef is missing from rasterImages")
+            encoded, decoded = decoded_raster_images[image_ref]
+            inline = node.get("rasterImageBytes")
+            if "rasterImageBytes" in node:
+                if not isinstance(inline, str):
+                    raise ValueError("Native rasterImageBytes must be base64 text")
+                try:
+                    if base64.b64decode(inline, validate=True) != decoded:
+                        raise ValueError("Native rasterImageRef conflicts with inline rasterImageBytes")
+                except (ValueError, TypeError):
+                    raise ValueError("Native rasterImageRef conflicts with inline rasterImageBytes") from None
+            node["rasterImageBytes"] = encoded
         if not isinstance(node, dict) or not isinstance(node.get("id"), str) or not node["id"]:
             raise ValueError("Every native readback node requires a non-empty string id")
         if node["id"] in nodes:

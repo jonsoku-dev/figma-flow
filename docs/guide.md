@@ -1,4 +1,4 @@
-# Figma Flow 0.26.1 통합 가이드
+# Figma Flow 0.26.2 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
@@ -56,6 +56,8 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 
 성공 결과의 `readback` 경로를 정상 읽기 자료로 검증합니다. 검토는 `verify-native-review`, 선택된 풍부한 본제작은 `verify-production`을 사용합니다. 구조화된 가져오기는 9절의 `--require-match`·`native_handoff.py`, 그래프는 실제 웹 자료와 `pair`로 대조합니다. `state: ok`와 이력 표시가 디자인 승인·웹 일치·독립적인 출처 인증을 대신하지 않습니다. `error`·`expired`·`uncertain`이면 영수증을 보관하고 현재 상태를 다시 읽으세요. 접수된 쓰기의 결과가 불확실할 때 자동 재시도하지 않습니다.
 
+0.26.2부터 같은 패킷의 준비 예약 또는 소유 보드가 남은 부분 생성 페이지를 발견하면 새 페이지 생성을 중단하고 기존 페이지 ID를 알려줍니다. 원래 graph·사진·노드와 현재 값을 먼저 대조한 뒤, 지원되는 명세 수정 계획으로 누락한 명세·주석·보드 연결만 복구합니다. 이 복구는 과거 영수증을 성공으로 바꾸거나 생성 완료 메타데이터를 대신 복원하지 않습니다. 기존 페이지·사용자 수정을 보존하세요.
+
 Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 닫을 수 있습니다([공식 실행 모델](https://developers.figma.com/docs/plugins/how-plugins-run/), [등록·실행 안내](https://developers.figma.com/docs/plugins/plugin-quickstart-guide/)). 닫힌 플러그인을 숨겨서 실행하거나 원격 코드를 평가하지 않습니다. 새 `prepare`/`refresh` 후 자동 재로드 여부는 Desktop 환경에 따라 다릅니다. 이전 revision이면 창을 닫고 **같은 고정 플러그인**을 다시 실행하며 영구 무재시작을 약속하지 않습니다.
 
 진행 중인 네이티브 `run`이 끝난 뒤 같은 작업공간의 작업 목록을 갱신합니다. 플러그인이 이미 가져간 `claimed` 요청이 있으면 `prepare`·`refresh`의 새 게시를 거절합니다. 생성 도중 Desktop의 자동 재로드가 실행을 끊는 일을 줄이기 위한 검사이며, 게시 후의 모든 재로드를 원자적으로 제어하지는 않습니다. 먼저 `status`에서 완료를 확인하고 다음 작업을 준비하세요. 불확실한 실행은 현재 파일을 다시 읽어 복구한 뒤 검증하며, 중단된 자료를 성공 결과로 사용하지 않습니다.
@@ -99,7 +101,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.26.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.26.2 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -108,7 +110,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.26.1`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.26.1`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.26.2`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.26.2`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -357,6 +359,8 @@ python3 tools/graph_sync.py combine-web --graph PROJECT/graph.json \
 
 소수 픽셀은 최신 probe로 다시 측정합니다. 지원 브라우저에서는 Typed OM의 실제 픽셀 숫자를 읽어 CSS 문자열의 반올림 손실을 피합니다. 너비·높이는 기존 실제 사용값 경로를 유지하며, 숫자 검증은 원본 값 또는 그 값의 정확한 float32 표현만 인정합니다. 측정 파일의 값을 예상값으로 고쳐 맞추지 않습니다.
 
+선언한 로컬 HTML의 입력 근거는 연결한 CSS의 중첩·인라인 `@import`와 사진·글꼴 `url()`도 추적합니다. 파일 부재·생성·변경·삭제를 반영하고 명시한 프로젝트 root 밖이나 symlink는 따라가지 않습니다. `requirements-optional.txt`의 CSS 파서가 필요하며 결과 v1·v2는 v3로 다시 준비합니다. 전체 CSS cascade·동적 JavaScript·외부 자산 수집이나 임의 HTML 가져오기를 뜻하지 않습니다. [CSS 간접 자산 예제](../examples/regression-program/html/css-assets/README.md)로 확인할 수 있습니다.
+
 네이티브 시안의 아이콘 버튼은 `control_styles`에서 선택적으로 `justifyContent: "space-between"`을 지정할 수 있습니다. 기본값은 `center`입니다. 앞뒤 아이콘·라벨 순서, 양쪽 패딩, 최소 간격과 실제 끝점 배치를 검사합니다. 아이콘 없는 버튼의 `space-between`은 지원하지 않으며 준비 단계에서 거절합니다. 서로 다른 CSS 배치의 시안은 같은 HTML 구조를 재사용할 수 있지만, 실제 모바일·데스크톱 미리보기의 배치 차이는 계속 입증해야 합니다. 색상이나 이름만 바꾼 안은 독립 방향이 아닙니다.
 
 양 끝 정렬의 원본 컴포넌트는 실측 `maxWidth`로 고정합니다. Figma는 HUG 너비에서 최소 아이콘 간격을 유지하지 않기 때문입니다. 투명 버튼은 `fill: null`로 명시하면 채우기와 색 변수 연결 없이 생성되며 실제 읽기에서도 빈 채우기를 요구합니다. `fill` 누락은 투명 지정이 아닙니다. 투명 버튼의 글자는 원래 배경의 합성 픽셀로 대비를 계산하며, 대비를 확정할 수 없는 경우는 계속 경고로 남습니다. 그래프 동기화의 `backgroundColor`는 불투명 RGB만 지원하므로 투명 버튼에는 해당 속성을 선언하지 않습니다.
@@ -474,7 +478,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.26.1을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.26.2을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -637,14 +641,14 @@ Codex can retrieve the result while local control is connected. For offline work
 ## Install once
 
 ```sh
-git clone --branch v0.26.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.26.2 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.26.1`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.26.2`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -685,6 +689,8 @@ Use the actual current revision from `figma_workspace.py list`. The service and 
 
 Verify the returned `readback` artifact with the normal checker. Direction review uses `verify-native-review`; selected rich production uses `verify-production`; structured imports use `--require-match` and `native_handoff.py`; graph sync also needs actual web proof and `pair`. An `ok` receipt does not approve a design or prove browser parity. Preserve failed/expired/uncertain receipts. Re-read native state before retrying an uncertain write. Human direction selection remains separate.
 
+An interrupted same-packet review reservation or owned board blocks a new duplicate page and identifies the existing page. Read its actual state and preserve node IDs and user edits. The bounded specification-edit path can repair missing specs, annotations and board links; it does not rewrite an old receipt as success or restore creation-completion metadata.
+
 Changed tasks use `prepare --replace-expected CURRENT_REVISION`. `prepare` or `refresh` publishes updated metadata. Desktop auto-reload behavior varies: if the running revision is old, reopen the same plugin rather than re-registering another manifest.
 
 ## Selected rich production and contrast
@@ -707,6 +713,8 @@ Run local control `--operation create` with the exact current file/page/revision
 ## Measure components on different screens
 
 Version 0.25.0 adds scoped `graph_sync.py probe --component ID` and `combine-web --proof ACTUAL.json` for components mounted on different screens or viewports. Collect actual measurements for every declared web component before pairing. Combined evidence pins and rechecks the unchanged source files, graph hash, selectors, values, timestamps, URLs and viewports. Conflicting rows and incomplete coverage fail. Default probes and final pairing still require full coverage. Keep the original JSON files. [Commands and native icon alignment](#multi-screen-web-proof).
+
+Declared local HTML input evidence follows nested/inline CSS `@import` and image/font `url()` dependencies, including missing files. It stays inside the explicit root and does not follow symlinks. Install the CSS parser from `requirements-optional.txt`; regenerate v1/v2 results as v3. This is not full CSS cascade evaluation, dynamic script execution or remote asset collection. [CSS fixture](../examples/regression-program/html/css-assets/README.md).
 
 Explicit `control_styles.fill: null` preserves a transparent button without a fill or color binding. Label contrast uses the original composite background. Do not declare opaque-only graph `backgroundColor` for that button. Distributed icon controls use the measured fixed main width because Figma HUG spacing does not preserve the minimum gap. Existing centered HUG controls remain supported.
 
@@ -765,14 +773,14 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.26.1 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.26.2 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.26.1` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.26.2` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 
@@ -813,6 +821,8 @@ python3 tools/figma_control.py status --workspace PRIVATE_DIR --id OPERATION_ID
 
 返された `readback` ファイルを通常の検証ツールに渡します。方向検討は `verify-native-review`、選択済みの豊かな案の本制作は `verify-production`、構造化取り込みは `--require-match` と `native_handoff.py`、グラフ同期は実際の Web 計測と `pair` も必要です。`ok` はデザイン承認やブラウザーとの一致を保証しません。失敗・期限切れ・結果不明の記録を保管し、不明な書き込みを再試行する前に実際の状態を読み直します。候補の選択は利用者の明示的な回答で行います。
 
+同じパケットの準備予約や所有ボードが残る部分生成ページは、新たな重複作成を停止し既存ページ ID を示します。実際の状態を読み、ノード ID と利用者の編集を保管します。範囲を固定した明細編集で不足する明細・注釈・ボードリンクを修復できますが、過去の受領記録を成功に変えたり生成完了メタデータを復元したりはしません。
+
 変更したタスクは `prepare --replace-expected CURRENT_REVISION` で更新します。`prepare` / `refresh` はメタデータを公開しますが、Desktop の自動再読み込みは環境次第です。古い revision のままなら同じプラグインを開き直し、別の manifest を追加登録しないでください。
 
 ## 選択した案の本制作とコントラスト
@@ -831,6 +841,8 @@ python3 tools/figma_draft.py verify-production --packet ARTIFACTS/packet.json --
 ローカル制御の `--operation create` を現在の正確なファイル・ページ・revision で実行します。`ARTIFACTS` は準備結果が返す成果物ディレクトリです。専用の検証で実際の `figma-flow-native-selected-production-readback-v1` と元の固定情報を照合します。作成・検証は新しい選択や承認を作成しません。構造化された `design.json` の取り込みには従来の native-handoff 検査を使います。[入力契約](#selected-rich-production)。
 
 `contrast-unknown` は判定できないという警告であり、低いコントラストを測定したという意味ではありません。固定された画像と対応するグラデーションを合成し、テキスト領域下の全背景ピクセルの最小値を保守的に計算します。未解決の場合は理由と `min_ratio: null` を残します。不透明な背景板を既定の修正として追加しません。選択された画像を保ち、実際の Figma・Web の確認結果を別に記録します。
+
+ローカル HTML の入力根拠は、入れ子・インライン CSS の `@import` と画像・フォントの `url()`、参照ファイルの不在も追跡します。明示した root 外や symlink は辿りません。`requirements-optional.txt` の CSS パーサーを入れ、v1/v2 の結果は v3 として再準備します。CSS cascade 全体、動的スクリプト、外部アセット収集ではありません。[CSS 例](../examples/regression-program/html/css-assets/README.md)。
 
 ## 準備済みJSONによるネイティブ編集
 

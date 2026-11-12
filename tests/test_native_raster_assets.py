@@ -56,6 +56,59 @@ class NativeRasterAssets(unittest.TestCase):
             with self.subTest(field=field, value=value):
                 self.assertIn('image-asset-drift', {item['code'] for item in draft._native_authored_image_findings(node, layer, assets, 'screen.photo')})
 
+    def test_raster_table_resolves_refs_without_mutating_readback(self):
+        layer, node, assets = fixture()
+        del node['rasterImageBytes']
+        node['rasterImageRef'] = 'hash'
+        raw = {'nodes': [node], 'rasterImages': {'hash': ASSET}}
+        original = json.loads(json.dumps(raw))
+        nodes, _ = draft._native_readback_nodes(raw, {'candidates': []})
+        resolved = nodes['photo-node']
+        self.assertEqual(resolved['rasterImageBytes'], ASSET)
+        self.assertEqual(draft._native_authored_image_findings(resolved, layer, assets, 'screen.photo'), [])
+        self.assertEqual(raw, original)
+
+    def test_raster_table_wrong_bytes_still_fail_pinned_asset_hash(self):
+        layer, node, assets = fixture()
+        del node['rasterImageBytes']
+        node['rasterImageRef'] = 'hash'
+        nodes, _ = draft._native_readback_nodes(
+            {'nodes': [node], 'rasterImages': {'hash': base64.b64encode(b'wrong').decode()}},
+            {'candidates': []},
+        )
+        self.assertIn('image-asset-drift', {item['code'] for item in draft._native_authored_image_findings(nodes['photo-node'], layer, assets, 'screen.photo')})
+
+    def test_raster_table_rejects_invalid_refs_and_conflicting_inline_bytes(self):
+        _, node, _ = fixture()
+        del node['rasterImageBytes']
+        node['rasterImageRef'] = 'hash'
+        cases = [
+            ({'nodes': [node], 'rasterImages': []}, 'rasterImages'),
+            ({'nodes': [node], 'rasterImages': {'hash': 17}}, 'rasterImages entries'),
+            ({'nodes': [node], 'rasterImages': {'hash': '%%%'}}, 'valid base64'),
+            ({'nodes': [node], 'rasterImages': {}}, 'missing from rasterImages'),
+        ]
+        mismatched_paint = json.loads(json.dumps(node))
+        mismatched_paint['fills'][0]['imageHash'] = 'other-hash'
+        cases.append(({'nodes': [mismatched_paint], 'rasterImages': {'hash': ASSET}}, 'single IMAGE paint'))
+        mixed_paints = json.loads(json.dumps(node))
+        mixed_paints['fills'].append({'type': 'SOLID'})
+        cases.append(({'nodes': [mixed_paints], 'rasterImages': {'hash': ASSET}}, 'single IMAGE paint'))
+        null_ref = json.loads(json.dumps(node))
+        null_ref['rasterImageRef'] = None
+        cases.append(({'nodes': [null_ref], 'rasterImages': {'hash': ASSET}}, 'non-empty string'))
+        conflicting = json.loads(json.dumps(node))
+        conflicting['rasterImageBytes'] = base64.b64encode(b'other').decode()
+        cases.append(({'nodes': [conflicting], 'rasterImages': {'hash': ASSET}}, 'conflicts'))
+        for raw, message in cases:
+            with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
+                draft._native_readback_nodes(raw, {'candidates': []})
+
+    def test_legacy_inline_raster_bytes_remain_supported(self):
+        _, node, _ = fixture()
+        nodes, _ = draft._native_readback_nodes({'nodes': [node]}, {'candidates': []})
+        self.assertEqual(nodes['photo-node']['rasterImageBytes'], ASSET)
+
     def test_wrong_node_paint_scale_mode_visibility_and_opacity_fail(self):
         cases = [('type', 'ELLIPSE'), ('visible', False), ('opacity', .5)]
         for field, value in cases:

@@ -579,14 +579,24 @@ async function snapshot(node) {
 async function readback(pages, scope) {
   const snapshots = [];
   const nativeReads = [];
+  const rasterImages = Object.create(null);
   const collectionIds = new Set(pages.map(page => info(page).collection_id).filter(Boolean));
-  for (const page of pages) { await page.loadAsync(); snapshots.push(await snapshot(page)); nativeReads.push(await readNativeSemantics(figma,page)); }
+  for (const page of pages) {
+    await page.loadAsync();
+    snapshots.push(await snapshot(page));
+    const read = await readNativeSemantics(figma,page);
+    nativeReads.push(read);
+    for (const [hash, bytes] of Object.entries(read.rasterImages || {})) {
+      if (Object.prototype.hasOwnProperty.call(rasterImages, hash) && rasterImages[hash] !== bytes) throw new Error(`Conflicting native raster bytes for image hash ${hash}`);
+      rasterImages[hash] = bytes;
+    }
+  }
   const collections = (await figma.variables.getLocalVariableCollectionsAsync()).filter(collection => collectionIds.has(collection.id));
   const variables = (await figma.variables.getLocalVariablesAsync()).filter(variable => collectionIds.has(variable.variableCollectionId));
   return { format: "figma-flow-readback-v1", evidence: "observed-plugin-api-readback", scope,
     fileKey: figma.fileKey || null, exported_at: new Date().toISOString(), pages: snapshots,
     expected_native_handoff: PAYLOAD.expected_native_handoff,
-    nodes:nativeReads.flatMap(read => read.nodes), styles:nativeReads.flatMap(read => read.styles), unavailableFields:nativeReads.flatMap(read => read.unavailableFields),
+    nodes:nativeReads.flatMap(read => read.nodes), styles:nativeReads.flatMap(read => read.styles), unavailableFields:nativeReads.flatMap(read => read.unavailableFields), rasterImages,
     collections: collections.map(collection => ({ id: collection.id, name: collection.name, modes: collection.modes, defaultModeId: collection.defaultModeId, ...info(collection) })),
     variables: variables.map(variable => ({ id: variable.id, name: variable.name, resolvedType: variable.resolvedType,
       variableCollectionId: variable.variableCollectionId, valuesByMode: variable.valuesByMode, ...info(variable) })) };

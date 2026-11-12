@@ -18,16 +18,23 @@ function figmaFor(images) {
 
 (async () => {
   const owned = node('owned', 'photo', { type: 'IMAGE', imageHash: 'owned-hash', scaleMode: 'FIT' });
+  const shared = node('shared', 'photo', { type: 'IMAGE', imageHash: 'owned-hash', scaleMode: 'FIT' });
   const unrelated = node('unrelated', '', { type: 'IMAGE', imageHash: 'private-hash', scaleMode: 'FILL' });
   const frame = { ...node('frame', '', null), type: 'FRAME', clipsContent: false,
     reactions: [{ trigger: { type: 'ON_CLICK' }, actions: [{ type: 'NODE', navigation: 'NAVIGATE', destinationId: 'other-frame' }] }] };
-  const page = { id: 'page', type: 'PAGE', children: [owned, unrelated, frame], getPluginData: () => '', async loadAsync() {}, findAll() { return this.children; } };
-  owned.parent = unrelated.parent = frame.parent = page;
-  const result = await readNativeSemantics(figmaFor({ 'owned-hash': { getBytesAsync: async () => Uint8Array.from([1, 2, 3]) } }), page);
+  const page = { id: 'page', type: 'PAGE', children: [owned, shared, unrelated, frame], getPluginData: () => '', async loadAsync() {}, findAll() { return this.children; } };
+  owned.parent = shared.parent = unrelated.parent = frame.parent = page;
+  let reads = 0;
+  const result = await readNativeSemantics(figmaFor({ 'owned-hash': { getBytesAsync: async () => { reads++; return Uint8Array.from([1, 2, 3]); } } }), page);
   const row = result.nodes.find(item => item.id === 'owned');
   assert.equal(row.rasterAsset, 'photo');
-  assert.equal(row.rasterImageBytes, 'AQID');
+  assert.equal(row.rasterImageRef, 'owned-hash');
+  assert.equal(row.rasterImageBytes, undefined);
+  assert.deepEqual({ ...result.rasterImages }, { 'owned-hash': 'AQID' });
+  assert.equal(reads, 1);
+  assert.equal(result.nodes.find(item => item.id === 'shared').rasterImageRef, 'owned-hash');
   assert.equal(result.nodes.find(item => item.id === 'unrelated').rasterImageBytes, undefined);
+  assert.equal(result.nodes.find(item => item.id === 'unrelated').rasterImageRef, undefined);
   const actualFrame = result.nodes.find(item => item.id === 'frame');
   assert.equal(actualFrame.clipsContent, false);
   assert.deepEqual(actualFrame.reactions, frame.reactions);

@@ -28,6 +28,8 @@ async function readNativeSemantics(figma, page) {
   const styleIds = new Set();
   const styles = [];
   const unavailableFields = [];
+  const rasterImages = Object.create(null);
+  const rasterImageReads = new Map();
   const copy = value => JSON.parse(JSON.stringify(value));
   const aliases = value => {
     if (!value || typeof value !== "object") return;
@@ -75,10 +77,15 @@ async function readNativeSemantics(figma, page) {
       const paint = Array.isArray(node.fills) && node.fills.length === 1 && node.fills[0]?.type === "IMAGE" ? node.fills[0] : null;
       if (asset && paint) {
         row.rasterAsset = asset;
+        if (typeof paint.imageHash !== "string" || !paint.imageHash) throw new Error("native raster image hash unavailable");
         if (typeof figma.getImageByHash !== "function" || typeof figma.base64Encode !== "function") throw new Error("native raster image read API unavailable");
-        const image = figma.getImageByHash(paint.imageHash);
-        if (!image || typeof image.getBytesAsync !== "function") throw new Error("native raster image unavailable");
-        row.rasterImageBytes = figma.base64Encode(await image.getBytesAsync());
+        if (!rasterImageReads.has(paint.imageHash)) rasterImageReads.set(paint.imageHash, (async () => {
+          const image = figma.getImageByHash(paint.imageHash);
+          if (!image || typeof image.getBytesAsync !== "function") throw new Error("native raster image unavailable");
+          return figma.base64Encode(await image.getBytesAsync());
+        })());
+        rasterImages[paint.imageHash] = await rasterImageReads.get(paint.imageHash);
+        row.rasterImageRef = paint.imageHash;
       }
     } catch (error) { row.unavailable_fields.rasterImageBytes = error.message || String(error); }
     if (node.type === "TEXT" && typeof node.getStyledTextSegments === "function") {
@@ -165,7 +172,7 @@ async function readNativeSemantics(figma, page) {
     }
     for (const id of [...variableIds]) await readVariable(id);
   }
-  return { pageId: page.id, selectedPageIds: [page.id], collectionIds: [...collections.keys()], collections: [...collections.values()], variables: [...variables.values()], nodes: rows, styles, unavailableFields };
+  return { pageId: page.id, selectedPageIds: [page.id], collectionIds: [...collections.keys()], collections: [...collections.values()], variables: [...variables.values()], nodes: rows, styles, unavailableFields, rasterImages };
 }
 if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics };
 

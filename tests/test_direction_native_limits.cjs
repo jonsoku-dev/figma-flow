@@ -89,7 +89,7 @@ test('authored invalid role and alias names fail before ordinary importer page c
 function geometryWorld(layers,observed={}) {
   const h=host(),nodes=[],c={id:'a',fonts:{body:{family:'Inter',style:'Regular'}},prototype:{states:[{id:'idle'}]},state_layouts:{}};
   for(const [viewport,y]of [['desktop',0],['mobile',1000]]) {
-    const key='a.'+viewport+'.idle',frame={type:'FRAME',parent:h.page,x:0,y,width:1200,height:800,getPluginData:()=>key};nodes.push(frame);
+    const key='a.'+viewport+'.idle',frame={id:'frame-'+viewport,type:'FRAME',parent:h.page,x:0,y,width:1200,height:800,getPluginData:()=>key};nodes.push(frame);
     c.state_layouts[viewport]={idle:{width:1200,height:800,layers:plain(layers),control_boxes:{}}};
     for(const l of layers)nodes.push({type:'TEXT',parent:frame,x:l.x,y:l.y,width:l.w,height:l.h,textAutoResize:'HEIGHT',characters:l.value,fontName:{family:'Inter',style:'Regular'},fontSize:l.size,textAlignHorizontal:l.align?.toUpperCase()||'LEFT',
       lineHeight:{unit:'PIXELS',value:l.leading||20},letterSpacing:{unit:'PIXELS',value:l.letter_spacing||0},
@@ -97,6 +97,19 @@ function geometryWorld(layers,observed={}) {
   }
   h.page.findAll=()=>nodes;
   return {...h,c,nodes,addControl(viewport,control){control.parent=nodes.find(node=>node.type==='FRAME'&&node.getPluginData()==='a.'+viewport+'.idle');for(const label of control.children)label.parent=control;nodes.push(control);},validate(){return h.context.validateDraftGeometry(h.page,[c]);}};
+}
+function prepareCompletedReview(h,candidates=[h.c]) {
+  for(const candidate of candidates)candidate.entry_state='idle';
+  Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',
+    packet_sha256:'a'.repeat(64),instance_sha256:'b'.repeat(64),layout_sha256:'c'.repeat(64),candidates});
+  h.page.setPluginData('figma-flow-direction-review-v1',h.context.DRAFT.instance_sha256);
+  h.page.setPluginData('packet_sha256',h.context.DRAFT.packet_sha256);
+  h.page.setPluginData('draftCanonicalBindings','[]');
+  h.page.setPluginData('draftNoteFrames',JSON.stringify(Object.fromEntries(candidates.map(candidate=>[candidate.id,{boardId:'board-'+candidate.id,entries:[{key:'entry'}]}]))));
+  h.page.setPluginData('draftPalettes',JSON.stringify(Object.fromEntries(candidates.map(candidate=>[candidate.id,{libraryId:'library-'+candidate.id,samples:[{instanceId:'sample'}]}]))));
+  h.page.setPluginData('draftTextStyles',JSON.stringify(['style-id']));
+  h.page.setPluginData('scope','exploratory-only');h.page.setPluginData('productionAdmitted','false');
+  h.page.flowStartingPoints=candidates.map(candidate=>({nodeId:'frame-desktop',name:candidate.title||candidate.id}));
 }
 const textLayer=(id,x,y,w,h,extra={})=>({id,kind:'text',value:id,x,y,w,h,size:16,leading:20,...extra});
 
@@ -151,13 +164,12 @@ test('control instance uses both authored dimensions, centered label and inherit
 test('reopening review from another active page loads only the matched review before traversal',async()=>{
   const h=geometryWorld([textLayer('title',20,20,200,20)]);
   let loaded=false,loads=0,traversals=0,mutations=0;
-  h.page.getPluginData=key=>key==='figma-flow-direction-review-v1'?'instance':key==='scope'?'exploratory-only':'';
+  prepareCompletedReview(h);
   h.page.loadAsync=async()=>{loads++;loaded=true;};
   h.page.findAll=()=>{assert.equal(loaded,true,'matched review must load before findAll');traversals++;return h.nodes;};
   const unrelated={id:'other-project',getPluginData:()=> 'other-instance',
     async loadAsync(){assert.fail('must not load unrelated pages');},findAll(){assert.fail('must not traverse unrelated pages');}};
   h.c.foundationBindings=[];h.c.foundations={roles:[]};
-  Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',instance_sha256:'instance',candidates:[h.c]});
   h.context.admitDraftColorConsumers=()=>[];
   h.context.figma.listAvailableFontsAsync=async()=>[{fontName:{family:'Inter',style:'Regular'}}];
   h.context.figma.root={children:[unrelated,h.page]};h.context.figma.currentPage=unrelated;
@@ -172,10 +184,10 @@ test('reopening review from another active page loads only the matched review be
 });
 
 test('matched review load failure propagates before selection or fallback creation',async()=>{
-  const h=host();h.page.getPluginData=()=> 'instance';
+  const h=host();
   h.page.loadAsync=async()=>{throw Error('matched page load failed');};
   h.page.findAll=()=>assert.fail('failed load must not traverse');
-  Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',instance_sha256:'instance',candidates:[]});
+  prepareCompletedReview(h,[]);
   h.context.admitDraftColorConsumers=()=>[];h.context.figma.listAvailableFontsAsync=async()=>[];
   h.context.figma.root={children:[h.page]};
   h.context.figma.createPage=()=>assert.fail('must not create a fallback page');
@@ -185,8 +197,7 @@ test('matched review load failure propagates before selection or fallback creati
 
 test('overlapping state rows are rejected on reuse and reuse cannot bypass text measurement',async()=>{
   const h=geometryWorld([textLayer('broken',20,20,200,20)],{broken:{height:40}});
-  const reused=h.page;reused.getPluginData=()=> 'instance';
-  Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',instance_sha256:'instance',candidates:[h.c]});
+  const reused=h.page;prepareCompletedReview(h);
   h.c.foundationBindings=[];h.c.foundations={roles:[]};h.c.fonts={body:{family:'Inter',style:'Regular'}};
   h.context.admitDraftColorConsumers=()=>[];h.context.figma.listAvailableFontsAsync=async()=>[{fontName:{family:'Inter',style:'Regular'}}];
   h.context.figma.root={children:[reused]};h.context.figma.setCurrentPageAsync=async()=>assert.fail('broken page must not be selected as success');
@@ -330,9 +341,8 @@ test('reused page rejects hidden, transparent or reparented authored content wit
     for(const node of [h.page,...h.nodes,...h.nodes.filter(node=>node.type==='INSTANCE').flatMap(node=>node.children)]) {
       for(const method of ['remove','resize','clone'])node[method]=()=>{mutations++;throw Error('unexpected reuse mutation '+method);};
     }
-    h.page.getPluginData=()=> 'instance';
     h.c.foundationBindings=[];h.c.foundations={roles:[]};
-    Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',instance_sha256:'instance',candidates:[h.c]});
+    prepareCompletedReview(h);
     h.context.admitDraftColorConsumers=()=>[];
     h.context.figma.listAvailableFontsAsync=async()=>[{fontName:{family:'Inter',style:'Regular'}}];
     h.context.figma.root={children:[h.page]};
@@ -346,8 +356,7 @@ test('reused overflowing text never creates a natural-width probe on an existing
   const h=geometryWorld([textLayer('overflow',20,20,200,20,{max_lines:1})],{overflow:{height:40}});
   let clones=0;
   for(const node of h.nodes.filter(node=>node.type==='TEXT'))node.clone=()=>{clones++;throw Error('reuse probe forbidden');};
-  h.page.getPluginData=()=> 'instance';h.c.foundationBindings=[];h.c.foundations={roles:[]};
-  Object.assign(h.context.DRAFT,{schema:'figma-flow-native-direction-review-v1',scope:'exploratory-only',instance_sha256:'instance',candidates:[h.c]});
+  h.c.foundationBindings=[];h.c.foundations={roles:[]};prepareCompletedReview(h);
   h.context.admitDraftColorConsumers=()=>[];h.context.figma.listAvailableFontsAsync=async()=>[{fontName:{family:'Inter',style:'Regular'}}];
   h.context.figma.root={children:[h.page]};
   await assert.rejects(()=>h.context.makeDraft(),/native text height 40 exceeds authored budget 20/);
