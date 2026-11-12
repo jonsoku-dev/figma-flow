@@ -183,7 +183,32 @@ async function readNativeSemantics(figma, page) {
   }
   return { pageId: page.id, selectedPageIds: [page.id], collectionIds: [...collections.keys()], collections: [...collections.values()], variables: [...variables.values()], nodes: rows, styles, unavailableFields, rasterImages };
 }
-if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages };
+async function nativeReadGetterLedger(figma, page) {
+  const names = [];
+  const seen = new Set();
+  const proxies = new WeakMap();
+  const wrap = node => {
+    if (!node || typeof node !== "object") return node;
+    if (proxies.has(node)) return proxies.get(node);
+    const proxy = new Proxy(node, {
+      get(target, key, receiver) {
+        if (typeof key === "string" && key !== "then") {
+          const token = target.id + "." + key;
+          if (!seen.has(token)) { seen.add(token); names.push(token); }
+        }
+        if (key === "findAll") return predicate => (target.findAll(predicate) || []).map(wrap);
+        if (key === "children") return (target.children || []).map(wrap);
+        if (key === "parent") return wrap(target.parent);
+        const value = Reflect.get(target, key, receiver);
+        return typeof value === "function" ? value.bind(target) : value;
+      }
+    });
+    proxies.set(node, proxy);
+    return proxy;
+  };
+  return {schema: "figma-flow-native-read-ledger-v1", full: await readNativeSemantics(figma, wrap(page)), getters: names};
+}
+if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages, nativeReadGetterLedger };
 
 function equalNativeValue(a,b){return JSON.stringify(a,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value)===JSON.stringify(b,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value);}
 function nativeHumanMarkdownMatches(annotation,spec,url){const label=FLOW_SPEC_LABELS[spec.locale];return Boolean(label&&typeof spec.annotation_text==="string"&&annotation?.labelMarkdown===`${spec.title}\n${spec.annotation_text.trim()}\n\n[${label}](${url})`);}

@@ -12,6 +12,8 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
+1은 `nativeReadGetterLedger`가 같은 fixture의 full `readNativeSemantics` 결과와 실제로 읽은 getter 이름을 함께 남긴다. 기존 호출은 인자 없는 full이다. `rect.width`와 `rect.fills`는 기록되고 `rect.exportAsync`는 호출하지 않는다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
