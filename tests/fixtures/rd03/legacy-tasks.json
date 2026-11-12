@@ -1,0 +1,8 @@
+{
+  "schema": "figma-flow-task-fixture-v1",
+  "tasks": [
+    {"key": "review", "revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "project": "desk", "artifact_hashes": {"code.js": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "ui.html": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "manifest.json": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}},
+    {"key": "import-task", "revision": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "project": "desk", "artifact_hashes": {"code.js": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "ui.html": "1111111111111111111111111111111111111111111111111111111111111111", "manifest.json": "2222222222222222222222222222222222222222222222222222222222222222"}},
+    {"key": "notes", "revision": "3333333333333333333333333333333333333333333333333333333333333333", "project": "desk", "artifact_hashes": {"code.js": "4444444444444444444444444444444444444444444444444444444444444444", "ui.html": "5555555555555555555555555555555555555555555555555555555555555555", "manifest.json": "6666666666666666666666666666666666666666666666666666666666666666"}}
+  ]
+}
