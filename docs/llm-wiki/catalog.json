@@ -2824,6 +2824,75 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2",
+      "diff_sha256": "ec3823a4b2c9d392bb856706e4f5a57d873222a7cd1b14bef99fddc4a0c23abb",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/47bd10f10263a0f7bd2db9bed0511f2532053532.md",
+        "docs/llm-wiki/patches/d5b26f079e3b2a38ba141877eca8b5782a1bd895.md"
+      ],
+      "parents": [
+        "47bd10f10263a0f7bd2db9bed0511f2532053532"
+      ],
+      "subject": "docs: record the pinned flat and declared layer fixtures",
+      "tree": "e86d9cfc2eb3fa03e220c6f1141d0f092122269b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "86e30fb66bb998158034c3c887782f131e269b0f",
+      "diff_sha256": "dce49c3b097edd6ac522a493ac6feb928bc559f34d621eb03328eef624f6e663",
+      "files": [
+        "tests/test_rd02_layer_normalize.py"
+      ],
+      "parents": [
+        "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2"
+      ],
+      "subject": "test: require declared containers to be normalized before authoring",
+      "tree": "06d50cfda9cb27c1367e02dab807ca3f4f214ae5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "108ecded7a1e99ee040a4c4b067a837a85d4d67c",
+      "diff_sha256": "57140343a610052a9ec7548c5bf12ca552541c3da6d6dafae0bcd058715a57c5",
+      "files": [
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "86e30fb66bb998158034c3c887782f131e269b0f"
+      ],
+      "subject": "feat: validate declared layer containers before authoring",
+      "tree": "b25984e74e4f0994fe7ba746cd53bbe94802b2ca",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2834,6 +2903,7 @@
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
+    "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
@@ -2858,7 +2928,9 @@
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
     "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
+    "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
+    "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
@@ -2903,6 +2975,10 @@
     },
     {
       "observed_at_commit": "0ff91654bd6867c816292a9fbac8561d474644d8",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "108ecded7a1e99ee040a4c4b067a837a85d4d67c",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3120,7 +3196,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
+  "source_commit": "108ecded7a1e99ee040a4c4b067a837a85d4d67c",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
