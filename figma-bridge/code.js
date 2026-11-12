@@ -285,6 +285,40 @@ function validateProductionColors(payload) {
   }
 }
 
+function bindOwnedLabelProperty(owner, mains, warnings) {
+  const labels = mains.map(main => {
+    const label = (main.children || []).find(child => child.type === "TEXT");
+    if (!label) throw new Error(`Component variant has no label: ${main.name}`);
+    return label;
+  });
+  if (typeof owner.addComponentProperty !== "function") {
+    warnings.add(`Native text properties unavailable for ${owner.name}; direct label text is preserved.`);
+    return null;
+  }
+  const referenced = [...new Set(labels.map(label => label.componentPropertyReferences?.characters).filter(Boolean))];
+  if (referenced.length > 1) throw new Error(`Label property conflict on ${owner.name}: ${referenced.join(", ")}`);
+  let key = referenced[0];
+  if (key) {
+    if (owner.componentPropertyDefinitions?.[key]?.type !== "TEXT") throw new Error(`Existing label reference is not a TEXT property on ${owner.name}: ${key}`);
+  } else {
+    const displayName = "문구";
+    key = owner.addComponentProperty(displayName, "TEXT", labels[0].characters);
+    if (typeof key !== "string" || !key || key === displayName || owner.componentPropertyDefinitions?.[key]?.type !== "TEXT") throw new Error(`Native text property key missing for ${owner.name}`);
+  }
+  for (const label of labels) {
+    if (label.componentPropertyReferences?.characters === key) continue;
+    if (label.componentPropertyReferences?.characters) throw new Error(`Label property conflict on ${owner.name}: ${label.componentPropertyReferences.characters}`);
+    try {
+      label.componentPropertyReferences = {...(label.componentPropertyReferences || {}), characters: key};
+    } catch (error) {
+      throw new Error(`Cannot link owned label on ${owner.name}: ${error.message || error}`);
+    }
+    if (label.componentPropertyReferences?.characters !== key) throw new Error(`Label reference was not retained on ${owner.name}`);
+  }
+  for (const node of [owner, ...mains]) node.setPluginData(KEY, JSON.stringify({...info(node), label_property_key: key}));
+  return key;
+}
+
 async function importDesign(fresh) {
   if (PAYLOAD.technical_existing_only) throw new Error("Existing technical sync cannot author new UI. Select a direction for a production build.");
   if (!PAYLOAD.foundations || !PAYLOAD.selected_direction) throw new Error("Selected canonical design foundations required before native authoring");
@@ -416,7 +450,11 @@ async function importDesign(fresh) {
           layout(set, 360);
           componentSets.push(set);
           metadata(set, `component-set:${name}`, { kind: "component-set", variant_property: "Variant" });
-        } else warnings.add(`Native variant sets unavailable for ${name}; individual main components are preserved.`);
+          bindOwnedLabelProperty(set, variants.map(([, node]) => node), warnings);
+        } else {
+          warnings.add(`Native variant sets unavailable for ${name}; individual main components are preserved.`);
+          for (const [, node] of variants) bindOwnedLabelProperty(node, [node], warnings);
+        }
       }
     }
     layoutFoundationSets(library, componentSets);
@@ -438,9 +476,18 @@ async function importDesign(fresh) {
       for (const [elementIndex, element] of screen.elements.entries()) {
         let node;
         if (element.kind === "component") {
-          node = components.get(JSON.stringify([element.component, element.variant])).createInstance();
+          const main = components.get(JSON.stringify([element.component, element.variant]));
+          node = main.createInstance();
           const label = node.findOne(child => child.type === "TEXT");
-          if (label) { label.characters = element.text; metadata(label, `${element.id || `${screen.id}/element:${elementIndex}`}/label`); }
+          const labelKey = info(main).label_property_key;
+          if (labelKey) {
+            const owner = main.parent?.type === "COMPONENT_SET" ? main.parent : main;
+            const instanceReference = label?.componentPropertyReferences?.characters;
+            if (owner.componentPropertyDefinitions?.[labelKey]?.type !== "TEXT" || (instanceReference !== undefined && instanceReference !== labelKey)) throw new Error(`Instance label is not linked to the owned text property: ${element.text}`);
+            node.setProperties({[labelKey]: element.text});
+            if (!label || label.characters !== element.text || node.componentProperties?.[labelKey]?.type !== "TEXT" || node.componentProperties[labelKey].value !== element.text) throw new Error(`Assigned label differs from the visible text: ${element.text}`);
+          } else if (label) label.characters = element.text;
+          if (label) metadata(label, `${element.id || `${screen.id}/element:${elementIndex}`}/label`);
         } else node = text(element.text, element.kind === "heading");
         frame.appendChild(node);
         node.name = element.text.slice(0, 80) || element.kind;

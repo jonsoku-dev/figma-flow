@@ -8,7 +8,7 @@
 
 ## 현재 구현
 
-일반 가져오기는 `code.js`의 `importDesign`에서 main과 instance를 만든다. instance의 label은 하위 TEXT에 직접 설정한다. 방향 검토는 이미 TEXT property를 연결한다. `ensureSemanticComponents`는 같은 semantic key와 시각 profile을 재사용하지만, 크기·transform이 profile에 들어가 Layout 변형을 늘릴 수 있다.
+일반 가져오기는 `code.js`의 `importDesign`에서 main과 instance를 만든다. 화면 문구는 이제 main의 TEXT 속성과 반환된 key로 설정한다. 속성 API가 없을 때만 하위 TEXT에 직접 쓴다. 방향 검토는 이미 TEXT property를 연결한다. `ensureSemanticComponents`는 같은 semantic key와 시각 profile을 재사용하지만, 크기·transform이 profile에 들어가 Layout 변형을 늘릴 수 있다.
 
 ## 첫 구현 범위
 
@@ -32,4 +32,4 @@
 - **RD-01-AC-04** — 같은 패킷 재실행 후 main/set/instance 수와 ID가 유지된다. 사용자가 바꾼 instance override를 초기화하지 않는다.
 - **RD-01-AC-05** — 선언하지 않은 variant 조합·사용 설명·swap target은 만들어지지 않는다.
 
-인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. 현재 이 문서의 조건은 통과로 기록되지 않았다.
+인수 조건은 [설계서](design.md)의 경계를 보존하면서 [작업서](tasks.md)에서 구현한다. AC-01과 AC-04는 mock Plugin API에서 재현했다. 실제 Figma 관찰이 없으므로 이 문서의 조건은 통과로 기록하지 않는다. AC-02, AC-03, AC-05는 아직 구현하지 않았다.

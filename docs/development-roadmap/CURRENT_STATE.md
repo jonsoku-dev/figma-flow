@@ -12,12 +12,14 @@ RD-03의 작업 간 `depends_on`과 RD-08의 영속적인 단계 journal은 이 
 
 | 구현 위치 | 현재 동작 | 남은 개선 |
 | --- | --- | --- |
-| [일반 가져오기](../../figma-bridge/code.js)의 `importDesign` | 정의·변형별 main을 만들고 화면에 instance를 배치 | label을 직접 수정하는 경로에 TEXT 속성 노출이 부족 |
+| [일반 가져오기](../../figma-bridge/code.js)의 `importDesign` | 정의·변형별 main을 만들고, 화면 문구는 반환된 TEXT 속성 key로 instance에 설정 | 지원 너비만 다른 재사용 분류와 선언된 variant 축은 아직 |
 | [의미 컴포넌트](../../figma-bridge/semantic_components.js)의 `ensureSemanticComponents` | 의미 key와 profile이 같으면 main을 재사용 | 크기·transform 차이가 Layout 변형을 늘릴 가능성 |
 | [방향 검토](../../figma-bridge/direction_review.js) | 버튼 main/set의 TEXT 속성과 실제 instance를 사용 | 화면 내부 레이어가 평평해 의미 계층이 부족 |
 | [기초 요소 팔레트](../../figma-bridge/foundation_palette.js) | main/set과 연결된 instance, 토큰 binding과 설명을 사용 | 다른 생성 경로와 속성·사용 설명의 일관성 보완 |
 
 컴포넌트를 전혀 재사용하지 않는다는 결론은 현재 코드와 맞지 않는다. 재사용이 어느 경우에 분리되는지, instance에서 무엇을 편집할 수 있는지, 레이어 구조가 얼마나 읽기 쉬운지가 이번 개선의 대상이다.
+
+일반 가져오기의 화면 문구는 component set 또는 단독 main에 TEXT 속성을 만들고, Figma가 반환한 key를 plugin data `label_property_key`에 보관한 뒤 `instance.setProperties`로 전달한다. 표시 이름 `문구`로 key를 추측하지 않는다. 같은 source를 다시 가져오면 기존 페이지의 main·set·instance ID와 사용자가 바꾼 문구·override를 다시 쓰지 않는다. 속성 API가 없으면 하위 TEXT에 글자를 직접 쓴다. 이 동작의 자동 검사는 mock Plugin API다. 실제 Figma 속성 패널에서 문구를 바꾸거나 main 수정이 여러 instance에 반영되는지는 아직 관찰하지 않았다.
 
 ## Frame·Group·Component의 선택 기준
 
