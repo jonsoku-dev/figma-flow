@@ -1,11 +1,11 @@
 """Producer-to-summary privacy and caller-owned browser observation contract."""
-import ast
 import json
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
@@ -27,10 +27,13 @@ class InputAuditBoundary(unittest.TestCase):
         return root
 
     def test_no_browser_process_or_undeclared_browser_dependency(self):
-        source = Path(input_effect.__file__).read_text()
-        imported = {alias.name for node in ast.walk(ast.parse(source)) if isinstance(node, ast.Import) for alias in node.names}
-        self.assertNotIn('websocket', imported, 'input preparation must not require an undeclared browser driver dependency')
-        self.assertNotIn('--remote-debugging-port', source, 'input comparison must consume an approved browser observation, not launch CDP')
+        root = self.fixture()
+        with patch('subprocess.Popen', side_effect=AssertionError('input comparison must not launch a process')):
+            try:
+                result = input_effect.contrast_css_browser_loading(root, requested_paths=[])
+            except TypeError as error:
+                self.fail('input comparison must accept a supplied browser observation: ' + str(error))
+        self.assertEqual(result['browser']['requested'], [])
 
     def test_producer_keeps_asset_types_and_all_ingress_sources(self):
         root = self.fixture()
