@@ -692,7 +692,7 @@ async function graphTokenPairMigration(figma, plan, operation) {
     throw graphSyncRollbackError(error, plan, conflicts);
   }
 }
-if (typeof module !== 'undefined') module.exports = {graphTokenSync, commitGraphSelection};
+if (typeof module !== 'undefined') module.exports = {graphTokenSync, commitGraphSelection, commitComponentFields};
 function selectionDigest(text) {
   if (typeof require !== 'function') throw Error('selective apply digest is unavailable');
   return require('crypto').createHash('sha256').update(text).digest('hex');
@@ -737,11 +737,55 @@ function commitGraphSelection(payload, selection, observed) {
   for (const item of applied) if (Object.prototype.hasOwnProperty.call(item, 'value')) baseline[item.key] = item.value;
   return {applied, skipped, values, readback: {...values}, baseline, plan_sha256: planSha, full_apply: skipped.length === 0};
 }
+function commitComponentFields(spec, selection, observed) {
+  if (!spec || spec.schema !== 'figma-flow-component-field-v1' || !observed || typeof observed !== 'object' || Array.isArray(observed)) {
+    throw Error('component field selection requires observed values');
+  }
+  if (!Array.isArray(selection) || !selection.length) throw Error('empty selection');
+  const byField = new Map();
+  const groups = new Map();
+  for (const item of spec.fields) {
+    if (byField.has(item.field)) throw Error('duplicate component field');
+    byField.set(item.field, item);
+    const members = groups.get(item.token) || [];
+    members.push(item.field);
+    groups.set(item.token, members);
+  }
+  if (selection.some(field => !byField.has(field)) || new Set(selection).size !== selection.length) throw Error('unknown component field');
+  const chosen = new Set(selection);
+  for (const members of groups.values()) {
+    const picked = members.filter(field => chosen.has(field));
+    if (picked.length && picked.length !== members.length) throw Error('partial component closure');
+  }
+  for (const field of selection) if (observed[field] !== byField.get(field).before) throw Error('stale before value: ' + field);
+  const values = {...observed};
+  const applied = [];
+  for (const item of spec.fields) if (chosen.has(item.field)) {
+    values[item.field] = item.after;
+    applied.push({id: spec.component.id, field: item.field, value: values[item.field]});
+  }
+  const skipped = spec.fields.filter(item => !chosen.has(item.field)).map(item => ({field: item.field}));
+  const baseline = {};
+  for (const item of applied) baseline[item.field] = item.value;
+  return {
+    node_id: spec.component.node_id,
+    main_component_id: spec.component.main_component_id,
+    applied, skipped, values, readback: {...values}, baseline, full_apply: skipped.length === 0,
+  };
+}
 function graphSyncPlanForMessage(plan, message) {
-  if (!message || message.selection == null) return plan;
-  const committed = commitGraphSelection(message.fixture, message.selection, message.observed);
-  const selected = new Set(committed.applied.map(item => item.key));
-  return {...plan, tokens: (plan.tokens || []).filter(token => selected.has(token.key)), selection_baseline: committed.baseline, partial_apply: committed.full_apply !== true};
+  if (!message || (message.selection == null && message.component_fields == null)) return plan;
+  let next = plan;
+  if (message.selection != null) {
+    const committed = commitGraphSelection(message.fixture, message.selection, message.observed);
+    const selected = new Set(committed.applied.map(item => item.key));
+    next = {...next, tokens: (plan.tokens || []).filter(token => selected.has(token.key)), selection_baseline: committed.baseline, partial_apply: committed.full_apply !== true};
+  }
+  if (message.component_fields != null) {
+    const fields = commitComponentFields(message.component_fields, message.field_selection, message.field_observed);
+    next = {...next, component_field_baseline: fields.baseline, component_node_id: fields.node_id, main_component_id: fields.main_component_id};
+  }
+  return next;
 }
 if (typeof GRAPH_SYNC_PLAN !== 'undefined' && typeof figma !== 'undefined') {
   figma.showUI(__html__, {width: 440, height: 470, themeColors: true});

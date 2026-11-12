@@ -120,6 +120,51 @@ def commit_selective_apply(payload, selection, observed):
     }
 
 
+def commit_component_fields(spec, selection, observed):
+    """Apply a whole shared-token field closure without creating another component."""
+    if not isinstance(spec, dict) or spec.get('schema') != 'figma-flow-component-field-v1':
+        raise ValueError('Invalid component field selection')
+    if not isinstance(observed, dict):
+        raise ValueError('component field selection requires observed values')
+    if not isinstance(selection, list) or not selection:
+        raise ValueError('empty selection')
+    component = spec['component']
+    by_field, groups = {}, {}
+    for item in spec['fields']:
+        if item['field'] in by_field:
+            raise ValueError('duplicate component field')
+        by_field[item['field']] = item
+        groups.setdefault(item['token'], []).append(item['field'])
+    if any(field not in by_field for field in selection) or len(selection) != len(set(selection)):
+        raise ValueError('unknown component field')
+    chosen = set(selection)
+    for members in groups.values():
+        picked = [field for field in members if field in chosen]
+        if picked and len(picked) != len(members):
+            raise ValueError('partial component closure')
+    for field in selection:
+        if observed.get(field) != by_field[field]['before']:
+            raise ValueError(f'stale before value: {field}')
+    values = dict(observed)
+    applied = []
+    for item in spec['fields']:
+        if item['field'] not in chosen:
+            continue
+        values[item['field']] = item['after']
+        applied.append({'id': component['id'], 'field': item['field'], 'value': values[item['field']]})
+    skipped = [{'field': item['field']} for item in spec['fields'] if item['field'] not in chosen]
+    return {
+        'node_id': component['node_id'],
+        'main_component_id': component['main_component_id'],
+        'applied': applied,
+        'skipped': skipped,
+        'values': values,
+        'readback': dict(values),
+        'baseline': {item['field']: item['value'] for item in applied},
+        'full_apply': not skipped,
+    }
+
+
 def read(path):
     return json.loads(Path(path).read_text(encoding='utf-8'))
 
