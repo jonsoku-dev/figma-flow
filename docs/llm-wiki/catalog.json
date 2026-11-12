@@ -2572,6 +2572,125 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "cb19ac749989bafeda8ca5a75505ebe86abed802",
+      "diff_sha256": "83985aa69344c2fa3c77502a49e1ace1b6565789c8ea8518f841f05df4c778bd",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1f80e5d9896e85afb865919aad7dad3572be932e.md",
+        "docs/llm-wiki/patches/3a3d68e64d178d1ca37c3ff275d97d41bc92274d.md",
+        "docs/llm-wiki/patches/7260d2995764d65d736aed031ddc63323ecf4e0c.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "1f80e5d9896e85afb865919aad7dad3572be932e"
+      ],
+      "subject": "docs: record the shared import label property",
+      "tree": "f08bb055a2c159e5d988aabf37668072803b4daf",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "15f29963c1f4e7685a7deb6b851a1d360fcbad6b",
+      "diff_sha256": "6a42f6835c5ec1d643476b250aaa5470a6017bbecf6ed3f28dd7a6770e6f33eb",
+      "files": [
+        "tests/semantic_component_reuse_oracle.cjs",
+        "tests/test_semantic_component_reuse.cjs"
+      ],
+      "parents": [
+        "cb19ac749989bafeda8ca5a75505ebe86abed802"
+      ],
+      "subject": "test: pin width-only component reuse before sharing mains",
+      "tree": "6c8ae24ee6628ad0dc7c972d41b7edc01c01afb4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "f838d46167cc8078e755c579bc3340c85968f8aa",
+      "diff_sha256": "47ec0e31e2b7686a277a00bc330030eeb57cf270c3eeb5fa94aad3013deb730c",
+      "files": [
+        "tests/semantic_component_reuse_oracle.cjs"
+      ],
+      "parents": [
+        "15f29963c1f4e7685a7deb6b851a1d360fcbad6b"
+      ],
+      "subject": "test: keep the width-reuse oracle stable after archived keys",
+      "tree": "37588290644003e434e97108b92df95cb255e2c3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "76a2d2b73a1d71631abe6f717073d15068c08155",
+      "diff_sha256": "0981f76be6c194f98ec4c99ab8ad34e61034fdb80d38ecce15d41793138c9689",
+      "files": [
+        "tests/semantic_component_reuse_oracle.cjs"
+      ],
+      "parents": [
+        "f838d46167cc8078e755c579bc3340c85968f8aa"
+      ],
+      "subject": "test: give appended layout variants their declared properties",
+      "tree": "b8bc3046d9f9418d81d8152e883d7cd1f6c00a90",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "640ff8c1a0ae1f185a60be5284558d6e7c914deb",
+      "diff_sha256": "be684ee4816a1698c78684f0f6fbbb886c5fcc41e5813280507c742de7e32eaa",
+      "files": [
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "figma-bridge/semantic_components.js"
+      ],
+      "parents": [
+        "76a2d2b73a1d71631abe6f717073d15068c08155"
+      ],
+      "subject": "feat: share a component main when only its width differs",
+      "tree": "3bb1fb12a414bb1f574e19dd88a1b8e5a688587e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2581,6 +2700,7 @@
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
+    "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
@@ -2596,9 +2716,11 @@
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
+    "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
+    "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
@@ -2621,6 +2743,7 @@
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
+    "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
@@ -2632,6 +2755,7 @@
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
     "f3ec102c6dbe436495ff15391f599cddfd86a449": "e4c6ee3db8f9e045bafc1d629567150280ee52b78ab1082fc35eb9dcb928075e",
     "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02",
+    "f838d46167cc8078e755c579bc3340c85968f8aa": "58cfcc4d03a25f590a3d2d6ab7ee4b696d048b24355567a317cd497419cbc524",
     "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f"
   },
   "provenance_remotes": [
@@ -2645,6 +2769,10 @@
     },
     {
       "observed_at_commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "640ff8c1a0ae1f185a60be5284558d6e7c914deb",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -2846,7 +2974,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
+  "source_commit": "640ff8c1a0ae1f185a60be5284558d6e7c914deb",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

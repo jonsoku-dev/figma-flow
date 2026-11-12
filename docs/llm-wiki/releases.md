@@ -14,7 +14,9 @@
 
 컴포넌트 속성·재사용, 의미 계층과 Frame/Group/Auto Layout, 작업 dependency, 선택 동기화, 자산 목록, 네이티브 읽기 최적화, runtime 모듈 경계, 실행 수명주기·복구8항목을 [개별 기능서·설계서·작업서27문서](../development-roadmap/README.md)로 제공한다. [Cursor 전달서](../development-roadmap/CURSOR_HANDOFF.md)에 실제 소유 코드·작업 순서·검사·보고 형식을 연결한다.
 
-이후 [세 문구 검사 기준](patches/7260d2995764d65d736aed031ddc63323ecf4e0c.md)과 [일반 가져오기 문구 속성](patches/1f80e5d9896e85afb865919aad7dad3572be932e.md)을 추가했다. 같은 컴포넌트의 화면 문구는 반환된 TEXT 속성 key로 설정되고, 같은 패킷의 재가져오기는 기존 ID와 사용자 수정을 유지한다. 종료 게이트는 기준 종료 코드 1, 대상 `tests.test_figma_bridge` 25개 종료 코드 0이다. 실제 Figma 속성 패널은 새 Design 캔버스가 열리지 않아 관찰하지 못했다. 문구 속성 외 제안 기능은 아직 구현되지 않았다.
+이후 [세 문구 검사 기준](patches/7260d2995764d65d736aed031ddc63323ecf4e0c.md)과 [일반 가져오기 문구 속성](patches/1f80e5d9896e85afb865919aad7dad3572be932e.md)을 추가했다. 같은 컴포넌트의 화면 문구는 반환된 TEXT 속성 key로 설정되고, 같은 패킷의 재가져오기는 기존 ID와 사용자 수정을 유지한다. 그 종료 게이트는 기준 종료 코드 1, 대상 `tests.test_figma_bridge` 25개 종료 코드 0이다. 실제 Figma 속성 패널은 새 Design 캔버스가 열리지 않아 관찰하지 못했다.
+
+[너비 재사용 기준](patches/76a2d2b73a1d71631abe6f717073d15068c08155.md)과 [너비 공유](patches/640ff8c1a0ae1f185a60be5284558d6e7c914deb.md)는 root 너비만 다른 세 사용처를 한 main에 두고, 자식 transform·높이 차이는 별도 Layout main으로 남긴다. 그 종료 게이트는 기준 종료 코드 1, 대상 oracle 종료 코드 0이다. 실제 Figma 렌더는 관찰하지 않았다. 문구 속성과 너비 공유 외 제안 기능은 아직 구현되지 않았다.
 
 독립 검수에서 발견된 중복 실패와 remote validation 누락은 같은 고정 oracle로 실제 기준 AssertionError 종료1·대상 종료0을 확인했다. 자동 검사와 실제 브라우저320/560/840px, light/dark, 필터·키보드·빈 상태는 별도 확인했다. 실제 Figma에서 새 실행의3단계 연결과127노드·변수·collection·3이미지테이블 보존을 읽었다.15개 task key를 유지하고 UI artifact 변경에 따라 revision을 다시 생성했으므로 기존 이력은 과거 revision으로 남는다.
 
