@@ -5024,6 +5024,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "ffcde43350120941afad855b159ee3785f45619c",
+      "diff_sha256": "38b28a898170632aca2626958ca7190aa85ee8ca2a4e8cf6660baf9e9c968e84",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/64d89e40f048197c3f09545cbecf4630bf9ea8ab.md",
+        "docs/llm-wiki/patches/954a00c7cd0a0d7a61b7cc6cd63bfa66d83e0411.md",
+        "docs/llm-wiki/patches/b3285c42f1189f69ea52d1f7b65ccf71d594a842.md"
+      ],
+      "parents": [
+        "b3285c42f1189f69ea52d1f7b65ccf71d594a842"
+      ],
+      "subject": "docs: record the measured full and summary native reads",
+      "tree": "c98c391560837fd264b9d6b2d8451395caccb6e4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "56034e24e922a9ff9b5e4b45e3a5cab00001a248",
+      "diff_sha256": "7e4458515029800f4016c98e3a39abf0be7729efbd43320086eb697217aded3b",
+      "files": [
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "tests/test_rd07_runtime_boundary.py"
+      ],
+      "parents": [
+        "ffcde43350120941afad855b159ee3785f45619c"
+      ],
+      "subject": "test: pin the current runtime transport trace",
+      "tree": "ae0aef27a9807a38b40f633bafcd9a7be452f4bc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "b170f11568364a8c1e4494613f717ad87519ec83",
+      "diff_sha256": "e374b97577b0fa233f48fa7d3b90fe9f3399f1fd6a49089e93002d852331dc19",
+      "files": [
+        "tests/fixtures/rd07/protocol-trace.json",
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "56034e24e922a9ff9b5e4b45e3a5cab00001a248"
+      ],
+      "subject": "feat: pin the current runtime transport trace",
+      "tree": "d03d4b8b1f6251be7dd7cbedf45481af0db00862",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -5076,6 +5147,7 @@
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
+    "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
@@ -5129,6 +5201,7 @@
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
+    "b170f11568364a8c1e4494613f717ad87519ec83": "69f9aa3d96e239653e8b7c63deee1d2bed850119e86df545fc426731a6a6eefe",
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
     "b275a28ad9b31347b7663485aabc93b19fb00f7b": "13b4ccc01c4842c750272208402b50384ee31f3d064c895a43b0d50cf60d20e5",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
@@ -5186,7 +5259,8 @@
     "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02",
     "f838d46167cc8078e755c579bc3340c85968f8aa": "58cfcc4d03a25f590a3d2d6ab7ee4b696d048b24355567a317cd497419cbc524",
     "f943bc9f1f316f0f7c6624087e1bba2c1b6f45eb": "c9ca5626d15e5319d59924abe6936e05438d8afe671f42e02bf46a879868b328",
-    "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f"
+    "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f",
+    "ffcde43350120941afad855b159ee3785f45619c": "0694d4315c2136e4f54c46e55bffd538a46dcb95b7af6bfcd311b3873bfa1603"
   },
   "provenance_remotes": [
     {
@@ -5303,6 +5377,10 @@
     },
     {
       "observed_at_commit": "9c9d5575eea6d883620407e591972c7e92cc244f",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "b170f11568364a8c1e4494613f717ad87519ec83",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5532,7 +5610,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "b3285c42f1189f69ea52d1f7b65ccf71d594a842",
+  "source_commit": "b170f11568364a8c1e4494613f717ad87519ec83",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
