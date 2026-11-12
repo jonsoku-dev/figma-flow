@@ -20,6 +20,8 @@
 | workspace_control | 도메인 검사는 workspace_control에 남긴다. kind와 operation, scope, revision을 검사한다. |
 | figma_workspace.py | publisher 조립과 trusted_sources는 이 단위에서 옮기지 않는다. source pin은 tools, figma-bridge, library이다. |
 
+2는 `controlRequest`만 `figma-bridge/workspace_transport.js`로 옮긴다. kind, operation, scope, revision 검사는 `workspace_control.js`에 남긴다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
