@@ -229,7 +229,32 @@ def _css_text(data):
     return data.decode(encoding.name)
 
 
+def _ingress(asset, source):
+    copied = dict(asset)
+    if source:
+        copied['sources'] = [source]
+    return copied
+
+
+def _merge_ingress(assets):
+    """One asset keeps every stylesheet or document that referenced it."""
+    merged = {}
+    order = []
+    for asset in assets:
+        identity = {key: value for key, value in asset.items() if key != 'sources'}
+        key = canonical(identity)
+        if key not in merged:
+            merged[key] = {**identity, 'sources': list(asset.get('sources') or [])}
+            order.append(key)
+            continue
+        for source in asset.get('sources') or []:
+            if source not in merged[key]['sources']:
+                merged[key]['sources'].append(source)
+    return [merged[key] for key in order]
+
+
 def html_channel(path, root):
+    root = _root(root)
     raw = path.read_bytes()
     text = raw.decode('utf-8')
     source = design_directions.Source(text)
@@ -243,8 +268,9 @@ def html_channel(path, root):
     css_queue = deque()
     seen_css = set()
     direct_css_paths = set()
+    html_relative = Path(path).resolve().relative_to(root).as_posix()
     for ref, is_stylesheet in parser.references:
-        asset = _relative_asset(path, root, ref)
+        asset = _ingress(_relative_asset(path, root, ref), html_relative)
         assets.append(asset)
         if is_stylesheet and asset.get('status') == 'present':
             css_queue.append((locate(root, asset['path']), asset['path'], None))
@@ -252,14 +278,14 @@ def html_channel(path, root):
     for style in parser.styles:
         refs, encoding = _css_references(style.encode('utf-8'))
         for ref, kind in refs:
-            assets.append(_relative_asset(path, root, ref))
+            assets.append(_ingress(_relative_asset(path, root, ref), html_relative))
             asset = assets[-1]
             if kind == 'import' and asset.get('status') == 'present':
                 css_queue.append((locate(root, asset['path']), asset['path'], encoding))
     for style in parser.inline_styles:
         refs, _encoding = _css_references(style.encode('utf-8'), declarations=True)
         for ref, _kind in refs:
-            assets.append(_relative_asset(path, root, ref))
+            assets.append(_ingress(_relative_asset(path, root, ref), html_relative))
     while css_queue:
         css_path, css_relative, environment_encoding = css_queue.popleft()
         encoding_key = environment_encoding.name if environment_encoding else None
@@ -269,11 +295,11 @@ def html_channel(path, root):
         seen_css.add(css_key)
         refs, child_encoding = _css_references(css_path.read_bytes(), environment_encoding=environment_encoding)
         for ref, kind in refs:
-            asset = _relative_asset(css_path, root, ref)
+            asset = _ingress(_relative_asset(css_path, root, ref), css_relative)
             assets.append(asset)
             if asset.get('status') == 'present' and (kind == 'import' or asset.get('path', '').lower().endswith('.css')):
                 css_queue.append((locate(root, asset['path']), asset['path'], child_encoding))
-    assets = list({canonical(asset): asset for asset in assets}.values())
+    assets = _merge_ingress(assets)
     layout = list(design_directions._layout_signature(text))
     for css_relative in sorted(direct_css_paths):
         css_path = locate(root, css_relative)
