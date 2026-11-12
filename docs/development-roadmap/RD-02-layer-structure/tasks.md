@@ -12,7 +12,7 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
-1은 `tests/fixtures/rd02/flat-layers.json`과 `declared-containers.json`을 `tests/test_rd02_layer_fixtures.py`로 고정했다. 평평한 패킷에는 container가 없고, 선언한 트리는 Frame·Auto Layout Frame·Group만 가진다. 네이티브 트리 생성은 아직이다.
+1은 `tests/fixtures/rd02/flat-layers.json`과 `declared-containers.json`을 `tests/test_rd02_layer_fixtures.py`로 고정했다. 2는 `design_directions.normalize_layer_containers`가 그 트리를 검증한다. 평평한 패킷은 빈 containers를 유지하고, cycle·중복 부모·없는 target·Group의 fill은 쓰기 전에 거절한다. 네이티브 트리 생성은 아직이다.
 
 ## 기존 검사에서 시작하기
 

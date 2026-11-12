@@ -1173,3 +1173,84 @@ def record_direct_admission(manifest, user_event, out):
     _persist_admission(out, result, replace_identity=previous_identity if revoked else None,
                        replace_bytes=previous_bytes if revoked else None)
     return require_selected(out)
+
+
+def normalize_layer_containers(fixture):
+    """Validate a declared container tree without inventing groups or combinations."""
+    if not isinstance(fixture, dict):
+        raise ValueError('layer fixture required')
+    layers = fixture.get('layers')
+    containers = fixture.get('containers')
+    if not isinstance(layers, list) or not isinstance(containers, list):
+        raise ValueError('layers and containers are required')
+    layer_ids = []
+    for layer in layers:
+        if not isinstance(layer, dict) or not isinstance(layer.get('id'), str) or not layer['id'] or layer['id'] in layer_ids:
+            raise ValueError('duplicate or invalid layer')
+        layer_ids.append(layer['id'])
+    layer_set = set(layer_ids)
+    by_key = {}
+    for item in containers:
+        key = item.get('key') if isinstance(item, dict) else None
+        if not isinstance(key, str) or not key or key in by_key or key in layer_set:
+            raise ValueError('duplicate or invalid container key')
+        kind = item.get('kind')
+        if kind not in {'group', 'frame', 'auto-layout'}:
+            raise ValueError(f'unsupported container: {key}')
+        if kind == 'group' and any(field in item for field in ('layout', 'fill', 'clip')):
+            raise ValueError(f'group cannot own layout, fill, or clip: {key}')
+        if kind == 'frame':
+            box = item.get('box')
+            if not isinstance(box, list) or len(box) != 4 or not all(isinstance(number, (int, float)) and not isinstance(number, bool) for number in box):
+                raise ValueError(f'frame box required: {key}')
+        if kind == 'auto-layout':
+            layout = item.get('layout')
+            padding = layout.get('padding') if isinstance(layout, dict) else None
+            if (not isinstance(layout, dict) or layout.get('direction') not in {'VERTICAL', 'HORIZONTAL'} or
+                    not isinstance(padding, list) or len(padding) != 4 or
+                    layout.get('width') not in {'fixed', 'hug', 'fill'} or layout.get('height') not in {'fixed', 'hug', 'fill'} or
+                    not isinstance(layout.get('gap'), (int, float)) or isinstance(layout.get('gap'), bool) or layout['gap'] < 0):
+                raise ValueError(f'auto-layout declaration required: {key}')
+        children = item.get('children')
+        if not isinstance(children, list) or not children or len(children) != len(set(children)):
+            raise ValueError(f'container children required: {key}')
+        by_key[key] = item
+    for item in containers:
+        for child in item['children']:
+            if child not in layer_set and child not in by_key:
+                raise ValueError(f'missing target: {child}')
+    owners = {}
+    for item in containers:
+        for child in item['children']:
+            if child in owners:
+                raise ValueError(f'duplicate parent: {child}')
+            owners[child] = item['key']
+            if child in by_key and by_key[child].get('parent') != item['key']:
+                raise ValueError(f'parent mismatch: {child}')
+    for item in containers:
+        parent = item.get('parent', None)
+        if parent is not None and parent not in by_key:
+            raise ValueError(f'missing parent: {item["key"]}')
+        seen = set()
+        cursor = item['key']
+        while cursor is not None:
+            if cursor in seen:
+                raise ValueError(f'cycle: {item["key"]}')
+            seen.add(cursor)
+            cursor = by_key[cursor].get('parent')
+    ordered = []
+
+    def walk(key):
+        ordered.append(by_key[key])
+        for child in by_key[key]['children']:
+            if child in by_key:
+                walk(child)
+
+    for item in containers:
+        if item.get('parent') is None:
+            walk(item['key'])
+    if len(ordered) != len(containers):
+        raise ValueError('cycle or disconnected container')
+    result = json.loads(json.dumps(fixture))
+    result['containers'] = [json.loads(json.dumps(by_key[item['key']])) for item in ordered]
+    return result
