@@ -16,6 +16,7 @@ from pathlib import Path
 import re
 import secrets
 import sys
+import threading
 import time
 
 import figma_workspace as workspace
@@ -611,6 +612,67 @@ def note_native_started(root, payload):
         record_phase(request, 'native-started')
         save(directory, request)
         return {'accepted': True, 'id': request['id'], 'state': request['state'], 'phase': 'native-started'}
+
+
+def restart_delivery_report(root, mutation_revision):
+    """Exercise the HTTP server, then drop its memory and miss the result post."""
+    settings = dict(config(root))
+    server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    server.workspace, server.token = root, settings['token']
+    settings['port'] = server.server_port
+    workspace.atomic(root / 'control.json', workspace.encode(settings))
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    original_time = time.time
+
+    def post(path, payload):
+        connection = http.client.HTTPConnection('127.0.0.1', server.server_port, timeout=5)
+        try:
+            connection.request('POST', path, json.dumps(payload), {
+                'Host': f'localhost:{server.server_port}',
+                'Authorization': 'Bearer ' + settings['token'],
+                'Content-Type': 'application/json'})
+            response = connection.getresponse()
+            return response.status, json.loads(response.read())
+        finally:
+            connection.close()
+
+    try:
+        runtime = workspace.current(root)['runtime']
+        request = enqueue(root, 'mutation', 'apply', 'fixturefile', '12:1', mutation_revision, 30)
+        code, polled = post('/control/poll', {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1', 'runtime': runtime})
+        claim = polled.get('operation') if code == 200 else None
+        if not claim:
+            raise ValueError('HTTP claim was not delivered')
+        started = {key: claim[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')}
+        started['runtime'] = runtime
+        started_code, started_body = post('/control/native-started', started)
+        if started_code != 200 or started_body.get('state') != 'claimed':
+            raise ValueError('HTTP native start was not recorded')
+        NATIVE_CLIENTS.pop(str(Path(root).resolve()), None)
+        time.time = lambda: request['deadline'] + 1
+        current = status(root)
+        time.time = original_time
+        try:
+            enqueue(root, 'mutation', 'apply', 'fixturefile', '12:1', mutation_revision, 30)
+            reenqueued = 'allowed'
+        except ValueError as error:
+            reenqueued = 'blocked' if 'uncertain' in str(error) else 'other'
+        rerun_code, rerun = post('/control/poll', {'session_id': 'plugin-session-2', 'file_key': 'fixturefile', 'page_id': '12:1', 'runtime': runtime})
+        return {
+            'schema': 'figma-flow-control-restart-v1',
+            'state': current['state'],
+            'phases': [event['phase'] for event in current['phase_events']],
+            'same_operation_id': current.get('operation_id') == request['id'],
+            'mutation_reenqueued': reenqueued,
+            'plugin_rerun_redelivers': rerun_code == 200 and rerun.get('operation') is not None,
+            'result_delivered': current['state'] == 'ok',
+            'request_count': len(list((Path(root) / '.control' / 'requests').glob('*.json'))),
+        }
+    finally:
+        time.time = original_time
+        server.shutdown()
+        server.server_close()
 
 
 class Handler(BaseHTTPRequestHandler):
