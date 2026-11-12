@@ -4752,10 +4752,139 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "b275a28ad9b31347b7663485aabc93b19fb00f7b",
+      "diff_sha256": "3bcf6bc69b3b31dde24626dfe4bbf7f5e403a6043e77b59b668854fe250c80cb",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3.md",
+        "docs/llm-wiki/patches/9408fdabedc720a7dd266f7a819953dd1abef969.md",
+        "docs/llm-wiki/patches/e0f34c2d2db5673cc17a63bf8bb99489445c2492.md"
+      ],
+      "parents": [
+        "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3"
+      ],
+      "subject": "docs: record the partial native summary",
+      "tree": "ea0d73badc6eba8b5e7c1036108b6e4a7f247689",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "ab8b1fe594b960fb2b22936dff34e3b7e711ff21",
+      "diff_sha256": "c479aba61f97ae261fddb891852e9a5ba5681dc6b9438756431a0dad4124c0b8",
+      "files": [
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "tests/rd06_reject_partial.cjs"
+      ],
+      "parents": [
+        "b275a28ad9b31347b7663485aabc93b19fb00f7b"
+      ],
+      "subject": "test: reject a partial native read as full evidence",
+      "tree": "c5bedb6fabb56801f20bef88243de567c0f1071f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "af2a027d7bebe176de697878f3b36d191ef35fe9",
+      "diff_sha256": "b7dd2239229b8e3e8bb5181dab2dba8eb91912044be6126edea517c12ded1d77",
+      "files": [
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/native_semantic_read.js",
+        "tests/test_direction_native_limits.cjs",
+        "tests/test_native_edit.cjs",
+        "tests/test_native_raster_table.cjs",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "ab8b1fe594b960fb2b22936dff34e3b7e711ff21"
+      ],
+      "subject": "feat: reject a partial native read as full evidence",
+      "tree": "49d413a7ec0e5a9328bd5d7c8decd040186d1c33",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "015f440ee635d817f033dddabb504acaea69895f",
+      "diff_sha256": "2d95cbe8da35d22800c9e6409594bf21f3093effd46f453109dec5148e63aba7",
+      "files": [
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md",
+        "docs/development-roadmap/README.md",
+        "tests/rd09_audit_log.cjs"
+      ],
+      "parents": [
+        "af2a027d7bebe176de697878f3b36d191ef35fe9"
+      ],
+      "subject": "test: pin the diagnostic audit export",
+      "tree": "eae2c6cef0964a0d90cb4a07a9f317dea63df3d1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2",
+      "diff_sha256": "432b7dd6cd707145a496c60a7f6fa5d1ea38cc4927c4207a2a95b6b97baa975f",
+      "files": [
+        "figma-bridge/audit_log.js",
+        "figma-bridge/graph-panel.html"
+      ],
+      "parents": [
+        "015f440ee635d817f033dddabb504acaea69895f"
+      ],
+      "subject": "feat: export a redacted diagnostic record from the graph panel",
+      "tree": "8f9ea2adcec28cfd0bcba11da69f8dc7214cbde3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
     "008c01c64e41b255c43b7e81e4029f4368b1f797": "0786fd05695bb51303a051b0c3c3b66acdca4d4e6309a6616c67c847362974ef",
+    "015f440ee635d817f033dddabb504acaea69895f": "f93c2b26a34b0ef631052e746b4779ecbaed228c48b0ad2e0e374c18fe3bb2d8",
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
@@ -4813,6 +4942,7 @@
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
+    "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2": "503787be10ba57d0d51bb7b06cae6390ccdcfe19dc5b573d040f61e382b12676",
     "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
@@ -4849,9 +4979,12 @@
     "aa0822c58b548c0b61e33874bada12ce4e2403bf": "22a082b0df42a8d81fc91c274739ac80eb26eb8a9e674082fbfc823fe36222d8",
     "aa3acddf626642b7bf0db2f04730cab9cc533a4b": "e87cc5c94ced516465ba20410c25d59481af350f6e3ed16b53dac6d051950e69",
     "ab1c8200cd77e2c24a3e322ddde643d80b179239": "cfe81c94bbe740755a66a14845051416ed74a6f429ea97802ecb7b54b4fe59ff",
+    "ab8b1fe594b960fb2b22936dff34e3b7e711ff21": "eeda4fb2ffc63662d4b6bfe478bb32f4b5446a1fd635c3d371bdea59717ace03",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
+    "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
+    "b275a28ad9b31347b7663485aabc93b19fb00f7b": "13b4ccc01c4842c750272208402b50384ee31f3d064c895a43b0d50cf60d20e5",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
     "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
@@ -4996,6 +5129,10 @@
     },
     {
       "observed_at_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5237,7 +5374,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3",
+  "source_commit": "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

@@ -2,6 +2,8 @@
 
 ## 0.26.3 · 2026-11-12
 
+- 그래프 패널에서 진단 기록을 복사하거나 마크다운·JSON으로 저장한다. 토큰과 홈 경로는 가리고, 노드 ID·리비전·오류·작업 식별자는 남긴다. 이 내보내기는 문서를 바꾸지 않는다. 실제 Figma 패널은 아직 확인하지 않았습니다.
+- 부분 네이티브 읽기는 가져오기 읽기, 네이티브 수정, 시안 검토, 그래프 조사의 전체 근거로 저장되지 않는다. 요약 버튼이 보여 주는 부분 결과는 그대로다. 실제 Figma 문서에서 거절되는 화면은 아직 확인하지 않았습니다.
 - 가져오기 패널에서 너비와 높이만 읽는 부분 요약을 본다. 요청한 값은 전체 읽기와 같고, 부분 읽기임과 생략한 스타일·변수·사진이 표시된다. 사진 바이트가 필요한 필드는 전체 읽기로 돌아간다. 실제 Figma 문서의 속도와 화면은 아직 확인하지 않았습니다.
 - 간접 CSS의 사진과 서체는 목록의 준비 상태와 headless Chrome이 실제로 요청한 파일을 따로 기록한다. 쓰이지 않은 글꼴은 목록에 있어도 요청되지 않는다. 사람이 보는 브라우저 창은 아직 확인하지 않았습니다.
 - 작업 목록에서 입력 자산을 상태별로 거르고 상대 출처를 텍스트로 본다. 없는 파일과 외부 주소는 정상으로 바뀌지 않고, 목록을 연다고 다시 받지 않는다. 브라우저에서 사진과 서체가 로드되는지는 아직 확인하지 않았습니다.
@@ -16,7 +18,7 @@
 - 일반 가져오기에서 같은 컴포넌트의 화면 문구를 main의 텍스트 속성 `문구`로 연결합니다. 각 화면은 Figma가 반환한 key로 다른 문구를 갖고, 같은 패킷을 다시 가져오면 기존 main·instance와 사용자가 고친 문구·override를 유지합니다. 속성 API가 없으면 글자를 직접 씁니다. 자동 검사는 mock Plugin API이며 실제 Figma 속성 패널은 아직 확인하지 않았습니다.
 - 신규 기능·Figma 제작·최적화·아키텍처 개선8항목을 개별 기능서·설계서·작업서27문서로 정리합니다. 컴포넌트 속성·재사용과 Frame·Group·Auto Layout의 공식 근거, Cursor 실행 프롬프트와 파일 소유권·이관·인수 조건을 포함합니다. RD-01 외 제안 기능은 아직 구현되지 않았습니다.
 
-[상세 패치 기록](docs/llm-wiki/releases.md#v0.26.3) · [부분 요약](docs/llm-wiki/patches/4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3.md) · [브라우저 대조](docs/llm-wiki/patches/56839c3af04e0be13fa306bc2f743a4d0bbde87d.md) · [입력 자산](docs/llm-wiki/patches/306f26c7454a310f9f9b61f5ddb8b9f557d71318.md) · [선택 행](docs/llm-wiki/patches/d85d6388ae1c50a853278af33ca790a411b1e59e.md) · [의존성 상태](docs/llm-wiki/patches/1c813e3b05c271f043b1360247864ebd216102ae.md) · [선행과 후속](docs/llm-wiki/patches/ef624aadc2e99029e227c62d57d7b6b56df21c5e.md) · [문구 속성](docs/llm-wiki/patches/1f80e5d9896e85afb865919aad7dad3572be932e.md) · [개발 계획](docs/development-roadmap/README.md) · [Cursor 전달서](docs/development-roadmap/CURSOR_HANDOFF.md).
+[상세 패치 기록](docs/llm-wiki/releases.md#v0.26.3) · [진단 기록](docs/llm-wiki/patches/73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2.md) · [부분 읽기 거절](docs/llm-wiki/patches/af2a027d7bebe176de697878f3b36d191ef35fe9.md) · [부분 요약](docs/llm-wiki/patches/4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3.md) · [브라우저 대조](docs/llm-wiki/patches/56839c3af04e0be13fa306bc2f743a4d0bbde87d.md) · [입력 자산](docs/llm-wiki/patches/306f26c7454a310f9f9b61f5ddb8b9f557d71318.md) · [선택 행](docs/llm-wiki/patches/d85d6388ae1c50a853278af33ca790a411b1e59e.md) · [의존성 상태](docs/llm-wiki/patches/1c813e3b05c271f043b1360247864ebd216102ae.md) · [선행과 후속](docs/llm-wiki/patches/ef624aadc2e99029e227c62d57d7b6b56df21c5e.md) · [문구 속성](docs/llm-wiki/patches/1f80e5d9896e85afb865919aad7dad3572be932e.md) · [개발 계획](docs/development-roadmap/README.md) · [Cursor 전달서](docs/development-roadmap/CURSOR_HANDOFF.md).
 
 ## 0.26.2 · 2026-11-12
 

@@ -18,7 +18,9 @@
 
 [너비 재사용 기준](patches/76a2d2b73a1d71631abe6f717073d15068c08155.md)과 [너비 공유](patches/640ff8c1a0ae1f185a60be5284558d6e7c914deb.md)는 root 너비만 다른 세 사용처를 한 main에 두고, 자식 transform·높이 차이는 별도 Layout main으로 남긴다. 그 종료 게이트는 기준 종료 코드 1, 대상 oracle 종료 코드 0이다. 실제 Figma 렌더는 관찰하지 않았다.
 
-[선언 축 기준](patches/008c01c64e41b255c43b7e81e4029f4368b1f797.md)과 [축 연결](patches/0ff91654bd6867c816292a9fbac8561d474644d8.md)은 `axes.json`의 size·state를 기존 variant에만 연결한다. 선언되지 않은 조합·사용 설명·swap target은 만들지 않는다. 그 종료 게이트는 기준 종료 코드 1, 대상 종료 코드 0이다. 실제 Figma variant 패널은 관찰하지 않았다. RD-01 외 제안 기능은 아직 구현되지 않았다.
+[선언 축 기준](patches/008c01c64e41b255c43b7e81e4029f4368b1f797.md)과 [축 연결](patches/0ff91654bd6867c816292a9fbac8561d474644d8.md)은 `axes.json`의 size·state를 기존 variant에만 연결한다. 선언되지 않은 조합·사용 설명·swap target은 만들지 않는다. 그 종료 게이트는 기준 종료 코드 1, 대상 종료 코드 0이다. 실제 Figma variant 패널은 관찰하지 않았다.
+
+[진단 기록 기준](patches/015f440ee635d817f033dddabb504acaea69895f.md)과 [진단 기록](patches/73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2.md)은 그래프 패널에서 진단 기록을 마크다운과 JSON으로 복사하거나 저장한다. 비밀값은 가리고 노드 ID·리비전·오류·작업 식별자는 남긴다. 그 종료 게이트는 기준 종료 코드 1, 대상 종료 코드 0이다. 실제 Figma 패널은 관찰하지 않았다. RD-09 상태는 제안으로 남아 있다.
 
 독립 검수에서 발견된 중복 실패와 remote validation 누락은 같은 고정 oracle로 실제 기준 AssertionError 종료1·대상 종료0을 확인했다. 자동 검사와 실제 브라우저320/560/840px, light/dark, 필터·키보드·빈 상태는 별도 확인했다. 실제 Figma에서 새 실행의3단계 연결과127노드·변수·collection·3이미지테이블 보존을 읽었다.15개 task key를 유지하고 UI artifact 변경에 따라 revision을 다시 생성했으므로 기존 이력은 과거 revision으로 남는다.
 
