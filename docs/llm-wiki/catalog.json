@@ -2963,6 +2963,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "942d0cf9a5c194b8decd79918062c84767a0d1ec",
+      "diff_sha256": "cca633aca345e1ab888bede7b02c8955463373f3414714193b56144be173567b",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1273bb3365947986b98b66a0b3e012d7a53b6e47.md",
+        "docs/llm-wiki/patches/9a465e535cafbf7e8be7fd4d7a2693b70ada4400.md",
+        "docs/llm-wiki/patches/b40d9db3300bf8d7de01a0d70fef408d16f43b98.md"
+      ],
+      "parents": [
+        "9a465e535cafbf7e8be7fd4d7a2693b70ada4400"
+      ],
+      "subject": "docs: record declared parent placement after leaf authoring",
+      "tree": "22e1948c7b8275328f444a2e027b3af0557948c5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "8421b31163333c0b75e24e096ad6975d07138a33",
+      "diff_sha256": "2e2c40d8b4796c12d51e244042891896a087edc98e0feb77708f4b2d17134589",
+      "files": [
+        "tests/rd02_container_readback_oracle.cjs"
+      ],
+      "parents": [
+        "942d0cf9a5c194b8decd79918062c84767a0d1ec"
+      ],
+      "subject": "test: require declared container links to match the native reader",
+      "tree": "431c0548cb8cdb5dd95a598bb32207eec9b9979c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "946717804fcf45d0d4c85c3e624132ed0c48455f",
+      "diff_sha256": "b14cd2a010ebada0af2be468c61806ac14480f542e1598ea825e49159c895aa5",
+      "files": [
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "figma-bridge/direction_review.js"
+      ],
+      "parents": [
+        "8421b31163333c0b75e24e096ad6975d07138a33"
+      ],
+      "subject": "feat: compare declared container links with the native reader",
+      "tree": "4e6cd328808c4051da4060c82c610b99b1e5054e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3001,11 +3071,14 @@
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
+    "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
+    "942d0cf9a5c194b8decd79918062c84767a0d1ec": "51f289feb528da76ec699c6af67bba30f0dd4ff789190fa3a9eaae1f9cf7db06",
+    "946717804fcf45d0d4c85c3e624132ed0c48455f": "e9108746702eaf2927bed0c5e4fdbc5c6a826ba206a31562a6ad238515e23544",
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
@@ -3072,6 +3145,10 @@
     },
     {
       "observed_at_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "946717804fcf45d0d4c85c3e624132ed0c48455f",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3273,7 +3350,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "9a465e535cafbf7e8be7fd4d7a2693b70ada4400",
+  "source_commit": "946717804fcf45d0d4c85c3e624132ed0c48455f",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
