@@ -7,7 +7,7 @@ Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design
 설치·폰트·시안 검토·본제작·그래프 왕복·업데이트·복구·회사 배포는 통합 가이드 한 곳에서 확인합니다.
 
 ```text
-Figma Flow v0.26.2을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.26.3을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 기존 작업과 작업공간 ID를 보존해. Figma Flow 최초 등록과 세션별 실행은 내가 할게.
 그 뒤 localhost 제어와 실제 JSON으로 검증해. 구체적인 요청은 한 안으로 진행하고, 비교를 요청하면 내 선택을 기다려.
@@ -41,3 +41,7 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 프로젝트 코드는 [MIT](LICENSE)입니다. 디자인 비평에는 Damir Sokolovsky([@heydamir](https://github.com/heydamir))의 [unslop](https://github.com/heydamir/unslop)을 각색해 사용합니다. 동봉 원문과 각색 문서는 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)이며 [출처](vendor/skills/unslop/CITATION.cff)·[라이선스](vendor/skills/unslop/LICENSE)·[변경 설명](skills/figma-flow/references/unslop.md)을 유지합니다. 제품의 작업·검증 계약에 맞게 적용했으며 원저자의 제품 보증을 뜻하지 않습니다.
 
 UI 동작의 기준 자료는 [Figma 플러그인 실행 모델](https://developers.figma.com/docs/plugins/how-plugins-run/), [Figma 테마 변수](https://developers.figma.com/docs/plugins/css-variables/), [WAI-ARIA 탭 패턴](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)입니다.
+
+## 개발을 이어가기
+
+[신규 기능·최적화·구조 개선 계획](docs/development-roadmap/README.md)에서 항목별 기능서·설계서·작업서를 찾습니다. [Cursor 전달서](docs/development-roadmap/CURSOR_HANDOFF.md)는 한 항목씩 구현하는 시작 프롬프트입니다. 제안 기능은 현재 구현과 구분합니다.

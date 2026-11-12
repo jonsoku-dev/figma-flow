@@ -10,6 +10,8 @@ import {
   TriangleAlert,
 } from 'lucide-react';
 import { Action, Section, Notice, PreviewStrip } from './components.jsx';
+import { workspaceActivity } from './WorkspaceActivity.mjs';
+import { ActivitySummary, ExecutionFlows } from './WorkspaceActivity.jsx';
 
 const locales = new Set(__FLOW_LOCALES__);
 const terminal = new Set(['finished', 'readback', 'verified', 'baseline']);
@@ -119,6 +121,7 @@ export default function Workspace({
   const [view, setView] = useState(initialModel.view || 'tasks');
   const [project, setProject] = useState(initialModel.project || '');
   const [stage, setStage] = useState('');
+  const [activityTask, setActivityTask] = useState('');
   const [control, setControl] = useState(null);
   const [focusTask, setFocusTask] = useState(null);
   const session = useRef(null);
@@ -169,6 +172,7 @@ export default function Workspace({
             '',
         );
         setStage('');
+        setActivityTask(message.focusKey || '');
         setFocusTask(message.focusKey || null);
         if (locales.has(message.locale)) localeRef.current?.(message.locale);
       }
@@ -193,6 +197,8 @@ export default function Workspace({
   const history = historyOf(model);
   const projects = [...new Set(tasks.map((task) => task.project).filter(Boolean))];
   const projectTasks = tasks.filter((task) => !project || task.project === project);
+  const activityHistory = history.filter(event => !project || tasks.find(task => task.key === event.taskKey)?.project === project);
+  const activity = workspaceActivity(projectTasks, activityHistory);
   const scoped = projectTasks.filter((task) => !stage || task.kind === stage);
   const recommendation = view === 'tasks' ? selectRecommendation(model, scoped) : null;
   const recommended = recommendation?.task;
@@ -220,7 +226,8 @@ export default function Workspace({
     }))
     .reverse()
     .filter(
-      (event) => !project || tasks.find((task) => task.key === event.taskKey)?.project === project,
+      (event) => (!project || tasks.find((task) => task.key === event.taskKey)?.project === project) &&
+        (!activityTask || event.taskKey === activityTask),
     );
   const stateText = (event) => tr(event.operation === 'download' ? 'downloadRequested' : event.status);
   const date = (time) => new Date(time).toLocaleString(locale);
@@ -239,6 +246,7 @@ export default function Workspace({
   const navigate = (name) => {
     setView(name);
     setStage('');
+    setActivityTask('');
   };
   const changeLocale = (code) => {
     if (locales.has(code)) sendMessage('workspace-locale', { locale: code });
@@ -246,6 +254,7 @@ export default function Workspace({
   const jumpToReceipt = (task) => {
     setView('history');
     setStage('');
+    setActivityTask(task.key);
     setFocusTask(task.key);
   };
   const rowKey = (event, index) => event.eventKey || String(index);
@@ -271,6 +280,7 @@ export default function Workspace({
               onChange={(event) => {
                 setProject(event.target.value);
                 setStage('');
+                setActivityTask('');
               }}
             >
               <option value="">{tr('allProjects')}</option>
@@ -333,6 +343,9 @@ export default function Workspace({
             </select>
           </label>
         )}
+      {(view === 'tasks' || view === 'history') && ready && projectTasks.length > 0 && (
+        <ActivitySummary activity={activity} tr={tr} />
+      )}
       {recommended && (
         <>
           <PreviewStrip items={workspacePreviews(previewSource)} />
@@ -381,8 +394,30 @@ export default function Workspace({
         </>
       )}
       {view === 'history' ? (
+        <>
         <Section title={tr('historyTitle')}>
+          <p className="workspace-activity-caption">{tr('flowBoundary')}</p>
+          <label className="workspace-filter">
+            {tr('flowFilter')}
+            <select value={activityTask} onChange={event => setActivityTask(event.target.value)}>
+              <option value="">{tr('allTasks')}</option>
+              {projectTasks.map(task => <option value={task.key} key={task.key}>{task.title}</option>)}
+            </select>
+          </label>
           {!visibleHistory.length && <p className="workspace-empty">{tr('historyEmpty')}</p>}
+          <ExecutionFlows
+            flows={activity.flows.filter(flow => !activityTask || flow.steps[0].event.taskKey === activityTask)}
+            tasks={tasks} tr={tr} stateText={stateText} date={date} rememberFocus={rememberFocus}
+          />
+          {!!activity.legacy.filter(step => !activityTask || step.event.taskKey === activityTask).length && <details className="workspace-flow workspace-unlinked">
+            <summary ref={activityTask && !activity.flows.some(flow => flow.steps[0].event.taskKey === activityTask) ? rememberFocus(activityTask) : undefined}><span>{tr('unlinkedHistory')}</span><span>{tr('flowSteps', { count: activity.legacy.filter(step => !activityTask || step.event.taskKey === activityTask).length })}</span></summary>
+            <ol>{activity.legacy.filter(step => !activityTask || step.event.taskKey === activityTask).map(({ event, index, current }) => <li key={index} data-state={event.status}>
+              <span>{tasks.find(task => task.key === event.taskKey)?.title || tr('removedTask')} · {event.operation === 'download' ? tr('downloadRequested') : tr('op.' + event.operation)} · {stateText(event)}</span>
+              <time dateTime={event.time}>{date(event.time)}</time>
+              <span>{current ? tr('currentRevision') : tr('stale')}</span>
+            </li>)}</ol>
+          </details>}
+          {!!visibleHistory.length && <details className="workspace-raw-history"><summary>{tr('rawHistory')}</summary>
           <ol className="workspace-history">
             {visibleHistory.map((event, index) => {
               const task = tasks.find((task) => task.key === event.taskKey),
@@ -394,8 +429,6 @@ export default function Workspace({
                     ? 'downloadRequested'
                     : 'op.' + event.operation,
               );
-              const firstForTask =
-                visibleHistory.findIndex((previous) => previous.taskKey === event.taskKey) === index;
               return (
                 <li key={rowKey(event, index)} data-state={event.status}>
                   <EventIcon status={event.status} />
@@ -410,8 +443,7 @@ export default function Workspace({
                   {task && (
                     <Action
                       variant="quiet"
-                      ref={firstForTask ? rememberFocus(task.key) : undefined}
-                      disabled={busy || (!!task.fileKey && task.fileKey !== model.fileKey)}
+                                            disabled={busy || (!!task.fileKey && task.fileKey !== model.fileKey)}
                       onClick={() => openTask(task)}
                     >
                       {tr(stale ? 'openCurrent' : 'open')}
@@ -421,8 +453,10 @@ export default function Workspace({
               );
             })}
           </ol>
+          </details>}
           <p className="workspace-boundary">{tr('historyBoundary')}</p>
         </Section>
+        </>
       ) : (
         <Section>
           {!!remaining.length && view === 'tasks' && (
@@ -434,10 +468,10 @@ export default function Workspace({
             const Icon =
               task.kind === 'sync' ? RefreshCw : task.kind === 'discover' ? ScanSearch : FileText;
             return (
+              <div className="workspace-row-group" key={task.key}>
               <Action
                 className="workspace-row"
                 variant="quiet"
-                key={task.key}
                 ref={rememberFocus(task.key)}
                 disabled={busy || wrong}
                 aria-label={tr(view === 'codex' ? 'chatOpen' : wrong ? 'wrongOpen' : 'openTask', {
@@ -456,11 +490,13 @@ export default function Workspace({
                     {task.pageId ? ' · ' + tr('page') : ''}
                   </span>
                   <span className="workspace-row-state" data-state={event?.status || 'ready'}>
-                    {event ? stateText(event) : tr('notRun')}
+                    {event ? stateText(event) + ' · ' + tr('op.' + event.operation) : tr('notRun')}
                   </span>
                 </span>
                 <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
               </Action>
+              <button type="button" className="workspace-history-link" onClick={() => jumpToReceipt(task)}>{tr('viewTaskFlow')}</button>
+              </div>
             );
           })}
           {!remaining.length && !recommended && tasks.length > 0 && (

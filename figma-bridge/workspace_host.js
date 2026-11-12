@@ -13,7 +13,7 @@ let workspaceHomeSession = '';
 let workspaceNotice = '';
 const workspaceLocales = new Set(FLOW_LOCALES);
 const workspaceOperations = new Set(['import', 'export', 'sync', 'draft-review', 'read', 'apply', 'verification', 'download', 'chat:queue', 'chat:open']);
-const workspaceStatuses = new Set(['requested', 'finished', 'failed', 'readback', 'verified', 'baseline']);
+const workspaceStatuses = new Set(['requested', 'running', 'finished', 'failed', 'readback', 'verified', 'baseline']);
 const workspaceStorageKey = figma.fileKey ? 'figma-flow-workspace-v1:' + figma.fileKey : null;
 let workspaceState = {locale: null, history: []};
 let workspaceWrites = Promise.resolve();
@@ -30,7 +30,8 @@ const workspaceLoaded = (async () => {
       typeof event.revision === 'string' && event.revision.length <= 128 &&
       workspaceOperations.has(event.operation) && workspaceStatuses.has(event.status) &&
       typeof event.time === 'string' && event.time.length <= 40 && Number.isFinite(Date.parse(event.time))).slice(-80)
-      .map(({taskKey, revision, time, operation, status}) => ({taskKey, revision, time, operation, status}));
+      .map(({taskKey, revision, time, operation, status, executionId}) => ({taskKey, revision, time, operation, status,
+        ...(typeof executionId === 'string' && /^[a-z0-9-]{1,80}$/.test(executionId) ? {executionId} : {})}));
   } catch (_) {workspaceStorageError = true;}
 })();
 function workspacePersist() {
@@ -42,13 +43,17 @@ function workspacePersist() {
 function workspaceRecord(current, operation, status) {
   if (!workspaceCurrent(current) || !workspaceOperations.has(operation) || !workspaceStatuses.has(status)) return;
   workspaceState.history.push({taskKey: current.task.key, revision: current.task.revision || '',
-    time: new Date().toISOString(), operation, status});
+    time: new Date().toISOString(), operation, status,
+    ...(operation === 'download' || !current.executionId ? {} : {executionId: current.executionId})});
   workspaceState.history = workspaceState.history.slice(-80);
   workspacePersist();
 }
 function workspaceObserve(current, message) {
   if (!message || !current.operation) return;
-  if (message.busy === true || message.state === 'busy' || (message.type === 'busy' && message.value === true)) current.started = true;
+  if (message.busy === true || message.state === 'busy' || (message.type === 'busy' && message.value === true)) {
+    if (!current.started) workspaceRecord(current, current.operation, 'running');
+    current.started = true;
+  }
   if (message.type === 'geometry-failure' || message.type === 'chat:error' || message.error || message.readback?.status === 'error' ||
       message.rollback_conflicts?.length || message.readback?.rollback_conflicts?.length ||
       (message.type === 'sync-result' && (message.result?.preview_error || !['baseline','applied','unchanged'].includes(message.result?.status))) ||
@@ -292,7 +297,7 @@ figma.ui.onmessage = async message => {
   if (current.task.fileKey && current.task.fileKey !== figma.fileKey) return;
   const operation = message.payload?.type;
   if (workspaceOperations.has(operation) && workspaceBusy(current)) return;
-  if (workspaceOperations.has(operation)) {current.operation = operation; current.outcome = null; current.started = false; current.verificationRecorded = false; workspaceRecord(current, operation, 'requested');}
+  if (workspaceOperations.has(operation)) {current.executionId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12); current.operation = operation; current.outcome = null; current.started = false; current.verificationRecorded = false; workspaceRecord(current, operation, 'requested');}
   if (!workspaceOperations.has(operation) && operation !== 'receipt') {current.operation = null; current.outcome = null;}
   if (operation === 'receipt' && current.operation === 'draft-review' && current.outcome === 'readback' && !current.verificationRecorded) {
     current.verificationRecorded = true; workspaceRecord(current, 'verification', message.payload.passed === true ? 'verified' : 'failed');

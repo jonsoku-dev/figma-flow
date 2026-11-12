@@ -79,6 +79,8 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 
 ### 이력, 다음 작업, 언어와 접근성
 
+현재 작업 상태 차트는 각 task revision의 마지막 관측을 집계합니다. 전체 제품 인수 완료율은 아닙니다. 실행 흐름을 펼치면 같은 실행의 요청·진행·결과를 볼 수 있고 **작업별 이력**으로 좁힐 수 있습니다. 실행 ID가 없는 옛 기록은 연결하지 않습니다. 짧은 펼침 feedback은 reduced-motion 설정에서 제거됩니다.
+
 **다음 작업**은 현재 작업 revision과 최근 실행 자료를 바탕으로 제안합니다. **이력**에서 요청·실행 완료·실제 읽기·검증·실패를 구분하고, 이전 revision의 기록을 현재 결과로 사용하지 않습니다. 최근 기록은 이 기기에 보관되며 로컬 저장소가 없으면 세션 기록만 보일 수 있습니다. 최종 근거는 실제 JSON·검증 명령·웹 관찰 자료입니다.
 
 ![작업별 실행·읽기·실패를 구분하는 이력 패널](images/panel-history.png)
@@ -724,6 +726,8 @@ Explicit `control_styles.fill: null` preserves a transparent button without a fi
 
 ## Read the UI
 
+The task-state chart counts the last observation for each current task revision. It is not an overall acceptance percentage. Expand an execution to follow its request and results, or filter by task. Legacy events remain unlinked. Reduced motion removes the short expansion feedback.
+
 Use **Language** to choose **한국어 / English / 日本語**. Source names, actual values, raw JSON and native diagnostics stay unchanged. **Next action** suggests the next prepared step; **History** distinguishes requests, execution, readback, verification and failures. Older revision records do not prove the current revision. Local history can be unavailable; retain actual result artifacts.
 
 ![Figma Flow workspace opened in actual Figma](images/panel-workspace.png)
@@ -849,6 +853,8 @@ python3 tools/figma_draft.py verify-production --packet ARTIFACTS/packet.json --
 `native-edit` は独立したタスク種別で、operation は `read` と `apply` です。正確なファイル・ページ・ノードまたはローカル変数のモード・前後値を `figma-flow-native-edit-plan-v1` に固定し、`prepare --kind native-edit -- --plan PLAN.json` で準備します。実際の Figma API で変更し、任意の JavaScript は評価しません。値や revision が古ければ書き込みを停止します。復元の衝突を保管し、結果不明の書き込みを再試行する前に現在値を読み取ります。グラフへの反映と Web 照合は別途行います。[計画例と制限](#prepared-native-edit)。
 
 ## 画面の見方
+
+状態チャートは現在の各タスクリビジョンの最終観測を集計します。全体の受入完了率ではありません。実行を展開すると要求と結果を追跡でき、タスク別に絞り込めます。実行 ID のない旧履歴は関連付けません。動きを減らす設定では短い展開効果を省きます。
 
 上部の **言語**から **한국어 / English / 日本語**を選びます。元の画面名・実際の値・JSON・ネイティブエラーは翻訳しません。**次の操作**は準備済みタスクから候補を示します。**履歴**では要求・実行・読み取り・検証・失敗を区別します。古い revision の履歴は現在の証拠ではありません。ローカル履歴が保存できない場合もあるため、実際の結果ファイルを保管してください。
 

@@ -36,6 +36,7 @@ function runTask() {
   figma.showUI(workspaceTaskHtml('<html><head></head><body><script>parent.postMessage({pluginMessage:{type:"ready"}},"*");</script></body></html>'),{width:480,height:640});
   figma.ui.onmessage = async message => {
     probe.commands.push(message.type);
+    if(probe.errorThenThrow){figma.ui.postMessage({error:'synthetic failure'});throw Error('synthetic failure');}
     if(probe.emitBusyStart)figma.ui.postMessage({type:'busy',value:true});
     if(message.type==='draft-review')figma.ui.postMessage({type:'readback',data:{secret:'PRIVATE CONTENT'}});
     if(message.type==='apply')figma.ui.postMessage({operation:'apply',readback:{secret:'PRIVATE CONTENT'}});
@@ -274,11 +275,13 @@ test('file-scoped history persists bounded sanitized events serially and restore
   const saved=new Map();let writing=0,maxWriting=0;
   const storage={async getAsync(key){return saved.get(key);},async setAsync(key,value){writing++;maxWriting=Math.max(maxWriting,writing);await Promise.resolve();saved.set(key,JSON.parse(JSON.stringify(value)));writing--;}};
   const h=harness(false,{storage});const session=await h.open('a');
-  await h.send({type:'workspace-task-message',workspaceSession:session,payload:{type:'draft-review',private:'NEVER STORE'}});
+  await h.send({type:'workspace-task-message',workspaceSession:session,payload:{type:'draft-review',executionId:'forged-user-id',private:'NEVER STORE'}});
   await h.send({type:'workspace-task-message',workspaceSession:session,payload:{type:'receipt',passed:true}});
   await h.send({type:'workspace-download',workspaceSession:session});
   let history=vm.runInContext('workspaceState.history',h.context);
   assert.deepEqual(Array.from(history,event=>event.status),['requested','readback','verified','requested']);
+  assert.ok(history[0].executionId);assert.equal(history[0].executionId,history[1].executionId);assert.equal(history[1].executionId,history[2].executionId);
+  assert.notEqual(history[0].executionId,'forged-user-id');assert.equal(history[3].executionId,undefined);
   assert.equal(history.at(-1).operation,'download');
   assert.equal(JSON.stringify(history).includes('PRIVATE'),false);
   for(let index=0;index<45;index++)await h.send({type:'workspace-task-message',workspaceSession:session,payload:{type:'apply'}});
@@ -289,10 +292,17 @@ test('file-scoped history persists bounded sanitized events serially and restore
   await h.send({type:'workspace-locale',workspaceSession:list.workspaceSession,locale:'xx'});
   await vm.runInContext('workspaceWrites',h.context);assert.equal(maxWriting,1);
   const stored=saved.get('figma-flow-workspace-v1:file-a');assert.equal(stored.locale,'ja');assert.equal(stored.history.length,80);
-  assert.deepEqual(Object.keys(stored.history[0]).sort(),['operation','revision','status','taskKey','time']);
+  assert.deepEqual(Object.keys(stored.history[0]).sort(),['executionId','operation','revision','status','taskKey','time']);
   const next=harness(false,{storage});const restored=await next.listing();assert.equal(restored.locale,'ja');assert.equal(restored.history.length,80);
   await next.open('b');assert.match(next.probe.shown.at(-1).html,/data-flow-locale="ja"/);
   const other=harness(false,{storage,fileKey:'file-b'});assert.equal((await other.listing()).history.length,0);
+});
+test('history loading keeps safe event summaries but strips malformed execution IDs',async()=>{
+  const storage={async getAsync(){return {locale:'en',history:[
+    {taskKey:'a',revision:'r1',time:'2026-11-10T00:00:00Z',operation:'read',status:'requested',executionId:'../forged'},
+    {taskKey:'a',revision:'r1',time:'2026-11-10T00:01:00Z',operation:'read',status:'finished',executionId:'mabc-1234567890'}]};},async setAsync(){}};
+  const listed=await harness(false,{storage}).listing();
+  assert.equal(listed.history.length,2);assert.equal(listed.history[0].executionId,undefined);assert.equal(listed.history[1].executionId,'mabc-1234567890');
 });
 test('late storage loading cannot populate an expired home session or admit a forged verification',async()=>{
   let release;const storage={getAsync:()=>new Promise(resolve=>{release=resolve;}),async setAsync(){}};
@@ -418,10 +428,15 @@ const model={tasks,fileKey:'f',history:[
 assert.equal(selectRecommendation(model,tasks).task.key,'sync');
 assert.equal(selectRecommendation(model,tasks).inspect,true);
 assert.equal(workspacePreviews({preview:[{title:'foreign',src:'https://foreign.example/image.png'}]}).length,0);
-function render(locale){const t=translate(locale);return renderToStaticMarkup(<PanelContext.Provider value={{locale,t,setLocale(){},hostBusy:false}}><Workspace model={model} locale={locale} t={t} send={()=>{throw Error('render must not dispatch');}} Shell={Shell}/></PanelContext.Provider>);}
+function render(locale,source=model){const t=translate(locale);return renderToStaticMarkup(<PanelContext.Provider value={{locale,t,setLocale(){},hostBusy:false}}><Workspace model={source} locale={locale} t={t} send={()=>{throw Error('render must not dispatch');}} Shell={Shell}/></PanelContext.Provider>);}
 const en=render('en');assert(en.includes('View receipt'));assert(en.includes('Actual paired app'));assert(en.includes('<svg'));assert(!en.includes('<style'));
 assert.equal((en.match(/panel-action primary/g)||[]).length,1);
 assert(render('ja').includes('結果を見る'));assert(render('ko').includes('결과 보기'));
+const historyModel={...model,view:'history',history:[
+ {taskKey:'import',revision:'i1',operation:'import',status:'requested',executionId:'exec-1',time:'2026-11-10T00:00:00Z'},
+ {taskKey:'import',revision:'i1',operation:'import',status:'finished',executionId:'exec-1',time:'2026-11-10T00:01:00Z'},
+ {taskKey:'sync',revision:'s1',operation:'download',status:'requested',time:'2026-11-10T00:02:00Z'}]};
+const historyHtml=render('en',historyModel);assert(historyHtml.includes('Current task states'));assert(historyHtml.includes('Pending'));assert(historyHtml.includes('Operation finished'));assert(historyHtml.includes('JSON download requested'));assert(historyHtml.includes('Unlinked legacy history'));assert(historyHtml.includes('2 steps'));
 const laterProject={key:'other',title:'Other admitted project',project:'Other',kind:'import',revision:'o1',productionAdmitted:true};
 assert.equal(selectRecommendation({...model,tasks:[...tasks,laterProject]},[...tasks,laterProject]).task.key,'other','later phase in another project must not hide this project pending work');
 console.log('Compiled React workspace/shared components/Lucide,3 locales and phase/result policy verified.');
@@ -439,4 +454,14 @@ test('every prepared scoped native edit registers in the actual host', async()=>
   const h=harness(false,{kind:'native-edit'});
   const listed=await h.listing();
   assert(listed.tasks.some(task=>task.key==='a'&&task.kind==='native-edit'));
+});
+
+test('an observed failure followed by a thrown error produces one failed execution step', async()=>{
+  const h=harness(); const session=await h.open('a');
+  h.probe.errorThenThrow=true;
+  await h.send({type:'workspace-task-message',workspaceSession:session,payload:{type:'read'}});
+  const history=vm.runInContext('workspaceState.history',h.context);
+  const failed=history.filter(event=>event.status==='failed');
+  assert.equal(failed.length,1,'one native failure must be one execution step');
+  assert.equal(failed[0].executionId,history.find(event=>event.status==='requested').executionId);
 });

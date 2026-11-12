@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "REQ-ACTIVITY-01",
+      "type": "requirement",
+      "title": "현재 task revision 상태 분포",
+      "status": "observed",
+      "source": "request.md"
+    },
+    {
+      "id": "REQ-ACTIVITY-02",
+      "type": "requirement",
+      "title": "실제 실행별 요청과 결과 연결",
+      "status": "observed",
+      "source": "request.md"
+    },
+    {
+      "id": "REQ-ACTIVITY-03",
+      "type": "requirement",
+      "title": "옛 이력 보존과 작업별 탐색",
+      "status": "observed",
+      "source": "request.md"
+    },
+    {
+      "id": "REQ-ACTIVITY-04",
+      "type": "requirement",
+      "title": "접근성과 제한된 motion",
+      "status": "observed",
+      "source": "request.md"
+    },
+    {
+      "id": "SCR-ACTIVITY-01",
+      "type": "screen",
+      "title": "작업 목록과 실행 이력",
+      "status": "planned",
+      "source": "screen-spec.md"
+    },
+    {
+      "id": "ACT-ACTIVITY-01",
+      "type": "action",
+      "title": "작업별 실행 이력 조회",
+      "status": "planned",
+      "source": "screen-spec.md",
+      "source_screen": "SCR-ACTIVITY-01",
+      "target_ids": []
+    },
+    {
+      "id": "CODE-ACTIVITY-01",
+      "type": "code",
+      "title": "작업 필터와 이력 탐색",
+      "status": "unverified",
+      "source": "../../panel-ui/src/Workspace.jsx"
+    },
+    {
+      "id": "CODE-ACTIVITY-02",
+      "type": "code",
+      "title": "관측 상태와 실행 범위 집계",
+      "status": "unverified",
+      "source": "../../panel-ui/src/WorkspaceActivity.mjs"
+    },
+    {
+      "id": "CODE-ACTIVITY-03",
+      "type": "code",
+      "title": "차트와 실행 흐름 표시",
+      "status": "unverified",
+      "source": "../../panel-ui/src/WorkspaceActivity.jsx"
+    },
+    {
+      "id": "CODE-ACTIVITY-04",
+      "type": "code",
+      "title": "직접 dispatch와 안전한 이력",
+      "status": "unverified",
+      "source": "../../figma-bridge/workspace_host.js"
+    },
+    {
+      "id": "CODE-ACTIVITY-05",
+      "type": "code",
+      "title": "자동 dispatch 실행 연결",
+      "status": "unverified",
+      "source": "../../figma-bridge/workspace_control.js"
+    },
+    {
+      "id": "TEST-ACTIVITY-01",
+      "type": "test",
+      "title": "관측 상태·범위 회귀",
+      "status": "unverified",
+      "source": "../../tests/test_workspace_activity.cjs"
+    },
+    {
+      "id": "TEST-ACTIVITY-02",
+      "type": "test",
+      "title": "직접 실행·이력 호환",
+      "status": "unverified",
+      "source": "../../tests/test_workspace_host.cjs"
+    },
+    {
+      "id": "TEST-ACTIVITY-03",
+      "type": "test",
+      "title": "자동 실행 계약",
+      "status": "unverified",
+      "source": "../../tests/test_workspace_control.cjs"
+    },
+    {
+      "id": "AC-ACTIVITY-01",
+      "type": "acceptance",
+      "title": "이력 시각화 인수 조건 1",
+      "status": "unverified",
+      "source": "spec.md"
+    },
+    {
+      "id": "AC-ACTIVITY-02",
+      "type": "acceptance",
+      "title": "이력 시각화 인수 조건 2",
+      "status": "unverified",
+      "source": "spec.md"
+    },
+    {
+      "id": "AC-ACTIVITY-03",
+      "type": "acceptance",
+      "title": "이력 시각화 인수 조건 3",
+      "status": "unverified",
+      "source": "spec.md"
+    },
+    {
+      "id": "AC-ACTIVITY-04",
+      "type": "acceptance",
+      "title": "이력 시각화 인수 조건 4",
+      "status": "unverified",
+      "source": "spec.md"
+    },
+    {
+      "id": "AC-ACTIVITY-05",
+      "type": "acceptance",
+      "title": "이력 시각화 인수 조건 5",
+      "status": "unverified",
+      "source": "spec.md"
+    },
+    {
+      "id": "AC-ACTIVITY-06",
+      "type": "acceptance",
+      "title": "이력 시각화 인수 조건 6",
+      "status": "unverified",
+      "source": "spec.md"
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-ACTIVITY-01",
+      "to": "SCR-ACTIVITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ACTIVITY-02",
+      "to": "SCR-ACTIVITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ACTIVITY-03",
+      "to": "SCR-ACTIVITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ACTIVITY-04",
+      "to": "SCR-ACTIVITY-01",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-ACTIVITY-01",
+      "to": "AC-ACTIVITY-01",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-ACTIVITY-02",
+      "to": "AC-ACTIVITY-02",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-ACTIVITY-03",
+      "to": "AC-ACTIVITY-03",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-ACTIVITY-03",
+      "to": "AC-ACTIVITY-04",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-ACTIVITY-04",
+      "to": "AC-ACTIVITY-05",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-ACTIVITY-04",
+      "to": "AC-ACTIVITY-06",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-ACTIVITY-01",
+      "to": "ACT-ACTIVITY-01",
+      "type": "triggers"
+    },
+    {
+      "from": "ACT-ACTIVITY-01",
+      "to": "CODE-ACTIVITY-01",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ACTIVITY-01",
+      "to": "CODE-ACTIVITY-02",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ACTIVITY-01",
+      "to": "CODE-ACTIVITY-03",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ACTIVITY-01",
+      "to": "CODE-ACTIVITY-04",
+      "type": "implemented by"
+    },
+    {
+      "from": "ACT-ACTIVITY-01",
+      "to": "CODE-ACTIVITY-05",
+      "type": "implemented by"
+    },
+    {
+      "from": "AC-ACTIVITY-01",
+      "to": "TEST-ACTIVITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-02",
+      "to": "TEST-ACTIVITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-02",
+      "to": "TEST-ACTIVITY-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-02",
+      "to": "TEST-ACTIVITY-03",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-03",
+      "to": "TEST-ACTIVITY-01",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-03",
+      "to": "TEST-ACTIVITY-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-04",
+      "to": "TEST-ACTIVITY-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-05",
+      "to": "TEST-ACTIVITY-02",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ACTIVITY-06",
+      "to": "TEST-ACTIVITY-02",
+      "type": "checked by"
+    }
+  ]
+}

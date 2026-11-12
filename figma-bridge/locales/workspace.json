@@ -363,5 +363,70 @@
     "ko": "Figma 직접 수정",
     "en": "Edit Figma values",
     "ja": "Figma 値の直接編集"
+  },
+  "workspace.pending": {
+    "ko": "대기",
+    "en": "Pending",
+    "ja": "保留"
+  },
+  "workspace.running": {
+    "ko": "실행 중",
+    "en": "Running",
+    "ja": "実行中"
+  },
+  "workspace.activityTitle": {
+    "ko": "현재 작업 상태",
+    "en": "Current task states",
+    "ja": "現在のタスク状態"
+  },
+  "workspace.activityChartLabel": {
+    "ko": "현재 작업별 상태 분포. {counts}",
+    "en": "Current task state distribution. {counts}",
+    "ja": "現在のタスク状態の分布。{counts}"
+  },
+  "workspace.currentRevision": {
+    "ko": "현재 버전",
+    "en": "Current revision",
+    "ja": "現在のリビジョン"
+  },
+  "workspace.flowSteps": {
+    "ko": "단계 {count}개",
+    "en": "{count} steps",
+    "ja": "{count} ステップ"
+  },
+  "workspace.unlinkedHistory": {
+    "ko": "연결되지 않은 이전 이력",
+    "en": "Unlinked legacy history",
+    "ja": "関連付けられていない旧履歴"
+  },
+  "workspace.viewTaskFlow": {
+    "ko": "이 작업 이력 보기",
+    "en": "View task history",
+    "ja": "タスク履歴を見る"
+  },
+  "workspace.activityBoundary": {
+    "ko": "현재 작업 버전의 마지막 관측입니다. 전체 인수 완료율이 아닙니다.",
+    "en": "Last observed state for current task revisions, not overall acceptance.",
+    "ja": "現在のタスクリビジョンの最終観測です。全体の受入完了率ではありません。"
+  },
+  "workspace.flowBoundary": {
+    "ko": "같은 실행의 요청과 결과를 연결합니다. 작업 간 의존성은 추정하지 않습니다.",
+    "en": "Links a request and its results within one execution. Dependencies between tasks are not inferred.",
+    "ja": "同じ実行の要求と結果を関連付けます。タスク間の依存関係は推測しません。"
+  },
+  "workspace.flowFilter": {
+    "ko": "작업별 이력",
+    "en": "Task history",
+    "ja": "タスク別の履歴"
+  },
+  "workspace.allTasks": {
+    "ko": "모든 작업",
+    "en": "All tasks",
+    "ja": "すべてのタスク"
+  },
+  "workspace.rawHistory": {
+    "ko": "전체 시간순 기록 펼치기",
+    "en": "Expand chronological events",
+    "ja": "時系列の記録を展開"
   }
 }

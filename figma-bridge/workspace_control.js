@@ -45,6 +45,7 @@ async function controlExecute(task, cmd) {
   active.inFlight++;
   let output = [];
   let outputPage = cmd.page_id;
+  active.executionId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
   active.onOutput = msg => output.push(msg);
   async function invoke(message) {
     if (Date.now() >= cmd.deadline * 1000 || figma.fileKey !== cmd.file_key || figma.currentPage.id !== outputPage)
@@ -136,6 +137,7 @@ async function controlExecute(task, cmd) {
     return data;
   } finally {
     active.onOutput = null;
+    active.executionId = null;
     active.inFlight--;
     if (workspaceActive === active) workspaceActive = null;
   }

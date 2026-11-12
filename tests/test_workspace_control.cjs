@@ -9,7 +9,7 @@ function driver(kind, callback) {
   const task = {key:'sample', revision:'r', kind, fileKey:'file',sourceSha256:'abc'};
   const history = [];
   const env = {figma:{fileKey:'file',currentPage:{id:'0:1'}}, workspaceActive:null, task, history,
-    workspaceRecord:(active, op, state)=>history.push([op,state]),
+    workspaceRecord:(active, op, state)=>history.push([op,state,active.executionId]),
     async workspaceOpen() {
       const active = {inFlight:0, html:'<script id="graph-panel-config" type="application/json">{"session":"s"}</script>\nconst PAIR = null;\n'};
       active.handler = msg => callback(msg, event=>active.onOutput(event));
@@ -32,6 +32,9 @@ test('a stale revision or page is rejected before native execution', async()=>{
 test('silent import cannot become successful even when handler returns',async()=>{
   const {run,env}=driver('import',(m,post)=>{if(m.type==='ready')post({ready:true,session_nonce:m.session_nonce});});
   await assert.rejects(run('import'),/completion/);assert.equal(env.workspaceActive,null);
+  const failed=env.history.filter(([,status])=>status==='failed');
+  assert.equal(failed.length,1,'remote validation failure must remain in saved history');
+  assert.equal(failed[0][2],env.history.find(([op,status])=>op==='import'&&status==='requested')[2]);
 });
 test('readback is required after a successful import',async()=>{
   const {run,env}=driver('import',(m,post)=>{
@@ -56,6 +59,13 @@ test('remote review retains its native readback on receiver failure',async()=>{
   d.env.fetch=async()=>({ok:false,json:async()=>({passed:false})});
   await assert.rejects(d.run('create'),e=>e.nativeReadback.fileKey==='file');
   assert.ok(d.env.history.some(([op,state])=>op==='verification'&&state==='failed'));
+  const request=d.env.history.find(([op,state])=>op==='draft-review'&&state==='requested');
+  const verification=d.env.history.find(([op,state])=>op==='verification'&&state==='failed');
+  assert.ok(request[2]);assert.equal(request[2],verification[2]);
+  assert.equal(d.env.history.filter(([,status])=>status==='failed').length,1);
+  await assert.rejects(d.run('create'),e=>e.nativeReadback.fileKey==='file');
+  const retries=d.env.history.filter(([op,state])=>op==='draft-review'&&state==='requested');
+  assert.notEqual(retries[0][2],retries[1][2]);
 });
 
 test('explicit focus loads only a page pinned by the prepared task', async()=>{
