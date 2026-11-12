@@ -3815,6 +3815,81 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999",
+      "diff_sha256": "04c413ff160778a39753b2ae754657bc8c825afe5ead43cee532eb0b45e61734",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/42ac878ba11ff3837fb0b5ed52dd38aa8e94304e.md",
+        "docs/llm-wiki/patches/ee61c93b47d9938c6379d1ea1b638d449338b48a.md",
+        "docs/llm-wiki/patches/ef624aadc2e99029e227c62d57d7b6b56df21c5e.md"
+      ],
+      "parents": [
+        "ef624aadc2e99029e227c62d57d7b6b56df21c5e"
+      ],
+      "subject": "docs: record the one-step predecessor and successor view",
+      "tree": "39a0c3aaa94b6a33c4a6fe867a29c2a5e2a4ae84",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba",
+      "diff_sha256": "6c8abc3f5315d6c913e0c209f2893e3b46d0a6d59fe0c90c736fba79d4599e30",
+      "files": [
+        "tests/test_rd03_dependency_freshness.py"
+      ],
+      "parents": [
+        "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999"
+      ],
+      "subject": "test: keep stale retired and orphan dependencies read only",
+      "tree": "ca50456cba8ff8aff2104918223d2e3e69b091d2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "1c813e3b05c271f043b1360247864ebd216102ae",
+      "diff_sha256": "ec7208121f64072652f20da16f116a8be2bc026bcec848856e13ad2a8a6cc4b6",
+      "files": [
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/dependencyView.mjs",
+        "panel-ui/src/styles/workspace.css"
+      ],
+      "parents": [
+        "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba"
+      ],
+      "subject": "feat: label stale retired and orphan dependencies without executing them",
+      "tree": "e6e1defa7d66f81db20e0c305666cf5ee3475fe5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3834,6 +3909,7 @@
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
     "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
+    "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
@@ -3906,11 +3982,13 @@
     "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
+    "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
     "d2de8c2b7c390e259c0535a7ca32d6fea7e83661": "41cc02ea7db9324c6f2e6ccc146d7d02a949f3d0dbd715b051953172933c69e2",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d6e35da1559f20ba25c443f8c4bb5e387211652b": "7b607f99cb3837cbc31550dd6a0c76a3c55cc1dd08bfb1c2431ddd57034953a5",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
+    "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba": "50631091c707315abe98de13323d7f44722622c85c19c334fefae1fe55fcb34c",
     "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
@@ -3944,6 +4022,10 @@
     },
     {
       "observed_at_commit": "19b6e1a9d879272179c120cd9c0d303a3e765910",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "1c813e3b05c271f043b1360247864ebd216102ae",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4209,7 +4291,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "ef624aadc2e99029e227c62d57d7b6b56df21c5e",
+  "source_commit": "1c813e3b05c271f043b1360247864ebd216102ae",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
