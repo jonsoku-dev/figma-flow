@@ -21,6 +21,38 @@ from graph_design_system import load_graph, resolve_design_system, emit_web_modu
 SCHEMA = 'figma-flow-graph-token-sync-v1'
 RECEIPT = 'figma-flow-graph-pairing-v1'
 WEB_COMPOSITION = 'figma-flow-web-composition-v1'
+SELECTIVE_FIXTURE = 'figma-flow-selective-sync-v1'
+
+
+def selective_sync_condition(payload, selection):
+    """Describe one explicit selection. Alias bundles cannot be split, and nothing is written."""
+    if not isinstance(payload, dict) or payload.get('schema') != SELECTIVE_FIXTURE:
+        raise ValueError('Invalid selective sync fixture')
+    if not isinstance(selection, list) or not selection:
+        raise ValueError('empty selection')
+    independent = payload['independent']
+    alias_keys = list(payload['alias_bundle']['keys'])
+    targets = list(payload['alias_bundle']['targets'])
+    bundle = {'partial_allowed': False, 'keys': alias_keys, 'targets': targets}
+    if any(key in alias_keys for key in selection) and set(selection) != set(alias_keys):
+        raise ValueError('partial alias bundle')
+    if set(selection) == set(alias_keys):
+        return {'applied': [{'key': key} for key in alias_keys], 'preserved': [], 'alias_bundle': bundle}
+    keys = [item['key'] for item in independent]
+    if any(key not in keys for key in selection) or len(selection) != len(set(selection)):
+        raise ValueError('unknown selection')
+    by_key = {item['key']: item for item in independent}
+    return {
+        'applied': [{'key': key, 'value': by_key[key]['after']} for key in selection],
+        'preserved': [{'key': key, 'value': by_key[key]['before']} for key in keys if key not in selection],
+        'alias_bundle': bundle,
+    }
+
+
+def load_selective_sync_fixture(root):
+    """Read the pinned partial-apply fixture and its selection condition."""
+    payload = json.loads((Path(root) / 'tests/fixtures/rd04/partial-apply.json').read_text(encoding='utf-8'))
+    return {**payload, 'condition': selective_sync_condition(payload, payload['selection'])}
 
 
 def read(path):

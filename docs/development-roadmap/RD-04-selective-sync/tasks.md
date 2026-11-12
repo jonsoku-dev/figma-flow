@@ -12,6 +12,8 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
+1은 `tests/fixtures/rd04/partial-apply.json`을 `load_selective_sync_fixture`로 읽는다. 독립 token 셋 중 color/action과 color/quiet만 after가 적용되고 space/gap은 before 8이 남는다. alias 묶음 type/body·type/size는 반만 고를 수 없고 button.font·text.font가 함께 보인다. 이 조건 조회는 값을 쓰지 않는다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
