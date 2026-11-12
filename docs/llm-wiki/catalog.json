@@ -4954,6 +4954,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "64d89e40f048197c3f09545cbecf4630bf9ea8ab",
+      "diff_sha256": "52cccfb48ac61d3da25895ecb13770eb18124d400bec18d9100a026a73894196",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/bf65601803dc933fe0001235237c423ac9bf2636.md",
+        "docs/llm-wiki/patches/c072439ece24499776eb80e9d74f2e600c7461a6.md",
+        "docs/llm-wiki/patches/dacfdc577faed0cb155e1b30620cc9265ba4d1bb.md"
+      ],
+      "parents": [
+        "c072439ece24499776eb80e9d74f2e600c7461a6"
+      ],
+      "subject": "docs: record the fresh native read without a session cache",
+      "tree": "15fba7b3102f8af42f1d02cc2dd21f7e561115b1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "954a00c7cd0a0d7a61b7cc6cd63bfa66d83e0411",
+      "diff_sha256": "5cf1758179aa41a25e8bb03b43165ff9e013d145df2ae4b4841de1bff1fe2600",
+      "files": [
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "tests/rd06_read_comparison.cjs"
+      ],
+      "parents": [
+        "64d89e40f048197c3f09545cbecf4630bf9ea8ab"
+      ],
+      "subject": "test: measure full and summary native reads on one fixture",
+      "tree": "af34b2cd358e68cc7c24909ea020f7d6e0feca46",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "b3285c42f1189f69ea52d1f7b65ccf71d594a842",
+      "diff_sha256": "1e5842f1c52e0e0c7e29e1741b34fa903c820df0195473e244186e847ca55610",
+      "files": [
+        "figma-bridge/native_semantic_read.js"
+      ],
+      "parents": [
+        "954a00c7cd0a0d7a61b7cc6cd63bfa66d83e0411"
+      ],
+      "subject": "feat: measure full and summary native reads on one fixture",
+      "tree": "3739934ae0c9b6f06dbaa8067ac3eca080c55bbc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -5012,6 +5082,7 @@
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
+    "64d89e40f048197c3f09545cbecf4630bf9ea8ab": "f5309490ce7062a6b8286c7c6a3133e18ed2a007d216f09c8cc90d9a2f8cdc99",
     "66278decfd7f49906bb32d75f71a0be70fafa7ee": "876ceebcc8296420027aee84f6224eb9b3083d92adf779b69b4a9158bfad6020",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
@@ -5035,6 +5106,7 @@
     "9408fdabedc720a7dd266f7a819953dd1abef969": "61b0dbf5ddf56891eda23a57922d7ae34264ba0ccc49b60430390bf947d0e690",
     "942d0cf9a5c194b8decd79918062c84767a0d1ec": "51f289feb528da76ec699c6af67bba30f0dd4ff789190fa3a9eaae1f9cf7db06",
     "946717804fcf45d0d4c85c3e624132ed0c48455f": "e9108746702eaf2927bed0c5e4fdbc5c6a826ba206a31562a6ad238515e23544",
+    "954a00c7cd0a0d7a61b7cc6cd63bfa66d83e0411": "6722f00532efb06d3845983d02619fe1246959286cee2ebc1921d04ba8aa3b98",
     "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
     "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b": "7f89387eaff41cf48c99bb65484ef1fc592113c01a43e4e67f51a80b9e9ace72",
     "9983aab6bfca1bb70ddb9dc1573a6efb054845df": "d8e02ee6d2cac0bb33a492e79c6067bfc73b50ad9814717b42e26a1adb1fd23f",
@@ -5060,6 +5132,7 @@
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
     "b275a28ad9b31347b7663485aabc93b19fb00f7b": "13b4ccc01c4842c750272208402b50384ee31f3d064c895a43b0d50cf60d20e5",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
+    "b3285c42f1189f69ea52d1f7b65ccf71d594a842": "3f4e12c435623cdc6da2c3b3f65da54f78b4e6f1e095865c08be12bff37628ee",
     "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
@@ -5230,6 +5303,10 @@
     },
     {
       "observed_at_commit": "9c9d5575eea6d883620407e591972c7e92cc244f",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "b3285c42f1189f69ea52d1f7b65ccf71d594a842",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5455,7 +5532,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "c072439ece24499776eb80e9d74f2e600c7461a6",
+  "source_commit": "b3285c42f1189f69ea52d1f7b65ccf71d594a842",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
