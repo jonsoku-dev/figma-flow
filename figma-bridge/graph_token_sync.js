@@ -248,7 +248,8 @@ async function graphSyncConsumerGuard(figma, admittedPages, consumers, rootIds) 
     for (const node of nodes) for (const [field, value] of bindings(node)) for (const id of aliases(value)) if (rootFor(id) && !consumers.some(item => item.node.id === node.id && graphSyncNativeField(item.field) === field || item.node.id === node.id && item.field === 'borderRadius' && ['topLeftRadius', 'topRightRadius', 'bottomLeftRadius', 'bottomRightRadius'].includes(field))) fail(`unplanned shared root consumer: ${node.id}.${field}`);
   };
 }
-async function graphTokenSync(figma, plan, operation = 'inspect') {
+async function graphTokenSync(figma, syncPlan, operation = 'inspect') {
+  const plan = syncPlan;
   if (plan?.tokens?.some(token => token.create)) return graphTokenPairMigration(figma, plan, operation);
   const fail = message => { throw Error(`Graph token sync: ${message}`); };
   const copy = value => JSON.parse(JSON.stringify(value));
@@ -691,7 +692,57 @@ async function graphTokenPairMigration(figma, plan, operation) {
     throw graphSyncRollbackError(error, plan, conflicts);
   }
 }
-if (typeof module !== 'undefined') module.exports = {graphTokenSync};
+if (typeof module !== 'undefined') module.exports = {graphTokenSync, commitGraphSelection};
+function selectionDigest(text) {
+  if (typeof require !== 'function') throw Error('selective apply digest is unavailable');
+  return require('crypto').createHash('sha256').update(text).digest('hex');
+}
+function selectionIdentity(kind, key) {
+  return selectionDigest(JSON.stringify({key, kind}));
+}
+function commitGraphSelection(payload, selection, observed) {
+  if (!payload || payload.schema !== 'figma-flow-selective-sync-v1' || !observed || typeof observed !== 'object' || Array.isArray(observed)) {
+    throw Error('selective apply requires observed values');
+  }
+  if (!Array.isArray(selection) || !selection.length) throw Error('empty selection');
+  const aliasKeys = payload.alias_bundle.keys.slice();
+  if (selection.some(key => aliasKeys.includes(key)) && (new Set(selection).size !== aliasKeys.length || selection.some(key => !aliasKeys.includes(key)))) {
+    throw Error('partial alias bundle');
+  }
+  const independent = new Map(payload.independent.map(item => [item.key, item]));
+  const wholeAlias = aliasKeys.length === new Set(selection).size && aliasKeys.every(key => selection.includes(key));
+  const selected = new Set(wholeAlias ? aliasKeys : selection);
+  if (!wholeAlias && [...selected].some(key => !independent.has(key))) throw Error('unknown selection');
+  for (const key of selected) {
+    const item = independent.get(key);
+    if (item && observed[key] !== item.before) throw Error('stale before value: ' + key);
+  }
+  const bundleId = selectionIdentity('bundle', aliasKeys.join('|'));
+  const changes = [
+    ...payload.independent.map(item => ({identity: selectionIdentity('token', item.key), kind: 'token', key: item.key, bundle: null, selected: selected.has(item.key)})),
+    ...aliasKeys.map(key => ({identity: selectionIdentity('token', key), kind: 'token', key, bundle: bundleId, selected: selected.has(key)})),
+  ];
+  const planSha = selectionDigest(JSON.stringify(changes.map(row => ({bundle: row.bundle, identity: row.identity, key: row.key, kind: row.kind}))));
+  const values = {...observed};
+  const applied = [];
+  for (const row of changes) if (row.selected) {
+    const item = independent.get(row.key);
+    if (item) {
+      values[row.key] = item.after;
+      applied.push({key: row.key, value: values[row.key]});
+    } else applied.push({key: row.key});
+  }
+  const skipped = changes.filter(row => !row.selected).map(row => ({key: row.key}));
+  const baseline = {};
+  for (const item of applied) if (Object.prototype.hasOwnProperty.call(item, 'value')) baseline[item.key] = item.value;
+  return {applied, skipped, values, readback: {...values}, baseline, plan_sha256: planSha, full_apply: skipped.length === 0};
+}
+function graphSyncPlanForMessage(plan, message) {
+  if (!message || message.selection == null) return plan;
+  const committed = commitGraphSelection(message.fixture, message.selection, message.observed);
+  const selected = new Set(committed.applied.map(item => item.key));
+  return {...plan, tokens: (plan.tokens || []).filter(token => selected.has(token.key)), selection_baseline: committed.baseline, partial_apply: committed.full_apply !== true};
+}
 if (typeof GRAPH_SYNC_PLAN !== 'undefined' && typeof figma !== 'undefined') {
   figma.showUI(__html__, {width: 440, height: 470, themeColors: true});
   let busy = false;
@@ -699,7 +750,8 @@ if (typeof GRAPH_SYNC_PLAN !== 'undefined' && typeof figma !== 'undefined') {
     if (busy || !['read', 'apply'].includes(message?.type) || message.session !== GRAPH_PANEL_SESSION) return;
     busy = true;
     figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation: message.type});
-    try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: message.type, readback: await graphTokenSync(figma, GRAPH_SYNC_PLAN, message.type === 'apply' ? 'apply' : 'inspect')}); }
+    const plan = graphSyncPlanForMessage(GRAPH_SYNC_PLAN, message);
+    try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: message.type, readback: await graphTokenSync(figma, plan, message.type === 'apply' ? 'apply' : 'inspect')}); }
     catch (error) {
       const detail = error.message || String(error);
       const safely = getter => {try {return getter() ?? null;} catch (_) {return null;}};

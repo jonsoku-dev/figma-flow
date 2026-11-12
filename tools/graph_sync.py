@@ -83,6 +83,43 @@ def serialize_selection(payload, selection):
     return {'document': document, 'serialized': json.dumps(document, sort_keys=True, separators=(',', ':'))}
 
 
+def commit_selective_apply(payload, selection, observed):
+    """Write one validated selection. A stale before value leaves every observed value unchanged."""
+    if not isinstance(observed, dict):
+        raise ValueError('selective apply requires observed values')
+    document = serialize_selection(payload, selection)['document']
+    selected = [row for row in document['changes'] if row['selected']]
+    if not selected:
+        raise ValueError('empty selection')
+    independent = {item['key']: item for item in payload['independent']}
+    alias_keys = set(payload['alias_bundle']['keys'])
+    for row in selected:
+        item = independent.get(row['key'])
+        if item is not None and observed.get(row['key']) != item['before']:
+            raise ValueError(f'stale before value: {row["key"]}')
+        if item is None and row['key'] not in alias_keys:
+            raise ValueError('unknown selection')
+    values = dict(observed)
+    applied = []
+    for row in selected:
+        item = independent.get(row['key'])
+        if item is not None:
+            values[row['key']] = item['after']
+            applied.append({'key': row['key'], 'value': values[row['key']]})
+        else:
+            applied.append({'key': row['key']})
+    skipped = [{'key': row['key']} for row in document['changes'] if not row['selected']]
+    return {
+        'applied': applied,
+        'skipped': skipped,
+        'values': values,
+        'readback': dict(values),
+        'baseline': {item['key']: item['value'] for item in applied if 'value' in item},
+        'plan_sha256': document['plan_sha256'],
+        'full_apply': not skipped,
+    }
+
+
 def read(path):
     return json.loads(Path(path).read_text(encoding='utf-8'))
 
