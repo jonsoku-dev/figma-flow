@@ -114,6 +114,21 @@
     "en": "Review changes",
     "ja": "変更内容を確認"
   },
+  "graph.selectAll": {
+    "ko": "전체 선택",
+    "en": "Select all",
+    "ja": "すべて選択"
+  },
+  "graph.selectionCount": {
+    "ko": "선택 {count}개",
+    "en": "{count} selected",
+    "ja": "選択 {count}件"
+  },
+  "graph.selectionTargets": {
+    "ko": "영향 {targets}",
+    "en": "Affects {targets}",
+    "ja": "影響 {targets}"
+  },
   "graph.confirmTitle": {
     "ko": "이 범위에 그래프 값을 적용합니다",
     "en": "Apply graph values to this scope",

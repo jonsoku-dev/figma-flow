@@ -14,7 +14,7 @@
 <section class="intro"><h1 id="title">네이티브 그래프</h1><p id="description"></p></section>
 <section class="work-section" aria-labelledby="scope-title"><h2 id="scope-title" data-i18n="graph.scope">작업 범위</h2><p id="scope-summary"></p><div class="graph-stats" id="stats"></div><details class="details"><summary data-i18n="graph.scopeDetails">파일과 적용 대상 보기</summary><dl class="metadata" id="scope"></dl></details></section>
 <section class="work-section" aria-labelledby="action-title"><h2 id="action-title" data-i18n="graph.action">실행</h2><p id="action-help"></p><div class="actions"><button id="read" type="button" class="secondary" data-i18n="graph.read">네이티브 값 읽기</button><button id="review" aria-expanded="false" aria-controls="confirmation" type="button" class="primary" data-i18n="graph.review">적용 범위 확인</button></div>
-<section id="confirmation" class="confirmation" aria-labelledby="confirmation-title" hidden><h2 id="confirmation-title" data-i18n="graph.confirmTitle">이 범위에 그래프 값을 적용합니다</h2><p id="impact-summary"></p><ul class="impact-list" id="impact"></ul><p data-i18n="graph.confirmHelp">위 컴포넌트의 값과 변수 연결을 변경합니다. 읽은 기준과 현재 값이 다르면 중단합니다.</p><div class="actions"><button id="apply" class="primary" type="button" data-i18n="graph.apply">확인한 범위에 적용</button><button id="cancel" class="secondary" type="button" data-i18n="graph.cancel">취소</button></div></section>
+<section id="confirmation" class="confirmation" aria-labelledby="confirmation-title" hidden><h2 id="confirmation-title" data-i18n="graph.confirmTitle">이 범위에 그래프 값을 적용합니다</h2><p id="impact-summary"></p><p id="selection-count" data-i18n="graph.selectionCount">선택 {count}개</p><button id="select-all" type="button" data-i18n="graph.selectAll">전체 선택</button><ul class="impact-list" id="impact"></ul><p data-i18n="graph.confirmHelp">위 컴포넌트의 값과 변수 연결을 변경합니다. 읽은 기준과 현재 값이 다르면 중단합니다.</p><div class="actions"><button id="apply" class="primary" type="button" data-i18n="graph.apply">확인한 범위에 적용</button><button id="cancel" class="secondary" type="button" data-i18n="graph.cancel">취소</button></div></section>
 </section>
 <!-- FLOW_STATUS -->
 <section class="work-section" id="evidence-section" aria-labelledby="evidence-title" hidden><h2 id="evidence-title" data-i18n="graph.evidence">실행 결과</h2><p id="evidence-help" data-i18n="graph.evidenceHelp">실행 후 실제 읽기 결과를 JSON으로 저장할 수 있습니다. 오류가 발생해도 마지막 자료를 유지합니다.</p><div class="actions"><button id="download" class="secondary" type="button" disabled data-i18n="graph.download">JSON 저장</button></div><details class="details"><summary data-i18n="graph.history">실행 기록과 복구 정보</summary><pre id="report">아직 실행 기록이 없습니다.</pre></details></section>
@@ -27,13 +27,30 @@
   const t = (key, params) => FlowUI.t('graph.' + key, params);
   const discovery = config.mode === 'discovery';
   let busy = false, evidence = null, operation = null, lastStatus = null, hasResult = false, latestHasReadback = false;
+  const chosen = new Set((config.changes || []).map((change, index) => String(change.identity || change.name || change.key || index)));
+  function graphSelection(changes, selected) {
+    const list = Array.isArray(changes) ? changes : [];
+    const allow = selected == null ? null : new Set(selected);
+    const rows = list.map((change, index) => {
+      const identity = String((change && (change.identity || change.name || change.key)) || index);
+      const targets = change && Array.isArray(change.targets) && change.targets.length
+        ? change.targets.filter((item) => typeof item === 'string')
+        : [String((change && (change.name || change.key)) || identity)];
+      return {identity, targets, selected: allow == null || allow.has(identity)};
+    });
+    return {rows, count: rows.filter((row) => row.selected).length, identities: rows.map((row) => row.identity)};
+  }
+  function applyBlocked() {
+    return Array.isArray(config.changes) && config.changes.length > 0 && graphSelection(config.changes, [...chosen]).count === 0;
+  }
   const setText = (id, value) => {byId(id).textContent = value;};
   const status = (state, titleKey, bodyKey, params = {}) => {lastStatus = [state,titleKey,bodyKey,params]; const title = t(titleKey,params), body = bodyKey ? t(bodyKey,params) : ''; FlowPanel.status({region:'status',title:'status-title',body:'status-body',state,titleText:title,bodyText:body});};
   const append = (parent, tag, value) => {const element = document.createElement(tag); element.textContent = value; parent.appendChild(element); return element;};
   const entry = (label, value) => {append(byId('scope'), 'dt', label); append(byId('scope'), 'dd', value);};
   const setBusy = value => {
     busy = value;
-    for (const id of ['read', 'review', 'apply', 'cancel']) byId(id).disabled = value;
+    for (const id of ['read', 'review', 'cancel']) byId(id).disabled = value;
+    byId('apply').disabled = value || applyBlocked();
     byId('status').setAttribute('aria-busy', String(value));
   };
   function render() {
@@ -55,7 +72,7 @@
       if(config.stats.bindings)entry(t('bindings'),t('count',{count:config.stats.bindings}));
       setText('impact-summary',t('impact',config.stats));
       for(const component of config.components) append(byId('impact'),'li',component.id+': '+component.fields.map(field=>t('field.'+field) === 'graph.field.'+field ? field : t('field.'+field)).join(', ')+' · '+t('component',component));
-      for(const change of config.changes) {
+      for(const [index, change] of config.changes.entries()) {
         const card=append(byId('impact'),'li','');card.className='change-card';append(card,'strong',change.name);
         const pair=append(card,'div','');pair.className='value-pair';
         for(const side of ['before','after']) {
@@ -67,7 +84,21 @@
           else if(typeof value==='number'&&value>=0&&/space|padding|gap/i.test(change.name)){const bar=append(cell,'span','');bar.className='measure';bar.style.width=Math.min(96,value)+'px';bar.setAttribute('aria-label',t('scale'));}
           append(cell,'code',change[side]);
         }
+        const identity = String(change.identity || change.name || change.key || index);
+        const box = document.createElement('input'); box.type = 'checkbox'; box.checked = chosen.has(identity);
+        box.onchange = () => { if (busy) return; if (chosen.has(identity)) chosen.delete(identity); else chosen.add(identity); render(); };
+        const targets = document.createElement('span'); targets.className = 'graph-selection-targets';
+        targets.textContent = t('selectionTargets', {targets: graphSelection([change], null).rows[0].targets.join(', ')});
+        const label = document.createElement('label'); label.appendChild(box); label.appendChild(targets); card.appendChild(label);
       }
+      setText('selection-count', t('selectionCount', {count: graphSelection(config.changes, [...chosen]).count}));
+      if (!busy) byId('apply').disabled = applyBlocked();
+      byId('select-all').onclick = () => {
+        if (busy) return;
+        chosen.clear();
+        for (const identity of graphSelection(config.changes, null).identities) chosen.add(identity);
+        render();
+      };
     } else {byId('stats').hidden=true;byId('review').hidden=true;byId('read').className='primary';byId('action-help').hidden=true;}
     if(!hasResult)setText('report',t('noHistory'));
     if(evidence)setText('download',t('downloadAgain'));
@@ -82,7 +113,7 @@
     document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   const start = type => {
-    if (busy) return;
+    if (busy || (type === 'apply' && applyBlocked())) return;
     operation = type; setBusy(true); byId('confirmation').hidden = true; byId('review').setAttribute('aria-expanded', 'false');
     status('busy', type === 'apply' ? 'busyApply' : 'busyRead', 'busyHelp');
     parent.postMessage({pluginMessage: {type, session: config.session}}, '*');

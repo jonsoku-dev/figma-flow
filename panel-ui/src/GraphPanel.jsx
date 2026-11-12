@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Download, Eye, RefreshCw, Check, X } from 'lucide-react';
 import { Action, Notice, Section, Disclosure, PreviewStrip } from './components.jsx';
+import { graphSelection } from './graphSelection.mjs';
 
 function parsed(value) {
   try {
@@ -77,7 +78,8 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
     [confirm, setConfirm] = useState(false);
   const [evidence, setEvidence] = useState(null),
     [result, setResult] = useState(null),
-    [notice, setNotice] = useState(null);
+    [notice, setNotice] = useState(null),
+    [chosen, setChosen] = useState(null);
   const busyRef = useRef(false),
     operation = useRef(null),
     statusRef = useRef(null),
@@ -161,8 +163,10 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
     window.addEventListener('keydown', escape);
     return () => window.removeEventListener('keydown', escape);
   }, [confirm]);
+  const selection = graphSelection(model.changes, chosen);
+  const applyBlocked = Array.isArray(model.changes) && model.changes.length > 0 && selection.count === 0;
   function start(type) {
-    if (busyRef.current || (type === 'apply' && (discovery || !confirm))) return;
+    if (busyRef.current || (type === 'apply' && (discovery || !confirm || applyBlocked))) return;
     busyRef.current = true;
     setBusy(true);
     operation.current = type;
@@ -254,6 +258,8 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
           >
             <h2 id="graph-confirm-title">{t('graph.confirmTitle')}</h2>
             <p>{t('graph.impact', model.stats)}</p>
+            <p className="graph-selection-count">{t('graph.selectionCount', { count: selection.count })}</p>
+            <button type="button" onClick={() => setChosen(null)}>{t('graph.selectAll')}</button>
             <ul className="graph-component-list">
               {(model.components || []).map((component) => (
                 <li key={component.id}>
@@ -270,6 +276,19 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
                     <TokenValue key={side} name={change.name} side={side} raw={change[side]} t={t} />
                   ))}
                 </div>
+                <label className="graph-selection-row">
+                  <input
+                    type="checkbox"
+                    checked={selection.rows[index].selected}
+                    onChange={() => {
+                      const current = new Set(selection.rows.filter((row) => row.selected).map((row) => row.identity));
+                      if (current.has(selection.rows[index].identity)) current.delete(selection.rows[index].identity);
+                      else current.add(selection.rows[index].identity);
+                      setChosen([...current]);
+                    }}
+                  />
+                  <span className="graph-selection-targets">{selection.rows[index].targets.join(', ')}</span>
+                </label>
               </article>
             ))}
             <p>{t('graph.confirmHelp')}</p>
@@ -278,7 +297,7 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
                 ref={applyRef}
                 variant="primary"
                 icon={Check}
-                disabled={busy}
+                disabled={busy || applyBlocked}
                 onClick={() => start('apply')}
               >
                 {t('graph.apply')}
