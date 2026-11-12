@@ -3243,11 +3243,83 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "16f728ae07a92f515225020fe61779e852eba285",
+      "diff_sha256": "ad54710f7427947d665f97f896f48f0be6a0b8c9bbdd487f0dee7e1b0b3a8634",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/4f451eec0b49366519297f878867b05aff0ff197.md",
+        "docs/llm-wiki/patches/a9abc696ca8d6acc7974dc54076dea5e39d8de48.md",
+        "docs/llm-wiki/patches/aa0822c58b548c0b61e33874bada12ce4e2403bf.md"
+      ],
+      "parents": [
+        "4f451eec0b49366519297f878867b05aff0ff197"
+      ],
+      "subject": "docs: record the server operation journal on existing requests",
+      "tree": "2beaa8622ae9b211e823cdbab5529d93ff8037c1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "0664a3113792752d37096d12ee02aae08a488b2b",
+      "diff_sha256": "76cf82bc603a65e8e010770b6c70fcb109cda05e20629f5954e0e4bee657da15",
+      "files": [
+        "tests/test_rd08_native_started.py"
+      ],
+      "parents": [
+        "16f728ae07a92f515225020fe61779e852eba285"
+      ],
+      "subject": "test: require explicit native-started from the claimed runtime",
+      "tree": "5208b87218b1a3885ca30180ace4e3605474e976",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "24730598c912ef01c3da487193fa44e011981e7d",
+      "diff_sha256": "cc39d111d51076082220ddb9c8053b7446ef2e124b843ed05e2385eb60f756d1",
+      "files": [
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "figma-bridge/workspace_control.js",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "0664a3113792752d37096d12ee02aae08a488b2b"
+      ],
+      "subject": "feat: record native start only from the claimed runtime",
+      "tree": "91db8d69958b7650132bf0781067ae266f0aae52",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
     "008c01c64e41b255c43b7e81e4029f4368b1f797": "0786fd05695bb51303a051b0c3c3b66acdca4d4e6309a6616c67c847362974ef",
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
+    "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
@@ -3257,11 +3329,13 @@
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
+    "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
+    "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
@@ -3352,6 +3426,10 @@
     },
     {
       "observed_at_commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "24730598c912ef01c3da487193fa44e011981e7d",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3581,7 +3659,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "4f451eec0b49366519297f878867b05aff0ff197",
+  "source_commit": "24730598c912ef01c3da487193fa44e011981e7d",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
