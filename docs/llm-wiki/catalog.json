@@ -4250,6 +4250,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "d161ee42784220bf20a3fb0649fcb7d3c3c3af18",
+      "diff_sha256": "9ff214858fae2ee274ceec3d58baade6eb39a4f0c0d8b4e6d74b0294f4c59cb8",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/80742c55590c46e85ca8289298abc0a58371a9a8.md",
+        "docs/llm-wiki/patches/964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b.md",
+        "docs/llm-wiki/patches/f5e853a2056798c94b5cf5419484255998f6bd85.md"
+      ],
+      "parents": [
+        "f5e853a2056798c94b5cf5419484255998f6bd85"
+      ],
+      "subject": "docs: record shared component field selection without a new main",
+      "tree": "3af707af6a6d7c3b34cea91d41e4d1bc46a6d35d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "e4f974ffeed2f9509c948141bce42de13027d157",
+      "diff_sha256": "677e362509a5240b5623f004c3564871408f7d6ebc764bd5c8f51df41740df77",
+      "files": [
+        "tests/test_rd05_input_route.py"
+      ],
+      "parents": [
+        "d161ee42784220bf20a3fb0649fcb7d3c3c3af18"
+      ],
+      "subject": "test: pin the html channel as the only input record route",
+      "tree": "51b1246d5768d2edd3fbd2d8eaa2bf2f1c942d86",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "389964b782c69b05fc305c094640132a8aea7a44",
+      "diff_sha256": "6218e6115320b445abea8c97cbdb8bb9ba092133430ffa5580024133b54025c8",
+      "files": [
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "e4f974ffeed2f9509c948141bce42de13027d157"
+      ],
+      "subject": "feat: confirm the html channel as the input record route",
+      "tree": "6aceb55e67f3dc6a810c0952ee4d770f73b2728c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4281,6 +4352,7 @@
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
+    "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
     "3a3d68e64d178d1ca37c3ff275d97d41bc92274d": "85b28753c1528f28803ccb3ebed0af441de6860221393fc4958c50d7e3fbc7ad",
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
@@ -4354,6 +4426,7 @@
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
+    "d161ee42784220bf20a3fb0649fcb7d3c3c3af18": "81899b8b791caf981018417dcb41425411a6356308303a68ecfdca51b6322098",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
     "d2de8c2b7c390e259c0535a7ca32d6fea7e83661": "41cc02ea7db9324c6f2e6ccc146d7d02a949f3d0dbd715b051953172933c69e2",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
@@ -4369,6 +4442,7 @@
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
     "e3bb0505b011f77a656e096b821c7d0d01f2990c": "3f706b2efe5791d50864dc484452b0faf592f55a8cb7bf056adbb2e4dd6510e1",
     "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
+    "e4f974ffeed2f9509c948141bce42de13027d157": "0fafc04266ee9445ce0675b04c7523ce0f0888af3d5e182ed0b09dd6399ef0cb",
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
@@ -4421,6 +4495,10 @@
     },
     {
       "observed_at_commit": "24730598c912ef01c3da487193fa44e011981e7d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "389964b782c69b05fc305c094640132a8aea7a44",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4686,7 +4764,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "f5e853a2056798c94b5cf5419484255998f6bd85",
+  "source_commit": "389964b782c69b05fc305c094640132a8aea7a44",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
