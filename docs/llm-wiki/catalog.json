@@ -3596,6 +3596,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "0cf1823f9225b694b40961f2b6fb5d6eaa79834c",
+      "diff_sha256": "5ef19b5bba0d39a2d8d86fe7cb3a81a8b8785c895dfd2237e9dfb2cf45385f93",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/66278decfd7f49906bb32d75f71a0be70fafa7ee.md",
+        "docs/llm-wiki/patches/9c2cec203451ff81f6a0e3f83787d28c2154efca.md",
+        "docs/llm-wiki/patches/d2de8c2b7c390e259c0535a7ca32d6fea7e83661.md"
+      ],
+      "parents": [
+        "9c2cec203451ff81f6a0e3f83787d28c2154efca"
+      ],
+      "subject": "docs: record that task identity stays apart from operation ids",
+      "tree": "69aa5d90a08fd6822e7f3be50bda202fe7de5bbb",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "bd53b61a4da349e5857b01f5abfd47ed80e378bd",
+      "diff_sha256": "87b6a1a374576c26252b39a305ab7efe9a53f46ccba04979e51309bea415e3c0",
+      "files": [
+        "tests/test_rd03_task_dependencies.py"
+      ],
+      "parents": [
+        "0cf1823f9225b694b40961f2b6fb5d6eaa79834c"
+      ],
+      "subject": "test: require declared task dependencies to be normalized before publish",
+      "tree": "6f33dd8a44703b2ea680eebb6f74e6f017d7eec0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f",
+      "diff_sha256": "63e6dfd6a4d12ad2a1b627eb0f7b5b8417256aa2f7f41f2cb21744d4177c8e4f",
+      "files": [
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "bd53b61a4da349e5857b01f5abfd47ed80e378bd"
+      ],
+      "subject": "feat: normalize declared task dependencies before catalogue publication",
+      "tree": "2b120022ca4be2a9abc75d3e858d41104368a76c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3606,6 +3676,7 @@
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
     "0b46cdbd575cfe17d901d33925fd03c45c643782": "23ac33368336f6c6ead2f7c1ca145be5b6cec148d9c3ce9ab56766e4d5f693be",
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
+    "0cf1823f9225b694b40961f2b6fb5d6eaa79834c": "fa2b919c9277a10c3eb30ed75c61256da3c8c215b241bc189a72082bd3c68e76",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
@@ -3616,6 +3687,7 @@
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
+    "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f": "d595749585931a4fc1811bd87ef6551e1dde1c22be50c9848ba979fe8835f2b5",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
@@ -3674,6 +3746,7 @@
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
+    "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
@@ -3720,6 +3793,10 @@
     },
     {
       "observed_at_commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3969,7 +4046,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "9c2cec203451ff81f6a0e3f83787d28c2154efca",
+  "source_commit": "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
