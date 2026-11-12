@@ -121,6 +121,7 @@ async function checkSupportedWidthReuse() {
   const shifted = frame('use.shifted', 160, 40, [[1, 0, 12], [0, 1, 6]]);
   const taller = frame('use.taller', 160, 72);
   const originals = {narrow, wide, medium, shifted, taller};
+  for (const source of Object.values(originals)) source.semanticKey = source.getPluginData('semanticKey');
   const requests = [narrow, wide, medium, shifted, taller];
   const spec = {
     componentSets: [{
@@ -142,7 +143,7 @@ async function checkSupportedWidthReuse() {
   assert.notEqual(byKey.get('use.taller').mainComponentId, shared, 'height difference keeps a separate main');
   assert.notEqual(byKey.get('use.shifted').mainComponentId, byKey.get('use.taller').mainComponentId);
   for (const [name, source] of Object.entries(originals)) {
-    const instance = find(page, byKey.get(source.getPluginData('semanticKey')).id);
+    const instance = find(page, byKey.get(source.semanticKey).id);
     assert.equal(instance.width, source.width, name + ' render width');
     assert.equal(instance.height, source.height, name + ' render height');
     assert.deepEqual(instance.fills, source.fills, name + ' token binding');
