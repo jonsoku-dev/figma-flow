@@ -4607,6 +4607,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "ed846239ebafe20621f61d44517ec0eb8b3737eb",
+      "diff_sha256": "8b8e8f0d7ff77414838f1c7ca8f9b0bed2914d2dbbb6c2efc6188c160f8a5f0f",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/56839c3af04e0be13fa306bc2f743a4d0bbde87d.md",
+        "docs/llm-wiki/patches/9983aab6bfca1bb70ddb9dc1573a6efb054845df.md",
+        "docs/llm-wiki/patches/a069898acd764f726494c713c2b742cb834fcd0b.md"
+      ],
+      "parents": [
+        "56839c3af04e0be13fa306bc2f743a4d0bbde87d"
+      ],
+      "subject": "docs: record the asset list apart from the files Chrome loads",
+      "tree": "f4e2002d019df452358e9077157946aca5b2b0bc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "f943bc9f1f316f0f7c6624087e1bba2c1b6f45eb",
+      "diff_sha256": "2d5855ce6c7765ed3e80fb05a60af605498d59765e5633c85db977d356a6cfe0",
+      "files": [
+        "tests/rd06_full_getter_ledger.cjs"
+      ],
+      "parents": [
+        "ed846239ebafe20621f61d44517ec0eb8b3737eb"
+      ],
+      "subject": "test: pin the full native read beside the getters it actually uses",
+      "tree": "226330429c767990584edb9eb7893522a43bfc44",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "9c9d5575eea6d883620407e591972c7e92cc244f",
+      "diff_sha256": "2cbbf2086f9afd08f0f703a1c4b615b0fea8ba9c4607d2e5bc365f4f838d1723",
+      "files": [
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "figma-bridge/native_semantic_read.js"
+      ],
+      "parents": [
+        "f943bc9f1f316f0f7c6624087e1bba2c1b6f45eb"
+      ],
+      "subject": "feat: record the getters used by one full native read",
+      "tree": "e5af2b37491fad6c9c4a9ce6e9798658c89efcc3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4691,6 +4762,7 @@
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
+    "9c9d5575eea6d883620407e591972c7e92cc244f": "b707929ad2d5c3aa87de7114e5e2b16f41fce5f17c11804acaf109b13f95f1b7",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
     "a069898acd764f726494c713c2b742cb834fcd0b": "db4ab871a10f73355adb1128293d70cfd30fd1ee4b46556677489292fea2e14e",
@@ -4742,6 +4814,7 @@
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
+    "ed846239ebafe20621f61d44517ec0eb8b3737eb": "a648e5f836f0edb32b4244917953ce83478429ace3cc5caab41858f542b8aaa1",
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
     "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
@@ -4752,6 +4825,7 @@
     "f5e853a2056798c94b5cf5419484255998f6bd85": "37b7291658a8e7725b27a8ee6d0683cebc9f1c9514ddc4cf3567d0fdfa693475",
     "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02",
     "f838d46167cc8078e755c579bc3340c85968f8aa": "58cfcc4d03a25f590a3d2d6ab7ee4b696d048b24355567a317cd497419cbc524",
+    "f943bc9f1f316f0f7c6624087e1bba2c1b6f45eb": "c9ca5626d15e5319d59924abe6936e05438d8afe671f42e02bf46a879868b328",
     "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f"
   },
   "provenance_remotes": [
@@ -4857,6 +4931,10 @@
     },
     {
       "observed_at_commit": "9c2cec203451ff81f6a0e3f83787d28c2154efca",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "9c9d5575eea6d883620407e591972c7e92cc244f",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5078,7 +5156,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "56839c3af04e0be13fa306bc2f743a4d0bbde87d",
+  "source_commit": "9c9d5575eea6d883620407e591972c7e92cc244f",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
