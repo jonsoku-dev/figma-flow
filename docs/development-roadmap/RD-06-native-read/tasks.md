@@ -14,6 +14,8 @@
 
 1은 `nativeReadGetterLedger`가 같은 fixture의 full `readNativeSemantics` 결과와 실제로 읽은 getter 이름을 함께 남긴다. 기존 호출은 인자 없는 full이다. `rect.width`와 `rect.fills`는 기록되고 `rect.exportAsync`는 호출하지 않는다.
 
+2는 native summary coverage를 공유 reader의 summary profile로 반환한다. schema는 `figma-flow-native-read-summary-v1`이고 `coverage.complete`는 false다. 요청한 `width`는 같은 fixture의 full과 같고, `fills`처럼 이미지 closure가 필요한 필드는 full로 돌아간다. 스타일·변수·raster는 생략 목록에 남긴다. ImportPanel의 `NativeSummary`는 그 결과만 보여주고 보내지 않는다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
