@@ -3173,6 +3173,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "a9abc696ca8d6acc7974dc54076dea5e39d8de48",
+      "diff_sha256": "51783e255ec8093a6424695da5fc16d5a5ed3aff8af7c5e3f96eb03b6fe1e8ef",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/4dc23d6d98a7953572228b6bbf829e54c5417d13.md",
+        "docs/llm-wiki/patches/d2122ffbe9ec04470f69dba3010eef0def1fdc6b.md",
+        "docs/llm-wiki/patches/dc8c23c4357aba18dc6a074b00107d52c8a1d7a9.md"
+      ],
+      "parents": [
+        "4dc23d6d98a7953572228b6bbf829e54c5417d13"
+      ],
+      "subject": "docs: record the pinned control transitions before a lifecycle journal",
+      "tree": "8bbf3c3e3352dada0015f860b0b3f1b6e44c17b3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "aa0822c58b548c0b61e33874bada12ce4e2403bf",
+      "diff_sha256": "f188d0605bbb5fcea9c76cc3c50ae23c5b92e1d25609211727f3ae69de60cc68",
+      "files": [
+        "tests/test_rd08_operation_journal.py"
+      ],
+      "parents": [
+        "a9abc696ca8d6acc7974dc54076dea5e39d8de48"
+      ],
+      "subject": "test: require a server operation journal before lifecycle phases are shown",
+      "tree": "3331e3bcf96fdaea68f910c7fa59b3add026a9c2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "4f451eec0b49366519297f878867b05aff0ff197",
+      "diff_sha256": "43c6ab171bfe4aa0fab584eade5d29969d93adb3b012d8cee8c29c554db467fc",
+      "files": [
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "aa0822c58b548c0b61e33874bada12ce4e2403bf"
+      ],
+      "subject": "feat: store a server operation journal on the existing request record",
+      "tree": "9021a993a95d09ecca9c0ac9df31104c5e5153bc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3204,6 +3274,7 @@
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
     "4dc23d6d98a7953572228b6bbf829e54c5417d13": "4614f0de857de2a6a8366f20a635591e74458142ba2573fd747d067cf84ec7f6",
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
+    "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
@@ -3229,6 +3300,8 @@
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
+    "a9abc696ca8d6acc7974dc54076dea5e39d8de48": "7212074526920e097d7ab11da2caf762bf779776361169bf8055a5b68ab0ad58",
+    "aa0822c58b548c0b61e33874bada12ce4e2403bf": "22a082b0df42a8d81fc91c274739ac80eb26eb8a9e674082fbfc823fe36222d8",
     "aa3acddf626642b7bf0db2f04730cab9cc533a4b": "e87cc5c94ced516465ba20410c25d59481af350f6e3ed16b53dac6d051950e69",
     "ab1c8200cd77e2c24a3e322ddde643d80b179239": "cfe81c94bbe740755a66a14845051416ed74a6f429ea97802ecb7b54b4fe59ff",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
@@ -3291,6 +3364,10 @@
     },
     {
       "observed_at_commit": "4ebdb77a73746f95dc985507b2ba0d704975cf9c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "4f451eec0b49366519297f878867b05aff0ff197",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3504,7 +3581,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "4dc23d6d98a7953572228b6bbf829e54c5417d13",
+  "source_commit": "4f451eec0b49366519297f878867b05aff0ff197",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
