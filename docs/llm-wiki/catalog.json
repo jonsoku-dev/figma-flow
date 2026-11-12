@@ -5262,6 +5262,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "c7542812a50647435b8236c22e96ced91a422b2c",
+      "diff_sha256": "e619f31bdd2a264484862f7eca9e8a6c7abf237f2446d6ec667092f0a185618e",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/59e4a57ba67a2efa1cace67c54e37b13ce747e1b.md",
+        "docs/llm-wiki/patches/5fb446a3ea368317de9b56df62f93597a25a6251.md",
+        "docs/llm-wiki/patches/d26df89c9f8b0ec5ca704c02acc07c23222e6047.md"
+      ],
+      "parents": [
+        "d26df89c9f8b0ec5ca704c02acc07c23222e6047"
+      ],
+      "subject": "docs: record the shared runtime module list",
+      "tree": "1320793f039b7f74d2ed249cc795aad57ab573f8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "910e7aa74da7c142d7798dbba12e0920490b38cb",
+      "diff_sha256": "8d96b227122115521cf91c7ee8f1a915141b4247c04be5fefbe65babd2269f14",
+      "files": [
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "tests/rd07_bundle_kinds.cjs",
+        "tests/test_rd07_bundle_kinds.py"
+      ],
+      "parents": [
+        "c7542812a50647435b8236c22e96ced91a422b2c"
+      ],
+      "subject": "test: run every generated bundle task kind",
+      "tree": "cc50f9807ea624786095c85200e2a832dbb4c4fd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "c4f8338c4803f88807fab96f58607d8e9f2652df",
+      "diff_sha256": "87f4e3c017f3c46e2900624852473aef5bef1a2b9f8a3b52b740230ab77a8c91",
+      "files": [
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "910e7aa74da7c142d7798dbba12e0920490b38cb"
+      ],
+      "subject": "feat: run every generated bundle task kind",
+      "tree": "b7b0cbba85ce240b5a056cfad86f434513b38da8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -5346,6 +5417,7 @@
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2": "7f57a5cf33b629a668abe229cd1faf1a923a72edfcc3427db237ef3d2ff866e3",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
+    "910e7aa74da7c142d7798dbba12e0920490b38cb": "d0f3ac89ca7d7b9bc1ff343116a7f8d42680ae2bcc2347f0069fda8e0ba08f3e",
     "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
     "9408fdabedc720a7dd266f7a819953dd1abef969": "61b0dbf5ddf56891eda23a57922d7ae34264ba0ccc49b60430390bf947d0e690",
@@ -5389,9 +5461,11 @@
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
     "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
+    "c4f8338c4803f88807fab96f58607d8e9f2652df": "66354fee2f0e1f98052d7437da64b97dc03f51c545452e4533f9cc6c0423ae69",
     "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
+    "c7542812a50647435b8236c22e96ced91a422b2c": "3b53b0a4e27ca06be7e0519450a933e9ef1fad379379b204cd036eae2ae5da15",
     "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
@@ -5571,6 +5645,10 @@
     },
     {
       "observed_at_commit": "c072439ece24499776eb80e9d74f2e600c7461a6",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "c4f8338c4803f88807fab96f58607d8e9f2652df",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5792,7 +5870,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "d26df89c9f8b0ec5ca704c02acc07c23222e6047",
+  "source_commit": "c4f8338c4803f88807fab96f58607d8e9f2652df",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
