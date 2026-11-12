@@ -3526,6 +3526,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "66278decfd7f49906bb32d75f71a0be70fafa7ee",
+      "diff_sha256": "1dfba401c3cda185958111f2b85d93c98dd18f107d93c1726d7b602d593f7c97",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/4eab91b666eaeead1fe04395f248f936cdb51b7d.md",
+        "docs/llm-wiki/patches/5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225.md",
+        "docs/llm-wiki/patches/f290f48aba0bbabe12a8eda3f315d8cf2205457b.md"
+      ],
+      "parents": [
+        "4eab91b666eaeead1fe04395f248f936cdb51b7d"
+      ],
+      "subject": "docs: record the HTTP restart check for a missed result post",
+      "tree": "d5281c1273622a80271e9df4b09690a531392825",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "d2de8c2b7c390e259c0535a7ca32d6fea7e83661",
+      "diff_sha256": "f19130608d13e4a6e38fd38b013961b5711d72f747d0a47b96b119b3798a2ac6",
+      "files": [
+        "tests/test_rd03_identity_boundary.py"
+      ],
+      "parents": [
+        "66278decfd7f49906bb32d75f71a0be70fafa7ee"
+      ],
+      "subject": "test: keep task identity apart from a control operation id",
+      "tree": "2ba74df3a4f961a5de12fefb36b6a1746e457a80",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "9c2cec203451ff81f6a0e3f83787d28c2154efca",
+      "diff_sha256": "1939a4d9471efbc8ba85becf364982c51431cacf0feb9d6e31330188c8fc8f78",
+      "files": [
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "d2de8c2b7c390e259c0535a7ca32d6fea7e83661"
+      ],
+      "subject": "feat: keep prepared task identity apart from control operation ids",
+      "tree": "aeba4ba853760e4e3c575ca5ca68e6606e2ec7f6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3566,6 +3636,7 @@
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
+    "66278decfd7f49906bb32d75f71a0be70fafa7ee": "876ceebcc8296420027aee84f6224eb9b3083d92adf779b69b4a9158bfad6020",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
@@ -3584,6 +3655,7 @@
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
+    "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
@@ -3609,6 +3681,7 @@
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
+    "d2de8c2b7c390e259c0535a7ca32d6fea7e83661": "41cc02ea7db9324c6f2e6ccc146d7d02a949f3d0dbd715b051953172933c69e2",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d6e35da1559f20ba25c443f8c4bb5e387211652b": "7b607f99cb3837cbc31550dd6a0c76a3c55cc1dd08bfb1c2431ddd57034953a5",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
@@ -3687,6 +3760,10 @@
     },
     {
       "observed_at_commit": "9a465e535cafbf7e8be7fd4d7a2693b70ada4400",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "9c2cec203451ff81f6a0e3f83787d28c2154efca",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3892,7 +3969,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "4eab91b666eaeead1fe04395f248f936cdb51b7d",
+  "source_commit": "9c2cec203451ff81f6a0e3f83787d28c2154efca",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
