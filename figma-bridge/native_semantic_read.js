@@ -61,7 +61,13 @@ async function projectNativeSummary(figma, page, request) {
   };
 }
 
+function nativeReadSessionSnapshot() {
+  return null;
+}
+
 async function readNativeSemantics(figma, page) {
+  // native read keeps no session snapshot
+  if (nativeReadSessionSnapshot() !== null) throw new Error("native read must not serve a stored snapshot");
   // Callers that omit the third argument stay on the full snapshot. The declared parameters stay (figma, page).
   const request = arguments[2];
   if (summaryProjectable(request) === true) return projectNativeSummary(figma, page, request);
@@ -250,7 +256,7 @@ function requireFullNativeRead(read) {
   if (!read || read.schema === "figma-flow-native-read-summary-v1" || (read.coverage && read.coverage.complete === false)) throw new Error("partial native read cannot be stored as full evidence");
   return read;
 }
-if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages, nativeReadGetterLedger, requireFullNativeRead };
+if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages, nativeReadGetterLedger, requireFullNativeRead, nativeReadSessionSnapshot };
 
 function equalNativeValue(a,b){return JSON.stringify(a,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value)===JSON.stringify(b,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value);}
 function nativeHumanMarkdownMatches(annotation,spec,url){const label=FLOW_SPEC_LABELS[spec.locale];return Boolean(label&&typeof spec.annotation_text==="string"&&annotation?.labelMarkdown===`${spec.title}\n${spec.annotation_text.trim()}\n\n[${label}](${url})`);}
