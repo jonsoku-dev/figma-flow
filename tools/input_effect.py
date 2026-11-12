@@ -579,3 +579,17 @@ def write_record(root, record, relative_out):
         raise ValueError('Record output escapes the fixture root')
     target.write_text(json.dumps(record, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     return target
+
+
+def confirm_input_record_route():
+    """The one HTML asset route. Preparation copies a validated record; it does not grow a new flag."""
+    return {
+        'producer': 'input_effect.project',
+        'channel': 'html_channel',
+        'freshness': 'input_effect.freshness',
+        'store': 'input_effect.write_record',
+        'task_boundary': 'figma_workspace.prepare',
+        'consumer': 'private task artifact',
+        'not_consumer': 'ImportPanel',
+        'cli_flag': None,
+    }

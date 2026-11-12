@@ -19,6 +19,8 @@
 
 첫 구현 전에 producer에서 해당 task까지의 전달 경로를 확정한다. 권장 범위는 `figma_workspace.prepare`가 선택적 input record를 받고 검증된 artifact로 복사하는 방식이다. 실제 code path와 authority를 확인하기 전 새 CLI flag 이름을 확정하지 않는다.
 
+확정 경로: input_effect.project가 html_channel로 HTML 자산을 모으고, freshness와 write_record를 거친 뒤 figma_workspace.prepare가 검증된 record만 private task artifact로 복사한다. ImportPanel은 이 목록의 소비자가 아니다. 새 CLI flag는 만들지 않는다.
+
 기존 status enum과 hash를 재사용한다. 미지원 확장자·파싱 불가·외부 확인 불가를 present로 바꾸지 않는다.
 
 ## 구현 결정
