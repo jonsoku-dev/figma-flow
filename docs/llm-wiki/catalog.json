@@ -2772,6 +2772,58 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "d5b26f079e3b2a38ba141877eca8b5782a1bd895",
+      "diff_sha256": "de4fe7b89c392ca8d808a1c75f135bf390ce81f5b45599315e49921f1b65e01e",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/008c01c64e41b255c43b7e81e4029f4368b1f797.md",
+        "docs/llm-wiki/patches/0ff91654bd6867c816292a9fbac8561d474644d8.md",
+        "docs/llm-wiki/patches/c7327603e61a28342f6ebb1338e6758360f75251.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "0ff91654bd6867c816292a9fbac8561d474644d8"
+      ],
+      "subject": "docs: record declared variant axes without new combinations",
+      "tree": "d1110b591c503afa546478f59bc363809a73e211",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
+      "diff_sha256": "98696068791e9865e02b7c409ec6b63af38eed4208e46a02efc1093dacaa6b13",
+      "files": [
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "tests/fixtures/rd02/declared-containers.json",
+        "tests/fixtures/rd02/flat-layers.json",
+        "tests/test_rd02_layer_fixtures.py"
+      ],
+      "parents": [
+        "d5b26f079e3b2a38ba141877eca8b5782a1bd895"
+      ],
+      "subject": "test: pin flat layers apart from declared containers",
+      "tree": "b1b5c81cd79f81cb3478676a0224b22cd9a674b2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2797,6 +2849,7 @@
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
+    "47bd10f10263a0f7bd2db9bed0511f2532053532": "de6538b6ce1650e2ba88544d4694669b30d85fb9a34b2b6824e31e7df064e691",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
@@ -2829,6 +2882,7 @@
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
+    "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
@@ -2857,6 +2911,10 @@
     },
     {
       "observed_at_commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3062,7 +3120,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "0ff91654bd6867c816292a9fbac8561d474644d8",
+  "source_commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
