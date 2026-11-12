@@ -221,8 +221,10 @@ class WorkspaceChatTest(unittest.TestCase):
 
     @patch('workspace_chat.subprocess.run')
     def test_rotated_capability_and_duplicate_registry_key_rejected(self, run):
-        self.publish_tasks([self.task, self.task])
-        self.assertEqual(self.send()[0], 409)
+        before = figma_workspace.current(self.workspace)
+        with self.assertRaises(ValueError):
+            self.publish_tasks([self.task, self.task])
+        self.assertEqual(figma_workspace.current(self.workspace), before)
         self.write('chat.json', dict(self.server.config, token='c' * 64))
         self.assertEqual(self.send()[0], 409)
         run.assert_not_called()

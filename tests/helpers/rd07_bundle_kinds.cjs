@@ -48,6 +48,7 @@ const tasks = [
 
 const messages = [];
 const env = {
+  setTimeout, clearTimeout,
   FLOW_TASKS: tasks,
   FLOW_LOCALES: ['ko'],
   WORKSPACE_CHAT_DUPLICATE: 'duplicate',

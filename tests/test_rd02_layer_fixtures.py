@@ -19,7 +19,9 @@ class LayerFixtureTests(unittest.TestCase):
         kinds = {item['kind'] for item in declared['containers']}
         self.assertEqual(kinds, {'frame', 'auto-layout', 'group'})
         by_key = {item['key']: item for item in declared['containers']}
-        self.assertEqual(by_key['card']['children'], ['copy', 'ornament-cluster', 'actions'])
+        self.assertEqual(by_key['card']['children'], ['copy', 'ornament-cluster', 'actions-parent'])
+        self.assertEqual(by_key['actions']['parent'], 'actions-parent')
+        self.assertEqual(by_key['actions-parent']['kind'], 'auto-layout')
         self.assertIsNone(by_key['card']['parent'])
         self.assertEqual(by_key['copy']['layout']['direction'], 'VERTICAL')
         self.assertEqual(by_key['actions']['layout']['direction'], 'HORIZONTAL')
@@ -36,7 +38,7 @@ class LayerFixtureTests(unittest.TestCase):
                     self.assertEqual(owner['parent'], item['key'])
                 else:
                     self.assertIn(child, layer_ids)
-        self.assertEqual(len(declared['containers']), 4)
+        self.assertEqual(len(declared['containers']), 5)
 
 
 if __name__ == '__main__':
