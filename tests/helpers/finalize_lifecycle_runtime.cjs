@@ -41,8 +41,8 @@ async function main() {
     loaded.filename = path.resolve('panel-ui/oracle.cjs');
     loaded.paths = Module._nodeModulePaths(path.resolve('panel-ui'));
     loaded._compile(bundle.outputFiles[0].text, loaded.filename);
-    const React = require('../panel-ui/node_modules/react');
-    const {renderToStaticMarkup} = require('../panel-ui/node_modules/react-dom/server');
+    const React = require('../../panel-ui/node_modules/react');
+    const {renderToStaticMarkup} = require('../../panel-ui/node_modules/react-dom/server');
     const html = renderToStaticMarkup(React.createElement(loaded.exports.default,{model:{...initial,view:'history'},
       t:(key)=>key,send(){},setLocale(){},Shell:({children})=>React.createElement('main',null,children)}));
     assert.ok(html.includes(operationId), 'actual history UI must render the canonical operation identity');
