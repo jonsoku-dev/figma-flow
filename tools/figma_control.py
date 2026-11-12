@@ -259,6 +259,55 @@ def journal_history(request):
     return {'operation_id': request['operation_id'], 'classification': 'recorded', 'phase': phases[-1]['phase'] if phases else 'unknown', 'phases': phases}
 
 
+def conflict_detail(readback):
+    """Explicit conflict lookup. It does not overwrite the observed value or offer a rerun."""
+    if not isinstance(readback, dict):
+        raise ValueError('Invalid conflict detail')
+    native = readback.get('native_edit')
+    if not isinstance(native, dict):
+        raise ValueError('Invalid conflict detail')
+    plan = native.get('plan_sha256')
+    conflicts = readback.get('rollback_conflicts')
+    operations = native.get('operations')
+    if not isinstance(plan, str) or not re.fullmatch(r'[a-f0-9]{64}', plan) or not isinstance(conflicts, list) or not conflicts or not isinstance(operations, list):
+        raise ValueError('Invalid conflict detail')
+    rows = []
+    for conflict in conflicts:
+        if not isinstance(conflict, dict):
+            raise ValueError('Invalid conflict detail')
+        target = conflict.get('node_id') or conflict.get('variable_id')
+        if not isinstance(target, str) or not target:
+            raise ValueError('Invalid conflict detail')
+        match = None
+        for operation in operations:
+            if not isinstance(operation, dict):
+                continue
+            same_target = (conflict.get('node_id') and operation.get('node_id') == conflict.get('node_id')) or (conflict.get('variable_id') and operation.get('variable_id') == conflict.get('variable_id'))
+            same_field = 'field' not in conflict or operation.get('field') == conflict.get('field')
+            if same_target and same_field:
+                match = operation
+                break
+        if match is None:
+            raise ValueError('Invalid conflict detail')
+
+        def take(key):
+            if key in conflict:
+                return conflict[key]
+            if key in match:
+                return match[key]
+            raise ValueError('Invalid conflict detail')
+
+        field = take('field')
+        before = take('before')
+        after = take('after')
+        observed = take('observed')
+        reason = conflict.get('reason')
+        if not isinstance(field, str) or not field or not isinstance(reason, str) or not reason or conflict.get('plan_sha256') not in (None, plan):
+            raise ValueError('Invalid conflict detail')
+        rows.append({'target': target, 'field': field, 'before': json.loads(json.dumps(before)), 'after': json.loads(json.dumps(after)), 'observed': json.loads(json.dumps(observed)), 'rollback': reason, 'plan_sha256': plan})
+    return {'plan_sha256': plan, 'actions': ['save-evidence', 'read-scope'], 'conflicts': rows}
+
+
 def active(directory):
     path = directory / 'active.json'
     if not path.exists():

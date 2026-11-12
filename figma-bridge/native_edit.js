@@ -201,6 +201,12 @@ async function nativeEditRestore(job,figma,plan) {
     for(const key of nativeEditTextBindings)node.setRangeBoundVariable(0,node.characters.length,key,before.bindings[key]?job.bindingVariables.get(before.bindings[key].id):null);
   }else{node[edit.field==='borderRadius'?'cornerRadius':edit.field]=before.value;for(const[key,binding]of Object.entries(before.bindings))node.setBoundVariable(key,binding?job.bindingVariables.get(binding.id):null);}
 }
+function nativeEditConflict(job, reason) {
+  let observed = null;
+  try { observed = job.variable ? nativeEditClone(job.variable.valuesByMode[job.edit.mode_id]) : nativeEditValue(job.node, job.edit.field); }
+  catch (_) {}
+  return {node_id:job.edit.node_id,variable_id:job.edit.variable_id,field:job.edit.field,before:job.edit.before,after:job.edit.after,observed,reason,plan_sha256:NATIVE_EDIT_SHA256};
+}
 async function runNativeEdit(figma,plan,operation='apply') {
   nativeEditValidatePlan(plan);nativeEditScope(figma,plan);
   if(operation==='read'){const readback=await nativeEditDiscovery(figma,plan);return {...readback,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:false,operation:'read'}};}
@@ -222,7 +228,7 @@ async function runNativeEdit(figma,plan,operation='apply') {
     return {...readback,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:true,operation:'apply',operations:jobs.map(job=>({...job.edit,before_observed:job.observedBefore,after_observed:job.variable?nativeEditClone(job.variable.valuesByMode[job.edit.mode_id]):nativeEditValue(job.node,job.edit.field)}))}};
   }catch(error){
     const conflicts=[];
-    for(const job of written.reverse())try{if(job.node)nativeEditOwner(job.node,plan,job.edit.main_id);if(figma.fileKey!==plan.file_key||!nativeEditEqual(nativeEditRaw(job),job.written)){conflicts.push({node_id:job.edit.node_id,variable_id:job.edit.variable_id,reason:'Changed externally; not overwritten'});continue;}await nativeEditRestore(job,figma,plan);if(!nativeEditEqual(nativeEditRaw(job),job.before))throw Error('Restored getters differ');}catch(rollback){conflicts.push({node_id:job.edit.node_id,variable_id:job.edit.variable_id,reason:String(rollback.message||rollback)});}
+    for(const job of written.reverse())try{if(job.node)nativeEditOwner(job.node,plan,job.edit.main_id);if(figma.fileKey!==plan.file_key||!nativeEditEqual(nativeEditRaw(job),job.written)){conflicts.push(nativeEditConflict(job,'Changed externally; not overwritten'));continue;}await nativeEditRestore(job,figma,plan);if(!nativeEditEqual(nativeEditRaw(job),job.before))throw Error('Restored getters differ');}catch(rollback){conflicts.push(nativeEditConflict(job,String(rollback.message||rollback)));}
     error.rollback_conflicts=conflicts;error.readback={schema:'figma-flow-native-edit-receipt-v1',status:conflicts.length?'rollback-conflict':'rolled-back',fileKey:figma.fileKey,pageId:figma.currentPage?.id,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:false,operation:'apply',operations:written.map(job=>{let observed;try{observed=job.variable?nativeEditClone(job.variable.valuesByMode[job.edit.mode_id]):nativeEditValue(job.node,job.edit.field);}catch(_){observed=null;}return{node_id:job.edit.node_id,field:job.edit.field,variable_id:job.edit.variable_id,mode_id:job.edit.mode_id,observed};})},error:String(error.message||error),rollback_conflicts:conflicts};throw error;
   }
 }
