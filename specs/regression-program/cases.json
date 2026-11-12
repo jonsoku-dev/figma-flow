@@ -1,8 +1,8 @@
 {
   "schema": "figma-flow-regression-plan-v1",
-  "status": "planned",
-  "source_head": "f64d9a9e592343a0910cec236d358cd841b8e207",
-  "baseline": "current dirty source must be fingerprinted before execution; HEAD alone is insufficient",
+  "status": "running",
+  "source_head": "0bd817701f3df66673e314007f768a6de404fd78",
+  "baseline": "Each evidence item records its exact artifact SHA and observed scope. Historical evidence is not automatically current at source_head.",
   "product_graph_authority": "Each app graph owns product meaning/relationships. This file inventories test coverage only.",
   "viewports": [
     {
@@ -393,15 +393,72 @@
       ],
       "level": "web",
       "acceptance": "제공한 제목·배치·간격을 위치별로 대조하고 입력을 제거한 대조군과 달라지는 근거를 남긴다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-included.json",
+          "sha256": "c1dff9e32faf451aeb981340d97c08a4bf637ed5caad35399a07df9597fbfdcc",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-omitted.json",
+          "sha256": "747d8c9f98a0e03bc81b59b2483d9580af63a075ebf3069b7db66a943c47c4d1",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-html-included.json",
+          "sha256": "abed41fef4e2df03fa9e1ddf685b2f5e663a37a5b7239aaf2ecbdf31d5437399",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-html-omitted.json",
+          "sha256": "c28ae5783e72ab0fe2da35ca7c5345982c975dc4ea629b121776a601c17864c6",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-html-included.json",
+          "sha256": "ede928c1f68acfad50e9a22573370bf84b6fa656ecd64667c3dd3cef93e9c77c",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-html-omitted.json",
+          "sha256": "32a3e32aa89e3c7ed3432761b97aea550ec8d83139661fd93e3920f0afe31f86",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "effect_control": {
         "input": "html",
         "comparison": "paired included/removed; mixed runs remove one source at a time",
         "observable": "기준 brief 실행과 HTML 포함 실행의 고정 문구·배치 위치 차이",
         "expected_values": "pin fixture source/target expectations before generation",
         "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
-      }
+      },
+      "verified_scope": [
+        "Current browser DOM captures show HTML include/omit pairs on one screen each for Atlas, Morrow, and Paper, with HTML spacing changing."
+      ],
+      "remaining_scope": [
+        "Complete current app-route coverage, directly pinned title/placement/spacing expectations, and input-source/runtime revision linkage for the declared runs."
+      ],
+      "execution_note": "Pairs show HTML consumption in the captured fixtures; declared per-app HTML runs remain planned, so the case is not closed."
     },
     {
       "id": "TC-I02",
@@ -415,15 +472,58 @@
       ],
       "level": "web",
       "acceptance": "페이지별 외부 CSS·이미지·폰트·SVG를 포함한 실제 렌더가 유지되고 누락 자산과 404를 보고한다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/manifest-expected.json",
+          "sha256": "310a3f5a3f96b02f969f7d4c0234c7c33771ef46c533a5b593d99c9c82485873",
+          "kind": "source",
+          "claim": "Per-app linked CSS/SVG and missing photo/font expectations; render claims remain unverified.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/report.md",
+          "sha256": "a5280d133b64b0a5bf7e2b391c9a7cd623494339d84d09c70096a86b5489bb93",
+          "kind": "native",
+          "claim": "Supplemental two-state Coffee Notes fixture: real photo and Hahmlet font loaded in browser and reflected in Figma; excludes all-app importer coverage.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/fresh-verification-final.json",
+          "sha256": "709178a244979f881f17227891bdfdeb8ea932582234f5f6d5dc896653ed4b92",
+          "kind": "native",
+          "claim": "Fresh native verification for the supplemental two-state fixture only.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/native-r4/check-desktop/native-handoff.json",
+          "sha256": "bb73583d291820c747c12bd973216cc028147b0804ccf6fb7361d2f643c57389",
+          "kind": "native",
+          "claim": "Desktop native handoff for the supplemental fixture; not a regression app run.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "linked-css",
         "relative-images",
         "local-font",
         "inline-svg",
         "missing-asset"
-      ]
+      ],
+      "verified_scope": [
+        "All three local linked-HTML fixtures show linked CSS and SVG available and photo/font requests returning 404; supplemental two-state fixture proves one real photo/font path reaches browser and native output."
+      ],
+      "remaining_scope": [
+        "Positive and missing asset variants across generated Atlas, Morrow, and Paper projects, browser-rendered images/fonts/SVG/CSS retention, complete per-page reporting, and importer execution; supplemental fixture is not app-wide TC-I02 evidence."
+      ],
+      "execution_note": "Available evidence is split between intentionally missing linked assets and a separate two-state positive asset fixture; it does not satisfy the all-app multi-page acceptance."
     },
     {
       "id": "TC-I03",
@@ -437,8 +537,44 @@
       ],
       "level": "web",
       "acceptance": "JS가 만든 필수 콘텐츠와 라우트가 실제 브라우저에 나타나며 정적 파싱을 실행 증거로 사용하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/atlas-js.json",
+          "sha256": "999798192eba0c78042fad5310fa71411ac10847b9606de3f997396fd8367a20",
+          "kind": "browser",
+          "claim": "atlas local JS fixture DOM capture; script-generated heading is present.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/morrow-js.json",
+          "sha256": "44285d161e92c0437d7c7fc8ae0cb6883492959cc5d59d8469d01907757cb804",
+          "kind": "browser",
+          "claim": "morrow local JS fixture DOM capture; script-generated heading is present.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/paper-js.json",
+          "sha256": "fedca5b32151cc76da3465bfe2d01d11200c8cc3e20d5ad5d2dd1bf895190773",
+          "kind": "browser",
+          "claim": "paper local JS fixture DOM capture; script-generated heading is present.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "For Atlas, Morrow, and Paper local JS fixtures, a script request completed and its script-created heading appears in captured browser DOM."
+      ],
+      "remaining_scope": [
+        "Actual generated project import/run proof that JS-generated required content and deep routes appear for all three apps; source-fixture rendering alone does not prove importer behavior."
+      ],
+      "execution_note": "Runtime fixture evidence rejects static-only parsing as the observation method but is not evidence that the app importer executes arbitrary supplied HTML/JS."
     },
     {
       "id": "TC-I04",
@@ -452,15 +588,58 @@
       ],
       "level": "web",
       "acceptance": "원래 URL·최종 URL·관측 시각·뷰포트·캡처·채택한 원칙·적용 대상을 연결한다. 입력 포함·제거 대조에서 고정한 reference 원칙의 대상 위치·레이아웃 차이와 source provenance를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-included.json",
+          "sha256": "1a9d0bfc62be5eddf39b2a57fea57998f1a9623027479695320e6e5a6d4b3a35",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured with url input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-omitted.json",
+          "sha256": "6f000baba0ccf9502a80cdd43c3f7ab922d3a934937aba71103af5c8d98fc80a",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured after omitting url; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-03-url-included.json",
+          "sha256": "385ffde7254e0ad2876d64079d11f048f0072689a6936b2725c5f35a2477a7f3",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-03: captured with url input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-03-url-omitted.json",
+          "sha256": "526a3448cb346e8801505244b0d774a51797434969160cc122c668beec0d5c8a",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-03: captured after omitting url; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "effect_control": {
         "input": "url",
         "comparison": "paired included/removed; mixed runs remove one source at a time",
         "observable": "고정한 reference 원칙의 대상 위치·레이아웃 차이와 source provenance",
         "expected_values": "pin fixture source/target expectations before generation",
         "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
-      }
+      },
+      "verified_scope": [
+        "Live reference pages were captured with requested/current URL, title, viewport, network and screenshot artifacts; paired URL include/omit evidence exists for Atlas and Paper."
+      ],
+      "remaining_scope": [
+        "Current paired URL runs for each app and per-run original/final URL, observed time, viewport, screenshot, source provenance, adopted principle and target location; Morrow’s available pair is explicitly before-url-fix."
+      ],
+      "execution_note": "External reference observation and two current app pairs are partial. Morrow pair is excluded as stale, and external fetches alone do not prove app adoption."
     },
     {
       "id": "TC-I05",
@@ -474,8 +653,30 @@
       ],
       "level": "web",
       "acceptance": "문서 텍스트만 보이면 수집 완료로 통과시키지 않고 렌더 확인 또는 명시적 미검증으로 남긴다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/reference-material.json",
+          "sha256": "b35f7b736608c477027da27cbb1f426eb87da8770724ad4f34c737f28959dd11",
+          "kind": "browser",
+          "claim": "Live Material Design page DOM capture; source rendered in browser, independent of generated app imports.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Material Design reference fixture was classified js-required and a live browser capture recorded rendered headings/content."
+      ],
+      "remaining_scope": [
+        "Per-app input-consumption evidence showing rendered rather than text-only reference content is used in Atlas, Morrow, and Paper; the capture is a source observation, not importer output."
+      ],
+      "execution_note": "The source rendering is observed, but the required app-side usage path remains uncovered."
     },
     {
       "id": "TC-I06",
@@ -489,14 +690,36 @@
       ],
       "level": "web",
       "acceptance": "통제된 URL 상태별로 원인과 미확인 범위를 남기고 접근 실패 내용을 추정하지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": "tests/test_regression_program_inputs.py",
+          "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
+          "kind": "unit",
+          "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
+          "sha256": "7b520ae17cf5930d5cba143d422c0802cce5ad23c99893fe186db9511f0f063d",
+          "kind": "unit",
+          "claim": "Existing Python run log reports 83 tests passed and 1 skipped; used only with matching current source hashes.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "redirect",
         "login-required",
         "404",
         "rate-limited"
-      ]
+      ],
+      "verified_scope": [
+        "Existing shared unit test covers controlled redirect, login-required, 404, and rate-limited snapshot statuses without inventing a body."
+      ],
+      "remaining_scope": [
+        "Browser-visible cause and remaining-scope evidence for each controlled status in the actual input flow and all required apps."
+      ],
+      "execution_note": "Unit-level status handling exists in the recorded test source/run, but it does not establish the product-facing recovery/reporting flow."
     },
     {
       "id": "TC-I07",
@@ -510,8 +733,30 @@
       ],
       "level": "human",
       "acceptance": "출처별 채택·제외 이유와 위치를 남기며 어느 화면에 반영했는지 확인한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": "tests/test_regression_program_inputs.py",
+          "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
+          "kind": "unit",
+          "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Current URL-source evidence records adopted/excluded reference principles for captured sources, and a shared test checks Atlas reference conflict exclusion."
+      ],
+      "remaining_scope": [
+        "Human review evidence across all apps connecting each source’s adopt/exclude reason to concrete screen locations."
+      ],
+      "execution_note": "Source observations and one Atlas unit case do not demonstrate user-facing conflict decisions and locations for the required apps."
     },
     {
       "id": "TC-I08",
@@ -525,15 +770,65 @@
       ],
       "level": "web",
       "acceptance": "실제 프로젝트 컴포넌트를 import하고 테마 토큰·패키지 버전·파일·실제 렌더를 연결한다. 입력 포함·제거 대조에서 제공 컴포넌트의 실제 import·렌더 소비자와 고유 theme 토큰 값를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-included.json",
+          "sha256": "91499f783202fd87bd92151802d3c69cbfcb2769d663f035833a08f13508759f",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-omitted.json",
+          "sha256": "87ace93eb8e0f0110225cd4b3c5016415dc8ebb1b7fae66e1140aabd38772652",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-design-system-included.json",
+          "sha256": "abed41fef4e2df03fa9e1ddf685b2f5e663a37a5b7239aaf2ecbdf31d5437399",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-design-system-omitted.json",
+          "sha256": "cd3e9515208139c1cdf01388cd2b24fd27f1227623e2cbd56b31a52e3e4545f1",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-design-system-included.json",
+          "sha256": "ede928c1f68acfad50e9a22573370bf84b6fa656ecd64667c3dd3cef93e9c77c",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-design-system-omitted.json",
+          "sha256": "1a5ca3c59a67c11dbea6e3586dc24fde2621a1e3aad9ad00f1858e4737644265",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "effect_control": {
         "input": "design-system",
         "comparison": "paired included/removed; mixed runs remove one source at a time",
         "observable": "제공 컴포넌트의 실제 import·렌더 소비자와 고유 theme 토큰 값",
         "expected_values": "pin fixture source/target expectations before generation",
         "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
-      }
+      },
+      "verified_scope": [
+        "Current browser include/omit captures for Atlas, Morrow, and Paper show provided component source files in rendered consumers and changed component/button output when design-system input is omitted."
+      ],
+      "remaining_scope": [
+        "Actual package version and named theme-token values tied to each real import/render consumer for the declared app runs; complete app route coverage and current run provenance."
+      ],
+      "execution_note": "Paired browser captures support real component consumption, but do not fully bind package versions and named theme tokens as required."
     },
     {
       "id": "TC-I09",
@@ -547,8 +842,30 @@
       ],
       "level": "web",
       "acceptance": "선언한 버튼·필드·표의 상태와 별칭·light/dark 매핑을 대조하고 미지원 축을 누락 없이 보고한다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-included.json",
+          "sha256": "91499f783202fd87bd92151802d3c69cbfcb2769d663f035833a08f13508759f",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-design-system-included.json",
+          "sha256": "abed41fef4e2df03fa9e1ddf685b2f5e663a37a5b7239aaf2ecbdf31d5437399",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-design-system-included.json",
+          "sha256": "ede928c1f68acfad50e9a22573370bf84b6fa656ecd64667c3dd3cef93e9c77c",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "size",
         "disabled",
@@ -557,7 +874,14 @@
         "brand-theme",
         "light",
         "dark"
-      ]
+      ],
+      "verified_scope": [
+        "Default component and button properties appear in the captured design-system browser traces."
+      ],
+      "remaining_scope": [
+        "All seven declared axes (size, disabled, loading, error, brand theme, light, dark), aliases, and unsupported-axis reporting across all three apps."
+      ],
+      "execution_note": "Only default-state captures are available; none establish the full variant matrix."
     },
     {
       "id": "TC-I10",
@@ -571,8 +895,30 @@
       ],
       "level": "unit",
       "acceptance": "잘못된 연결은 거절하고 원본 변경은 이전 투영·검토·읽기를 stale로 만든다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": "tests/test_regression_program_inputs.py",
+          "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
+          "kind": "unit",
+          "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
+          "sha256": "7b520ae17cf5930d5cba143d422c0802cce5ad23c99893fe186db9511f0f063d",
+          "kind": "unit",
+          "claim": "Existing Python run log reports 83 tests passed and 1 skipped; used only with matching current source hashes.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Existing input unit test source covers cyclic aliases, version rejection, and a source change making a projection stale."
+      ],
+      "remaining_scope": [
+        "Missing-token rejection plus stale prior projection, review, and read behavior on current-source execution; the current evidence does not cover each stale consumer."
+      ],
+      "execution_note": "Relevant unit behavior is partially represented, but the criterion requires a broader stale-consumer chain and complete error variants."
     },
     {
       "id": "TC-I11",
@@ -586,15 +932,100 @@
       ],
       "level": "human",
       "acceptance": "브리프의 내용과 HTML 구조를 유지하면서 참고한 시각 원칙의 출처를 특정한다. 입력 포함·제거 대조에서 각 입력을 하나씩 뺀 결과와 비교한 구조·참고 원칙의 분리를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-included.json",
+          "sha256": "c1dff9e32faf451aeb981340d97c08a4bf637ed5caad35399a07df9597fbfdcc",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-omitted.json",
+          "sha256": "747d8c9f98a0e03bc81b59b2483d9580af63a075ebf3069b7db66a943c47c4d1",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-included.json",
+          "sha256": "1a9d0bfc62be5eddf39b2a57fea57998f1a9623027479695320e6e5a6d4b3a35",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured with url input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-omitted.json",
+          "sha256": "6f000baba0ccf9502a80cdd43c3f7ab922d3a934937aba71103af5c8d98fc80a",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured after omitting url; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-html-included.json",
+          "sha256": "abed41fef4e2df03fa9e1ddf685b2f5e663a37a5b7239aaf2ecbdf31d5437399",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-html-omitted.json",
+          "sha256": "c28ae5783e72ab0fe2da35ca7c5345982c975dc4ea629b121776a601c17864c6",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-html-included.json",
+          "sha256": "ede928c1f68acfad50e9a22573370bf84b6fa656ecd64667c3dd3cef93e9c77c",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-html-omitted.json",
+          "sha256": "32a3e32aa89e3c7ed3432761b97aea550ec8d83139661fd93e3920f0afe31f86",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-03-url-included.json",
+          "sha256": "385ffde7254e0ad2876d64079d11f048f0072689a6936b2725c5f35a2477a7f3",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-03: captured with url input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-03-url-omitted.json",
+          "sha256": "526a3448cb346e8801505244b0d774a51797434969160cc122c668beec0d5c8a",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-03: captured after omitting url; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "effect_control": {
         "input": "html+url",
         "comparison": "paired included/removed; mixed runs remove one source at a time",
         "observable": "각 입력을 하나씩 뺀 결과와 비교한 구조·참고 원칙의 분리",
         "expected_values": "pin fixture source/target expectations before generation",
         "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
-      }
+      },
+      "verified_scope": [
+        "Current app captures include one-source-at-a-time HTML/URL omission comparisons within mixed-input screens for Atlas and Paper; Morrow has a current HTML pair but its URL pair is before-url-fix."
+      ],
+      "remaining_scope": [
+        "A current HTML+URL mixed run for each declared app with pinned structure/reference expectations and source-specific separation verified in generated output."
+      ],
+      "execution_note": "Mixed-input pairs provide partial source-effect evidence, but exact all-app declared runs and current Morrow URL evidence are absent."
     },
     {
       "id": "TC-I12",
@@ -608,15 +1039,107 @@
       ],
       "level": "web",
       "acceptance": "목업 구조와 시스템 컴포넌트를 연결하고 임의의 유사 컴포넌트 복제를 검출한다. 입력 포함·제거 대조에서 각 입력을 하나씩 뺀 결과와 비교한 목업 구조·실제 시스템 import를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-included.json",
+          "sha256": "c1dff9e32faf451aeb981340d97c08a4bf637ed5caad35399a07df9597fbfdcc",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-omitted.json",
+          "sha256": "747d8c9f98a0e03bc81b59b2483d9580af63a075ebf3069b7db66a943c47c4d1",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-included.json",
+          "sha256": "91499f783202fd87bd92151802d3c69cbfcb2769d663f035833a08f13508759f",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-omitted.json",
+          "sha256": "87ace93eb8e0f0110225cd4b3c5016415dc8ebb1b7fae66e1140aabd38772652",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-html-included.json",
+          "sha256": "abed41fef4e2df03fa9e1ddf685b2f5e663a37a5b7239aaf2ecbdf31d5437399",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-html-omitted.json",
+          "sha256": "c28ae5783e72ab0fe2da35ca7c5345982c975dc4ea629b121776a601c17864c6",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-design-system-included.json",
+          "sha256": "abed41fef4e2df03fa9e1ddf685b2f5e663a37a5b7239aaf2ecbdf31d5437399",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-design-system-omitted.json",
+          "sha256": "cd3e9515208139c1cdf01388cd2b24fd27f1227623e2cbd56b31a52e3e4545f1",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-html-included.json",
+          "sha256": "ede928c1f68acfad50e9a22573370bf84b6fa656ecd64667c3dd3cef93e9c77c",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-html-omitted.json",
+          "sha256": "32a3e32aa89e3c7ed3432761b97aea550ec8d83139661fd93e3920f0afe31f86",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-design-system-included.json",
+          "sha256": "ede928c1f68acfad50e9a22573370bf84b6fa656ecd64667c3dd3cef93e9c77c",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-design-system-omitted.json",
+          "sha256": "1a5ca3c59a67c11dbea6e3586dc24fde2621a1e3aad9ad00f1858e4737644265",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "effect_control": {
         "input": "html+design-system",
         "comparison": "paired included/removed; mixed runs remove one source at a time",
         "observable": "각 입력을 하나씩 뺀 결과와 비교한 목업 구조·실제 시스템 import",
         "expected_values": "pin fixture source/target expectations before generation",
         "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
-      }
+      },
+      "verified_scope": [
+        "Current include/omit pairs for Atlas, Morrow, and Paper capture both HTML spacing and design-system components in mixed runs, including removal of each source."
+      ],
+      "remaining_scope": [
+        "Declared HTML+design-system app runs with pinned structure expectations, actual system import, and anti-copy detection across every required app."
+      ],
+      "execution_note": "Mixed source pairs indicate both inputs are consumed; they do not close the declared app run coverage or provide an anti-duplication review."
     },
     {
       "id": "TC-I13",
@@ -630,15 +1153,93 @@
       ],
       "level": "human",
       "acceptance": "시스템의 컴포넌트·토큰을 지키며 참고 URL에서 가져온 배치 원칙만 반영한다. 입력 포함·제거 대조에서 각 입력을 하나씩 뺀 결과와 비교한 참고 원칙·시스템 토큰 소비를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-included.json",
+          "sha256": "1a9d0bfc62be5eddf39b2a57fea57998f1a9623027479695320e6e5a6d4b3a35",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured with url input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-omitted.json",
+          "sha256": "6f000baba0ccf9502a80cdd43c3f7ab922d3a934937aba71103af5c8d98fc80a",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured after omitting url; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-included.json",
+          "sha256": "91499f783202fd87bd92151802d3c69cbfcb2769d663f035833a08f13508759f",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-omitted.json",
+          "sha256": "87ace93eb8e0f0110225cd4b3c5016415dc8ebb1b7fae66e1140aabd38772652",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-design-system-included.json",
+          "sha256": "abed41fef4e2df03fa9e1ddf685b2f5e663a37a5b7239aaf2ecbdf31d5437399",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-morrow-SCR-MORROW-01-design-system-omitted.json",
+          "sha256": "cd3e9515208139c1cdf01388cd2b24fd27f1227623e2cbd56b31a52e3e4545f1",
+          "kind": "browser",
+          "claim": "morrow SCR-MORROW-01: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-03-url-included.json",
+          "sha256": "385ffde7254e0ad2876d64079d11f048f0072689a6936b2725c5f35a2477a7f3",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-03: captured with url input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-03-url-omitted.json",
+          "sha256": "526a3448cb346e8801505244b0d774a51797434969160cc122c668beec0d5c8a",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-03: captured after omitting url; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-design-system-included.json",
+          "sha256": "ede928c1f68acfad50e9a22573370bf84b6fa656ecd64667c3dd3cef93e9c77c",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-paper-SCR-PAPER-01-design-system-omitted.json",
+          "sha256": "1a5ca3c59a67c11dbea6e3586dc24fde2621a1e3aad9ad00f1858e4737644265",
+          "kind": "browser",
+          "claim": "paper SCR-PAPER-01: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "effect_control": {
         "input": "url+design-system",
         "comparison": "paired included/removed; mixed runs remove one source at a time",
         "observable": "각 입력을 하나씩 뺀 결과와 비교한 참고 원칙·시스템 토큰 소비",
         "expected_values": "pin fixture source/target expectations before generation",
         "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
-      }
+      },
+      "verified_scope": [
+        "Current mixed-input URL and design-system pairs show source-specific differences for Atlas, Morrow, and Paper on captured screens."
+      ],
+      "remaining_scope": [
+        "Declared URL+design-system run evidence for all required apps connecting the adopted URL principle to actual system component/token consumption."
+      ],
+      "execution_note": "Current mixed captures are partial, but the declared run matrix remains planned and Morrow URL evidence is stale."
     },
     {
       "id": "TC-I14",
@@ -652,8 +1253,72 @@
       ],
       "level": "human",
       "acceptance": "명시된 브리프 우선순위로 해결하거나 영향을 받는 작업을 막고 충돌을 숨기지 않는다. 입력 포함·제거 대조에서 입력 하나씩 제거한 결과 및 미리 정한 우선순위별 상충 값의 채택·거절를 확인하고 자료를 무시한 결과는 통과시키지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/input-sources/input-source-runtime.json",
+          "sha256": "861f76e36f359e7b0d0167b96ab6a83092e2fda82cbb1032c4ebefdbf1dd0181",
+          "kind": "browser",
+          "claim": "Nine local HTML/linked-asset/JS fixture pages and three current external-reference captures; explicitly scoped to local fixtures, not host attachments, and not proof of new adoption.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": "tests/test_regression_program_inputs.py",
+          "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
+          "kind": "unit",
+          "claim": "Shared input regression test definitions cover selected projection, conflict, URL-status, path, instruction, and freshness cases; definitions alone do not establish execution.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
+          "sha256": "7b520ae17cf5930d5cba143d422c0802cce5ad23c99893fe186db9511f0f063d",
+          "kind": "unit",
+          "claim": "Existing Python run log reports 83 tests passed and 1 skipped; used only with matching current source hashes.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-included.json",
+          "sha256": "c1dff9e32faf451aeb981340d97c08a4bf637ed5caad35399a07df9597fbfdcc",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured with html input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-01-html-omitted.json",
+          "sha256": "747d8c9f98a0e03bc81b59b2483d9580af63a075ebf3069b7db66a943c47c4d1",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-01: captured after omitting html; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-included.json",
+          "sha256": "91499f783202fd87bd92151802d3c69cbfcb2769d663f035833a08f13508759f",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured with design-system input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-03-design-system-omitted.json",
+          "sha256": "87ace93eb8e0f0110225cd4b3c5016415dc8ebb1b7fae66e1140aabd38772652",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-03: captured after omitting design-system; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-included.json",
+          "sha256": "1a9d0bfc62be5eddf39b2a57fea57998f1a9623027479695320e6e5a6d4b3a35",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured with url input.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/inputs/input-atlas-SCR-ATLAS-09-url-omitted.json",
+          "sha256": "6f000baba0ccf9502a80cdd43c3f7ab922d3a934937aba71103af5c8d98fc80a",
+          "kind": "browser",
+          "claim": "atlas SCR-ATLAS-09: captured after omitting url; paired value changes are observable.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "explicit-authority",
         "unresolved-conflict"
@@ -664,7 +1329,14 @@
         "observable": "입력 하나씩 제거한 결과 및 미리 정한 우선순위별 상충 값의 채택·거절",
         "expected_values": "pin fixture source/target expectations before generation",
         "inconclusive": "unchanged appearance without direct consumption evidence is unverified, not passed"
-      }
+      },
+      "verified_scope": [
+        "Atlas mixed-input capture shows input effects; shared unit test source covers one explicit-priority and one unresolved-conflict projection."
+      ],
+      "remaining_scope": [
+        "Both explicit-authority and unresolved-conflict variants in actual browser/app flow, with each input removed in turn and conflicting values’ acceptance/rejection shown for the required apps."
+      ],
+      "execution_note": "Projection-level conflict behavior and mixed browser captures are not complete evidence of the two required app-facing variants."
     },
     {
       "id": "TC-I15",
@@ -678,8 +1350,44 @@
       ],
       "level": "unit",
       "acceptance": "자료 속 명령을 사용자 권한으로 취급하지 않고 경로 이탈·심볼릭 링크·입력 덮어쓰기를 거절한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": "tools/input_effect.py",
+          "sha256": "3ab9d5599413430fe0b8d36a92bc1c699c021e5d66eb4cc301e14ae9998be8a0",
+          "kind": "source",
+          "claim": "Shared input boundary implementation checks relative paths, symlinks, output overwrite, and quarantines directive-like text.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": "tests/test_regression_program_inputs.py",
+          "sha256": "5e6fff38001b5b2120deba54a568787947033f7c086bb4b72cefa0c2ef187401",
+          "kind": "unit",
+          "claim": "Current shared boundary test source exercises instruction quarantine and traversal/symlink/output-overwrite rejection.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/final-python.txt",
+          "sha256": "7b520ae17cf5930d5cba143d422c0802cce5ad23c99893fe186db9511f0f063d",
+          "kind": "unit",
+          "claim": "Existing Python run log reports 83 tests passed and 1 skipped; used only with matching current source hashes.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/final-source-hashes.json",
+          "sha256": "f5657b37a65e572f47efc782198e4e61b586a57bcaf2903e5c66cef3e389c17c",
+          "kind": "source",
+          "claim": "Recorded source hashes for tools/input_effect.py and tests/test_regression_program_inputs.py match the current working files; run provenance remains local and not independently signed.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "The current shared input boundary implementation quarantines tested directive-like text and rejects tested path traversal, symlink, and overwrite cases; matching current source/test hashes and an existing Python test run support this partial shared-unit scope."
+      ],
+      "remaining_scope": [
+        "The test case uses an Atlas fixture and a bounded set of directive phrases; equivalent evidence for all required apps and arbitrary embedded instructions is not established. Actual host chat attachment UX and arbitrary HTML/TSX importer behavior remain outside this unit evidence and are not claimed."
+      ],
+      "execution_note": "Shared-helper unit evidence is relevant but does not cover the full instruction-authority boundary across required apps and arbitrary input contents, so the case remains open."
     },
     {
       "id": "TC-W01",
@@ -693,8 +1401,45 @@
       ],
       "level": "web",
       "acceptance": "모든 route ID에 페이지·제목·주 행동·직접 새로고침 결과가 있고 누락·빈 화면이 없다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/atlas-SCR-ATLAS-01-desktop-scene.json",
+          "sha256": "2b2353ad21f369704ed640c0b9df997d90e0434cf596f70b79b9a4e7abb075bc",
+          "kind": "browser-scene",
+          "claim": "Observed page URL, title, and viewport for a representative current browser route.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/morrow-SCR-MORROW-01-desktop-scene.json",
+          "sha256": "7ec14f45b71643c5d1c7361497df75066e1149a9fb227ffe48fd150c16a80083",
+          "kind": "browser-scene",
+          "claim": "Observed page URL, title, and viewport for a representative current browser route.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/paper-SCR-PAPER-01-desktop-scene.json",
+          "sha256": "55a433cec7567e9a823b463234988c7a619a411e89d1200704f3126f16b4a1ed",
+          "kind": "browser-scene",
+          "claim": "Observed page URL, title, and viewport for a representative current browser route.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "historical-summary",
+          "claim": "Reports 80 desktop/mobile screens reviewed; does not identify a current-source hash.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Current isolated-browser scene records show rendered route samples in Atlas, Morrow, and Paper; prior verification.md reports 80 desktop/mobile captures."
+      ],
+      "remaining_scope": [
+        "Every route ID with title, primary action, direct-load and refresh outcome across all required non-brief input runs; the prior 80-capture report is not bound here to current source/runtime hashes."
+      ],
+      "execution_note": "Captured route states establish samples, not direct-entry and refresh acceptance for all input profiles."
     },
     {
       "id": "TC-W02",
@@ -708,8 +1453,30 @@
       ],
       "level": "web",
       "acceptance": "각 역할의 허용·거절·읽기 전용 상태를 mock 정책과 대조하며 운영 인증 보안을 검증했다고 주장하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records selected Atlas member/admin and Paper author permissions.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/secondary/secondary-controls.json",
+          "sha256": "400b7f61b5bfe12d9b8cc6c13dfa60737fcd44cc806afeb7cc91b9abf21fb117",
+          "kind": "browser-flow-results",
+          "claim": "Records one Atlas role change and selected actions.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Mock-role examples: Atlas member read-only versus admin approval; Paper author read-only; one Atlas role-change action."
+      ],
+      "remaining_scope": [
+        "All roles and allow/deny/read-only paths across all three apps and required inputs, including navigation and denied access after role change."
+      ],
+      "execution_note": "Existing examples cover selected mock actors and controls only; they do not establish the full role matrix."
     },
     {
       "id": "TC-W03",
@@ -723,14 +1490,29 @@
       ],
       "level": "web",
       "acceptance": "실패 응답을 주입해 해당 페이지의 안내와 재시도를 확인하고 입력·선택을 보존한다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Documents selected fault and retry flows with observed response outcomes.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "loading",
         "empty",
         "server-error",
         "retry"
-      ]
+      ],
+      "verified_scope": [
+        "Injected fault, retained form data, retry, and success outcomes are recorded for selected Atlas task, Morrow order/return, and Paper save/review/publish flows."
+      ],
+      "remaining_scope": [
+        "All four variants (loading, empty, server-error, retry) for every applicable app and required input profile."
+      ],
+      "execution_note": "The flow records cover fault/retry slices; loading and empty states are not evidenced as a complete matrix."
     },
     {
       "id": "TC-W04",
@@ -744,8 +1526,23 @@
       ],
       "level": "web",
       "acceptance": "탭 순서·필드 이름·오류 포커스·닫기·포커스 복귀가 주요 흐름에서 작동한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/secondary/secondary-controls.json",
+          "sha256": "400b7f61b5bfe12d9b8cc6c13dfa60737fcd44cc806afeb7cc91b9abf21fb117",
+          "kind": "browser-flow-results",
+          "claim": "Records Atlas invite-dialog focus on open and restoration on close.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Atlas invite dialog open/close and focus restoration are recorded."
+      ],
+      "remaining_scope": [
+        "Tab order, accessible field names, error focus, dialog close and focus return through major flows across all apps and required input runs."
+      ],
+      "execution_note": "One dialog focus cycle does not cover the broader keyboard and error-focus criteria."
     },
     {
       "id": "TC-W05",
@@ -759,8 +1556,45 @@
       ],
       "level": "web",
       "acceptance": "390×844와 1440×1000에서 콘텐츠 잘림·겹침·의도하지 않은 가로 넘침이 없다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/atlas-SCR-ATLAS-01-desktop-scene.json",
+          "sha256": "2b2353ad21f369704ed640c0b9df997d90e0434cf596f70b79b9a4e7abb075bc",
+          "kind": "browser-scene",
+          "claim": "Scene records include the viewport and document dimensions for representative routes.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/morrow-SCR-MORROW-01-desktop-scene.json",
+          "sha256": "7ec14f45b71643c5d1c7361497df75066e1149a9fb227ffe48fd150c16a80083",
+          "kind": "browser-scene",
+          "claim": "Scene records include the viewport and document dimensions for representative routes.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/paper-SCR-PAPER-01-desktop-scene.json",
+          "sha256": "55a433cec7567e9a823b463234988c7a619a411e89d1200704f3126f16b4a1ed",
+          "kind": "browser-scene",
+          "claim": "Scene records include the viewport and document dimensions for representative routes.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "historical-summary",
+          "claim": "Reports desktop/mobile route review but has no source/runtime fingerprint matching this audit baseline.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Current route-scene samples use 390×844 mobile and 1440×1000 desktop viewports; the historic verification summary reports 80 captures at those sizes."
+      ],
+      "remaining_scope": [
+        "Per-route clipping, overlap, and unintended horizontal-overflow outcomes across every applicable input run at both viewports, tied to the current source/runtime."
+      ],
+      "execution_note": "Viewport captures exist, but the evidence reviewed does not provide a current-source-bound per-route overflow result for all inputs."
     },
     {
       "id": "TC-W06",
@@ -774,13 +1608,35 @@
       ],
       "level": "web",
       "acceptance": "뒤로·앞으로·새로고침 뒤 필터·탭·초안·선택 상태가 브리프와 일치한다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records selected Paper Back/refresh persistence.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/secondary/secondary-controls.json",
+          "sha256": "400b7f61b5bfe12d9b8cc6c13dfa60737fcd44cc806afeb7cc91b9abf21fb117",
+          "kind": "browser-flow-results",
+          "claim": "Records Morrow back behavior and unsaved delivery-note loss.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "back",
         "forward",
         "refresh"
-      ]
+      ],
+      "verified_scope": [
+        "Selected browser-back and refresh behavior is recorded in Paper publish flow and Morrow delivery revisit. A secondary record notes that an unsaved delivery note was discarded while the previously saved note returned."
+      ],
+      "remaining_scope": [
+        "Back, forward, and refresh outcomes for required filters, tabs, drafts, and selections across all apps and input runs; clarify behavior against each app brief."
+      ],
+      "execution_note": "Evidence is limited to selected history transitions; forward coverage is absent, and one selected transition loses an unsaved value."
     },
     {
       "id": "TC-W07",
@@ -794,8 +1650,44 @@
       ],
       "level": "web",
       "acceptance": "제목·오류·버튼을 늘려도 위계와 조작을 유지하고 폰트 누락을 보고한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/atlas-SCR-ATLAS-01-desktop-scene.json",
+          "sha256": "2b2353ad21f369704ed640c0b9df997d90e0434cf596f70b79b9a4e7abb075bc",
+          "kind": "browser-scene",
+          "claim": "Scene sample includes rendered text and fontStatus, without long-string variants.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/morrow-SCR-MORROW-01-desktop-scene.json",
+          "sha256": "7ec14f45b71643c5d1c7361497df75066e1149a9fb227ffe48fd150c16a80083",
+          "kind": "browser-scene",
+          "claim": "Scene sample includes rendered text and fontStatus, without long-string variants.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/paper-SCR-PAPER-01-desktop-scene.json",
+          "sha256": "55a433cec7567e9a823b463234988c7a619a411e89d1200704f3126f16b4a1ed",
+          "kind": "browser-scene",
+          "claim": "Scene sample includes rendered text and fontStatus, without long-string variants.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/report.md",
+          "sha256": "a5280d133b64b0a5bf7e2b391c9a7cd623494339d84d09c70096a86b5489bb93",
+          "kind": "supplemental-report",
+          "claim": "Coffee asset fixture reports Hahmlet loaded; this is not long localized-string evidence for the three apps.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Representative scene data includes rendered text and browser font status."
+      ],
+      "remaining_scope": [
+        "Long Korean, English, and Japanese headings/errors/buttons, preserved hierarchy/actions, and missing-font reporting across all apps and inputs."
+      ],
+      "execution_note": "No evidence reviewed exercises the specified long localized strings."
     },
     {
       "id": "TC-W08",
@@ -809,8 +1701,23 @@
       ],
       "level": "web",
       "acceptance": "1,000개 mock 항목의 정렬·필터·페이지 이동을 확인하고 화면에 없는 행의 측정을 꾸며내지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Selected critical flows; no 1,000-item list case is recorded.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "No applicable 1,000-item list run was found in the reviewed browser flow records."
+      ],
+      "remaining_scope": [
+        "1,000 mock rows with sorting, filtering, and pagination for all applicable apps and input profiles."
+      ],
+      "execution_note": "The reviewed route captures and critical flows do not establish the specified large-list behavior."
     },
     {
       "id": "TC-W09",
@@ -824,13 +1731,35 @@
       ],
       "level": "web",
       "acceptance": "320px·768px·200% 확대에서 핵심 내비게이션과 양식·표의 대체 표현을 확인한다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/report.md",
+          "sha256": "a5280d133b64b0a5bf7e2b391c9a7cd623494339d84d09c70096a86b5489bb93",
+          "kind": "supplemental-report",
+          "claim": "States 320px and 768px checks for four Coffee fixture screens; not the 40 app routes.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/responsive-keyboard.json",
+          "sha256": "fc056b67030c0ae74ba8e6106013ed0c0083b5873a1acd31a61afde45d98a4d2",
+          "kind": "supplemental-responsive-evidence",
+          "claim": "Supplemental Coffee fixture responsive/keyboard records only.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "320px",
         "768px",
         "200-percent-zoom"
-      ]
+      ],
+      "verified_scope": [
+        "Supplemental Coffee asset fixture reports 320px and 768px checks and keyboard interaction."
+      ],
+      "remaining_scope": [
+        "320px, 768px, and 200% zoom navigation/form/table alternatives for Atlas, Morrow, and Paper across applicable input profiles."
+      ],
+      "execution_note": "The only reviewed narrow-width report is a separate two-state asset fixture, explicitly outside the three-app route coverage."
     },
     {
       "id": "TC-N01",
@@ -844,8 +1773,30 @@
       ],
       "level": "native",
       "acceptance": "실제 file/page/revision과 생성 대상을 고정하고 다른 앱·사용자 디자인을 바꾸지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/final-native-projects.json",
+          "sha256": "0b0b7c9e0f30b64b350d4b17b5ce67bbc54068ef95bb4a57b60d813a2a816680",
+          "kind": "native-run-summary",
+          "claim": "Summarizes Atlas, Morrow, and Paper exploratory native targets and prepared revisions.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/original-final-preservation.json",
+          "sha256": "e79cb0d95fac6ce0dfb094c1ad52e7ac8f021f9f336347ee6e45cc62fc6f9cb5",
+          "kind": "native-preservation-summary",
+          "claim": "Reports original page root fields unchanged after the documented native work.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Three exploratory app targets were created on the named Figma file; a separate original page was read and reported unchanged."
+      ],
+      "remaining_scope": [
+        "Verify target ownership and unrelated/user-design preservation for every applicable input/run and current revision."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N02",
@@ -859,8 +1810,31 @@
       ],
       "level": "native",
       "acceptance": "제목·본문·버튼·표의 구조가 편집 가능하며 참고 스크린샷을 완성 프레임으로 대체하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/native-verified.json",
+          "sha256": "3f9a8877c5b5eebbf7126f2664cee48542d35e279edaa0e5fe512c730fec5ab7",
+          "kind": "native-getter-verification",
+          "claim": "Lists verified focused native screens and foundation checks; scope is exploratory and supplied-readback.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Documents aggregate native frame counts and explicitly records package/UI scope.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "A focused real native getter verification exists for the positive-assets sample; aggregate verification reports native screens for the three app fixtures."
+      ],
+      "remaining_scope": [
+        "Demonstrate editable title/body/button/table structures across all three apps and required input runs; prove references are not screenshot substitutes."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N03",
@@ -874,8 +1848,30 @@
       ],
       "level": "native",
       "acceptance": "선언한 실제 소비자의 변수·메인·인스턴스·변형 연결을 getter로 확인한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roundtrip/evidence/roundtrip-summary.json",
+          "sha256": "7de3982504b568cc8b14e5bbf4a1d1a34f2f6e2a4c87a19573e2957963af7539",
+          "kind": "roundtrip-summary",
+          "claim": "Reports one component, one main and instance, four roots, and five supported scalar properties; whole-page layout sync is not claimed.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/native-verified.json",
+          "sha256": "3f9a8877c5b5eebbf7126f2664cee48542d35e279edaa0e5fe512c730fec5ab7",
+          "kind": "native-getter-verification",
+          "claim": "Records getter-level foundation variable use for a focused exploratory page.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Actual consumer mappings and a supported scalar round trip were recorded for one declared component; positive-assets getter records variable consumers."
+      ],
+      "remaining_scope": [
+        "Cover the declared consumers, components, variants, modes, and aliases across applicable apps/runs; current round trip is one component, four variables, five scalar properties."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N04",
@@ -889,8 +1885,31 @@
       ],
       "level": "native",
       "acceptance": "모든 화면과 중요한 조작의 조건·동작·결과·복구·지원 범위가 graph와 같고 양방향 링크가 정확하다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Documents 636 explanations and aggregate native scope, with explicit remaining UI limitations.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/actual-desktop-observations.json",
+          "sha256": "4827b32dd0f9953d554eee8d995f068e28dbc4d3ec482b049db28ac482731552",
+          "kind": "native-ui-observation",
+          "claim": "Confirms one observed board’s readable sections and actual UI source.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Aggregate verification records 636 linked explanations; desktop UI observation confirms readable sections on one board."
+      ],
+      "remaining_scope": [
+        "Verify every screen/action condition, behavior, result, recovery, support boundary, and exact bidirectional link for all app/input scopes."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N05",
@@ -904,8 +1923,30 @@
       ],
       "level": "native",
       "acceptance": "선언한 출발·도착·복귀를 실제 프로토타입으로 실행하며 필요한 reactions 읽기가 없으면 검증을 막는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/actual-desktop-observations.json",
+          "sha256": "4827b32dd0f9953d554eee8d995f068e28dbc4d3ec482b049db28ac482731552",
+          "kind": "native-ui-observation",
+          "claim": "Records actual desktop and mobile prototype click sequences that return to the start.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/actual-ui-observations.json",
+          "sha256": "c99de37bb07443c8fa95f4fd5be00458b98cc125a0344b5af5c14bd32cc77809",
+          "kind": "native-ui-observation",
+          "claim": "Records focused positive-assets forward and return interactions on desktop and mobile.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Actual prototype forward-and-return clicks were observed on desktop and mobile for the focused workspace; positive-assets focused UI also records round trips."
+      ],
+      "remaining_scope": [
+        "Exercise declared transitions and return paths for all required screens/apps/input runs, with getter evidence for reactions."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N06",
@@ -919,8 +1960,31 @@
       ],
       "level": "native",
       "acceptance": "가짜 네이티브 입력·저장 성공을 주장하지 않고 정적 표현과 실제 웹 동작을 설명한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Separates actual web behavior from Figma static representation and lists unverified host/input capabilities.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/final-specification-verification.json",
+          "sha256": "f26cc3e3e2aaa114432e588d48d2ad8192dfc1d9508bca295fe17c462b0aa0c9",
+          "kind": "specification-check",
+          "claim": "All eight focused checks passed but explicitly identify supplied cached getter evidence and unverified origin.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "The verification record documents the supported static/native boundary and actual web flows separately; focused specification checks explicitly say cached getter provenance is not authenticated."
+      ],
+      "remaining_scope": [
+        "Run boundary checks for each applicable native case and show no fake input/save success is claimed; verify all corresponding web behaviors."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N07",
@@ -934,15 +1998,37 @@
       ],
       "level": "native",
       "acceptance": "같은 입력의 중복이 없고 graph 문장 수정은 정확한 대상만 갱신하며 사용자 편집과 다른 주석을 보존한다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-current-idempotence.json",
+          "sha256": "e4b94a1a9e64dd12f382d7247fe99c670c56a2ae8b0adc849a34d0ccdc13e9ce",
+          "kind": "native-repeat-summary",
+          "claim": "Reports successful repeat runs with stable node IDs for three apps.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/original-final-preservation.json",
+          "sha256": "e79cb0d95fac6ce0dfb094c1ad52e7ac8f021f9f336347ee6e45cc62fc6f9cb5",
+          "kind": "native-preservation-summary",
+          "claim": "Reports original page root fields unchanged; does not cover all conflict/rollback variants.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "same-input",
         "graph-text-change",
         "user-note",
         "owned-note-conflict",
         "rollback"
-      ]
+      ],
+      "verified_scope": [
+        "Current idempotence summaries report unchanged node IDs on repeat for Atlas, Morrow, and Paper; original-page preservation is separately summarized."
+      ],
+      "remaining_scope": [
+        "Execute same-input, graph-text-change, user-note, owned-note-conflict, and rollback variants with precise target update and preservation proof."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N08",
@@ -956,14 +2042,29 @@
       ],
       "level": "native",
       "acceptance": "명시한 두 PAGE만 읽고 한 PAGE 누락·다른 파일·다른 앱 component 연결을 거절한다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/original-final-preservation.json",
+          "sha256": "e79cb0d95fac6ce0dfb094c1ad52e7ac8f021f9f336347ee6e45cc62fc6f9cb5",
+          "kind": "native-preservation-summary",
+          "claim": "Shows original page preservation only; no two-admitted-page rejection matrix is present.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "two-admitted-pages",
         "missing-page",
         "wrong-file",
         "cross-app-component"
-      ]
+      ],
+      "verified_scope": [
+        "A separate original page was preserved in the aggregate native work."
+      ],
+      "remaining_scope": [
+        "Exercise both admitted PAGEs, missing-page, wrong-file, and cross-app-component variants, proving unauthorized scopes are rejected."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-N09",
@@ -977,8 +2078,37 @@
       ],
       "level": "native",
       "acceptance": "플러그인 재열기와 다음 독립 읽기에도 배치·바인딩·직접 overrides·메모가 유지된다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-current-idempotence.json",
+          "sha256": "e4b94a1a9e64dd12f382d7247fe99c670c56a2ae8b0adc849a34d0ccdc13e9ce",
+          "kind": "native-repeat-summary",
+          "claim": "Reports stable node IDs on immediate repeat verification.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/installed-026-final-control.json",
+          "sha256": "b47e98815b980d3e12b3928d401cfed65c330ce010351443edd4968828684c52",
+          "kind": "installed-control-result",
+          "claim": "Records a current authenticated-running-plugin read result; it is a focused page read.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/installed-026-startup-current-check.json",
+          "sha256": "e7f16701751707a242d57dc8f4c8f373f78db78b755b48abe29dd9207b9b9ec7",
+          "kind": "startup-check",
+          "claim": "Explicitly says installed files are current but loaded runtime was unverified at that check.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Repeat-run getter summaries preserve node IDs across the three app pages; installed package readiness and a current read control result exist."
+      ],
+      "remaining_scope": [
+        "Reopen the plugin and perform a later independent getter covering layout, bindings, direct overrides, and notes after delay."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-S01",
@@ -992,8 +2122,23 @@
       ],
       "level": "native",
       "acceptance": "지원되는 scalar 토큰 변경을 여러 route의 소비자에 반영하고 Figma·웹의 실제 값을 다시 대조한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roundtrip/evidence/roundtrip-summary.json",
+          "sha256": "7de3982504b568cc8b14e5bbf4a1d1a34f2f6e2a4c87a19573e2957963af7539",
+          "kind": "roundtrip-summary",
+          "claim": "Reports supported scalar forward sync, readback, web regeneration, and preservation for one component.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "One supported scalar change was synchronized through Figma, graph, and web with re-read values and preservation claims."
+      ],
+      "remaining_scope": [
+        "Repeat across multiple route consumers and applicable apps/input profiles; current proof is a single declared component and five scalar properties."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-S02",
@@ -1007,8 +2152,23 @@
       ],
       "level": "native",
       "acceptance": "허용된 메인·토큰 수정의 역수입 후 graph와 웹을 재생성·재측정하고 다른 필드는 보존한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roundtrip/evidence/roundtrip-summary.json",
+          "sha256": "7de3982504b568cc8b14e5bbf4a1d1a34f2f6e2a4c87a19573e2957963af7539",
+          "kind": "roundtrip-summary",
+          "claim": "Reports one native main/instance scalar round trip and explicitly excludes whole-page layout sync.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "A native-to-graph import and regeneration round trip was recorded for supported scalar fields."
+      ],
+      "remaining_scope": [
+        "Exercise all allowed main/token edits and remeasure graph and web across applicable apps; prove other fields preserved for each run."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-S03",
@@ -1022,8 +2182,31 @@
       ],
       "level": "web",
       "acceptance": "서로 다른 route·viewport에서 수집한 값이 전체 선언을 덮고 하나 빠지면 pairing이 실패한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/3f1636b82b108097bf42cacb72b1a477959e4123665d07bf1f2f69a30e708be3.json",
+          "sha256": "3f1636b82b108097bf42cacb72b1a477959e4123665d07bf1f2f69a30e708be3",
+          "kind": "criterion",
+          "claim": "Defines the route/viewport probe-merge acceptance criterion.",
+          "availability": "owner-local-not-shipped",
+          "original_path": "specs/regression-program/cases.json",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
+        },
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Documents broad actual web checking, but not this required probe-merge and missing-probe variant.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [],
+      "remaining_scope": [
+        "Collect probes from distinct routes/viewports, prove all declarations are covered, and demonstrate a missing probe prevents pairing."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-S04",
@@ -1037,8 +2220,30 @@
       ],
       "level": "native",
       "acceptance": "임의 전체 레이아웃·개별 인스턴스 변형을 자동 왕복으로 통과시키지 않고 대상과 지원 한계를 보고한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/final-specification-verification.json",
+          "sha256": "f26cc3e3e2aaa114432e588d48d2ad8192dfc1d9508bca295fe17c462b0aa0c9",
+          "kind": "specification-check",
+          "claim": "Reports focused checks passing with supplied-readback provenance limits.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/roundtrip/evidence/roundtrip-summary.json",
+          "sha256": "7de3982504b568cc8b14e5bbf4a1d1a34f2f6e2a4c87a19573e2957963af7539",
+          "kind": "roundtrip-summary",
+          "claim": "Limits proven synchronization to supported scalar properties and disclaims whole-page layout sync.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Focused specification validation reports support boundaries; the scalar round-trip summary explicitly excludes whole-page layout sync."
+      ],
+      "remaining_scope": [
+        "Demonstrate unsupported whole-layout and instance-variant edits are rejected and reported across applicable cases."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-S05",
@@ -1052,14 +2257,36 @@
       ],
       "level": "native",
       "acceptance": "이전 graph·다른 viewport·오래된 readback·편집 충돌을 최신 검증으로 인정하지 않는다.",
-      "status": "planned",
-      "evidence": [],
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roundtrip/evidence/roundtrip-summary.json",
+          "sha256": "7de3982504b568cc8b14e5bbf4a1d1a34f2f6e2a4c87a19573e2957963af7539",
+          "kind": "roundtrip-summary",
+          "claim": "Records stale proof rejected within the focused round trip.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/original-fresh.json",
+          "sha256": "2694416190686dce6bf30a2448aeb0d242348f8bc9002e28925d16b6ca5cba7f",
+          "kind": "native-control-result",
+          "claim": "Records a fresh read of the original page; does not establish all stale/concurrency variants.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
       "variants": [
         "stale-graph",
         "stale-readback",
         "wrong-viewport",
         "concurrent-edit"
-      ]
+      ],
+      "verified_scope": [
+        "The scalar roundtrip records stale proof rejection; an original-page read after earlier work is recorded."
+      ],
+      "remaining_scope": [
+        "Exercise stale graph, stale readback, wrong viewport, and concurrent edit variants and reject each as current evidence."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-S06",
@@ -1073,8 +2300,30 @@
       ],
       "level": "native",
       "acceptance": "동일한 Button 이름·색·의미 ID를 가진 다른 앱의 값이나 근거를 혼용하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/final-native-projects.json",
+          "sha256": "0b0b7c9e0f30b64b350d4b17b5ce67bbc54068ef95bb4a57b60d813a2a816680",
+          "kind": "native-run-summary",
+          "claim": "Lists distinct app projects and page preparation results.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-current-idempotence.json",
+          "sha256": "e4b94a1a9e64dd12f382d7247fe99c670c56a2ae8b0adc849a34d0ccdc13e9ce",
+          "kind": "native-repeat-summary",
+          "claim": "Reports separate stable native target IDs by app, without explicit collision fixture proof.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Three separate app target summaries and stable node IDs are present."
+      ],
+      "remaining_scope": [
+        "Use identical Button names/colors/meaning IDs in all apps and prove no component or evidence crosses app boundaries."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-S07",
@@ -1088,8 +2337,30 @@
       ],
       "level": "native",
       "acceptance": "지원되는 variant/mode/alias 소비자를 대조하고 지원되지 않는 조합을 조용히 버리지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/native-verified.json",
+          "sha256": "3f9a8877c5b5eebbf7126f2664cee48542d35e279edaa0e5fe512c730fec5ab7",
+          "kind": "native-getter-verification",
+          "claim": "Records focused foundation variable-use checks.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/roundtrip/evidence/roundtrip-summary.json",
+          "sha256": "7de3982504b568cc8b14e5bbf4a1d1a34f2f6e2a4c87a19573e2957963af7539",
+          "kind": "roundtrip-summary",
+          "claim": "Covers supported scalar properties only, not the required variant/mode/alias matrix.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Focused foundation getter and scalar mappings show some real variable consumers."
+      ],
+      "remaining_scope": [
+        "Verify all supported variant/mode/alias consumers and make unsupported combinations fail visibly across applicable apps/runs."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-L01",
@@ -1103,8 +2374,31 @@
       ],
       "level": "unit",
       "acceptance": "Codex 패키지·Figma 파일·실행본을 구분하고 개발 변경·고정·오프라인 예외를 기록한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Documents release version, current development boundary, installed package, Figma file, and self-reported readiness caveat.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/installed-026-actual-readiness.json",
+          "sha256": "a23f53f6955979065cb87f77cff37d9eea0c4c0e80b7014d257491e9b3565a5e",
+          "kind": "installed-readiness",
+          "claim": "Expected and observed installed runtime match by authenticated self-report, not cryptographic provenance.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "The verification record distinguishes the published 0.26.0 package, development state, Figma file, and self-reported installed runtime."
+      ],
+      "remaining_scope": [
+        "Capture current package/file/runtime provenance and development/frozen/offline exceptions for every applicable run; no cryptographic execution provenance is established."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-L02",
@@ -1118,8 +2412,31 @@
       ],
       "level": "unit",
       "acceptance": "등록 가능한 종류와 실제 실행기의 허용 종류가 일치하고 직접 수정 작업의 재등록·읽기가 중단되지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/3f1636b82b108097bf42cacb72b1a477959e4123665d07bf1f2f69a30e708be3.json",
+          "sha256": "3f1636b82b108097bf42cacb72b1a477959e4123665d07bf1f2f69a30e708be3",
+          "kind": "criterion",
+          "claim": "Defines the lifecycle registration/executor acceptance criterion.",
+          "availability": "owner-local-not-shipped",
+          "original_path": "specs/regression-program/cases.json",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
+        },
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Contains general implementation/check summaries but no case-specific current registration/readback matrix.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [],
+      "remaining_scope": [
+        "Compare all registrable job kinds with executor allowlists and exercise direct-edit re-registration/read continuity under the current implementation."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-L03",
@@ -1133,8 +2450,30 @@
       ],
       "level": "native",
       "acceptance": "최초 고정 플러그인 실행 뒤 생성·읽기·갱신을 우리 플러그인과 로컬 명령으로 재현한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/final-native-projects.json",
+          "sha256": "0b0b7c9e0f30b64b350d4b17b5ce67bbc54068ef95bb4a57b60d813a2a816680",
+          "kind": "native-run-summary",
+          "claim": "Records three native create targets executed through the running plugin.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/installed-026-actual-readiness.json",
+          "sha256": "a23f53f6955979065cb87f77cff37d9eea0c4c0e80b7014d257491e9b3565a5e",
+          "kind": "installed-readiness",
+          "claim": "Records focused installed runtime readiness; not a consumer-environment reproduction.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "The installed plugin produced native create/read results and the verification record says consumer flows do not require Computer Use after initial setup."
+      ],
+      "remaining_scope": [
+        "Reproduce create, read, and update from a fresh consumer environment using the fixed plugin and local commands, with no Computer Use after initial bootstrap."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-L04",
@@ -1148,8 +2487,30 @@
       ],
       "level": "native",
       "acceptance": "claimed 작업을 바꾸지 않고 끊긴 쓰기는 실제 상태를 읽기 전 재시도하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/original-fresh.json",
+          "sha256": "2694416190686dce6bf30a2448aeb0d242348f8bc9002e28925d16b6ca5cba7f",
+          "kind": "native-control-result",
+          "claim": "Records a successful original-page read after earlier work.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-startup-readonly-after-recovery-fix.json",
+          "sha256": "7ab106aad13d408c5da2ac0763f2e84b9644086d943601c86deadd2ea285bdd0",
+          "kind": "startup-recovery-observation",
+          "claim": "Records update-available with loaded runtime unverified after the recovery-era change.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "A fresh original-page read after an earlier error exists; the recovery-era startup artifact still says loaded runtime unverified."
+      ],
+      "remaining_scope": [
+        "Induce reconnect and uncertain write response; prove claimed task identity is unchanged and no retry happens before actual state is read. A 45-second uncertainty/restart recovery alone does not establish the underlying lifecycle behavior is fixed."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-L05",
@@ -1163,8 +2524,30 @@
       ],
       "level": "native",
       "acceptance": "실패 이전·이후 snapshot과 복구 결과가 있고 그 사이 사용자 변경은 덮어쓰지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/original-final-preservation.json",
+          "sha256": "e79cb0d95fac6ce0dfb094c1ad52e7ac8f021f9f336347ee6e45cc62fc6f9cb5",
+          "kind": "native-preservation-summary",
+          "claim": "Reports unchanged original root fields after aggregate work.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/original-fresh.json",
+          "sha256": "2694416190686dce6bf30a2448aeb0d242348f8bc9002e28925d16b6ca5cba7f",
+          "kind": "native-control-result",
+          "claim": "Records an original-page read after earlier error, without an intervening user-edit recovery fixture.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "The original page was reported unchanged after all native work, and a post-error read was recorded."
+      ],
+      "remaining_scope": [
+        "Capture before/after snapshots for a failed operation and recovery while introducing a user edit between them; prove recovery does not overwrite that edit."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-L06",
@@ -1178,8 +2561,24 @@
       ],
       "level": "web",
       "acceptance": "새 격리 브라우저·mock 초기 데이터에서도 같은 필수 결과를 얻으며 이전 세션 상태에 의존하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Documents web-route/flow work but not the complete clean-browser isolated replay matrix.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "The verification record reports actual web routes and core flows checked."
+      ],
+      "remaining_scope": [
+        "Repeat the same required outcomes in a new isolated browser with reset mock data and demonstrate no prior session dependency for each required run."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-Q01",
@@ -1193,8 +2592,44 @@
       ],
       "level": "human",
       "acceptance": "목적·주 행동·보조 정보와 빈 공간을 실제 캡처 위치로 비평하고 유틸리티 화면에 장식용 히어로를 강제하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/atlas/evidence/artifact-critique.json",
+          "sha256": "3598e3d80f1e084a45ce92f7044bef2eb71506c472e463fd9f041a3e426af988",
+          "kind": "artifact-critique",
+          "claim": "Binds selected observations to source/preview hashes and screen locators; exploratory review only.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/morrow/evidence/artifact-critique.json",
+          "sha256": "ab7095564587903ee7e4e3cfaeabeacc6bdb84618421faa1bee0e5f0af28fe89",
+          "kind": "artifact-critique",
+          "claim": "Binds selected observations to source/preview hashes and screen locators; exploratory review only.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/paper/evidence/artifact-critique.json",
+          "sha256": "0eeed7c98f1538a9c549af5d662a97fd915ae43d904c86838648ad0aee25039b",
+          "kind": "artifact-critique",
+          "claim": "Binds selected observations to source/preview hashes and screen locators; exploratory review only.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/run-manifest.json",
+          "sha256": "a4d58be3110ec77414a0bfe60bd184926a8d98ef4c232cc03f961584acb43b6d",
+          "kind": "native-run-manifest",
+          "claim": "Marks native authoring run exploratory-only and production_admitted=false.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Three exploratory app critiques bind observations to artifact/preview locations and discuss purpose, hierarchy, and whitespace for selected output states."
+      ],
+      "remaining_scope": [
+        "Human review of page purpose, primary action, supporting information, and whitespace across every required input profile; production aesthetic acceptance."
+      ],
+      "execution_note": "The reviewed native run is labeled exploratory-only and production_admitted=false; its critique cannot close full visual acceptance."
     },
     {
       "id": "TC-Q02",
@@ -1208,8 +2643,44 @@
       ],
       "level": "human",
       "acceptance": "원본과 결과를 나란히 보고 채택한 구조·폰트·강조가 의도한 위치에 반영됐는지 판단한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/atlas/evidence/artifact-critique.json",
+          "sha256": "3598e3d80f1e084a45ce92f7044bef2eb71506c472e463fd9f041a3e426af988",
+          "kind": "artifact-critique",
+          "claim": "References selected source and preview artifacts with hashes; does not establish all input variants.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/morrow/evidence/artifact-critique.json",
+          "sha256": "ab7095564587903ee7e4e3cfaeabeacc6bdb84618421faa1bee0e5f0af28fe89",
+          "kind": "artifact-critique",
+          "claim": "References selected source and preview artifacts with hashes; does not establish all input variants.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/paper/evidence/artifact-critique.json",
+          "sha256": "0eeed7c98f1538a9c549af5d662a97fd915ae43d904c86838648ad0aee25039b",
+          "kind": "artifact-critique",
+          "claim": "References selected source and preview artifacts with hashes; does not establish all input variants.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/report.md",
+          "sha256": "a5280d133b64b0a5bf7e2b391c9a7cd623494339d84d09c70096a86b5489bb93",
+          "kind": "supplemental-report",
+          "claim": "Records photo/font loading in separate Coffee fixture only.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Exploratory critiques compare selected source, graph, and previews; Coffee supplemental report records actual photo/font delivery for its fixture."
+      ],
+      "remaining_scope": [
+        "Side-by-side source/result review of accepted structure, typography, and emphasis for each required app/input run; no general aesthetic acceptance."
+      ],
+      "execution_note": "Subset evidence exists, but not the required input-wide comparison; Coffee is a separate supplemental fixture."
     },
     {
       "id": "TC-Q03",
@@ -1223,8 +2694,45 @@
       ],
       "level": "web",
       "acceptance": "합성 배경 픽셀과 텍스트를 검사하고 경고를 없애려 불투명 텍스트 배경을 추가하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/atlas/evidence/design-quality.json",
+          "sha256": "924edcddf5d0f91e4292262fafee7087a4ab8474881bbd94c200a062f1ac5e27",
+          "kind": "quality-report",
+          "claim": "Reports technical pass/errors/warnings; no composited-pixel contrast evidence.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/morrow/evidence/design-quality.json",
+          "sha256": "050c52aad9bd7933f73516e352224e056eb6135f3d26bc5e365b52e48ebe07cc",
+          "kind": "quality-report",
+          "claim": "Reports technical pass/errors/warnings; no composited-pixel contrast evidence.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/paper/evidence/design-quality.json",
+          "sha256": "48848c105594dcc3aae46ab86bf92627864f96ea7fee21f9bd89a12b74b57caf",
+          "kind": "quality-report",
+          "claim": "Reports technical pass/errors/warnings; no composited-pixel contrast evidence.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "historical-summary",
+          "claim": "States 100 heuristic warnings were retained and are not aesthetic approval.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Native technical quality reports pass non-strict checks with zero errors and heuristic warnings."
+      ],
+      "remaining_scope": [
+        "Composite-background pixel and text contrast checks for all applicable outputs, preserving transparent backgrounds and avoiding warning-only fixes."
+      ],
+      "execution_note": "A non-strict quality report is not evidence of the specified composited-pixel contrast check."
     },
     {
       "id": "TC-Q04",
@@ -1238,8 +2746,44 @@
       ],
       "level": "human",
       "acceptance": "목적에 맞는 자산·일관된 아이콘을 쓰고 대체 텍스트와 편집 가능한 구조를 구분한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/atlas/evidence/artifact-critique.json",
+          "sha256": "3598e3d80f1e084a45ce92f7044bef2eb71506c472e463fd9f041a3e426af988",
+          "kind": "artifact-critique",
+          "claim": "Selected artifact observations discuss assets/editability; exploratory only.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/morrow/evidence/artifact-critique.json",
+          "sha256": "ab7095564587903ee7e4e3cfaeabeacc6bdb84618421faa1bee0e5f0af28fe89",
+          "kind": "artifact-critique",
+          "claim": "Selected artifact observations discuss assets/editability; exploratory only.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/paper/evidence/artifact-critique.json",
+          "sha256": "0eeed7c98f1538a9c549af5d662a97fd915ae43d904c86838648ad0aee25039b",
+          "kind": "artifact-critique",
+          "claim": "Selected artifact observations discuss assets/editability; exploratory only.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/self-improvement/positive-assets/report.md",
+          "sha256": "a5280d133b64b0a5bf7e2b391c9a7cd623494339d84d09c70096a86b5489bb93",
+          "kind": "supplemental-report",
+          "claim": "Coffee fixture records four native screens and actual photo/font parity, not app-wide asset coverage.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Exploratory critiques describe selected assets and editable-layer intent; Coffee fixture proves actual image/font byte loading and editable native elements in its limited scope."
+      ],
+      "remaining_scope": [
+        "Purpose-fit image/icon consistency, alt text, and editable structure for all three apps and all applicable inputs."
+      ],
+      "execution_note": "Current proof is exploratory or supplemental; there is no complete three-app asset/alt-text review."
     },
     {
       "id": "TC-Q05",
@@ -1253,8 +2797,44 @@
       ],
       "level": "human",
       "acceptance": "동일 컴포넌트의 화면 간 일관성을 확인하면서 세 앱을 색만 바꾼 같은 템플릿으로 만들지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/atlas/evidence/artifact-critique.json",
+          "sha256": "3598e3d80f1e084a45ce92f7044bef2eb71506c472e463fd9f041a3e426af988",
+          "kind": "artifact-critique",
+          "claim": "Contains selected app-specific critique observations and artifact bindings.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/morrow/evidence/artifact-critique.json",
+          "sha256": "ab7095564587903ee7e4e3cfaeabeacc6bdb84618421faa1bee0e5f0af28fe89",
+          "kind": "artifact-critique",
+          "claim": "Contains selected app-specific critique observations and artifact bindings.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/paper/evidence/artifact-critique.json",
+          "sha256": "0eeed7c98f1538a9c549af5d662a97fd915ae43d904c86838648ad0aee25039b",
+          "kind": "artifact-critique",
+          "claim": "Contains selected app-specific critique observations and artifact bindings.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/component-consumption-smoke.json",
+          "sha256": "80ece1f8a41fc565759fd7173c03a2af6be8d6135bff2c9c72fad5c89c04d4b2",
+          "kind": "browser-smoke",
+          "claim": "Selected component-consumption smoke only; not a full comparative visual review.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Exploratory critiques and route captures cover Atlas, Morrow, and Paper; selected browser smoke checks component consumption."
+      ],
+      "remaining_scope": [
+        "Cross-screen shared-component consistency and distinct product character across all apps/input variants, with human visual review."
+      ],
+      "execution_note": "Samples exist but not an input-wide comparison; automated component smoke is not human quality acceptance."
     },
     {
       "id": "TC-Q06",
@@ -1268,8 +2848,44 @@
       ],
       "level": "human",
       "acceptance": "원본·캡처 해시에 연결된 위치별 문제와 수정 이유를 남기며 구조 검사나 자작 점수를 미적 품질로 대체하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/atlas/evidence/artifact-critique.json",
+          "sha256": "3598e3d80f1e084a45ce92f7044bef2eb71506c472e463fd9f041a3e426af988",
+          "kind": "artifact-critique",
+          "claim": "Binds selected final observations to artifact and preview hashes; not a complete before/after set.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/morrow/evidence/artifact-critique.json",
+          "sha256": "ab7095564587903ee7e4e3cfaeabeacc6bdb84618421faa1bee0e5f0af28fe89",
+          "kind": "artifact-critique",
+          "claim": "Binds selected final observations to artifact and preview hashes; not a complete before/after set.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/paper/evidence/artifact-critique.json",
+          "sha256": "0eeed7c98f1538a9c549af5d662a97fd915ae43d904c86838648ad0aee25039b",
+          "kind": "artifact-critique",
+          "claim": "Binds selected final observations to artifact and preview hashes; not a complete before/after set.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/native-all-r4-final/run-manifest.json",
+          "sha256": "a4d58be3110ec77414a0bfe60bd184926a8d98ef4c232cc03f961584acb43b6d",
+          "kind": "native-run-manifest",
+          "claim": "Confirms these native captures belong to an exploratory, non-production-admitted run.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Exploratory critique artifacts include hashes for source/graph/preview materials and location-based observations."
+      ],
+      "remaining_scope": [
+        "Fixed original-versus-result capture pair, location-specific issue, and reason for each change across required inputs; human before/after critique."
+      ],
+      "execution_note": "Hash-bound final critiques are available, but the reviewed records do not establish the required before/after comparison or full coverage."
     },
     {
       "id": "TC-P01",
@@ -1283,8 +2899,23 @@
       ],
       "level": "perf",
       "acceptance": "Atlas의 1·6·14 route를 같은 조건에서 측정하고 읽기 누락·메모리 증가·작업 시간·오류 수를 기록한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/final-native-projects.json",
+          "sha256": "0b0b7c9e0f30b64b350d4b17b5ce67bbc54068ef95bb4a57b60d813a2a816680",
+          "kind": "native-run-summary",
+          "claim": "Reports native project sizes and captures; it is not a performance/resource benchmark.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Native project summaries provide app screen/capture counts, but no same-condition Atlas route-scale timing/resource series was read."
+      ],
+      "remaining_scope": [
+        "Measure Atlas 1, 6, and 14 routes on identical conditions and record missing reads, memory growth, operation time, and errors."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-P02",
@@ -1298,8 +2929,31 @@
       ],
       "level": "perf",
       "acceptance": "동일 workload의 baseline과 수정본을 교차 측정하고 정한 예산을 넘으면 성능 회귀로 남긴다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/3f1636b82b108097bf42cacb72b1a477959e4123665d07bf1f2f69a30e708be3.json",
+          "sha256": "3f1636b82b108097bf42cacb72b1a477959e4123665d07bf1f2f69a30e708be3",
+          "kind": "criterion",
+          "claim": "Defines baseline-versus-change performance acceptance.",
+          "availability": "owner-local-not-shipped",
+          "original_path": "specs/regression-program/cases.json",
+          "source_revision": "0bd817701f3df66673e314007f768a6de404fd78"
+        },
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Contains build/test results, not a same-workload performance comparison.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [],
+      "remaining_scope": [
+        "Collect baseline and changed-build measurements under the same workload, cross-run them, and compare against a stated budget."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     },
     {
       "id": "TC-F01",
@@ -1311,8 +2965,23 @@
       ],
       "level": "web",
       "acceptance": "프로젝트 목록에서 상세·보드·할 일로 이동하고 저장 실패 뒤 초안을 보존해 재시도한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records observed navigation, 409 fault, draft retention, refresh, and 200 retry.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Atlas project→detail→board→task, injected 409 save failure, draft retention after reload, and successful 200 retry."
+      ],
+      "remaining_scope": [
+        "Same flow for all applicable non-brief Atlas input profiles, tied to current source/runtime."
+      ],
+      "execution_note": "The recorded flow is strong end-to-end evidence for one fixture/input context, not all required input runs."
     },
     {
       "id": "TC-F02",
@@ -1324,8 +2993,30 @@
       ],
       "level": "web",
       "acceptance": "구성원 요청을 검토자가 승인하고 역할을 바꾼 뒤 내비게이션과 접근 거절을 확인한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records member read-only and admin approval subset.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/secondary/secondary-controls.json",
+          "sha256": "400b7f61b5bfe12d9b8cc6c13dfa60737fcd44cc806afeb7cc91b9abf21fb117",
+          "kind": "browser-flow-results",
+          "claim": "Records role-change action; not full navigation/denial sequence.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Selected Atlas member read-only and admin approval behavior plus one role-change action."
+      ],
+      "remaining_scope": [
+        "Full member request→reviewer approval→role change→updated navigation and denied-access behavior for every applicable Atlas input profile."
+      ],
+      "execution_note": "The reviewed artifacts cover selected role states/actions but not the complete post-change navigation/denial acceptance."
     },
     {
       "id": "TC-F03",
@@ -1337,8 +3028,23 @@
       ],
       "level": "web",
       "acceptance": "상품 선택·장바구니·연락처·배송·검토·완료를 이동하고 재고 충돌 시 중복 주문 없이 복구한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records checkout steps, stock conflict, no added order, retry and completion.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Morrow product→cart→contact→delivery→review/order flow, injected 409 stock conflict with no duplicate order, successful retry and detail."
+      ],
+      "remaining_scope": [
+        "Same complete flow across all applicable non-brief Morrow input profiles, tied to current source/runtime."
+      ],
+      "execution_note": "Recorded end-to-end success/fault handling covers one fixture/input context only."
     },
     {
       "id": "TC-F04",
@@ -1350,8 +3056,30 @@
       ],
       "level": "web",
       "acceptance": "새로고침 뒤 저장 목록·주문 상세를 복원하고 반품 실패 뒤 입력을 유지한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records save-list and return fault/retry subset.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/secondary/secondary-controls.json",
+          "sha256": "400b7f61b5bfe12d9b8cc6c13dfa60737fcd44cc806afeb7cc91b9abf21fb117",
+          "kind": "browser-flow-results",
+          "claim": "Records saved item appearing in saved list.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Morrow saved item appears in list; return 409 retains reason/note and successful retry is recorded."
+      ],
+      "remaining_scope": [
+        "Refresh restoration of saved list and order detail, plus return fault/retry across all applicable Morrow input runs."
+      ],
+      "execution_note": "Current flow record does not establish the full refresh and order-detail restoration matrix."
     },
     {
       "id": "TC-F05",
@@ -1363,8 +3091,23 @@
       ],
       "level": "web",
       "acceptance": "새 글을 만들고 자동 저장 실패·새로고침 복구·검토 요청을 확인한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records autosave/review request faults, retained content, and successful state.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Paper autosave fault retains title/body; retry succeeds; review request fault retains draft and successful retry appears in review list."
+      ],
+      "remaining_scope": [
+        "New article creation, autosave, refresh recovery and review request for all applicable Paper input runs."
+      ],
+      "execution_note": "Recorded flow covers a selected editor context; complete refresh recovery across required inputs is not established."
     },
     {
       "id": "TC-F06",
@@ -1376,8 +3119,30 @@
       ],
       "level": "web",
       "acceptance": "편집자가 반려·수정 요청·가상 발행을 수행하고 독자 화면과 캘린더에 반영되는지 확인한다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/flow-results.json",
+          "sha256": "43f81bfb0db02d46f4603dc64a3ae5ae186bb710a00e05f3ba139d1769951845",
+          "kind": "browser-flow-results",
+          "claim": "Records author read-only, virtual publish fault/retry, reader visibility, Back/refresh.",
+          "availability": "owner-local-not-shipped"
+        },
+        {
+          "path": ".figma-flow/regression-evidence/web/current/flows/secondary/secondary-controls.json",
+          "sha256": "400b7f61b5bfe12d9b8cc6c13dfa60737fcd44cc806afeb7cc91b9abf21fb117",
+          "kind": "browser-flow-results",
+          "claim": "Records reject and request-changes statuses.",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "Paper author read-only, editor virtual-publish fault and retry, published article visible to reader, Back/refresh persistence; reject and request-changes actions separately recorded."
+      ],
+      "remaining_scope": [
+        "Full role-specific review/reject/change/publish sequence with reader and calendar reflection for all applicable Paper input profiles."
+      ],
+      "execution_note": "The calendar reflection and full role sequence are not evidenced; the separate action checks remain selected samples."
     },
     {
       "id": "TC-L07",
@@ -1391,8 +3156,24 @@
       ],
       "level": "unit",
       "acceptance": "구체적인 단일 방향은 한 안으로 준비하고 비교 요청은 선택 전 대기하며 합성 사용자 이벤트를 실제 본제작 권한으로 승격하지 않는다.",
-      "status": "planned",
-      "evidence": []
+      "status": "unverified",
+      "evidence": [
+        {
+          "path": ".figma-flow/roadmap-20261112/evidence-snapshots/41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226.md",
+          "sha256": "41e5844d15142f1a06cd417ae571f650e35bd87e3b2dbfa580a3449fa5ae8226",
+          "kind": "verification-record",
+          "claim": "Documents direct-mode and real-selection boundaries; no full current case matrix is recorded.",
+          "original_path": ".figma-flow/verification.md",
+          "availability": "owner-local-not-shipped"
+        }
+      ],
+      "verified_scope": [
+        "The verification record describes direct mode as the default and distinguishes comparison/selection from production approval."
+      ],
+      "remaining_scope": [
+        "Run concrete single-direction, comparison-waits-for-selection, and synthetic-event non-promotion variants with current unit evidence."
+      ],
+      "execution_note": "Partial historical evidence is retained as scoped evidence only. This case applies to a wider app/run/variant matrix than the evidence satisfies; no case is marked passed."
     }
   ],
   "status_values": [
@@ -1432,5 +3213,17 @@
       "user-text-url"
     ],
     "rule": "Record actual delivery channel and original attachment metadata/path/hash. A synthetic agent/local fixture never proves host chat attachment UX. Unavailable host attachment execution stays unverified without blocking independent local-file tests."
+  },
+  "plan_source_head": "f64d9a9e592343a0910cec236d358cd841b8e207",
+  "execution_reconciliation": {
+    "date": "2026-11-12",
+    "source_head": "0bd817701f3df66673e314007f768a6de404fd78",
+    "case_status_counts": {
+      "unverified": 61
+    },
+    "evidence_references": 183,
+    "meaning": "Partial actual execution is recorded per case; only every mandatory applicable variant/run with current evidence can close a case.",
+    "evidence_distribution": "Owner-local actual browser/Figma receipts are excluded from distribution; relative paths and hashes identify those witnesses, not portable proof supplied to fork users. Re-execution is required when unavailable.",
+    "supplemental_scope": "Coffee Notes normal photo/font browser/Figma evidence is a separate two-state fixture, not full completion of TC-I02 or the40-route program."
   }
 }

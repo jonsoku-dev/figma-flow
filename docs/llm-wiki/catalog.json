@@ -1,0 +1,2287 @@
+{
+  "changelog_versions": [
+    "0.26.0",
+    "0.25.0",
+    "0.24.1",
+    "0.24.0",
+    "0.23.1",
+    "0.23.0",
+    "0.22.0",
+    "0.21.1",
+    "0.21.0",
+    "0.20.1",
+    "0.20.0",
+    "0.19.1",
+    "0.19.0",
+    "0.18.2",
+    "0.18.1",
+    "0.18.0"
+  ],
+  "commits": [
+    {
+      "commit": "07d32a81eb3523babd7d4039cdb6a39857b7517c",
+      "diff_sha256": "5f755fb4dc8c52474c0543b9e0341ba5fb5affaac12bd65598254b69681a49b2",
+      "files": [
+        "README.md"
+      ],
+      "parents": [],
+      "subject": "first commit",
+      "tree": "d87e7536a9bc9e72d8de9d22e4a1982d0527c5b3",
+      "versions": []
+    },
+    {
+      "commit": "aa3acddf626642b7bf0db2f04730cab9cc533a4b",
+      "diff_sha256": "cb19a0002058bcf4960cb474db19e7b856c3f17cc580e509f7b579d9685991f9",
+      "files": [
+        ".agents/plugins/marketplace.json",
+        ".codex-plugin/plugin.json",
+        ".github/workflows/test.yml",
+        ".gitignore",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "LICENSE",
+        "docs/codex-setup-prompts.md",
+        "docs/design-system-trials.md",
+        "docs/figma-guide.md",
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/draft-readback-save.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/production-plugin-actions.png",
+        "docs/trials/mui-comparison.jpg",
+        "docs/trials/shadcn-comparison.jpg",
+        "examples/idea-notes/README.md",
+        "examples/idea-notes/app/app.js",
+        "examples/idea-notes/app/index.html",
+        "examples/idea-notes/app/style.css",
+        "examples/idea-notes/bindings.json",
+        "examples/idea-notes/brief.md",
+        "examples/idea-notes/evidence/browser.json",
+        "examples/idea-notes/evidence/node-tests.tap",
+        "examples/idea-notes/graph.json",
+        "examples/idea-notes/screen-spec.md",
+        "examples/idea-notes/tests/app.test.cjs",
+        "examples/native-direction-review/README.md",
+        "examples/native-direction-review/agenda/graph.json",
+        "examples/native-direction-review/agenda/index.html",
+        "examples/native-direction-review/agenda/inspect.html",
+        "examples/native-direction-review/brief.md",
+        "examples/native-direction-review/bulletin/graph.json",
+        "examples/native-direction-review/bulletin/index.html",
+        "examples/native-direction-review/bulletin/inspect.html",
+        "examples/native-direction-review/candidate-spec.json",
+        "examples/native-direction-review/content.json",
+        "examples/native-direction-review/demo.py",
+        "examples/native-direction-review/native-layout.json",
+        "examples/native-direction-review/previews/agenda-desktop.png",
+        "examples/native-direction-review/previews/agenda-mobile.png",
+        "examples/native-direction-review/previews/bulletin-desktop.png",
+        "examples/native-direction-review/previews/bulletin-mobile.png",
+        "examples/native-direction-review/research.md",
+        "examples/native-direction-review/test_demo.py",
+        "examples/review-cards/README.md",
+        "examples/review-cards/app/components.css",
+        "examples/review-cards/app/data.js",
+        "examples/review-cards/app/index.html",
+        "examples/review-cards/app/main.js",
+        "examples/review-cards/app/rules/answer.js",
+        "examples/review-cards/app/rules/complete.js",
+        "examples/review-cards/app/rules/finish.js",
+        "examples/review-cards/app/rules/list.js",
+        "examples/review-cards/app/rules/question.js",
+        "examples/review-cards/app/rules/retry.js",
+        "examples/review-cards/app/rules/search.js",
+        "examples/review-cards/app/style.css",
+        "examples/review-cards/app/tokens.css",
+        "examples/review-cards/bindings.json",
+        "examples/review-cards/brief.md",
+        "examples/review-cards/design.json",
+        "examples/review-cards/draft.json",
+        "examples/review-cards/evidence/results/12bfa28d3b02ed45.stderr.log",
+        "examples/review-cards/evidence/results/12bfa28d3b02ed45.tap",
+        "examples/review-cards/evidence/results/1ee8752f46a2be62.stderr.log",
+        "examples/review-cards/evidence/results/1ee8752f46a2be62.tap",
+        "examples/review-cards/evidence/results/338bcba0535734bf.stderr.log",
+        "examples/review-cards/evidence/results/338bcba0535734bf.tap",
+        "examples/review-cards/evidence/results/49cc6d06e36373d0.stderr.log",
+        "examples/review-cards/evidence/results/49cc6d06e36373d0.tap",
+        "examples/review-cards/evidence/results/652c08d88fe11f83.stderr.log",
+        "examples/review-cards/evidence/results/652c08d88fe11f83.tap",
+        "examples/review-cards/evidence/results/8b78cd846b74380f.stderr.log",
+        "examples/review-cards/evidence/results/8b78cd846b74380f.tap",
+        "examples/review-cards/evidence/results/cfcc3820e2829c3e.stderr.log",
+        "examples/review-cards/evidence/results/cfcc3820e2829c3e.tap",
+        "examples/review-cards/evidence/results/sandbox.stderr.log",
+        "examples/review-cards/evidence/results/sandbox.stdout.log",
+        "examples/review-cards/graph.json",
+        "examples/review-cards/screen-spec.md",
+        "examples/review-cards/specs/answer.md",
+        "examples/review-cards/specs/complete.md",
+        "examples/review-cards/specs/finish.md",
+        "examples/review-cards/specs/list.md",
+        "examples/review-cards/specs/question.md",
+        "examples/review-cards/specs/retry.md",
+        "examples/review-cards/specs/search.md",
+        "examples/review-cards/test-mapping.json",
+        "examples/review-cards/tests/answer.test.cjs",
+        "examples/review-cards/tests/complete.test.cjs",
+        "examples/review-cards/tests/finish.test.cjs",
+        "examples/review-cards/tests/list.test.cjs",
+        "examples/review-cards/tests/question.test.cjs",
+        "examples/review-cards/tests/retry.test.cjs",
+        "examples/review-cards/tests/search.test.cjs",
+        "examples/review-design/README.md",
+        "examples/review-design/cards.md",
+        "examples/review-design/design.json",
+        "examples/review-design/preview/SCR-CARDS-LIST-styled.svg",
+        "examples/review-design/preview/SCR-CARDS-LIST-wireframe.svg",
+        "examples/review-design/preview/SCR-CARDS-REVIEW-styled.svg",
+        "examples/review-design/preview/SCR-CARDS-REVIEW-wireframe.svg",
+        "examples/review-design/preview/components.css",
+        "examples/review-design/preview/resolved.json",
+        "examples/review-design/preview/styled.html",
+        "examples/review-design/preview/tokens.css",
+        "examples/review-design/preview/wireframe.html",
+        "examples/review-design/product-graph.json",
+        "figma-bridge/README.md",
+        "figma-bridge/code.js",
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/foundation_palette.js",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_semantic_read.js",
+        "figma-bridge/semantic_components.js",
+        "figma-bridge/semantic_tokens.js",
+        "figma-bridge/ui.html",
+        "library/campaign-forms.json",
+        "library/campaigns.json",
+        "library/design-routes.json",
+        "library/workflow.json",
+        "plugin.json",
+        "requirements-optional.txt",
+        "skills/campaign-identity/SKILL.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/campaign-library.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/design-routing.md",
+        "skills/figma-flow/references/direction-selection.md",
+        "skills/figma-flow/references/draft-build.md",
+        "skills/figma-flow/references/figma-workflow.md",
+        "skills/figma-flow/references/graph-contract.md",
+        "skills/figma-flow/references/live-example.md",
+        "skills/figma-flow/references/local-design-audit.md",
+        "skills/figma-flow/references/run-record.md",
+        "skills/figma-flow/references/token-sync.md",
+        "skills/figma-flow/references/visual-quality.md",
+        "skills/figma-flow/references/workflow.generated.md",
+        "skills/figma-flow/scripts/graph.py",
+        "skills/figma-flow/scripts/graph_diff.py",
+        "skills/figma-flow/scripts/ssot.py",
+        "skills/figma-flow/scripts/trace_report.py",
+        "tests/direction_fixture.py",
+        "tests/fixtures/night-club-foundations-excerpt.json",
+        "tests/fixtures/night-postal-foundations-excerpt.json",
+        "tests/test_affected_tests.py",
+        "tests/test_annotation_contract.py",
+        "tests/test_apply_figma_change.py",
+        "tests/test_audit_brief.py",
+        "tests/test_audit_dependencies.py",
+        "tests/test_audit_project.py",
+        "tests/test_bridge_ui.py",
+        "tests/test_campaign_library.py",
+        "tests/test_check_project.py",
+        "tests/test_design_bundle.py",
+        "tests/test_design_directions.py",
+        "tests/test_design_foundations.py",
+        "tests/test_design_graph.py",
+        "tests/test_design_note_board.py",
+        "tests/test_design_quality.py",
+        "tests/test_design_review.py",
+        "tests/test_design_system.py",
+        "tests/test_direction_color_admission.cjs",
+        "tests/test_direction_review_surface.py",
+        "tests/test_direction_write_guards.py",
+        "tests/test_draft_color_consumers.py",
+        "tests/test_draft_foundation_audit.py",
+        "tests/test_draft_token_plan.py",
+        "tests/test_figma_bridge.py",
+        "tests/test_figma_draft.py",
+        "tests/test_figma_live_preview.py",
+        "tests/test_figma_sync_session.py",
+        "tests/test_first_run_destination.py",
+        "tests/test_graph.py",
+        "tests/test_graph_diff.py",
+        "tests/test_idea_catalog.py",
+        "tests/test_local_runner.py",
+        "tests/test_native_annotation_authoring.py",
+        "tests/test_native_handoff.py",
+        "tests/test_native_layer_vocabulary.py",
+        "tests/test_native_token_authoring.py",
+        "tests/test_production_color_runtime.py",
+        "tests/test_promote_idea.py",
+        "tests/test_reference_graph.py",
+        "tests/test_regressions_0170.py",
+        "tests/test_regressions_0174.py",
+        "tests/test_regressions_0175.py",
+        "tests/test_regressions_0176.py",
+        "tests/test_regressions_0180.py",
+        "tests/test_route_design.py",
+        "tests/test_safe_node_tests.py",
+        "tests/test_serve_design_routes.py",
+        "tests/test_serve_figma_sync.py",
+        "tests/test_serve_ideas.py",
+        "tests/test_ssot.py",
+        "tests/test_sync_figma_tokens.py",
+        "tests/test_token_code_scope.py",
+        "tests/test_trace_report.py",
+        "tests/test_workflow.py",
+        "tools/affected_tests.py",
+        "tools/annotation_contract.py",
+        "tools/app_states.py",
+        "tools/apply_figma_change.py",
+        "tools/asset_batch.py",
+        "tools/audit_brief.py",
+        "tools/audit_dependencies.py",
+        "tools/audit_js.cjs",
+        "tools/audit_project.py",
+        "tools/browser_probes.js",
+        "tools/campaign_forms.py",
+        "tools/campaign_library.py",
+        "tools/check_project.py",
+        "tools/content-skin.css",
+        "tools/content_skin.js",
+        "tools/design-routes.html",
+        "tools/design_actions.py",
+        "tools/design_bundle.py",
+        "tools/design_directions.py",
+        "tools/design_foundations.py",
+        "tools/design_graph.py",
+        "tools/design_quality.py",
+        "tools/design_review.py",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/draft_foundation_audit.py",
+        "tools/draft_token_plan.py",
+        "tools/embedded_assets.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/idea_catalog.py",
+        "tools/native_handoff.py",
+        "tools/prepare_design_review.py",
+        "tools/promote_idea.py",
+        "tools/review_destination.py",
+        "tools/route_design.py",
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/serve_design_routes.py",
+        "tools/serve_figma_sync.py",
+        "tools/serve_ideas.py",
+        "tools/sync_figma_tokens.py",
+        "tools/sync_workflow.py",
+        "tools/token_code_scope.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py",
+        "vendor/acorn/LICENSE",
+        "vendor/acorn/PROVENANCE.txt",
+        "vendor/acorn/acorn.js"
+      ],
+      "parents": [
+        "07d32a81eb3523babd7d4039cdb6a39857b7517c"
+      ],
+      "subject": "Release Figma Flow 0.18.1 with the desktop setup guide",
+      "tree": "ce61009f41c024b1c03586582c6db3aae6d45ba7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.1"
+        }
+      ]
+    },
+    {
+      "commit": "d7b345b57af0ae0ed73b50db0740696fe2bd46b2",
+      "diff_sha256": "1cf4ea18dd66772a17c11349061c254c34f26da2aaa804bc5851fe48f2f4c6ff",
+      "files": [
+        ".github/workflows/test.yml",
+        "CONTRIBUTING.md"
+      ],
+      "parents": [
+        "aa3acddf626642b7bf0db2f04730cab9cc533a4b"
+      ],
+      "subject": "Install the real Codex sandbox CLI in CI",
+      "tree": "1e737f7fb429dad835154a00c9038bbd117e6fe2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.1"
+        }
+      ]
+    },
+    {
+      "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
+      "diff_sha256": "d108691f612facdc7bec711ef95a5dccdfbd7641e8ba09303929bf4dfaebfe8f",
+      "files": [
+        ".github/workflows/test.yml",
+        "CONTRIBUTING.md"
+      ],
+      "parents": [
+        "d7b345b57af0ae0ed73b50db0740696fe2bd46b2"
+      ],
+      "subject": "Run confinement checks with the native CLI on macOS",
+      "tree": "d794afa219e8d6ae8844baffa3447a4ebeda6801",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.1"
+        }
+      ]
+    },
+    {
+      "commit": "10a379463f5bfa8af845420d3c3936b4b211596d",
+      "diff_sha256": "ad31f87818a65b82747379ab36e21de1f780b984f091b4a22d52346d2fc709e0",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/design-system-trials.md",
+        "docs/figma-guide.md",
+        "docs/trials/mui-native-repair.jpg",
+        "docs/trials/shadcn-native-repair.jpg",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/native_semantic_read.js",
+        "plugin.json",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/visual-quality.md",
+        "tests/test_design_quality.py",
+        "tests/test_direction_color_admission.cjs",
+        "tests/test_direction_native_limits.cjs",
+        "tests/test_draft_foundation_audit.py",
+        "tests/test_draft_token_plan.py",
+        "tests/test_native_render_geometry.py",
+        "tools/design_quality.py",
+        "tools/draft_foundation_audit.py",
+        "tools/draft_token_plan.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c"
+      ],
+      "subject": "Verify real Figma text geometry and preserve design system controls",
+      "tree": "506cf36af49e5cc2422514778e53fd67573b3336",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.2"
+        }
+      ]
+    },
+    {
+      "commit": "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e",
+      "diff_sha256": "508ee7883b8db9c11497b00357bc68ebe46b15daf93f552c65a761d319cfba75",
+      "files": [
+        ".gitignore",
+        ".npmrc",
+        ".nvmrc",
+        "CONTRIBUTING.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/installation-and-updates.md",
+        "docs/npm-environment.md",
+        "docs/private-repository.md",
+        "skills/figma-plugin-setup/SKILL.md"
+      ],
+      "parents": [
+        "10a379463f5bfa8af845420d3c3936b4b211596d"
+      ],
+      "subject": "docs: add private setup and Figma onboarding",
+      "tree": "21db639eb48ef363f476f2fc650bdaa8d599c241",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.2"
+        }
+      ]
+    },
+    {
+      "commit": "a787647678eb3d8369bbdc9930a18b90427ed122",
+      "diff_sha256": "c3799d1ba6b455c5af2496fc4a4845b8d674c380a922d699ab5b0d7017dd3b63",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".gitignore",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "README.md",
+        "plugin.json",
+        "skills/campaign-identity/SKILL.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/browser-access.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/unslop.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "tests/test_browser_access.py",
+        "tools/browser_access.py"
+      ],
+      "parents": [
+        "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e"
+      ],
+      "subject": "Add Unslop review and portable browser MCP setup",
+      "tree": "1fc9cb092a51546ef4c26e296672f5ed381e37b2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.19.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.19.1"
+        }
+      ]
+    },
+    {
+      "commit": "b27dffc2e923347831d30368faaf8136f2cc3b54",
+      "diff_sha256": "6d84f0200aa3e122b1aa856e10fc3cb7743eaf2681189b116dd236c367f242db",
+      "files": [
+        "vendor/skills/README.md",
+        "vendor/skills/design-taste-frontend/LICENSE",
+        "vendor/skills/design-taste-frontend/SKILL.md",
+        "vendor/skills/impeccable/LICENSE",
+        "vendor/skills/impeccable/NOTICE.md",
+        "vendor/skills/impeccable/SKILL.md",
+        "vendor/skills/impeccable/agents/impeccable_asset_producer.toml",
+        "vendor/skills/impeccable/agents/impeccable_finish_reviewer.toml",
+        "vendor/skills/impeccable/agents/impeccable_manual_edit_applier.toml",
+        "vendor/skills/impeccable/agents/openai.yaml",
+        "vendor/skills/impeccable/reference/adapt.md",
+        "vendor/skills/impeccable/reference/adapt.native.md",
+        "vendor/skills/impeccable/reference/android.md",
+        "vendor/skills/impeccable/reference/animate.md",
+        "vendor/skills/impeccable/reference/audit.md",
+        "vendor/skills/impeccable/reference/audit.native.md",
+        "vendor/skills/impeccable/reference/bolder.md",
+        "vendor/skills/impeccable/reference/clarify.md",
+        "vendor/skills/impeccable/reference/colorize.md",
+        "vendor/skills/impeccable/reference/craft-floor.md",
+        "vendor/skills/impeccable/reference/craft.md",
+        "vendor/skills/impeccable/reference/critique.md",
+        "vendor/skills/impeccable/reference/delight.md",
+        "vendor/skills/impeccable/reference/distill.md",
+        "vendor/skills/impeccable/reference/doctor.md",
+        "vendor/skills/impeccable/reference/document.md",
+        "vendor/skills/impeccable/reference/extract.md",
+        "vendor/skills/impeccable/reference/harden.md",
+        "vendor/skills/impeccable/reference/hooks.md",
+        "vendor/skills/impeccable/reference/init.md",
+        "vendor/skills/impeccable/reference/ios.md",
+        "vendor/skills/impeccable/reference/layout.md",
+        "vendor/skills/impeccable/reference/live.md",
+        "vendor/skills/impeccable/reference/new-work.md",
+        "vendor/skills/impeccable/reference/onboard.md",
+        "vendor/skills/impeccable/reference/operate.md",
+        "vendor/skills/impeccable/reference/optimize.md",
+        "vendor/skills/impeccable/reference/overdrive.md",
+        "vendor/skills/impeccable/reference/polish.md",
+        "vendor/skills/impeccable/reference/quieter.md",
+        "vendor/skills/impeccable/reference/routing.md",
+        "vendor/skills/impeccable/reference/shape.md",
+        "vendor/skills/impeccable/reference/typeset.md",
+        "vendor/skills/impeccable/reference/visualize.md",
+        "vendor/skills/impeccable/scripts/command-metadata.json",
+        "vendor/skills/impeccable/scripts/concept-seed.mjs",
+        "vendor/skills/impeccable/scripts/context-signals.mjs",
+        "vendor/skills/impeccable/scripts/context.mjs",
+        "vendor/skills/impeccable/scripts/critique-storage.mjs",
+        "vendor/skills/impeccable/scripts/detect-csp.mjs",
+        "vendor/skills/impeccable/scripts/detect.mjs",
+        "vendor/skills/impeccable/scripts/detector/browser/injected/index.mjs",
+        "vendor/skills/impeccable/scripts/detector/cli/main.mjs",
+        "vendor/skills/impeccable/scripts/detector/design-system.mjs",
+        "vendor/skills/impeccable/scripts/detector/detect-antipatterns-browser.js",
+        "vendor/skills/impeccable/scripts/detector/detect-antipatterns.mjs",
+        "vendor/skills/impeccable/scripts/detector/engines/browser/detect-url.mjs",
+        "vendor/skills/impeccable/scripts/detector/engines/regex/detect-text.mjs",
+        "vendor/skills/impeccable/scripts/detector/engines/static-html/css-cascade.mjs",
+        "vendor/skills/impeccable/scripts/detector/engines/static-html/detect-html.mjs",
+        "vendor/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+        "vendor/skills/impeccable/scripts/detector/findings.mjs",
+        "vendor/skills/impeccable/scripts/detector/node/file-system.mjs",
+        "vendor/skills/impeccable/scripts/detector/profile/profiler.mjs",
+        "vendor/skills/impeccable/scripts/detector/registry/antipatterns.mjs",
+        "vendor/skills/impeccable/scripts/detector/rules/checks.mjs",
+        "vendor/skills/impeccable/scripts/detector/shared/color.mjs",
+        "vendor/skills/impeccable/scripts/detector/shared/constants.mjs",
+        "vendor/skills/impeccable/scripts/detector/shared/fonts.mjs",
+        "vendor/skills/impeccable/scripts/detector/shared/inline-ignores.mjs",
+        "vendor/skills/impeccable/scripts/detector/shared/page.mjs",
+        "vendor/skills/impeccable/scripts/doctor.mjs",
+        "vendor/skills/impeccable/scripts/generate-image.mjs",
+        "vendor/skills/impeccable/scripts/hook-admin.mjs",
+        "vendor/skills/impeccable/scripts/hook-before-edit.mjs",
+        "vendor/skills/impeccable/scripts/hook-lib.mjs",
+        "vendor/skills/impeccable/scripts/hook.mjs",
+        "vendor/skills/impeccable/scripts/lib/artifact-schema.mjs",
+        "vendor/skills/impeccable/scripts/lib/composition-catalog.mjs",
+        "vendor/skills/impeccable/scripts/lib/concept-catalog.mjs",
+        "vendor/skills/impeccable/scripts/lib/design-parser.mjs",
+        "vendor/skills/impeccable/scripts/lib/impeccable-config.mjs",
+        "vendor/skills/impeccable/scripts/lib/impeccable-paths.mjs",
+        "vendor/skills/impeccable/scripts/lib/is-generated.mjs",
+        "vendor/skills/impeccable/scripts/lib/provider.mjs",
+        "vendor/skills/impeccable/scripts/lib/staleness-deep.mjs",
+        "vendor/skills/impeccable/scripts/lib/staleness-notice.mjs",
+        "vendor/skills/impeccable/scripts/lib/staleness.mjs",
+        "vendor/skills/impeccable/scripts/lib/surface-briefs.mjs",
+        "vendor/skills/impeccable/scripts/lib/target-args.mjs",
+        "vendor/skills/impeccable/scripts/lib/target-slug.mjs",
+        "vendor/skills/impeccable/scripts/lib/template-extensions.mjs",
+        "vendor/skills/impeccable/scripts/live-accept.mjs",
+        "vendor/skills/impeccable/scripts/live-browser-dom.js",
+        "vendor/skills/impeccable/scripts/live-browser-session.js",
+        "vendor/skills/impeccable/scripts/live-browser.js",
+        "vendor/skills/impeccable/scripts/live-commit-manual-edits.mjs",
+        "vendor/skills/impeccable/scripts/live-complete.mjs",
+        "vendor/skills/impeccable/scripts/live-copy-edit-agent.mjs",
+        "vendor/skills/impeccable/scripts/live-discard-manual-edits.mjs",
+        "vendor/skills/impeccable/scripts/live-inject.mjs",
+        "vendor/skills/impeccable/scripts/live-insert.mjs",
+        "vendor/skills/impeccable/scripts/live-manual-edit-evidence.mjs",
+        "vendor/skills/impeccable/scripts/live-poll.mjs",
+        "vendor/skills/impeccable/scripts/live-resume.mjs",
+        "vendor/skills/impeccable/scripts/live-server.mjs",
+        "vendor/skills/impeccable/scripts/live-status.mjs",
+        "vendor/skills/impeccable/scripts/live-target.mjs",
+        "vendor/skills/impeccable/scripts/live-wrap.mjs",
+        "vendor/skills/impeccable/scripts/live.mjs",
+        "vendor/skills/impeccable/scripts/live/browser-script-parts.mjs",
+        "vendor/skills/impeccable/scripts/live/completion.mjs",
+        "vendor/skills/impeccable/scripts/live/event-validation.mjs",
+        "vendor/skills/impeccable/scripts/live/generation-preflight.mjs",
+        "vendor/skills/impeccable/scripts/live/insert-ui.mjs",
+        "vendor/skills/impeccable/scripts/live/manual-apply.mjs",
+        "vendor/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+        "vendor/skills/impeccable/scripts/live/manual-edits-buffer.mjs",
+        "vendor/skills/impeccable/scripts/live/poll-lanes.mjs",
+        "vendor/skills/impeccable/scripts/live/session-store.mjs",
+        "vendor/skills/impeccable/scripts/live/source-lock.mjs",
+        "vendor/skills/impeccable/scripts/live/source-search.mjs",
+        "vendor/skills/impeccable/scripts/live/svelte-component.mjs",
+        "vendor/skills/impeccable/scripts/live/sveltekit-adapter.mjs",
+        "vendor/skills/impeccable/scripts/live/tanstack-adapter.mjs",
+        "vendor/skills/impeccable/scripts/live/ui-core.mjs",
+        "vendor/skills/impeccable/scripts/live/vocabulary.mjs",
+        "vendor/skills/impeccable/scripts/modern-screenshot.umd.js",
+        "vendor/skills/impeccable/scripts/palette.mjs",
+        "vendor/skills/impeccable/scripts/pin.mjs",
+        "vendor/skills/impeccable/scripts/serve-question.mjs",
+        "vendor/skills/impeccable/scripts/surface-brief.mjs",
+        "vendor/skills/manifest.json",
+        "vendor/skills/unslop/CITATION.cff",
+        "vendor/skills/unslop/LICENSE",
+        "vendor/skills/unslop/SKILL.md",
+        "vendor/skills/unslop/agents/openai.yaml",
+        "vendor/skills/unslop/references/effects.md",
+        "vendor/skills/unslop/references/refs.md",
+        "vendor/skills/unslop/references/refs/beacon-engraving.webp",
+        "vendor/skills/unslop/references/refs/meadow-3d.webp",
+        "vendor/skills/unslop/references/refs/story-dashboard-frames.webp",
+        "vendor/skills/unslop/references/refs/unslop-dashboard-after.webp",
+        "vendor/skills/unslop/references/refs/unslop-hero-after.webp",
+        "vendor/skills/unslop/references/signs.md",
+        "vendor/skills/unslop/references/tokens.md",
+        "vendor/skills/unslop/references/visuals.md",
+        "vendor/skills/unslop/scripts/snapshot.mjs",
+        "vendor/skills/unslop/scripts/story.mjs"
+      ],
+      "parents": [
+        "a787647678eb3d8369bbdc9930a18b90427ed122"
+      ],
+      "subject": "Vendor pinned design skill sources and licenses",
+      "tree": "6532d42f2050f3e46ecedd77752084a7eeb65bee",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.19.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.19.1"
+        }
+      ]
+    },
+    {
+      "commit": "b605165745eee3a4d1f94c3a8677f05a4d7302e3",
+      "diff_sha256": "cb16aa7ad35524f86584f535e275756a717f82f7faf0364a6e3c8636e4bf5aef",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".gitattributes",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/installation-and-updates.md",
+        "plugin.json",
+        "skills/campaign-identity/SKILL.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/direction-selection.md",
+        "skills/figma-flow/references/skill-dependencies.md",
+        "skills/figma-flow/references/unslop.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "tests/test_design_review.py",
+        "tests/test_route_design.py",
+        "tests/test_skill_dependencies.py",
+        "tools/design_review.py",
+        "tools/prepare_design_review.py",
+        "tools/promote_idea.py",
+        "tools/route_design.py",
+        "tools/skill_dependencies.py"
+      ],
+      "parents": [
+        "b27dffc2e923347831d30368faaf8136f2cc3b54"
+      ],
+      "subject": "Use pinned bundled skills and remove music taste",
+      "tree": "7c30a92293b1e68d9345a39fe318f46e80a9618c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.20.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.20.0"
+        }
+      ]
+    },
+    {
+      "commit": "01735351c2d82f1372442192b9bf14fa6f049a74",
+      "diff_sha256": "404b1ae76b43faa055178e9f2de5fe759f9ddbf558bea475217ffb8cf552d11d",
+      "files": [
+        ".gitattributes"
+      ],
+      "parents": [
+        "b605165745eee3a4d1f94c3a8677f05a4d7302e3"
+      ],
+      "subject": "Preserve vendored bytes across Git checkouts",
+      "tree": "6f55aa02e77da068509f89467f17bdb00802e994",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.20.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.20.0"
+        }
+      ]
+    },
+    {
+      "commit": "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6",
+      "diff_sha256": "03ae4a129a581f59c685aa2e215049960b4c7815e92ec2454df561f96d0f1006",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/graph_token_sync.js",
+        "plugin.json",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_graph_design_system.py",
+        "tests/test_graph_sync.py",
+        "tests/test_graph_token_sync.cjs",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e"
+      ],
+      "subject": "Make graph tokens canonical for scoped native and web component sync",
+      "tree": "38344edd2e48b174640a82b7f965f9630dee8696",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.19.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.19.0"
+        }
+      ]
+    },
+    {
+      "commit": "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89",
+      "diff_sha256": "fec7177d274defb97e7f2e0d679da76773288cc6aea32f3b8976b77ac560bbcb",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".gitignore",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "README.md",
+        "plugin.json",
+        "skills/campaign-identity/SKILL.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/browser-access.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/unslop.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "tests/test_browser_access.py",
+        "tools/browser_access.py"
+      ],
+      "parents": [
+        "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6",
+        "a787647678eb3d8369bbdc9930a18b90427ed122"
+      ],
+      "subject": "Integrate current main without replacing concurrent repository work",
+      "tree": "da688fd9bf6c8d27e3984004e8d5f5131671d8bb",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.20.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.20.0"
+        }
+      ]
+    },
+    {
+      "commit": "8c9414594854f99a2d57d00088383f901e465409",
+      "diff_sha256": "8a7e68342d6067df70460b3f48a8a17dc58b63e3a688082617ed435546a708c9",
+      "files": [
+        "CHANGELOG.md",
+        "README.md"
+      ],
+      "parents": [
+        "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89"
+      ],
+      "subject": "Document graph-owned component design and synchronization scope",
+      "tree": "9a36ffcd1ec561b1fc96aaf53f63c90e5d48c05e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.20.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.20.0"
+        }
+      ]
+    },
+    {
+      "commit": "3c6a0f004ed0a1994a55bc98e59f0efa7647d377",
+      "diff_sha256": "e2d7f2cceb4ee3f2dc6b2bb5be8c16cc02b839bf5f12f15530ab355cc170fee4",
+      "files": [
+        "README.md"
+      ],
+      "parents": [
+        "8c9414594854f99a2d57d00088383f901e465409"
+      ],
+      "subject": "Make canonical graph synchronization the release entry point",
+      "tree": "3a5fa6d3e66e1ef6d113c3758daa35b67b269697",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.20.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.20.0"
+        }
+      ]
+    },
+    {
+      "commit": "e30b9a4ffc64f294d1404498f3c9171c313b5faa",
+      "diff_sha256": "3d5c415135ed49f05de6cb1f60297b136942677941d20d9348c03c2b358c7391",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/installation-and-updates.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/graph_token_sync.js",
+        "plugin.json",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_graph_design_system.py",
+        "tests/test_graph_sync.py",
+        "tests/test_graph_token_sync.cjs",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "01735351c2d82f1372442192b9bf14fa6f049a74",
+        "3c6a0f004ed0a1994a55bc98e59f0efa7647d377"
+      ],
+      "subject": "Integrate graph SSOT and bundled skill setup for 0.21.0",
+      "tree": "47ca9c49e283d60a8e09211ec35bb1825ec2ee6c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.21.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.21.0"
+        }
+      ]
+    },
+    {
+      "commit": "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b",
+      "diff_sha256": "1aa0360ffbf6fd8ba1d57fcce76d8a20fc07adbaad130b1d17b5acd705c57426",
+      "files": [
+        "CHANGELOG.md",
+        "README.md",
+        "plugin.json",
+        "tests/test_serve_design_routes.py"
+      ],
+      "parents": [
+        "3c6a0f004ed0a1994a55bc98e59f0efa7647d377"
+      ],
+      "subject": "Verify oversized request rejection before uploading its body",
+      "tree": "83814f2e274614abf74937782e48730ce142b1f2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.20.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.20.0"
+        }
+      ]
+    },
+    {
+      "commit": "b1dd1d3240435d48cb9f116ca4c1654f210a340c",
+      "diff_sha256": "c7efa5e1ed79dc623e825f8e50c24b4695ce14456b8a70ba52549682a28db22b",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "plugin.json",
+        "tests/test_serve_design_routes.py"
+      ],
+      "parents": [
+        "e30b9a4ffc64f294d1404498f3c9171c313b5faa",
+        "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b"
+      ],
+      "subject": "Preserve upstream request-boundary test fix in 0.21.1",
+      "tree": "58d6e491818b755d1df1575704037ae032c5cc51",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.21.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.21.1"
+        }
+      ]
+    },
+    {
+      "commit": "bf049266356987b6abbf62533a5d3b0f9c549b8b",
+      "diff_sha256": "99b73f8c1e2381d65bc5d3bad89b97fdd399a2de93702577a6839b913ff3a9d3",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/figma-guide.md",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png",
+        "docs/installation-and-updates.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/README.md",
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/panel.css",
+        "figma-bridge/ui.html",
+        "figma-bridge/workspace_chat.html",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_home.html",
+        "figma-bridge/workspace_host.js",
+        "plugin.json",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_bridge_ui.py",
+        "tests/test_design_graph.py",
+        "tests/test_figma_bridge.py",
+        "tests/test_figma_draft.py",
+        "tests/test_figma_workspace.py",
+        "tests/test_graph_panel.cjs",
+        "tests/test_graph_sync.py",
+        "tests/test_native_render_geometry.py",
+        "tests/test_workspace_chat.cjs",
+        "tests/test_workspace_chat.py",
+        "tests/test_workspace_host.cjs",
+        "tools/design_graph.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py",
+        "tools/figma_workspace.py",
+        "tools/graph_sync.py",
+        "tools/plugin_panel.py",
+        "tools/workspace_chat.py"
+      ],
+      "parents": [
+        "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b"
+      ],
+      "subject": "Unify prepared Figma workflows and link tasks to their Codex chat",
+      "tree": "35323c6e4904c34d416966ec301522a088d4e2e6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.22.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.22.0"
+        }
+      ]
+    },
+    {
+      "commit": "3f01ec317a307f179bacb8b546f3ebeecaab5a0f",
+      "diff_sha256": "8b7a46ff3960dfac2e4ce07769c9592db6621586f7f38ad730f97a106c4c88c6",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/figma-guide.md",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png",
+        "docs/installation-and-updates.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/README.md",
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/panel.css",
+        "figma-bridge/ui.html",
+        "figma-bridge/workspace_chat.html",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_home.html",
+        "figma-bridge/workspace_host.js",
+        "plugin.json",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_bridge_ui.py",
+        "tests/test_design_graph.py",
+        "tests/test_figma_bridge.py",
+        "tests/test_figma_draft.py",
+        "tests/test_figma_workspace.py",
+        "tests/test_graph_panel.cjs",
+        "tests/test_graph_sync.py",
+        "tests/test_native_render_geometry.py",
+        "tests/test_workspace_chat.cjs",
+        "tests/test_workspace_chat.py",
+        "tests/test_workspace_host.cjs",
+        "tools/design_graph.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py",
+        "tools/figma_workspace.py",
+        "tools/graph_sync.py",
+        "tools/plugin_panel.py",
+        "tools/workspace_chat.py"
+      ],
+      "parents": [
+        "b1dd1d3240435d48cb9f116ca4c1654f210a340c",
+        "bf049266356987b6abbf62533a5d3b0f9c549b8b"
+      ],
+      "subject": "Integrate unified Figma workspace with pinned skill distribution",
+      "tree": "8202e68c7174257fd61022d4c4d44bbe0de2d95e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.22.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.22.0"
+        }
+      ]
+    },
+    {
+      "commit": "b52d107dbd5cbabb0524985462f924517dda1a57",
+      "diff_sha256": "55dffe4520b747aa7844f46f64b1437187c2d7d8bd15d5759aec3a8aee543a4a",
+      "files": [
+        "README.md",
+        "docs/installation-and-updates.md"
+      ],
+      "parents": [
+        "3f01ec317a307f179bacb8b546f3ebeecaab5a0f"
+      ],
+      "subject": "Align installation guide with the integrated release",
+      "tree": "ac430639ccd1acd87fddd2b000ff079615ef83b4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.22.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.22.0"
+        }
+      ]
+    },
+    {
+      "commit": "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779",
+      "diff_sha256": "e330eef97294e303a718687b0f9d327216e0a0a5d6f4da9a5b1c16b0a6a514da",
+      "files": [
+        "tests/test_workspace_chat.py",
+        "tools/workspace_chat.py"
+      ],
+      "parents": [
+        "b52d107dbd5cbabb0524985462f924517dda1a57"
+      ],
+      "subject": "Recover relay receipts without blocking new requests",
+      "tree": "5b5a0f797bf443b813f4ca073990db9ede9ff1bd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.22.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.22.0"
+        }
+      ]
+    },
+    {
+      "commit": "791378c941b08d1cd6274b690a756fa3a5c8f45e",
+      "diff_sha256": "733e3da1f6e5e50e3df70eaa7b0db8f9f4853bf2a223d919224f68044ae4b537",
+      "files": [
+        "CONTRIBUTING.md"
+      ],
+      "parents": [
+        "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779"
+      ],
+      "subject": "Document ownership and native checks for workspace tasks",
+      "tree": "30c5593c05ee47bf1c73e20528ba7ca357ddb030",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.22.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.22.0"
+        }
+      ]
+    },
+    {
+      "commit": "9a7a37ff3578f0e429e23ba9549f60d40bf71042",
+      "diff_sha256": "85e571268365e82cf92bbf7c8e4e7fe33ea64d49acefe39c0193916f4e6053b4",
+      "files": [
+        "figma-bridge/direction_review.js",
+        "tests/test_direction_native_limits.cjs"
+      ],
+      "parents": [
+        "791378c941b08d1cd6274b690a756fa3a5c8f45e"
+      ],
+      "subject": "Load only the existing review page before traversing it",
+      "tree": "893ade479855839fba7c57a73cd95ebd8e7bb068",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.22.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.22.0"
+        }
+      ]
+    },
+    {
+      "commit": "212cb0b57719410694bd369823c679d6a26bdbf8",
+      "diff_sha256": "8f7e53d5ef761a6b90a3c681799c1936ba0191a5458ea5483fb98cbc6b02d4ea",
+      "files": [
+        "CHANGELOG.md",
+        "docs/images/panel-graph-sync.png",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/workspace_host.js",
+        "tests/test_graph_token_sync.cjs",
+        "tests/test_workspace_host.cjs"
+      ],
+      "parents": [
+        "9a7a37ff3578f0e429e23ba9549f60d40bf71042"
+      ],
+      "subject": "Preserve linked typography through scoped adoption and rollback",
+      "tree": "0f894f3cd57a89b2d0d3c5b8c785de075266c21d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.22.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.22.0"
+        }
+      ]
+    },
+    {
+      "commit": "7d2f41d9652ad228d42e9a1aec813c76b4ed204d",
+      "diff_sha256": "a0e0d7bbd52974b79051772099b98e2c50510a6f37b693931f4ee4858bacf86e",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".github/workflows/test.yml",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/figma-guide-en.md",
+        "docs/figma-guide-ja.md",
+        "docs/figma-guide.md",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png",
+        "docs/installation-and-updates.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/README.md",
+        "figma-bridge/assets/LICENSES.txt",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/assets/panels.js.LEGAL.txt",
+        "figma-bridge/code.js",
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/locales/chat.json",
+        "figma-bridge/locales/common.json",
+        "figma-bridge/locales/graph.json",
+        "figma-bridge/locales/import.json",
+        "figma-bridge/locales/review.json",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/panel.css",
+        "figma-bridge/panel_components.js",
+        "figma-bridge/panel_i18n.js",
+        "figma-bridge/ui.html",
+        "figma-bridge/workspace_chat.html",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_home.html",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/README.md",
+        "panel-ui/build.mjs",
+        "panel-ui/package.json",
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/app.jsx",
+        "panel-ui/src/components.jsx",
+        "panel-ui/src/styles/base.css",
+        "panel-ui/src/styles/chat.css",
+        "panel-ui/src/styles/components.css",
+        "panel-ui/src/styles/graph.css",
+        "panel-ui/src/styles/import.css",
+        "panel-ui/src/styles/index.css",
+        "panel-ui/src/styles/review.css",
+        "panel-ui/src/styles/tokens.css",
+        "panel-ui/src/styles/workspace.css",
+        "plugin.json",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_bridge_ui.py",
+        "tests/test_figma_bridge.py",
+        "tests/test_figma_control.py",
+        "tests/test_figma_draft.py",
+        "tests/test_graph_panel.cjs",
+        "tests/test_native_render_geometry.py",
+        "tests/test_panel_components.py",
+        "tests/test_workspace_chat.cjs",
+        "tests/test_workspace_chat.py",
+        "tests/test_workspace_control.cjs",
+        "tests/test_workspace_host.cjs",
+        "tools/figma_control.py",
+        "tools/figma_draft.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_workspace.py",
+        "tools/panel_components.py",
+        "tools/plugin_panel.py"
+      ],
+      "parents": [
+        "212cb0b57719410694bd369823c679d6a26bdbf8"
+      ],
+      "subject": "Build the accessible React workbench and scoped Codex control relay",
+      "tree": "f89f9750edc64db9d1c2215ab636edc6cc396384",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.23.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.23.0"
+        }
+      ]
+    },
+    {
+      "commit": "e4e9d5d866f8805cc52181cae76b7484e4ade3b3",
+      "diff_sha256": "d49070ae8dbd2a7407de6c624f538237df95ed195340f15c49e48ac88093e199",
+      "files": [
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/figma-guide-en.md",
+        "docs/figma-guide-ja.md",
+        "docs/figma-guide.md"
+      ],
+      "parents": [
+        "7d2f41d9652ad228d42e9a1aec813c76b4ed204d"
+      ],
+      "subject": "Document font setup without Computer Use",
+      "tree": "67521dadb98467a5fcb9da2363aa33cbddc7f2ff",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.23.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.23.0"
+        }
+      ]
+    },
+    {
+      "commit": "2233e0af3732229d36e806063973875a043188f5",
+      "diff_sha256": "5c50e2347bae29c0ecbf2e3e1e790c11f9e1fa10e4d8f755878958cb75e10d67",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/figma-guide-en.md",
+        "docs/figma-guide-ja.md",
+        "docs/figma-guide.md",
+        "docs/installation-and-updates.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/foundation_palette.js",
+        "panel-ui/package.json",
+        "plugin.json",
+        "skills/figma-plugin-setup/SKILL.md",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_design_foundations.py",
+        "tests/test_direction_native_limits.cjs",
+        "tests/test_native_control_icons.cjs",
+        "tests/test_native_control_icons.py",
+        "tests/test_native_render_geometry.py",
+        "tools/draft_token_plan.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "e4e9d5d866f8805cc52181cae76b7484e4ade3b3"
+      ],
+      "subject": "Preserve native button icons and verify control labels",
+      "tree": "c33a0570567b81524ec1aa2ff90e77e0c77a5a33",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.23.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.23.1"
+        }
+      ]
+    },
+    {
+      "commit": "9f67a2b638697a6a6ccc5a75353b83325bb2c38e",
+      "diff_sha256": "c108a4b3a292f0b67352fe7f777289677932caec9a132943ede753557fc4a6c6",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/figma-guide-en.md",
+        "docs/figma-guide-ja.md",
+        "docs/figma-guide.md",
+        "docs/installation-and-updates.md",
+        "docs/private-repository.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/locales/review.json",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/package.json",
+        "panel-ui/src/ReviewPanel.jsx",
+        "plugin.json",
+        "skills/figma-flow/references/direction-selection.md",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_design_quality_pixels.py",
+        "tests/test_direction_native_limits.cjs",
+        "tests/test_direction_selection.py",
+        "tests/test_draft_foundation_audit.py",
+        "tests/test_figma_workspace.py",
+        "tests/test_graph_sync.py",
+        "tests/test_native_edit.cjs",
+        "tests/test_native_edit.py",
+        "tests/test_native_render_geometry.py",
+        "tests/test_review_panel.cjs",
+        "tests/test_selected_native_production.py",
+        "tests/test_workspace_host.cjs",
+        "tools/design_directions.py",
+        "tools/design_quality.py",
+        "tools/draft_foundation_audit.py",
+        "tools/figma_control.py",
+        "tools/figma_draft.py",
+        "tools/figma_workspace.py",
+        "tools/graph_sync.py",
+        "tools/native_edit.py"
+      ],
+      "parents": [
+        "2233e0af3732229d36e806063973875a043188f5"
+      ],
+      "subject": "Promote selected rich designs and verify native web sync",
+      "tree": "0b7b664de87dd8fcb9330a720e955521ee0497e0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.24.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.24.0"
+        }
+      ]
+    },
+    {
+      "commit": "347a1762edc0e6738346f59d34b9a7e749659a71",
+      "diff_sha256": "8301bae42dd123721c417d409204cc280fafa060714fea3869670fb2723ed8f5",
+      "files": [
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/figma-guide-en.md",
+        "docs/figma-guide-ja.md",
+        "docs/figma-guide.md",
+        "docs/guide.md",
+        "docs/installation-and-updates.md",
+        "docs/npm-environment.md",
+        "docs/private-repository.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/README.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/browser-access.md",
+        "skills/figma-flow/references/direction-selection.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_browser_access.py",
+        "tools/browser_access.py"
+      ],
+      "parents": [
+        "9f67a2b638697a6a6ccc5a75353b83325bb2c38e"
+      ],
+      "subject": "Unify the guide and allow the dedicated browser automatically",
+      "tree": "3abb09d53af019aefd5b8722a3beda744c9b66e5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.24.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.24.0"
+        }
+      ]
+    },
+    {
+      "commit": "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19",
+      "diff_sha256": "a1988b8ebae482acf6d647e3b82dfc352f7f0e8eacc59ea89034749af88e1393",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/guide.md",
+        "examples/graph-ssot/README.md",
+        "panel-ui/package.json",
+        "plugin.json",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_figma_control.py",
+        "tests/test_graph_sync.py",
+        "tools/figma_control.py",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "347a1762edc0e6738346f59d34b9a7e749659a71"
+      ],
+      "subject": "Reject stale discovery imports and preflight control servers",
+      "tree": "a7aef8ded99fcb64779d545575eaaa8e56576a6b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.24.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.24.1"
+        }
+      ]
+    },
+    {
+      "commit": "0ee0a24c5955e52dfb6f8f183bb6ac813252b446",
+      "diff_sha256": "ff9ca166bfd93c81558c05fd6168b15d735a2c1586d268a6f2cb249da09d2ca6",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/guide.md",
+        "examples/graph-ssot/README.md",
+        "figma-bridge/direction_review.js",
+        "panel-ui/package.json",
+        "plugin.json",
+        "skills/graph-ssot/SKILL.md",
+        "tests/test_design_directions.py",
+        "tests/test_native_control_alignment.cjs",
+        "tests/test_native_control_alignment.py",
+        "tests/test_scoped_web_proof.py",
+        "tools/design_directions.py",
+        "tools/figma_draft.py",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19"
+      ],
+      "subject": "Verify component evidence across mounted app screens",
+      "tree": "ba8e555d2df254b6c650f22b8ca1e35182fc0ed3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.25.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.25.0"
+        }
+      ]
+    },
+    {
+      "commit": "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5",
+      "diff_sha256": "2ff6faf3951b66c87ad183737ae42b4c10cd09d9e2293440ec1f11bffb5d35c1",
+      "files": [
+        "CHANGELOG.md",
+        "docs/guide.md",
+        "figma-bridge/direction_review.js",
+        "tests/test_control_transparency.py",
+        "tests/test_native_control_transparency.cjs",
+        "tools/design_quality.py",
+        "tools/draft_token_plan.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "0ee0a24c5955e52dfb6f8f183bb6ac813252b446"
+      ],
+      "subject": "Preserve transparent controls and native distributed spacing",
+      "tree": "64315a9f81ce0edac1eba5c2f9d6ca9c69889970",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.25.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.25.0"
+        }
+      ]
+    },
+    {
+      "commit": "f64d9a9e592343a0910cec236d358cd841b8e207",
+      "diff_sha256": "b72babdb0df1072d205699eb0306c25324b7ec1d21286b2b7dc59d858c7466d0",
+      "files": [
+        "CHANGELOG.md",
+        "docs/guide.md",
+        "tests/test_figma_control.py",
+        "tests/test_workspace_publish_guard.py",
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5"
+      ],
+      "subject": "Keep workspace publication behind active native runs",
+      "tree": "4c8ecc98abd5197b63302f9b81be3b26d38d65f1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.25.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.25.0"
+        }
+      ]
+    },
+    {
+      "commit": "61c0b1ea79abda7b258459e245a1187e1ecc0314",
+      "diff_sha256": "8d628714979acd24857a6a6c7b3c5071d8b9dc00cf6783f2aa653972f9efb00f",
+      "files": [
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/guide.md",
+        "examples/regression-program/README.md",
+        "examples/regression-program/atlas/app/app.css",
+        "examples/regression-program/atlas/app/index.html",
+        "examples/regression-program/atlas/app/rules.js",
+        "examples/regression-program/atlas/authority-unresolved.json",
+        "examples/regression-program/atlas/authority.json",
+        "examples/regression-program/atlas/bindings.json",
+        "examples/regression-program/atlas/brief-facts.json",
+        "examples/regression-program/atlas/brief.md",
+        "examples/regression-program/atlas/graph.json",
+        "examples/regression-program/atlas/research.md",
+        "examples/regression-program/atlas/screen-spec.md",
+        "examples/regression-program/catalog.json",
+        "examples/regression-program/catalog.py",
+        "examples/regression-program/design-system/axes.json",
+        "examples/regression-program/design-system/components.json",
+        "examples/regression-program/design-system/components/Button.tsx",
+        "examples/regression-program/design-system/components/Dialog.tsx",
+        "examples/regression-program/design-system/components/Field.tsx",
+        "examples/regression-program/design-system/components/Nav.tsx",
+        "examples/regression-program/design-system/components/Table.tsx",
+        "examples/regression-program/design-system/components/Tabs.tsx",
+        "examples/regression-program/design-system/design.json",
+        "examples/regression-program/design-system/package.json",
+        "examples/regression-program/design-system/runtime.js",
+        "examples/regression-program/design-system/theme.css",
+        "examples/regression-program/expectations.json",
+        "examples/regression-program/html/atlas/js/index.html",
+        "examples/regression-program/html/atlas/js/render.js",
+        "examples/regression-program/html/atlas/linked/index.html",
+        "examples/regression-program/html/atlas/linked/mark.svg",
+        "examples/regression-program/html/atlas/linked/page.css",
+        "examples/regression-program/html/atlas/self-contained.html",
+        "examples/regression-program/html/morrow/js/index.html",
+        "examples/regression-program/html/morrow/js/render.js",
+        "examples/regression-program/html/morrow/linked/index.html",
+        "examples/regression-program/html/morrow/linked/mark.svg",
+        "examples/regression-program/html/morrow/linked/page.css",
+        "examples/regression-program/html/morrow/self-contained.html",
+        "examples/regression-program/html/paper/js/index.html",
+        "examples/regression-program/html/paper/js/render.js",
+        "examples/regression-program/html/paper/linked/index.html",
+        "examples/regression-program/html/paper/linked/mark.svg",
+        "examples/regression-program/html/paper/linked/page.css",
+        "examples/regression-program/html/paper/self-contained.html",
+        "examples/regression-program/lib/boot.js",
+        "examples/regression-program/lib/paint.js",
+        "examples/regression-program/lib/router.js",
+        "examples/regression-program/morrow/app/app.css",
+        "examples/regression-program/morrow/app/index.html",
+        "examples/regression-program/morrow/app/rules.js",
+        "examples/regression-program/morrow/authority-unresolved.json",
+        "examples/regression-program/morrow/authority.json",
+        "examples/regression-program/morrow/bindings.json",
+        "examples/regression-program/morrow/brief-facts.json",
+        "examples/regression-program/morrow/brief.md",
+        "examples/regression-program/morrow/graph.json",
+        "examples/regression-program/morrow/research.md",
+        "examples/regression-program/morrow/screen-spec.md",
+        "examples/regression-program/paper/app/app.css",
+        "examples/regression-program/paper/app/index.html",
+        "examples/regression-program/paper/app/rules.js",
+        "examples/regression-program/paper/authority-unresolved.json",
+        "examples/regression-program/paper/authority.json",
+        "examples/regression-program/paper/bindings.json",
+        "examples/regression-program/paper/brief-facts.json",
+        "examples/regression-program/paper/brief.md",
+        "examples/regression-program/paper/graph.json",
+        "examples/regression-program/paper/research.md",
+        "examples/regression-program/paper/screen-spec.md",
+        "examples/regression-program/server/mock_api.py",
+        "examples/regression-program/server/serve.py",
+        "examples/regression-program/server/vectors.json",
+        "examples/regression-program/url/atlas.snapshot.json",
+        "examples/regression-program/url/controlled-login-required.snapshot.json",
+        "examples/regression-program/url/controlled-not-found.snapshot.json",
+        "examples/regression-program/url/controlled-rate-limited.snapshot.json",
+        "examples/regression-program/url/controlled-redirect.snapshot.json",
+        "examples/regression-program/url/material.snapshot.json",
+        "examples/regression-program/url/morrow.snapshot.json",
+        "examples/regression-program/url/paper.snapshot.json",
+        "examples/review-design/README.md",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/code.js",
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/native_semantic_read.js",
+        "figma-bridge/native_specifications.js",
+        "figma-bridge/panel_components.js",
+        "figma-bridge/panel_i18n.js",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "library/workflow.json",
+        "panel-ui/build.mjs",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/components.jsx",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/direction-selection.md",
+        "skills/figma-flow/references/workflow.generated.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "specs/README.md",
+        "specs/pre-figma-quality/graph.json",
+        "specs/pre-figma-quality/request.md",
+        "specs/pre-figma-quality/screen-spec.md",
+        "specs/pre-figma-quality/spec.md",
+        "specs/readable-specifications/graph.json",
+        "specs/readable-specifications/request.md",
+        "specs/readable-specifications/screen-spec.md",
+        "specs/readable-specifications/spec.md",
+        "specs/regression-program/cases.json",
+        "specs/regression-program/plan.md",
+        "specs/startup-freshness/graph.json",
+        "specs/startup-freshness/request.md",
+        "specs/startup-freshness/screen-spec.md",
+        "specs/startup-freshness/spec.md",
+        "specs/verification.md",
+        "tests/test_connected_spec_board.cjs",
+        "tests/test_direct_design.py",
+        "tests/test_direction_selection.py",
+        "tests/test_explicit_mode_packets.py",
+        "tests/test_figma_control.py",
+        "tests/test_first_run_destination.py",
+        "tests/test_graph_panel.cjs",
+        "tests/test_graph_token_sync.cjs",
+        "tests/test_native_annotation_authoring.py",
+        "tests/test_native_edit.cjs",
+        "tests/test_native_runtime_version.cjs",
+        "tests/test_native_specification_update.cjs",
+        "tests/test_plugin_startup.py",
+        "tests/test_readable_spec_native.cjs",
+        "tests/test_regression_program_apps.cjs",
+        "tests/test_regression_program_apps.py",
+        "tests/test_regression_program_inputs.py",
+        "tests/test_review_panel.cjs",
+        "tests/test_route_design.py",
+        "tests/test_selected_native_production.py",
+        "tests/test_specification_contract.py",
+        "tests/test_specification_rendering.py",
+        "tests/test_specification_update.py",
+        "tests/test_workspace_chat.cjs",
+        "tests/test_workspace_host.cjs",
+        "tests/test_workspace_replay.py",
+        "tools/annotation_contract.py",
+        "tools/design_actions.py",
+        "tools/design_critique.py",
+        "tools/design_directions.py",
+        "tools/design_intent.py",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/draft_foundation_audit.py",
+        "tools/figma_bridge.py",
+        "tools/figma_control.py",
+        "tools/figma_draft.py",
+        "tools/figma_workspace.py",
+        "tools/graph_sync.py",
+        "tools/input_effect.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/panel_components.py",
+        "tools/plugin_panel.py",
+        "tools/plugin_startup.py",
+        "tools/route_design.py",
+        "tools/specification_contract.py",
+        "tools/specifications.py",
+        "tools/sync_figma_tokens.py",
+        "tools/workflow-constants.js",
+        "tools/workspace_chat.py"
+      ],
+      "parents": [
+        "f64d9a9e592343a0910cec236d358cd841b8e207"
+      ],
+      "subject": "Keep readable specifications, direct drafts, and panel identity on shared sources so locales, rem, and display name stay one contract. Record the regression program that locks those checks.",
+      "tree": "9aa16361dcf97c279a3977ff4a6c152b185533d6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.25.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.25.0"
+        }
+      ]
+    },
+    {
+      "commit": "8f2d51b5a65d01a5e161a6158e4766934fc28ad0",
+      "diff_sha256": "bb67a3fd43c65cad8e247a3f1a754f3e1aa9a289fb787faa2f7d53a73ec60cdb",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".github/workflows/test.yml",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/guide.md",
+        "examples/graph-ssot/README.md",
+        "examples/regression-program/atlas/app/app.css",
+        "examples/regression-program/atlas/app/index.html",
+        "examples/regression-program/atlas/app/rules.js",
+        "examples/regression-program/design-system/build.mjs",
+        "examples/regression-program/design-system/components/Dialog.tsx",
+        "examples/regression-program/design-system/components/Field.tsx",
+        "examples/regression-program/design-system/components/Nav.tsx",
+        "examples/regression-program/design-system/components/Table.tsx",
+        "examples/regression-program/design-system/components/Tabs.tsx",
+        "examples/regression-program/design-system/entry.js",
+        "examples/regression-program/design-system/runtime.js",
+        "examples/regression-program/design-system/theme.css",
+        "examples/regression-program/lib/paint.js",
+        "examples/regression-program/morrow/app/app.css",
+        "examples/regression-program/morrow/app/index.html",
+        "examples/regression-program/paper/app/app.css",
+        "examples/regression-program/paper/app/index.html",
+        "examples/regression-program/paper/app/rules.js",
+        "figma-bridge/direction_review.js",
+        "plugin.json",
+        "skills/figma-flow/references/graph-contract.md",
+        "skills/graph-ssot/SKILL.md",
+        "specs/readable-specifications/spec.md",
+        "tests/test_bridge_ui.py",
+        "tests/test_design_quality.py",
+        "tests/test_direction_color_admission.cjs",
+        "tests/test_multipage_native_contract.cjs",
+        "tests/test_multipage_native_contract.py",
+        "tests/test_native_layer_vocabulary.py",
+        "tests/test_regression_program_apps.cjs",
+        "tests/test_regression_program_rendering.cjs",
+        "tools/design_quality.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "61c0b1ea79abda7b258459e245a1187e1ecc0314"
+      ],
+      "subject": "feat: complete connected multi-page native review",
+      "tree": "b1addc356c0e21a86958b7a0122b2cd607ef6414",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "6969e5dafccef185256c6f02f42b66b9f3636074",
+      "diff_sha256": "a2081660a78eeb8f77d96d6d83c4402c0fba5c0da8051651eeb875eea0ae0b3b",
+      "files": [
+        "CHANGELOG.md",
+        "figma-bridge/direction_review.js",
+        "tests/test_direction_native_limits.cjs",
+        "tests/test_native_text_measurement.cjs"
+      ],
+      "parents": [
+        "8f2d51b5a65d01a5e161a6158e4766934fc28ad0"
+      ],
+      "subject": "fix: isolate native intrinsic text measurements",
+      "tree": "594061fcd86f9943cead1651c4474978d041226f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "ad05cd323ec85de8647e81f1a5f07c1c25df50b3",
+      "diff_sha256": "aedb768fc07720223ef283c40528d132ba5b3439d165b4f666b89439e3ebe8cc",
+      "files": [
+        "CHANGELOG.md",
+        "figma-bridge/direction_review.js",
+        "tests/test_direction_native_limits.cjs",
+        "tests/test_figma_control.py",
+        "tests/test_native_text_measurement.cjs",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "6969e5dafccef185256c6f02f42b66b9f3636074"
+      ],
+      "subject": "fix: measure fresh text and retain live result readiness",
+      "tree": "bebae44a7208e1475977c392a942bf7c6a70caa2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "2bc687579e5059cba6702bc5c4a2690c9e34b509",
+      "diff_sha256": "681c7d688850b9b4e421b07fa1e383450461ceb78a9a1c642e1a898c1a6bc5bb",
+      "files": [
+        "CHANGELOG.md",
+        "docs/guide.md",
+        "specs/README.md",
+        "specs/startup-freshness/graph.json",
+        "specs/startup-freshness/request.md",
+        "specs/startup-freshness/screen-spec.md",
+        "specs/startup-freshness/spec.md",
+        "tests/test_figma_workspace.py",
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "ad05cd323ec85de8647e81f1a5f07c1c25df50b3"
+      ],
+      "subject": "feat: archive obsolete prepared tasks by revision",
+      "tree": "14158fbe5e61d6286a401a93b89c2525c440d506",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2",
+      "diff_sha256": "d675fdf2508ee39e61ac829960b5f4972586789d43e6dae63f684dba26606504",
+      "files": [
+        "CHANGELOG.md",
+        "docs/guide.md",
+        "examples/graph-ssot/README.md",
+        "examples/regression-program/server/serve.py",
+        "tests/test_regression_program_apps.py",
+        "tests/test_web_probe_precision.py",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "2bc687579e5059cba6702bc5c4a2690c9e34b509"
+      ],
+      "subject": "fix: measure browser pixels without CSS string loss",
+      "tree": "49e4aa3b4fad5af0b3aafecea07e81b32e0adc63",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "e3843766a60d3356cb1964f633609fbe101fdb83",
+      "diff_sha256": "ae20c0ca6e877f521ee80d14cbb45d08a551a2145fb9a960a9b66dddf4669671",
+      "files": [
+        "specs/README.md",
+        "specs/readable-specifications/spec.md",
+        "specs/startup-freshness/spec.md",
+        "specs/verification.md"
+      ],
+      "parents": [
+        "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2"
+      ],
+      "subject": "docs: record current native and round-trip verification",
+      "tree": "94d8ed15b98be5d9f469447a8798b3974d0e2da2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "a9521a82e965865cac74777b747dd26260532173",
+      "diff_sha256": "3e13cabd3ca2cd23950279e49cf1f4f7bf15c494423721439c0e9efec1079ba0",
+      "files": [
+        "CHANGELOG.md",
+        "specs/startup-freshness/spec.md",
+        "tests/test_plugin_startup.py",
+        "tools/plugin_startup.py"
+      ],
+      "parents": [
+        "e3843766a60d3356cb1964f633609fbe101fdb83"
+      ],
+      "subject": "fix: retain recovered native state during startup checks",
+      "tree": "02ebabb40a091023015ac75a781f8b073e8f1fd1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "90f9195600dd54131c80a817bebdd88fd63fe52a",
+      "diff_sha256": "df18119d9d073daab53b69dde1a6613ae7fd260a87d849574dcd32f715447c1a",
+      "files": [
+        "specs/verification.md"
+      ],
+      "parents": [
+        "a9521a82e965865cac74777b747dd26260532173"
+      ],
+      "subject": "docs: reconcile final startup verification count",
+      "tree": "f1dd440450b662fddebc79998c262cb5e9e1b9a6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    },
+    {
+      "commit": "0bd817701f3df66673e314007f768a6de404fd78",
+      "diff_sha256": "cf9aa82e8e1c977001768e3ea1dc1b12051f0b51f24acba43c6e6ec70f4a5c34",
+      "files": [
+        "docs/guide.md",
+        "examples/regression-program/README.md",
+        "examples/regression-program/html/positive-assets/README.md",
+        "examples/regression-program/html/positive-assets/app.js",
+        "examples/regression-program/html/positive-assets/coffee.jpg",
+        "examples/regression-program/html/positive-assets/fonts/Hahmlet.woff2",
+        "examples/regression-program/html/positive-assets/fonts/OFL.txt",
+        "examples/regression-program/html/positive-assets/index.html",
+        "examples/regression-program/html/positive-assets/page.css",
+        "examples/regression-program/html/positive-assets/sources.json",
+        "examples/regression-program/server/serve.py",
+        "figma-bridge/native_semantic_read.js",
+        "tests/test_native_raster_assets.cjs",
+        "tests/test_native_raster_assets.py",
+        "tests/test_regression_program_apps.py",
+        "tests/test_regression_program_inputs.py",
+        "tools/figma_draft.py",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "90f9195600dd54131c80a817bebdd88fd63fe52a"
+      ],
+      "subject": "fix: verify linked assets and native photo readback",
+      "tree": "97495c6d65c301f2551187b13ac45fa67f73d404",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.0"
+        }
+      ]
+    }
+  ],
+  "pages": {
+    "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
+    "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
+    "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
+    "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
+    "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
+    "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
+    "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
+    "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
+    "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
+    "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
+    "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
+    "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
+    "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
+    "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
+    "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
+    "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
+    "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
+    "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
+    "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
+    "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
+    "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
+    "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
+    "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
+    "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
+    "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
+    "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
+    "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
+    "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
+    "aa3acddf626642b7bf0db2f04730cab9cc533a4b": "e87cc5c94ced516465ba20410c25d59481af350f6e3ed16b53dac6d051950e69",
+    "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
+    "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
+    "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
+    "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
+    "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
+    "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
+    "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
+    "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
+    "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
+    "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
+    "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
+    "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
+    "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
+    "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02"
+  },
+  "provenance_remotes": [
+    {
+      "observed_at_commit": "0bd817701f3df66673e314007f768a6de404fd78",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    }
+  ],
+  "releases": [
+    {
+      "source_commits": [],
+      "tagged": false,
+      "tags": [],
+      "version": "0.18.0"
+    },
+    {
+      "source_commits": [
+        "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.18.1"
+      ],
+      "version": "0.18.1"
+    },
+    {
+      "source_commits": [
+        "10a379463f5bfa8af845420d3c3936b4b211596d"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.18.2"
+      ],
+      "version": "0.18.2"
+    },
+    {
+      "source_commits": [
+        "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.19.0"
+    },
+    {
+      "source_commits": [
+        "b27dffc2e923347831d30368faaf8136f2cc3b54"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.19.1"
+    },
+    {
+      "source_commits": [
+        "3c6a0f004ed0a1994a55bc98e59f0efa7647d377"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.20.0"
+      ],
+      "version": "0.20.0"
+    },
+    {
+      "source_commits": [
+        "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.20.1"
+      ],
+      "version": "0.20.1"
+    },
+    {
+      "source_commits": [
+        "e30b9a4ffc64f294d1404498f3c9171c313b5faa"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.21.0"
+    },
+    {
+      "source_commits": [
+        "b1dd1d3240435d48cb9f116ca4c1654f210a340c"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.21.1"
+    },
+    {
+      "source_commits": [
+        "212cb0b57719410694bd369823c679d6a26bdbf8"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.22.0"
+    },
+    {
+      "source_commits": [
+        "7d2f41d9652ad228d42e9a1aec813c76b4ed204d"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.23.0"
+      ],
+      "version": "0.23.0"
+    },
+    {
+      "source_commits": [
+        "2233e0af3732229d36e806063973875a043188f5"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.23.1"
+      ],
+      "version": "0.23.1"
+    },
+    {
+      "source_commits": [
+        "347a1762edc0e6738346f59d34b9a7e749659a71"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.24.0"
+      ],
+      "version": "0.24.0"
+    },
+    {
+      "source_commits": [
+        "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.24.1"
+      ],
+      "version": "0.24.1"
+    },
+    {
+      "source_commits": [
+        "f64d9a9e592343a0910cec236d358cd841b8e207"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.25.0"
+      ],
+      "version": "0.25.0"
+    },
+    {
+      "source_commits": [
+        "90f9195600dd54131c80a817bebdd88fd63fe52a"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.26.0"
+      ],
+      "version": "0.26.0"
+    }
+  ],
+  "remotes": [
+    "github.com/jonsoku-dev/figma-flow.git"
+  ],
+  "schema": "figma-flow-patch-catalog-v1",
+  "source_commit": "0bd817701f3df66673e314007f768a6de404fd78",
+  "tags": [
+    {
+      "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
+      "tag": "v0.18.1",
+      "version": "0.18.1"
+    },
+    {
+      "commit": "10a379463f5bfa8af845420d3c3936b4b211596d",
+      "tag": "v0.18.2",
+      "version": "0.18.2"
+    },
+    {
+      "commit": "3c6a0f004ed0a1994a55bc98e59f0efa7647d377",
+      "tag": "v0.20.0",
+      "version": "0.20.0"
+    },
+    {
+      "commit": "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b",
+      "tag": "v0.20.1",
+      "version": "0.20.1"
+    },
+    {
+      "commit": "7d2f41d9652ad228d42e9a1aec813c76b4ed204d",
+      "tag": "v0.23.0",
+      "version": "0.23.0"
+    },
+    {
+      "commit": "2233e0af3732229d36e806063973875a043188f5",
+      "tag": "v0.23.1",
+      "version": "0.23.1"
+    },
+    {
+      "commit": "347a1762edc0e6738346f59d34b9a7e749659a71",
+      "tag": "v0.24.0",
+      "version": "0.24.0"
+    },
+    {
+      "commit": "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19",
+      "tag": "v0.24.1",
+      "version": "0.24.1"
+    },
+    {
+      "commit": "f64d9a9e592343a0910cec236d358cd841b8e207",
+      "tag": "v0.25.0",
+      "version": "0.25.0"
+    },
+    {
+      "commit": "90f9195600dd54131c80a817bebdd88fd63fe52a",
+      "tag": "v0.26.0",
+      "version": "0.26.0"
+    }
+  ]
+}

@@ -14,4 +14,4 @@ Actual source/test scope and remaining native limits: [verification](verificatio
 
 ## Test execution plans
 
-[Multi-page app and input regression program](regression-program/plan.md) defines three new apps, input combinations, real web/Figma checks and the defect-fix-retest procedure. Its [case inventory](regression-program/cases.json) is planned test coverage, not a product relationship graph or evidence that tests ran.
+[Multi-page app and input regression program](regression-program/plan.md) defines three new apps, input combinations, real web/Figma checks and the defect-fix-retest procedure. Its [case inventory](regression-program/cases.json) records planned coverage and scoped execution witnesses. Complete-case status stays unverified until all applicable requirements are met; owner-local receipts are not shipped proof for a new fork. It is not a product relationship graph.

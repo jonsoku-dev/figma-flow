@@ -1,0 +1,1461 @@
+{
+  "bundle_sha256": "69aac71126cd34c9a451e091e134aec80ca6a9d401485830567c2869e8017192",
+  "canonical_source_commit": "0bd817701f3df66673e314007f768a6de404fd78",
+  "commits": [
+    {
+      "commit": "f0e81fcca8e6bb3e44d90d1509a4830c189c3701",
+      "diff_sha256": "009307b172612c3e7fe12ebad410646f9fca7b7431d371877f55d9cb74958c55",
+      "files": [
+        ".agents/plugins/marketplace.json",
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "examples/idea-notes/README.md",
+        "examples/idea-notes/app/app.js",
+        "examples/idea-notes/app/index.html",
+        "examples/idea-notes/app/style.css",
+        "examples/idea-notes/bindings.json",
+        "examples/idea-notes/brief.md",
+        "examples/idea-notes/evidence/browser.json",
+        "examples/idea-notes/evidence/node-tests.tap",
+        "examples/idea-notes/graph.json",
+        "examples/idea-notes/screen-spec.md",
+        "examples/idea-notes/tests/app.test.cjs",
+        "examples/native-direction-review/README.md",
+        "examples/native-direction-review/agenda/graph.json",
+        "examples/native-direction-review/agenda/index.html",
+        "examples/native-direction-review/agenda/inspect.html",
+        "examples/native-direction-review/brief.md",
+        "examples/native-direction-review/bulletin/graph.json",
+        "examples/native-direction-review/bulletin/index.html",
+        "examples/native-direction-review/bulletin/inspect.html",
+        "examples/native-direction-review/candidate-spec.json",
+        "examples/native-direction-review/content.json",
+        "examples/native-direction-review/demo.py",
+        "examples/native-direction-review/native-layout.json",
+        "examples/native-direction-review/previews/agenda-desktop.png",
+        "examples/native-direction-review/previews/agenda-mobile.png",
+        "examples/native-direction-review/previews/bulletin-desktop.png",
+        "examples/native-direction-review/previews/bulletin-mobile.png",
+        "examples/native-direction-review/research.md",
+        "examples/native-direction-review/test_demo.py",
+        "examples/review-cards/README.md",
+        "examples/review-cards/app/components.css",
+        "examples/review-cards/app/data.js",
+        "examples/review-cards/app/index.html",
+        "examples/review-cards/app/main.js",
+        "examples/review-cards/app/rules/answer.js",
+        "examples/review-cards/app/rules/complete.js",
+        "examples/review-cards/app/rules/finish.js",
+        "examples/review-cards/app/rules/list.js",
+        "examples/review-cards/app/rules/question.js",
+        "examples/review-cards/app/rules/retry.js",
+        "examples/review-cards/app/rules/search.js",
+        "examples/review-cards/app/style.css",
+        "examples/review-cards/app/tokens.css",
+        "examples/review-cards/bindings.json",
+        "examples/review-cards/brief.md",
+        "examples/review-cards/design.json",
+        "examples/review-cards/draft.json",
+        "examples/review-cards/evidence/results/12bfa28d3b02ed45.stderr.log",
+        "examples/review-cards/evidence/results/12bfa28d3b02ed45.tap",
+        "examples/review-cards/evidence/results/1ee8752f46a2be62.stderr.log",
+        "examples/review-cards/evidence/results/1ee8752f46a2be62.tap",
+        "examples/review-cards/evidence/results/338bcba0535734bf.stderr.log",
+        "examples/review-cards/evidence/results/338bcba0535734bf.tap",
+        "examples/review-cards/evidence/results/49cc6d06e36373d0.stderr.log",
+        "examples/review-cards/evidence/results/49cc6d06e36373d0.tap",
+        "examples/review-cards/evidence/results/652c08d88fe11f83.stderr.log",
+        "examples/review-cards/evidence/results/652c08d88fe11f83.tap",
+        "examples/review-cards/evidence/results/8b78cd846b74380f.stderr.log",
+        "examples/review-cards/evidence/results/8b78cd846b74380f.tap",
+        "examples/review-cards/evidence/results/cfcc3820e2829c3e.stderr.log",
+        "examples/review-cards/evidence/results/cfcc3820e2829c3e.tap",
+        "examples/review-cards/evidence/results/sandbox.stderr.log",
+        "examples/review-cards/evidence/results/sandbox.stdout.log",
+        "examples/review-cards/graph.json",
+        "examples/review-cards/screen-spec.md",
+        "examples/review-cards/specs/answer.md",
+        "examples/review-cards/specs/complete.md",
+        "examples/review-cards/specs/finish.md",
+        "examples/review-cards/specs/list.md",
+        "examples/review-cards/specs/question.md",
+        "examples/review-cards/specs/retry.md",
+        "examples/review-cards/specs/search.md",
+        "examples/review-cards/test-mapping.json",
+        "examples/review-cards/tests/answer.test.cjs",
+        "examples/review-cards/tests/complete.test.cjs",
+        "examples/review-cards/tests/finish.test.cjs",
+        "examples/review-cards/tests/list.test.cjs",
+        "examples/review-cards/tests/question.test.cjs",
+        "examples/review-cards/tests/retry.test.cjs",
+        "examples/review-cards/tests/search.test.cjs",
+        "examples/review-design/README.md",
+        "examples/review-design/cards.md",
+        "examples/review-design/design.json",
+        "examples/review-design/preview/SCR-CARDS-LIST-styled.svg",
+        "examples/review-design/preview/SCR-CARDS-LIST-wireframe.svg",
+        "examples/review-design/preview/SCR-CARDS-REVIEW-styled.svg",
+        "examples/review-design/preview/SCR-CARDS-REVIEW-wireframe.svg",
+        "examples/review-design/preview/components.css",
+        "examples/review-design/preview/resolved.json",
+        "examples/review-design/preview/styled.html",
+        "examples/review-design/preview/tokens.css",
+        "examples/review-design/preview/wireframe.html",
+        "examples/review-design/product-graph.json",
+        "figma-bridge/README.md",
+        "figma-bridge/code.js",
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/foundation_palette.js",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_semantic_read.js",
+        "figma-bridge/semantic_components.js",
+        "figma-bridge/semantic_tokens.js",
+        "figma-bridge/ui.html",
+        "library/campaign-forms.json",
+        "library/campaigns.json",
+        "library/design-routes.json",
+        "library/workflow.json",
+        "plugin.json",
+        "requirements-optional.txt",
+        "skills/campaign-identity/SKILL.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/campaign-library.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/design-routing.md",
+        "skills/figma-flow/references/direction-selection.md",
+        "skills/figma-flow/references/draft-build.md",
+        "skills/figma-flow/references/figma-workflow.md",
+        "skills/figma-flow/references/graph-contract.md",
+        "skills/figma-flow/references/live-example.md",
+        "skills/figma-flow/references/local-design-audit.md",
+        "skills/figma-flow/references/run-record.md",
+        "skills/figma-flow/references/token-sync.md",
+        "skills/figma-flow/references/workflow.generated.md",
+        "skills/figma-flow/scripts/graph.py",
+        "skills/figma-flow/scripts/graph_diff.py",
+        "skills/figma-flow/scripts/ssot.py",
+        "skills/figma-flow/scripts/trace_report.py",
+        "tests/direction_fixture.py",
+        "tests/fixtures/night-club-foundations-excerpt.json",
+        "tests/fixtures/night-postal-foundations-excerpt.json",
+        "tests/test_affected_tests.py",
+        "tests/test_annotation_contract.py",
+        "tests/test_apply_figma_change.py",
+        "tests/test_audit_brief.py",
+        "tests/test_audit_dependencies.py",
+        "tests/test_audit_project.py",
+        "tests/test_bridge_ui.py",
+        "tests/test_campaign_library.py",
+        "tests/test_check_project.py",
+        "tests/test_design_bundle.py",
+        "tests/test_design_directions.py",
+        "tests/test_design_foundations.py",
+        "tests/test_design_graph.py",
+        "tests/test_design_note_board.py",
+        "tests/test_design_review.py",
+        "tests/test_design_system.py",
+        "tests/test_direction_color_admission.cjs",
+        "tests/test_direction_review_surface.py",
+        "tests/test_direction_write_guards.py",
+        "tests/test_draft_color_consumers.py",
+        "tests/test_draft_foundation_audit.py",
+        "tests/test_draft_token_plan.py",
+        "tests/test_figma_bridge.py",
+        "tests/test_figma_draft.py",
+        "tests/test_figma_live_preview.py",
+        "tests/test_figma_sync_session.py",
+        "tests/test_first_run_destination.py",
+        "tests/test_graph.py",
+        "tests/test_graph_diff.py",
+        "tests/test_idea_catalog.py",
+        "tests/test_local_runner.py",
+        "tests/test_native_annotation_authoring.py",
+        "tests/test_native_handoff.py",
+        "tests/test_native_token_authoring.py",
+        "tests/test_production_color_runtime.py",
+        "tests/test_promote_idea.py",
+        "tests/test_reference_graph.py",
+        "tests/test_route_design.py",
+        "tests/test_safe_node_tests.py",
+        "tests/test_serve_design_routes.py",
+        "tests/test_serve_figma_sync.py",
+        "tests/test_serve_ideas.py",
+        "tests/test_ssot.py",
+        "tests/test_sync_figma_tokens.py",
+        "tests/test_token_code_scope.py",
+        "tests/test_trace_report.py",
+        "tests/test_workflow.py",
+        "tools/affected_tests.py",
+        "tools/annotation_contract.py",
+        "tools/app_states.py",
+        "tools/apply_figma_change.py",
+        "tools/asset_batch.py",
+        "tools/audit_brief.py",
+        "tools/audit_dependencies.py",
+        "tools/audit_js.cjs",
+        "tools/audit_project.py",
+        "tools/browser_probes.js",
+        "tools/campaign_forms.py",
+        "tools/campaign_library.py",
+        "tools/check_project.py",
+        "tools/content-skin.css",
+        "tools/content_skin.js",
+        "tools/design-routes.html",
+        "tools/design_actions.py",
+        "tools/design_bundle.py",
+        "tools/design_directions.py",
+        "tools/design_foundations.py",
+        "tools/design_graph.py",
+        "tools/design_review.py",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/draft_foundation_audit.py",
+        "tools/draft_token_plan.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/idea_catalog.py",
+        "tools/native_handoff.py",
+        "tools/prepare_design_review.py",
+        "tools/promote_idea.py",
+        "tools/review_destination.py",
+        "tools/route_design.py",
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/serve_design_routes.py",
+        "tools/serve_figma_sync.py",
+        "tools/serve_ideas.py",
+        "tools/sync_figma_tokens.py",
+        "tools/sync_workflow.py",
+        "tools/token_code_scope.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py",
+        "vendor/acorn/LICENSE",
+        "vendor/acorn/PROVENANCE.txt",
+        "vendor/acorn/acorn.js"
+      ],
+      "parents": [],
+      "subject": "Figma Flow 0.16.1 기준선",
+      "tree": "f98ff341aa202849959af0adbcf19165127cbb5d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "90b0c62463058af1e099965ca979888b6984a2cd",
+      "diff_sha256": "f731bce6149a6fccf5a05972ea494b00432be5cbf3af66e66c197f8e0ce253af",
+      "files": [
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/visual-quality.md",
+        "tests/test_design_quality.py",
+        "tools/design_actions.py",
+        "tools/design_quality.py"
+      ],
+      "parents": [
+        "f0e81fcca8e6bb3e44d90d1509a4830c189c3701"
+      ],
+      "subject": "시안 품질 관문과 시각 품질 지침 추가",
+      "tree": "73d558d030eb160006756f14460cd1727bebc53c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "88b22bfd41929ff7d91c59c91a2420f371efc99d",
+      "diff_sha256": "4cb458a0917c40c09a394456761755a23a243acde557758dd254ab3b41b7a7fa",
+      "files": [
+        "figma-bridge/direction_review.js",
+        "tests/test_direction_color_admission.cjs",
+        "tests/test_native_layer_vocabulary.py",
+        "tools/draft_token_plan.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "90b0c62463058af1e099965ca979888b6984a2cd"
+      ],
+      "subject": "검토 시안 레이어 어휘 확장과 Figma 쓰기 전 일괄 점검",
+      "tree": "475d392d06bda5674f07ce71861e420de5317429",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "c27761a821ed256efb54886b38ad669dbcef9055",
+      "diff_sha256": "a907762246206c5b4729329c2b4ec45a65602730d8d359196badb0f49c417e6d",
+      "files": [
+        "examples/native-direction-review/README.md",
+        "examples/native-direction-review/agenda/graph.json",
+        "examples/native-direction-review/agenda/inspect.html",
+        "examples/native-direction-review/bulletin/graph.json",
+        "examples/native-direction-review/bulletin/inspect.html",
+        "examples/native-direction-review/candidate-spec.json",
+        "examples/native-direction-review/demo.py",
+        "examples/native-direction-review/native-layout.json",
+        "examples/native-direction-review/previews/agenda-desktop.png",
+        "examples/native-direction-review/previews/agenda-mobile.png",
+        "examples/native-direction-review/previews/bulletin-desktop.png",
+        "examples/native-direction-review/previews/bulletin-mobile.png"
+      ],
+      "parents": [
+        "88b22bfd41929ff7d91c59c91a2420f371efc99d"
+      ],
+      "subject": "예제 시안을 시각 품질 요구사항에 맞게 다시 작성",
+      "tree": "20a4bb2eece6b999808b1b6a08cee0c96f037bd1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "bdd428c20d0ce90292a922b0a63445585e3be66f",
+      "diff_sha256": "715f5c9c20b33589a5e4da45aae98af0e8484d284c466bdfacde5ca5903e7355",
+      "files": [
+        "tests/test_regressions_0170.py",
+        "tools/audit_brief.py",
+        "tools/design_directions.py",
+        "tools/promote_idea.py",
+        "tools/review_destination.py",
+        "tools/safe_node_tests.py"
+      ],
+      "parents": [
+        "c27761a821ed256efb54886b38ad669dbcef9055"
+      ],
+      "subject": "감사에서 확인된 경로·선택·브리프·테스트 실행 결함 수정",
+      "tree": "76341757fd6cc15253f4a8b05a3c38e82533c56f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "2bb7018cc4fba5c18fcc9c7fa4441c1422696e7e",
+      "diff_sha256": "054c83549f1ee0d498de76505e9ec867880529beb2b31fc92ad150205d728e9f",
+      "files": [
+        "figma-bridge/direction_review.js",
+        "skills/figma-flow/references/direction-selection.md",
+        "tests/test_native_layer_vocabulary.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "bdd428c20d0ce90292a922b0a63445585e3be66f"
+      ],
+      "subject": "그라디언트·팔레트 샘플을 쓰기 전에 검증하고 고아 버튼 변형 충돌 방지",
+      "tree": "10887e4a06eb8fa575f2df3d02c7d7540efdceac",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "7ebc5bd42e4dbe6868125d81c5f7a4e2131167de",
+      "diff_sha256": "ee75553b591252307e65ab8cb3b89aacd07f3d7800d4599fac51990be84dc504",
+      "files": [
+        "README.md",
+        "examples/review-design/README.md",
+        "figma-bridge/README.md",
+        "skills/figma-flow/references/draft-build.md",
+        "skills/figma-flow/references/graph-contract.md",
+        "skills/figma-flow/references/live-example.md"
+      ],
+      "parents": [
+        "2bb7018cc4fba5c18fcc9c7fa4441c1422696e7e"
+      ],
+      "subject": "문서의 명령을 실제 CLI 동작과 일치시킴",
+      "tree": "b797c40ec6b45f1b8fd53c74ce06edd31966c9de",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "51f8b0a93dc3baa3e000f4bb7d5d319a0a257006",
+      "diff_sha256": "d457beb4949dfc469f7035a95d7642a90daf1c3172bed3f701aa6ae8c837fa17",
+      "files": [
+        "tests/test_regressions_0170.py",
+        "tests/test_serve_design_routes.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py",
+        "tools/serve_design_routes.py"
+      ],
+      "parents": [
+        "7ebc5bd42e4dbe6868125d81c5f7a4e2131167de"
+      ],
+      "subject": "CLI·서버 입력 오류를 깔끔한 실패로 처리",
+      "tree": "2683a1fbcc7c8b135af326618fbbd00838f90846",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "41d6ff1aadc3b79723e54438a72bc76d6fe5f491",
+      "diff_sha256": "6cf4fc45f29a8d9b068910de38a3292401f1e6625a43608f3cf2806527f513b0",
+      "files": [
+        "figma-bridge/code.js",
+        "tests/test_regressions_0170.py",
+        "tools/figma_bridge.py"
+      ],
+      "parents": [
+        "51f8b0a93dc3baa3e000f4bb7d5d319a0a257006"
+      ],
+      "subject": "본제작 import: 같은 크기 글자 역할 처리, 호환 안 되는 속성은 컴파일에서 거부",
+      "tree": "5e8112ba79556c0bbfd634cbc15764d6aa61acc6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "d48a056526d0880c4b88ca437384880834cb3851",
+      "diff_sha256": "f06923ab6a7205f57a321f9d684110b1b49d607d01750b671bee7ea8825f0e19",
+      "files": [
+        "tests/test_draft_token_plan.py",
+        "tools/draft_token_plan.py"
+      ],
+      "parents": [
+        "41d6ff1aadc3b79723e54438a72bc76d6fe5f491"
+      ],
+      "subject": "가져오기 대체 변수 이름과 겹치는 역할 토큰을 쓰기 전에 거부",
+      "tree": "49fe158531a7904079b0d04cf7f30b11fef564ca",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "6a22eb38f254180cd1980c8ecf667e6052882b18",
+      "diff_sha256": "48edfbe22ce643feab711f228a53a6fd49e2a1e0dd96ce8637d5c5eab879e723",
+      "files": [
+        "tests/test_draft_token_plan.py",
+        "tools/draft_token_plan.py"
+      ],
+      "parents": [
+        "d48a056526d0880c4b88ca437384880834cb3851"
+      ],
+      "subject": "검토 계획에 표시한 값과 Figma에 쓰는 값이 다르면 거부",
+      "tree": "17c2cf540ae778ddb12acd257537aa4054074ed7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "39897f3db1c7e6b4dbc256594cbabe008174ca65",
+      "diff_sha256": "ebb737cc39db629699c9711e5fb0d49a9da7efcb5222e2e5a551c72533231637",
+      "files": [
+        "tools/design_review.py"
+      ],
+      "parents": [
+        "6a22eb38f254180cd1980c8ecf667e6052882b18"
+      ],
+      "subject": "design_review CLI가 check_project와 같은 기준(바인딩 폴더)으로 경로를 해석",
+      "tree": "e26598b350d673942b5fbf1fb0d8b75e065b6296",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "beb3912f8c3cdcf7f5302f30709a57c1f54816de",
+      "diff_sha256": "16119e26a106e1c61a14286574bea33c6eb9cba30842683128958dc02b917776",
+      "files": [
+        "tests/test_native_layer_vocabulary.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "39897f3db1c7e6b4dbc256594cbabe008174ca65"
+      ],
+      "subject": "검토 패키지 준비 시 레이아웃 문제를 한 번에 모두 보고",
+      "tree": "fcfe751313c3917c7fbca380ae13e52023c4d913",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "586a5bfb7cfd36639477b363617114d6a1997767",
+      "diff_sha256": "138ccd9f0d60f0acc16dce5450e4fef6015f1b863ef5c50f5d36a54f00a95049",
+      "files": [
+        "tests/test_regressions_0170.py",
+        "tools/design_actions.py",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "beb3912f8c3cdcf7f5302f30709a57c1f54816de"
+      ],
+      "subject": "읽기 전용 design_actions.py status 명령 추가",
+      "tree": "eed41237c62c63887275aa1d435ea3278ca508c0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "5a025a722aa87cd7272b9c533e18ffaba1cd7cfd",
+      "diff_sha256": "083689284ec34fc1fbd9d8f828ce350f9a9af2577f471f8333910b727150a58f",
+      "files": [
+        "tests/test_regressions_0170.py",
+        "tools/design_actions.py",
+        "tools/draft_token_plan.py"
+      ],
+      "parents": [
+        "586a5bfb7cfd36639477b363617114d6a1997767"
+      ],
+      "subject": "오류 보고 개선: 미사용 색 역할을 한 번에 모두 표시, CLI 오류에 cause 분류",
+      "tree": "0e5bc808ceffea0cf84e54e31ed94e49b961418f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "3c678410d08c77f99d5b724d1728c138e1795df4",
+      "diff_sha256": "84ffc0e3862d567b8a3692844a495c15c0218137f080ffec42422ed836351fe4",
+      "files": [
+        "tests/test_figma_live_preview.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py"
+      ],
+      "parents": [
+        "5a025a722aa87cd7272b9c533e18ffaba1cd7cfd"
+      ],
+      "subject": "라이브 미리보기: 이전 스냅샷을 /before/revision/N/로 분리",
+      "tree": "f5b1576840043bc56004a039d51b68b775a3b675",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "8d6a9cf182ab1f9d2d6bf335afe38cf1fd600945",
+      "diff_sha256": "9d2bdc3fe8891d27c71624d7588d4e914efd10d6ca97e384051ef57f9e548b56",
+      "files": [
+        "tests/test_design_foundations.py",
+        "tools/design_foundations.py"
+      ],
+      "parents": [
+        "3c678410d08c77f99d5b724d1728c138e1795df4"
+      ],
+      "subject": "기초 디자인 검증이 타입 지정 COLOR 역할을 받아들임",
+      "tree": "014a1a5433b5892c4def814634b2b2a12cd91a1b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "a1e9a74a04672574324d24185cbfaddc5f5e041e",
+      "diff_sha256": "0733197c0ab228327e2a16bdc74c64b1d7bd9f3c7b45894e7f5694e0c3fd8c86",
+      "files": [
+        "tests/test_regressions_0170.py",
+        "tools/draft_token_plan.py"
+      ],
+      "parents": [
+        "8d6a9cf182ab1f9d2d6bf335afe38cf1fd600945"
+      ],
+      "subject": "화면 버튼의 숫자·서체 역할은 메인 컴포넌트에도 같은 역할이 있어야 계획 통과",
+      "tree": "b20648fe5dbee109102d60bfade14523aa452b90",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.16.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.16.1"
+        }
+      ]
+    },
+    {
+      "commit": "b9785fa25eb3cb2f6f196bfc9ff1ffaeb072700c",
+      "diff_sha256": "4a1767d8fb6ae39aacec84f611be7d8a1fbc91f9e4f9e292b0ecf1ea36ffc6a5",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "tests/test_regressions_0170.py"
+      ],
+      "parents": [
+        "a1e9a74a04672574324d24185cbfaddc5f5e041e"
+      ],
+      "subject": "Figma Flow 0.17.0",
+      "tree": "f46c24c62cfb99b9caaf245bc29c029831914460",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.0"
+        }
+      ]
+    },
+    {
+      "commit": "af04c9684a090347d02c568815d35f521f83e2cb",
+      "diff_sha256": "3af8bbbaf45159094aa153c2f6ef4110bfcdde454b52eb6f10de1fa5429b151a",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "examples/native-direction-review/README.md",
+        "examples/native-direction-review/agenda/graph.json",
+        "examples/native-direction-review/agenda/inspect.html",
+        "examples/native-direction-review/bulletin/graph.json",
+        "examples/native-direction-review/bulletin/inspect.html",
+        "examples/native-direction-review/candidate-spec.json",
+        "examples/native-direction-review/demo.py",
+        "examples/native-direction-review/native-layout.json",
+        "examples/native-direction-review/previews/agenda-desktop.png",
+        "examples/native-direction-review/previews/agenda-mobile.png",
+        "examples/native-direction-review/previews/bulletin-desktop.png",
+        "examples/native-direction-review/previews/bulletin-mobile.png",
+        "examples/review-design/README.md",
+        "figma-bridge/README.md",
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "plugin.json",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/direction-selection.md",
+        "skills/figma-flow/references/draft-build.md",
+        "skills/figma-flow/references/graph-contract.md",
+        "skills/figma-flow/references/live-example.md",
+        "skills/figma-flow/references/visual-quality.md",
+        "tests/test_design_foundations.py",
+        "tests/test_design_quality.py",
+        "tests/test_direction_color_admission.cjs",
+        "tests/test_draft_token_plan.py",
+        "tests/test_figma_live_preview.py",
+        "tests/test_native_layer_vocabulary.py",
+        "tests/test_regressions_0170.py",
+        "tests/test_serve_design_routes.py",
+        "tools/audit_brief.py",
+        "tools/design_actions.py",
+        "tools/design_directions.py",
+        "tools/design_foundations.py",
+        "tools/design_quality.py",
+        "tools/design_review.py",
+        "tools/draft_token_plan.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/promote_idea.py",
+        "tools/review_destination.py",
+        "tools/safe_node_tests.py",
+        "tools/serve_design_routes.py"
+      ],
+      "parents": [
+        "f0e81fcca8e6bb3e44d90d1509a4830c189c3701",
+        "b9785fa25eb3cb2f6f196bfc9ff1ffaeb072700c"
+      ],
+      "subject": "Merge release/0.17.0: Figma Flow 0.17.0",
+      "tree": "f46c24c62cfb99b9caaf245bc29c029831914460",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.0"
+        }
+      ]
+    },
+    {
+      "commit": "616599f249500d3b437361959616298715a7712d",
+      "diff_sha256": "84575f40cf8559c097839eeafe8685f4afd25d75f03a49bc7f98f700fb5ac34d",
+      "files": [
+        "skills/figma-flow/references/visual-quality.md"
+      ],
+      "parents": [
+        "af04c9684a090347d02c568815d35f521f83e2cb"
+      ],
+      "subject": "시각 품질 지침의 role·오류 메시지 설명을 실제 검증 동작과 일치시킴",
+      "tree": "cc5d9f4f2d9e78abcae514032b98bcb9bd9b4201",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.0"
+        }
+      ]
+    },
+    {
+      "commit": "a36559aa505bce009d8075ce40bf6822080bebdf",
+      "diff_sha256": "84575f40cf8559c097839eeafe8685f4afd25d75f03a49bc7f98f700fb5ac34d",
+      "files": [
+        "skills/figma-flow/references/visual-quality.md"
+      ],
+      "parents": [
+        "af04c9684a090347d02c568815d35f521f83e2cb",
+        "616599f249500d3b437361959616298715a7712d"
+      ],
+      "subject": "Merge release/0.17.0: 지침 문구 정정",
+      "tree": "cc5d9f4f2d9e78abcae514032b98bcb9bd9b4201",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.0"
+        }
+      ]
+    },
+    {
+      "commit": "953bbd9999d0a01001c50916b074c28c836a1360",
+      "diff_sha256": "d7c91b9adf6f33c9ab9d0fe0e085e981c9bb6ef03a016fa6589f06b6611ac40f",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "skills/figma-flow/references/visual-quality.md",
+        "tests/test_design_quality.py",
+        "tools/design_quality.py"
+      ],
+      "parents": [
+        "a36559aa505bce009d8075ce40bf6822080bebdf"
+      ],
+      "subject": "Figma Flow 0.17.1: 품질 관문이 버튼 fill·글자 대비를 검사",
+      "tree": "768432a02c1073c22f0e8a08a541511974340887",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.1"
+        }
+      ]
+    },
+    {
+      "commit": "c57cc8aa0892c141cfde03c0c33cefa244bde2eb",
+      "diff_sha256": "d7c91b9adf6f33c9ab9d0fe0e085e981c9bb6ef03a016fa6589f06b6611ac40f",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "skills/figma-flow/references/visual-quality.md",
+        "tests/test_design_quality.py",
+        "tools/design_quality.py"
+      ],
+      "parents": [
+        "a36559aa505bce009d8075ce40bf6822080bebdf",
+        "953bbd9999d0a01001c50916b074c28c836a1360"
+      ],
+      "subject": "Merge release/0.17.1: Figma Flow 0.17.1",
+      "tree": "768432a02c1073c22f0e8a08a541511974340887",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.1"
+        }
+      ]
+    },
+    {
+      "commit": "a3bc4285f3ade2aa8bebf88e6ad6f3b8f2e70f62",
+      "diff_sha256": "2d017ae4700d1b7accf8644de013ba95d31a0e5f422cfb389e18089e5bc34e70",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "LICENSE",
+        "README.md",
+        "plugin.json"
+      ],
+      "parents": [
+        "c57cc8aa0892c141cfde03c0c33cefa244bde2eb"
+      ],
+      "subject": "Add MIT license (0.17.2)",
+      "tree": "5bc0c3e995a05e065c3bb188479967b7ec73f602",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.2"
+        }
+      ]
+    },
+    {
+      "commit": "d795abeebde36931e4c4b8aa640d3c75dbb31f7a",
+      "diff_sha256": "2d017ae4700d1b7accf8644de013ba95d31a0e5f422cfb389e18089e5bc34e70",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "LICENSE",
+        "README.md",
+        "plugin.json"
+      ],
+      "parents": [
+        "c57cc8aa0892c141cfde03c0c33cefa244bde2eb",
+        "a3bc4285f3ade2aa8bebf88e6ad6f3b8f2e70f62"
+      ],
+      "subject": "Merge release/0.17.2",
+      "tree": "5bc0c3e995a05e065c3bb188479967b7ec73f602",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.2"
+        }
+      ]
+    },
+    {
+      "commit": "822c2156f56fd7edc485c5df956aa93a9faf5d74",
+      "diff_sha256": "b874df68e67dd83c1c51bb9a828193036dea41ea09f9fd474601379d65829a8f",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "skills/figma-flow/references/direction-selection.md",
+        "tests/test_native_layer_vocabulary.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "d795abeebde36931e4c4b8aa640d3c75dbb31f7a"
+      ],
+      "subject": "Validate image fit and require per-campaign plugin IDs (0.17.3)",
+      "tree": "68b21273a9413609af8d16e21810d3d1aef33c29",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.3"
+        }
+      ]
+    },
+    {
+      "commit": "14ed0493c7ac86f3ea27dbff191ce8a44fc7e451",
+      "diff_sha256": "b874df68e67dd83c1c51bb9a828193036dea41ea09f9fd474601379d65829a8f",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "skills/figma-flow/references/direction-selection.md",
+        "tests/test_native_layer_vocabulary.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "d795abeebde36931e4c4b8aa640d3c75dbb31f7a",
+        "822c2156f56fd7edc485c5df956aa93a9faf5d74"
+      ],
+      "subject": "Merge release/0.17.3",
+      "tree": "68b21273a9413609af8d16e21810d3d1aef33c29",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.3"
+        }
+      ]
+    },
+    {
+      "commit": "ce60a7a897c0af15e445025f1eb05f1584129653",
+      "diff_sha256": "b67b3911e6fa1164ec22ec3fa11543c12a619e628364671457f2cb102a9c8edf",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "examples/native-direction-review/agenda/graph.json",
+        "examples/native-direction-review/bulletin/graph.json",
+        "examples/native-direction-review/demo.py",
+        "examples/native-direction-review/native-layout.json",
+        "plugin.json",
+        "tests/direction_fixture.py",
+        "tests/test_regressions_0174.py",
+        "tools/asset_batch.py",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "14ed0493c7ac86f3ea27dbff191ce8a44fc7e451"
+      ],
+      "subject": "Reject production-invalid graphs at review; keep UI text out of key art (0.17.4)",
+      "tree": "9471f710ac0f5411338d2a79441c1de9d07086d7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.4"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.4"
+        }
+      ]
+    },
+    {
+      "commit": "532b0e33711d76bf7bfdb36793f92cdda84ced3e",
+      "diff_sha256": "b67b3911e6fa1164ec22ec3fa11543c12a619e628364671457f2cb102a9c8edf",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "examples/native-direction-review/agenda/graph.json",
+        "examples/native-direction-review/bulletin/graph.json",
+        "examples/native-direction-review/demo.py",
+        "examples/native-direction-review/native-layout.json",
+        "plugin.json",
+        "tests/direction_fixture.py",
+        "tests/test_regressions_0174.py",
+        "tools/asset_batch.py",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "14ed0493c7ac86f3ea27dbff191ce8a44fc7e451",
+        "ce60a7a897c0af15e445025f1eb05f1584129653"
+      ],
+      "subject": "Merge release/0.17.4",
+      "tree": "9471f710ac0f5411338d2a79441c1de9d07086d7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.4"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.4"
+        }
+      ]
+    },
+    {
+      "commit": "3725fe26fb24de31e3a4f6b82e3366c35d29e8e0",
+      "diff_sha256": "50d8c82c588dafe534ad444ea2284a3343b541636cf5037c0089207f905865e4",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "tests/test_regressions_0175.py",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "532b0e33711d76bf7bfdb36793f92cdda84ced3e"
+      ],
+      "subject": "Let implementation extend the selected graph without redesigning it (0.17.5)",
+      "tree": "5cf29f12e2fd39aa2745f7eb0fe1f8f331eb1dbd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.5"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.5"
+        }
+      ]
+    },
+    {
+      "commit": "2da1c1cf59ad0fcd89f01734378226ba9237f8c8",
+      "diff_sha256": "50d8c82c588dafe534ad444ea2284a3343b541636cf5037c0089207f905865e4",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "tests/test_regressions_0175.py",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "532b0e33711d76bf7bfdb36793f92cdda84ced3e",
+        "3725fe26fb24de31e3a4f6b82e3366c35d29e8e0"
+      ],
+      "subject": "Merge release/0.17.5",
+      "tree": "5cf29f12e2fd39aa2745f7eb0fe1f8f331eb1dbd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.5"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.5"
+        }
+      ]
+    },
+    {
+      "commit": "3541524341756e1b173223cbf49135931e3ff384",
+      "diff_sha256": "54c29077f0896fb3384d89bfb194c8a537bf89185df31bc17779f4af34ea51dd",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "figma-bridge/code.js",
+        "figma-bridge/semantic_components.js",
+        "plugin.json",
+        "tests/test_regressions_0176.py",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "2da1c1cf59ad0fcd89f01734378226ba9237f8c8"
+      ],
+      "subject": "Normalize selection paths; clear default variant-set radius (0.17.6)",
+      "tree": "c32fe4205999f11123381939f8b5b272eca8534b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.6"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.6"
+        }
+      ]
+    },
+    {
+      "commit": "b81736ee077734337d39c2b065ad935e698ea046",
+      "diff_sha256": "54c29077f0896fb3384d89bfb194c8a537bf89185df31bc17779f4af34ea51dd",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "figma-bridge/code.js",
+        "figma-bridge/semantic_components.js",
+        "plugin.json",
+        "tests/test_regressions_0176.py",
+        "tools/design_directions.py"
+      ],
+      "parents": [
+        "2da1c1cf59ad0fcd89f01734378226ba9237f8c8",
+        "3541524341756e1b173223cbf49135931e3ff384"
+      ],
+      "subject": "Merge release/0.17.6",
+      "tree": "c32fe4205999f11123381939f8b5b272eca8534b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.17.6"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.17.6"
+        }
+      ]
+    },
+    {
+      "commit": "f33249fa960d8666dfda75be5b493de4846bb6a4",
+      "diff_sha256": "f6675cc81decbdcc29be15b9ba47650a47f75e39e059a006be63e4267599e7ba",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "skills/figma-flow/SKILL.md",
+        "tests/test_check_project.py",
+        "tests/test_design_bundle.py",
+        "tests/test_figma_draft.py",
+        "tests/test_regressions_0180.py",
+        "tools/check_project.py",
+        "tools/design_actions.py",
+        "tools/design_bundle.py",
+        "tools/embedded_assets.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "b81736ee077734337d39c2b065ad935e698ea046"
+      ],
+      "subject": "Report selected Figma readback, evidence freshness and embedded image size (0.18.0)",
+      "tree": "1be6d923d85daa64295e65e4ad16b66a97207d66",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.0"
+        }
+      ]
+    },
+    {
+      "commit": "1c3acdffcaccb373eed12559d5caa83b3f4fc83f",
+      "diff_sha256": "f6675cc81decbdcc29be15b9ba47650a47f75e39e059a006be63e4267599e7ba",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "plugin.json",
+        "skills/figma-flow/SKILL.md",
+        "tests/test_check_project.py",
+        "tests/test_design_bundle.py",
+        "tests/test_figma_draft.py",
+        "tests/test_regressions_0180.py",
+        "tools/check_project.py",
+        "tools/design_actions.py",
+        "tools/design_bundle.py",
+        "tools/embedded_assets.py",
+        "tools/figma_bridge.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "b81736ee077734337d39c2b065ad935e698ea046",
+        "f33249fa960d8666dfda75be5b493de4846bb6a4"
+      ],
+      "subject": "Merge release/0.18.0",
+      "tree": "1be6d923d85daa64295e65e4ad16b66a97207d66",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.0"
+        }
+      ]
+    },
+    {
+      "commit": "77d96ebc870b64227cccbae72c9c92aa245b544d",
+      "diff_sha256": "d0338a32790d4f809d20c4d78275a288e1040c836353a79b6d7953e09ab76690",
+      "files": [
+        "README.md",
+        "skills/figma-flow/SKILL.md"
+      ],
+      "parents": [
+        "f33249fa960d8666dfda75be5b493de4846bb6a4"
+      ],
+      "subject": "Use a supplied design system as the screen authoring standard",
+      "tree": "1a3fb2e8dc505140325efaf395f26538b4f45358",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.0"
+        }
+      ]
+    },
+    {
+      "commit": "738b84b96cb51b3fafc5ef2667409ca189b90652",
+      "diff_sha256": "d0338a32790d4f809d20c4d78275a288e1040c836353a79b6d7953e09ab76690",
+      "files": [
+        "README.md",
+        "skills/figma-flow/SKILL.md"
+      ],
+      "parents": [
+        "1c3acdffcaccb373eed12559d5caa83b3f4fc83f",
+        "77d96ebc870b64227cccbae72c9c92aa245b544d"
+      ],
+      "subject": "Merge design system guidance for 0.18.0",
+      "tree": "1a3fb2e8dc505140325efaf395f26538b4f45358",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.0"
+        }
+      ]
+    },
+    {
+      "commit": "bce939d1ea7e268ca5ef809eee63a5b3ce3bb29a",
+      "diff_sha256": "aead907247c3a8094ce3df840e0df3c401bdec9eabd221909a3d49877c250ec8",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".github/workflows/test.yml",
+        ".gitignore",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "docs/codex-setup-prompts.md",
+        "docs/design-system-trials.md",
+        "docs/figma-guide.md",
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/draft-readback-save.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/production-plugin-actions.png",
+        "docs/trials/mui-comparison.jpg",
+        "docs/trials/shadcn-comparison.jpg",
+        "plugin.json",
+        "requirements-optional.txt",
+        "skills/figma-flow/references/design-review.md",
+        "skills/figma-flow/references/local-design-audit.md",
+        "tests/test_figma_draft.py",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "738b84b96cb51b3fafc5ef2667409ca189b90652"
+      ],
+      "subject": "Prepare public release documentation and portable setup for 0.18.1",
+      "tree": "ce61009f41c024b1c03586582c6db3aae6d45ba7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.18.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.18.1"
+        }
+      ]
+    }
+  ],
+  "historical_ref": "release/0.18.1",
+  "pages": {
+    "14ed0493c7ac86f3ea27dbff191ce8a44fc7e451": "f561cc1d86425ef50d017563b9194a5bb9bb6d4b32277e8d4997a1d932ac29c1",
+    "1c3acdffcaccb373eed12559d5caa83b3f4fc83f": "934642192c02817de0dfd179caac3c97c776da46728432b660c2b7157462d8ba",
+    "2bb7018cc4fba5c18fcc9c7fa4441c1422696e7e": "1dbb1b5f3f7a965c5ce3451c5fd5e665a2ebf7f01e0f3c40b679034bb315940c",
+    "2da1c1cf59ad0fcd89f01734378226ba9237f8c8": "ce60755603b07b3db7252a8e7e26f45b2369f7102d68efff4b29bb88ee9aef9a",
+    "3541524341756e1b173223cbf49135931e3ff384": "b0f32002ae232ef3cb3085a51fb7ec97e278ff49d39c52633477d6312059ac7c",
+    "3725fe26fb24de31e3a4f6b82e3366c35d29e8e0": "a94d7902cb3c45b5087bff13d9039b5a20c6cf87e6e0f5388535b3fccc483afd",
+    "39897f3db1c7e6b4dbc256594cbabe008174ca65": "5181a97bf2828f704ee32c400d6d425b379a99fc86bfd1bb1488f71eca26e9af",
+    "3c678410d08c77f99d5b724d1728c138e1795df4": "6b38cd8d8a31ea186f24ca4817262fe9cee64a9ed88867fcd320192f3a66168c",
+    "41d6ff1aadc3b79723e54438a72bc76d6fe5f491": "2d49e755ab890eb24c19104c1a4016eabb479fcb58813026a423303c2bbab910",
+    "51f8b0a93dc3baa3e000f4bb7d5d319a0a257006": "b2dce7d59fd9a052880f2c877d7abe3b7b4d1d50987da747c83c07bd776e9982",
+    "532b0e33711d76bf7bfdb36793f92cdda84ced3e": "ebb422199624ce3cdbb05f101c0b9bc2d24103ef68ec4b2573770d4c64df5bb9",
+    "586a5bfb7cfd36639477b363617114d6a1997767": "a01a1a3accd83cf17c705be5af3fbc897f8dca1a580f378bd22ace28d062cb5f",
+    "5a025a722aa87cd7272b9c533e18ffaba1cd7cfd": "54ad92c5ca0d76eb52dbe6e54a51914834827129210ee0a4409ff5c63100cd86",
+    "616599f249500d3b437361959616298715a7712d": "5b18cc5bfadefd4395feb2c4cde1f597beca8b1d5478ad7d71f1031e9795c898",
+    "6a22eb38f254180cd1980c8ecf667e6052882b18": "7da995dac179ba1cb813054474f2306f6b8ff8493db931729bb6d0f2ba713d35",
+    "738b84b96cb51b3fafc5ef2667409ca189b90652": "071e47c9f31cf2940113bb63ac3e128b2b4f6a57588262038f335ab2d35a1481",
+    "77d96ebc870b64227cccbae72c9c92aa245b544d": "a05264be8311a0405d98092c76e7d8360e9fb8f7f2d7b7633902428546ab27da",
+    "7ebc5bd42e4dbe6868125d81c5f7a4e2131167de": "4ea3f69b864bfc44b29aa07a4e805dbd4b1ca2ae4341a63f219aee894887bc1f",
+    "822c2156f56fd7edc485c5df956aa93a9faf5d74": "f54457ad2c1a46d90b89912b7f38dfd017d1e9f3eba075a60fd2c3cffaf20cce",
+    "88b22bfd41929ff7d91c59c91a2420f371efc99d": "cd64da743a7fd52476a70d196319d0a19343ff33f84499eba54a4f8cf1d0b8c3",
+    "8d6a9cf182ab1f9d2d6bf335afe38cf1fd600945": "55b87a4b57303973aa516a79e0aa3f302406f3bb9732bd60b7f563804184ae31",
+    "90b0c62463058af1e099965ca979888b6984a2cd": "e23748e5429c52136e55e50eb17176610e379ad99631482f5d89522e9a7311e0",
+    "953bbd9999d0a01001c50916b074c28c836a1360": "9f54768d9f084b404e897f6d927df95ab205486717167e85d391d94fd9e55343",
+    "a1e9a74a04672574324d24185cbfaddc5f5e041e": "21b2d87e7115a89ff7591ba4642fe01f09fea1f5c23d8a8ff61443b20e123919",
+    "a36559aa505bce009d8075ce40bf6822080bebdf": "16a7197f8499b6fca69bb05ead53bd986dd211038c14c95a34e25f9d4a4359db",
+    "a3bc4285f3ade2aa8bebf88e6ad6f3b8f2e70f62": "cacb38568610464da62a71790b35e252bab4ed399582ac774db3b03c602ffdd9",
+    "af04c9684a090347d02c568815d35f521f83e2cb": "39598bdf7e7a9cb1e79ef22847783e1281b893472db0607dd65f42b5da273e41",
+    "b81736ee077734337d39c2b065ad935e698ea046": "cb3dfdbafccca9f632a63938f6b81fade5384ccb7c3c18ab966f7673a44f6a3d",
+    "b9785fa25eb3cb2f6f196bfc9ff1ffaeb072700c": "deef25e3a666cf32df0ca1a73ac0338b35d0d3c31480c0b7ebc73ec53d962f52",
+    "bce939d1ea7e268ca5ef809eee63a5b3ce3bb29a": "9a1d240d4b66f09f757a7d34f9f29e6601df058e9a8f57503f36d39933c513e7",
+    "bdd428c20d0ce90292a922b0a63445585e3be66f": "eb17570134cc9f6f5ec120439861a71f6241310b5b8ff6ec2f74aa41c52fa3c2",
+    "beb3912f8c3cdcf7f5302f30709a57c1f54816de": "28c466420ab05543b05f73ae80587434ea7c9be871dff117702f123cb09e6fae",
+    "c27761a821ed256efb54886b38ad669dbcef9055": "0d413f7b292fef84566f2c990ca3c1450133d3d2ac71093eb5fd6782022e25c0",
+    "c57cc8aa0892c141cfde03c0c33cefa244bde2eb": "941a2d2efd6803bec5c2dab4f760cf032ac7686605579a507c167231d5d7fe48",
+    "ce60a7a897c0af15e445025f1eb05f1584129653": "79d490b237691ff79a104c2d27c78504b3b0becfd2a5c1d3a30dbc34243567e4",
+    "d48a056526d0880c4b88ca437384880834cb3851": "97a268f1bc29f3c9bad5e0d41c8db6362bd8cd27385e7d9a4bcd69dc65b279d7",
+    "d795abeebde36931e4c4b8aa640d3c75dbb31f7a": "3e4aa48c23c36bc11b177313121e8d35a5030ca716f0f9c6879c1139f1a16ccc",
+    "f0e81fcca8e6bb3e44d90d1509a4830c189c3701": "014e790bbc076bb6c7eb8d6d423cd6a96230161aafc1ea888ab28e6967a9a2b4",
+    "f33249fa960d8666dfda75be5b493de4846bb6a4": "b5c195a339b4de9277920c0f19a1e17f8b3bb084d23fce532e3a2586b5c8a979"
+  },
+  "saved_heads": [
+    {
+      "classification": "canonical",
+      "commit": "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e",
+      "name": "codex/browser-access-unslop"
+    },
+    {
+      "classification": "canonical",
+      "commit": "01735351c2d82f1372442192b9bf14fa6f049a74",
+      "name": "codex/bundled-design-skills"
+    },
+    {
+      "classification": "canonical",
+      "commit": "a787647678eb3d8369bbdc9930a18b90427ed122",
+      "name": "codex/remove-music-taste"
+    },
+    {
+      "classification": "canonical",
+      "commit": "b27dffc2e923347831d30368faaf8136f2cc3b54",
+      "name": "codex/skill-dependency-runtime"
+    },
+    {
+      "classification": "canonical",
+      "commit": "61c0b1ea79abda7b258459e245a1187e1ecc0314",
+      "name": "feat/readable-graph-specs"
+    },
+    {
+      "classification": "canonical",
+      "commit": "bf049266356987b6abbf62533a5d3b0f9c549b8b",
+      "name": "feature/graph-ssot-roundtrip"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "738b84b96cb51b3fafc5ef2667409ca189b90652",
+      "name": "local-history/0.18.0"
+    },
+    {
+      "classification": "canonical",
+      "commit": "90f9195600dd54131c80a817bebdd88fd63fe52a",
+      "name": "main"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "616599f249500d3b437361959616298715a7712d",
+      "name": "release/0.17.0"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "953bbd9999d0a01001c50916b074c28c836a1360",
+      "name": "release/0.17.1"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "a3bc4285f3ade2aa8bebf88e6ad6f3b8f2e70f62",
+      "name": "release/0.17.2"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "822c2156f56fd7edc485c5df956aa93a9faf5d74",
+      "name": "release/0.17.3"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "ce60a7a897c0af15e445025f1eb05f1584129653",
+      "name": "release/0.17.4"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "3725fe26fb24de31e3a4f6b82e3366c35d29e8e0",
+      "name": "release/0.17.5"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "3541524341756e1b173223cbf49135931e3ff384",
+      "name": "release/0.17.6"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "77d96ebc870b64227cccbae72c9c92aa245b544d",
+      "name": "release/0.18.0"
+    },
+    {
+      "classification": "archived-only",
+      "commit": "bce939d1ea7e268ca5ef809eee63a5b3ce3bb29a",
+      "name": "release/0.18.1"
+    },
+    {
+      "classification": "canonical",
+      "commit": "10a379463f5bfa8af845420d3c3936b4b211596d",
+      "name": "release/0.18.2"
+    },
+    {
+      "classification": "canonical",
+      "commit": "f64d9a9e592343a0910cec236d358cd841b8e207",
+      "name": "release/unified-figma-0220"
+    }
+  ],
+  "schema": "figma-flow-legacy-patch-catalog-v1",
+  "source_head": "bce939d1ea7e268ca5ef809eee63a5b3ce3bb29a",
+  "source_main_cutoff": "0bd817701f3df66673e314007f768a6de404fd78"
+}
