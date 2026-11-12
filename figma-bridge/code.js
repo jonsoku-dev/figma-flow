@@ -662,7 +662,7 @@ async function readback(pages, scope) {
   for (const page of pages) {
     await page.loadAsync();
     snapshots.push(await snapshot(page));
-    const read = await readNativeSemantics(figma,page);
+    const read = requireFullNativeRead(await readNativeSemantics(figma,page));
     nativeReads.push(read);
     mergeNativeRasterImages(rasterImages, read.rasterImages);
   }

@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const vm = require('node:vm');
-const { mergeNativeRasterImages } = require('../figma-bridge/native_semantic_read.js');
+const { mergeNativeRasterImages, requireFullNativeRead } = require('../figma-bridge/native_semantic_read.js');
 
 const source = fs.readFileSync(require.resolve('../figma-bridge/code.js'), 'utf8');
 const match = source.match(/async function readback\(pages, scope\) \{[\s\S]*?\n\}\nasync function exportReadback/);
@@ -16,6 +16,7 @@ async function readWith(tables) {
     Object,
     PAYLOAD: { expected_native_handoff: {} },
     mergeNativeRasterImages,
+    requireFullNativeRead,
     figma: { variables: {
       getLocalVariableCollectionsAsync: async () => [],
       getLocalVariablesAsync: async () => [],

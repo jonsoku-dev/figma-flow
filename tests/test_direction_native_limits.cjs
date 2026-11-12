@@ -5,9 +5,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const runtime = fs.readFileSync(path.join(__dirname, '../figma-bridge/direction_review.js'), 'utf8');
+const {requireFullNativeRead} = require('../figma-bridge/native_semantic_read.js');
 function host() {
   const measurementFrames = [];
-  const context = vm.createContext({DRAFT:{}, __html__:'', figma:{showUI(){},ui:{postMessage(){}},
+  const context = vm.createContext({requireFullNativeRead, DRAFT:{}, __html__:'', figma:{showUI(){},ui:{postMessage(){}},
     createFrame(){const frame={children:[],appendChild(node){this.children.push(node);node.parent=this;},remove(){this.removed=true;this.children=[];}};measurementFrames.push(frame);return frame;},
     async getStyleByIdAsync(id){return {id,name:id,fontName:{family:'Inter',style:'Regular'},fontSize:17,lineHeight:{unit:'PIXELS',value:24}};}}});
   vm.runInContext(runtime, context);

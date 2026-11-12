@@ -1150,7 +1150,7 @@ async function discoverGraphNative(figma, scope) {
   for (const pageId of scope.allowed_page_ids) {
     const page = await figma.getNodeByIdAsync(pageId);
     if (!page || page.type !== 'PAGE') throw Error('Missing admitted discovery page: ' + pageId);
-    const actual = await readNativeSemantics(figma, page);
+    const actual = requireFullNativeRead(await readNativeSemantics(figma, page));
     const nativeNodes = new Map([page, ...page.findAll(() => true)].map(node => [node.id, node]));
     for (const row of actual.nodes) {
       const node = nativeNodes.get(row.id);

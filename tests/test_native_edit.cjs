@@ -1,5 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),{execFileSync}=require('node:child_process');
 const source=fs.readFileSync(path.join(__dirname,'../figma-bridge/native_edit.js'),'utf8');
+const {requireFullNativeRead}=require('../figma-bridge/native_semantic_read.js');
 const planSchema=JSON.parse(execFileSync('python3.13',['-B','-c','import json,sys; sys.path.insert(0, sys.argv[1]); from native_edit import PLAN_SCHEMA; sys.stdout.write(json.dumps(PLAN_SCHEMA))',path.join(__dirname,'../tools')],{encoding:'utf8'}));
 const clone=value=>JSON.parse(JSON.stringify(value));
 const plan=edits=>({schema:'figma-flow-native-edit-plan-v1',file_key:'file',page_id:'1:1',edits:edits||[{node_id:'2:1',field:'paddingLeft',before:16,after:24}]});
@@ -15,7 +16,7 @@ function world(extra={}){
  const variableMap=new Map([[variable.id,variable]]);
  const figma={fileKey:'file',currentPage:page,ui:{postMessage(message){state.messages.push(message);}},showUI(){},async getNodeByIdAsync(id){return objects.get(id);},variables:{async getVariableByIdAsync(id){return variableMap.get(id)||null;},async getVariableCollectionByIdAsync(){return collection;}},async listAvailableFontsAsync(){return[{fontName:{family:'Inter',style:'Regular'}},{fontName:{family:'Other',style:'Regular'}}];},async loadFontAsync(font){state.loads.push(font);await state.onLoad?.();}};
  const readNativeSemantics=async()=>{await state.onRead?.();return{nodes:[{id:page.id,type:'PAGE'},{id:main.id,type:'COMPONENT',paddingLeft:main.paddingLeft,paddingRight:main.paddingRight,fills:clone(main.fills)},{id:text.id,type:'TEXT',fontSize:text.fontSize,fontName:clone(text.fontName),boundVariables:clone(text.bindings)}],variables:[...variableMap.values()].map(clone),collections:[{id:'collection'}]};};
- const context=vm.createContext({figma,readNativeSemantics,NATIVE_EDIT_SHA256:'pinned-plan',NATIVE_EDIT_PLAN_SCHEMA:planSchema,...extra});vm.runInContext(source,context);
+ const context=vm.createContext({figma,readNativeSemantics,requireFullNativeRead,NATIVE_EDIT_SHA256:'pinned-plan',NATIVE_EDIT_PLAN_SCHEMA:planSchema,...extra});vm.runInContext(source,context);
  return{state,page,main,text,instance,instanceText,variable,variableMap,figma,context,run:(data,operation)=>context.runNativeEdit(figma,data,operation)};
 }
 test('actual getters change only declared main padding and discovery remains a normal native readback',async()=>{

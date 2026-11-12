@@ -82,7 +82,7 @@ async function nativeEditDiscovery(figma,plan) {
   nativeEditScope(figma,plan);
   const page=await figma.getNodeByIdAsync(plan.page_id);
   if(page?.type!=='PAGE')throw Error('Declared native page missing');
-  const result=await readNativeSemantics(figma,page);
+  const result=requireFullNativeRead(await readNativeSemantics(figma,page));
   const objects=new Map([page,...page.findAll(()=>true)].map(node=>[node.id,node]));
   for(const row of result.nodes){const node=objects.get(row.id);if(typeof node.strokeWeight==='number')row.strokeWeight=node.strokeWeight;
     if(node.type==='TEXT'&&node.characters.length){const families=[...new Set(node.getRangeAllFontNames(0,node.characters.length).map(font=>font.family))];if(families.length===1)row.nativeFontFamily=families[0];const bound=node.getRangeBoundVariable(0,node.characters.length,'fontFamily');if(typeof bound==='symbol')throw Error('Mixed native family binding');row.boundVariables={...row.boundVariables,fontFamily:bound||undefined};}}
