@@ -158,7 +158,7 @@ const bindStart = html.indexOf('function bindAuditExport');
 const bindEnd = html.indexOf('bindAuditExport();', bindStart);
 const bind = html.slice(bindStart, bindEnd);
 assert.ok(bind.includes('renderAuditExport'));
-assert.ok(bind.includes("'0.26.3'"));
+assert.ok(bind.includes('config.plugin_version'), 'diagnostic version must come from generated config');
 assert.ok(!bind.includes('postMessage'));
 assert.ok(!bind.includes('innerHTML'));
 assert.ok(!bind.includes('fetch('));
