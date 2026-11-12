@@ -47,3 +47,16 @@ canonical 조상43개와 태그10개, 당시 CHANGELOG 버전16개를 대조했�
 소유자 로컬 실행 원본은 배포하지 않는다. fork의 CI는 코드·기록 검사를 다시 실행하며 원본이 없는 Figma/브라우저 실행을 자동 인증하지 않는다. 예약·완료 메타데이터 검사는 중단 중복 생성을 막는 검사이고, 현재 모든 명세·주석·보드의 실제 인수는 정상 검증기로 대조한다. 미확인 과거 생성 영수증은 보존하고 성공으로 바꾸지 않는다. 새 정상 패킷의 생성 응답·최종 metadata·전체 검증과 실제 UI 관찰은 별도 확보했다.
 
 이 소스 기록 시점의 네이티브 후보는0.26.2이고 전역 Codex 설치는0.26.1이다. 원격 CI·태그·ZIP·최종 설치는 발행 소유자가 이후 실행하며 실제 릴리스와 호스트 기록으로 확인한다. 실기기·실제 데스크톱 원본 첨부·브라우저200%확대·클라우드 저장·Figma 글꼴 바이너리 동일성은 미검증으로 남긴다.
+
+## 2026-11-12 · 0.26.3 이력 UI와 개발 문서
+
+제품 소스 기준은 `6a50f5c0aea3e8a131e0698151875cd83102ed69`다. 이력 UI·기준 oracle는 부모 `fce49dadaf9600e3c9855046ba48411ee5e581c1`에 보존했다. 검사 파일 blob·mode는 구현 diff에서 바뀌지 않았다. 개선 gate는 실제 archive 기준 AssertionError 종료1과 대상 종료0을 재실행했다.
+
+- 최종 Python1,072개 중1,070통과·2skip, Node229개 중228통과·1skip, 데모2통과다. 좁은 host/control/activity29개도 통과했다. 첫 Python 환경에는 optional tinycss2가 없어서 해당 실행을 중단하고 requirements 범위의1.5.1을 설치한 뒤 전체를 다시 실행했다. 중단한 실행은 통과 근거로 쓰지 않는다.
+- 실제 생성 React 자산을 브라우저에서 열어320/560/840px, light/dark, filter·Enter·초점·빈 상태와 native mutation 요청0을 확인했다. 마지막 실제 세 fixture 로딩에서 pageerror0을 관찰했다. 한 UI link의 초점이 legacy summary로 이동하는 문제를 수정하고 새 bundle에서 해당 현재 실행으로 이동함을 다시 확인했다.
+- Stagehand의 emulateMedia는 지원되지 않았다. reduced-motion CSS가 실제 stylesheet에 있고 관련 transition/animation을 제거하는 규칙을 확인했으나 OS 설정 전환의 시각 효과를 실제 관찰하지 않았다. 이 도구 오류는 제품 console 오류로 분류하지 않는다.
+- 정상 replay로 기존15개 task key를 유지하고0.26.3 UI artifact에 맞춰 revision을 재생성했다. 이전 generation·artifact·receipt와 private 상태를 보존했다. 실제 Figma에서 동일한 등록 plugin을 다시 열고, 새로운 read 실행이 요청됨·실행 중·실제 읽기 완료로 연결되는 것을 관찰했다. 옛 기록은 비연결 이력으로 남았다.
+- 인증된 실제 runtime의 version/implementation/generation 일치를 확인했다. 실제 read127개 node·variables·collections·rasterImages3개가 직전0.26.2 설치본 관측과 같았다. UI 검수에서 디자인 생성·변경을 추가로 수행하지 않았다.
+- 27개 개발 문서의 상대 링크와 개인 경로 미포함을 확인했다. 독립 정적 검수는 선택 동기화 protocol의 누락/빈 선택 규칙, dependency artifact 이름·hash, 데이터와 UI 통합 순서를 지적해 문서에 명시했다. Figma 공식 자료와 실제 구현을 대조한 Frame/Group/component 설명은 향후 제안이며 현재 컴포넌트 동작 수정은 아니다.
+
+원격 CI·태그·ZIP·Codex 전역 설치의 최종 결과는 이 소스 기록 이후 실제 릴리스에서 확인한다. 현재 계획과 이력 UI는 Python control journal의 권한이나 전체 제품 인수를 대신하지 않는다. 기존61개 회귀 전체·실기기·원본 첨부 UI·실제200%확대·클라우드 저장·글꼴 binary 동일성의 미검증 범위를 유지한다.

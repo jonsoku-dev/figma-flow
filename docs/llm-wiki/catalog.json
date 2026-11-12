@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.26.3",
     "0.26.2",
     "0.26.1",
     "0.26.0",
@@ -2363,6 +2364,137 @@
           "version": "0.26.2"
         }
       ]
+    },
+    {
+      "commit": "9a6f8ba694666ef5040a296c14b1af49bddcd722",
+      "diff_sha256": "ee664a470b27a929889975b89f0b099c5673d6f32ff004df03101e66504caac0",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/README.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/decisions.md",
+        "docs/llm-wiki/integration.md",
+        "docs/llm-wiki/patches/1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d.md",
+        "docs/llm-wiki/patches/25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c.md",
+        "docs/llm-wiki/patches/3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf.md",
+        "docs/llm-wiki/patches/ab1c8200cd77e2c24a3e322ddde643d80b179239.md",
+        "docs/llm-wiki/patches/bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff.md",
+        "docs/llm-wiki/patches/ce10c8591bda9ad100c5de7a0f5323f20f5827c9.md",
+        "docs/llm-wiki/patches/e179df281a870086582ad25cf649931af5a8eaa2.md",
+        "docs/llm-wiki/patches/f3ec102c6dbe436495ff15391f599cddfd86a449.md",
+        "docs/llm-wiki/releases.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d"
+      ],
+      "subject": "docs: publish detailed 0.26.2 patch records",
+      "tree": "4d154d046b14966baa68ca1bf33285e8bddf42f5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.2"
+        }
+      ]
+    },
+    {
+      "commit": "fce49dadaf9600e3c9855046ba48411ee5e581c1",
+      "diff_sha256": "e3f3c96335afb06f658f5f1d0af4a9de01166f01692401c673c95a7ccf2cf992",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/README.md",
+        "docs/guide.md",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/assets/panels.js.LEGAL.txt",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/WorkspaceActivity.mjs",
+        "panel-ui/src/styles/workspace.css",
+        "plugin.json",
+        "specs/README.md",
+        "specs/workspace-activity/graph.json",
+        "specs/workspace-activity/request.md",
+        "specs/workspace-activity/screen-spec.md",
+        "specs/workspace-activity/spec.md",
+        "tests/test_workspace_activity.cjs",
+        "tests/test_workspace_control.cjs",
+        "tests/test_workspace_host.cjs",
+        "tests/workspace_history_failure_oracle.cjs"
+      ],
+      "parents": [
+        "9a6f8ba694666ef5040a296c14b1af49bddcd722"
+      ],
+      "subject": "feat: add activity viewer with pinned history oracle",
+      "tree": "364f15a939dbf99e4df7574b32e688c58ef9f2c8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
+      "diff_sha256": "5e32e194a12446f1d54e965696a2edba1649e9b51048703b45d075c3b32f598b",
+      "files": [
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "parents": [
+        "fce49dadaf9600e3c9855046ba48411ee5e581c1"
+      ],
+      "subject": "fix: record each failed execution once",
+      "tree": "8f70a6935bcbd44e36afd06131e196d1633691b0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2386,12 +2518,14 @@
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
+    "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
+    "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
@@ -2417,7 +2551,8 @@
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
     "f3ec102c6dbe436495ff15391f599cddfd86a449": "e4c6ee3db8f9e045bafc1d629567150280ee52b78ab1082fc35eb9dcb928075e",
-    "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02"
+    "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02",
+    "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f"
   },
   "provenance_remotes": [
     {
@@ -2426,6 +2561,10 @@
     },
     {
       "observed_at_commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -2600,18 +2739,28 @@
     },
     {
       "source_commits": [
-        "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d"
+        "9a6f8ba694666ef5040a296c14b1af49bddcd722"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.26.2"
+      ],
+      "version": "0.26.2"
+    },
+    {
+      "source_commits": [
+        "6a50f5c0aea3e8a131e0698151875cd83102ed69"
       ],
       "tagged": false,
       "tags": [],
-      "version": "0.26.2"
+      "version": "0.26.3"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
+  "source_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -2667,6 +2816,11 @@
       "commit": "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c",
       "tag": "v0.26.1",
       "version": "0.26.1"
+    },
+    {
+      "commit": "9a6f8ba694666ef5040a296c14b1af49bddcd722",
+      "tag": "v0.26.2",
+      "version": "0.26.2"
     }
   ]
 }

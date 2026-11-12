@@ -1,10 +1,22 @@
 # 버전과 전체 Git 기록 대조
 
-카탈로그의 제품 소스 기준은 `1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d`이다. canonical 조상52개와 보존 계보39개를 별도 기록한다. 태그·매니페스트·CHANGELOG의 버전 대조는 `catalog.json`의 해당 소스 시점 관측이다. 릴리스 태그는 이후 Wiki/CHANGELOG 전용 발행 커밋을 가리킬 수 있으며, 그 문서 접미사는 제품 코드와 구분해 검증한다.
+현재 카탈로그의 소스 기준은 `6a50f5c0aea3e8a131e0698151875cd83102ed69`다. canonical55개와 별도 보존 계보39개를 기록한다. 태그는 이후 Wiki/CHANGELOG 전용 발행 커밋을 가리킬 수 있으며 해당 접미사는 제품 소스와 구분한다.
 
 ## 대조 방법
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
+
+## v0.26.3
+
+[이력 UI와 고정 재현 기준](patches/fce49dadaf9600e3c9855046ba48411ee5e581c1.md), [실패 기록 수정](patches/6a50f5c0aea3e8a131e0698151875cd83102ed69.md)을 포함한다. 제품 소스 기준은6a50f5c다. 이 기록 시점에는 실제 Figma의0.26.3 후보 UI를 확인했으며 태그·ZIP·최종 Codex 설치·원격 CI는 발행 이후 실제 릴리스와 호스트 기록으로 확인한다.
+
+작업 목록과 이력에서 현재 task revision의 마지막 상태를 분포와 정확한 수로 보여준다. 같은 dispatch의 요청·진행·결과는 host가 생성한 실행 ID와 task/revision으로 연결한다. legacy는 비연결 시간순 기록으로 남기며 전체 원본 event 요약을 펼칠 수 있다. 필터와 작업 링크는 해당 실행으로 초점을 옮긴다. 짧은 펼침 feedback과 reduced-motion CSS를 기존 테마 안에 포함한다. 다운로드·채팅·옛 revision을 현재 완료 수로 세지 않으며 제품 인수 완료율을 표시하지 않는다.
+
+컴포넌트 속성·재사용, 의미 계층과 Frame/Group/Auto Layout, 작업 dependency, 선택 동기화, 자산 목록, 네이티브 읽기 최적화, runtime 모듈 경계, 실행 수명주기·복구8항목을 [개별 기능서·설계서·작업서27문서](../development-roadmap/README.md)로 제공한다. [Cursor 전달서](../development-roadmap/CURSOR_HANDOFF.md)에 실제 소유 코드·작업 순서·검사·보고 형식을 연결한다. 이 제안 기능들은 구현되지 않았다.
+
+독립 검수에서 발견된 중복 실패와 remote validation 누락은 같은 고정 oracle로 실제 기준 AssertionError 종료1·대상 종료0을 확인했다. 자동 검사와 실제 브라우저320/560/840px, light/dark, 필터·키보드·빈 상태는 별도 확인했다. 실제 Figma에서 새 실행의3단계 연결과127노드·변수·collection·3이미지테이블 보존을 읽었다.15개 task key를 유지하고 UI artifact 변경에 따라 revision을 다시 생성했으므로 기존 이력은 과거 revision으로 남는다.
+
+Python1,072개 중1,070통과·2skip, Node229개 중228통과·1skip, 데모2통과다. OS reduced-motion 설정 전환은 실제 관찰하지 않았고 CSS rule을 확인했다. 기존61개 회귀 전체, 실기기, 데스크톱 원본 첨부 UI, 실제200%확대, 클라우드 저장과 font binary 동일성은 완료로 승격하지 않는다.
 
 ## v0.26.2
 

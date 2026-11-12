@@ -43,3 +43,7 @@ python3 -B -m unittest discover -s tests -p 'test_patch_knowledge*.py'
 개인 홈·설치 캐시 경로, 비밀키·pairing/control 값, 원시 Figma 읽기 결과와 다른 사용자 데이터는 배포 기록에 넣지 않는다. 상대 경로·전체 Git 커밋·공개 출처·필요한 최소 실행 요약을 사용한다. 원격 주소의 자격 증명과 로컬 경로는 카탈로그에서 제거한다. 원격 관측은 host/저장소 경로를 보존하며 공개 여부를 인증하지 않는다. 비공개 fork의 기록을 공개 배포할 때는 그 저장소 식별자도 검토한다. 도구는 게시를 자동 실행하지 않는다. Git 기록이 없는 ZIP에서는 과거 Git 객체를 검증할 수 없으므로 완전한 Git clone에서 검사한다.
 
 플러그인 소스 배포는 추적된 `docs/llm-wiki/`, `skills/patch-knowledge/`, `tools/patch_knowledge*.py`를 함께 담아야 한다. 현재 배포의 Git 아카이브 경로는 추적 파일을 포함한다. 이 작업은 설치·태그·게시를 수행하지 않는다.
+
+## 다음 개발 작업
+
+[개발 계획](../development-roadmap/README.md)은 현재 구현과 제안을 구분하고 신규 기능·최적화·구조 개선을 개별 기능서·설계서·작업서로 제공한다. [Cursor 전달서](../development-roadmap/CURSOR_HANDOFF.md)는 한 항목을 구현하는 시작점이다. 제안 문서는 실행 권한이나 현재 검증 증거가 아니다.
