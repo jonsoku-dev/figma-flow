@@ -31,7 +31,12 @@ function world() {
     getPluginData(key) { return this.data[key] || ''; }
     getPluginDataKeys() { return Object.keys(this.data); }
     resize(width, height) { this.width = width; this.height = height; }
-    appendChild(child) { this.insertChild(this.children.length, child); }
+    appendChild(child) {
+      this.insertChild(this.children.length, child);
+      if (this.type === 'COMPONENT_SET' && child.name && child.name.includes('=')) {
+        child.variantProperties = Object.fromEntries(child.name.split(', ').map(part => part.split('=')));
+      }
+    }
     insertChild(index, child) {
       if (child.parent) child.parent.children = child.parent.children.filter(node => node !== child);
       child.parent = this;
