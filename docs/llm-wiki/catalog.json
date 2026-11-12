@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.26.1",
     "0.26.0",
     "0.25.0",
     "0.24.1",
@@ -2026,6 +2027,136 @@
           "version": "0.26.0"
         }
       ]
+    },
+    {
+      "commit": "e3bb0505b011f77a656e096b821c7d0d01f2990c",
+      "diff_sha256": "418490b9a7df951ad73df4676f51f4c1d5ea731e90184bc69a5a69ace9813d94",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".github/workflows/patch-knowledge.yml",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/guide.md",
+        "docs/llm-wiki/README.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/decisions.md",
+        "docs/llm-wiki/improvements.md",
+        "docs/llm-wiki/integration.md",
+        "docs/llm-wiki/legacy/README.md",
+        "docs/llm-wiki/legacy/catalog.json",
+        "docs/llm-wiki/legacy/index.md",
+        "docs/llm-wiki/legacy/patches/14ed0493c7ac86f3ea27dbff191ce8a44fc7e451.md",
+        "docs/llm-wiki/legacy/patches/1c3acdffcaccb373eed12559d5caa83b3f4fc83f.md",
+        "docs/llm-wiki/legacy/patches/2bb7018cc4fba5c18fcc9c7fa4441c1422696e7e.md",
+        "docs/llm-wiki/legacy/patches/2da1c1cf59ad0fcd89f01734378226ba9237f8c8.md",
+        "docs/llm-wiki/legacy/patches/3541524341756e1b173223cbf49135931e3ff384.md",
+        "docs/llm-wiki/legacy/patches/3725fe26fb24de31e3a4f6b82e3366c35d29e8e0.md",
+        "docs/llm-wiki/legacy/patches/39897f3db1c7e6b4dbc256594cbabe008174ca65.md",
+        "docs/llm-wiki/legacy/patches/3c678410d08c77f99d5b724d1728c138e1795df4.md",
+        "docs/llm-wiki/legacy/patches/41d6ff1aadc3b79723e54438a72bc76d6fe5f491.md",
+        "docs/llm-wiki/legacy/patches/51f8b0a93dc3baa3e000f4bb7d5d319a0a257006.md",
+        "docs/llm-wiki/legacy/patches/532b0e33711d76bf7bfdb36793f92cdda84ced3e.md",
+        "docs/llm-wiki/legacy/patches/586a5bfb7cfd36639477b363617114d6a1997767.md",
+        "docs/llm-wiki/legacy/patches/5a025a722aa87cd7272b9c533e18ffaba1cd7cfd.md",
+        "docs/llm-wiki/legacy/patches/616599f249500d3b437361959616298715a7712d.md",
+        "docs/llm-wiki/legacy/patches/6a22eb38f254180cd1980c8ecf667e6052882b18.md",
+        "docs/llm-wiki/legacy/patches/738b84b96cb51b3fafc5ef2667409ca189b90652.md",
+        "docs/llm-wiki/legacy/patches/77d96ebc870b64227cccbae72c9c92aa245b544d.md",
+        "docs/llm-wiki/legacy/patches/7ebc5bd42e4dbe6868125d81c5f7a4e2131167de.md",
+        "docs/llm-wiki/legacy/patches/822c2156f56fd7edc485c5df956aa93a9faf5d74.md",
+        "docs/llm-wiki/legacy/patches/88b22bfd41929ff7d91c59c91a2420f371efc99d.md",
+        "docs/llm-wiki/legacy/patches/8d6a9cf182ab1f9d2d6bf335afe38cf1fd600945.md",
+        "docs/llm-wiki/legacy/patches/90b0c62463058af1e099965ca979888b6984a2cd.md",
+        "docs/llm-wiki/legacy/patches/953bbd9999d0a01001c50916b074c28c836a1360.md",
+        "docs/llm-wiki/legacy/patches/a1e9a74a04672574324d24185cbfaddc5f5e041e.md",
+        "docs/llm-wiki/legacy/patches/a36559aa505bce009d8075ce40bf6822080bebdf.md",
+        "docs/llm-wiki/legacy/patches/a3bc4285f3ade2aa8bebf88e6ad6f3b8f2e70f62.md",
+        "docs/llm-wiki/legacy/patches/af04c9684a090347d02c568815d35f521f83e2cb.md",
+        "docs/llm-wiki/legacy/patches/b81736ee077734337d39c2b065ad935e698ea046.md",
+        "docs/llm-wiki/legacy/patches/b9785fa25eb3cb2f6f196bfc9ff1ffaeb072700c.md",
+        "docs/llm-wiki/legacy/patches/bce939d1ea7e268ca5ef809eee63a5b3ce3bb29a.md",
+        "docs/llm-wiki/legacy/patches/bdd428c20d0ce90292a922b0a63445585e3be66f.md",
+        "docs/llm-wiki/legacy/patches/beb3912f8c3cdcf7f5302f30709a57c1f54816de.md",
+        "docs/llm-wiki/legacy/patches/c27761a821ed256efb54886b38ad669dbcef9055.md",
+        "docs/llm-wiki/legacy/patches/c57cc8aa0892c141cfde03c0c33cefa244bde2eb.md",
+        "docs/llm-wiki/legacy/patches/ce60a7a897c0af15e445025f1eb05f1584129653.md",
+        "docs/llm-wiki/legacy/patches/d48a056526d0880c4b88ca437384880834cb3851.md",
+        "docs/llm-wiki/legacy/patches/d795abeebde36931e4c4b8aa640d3c75dbb31f7a.md",
+        "docs/llm-wiki/legacy/patches/f0e81fcca8e6bb3e44d90d1509a4830c189c3701.md",
+        "docs/llm-wiki/legacy/patches/f33249fa960d8666dfda75be5b493de4846bb6a4.md",
+        "docs/llm-wiki/patches/01735351c2d82f1372442192b9bf14fa6f049a74.md",
+        "docs/llm-wiki/patches/07d32a81eb3523babd7d4039cdb6a39857b7517c.md",
+        "docs/llm-wiki/patches/0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5.md",
+        "docs/llm-wiki/patches/0bd817701f3df66673e314007f768a6de404fd78.md",
+        "docs/llm-wiki/patches/0ee0a24c5955e52dfb6f8f183bb6ac813252b446.md",
+        "docs/llm-wiki/patches/10a379463f5bfa8af845420d3c3936b4b211596d.md",
+        "docs/llm-wiki/patches/1f8d203dff972a1c98b8b2a49d5d0d20a838d80e.md",
+        "docs/llm-wiki/patches/212cb0b57719410694bd369823c679d6a26bdbf8.md",
+        "docs/llm-wiki/patches/2233e0af3732229d36e806063973875a043188f5.md",
+        "docs/llm-wiki/patches/2bc687579e5059cba6702bc5c4a2690c9e34b509.md",
+        "docs/llm-wiki/patches/347a1762edc0e6738346f59d34b9a7e749659a71.md",
+        "docs/llm-wiki/patches/3c6a0f004ed0a1994a55bc98e59f0efa7647d377.md",
+        "docs/llm-wiki/patches/3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19.md",
+        "docs/llm-wiki/patches/3f01ec317a307f179bacb8b546f3ebeecaab5a0f.md",
+        "docs/llm-wiki/patches/4a6314c0584daf8ae1615ea73d8e3d79b60a73f6.md",
+        "docs/llm-wiki/patches/61c0b1ea79abda7b258459e245a1187e1ecc0314.md",
+        "docs/llm-wiki/patches/6969e5dafccef185256c6f02f42b66b9f3636074.md",
+        "docs/llm-wiki/patches/791378c941b08d1cd6274b690a756fa3a5c8f45e.md",
+        "docs/llm-wiki/patches/7d2f41d9652ad228d42e9a1aec813c76b4ed204d.md",
+        "docs/llm-wiki/patches/8c9414594854f99a2d57d00088383f901e465409.md",
+        "docs/llm-wiki/patches/8f2d51b5a65d01a5e161a6158e4766934fc28ad0.md",
+        "docs/llm-wiki/patches/90f9195600dd54131c80a817bebdd88fd63fe52a.md",
+        "docs/llm-wiki/patches/93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779.md",
+        "docs/llm-wiki/patches/9a7a37ff3578f0e429e23ba9549f60d40bf71042.md",
+        "docs/llm-wiki/patches/9d10cff7bc1b7287e8eb24e8ad56ff915302cf89.md",
+        "docs/llm-wiki/patches/9f67a2b638697a6a6ccc5a75353b83325bb2c38e.md",
+        "docs/llm-wiki/patches/a787647678eb3d8369bbdc9930a18b90427ed122.md",
+        "docs/llm-wiki/patches/a9521a82e965865cac74777b747dd26260532173.md",
+        "docs/llm-wiki/patches/aa3acddf626642b7bf0db2f04730cab9cc533a4b.md",
+        "docs/llm-wiki/patches/ad05cd323ec85de8647e81f1a5f07c1c25df50b3.md",
+        "docs/llm-wiki/patches/ad7f9b8604734a64f843179ed9f4f4a00bbfca9b.md",
+        "docs/llm-wiki/patches/b1dd1d3240435d48cb9f116ca4c1654f210a340c.md",
+        "docs/llm-wiki/patches/b27dffc2e923347831d30368faaf8136f2cc3b54.md",
+        "docs/llm-wiki/patches/b52d107dbd5cbabb0524985462f924517dda1a57.md",
+        "docs/llm-wiki/patches/b605165745eee3a4d1f94c3a8677f05a4d7302e3.md",
+        "docs/llm-wiki/patches/bf049266356987b6abbf62533a5d3b0f9c549b8b.md",
+        "docs/llm-wiki/patches/d7b345b57af0ae0ed73b50db0740696fe2bd46b2.md",
+        "docs/llm-wiki/patches/e30b9a4ffc64f294d1404498f3c9171c313b5faa.md",
+        "docs/llm-wiki/patches/e3843766a60d3356cb1964f633609fbe101fdb83.md",
+        "docs/llm-wiki/patches/e4e9d5d866f8805cc52181cae76b7484e4ade3b3.md",
+        "docs/llm-wiki/patches/ea574f67f1a2fe1ba75f1ce767829d5b6af591d2.md",
+        "docs/llm-wiki/patches/f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c.md",
+        "docs/llm-wiki/patches/f64d9a9e592343a0910cec236d358cd841b8e207.md",
+        "docs/llm-wiki/releases.md",
+        "docs/llm-wiki/verification.md",
+        "plugin.json",
+        "skills/patch-knowledge/SKILL.md",
+        "specs/README.md",
+        "specs/regression-program/cases.json",
+        "specs/regression-program/plan.md",
+        "tests/test_patch_knowledge.py",
+        "tests/test_patch_knowledge_check.py",
+        "tests/test_patch_knowledge_legacy.py",
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py"
+      ],
+      "parents": [
+        "0bd817701f3df66673e314007f768a6de404fd78"
+      ],
+      "subject": "feat: embed forkable patch knowledge for 0.26.1",
+      "tree": "879abef36f21b4344b6981c0572b266ac53a4066",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.1"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2068,6 +2199,7 @@
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
+    "e3bb0505b011f77a656e096b821c7d0d01f2990c": "3f706b2efe5791d50864dc484452b0faf592f55a8cb7bf056adbb2e4dd6510e1",
     "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
@@ -2076,6 +2208,10 @@
   "provenance_remotes": [
     {
       "observed_at_commit": "0bd817701f3df66673e314007f768a6de404fd78",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "e3bb0505b011f77a656e096b821c7d0d01f2990c",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     }
   ],
@@ -2225,13 +2361,21 @@
         "v0.26.0"
       ],
       "version": "0.26.0"
+    },
+    {
+      "source_commits": [
+        "e3bb0505b011f77a656e096b821c7d0d01f2990c"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.26.1"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "0bd817701f3df66673e314007f768a6de404fd78",
+  "source_commit": "e3bb0505b011f77a656e096b821c7d0d01f2990c",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
