@@ -10,6 +10,8 @@ unverified.
 import hashlib
 import json
 import re
+from collections import deque
+from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit
 
@@ -17,14 +19,12 @@ import design_directions
 import design_system
 
 SCHEMA = 'figma-flow-input-effect-v1'
-RESULT_SCHEMA = 'figma-flow-input-effect-result-v2'
+RESULT_SCHEMA = 'figma-flow-input-effect-result-v3'
 URL_SCHEMA = 'figma-flow-url-snapshot-v1'
 INPUT_NAMES = ('html', 'url', 'design-system')
 RENDER_STATUSES = {'rendered', 'text-only', 'js-required', 'redirect', 'login-required', 'not-found', 'rate-limited'}
 FAILURE_STATUSES = {'redirect', 'login-required', 'not-found', 'rate-limited'}
 INSTRUCTION = re.compile(r'(?i)ignore previous instructions|you are now|overwrite brief\.md|run this command')
-ASSET = re.compile(r'<(link|script|img)\b([^>]*)>', re.I)
-ATTR = re.compile(r'(?:href|src)\s*=\s*["\']([^"\']+)["\']', re.I)
 TITLE = re.compile(r'<title[^>]*>(.*?)</title>', re.I | re.S)
 RUNTIME_NAMES = {
     'button': 'Button',
@@ -86,8 +86,12 @@ def _quarantine(text):
 
 
 def _relative_asset(html_path, root, url):
-    if url.startswith(('#', '/')) or '\\' in url:
+    root = _root(root)
+    html_path = Path(html_path).resolve()
+    if url.startswith('#'):
         return {'ref': url, 'status': 'external-unverified'}
+    if '\\' in url:
+        return {'ref': url, 'status': 'rejected'}
     try:
         reference = urlsplit(url)
     except ValueError:
@@ -98,10 +102,17 @@ def _relative_asset(html_path, root, url):
     if local.startswith('/') or '\\' in local or '\x00' in local:
         return {'ref': url, 'status': 'rejected'}
     parts = PurePosixPath(local).parts
-    if not parts or any(part in ('', '.', '..') for part in parts):
+    if not parts:
         return {'ref': url, 'status': 'rejected'}
     current = html_path.parent
     for part in parts:
+        if part == '..':
+            if current == root:
+                return {'ref': url, 'status': 'rejected'}
+            current = current.parent
+            continue
+        if part in ('', '.'):
+            continue
         current = current / part
         if current.is_symlink():
             return {'ref': url, 'status': 'rejected'}
@@ -115,22 +126,158 @@ def _relative_asset(html_path, root, url):
     }
 
 
+class _HTMLAssets(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.references = []
+        self.styles = []
+        self.inline_styles = []
+        self._style = None
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag.lower() in {'link', 'script', 'img'}:
+            key = 'href' if tag.lower() == 'link' else 'src'
+            if attrs.get(key):
+                ref = attrs[key]
+                rel = set((attrs.get('rel') or '').lower().split())
+                is_stylesheet = tag.lower() == 'link' and ('stylesheet' in rel or (attrs.get('type') or '').lower() == 'text/css' or ref.split('?', 1)[0].split('#', 1)[0].lower().endswith('.css'))
+                self.references.append((ref, is_stylesheet))
+        if attrs.get('style'):
+            self.inline_styles.append(attrs['style'])
+        if tag.lower() == 'style':
+            self._style = []
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag.lower() == 'style' and self._style is not None:
+            self.styles.append(''.join(self._style))
+            self._style = None
+
+    def handle_endtag(self, tag):
+        if tag.lower() == 'style' and self._style is not None:
+            self.styles.append(''.join(self._style))
+            self._style = None
+
+    def handle_data(self, data):
+        if self._style is not None:
+            self._style.append(data)
+
+    def close(self):
+        pending = self.rawdata
+        super().close()
+        if self._style is not None:
+            self._style.append(pending)
+            self.styles.append(''.join(self._style))
+            self._style = None
+
+
+def _css_parser():
+    try:
+        import tinycss2
+    except ImportError as error:
+        raise ValueError('CSS dependency tracking requires optional package tinycss2; install requirements-optional.txt') from error
+    return tinycss2
+
+
+def _css_references(data, *, declarations=False, environment_encoding=None):
+    tinycss2 = _css_parser()
+    if declarations:
+        rules = tinycss2.parse_declaration_list(data.decode('utf-8'), skip_comments=True, skip_whitespace=True)
+        encoding = None
+    else:
+        rules, encoding = tinycss2.parse_stylesheet_bytes(data, environment_encoding=environment_encoding, skip_comments=True, skip_whitespace=True)
+    references = []
+
+    def function_url(token):
+        args = [item for item in token.arguments if item.type not in {'whitespace', 'comment'}]
+        if len(args) == 1 and args[0].type == 'string':
+            return args[0].value
+        return tinycss2.serialize(args).strip() if args else ''
+
+    def walk(tokens):
+        for token in tokens:
+            is_import = token.type == 'at-rule' and token.lower_at_keyword == 'import'
+            if is_import and token.prelude:
+                first = next((item for item in token.prelude if item.type not in {'whitespace', 'comment'}), None)
+                if first is not None and first.type == 'string':
+                    references.append((first.value, 'import'))
+                elif first is not None and first.type == 'url':
+                    references.append((first.value, 'import'))
+                elif first is not None and first.type == 'function' and first.lower_name == 'url':
+                    references.append((function_url(first), 'import'))
+            elif token.type == 'url':
+                references.append((token.value, 'url'))
+            elif token.type == 'function' and token.lower_name == 'url':
+                references.append((function_url(token), 'url'))
+            elif token.type == 'function':
+                walk(token.arguments)
+            for name in ('prelude', 'content', 'value'):
+                if is_import and name == 'prelude':
+                    continue
+                nested = getattr(token, name, None)
+                if isinstance(nested, (list, tuple)) and nested:
+                    walk(nested)
+
+    walk(rules)
+    return references, encoding
+
+
+def _css_text(data):
+    tinycss2 = _css_parser()
+    _rules, encoding = tinycss2.parse_stylesheet_bytes(data, skip_comments=True, skip_whitespace=True)
+    return data.decode(encoding.name)
+
+
 def html_channel(path, root):
-    text = path.read_text(encoding='utf-8')
+    raw = path.read_bytes()
+    text = raw.decode('utf-8')
     source = design_directions.Source(text)
     title_match = TITLE.search(text)
     title = re.sub(r'\s+', ' ', title_match.group(1)).strip() if title_match else ''
     visible = re.sub(r'\s+', ' ', ' '.join(source.text)).strip()
+    parser = _HTMLAssets()
+    parser.feed(text)
+    parser.close()
     assets = []
-    for _tag, attrs in ASSET.findall(text):
-        found = ATTR.search(attrs)
-        if found:
-            assets.append(_relative_asset(path, root, found.group(1)))
+    css_queue = deque()
+    seen_css = set()
+    direct_css_paths = set()
+    for ref, is_stylesheet in parser.references:
+        asset = _relative_asset(path, root, ref)
+        assets.append(asset)
+        if is_stylesheet and asset.get('status') == 'present':
+            css_queue.append((locate(root, asset['path']), asset['path'], None))
+            direct_css_paths.add(asset['path'])
+    for style in parser.styles:
+        refs, encoding = _css_references(style.encode('utf-8'))
+        for ref, kind in refs:
+            assets.append(_relative_asset(path, root, ref))
+            asset = assets[-1]
+            if kind == 'import' and asset.get('status') == 'present':
+                css_queue.append((locate(root, asset['path']), asset['path'], encoding))
+    for style in parser.inline_styles:
+        refs, _encoding = _css_references(style.encode('utf-8'), declarations=True)
+        for ref, _kind in refs:
+            assets.append(_relative_asset(path, root, ref))
+    while css_queue:
+        css_path, css_relative, environment_encoding = css_queue.popleft()
+        encoding_key = environment_encoding.name if environment_encoding else None
+        css_key = (css_relative, encoding_key)
+        if css_key in seen_css:
+            continue
+        seen_css.add(css_key)
+        refs, child_encoding = _css_references(css_path.read_bytes(), environment_encoding=environment_encoding)
+        for ref, kind in refs:
+            asset = _relative_asset(css_path, root, ref)
+            assets.append(asset)
+            if asset.get('status') == 'present' and (kind == 'import' or asset.get('path', '').lower().endswith('.css')):
+                css_queue.append((locate(root, asset['path']), asset['path'], child_encoding))
+    assets = list({canonical(asset): asset for asset in assets}.values())
     layout = list(design_directions._layout_signature(text))
-    for asset in assets:
-        if asset['status'] == 'present' and asset['path'].endswith('.css'):
-            css_path = locate(root, asset['path'])
-            layout.extend(design_directions._layout_signature('<style>' + css_path.read_text(encoding='utf-8') + '</style>'))
+    for css_relative in sorted(direct_css_paths):
+        css_path = locate(root, css_relative)
+        layout.extend(design_directions._layout_signature('<style>' + _css_text(css_path.read_bytes()) + '</style>'))
     facts = {}
     if title:
         facts['screen-title'] = title
@@ -389,7 +536,7 @@ def project(root, spec):
             'visual quality is unverified',
             'text extraction and HTTP status are not a browser render',
             'TSX files were not executed',
-            'only direct local HTML references are tracked',
+            'local HTML and CSS dependencies are tracked without executing scripts or resolving external URLs',
         ],
     }
 

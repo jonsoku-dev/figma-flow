@@ -226,7 +226,7 @@ class InputEffectTests(unittest.TestCase):
 
     def test_encoded_local_references_cannot_escape_the_fixture(self):
         index = FIXTURE / 'html/atlas/linked/index.html'
-        for ref in ('%2e%2e/outside.css', '%2Foutside.css', 'fonts%5Cfile.woff2', 'bad%00.js'):
+        for ref in ('/outside.css', '../../../../outside.css', '%2Foutside.css', 'fonts%5Cfile.woff2', 'bad%00.js'):
             with self.subTest(ref=ref):
                 asset = input_effect._relative_asset(index, FIXTURE, ref)
                 self.assertEqual(asset['status'], 'rejected')
@@ -241,6 +241,9 @@ class InputEffectTests(unittest.TestCase):
             self.linked_root(root)
             record = self.project('atlas', {'html': 'html/atlas/linked/index.html'}, root=root)
             legacy = dict(record, schema='figma-flow-input-effect-result-v1')
+            with self.assertRaisesRegex(ValueError, 'regenerate'):
+                input_effect.freshness(legacy, root)
+            legacy = dict(record, schema='figma-flow-input-effect-result-v2')
             with self.assertRaisesRegex(ValueError, 'regenerate'):
                 input_effect.freshness(legacy, root)
             with self.assertRaisesRegex(ValueError, 'not a file'):

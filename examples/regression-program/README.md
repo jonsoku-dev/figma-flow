@@ -20,3 +20,5 @@ python3 examples/regression-program/server/serve.py --port 8765
 화면 모델 검사가 통과해도 두 viewport의 시각 검수, 실제 Figma getter, 독립 검수자의 비평이 끝난 것은 아니다.
 
 정상 사진·글꼴 연결 사례는 [positive-assets](html/positive-assets/README.md)에 있다. 서버에서 `/html/positive-assets/index.html`을 열어 실제 JPEG와 Hahmlet WOFF2의 로딩 및 에세이↔출처 화면 왕복을 확인한다. 기존 `atlas/linked`의 누락 자산 사례와 구분한다.
+
+CSS 내부 연결을 확인하는 [css-assets](html/css-assets/README.md)는 같은 사진·서체를 `@import`와 CSS `url()`로 연결한다. HTML의 직접 사진 참조나 글꼴 preload 없이 간접 의존성의 변경·부재를 검사한다.

@@ -1,0 +1,9 @@
+.photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-image: url("../../positive-assets/coffee.jpg?v=1#css-photo");
+  background-size: cover;
+  background-position: center;
+}
+.credits .photo { max-width: 640px; }
