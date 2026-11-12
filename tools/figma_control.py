@@ -209,6 +209,39 @@ def recovery_read(request, row, data, original):
             and all(isinstance(data.get(key), list) for key in ('variables', 'collections')))
 
 
+LIFECYCLE_FIELDS = ('lifecycle_version', 'operation_id', 'phase_events', 'recovery_of')
+PHASES = {'queued', 'claimed', 'native-started', 'result-received', 'reconciled', 'uncertain'}
+
+
+def lifecycle_present(request):
+    return any(field in request for field in LIFECYCLE_FIELDS)
+
+
+def validate_lifecycle(request):
+    events = request.get('phase_events')
+    recovery = request.get('recovery_of') if 'recovery_of' in request else False
+    valid_recovery = recovery is None or (
+        isinstance(recovery, list) and all(isinstance(item, str) and re.fullmatch(r'[a-f0-9]{32}', item) for item in recovery))
+    valid_events = isinstance(events, list) and all(
+        isinstance(event, dict) and event.get('source') == 'server' and event.get('phase') in PHASES and isinstance(event.get('time'), str)
+        for event in events)
+    if request.get('lifecycle_version') != 1 or request.get('operation_id') != request.get('id') or not valid_events or not valid_recovery:
+        raise ValueError('Invalid operation lifecycle')
+
+
+def record_phase(request, phase):
+    if phase not in PHASES:
+        raise ValueError('Invalid operation lifecycle')
+    if not lifecycle_present(request):
+        request['lifecycle_version'] = 1
+        request['operation_id'] = request['id']
+        request['phase_events'] = []
+        request['recovery_of'] = None
+    else:
+        validate_lifecycle(request)
+    request['phase_events'].append({'phase': phase, 'time': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'source': 'server'})
+
+
 def active(directory):
     path = directory / 'active.json'
     if not path.exists():
@@ -220,6 +253,8 @@ def active(directory):
     request = workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
     if request['state'] not in TERMINAL and time.time() >= request['deadline']:
         request.update(state='uncertain' if request['state'] == 'claimed' else 'expired', completed_at=time.time())
+        if request['state'] == 'uncertain' and lifecycle_present(request):
+            record_phase(request, 'uncertain')
         save(directory, request)
     return request
 
@@ -255,6 +290,7 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
                    'focus_page': focus_page,
                    'created_at': time.time(), 'deadline': time.time() + timeout, 'state': 'pending'}
         task(root, request)
+        record_phase(request, 'queued')
         save(directory, request)
         workspace.atomic(directory / 'active.json', workspace.encode({'id': request['id']}))
         return request
@@ -295,7 +331,11 @@ def poll(root, payload):
             request.update(state='error', error='Prepared task changed before claim', completed_at=time.time())
             save(directory, request)
             return {'operation': None, **native}
+        if lifecycle_present(request):
+            validate_lifecycle(request)
         request.update(state='claimed', session_id=session, claim_id=secrets.token_hex(16), claimed_at=time.time())
+        if lifecycle_present(request):
+            record_phase(request, 'claimed')
         save(directory, request)
         return {**native, 'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}}
 
@@ -315,12 +355,16 @@ def result(root, payload):
         request = active(directory)
         if not request or request['state'] != 'claimed':
             raise ValueError('No current claim accepts this result')
+        if lifecycle_present(request):
+            validate_lifecycle(request)
         if any(payload[key] != request[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')):
             raise ValueError('Result claim or scope mismatch')
         try:
             row = task(root, request)
         except ValueError:
             request.update(state='uncertain', error='Prepared task changed after claim', completed_at=time.time())
+            if lifecycle_present(request):
+                record_phase(request, 'uncertain')
             save(directory, request)
             raise ValueError('Prepared task changed after claim')
         if payload['status'] == 'ok' and raw is None:
@@ -339,6 +383,11 @@ def result(root, payload):
                      if payload['status'] == 'ok' and recovery_read(request, row, json.loads(raw), original)]
         if recovered:
             request['reconciles'] = recovered
+        if lifecycle_present(request):
+            record_phase(request, 'result-received')
+            if recovered:
+                request['recovery_of'] = list(recovered)
+                record_phase(request, 'reconciled')
         save(directory, request)
         if recovered:
             for identity in recovered:

@@ -13,7 +13,7 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
-1은 `figma_control.pinned_operation_transitions`가 현재 enqueue·poll·result를 다시 실행한다. claim 전 timeout은 expired, claim 후 timeout은 uncertain이다. 읽기 timeout은 다음 명령을 막지 않고, claim된 mutation timeout은 같은 쓰기를 막는다. 다른 페이지 읽기는 uncertainty를 풀지 않고, 같은 scope의 discovery 읽기만 푼다. 끝난 결과의 재전송은 거절한다. native-started는 어느 전이에서도 만들지 않는다. 서버 operation ID와 phase journal은 아직 없다.
+1은 `figma_control.pinned_operation_transitions`가 현재 enqueue·poll·result를 다시 실행한다. claim 전 timeout은 expired, claim 후 timeout은 uncertain이다. 읽기 timeout은 다음 명령을 막지 않고, claim된 mutation timeout은 같은 쓰기를 막는다. 다른 페이지 읽기는 uncertainty를 풀지 않고, 같은 scope의 discovery 읽기만 푼다. 끝난 결과의 재전송은 거절한다. native-started는 어느 전이에서도 만들지 않는다. 2는 새 enqueue의 `operation_id`와 `phase_events`를 기존 요청 파일에 덧붙인다. 단계는 queued, claimed, result-received, reconciled, uncertain만 서버가 기록한다. 클라이언트가 보낸 operation ID는 결과 권한으로 받지 않고, lifecycle 필드가 없는 기존 요청은 단계를 추정하지 않는다. 깨진 lifecycle은 claim하지 않는다.
 
 ## 기존 검사에서 시작하기
 
