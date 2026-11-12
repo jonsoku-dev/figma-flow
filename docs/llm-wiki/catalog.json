@@ -5095,6 +5095,102 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "2fb34775511c631fb60f9889fea86c01f676578c",
+      "diff_sha256": "c1056e77ce30729c43aa14b6e5031e84d00b3393a321315c4ae3449ac9c77dd2",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/56034e24e922a9ff9b5e4b45e3a5cab00001a248.md",
+        "docs/llm-wiki/patches/b170f11568364a8c1e4494613f717ad87519ec83.md",
+        "docs/llm-wiki/patches/ffcde43350120941afad855b159ee3785f45619c.md"
+      ],
+      "parents": [
+        "b170f11568364a8c1e4494613f717ad87519ec83"
+      ],
+      "subject": "docs: record the pinned runtime transport trace",
+      "tree": "a1cc9efb07fc8b8883aa3550b5594b8bd9bed59f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797",
+      "diff_sha256": "bff765a8367c725e5c7670d92dd4a798680510a0c8796ffba53619f686761cc7",
+      "files": [
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "tests/rd07_transport_move.cjs"
+      ],
+      "parents": [
+        "2fb34775511c631fb60f9889fea86c01f676578c"
+      ],
+      "subject": "test: require control transport to move without domain checks",
+      "tree": "273aaf4a9130f258ad0d2ef36b85e992a8794a09",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "199683f8c221fcac718991dd91ad96b6a50ab144",
+      "diff_sha256": "5c870e984abd060b6d4e83c5c935f6b4fe1eb0393bd2f62e4ee544d15976666a",
+      "files": [
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_transport.js",
+        "tests/test_native_runtime_version.cjs",
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797"
+      ],
+      "subject": "feat: move control transport out of the domain checks",
+      "tree": "b93b531aa90b9a26a342de12dd18f4f9eeb1d065",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8",
+      "diff_sha256": "301a5843930b4245cd33a056aea02ea32cf152f7bcd5b55883aadbb16d565dcd",
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md"
+      ],
+      "parents": [
+        "199683f8c221fcac718991dd91ad96b6a50ab144"
+      ],
+      "subject": "docs: add the Codex final review handoff",
+      "tree": "4d41390bac992476e5f7cc7520de8ba90b6c2a89",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -5115,6 +5211,7 @@
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
+    "199683f8c221fcac718991dd91ad96b6a50ab144": "1384f08a99bcf88bec7fc6c4d0912c17f8c2759d827b4da8bd16a8ef4dcf0277",
     "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
     "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
@@ -5127,6 +5224,8 @@
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
+    "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797": "1238da541f9a7c3aea1a35b65a40f48c2dfc85b65633152e151f7a8bc9ed7ee4",
+    "2fb34775511c631fb60f9889fea86c01f676578c": "d7d78880c138153ebb791a7445187ab3b5b38b3667e19b1495ede43945e4fab2",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
@@ -5141,6 +5240,7 @@
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
     "47bd10f10263a0f7bd2db9bed0511f2532053532": "de6538b6ce1650e2ba88544d4694669b30d85fb9a34b2b6824e31e7df064e691",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
+    "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8": "735d532e57d6d25be49eb1f77a22c06d8c5d040702971962265d3fce003c7d24",
     "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3": "d87d9197acf7e107e3986fdb175b95f59e3262383bec955165f74e43257a4fde",
     "4dc23d6d98a7953572228b6bbf829e54c5417d13": "4614f0de857de2a6a8366f20a635591e74458142ba2573fd747d067cf84ec7f6",
     "4eab91b666eaeead1fe04395f248f936cdb51b7d": "da5bfbe556d77c32c8ec650fee0d17ccf97885063c570ab81b9b70c4136b767b",
@@ -5317,6 +5417,10 @@
     },
     {
       "observed_at_commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5610,7 +5714,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "b170f11568364a8c1e4494613f717ad87519ec83",
+  "source_commit": "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
