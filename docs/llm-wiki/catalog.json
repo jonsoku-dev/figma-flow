@@ -4321,6 +4321,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "34d36385c45b4e36a55aeed42fd561dfbba048a5",
+      "diff_sha256": "047c2165234784fd4960a4b6b4d2133df00cb35a40ef06ce5a80e8af8796f8c9",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/389964b782c69b05fc305c094640132a8aea7a44.md",
+        "docs/llm-wiki/patches/d161ee42784220bf20a3fb0649fcb7d3c3c3af18.md",
+        "docs/llm-wiki/patches/e4f974ffeed2f9509c948141bce42de13027d157.md"
+      ],
+      "parents": [
+        "389964b782c69b05fc305c094640132a8aea7a44"
+      ],
+      "subject": "docs: record the html channel as the only input record route",
+      "tree": "21dfa9b26837a2dc7fab2ee35bf0ecda002e1f6c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2",
+      "diff_sha256": "d38e06a95d02147fe07fcf32874c87731545dd79e898858c2a0a6e90f576211d",
+      "files": [
+        "tests/test_rd05_html_input_record.py"
+      ],
+      "parents": [
+        "34d36385c45b4e36a55aeed42fd561dfbba048a5"
+      ],
+      "subject": "test: pin one HTML task input record and its safe summary",
+      "tree": "528180c36b23b3c0b772058093cc8fcec2003b3e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "f12b84f03a916c2aed744db43eb7699c95094034",
+      "diff_sha256": "147677c526dd4629c3ad48fcacbed5c0b3c6b6ae63e6b78ea9ed4bb39999c3fc",
+      "files": [
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "tools/figma_workspace.py",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2"
+      ],
+      "subject": "feat: pin an HTML task input record and keep its summary safe",
+      "tree": "51b811435b7ee533dfc2aabd4aee909f8fc4d06f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4352,6 +4423,7 @@
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
+    "34d36385c45b4e36a55aeed42fd561dfbba048a5": "aedc55fb360a18c1dbee2c575700507a177cee997552da81f3fd1e25ca133f7b",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
     "3a3d68e64d178d1ca37c3ff275d97d41bc92274d": "85b28753c1528f28803ccb3ebed0af441de6860221393fc4958c50d7e3fbc7ad",
@@ -4387,6 +4459,7 @@
     "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
+    "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2": "7f57a5cf33b629a668abe229cd1faf1a923a72edfcc3427db237ef3d2ff866e3",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
@@ -4448,6 +4521,7 @@
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
+    "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
     "f290f48aba0bbabe12a8eda3f315d8cf2205457b": "e7f236ee01f526a36361927398d796f430a1f0336b91ebf48d3c2815ac0720f5",
     "f3ec102c6dbe436495ff15391f599cddfd86a449": "e4c6ee3db8f9e045bafc1d629567150280ee52b78ab1082fc35eb9dcb928075e",
@@ -4571,6 +4645,10 @@
     },
     {
       "observed_at_commit": "ef624aadc2e99029e227c62d57d7b6b56df21c5e",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "f12b84f03a916c2aed744db43eb7699c95094034",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4764,7 +4842,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "389964b782c69b05fc305c094640132a8aea7a44",
+  "source_commit": "f12b84f03a916c2aed744db43eb7699c95094034",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
