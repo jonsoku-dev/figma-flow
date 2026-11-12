@@ -2893,6 +2893,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "1273bb3365947986b98b66a0b3e012d7a53b6e47",
+      "diff_sha256": "4567e54859b319e369caa8307733f4b2141143eb6fe3fd35dac4c347db230388",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/108ecded7a1e99ee040a4c4b067a837a85d4d67c.md",
+        "docs/llm-wiki/patches/7a1bb8345246b0c0aafd3c30ee9e21557366c4f2.md",
+        "docs/llm-wiki/patches/86e30fb66bb998158034c3c887782f131e269b0f.md"
+      ],
+      "parents": [
+        "108ecded7a1e99ee040a4c4b067a837a85d4d67c"
+      ],
+      "subject": "docs: record declared container validation before native authoring",
+      "tree": "a172e4551709d4585f8b8cc8c2343c8c2c3dbcd5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "b40d9db3300bf8d7de01a0d70fef408d16f43b98",
+      "diff_sha256": "15f008b154d84cdafd9c591680c2444ebc9a93f84770664728260f25d945be6c",
+      "files": [
+        "tests/rd02_container_placement_oracle.cjs"
+      ],
+      "parents": [
+        "1273bb3365947986b98b66a0b3e012d7a53b6e47"
+      ],
+      "subject": "test: require declared parents to reuse authored leaves",
+      "tree": "9c6f5744eea6c0e2524c2284c680325c730e106a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "9a465e535cafbf7e8be7fd4d7a2693b70ada4400",
+      "diff_sha256": "dbae8d11545f270bde672c43ff6fef00091f23d2546ae62b6634081b6ea3587e",
+      "files": [
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "figma-bridge/direction_review.js"
+      ],
+      "parents": [
+        "b40d9db3300bf8d7de01a0d70fef408d16f43b98"
+      ],
+      "subject": "feat: place declared parents after existing leaf authoring",
+      "tree": "dfd6cc504e3d64bb3009d47fd4cf308b01246b91",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2905,6 +2975,7 @@
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
+    "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
@@ -2935,6 +3006,7 @@
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
+    "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
@@ -2947,6 +3019,7 @@
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
+    "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
@@ -2999,6 +3072,10 @@
     },
     {
       "observed_at_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "9a465e535cafbf7e8be7fd4d7a2693b70ada4400",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3196,7 +3273,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "108ecded7a1e99ee040a4c4b067a837a85d4d67c",
+  "source_commit": "9a465e535cafbf7e8be7fd4d7a2693b70ada4400",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
