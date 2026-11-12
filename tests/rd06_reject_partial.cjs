@@ -39,8 +39,10 @@ function node(id) {
   assert.ok(!summaryHandler.includes('requireFullNativeRead'));
   const nativeEdit = fs.readFileSync(path.join(root, 'figma-bridge/native_edit.js'), 'utf8');
   assert.ok(nativeEdit.includes('requireFullNativeRead(await readNativeSemantics(figma,page))'));
-  const review = fs.readFileSync(path.join(root, 'figma-bridge/direction_review.js'), 'utf8');
-  assert.equal(review.split('requireFullNativeRead(await readNativeSemantics(').length - 1, 2);
+  const {host, packet} = require('./helpers/finalize_native_build_reads.cjs');
+  const review = host(packet()).context;
+  assert.throws(() => review.indexDeclaredContainerRead(summary), /partial native read cannot be stored as full evidence/);
+  assert.equal(review.indexDeclaredContainerRead(full).byId.get('rect').width, 12);
   const discovery = fs.readFileSync(path.join(root, 'tools/graph_sync.py'), 'utf8');
   assert.ok(discovery.includes('requireFullNativeRead(await readNativeSemantics(figma, page))'));
   const tasks = fs.readFileSync(path.join(root, 'docs/development-roadmap/RD-06-native-read/tasks.md'), 'utf8');
