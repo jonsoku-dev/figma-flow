@@ -13,7 +13,7 @@ import re
 from collections import deque
 from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urlsplit, urlunsplit
 
 import design_directions
 import design_system
@@ -593,3 +593,45 @@ def confirm_input_record_route():
         'not_consumer': 'ImportPanel',
         'cli_flag': None,
     }
+
+
+def _safe_ref(value):
+    if not isinstance(value, str) or not value:
+        return ''
+    try:
+        parts = urlsplit(value)
+    except ValueError:
+        return ''
+    if parts.scheme or parts.netloc:
+        return urlunsplit((parts.scheme, parts.netloc, parts.path, '', ''))
+    path = parts.path.replace('\\', '/')
+    if path.startswith('/') or path.startswith('~') or '/Users/' in path:
+        return PurePosixPath(path).name
+    return path
+
+
+def summarize_input_record(record):
+    """Hash the private record and return only relative, status-preserving rows."""
+    if not isinstance(record, dict) or record.get('schema') != RESULT_SCHEMA:
+        raise ValueError('Invalid input record')
+    channels = record.get('channels')
+    assets = channels.get('html', {}).get('assets') if isinstance(channels, dict) else None
+    if not isinstance(assets, list):
+        raise ValueError('Invalid input record')
+    allowed = {'present', '404', 'rejected', 'external-unverified'}
+    rows = []
+    for asset in assets:
+        if not isinstance(asset, dict) or asset.get('status') not in allowed:
+            raise ValueError('Invalid input record')
+        kind = asset.get('kind') if isinstance(asset.get('kind'), str) and asset['kind'] else 'file'
+        shown = _safe_ref(asset.get('ref', ''))
+        source = _safe_ref(asset.get('source', ''))
+        rows.append({
+            'ref': shown,
+            'kind': kind,
+            'status': asset['status'],
+            'source': source,
+            'digest': digest(canonical({'kind': kind, 'ref': shown, 'source': source, 'status': asset['status']}).encode())[:12],
+        })
+    payload = canonical(record).encode()
+    return {'sha256': digest(payload), 'summary': rows, 'bytes': payload}

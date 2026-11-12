@@ -21,6 +21,7 @@ import tempfile
 import uuid
 
 from plugin_panel import display_name, render_app, supported_locales
+import input_effect
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'figma-flow-workspace-v1'
@@ -666,7 +667,7 @@ def init(workspace, id_from, chat_port=None):
         return {'manifest': str(workspace / 'manifest.json'), 'plugin_id': assigned, 'tasks': len(catalogue['tasks'])}
 
 
-def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True, depends_on=None):
+def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True, depends_on=None, input_record=None):
     if not re.fullmatch(r'[a-z][a-z0-9]*(?:-[a-z0-9]+)*', key) or len(key) > 64:
         raise ValueError('Task keys must be lowercase readable kebab names, at most 64 characters')
     title = label(title, 'task title', 160)
@@ -675,9 +676,12 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
     if kind not in OPTIONS:
         raise ValueError('Unknown trusted task kind')
     args, options, pins = arguments(kind, generator_args)
+    pinned = input_effect.summarize_input_record(input_record) if input_record is not None else None
     payload = {'kind': kind, 'args': args, 'pins': pins, 'title': title, 'project': project, 'threadId': thread_id}
     if depends_on is not None:
         payload['depends_on'] = depends_on
+    if pinned is not None:
+        payload['input_record'] = pinned['sha256']
     request_sha = digest(encode(payload))
     with locked(workspace) as workspace:
         catalogue = current(workspace)
@@ -714,6 +718,10 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
             if depends_on is not None:
                 merged = normalize_task_dependencies([*(item for item in catalogue['tasks'] if item['key'] != key), task], {key: depends_on})
                 task = next(item for item in merged if item['key'] == key)
+            if pinned is not None:
+                (bundle / 'input-record.json').write_bytes(pinned['bytes'])
+                task['input_record'] = {'artifact': 'input-record.json', 'sha256': pinned['sha256']}
+                task['input_summary'] = pinned['summary']
             os.replace(staging, child(workspace, relative))
             tasks = [task if item['key'] == key else item for item in catalogue['tasks']]
             if previous is None:
