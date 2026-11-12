@@ -385,6 +385,33 @@ function draftNativeBox(node) {
   return Object.values(box).every(Number.isFinite) && box.w > 0 && box.h > 0 ? box : null;
 }
 
+function draftOffsetWithin(node, ancestor) {
+  let x = 0;
+  let y = 0;
+  let current = node;
+  while (current && current !== ancestor) {
+    x += current.x || 0;
+    y += current.y || 0;
+    current = current.parent;
+  }
+  return current === ancestor ? {x, y} : null;
+}
+
+function draftAbsoluteBox(node, ancestor) {
+  const offset = node && draftOffsetWithin(node, ancestor);
+  if (!offset) return null;
+  const box = {x: offset.x, y: offset.y, w: node.width, h: node.height};
+  return Object.values(box).every(Number.isFinite) && box.w > 0 && box.h > 0 ? box : null;
+}
+
+function declaredDraftParent(layout, id, frame, keyed, stateKey) {
+  const containers = layout && layout.containers;
+  if (!Array.isArray(containers)) return frame;
+  const owner = containers.find(item => Array.isArray(item.children) && item.children.includes(id));
+  if (!owner) return frame;
+  return keyed.get(stateKey + '.' + owner.key) || frame;
+}
+
 function draftBoxInside(box, width, height) {
   return box.x >= -1 && box.y >= -1 && box.x + box.w <= width + 1 && box.y + box.h <= height + 1;
 }
@@ -520,7 +547,7 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
         for (const layer of layout.layers) {
           const node = keyed.get(key + '.' + layer.id);
           const layerFail = (message, expected, observed) => fail(layer.id, message, expected, observed);
-          validateDraftPlacement(node, frame, layerFail);
+          validateDraftPlacement(node, declaredDraftParent(layout, layer.id, frame, keyed, key), layerFail);
           const expectedType = layer.kind === 'text' ? 'TEXT' : layer.kind === 'ellipse' ? 'ELLIPSE' : 'RECTANGLE';
           if (node && node.type !== expectedType) {
             layerFail('native authored layer type differs', {type: expectedType}, {type: node.type});
@@ -529,7 +556,7 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
 
         for (const layer of layout.layers.filter(layer => layer.kind === 'text')) {
           const node = keyed.get(key + '.' + layer.id);
-          const box = draftNativeBox(node);
+          const box = draftAbsoluteBox(node, frame);
           if (!box || node.type !== 'TEXT') {
             fail(layer.id, 'native text missing or non-finite', {x: layer.x, y: layer.y, w: layer.w, h: layer.h},
               node ? {x: node.x, y: node.y, w: node.width, h: node.height, type: node.type} : null);
@@ -558,16 +585,17 @@ function validateDraftGeometry(page, candidates, measureWidths = true) {
         ];
         for (const spec of controlSpecs) {
           const instance = keyed.get(key + '.' + spec.id);
-          const actual = draftNativeBox(instance);
+          const local = draftNativeBox(instance);
+          const actual = draftAbsoluteBox(instance, frame) || local;
           const authored = {x: spec.box[0], y: spec.box[1], w: spec.box[2], h: spec.box[3]};
           const controlFail = (message, expected, observed) => fail(spec.id, message,
             {rect: authored, ...(expected === undefined ? {} : {detail: expected})},
             {rect: actual, ...(observed === undefined ? {} : {detail: observed})});
-          if (!actual || instance.type !== 'INSTANCE') {
+          if (!local || instance.type !== 'INSTANCE') {
             controlFail('native control instance missing or non-finite');
             continue;
           }
-          validateDraftPlacement(instance, frame, controlFail);
+          validateDraftPlacement(instance, declaredDraftParent(layout, spec.id, frame, keyed, key), controlFail);
           if (Object.keys(actual).some(field => Math.abs(actual[field] - authored[field]) > 1)) {
             controlFail('native control differs from authored', authored, actual);
           }
@@ -815,6 +843,185 @@ function admitDraftColorConsumers(candidates){
  }
  return reports;
 }
+function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
+  if (!Array.isArray(containers) || containers.length === 0) return;
+  if (!screen || typeof resolve !== 'function') throw Error('authored screen and leaf resolver required');
+  const byKey = new Map();
+  for (const item of containers) {
+    if (!item || typeof item.key !== 'string' || byKey.has(item.key)) throw Error('duplicate or invalid container key');
+    byKey.set(item.key, item);
+  }
+  const leaves = new Map();
+  for (const item of containers) {
+    for (const child of item.children || []) {
+      if (byKey.has(child)) continue;
+      const node = resolve(child);
+      if (!node) throw Error('missing target: ' + child);
+      leaves.set(child, node);
+    }
+  }
+  const snapshots = [...leaves.values()].map(node => ({
+    node,
+    parent: node.parent,
+    x: node.x,
+    y: node.y,
+    index: node.parent && node.parent.children ? node.parent.children.indexOf(node) : -1,
+    layoutPositioning: node.layoutPositioning
+  }));
+  const created = [];
+  const screenMark = {id: screen.id, width: screen.width, height: screen.height, clipsContent: screen.clipsContent};
+  const nodes = new Map();
+
+  function offsetWithin(node, ancestor) {
+    let x = 0;
+    let y = 0;
+    let current = node;
+    while (current && current !== ancestor) {
+      x += current.x || 0;
+      y += current.y || 0;
+      current = current.parent;
+    }
+    if (current !== ancestor) throw Error('authored leaf is outside the screen');
+    return {x, y};
+  }
+
+  function reparent(node, parent) {
+    const abs = offsetWithin(node, screen);
+    parent.appendChild(node);
+    const parentAbs = parent === screen ? {x: 0, y: 0} : offsetWithin(parent, screen);
+    node.x = abs.x - parentAbs.x;
+    node.y = abs.y - parentAbs.y;
+    if (parent.layoutMode && parent.layoutMode !== 'NONE') node.layoutPositioning = 'ABSOLUTE';
+  }
+
+  function parentNode(item) {
+    if (item.parent == null) return screen;
+    const parent = nodes.get(item.parent);
+    if (!parent) throw Error('missing parent: ' + item.key);
+    return parent;
+  }
+
+  function mark(node, item) {
+    node.name = item.name || item.key;
+    node.setPluginData('semanticKey', prefix + item.key);
+    node.setPluginData('containerKind', item.kind);
+    created.push(node);
+    nodes.set(item.key, node);
+  }
+
+  function restore() {
+    for (const node of created.slice().reverse()) {
+      const parent = node.parent;
+      for (const child of [...(node.children || [])]) if (parent) parent.appendChild(child);
+      node.remove();
+    }
+    for (const snap of snapshots) {
+      if (snap.parent) {
+        const index = snap.index < 0 ? snap.parent.children.length : Math.min(snap.index, snap.parent.children.length);
+        if (typeof snap.parent.insertChild === 'function') snap.parent.insertChild(index, snap.node);
+        else snap.parent.appendChild(snap.node);
+      }
+      snap.node.x = snap.x;
+      snap.node.y = snap.y;
+      if (snap.layoutPositioning === undefined) delete snap.node.layoutPositioning;
+      else snap.node.layoutPositioning = snap.layoutPositioning;
+    }
+  }
+
+  try {
+    for (const item of containers) {
+      if (item.kind === 'group') continue;
+      const parent = parentNode(item);
+      const node = figma.createFrame();
+      parent.appendChild(node);
+      if (node.fills.length) node.fills = [];
+      node.clipsContent = false;
+      node.layoutMode = 'NONE';
+      mark(node, item);
+      if (item.kind === 'frame') {
+        const box = item.box;
+        node.resize(box[2], box[3]);
+        node.x = box[0];
+        node.y = box[1];
+        node.clipsContent = item.clip === true;
+        if (typeof item.fill === 'string' && item.fill) node.setPluginData('containerFill', item.fill);
+      } else if (item.kind === 'auto-layout') {
+        const layout = item.layout;
+        const padding = layout.padding;
+        node.x = 0;
+        node.y = 0;
+        node.layoutMode = layout.direction;
+        node.paddingTop = padding[0];
+        node.paddingRight = padding[1];
+        node.paddingBottom = padding[2];
+        node.paddingLeft = padding[3];
+        node.itemSpacing = layout.gap;
+      } else throw Error('unsupported container: ' + item.key);
+    }
+    for (const item of containers) {
+      if (item.kind === 'group') continue;
+      for (const child of item.children) {
+        if (byKey.has(child)) continue;
+        reparent(leaves.get(child), nodes.get(item.key));
+      }
+    }
+    for (const item of [...containers].reverse()) {
+      if (item.kind !== 'group') continue;
+      const parent = parentNode(item);
+      const members = [];
+      for (const child of item.children) {
+        const node = nodes.get(child) || leaves.get(child);
+        if (!node) throw Error('missing target: ' + child);
+        if (node.parent !== parent) reparent(node, parent);
+        members.push(node);
+      }
+      if (typeof figma.group !== 'function') throw Error('group is unavailable');
+      const group = figma.group(members, parent);
+      if (group.fills.length) group.fills = [];
+      group.clipsContent = false;
+      if ('layoutMode' in group) group.layoutMode = 'NONE';
+      mark(group, item);
+    }
+    for (const item of containers) {
+      const node = nodes.get(item.key);
+      const ordered = item.children.map(child => nodes.get(child) || leaves.get(child));
+      for (const child of ordered) {
+        node.appendChild(child);
+        if (node.layoutMode && node.layoutMode !== 'NONE') child.layoutPositioning = 'ABSOLUTE';
+      }
+      if (item.kind !== 'auto-layout') continue;
+      let maxX = 1;
+      let maxY = 1;
+      for (const child of ordered) {
+        maxX = Math.max(maxX, child.x + child.width);
+        maxY = Math.max(maxY, child.y + child.height);
+      }
+      const width = item.layout.width === 'fill' && node.parent && node.parent.width ? node.parent.width : maxX;
+      const height = item.layout.height === 'fill' && node.parent && node.parent.height ? node.parent.height : maxY;
+      node.resize(width, height);
+      node.layoutSizingHorizontal = item.layout.width === 'hug' ? 'HUG' : item.layout.width === 'fill' ? 'FILL' : 'FIXED';
+      node.layoutSizingVertical = item.layout.height === 'hug' ? 'HUG' : item.layout.height === 'fill' ? 'FILL' : 'FIXED';
+      const primary = item.layout.direction === 'VERTICAL' ? item.layout.height : item.layout.width;
+      const counter = item.layout.direction === 'VERTICAL' ? item.layout.width : item.layout.height;
+      node.primaryAxisSizingMode = primary === 'hug' ? 'AUTO' : 'FIXED';
+      node.counterAxisSizingMode = counter === 'hug' ? 'AUTO' : 'FIXED';
+    }
+    if (screen.id !== screenMark.id || screen.width !== screenMark.width || screen.height !== screenMark.height || screen.clipsContent !== screenMark.clipsContent) {
+      throw Error('screen frame changed during container placement');
+    }
+    for (const node of leaves.values()) {
+      for (const reaction of node.reactions || []) {
+        for (const action of reaction.actions || []) {
+          if (created.some(container => container.id === action.destinationId)) throw Error('prototype target moved onto container');
+        }
+      }
+    }
+  } catch (error) {
+    restore();
+    throw error;
+  }
+}
+
 async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw Error('이 검토 패킷에 지정된 Figma 파일에서만 실행할 수 있습니다.');if(SELECTED_PRODUCTION){const source=DRAFT.sourceSelection,hash=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);if(DRAFT.scope!=='selected-production'||DRAFT.production_admitted!==true||DRAFT.candidates.length!==1||!source||!hash(source.sha256)||!hash(source.candidate_sha256)||!hash(source.review_layout_sha256)||!hash(DRAFT.change_request?.sha256)||!hash(DRAFT.production_graph?.sha256)||DRAFT.candidates[0].id!==source.candidate_id||DRAFT.candidate_pins[source.candidate_id]!==source.candidate_sha256)throw Error('Exact selected-production scope and selection/source pins required');}else if(DRAFT.schema!=='figma-flow-native-direction-review-v1'||DRAFT.scope!=='exploratory-only'||('production_admitted'in DRAFT&&DRAFT.production_admitted!==false))throw Error('Explicit exploratory review packet required; production admission is forbidden');admitDraftColorConsumers(DRAFT.candidates);const planned=[];for(const candidate of DRAFT.candidates){declareDraftFoundations(candidate,(...args)=>declareDraftToken(planned,...args));for(const role of candidate.foundations.roles.filter(role=>role.kind==='color')){const token=draftFoundationName(candidate,role.token),alias=role.alias?draftFoundationName(candidate,role.alias):null,value=rgb(candidate.colors[role.token.split('/').pop()]);if(alias){declareDraftToken(planned,alias,'COLOR',value);declareDraftToken(planned,token,'COLOR',null,alias);}else declareDraftToken(planned,token,'COLOR',value);}}const availableFonts=(await figma.listAvailableFontsAsync()).map(f=>f.fontName);const problems=preflightDraft(DRAFT,availableFonts);if(problems.length)throw Error('검토 초안을 만들기 전에 확인이 필요합니다 (파일은 변경되지 않았습니다):\n- '+problems.join('\n- '));const previous=figma.currentPage;let page= null,tokenResult,createdPage=false;const styles=[],rollbacks=[];try{page=await findInterruptedDraftReview();if(page){await validateDraftPaletteControls(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates,false);await figma.setCurrentPageAsync(page);return page;}page=figma.createPage();createdPage=true;page.name=(SELECTED_PRODUCTION?'PRODUCTION · '+DRAFT.candidates[0].title:(DRAFT.candidates.length===1?'DRAFT · '+DRAFT.candidates[0].title:'DRAFT · A/B/C 방향 검토'))+' · '+DRAFT.packet_sha256.slice(0,8);page.setPluginData(RESERVATION,JSON.stringify({state:'preparing',identity:draftReviewIdentity()}));await figma.setCurrentPageAsync(page);
  const tokens=[],bindings=[],notes=[],colors=new Map(),numbers=new Map(),assets=new Map(),styleMap=new Map(),mains=new Map(),labelKeys=new Map(),frames=new Map(),edges=[],palettes={},noteFrames={},gradientBindings=[];
  const add=(...args)=>declareDraftToken(tokens,...args);
@@ -852,6 +1059,7 @@ async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw
  let cy=0;for(const c of DRAFT.candidates){const sourceNotes=new Map(c.notes.map(n=>[n.id,n]));let rowY=cy;for(const viewport of ['desktop','mobile']){const dimensions=c.state_layouts[viewport];let x=0;for(const state of c.prototype.states){const l=dimensions[state.id];if(!l)throw Error('Pinned state layout missing');const key=c.id+'.'+viewport+'.'+state.id,frame=shape(figma.createFrame(),page,key,x,rowY,l.width,l.height);frame.name=c.title+' · '+viewport+' · '+state.title+' · '+(SELECTED_PRODUCTION?'PRODUCTION':'DRAFT');frame.clipsContent=true;paint(frame,c,l.bg);frames.set(key,frame);frame.setPluginData('canonicalState',state.id);notes.push(draftAnnotation(c,key,sourceNotes.get(state.screen)));for(const layer of l.layers){if(layer.kind==='image'||layer.kind==='gradient'){const n=(layer.kind==='image'?image:gradient)(frame,key+'.'+layer.id,layer);if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='rect'||layer.kind==='ellipse'){const n=shape(layer.kind==='rect'?figma.createRectangle():figma.createEllipse(),frame,key+'.'+layer.id,layer.x,layer.y,layer.w,layer.h);paint(n,c,layer.fill);if(layer.shadows!==undefined)n.effects=draftShadows(layer.shadows,key+'.'+layer.id);if(layer.stroke!==undefined){paint(n,c,layer.stroke,'strokes');n.strokeWeight=layer.stroke_width;n.strokeAlign='INSIDE';}if(layer.kind==='rect'&&layer.radius>0){n.cornerRadius=layer.radius;bind(n,'cornerRadius',num(c.id+'/radius/observed/'+layer.radius,layer.radius));}if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='text')await text(frame,key+'.'+layer.id,layer,c);else throw Error('Only declared native draft layer kinds allowed');}
  for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport&&e.source_state===state.id)){const box=l.control_boxes[edge.control_id];if(!box)throw Error('Pinned canonical control position missing '+edge.control_id);const note=c.action_notes[edge.action+'|'+edge.control_id];const main=mains.get(c.id+'.'+viewport+'.'+note.visual_variant);const n=control(frame,key+'.'+edge.control_id,main,c.action_labels[edge.action],box);notes.push(draftAnnotation(c,key+'.'+edge.control_id,note));edges.push({node:n,target:c.id+'.'+viewport+'.'+edge.target_state});}
  for(const button of draftProductButtons(c,viewport,state)){control(frame,key+'.'+button.id,mains.get(c.id+'.'+viewport+'.'+button.variant),button.label,button.box);if(button.specification)notes.push({key:c.id+'.'+viewport+'.'+state.id+'.'+button.id,label:button.specification.title+'\n'+button.specification.display_text,specification:button.specification});}
+ if (Array.isArray(l.containers) && l.containers.length) { placeDeclaredLayerParents(frame, l.containers, id => page.findOne(node => node.getPluginData('semanticKey') === key + '.' + id), key + '.'); for (const item of l.containers) if (item.fill) paint(page.findOne(node => node.getPluginData('semanticKey') === key + '.' + item.key), c, item.fill); }
  x+=l.width+90;}
  const reference=c.references[viewport];if(reference){const dims=c.layouts[viewport];const ref=shape(figma.createFrame(),page,c.id+'.'+viewport+'.raster-reference',x,rowY,dims.width,dims.height);ref.name=c.title+' · 브라우저 참조 원본 (래스터)';ref.fills=[];image(ref,c.id+'.'+viewport+'.reference-image',{asset:reference,x:0,y:0,w:dims.width,h:dims.height,fit:'FIT'});}rowY+=Math.max(c.layouts[viewport].height,...Object.values(dimensions).map(layout=>layout.height))+170;}
  cy=rowY+650;
