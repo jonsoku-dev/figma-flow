@@ -256,7 +256,28 @@ function requireFullNativeRead(read) {
   if (!read || read.schema === "figma-flow-native-read-summary-v1" || (read.coverage && read.coverage.complete === false)) throw new Error("partial native read cannot be stored as full evidence");
   return read;
 }
-if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages, nativeReadGetterLedger, requireFullNativeRead, nativeReadSessionSnapshot };
+function utf8JsonBytes(value) {
+  return new TextEncoder().encode(JSON.stringify(value)).length;
+}
+async function compareNativeReadProfiles(figma, page, request) {
+  const full = await readNativeSemantics(figma, page);
+  const summary = await readNativeSemantics(figma, page, request);
+  const fullLedger = await nativeReadGetterLedger(figma, page);
+  const summaryLedger = await nativeReadGetterLedger(figma, page, request);
+  const requestedFieldsEqual = request.nodeIds.every(id => request.fields.every(field => {
+    const left = full.nodes.find(item => item.id === id);
+    const right = summary.nodes.find(item => item.id === id);
+    return JSON.stringify(left?.[field]) === JSON.stringify(right?.[field]);
+  }));
+  return {
+    schema: "figma-flow-native-read-comparison-v1",
+    requestedFieldsEqual,
+    getters: {full: fullLedger.getters, summary: summaryLedger.getters},
+    bytes: {full: utf8JsonBytes(full), summary: utf8JsonBytes(summary)},
+    invalidation: "unmeasured"
+  };
+}
+if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages, nativeReadGetterLedger, requireFullNativeRead, nativeReadSessionSnapshot, compareNativeReadProfiles };
 
 function equalNativeValue(a,b){return JSON.stringify(a,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value)===JSON.stringify(b,(_,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,value[key]])):value);}
 function nativeHumanMarkdownMatches(annotation,spec,url){const label=FLOW_SPEC_LABELS[spec.locale];return Boolean(label&&typeof spec.annotation_text==="string"&&annotation?.labelMarkdown===`${spec.title}\n${spec.annotation_text.trim()}\n\n[${label}](${url})`);}
