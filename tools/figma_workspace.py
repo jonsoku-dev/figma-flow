@@ -145,6 +145,19 @@ def bundle_task_kinds():
     return ('discover', 'import', 'native-edit', 'review', 'sync')
 
 
+def public_runtime_symbols():
+    return (
+        'assemble_shared_runtime',
+        'bundle_task_kinds',
+        'controlExecute',
+        'controlRequest',
+        'load_runtime_boundary_trace',
+        'runtime_module_names',
+        'trusted_sources',
+        'workspaceControlTick',
+    )
+
+
 def assemble_shared_runtime(bridge):
     return '\n'.join((Path(bridge) / name).read_text(encoding='utf-8') for name in runtime_module_names())
 
@@ -168,7 +181,7 @@ def trusted_sources():
 
 
 def load_runtime_boundary_trace():
-    """Return the pinned control routes and trusted source range. Transport stays in place."""
+    """Return the pinned control routes and trusted source range."""
     path = ROOT / 'tests' / 'fixtures' / 'rd07' / 'protocol-trace.json'
     trace = json.loads(path.read_text(encoding='utf-8'))
     if trace.get('schema') != 'figma-flow-runtime-boundary-v1':
