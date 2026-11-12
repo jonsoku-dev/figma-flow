@@ -12,7 +12,7 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
-1은 `confirm_input_record_route`가 HTML 자산의 전달을 `input_effect.project`의 `html_channel`에서 `freshness`, `write_record`, `figma_workspace.prepare`의 private task artifact로 고정한다. ImportPanel은 소비자가 아니고 새 CLI flag는 없다. 2는 `summarize_input_record`가 v3 record의 hash를 고정하고, 요약에는 상대 참조·종류·상태·출처·짧은 digest만 남긴다. `prepare(..., input_record=)`는 그 바이트를 `input-record.json`으로 복사한다. 절대 경로와 URL query는 요약에 없고, 404·rejected·external-unverified는 present로 바뀌지 않는다. record가 없는 task에는 필드를 만들지 않는다. 3은 `assetInventory`가 문제 상태를 먼저 보여주고 상태 필터 뒤에도 상대 출처를 유지한다. 빈 목록은 모든 파일이 정상이라는 뜻이 아니다. 목록은 네트워크 요청을 하지 않는다. 4는 `fonts/body.woff2`를 `css/a.css`와 `css/b.css`가 함께 가리켜도 자산은 하나다. 그 파일 바이트가 바뀌면 이전 record의 freshness는 stale이고 changed에 `fonts/body.woff2`가 남는다.
+1은 `confirm_input_record_route`가 HTML 자산의 전달을 `input_effect.project`의 `html_channel`에서 `freshness`, `write_record`, `figma_workspace.prepare`의 private task artifact로 고정한다. ImportPanel은 소비자가 아니고 새 CLI flag는 없다. 2는 `summarize_input_record`가 v3 record의 hash를 고정하고, 요약에는 상대 참조·종류·상태·출처·짧은 digest만 남긴다. `prepare(..., input_record=)`는 그 바이트를 `input-record.json`으로 복사한다. 절대 경로와 URL query는 요약에 없고, 404·rejected·external-unverified는 present로 바뀌지 않는다. record가 없는 task에는 필드를 만들지 않는다. 3은 `assetInventory`가 문제 상태를 먼저 보여주고 상태 필터 뒤에도 상대 출처를 유지한다. 빈 목록은 모든 파일이 정상이라는 뜻이 아니다. 목록은 네트워크 요청을 하지 않는다. 4는 `fonts/body.woff2`를 `css/a.css`와 `css/b.css`가 함께 가리켜도 자산은 하나다. 그 파일 바이트가 바뀌면 이전 record의 freshness는 stale이고 changed에 `fonts/body.woff2`가 남는다. 5는 `contrast_css_browser_loading`이 같은 로컬 페이지의 목록과 headless Chrome 요청을 따로 남긴다. 쓰이지 않은 `fonts/spare.woff2`는 목록에서 present여도 브라우저 요청에 없다.
 
 ## 기존 검사에서 시작하기
 

@@ -10,13 +10,21 @@ unverified.
 import hashlib
 import json
 import re
+import shutil
+import subprocess
+import tempfile
+import threading
+import time
+import urllib.request
 from collections import deque
 from html.parser import HTMLParser
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit, urlunsplit
 
 import design_directions
 import design_system
+import websocket
 
 SCHEMA = 'figma-flow-input-effect-v1'
 RESULT_SCHEMA = 'figma-flow-input-effect-result-v3'
@@ -661,3 +669,78 @@ def summarize_input_record(record):
         })
     payload = canonical(record).encode()
     return {'sha256': digest(payload), 'summary': rows, 'bytes': payload}
+
+
+def contrast_css_browser_loading(root):
+    """Read the asset list, then record which of those files headless Chrome requests."""
+    root = _root(root)
+    page = root / 'index.html'
+    if not page.is_file():
+        raise ValueError('Browser contrast requires index.html')
+    listed = [{'path': asset['path'], 'status': asset['status']} for asset in html_channel(page, root)['assets'] if asset.get('path')]
+    requested = _chrome_requested_paths(root)
+    return {'list': listed, 'browser': {'requested': sorted(requested)}, 'separate': True}
+
+
+def _chrome_requested_paths(root):
+    chrome = Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+    if not chrome.is_file():
+        raise ValueError('Chrome is required for the browser contrast')
+
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=str(root), **kwargs)
+
+        def log_message(self, format, *args):
+            return
+
+    server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    profile = Path(tempfile.mkdtemp())
+    proc = None
+    sock = None
+    try:
+        proc = subprocess.Popen(
+            [str(chrome), '--headless=new', '--disable-gpu', '--remote-debugging-port=0', f'--user-data-dir={profile}', 'about:blank'],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        port_file = profile / 'DevToolsActivePort'
+        deadline = time.time() + 8
+        while not port_file.exists():
+            if time.time() > deadline:
+                raise ValueError('Chrome did not open a debugging port')
+            time.sleep(0.1)
+        debug_port = int(port_file.read_text(encoding='utf-8').splitlines()[0])
+        targets = json.load(urllib.request.urlopen(f'http://127.0.0.1:{debug_port}/json'))
+        sock = websocket.create_connection(targets[0]['webSocketDebuggerUrl'], timeout=5)
+        message_id = 0
+
+        def send(method, params=None):
+            nonlocal message_id
+            message_id += 1
+            sock.send(json.dumps({'id': message_id, 'method': method, 'params': params or {}}))
+
+        send('Network.enable')
+        send('Page.navigate', {'url': f'http://127.0.0.1:{server.server_address[1]}/index.html'})
+        requested = set()
+        end = time.time() + 3
+        while time.time() < end:
+            sock.settimeout(0.4)
+            try:
+                message = json.loads(sock.recv())
+            except Exception:
+                continue
+            url = ((message.get('params') or {}).get('request') or {}).get('url', '')
+            path = unquote(urlsplit(url).path).lstrip('/')
+            if path and path != 'favicon.ico':
+                requested.add(path)
+        return requested
+    finally:
+        if sock is not None:
+            sock.close()
+        if proc is not None:
+            proc.kill()
+            proc.wait(timeout=5)
+        server.shutdown()
+        server.server_close()
+        shutil.rmtree(profile, ignore_errors=True)
