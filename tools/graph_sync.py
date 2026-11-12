@@ -55,6 +55,34 @@ def load_selective_sync_fixture(root):
     return {**payload, 'condition': selective_sync_condition(payload, payload['selection'])}
 
 
+def serialize_selection(payload, selection):
+    """Serialize stable token identities and the alias bundle without writing values."""
+    condition = selective_sync_condition(payload, selection)
+    selected = {item['key'] for item in condition['applied']}
+    alias_keys = list(payload['alias_bundle']['keys'])
+    if set(selection) == set(alias_keys):
+        selected = set(alias_keys)
+
+    def identity(kind, key):
+        body = json.dumps({'key': key, 'kind': kind}, sort_keys=True, separators=(',', ':')).encode()
+        return hashlib.sha256(body).hexdigest()
+
+    bundle_id = identity('bundle', '|'.join(alias_keys))
+    changes = []
+    for item in payload['independent']:
+        changes.append({'identity': identity('token', item['key']), 'kind': 'token', 'key': item['key'],
+            'bundle': None, 'selected': item['key'] in selected})
+    for key in alias_keys:
+        changes.append({'identity': identity('token', key), 'kind': 'token', 'key': key,
+            'bundle': bundle_id, 'selected': key in selected})
+    plan_body = json.dumps([
+        {'bundle': row['bundle'], 'identity': row['identity'], 'key': row['key'], 'kind': row['kind']}
+        for row in changes
+    ], sort_keys=True, separators=(',', ':')).encode()
+    document = {'schema': 'figma-flow-selection-v1', 'plan_sha256': hashlib.sha256(plan_body).hexdigest(), 'changes': changes}
+    return {'document': document, 'serialized': json.dumps(document, sort_keys=True, separators=(',', ':'))}
+
+
 def read(path):
     return json.loads(Path(path).read_text(encoding='utf-8'))
 
