@@ -36,6 +36,20 @@ CHANGELOG와 skills/patch-knowledge/SKILL.md에 따른 상세 Wiki를 갱신해�
 현재 요청에 push·배포·설치 권한이 없으면 검증한 로컬 변경으로 마무리해라.
 ```
 
+## 항목 색인
+
+[계획 표](README.md)의 RD-01부터 RD-09까지를 한 항목씩 고른다.
+
+- [RD-01](RD-01-components/feature.md) 재사용 컴포넌트와 편집 속성
+- [RD-02](RD-02-layer-structure/feature.md) 의미 있는 계층
+- [RD-03](RD-03-task-dependencies/feature.md) 작업 간 의존성
+- [RD-04](RD-04-selective-sync/feature.md) 동기화 변경을 골라 적용
+- [RD-05](RD-05-asset-inventory/feature.md) 입력 사진·글꼴·CSS 자산 목록
+- [RD-06](RD-06-native-read/feature.md) 목적별 네이티브 읽기
+- [RD-07](RD-07-runtime-boundaries/feature.md) 제어 전송과 실행 정책
+- [RD-08](RD-08-operation-lifecycle/feature.md) 실행 수명주기와 충돌 복구
+- [RD-09](RD-09-audit-log/feature.md) 진단 기록 내보내기
+
 ## 문서에서 실행으로 옮기는 순서
 
 1. `feature.md`의 ID별 인수 조건을 해당 변경의 checklist에 옮긴다. 새 기능 등록이 필요하면 기존 [스펙 계약](../../specs/README.md)에 맞춰 requirement·screen·action·code·test graph를 작성한다.
