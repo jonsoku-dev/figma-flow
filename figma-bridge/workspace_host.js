@@ -40,11 +40,23 @@ function workspacePersist() {
   workspaceWrites = workspaceWrites.catch(() => {}).then(() => figma.clientStorage.setAsync(workspaceStorageKey, snapshot))
     .catch(() => {workspaceStorageError = true;});
 }
-function workspaceRecord(current, operation, status) {
+function workspaceJournalHistory(view) {
+  if (!view || typeof view !== 'object' || view.classification === 'legacy') return {classification: 'legacy', phase: 'unknown', phases: []};
+  if (view.classification !== 'recorded' || !Array.isArray(view.phases)) return {classification: 'unknown', phase: 'unknown', phases: []};
+  const phases = view.phases.filter(item => item && typeof item.phase === 'string' && typeof item.time === 'string').map(item => ({phase: item.phase, time: item.time}));
+  return {classification: 'recorded', phase: phases.length ? phases[phases.length - 1].phase : 'unknown', phases};
+}
+function workspaceRecord(current, operation, status, journal) {
   if (!workspaceCurrent(current) || !workspaceOperations.has(operation) || !workspaceStatuses.has(status)) return;
-  workspaceState.history.push({taskKey: current.task.key, revision: current.task.revision || '',
+  const event = {taskKey: current.task.key, revision: current.task.revision || '',
     time: new Date().toISOString(), operation, status,
-    ...(operation === 'download' || !current.executionId ? {} : {executionId: current.executionId})});
+    ...(operation === 'download' || !current.executionId ? {} : {executionId: current.executionId})};
+  if (journal) {
+    const serverJournal = workspaceJournalHistory(journal);
+    event.classification = serverJournal.classification;
+    event.phase = serverJournal.phase;
+  }
+  workspaceState.history.push(event);
   workspaceState.history = workspaceState.history.slice(-80);
   workspacePersist();
 }

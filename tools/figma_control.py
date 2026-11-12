@@ -242,6 +242,23 @@ def record_phase(request, phase):
     request['phase_events'].append({'phase': phase, 'time': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'source': 'server'})
 
 
+def journal_history(request):
+    """Safe history lookup. Legacy requests stay unknown instead of inventing phases."""
+    if not isinstance(request, dict):
+        raise ValueError('Invalid operation journal')
+    identity = request.get('id')
+    if not isinstance(identity, str) or not re.fullmatch(r'[a-f0-9]{32}', identity):
+        identity = None
+    if not lifecycle_present(request):
+        return {'operation_id': identity, 'classification': 'legacy', 'phase': 'unknown', 'phases': []}
+    try:
+        validate_lifecycle(request)
+    except ValueError:
+        return {'operation_id': None, 'classification': 'unknown', 'phase': 'unknown', 'phases': []}
+    phases = [{'phase': event['phase'], 'time': event['time']} for event in request['phase_events']]
+    return {'operation_id': request['operation_id'], 'classification': 'recorded', 'phase': phases[-1]['phase'] if phases else 'unknown', 'phases': phases}
+
+
 def active(directory):
     path = directory / 'active.json'
     if not path.exists():
@@ -411,7 +428,8 @@ def status(root, operation_id=None):
                 raise ValueError('Invalid operation ID')
             value = current if current and current['id'] == operation_id else workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
         pending = uncertainties(directory)['operations']
-        return {**value, 'uncertain_operations': [{key: original[key] for key in ('id', 'key', 'operation', 'file_key', 'page_id', 'revision')} for original in pending.values()]}
+        journal = journal_history(value if isinstance(value, dict) else {})
+        return {**value, 'journal': journal, 'uncertain_operations': [{key: original[key] for key in ('id', 'key', 'operation', 'file_key', 'page_id', 'revision')} for original in pending.values()]}
 
 
 def pinned_operation_transitions(root, discovery_revision, mutation_revision, other_revision):
