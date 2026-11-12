@@ -13,6 +13,8 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
+1은 `figma_control.pinned_operation_transitions`가 현재 enqueue·poll·result를 다시 실행한다. claim 전 timeout은 expired, claim 후 timeout은 uncertain이다. 읽기 timeout은 다음 명령을 막지 않고, claim된 mutation timeout은 같은 쓰기를 막는다. 다른 페이지 읽기는 uncertainty를 풀지 않고, 같은 scope의 discovery 읽기만 푼다. 끝난 결과의 재전송은 거절한다. native-started는 어느 전이에서도 만들지 않는다. 서버 operation ID와 phase journal은 아직 없다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.

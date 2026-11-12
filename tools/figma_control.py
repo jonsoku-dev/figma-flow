@@ -365,6 +365,106 @@ def status(root, operation_id=None):
         return {**value, 'uncertain_operations': [{key: original[key] for key in ('id', 'key', 'operation', 'file_key', 'page_id', 'revision')} for original in pending.values()]}
 
 
+def pinned_operation_transitions(root, discovery_revision, mutation_revision, other_revision):
+    """Replay the current enqueue, poll, result, timeout, and recovery transitions."""
+    original_time = time.time
+    native_started = False
+
+    def note(value):
+        nonlocal native_started
+        if 'native-started' in json.dumps(value):
+            native_started = True
+        return value
+
+    def claim_page(page_id, runtime=False):
+        payload = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': page_id}
+        if runtime:
+            payload['runtime'] = workspace.current(root)['runtime']
+        return poll(root, payload)
+
+    def finish(claim, raw):
+        payload = {key: claim[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')}
+        payload.update(status='ok', readback_json=raw)
+        return result(root, payload)
+
+    def discovery(page_id):
+        return json.dumps({'schema': 'figma-flow-graph-native-discovery-v1', 'fileKey': 'fixturefile', 'pageId': page_id,
+                            'allowed_page_ids': [page_id], 'nodes': [], 'variables': [], 'collections': []})
+
+    try:
+        enqueue(root, 'discovery', 'read', 'fixturefile', '12:1', discovery_revision, 30)
+        read = [note(status(root))['state']]
+        claim = claim_page('12:1')['operation']
+        read.append(note(status(root))['state'])
+        finish(claim, '{"scope":"synthetic-test-only"}')
+        read.append(note(status(root))['state'])
+
+        request = enqueue(root, 'discovery', 'read', 'fixturefile', '12:1', discovery_revision, 1)
+        time.time = lambda: request['deadline'] + 1
+        timeout_before_claim = note(status(root))['state']
+        time.time = original_time
+
+        request = enqueue(root, 'discovery', 'read', 'fixturefile', '12:1', discovery_revision, 1)
+        claim = claim_page('12:1')['operation']
+        time.time = lambda: request['deadline'] + 1
+        timeout_after_claim = note(status(root))['state']
+        try:
+            finish(claim, '{"scope":"synthetic-test-only"}')
+            result_after_claimed_timeout = 'accepted'
+        except ValueError:
+            result_after_claimed_timeout = 'rejected'
+        time.time = original_time
+        try:
+            enqueue(root, 'discovery', 'read', 'fixturefile', '12:1', discovery_revision, 30)
+            read_claim_timeout_blocks_later_commands = False
+            finish(claim_page('12:1')['operation'], '{"scope":"synthetic-test-only"}')
+        except ValueError:
+            read_claim_timeout_blocks_later_commands = True
+
+        request = enqueue(root, 'mutation', 'apply', 'fixturefile', '12:1', mutation_revision, 1)
+        claim_page('12:1', runtime=True)
+        time.time = lambda: request['deadline'] + 1
+        mutation_claim_timeout = note(status(root))['state']
+        mutation_id = request['id']
+        time.time = original_time
+        try:
+            enqueue(root, 'mutation', 'apply', 'fixturefile', '12:1', mutation_revision, 30)
+            mutation_reenqueued_while_uncertain = 'allowed'
+        except ValueError as error:
+            mutation_reenqueued_while_uncertain = 'blocked' if 'uncertain' in str(error) else 'other'
+
+        enqueue(root, 'other-page', 'read', 'fixturefile', '12:9', other_revision, 30)
+        finish(claim_page('12:9', runtime=True)['operation'], discovery('12:9'))
+        other_page_read_reconciles = note(status(root)).get('reconciles') == [mutation_id]
+
+        enqueue(root, 'discovery', 'read', 'fixturefile', '12:1', discovery_revision, 30)
+        recovery_claim = claim_page('12:1', runtime=True)['operation']
+        finish(recovery_claim, discovery('12:1'))
+        current = note(status(root))
+        same_scope_discovery_reconciles = current.get('reconciles') == [mutation_id] and current['uncertain_operations'] == []
+        try:
+            finish(recovery_claim, discovery('12:1'))
+            duplicate_terminal_result = 'accepted'
+        except ValueError:
+            duplicate_terminal_result = 'rejected'
+    finally:
+        time.time = original_time
+    return {
+        'schema': 'figma-flow-operation-transition-fixture-v1',
+        'read': read,
+        'timeout_before_claim': timeout_before_claim,
+        'timeout_after_claim': timeout_after_claim,
+        'result_after_claimed_timeout': result_after_claimed_timeout,
+        'read_claim_timeout_blocks_later_commands': read_claim_timeout_blocks_later_commands,
+        'mutation_claim_timeout': mutation_claim_timeout,
+        'mutation_reenqueued_while_uncertain': mutation_reenqueued_while_uncertain,
+        'other_page_read_reconciles': other_page_read_reconciles,
+        'same_scope_discovery_reconciles': same_scope_discovery_reconciles,
+        'duplicate_terminal_result': duplicate_terminal_result,
+        'native_started': native_started,
+    }
+
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, *_args):
         pass
