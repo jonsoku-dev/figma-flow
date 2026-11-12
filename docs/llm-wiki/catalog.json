@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.27.0",
     "0.26.3",
     "0.26.2",
     "0.26.1",
@@ -5450,14 +5451,1234 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "b1c3824d810a143b6c7eb5e1f6951828e950dfee",
+      "diff_sha256": "fa341002486ef31df7ee29c51e654c090c6e33bbf727a19d6b141f2f359b8eaa",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/142dfd97ed5bba73e787d99924a2693a3a86b61a.md",
+        "docs/llm-wiki/patches/df65b64205ed85644acf075f0acab8f37f2ac371.md"
+      ],
+      "parents": [
+        "142dfd97ed5bba73e787d99924a2693a3a86b61a"
+      ],
+      "subject": "docs: record the refreshed Codex review handoff",
+      "tree": "adbc7a46ca9bc38355b2699a41035771f63870fe",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "8b984daa4733739c1c5ce72ab30232504d3fe4a4",
+      "diff_sha256": "2fad1c31a6adce386d4ab836a967a1a2faaf9eeee17ccddcb2f606211b9479b7",
+      "files": [
+        "tests/finalize_audit_privacy.cjs",
+        "tests/finalize_dependency_publication.py",
+        "tests/finalize_input_audit.py",
+        "tests/finalize_lifecycle_oracle.py",
+        "tests/finalize_lifecycle_runtime.cjs",
+        "tests/finalize_lifecycle_transport.cjs",
+        "tests/finalize_native_layout.cjs",
+        "tests/finalize_native_layout.py",
+        "tests/finalize_selective_sync.cjs",
+        "tests/finalize_selective_sync.py",
+        "tests/helpers/rd07_bundle_kinds.cjs",
+        "tests/rd07_bundle_kinds.cjs",
+        "tests/test_graph_panel.cjs",
+        "tests/test_multipage_native_contract.cjs",
+        "tests/test_rd07_bundle_kinds.py"
+      ],
+      "parents": [
+        "b1c3824d810a143b6c7eb5e1f6951828e950dfee"
+      ],
+      "subject": "test: pin final integration acceptance boundaries",
+      "tree": "6e79bebe8db4b40878534faefb12c8504bea6fa5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "ee296599d76993f3a8481edddf08ca9643c9301b",
+      "diff_sha256": "e193fcf7633885f5579b1e6cea84c837116f8b34e87b93564e2b202fff314cea",
+      "files": [
+        "tests/finalize_selective_sync.cjs"
+      ],
+      "parents": [
+        "8b984daa4733739c1c5ce72ab30232504d3fe4a4"
+      ],
+      "subject": "test: model the generated panel document faithfully",
+      "tree": "04f8813f123bc91fda231daf8f053c60da2c7098",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "493ee6f561112181f82e90a45b58fa35482c7219",
+      "diff_sha256": "6dd2f98c8589416ae92843fec679764b94b1db13bdf41a0d47983d2d5c56bff3",
+      "files": [
+        "tests/finalize_input_audit.py",
+        "tests/rd01_import_axes_acceptance.cjs"
+      ],
+      "parents": [
+        "ee296599d76993f3a8481edddf08ca9643c9301b"
+      ],
+      "subject": "test: pin real import axes and pure observation behavior",
+      "tree": "64bac144f6ebed219f687037629817ed1ce61603",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "2cf4ce74557f9a2e65b8bc817b92eb3486067554",
+      "diff_sha256": "45e09a874499ed29aa5bd529b31ec15c6bba8de70d2352c9bd6c61ad674d3ac0",
+      "files": [
+        "tests/finalize_lifecycle_oracle.py",
+        "tests/finalize_lifecycle_runtime.cjs",
+        "tests/finalize_selective_sync.cjs",
+        "tests/finalize_selective_sync.py",
+        "tests/fixtures/rd02/declared-containers.json",
+        "tests/helpers/finalize_lifecycle_runtime.cjs",
+        "tests/helpers/finalize_selective_sync.cjs",
+        "tests/rd02_container_placement_oracle.cjs",
+        "tests/rd02_container_sizing_oracle.cjs",
+        "tests/rd07_transport_move.cjs",
+        "tests/test_graph_sync.py",
+        "tests/test_native_control_alignment.cjs",
+        "tests/test_native_runtime_version.cjs",
+        "tests/test_rd02_layer_normalize.py",
+        "tests/test_rd05_browser_contrast.py",
+        "tests/test_rd08_native_started.py"
+      ],
+      "parents": [
+        "493ee6f561112181f82e90a45b58fa35482c7219"
+      ],
+      "subject": "test: align native fixtures and integration harnesses",
+      "tree": "234cc7014a5ebc5e07de6ebd2e847952e65ba246",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de",
+      "diff_sha256": "73eb128f7ce990c7d14c8056107d87a1dc737713539280a194a409483dbfd458",
+      "files": [
+        "tests/helpers/finalize_lifecycle_runtime.cjs"
+      ],
+      "parents": [
+        "2cf4ce74557f9a2e65b8bc817b92eb3486067554"
+      ],
+      "subject": "test: resolve panel dependencies from helper directory",
+      "tree": "09e7c94fe678f4f74950d209487a2b7a23980c6e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "c80def58a7b0a875961f13c9ae7307bbc910ff8e",
+      "diff_sha256": "76a0a3597e5cdddb827e2be022071eca4ebe0b0e57860f511d9292bb780de3e2",
+      "files": [
+        "tests/helpers/rd07_bundle_kinds.cjs",
+        "tests/test_rd02_layer_fixtures.py",
+        "tests/test_rd04_component_fields.py",
+        "tests/test_rd04_selective_apply.py",
+        "tests/test_workspace_chat.py"
+      ],
+      "parents": [
+        "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de"
+      ],
+      "subject": "test: preserve preflight and scoped selection contracts",
+      "tree": "8054f06e9a33b2f2550104b7a9535a49e5885ff2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "fbf83b3f9aa43801306d2678a8ed3bbfc6c9f904",
+      "diff_sha256": "4c72239ed63e6ac080a9e6ae97f3f4952796291528ce95ada7eaebcb53ac5696",
+      "files": [
+        "tests/test_finalize_history_scope.py",
+        "tests/test_rd04_component_fields.py",
+        "tests/test_rd04_selective_apply.py"
+      ],
+      "parents": [
+        "c80def58a7b0a875961f13c9ae7307bbc910ff8e"
+      ],
+      "subject": "test: retain history within the requested scope",
+      "tree": "dfb731e3cac119f7eea875377b0078c6d5c1ed37",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "5d92cd61d7e09a444c5045ddc26911829d92b060",
+      "diff_sha256": "30b4fbb365e0f291c0ac064e5a686918ab6292c9de63a21f5c4d1b8559af9ba5",
+      "files": [
+        "tests/finalize_asset_admission.py"
+      ],
+      "parents": [
+        "fbf83b3f9aa43801306d2678a8ed3bbfc6c9f904"
+      ],
+      "subject": "test: pin asset admission and live freshness",
+      "tree": "d61b2581e59d1edb431b4e3dfbc8b6abb75e971e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "bbe11d2a80604207b8efaba5c521834acad779b3",
+      "diff_sha256": "9840a98c7dd90b1b9053a7c0cc2aef6a5819c7a7ae08459d9e8bfcc6632ec4d5",
+      "files": [
+        "tests/finalize_input_audit.py",
+        "tests/test_rd05_input_route.py"
+      ],
+      "parents": [
+        "5d92cd61d7e09a444c5045ddc26911829d92b060"
+      ],
+      "subject": "test: pin canonical asset identity and admission contract",
+      "tree": "5e6a477f32b048457316eb1e81190841803f05fa",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "c7a3cdef85ad0fdb7bade6a3fe5fa1e896864dd2",
+      "diff_sha256": "fec9ceb10cbf77295deb6e40e46a7c773c2d6e88b8ff6696030d9973cb643a13",
+      "files": [
+        "tests/finalize_scroll_clip.cjs",
+        "tests/finalize_scroll_clip.py"
+      ],
+      "parents": [
+        "bbe11d2a80604207b8efaba5c521834acad779b3"
+      ],
+      "subject": "test: pin native scroll clipping and readback contract",
+      "tree": "5d4051d972741491206976d4766349403516d56c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "2e974fa58123ab1835b117a55451bf837597182f",
+      "diff_sha256": "a46f00b062c145c6fa2b46739ae32aec35c2ccd6adbd3c1aa23f379a2c31c0e2",
+      "files": [
+        "tests/rd09_audit_log.cjs"
+      ],
+      "parents": [
+        "c7a3cdef85ad0fdb7bade6a3fe5fa1e896864dd2"
+      ],
+      "subject": "test: preserve historical diagnostics across version bumps",
+      "tree": "da54380c88696d10ac54a724e4c8098072a248b8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67",
+      "diff_sha256": "2aa16358d97aa0337a24e44802cd612cffd3b84c7899800de6af7db6cccb2327",
+      "files": [
+        "tests/test_rd03_dependency_freshness.py",
+        "tests/test_rd05_input_route.py"
+      ],
+      "parents": [
+        "2e974fa58123ab1835b117a55451bf837597182f"
+      ],
+      "subject": "test: keep localization and input admission checks current",
+      "tree": "2c9ed68e6569aec8d765e267b7416ccf9035e093",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "674335b0a46d426723e32ab3cc98029b8b6e3744",
+      "diff_sha256": "994b798a6b17a34895194925b354cbc664fcf15c2550d3d22d52f9c0f09a4607",
+      "files": [
+        "tests/finalize_scroll_quality.py"
+      ],
+      "parents": [
+        "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67"
+      ],
+      "subject": "test: pin scroll-aware authored quality admission",
+      "tree": "3b72b5295c2c5308e9163de3b77c43cc9d3b3498",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "721627bcc9a6eca2e283f879026d942a93a05a20",
+      "diff_sha256": "8ed525a286f5fa4ce0479559df7ced40c0a84b7a4995d8c7c72f2225773dbe29",
+      "files": [
+        "tests/finalize_normal_input.py"
+      ],
+      "parents": [
+        "674335b0a46d426723e32ab3cc98029b8b6e3744"
+      ],
+      "subject": "test: pin normal HTML asset projection boundaries",
+      "tree": "3fc3d6d477998c8d5ee954172e62fb843a011753",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "939f1b997d8cff3bd6efca5c28a9c2a23cd41785",
+      "diff_sha256": "239bd894c0b94a4370ba15d975779d90143c62ef559eb8c27ceac19918c6ebcd",
+      "files": [
+        "tests/test_rd05_input_route.py"
+      ],
+      "parents": [
+        "721627bcc9a6eca2e283f879026d942a93a05a20"
+      ],
+      "subject": "test: keep input route independent of fact options",
+      "tree": "299bafd3a6ccd3cac5ef175c2358c8246389c30e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "dafe4bde488c82bb41cbf4096e4f83833c017fff",
+      "diff_sha256": "4550014e65e3dcf98d852736c823eb487b468809b45dc0a314b0533f879431a9",
+      "files": [
+        "tests/finalize_historical_restore.py"
+      ],
+      "parents": [
+        "939f1b997d8cff3bd6efca5c28a9c2a23cd41785"
+      ],
+      "subject": "test: pin authenticated historical restoration",
+      "tree": "579db3496b0c9695b5ecefceb163ca6280628ac9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "c43b4fc6c3958c233ca403769b4ef255bd6708e5",
+      "diff_sha256": "a7d6d1750c953fb72ea24fd32311452bb9b75f516b95094ab01307ace89c264f",
+      "files": [
+        "tests/finalize_native_build_reads.cjs",
+        "tests/helpers/finalize_native_build_reads.cjs"
+      ],
+      "parents": [
+        "dafe4bde488c82bb41cbf4096e4f83833c017fff"
+      ],
+      "subject": "test: bound native build getter work",
+      "tree": "5972eb5663700d917f5d6a16f3f430b79e7023d3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "06a40a1b83fac2f94b540d24e081ee87779e79ae",
+      "diff_sha256": "6eaaf3dd6f8f6f170de6ae6664a133782bb5ba9d9e3eee93b8a8d08694f2776a",
+      "files": [
+        "tests/finalize_historical_restore.py"
+      ],
+      "parents": [
+        "c43b4fc6c3958c233ca403769b4ef255bd6708e5"
+      ],
+      "subject": "test: compare canonical historical input root",
+      "tree": "49258c39a1f5406cb355f35c0a23dc882d2c5e66",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "b7209c96bfa57c008c59f351d55ac7f2d781811a",
+      "diff_sha256": "a61ce0954ab35a0258ae735485c81ab7022f9e5dbdbb9f02b1e71a322f37b0d0",
+      "files": [
+        "tests/rd06_reject_partial.cjs"
+      ],
+      "parents": [
+        "06a40a1b83fac2f94b540d24e081ee87779e79ae"
+      ],
+      "subject": "test: verify review full-read boundary behavior",
+      "tree": "a3bc5641c511205db71ef6348ca77cb67424de77",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "e8ada75f03b253aed9ab4d9528872575f7cc8051",
+      "diff_sha256": "df3ffed1c1c06dd0a8e5cf7b4d18ba16b3a59243d23d6462cecf004e1198177b",
+      "files": [
+        "tests/finalize_linebox_rounding.cjs",
+        "tests/finalize_linebox_rounding.py"
+      ],
+      "parents": [
+        "b7209c96bfa57c008c59f351d55ac7f2d781811a"
+      ],
+      "subject": "test: pin native fractional linebox boundaries",
+      "tree": "1f3d944466f29e68ac131ed858a97a7cb049c450",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "ba390f93a7da8d74a4cd5cd1993c8a9244c91467",
+      "diff_sha256": "01ed5b4a46992fa31da03075a5cb5e38eef2fbd5aa045b94dfaada6940b0e319",
+      "files": [
+        "tests/finalize_linebox_rounding.cjs",
+        "tests/finalize_linebox_rounding.py"
+      ],
+      "parents": [
+        "e8ada75f03b253aed9ab4d9528872575f7cc8051"
+      ],
+      "subject": "test: pin native inline text allocation rounding",
+      "tree": "0df1c92997312e6a515e46801727f43d9950f006",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "0ad26187e423973a3895b3ae63e6953c0189761b",
+      "diff_sha256": "c022cc719e21177f24847c0d2f16ee68e1cbb9ace31a7d462519ed3a09d549bf",
+      "files": [
+        "tests/finalize_note_board_reads.cjs"
+      ],
+      "parents": [
+        "ba390f93a7da8d74a4cd5cd1993c8a9244c91467"
+      ],
+      "subject": "test: bound readable board native lookups",
+      "tree": "404652e369779482eade94a5d3361256ebc30977",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "f8e3b4a327afa4f939c3355cf94a601814936342",
+      "diff_sha256": "13d201ab2d810bf5b5b854ef731197d3ef93b064ebf766e2bc72fcb4becaa3e4",
+      "files": [
+        "tests/finalize_lifecycle_transport.cjs"
+      ],
+      "parents": [
+        "0ad26187e423973a3895b3ae63e6953c0189761b"
+      ],
+      "subject": "test: pin bounded large-read request rejection",
+      "tree": "26e2042bf6e48a8f584ff4f201134df9fe5a9921",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "d8a540b84376f39997583204aa6801aece6e31f0",
+      "diff_sha256": "425d34e4b8aece2cfac6ab9229c92a2fbc91f395ea63fa32bdd76112da1bfc75",
+      "files": [
+        "tests/finalize_declared_layout_bindings.cjs"
+      ],
+      "parents": [
+        "f8e3b4a327afa4f939c3355cf94a601814936342"
+      ],
+      "subject": "test: pin declared layout token bindings",
+      "tree": "ab157869890f60563329fd7b9c233637bf0f9416",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "d2e1b384ffe60e403c111b542df688b5e238deac",
+      "diff_sha256": "68ad46779abe190958cc16076fd5e39488390de54597dbbf4bbeddfaceda36ed",
+      "files": [
+        "tests/finalize_control_capacity.cjs",
+        "tests/finalize_control_capacity.py"
+      ],
+      "parents": [
+        "d8a540b84376f39997583204aa6801aece6e31f0"
+      ],
+      "subject": "test: pin bounded production readback capacity",
+      "tree": "55b9b0ecd2cac650489fdfb9677012b091164aa0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "fcace533169f7f37116ec1048857e7010790390e",
+      "diff_sha256": "9a31aa53b939678448e84bd12d1782c72914f8d11ab40bd6107196bf33425c59",
+      "files": [
+        "tests/finalize_declared_layout_bindings.cjs"
+      ],
+      "parents": [
+        "d2e1b384ffe60e403c111b542df688b5e238deac"
+      ],
+      "subject": "test: resolve observed layout variable aliases",
+      "tree": "5ba06e7688da4b26e519a9ac2f6580e81e1ae7bf",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "65bd407b96ebaf14d6a965f6aa83c20c451795ca",
+      "diff_sha256": "b361c65816af73b1c707d24188462d261a80ddb4baa86686503e03040444dbab",
+      "files": [
+        "tests/finalize_product_button_parents.py"
+      ],
+      "parents": [
+        "fcace533169f7f37116ec1048857e7010790390e"
+      ],
+      "subject": "test: pin declared product button parents",
+      "tree": "719e8908cbd1572b6d399825c977feb39b1d1f88",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "dca7dfcb4ec97ee52427a40050e815f53880d47e",
+      "diff_sha256": "51df5a8d102bf85dbeffea1e547f54a6f0ad30afc64eb04e89eedb433335babf",
+      "files": [
+        "tests/finalize_discovery_summary.cjs"
+      ],
+      "parents": [
+        "65bd407b96ebaf14d6a965f6aa83c20c451795ca"
+      ],
+      "subject": "test: pin scoped discovery summary behavior",
+      "tree": "403ad4653df04d832aea09325e04885e75679e21",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "28128ac57e43e314aade368f3f8c919c0246d22c",
+      "diff_sha256": "b63e687446e506fc09b3490bc8890e390cf16e07a7d2ea1d3ef27c47072dc6c6",
+      "files": [
+        "tests/finalize_diagnostic_version.cjs",
+        "tests/rd09_audit_log.cjs"
+      ],
+      "parents": [
+        "dca7dfcb4ec97ee52427a40050e815f53880d47e"
+      ],
+      "subject": "test: require actual diagnostic build version",
+      "tree": "f187cd348c54f4eb1f73cc8adc497888930a117e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "d9e8840c2fb51e8722cb2f95a3a810eb2f6de743",
+      "diff_sha256": "854d92d19fe9f19950a8c8d81b3e524176a80d5f8ce865e00263aca1d66d54d3",
+      "files": [
+        "tests/test_affected_tests.py"
+      ],
+      "parents": [
+        "28128ac57e43e314aade368f3f8c919c0246d22c"
+      ],
+      "subject": "test: synchronize runtime drift observation",
+      "tree": "976a9678c23e909c2764a36c38c7a7a32078e2ac",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "1e64ada88f76180ab72d6be01c79841d9714335e",
+      "diff_sha256": "c07b13f2731a0a5c1567a3b3351cfced621848d21c3dc7ec2bf98af250841677",
+      "files": [
+        "tests/finalize_terminal_result.py",
+        "tests/test_rd08_operation_transitions.py"
+      ],
+      "parents": [
+        "d9e8840c2fb51e8722cb2f95a3a810eb2f6de743"
+      ],
+      "subject": "test: pin exact terminal result redelivery",
+      "tree": "a24961dbf7619d393404c8aff6b5282c577c2185",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "0145921ca4ed5d22187b9e259cb8d8224b4a7d86",
+      "diff_sha256": "06f8475e4da3f056a1d9c01add352b01f0f55bd7f55025844d8ccc8b638aa01a",
+      "files": [
+        "tests/finalize_missing_asset_admission.py",
+        "tests/finalize_reader_freshness_matrix.cjs"
+      ],
+      "parents": [
+        "1e64ada88f76180ab72d6be01c79841d9714335e"
+      ],
+      "subject": "test: cover missing assets and fresh native reads",
+      "tree": "8b8e01c92fed96ca53441b3e73f181d93fa3c135",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "7ba864310c66d6f972cb4b9e15cacc04c3761ccd",
+      "diff_sha256": "10616991793d2c0d85a64901689093679a3d66f06f4c60adc2b3d4775b5579f1",
+      "files": [
+        "tests/finalize_runtime_contract_matrix.py",
+        "tests/fixtures/rd07/extraction-baseline.json"
+      ],
+      "parents": [
+        "0145921ca4ed5d22187b9e259cb8d8224b4a7d86"
+      ],
+      "subject": "test: prove runtime extraction and task isolation",
+      "tree": "80733aa22334f659c69426bc7341e26a3e26d0d1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "6459de5ca0711f10629945fe36a2b4a2063fbbae",
+      "diff_sha256": "404fa8bdac8610a2a6ab2222016e7cb8a50ec4302930c08b3862ad924c9d93f5",
+      "files": [
+        "tests/finalize_partial_consumers.cjs",
+        "tests/finalize_partial_consumers.py"
+      ],
+      "parents": [
+        "7ba864310c66d6f972cb4b9e15cacc04c3761ccd"
+      ],
+      "subject": "test: reject partial native mutation evidence",
+      "tree": "4c5a79c9186608fec41de89a3ecd998637834059",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "7b5ae4091641430d891e0c110c8efdb9a845a6ce",
+      "diff_sha256": "48e77535d725547921c17643f813c2d39e81ac9e29b09a29d1d29c971a04cac6",
+      "files": [
+        "tests/finalize_group_coordinates.cjs",
+        "tests/finalize_group_coordinates.py",
+        "tests/finalize_native_layout.cjs",
+        "tests/fixtures/rd02/native-group-coordinates.json",
+        "tests/rd02_container_placement_oracle.cjs",
+        "tests/rd02_container_readback_oracle.cjs",
+        "tests/rd02_container_sizing_oracle.cjs"
+      ],
+      "parents": [
+        "6459de5ca0711f10629945fe36a2b4a2063fbbae"
+      ],
+      "subject": "test: pin actual Figma group coordinates",
+      "tree": "485c6da5463e98293433db123669b7ddcbdaa7c9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988",
+      "diff_sha256": "fa35cd49fa67a707e2ee34a354fee815d9a6b592b86b6d44877327098e8713ad",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".github/workflows/little-hands.yml",
+        ".github/workflows/test.yml",
+        "CHANGELOG.md",
+        "README.md",
+        "apps/little-hands/.dockerignore",
+        "apps/little-hands/.gitignore",
+        "apps/little-hands/ARCHITECTURE.md",
+        "apps/little-hands/Dockerfile",
+        "apps/little-hands/README.md",
+        "apps/little-hands/booking/__init__.py",
+        "apps/little-hands/booking/admin.py",
+        "apps/little-hands/booking/apps.py",
+        "apps/little-hands/booking/forms.py",
+        "apps/little-hands/booking/management/__init__.py",
+        "apps/little-hands/booking/management/commands/__init__.py",
+        "apps/little-hands/booking/management/commands/seed_staging.py",
+        "apps/little-hands/booking/migrations/0001_initial.py",
+        "apps/little-hands/booking/migrations/0002_immutable_records.py",
+        "apps/little-hands/booking/migrations/0003_session_cancellation_policy.py",
+        "apps/little-hands/booking/migrations/__init__.py",
+        "apps/little-hands/booking/models.py",
+        "apps/little-hands/booking/services.py",
+        "apps/little-hands/booking/templatetags/__init__.py",
+        "apps/little-hands/booking/templatetags/audit_display.py",
+        "apps/little-hands/booking/tests/__init__.py",
+        "apps/little-hands/booking/tests/test_audit_display.py",
+        "apps/little-hands/booking/tests/test_booking.py",
+        "apps/little-hands/booking/tests/test_choice_widgets.py",
+        "apps/little-hands/booking/urls.py",
+        "apps/little-hands/booking/views.py",
+        "apps/little-hands/compose.yaml",
+        "apps/little-hands/config/__init__.py",
+        "apps/little-hands/config/asgi.py",
+        "apps/little-hands/config/context.py",
+        "apps/little-hands/config/middleware.py",
+        "apps/little-hands/config/settings.py",
+        "apps/little-hands/config/tests.py",
+        "apps/little-hands/config/urls.py",
+        "apps/little-hands/config/wsgi.py",
+        "apps/little-hands/deploy/entrypoint.py",
+        "apps/little-hands/deploy/grants.sql",
+        "apps/little-hands/deploy/healthcheck.py",
+        "apps/little-hands/deploy/nginx.conf.example",
+        "apps/little-hands/deploy/roles.sql",
+        "apps/little-hands/deploy/verify.sql",
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/UI_CONTRACT.md",
+        "apps/little-hands/design/VERIFICATION.md",
+        "apps/little-hands/design/app/index.html",
+        "apps/little-hands/design/app/inspect.html",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/calibration-headlines.json",
+        "apps/little-hands/design/candidate-spec.json",
+        "apps/little-hands/design/captures/403-desktop.json",
+        "apps/little-hands/design/captures/403-mobile.json",
+        "apps/little-hands/design/captures/404-desktop.json",
+        "apps/little-hands/design/captures/404-mobile.json",
+        "apps/little-hands/design/captures/cancelconfirm-desktop.json",
+        "apps/little-hands/design/captures/cancelconfirm-mobile.json",
+        "apps/little-hands/design/captures/cancelled-desktop.json",
+        "apps/little-hands/design/captures/cancelled-mobile.json",
+        "apps/little-hands/design/captures/confirmed-desktop.json",
+        "apps/little-hands/design/captures/confirmed-mobile.json",
+        "apps/little-hands/design/captures/conflict-desktop.json",
+        "apps/little-hands/design/captures/conflict-mobile.json",
+        "apps/little-hands/design/captures/login-desktop.json",
+        "apps/little-hands/design/captures/login-mobile.json",
+        "apps/little-hands/design/captures/memberhome-desktop.json",
+        "apps/little-hands/design/captures/memberhome-mobile.json",
+        "apps/little-hands/design/captures/mybookings-desktop.json",
+        "apps/little-hands/design/captures/mybookings-mobile.json",
+        "apps/little-hands/design/captures/notifications-desktop.json",
+        "apps/little-hands/design/captures/notifications-mobile.json",
+        "apps/little-hands/design/captures/publichome-desktop.json",
+        "apps/little-hands/design/captures/publichome-mobile.json",
+        "apps/little-hands/design/captures/reschedule-desktop.json",
+        "apps/little-hands/design/captures/reschedule-mobile.json",
+        "apps/little-hands/design/captures/review-desktop.json",
+        "apps/little-hands/design/captures/review-mobile.json",
+        "apps/little-hands/design/captures/sessionavailable-desktop.json",
+        "apps/little-hands/design/captures/sessionavailable-mobile.json",
+        "apps/little-hands/design/captures/signup-desktop.json",
+        "apps/little-hands/design/captures/signup-mobile.json",
+        "apps/little-hands/design/captures/staffaudit-desktop.json",
+        "apps/little-hands/design/captures/staffaudit-mobile.json",
+        "apps/little-hands/design/captures/staffcreate-desktop.json",
+        "apps/little-hands/design/captures/staffcreate-mobile.json",
+        "apps/little-hands/design/captures/staffdashboard-desktop.json",
+        "apps/little-hands/design/captures/staffdashboard-mobile.json",
+        "apps/little-hands/design/captures/staffedit-desktop.json",
+        "apps/little-hands/design/captures/staffedit-mobile.json",
+        "apps/little-hands/design/captures/staffroster-desktop.json",
+        "apps/little-hands/design/captures/staffroster-mobile.json",
+        "apps/little-hands/design/captures/staffsessions-desktop.json",
+        "apps/little-hands/design/captures/staffsessions-mobile.json",
+        "apps/little-hands/design/captures/waitlisted-desktop.json",
+        "apps/little-hands/design/captures/waitlisted-mobile.json",
+        "apps/little-hands/design/content.json",
+        "apps/little-hands/design/control-baseline-r4-graph.json",
+        "apps/little-hands/design/control-baseline-r4-native-layout.json",
+        "apps/little-hands/design/control-line-observation.json",
+        "apps/little-hands/design/control-reuse-regression-r4-r5.json",
+        "apps/little-hands/design/control-reuse.json",
+        "apps/little-hands/design/dom-map.json",
+        "apps/little-hands/design/export.py",
+        "apps/little-hands/design/fonts/.gitignore",
+        "apps/little-hands/design/fonts/provenance.json",
+        "apps/little-hands/design/fonts/sources.json",
+        "apps/little-hands/design/graph.json",
+        "apps/little-hands/design/grouping-qa.json",
+        "apps/little-hands/design/input-facts.json",
+        "apps/little-hands/design/input-pins.json",
+        "apps/little-hands/design/material-priority.json",
+        "apps/little-hands/design/measure.js",
+        "apps/little-hands/design/native-allocation-baseline-r5.json",
+        "apps/little-hands/design/native-allocation-r6-report.json",
+        "apps/little-hands/design/native-font-calibration-v2.json",
+        "apps/little-hands/design/native-font-calibration.json",
+        "apps/little-hands/design/native-graph-baseline-r5.json",
+        "apps/little-hands/design/native-layout.json",
+        "apps/little-hands/design/native-qa-summary.json",
+        "apps/little-hands/design/prepare_fonts.py",
+        "apps/little-hands/design/previews/booking-confirmed-mobile.jpg",
+        "apps/little-hands/design/previews/littlehands-desktop.jpg",
+        "apps/little-hands/design/previews/littlehands-mobile.jpg",
+        "apps/little-hands/design/previews/staff-dashboard-mobile.jpg",
+        "apps/little-hands/design/previews/stale-request-conflict-mobile.jpg",
+        "apps/little-hands/design/quality.json",
+        "apps/little-hands/design/r6-protected-input-baseline.json",
+        "apps/little-hands/design/research.md",
+        "apps/little-hands/design/screen-spec.md",
+        "apps/little-hands/design/snapshot-baseline-r2.json",
+        "apps/little-hands/design/snapshot-baseline-r3.json",
+        "apps/little-hands/design/snapshot-baseline-r4.json",
+        "apps/little-hands/design/snapshot-baseline-r5.json",
+        "apps/little-hands/design/snapshot-comparison-r2-r3.json",
+        "apps/little-hands/design/snapshot-comparison-r3-r4.json",
+        "apps/little-hands/design/snapshots/403-desktop.html",
+        "apps/little-hands/design/snapshots/403-mobile.html",
+        "apps/little-hands/design/snapshots/404-desktop.html",
+        "apps/little-hands/design/snapshots/404-mobile.html",
+        "apps/little-hands/design/snapshots/cancelconfirm-desktop.html",
+        "apps/little-hands/design/snapshots/cancelconfirm-mobile.html",
+        "apps/little-hands/design/snapshots/cancelled-desktop.html",
+        "apps/little-hands/design/snapshots/cancelled-mobile.html",
+        "apps/little-hands/design/snapshots/confirmed-desktop.html",
+        "apps/little-hands/design/snapshots/confirmed-mobile.html",
+        "apps/little-hands/design/snapshots/conflict-desktop.html",
+        "apps/little-hands/design/snapshots/conflict-mobile.html",
+        "apps/little-hands/design/snapshots/index.json",
+        "apps/little-hands/design/snapshots/login-desktop.html",
+        "apps/little-hands/design/snapshots/login-mobile.html",
+        "apps/little-hands/design/snapshots/memberhome-desktop.html",
+        "apps/little-hands/design/snapshots/memberhome-mobile.html",
+        "apps/little-hands/design/snapshots/mybookings-desktop.html",
+        "apps/little-hands/design/snapshots/mybookings-mobile.html",
+        "apps/little-hands/design/snapshots/notifications-desktop.html",
+        "apps/little-hands/design/snapshots/notifications-mobile.html",
+        "apps/little-hands/design/snapshots/publichome-desktop.html",
+        "apps/little-hands/design/snapshots/publichome-mobile.html",
+        "apps/little-hands/design/snapshots/reschedule-desktop.html",
+        "apps/little-hands/design/snapshots/reschedule-mobile.html",
+        "apps/little-hands/design/snapshots/review-desktop.html",
+        "apps/little-hands/design/snapshots/review-mobile.html",
+        "apps/little-hands/design/snapshots/sessionavailable-desktop.html",
+        "apps/little-hands/design/snapshots/sessionavailable-mobile.html",
+        "apps/little-hands/design/snapshots/signup-desktop.html",
+        "apps/little-hands/design/snapshots/signup-mobile.html",
+        "apps/little-hands/design/snapshots/staffaudit-desktop.html",
+        "apps/little-hands/design/snapshots/staffaudit-mobile.html",
+        "apps/little-hands/design/snapshots/staffcreate-desktop.html",
+        "apps/little-hands/design/snapshots/staffcreate-mobile.html",
+        "apps/little-hands/design/snapshots/staffdashboard-desktop.html",
+        "apps/little-hands/design/snapshots/staffdashboard-mobile.html",
+        "apps/little-hands/design/snapshots/staffedit-desktop.html",
+        "apps/little-hands/design/snapshots/staffedit-mobile.html",
+        "apps/little-hands/design/snapshots/staffroster-desktop.html",
+        "apps/little-hands/design/snapshots/staffroster-mobile.html",
+        "apps/little-hands/design/snapshots/staffsessions-desktop.html",
+        "apps/little-hands/design/snapshots/staffsessions-mobile.html",
+        "apps/little-hands/design/snapshots/waitlisted-desktop.html",
+        "apps/little-hands/design/snapshots/waitlisted-mobile.html",
+        "apps/little-hands/design/source-status.json",
+        "apps/little-hands/design/source.py",
+        "apps/little-hands/design/source_assets/littlehands/app.3539de012f0c.css",
+        "apps/little-hands/design/source_assets/littlehands/coffee.c6add2ea1eef.jpg",
+        "apps/little-hands/design/source_assets/littlehands/fonts/Hahmlet.95dccd7bd4eb.woff2",
+        "apps/little-hands/design/source_assets/littlehands/fonts/OFL.txt",
+        "apps/little-hands/design/specifications.json",
+        "apps/little-hands/design/test_source.py",
+        "apps/little-hands/design/tokens.json",
+        "apps/little-hands/design/visual-review-images/403-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/403-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/404-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/404-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/cancelconfirm-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/cancelconfirm-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/cancelconfirm-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/cancelled-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/cancelled-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/confirmed-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/confirmed-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/conflict-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/conflict-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/index.json",
+        "apps/little-hands/design/visual-review-images/login-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/login-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/memberhome-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/memberhome-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/mybookings-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/mybookings-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/notifications-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/notifications-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/publichome-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/publichome-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/reschedule-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/reschedule-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/reschedule-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/review-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/review-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/sessionavailable-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/sessionavailable-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/sessionavailable-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/signup-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/signup-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffaudit-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffaudit-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffcreate-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffcreate-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffdashboard-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffdashboard-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffedit-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffedit-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffroster-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffroster-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffsessions-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffsessions-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/waitlisted-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/waitlisted-mobile.jpg",
+        "apps/little-hands/design/visual-review.html",
+        "apps/little-hands/manage.py",
+        "apps/little-hands/requirements.lock",
+        "apps/little-hands/requirements.txt",
+        "apps/little-hands/static/littlehands/app.css",
+        "apps/little-hands/static/littlehands/app.js",
+        "apps/little-hands/static/littlehands/coffee.jpg",
+        "apps/little-hands/static/littlehands/fonts/Hahmlet.woff2",
+        "apps/little-hands/static/littlehands/fonts/OFL.txt",
+        "apps/little-hands/static/littlehands/sources.json",
+        "apps/little-hands/templates/403.html",
+        "apps/little-hands/templates/404.html",
+        "apps/little-hands/templates/500.html",
+        "apps/little-hands/templates/base.html",
+        "apps/little-hands/templates/booking/booking_detail.html",
+        "apps/little-hands/templates/booking/cancel.html",
+        "apps/little-hands/templates/booking/conflict.html",
+        "apps/little-hands/templates/booking/my_bookings.html",
+        "apps/little-hands/templates/booking/notifications.html",
+        "apps/little-hands/templates/booking/reschedule.html",
+        "apps/little-hands/templates/booking/reserve_review.html",
+        "apps/little-hands/templates/booking/session_detail.html",
+        "apps/little-hands/templates/booking/session_list.html",
+        "apps/little-hands/templates/includes/booking_facts.html",
+        "apps/little-hands/templates/includes/busy.html",
+        "apps/little-hands/templates/includes/form.html",
+        "apps/little-hands/templates/includes/pagination.html",
+        "apps/little-hands/templates/includes/staff_nav.html",
+        "apps/little-hands/templates/includes/status.html",
+        "apps/little-hands/templates/registration/login.html",
+        "apps/little-hands/templates/registration/signup.html",
+        "apps/little-hands/templates/staff/audit.html",
+        "apps/little-hands/templates/staff/dashboard.html",
+        "apps/little-hands/templates/staff/roster_table.html",
+        "apps/little-hands/templates/staff/session_detail.html",
+        "apps/little-hands/templates/staff/session_form.html",
+        "apps/little-hands/templates/staff/session_list.html",
+        "apps/little-hands/templates/staff/session_table.html",
+        "apps/little-hands/templates/widgets/checkbox.html",
+        "apps/little-hands/templates/widgets/radio_option.html",
+        "apps/little-hands/tests/test_deployment.py",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md",
+        "docs/guide.md",
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/README.md",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/audit_log.js",
+        "figma-bridge/code.js",
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/locales/graph.json",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_semantic_read.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "figma-bridge/workspace_transport.js",
+        "panel-ui/src/DiagnosticExport.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/styles/graph.css",
+        "panel-ui/src/styles/workspace.css",
+        "plugin.json",
+        "tools/design_directions.py",
+        "tools/design_quality.py",
+        "tools/draft_foundation_audit.py",
+        "tools/figma_control.py",
+        "tools/figma_draft.py",
+        "tools/figma_workspace.py",
+        "tools/graph_sync.py",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "7b5ae4091641430d891e0c110c8efdb9a845a6ce"
+      ],
+      "subject": "feat: release validated Figma Flow 0.27",
+      "tree": "efd0dfe47947d77dbb23380638af65f9aafba677",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.0"
+        }
+      ]
     }
   ],
   "pages": {
     "008c01c64e41b255c43b7e81e4029f4368b1f797": "0786fd05695bb51303a051b0c3c3b66acdca4d4e6309a6616c67c847362974ef",
+    "0145921ca4ed5d22187b9e259cb8d8224b4a7d86": "8409151bca6c8159ae0a54504ec87862bb192df5b350700b260b1d6099b78747",
     "015f440ee635d817f033dddabb504acaea69895f": "f93c2b26a34b0ef631052e746b4779ecbaed228c48b0ad2e0e374c18fe3bb2d8",
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
+    "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
+    "06a40a1b83fac2f94b540d24e081ee87779e79ae": "aa00f0a77fa6212eaab136e81aa427bb4e25bd3148cfef6797ee7e2672943fe6",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
+    "0ad26187e423973a3895b3ae63e6953c0189761b": "1059832a262f3ce91d6a3dc676a2a44e2253992af6e5254447e861f323d78e26",
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
     "0b46cdbd575cfe17d901d33925fd03c45c643782": "23ac33368336f6c6ead2f7c1ca145be5b6cec148d9c3ce9ab56766e4d5f693be",
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
@@ -5475,6 +6696,7 @@
     "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
     "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
+    "1e64ada88f76180ab72d6be01c79841d9714335e": "da7b8149162cbc160558aa483ff49ea08fb7eaf04090aea1bf59521be5a93b82",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
     "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f": "d595749585931a4fc1811bd87ef6551e1dde1c22be50c9848ba979fe8835f2b5",
@@ -5482,9 +6704,13 @@
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
+    "28128ac57e43e314aade368f3f8c919c0246d22c": "38b10f4da39774e4cd1504426494e7869e7dc64084e8d9970b12daabec065ee3",
     "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
+    "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de": "cb22f107fba474d02cdc48753d883fd717077a495e91cb73f3ac311986495999",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
+    "2cf4ce74557f9a2e65b8bc817b92eb3486067554": "dc74175fc83549d2feb280ebac7ac93c1697a9dcdf91cdf902d23ce579c2afdf",
     "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797": "1238da541f9a7c3aea1a35b65a40f48c2dfc85b65633152e151f7a8bc9ed7ee4",
+    "2e974fa58123ab1835b117a55451bf837597182f": "721d67fe90a8e8bcd505c29123ab13fd56647c8c796958f18f562cab6d2c7e11",
     "2fb34775511c631fb60f9889fea86c01f676578c": "d7d78880c138153ebb791a7445187ab3b5b38b3667e19b1495ede43945e4fab2",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
@@ -5499,6 +6725,7 @@
     "3f642cea8eaa461f35508b151b448233a0a4272a": "60f8c12cff7c84c233a87cb97fe16f5130644b0befe97e8c448d79adb43a0589",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
     "47bd10f10263a0f7bd2db9bed0511f2532053532": "de6538b6ce1650e2ba88544d4694669b30d85fb9a34b2b6824e31e7df064e691",
+    "493ee6f561112181f82e90a45b58fa35482c7219": "1fd28fc76114b59787c226c4b7dd58020843dde5aaa362ffd9c09ecbcdc7c512",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
     "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8": "735d532e57d6d25be49eb1f77a22c06d8c5d040702971962265d3fce003c7d24",
     "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3": "d87d9197acf7e107e3986fdb175b95f59e3262383bec955165f74e43257a4fde",
@@ -5512,32 +6739,42 @@
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
+    "5d92cd61d7e09a444c5045ddc26911829d92b060": "b3125664aa5026b887cd3647dc65e2790d1569b668781732fb3deb369fb6e98a",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
+    "6459de5ca0711f10629945fe36a2b4a2063fbbae": "6b4766e5ac2243bcb0c81a876ba0c813c23cc095e68109e4fab702e8755d0bd3",
     "64d89e40f048197c3f09545cbecf4630bf9ea8ab": "f5309490ce7062a6b8286c7c6a3133e18ed2a007d216f09c8cc90d9a2f8cdc99",
+    "65bd407b96ebaf14d6a965f6aa83c20c451795ca": "fbd0599057d5104d9eaa0c0193ded506095b38faad9e9ac21e5501698c4ca7b6",
     "66278decfd7f49906bb32d75f71a0be70fafa7ee": "876ceebcc8296420027aee84f6224eb9b3083d92adf779b69b4a9158bfad6020",
+    "674335b0a46d426723e32ab3cc98029b8b6e3744": "aafc966ba29b6010b357cca73160d9070fc6d1ecea6f9b012799d4d8ee0f164f",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
+    "721627bcc9a6eca2e283f879026d942a93a05a20": "6ba953710de7f712d7774c957971f57ee2c54a29c1f9b69b59924ad851c4014d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
     "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2": "503787be10ba57d0d51bb7b06cae6390ccdcfe19dc5b573d040f61e382b12676",
     "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
+    "7b5ae4091641430d891e0c110c8efdb9a845a6ce": "063e8f7c15bd7989ed403013c467c8da048f725858a1473274172f3a6ca8492f",
+    "7ba864310c66d6f972cb4b9e15cacc04c3761ccd": "6b8b7e52db476fbb4ddfb6330a32b0747fb0548cd21b6fdb94c91c245843e109",
     "7bff2100bccf6db00203cc5351c8773026783d72": "4bf77332ec7b7f05f26b5da425a0f61bee71c346e6e1e8eb8fd28d12681d9f1d",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "80742c55590c46e85ca8289298abc0a58371a9a8": "c446cccd82c9fa35acfcd6885b96461f92ee0dd56a6eb3f46d92f7d1c41c8c15",
+    "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988": "ba173d8e2ea0d442205d290bc722610342be10bb3507ce1ad8f7a4f2694cd3dc",
     "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
+    "8b984daa4733739c1c5ce72ab30232504d3fe4a4": "47a0e5bda40761d06ee023093dfe0fad878f1f38c1f0433fb9a9176b7c2c6cb5",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
-    "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2": "7f57a5cf33b629a668abe229cd1faf1a923a72edfcc3427db237ef3d2ff866e3",
+    "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2": "cdfb13022a7047be39eb743d13708beb50fac6e7bd7ea51d429fcb570fa56355",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "910e7aa74da7c142d7798dbba12e0920490b38cb": "d0f3ac89ca7d7b9bc1ff343116a7f8d42680ae2bcc2347f0069fda8e0ba08f3e",
     "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
+    "939f1b997d8cff3bd6efca5c28a9c2a23cd41785": "b9c2ed153924c89dcb8e7bad839fc2716a3bb1db49787092c20c5a372c80cf1b",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
     "9408fdabedc720a7dd266f7a819953dd1abef969": "61b0dbf5ddf56891eda23a57922d7ae34264ba0ccc49b60430390bf947d0e690",
     "942d0cf9a5c194b8decd79918062c84767a0d1ec": "51f289feb528da76ec699c6af67bba30f0dd4ff789190fa3a9eaae1f9cf7db06",
@@ -5567,6 +6804,7 @@
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
     "b05f2c444105fa3cf261eabb6f79db5e2ec89675": "55d81975928aaec85692c9952fb6bb53c8e962b8cdbfec212a8b8bd889b84609",
     "b170f11568364a8c1e4494613f717ad87519ec83": "69f9aa3d96e239653e8b7c63deee1d2bed850119e86df545fc426731a6a6eefe",
+    "b1c3824d810a143b6c7eb5e1f6951828e950dfee": "940cfac82c1f43f42d34716af750730c232f4f2a2db4864fd20d313bb0d0da2b",
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
     "b275a28ad9b31347b7663485aabc93b19fb00f7b": "13b4ccc01c4842c750272208402b50384ee31f3d064c895a43b0d50cf60d20e5",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
@@ -5574,19 +6812,25 @@
     "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
+    "b7209c96bfa57c008c59f351d55ac7f2d781811a": "7628f37cf4f54bd2d2df1ecf3b0d13a7ce756859f8c6845278477a26e10afed3",
     "b89ee860423de1716456931197d1adffac0dba89": "bb0d5493febe7552de1d29dd9a52e222da2b7637898e328097e796579728c283",
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
+    "ba390f93a7da8d74a4cd5cd1993c8a9244c91467": "1c088036c784d10dcc779037d6d5aecf9401e6efc9555002e0a127e2eaaecf2f",
+    "bbe11d2a80604207b8efaba5c521834acad779b3": "16f755f39ab221321d683242cb460fec7e8a20eb3be2a564fe3b98480f8374d2",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
     "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
+    "c43b4fc6c3958c233ca403769b4ef255bd6708e5": "39a8450f8747becfbdc6c6d80a44fe877ea51041f8f24b14f0d475fa1858169d",
     "c4f8338c4803f88807fab96f58607d8e9f2652df": "66354fee2f0e1f98052d7437da64b97dc03f51c545452e4533f9cc6c0423ae69",
     "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
     "c7542812a50647435b8236c22e96ced91a422b2c": "3b53b0a4e27ca06be7e0519450a933e9ef1fad379379b204cd036eae2ae5da15",
+    "c7a3cdef85ad0fdb7bade6a3fe5fa1e896864dd2": "26844f31a36ed8728993ac088396f18033042b463be916d08f0e59ba83ec9563",
     "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
+    "c80def58a7b0a875961f13c9ae7307bbc910ff8e": "061218675aaa4315a7464452e1bacc9daf5a366b816c1e63e2becfe63ab7a50e",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
@@ -5595,16 +6839,21 @@
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
     "d26df89c9f8b0ec5ca704c02acc07c23222e6047": "44136ad2fbad548dccea5a15cc40d7c47852d9494ad54088a7aa094d03828da3",
     "d2de8c2b7c390e259c0535a7ca32d6fea7e83661": "41cc02ea7db9324c6f2e6ccc146d7d02a949f3d0dbd715b051953172933c69e2",
+    "d2e1b384ffe60e403c111b542df688b5e238deac": "bc2e241d5e1ab51e158e0ad9ebf0f02e9dcdb59bc9fcdc878a0244529ac35320",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d6e35da1559f20ba25c443f8c4bb5e387211652b": "7b607f99cb3837cbc31550dd6a0c76a3c55cc1dd08bfb1c2431ddd57034953a5",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
     "d85d6388ae1c50a853278af33ca790a411b1e59e": "bd097342130b482c55505a0541bea97bd013bdddd5446538f808cc527558975a",
+    "d8a540b84376f39997583204aa6801aece6e31f0": "e53685cc204c8b55f9c1e737b0e3f88ddf89665739e5ae3d2f5f00b4372b62d0",
     "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba": "50631091c707315abe98de13323d7f44722622c85c19c334fefae1fe55fcb34c",
+    "d9e8840c2fb51e8722cb2f95a3a810eb2f6de743": "e15f8cbb7a4d44842d252fd57cc6527931c2a5146e9fa3913de390a3b2b64f6b",
     "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
     "dacfdc577faed0cb155e1b30620cc9265ba4d1bb": "3ba3f068f27ebd14458b6a9738983bd4b7677a352184f1a526f0e9074e0c6de0",
+    "dafe4bde488c82bb41cbf4096e4f83833c017fff": "610c3766b4842ffba5fb524e5b6d856687b1a08b36f940c4ca5d9019135375af",
     "dbd4c0eb275a75dd5519e924c3c209716aa0578d": "8d7bad5d0d5802b9d1acbcc8b423bf84e68d94bfea0218edd5909d353f021a69",
     "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d": "8be1bcfc43ae3c3b3969ec1b3c925367087a5d0edd83240ddaca66a6574d5766",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
+    "dca7dfcb4ec97ee52427a40050e815f53880d47e": "8a43c301e185fe5f3c1a6bbe27b0a3b23886706716b7d8703529bb63ebbab33b",
     "dee7688ffa829298bc794108f057c18dc6e6d766": "267088ddd7fcd717b1c817584fd2b75d3231b101827e3c16f00bc6b244494125",
     "df65b64205ed85644acf075f0acab8f37f2ac371": "b8a776272c01c8d166432e297cb353abcb97b2e59b42f860b42c6bac2c27b740",
     "e0f34c2d2db5673cc17a63bf8bb99489445c2492": "8645b1223ce0695b4bdc76c801660ed704bdf3cfbe05f238a0ba56552c9aeb7a",
@@ -5616,8 +6865,10 @@
     "e4f974ffeed2f9509c948141bce42de13027d157": "0fafc04266ee9445ce0675b04c7523ce0f0888af3d5e182ed0b09dd6399ef0cb",
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
+    "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "ed846239ebafe20621f61d44517ec0eb8b3737eb": "a648e5f836f0edb32b4244917953ce83478429ace3cc5caab41858f542b8aaa1",
+    "ee296599d76993f3a8481edddf08ca9643c9301b": "094a8be5b5da5acb3308330f2dfaf833e7874dd65440742d53f238c1e9c47cf2",
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
     "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
@@ -5628,11 +6879,18 @@
     "f5e853a2056798c94b5cf5419484255998f6bd85": "37b7291658a8e7725b27a8ee6d0683cebc9f1c9514ddc4cf3567d0fdfa693475",
     "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02",
     "f838d46167cc8078e755c579bc3340c85968f8aa": "58cfcc4d03a25f590a3d2d6ab7ee4b696d048b24355567a317cd497419cbc524",
+    "f8e3b4a327afa4f939c3355cf94a601814936342": "d81b55a7e2ff42e1a4c5e8f6b4d3f82cfb2a564ac80f03fc23c01a9699d1115b",
     "f943bc9f1f316f0f7c6624087e1bba2c1b6f45eb": "c9ca5626d15e5319d59924abe6936e05438d8afe671f42e02bf46a879868b328",
+    "fbf83b3f9aa43801306d2678a8ed3bbfc6c9f904": "968313ae1da493e8475e05cd94d703e70f61c54c62e4d2c159e39aaa856b2659",
+    "fcace533169f7f37116ec1048857e7010790390e": "289990fc043adec635cfb7ad88bb40ecc2f9919aefd835a4ff2ef181a0a69fc8",
     "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f",
     "ffcde43350120941afad855b159ee3785f45619c": "0694d4315c2136e4f54c46e55bffd538a46dcb95b7af6bfcd311b3873bfa1603"
   },
   "provenance_remotes": [
+    {
+      "observed_at_commit": "06a40a1b83fac2f94b540d24e081ee87779e79ae",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
     {
       "observed_at_commit": "0bd817701f3df66673e314007f768a6de404fd78",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
@@ -5663,6 +6921,10 @@
     },
     {
       "observed_at_commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "1e64ada88f76180ab72d6be01c79841d9714335e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5730,11 +6992,27 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "65bd407b96ebaf14d6a965f6aa83c20c451795ca",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "674335b0a46d426723e32ab3cc98029b8b6e3744",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
       "observed_at_commit": "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "7b5ae4091641430d891e0c110c8efdb9a845a6ce",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5766,7 +7044,15 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "b7209c96bfa57c008c59f351d55ac7f2d781811a",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "b91d26553b3343a61f8094a1ac041e3043506787",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "ba390f93a7da8d74a4cd5cd1993c8a9244c91467",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5786,7 +7072,15 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "d9e8840c2fb51e8722cb2f95a3a810eb2f6de743",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "da3c7c51c4bc20733a5bf27278f9b459de1773ff",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "dca7dfcb4ec97ee52427a40050e815f53880d47e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5799,6 +7093,10 @@
     },
     {
       "observed_at_commit": "e3bb0505b011f77a656e096b821c7d0d01f2990c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "e8ada75f03b253aed9ab4d9528872575f7cc8051",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5994,13 +7292,21 @@
         "v0.26.3"
       ],
       "version": "0.26.3"
+    },
+    {
+      "source_commits": [
+        "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.27.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "142dfd97ed5bba73e787d99924a2693a3a86b61a",
+  "source_commit": "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

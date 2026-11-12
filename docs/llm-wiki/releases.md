@@ -1,10 +1,20 @@
 # 버전과 전체 Git 기록 대조
 
-현재 카탈로그의 소스 기준은 `6a50f5c0aea3e8a131e0698151875cd83102ed69`다. canonical55개와 별도 보존 계보39개를 기록한다. 태그는 이후 Wiki/CHANGELOG 전용 발행 커밋을 가리킬 수 있으며 해당 접미사는 제품 소스와 구분한다.
+현재 catalog 소스 기준은 `841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988`다. 이 기준에서 catalog는 도달 가능한 canonical 커밋 215개와 별도 보존 계보 커밋 39개(저장된 head 19개)를 기록한다. 2026-11-13 원본 Git 대조에서 별도 보존 계보의 39개 patch와 19개 head가 source-backed로 확인됐다. 기본 `verify`의 structural 검사와 이 source-Git 대조는 별도 근거다. 0.27.0은 catalog에 연결된 제품 소스 커밋이며, 현재 태그는 없다. 기존 태그는 이후 Wiki/CHANGELOG 전용 발행 커밋을 가리킬 수 있으므로 suffix를 제품 소스와 구분한다.
 
 ## 대조 방법
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
+
+## v0.27.0
+
+[상세 patch page](patches/841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988.md)는 제품 소스 `841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988`를 기록한다. `plugin.json`과 `.codex-plugin/plugin.json`은 모두 0.27.0이며 catalog에는 이 버전을 가리키는 제품 커밋이 하나 있다. 현재 catalog snapshot에서 도달 가능한 커밋은 215개, 전체 페이지는 215개, 첫 부모 대비 이 변경 경로는 347개다. CHANGELOG는 짧은 기능 요약을 제공하고 상세 변경·근거·미검증 범위는 patch page 및 [최종 인수 행렬](../development-roadmap/FINAL_ACCEPTANCE.md)에 있다.
+
+제품은 실제 TEXT 속성·너비 기반 main 재사용, 선언 variant와 Group/Frame/Auto Layout 작성, revision/hash로 연결된 작업 dependency, 원자 선택 sync, CSS/image 자산 근거, full native read·제한된 transport/진단 export를 제공한다. 독립 Little Hands Django/PostgreSQL 앱은 별도 인증·예약·운영 트랜잭션과 패키징 경계를 둔다. 이 앱의 Figma prototype은 정적 화면이다.
+
+보고된 검증 범위는 clean archive에서 root Python 1,107개 중 1,105개 통과·2개 skip·0개 실패, PostgreSQL backend 58개, packaging 4개, design 16개, finalize Python 74개, native demo 2개 성공과 Node 299개 중 298개 통과·1개 skip·0개 실패다. 14개 local 명령은 모두 exit 0이었다. React build 및 typed runtime의 배포 파일은 원본과 byte-identical이었다. 독립 frozen improvement gate는 정확히 347개 변경 경로에서 baseline AssertionError 재현 및 target diagnostic privacy·Group Python·partial consumer Node를 통과시켰고 checkout 원본을 유지했다. 별도 native 관찰은 44 screens/4,820 nodes, Group 2개, main 24개, component set 2개, instances 494개, variables 69개, 기존 Frame clip 550개, nonempty reaction node 314개(312 product + 2 palette)의 semantic target 보존, leaf geometry 3,171개의 bbox 차이 0이다. 이는 앱·플러그인 전체의 출시 인수나 모든 prototype 링크 실행을 뜻하지 않는다.
+
+45 AC bounded pass는 45 REQ의 전체 긍정 구현이 아니다. BOOLEAN/INSTANCE_SWAP 양성 작성과 앱의 영속 Graph SSOT는 미구현이며 NF-01/NF-04 제안 범위다. 정적 prototype의 14개 실제 GUI 조작은 Django 업무 요청이 아니다. 실기기, 사람의 art/production 승인, 공개 DNS/TLS·상용 배포, 기존 61개 회귀 전체는 검증되지 않았다. 최종 local Python·frozen improvement gate는 통과했다. 원격 release, CI 및 설치 결과는 별도 확인 전까지 pending이다.
 
 ## v0.26.3
 
