@@ -24,6 +24,8 @@
 
 3은 runtime_module_names와 assemble_shared_runtime이 발행 조립과 trusted_sources의 같은 모듈 목록이다.
 
+4는 bundle_task_kinds가 assemble_shared_runtime으로 discover, import, native-edit, review, sync를 실행하고 오류와 uncertainty를 구분한다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
