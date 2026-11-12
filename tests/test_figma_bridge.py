@@ -159,10 +159,34 @@ class Node {
   async setTextStyleIdAsync(id){this.textStyleId=id;}
   remove() { this.removed = true; if (this.parent) this.parent.children = this.parent.children.filter(n => n !== this); }
   findOne(test) { for (const child of this.children) { if (test(child)) return child; const found = child.findOne(test); if (found) return found; } return null; }
+  addComponentProperty(name, type, defaultValue) {
+    if (this.type !== 'COMPONENT' && this.type !== 'COMPONENT_SET') throw new Error('addComponentProperty requires a component');
+    if (type !== 'TEXT' || typeof name !== 'string' || !name || typeof defaultValue !== 'string') throw new Error('TEXT property required');
+    this.componentPropertyDefinitions = this.componentPropertyDefinitions || {};
+    if (Object.values(this.componentPropertyDefinitions).some(item => item.name === name)) throw new Error('duplicate component property name: ' + name);
+    const key = name + '#' + this.id + ':0';
+    this.componentPropertyDefinitions[key] = {type, defaultValue, name};
+    return key;
+  }
+  setProperties(values) {
+    if (this.type !== 'INSTANCE' || !this._main) throw new Error('setProperties requires an instance');
+    const owner = this._main.parent?.type === 'COMPONENT_SET' ? this._main.parent : this._main;
+    this.componentProperties = {...(this.componentProperties || {})};
+    for (const [key, value] of Object.entries(values)) {
+      const definition = owner.componentPropertyDefinitions?.[key];
+      if (definition?.type !== 'TEXT' || typeof value !== 'string') throw new Error('TEXT property value required: ' + key);
+      this.componentProperties[key] = {type: 'TEXT', value};
+      const labels = [];
+      const walk = node => { if (node.componentPropertyReferences?.characters === key) labels.push(node); for (const child of node.children || []) walk(child); };
+      walk(this);
+      if (labels.length !== 1) throw new Error('label reference missing for ' + key);
+      labels[0].characters = value;
+    }
+  }
   createInstance() {
     assert.equal(this.type, 'COMPONENT');
-    function clone(source) { const copy = new Node(source.type); for (const key of ['data', 'boundVariables', 'fills', 'strokes', 'strokeWeight', 'characters', 'fontName', 'fontSize', 'textStyleId','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','cornerRadius','width','height']) if(source[key]) copy[key] = JSON.parse(JSON.stringify(source[key])); for (const child of source.children) copy.appendChild(clone(child)); return copy; }
-    const instance = clone(this); instance.type = 'INSTANCE'; instance.getMainComponentAsync = async () => this; return instance;
+    function clone(source) { const copy = new Node(source.type); for (const key of ['data', 'boundVariables', 'fills', 'strokes', 'strokeWeight', 'characters', 'fontName', 'fontSize', 'textStyleId','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','cornerRadius','width','height','componentPropertyReferences']) if(source[key]) copy[key] = JSON.parse(JSON.stringify(source[key])); for (const child of source.children) copy.appendChild(clone(child)); return copy; }
+    const instance = clone(this); instance.type = 'INSTANCE'; instance._main = this; instance.mainComponentId = this.id; instance.getMainComponentAsync = async () => this; return instance;
   }
 }
 const root = new Node('DOCUMENT'); current = new Node('PAGE', 'User work'); root.appendChild(current);
@@ -264,6 +288,96 @@ const send = message => figma.ui.onmessage({...message, session_nonce:sessionNon
   assert.equal(root.children[0].children[0],userNode);
   assert.match(messages.findLast(message=>message.type==='status').message,/reaction failure/);
   console.log('mocked Plugin API lifecycle passed; not live Figma evidence');
+})().catch(error=>{console.error(error);process.exitCode=1;});
+'''
+
+THREE_LABEL_SCRIPT = r'''
+(async()=>{
+  load(process.argv[2]);
+  await send({type:'ready'});
+  await send({type:'import'});
+  assert.equal(imported().length, 1, JSON.stringify(messages.filter(message => message.type === 'status')));
+  const page = imported()[0];
+  const expected = {save:'저장', cancel:'취소', send:'보내기'};
+  const instances = Object.keys(expected).map(id => page.findOne(node => meta(node).semantic_id === id));
+  assert.ok(instances.every(node => node?.type === 'INSTANCE'));
+  const mains = [];
+  for (const instance of instances) mains.push(await instance.getMainComponentAsync());
+  assert.equal(new Set(mains.map(node => node.id)).size, 1);
+  const main = mains[0], set = main.parent;
+  const mainLabel = main.children.find(child => child.type === 'TEXT');
+  const key = mainLabel?.componentPropertyReferences?.characters;
+  assert.equal(typeof key, 'string', 'TEXT property reference missing');
+  const definition = set?.componentPropertyDefinitions?.[key];
+  assert.equal(set?.type, 'COMPONENT_SET');
+  assert.equal(definition?.type, 'TEXT');
+  assert.notEqual(key, definition.name);
+  assert.equal(meta(main).label_property_key, key);
+  assert.equal(meta(set).label_property_key, key);
+  assert.equal(mainLabel.characters, definition.defaultValue);
+  assert.equal(Object.keys(set.componentPropertyDefinitions).length, 1);
+  const secondary = set.children.find(node => node.type === 'COMPONENT' && node !== main);
+  assert.equal(secondary.children.find(child => child.type === 'TEXT').componentPropertyReferences.characters, key);
+  for (const instance of instances) {
+    const id = meta(instance).semantic_id;
+    const label = instance.findOne(child => child.type === 'TEXT');
+    assert.equal(label.characters, expected[id]);
+    assert.equal(label.componentPropertyReferences.characters, key);
+    assert.equal(instance.componentProperties[key].type, 'TEXT');
+    assert.equal(instance.componentProperties[key].value, expected[id]);
+    assert.notEqual(label.characters, mainLabel.characters);
+  }
+  const palette = page.findOne(node => meta(node).semantic_id === 'palette:0:button/primary');
+  const paletteLabel = palette.findOne(child => child.type === 'TEXT');
+  assert.equal(palette.type, 'INSTANCE');
+  assert.equal(await palette.getMainComponentAsync(), main);
+  assert.equal(paletteLabel.characters, mainLabel.characters);
+  assert.equal(paletteLabel.componentPropertyReferences.characters, key);
+  const pageId = page.id, setId = set.id, mainId = main.id, instanceIds = instances.map(node => node.id);
+  const edited = instances[0].findOne(child => child.type === 'TEXT');
+  const editedSize = edited.fontSize + 4;
+  edited.fontSize = editedSize;
+  instances[0].opacity = 0.42;
+  instances[0].setProperties({[key]: '사용자가 고친 문구'});
+  await send({type:'import'});
+  assert.equal(imported().length, 1, JSON.stringify(messages.filter(message => message.type === 'status').slice(-2)));
+  assert.equal(page.id, pageId);
+  assert.equal(set.id, setId);
+  assert.equal(main.id, mainId);
+  assert.deepEqual(instances.map(node => node.id), instanceIds);
+  assert.equal(edited.characters, '사용자가 고친 문구');
+  assert.equal(instances[0].componentProperties[key].value, '사용자가 고친 문구');
+  assert.equal(edited.fontSize, editedSize);
+  assert.equal(instances[0].opacity, 0.42);
+  assert.equal(instances[1].findOne(child => child.type === 'TEXT').characters, '취소');
+  assert.equal(instances[2].findOne(child => child.type === 'TEXT').characters, '보내기');
+  console.log('three label property relationship observed in mock; not live Figma evidence');
+})().catch(error=>{console.error(error);process.exitCode=1;});
+'''
+
+THREE_LABEL_DIRECT_SCRIPT = r'''
+(async()=>{
+  Node.prototype.addComponentProperty = undefined;
+  load(process.argv[2]);
+  await send({type:'ready'});
+  await send({type:'import'});
+  assert.equal(imported().length, 1, JSON.stringify(messages.filter(message => message.type === 'status')));
+  const page = imported()[0];
+  const expected = {save:'저장', cancel:'취소', send:'보내기'};
+  const instances = Object.keys(expected).map(id => page.findOne(node => meta(node).semantic_id === id));
+  const mains = [];
+  for (const instance of instances) mains.push(await instance.getMainComponentAsync());
+  assert.equal(new Set(mains.map(node => node.id)).size, 1);
+  const mainLabel = mains[0].children.find(child => child.type === 'TEXT');
+  assert.equal(mainLabel.componentPropertyReferences, undefined);
+  assert.equal(meta(mains[0]).label_property_key, undefined);
+  assert.equal(meta(mains[0].parent).label_property_key, undefined);
+  for (const instance of instances) {
+    const label = instance.findOne(child => child.type === 'TEXT');
+    assert.equal(label.characters, expected[meta(instance).semantic_id]);
+    assert.equal(instance.componentProperties, undefined);
+  }
+  console.log('direct label fallback observed in mock; not live Figma evidence');
 })().catch(error=>{console.error(error);process.exitCode=1;});
 '''
 
@@ -418,6 +532,37 @@ class FigmaBridgeTests(unittest.TestCase):
         self.assertTrue(report['passed'], report)
         foundations = validate_foundations(data, expected['design_foundations'])
         self.assertTrue(foundations['ok'], foundations)
+
+    @unittest.skipUnless(shutil.which('node'), 'Node required for packaged entry checks')
+    def test_three_shared_labels_use_one_returned_text_property(self):
+        source = design()
+        source['screens'] = [{
+            'id': 'SCR-ONE', 'title': 'Actions', 'trace': ['REQ-ONE'], 'annotation': 'Three labels share one main',
+            'elements': [
+                {'id': 'title', 'kind': 'heading', 'text': 'Actions'},
+                {'id': 'save', 'kind': 'component', 'component': 'button', 'variant': 'primary', 'text': '저장',
+                 'action_id': 'ACT-GO', 'annotation': 'Save the current draft'},
+                {'id': 'cancel', 'kind': 'component', 'component': 'button', 'variant': 'primary', 'text': '취소',
+                 'annotation': 'Discard the draft'},
+                {'id': 'send', 'kind': 'component', 'component': 'button', 'variant': 'primary', 'text': '보내기',
+                 'annotation': 'Send the draft'},
+            ],
+        }]
+        self.source.write_text(json.dumps(source))
+        digest = hashlib.sha256(self.source.read_bytes()).hexdigest()
+        with selected_direction(self.root / 'label-directions', graph=selected_graph(source), native_review=True) as selected:
+            out = self.root / 'label-build'
+            bridge.compile_plugin(self.source, digest, out, selection_path=selected.selection_path, product_graph=selected.product_graph)
+        mock = self.root / 'label-smoke.cjs'
+        mock.write_text(MOCK.split('(async()=>{', 1)[0] + THREE_LABEL_SCRIPT)
+        result = subprocess.run(['node', str(mock), str(out / 'code.js')], capture_output=True, text=True, timeout=20)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn('not live Figma evidence', result.stdout)
+        direct = self.root / 'label-direct.cjs'
+        direct.write_text(MOCK.split('(async()=>{', 1)[0] + THREE_LABEL_DIRECT_SCRIPT)
+        fallback = subprocess.run(['node', str(direct), str(out / 'code.js')], capture_output=True, text=True, timeout=20)
+        self.assertEqual(fallback.returncode, 0, fallback.stdout + fallback.stderr)
+        self.assertIn('not live Figma evidence', fallback.stdout)
 
     @unittest.skipUnless(shutil.which('node'), 'Node required for packaged entry checks')
     def test_existing_sync_bundle_cannot_import_or_export_an_unpaired_page(self):
