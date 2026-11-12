@@ -1,0 +1,14 @@
+{
+  "schema": "figma-flow-selective-sync-v1",
+  "independent": [
+    {"kind": "token", "key": "color/action", "before": "#111111", "after": "#0055ff"},
+    {"kind": "token", "key": "color/quiet", "before": "#333333", "after": "#8899aa"},
+    {"kind": "token", "key": "space/gap", "before": 8, "after": 12}
+  ],
+  "selection": ["color/action", "color/quiet"],
+  "alias_bundle": {
+    "keys": ["type/body", "type/size"],
+    "alias": {"type/body": "type/size"},
+    "targets": ["button.font", "text.font"]
+  }
+}
