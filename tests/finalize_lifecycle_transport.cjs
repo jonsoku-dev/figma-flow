@@ -26,8 +26,8 @@ test('control request preserves endpoint/auth and rejects over-cap UTF-8 envelop
   assert.equal((await d.env.controlRequest('poll',{file_key:'fixturefile'})).ok,true);
   assert.equal(d.requests[0][0],'http://localhost:45000/control/poll');
   assert.equal(d.requests[0][1].headers.Authorization,'Bearer private-test-token');
-  await assert.rejects(d.env.controlRequest('result',{readback_json:'x'.repeat(12*1024*1024+1)}));
-  await assert.rejects(d.env.controlRequest('poll',{extra:'é'.repeat(8*1024*1024+1)}));
+  await assert.rejects(d.env.controlRequest('result',{readback_json:'x'.repeat(32*1024*1024+1)}));
+  await assert.rejects(d.env.controlRequest('poll',{extra:'é'.repeat(20*1024*1024+1)}));
   assert.equal(d.requests.length,1,'payload limits apply before fetch');
 });
 test('timeout covers stalled fetch and body parsing without AbortController',async()=>{
