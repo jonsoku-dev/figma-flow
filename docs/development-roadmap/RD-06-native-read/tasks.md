@@ -18,6 +18,8 @@
 
 3은 `requireFullNativeRead`가 summary coverage를 full evidence로 받지 않는다. readback, native edit, draft read, graph discovery는 그 검사를 통과한 읽기만 저장한다. 요약 버튼은 partial을 그대로 보여 준다.
 
+4는 공식 documentchange가 원격 편집, 비동기 페이지 로드, 변수 변경까지 이 런타임에서 보장되는 것을 확인하지 못해 session cache를 넣지 않는다. TTL은 coverage가 아니다. 공유 reader는 호출마다 다시 읽고 저장한 snapshot을 돌려주지 않는다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
