@@ -30,7 +30,7 @@ class InputRecordRouteTests(unittest.TestCase):
         effect = Path(input_effect.__file__).read_text(encoding='utf-8')
         self.assertLess(effect.index('def project('), effect.index("channels['html'] = html_channel(path, root)"))
         self.assertLess(effect.index('def freshness('), effect.index('def write_record('))
-        self.assertNotIn('--input-record', effect)
+        self.assertNotIn('argparse', effect, 'input record admission belongs to the workspace CLI')
         workspace = (ROOT / 'tools/figma_workspace.py').read_text(encoding='utf-8')
         self.assertIn('def prepare(', workspace)
         self.assertIn('--input-record', workspace)

@@ -86,9 +86,11 @@ class DependencyFreshnessTests(unittest.TestCase):
         block = ui[ui.index('function DependencyText'):ui.index('export default function Workspace')]
         self.assertIn('dependencyFreshness(', block)
         self.assertIn('workspace-dependency-state', block)
-        self.assertIn('오래됨', block)
-        self.assertIn('은퇴', block)
-        self.assertIn('대상 없음', block)
+        self.assertIn("tr('dependencyState.' + label.state)", block)
+        labels = json.loads((ROOT / 'figma-bridge/locales/workspace.json').read_text(encoding='utf-8'))
+        for state in ('stale', 'retired', 'orphan'):
+            self.assertTrue(all(labels['workspace.dependencyState.' + state][locale]
+                                for locale in ('ko', 'en', 'ja')))
         self.assertNotIn('sendMessage', block)
         self.assertNotIn('workspace-open', block)
         bundle = (ROOT / 'figma-bridge/assets/panels.js').read_text(encoding='utf-8')
