@@ -1022,6 +1022,82 @@ function placeDeclaredLayerParents(screen, containers, resolve, prefix = '') {
   }
 }
 
+async function readDeclaredContainerLinks(page, screen, containers, prefix = '') {
+  if (typeof readNativeSemantics !== 'function') throw Error('native reader required');
+  const read = await readNativeSemantics(figma, page);
+  const byId = new Map(read.nodes.map(row => [row.id, row]));
+  const byKey = new Map(read.nodes.filter(row => row.semanticKey).map(row => [row.semanticKey, row]));
+  const screenRow = byId.get(screen.id);
+  if (!screenRow) throw Error('screen missing from native reader');
+  const containerRows = new Map();
+  for (const item of containers) {
+    const row = byKey.get(prefix + item.key);
+    if (!row) throw Error('container missing from native reader: ' + item.key);
+    containerRows.set(item.key, row);
+    const expectedType = item.kind === 'group' ? 'GROUP' : 'FRAME';
+    if (row.type !== expectedType) throw Error('native container type differs: ' + item.key);
+    const parent = item.parent == null ? screenRow : containerRows.get(item.parent);
+    if (!parent || row.parentId !== parent.id) throw Error('native container parent differs: ' + item.key);
+    if (item.kind === 'group' && row.layoutMode && row.layoutMode !== 'NONE') throw Error('group layout differs: ' + item.key);
+    if (item.kind === 'group' && row.clipsContent) throw Error('group clip differs: ' + item.key);
+    if (item.kind === 'auto-layout' && row.layoutMode !== item.layout.direction) throw Error('auto-layout direction differs: ' + item.key);
+    if (item.kind === 'frame' && row.clipsContent !== (item.clip === true)) throw Error('frame clip differs: ' + item.key);
+  }
+  const containerIds = new Set([...containerRows.values()].map(row => row.id));
+  const leaves = [];
+  for (const item of containers) {
+    for (const child of item.children) {
+      if (containerRows.has(child)) continue;
+      const row = byKey.get(prefix + child);
+      if (!row) throw Error('leaf missing from native reader: ' + child);
+      if (row.parentId !== containerRows.get(item.key).id) throw Error('native leaf parent differs: ' + child);
+      let x = 0;
+      let y = 0;
+      let current = row;
+      const seen = new Set();
+      while (current && current.id !== screen.id) {
+        if (seen.has(current.id)) throw Error('cycle in native parent chain');
+        seen.add(current.id);
+        x += current.x || 0;
+        y += current.y || 0;
+        current = current.parentId ? byId.get(current.parentId) : null;
+      }
+      if (!current) throw Error('leaf is outside the screen: ' + child);
+      for (const reaction of row.reactions || []) {
+        for (const action of reaction.actions || []) {
+          if (containerIds.has(action.destinationId)) throw Error('prototype target moved onto container');
+        }
+      }
+      leaves.push({
+        key: child,
+        id: row.id,
+        parentId: row.parentId,
+        box: {x, y, w: row.width, h: row.height},
+        reactions: row.reactions || [],
+        annotations: row.annotations || [],
+        specificationStatus: row.specification_status || null
+      });
+    }
+  }
+  return {
+    screen: {id: screenRow.id, width: screenRow.width, height: screenRow.height, clipsContent: screenRow.clipsContent === true},
+    containers: containers.map(item => {
+      const row = containerRows.get(item.key);
+      return {
+        key: item.key,
+        id: row.id,
+        type: row.type,
+        parentId: row.parentId,
+        layoutMode: row.layoutMode || 'NONE',
+        clipsContent: row.clipsContent === true,
+        annotations: row.annotations || [],
+        specificationStatus: row.specification_status || null
+      };
+    }),
+    leaves
+  };
+}
+
 async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw Error('이 검토 패킷에 지정된 Figma 파일에서만 실행할 수 있습니다.');if(SELECTED_PRODUCTION){const source=DRAFT.sourceSelection,hash=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);if(DRAFT.scope!=='selected-production'||DRAFT.production_admitted!==true||DRAFT.candidates.length!==1||!source||!hash(source.sha256)||!hash(source.candidate_sha256)||!hash(source.review_layout_sha256)||!hash(DRAFT.change_request?.sha256)||!hash(DRAFT.production_graph?.sha256)||DRAFT.candidates[0].id!==source.candidate_id||DRAFT.candidate_pins[source.candidate_id]!==source.candidate_sha256)throw Error('Exact selected-production scope and selection/source pins required');}else if(DRAFT.schema!=='figma-flow-native-direction-review-v1'||DRAFT.scope!=='exploratory-only'||('production_admitted'in DRAFT&&DRAFT.production_admitted!==false))throw Error('Explicit exploratory review packet required; production admission is forbidden');admitDraftColorConsumers(DRAFT.candidates);const planned=[];for(const candidate of DRAFT.candidates){declareDraftFoundations(candidate,(...args)=>declareDraftToken(planned,...args));for(const role of candidate.foundations.roles.filter(role=>role.kind==='color')){const token=draftFoundationName(candidate,role.token),alias=role.alias?draftFoundationName(candidate,role.alias):null,value=rgb(candidate.colors[role.token.split('/').pop()]);if(alias){declareDraftToken(planned,alias,'COLOR',value);declareDraftToken(planned,token,'COLOR',null,alias);}else declareDraftToken(planned,token,'COLOR',value);}}const availableFonts=(await figma.listAvailableFontsAsync()).map(f=>f.fontName);const problems=preflightDraft(DRAFT,availableFonts);if(problems.length)throw Error('검토 초안을 만들기 전에 확인이 필요합니다 (파일은 변경되지 않았습니다):\n- '+problems.join('\n- '));const previous=figma.currentPage;let page= null,tokenResult,createdPage=false;const styles=[],rollbacks=[];try{page=await findInterruptedDraftReview();if(page){await validateDraftPaletteControls(page,DRAFT.candidates);validateDraftGeometry(page,DRAFT.candidates,false);await figma.setCurrentPageAsync(page);return page;}page=figma.createPage();createdPage=true;page.name=(SELECTED_PRODUCTION?'PRODUCTION · '+DRAFT.candidates[0].title:(DRAFT.candidates.length===1?'DRAFT · '+DRAFT.candidates[0].title:'DRAFT · A/B/C 방향 검토'))+' · '+DRAFT.packet_sha256.slice(0,8);page.setPluginData(RESERVATION,JSON.stringify({state:'preparing',identity:draftReviewIdentity()}));await figma.setCurrentPageAsync(page);
  const tokens=[],bindings=[],notes=[],colors=new Map(),numbers=new Map(),assets=new Map(),styleMap=new Map(),mains=new Map(),labelKeys=new Map(),frames=new Map(),edges=[],palettes={},noteFrames={},gradientBindings=[];
  const add=(...args)=>declareDraftToken(tokens,...args);
@@ -1059,7 +1135,7 @@ async function makeDraft(){if(DRAFT.fileKey&&figma.fileKey!==DRAFT.fileKey)throw
  let cy=0;for(const c of DRAFT.candidates){const sourceNotes=new Map(c.notes.map(n=>[n.id,n]));let rowY=cy;for(const viewport of ['desktop','mobile']){const dimensions=c.state_layouts[viewport];let x=0;for(const state of c.prototype.states){const l=dimensions[state.id];if(!l)throw Error('Pinned state layout missing');const key=c.id+'.'+viewport+'.'+state.id,frame=shape(figma.createFrame(),page,key,x,rowY,l.width,l.height);frame.name=c.title+' · '+viewport+' · '+state.title+' · '+(SELECTED_PRODUCTION?'PRODUCTION':'DRAFT');frame.clipsContent=true;paint(frame,c,l.bg);frames.set(key,frame);frame.setPluginData('canonicalState',state.id);notes.push(draftAnnotation(c,key,sourceNotes.get(state.screen)));for(const layer of l.layers){if(layer.kind==='image'||layer.kind==='gradient'){const n=(layer.kind==='image'?image:gradient)(frame,key+'.'+layer.id,layer);if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='rect'||layer.kind==='ellipse'){const n=shape(layer.kind==='rect'?figma.createRectangle():figma.createEllipse(),frame,key+'.'+layer.id,layer.x,layer.y,layer.w,layer.h);paint(n,c,layer.fill);if(layer.shadows!==undefined)n.effects=draftShadows(layer.shadows,key+'.'+layer.id);if(layer.stroke!==undefined){paint(n,c,layer.stroke,'strokes');n.strokeWeight=layer.stroke_width;n.strokeAlign='INSIDE';}if(layer.kind==='rect'&&layer.radius>0){n.cornerRadius=layer.radius;bind(n,'cornerRadius',num(c.id+'/radius/observed/'+layer.radius,layer.radius));}if(layer.opacity!==undefined)n.opacity=layer.opacity;}else if(layer.kind==='text')await text(frame,key+'.'+layer.id,layer,c);else throw Error('Only declared native draft layer kinds allowed');}
  for(const edge of c.prototype.bindings.filter(e=>e.viewport===viewport&&e.source_state===state.id)){const box=l.control_boxes[edge.control_id];if(!box)throw Error('Pinned canonical control position missing '+edge.control_id);const note=c.action_notes[edge.action+'|'+edge.control_id];const main=mains.get(c.id+'.'+viewport+'.'+note.visual_variant);const n=control(frame,key+'.'+edge.control_id,main,c.action_labels[edge.action],box);notes.push(draftAnnotation(c,key+'.'+edge.control_id,note));edges.push({node:n,target:c.id+'.'+viewport+'.'+edge.target_state});}
  for(const button of draftProductButtons(c,viewport,state)){control(frame,key+'.'+button.id,mains.get(c.id+'.'+viewport+'.'+button.variant),button.label,button.box);if(button.specification)notes.push({key:c.id+'.'+viewport+'.'+state.id+'.'+button.id,label:button.specification.title+'\n'+button.specification.display_text,specification:button.specification});}
- if (Array.isArray(l.containers) && l.containers.length) { placeDeclaredLayerParents(frame, l.containers, id => page.findOne(node => node.getPluginData('semanticKey') === key + '.' + id), key + '.'); for (const item of l.containers) if (item.fill) paint(page.findOne(node => node.getPluginData('semanticKey') === key + '.' + item.key), c, item.fill); }
+ if (Array.isArray(l.containers) && l.containers.length) { placeDeclaredLayerParents(frame, l.containers, id => page.findOne(node => node.getPluginData('semanticKey') === key + '.' + id), key + '.'); for (const item of l.containers) if (item.fill) paint(page.findOne(node => node.getPluginData('semanticKey') === key + '.' + item.key), c, item.fill); await readDeclaredContainerLinks(page, frame, l.containers, key + '.'); }
  x+=l.width+90;}
  const reference=c.references[viewport];if(reference){const dims=c.layouts[viewport];const ref=shape(figma.createFrame(),page,c.id+'.'+viewport+'.raster-reference',x,rowY,dims.width,dims.height);ref.name=c.title+' · 브라우저 참조 원본 (래스터)';ref.fills=[];image(ref,c.id+'.'+viewport+'.reference-image',{asset:reference,x:0,y:0,w:dims.width,h:dims.height,fit:'FIT'});}rowY+=Math.max(c.layouts[viewport].height,...Object.values(dimensions).map(layout=>layout.height))+170;}
  cy=rowY+650;

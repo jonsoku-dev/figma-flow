@@ -12,7 +12,7 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
-1은 `tests/fixtures/rd02/flat-layers.json`과 `declared-containers.json`을 `tests/test_rd02_layer_fixtures.py`로 고정했다. 2는 `design_directions.normalize_layer_containers`가 그 트리를 검증한다. 평평한 패킷은 빈 containers를 유지하고, cycle·중복 부모·없는 target·Group의 fill은 쓰기 전에 거절한다. 3은 기존 leaf 작성 뒤에 `placeDeclaredLayerParents`가 선언한 부모만 붙인다. 화면 Frame의 ID·크기·clip은 유지하고, 실패하면 새 컨테이너만 제거한 뒤 leaf를 원래 부모와 위치로 되돌린다. 실제 Figma 레이어 트리는 아직 관찰하지 않았다.
+1은 `tests/fixtures/rd02/flat-layers.json`과 `declared-containers.json`을 `tests/test_rd02_layer_fixtures.py`로 고정했다. 2는 `design_directions.normalize_layer_containers`가 그 트리를 검증한다. 평평한 패킷은 빈 containers를 유지하고, cycle·중복 부모·없는 target·Group의 fill은 쓰기 전에 거절한다. 3은 기존 leaf 작성 뒤에 `placeDeclaredLayerParents`가 선언한 부모만 붙인다. 화면 Frame의 ID·크기·clip은 유지하고, 실패하면 새 컨테이너만 제거한 뒤 leaf를 원래 부모와 위치로 되돌린다. 4는 `readDeclaredContainerLinks`가 같은 트리를 `readNativeSemantics`로 읽어 부모, 화면 기준 geometry, 주석, 명세 상태, prototype destination을 대조한다. destination이 새 컨테이너이면 실패다. 실제 Figma 레이어 트리는 아직 관찰하지 않았다.
 
 ## 기존 검사에서 시작하기
 
