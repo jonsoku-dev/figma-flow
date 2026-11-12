@@ -5403,6 +5403,53 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "df65b64205ed85644acf075f0acab8f37f2ac371",
+      "diff_sha256": "dd6e3e59379f3eb0aa25cc3e616b3a938a259d63f4ec7795bb6d41e739992739",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/517b26733de38a1ea1ae885498b8b5ec41f3b3f4.md",
+        "docs/llm-wiki/patches/b05f2c444105fa3cf261eabb6f79db5e2ec89675.md",
+        "docs/llm-wiki/patches/dee7688ffa829298bc794108f057c18dc6e6d766.md"
+      ],
+      "parents": [
+        "dee7688ffa829298bc794108f057c18dc6e6d766"
+      ],
+      "subject": "docs: record the public runtime boundary symbols",
+      "tree": "73ce2ecfaff8d3d17dff84813ce33cd57ea1d016",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "142dfd97ed5bba73e787d99924a2693a3a86b61a",
+      "diff_sha256": "26f5b96d0425774eedeabb76db8647a0c4c127d039acbbdbef4d59761196b845",
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md"
+      ],
+      "parents": [
+        "df65b64205ed85644acf075f0acab8f37f2ac371"
+      ],
+      "subject": "docs: refresh the Codex final review handoff",
+      "tree": "baa772a9535988375c8af553abcf3c7761785463",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -5421,6 +5468,7 @@
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
+    "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
     "199683f8c221fcac718991dd91ad96b6a50ab144": "1384f08a99bcf88bec7fc6c4d0912c17f8c2759d827b4da8bd16a8ef4dcf0277",
@@ -5558,6 +5606,7 @@
     "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d": "8be1bcfc43ae3c3b3969ec1b3c925367087a5d0edd83240ddaca66a6574d5766",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
     "dee7688ffa829298bc794108f057c18dc6e6d766": "267088ddd7fcd717b1c817584fd2b75d3231b101827e3c16f00bc6b244494125",
+    "df65b64205ed85644acf075f0acab8f37f2ac371": "b8a776272c01c8d166432e297cb353abcb97b2e59b42f860b42c6bac2c27b740",
     "e0f34c2d2db5673cc17a63bf8bb99489445c2492": "8645b1223ce0695b4bdc76c801660ed704bdf3cfbe05f238a0ba56552c9aeb7a",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
@@ -5598,6 +5647,10 @@
     },
     {
       "observed_at_commit": "108ecded7a1e99ee040a4c4b067a837a85d4d67c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "142dfd97ed5bba73e787d99924a2693a3a86b61a",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5947,7 +6000,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "dee7688ffa829298bc794108f057c18dc6e6d766",
+  "source_commit": "142dfd97ed5bba73e787d99924a2693a3a86b61a",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
