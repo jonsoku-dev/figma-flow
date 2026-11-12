@@ -4880,6 +4880,80 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "dacfdc577faed0cb155e1b30620cc9265ba4d1bb",
+      "diff_sha256": "877ad80b575fa1243eb73d6448b085d18e1bfbfae8a00088d23d4f4abade9b21",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/015f440ee635d817f033dddabb504acaea69895f.md",
+        "docs/llm-wiki/patches/73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2.md",
+        "docs/llm-wiki/patches/ab8b1fe594b960fb2b22936dff34e3b7e711ff21.md",
+        "docs/llm-wiki/patches/af2a027d7bebe176de697878f3b36d191ef35fe9.md",
+        "docs/llm-wiki/patches/b275a28ad9b31347b7663485aabc93b19fb00f7b.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2"
+      ],
+      "subject": "docs: record the partial read rejection and diagnostic export",
+      "tree": "2a18b02b0d2d8a878d75530cb7ea4793e344b61e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "bf65601803dc933fe0001235237c423ac9bf2636",
+      "diff_sha256": "50012f3474853c2b6d4a8396a0e2efddf4e174bf5e53b46c66ba968b1523ffab",
+      "files": [
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "tests/rd06_fresh_read.cjs"
+      ],
+      "parents": [
+        "dacfdc577faed0cb155e1b30620cc9265ba4d1bb"
+      ],
+      "subject": "test: require a fresh native read without a stored snapshot",
+      "tree": "e7ddd8bf22db8123e899698c565677ce409d7d65",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "c072439ece24499776eb80e9d74f2e600c7461a6",
+      "diff_sha256": "6f922d06a743f67ae4b44a1e73d06f6ae836b54bc22ff31161b599af46896496",
+      "files": [
+        "figma-bridge/native_semantic_read.js"
+      ],
+      "parents": [
+        "bf65601803dc933fe0001235237c423ac9bf2636"
+      ],
+      "subject": "feat: keep each native read fresh without a session snapshot",
+      "tree": "8be41cbdd804d571ac834438f62c5a9318b2f229",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4994,6 +5068,8 @@
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
+    "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
+    "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
     "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
@@ -5011,6 +5087,7 @@
     "d85d6388ae1c50a853278af33ca790a411b1e59e": "bd097342130b482c55505a0541bea97bd013bdddd5446538f808cc527558975a",
     "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba": "50631091c707315abe98de13323d7f44722622c85c19c334fefae1fe55fcb34c",
     "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
+    "dacfdc577faed0cb155e1b30620cc9265ba4d1bb": "3ba3f068f27ebd14458b6a9738983bd4b7677a352184f1a526f0e9074e0c6de0",
     "dbd4c0eb275a75dd5519e924c3c209716aa0578d": "8d7bad5d0d5802b9d1acbcc8b423bf84e68d94bfea0218edd5909d353f021a69",
     "dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d": "8be1bcfc43ae3c3b3969ec1b3c925367087a5d0edd83240ddaca66a6574d5766",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
@@ -5157,6 +5234,10 @@
     },
     {
       "observed_at_commit": "b91d26553b3343a61f8094a1ac041e3043506787",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "c072439ece24499776eb80e9d74f2e600c7461a6",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -5374,7 +5455,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2",
+  "source_commit": "c072439ece24499776eb80e9d74f2e600c7461a6",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
