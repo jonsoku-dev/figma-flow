@@ -141,6 +141,10 @@ def runtime_module_names():
     return ('workspace_chat.js', 'workspace_transport.js', 'workspace_control.js', 'workspace_host.js')
 
 
+def bundle_task_kinds():
+    return ('discover', 'import', 'native-edit', 'review', 'sync')
+
+
 def assemble_shared_runtime(bridge):
     return '\n'.join((Path(bridge) / name).read_text(encoding='utf-8') for name in runtime_module_names())
 
