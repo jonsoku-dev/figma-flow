@@ -4392,6 +4392,80 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "f49dba18aa822a9b6463514b66e2079d8e0a7e05",
+      "diff_sha256": "360395bdb723ec1a285c0f4915b191205cb6b0b1ab1c991428b7f29c0c09dd32",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/34d36385c45b4e36a55aeed42fd561dfbba048a5.md",
+        "docs/llm-wiki/patches/904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2.md",
+        "docs/llm-wiki/patches/f12b84f03a916c2aed744db43eb7699c95094034.md"
+      ],
+      "parents": [
+        "f12b84f03a916c2aed744db43eb7699c95094034"
+      ],
+      "subject": "docs: record the pinned HTML input record and its safe summary",
+      "tree": "3998a9438f65dc0b3692457f9fbdbed192f4ead4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "325e122cb48aebe61663333db337e093bc6a1429",
+      "diff_sha256": "100f5795ccb38cb8dfae2f06d5dd1d52c689601ce57785e4c6a702f84b26c5ee",
+      "files": [
+        "tests/test_rd05_asset_inventory.py"
+      ],
+      "parents": [
+        "f49dba18aa822a9b6463514b66e2079d8e0a7e05"
+      ],
+      "subject": "test: require the asset list to filter status and keep the relative source",
+      "tree": "de0e3062c6ac78a28c62678743cf85c2dfa98bdc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "306f26c7454a310f9f9b61f5ddb8b9f557d71318",
+      "diff_sha256": "2488a5c6b85626eacf0a6178a1b17e3e1481908317aa2fb8645ce4338c09e7b2",
+      "files": [
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/assetInventory.mjs",
+        "tools/figma_workspace.py"
+      ],
+      "parents": [
+        "325e122cb48aebe61663333db337e093bc6a1429"
+      ],
+      "subject": "feat: list input assets by status without loading them",
+      "tree": "fd5c94613fe8f76e75941818719dbaf2b464f8bf",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4422,6 +4496,8 @@
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
+    "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
+    "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
     "34d36385c45b4e36a55aeed42fd561dfbba048a5": "aedc55fb360a18c1dbee2c575700507a177cee997552da81f3fd1e25ca133f7b",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
@@ -4525,6 +4601,7 @@
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
     "f290f48aba0bbabe12a8eda3f315d8cf2205457b": "e7f236ee01f526a36361927398d796f430a1f0336b91ebf48d3c2815ac0720f5",
     "f3ec102c6dbe436495ff15391f599cddfd86a449": "e4c6ee3db8f9e045bafc1d629567150280ee52b78ab1082fc35eb9dcb928075e",
+    "f49dba18aa822a9b6463514b66e2079d8e0a7e05": "6650348d7a6eb311c26e626b19a1e4cf3dddda8d5a98d577b366bd0fcd9e081f",
     "f5e853a2056798c94b5cf5419484255998f6bd85": "37b7291658a8e7725b27a8ee6d0683cebc9f1c9514ddc4cf3567d0fdfa693475",
     "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02",
     "f838d46167cc8078e755c579bc3340c85968f8aa": "58cfcc4d03a25f590a3d2d6ab7ee4b696d048b24355567a317cd497419cbc524",
@@ -4569,6 +4646,10 @@
     },
     {
       "observed_at_commit": "24730598c912ef01c3da487193fa44e011981e7d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "306f26c7454a310f9f9b61f5ddb8b9f557d71318",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4842,7 +4923,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "f12b84f03a916c2aed744db43eb7699c95094034",
+  "source_commit": "306f26c7454a310f9f9b61f5ddb8b9f557d71318",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

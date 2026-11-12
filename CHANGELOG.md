@@ -2,6 +2,7 @@
 
 ## 0.26.3 · 2026-11-12
 
+- 작업 목록에서 입력 자산을 상태별로 거르고 상대 출처를 텍스트로 본다. 없는 파일과 외부 주소는 정상으로 바뀌지 않고, 목록을 연다고 다시 받지 않는다. 브라우저에서 사진과 서체가 로드되는지는 아직 확인하지 않았습니다.
 - 그래프 변경 행에서 적용할 항목을 고르고, 전체 선택과 선택 수, 영향 대상을 본다. 변경이 있는데 하나도 고르지 않으면 적용하지 않는다. Figma에서 고른 값만 바뀌는 적용은 아직 확인하지 않았습니다.
 - 선행 개정이 달라지면 후속 작업을 오래됨으로 보고, 은퇴했거나 없는 대상도 읽기 전용으로 표시한다. 이 조회는 작업을 자동 실행하지 않는다. Figma 패널의 은퇴 목록은 아직 확인하지 않았습니다.
 - 작업 목록에서 고른 작업의 선행과 후속을 한 단계와 같은 텍스트 목록으로 본다. 관계만 고르면 작업을 열거나 네이티브 변경을 보내지 않는다. 320px 화면과 Figma 패널은 아직 확인하지 않았습니다.
@@ -13,7 +14,7 @@
 - 일반 가져오기에서 같은 컴포넌트의 화면 문구를 main의 텍스트 속성 `문구`로 연결합니다. 각 화면은 Figma가 반환한 key로 다른 문구를 갖고, 같은 패킷을 다시 가져오면 기존 main·instance와 사용자가 고친 문구·override를 유지합니다. 속성 API가 없으면 글자를 직접 씁니다. 자동 검사는 mock Plugin API이며 실제 Figma 속성 패널은 아직 확인하지 않았습니다.
 - 신규 기능·Figma 제작·최적화·아키텍처 개선8항목을 개별 기능서·설계서·작업서27문서로 정리합니다. 컴포넌트 속성·재사용과 Frame·Group·Auto Layout의 공식 근거, Cursor 실행 프롬프트와 파일 소유권·이관·인수 조건을 포함합니다. RD-01 외 제안 기능은 아직 구현되지 않았습니다.
 
-[상세 패치 기록](docs/llm-wiki/releases.md#v0.26.3) · [선택 행](docs/llm-wiki/patches/d85d6388ae1c50a853278af33ca790a411b1e59e.md) · [의존성 상태](docs/llm-wiki/patches/1c813e3b05c271f043b1360247864ebd216102ae.md) · [선행과 후속](docs/llm-wiki/patches/ef624aadc2e99029e227c62d57d7b6b56df21c5e.md) · [문구 속성](docs/llm-wiki/patches/1f80e5d9896e85afb865919aad7dad3572be932e.md) · [개발 계획](docs/development-roadmap/README.md) · [Cursor 전달서](docs/development-roadmap/CURSOR_HANDOFF.md).
+[상세 패치 기록](docs/llm-wiki/releases.md#v0.26.3) · [입력 자산](docs/llm-wiki/patches/306f26c7454a310f9f9b61f5ddb8b9f557d71318.md) · [선택 행](docs/llm-wiki/patches/d85d6388ae1c50a853278af33ca790a411b1e59e.md) · [의존성 상태](docs/llm-wiki/patches/1c813e3b05c271f043b1360247864ebd216102ae.md) · [선행과 후속](docs/llm-wiki/patches/ef624aadc2e99029e227c62d57d7b6b56df21c5e.md) · [문구 속성](docs/llm-wiki/patches/1f80e5d9896e85afb865919aad7dad3572be932e.md) · [개발 계획](docs/development-roadmap/README.md) · [Cursor 전달서](docs/development-roadmap/CURSOR_HANDOFF.md).
 
 ## 0.26.2 · 2026-11-12
 
