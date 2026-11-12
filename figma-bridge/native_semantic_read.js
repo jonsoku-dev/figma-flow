@@ -26,7 +26,45 @@ function mergeNativeRasterImages(target, source) {
   return target;
 }
 
+const summaryFields = new Set(["x", "y", "width", "height", "visible"]);
+
+function summaryProjectable(request) {
+  if (!request || request.profile !== "summary") return null;
+  const fail = message => { throw new Error(`Native semantic read: ${message}`); };
+  if (!Array.isArray(request.nodeIds) || !request.nodeIds.length || request.nodeIds.some(id => typeof id !== "string") || new Set(request.nodeIds).size !== request.nodeIds.length) fail("summary nodeIds required");
+  if (!Array.isArray(request.fields) || !request.fields.length || request.fields.some(field => typeof field !== "string") || new Set(request.fields).size !== request.fields.length) fail("summary fields required");
+  return request.fields.every(field => summaryFields.has(field));
+}
+
+async function projectNativeSummary(figma, page, request) {
+  const fail = message => { throw new Error(`Native semantic read: ${message}`); };
+  if (!page?.id || typeof page.loadAsync !== "function") fail("selected page required");
+  await page.loadAsync();
+  const nodes = [page, ...page.findAll(() => true)];
+  const byId = new Map();
+  for (const node of nodes) {
+    if (!request.nodeIds.includes(node.id) || byId.has(node.id)) continue;
+    const row = {id: node.id, parentId: node.parent?.id || null, type: node.type, name: node.name};
+    for (const field of request.fields) {
+      if (!(field in node)) continue;
+      const value = node[field];
+      if (value === undefined || typeof value === "symbol") continue;
+      row[field] = JSON.parse(JSON.stringify(value));
+    }
+    byId.set(node.id, row);
+  }
+  if (byId.size !== request.nodeIds.length) fail("summary node missing");
+  return {
+    schema: "figma-flow-native-read-summary-v1",
+    coverage: {profile: "summary", nodeIds: [...request.nodeIds], fields: [...request.fields], complete: false, omitted: ["styles", "variables", "collections", "rasterImages", "textSegments"]},
+    nodes: request.nodeIds.map(id => byId.get(id))
+  };
+}
+
 async function readNativeSemantics(figma, page) {
+  // Callers that omit the third argument stay on the full snapshot. The declared parameters stay (figma, page).
+  const request = arguments[2];
+  if (summaryProjectable(request) === true) return projectNativeSummary(figma, page, request);
   const fail = message => { throw new Error(`Native semantic read: ${message}`); };
   if (!page?.id || typeof page.loadAsync !== "function") fail("selected page required");
   await page.loadAsync();
@@ -183,7 +221,7 @@ async function readNativeSemantics(figma, page) {
   }
   return { pageId: page.id, selectedPageIds: [page.id], collectionIds: [...collections.keys()], collections: [...collections.values()], variables: [...variables.values()], nodes: rows, styles, unavailableFields, rasterImages };
 }
-async function nativeReadGetterLedger(figma, page) {
+async function nativeReadGetterLedger(figma, page, request) {
   const names = [];
   const seen = new Set();
   const proxies = new WeakMap();
@@ -206,7 +244,7 @@ async function nativeReadGetterLedger(figma, page) {
     proxies.set(node, proxy);
     return proxy;
   };
-  return {schema: "figma-flow-native-read-ledger-v1", full: await readNativeSemantics(figma, wrap(page)), getters: names};
+  return {schema: "figma-flow-native-read-ledger-v1", full: await readNativeSemantics(figma, wrap(page), request), getters: names};
 }
 if (typeof module !== "undefined") module.exports = { resolveInstanceSemanticKey, readNativeSemantics, mergeNativeRasterImages, nativeReadGetterLedger };
 

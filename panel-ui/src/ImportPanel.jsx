@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { Download, ExternalLink, FilePlus, Files, FolderOpen, RefreshCw, ScanText } from 'lucide-react';
 import { Action, Notice, Section, Disclosure } from './components.jsx';
+import { nativeSummaryView } from './nativeSummary.mjs';
 
 const initialState = {
   connected: false,
@@ -13,6 +14,7 @@ const initialState = {
   data: null,
   diagnostics: '',
   preview: null,
+  nativeSummary: null,
   status: { kind: 'connecting', state: 'busy' },
 };
 const operations = new Set(['import', 'export', 'sync']);
@@ -106,7 +108,26 @@ function reduce(state, action) {
       data: message.data,
       status: { kind: 'readback', state: 'success' },
     };
+  if (message.type === 'native-summary' && message.summary?.schema === 'figma-flow-native-read-summary-v1' && message.summary.coverage?.complete === false)
+    return { ...state, nativeSummary: message.summary };
   return state;
+}
+
+function NativeSummary({ summary }) {
+  const view = nativeSummaryView(summary);
+  if (!view.ready) return null;
+  return (
+    <div className="native-summary">
+      <p>부분 읽기 · {view.coverage.fields.join(', ')}</p>
+      <ul>
+        {view.rows.map((row) => (
+          <li key={row.id}>
+            {row.id} · {row.values.map((item) => `${item.field} ${item.value}`).join(' · ')}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 function statusCopy(status, t) {
@@ -353,6 +374,17 @@ export default function ImportPanel({ locale, t, send, Shell }) {
       )}
 
       <Section title={t('import.readHeading')} description={t('import.readHelp')}>
+        <NativeSummary summary={state.nativeSummary} />
+        <div className="actions">
+          <button
+            type="button"
+            className="native-summary-request"
+            disabled={unavailable}
+            onClick={() => send({ type: 'native-summary', fields: ['width', 'height'], session_nonce: nonce })}
+          >
+            너비와 높이만 읽기
+          </button>
+        </div>
         <div className="actions">
           <Action
             id="export"

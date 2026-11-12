@@ -725,6 +725,15 @@ figma.ui.onmessage = async message => {
     post({ type: "busy", value: busy });
     return;
   }
+  if (message.type === "native-summary") {
+    if (!sessionNonce || message.session_nonce !== sessionNonce || busy) return;
+    const page = figma.currentPage;
+    const requested = Array.isArray(message.nodeIds) && message.nodeIds.length && message.nodeIds.every(id => typeof id === "string") ? message.nodeIds : [page.id, ...page.findAll(() => true).map(node => node.id)];
+    const fields = Array.isArray(message.fields) && message.fields.length && message.fields.every(field => typeof field === "string") ? message.fields : ["width", "height"];
+    const summary = await readNativeSemantics(figma, page, {profile: "summary", nodeIds: requested, fields});
+    if (summary && summary.schema === "figma-flow-native-read-summary-v1" && summary.coverage && summary.coverage.complete === false) post({type: "native-summary", summary});
+    return;
+  }
   if (!sessionNonce || message.session_nonce !== sessionNonce || !["import", "export", "sync"].includes(message.type) || busy) return;
   busy = true;
   post({ type: "busy", value: true, operation: message.type });
