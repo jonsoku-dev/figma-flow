@@ -4106,6 +4106,78 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc",
+      "diff_sha256": "c3d46106e4d4bb9e4f614be2e5c6199749081dc9c8150ca8c1d2c6878cfdab2d",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/88398e9b2186fb6dac1512eecda2c9e8d8e74af3.md",
+        "docs/llm-wiki/patches/d85d6388ae1c50a853278af33ca790a411b1e59e.md",
+        "docs/llm-wiki/patches/dc1ce4ebd586c452f66c4526acfc4e0b2dbd6e3d.md"
+      ],
+      "parents": [
+        "d85d6388ae1c50a853278af33ca790a411b1e59e"
+      ],
+      "subject": "docs: record selection counts and affected targets on change rows",
+      "tree": "3e63c85dbe52f6e94fd208b4f39823edd9a4a53e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "5caacfd96b70a03abd80d331a5a8b5317a38e2bf",
+      "diff_sha256": "5d4f4546b58d2f5dd723abd19766b1a5a9dcd984ca36aeb1d4e5b6985b713207",
+      "files": [
+        "tests/test_rd04_selective_apply.py"
+      ],
+      "parents": [
+        "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc"
+      ],
+      "subject": "test: require a partial apply to leave skipped values and the baseline",
+      "tree": "d84f95803ac55af9adea6151ebf9e3a3f02c7314",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "95c8714f29ec1af8094e88896f14b114c4afa63c",
+      "diff_sha256": "666f81c2d1629a114cbde43907a2cc1c569ed24757539ec68d62d5217abeda6f",
+      "files": [
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "figma-bridge/graph_token_sync.js",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "5caacfd96b70a03abd80d331a5a8b5317a38e2bf"
+      ],
+      "subject": "feat: apply only the validated selection and limit the baseline",
+      "tree": "c218e6652d16b154282d97c6f5494a91f5dff88a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -4151,6 +4223,7 @@
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
+    "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
@@ -4170,9 +4243,11 @@
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
+    "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
     "942d0cf9a5c194b8decd79918062c84767a0d1ec": "51f289feb528da76ec699c6af67bba30f0dd4ff789190fa3a9eaae1f9cf7db06",
     "946717804fcf45d0d4c85c3e624132ed0c48455f": "e9108746702eaf2927bed0c5e4fdbc5c6a826ba206a31562a6ad238515e23544",
+    "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
@@ -4307,6 +4382,10 @@
     },
     {
       "observed_at_commit": "946717804fcf45d0d4c85c3e624132ed0c48455f",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "95c8714f29ec1af8094e88896f14b114c4afa63c",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4528,7 +4607,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "d85d6388ae1c50a853278af33ca790a411b1e59e",
+  "source_commit": "95c8714f29ec1af8094e88896f14b114c4afa63c",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
