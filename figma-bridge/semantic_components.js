@@ -122,6 +122,11 @@ async function ensureSemanticComponents(figma, page, contract) {
     node.type, node.width, node.height,
     (node.children || []).map(child => [child.relativeTransform, visualProfile(child)])
   ]);
+  // Instance resize already reproduces a different root width. Child size, child
+  // transform, and height stay in the fingerprint so unsupported geometry still splits.
+  const supportedRootWidth = (original, source) => original.type === source.type && original.height === source.height &&
+    JSON.stringify((original.children || []).map(child => [child.relativeTransform, visualProfile(child)])) ===
+    JSON.stringify((source.children || []).map(child => [child.relativeTransform, visualProfile(child)]));
   const childKeys = [];
   const transfer = async (source, target, path = []) => {
     target.name = source.name;
@@ -222,7 +227,7 @@ async function ensureSemanticComponents(figma, page, contract) {
     for (const plan of plans) {
       let main = mains.get(plan.request.variantKey);
       const profile = visualProfile(plan.original);
-      if (profile !== visualProfile(plan.variant.source)) {
+      if (profile !== visualProfile(plan.variant.source) && !supportedRootWidth(plan.original, plan.variant.source)) {
         const signature = `${plan.request.variantKey}:${profile}`;
         main = layoutMains.get(signature);
         if (!main) {

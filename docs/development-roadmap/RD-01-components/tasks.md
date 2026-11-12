@@ -12,7 +12,7 @@
 
 한 단위가 완료되면 실제 diff와 인수 조건을 대조하고 다음 단위로 진행한다. 새 schema·UI만 추가한 채 소비자를 남겨 두지 않는다. 다른 항목을 같은 변경에 넣지 않는다.
 
-1–3은 `tests/test_figma_bridge.py`의 mock Plugin API에서 세 문구, 반환 key, 재실행 보존, 속성 API 부재 시 직접 쓰기를 확인했다. 실제 Figma 속성 패널·resize·main 수정의 여러 instance 반영은 미검증이다. 4–5는 시작하지 않았다.
+1–3은 `tests/test_figma_bridge.py`의 mock Plugin API에서 세 문구, 반환 key, 재실행 보존, 속성 API 부재 시 직접 쓰기를 확인했다. 4는 `tests/semantic_component_reuse_oracle.cjs`에서 너비 세 사용처의 같은 main과, 이동·높이 차이의 별도 main, 렌더 너비·토큰 fill을 확인했다. 실제 Figma 속성 패널·resize·main 수정의 여러 instance 반영은 미검증이다. 5는 시작하지 않았다.
 
 ## 기존 검사에서 시작하기
 
