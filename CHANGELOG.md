@@ -5,9 +5,10 @@
 - Figma 작업 목록과 이력에 현재 revision의 상태 분포, 실행별 요청·진행·결과 연결, 작업별 필터와 키보드 초점 이동을 추가합니다. 옛 이력은 연결을 추정하지 않고 보존하며 다운로드·채팅·이전 revision을 현재 완료 수로 세지 않습니다.
 - 관측한 native 실패를 중복 기록하지 않고 자동 제어의 결과 검증 실패도 같은 실행에 보존합니다. 고정 재현 검사로 기준 실패와 수정 후 통과를 대조합니다.
 - 패널의 기존 light/dark 디자인 안에서 펼침·상태 feedback과 reduced-motion 처리를 제공합니다. 이력 요약은 전체 제품 인수 완료율이나 클라우드 저장을 뜻하지 않습니다.
+- 회귀 디자인 시스템에 선언된 size·state 축은 이미 있는 variant에만 연결됩니다. 선언되지 않은 조합, 입력에 없는 사용 설명, swap target은 만들지 않습니다. 축이 없으면 기존 Variant 축을 유지합니다. 실제 Figma variant 패널은 아직 확인하지 않았습니다.
 - 같은 구조의 컴포넌트는 화면 너비만 다르면 하나의 main을 공유하고, 각 사용처의 너비는 원본과 같게 맞춥니다. 자식 위치나 높이가 다르면 별도의 Layout 변형을 유지합니다. 자동 검사는 mock Plugin API이며 실제 Figma 렌더는 아직 확인하지 않았습니다.
 - 일반 가져오기에서 같은 컴포넌트의 화면 문구를 main의 텍스트 속성 `문구`로 연결합니다. 각 화면은 Figma가 반환한 key로 다른 문구를 갖고, 같은 패킷을 다시 가져오면 기존 main·instance와 사용자가 고친 문구·override를 유지합니다. 속성 API가 없으면 글자를 직접 씁니다. 자동 검사는 mock Plugin API이며 실제 Figma 속성 패널은 아직 확인하지 않았습니다.
-- 신규 기능·Figma 제작·최적화·아키텍처 개선8항목을 개별 기능서·설계서·작업서27문서로 정리합니다. 컴포넌트 속성·재사용과 Frame·Group·Auto Layout의 공식 근거, Cursor 실행 프롬프트와 파일 소유권·이관·인수 조건을 포함합니다. RD-01의 문구 속성과 너비 공유 외 제안 기능은 아직 구현되지 않았습니다.
+- 신규 기능·Figma 제작·최적화·아키텍처 개선8항목을 개별 기능서·설계서·작업서27문서로 정리합니다. 컴포넌트 속성·재사용과 Frame·Group·Auto Layout의 공식 근거, Cursor 실행 프롬프트와 파일 소유권·이관·인수 조건을 포함합니다. RD-01 외 제안 기능은 아직 구현되지 않았습니다.
 
 [상세 패치 기록](docs/llm-wiki/releases.md#v0.26.3) · [문구 속성](docs/llm-wiki/patches/1f80e5d9896e85afb865919aad7dad3572be932e.md) · [개발 계획](docs/development-roadmap/README.md) · [Cursor 전달서](docs/development-roadmap/CURSOR_HANDOFF.md).
 

@@ -2691,14 +2691,97 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "c7327603e61a28342f6ebb1338e6758360f75251",
+      "diff_sha256": "6f240eb16234c58417be9d8ee35da199c0c2a90f1c8ac6c9fbe46b2b2a0102ee",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/15f29963c1f4e7685a7deb6b851a1d360fcbad6b.md",
+        "docs/llm-wiki/patches/640ff8c1a0ae1f185a60be5284558d6e7c914deb.md",
+        "docs/llm-wiki/patches/76a2d2b73a1d71631abe6f717073d15068c08155.md",
+        "docs/llm-wiki/patches/cb19ac749989bafeda8ca5a75505ebe86abed802.md",
+        "docs/llm-wiki/patches/f838d46167cc8078e755c579bc3340c85968f8aa.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "640ff8c1a0ae1f185a60be5284558d6e7c914deb"
+      ],
+      "subject": "docs: record width-only component main sharing",
+      "tree": "fabad5339bf3321337e0f4adb53308e084540428",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "008c01c64e41b255c43b7e81e4029f4368b1f797",
+      "diff_sha256": "04102fa6b8eb42935780008f0d0da9c9a79e30fde16193f7274b0aed4d91d5fc",
+      "files": [
+        "tests/test_variant_axes.py",
+        "tests/variant_axes_oracle.cjs"
+      ],
+      "parents": [
+        "c7327603e61a28342f6ebb1338e6758360f75251"
+      ],
+      "subject": "test: pin declared variant axes before creating combinations",
+      "tree": "37ec779cc7420612054eae2ca13a28bfcf90ad9a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "0ff91654bd6867c816292a9fbac8561d474644d8",
+      "diff_sha256": "efde08c33eae5d0dc7406778a6b99cba933d3907969756c87c69508a8d4f3ea8",
+      "files": [
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "figma-bridge/code.js",
+        "tests/variant_axes_oracle.cjs",
+        "tools/design_system.py",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "008c01c64e41b255c43b7e81e4029f4368b1f797"
+      ],
+      "subject": "feat: keep declared variant axes on existing definitions",
+      "tree": "fce2e74bdc3381b9dbd07dac5185335061479081",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
+    "008c01c64e41b255c43b7e81e4029f4368b1f797": "0786fd05695bb51303a051b0c3c3b66acdca4d4e6309a6616c67c847362974ef",
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
+    "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
@@ -2743,6 +2826,7 @@
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
+    "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
@@ -2761,6 +2845,10 @@
   "provenance_remotes": [
     {
       "observed_at_commit": "0bd817701f3df66673e314007f768a6de404fd78",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "0ff91654bd6867c816292a9fbac8561d474644d8",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -2974,7 +3062,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "640ff8c1a0ae1f185a60be5284558d6e7c914deb",
+  "source_commit": "0ff91654bd6867c816292a9fbac8561d474644d8",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

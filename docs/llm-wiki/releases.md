@@ -16,7 +16,9 @@
 
 이후 [세 문구 검사 기준](patches/7260d2995764d65d736aed031ddc63323ecf4e0c.md)과 [일반 가져오기 문구 속성](patches/1f80e5d9896e85afb865919aad7dad3572be932e.md)을 추가했다. 같은 컴포넌트의 화면 문구는 반환된 TEXT 속성 key로 설정되고, 같은 패킷의 재가져오기는 기존 ID와 사용자 수정을 유지한다. 그 종료 게이트는 기준 종료 코드 1, 대상 `tests.test_figma_bridge` 25개 종료 코드 0이다. 실제 Figma 속성 패널은 새 Design 캔버스가 열리지 않아 관찰하지 못했다.
 
-[너비 재사용 기준](patches/76a2d2b73a1d71631abe6f717073d15068c08155.md)과 [너비 공유](patches/640ff8c1a0ae1f185a60be5284558d6e7c914deb.md)는 root 너비만 다른 세 사용처를 한 main에 두고, 자식 transform·높이 차이는 별도 Layout main으로 남긴다. 그 종료 게이트는 기준 종료 코드 1, 대상 oracle 종료 코드 0이다. 실제 Figma 렌더는 관찰하지 않았다. 문구 속성과 너비 공유 외 제안 기능은 아직 구현되지 않았다.
+[너비 재사용 기준](patches/76a2d2b73a1d71631abe6f717073d15068c08155.md)과 [너비 공유](patches/640ff8c1a0ae1f185a60be5284558d6e7c914deb.md)는 root 너비만 다른 세 사용처를 한 main에 두고, 자식 transform·높이 차이는 별도 Layout main으로 남긴다. 그 종료 게이트는 기준 종료 코드 1, 대상 oracle 종료 코드 0이다. 실제 Figma 렌더는 관찰하지 않았다.
+
+[선언 축 기준](patches/008c01c64e41b255c43b7e81e4029f4368b1f797.md)과 [축 연결](patches/0ff91654bd6867c816292a9fbac8561d474644d8.md)은 `axes.json`의 size·state를 기존 variant에만 연결한다. 선언되지 않은 조합·사용 설명·swap target은 만들지 않는다. 그 종료 게이트는 기준 종료 코드 1, 대상 종료 코드 0이다. 실제 Figma variant 패널은 관찰하지 않았다. RD-01 외 제안 기능은 아직 구현되지 않았다.
 
 독립 검수에서 발견된 중복 실패와 remote validation 누락은 같은 고정 oracle로 실제 기준 AssertionError 종료1·대상 종료0을 확인했다. 자동 검사와 실제 브라우저320/560/840px, light/dark, 필터·키보드·빈 상태는 별도 확인했다. 실제 Figma에서 새 실행의3단계 연결과127노드·변수·collection·3이미지테이블 보존을 읽었다.15개 task key를 유지하고 UI artifact 변경에 따라 revision을 다시 생성했으므로 기존 이력은 과거 revision으로 남는다.
 
