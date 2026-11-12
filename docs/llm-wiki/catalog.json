@@ -3385,6 +3385,77 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "d6e35da1559f20ba25c443f8c4bb5e387211652b",
+      "diff_sha256": "6bb73a8f98cf1efe6358e3e320e34d21d6f3083eeb2ec824a333cfe54714fb7d",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/c71aabb35f06b4ce860b36837be44d17b8bd2d6c.md",
+        "docs/llm-wiki/patches/da3c7c51c4bc20733a5bf27278f9b459de1773ff.md",
+        "docs/llm-wiki/patches/e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58.md"
+      ],
+      "parents": [
+        "da3c7c51c4bc20733a5bf27278f9b459de1773ff"
+      ],
+      "subject": "docs: record server journal lookup for execution history",
+      "tree": "23fdd304c7ae4018470b817229dd2db859d172a4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "0b46cdbd575cfe17d901d33925fd03c45c643782",
+      "diff_sha256": "c58b042a93466b929b7c089dd094386b712b00e914accaa7c2f28ac24e39fe96",
+      "files": [
+        "tests/test_rd08_conflict_detail.py"
+      ],
+      "parents": [
+        "d6e35da1559f20ba25c443f8c4bb5e387211652b"
+      ],
+      "subject": "test: require conflict detail to keep the observed value and plan hash",
+      "tree": "38139f56bee290898e056359dbd21c3e314296c7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "b91d26553b3343a61f8094a1ac041e3043506787",
+      "diff_sha256": "ac8eb97c79351a4320656721baf93b63b414bfeb02c00a93878ba24aaa77727c",
+      "files": [
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "figma-bridge/native_edit.js",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "0b46cdbd575cfe17d901d33925fd03c45c643782"
+      ],
+      "subject": "feat: keep observed conflict values with the original plan hash",
+      "tree": "b60fdee32808ae9888b2ac18e049a46475cc1107",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3393,6 +3464,7 @@
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
+    "0b46cdbd575cfe17d901d33925fd03c45c643782": "23ac33368336f6c6ead2f7c1ca145be5b6cec148d9c3ce9ab56766e4d5f693be",
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
@@ -3456,6 +3528,7 @@
     "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
+    "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
@@ -3465,6 +3538,7 @@
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
+    "d6e35da1559f20ba25c443f8c4bb5e387211652b": "7b607f99cb3837cbc31550dd6a0c76a3c55cc1dd08bfb1c2431ddd57034953a5",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
     "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
@@ -3536,6 +3610,10 @@
     },
     {
       "observed_at_commit": "9a465e535cafbf7e8be7fd4d7a2693b70ada4400",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "b91d26553b3343a61f8094a1ac041e3043506787",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -3737,7 +3815,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "da3c7c51c4bc20733a5bf27278f9b459de1773ff",
+  "source_commit": "b91d26553b3343a61f8094a1ac041e3043506787",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
