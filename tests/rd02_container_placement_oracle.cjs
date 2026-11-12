@@ -11,8 +11,10 @@ function absolute(node, screen) {
   let y = 0;
   let current = node;
   while (current && current !== screen) {
-    x += current.x || 0;
-    y += current.y || 0;
+    if (current === node || !['GROUP', 'BOOLEAN_OPERATION'].includes(current.type)) {
+      x += current.x || 0;
+      y += current.y || 0;
+    }
     current = current.parent;
   }
   return {x, y, w: node.width, h: node.height};
@@ -71,12 +73,20 @@ function load() {
       group.y = minY;
       for (const item of placed) {
         group.appendChild(item.node);
-        item.node.x = item.x - minX;
-        item.node.y = item.y - minY;
+        item.node.x = item.x;
+        item.node.y = item.y;
       }
       group.fills = [];
       group.clipsContent = false;
       group.layoutMode = 'NONE';
+      Object.defineProperties(group, {
+        x: {get() {return Math.min(...this.children.map(child => child.x));},
+          set(value) {const delta = value - this.x; for (const child of this.children) child.x += delta;}},
+        y: {get() {return Math.min(...this.children.map(child => child.y));},
+          set(value) {const delta = value - this.y; for (const child of this.children) child.y += delta;}},
+        width: {get() {return Math.max(...this.children.map(child => child.x + child.width)) - this.x;}},
+        height: {get() {return Math.max(...this.children.map(child => child.y + child.height)) - this.y;}}
+      });
       return group;
     }
   };

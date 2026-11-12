@@ -1,0 +1,116 @@
+{
+  "schema": "figma-flow-native-group-coordinates-v1",
+  "provenance": {
+    "kind": "sanitized-native-getters",
+    "raw_readback_sha256": "3527b77a43608c63f0aa0c5345af983e8b7d86de179fb878b85d1f8988235cb0",
+    "coordinate_contract": "https://developers.figma.com/docs/plugins/api/properties/nodes-relativetransform/",
+    "note": "IDs replaced; numeric raw getters and absoluteBoundingBox values preserved. Translated Frame and nested cases in tests are synthetic."
+  },
+  "nodes": [
+    {
+      "id": "group",
+      "parentId": "page",
+      "type": "GROUP",
+      "x": -165,
+      "y": -324,
+      "width": 438,
+      "height": 564,
+      "absoluteBoundingBox": {
+        "x": -165,
+        "y": -324,
+        "width": 438,
+        "height": 564
+      }
+    },
+    {
+      "id": "title",
+      "parentId": "group",
+      "type": "TEXT",
+      "x": -165,
+      "y": -324,
+      "width": 402,
+      "height": 58,
+      "absoluteBoundingBox": {
+        "x": -165,
+        "y": -324,
+        "width": 402,
+        "height": 58
+      }
+    },
+    {
+      "id": "body",
+      "parentId": "group",
+      "type": "TEXT",
+      "x": -165,
+      "y": -220,
+      "width": 276,
+      "height": 58,
+      "absoluteBoundingBox": {
+        "x": -165,
+        "y": -220,
+        "width": 276,
+        "height": 58
+      }
+    },
+    {
+      "id": "copy",
+      "parentId": "group",
+      "type": "TEXT",
+      "x": -165,
+      "y": -116,
+      "width": 366,
+      "height": 58,
+      "absoluteBoundingBox": {
+        "x": -165,
+        "y": -116,
+        "width": 366,
+        "height": 58
+      }
+    },
+    {
+      "id": "detail",
+      "parentId": "group",
+      "type": "TEXT",
+      "x": -165,
+      "y": -12,
+      "width": 438,
+      "height": 58,
+      "absoluteBoundingBox": {
+        "x": -165,
+        "y": -12,
+        "width": 438,
+        "height": 58
+      }
+    },
+    {
+      "id": "caption",
+      "parentId": "group",
+      "type": "TEXT",
+      "x": -165,
+      "y": 92,
+      "width": 202,
+      "height": 44,
+      "absoluteBoundingBox": {
+        "x": -165,
+        "y": 92,
+        "width": 202,
+        "height": 44
+      }
+    },
+    {
+      "id": "footer",
+      "parentId": "group",
+      "type": "TEXT",
+      "x": -165,
+      "y": 196,
+      "width": 324,
+      "height": 44,
+      "absoluteBoundingBox": {
+        "x": -165,
+        "y": 196,
+        "width": 324,
+        "height": 44
+      }
+    }
+  ]
+}

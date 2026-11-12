@@ -21,7 +21,7 @@ function host() {
     insertChild(index, node) {if (node.parent) node.parent.children.splice(node.parent.children.indexOf(node), 1); node.parent = this; this.children.splice(index, 0, node);}
     remove() {this.removed = true; if (this.parent) this.parent.children.splice(this.parent.children.indexOf(this), 1); this.parent = null;}
   }
-  const absolute = node => {let x = 0, y = 0; for (let n = node; n; n = n.parent) {x += n.x; y += n.y;} return [x, y];};
+  const absolute = node => {let x = 0, y = 0; for (let n = node; n; n = n.parent) {if (n === node || !['GROUP', 'BOOLEAN_OPERATION'].includes(n.type)) {x += n.x; y += n.y;}} return [x, y];};
   const figma = {showUI() {}, ui: {postMessage() {}}, createFrame: () => new Node('FRAME'),
     group(members, parent) {
       if (figma.failGroup) throw Error('injected native group failure');
@@ -30,7 +30,15 @@ function host() {
       group.x = Math.min(...positions.map(p => p.point[0])) - origin[0];
       group.y = Math.min(...positions.map(p => p.point[1])) - origin[1];
       parent.appendChild(group);
-      for (const {node, point} of positions) {group.appendChild(node); node.x = point[0] - origin[0] - group.x; node.y = point[1] - origin[1] - group.y;}
+      for (const {node, point} of positions) {group.appendChild(node); node.x = point[0] - origin[0]; node.y = point[1] - origin[1];}
+      Object.defineProperties(group, {
+        x: {get() {return Math.min(...this.children.map(child => child.x));},
+          set(value) {const delta = value - this.x; for (const child of this.children) child.x += delta;}},
+        y: {get() {return Math.min(...this.children.map(child => child.y));},
+          set(value) {const delta = value - this.y; for (const child of this.children) child.y += delta;}},
+        width: {get() {return Math.max(...this.children.map(child => child.x + child.width)) - this.x;}},
+        height: {get() {return Math.max(...this.children.map(child => child.y + child.height)) - this.y;}}
+      });
       return group;
     }};
   const context = vm.createContext({DRAFT: {}, figma, __html__: '', console});
