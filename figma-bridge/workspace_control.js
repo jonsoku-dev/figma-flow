@@ -8,16 +8,6 @@ function controlState(outcome, busy) {
   figma.ui.postMessage({type:'workspace-control-state', workspaceSession:workspaceHomeSession, history:workspaceState.history, outcome, busy});
 }
 
-async function controlRequest(route, body) {
-  const config = WORKSPACE_CONTROL_CONFIG;
-  const response = await fetch(config.url + '/control/' + route, {
-    method: 'POST', headers: {'Authorization': 'Bearer ' + config.token, 'Content-Type':'application/json'},
-    body: JSON.stringify(body)
-  });
-  if (!response.ok) throw Error('Local command receipt rejected (' + response.status + ')');
-  return response.json();
-}
-
 async function controlExecute(task, cmd) {
   if (!task || task.revision !== cmd.revision || !controlAllowed[task.kind]?.includes(cmd.operation))
     throw Error('Prepared task changed. Reopen Figma Flow and issue a new command.');

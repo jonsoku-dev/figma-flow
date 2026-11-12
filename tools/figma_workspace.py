@@ -633,7 +633,7 @@ def publish(workspace, catalogue):
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_CONFIG = ' + json.dumps(relay, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_UI = workspaceAppHtml(' + json.dumps(render_app('chat', chat_context=True, shared=True), ensure_ascii=True) + ');\n'
-    code += (bridge / 'workspace_chat.js').read_text() + '\n' + (bridge / 'workspace_control.js').read_text() + '\n' + (bridge / 'workspace_host.js').read_text()
+    code += (bridge / 'workspace_chat.js').read_text() + '\n' + (bridge / 'workspace_transport.js').read_text() + '\n' + (bridge / 'workspace_control.js').read_text() + '\n' + (bridge / 'workspace_host.js').read_text()
     if runtime['implementation'] != trusted_sources():
         raise ValueError('Trusted runtime sources changed during publication; retry')
     atomic(folder / 'code.js', code.encode())

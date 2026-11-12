@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const source = fs.readFileSync(require('node:path').join(__dirname, '../figma-bridge/workspace_control.js'), 'utf8');
+const source = [fs.readFileSync(require('node:path').join(__dirname, '../figma-bridge/workspace_transport.js'), 'utf8'), fs.readFileSync(require('node:path').join(__dirname, '../figma-bridge/workspace_control.js'), 'utf8')].join('\n');
 
 test('authenticated native poll reports the compiled runtime and generation', async () => {
   const runtime = {version:'1.2.3',implementation:'a'.repeat(64),generation:'b'.repeat(32)};
