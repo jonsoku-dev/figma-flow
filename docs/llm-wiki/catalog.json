@@ -3962,6 +3962,76 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477",
+      "diff_sha256": "a9eb726b0e54049a5e2f7301bc095f757b44ca9c4804e5f5893e25c1636e78cf",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/3f642cea8eaa461f35508b151b448233a0a4272a.md",
+        "docs/llm-wiki/patches/5fb07911e3a1b1530f34aee2cca47f9df7319910.md",
+        "docs/llm-wiki/patches/e6b71d55b51c980224e130e399e53502bd79e04d.md"
+      ],
+      "parents": [
+        "5fb07911e3a1b1530f34aee2cca47f9df7319910"
+      ],
+      "subject": "docs: record the partial token fixture apart from the alias bundle",
+      "tree": "b5db4d9c99b5619da2e15a144a385b1a297c1385",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "cc53d88e91da49ac33c54c720b1be228b78c93bd",
+      "diff_sha256": "239db179ced573490b532b81850c22fbe70f318cd812467270ed34db2e0e61e4",
+      "files": [
+        "tests/test_rd04_selection_identity.py"
+      ],
+      "parents": [
+        "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477"
+      ],
+      "subject": "test: require a stable change identity for a serialized selection bundle",
+      "tree": "cfd06d60f52050a80bd277f9396b8a0f9b32cca1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2",
+      "diff_sha256": "be1908a2e628e3b01563066dba246abdf2d2d5c2f3590bdd6fd316c68c15c1c5",
+      "files": [
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "cc53d88e91da49ac33c54c720b1be228b78c93bd"
+      ],
+      "subject": "feat: serialize stable change identities apart from selection order",
+      "tree": "e330b86afd8bab21e8e1ba559f4b61a64a4619f8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -3972,6 +4042,7 @@
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
     "0b46cdbd575cfe17d901d33925fd03c45c643782": "23ac33368336f6c6ead2f7c1ca145be5b6cec148d9c3ce9ab56766e4d5f693be",
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
+    "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2": "384f7bc05cbe9ff28dde0a705a63a18cb94b89ebb6da20c8abadce3dfc6d8913",
     "0cf1823f9225b694b40961f2b6fb5d6eaa79834c": "fa2b919c9277a10c3eb30ed75c61256da3c8c215b241bc189a72082bd3c68e76",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
@@ -4004,6 +4075,7 @@
     "4dc23d6d98a7953572228b6bbf829e54c5417d13": "4614f0de857de2a6a8366f20a635591e74458142ba2573fd747d067cf84ec7f6",
     "4eab91b666eaeead1fe04395f248f936cdb51b7d": "da5bfbe556d77c32c8ec650fee0d17ccf97885063c570ab81b9b70c4136b767b",
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
+    "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
@@ -4055,6 +4127,7 @@
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
     "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
+    "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
@@ -4085,6 +4158,10 @@
   "provenance_remotes": [
     {
       "observed_at_commit": "0bd817701f3df66673e314007f768a6de404fd78",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -4370,7 +4447,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "5fb07911e3a1b1530f34aee2cca47f9df7319910",
+  "source_commit": "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
