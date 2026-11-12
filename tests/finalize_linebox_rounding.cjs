@@ -60,3 +60,55 @@ test('actual source/native collisions and subpixel coordinate drift remain rejec
     assert.throws(() => fixture(defect).validate(), /native screen text intersects whole control/, defect);
   }
 });
+
+function textPairFixture(defect) {
+  const h = fixture(), font = {family: 'Hahmlet', style: 'Bold'};
+  h.candidate.fonts.body = font;
+  h.candidate.control_styles = {desktop: {}, mobile: {}};
+  const frames = h.nodes.filter(node => node.type === 'FRAME');
+  h.nodes.length = 0;
+  for (const frame of frames) {
+    const viewport = frame.id, key = 'app.' + viewport + '.idle', state = h.candidate.state_layouts[viewport].idle;
+    state.product_buttons = {};
+    state.layers = [
+      {id: 'capacity', kind: 'text', value: '45', x: 884.75, y: 448.28125, w: 38.125, h: 45,
+        size: 30, leading: 45, max_lines: 1, font: 'body', ink: 'ink'},
+      {id: 'unit', kind: 'text', value: ' 명', x: 922.875, y: 468.53125, w: 15.453125, h: 19.5,
+        size: 13, leading: 19.5, max_lines: 1, font: 'body', ink: 'ink'}];
+    const texts = state.layers.map((layer, index) => ({id: key + '.' + layer.id, type: 'TEXT', parent: frame,
+      x: layer.x, y: layer.y, width: index === 0 ? 39 : 16, height: index === 0 ? 45 : 20,
+      characters: layer.value, fontName: font, fontSize: layer.size, lineHeight: {unit: 'PIXELS', value: layer.leading},
+      letterSpacing: {unit: 'PIXELS', value: 0}, textAutoResize: 'HEIGHT', textAlignHorizontal: 'LEFT',
+      getPluginData: () => key + '.' + layer.id}));
+    if (defect) {
+      const index = defect.startsWith('first-') ? 0 : 1, source = state.layers[index], node = texts[index];
+      if (defect.endsWith('-x')) node.x += index === 0 ? .25 : -.25;
+      else if (defect.endsWith('-y')) node.y += .25;
+      else if (defect.endsWith('-nonceil-width')) node.width += index === 0 ? .125 : .25;
+      else if (defect.endsWith('-nonceil-height')) node.height += .25;
+      else if (defect.endsWith('-height-not-leading')) source.h -= .25;
+      else if (defect.endsWith('-multiline')) source.max_lines = 2;
+      else if (defect.endsWith('-unspecified')) delete source.max_lines;
+      else if (defect === 'authored-overlap') state.layers[0].w += .25;
+      else if (defect === 'wrapped-height') texts[0].height = 90;
+    }
+    h.nodes.push(frame, ...texts);
+  }
+  return h;
+}
+
+test('existing single-line width and height ceils may overlap touching source text allocations', () => {
+  const h = textPairFixture();
+  const before = h.nodes.map(node => ({x: node.x, y: node.y, w: node.width, h: node.height}));
+  assert.doesNotThrow(() => h.validate());
+  assert.deepEqual(h.nodes.map(node => ({x: node.x, y: node.y, w: node.width, h: node.height})), before);
+});
+
+test('text-pair geometry drift, authored overlap and non-ceil growth remain rejected', () => {
+  for (const defect of ['first-x', 'second-x', 'first-y', 'second-y', 'authored-overlap', 'wrapped-height',
+    'first-nonceil-width', 'second-nonceil-width', 'first-nonceil-height', 'second-nonceil-height',
+    'first-height-not-leading', 'second-height-not-leading', 'first-multiline', 'second-multiline',
+    'first-unspecified', 'second-unspecified']) {
+    assert.throws(() => textPairFixture(defect).validate(), /unexpected native overlap/, defect);
+  }
+});

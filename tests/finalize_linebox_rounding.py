@@ -88,5 +88,72 @@ class LineboxRoundingTests(unittest.TestCase):
         self.assertIn('control-text-overlap', {finding['code'] for finding in design_quality.evaluate(layout)['errors']})
 
 
+def text_pair_fixture(defect=None):
+    candidate, frame, _ = fixture()
+    candidate['fonts']['body'] = {'family': 'Hahmlet', 'style': 'Bold'}
+    candidate['control_styles']['mobile'] = {}
+    state = candidate['state_layouts']['mobile']['idle']
+    state['product_buttons'] = {}
+    state['layers'] = [
+        {'id': 'capacity', 'kind': 'text', 'value': '45', 'x': 884.75, 'y': 448.28125, 'w': 38.125, 'h': 45,
+         'size': 30, 'leading': 45, 'max_lines': 1, 'font': 'body', 'ink': 'ink'},
+        {'id': 'unit', 'kind': 'text', 'value': ' 명', 'x': 922.875, 'y': 468.53125, 'w': 15.453125, 'h': 19.5,
+         'size': 13, 'leading': 19.5, 'max_lines': 1, 'font': 'body', 'ink': 'ink'}]
+    nodes = {KEY: frame}
+    for layer, (width, height) in zip(state['layers'], [(39, 45), (16, 20)]):
+        nodes[KEY + '.' + layer['id']] = {
+            'id': layer['id'], 'parentId': 'screen', 'type': 'TEXT', 'x': layer['x'], 'y': layer['y'], 'width': width, 'height': height,
+            'characters': layer['value'], 'fontName': candidate['fonts']['body'], 'fontSize': layer['size'],
+            'lineHeight': {'unit': 'PIXELS', 'value': layer['leading']}, 'letterSpacing': {'unit': 'PIXELS', 'value': 0},
+            'textAutoResize': 'HEIGHT', 'textAlignHorizontal': 'LEFT'}
+    if defect:
+        index = 0 if defect.startswith('first-') else 1
+        source = state['layers'][index]
+        node = nodes[KEY + '.' + source['id']]
+        if defect.endswith('-x'):
+            node['x'] += .25 if index == 0 else -.25
+        elif defect.endswith('-y'):
+            node['y'] += .25
+        elif defect.endswith('-nonceil-width'):
+            node['width'] += .125 if index == 0 else .25
+        elif defect.endswith('-nonceil-height'):
+            node['height'] += .25
+        elif defect.endswith('-height-not-leading'):
+            source['h'] -= .25
+        elif defect.endswith('-multiline'):
+            source['max_lines'] = 2
+        elif defect.endswith('-unspecified'):
+            source.pop('max_lines')
+        elif defect == 'authored-overlap':
+            state['layers'][0]['w'] += .25
+        elif defect == 'wrapped-height':
+            nodes[KEY + '.capacity']['height'] = 90
+    return candidate, frame, nodes
+
+
+class TextPairAllocationRoundingTests(unittest.TestCase):
+    def test_existing_single_line_width_and_height_ceils_preserve_touching_source_texts(self):
+        candidate, frame, nodes = text_pair_fixture()
+        before = copy.deepcopy(nodes)
+        self.assertEqual(findings(candidate, frame, nodes), [])
+        self.assertEqual(nodes, before, 'text-pair admission must retain the raw native allocation ceils')
+
+    def test_non_quantized_text_pair_collisions_still_fail(self):
+        for defect in ('first-x', 'second-x', 'first-y', 'second-y', 'authored-overlap', 'wrapped-height',
+                       'first-nonceil-width', 'second-nonceil-width', 'first-nonceil-height', 'second-nonceil-height',
+                       'first-height-not-leading', 'second-height-not-leading', 'first-multiline', 'second-multiline',
+                       'first-unspecified', 'second-unspecified'):
+            candidate, frame, nodes = text_pair_fixture(defect)
+            with self.subTest(defect=defect):
+                self.assertIn('text-overlap', {finding['code'] for finding in findings(candidate, frame, nodes)})
+
+    def test_text_pair_source_quality_remains_strict(self):
+        candidate, _, _ = text_pair_fixture()
+        layout = {'schema': 'figma-flow-authored-native-layout-v1', 'assets': {}, 'candidates': [candidate]}
+        self.assertTrue(design_quality.evaluate(layout)['passed'])
+        candidate['state_layouts']['mobile']['idle']['layers'][1]['x'] -= 1
+        self.assertIn('text-overlap', {finding['code'] for finding in design_quality.evaluate(layout)['errors']})
+
+
 if __name__ == '__main__':
     unittest.main()
