@@ -12,7 +12,9 @@
 
 작업 목록과 이력에서 현재 task revision의 마지막 상태를 분포와 정확한 수로 보여준다. 같은 dispatch의 요청·진행·결과는 host가 생성한 실행 ID와 task/revision으로 연결한다. legacy는 비연결 시간순 기록으로 남기며 전체 원본 event 요약을 펼칠 수 있다. 필터와 작업 링크는 해당 실행으로 초점을 옮긴다. 짧은 펼침 feedback과 reduced-motion CSS를 기존 테마 안에 포함한다. 다운로드·채팅·옛 revision을 현재 완료 수로 세지 않으며 제품 인수 완료율을 표시하지 않는다.
 
-컴포넌트 속성·재사용, 의미 계층과 Frame/Group/Auto Layout, 작업 dependency, 선택 동기화, 자산 목록, 네이티브 읽기 최적화, runtime 모듈 경계, 실행 수명주기·복구8항목을 [개별 기능서·설계서·작업서27문서](../development-roadmap/README.md)로 제공한다. [Cursor 전달서](../development-roadmap/CURSOR_HANDOFF.md)에 실제 소유 코드·작업 순서·검사·보고 형식을 연결한다. 이 제안 기능들은 구현되지 않았다.
+컴포넌트 속성·재사용, 의미 계층과 Frame/Group/Auto Layout, 작업 dependency, 선택 동기화, 자산 목록, 네이티브 읽기 최적화, runtime 모듈 경계, 실행 수명주기·복구8항목을 [개별 기능서·설계서·작업서27문서](../development-roadmap/README.md)로 제공한다. [Cursor 전달서](../development-roadmap/CURSOR_HANDOFF.md)에 실제 소유 코드·작업 순서·검사·보고 형식을 연결한다.
+
+이후 [세 문구 검사 기준](patches/7260d2995764d65d736aed031ddc63323ecf4e0c.md)과 [일반 가져오기 문구 속성](patches/1f80e5d9896e85afb865919aad7dad3572be932e.md)을 추가했다. 같은 컴포넌트의 화면 문구는 반환된 TEXT 속성 key로 설정되고, 같은 패킷의 재가져오기는 기존 ID와 사용자 수정을 유지한다. 종료 게이트는 기준 종료 코드 1, 대상 `tests.test_figma_bridge` 25개 종료 코드 0이다. 실제 Figma 속성 패널은 새 Design 캔버스가 열리지 않아 관찰하지 못했다. 문구 속성 외 제안 기능은 아직 구현되지 않았다.
 
 독립 검수에서 발견된 중복 실패와 remote validation 누락은 같은 고정 oracle로 실제 기준 AssertionError 종료1·대상 종료0을 확인했다. 자동 검사와 실제 브라우저320/560/840px, light/dark, 필터·키보드·빈 상태는 별도 확인했다. 실제 Figma에서 새 실행의3단계 연결과127노드·변수·collection·3이미지테이블 보존을 읽었다.15개 task key를 유지하고 UI artifact 변경에 따라 revision을 다시 생성했으므로 기존 이력은 과거 revision으로 남는다.
 

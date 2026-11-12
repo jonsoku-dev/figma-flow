@@ -2495,6 +2495,83 @@
           "version": "0.26.3"
         }
       ]
+    },
+    {
+      "commit": "3a3d68e64d178d1ca37c3ff275d97d41bc92274d",
+      "diff_sha256": "1bb91ffd41d5a7637e4b0d2d0859fc9de34a8f28794cbaa6116162a06895d45f",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/README.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/6a50f5c0aea3e8a131e0698151875cd83102ed69.md",
+        "docs/llm-wiki/patches/9a6f8ba694666ef5040a296c14b1af49bddcd722.md",
+        "docs/llm-wiki/patches/fce49dadaf9600e3c9855046ba48411ee5e581c1.md",
+        "docs/llm-wiki/releases.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "6a50f5c0aea3e8a131e0698151875cd83102ed69"
+      ],
+      "subject": "docs: publish 0.26.3 design roadmap and patch evidence",
+      "tree": "4a235bac901cef7d4cd9e56988a617e536f24a4a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "7260d2995764d65d736aed031ddc63323ecf4e0c",
+      "diff_sha256": "ce2c104179814959798104d19dab94b815f1b1d03af2b0b4feacddc7a7fabd4f",
+      "files": [
+        "tests/test_figma_bridge.py"
+      ],
+      "parents": [
+        "3a3d68e64d178d1ca37c3ff275d97d41bc92274d"
+      ],
+      "subject": "test: pin shared import labels before text properties",
+      "tree": "fdffb2fdbd86c697bd61520292745f3d3d5ce9d6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
+    },
+    {
+      "commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
+      "diff_sha256": "f32cd6383e5e413418062480e164cc75749d09e8f035919121106fedd30e3ffc",
+      "files": [
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/guide.md",
+        "figma-bridge/code.js"
+      ],
+      "parents": [
+        "7260d2995764d65d736aed031ddc63323ecf4e0c"
+      ],
+      "subject": "feat: expose shared import labels as text properties",
+      "tree": "ec1c0ff41a299ef84ae38302434a133c312f2448",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.3"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.3"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2505,6 +2582,7 @@
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
+    "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
@@ -2512,6 +2590,7 @@
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
+    "3a3d68e64d178d1ca37c3ff275d97d41bc92274d": "85b28753c1528f28803ccb3ebed0af441de6860221393fc4958c50d7e3fbc7ad",
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
@@ -2519,6 +2598,7 @@
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
+    "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
@@ -2561,6 +2641,10 @@
     },
     {
       "observed_at_commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -2749,10 +2833,12 @@
     },
     {
       "source_commits": [
-        "6a50f5c0aea3e8a131e0698151875cd83102ed69"
+        "3a3d68e64d178d1ca37c3ff275d97d41bc92274d"
       ],
-      "tagged": false,
-      "tags": [],
+      "tagged": true,
+      "tags": [
+        "v0.26.3"
+      ],
       "version": "0.26.3"
     }
   ],
@@ -2760,7 +2846,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
+  "source_commit": "1f80e5d9896e85afb865919aad7dad3572be932e",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -2821,6 +2907,11 @@
       "commit": "9a6f8ba694666ef5040a296c14b1af49bddcd722",
       "tag": "v0.26.2",
       "version": "0.26.2"
+    },
+    {
+      "commit": "3a3d68e64d178d1ca37c3ff275d97d41bc92274d",
+      "tag": "v0.26.3",
+      "version": "0.26.3"
     }
   ]
 }
