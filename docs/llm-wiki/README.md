@@ -19,7 +19,7 @@ python3 -B -m unittest discover -s tests -p 'test_patch_knowledge*.py'
 
 `verify`는 Git 객체·커버리지·본문 해시·필수 항목·링크를 다시 대조한다. 해시를 갱신한 것만으로 설명의 진실성이나 충분한 제품 인수를 보증하지 않는다. 독립 검수는 설명을 실제 변경과 비교해야 한다. 기록에 없는 제품 코드 변경이 생기면 이전 카탈로그는 완료 근거가 되지 않는다.
 
-이 저장소는 현재 기준 canonical44개 외에 [삭제 전 보존 계보39개](legacy/README.md)도 포함한다. 기본 verify는 이 보존 기록의 구조·해시도 검사한다. 옛 Git 객체가 없는 fork의 검사는 structural-only로 구분한다. 원래 객체를 보유한 운영자는 별도 legacy verify에 `--source-git`을 전달해 실제 원문과 대조한다. 현재 작업 소스의 미커밋 변경은 기본 검사에서 거절하며, 명시적인 `--committed-only`는 지정 커밋의 역사 감사만 수행한다.
+이 저장소는 `catalog.json`의 현재 canonical 기록 외에 [삭제 전 보존 계보39개](legacy/README.md)도 포함한다. 기본 verify는 이 보존 기록의 구조·해시도 검사한다. 옛 Git 객체가 없는 fork의 검사는 structural-only로 구분한다. 원래 객체를 보유한 운영자는 별도 legacy verify에 `--source-git`을 전달해 실제 원문과 대조한다. 현재 작업 소스의 미커밋 변경은 기본 검사에서 거절하며, 명시적인 `--committed-only`는 지정 커밋의 역사 감사만 수행한다.
 
 ## 실제 실패에서 개선하기
 

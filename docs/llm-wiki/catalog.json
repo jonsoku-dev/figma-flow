@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.26.2",
     "0.26.1",
     "0.26.0",
     "0.25.0",
@@ -2157,6 +2158,211 @@
           "version": "0.26.1"
         }
       ]
+    },
+    {
+      "commit": "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c",
+      "diff_sha256": "6930d60562715df9e298c5481ef168969c2f85ab831ceaa8faa92fe6c80c4cf7",
+      "files": [
+        "docs/llm-wiki/README.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/e3bb0505b011f77a656e096b821c7d0d01f2990c.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "e3bb0505b011f77a656e096b821c7d0d01f2990c"
+      ],
+      "subject": "docs: publish 0.26.1 patch knowledge",
+      "tree": "33593b0ea928743a9a11d09b6d6bffdefbdf68a8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.1"
+        }
+      ]
+    },
+    {
+      "commit": "ab1c8200cd77e2c24a3e322ddde643d80b179239",
+      "diff_sha256": "c1673f9dc1874e109dc8e925b61a95ed39ae808ebb16553d054075f57315452c",
+      "files": [
+        "tests/test_input_effect_css.py"
+      ],
+      "parents": [
+        "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c"
+      ],
+      "subject": "test: pin indirect CSS freshness acceptance",
+      "tree": "3c5bce5a90c31208672df847b9e953cde03d1773",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.1"
+        }
+      ]
+    },
+    {
+      "commit": "f3ec102c6dbe436495ff15391f599cddfd86a449",
+      "diff_sha256": "d802a78655058cf0f1962655b70f1e7c94eed58732c6b7aa45b7703a5a587c8c",
+      "files": [
+        "examples/regression-program/README.md",
+        "examples/regression-program/html/css-assets/README.md",
+        "examples/regression-program/html/css-assets/entry.css",
+        "examples/regression-program/html/css-assets/index.html",
+        "examples/regression-program/html/css-assets/media/photo.css",
+        "requirements-optional.txt",
+        "tests/test_input_effect_css_parser.py",
+        "tests/test_regression_program_inputs.py",
+        "tools/input_effect.py"
+      ],
+      "parents": [
+        "ab1c8200cd77e2c24a3e322ddde643d80b179239"
+      ],
+      "subject": "fix: track local CSS asset dependencies",
+      "tree": "a48a3c0e17d21fe2cfedff17f21e608f92eff6b9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.1"
+        }
+      ]
+    },
+    {
+      "commit": "ce10c8591bda9ad100c5de7a0f5323f20f5827c9",
+      "diff_sha256": "6c772e23f7651e2c8dd88e5614796e3ab56f0d3fc7507c5bf6817a612c79d54e",
+      "files": [
+        "tests/native_raster_dedup_oracle.cjs",
+        "tests/partial_review_oracle.cjs"
+      ],
+      "parents": [
+        "f3ec102c6dbe436495ff15391f599cddfd86a449"
+      ],
+      "subject": "test: pin raster and interrupted review oracles",
+      "tree": "397ca76d17b9cf329e1b039d44ea990a529d1a78",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.1"
+        }
+      ]
+    },
+    {
+      "commit": "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff",
+      "diff_sha256": "c70223eef236f015a15454fa9b67ad17c34feaa645f8933d8ca5069a9964bbe7",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/guide.md",
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/native_semantic_read.js",
+        "plugin.json",
+        "tests/test_direction_native_limits.cjs",
+        "tests/test_native_raster_assets.cjs",
+        "tests/test_native_raster_assets.py",
+        "tests/test_native_raster_table.cjs",
+        "tests/test_partial_review_recovery.cjs",
+        "tools/figma_draft.py"
+      ],
+      "parents": [
+        "ce10c8591bda9ad100c5de7a0f5323f20f5827c9"
+      ],
+      "subject": "fix: bound raster readbacks and interrupted reviews",
+      "tree": "d311c7b167d619e9eb945b81d6f8d550ee3776e9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.2"
+        }
+      ]
+    },
+    {
+      "commit": "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf",
+      "diff_sha256": "aa510aa117e4ce0bfc675730bbc54a962838bd030a70a1aa42ebf78e5dd0e9f4",
+      "files": [
+        "tests/graph_discovery_raster_oracle.cjs"
+      ],
+      "parents": [
+        "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff"
+      ],
+      "subject": "test: pin generated discovery raster transport",
+      "tree": "dc6533c9ccda8dbf404da7957e1351fed36e869e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.2"
+        }
+      ]
+    },
+    {
+      "commit": "e179df281a870086582ad25cf649931af5a8eaa2",
+      "diff_sha256": "583fdfdf366a9a0da9000af8be16b1346c9122807c76938543e4227c585ca766",
+      "files": [
+        "figma-bridge/code.js",
+        "figma-bridge/native_semantic_read.js",
+        "tests/test_native_raster_table.cjs",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf"
+      ],
+      "subject": "fix: retain raster tables in generated discovery",
+      "tree": "bb5d68e4b5f7637e9a5b7c3e4fcff681326c71a8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.2"
+        }
+      ]
+    },
+    {
+      "commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
+      "diff_sha256": "104c6733156a5ce2abef9617ee191aafd50dfbcd50d75f21ee251a3868972c13",
+      "files": [
+        "specs/regression-program/cases.json",
+        "specs/regression-program/plan.md"
+      ],
+      "parents": [
+        "e179df281a870086582ad25cf649931af5a8eaa2"
+      ],
+      "subject": "docs: preserve regression witnesses and scope new checks",
+      "tree": "74ebec9d6fbe23f4ca7b244d50af260b5f27d62f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.26.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.26.2"
+        }
+      ]
     }
   ],
   "pages": {
@@ -2166,11 +2372,14 @@
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
+    "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
+    "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
+    "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
@@ -2189,20 +2398,25 @@
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
     "aa3acddf626642b7bf0db2f04730cab9cc533a4b": "e87cc5c94ced516465ba20410c25d59481af350f6e3ed16b53dac6d051950e69",
+    "ab1c8200cd77e2c24a3e322ddde643d80b179239": "cfe81c94bbe740755a66a14845051416ed74a6f429ea97802ecb7b54b4fe59ff",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
+    "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
+    "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
+    "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
     "e3bb0505b011f77a656e096b821c7d0d01f2990c": "3f706b2efe5791d50864dc484452b0faf592f55a8cb7bf056adbb2e4dd6510e1",
     "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
+    "f3ec102c6dbe436495ff15391f599cddfd86a449": "e4c6ee3db8f9e045bafc1d629567150280ee52b78ab1082fc35eb9dcb928075e",
     "f64d9a9e592343a0910cec236d358cd841b8e207": "e6555760478a5aa671d3d761103d5f24bad9e09eb4a0defacd24bdb640561d02"
   },
   "provenance_remotes": [
@@ -2211,7 +2425,19 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "e179df281a870086582ad25cf649931af5a8eaa2",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "e3bb0505b011f77a656e096b821c7d0d01f2990c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "f3ec102c6dbe436495ff15391f599cddfd86a449",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     }
   ],
@@ -2364,18 +2590,28 @@
     },
     {
       "source_commits": [
-        "e3bb0505b011f77a656e096b821c7d0d01f2990c"
+        "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.26.1"
+      ],
+      "version": "0.26.1"
+    },
+    {
+      "source_commits": [
+        "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d"
       ],
       "tagged": false,
       "tags": [],
-      "version": "0.26.1"
+      "version": "0.26.2"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "e3bb0505b011f77a656e096b821c7d0d01f2990c",
+  "source_commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -2426,6 +2662,11 @@
       "commit": "90f9195600dd54131c80a817bebdd88fd63fe52a",
       "tag": "v0.26.0",
       "version": "0.26.0"
+    },
+    {
+      "commit": "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c",
+      "tag": "v0.26.1",
+      "version": "0.26.1"
     }
   ]
 }
