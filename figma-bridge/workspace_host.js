@@ -250,6 +250,15 @@ async function workspaceOpen(task, view = 'task') {
   }
   return workspaceCurrent(current) ? current : null;
 }
+function workspaceAssetSummary(value) {
+  if (!Array.isArray(value)) return undefined;
+  const rows = [];
+  for (const row of value) {
+    if (!row || typeof row.ref !== 'string' || row.ref.includes('/Users/') || row.ref.startsWith('/') || typeof row.status !== 'string') continue;
+    rows.push({ref: row.ref, kind: typeof row.kind === 'string' ? row.kind : 'file', status: row.status, source: typeof row.source === 'string' ? row.source : '', digest: typeof row.digest === 'string' ? row.digest : ''});
+  }
+  return rows.length ? rows : undefined;
+}
 function workspaceDependencyEdges(value) {
   if (!Array.isArray(value)) return undefined;
   const names = new Set(['code.js', 'ui.html', 'manifest.json']);
@@ -289,7 +298,8 @@ figma.ui.onmessage = async message => {
         fileKey: figma.fileKey || null, controlEnabled: typeof WORKSPACE_CONTROL_CONFIG !== 'undefined' && !!WORKSPACE_CONTROL_CONFIG, locale: workspaceState.locale, history: workspaceState.history,
         view: workspaceHomeView, project: workspaceProject, focusKey: workspaceFocus, storageError: workspaceStorageError, error: workspaceNotice || null, tasks: [...workspaceTasks.values()].map(task => {
           const dependsOn = workspaceDependencyEdges(task.depends_on);
-          return {key: task.key, title: task.title, project: task.project, kind: task.kind, fileKey: task.fileKey || null, pageId: task.pageId || null, threadId: task.threadId || null, revision: task.revision || '', preview: workspacePreview(task), paired: task.paired === true, productionAdmitted: task.productionAdmitted === true, ...(dependsOn ? {depends_on: dependsOn} : {})};
+          const assets = workspaceAssetSummary(task.input_summary);
+          return {key: task.key, title: task.title, project: task.project, kind: task.kind, fileKey: task.fileKey || null, pageId: task.pageId || null, threadId: task.threadId || null, revision: task.revision || '', preview: workspacePreview(task), paired: task.paired === true, productionAdmitted: task.productionAdmitted === true, ...(dependsOn ? {depends_on: dependsOn} : {}), ...(assets ? {input_summary: assets} : {})};
         })});
       return;
     }

@@ -13,6 +13,7 @@ import { Action, Section, Notice, PreviewStrip } from './components.jsx';
 import { workspaceActivity } from './WorkspaceActivity.mjs';
 import { ActivitySummary, ExecutionFlows } from './WorkspaceActivity.jsx';
 import { dependencyFreshness, dependencyView } from './dependencyView.mjs';
+import { assetInventory } from './assetInventory.mjs';
 
 const locales = new Set(__FLOW_LOCALES__);
 const terminal = new Set(['finished', 'readback', 'verified', 'baseline']);
@@ -93,6 +94,37 @@ export function workspacePreviews(task) {
         /^data:image\/png;base64,iVBORw0KGgo[A-Za-z0-9+/=]+$/.test(item.src),
     )
     .slice(0, 2);
+}
+
+function AssetDisclosure({ summary }) {
+  const [status, setStatus] = React.useState('');
+  const inventory = assetInventory(summary, { status });
+  const label = { present: '있음', 404: '없음', rejected: '거절', 'external-unverified': '외부 미확인' };
+  return (
+    <details className="workspace-asset-list">
+      <summary>
+        {inventory.empty ? '입력 자산 없음' : `문제 ${inventory.problems}개`}
+      </summary>
+      <label>
+        상태
+        <select value={status} onChange={(event) => setStatus(event.target.value)}>
+          <option value="">모든 상태</option>
+          {Object.keys(label).map((item) => (
+            <option key={item} value={item}>
+              {label[item]}
+            </option>
+          ))}
+        </select>
+      </label>
+      <ul>
+        {inventory.rows.map((row) => (
+          <li key={row.ref + row.status}>
+            {row.ref} · {row.kind} · {label[row.status] || row.status} · {row.source}
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
 }
 
 function DependencyText({ tasks, selected, retired, onSelect }) {
@@ -538,6 +570,7 @@ export default function Workspace({
               </Action>
               <button type="button" className="workspace-history-link" onClick={() => jumpToReceipt(task)}>{tr('viewTaskFlow')}</button>
               <button type="button" className="workspace-dependency-link" onClick={() => setDependencyKey(task.key)}>{tr('dependencyHeading')}</button>
+              {Array.isArray(task.input_summary) && <AssetDisclosure summary={task.input_summary} />}
               </div>
             );
           })}

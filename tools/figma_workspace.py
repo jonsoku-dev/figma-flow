@@ -560,6 +560,16 @@ def load_task_dependency_fixtures(root):
 def public_task_metadata(task):
     """Copy the public task fields and explicit dependency edges. Extra edge fields stay out."""
     metadata = {key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'fileKey', 'pageId', 'threadId', 'revision', 'handoff')}
+    summary = task.get('input_summary')
+    if isinstance(summary, list):
+        rows = []
+        for row in summary:
+            ref = row.get('ref') if isinstance(row, dict) else None
+            if not isinstance(ref, str) or '/Users/' in ref or ref.startswith('/'):
+                continue
+            rows.append({field: row.get(field) for field in ('ref', 'kind', 'status', 'source', 'digest')})
+        if rows:
+            metadata['input_summary'] = rows
     edges = task.get('depends_on')
     if not isinstance(edges, list) or not edges:
         return metadata
