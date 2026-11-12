@@ -108,7 +108,7 @@ async function controlExecute(task, cmd) {
           const receipt = await reply.json();
           if (!reply.ok || receipt.passed !== true) throw Error('The review receiver rejected the native result.');
           workspaceRecord(active,'verification','verified');
-        } catch (error) {workspaceRecord(active,'verification','failed'); error.nativeReadback = data; throw error;}
+        } catch (error) {workspaceRecord(active,'verification','failed'); active.outcome = 'failed'; error.nativeReadback = data; throw error;}
       }
       return data;
     }
@@ -135,6 +135,10 @@ async function controlExecute(task, cmd) {
         (data.file_key || data.fileKey) !== cmd.file_key || (data.page_id || data.pageId) !== cmd.page_id)
       throw Object.assign(Error('Graph operation did not return the expected native evidence.'), {nativeReadback:data});
     return data;
+  } catch (error) {
+    if (active.outcome !== 'failed') workspaceRecord(active, active.operation === 'ready' ? cmd.operation : active.operation || cmd.operation, 'failed');
+    active.outcome = 'failed';
+    throw error;
   } finally {
     active.onOutput = null;
     active.executionId = null;

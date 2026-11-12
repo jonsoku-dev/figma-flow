@@ -310,7 +310,8 @@ figma.ui.onmessage = async message => {
     if (workspaceOperations.has(operation) && !current.outcome && current.started && operation === 'import') workspaceRecord(current, operation, 'finished');
   }
   catch (error) {
-    workspaceRecord(current, workspaceOperations.has(operation) ? operation : current.operation, 'failed');
+    if (current.outcome !== 'failed') workspaceRecord(current, workspaceOperations.has(operation) ? operation : current.operation, 'failed');
+    current.outcome = 'failed';
     if (workspaceCurrent(current)) figma.ui.postMessage({workspaceSession: current.session,
       workspaceControl: true, busy: false, error: String(error.message || error)});
   } finally {
