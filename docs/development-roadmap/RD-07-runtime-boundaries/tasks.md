@@ -22,6 +22,8 @@
 
 2는 controlRequest만 figma-bridge/workspace_transport.js로 옮긴다. kind, operation, scope, revision 검사는 workspace_control.js에 남긴다.
 
+3은 runtime_module_names와 assemble_shared_runtime이 발행 조립과 trusted_sources의 같은 모듈 목록이다.
+
 ## 기존 검사에서 시작하기
 
 저장소 루트에서 실행한다. 아래 경로는 현재 존재하는 검사다. 새 동작의 회귀는 관련 파일에 추가하거나 책임이 분명한 새 파일을 만든다. 기존 검사가 새 기능을 이미 검증한다고 간주하지 않는다.
