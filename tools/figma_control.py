@@ -197,6 +197,20 @@ def recovery_read(request, row, data, original):
     scoped_discovery = (row['kind'] == 'discover' and row.get('fileKey') == original['file_key'] and row.get('pageId') == original['page_id'])
     if not (same_task or scoped_discovery) or data.get('error') or data.get('status') not in (None, 'ok', 'success') or data.get('rollback_conflicts'):
         return False
+    if data.get('schema') == 'figma-flow-web-screen-discovery-v1':
+        edit, web = data.get('native_edit'), data.get('web_design')
+        if not (same_task and row['kind'] == 'native-edit' and isinstance(edit, dict)
+                and isinstance(web, dict) and data.get('readback_scope') == 'screens'
+                and data.get('fileKey') == original['file_key'] and data.get('pageId') == original['page_id']
+                and edit.get('operation') == 'read' and edit.get('applied') is False
+                and isinstance(edit.get('plan_sha256'), str)
+                and edit['plan_sha256'] == row.get('input_pins', {}).get('--plan')
+                and isinstance(web.get('graph_sha256'), str) and data.get('graph_sha256') == web['graph_sha256']
+                and isinstance(data.get('nodes'), list) and isinstance(web.get('screens'), list)
+                and web['screens']):
+            return False
+        return all(isinstance(screen, dict) and screen.get('status') in ('current', 'missing')
+                   and (screen['status'] == 'missing' or bool(screen.get('frame_id'))) for screen in web['screens'])
     if data.get('schema') == 'figma-flow-graph-native-discovery-v1':
         return (row['kind'] == 'discover' and data.get('fileKey') == original['file_key'] and data.get('pageId') == original['page_id']
                 and isinstance(data.get('allowed_page_ids'), list) and original['page_id'] in data['allowed_page_ids']

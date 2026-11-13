@@ -269,6 +269,23 @@ class ControlTests(unittest.TestCase):
         self.assertEqual(control.status(self.root)['state'], 'pending')
         self.assertEqual(control.status(self.root, request['id'])['state'], 'uncertain')
 
+    def test_only_current_or_missing_frames_from_the_same_pinned_web_plan_recover(self):
+        scope = dict(file_key='file', page_id='1:1', key='responsive', revision='rev')
+        request = dict(**scope, operation='read')
+        row = dict(kind='native-edit', input_pins={'--plan': 'a' * 64})
+        data = dict(schema='figma-flow-web-screen-discovery-v1', fileKey='file', pageId='1:1',
+                    readback_scope='screens', nodes=[], graph_sha256='b' * 64,
+                    native_edit=dict(operation='read', applied=False, plan_sha256='a' * 64),
+                    web_design=dict(graph_sha256='b' * 64, screens=[dict(status='current', frame_id='2:1')]))
+        self.assertTrue(control.recovery_read(request, row, data, scope))
+        self.assertFalse(control.recovery_read(dict(request, revision='other'), row, data, scope))
+        data['web_design']['screens'][0]['status'] = 'changed'
+        self.assertFalse(control.recovery_read(request, row, data, scope))
+        data['web_design']['screens'][0] = dict(status='missing', frame_id=None)
+        self.assertTrue(control.recovery_read(request, row, data, scope))
+        data['native_edit']['plan_sha256'] = 'c' * 64
+        self.assertFalse(control.recovery_read(request, row, data, scope))
+
     def test_expired_or_failed_recovery_read_does_not_unblock_mutation(self):
         original = self.uncertain_mutation()
         receipt = (self.root / '.control/receipts' / (original['id'] + '.json')).read_bytes()
