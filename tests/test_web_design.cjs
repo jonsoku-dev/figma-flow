@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const source = fs.readFileSync(require.resolve('../figma-bridge/web_design.js'), 'utf8');
 const captureSource = fs.readFileSync(require.resolve('../tools/web_design_capture.js'), 'utf8');
 let corruptInstanceLineHeight = false;
+let previewExports = [];
 
 let nextId = 1;
 class MockNode {
@@ -34,6 +35,9 @@ class MockNode {
       layoutSizingHorizontal: { get: () => this._layoutSizingHorizontal, set: value => { if (!this.parent || !this.parent.layoutMode || this.parent.layoutMode === 'NONE') throw Error('layout sizing requires an auto-layout parent'); this._layoutSizingHorizontal = value; } },
       layoutSizingVertical: { get: () => this._layoutSizingVertical, set: value => { if (!this.parent || !this.parent.layoutMode || this.parent.layoutMode === 'NONE') throw Error('layout sizing requires an auto-layout parent'); this._layoutSizingVertical = value; } },
     });
+  }
+  async exportAsync() {
+    return previewExports.shift() || new Uint8Array([0]);
   }
   resize(width, height) { if (this.parent?.type === 'INSTANCE') throw Error('relative-transform cannot be overridden in an instance'); this.geometryWrites++; this.width = width; this.height = height; }
   appendChild(node) {
@@ -97,6 +101,7 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
   let fontLoads = 0;
   const figma = {
     fileKey: 'file', currentPage: page,
+    base64Encode: bytes => Buffer.from(bytes).toString('base64'),
     createFrame: () => { timeline.push('frame'); return new MockNode('FRAME'); },
     createComponent: () => new MockNode('COMPONENT'),
     createText: () => new MockNode('TEXT'),
@@ -691,4 +696,14 @@ test('editable text gradient is written and checked through native range fills',
   assert.equal(node.fills[0].type, 'GRADIENT_LINEAR');
   assert.equal(node.fills[0].gradientStops.length, 2);
   assert.equal(node.fills[0].gradientTransform.length, 2);
+});
+
+test('first export of a new image-backed screen is warmed before returning its preview', async () => {
+  previewExports = [new Uint8Array([1, 2, 3]), new Uint8Array([9, 8, 7])];
+  const h = harness();
+  const data = plan();
+  data.web_design.preview_width = 420;
+  const result = await h.apply(data);
+  assert.equal(result.receipt.screens[0].preview.data, Buffer.from([9, 8, 7]).toString('base64'));
+  assert.equal(previewExports.length, 0, 'both bounded exports should be consumed');
 });
