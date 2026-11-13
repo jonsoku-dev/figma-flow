@@ -119,7 +119,9 @@ function createCollector(plan) {
   function setScenario(route, status) {
     const prior = scenarioStates.get(route) || {route, status, assignments_attempted: 0,
       assignments_succeeded: 0, assignments_failed: 0, readback_objects: 0};
-    if (prior.assignments_failed > 0 && ['created', 'reused'].includes(status))
+    if (prior.assignments_failed > 0 && prior.readback_objects > 0
+        && ['created', 'reused', 'seed-error'].includes(status)) status = 'partial';
+    else if (prior.assignments_failed > 0 && ['created', 'reused'].includes(status))
       status = prior.assignments_succeeded > 0 ? 'partial' : 'seed-error';
     prior.status = status;
     scenarioStates.set(route, prior);
