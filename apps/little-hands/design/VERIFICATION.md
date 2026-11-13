@@ -91,3 +91,19 @@ R7의494개 instance override를 집계하면 `fills`, `fontName`, `fontSize`, `
 현재 앱 `graph.json`에는 `design_system`이 없다.12개 계열과 candidate foundations는 관측 profile이며 수락된 Graph SSOT binding이 아니다. template graph SHA와 외부 CSS의 영속 SSOT 연결도 아직 없다. 위의 임시 Django 외부 CSS 실험은 제한된 범위에서 완료 후 제거되었으며 출시할 영속 기능으로 표시하지 않는다.
 
 위에서 관측한 왕복·표 스크롤 이외의 prototype UI 재생, 창작 품질·사람의 production admission, 앱 전체의 영속 Graph SSOT 연결은 대기다. 정상 R7 full·width/height summary·진단 일치는 위의 제한된 범위에서 확인했다. Group 통합 후 전체 clean-package 검사·CI, 최종 코드 커밋·설치·릴리스와 독립 remote API 기반 클라우드 저장 확인은 별도 최종 기록이 필요하다. 물리 기기는 검증하지 않았고 공개 DNS/TLS 배포도 실행하지 않았다. 기존61개 회귀 사례의 전체 인수와 채팅 첨부 UI도 검증하지 않았다. 주 세션이 같은 소스·범위의 새 실제 근거로 인수 행렬을 갱신하기 전에는 이 목록을 통과로 바꾸지 않는다. 기존 캡처·snapshot·review·pin은 이 요약 작성으로 변경하지 않았다.
+
+## 예약 CTA의 영속 웹 소비와 실제 Figma 왕복
+
+2026-11-13에 기존 작은손 파일의 컴포넌트 페이지에서 등록된 개발 플러그인을 열고, Django/Gunicorn과 PostgreSQL에서 제공한 수업 상세 화면을 실제 브라우저로 읽었다. 로그인 전 예약 링크, 같은 main을 쓰는 네이티브 인스턴스 두 개, 예약 전용 색상 변수만 이번 왕복의 범위다.
+
+| 단계 | 그래프 SHA-256 | 브라우저 계산값 | Figma에서 확인한 값 |
+| --- | --- | --- | --- |
+| 최초 채택 | `fcd5a360440de3e0f5c734241f94da8a292ebcd86ec967f38edaaedee45d714c` | `rgb(142, 62, 40)` | 독립 collection의 원색과 semantic alias, main 하나와 instance 두 개의 배경 연결 |
+| 그래프에서 색 변경 | `979a22705467198e36df8dc8f9fbcfee4f9dabfd34ee2b3cc9a36cc707594aae` | `rgb(119, 57, 37)` | 같은 원색 ID와 alias가 새 색을 반환하고 같은 세 소비자가 이를 사용 |
+| Figma에서 원색을 편집하고 역수입 | `0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830` | `rgb(142, 62, 40)` | 전체 변경 범위를 다시 읽어 dry-run 후 이전 graph SHA로 적용. CSS 재발행·collectstatic·서버 재시작 후 새 pairing 통과 |
+
+마지막 그래프는 Figma getter가 반환한 부동소수점 원색을 보존한다. 각 관측에서 DOM의 `data-graph-sha`와 같은 그래프의 브라우저 색상, 네이티브 연결, 생성한 웹 모듈을 `graph_sync.py pair`로 대조했다. 원래 96개 노드의 ID·부모·이름·위치·치수·채움·반응은 끝까지 일치했다. 새 노드 7개에는 작업 프레임, main, 두 instance와 각 텍스트가 포함된다. 재적용 두 번 모두 같은 ID와 변경 수 0을 반환했다. 원본 캡처 44개를 사용해 재생성한 명세가 마지막 graph SHA를 가리켰다.
+
+첫 실험에서 TEXT의 의미 키를 잘못 찾는 오류와 dynamic-page에서 동기 main getter를 호출하는 오류를 발견했다. 실제 페이지를 다시 읽고 소유 프레임과 변수만 식별한 뒤 같은 노드에서 작업을 복구했다. 변수 채택 단계에서는 점이 들어간 정본 이름을 Figma의 슬래시 그룹으로 변환하지 않아 첫 요청이 거절됐다. 이름 충돌 검사와 매핑을 고친 뒤 실제 적용을 완료했다. 세션별 원시 Figma·브라우저 기록은 비공개 작업 폴더에 보존한다.
+
+실제 Figma 환경은 무료 표시가 있는 초안 파일의 기존 페이지였다. 정확히 3페이지인 Starter 팀 파일과 다른 계정의 보기 권한 시험은 별도 환경이 필요하다. 실물 iOS·Android 기기 검사는 수행하지 않았다.

@@ -1,32 +1,40 @@
 # 다음 기능 설계안
 
-상태는 모두 **PROPOSED**다. 이 폴더는 구현·설치·배포 또는 사용자 인수 완료 기록이 아니다. 작성 기준은 2026-11-13의 미커밋 0.27.0 후보 코드다. 실행 시 현재 checkout과 소유 파일을 다시 확인한다.
+이 문서는 제안의 우선순위와 기존 설계 문서를 잇는다. 각 항목은 **PROPOSED**이며 구현·설치·배포 또는 사용자 인수 완료 기록이 아니다. 현재 동작과 인수 결과는 [최종 인수 기록](../development-roadmap/FINAL_ACCEPTANCE.md) 및 각 소스의 독립 검사에서 다시 확인한다.
 
-현재 RD-01~09는 구현된 후보이며 실제 인수 결과는 [최종 인수 기록](../development-roadmap/FINAL_ACCEPTANCE.md)을 따른다. 새 앱의 실제 업무 기능은 앱의 검증 대상이다. 예약·대기·취소 기능을 Figma Flow의 새 제품 기능으로 다시 제안하지 않는다. 전체 suite의 과거 통과나 작은 Figma getter 확인은 전체 화면 인수와 다르다.
+예약·대기·취소는 Little Hands 앱의 업무 기능이다. 이를 Figma Flow 제품에 다시 제안하지 않는다. 전체 suite의 과거 통과나 일부 Figma getter 확인은 전체 화면 인수가 아니다.
 
-## 현재 구현과 후속 제안의 경계
+## 현재 구현과 제안의 경계
 
-실제 앱 어댑터의 `apps/little-hands/design/source.py`는 `share_control_styles`로 기존 컨트롤 스타일 선언 492개를 desktop/mobile 각 12개, 총 24개 main 선언으로 공유한다. `design/control-reuse.json`의 현재 값은 viewport별 이전 246개와 공유 12개이며, 두 viewport를 함께 고정한 12개 profile 계열이다. signature는 각 viewport의 정확한 visual profile을 함께 비교하고 `maxWidth`만 제외한다. width cap은 해당 profile·viewport에서 관측한 최댓값이다. 이는 선언 재사용 구현 근거이며 실제 Figma main/instance getter 인수와 구분한다. NF-01의 Field/Input/Checkbox/Radio/Table 계열 확장은 여전히 제안이다.
+Little Hands의 `apps/little-hands/design/source.py`는 실제 캡처를 그래프와 디자인 파일로 변환한다. `reconcile()`은 graph source와 사람이 편집한 값을 비교한다. baseline이 없는 기존 값은 `retained_legacy_edits`에 보존하고, 양쪽에서 같은 필드를 다르게 바꾸면 충돌로 중단한다. `--expected-sha256`는 오래된 graph 입력을 거절한다. 이 동작은 own-mode의 G1 기준 일부다. 기존 `REQS`·`STATES`의 위치 참조를 안정된 의미 ID로 바꾸는 G1 조건과 G0~G5 전체 인수는 별도로 남아 있다.
 
-native 제작에서는 화면마다 page 전체 container read를 반복하는 경로와 주석별 semantic key 탐색의 비용이 발견되어 별도 수정 중이다. 현재 `direction_review.js`에는 `indexDeclaredContainerRead`를 공유하는 경로가 보이지만, 이 문서는 전체 성능 수정 완료나 실측 배수를 주장하지 않는다. 이 작업은 fresh 읽기 내 중복 탐색 제거이며 NF-02의 세션 캐시와 다르다. NF-02 실행 전 통합된 현재 소스에서 baseline을 다시 측정한다.
+`share_control_styles()`는 기존 492개 컨트롤 선언을 12개 profile 계열의 desktop/mobile main 선언 24개로 공유한다. 이는 현재 authored declaration 재사용이다. 입력·선택·표 계열의 완전한 native property 지원은 [NF-01](NF-01-component-families.md) 제안이다. main/instance 실제 getter의 결과는 별도 인수 근거로 다룬다.
 
-## 선택한 실행 순서
+Native 제작의 같은 실행 안에서 반복하던 container·annotation 탐색은 공유 index를 사용하는 경로가 있다. 이는 NF-02의 세션 browse cache와 다르다. NF-02를 시작할 때 통합 소스에서 동일 작업의 기준을 다시 잰다. Figma event 전달만으로 모든 main·style 파생 변경의 최신성을 증명하지 않는다.
 
-| 순서 | 설계 문서 | 사용자에게 생기는 결과 | 우선순위 근거와 선행 조건 |
+## 우선순위
+
+own-mode는 Figma Flow를 설계·구현·검증에 직접 쓰는 흐름이다. 먼저 [Starter Role의 G0~G5 계획](../STARTER_ROLE_FEATURE_SPEC.md)을 완료 조건으로 사용하고, 그 다음 일반 제품 기능을 아래 순서로 진행한다.
+
+| 순서 | 작업 | 사용 결과와 완료 방향 | 기존 계약과 새 문서 |
 | --- | --- | --- | --- |
-| 1 | [NF-01 입력·선택·표 컴포넌트 계열](NF-01-component-families.md) | 반복 필드를 실제 Component/Instance로 편집하고 재사용한다. | 현재 실제 앱의 편집 가능한 도형과 계열 인스턴스 사이의 차이를 직접 줄인다. 현재 native 인수가 선행한다. |
-| 2 | [NF-02 안전한 증분 네이티브 읽기](NF-02-incremental-native-read.md) | 탐색 시 같은 getter를 반복 읽는 비용을 줄이고 검증 읽기는 최신 상태로 유지한다. | NF-01의 instance·속성 변화 fixture를 재사용한다. 성능 개선은 동일 작업 실측으로 판단한다. |
-| 3 | [NF-03 실행 원인과 상세 차이 탐색](NF-03-causal-history.md) | 어떤 입력과 선행 작업이 어떤 변경을 만들었는지 찾아간다. | 기존 journal·dependency graph 위의 새 조회 기능이다. NF-02 없이도 시작 가능하다. |
-| 4 | [NF-04 SSR 어댑터와 CSS 내보내기](NF-04-renderer-adapters.md) | graph 값을 서버 렌더링과 외부 CSS에서도 같은 해시로 사용한다. | NF-01 계열 의미를 출력 계약에 연결한다. 현재 앱 어댑터는 기준 사례로 보존한다. |
-| 5 | [NF-05 포크 패치·근거 교환과 개선 러너](NF-05-improvement-runner.md) | 다른 checkout의 변경과 근거를 검토하고 중단 지점에서 검사를 재개한다. | NF-03의 근거 식별·redaction 계약을 재사용한다. 공개 업로드 없이 로컬 파일 교환부터 만든다. |
-| 6 | [NF-06 도메인 경계와 버전 전환](NF-06-domain-protocol.md) | 오래된 준비 번들과 새 런타임의 충돌을 설명하고 안전하게 재준비한다. | 다른 패킷의 실제 호출 경험 후 경계를 굳힌다. 단순 파일 분리를 반복하지 않는다. |
+| 0 | G0~G5 own-mode | 작은손의 기준값·원문·캡처·검증을 고정하고, 정책 변경 리뷰·영속 웹 출력·Starter native round trip·오프라인 인계까지 실제 한 건으로 입증한다. | G0~G5 전체는 PROPOSED다. G1의 일부 source merge 구현은 끝났지만 안정 ID 이관과 role acceptance는 남아 있다. [Starter Role 기능 계약](../STARTER_ROLE_FEATURE_SPEC.md) |
+| 1 | Native read와 기존 코드에 맞춘 디자인 구현 | 현재 Figma 파일의 정확한 node·component·variable 읽기를 실제 프로젝트의 기존 코드 구조와 대조한다. 확인된 component와 상태를 재사용하고, 읽기·생성·검증 결과를 각각 표시한다. | [기능 경로와 readback 제한](../../skills/figma-flow/references/figma-feature-routes.md), [가이드의 native 작업](../guide.md), RD-06/08. 새 일반 SDK scaffold는 이미 지원되는 design context 작업을 대신하지 않는다. |
+| 2 | Web import | 실제 브라우저 capture를 제한된 source DTO로 바꾸고, review 뒤 기존 graph와 native importer 경로로 들여온다. SSR/CSS 출력인 G3와 방향이 반대인 입력 경로다. | [NF-07 web import와 editor capability](NF-07-web-import-editor-capabilities.md#web-import) |
+| 3 | Component families | Field/Input/Checkbox/Radio/Table 계열을 명시한 TEXT·BOOLEAN·INSTANCE_SWAP 선언과 실측 override 보존으로 편집한다. | [NF-01](NF-01-component-families.md) |
+| 4 | Causal history와 accessibility | exact operation·artifact revision의 원인과 필드 차이를 읽기 전용으로 찾고, keyboard/focus/label 상태를 함께 검증한다. | [NF-03](NF-03-causal-history.md). 기존 history 요약과 dependency view를 다시 만들지 않는다. |
+| 5 | Large-document optimization과 compatibility | 대형 파일에서 선택적 browse 비용을 줄이되 검증은 fresh getter로 유지한다. 구버전 task/runtime 조합은 정확한 재준비 안내를 받는다. | [NF-02](NF-02-incremental-native-read.md), [NF-06](NF-06-domain-protocol.md) |
+| 6 | Editor capability matrix | Design, FigJam, Slides, Buzz 및 Dev Mode 등에서 기능·mode별로 지원·거절·미확인 경로를 비교한다. API 이름이나 manifest 값만으로 runtime 지원을 단정하지 않는다. | [NF-07 editor capability matrix](NF-07-web-import-editor-capabilities.md#editor-capability-matrix) |
+| 7 | 선택적 공식 plugin 연동 | 핵심 own-mode·read·import·component·history·large-document·editor matrix가 인수된 뒤, 정확한 공식 plugin을 선택적으로 연결할지 검토한다. | [NF-08 optional installed-plugin routing](NF-08-optional-plugin-routing.md). 설치, 실행 또는 계정 승인을 자동화하지 않는다. |
 
-추천 순서는 비용·실사용 가치에 대한 제안이며 전체 일괄 구현 권한이 아니다. NF-01 이후 NF-03은 NF-02와 독립적으로 진행할 수 있다. NF-04와 NF-06이 함께 `tools/figma_workspace.py`를 변경하면 순차 작업한다. 각 패킷 안에서도 한 파일에는 한 writer만 배정한다.
+G3의 graph-to-web 영속 출력은 [NF-04 SSR adapter와 CSS 내보내기](NF-04-renderer-adapters.md)에서 own-mode의 첫 사용 사례로 수행한다. NF-05의 patch exchange와 improvement runner는 개발자 유지보수 도구다. 첫 own-mode 인수 뒤 독립 과제로 다루며 위 순서를 앞지르지 않는다.
+
+이 순서는 사용 가치에 대한 제안이다. 전체 일괄 구현을 승인하지 않는다. 한 파일은 한 writer가 순차로 수정한다. NF-04와 NF-06이 같은 workspace publisher를 건드리면 분리하거나 순차 작업한다.
 
 ## 문서를 실행하는 방법
 
-각 문서의 기능 계약과 설계 계약을 먼저 읽고 마지막 Cursor 프롬프트를 별도 작업으로 전달한다. 프롬프트의 파일 목록은 시작 시 재확인할 소유 경계다. 소유 범위 밖 변경이 필요하면 원인과 필요한 파일을 보고하고 해당 변경을 멈춘다. 기존 dirty 파일을 되돌리거나 다른 패킷을 앞당기지 않는다.
+각 설계의 기능·구현·검증·rollback 조건과 마지막 Cursor prompt를 읽고 한 항목씩 전달한다. 시작할 때 현재 checkout, dirty files, 실제 함수 caller와 파일 소유를 다시 확인한다. 범위 밖 파일이 필요하면 변경을 멈추고 필요한 계약을 보고한다.
 
-명시한 기존 명령은 현재 저장소에서 찾은 회귀 검사다. `새 검사 제안`은 아직 없는 검사이며 통과했다는 뜻이 아니다. 제품 구현 시 각 패킷의 독립 인수 조건을 충족하고 필요한 실제 브라우저·Figma 검증을 추가한다. 공통 기록은 `skills/patch-knowledge/SKILL.md`를 따른다. CHANGELOG와 Wiki를 갱신하고 `python3 tools/patch_knowledge.py verify --ref HEAD`를 실행한다. 실패 기반 개선은 수정하지 않은 독립 기준으로 `python3 tools/patch_knowledge_check.py gate <proposal.json> --execute`를 통과해야 한다. 이 명령은 실제 base/target 커밋을 요구하므로 커밋 권한이 없으면 준비 상태와 미완료 조건을 보고한다.
+기존 명령은 저장소에 있는 회귀 검사다. "새 검사 제안"은 아직 구현되지 않은 검사다. 제품 변경에는 각 설계의 독립 인수 조건과 필요한 실제 browser/Figma 관찰을 추가한다. `skills/patch-knowledge/SKILL.md`에 따라 CHANGELOG와 Wiki를 갱신하고 `python3 tools/patch_knowledge.py verify --ref HEAD`를 실행한다. 실패 기반 개선은 수정하지 않은 기준으로 `python3 tools/patch_knowledge_check.py gate <proposal.json> --execute`를 통과해야 한다. 이 gate에는 실제 base/target commit이 필요하다.
 
-이 문서 작성 작업은 제품 코드나 검증 기준을 바꾸지 않았다. 기능 구현, 실제 native 인수, 성능 수치, 클라우드 저장·배포 성공을 주장하지 않는다. 원문 API는 각 문서의 공식 링크를 확인한다. API 존재와 현재 호스트 사용 가능 여부는 별도 검증이다.
+이 문서들은 기능 구현, 실제 native 인수, 성능 수치, 클라우드 저장 또는 배포 성공을 주장하지 않는다. 공식 API 문서는 구현 시 다시 읽고, API 존재와 현재 host/runtime에서 사용할 수 있는지는 각각 검증한다.

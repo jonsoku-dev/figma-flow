@@ -205,8 +205,9 @@ def token_native_names(graph, require_namespace=False):
     namespace = namespace.rstrip('/') if isinstance(namespace, str) else ''
     if not re.fullmatch(r'ssot/[A-Za-z0-9][A-Za-z0-9_-]*', namespace):
         raise ValueError('invalid design system native namespace')
-    names = {key: key if key.startswith(namespace + '/') else namespace + '/' + key for key in design['tokens']}
-    if any(not re.fullmatch(r'[A-Za-z0-9_./-]+', name) or '..' in name.split('/') for name in names.values()) or len(set(names.values())) != len(names):
+    # Figma groups nested token names with slashes. The graph retains its authored keys.
+    names = {key: namespace + '/' + key.removeprefix(namespace + '/').replace('.', '/') for key in design['tokens']}
+    if any(not re.fullmatch(r'[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*', name) for name in names.values()) or len(set(names.values())) != len(names):
         raise ValueError('invalid or duplicate native token names')
     return namespace, names
 

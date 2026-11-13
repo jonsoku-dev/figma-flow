@@ -66,6 +66,7 @@ function nativeEditValid(value,field) {
 }
 function nativeEditValidatePlan(plan) {
   if(plan?.schema!==NATIVE_EDIT_PLAN_SCHEMA||typeof plan.file_key!=='string'||typeof plan.page_id!=='string')throw Error('Explicit scoped native edit plan required');
+  if(plan.provision){nativeProvisionValidate(plan);return;}
   if(plan.specifications){nativeSpecificationValidate(plan);return;}
   const variable=plan.variableedit,edits=plan.edits;
   if(Boolean(variable)===Boolean(edits))throw Error('Choose node edits or one existing variable edit');
@@ -209,6 +210,7 @@ function nativeEditConflict(job, reason) {
 }
 async function runNativeEdit(figma,plan,operation='apply') {
   nativeEditValidatePlan(plan);nativeEditScope(figma,plan);
+  if(plan.provision)return nativeProvisionRun(figma,plan,operation);
   if(operation==='read'){const readback=await nativeEditDiscovery(figma,plan);return {...readback,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:false,operation:'read'}};}
   if(operation!=='apply')throw Error('Unsupported native edit operation');
   if(plan.specifications){

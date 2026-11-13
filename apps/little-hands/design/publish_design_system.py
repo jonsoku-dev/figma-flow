@@ -4,14 +4,20 @@
 import argparse
 import hashlib
 import json
-import os
 from pathlib import Path
 import sys
-import tempfile
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / 'tools'))
-from graph_design_system import emit_web_module, load_graph, resolve_design_system
+from graph_design_system import (
+    _atomic_write,
+    _check_web_path,
+    _locked_graph,
+    load_graph,
+    resolve_design_system,
+    web_module_source,
+)
+from graph_sync import token_native_names
 
 GRAPH = Path(__file__).resolve().parent / 'graph.json'
 CSS = Path(__file__).resolve().parents[1] / 'static' / 'littlehands' / 'design-system.css'
@@ -20,9 +26,8 @@ MODULE = Path(__file__).resolve().parents[1] / 'static' / 'littlehands' / 'desig
 
 
 def css_variable(name):
-    segments = name.replace('.', '/').split('/')
-    encoded = '-'.join(f'{len(part.encode("utf-8"))}-{part.encode("utf-8").hex()}' for part in segments)
-    return '--ff-token-' + encoded
+    encoded = name.encode('utf-8').hex()
+    return f'--ff-token-{len(name.encode("utf-8"))}-{encoded}'
 
 
 def _css_value(token, value):
@@ -33,71 +38,65 @@ def _css_value(token, value):
     raise ValueError(f"CSS publication does not support {token['type']} tokens")
 
 
-def _atomic_write(path, content):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '.', dir=path.parent)
-    try:
-        with os.fdopen(fd, 'wb') as stream:
-            stream.write(content)
-            stream.flush()
-            os.fsync(stream.fileno())
-        os.replace(temporary, path)
-    finally:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
-
-
 def publish(graph_path=GRAPH, css_path=CSS, manifest_path=MANIFEST, module_path=MODULE):
-    resolved = resolve_design_system(load_graph(graph_path))
-    design = load_graph(graph_path)['design_system']
-    definitions = design['tokens']
-    css_names = {name: css_variable(name) for name in definitions}
-    if len(set(css_names.values())) != len(css_names):
-        raise ValueError('token CSS variable encoding collision')
-    token_vars = []
-    for name, token in definitions.items():
-        value = f'var({css_names[token["alias"]]})' if 'alias' in token else _css_value(token, resolved['tokens'][name])
-        token_vars.append(f'  {css_names[name]}: {value};')
-    component_rules = []
-    for name, component in design['components'].items():
-        selector = component['web']['selector']
-        properties = []
-        for prop, token in component['properties'].items():
-            css_prop = ''.join('-' + char.lower() if char.isupper() else char for char in prop)
-            properties.append(f'{css_prop}: var({css_names[token]})')
-        component_rules.append(selector + ' { ' + '; '.join(properties) + '; }')
-    css = '/* graph-sha256: ' + resolved['graphSha256'] + ' */\n:root {\n' + '\n'.join(token_vars) + '\n}\n' + '\n'.join(component_rules) + '\n'
-    css_bytes = css.encode('utf-8')
-    module_path.parent.mkdir(parents=True, exist_ok=True)
-    emit_web_module(graph_path, module_path, expected_sha256=resolved['graphSha256'])
-    module_sha256 = hashlib.sha256(module_path.read_bytes()).hexdigest()
-    native_bindings = {}
-    for name, component in design['components'].items():
-        native = component.get('native', {})
-        native_bindings[name] = {
-            'mainKeys': native.get('mainKeys', []),
-            'instanceKeys': native.get('instanceKeys', []),
-            'properties': {prop: {'semanticToken': token, 'primitiveToken': resolved['primitiveRoots'][token]}
-                           for prop, token in component['properties'].items()},
+    graph_path = Path(graph_path).resolve()
+    css_path, manifest_path, module_path = map(Path, (css_path, manifest_path, module_path))
+    outputs = [css_path.resolve(), manifest_path.resolve(), module_path.resolve()]
+    if len(set(outputs)) != len(outputs):
+        raise ValueError('CSS, module, and manifest outputs must be distinct')
+    for output in outputs:
+        _check_web_path(graph_path, output)
+    with _locked_graph(graph_path):
+        graph = load_graph(graph_path)
+        resolved = resolve_design_system(graph)
+        design = graph['design_system']
+        definitions = design['tokens']
+        css_names = {name: css_variable(name) for name in definitions}
+        if len(set(css_names.values())) != len(css_names):
+            raise ValueError('token CSS variable encoding collision')
+        token_vars = []
+        for name, token in definitions.items():
+            value = f'var({css_names[token["alias"]]})' if 'alias' in token else _css_value(token, resolved['tokens'][name])
+            token_vars.append(f'  {css_names[name]}: {value};')
+        component_rules = []
+        for component in design['components'].values():
+            properties = []
+            for prop, token in component['properties'].items():
+                css_prop = ''.join('-' + char.lower() if char.isupper() else char for char in prop)
+                properties.append(f'{css_prop}: var({css_names[token]})')
+            component_rules.append(component['web']['selector'] + ' { ' + '; '.join(properties) + '; }')
+        css = ('/* graph-sha256: ' + resolved['graphSha256'] + ' */\n:root {\n' + '\n'.join(token_vars)
+               + '\n}\n' + '\n'.join(component_rules) + '\n')
+        css_bytes = css.encode('utf-8')
+        module_bytes = web_module_source(resolved).encode('utf-8')
+        native_namespace, native_names = token_native_names(graph, require_namespace=True)
+        native_bindings = {}
+        for name, component in design['components'].items():
+            native = component.get('native', {})
+            native_bindings[name] = {
+                'mainKeys': native.get('mainKeys', []),
+                'instanceKeys': native.get('instanceKeys', []),
+                'properties': {prop: {'semanticToken': token, 'primitiveToken': resolved['primitiveRoots'][token]}
+                               for prop, token in component['properties'].items()},
+            }
+        manifest = {
+            'schema': 1,
+            'graphSha256': resolved['graphSha256'],
+            'cssSha256': hashlib.sha256(css_bytes).hexdigest(),
+            'moduleSha256': hashlib.sha256(module_bytes).hexdigest(),
+            'tokens': resolved['tokens'],
+            'primitiveRoots': resolved['primitiveRoots'],
+            'nativeNamespace': native_namespace,
+            'nativeTokenNames': native_names,
+            'components': resolved['components'],
+            'designFoundations': resolved['designFoundations'],
+            'nativeBindings': native_bindings,
         }
-    native_namespace = design.get('namespace') or ('ssot/' + design['id'] if design.get('id') else None)
-    native_token_names = ({name: name if name.startswith(native_namespace + '/') else native_namespace + '/' + name
-                           for name in definitions} if native_namespace else {})
-    manifest = {
-        'schema': 1,
-        'graphSha256': resolved['graphSha256'],
-        'cssSha256': hashlib.sha256(css_bytes).hexdigest(),
-        'moduleSha256': module_sha256,
-        'tokens': resolved['tokens'],
-        'primitiveRoots': resolved['primitiveRoots'],
-        'nativeNamespace': native_namespace,
-        'nativeTokenNames': native_token_names,
-        'components': resolved['components'],
-        'nativeBindings': native_bindings,
-    }
-    _atomic_write(css_path, css_bytes)
-    _atomic_write(manifest_path, (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
-    return manifest
+        manifest_bytes = (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+        _atomic_write(css_path, css_bytes, mode=0o644)
+        _atomic_write(module_path, module_bytes, mode=0o644)
+        _atomic_write(manifest_path, manifest_bytes, mode=0o644)
+        return manifest
 
 
 def main():

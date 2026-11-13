@@ -172,9 +172,9 @@ def resolve_design_system(graph):
             'designFoundations': foundations, 'graphStylesheet': _stylesheet(declarations, mui_components)}
 
 
-def _atomic_write(path, raw):
+def _atomic_write(path, raw, *, mode=None):
     path = Path(path)
-    mode = path.stat().st_mode & 0o777 if path.exists() else 0o644
+    mode = (path.stat().st_mode & 0o777 if path.exists() else 0o644) if mode is None else mode
     fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '.', dir=path.parent)
     try:
         with os.fdopen(fd, 'wb') as stream:
@@ -203,11 +203,15 @@ def _check_web_path(graph_path, out):
 
 def _emit_web_module_locked(graph_path, out):
     result = resolve_design_system(load_graph(graph_path))
-    source = '// Generated from the canonical graph; do not edit.\n' + ''.join(
+    _atomic_write(out, web_module_source(result).encode('utf-8'))
+    return result
+
+
+def web_module_source(result):
+    """Render the generated web module from one already-resolved graph snapshot."""
+    return '// Generated from the canonical graph; do not edit.\n' + ''.join(
         f'export const {name} = {json.dumps(result[name], ensure_ascii=False, allow_nan=False)};\n'
         for name in ('graphSha256', 'tokens', 'components', 'muiComponents', 'primitiveRoots', 'graphStylesheet'))
-    _atomic_write(out, source.encode('utf-8'))
-    return result
 
 
 def emit_web_module(graph_path, out, *, expected_sha256=None):

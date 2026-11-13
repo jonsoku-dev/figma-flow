@@ -62,7 +62,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-publichome",
   "title": "수업 둘러보기",
   "trace": {
@@ -230,7 +230,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -398,7 +398,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -567,7 +567,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-nav-login",
   "title": "로그인",
   "trace": {
@@ -735,7 +735,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-hero-browse",
   "title": "수업 일정 보기 ↓",
   "trace": {
@@ -903,7 +903,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-booking-session_list-a-2-1",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -1071,7 +1071,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-session-1-open",
   "title": "일정 확인",
   "trace": {
@@ -1239,7 +1239,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-booking-session_list-a-2-2",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -1407,7 +1407,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-session-2-open",
   "title": "일정 확인",
   "trace": {
@@ -1575,7 +1575,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-booking-session_list-a-2-3",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -1743,7 +1743,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-session-3-open",
   "title": "일정 확인",
   "trace": {
@@ -1911,7 +1911,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-booking-session_list-a-2-4",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -2079,7 +2079,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-session-4-open",
   "title": "일정 확인",
   "trace": {
@@ -2247,7 +2247,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-booking-session_list-a-2-5",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -2415,7 +2415,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-session-5-open",
   "title": "일정 확인",
   "trace": {
@@ -2583,7 +2583,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-booking-session_list-a-2-6",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -2751,7 +2751,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-session-6-open",
   "title": "일정 확인",
   "trace": {
@@ -2920,7 +2920,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-booking-session_list-a-2-7",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -3089,7 +3089,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-publichome-session-10-open",
   "title": "일정 확인",
   "trace": {
@@ -3243,7 +3243,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-login",
   "title": "로그인",
   "trace": {
@@ -3412,7 +3412,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-login-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -3581,7 +3581,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-login-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -3749,7 +3749,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-login-nav-login",
   "title": "로그인",
   "trace": {
@@ -3918,7 +3918,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-login-login-submit",
   "title": "로그인",
   "trace": {
@@ -4087,7 +4087,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-login-login-signup",
   "title": "회원 가입",
   "trace": {
@@ -4241,7 +4241,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-signup",
   "title": "회원가입",
   "trace": {
@@ -4410,7 +4410,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-signup-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -4579,7 +4579,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-signup-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -4748,7 +4748,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-signup-nav-login",
   "title": "로그인",
   "trace": {
@@ -4917,7 +4917,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-signup-signup-submit",
   "title": "회원 가입",
   "trace": {
@@ -5086,7 +5086,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-signup-registration-signup-a-4-0",
   "title": "로그인",
   "trace": {
@@ -5240,7 +5240,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-memberhome",
   "title": "회원 수업 둘러보기",
   "trace": {
@@ -5444,7 +5444,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -5648,7 +5648,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -5853,7 +5853,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -6058,7 +6058,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -6263,7 +6263,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -6467,7 +6467,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-hero-browse",
   "title": "수업 일정 보기 ↓",
   "trace": {
@@ -6671,7 +6671,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-booking-session_list-a-2-1",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -6875,7 +6875,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-session-1-open",
   "title": "일정 확인",
   "trace": {
@@ -7079,7 +7079,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-booking-session_list-a-2-2",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -7283,7 +7283,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-session-2-open",
   "title": "일정 확인",
   "trace": {
@@ -7487,7 +7487,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-booking-session_list-a-2-3",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -7691,7 +7691,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-session-3-open",
   "title": "일정 확인",
   "trace": {
@@ -7895,7 +7895,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-booking-session_list-a-2-4",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -8099,7 +8099,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-session-4-open",
   "title": "일정 확인",
   "trace": {
@@ -8303,7 +8303,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-booking-session_list-a-2-5",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -8507,7 +8507,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-session-5-open",
   "title": "일정 확인",
   "trace": {
@@ -8711,7 +8711,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-booking-session_list-a-2-6",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -8915,7 +8915,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-session-6-open",
   "title": "일정 확인",
   "trace": {
@@ -9120,7 +9120,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-booking-session_list-a-2-7",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -9325,7 +9325,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-memberhome-session-10-open",
   "title": "일정 확인",
   "trace": {
@@ -9515,7 +9515,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-sessionavailable",
   "title": "수업과 신청 인원",
   "trace": {
@@ -9792,7 +9792,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-sessionavailable-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -10069,7 +10069,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-sessionavailable-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -10346,7 +10346,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-sessionavailable-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -10623,7 +10623,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-sessionavailable-nav-notifications",
   "title": "알림 10",
   "trace": {
@@ -10900,7 +10900,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-sessionavailable-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -11177,7 +11177,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-sessionavailable-detail-back",
   "title": "← 수업 목록",
   "trace": {
@@ -11454,7 +11454,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-sessionavailable-reserve-preview",
   "title": "예약 내용 확인",
   "trace": {
@@ -11716,7 +11716,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-review",
   "title": "신청 내용 확인",
   "trace": {
@@ -11957,7 +11957,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -12198,7 +12198,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -12439,7 +12439,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -12680,7 +12680,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-nav-notifications",
   "title": "알림 10",
   "trace": {
@@ -12921,7 +12921,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -13162,7 +13162,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-booking-reserve_review-a-1-0",
   "title": "← 인원 다시 선택",
   "trace": {
@@ -13403,7 +13403,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-review-submit",
   "title": "예약 신청",
   "trace": {
@@ -13644,7 +13644,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-review-review-back",
   "title": "다시 선택",
   "trace": {
@@ -13843,7 +13843,7 @@ Figma·웹 범위
     "purpose": "실제 확정 예약의 일정·인원·예약 당시 금액과 관리 가능 여부를 확인한다.",
     "summary": "예약 확정 화면의 목적과 동작"
   },
-  "meaning_sha256": "36f72462c5e3fae1d4f8b9a56f7486ca7338fdeb0b057b202422cdc553e53928",
+  "meaning_sha256": "e6f2a0b0a8f86e012a216c43ab1c6da4cb057128811d8f35742e62dcd972c3a9",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -13870,7 +13870,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-confirmed",
   "title": "예약 확정",
   "trace": {
@@ -13926,6 +13926,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -14050,6 +14055,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -14115,7 +14127,7 @@ Figma·웹 범위
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "f365827e7aa81e895c17352de5348b9355d95ede402edfcb571a3240d2b0ce10",
+  "meaning_sha256": "f2033a2f499442b90845c27acf6a828e7338bc02839595d1c2083f86a09c4711",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -14147,7 +14159,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -14203,6 +14215,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -14327,6 +14344,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -14392,7 +14416,7 @@ Figma·웹 범위
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "8dc1754eedabc94f6e0673d3c9f4b82cf34cac49488c8fe4d1ed2de51099632f",
+  "meaning_sha256": "2b058d1d6cde14c9283bb09c6ff70b7663202a27ad4f13b13d5c7bb023353f78",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -14424,7 +14448,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -14480,6 +14504,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -14604,6 +14633,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -14669,7 +14705,7 @@ Figma·웹 범위
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "c505bc42d64c34eefa0eb0dbe951ac9a52e1b3d5b8ab2b6a5ced62510b66930d",
+  "meaning_sha256": "9158cae78fa7e3709b7b9a2f0796dfff542314bbca076ca19339af9d8ffb0fbc",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -14701,7 +14737,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -14757,6 +14793,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -14881,6 +14922,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -14946,7 +14994,7 @@ Figma·웹 범위
     "summary": "알림 11 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "af92a1cf669e46ec7629f041ccd0f2a6706f1b65c05ace64b45584dd9a863095",
+  "meaning_sha256": "e9d0ad634cc698793646dc79e92ec8122752d24f4ca25f5944239e6f362c8c38",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -14978,7 +15026,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-nav-notifications",
   "title": "알림 11",
   "trace": {
@@ -15034,6 +15082,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -15158,6 +15211,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -15223,7 +15283,7 @@ Figma·웹 범위
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "7d22738cd40769165bdeb45a280ee48d4dd2dd4b73c4c28180efc37bc1ff3093",
+  "meaning_sha256": "222809ed5b3dd2dbbef2bb55f9a882f225c61c6f23822e1b139f7864ffefd093",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -15255,7 +15315,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -15311,6 +15371,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -15435,6 +15500,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -15500,7 +15572,7 @@ Figma·웹 범위
     "summary": "← 나의 예약 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "13358f6160392bc599241f79cf960962ee0229c68d91ac30cbebe1e2b7fe84b3",
+  "meaning_sha256": "9c53d1cd654dd581f4bb2b05281bfe462c2210428db048c4dc0658a0a5280841",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -15532,7 +15604,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-booking-back",
   "title": "← 나의 예약",
   "trace": {
@@ -15588,6 +15660,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -15712,6 +15789,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -15777,7 +15861,7 @@ Figma·웹 범위
     "summary": "일정 변경 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "e33458658f90fd315a8c9ae31434d136a17ff1cfe875cae23a576f7e72f8315c",
+  "meaning_sha256": "add4331510d70b1043f6874f9141f69125342c0005be6c4d114e0e2e791a6539",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -15809,7 +15893,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-booking-reschedule",
   "title": "일정 변경",
   "trace": {
@@ -15865,6 +15949,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -15989,6 +16078,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -16054,7 +16150,7 @@ Figma·웹 범위
     "summary": "예약 취소 조작과 결과",
     "visual_variant": "Outline-c81b83abe73a"
   },
-  "meaning_sha256": "0e5908954b1ff6add3c56de2aff6a01d36db0fba4636a1b5bc706b78c4c63067",
+  "meaning_sha256": "fd4d874286ea177ea1067ee92df053a45c6268689feadebd5d06217f0f4b1d5a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -16086,7 +16182,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-confirmed-booking-cancel",
   "title": "예약 취소",
   "trace": {
@@ -16142,6 +16238,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -16269,6 +16370,13 @@ Figma·웹 범위
         "type": "test"
       },
       {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "type": "test"
+      },
+      {
         "id": "TEST-007",
         "source": "../booking/tests/test_booking.py#test_failed_reschedule_preserves_original_queue_audit_notifications",
         "status": "unverified",
@@ -16321,7 +16429,7 @@ Figma·웹 범위
     "purpose": "좌석 확보와 구분되는 실제 대기 상태를 확인한다.",
     "summary": "대기 등록 화면의 목적과 동작"
   },
-  "meaning_sha256": "f0a96968ce2a2c3c867e5c9f315b33b624fee093e08ee0fcaff32f450c0f440c",
+  "meaning_sha256": "ad8015c5e78826b3624071712f0a69d0a2544ff2dbd77f0d9d2b31438c38e365",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -16348,7 +16456,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-waitlisted",
   "title": "대기 등록",
   "trace": {
@@ -16397,6 +16505,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -16499,6 +16612,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -16557,7 +16677,7 @@ Figma·웹 범위
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "ff1a8a8fa308d6c2325c634f2be3a73e9f5fd28d5bcdf3d0a33ca02ec1f39180",
+  "meaning_sha256": "4a3fa4b11e95eb4d43377c17b5b90bb00f2b78a3a505eb6326f0ba06b09f73fd",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -16589,7 +16709,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -16638,6 +16758,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -16740,6 +16865,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -16798,7 +16930,7 @@ Figma·웹 범위
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "2ab22d67d6e1a3c96c1ef2fb6f065ebf04652b05d4b3f09061b575eeabee27c5",
+  "meaning_sha256": "6a95b5947a464c50c7e55d147df79df9f9aed18a240247cc21faf73241e04c86",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -16830,7 +16962,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -16879,6 +17011,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -16981,6 +17118,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -17039,7 +17183,7 @@ Figma·웹 범위
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "dd689b39e8a30d4d125e3c39385170a2e6fd70fa31ae56a24b74bf070c3af98c",
+  "meaning_sha256": "650ad83aa602eb157b3d4a85a7f5b990de8e7d3889275b817543cee370fcea28",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17071,7 +17215,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -17120,6 +17264,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -17222,6 +17371,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -17280,7 +17436,7 @@ Figma·웹 범위
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "0e3ee6e38921e2c2ebd16d6d88f39f86ff3af9b876a3f1bac7a496dccd3241ee",
+  "meaning_sha256": "ace41ce20f2e94964c7cbe3f5948c6e6d06d799898816ed184bb584f8ff42417",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17312,7 +17468,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -17361,6 +17517,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -17463,6 +17624,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -17521,7 +17689,7 @@ Figma·웹 범위
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "60ef52aff0aaa0e55362294a88eccde6c7c0c7a1ff8220cee31f5c047fb33951",
+  "meaning_sha256": "265e38ab47e599bcedf917f877f8f3b73dc06756efaed5dc06a95e13e936fd03",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17553,7 +17721,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-nav-staff",
   "title": "운영",
   "trace": {
@@ -17602,6 +17770,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -17704,6 +17877,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -17762,7 +17942,7 @@ Figma·웹 범위
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "3f8576feea0569ce32da39143fa82882cb2d02b81a99d963dfd375fc5236a602",
+  "meaning_sha256": "caf0ca010f6f558cb28cf272bc0371adc48f12bd0e105ba5805bdbb06a6c552f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17794,7 +17974,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -17843,6 +18023,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -17945,6 +18130,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -18003,7 +18195,7 @@ Figma·웹 범위
     "summary": "← 나의 예약 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "5807dffb9fa50046d2d693024e96b9650d146d3da4ab9898b6601054da1c31b3",
+  "meaning_sha256": "83d0d70f0159c9d7742e0cc68092310ceaa4e5725b04f2625c5e049ba0b57947",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -18035,7 +18227,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-booking-back",
   "title": "← 나의 예약",
   "trace": {
@@ -18084,6 +18276,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -18186,6 +18383,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -18243,7 +18447,7 @@ Figma·웹 범위
     "summary": "일정 변경 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "dbf2a4b51008cceb7104d4fd36511b3b2fca26f1c043de63524f7171ed151f5a",
+  "meaning_sha256": "6b72344f9bc08ec3481858421278d4aab35fdecd37767ebc275f156dea13d292",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -18275,7 +18479,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-booking-reschedule",
   "title": "일정 변경",
   "trace": {
@@ -18324,6 +18528,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -18426,6 +18635,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -18483,7 +18699,7 @@ Figma·웹 범위
     "summary": "예약 취소 조작과 결과",
     "visual_variant": "Outline-c81b83abe73a"
   },
-  "meaning_sha256": "7c2a774eb5d5a329d75141bf66d7606d58cc4f48f6db1223516b43f42fa66c45",
+  "meaning_sha256": "445d8daa59f499dad08d7bcd95ad6226b519e9a57d842b60902418f20fe25fc5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -18515,7 +18731,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-waitlisted-booking-cancel",
   "title": "예약 취소",
   "trace": {
@@ -18564,6 +18780,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -18666,6 +18887,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -18741,7 +18969,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-mybookings",
   "title": "나의 예약",
   "trace": {
@@ -18946,7 +19174,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -19151,7 +19379,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -19355,7 +19583,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -19560,7 +19788,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -19765,7 +19993,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -19970,7 +20198,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-bookings-browse",
   "title": "수업 둘러보기",
   "trace": {
@@ -20174,7 +20402,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-my_bookings-a-2-1",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -20378,7 +20606,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
   "title": "예약 상세",
   "trace": {
@@ -20582,7 +20810,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-my_bookings-a-2-2",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -20786,7 +21014,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
   "title": "예약 상세",
   "trace": {
@@ -20990,7 +21218,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-my_bookings-a-2-3",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -21194,7 +21422,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
   "title": "예약 상세",
   "trace": {
@@ -21398,7 +21626,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-my_bookings-a-2-4",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -21602,7 +21830,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
   "title": "예약 상세",
   "trace": {
@@ -21765,7 +21993,7 @@ Figma·웹 범위
     "purpose": "예약을 되돌릴 수 없는 취소 전에 일정과 정책을 재확인한다.",
     "summary": "취소 확인 화면의 목적과 동작"
   },
-  "meaning_sha256": "7e6a022ce5edac0669a89cec1a88c327ac8e5ac1046e836a8f3b8bdc29c3ebe0",
+  "meaning_sha256": "f43db24b4c064e438ba2cb868a36af040b36488d3da7be25d3f362ff514c98d7",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -21792,7 +22020,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-cancelconfirm",
   "title": "취소 확인",
   "trace": {
@@ -21824,6 +22052,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -21900,6 +22133,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -21965,7 +22205,7 @@ Figma·웹 범위
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "8dae63fbf6bfd85206b7404aab9614a94e11c0b2540efd86f876ad12ad6f1b66",
+  "meaning_sha256": "99d7805aa8726f9c0538bbd43e77974613684e22c85910ad3d13d18b1cd19b0e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -21997,7 +22237,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -22029,6 +22269,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -22105,6 +22350,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -22170,7 +22422,7 @@ Figma·웹 범위
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "09b33b79d7983f4451d6a359aa052c13a2f55f35955b624e514f9a2b85bb6d47",
+  "meaning_sha256": "9dc7378baf8b5043f639dcfd41db96f3ea2bc3a9d37185d0254c4c49d85d609c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22202,7 +22454,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -22234,6 +22486,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -22310,6 +22567,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -22375,7 +22639,7 @@ Figma·웹 범위
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "334aefc89fe9e04a1ae4762750b4ced9f6e795c7cd582bc062bab34079a4e55a",
+  "meaning_sha256": "552a443347c6ce4395521bcd51cf670058d8b4e80d8978e6352560978803c4e0",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22407,7 +22671,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -22439,6 +22703,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -22515,6 +22784,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -22580,7 +22856,7 @@ Figma·웹 범위
     "summary": "알림 11 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "7bae27c3bd71140b334888b5514a530f12764d50d95e5c5a0e988a469e55fef9",
+  "meaning_sha256": "6f3406c61cd7cb0d8b2c4e012aaeeda323ae799b5a47f4dfa0ae3749e3011045",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22612,7 +22888,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-nav-notifications",
   "title": "알림 11",
   "trace": {
@@ -22644,6 +22920,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -22720,6 +23001,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -22785,7 +23073,7 @@ Figma·웹 범위
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "d98037d584639cfe62ed65a5d206de8a5c1e4112f74f377d4f0ede97eca09d93",
+  "meaning_sha256": "b3674ca9a9d7a83898e825b9feb249b0654b2d9e127905c564bea38c7483810d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22817,7 +23105,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -22849,6 +23137,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -22925,6 +23218,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -22990,7 +23290,7 @@ Figma·웹 범위
     "summary": "← 예약 상세 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "994f3d59a0cf6426b21ef39bc5c32ca6fe0eee4c1c8cb4055c2c955119999e34",
+  "meaning_sha256": "d74f0c3e1da405241d26242bfc7154c6c7fdd232086f7e21cda205e1044b2833",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -23022,7 +23322,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-booking-cancel-a-1-0",
   "title": "← 예약 상세",
   "trace": {
@@ -23054,6 +23354,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -23130,6 +23435,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -23195,7 +23507,7 @@ Figma·웹 범위
     "summary": "예약 유지 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "4b61816a97cdaacc9cd422ce332b881ab5d749adf1600cf6551eeb9d458da50c",
+  "meaning_sha256": "0c7ccc66665b91d710b7650463498237dfade4dc178b9a408ffa1a96ced84576",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -23227,7 +23539,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-cancel-keep",
   "title": "예약 유지",
   "trace": {
@@ -23259,6 +23571,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -23335,6 +23652,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -23400,7 +23724,7 @@ Figma·웹 범위
     "summary": "예약 취소 확정 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "d746b4c84a213c3338eb32e4b1847e571387a305c8a7bdbff7abe7eca3663f0c",
+  "meaning_sha256": "1ec7d27327179ecc4866dc55f5d2aae49442a07d27866a81bbd01085d3342a96",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -23432,7 +23756,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelconfirm-cancel-confirm",
   "title": "예약 취소 확정",
   "trace": {
@@ -23464,6 +23788,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -23543,6 +23872,13 @@ Figma·웹 범위
         "type": "test"
       },
       {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "type": "test"
+      },
+      {
         "id": "TEST-008",
         "source": "../booking/tests/test_booking.py#test_view_idempotency_reuse_and_stale_target_are_409",
         "status": "unverified",
@@ -23595,7 +23931,7 @@ Figma·웹 범위
     "purpose": "취소된 실제 예약의 상태와 과거 금액을 다시 읽는다.",
     "summary": "취소된 예약 화면의 목적과 동작"
   },
-  "meaning_sha256": "1383ebf466605a2ed13ded67b7f4a9a5ca21482919e053063a4d575cbd089c3a",
+  "meaning_sha256": "b0e7e93cfe663b6134e92984645c000717857b0226e4b22dde3617e971541388",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -23622,7 +23958,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-cancelled",
   "title": "취소된 예약",
   "trace": {
@@ -23659,6 +23995,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -23737,6 +24078,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -23795,7 +24143,7 @@ Figma·웹 범위
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "66164b0c5c97fb9056ee87c10753369691f716d5e2951bbb84120ee85e5cb2de",
+  "meaning_sha256": "224e7f43854ed9aae72b4a2375b1e72e95426f1257b1686cd2c5158a56ba4034",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -23827,7 +24175,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelled-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -23864,6 +24212,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -23942,6 +24295,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -24000,7 +24360,7 @@ Figma·웹 범위
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "e37200804634978539a14bf7b479db82a6589b4f8b73c9dd3dcaa32c3546a8be",
+  "meaning_sha256": "a5efc1cd1c19f3481015d4fc2e749d0b16cd196eb5abdd67ae9cf6f707ba87ac",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24032,7 +24392,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelled-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -24069,6 +24429,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -24147,6 +24512,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -24205,7 +24577,7 @@ Figma·웹 범위
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "4fbffb89cf44cfb9482f9b3409765ad260d6ac5328949c5325a895577e30f1b2",
+  "meaning_sha256": "dde8360af5a4589c03bf43776fc005c5c606a14281a6f1a646414ecdfc1cb985",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24237,7 +24609,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelled-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -24274,6 +24646,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -24352,6 +24729,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -24410,7 +24794,7 @@ Figma·웹 범위
     "summary": "알림 12 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "f55910c0dbdbcdf9ef0233d3e66f15fd3896eca8d342da72870f4994177c77f7",
+  "meaning_sha256": "c3d6a33f8c4688981086c17eeefd7a7c670dcf6f0a827beb69d6e32378b1f034",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24442,7 +24826,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelled-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -24479,6 +24863,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -24557,6 +24946,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -24615,7 +25011,7 @@ Figma·웹 범위
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "556c2b007b55afcde5b076b7acbde0d96d084ac74412cb60ec8fb855c432d4bb",
+  "meaning_sha256": "31150c6dc382c5a2f382d8e233a6dd675ba04e200ddff640e58b567eea0f4a6b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24647,7 +25043,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelled-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -24684,6 +25080,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -24762,6 +25163,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -24820,7 +25228,7 @@ Figma·웹 범위
     "summary": "← 나의 예약 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "ac6895607817d1fa3ece5ecf70fec9ec13d82f7b387be488ff638235f611ecc1",
+  "meaning_sha256": "1f63ba82820933c5cd6b67b4de9854695cfa57dd2647dcda5fd23ddc151a50dd",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24852,7 +25260,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-cancelled-booking-back",
   "title": "← 나의 예약",
   "trace": {
@@ -24889,6 +25297,11 @@ Figma·웹 범위
       {
         "from": "AC-006",
         "to": "TEST-006",
+        "type": "checked by"
+      },
+      {
+        "from": "AC-006",
+        "to": "TEST-006-cutoff",
         "type": "checked by"
       },
       {
@@ -24967,6 +25380,13 @@ Figma·웹 범위
         "source": "../booking/tests/test_booking.py#test_idempotent_cancel_promotes_and_notifies_once",
         "status": "unverified",
         "title": "test_idempotent_cancel_promotes_and_notifies_once",
+        "type": "test"
+      },
+      {
+        "id": "TEST-006-cutoff",
+        "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+        "status": "unverified",
+        "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
         "type": "test"
       },
       {
@@ -25042,7 +25462,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-reschedule",
   "title": "회차 변경",
   "trace": {
@@ -25247,7 +25667,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -25452,7 +25872,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -25657,7 +26077,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -25862,7 +26282,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-nav-notifications",
   "title": "알림 11",
   "trace": {
@@ -26067,7 +26487,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -26272,7 +26692,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-booking-reschedule-a-1-0",
   "title": "← 예약 상세",
   "trace": {
@@ -26476,7 +26896,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-reschedule-confirm",
   "title": "선택한 일정으로 변경",
   "trace": {
@@ -26681,7 +27101,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-reschedule-booking-reschedule-a-6-0",
   "title": "현재 예약 유지",
   "trace": {
@@ -26871,7 +27291,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-conflict",
   "title": "변경 충돌과 복구",
   "trace": {
@@ -27076,7 +27496,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-conflict-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -27281,7 +27701,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-conflict-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -27486,7 +27906,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-conflict-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -27691,7 +28111,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-conflict-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -27896,7 +28316,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-conflict-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -28100,7 +28520,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-conflict-conflict-recover",
   "title": "최신 내용 확인",
   "trace": {
@@ -28305,7 +28725,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-conflict-booking-conflict-a-8-0",
   "title": "수업 목록",
   "trace": {
@@ -28495,7 +28915,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-notifications",
   "title": "나의 알림",
   "trace": {
@@ -28700,7 +29120,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -28905,7 +29325,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -29110,7 +29530,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -29314,7 +29734,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -29519,7 +29939,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -29723,7 +30143,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-1",
   "title": "예약 상세 보기",
   "trace": {
@@ -29927,7 +30347,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-22-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -30131,7 +30551,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-2",
   "title": "예약 상세 보기",
   "trace": {
@@ -30335,7 +30755,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-21-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -30539,7 +30959,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-3",
   "title": "예약 상세 보기",
   "trace": {
@@ -30743,7 +31163,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-20-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -30947,7 +31367,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-4",
   "title": "예약 상세 보기",
   "trace": {
@@ -31151,7 +31571,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-19-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -31355,7 +31775,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-5",
   "title": "예약 상세 보기",
   "trace": {
@@ -31559,7 +31979,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-18-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -31763,7 +32183,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-6",
   "title": "예약 상세 보기",
   "trace": {
@@ -31967,7 +32387,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-17-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -32171,7 +32591,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-7",
   "title": "예약 상세 보기",
   "trace": {
@@ -32375,7 +32795,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-12-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -32579,7 +32999,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-8",
   "title": "예약 상세 보기",
   "trace": {
@@ -32783,7 +33203,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-9",
   "title": "예약 상세 보기",
   "trace": {
@@ -32987,7 +33407,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-8-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -33191,7 +33611,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-10",
   "title": "예약 상세 보기",
   "trace": {
@@ -33395,7 +33815,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-7-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -33599,7 +34019,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-11",
   "title": "예약 상세 보기",
   "trace": {
@@ -33803,7 +34223,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-6-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -34007,7 +34427,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-12",
   "title": "예약 상세 보기",
   "trace": {
@@ -34211,7 +34631,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-5-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -34415,7 +34835,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-13",
   "title": "예약 상세 보기",
   "trace": {
@@ -34619,7 +35039,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-notification-4-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -34823,7 +35243,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-notifications-booking-notifications-a-3-14",
   "title": "예약 상세 보기",
   "trace": {
@@ -35013,7 +35433,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-staffdashboard",
   "title": "운영 현황",
   "trace": {
@@ -35218,7 +35638,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -35423,7 +35843,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -35628,7 +36048,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -35833,7 +36253,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -36037,7 +36457,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-nav-staff",
   "title": "운영",
   "trace": {
@@ -36242,7 +36662,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -36446,7 +36866,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -36651,7 +37071,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -36856,7 +37276,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -37061,7 +37481,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-dashboard-create",
   "title": "수업 일정 등록",
   "trace": {
@@ -37266,7 +37686,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-dashboard-all",
   "title": "전체 일정 보기 →",
   "trace": {
@@ -37471,7 +37891,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-session-1-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -37675,7 +38095,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-session-2-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -37879,7 +38299,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-session-3-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38083,7 +38503,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-session-4-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38287,7 +38707,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-session-5-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38491,7 +38911,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-session-6-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38695,7 +39115,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffdashboard-staff-session-10-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38885,7 +39305,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-staffsessions",
   "title": "운영 일정",
   "trace": {
@@ -39090,7 +39510,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -39295,7 +39715,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -39500,7 +39920,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -39705,7 +40125,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -39910,7 +40330,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-nav-staff",
   "title": "운영",
   "trace": {
@@ -40115,7 +40535,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -40320,7 +40740,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -40524,7 +40944,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -40729,7 +41149,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -40934,7 +41354,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-create",
   "title": "수업 일정 등록",
   "trace": {
@@ -41138,7 +41558,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-9-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -41342,7 +41762,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-6-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -41546,7 +41966,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-5-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -41750,7 +42170,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-4-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -41954,7 +42374,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-3-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42158,7 +42578,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-2-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42363,7 +42783,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffsessions-staff-session-1-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42553,7 +42973,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-staffcreate",
   "title": "회차 등록",
   "trace": {
@@ -42794,7 +43214,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -43035,7 +43455,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -43276,7 +43696,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -43517,7 +43937,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -43758,7 +44178,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-nav-staff",
   "title": "운영",
   "trace": {
@@ -43999,7 +44419,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -44240,7 +44660,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -44481,7 +44901,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -44722,7 +45142,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -44963,7 +45383,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-staff-session_form-a-1-0",
   "title": "← 수업 일정",
   "trace": {
@@ -45203,7 +45623,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-staff-session-save",
   "title": "일정 등록",
   "trace": {
@@ -45444,7 +45864,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffcreate-staff-session_form-a-3-0",
   "title": "돌아가기",
   "trace": {
@@ -45670,7 +46090,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-staffroster",
   "title": "신청 명단",
   "trace": {
@@ -45911,7 +46331,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -46152,7 +46572,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -46393,7 +46813,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -46634,7 +47054,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -46875,7 +47295,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-nav-staff",
   "title": "운영",
   "trace": {
@@ -47116,7 +47536,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -47357,7 +47777,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -47598,7 +48018,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -47839,7 +48259,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -48080,7 +48500,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-staff-session_detail-a-1-0",
   "title": "← 수업 일정",
   "trace": {
@@ -48321,7 +48741,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-roster-edit",
   "title": "일정 수정",
   "trace": {
@@ -48561,7 +48981,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffroster-staff-session-cancel-submit",
   "title": "수업 취소 확정",
   "trace": {
@@ -48787,7 +49207,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-staffedit",
   "title": "회차 편집",
   "trace": {
@@ -49028,7 +49448,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -49269,7 +49689,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -49510,7 +49930,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -49751,7 +50171,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -49992,7 +50412,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-nav-staff",
   "title": "운영",
   "trace": {
@@ -50233,7 +50653,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -50474,7 +50894,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -50715,7 +51135,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -50956,7 +51376,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -51197,7 +51617,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-staff-session_form-a-1-0",
   "title": "← 수업 일정",
   "trace": {
@@ -51437,7 +51857,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-staff-session-save",
   "title": "변경 저장",
   "trace": {
@@ -51678,7 +52098,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffedit-staff-session_form-a-3-0",
   "title": "돌아가기",
   "trace": {
@@ -51904,7 +52324,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-staffaudit",
   "title": "변경 기록",
   "trace": {
@@ -52109,7 +52529,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -52314,7 +52734,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -52519,7 +52939,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -52724,7 +53144,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -52929,7 +53349,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-nav-staff",
   "title": "운영",
   "trace": {
@@ -53134,7 +53554,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -53339,7 +53759,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -53544,7 +53964,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -53748,7 +54168,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-staffaudit-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -53938,7 +54358,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-403",
   "title": "접근 권한 안내",
   "trace": {
@@ -54107,7 +54527,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-403-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -54276,7 +54696,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-403-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -54445,7 +54865,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-403-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -54614,7 +55034,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-403-nav-notifications",
   "title": "알림 5",
   "trace": {
@@ -54783,7 +55203,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-403-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -54952,7 +55372,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-403-error-home",
   "title": "수업 목록으로",
   "trace": {
@@ -55106,7 +55526,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "screen-404",
   "title": "찾을 수 없는 화면",
   "trace": {
@@ -55275,7 +55695,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-404-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -55444,7 +55864,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-404-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -55613,7 +56033,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-404-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -55782,7 +56202,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-404-nav-notifications",
   "title": "알림 5",
   "trace": {
@@ -55951,7 +56371,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-404-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -56120,7 +56540,7 @@ Figma·웹 범위
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "e1d80086e078ab2d9aea4090046f4e3e45e86c6117754e599c568600142015c0",
+  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
   "target_id": "state-404-error-home",
   "title": "수업 목록으로",
   "trace": {

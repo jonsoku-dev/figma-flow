@@ -1,18 +1,20 @@
 {
   "schema": 1,
-  "graphSha256": "fcd5a360440de3e0f5c734241f94da8a292ebcd86ec967f38edaaedee45d714c",
-  "cssSha256": "b00f3763a529d0223a2f85c70f8920125617acc8595eb1655e765ff3921f7ae1",
-  "moduleSha256": "d1747b8738e37e06fd5e0280aec7049d837071efe58cc022560b52816d7ce175",
+  "graphSha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "cssSha256": "0c43183f43484c4c12fd4acb00c385fd0db0d4360ce9fd3d8909362a81614861",
+  "moduleSha256": "f5f90c6d1f5d366a134ae88088448f9694bc6bb424a79af45323764e27ff7818",
   "tokens": {
     "color.bookingCta": {
-      "r": 0.5568627450980392,
-      "g": 0.24313725490196078,
-      "b": 0.1568627450980392
+      "r": 0.5568627715110779,
+      "g": 0.24313725531101227,
+      "b": 0.1568627506494522,
+      "a": 1
     },
     "color.action.primary": {
-      "r": 0.5568627450980392,
-      "g": 0.24313725490196078,
-      "b": 0.1568627450980392
+      "r": 0.5568627715110779,
+      "g": 0.24313725531101227,
+      "b": 0.1568627506494522,
+      "a": 1
     }
   },
   "primitiveRoots": {
@@ -21,16 +23,3604 @@
   },
   "nativeNamespace": "ssot/little-hands",
   "nativeTokenNames": {
-    "color.bookingCta": "ssot/little-hands/color.bookingCta",
-    "color.action.primary": "ssot/little-hands/color.action.primary"
+    "color.bookingCta": "ssot/little-hands/color/bookingCta",
+    "color.action.primary": "ssot/little-hands/color/action/primary"
   },
   "components": {
     "button.bookingCTA": {
       "backgroundColor": {
-        "r": 0.5568627450980392,
-        "g": 0.24313725490196078,
-        "b": 0.1568627450980392
+        "r": 0.5568627715110779,
+        "g": 0.24313725531101227,
+        "b": 0.1568627506494522,
+        "a": 1
       }
+    }
+  },
+  "designFoundations": {
+    "version": 1,
+    "roles": [
+      {
+        "name": "paper color",
+        "kind": "color",
+        "token": "color/paper",
+        "alias": "palette/paper",
+        "value": "#f6f2e9"
+      },
+      {
+        "name": "cream color",
+        "kind": "color",
+        "token": "color/cream",
+        "alias": "palette/cream",
+        "value": "#fffdf8"
+      },
+      {
+        "name": "ink color",
+        "kind": "color",
+        "token": "color/ink",
+        "alias": "palette/ink",
+        "value": "#292720"
+      },
+      {
+        "name": "muted color",
+        "kind": "color",
+        "token": "color/muted",
+        "alias": "palette/muted",
+        "value": "#696256"
+      },
+      {
+        "name": "rust color",
+        "kind": "color",
+        "token": "color/rust",
+        "alias": "palette/rust",
+        "value": "#8e3e28"
+      },
+      {
+        "name": "line color",
+        "kind": "color",
+        "token": "color/line",
+        "alias": "palette/line",
+        "value": "#d6cfc1"
+      },
+      {
+        "name": "tint color",
+        "kind": "color",
+        "token": "color/tint",
+        "alias": "palette/tint",
+        "value": "#e8dfd0"
+      },
+      {
+        "name": "green color",
+        "kind": "color",
+        "token": "color/green",
+        "alias": "palette/green",
+        "value": "#355946"
+      },
+      {
+        "name": "Reading size",
+        "kind": "typography",
+        "token": "type/body",
+        "alias": "size/body",
+        "value": "15px",
+        "source_values": [
+          "15px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 15,
+          "bindings": [
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-hero-copy-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-hero-copy-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-1-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-2-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-3-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-4-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-5-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-6-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-10-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-login.state-login-registration-login-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-signup.state-signup-registration-signup-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-hero-copy-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-hero-copy-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-1-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-2-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-3-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-4-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-5-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-6-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-10-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-session-summary-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-class-description-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-7-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-id_quantity-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-p-3-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-5-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-7-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-9-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-11-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-review-waitlist-consent-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-message-1-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-booking-booking_detail-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-booking_detail-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-my_bookings-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-booking-cancel-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-booking-booking_detail-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-booking-booking_detail-p-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-booking-reschedule-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-booking-conflict-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-booking-conflict-p-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-booking-conflict-p-4-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-22-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-21-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-20-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-20-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-19-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-19-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-18-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-18-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-17-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-12-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-9-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-8-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-7-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-6-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-5-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-4-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-1-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-dashboard-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session_list-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session_form-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-id_course-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-id_room-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffroster.state-staffroster-staff-session_detail-p-3-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session_form-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_course-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_room-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_starts_at-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_ends_at-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_capacity-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_price_krw-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-staffaudit.state-staffaudit-audit-description-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-403.state-403-error-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.desktop.state-404.state-404-error-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-hero-copy-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-hero-copy-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-1-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-2-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-3-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-4-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-5-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-6-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-10-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-login.state-login-registration-login-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-signup.state-signup-registration-signup-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-hero-copy-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-hero-copy-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-1-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-2-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-3-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-4-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-5-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-6-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-10-price-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-session-summary-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-class-description-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-class-description-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-7-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-id_quantity-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-p-3-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-5-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-5-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-7-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-9-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-11-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-review-waitlist-consent-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-review-waitlist-consent-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-message-1-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-message-1-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-booking-booking_detail-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-booking_detail-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-booking_detail-p-1-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-my_bookings-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-booking-cancel-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-booking-cancel-p-2-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-booking-booking_detail-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-booking-booking_detail-p-1-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-booking-booking_detail-p-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-booking-reschedule-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-booking-conflict-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-booking-conflict-p-4-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-booking-conflict-p-4-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-22-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-22-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-message-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-3",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-message-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-message-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-message-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-message-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-message-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-9-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-8-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-7-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-6-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-5-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-4-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-1-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-dashboard-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session_list-p-1-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session_form-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-id_course-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-id_room-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffroster.state-staffroster-staff-session_detail-p-3-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffroster.state-staffroster-staff-session_detail-p-3-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session_form-p-2-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_course-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_room-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_starts_at-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_ends_at-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_capacity-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_price_krw-value",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffaudit.state-staffaudit-audit-description-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffaudit.state-staffaudit-audit-description-text-1",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-staffaudit.state-staffaudit-audit-description-text-2",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-403.state-403-error-message-text-0",
+              "field": "fontSize"
+            },
+            {
+              "key": "littlehands.mobile.state-404.state-404-error-message-text-0",
+              "field": "fontSize"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Reading family",
+        "kind": "typography",
+        "token": "type/family/body",
+        "alias": "font/family/body",
+        "value": "Hahmlet",
+        "source_values": [
+          "Hahmlet"
+        ],
+        "native": {
+          "type": "STRING",
+          "value": "Hahmlet",
+          "bindings": [
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-hero-copy-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-hero-copy-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-1-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-2-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-3-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-4-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-5-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-6-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-10-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-login.state-login-registration-login-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-signup.state-signup-registration-signup-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-hero-copy-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-hero-copy-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-1-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-2-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-3-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-4-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-5-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-6-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-10-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-session-summary-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-class-description-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-7-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-sessionavailable.state-sessionavailable-id_quantity-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-p-3-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-5-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-7-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-9-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-booking-reserve_review-dd-11-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-review.state-review-review-waitlist-consent-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-message-1-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-booking-booking_detail-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-confirmed.state-confirmed-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-booking_detail-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-my_bookings-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-booking-cancel-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-booking-booking_detail-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-cancelled.state-cancelled-booking-booking_detail-p-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-booking-reschedule-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-booking-conflict-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-booking-conflict-p-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-booking-conflict-p-4-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-22-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-21-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-20-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-20-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-19-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-19-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-18-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-18-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-17-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-12-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-9-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-8-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-7-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-6-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-5-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-4-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-1-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-dashboard-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session_list-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session_form-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-id_course-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-id_room-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffroster.state-staffroster-staff-session_detail-p-3-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session_form-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_course-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_room-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_starts_at-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_ends_at-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_capacity-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-id_price_krw-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-staffaudit.state-staffaudit-audit-description-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-403.state-403-error-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.desktop.state-404.state-404-error-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-hero-copy-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-hero-copy-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-1-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-2-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-3-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-4-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-5-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-6-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-10-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-login.state-login-registration-login-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-signup.state-signup-registration-signup-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-hero-copy-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-hero-copy-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-1-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-2-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-3-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-4-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-5-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-6-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-10-price-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-session-summary-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-class-description-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-class-description-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-3-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-7-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-booking-session_detail-dd-9-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-sessionavailable.state-sessionavailable-id_quantity-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-p-3-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-5-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-5-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-7-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-9-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-booking-reserve_review-dd-11-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-review-waitlist-consent-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-review.state-review-review-waitlist-consent-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-message-1-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-message-1-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-booking-booking_detail-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-confirmed.state-confirmed-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-booking_detail-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-booking_detail-p-1-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-my_bookings-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-booking-cancel-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-booking-cancel-p-2-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelconfirm.state-cancelconfirm-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-booking-booking_detail-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-booking-booking_detail-p-1-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-cancelled.state-cancelled-booking-booking_detail-p-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-booking-reschedule-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-4-0-text-0-occurrence-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-6-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-8-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-includes-booking_facts-dd-10-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-booking-conflict-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-booking-conflict-p-4-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-booking-conflict-p-4-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-22-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-22-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-message-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-message-text-3",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-message-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-message-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-message-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-message-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-message-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-9-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-8-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-7-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-6-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-5-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-4-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-1-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-dashboard-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session_list-p-1-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session_form-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session_form-p-5-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-id_course-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-id_room-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffroster.state-staffroster-staff-session_detail-p-3-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffroster.state-staffroster-staff-session_detail-p-3-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session_form-p-2-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session_form-p-5-0-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_course-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_room-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_starts_at-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_ends_at-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_capacity-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-id_price_krw-value",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffaudit.state-staffaudit-audit-description-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffaudit.state-staffaudit-audit-description-text-1",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-staffaudit.state-staffaudit-audit-description-text-2",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-403.state-403-error-message-text-0",
+              "field": "fontFamily"
+            },
+            {
+              "key": "littlehands.mobile.state-404.state-404-error-message-text-0",
+              "field": "fontFamily"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Primary horizontal padding",
+        "kind": "spacing",
+        "token": "space/control",
+        "alias": "padding/control",
+        "value": "22px",
+        "source_values": [
+          "22px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 22,
+          "bindings": [
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-hero-browse",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-hero-browse",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-1-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-1-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-2-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-2-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-3-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-3-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-4-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-4-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-5-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-5-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-6-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-6-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-hero-browse",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-hero-browse",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-1-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-1-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-2-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-2-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-3-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-3-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-4-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-4-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-5-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-5-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-6-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-6-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-reschedule",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-reschedule",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-cancel",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-cancel",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-reschedule-confirm",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-reschedule-confirm",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-conflict-recover",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-conflict-recover",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-22-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-22-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-21-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-21-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-20-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-20-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-19-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-19-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-18-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-18-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-17-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-17-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-12-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-12-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-8-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-8-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-7-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-7-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-6-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-6-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-5-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-5-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-4-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-4-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session-save",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session-save",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-staffroster.state-staffroster-staff-session-cancel-submit",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-staffroster.state-staffroster-staff-session-cancel-submit",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session-save",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session-save",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-hero-browse",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-hero-browse",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-hero-browse",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-hero-browse",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-reschedule",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-reschedule",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-cancel",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-cancel",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-reschedule-confirm",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-reschedule-confirm",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-conflict-recover",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-conflict-recover",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-22-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-22-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-8-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-8-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-7-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-7-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-6-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-6-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-5-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-5-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-4-read",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-4-read",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session-save",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session-save",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-staffroster.state-staffroster-staff-session-cancel-submit",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-staffroster.state-staffroster-staff-session-cancel-submit",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session-save",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session-save",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.component.Solid-bac98d1be3a2",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.component.Solid-bac98d1be3a2",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-8ac26a8bbd9c",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-8ac26a8bbd9c",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-c81b83abe73a",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-c81b83abe73a",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-0bbe598bac3f",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-0bbe598bac3f",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.component.Solid-bac98d1be3a2",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.component.Solid-bac98d1be3a2",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.component.Outline-8ac26a8bbd9c",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.component.Outline-8ac26a8bbd9c",
+              "field": "paddingRight"
+            },
+            {
+              "key": "littlehands.mobile.component.Outline-c81b83abe73a",
+              "field": "paddingLeft"
+            },
+            {
+              "key": "littlehands.mobile.component.Outline-c81b83abe73a",
+              "field": "paddingRight"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Control radius",
+        "kind": "radius",
+        "token": "radius/control",
+        "alias": "radius/base",
+        "value": "0px",
+        "source_values": [
+          "0px"
+        ],
+        "native": {
+          "type": "FLOAT",
+          "value": 0,
+          "bindings": [
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-brand",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-nav-sessions",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-hero-browse",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-booking-session_list-a-2-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-1-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-booking-session_list-a-2-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-booking-session_list-a-2-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-booking-session_list-a-2-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-booking-session_list-a-2-5",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-booking-session_list-a-2-6",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-publichome.state-publichome-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-login.state-login-nav-login",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-brand",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-nav-sessions",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-hero-browse",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-booking-session_list-a-2-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-1-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-booking-session_list-a-2-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-booking-session_list-a-2-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-booking-session_list-a-2-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-booking-session_list-a-2-5",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-booking-session_list-a-2-6",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-memberhome.state-memberhome-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-reschedule",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-waitlisted.state-waitlisted-booking-cancel",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-nav-bookings",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-my_bookings-a-2-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-my_bookings-a-2-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-my_bookings-a-2-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-my_bookings-a-2-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-mybookings.state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-reschedule.state-reschedule-reschedule-confirm",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-conflict.state-conflict-conflict-recover",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-nav-notifications",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-22-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-21-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-20-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-19-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-5",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-18-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-6",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-17-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-7",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-12-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-8",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-9",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-8-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-10",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-7-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-11",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-6-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-12",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-5-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-13",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-notification-4-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-notifications.state-notifications-booking-notifications-a-3-14",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-nav-staff",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-nav-dashboard",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffdashboard.state-staffdashboard-staff-session-10-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-nav-sessions",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session-9-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffsessions.state-staffsessions-staff-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffcreate.state-staffcreate-staff-session-save",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffroster.state-staffroster-staff-session-cancel-submit",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffedit.state-staffedit-staff-session-save",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.state-staffaudit.state-staffaudit-staff-nav-audit",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-brand",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-nav-sessions",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-hero-browse",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-booking-session_list-a-2-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-1-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-booking-session_list-a-2-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-booking-session_list-a-2-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-booking-session_list-a-2-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-booking-session_list-a-2-5",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-booking-session_list-a-2-6",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-publichome.state-publichome-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-login.state-login-nav-login",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-brand",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-nav-sessions",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-hero-browse",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-booking-session_list-a-2-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-1-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-booking-session_list-a-2-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-booking-session_list-a-2-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-booking-session_list-a-2-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-booking-session_list-a-2-5",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-booking-session_list-a-2-6",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-memberhome.state-memberhome-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-reschedule",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-waitlisted.state-waitlisted-booking-cancel",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-nav-bookings",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-my_bookings-a-2-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-my_bookings-a-2-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-my_bookings-a-2-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-my_bookings-a-2-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-mybookings.state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-reschedule.state-reschedule-reschedule-confirm",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-conflict.state-conflict-conflict-recover",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-nav-notifications",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-1",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-22-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-21-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-3",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-20-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-4",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-19-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-5",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-18-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-6",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-17-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-7",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-12-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-8",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-9",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-8-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-10",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-7-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-11",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-6-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-12",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-5-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-13",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-notification-4-read",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-notifications.state-notifications-booking-notifications-a-3-14",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-nav-staff",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-nav-dashboard",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffdashboard.state-staffdashboard-staff-session-10-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-nav-sessions",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session-9-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session-6-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session-5-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session-4-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session-3-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffsessions.state-staffsessions-staff-session-2-open",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffcreate.state-staffcreate-staff-session-save",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffroster.state-staffroster-staff-session-cancel-submit",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffedit.state-staffedit-staff-session-save",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.state-staffaudit.state-staffaudit-staff-nav-audit",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-e264aaedfa7b",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Solid-bac98d1be3a2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-5eb6c0ac56b9",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-aac79d48bee0",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-d34e10dfa957",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-8ac26a8bbd9c",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-c81b83abe73a",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-46ef0492ba3c",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-a51a1c0dd5b2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Outline-0bbe598bac3f",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-4c944566fbdb",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.desktop.component.Text-753c62b5701c",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-e264aaedfa7b",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Solid-bac98d1be3a2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-5eb6c0ac56b9",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-aac79d48bee0",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-d34e10dfa957",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Outline-8ac26a8bbd9c",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Outline-c81b83abe73a",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-46ef0492ba3c",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-a51a1c0dd5b2",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Outline-0bbe598bac3f",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-4c944566fbdb",
+              "field": "cornerRadius"
+            },
+            {
+              "key": "littlehands.mobile.component.Text-753c62b5701c",
+              "field": "cornerRadius"
+            }
+          ]
+        }
+      },
+      {
+        "name": "booking CTA background",
+        "kind": "color",
+        "token": "color.action.primary",
+        "alias": "color.bookingCta",
+        "value": "#8e3e28",
+        "native": {
+          "bindings": [
+            {
+              "key": "bookingCTA",
+              "field": "backgroundColor"
+            }
+          ],
+          "type": "COLOR",
+          "value": {
+            "r": 0.5568627715110779,
+            "g": 0.24313725531101227,
+            "b": 0.1568627506494522,
+            "a": 1
+          }
+        }
+      }
+    ],
+    "palette": {
+      "samples": [
+        {
+          "label": "로그인",
+          "component": "component-Text-5eb6c0ac56b9",
+          "variant": "Text-5eb6c0ac56b9",
+          "action": "action-state-publichome-nav-login",
+          "state": "state-login",
+          "useCases": [
+            "로그인의 실제 화면 조작"
+          ]
+        },
+        {
+          "label": "나의 첫 핸드드립",
+          "component": "component-Text-a51a1c0dd5b2",
+          "variant": "Text-a51a1c0dd5b2",
+          "action": "action-state-publichome-booking-session_list-a-2-7",
+          "state": "state-sessionavailable",
+          "useCases": [
+            "나의 첫 핸드드립의 실제 화면 조작"
+          ]
+        }
+      ]
     }
   },
   "nativeBindings": {

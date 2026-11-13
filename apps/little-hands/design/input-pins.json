@@ -35,7 +35,7 @@
     },
     {
       "path": "../templates/base.html",
-      "sha256": "c87928fd8cf7b9829aac780ab6bca47aa0e32c2d9720ae5e0500005438690a30"
+      "sha256": "c8b454913dc54f5e0cdd50aaa3ad14a0259516f8287d40981007687783c0df66"
     },
     {
       "path": "../templates/booking/booking_detail.html",
@@ -67,7 +67,7 @@
     },
     {
       "path": "../templates/booking/session_detail.html",
-      "sha256": "c51dea78880edf8452c230591a2373cd01738c36036901f52a87fde2c170ad92"
+      "sha256": "5dbf33a28c931bec73818a5e1f0fdc49c419618bd0af0858c462801784737703"
     },
     {
       "path": "../templates/booking/session_list.html",
