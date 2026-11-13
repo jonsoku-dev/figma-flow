@@ -1,24 +1,30 @@
 # 버전과 전체 Git 기록 대조
 
-현재 catalog 소스 기준은 `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`다. 도달 가능한 canonical 커밋 219개와 별도 보존 계보 39개(저장 head 19개)를 기록한다. 별도 39개 patch와 19개 head는 2026-11-13 원본 Git 객체로 대조했다. 기본 verify의 structural 검사와 source-Git 대조는 별도 근거다. 0.27.0은 기존 태그와 프리릴리스 영수증을 보존하고, 0.27.1의 최종 발행·설치는 해당 절의 실제 결과를 따른다. 제품 소스 뒤 Wiki/CHANGELOG 전용 발행 커밋은 코드 변경과 구분한다.
+현재 catalog 소스 기준은 `aa8b7191405b160d1119c403510152a12e0ae801`다. 도달 가능한 canonical 커밋 222개와 별도 보존 계보 39개(저장 head 19개)를 기록한다. 별도 39개 patch와 19개 head는 2026-11-13 원본 Git 객체로 대조했다. 기본 verify의 structural 검사와 source-Git 대조는 별도 근거다. 0.27.0은 기존 태그와 프리릴리스 영수증을 보존하고, 0.27.1의 최종 발행·설치는 해당 절의 실제 결과를 따른다. 제품 소스 뒤 Wiki/CHANGELOG 전용 발행 커밋은 코드 변경과 구분한다.
 
 ## 대조 방법
+
+각 버전 절은 명시한 소스·기록 시점의 설명을 보존한다. 과거의 미검증·pending 문구는 그 시점의 상태이며, 최신 발행·설치 결과는 가장 최근 버전의 실제 영수증으로 확인한다.
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
 ## v0.27.1
 
-최종 후보 소스는 `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`이며, 구문·startup 수정은 `25b6f754a4798119defc65c5146d59e0d3f23467`에 있다.  [패치 상세](patches/25b6f754a4798119defc65c5146d59e0d3f23467.md)와 [고정 재현 검사](patches/23b44e3b3004639e088467bd91d808de24df38d7.md)를 연결한다. 두 manifest와 현재 설치 안내를 0.27.1로 맞췄다.
+최종 후보 소스는 `aa8b7191405b160d1119c403510152a12e0ae801`다. 구문·startup 수정은 `25b6f754a4798119defc65c5146d59e0d3f23467`, Intel 실행기는 `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`, CI DB 환경은 `6178905a1f182e5fcfe7b3fdf22fc57116544ea3`, WOFF2 의존성은 최종 소스에 있다.  [패치 상세](patches/25b6f754a4798119defc65c5146d59e0d3f23467.md)와 [고정 재현 검사](patches/23b44e3b3004639e088467bd91d808de24df38d7.md)를 연결한다. 두 manifest와 현재 설치 안내를 0.27.1로 맞췄다.
 
 0.27.0 발행 후 앱 워크플로는 `--only-binary=:all: -r`의 콜론·공백 때문에 YAML 파싱에 실패해 job이 하나도 시작되지 않았다. 명령을 block scalar로 옮겨 실제 pip argv는 유지했다. 별도로 일반 Python 업데이트 명령이 검증할 패키지에 bytecode를 쓰는 실패를 재현했다. CLI 진입부가 local 모듈을 import하기 전에 bytecode 쓰기를 막으며, 파일 무시나 검증 우회 없이 기존 authority·정확한 바이트·rollback 검사를 유지한다.
 
 로컬에서 YAML 파싱과 정확한 설치 명령 보존, startup 검사 27개, 일반 Python CLI 반복 실행의 전체 패키지 바이트 보존 1개, 진단 버전/runtime 검사 6개가 통과했다. 독립 정적 검수에서 지정 diff의 P1/P2를 찾지 못했다. 0.27.0 제품 소스의 깨끗한 전체 검사와 실제 앱·Figma R8 관찰은 영향을 받지 않은 범위의 근거로 재사용하며, 0.27.1 원격 CI·태그·최종 ZIP·설치본 및 native 재읽기는 각각 실제 실행 후 아래에 기록한다. 현재 성공을 선반영하지 않는다.
 
-동일한 frozen CLI 검사로 base `23b44e3b3004639e088467bd91d808de24df38d7`의 bytecode 경로 AssertionError와 target `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`의 통과를 확인했다. 개선 gate는 정확히 8개 변경 경로와 원본 불변성을 검사해 통과했다. Wiki는 canonical 219개·보존 39개 기록을 검증했다. 원격 CI·최종 패키지·설치·native 재읽기는 별도 판정한다.
+첫 0.27.1 후보 `e75d60b`의 원격 앱 CI는 app이 읽지 않는 `DATABASE_URL` 때문에 기본 DB 포트로 접속하다 실패했다. [DB 환경 수정](patches/6178905a1f182e5fcfe7b3fdf22fc57116544ea3.md) 후 새 pinned PostgreSQL 17 컨테이너를 실제 CI와 같은 loopback 5432·workflow 환경으로 만들고 check·migration 확인·58개 업무 검사·4개 배포 검사를 모두 통과시킨 뒤 컨테이너를 제거했다. 이 local 리허설의 Python host는 Mac ARM이고 최종 Ubuntu AMD64 원격 결과와 구분한다.
+
+같은 후보의 [전체 CI](https://github.com/jonsoku-dev/figma-flow/actions/runs/43339869559)는 WOFF2 글꼴을 열 때 Brotli 누락으로 중단됐다. 이전 clean Git archive 검사는 기존 Python 환경에 있던 Brotli를 사용했다. [FontTools WOFF extra](patches/aa8b7191405b160d1119c403510152a12e0ae801.md)를 선언하고 새 venv·시스템 site 차단·선언된 optional 의존성만으로 전체 파이프라인을 재실행한다. 새 venv에서 선언한 optional 의존성과 WOFF extra만 설치한 뒤 실제 글꼴 변환·디자인 16개·Python 1,107개(2 skip)·추가 Python 75개·Node 299개(1 skip)·demo 2개가 모두 실패 없이 끝났다. 11개 파이프라인 명령의 exit가 0이고 React·typed runtime 재빌드 파일은 원본과 byte-identical이었다. 이 결과는 `aa8b719`의 clean archive와 새 환경에 대한 local 관찰이며 원격 결과와 별도로 보존한다.
+
+동일한 frozen CLI 검사로 base `23b44e3b3004639e088467bd91d808de24df38d7`의 bytecode 경로 AssertionError와 최종 target `aa8b7191405b160d1119c403510152a12e0ae801`의 통과를 확인했다. 개선 gate는 제품·후속 기록을 포함한 정확히 15개 변경 경로와 원본 불변성을 검사해 통과했다. Wiki는 canonical 222개·보존 39개 기록을 검증했다. 원격 CI·최종 패키지·설치·native 재읽기는 별도 판정한다.
 
 ## v0.27.0
 
-[상세 patch page](patches/841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988.md)는 제품 소스 `841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988`를 기록한다. `plugin.json`과 `.codex-plugin/plugin.json`은 모두 0.27.0이며 catalog에는 이 버전을 가리키는 제품 커밋이 하나 있다. 현재 catalog snapshot에서 도달 가능한 커밋은 215개, 전체 페이지는 215개, 첫 부모 대비 이 변경 경로는 347개다. CHANGELOG는 짧은 기능 요약을 제공하고 상세 변경·근거·미검증 범위는 patch page 및 [최종 인수 행렬](../development-roadmap/FINAL_ACCEPTANCE.md)에 있다.
+[상세 patch page](patches/841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988.md)는 제품 소스 `841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988`를 기록한다. `plugin.json`과 `.codex-plugin/plugin.json`은 모두 0.27.0이며 catalog에는 이 버전을 가리키는 제품 커밋이 하나 있다. 이 0.27.0 제품 소스 시점의 catalog에서 도달 가능한 커밋은 215개, 전체 페이지는 215개, 첫 부모 대비 이 변경 경로는 347개다. CHANGELOG는 짧은 기능 요약을 제공하고 상세 변경·근거·미검증 범위는 patch page 및 [최종 인수 행렬](../development-roadmap/FINAL_ACCEPTANCE.md)에 있다.
 
 제품은 실제 TEXT 속성·너비 기반 main 재사용, 선언 variant와 Group/Frame/Auto Layout 작성, revision/hash로 연결된 작업 dependency, 원자 선택 sync, CSS/image 자산 근거, full native read·제한된 transport/진단 export를 제공한다. 독립 Little Hands Django/PostgreSQL 앱은 별도 인증·예약·운영 트랜잭션과 패키징 경계를 둔다. 이 앱의 Figma prototype은 정적 화면이다.
 

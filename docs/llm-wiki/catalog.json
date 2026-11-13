@@ -6802,6 +6802,79 @@
           "version": "0.27.1"
         }
       ]
+    },
+    {
+      "commit": "e75d60b7b95fc48144368f7d659ad0d0918fddce",
+      "diff_sha256": "413af925637caf4e9be54cf0072c51265085c09fc67cb1be2e0f1ca5b4a794a2",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/23b44e3b3004639e088467bd91d808de24df38d7.md",
+        "docs/llm-wiki/patches/25b6f754a4798119defc65c5146d59e0d3f23467.md",
+        "docs/llm-wiki/patches/e0aeed2ce67caf6570ba37bcf0beda22165cdc32.md",
+        "docs/llm-wiki/patches/ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e"
+      ],
+      "subject": "docs: record 0.27.1 fixes and release evidence",
+      "tree": "fa54823b7089659c1e5944419ce0c255b86cbc8f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.1"
+        }
+      ]
+    },
+    {
+      "commit": "6178905a1f182e5fcfe7b3fdf22fc57116544ea3",
+      "diff_sha256": "7b8940f9cf68de1ee8b2e8a9d92f48680b7525cf2ff15297cae6d6ade23429f8",
+      "files": [
+        ".github/workflows/little-hands.yml",
+        "CHANGELOG.md"
+      ],
+      "parents": [
+        "e75d60b7b95fc48144368f7d659ad0d0918fddce"
+      ],
+      "subject": "ci: match the app PostgreSQL environment",
+      "tree": "61178e46073c45b18df5261722b8e07598a5e066",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.1"
+        }
+      ]
+    },
+    {
+      "commit": "aa8b7191405b160d1119c403510152a12e0ae801",
+      "diff_sha256": "45df28c4982b3e0b5328c3ba27164d765b9de39906a563ed575b624c9a961ce9",
+      "files": [
+        "CHANGELOG.md",
+        "requirements-optional.txt"
+      ],
+      "parents": [
+        "6178905a1f182e5fcfe7b3fdf22fc57116544ea3"
+      ],
+      "subject": "fix: declare WOFF2 font prerequisites",
+      "tree": "74d50439420e7822d63bd8e4d633e4c0178a2d9f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.1"
+        }
+      ]
     }
   ],
   "pages": {
@@ -6880,6 +6953,7 @@
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
+    "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "6459de5ca0711f10629945fe36a2b4a2063fbbae": "6b4766e5ac2243bcb0c81a876ba0c813c23cc095e68109e4fab702e8755d0bd3",
@@ -6934,6 +7008,7 @@
     "a9abc696ca8d6acc7974dc54076dea5e39d8de48": "7212074526920e097d7ab11da2caf762bf779776361169bf8055a5b68ab0ad58",
     "aa0822c58b548c0b61e33874bada12ce4e2403bf": "22a082b0df42a8d81fc91c274739ac80eb26eb8a9e674082fbfc823fe36222d8",
     "aa3acddf626642b7bf0db2f04730cab9cc533a4b": "e87cc5c94ced516465ba20410c25d59481af350f6e3ed16b53dac6d051950e69",
+    "aa8b7191405b160d1119c403510152a12e0ae801": "54cbbb00a583768919a9b7e0b55f7b81856bea4671572c502868b4bfb822c74b",
     "ab1c8200cd77e2c24a3e322ddde643d80b179239": "cfe81c94bbe740755a66a14845051416ed74a6f429ea97802ecb7b54b4fe59ff",
     "ab8b1fe594b960fb2b22936dff34e3b7e711ff21": "eeda4fb2ffc63662d4b6bfe478bb32f4b5446a1fd635c3d371bdea59717ace03",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
@@ -7002,6 +7077,7 @@
     "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
     "e4f974ffeed2f9509c948141bce42de13027d157": "0fafc04266ee9445ce0675b04c7523ce0f0888af3d5e182ed0b09dd6399ef0cb",
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
+    "e75d60b7b95fc48144368f7d659ad0d0918fddce": "5c47ca4f6f872bbb15e07db8e9f846ecb78e0313de97cd09ef257e8098cd45e2",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
@@ -7131,6 +7207,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "6178905a1f182e5fcfe7b3fdf22fc57116544ea3",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "640ff8c1a0ae1f185a60be5284558d6e7c914deb",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -7176,6 +7256,10 @@
     },
     {
       "observed_at_commit": "9c9d5575eea6d883620407e591972c7e92cc244f",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "aa8b7191405b160d1119c403510152a12e0ae801",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -7452,7 +7536,7 @@
     },
     {
       "source_commits": [
-        "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e"
+        "aa8b7191405b160d1119c403510152a12e0ae801"
       ],
       "tagged": false,
       "tags": [],
@@ -7463,7 +7547,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e",
+  "source_commit": "aa8b7191405b160d1119c403510152a12e0ae801",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
