@@ -7301,6 +7301,68 @@
           "version": "0.28.0"
         }
       ]
+    },
+    {
+      "commit": "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c",
+      "diff_sha256": "060c300389bfedbaca9fd367fa44d1d9b82392ee54bc1774d24d17a8d31cec91",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/068eb35374c2ec5f6f86efad6cefe7c316fa0740.md",
+        "docs/llm-wiki/patches/35c6d3e3e798dee10c51335719d6ef9cd0539fb8.md",
+        "docs/llm-wiki/patches/42379a56d677ad29296ae3ae6495742a11fbaf43.md",
+        "docs/llm-wiki/patches/42752d575ebe17ca5b10a176a29d6525719685b0.md",
+        "docs/llm-wiki/patches/4621d47b6deb866d913e4430f44fb7f7635827a8.md",
+        "docs/llm-wiki/patches/4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a.md",
+        "docs/llm-wiki/patches/4c3b39218e5b214e0e21b762678a23dc55a3cd1f.md",
+        "docs/llm-wiki/patches/7f37a138bae2b4c4977405352fab16f658dd03cf.md",
+        "docs/llm-wiki/patches/961f193437e3699a5fed679d14e9c49f7e799a0d.md",
+        "docs/llm-wiki/patches/dc72dd8e23461164e24f7a11e5863a91bdf00332.md",
+        "docs/llm-wiki/patches/eeeeae315cca7b193a791969123ce09343c165e1.md",
+        "docs/llm-wiki/patches/f798d57e5690501a542c130bebaa52f3a59485e2.md",
+        "docs/llm-wiki/patches/fad40b21f8fbb14209f50b3029bd656d40bbb1fe.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "f798d57e5690501a542c130bebaa52f3a59485e2"
+      ],
+      "subject": "docs: publish 0.28.0 patch and verification records",
+      "tree": "6acf88fc3d37a0cfddfb3ad1a7f8995149cb3676",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.28.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.28.0"
+        }
+      ]
+    },
+    {
+      "commit": "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a",
+      "diff_sha256": "04204872b368549cddd0d64e3505356ea6f60d76928d75fb3f4672fb213a1575",
+      "files": [
+        "apps/little-hands/design/dom-map.json",
+        "apps/little-hands/design/native-font-calibration-v2.json",
+        "apps/little-hands/design/native-font-calibration.json",
+        "apps/little-hands/design/source.py"
+      ],
+      "parents": [
+        "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c"
+      ],
+      "subject": "fix: fingerprint file identifiers in distributable font observations",
+      "tree": "25efdfe68881e412e776656744fa5d74373c3670",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.28.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.28.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -7372,6 +7434,7 @@
     "4c3b39218e5b214e0e21b762678a23dc55a3cd1f": "d51b1d7b1c8c10cc870b3792f6ea9db33aecba738ec9dc93ce03ebd2b6793b88",
     "4c49dc395ec0f6f8a3bfbc1137da714f1f2b92f8": "735d532e57d6d25be49eb1f77a22c06d8c5d040702971962265d3fce003c7d24",
     "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3": "d87d9197acf7e107e3986fdb175b95f59e3262383bec955165f74e43257a4fde",
+    "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a": "326480bffbb42c4ce4dbb32c8d1f677a40060d3a5ffe546b54e57e674df852e3",
     "4dc23d6d98a7953572228b6bbf829e54c5417d13": "4614f0de857de2a6a8366f20a635591e74458142ba2573fd747d067cf84ec7f6",
     "4eab91b666eaeead1fe04395f248f936cdb51b7d": "da5bfbe556d77c32c8ec650fee0d17ccf97885063c570ab81b9b70c4136b767b",
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
@@ -7380,6 +7443,7 @@
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
     "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
+    "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c": "889431a6006c82016784002149f4da64930556dd79c07f2e405b066e083f4759",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5d92cd61d7e09a444c5045ddc26911829d92b060": "b3125664aa5026b887cd3647dc65e2790d1569b668781732fb3deb369fb6e98a",
@@ -7639,6 +7703,10 @@
     },
     {
       "observed_at_commit": "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -8013,7 +8081,7 @@
     },
     {
       "source_commits": [
-        "f798d57e5690501a542c130bebaa52f3a59485e2"
+        "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a"
       ],
       "tagged": false,
       "tags": [],
@@ -8024,7 +8092,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "f798d57e5690501a542c130bebaa52f3a59485e2",
+  "source_commit": "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
