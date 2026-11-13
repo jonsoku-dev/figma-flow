@@ -3,6 +3,7 @@ const WEB_DESIGN_HASH = 'figma-flow-web-design-sha256';
 const WEB_SCENE_HASH = 'figma-flow-web-scene-fingerprint';
 const WEB_COMPONENT_MAIN = 'figma-flow-web-component-main-id';
 const WEB_ELEMENT_ID = 'figma-flow-web-element-id';
+const WEB_TEXT_STYLE = 'figma-flow-web-text-style-v1';
 
 function webColor(value) {
   const hex = value.slice(1);
@@ -87,7 +88,7 @@ function webValidate(plan) {
   }
 }
 
-function webSceneValue(node) {
+function webSceneValue(node, includeTextStyle = true) {
   const plain = value => {
     try { return JSON.parse(JSON.stringify(value)); }
     catch (_) { return String(value); }
@@ -128,6 +129,7 @@ function webSceneValue(node) {
     paddingTop: node.paddingTop,
     paddingBottom: node.paddingBottom,
   };
+  if (includeTextStyle) scene.webTextStyle = node.getPluginData?.(WEB_TEXT_STYLE) || null;
   if (node.type === 'TEXT') {
     scene.characters = node.characters;
     scene.fontName = typeof node.fontName === 'object' ? node.fontName : String(node.fontName);
@@ -155,12 +157,13 @@ function webSceneValue(node) {
       }));
     }
   }
-  if ('children' in node) scene.children = node.children.map(webSceneValue);
+  if ('children' in node) scene.children = node.children.map(child => webSceneValue(child, includeTextStyle));
   return scene;
 }
 
-function webSceneHash(node) {
-  const source = JSON.stringify(webSceneValue(node));
+function webSceneHash(node, includeTextStyle = true) {
+  const scene = webSceneValue(node, includeTextStyle);
+  const source = JSON.stringify(scene);
   const states = [2166136261, 2246822519, 3266489917, 668265263];
   for (let index = 0; index < source.length; index++) {
     const code = source.charCodeAt(index);
@@ -169,6 +172,11 @@ function webSceneHash(node) {
     }
   }
   return `${source.length}:${states.map(value => value.toString(16).padStart(8, '0')).join('')}`;
+}
+
+function webSceneMatches(node) {
+  const stored = node.getPluginData(WEB_SCENE_HASH);
+  return stored === webSceneHash(node) || stored === webSceneHash(node, false);
 }
 
 function webNodePaint(node, element) {
@@ -216,8 +224,8 @@ function webFontStyle(text) {
     600: 'Semi Bold', 700: 'Bold', 800: 'Extra Bold', 900: 'Black' })[Number(text.fontWeight)] || 'Regular';
 }
 
-async function webResolveFonts(figma, screens) {
-  const available = (await figma.listAvailableFontsAsync()).map(item => item.fontName);
+function webResolveFontMap(available, screens) {
+  if (!Array.isArray(available) || available.length > 20000) throw Error('Figma font list exceeds the bounded typography verification limit');
   const requests = new Map();
   for (const screen of screens) for (const element of screen.elements) {
     if (element.kind !== 'text' && !(element.kind === 'component' && element.text) && element.kind !== 'annotation') continue;
@@ -239,12 +247,18 @@ async function webResolveFonts(figma, screens) {
       || available.find(font => fontKey(font.family) === 'inter' && fontKey(font.style) === 'regular')
       || available.find(font => fontKey(font.style) === 'regular');
     if (!fallback) throw Error('No regular native font is available');
-    await figma.loadFontAsync(fallback);
     const exactWeight = [100, 200, 300, 400, 500, 600, 700, 800, 900].includes(Number(request.requestedWeight));
     resolved.set(request.key, { font: fallback, fallback: exact && exactWeight ? null : {
       requested: { family: request.family, weight: request.requestedWeight }, used: fallback,
     } });
   }
+  return resolved;
+}
+
+async function webResolveFonts(figma, screens) {
+  const available = (await figma.listAvailableFontsAsync()).map(item => item.fontName);
+  const resolved = webResolveFontMap(available, screens);
+  await Promise.all([...resolved.values()].map(row => figma.loadFontAsync(row.font)));
   return resolved;
 }
 
@@ -271,6 +285,7 @@ function webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, create
   const color = text.color || element.paint?.color;
   if (color) node.fills = [webSolid(color)];
   node.textAutoResize = 'WIDTH_AND_HEIGHT';
+  node.setPluginData(WEB_TEXT_STYLE, webTextStyleRecord(element, loaded.font));
   if (element.kind !== 'annotation') {
     const observedWidth = element.kind === 'component' ? webLabelBounds(element).width : element.box.width;
     const difference = node.width - observedWidth;
@@ -387,9 +402,49 @@ function webCreateTextOverride(instance, element, fonts, fallbackReport, layoutD
   if (loaded.fallback) fallbackReport.push({ element_id: element.id, ...loaded.fallback });
   labels[0].characters = element.text.characters || '';
   webVerifyTextTypography(labels[0], element, loaded.font);
+  labels[0].setPluginData(WEB_TEXT_STYLE, webTextStyleRecord(element, loaded.font));
   const observedWidth = webLabelBounds(element).width;
   const difference = labels[0].width - observedWidth;
   if (Math.abs(difference) > 1) layoutDrifts.push({ element_id: element.id, observed_width: observedWidth, native_width: labels[0].width, drift: difference });
+}
+
+function webTextInput(element) {
+  return element.kind === 'annotation'
+    ? { characters: `Unsupported: ${element.label || element.id}`, fontFamily: 'Inter', fontWeight: 400, color: '#c02e25' }
+    : element.text || {};
+}
+
+function webTextStyleSpec(element) {
+  const text = webTextInput(element);
+  return {
+    fontFamily: text.fontFamily || 'Inter', fontStyle: webFontStyle(text),
+    fontSize: Number.isFinite(text.fontSize) ? text.fontSize : null,
+    fontWeight: Number.isFinite(Number(text.fontWeight)) ? Number(text.fontWeight) : 400,
+    lineHeight: Number.isFinite(text.lineHeight) ? text.lineHeight : null,
+    letterSpacing: Number.isFinite(text.letterSpacing) ? text.letterSpacing : null,
+    textAlignHorizontal: ({ left: 'LEFT', center: 'CENTER', right: 'RIGHT', justified: 'JUSTIFIED',
+      start: 'LEFT', end: 'RIGHT' })[String(text.textAlign || text.textAlignHorizontal || 'left').toLowerCase()] || 'LEFT',
+    color: text.color || element.paint?.color || null,
+  };
+}
+
+function webTextStyleRecord(element, font) {
+  return JSON.stringify({ schema: 1, element_id: element.id, requested: webTextStyleSpec(element),
+    native_font: { family: font.family, style: font.style } });
+}
+
+function webStoredTextFont(textNode, element) {
+  const raw = textNode.getPluginData(WEB_TEXT_STYLE);
+  if (!raw) return null;
+  let record;
+  try { record = JSON.parse(raw); }
+  catch (_) { throw Error(`Stored component text style metadata is invalid for ${element.id}`); }
+  if (!record || record.schema !== 1 || record.element_id !== element.id
+      || JSON.stringify(record.requested) !== JSON.stringify(webTextStyleSpec(element))
+      || typeof record.native_font?.family !== 'string' || typeof record.native_font?.style !== 'string') {
+    throw Error(`Stored component text style metadata differs from the canonical graph for ${element.id}`);
+  }
+  return record.native_font;
 }
 
 function webVerifyTextTypography(textNode, element, expectedFont) {
@@ -399,7 +454,7 @@ function webVerifyTextTypography(textNode, element, expectedFont) {
   if (font === figma.mixed || font.family !== expectedFont.family || font.style !== expectedFont.style) {
     throw Error(`Imported component text font differs from the captured typography for ${element.id}`);
   }
-  const expectedText = element.text || {};
+  const expectedText = webTextInput(element);
   if (Number.isFinite(expectedText.fontSize)) {
     const fontSize = textNode.getRangeFontSize(start, end);
     if (fontSize === figma.mixed || Math.abs(fontSize - expectedText.fontSize) > 0.01) {
@@ -425,10 +480,62 @@ function webVerifyTextTypography(textNode, element, expectedFont) {
       throw Error(`Imported component text fill differs from the captured typography for ${element.id}`);
     }
   }
-  const expectedAlignment = ({ left: 'LEFT', center: 'CENTER', right: 'RIGHT', justified: 'JUSTIFIED' })[
+  const expectedAlignment = ({ left: 'LEFT', center: 'CENTER', right: 'RIGHT', justified: 'JUSTIFIED',
+    start: 'LEFT', end: 'RIGHT' })[
     String(expectedText.textAlign || expectedText.textAlignHorizontal || 'left').toLowerCase()];
   if (expectedAlignment && textNode.textAlignHorizontal !== expectedAlignment) {
     throw Error(`Imported component text alignment differs from the captured typography for ${element.id}`);
+  }
+}
+
+async function webVerifyScreenTypography(figma, plan, frame, screen) {
+  if (!Array.isArray(screen.elements) || screen.elements.length > 1500) {
+    throw Error(`Typography verification scope is invalid for ${screen.id}`);
+  }
+  const elementsById = new Map();
+  for (const node of frame.findAll(child => Boolean(child.getPluginData(WEB_ELEMENT_ID)))) {
+    const elementId = node.getPluginData(WEB_ELEMENT_ID);
+    if (elementsById.has(elementId)) throw Error(`Duplicate owned element ID ${elementId} in ${screen.id}`);
+    elementsById.set(elementId, node);
+  }
+  const checks = [];
+  for (const element of screen.elements) {
+    if (element.kind !== 'text' && element.kind !== 'annotation'
+        && !(element.kind === 'component' && element.text)) continue;
+    const owned = elementsById.get(element.id);
+    if (!owned) throw Error(`Owned text element ${element.id} is missing from ${screen.id}`);
+    let textNode = owned;
+    if (element.kind === 'component') {
+      const labels = owned.findAll(node => node.type === 'TEXT');
+      if (labels.length !== 1) throw Error(`Component label count differs from the graph for ${element.id}`);
+      textNode = labels[0];
+    }
+    if (textNode.type !== 'TEXT') throw Error(`Owned text element ${element.id} changed native type`);
+    const nativeFont = webStoredTextFont(textNode, element);
+    if (nativeFont) {
+      webVerifyTextTypography(textNode, element, nativeFont);
+      continue;
+    }
+    const requested = webTextStyleSpec(element);
+    const length = textNode.characters.length;
+    const observedFont = length ? textNode.getRangeFontName(0, length) : null;
+    if (observedFont && observedFont !== figma.mixed
+        && observedFont.family === requested.fontFamily && observedFont.style === requested.fontStyle) {
+      webVerifyTextTypography(textNode, element,
+        { family: requested.fontFamily, style: requested.fontStyle });
+    } else {
+      checks.push({ textNode, element });
+    }
+  }
+  if (checks.length) {
+    const fonts = webResolveFontMap((await figma.listAvailableFontsAsync()).map(item => item.fontName),
+      [{ elements: checks.map(check => check.element) }]);
+    nativeEditScope(figma, plan);
+    for (const check of checks) {
+      const expected = webFontFor(check.element, fonts);
+      if (!expected) throw Error(`No verified native font is available for ${check.element.id}`);
+      webVerifyTextTypography(check.textNode, check.element, expected.font);
+    }
   }
 }
 
@@ -583,10 +690,16 @@ async function webRead(figma, plan) {
     const frame = figma.currentPage.children.find(node => node.getPluginData(WEB_DESIGN_KEY) === key);
     if (!frame) return { screen_id: screen.id, status: 'missing', frame_id: null, editable_node_count: 0 };
     const hashMatches = frame.getPluginData(WEB_DESIGN_HASH) === plan.web_design.graph_sha256;
-    const sceneMatches = frame.getPluginData(WEB_SCENE_HASH) === webSceneHash(frame);
+    const sceneMatches = webSceneMatches(frame);
     let componentMains = [];
-    try { componentMains = await webVerifyInstanceMains(figma, plan, frame); }
-    catch (error) { return { screen_id: screen.id, status: 'changed', frame_id: frame.id, error: String(error.message || error) }; }
+    try {
+      componentMains = await webVerifyInstanceMains(figma, plan, frame);
+      await webVerifyScreenTypography(figma, plan, frame, screen);
+    }
+    catch (error) {
+      return { screen_id: screen.id, status: 'changed', frame_id: frame.id,
+        error: `${String(error.message || error)}. Existing frame was preserved; use a new graph ID for a corrected import.` };
+    }
     return {
       screen_id: screen.id,
       status: hashMatches && sceneMatches ? 'current' : 'changed',
@@ -617,11 +730,15 @@ async function webApply(figma, plan) {
       const existing = page.children.find(node => node.getPluginData(WEB_DESIGN_KEY) === stable);
       if (existing) {
         if (existing.getPluginData(WEB_DESIGN_HASH) !== plan.web_design.graph_sha256
-            || existing.getPluginData(WEB_SCENE_HASH) !== webSceneHash(existing)) {
+            || !webSceneMatches(existing)) {
           throw Error(`Owned frame ${screen.id} changed; preserving its current editable scene`);
         }
         existingByScreen.set(screen.id, { id: existing.id, scene: webSceneHash(existing) });
         await webVerifyInstanceMains(figma, plan, existing);
+        try { await webVerifyScreenTypography(figma, plan, existing, screen); }
+        catch (error) {
+          throw Error(`Owned frame ${screen.id} text style differs from the canonical graph; preserving it. Use a new graph ID to create a corrected frame. ${String(error.message || error)}`);
+        }
       }
     }
     const newScreens = plan.web_design.screens.filter(screen => !existingByScreen.has(screen.id));
@@ -636,10 +753,16 @@ async function webApply(figma, plan) {
       const before = existingByScreen.get(screen.id);
       if ((before?.id || null) !== (existing?.id || null)
           || (existing && (existing.getPluginData(WEB_DESIGN_HASH) !== plan.web_design.graph_sha256
-            || webSceneHash(existing) !== before.scene))) {
+            || !webSceneMatches(existing) || webSceneHash(existing) !== before.scene))) {
         throw Error(`Owned frame ${screen.id} changed during font preparation; preserving its current scene`);
       }
-      if (existing) await webVerifyInstanceMains(figma, plan, existing);
+      if (existing) {
+        await webVerifyInstanceMains(figma, plan, existing);
+        try { await webVerifyScreenTypography(figma, plan, existing, screen); }
+        catch (error) {
+          throw Error(`Owned frame ${screen.id} text style differs from the canonical graph; preserving it. Use a new graph ID to create a corrected frame. ${String(error.message || error)}`);
+        }
+      }
     }
     for (const screen of plan.web_design.screens) {
       const stable = `${plan.web_design.graph_id}/${screen.id}`;
@@ -678,9 +801,11 @@ async function webApply(figma, plan) {
       const frame = page.children.find(node => node.id === screen.frame_id);
       if (!frame || frame.type !== 'FRAME' || frame.getPluginData(WEB_DESIGN_KEY) !== `${plan.web_design.graph_id}/${screen.screen_id}`
           || frame.getPluginData(WEB_DESIGN_HASH) !== plan.web_design.graph_sha256
-          || frame.getPluginData(WEB_SCENE_HASH) !== webSceneHash(frame)) {
+          || !webSceneMatches(frame)) {
         throw Error(`Actual editable frame readback failed for ${screen.screen_id}`);
       }
+      await webVerifyScreenTypography(figma, plan,
+        frame, plan.web_design.screens.find(item => item.id === screen.screen_id));
       screen.editable_node_count = frame.findAll(node => ['TEXT', 'RECTANGLE', 'FRAME', 'INSTANCE', 'COMPONENT'].includes(node.type)).length;
       if (screen.editable_node_count === 0) throw Error(`No editable native descendants in ${screen.screen_id}`);
       screen.component_mains = await webVerifyInstanceMains(figma, plan, frame);
@@ -708,7 +833,7 @@ async function webApply(figma, plan) {
     nativeEditScope(figma, plan);
     for (const screen of receipts) {
       const frame = page.children.find(node => node.id === screen.frame_id);
-      if (!frame || frame.getPluginData(WEB_SCENE_HASH) !== webSceneHash(frame)) throw Error(`Frame changed during preview export: ${screen.screen_id}`);
+      if (!frame || !webSceneMatches(frame)) throw Error(`Frame changed during preview export: ${screen.screen_id}`);
     }
     return { receipt, readback };
   } catch (error) {

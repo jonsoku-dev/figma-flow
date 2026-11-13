@@ -90,6 +90,8 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
   const images = [];
   const imageSizeReads = [];
   const timeline = [];
+  let fontListReads = 0;
+  let fontLoads = 0;
   const figma = {
     fileKey: 'file', currentPage: page,
     createFrame: () => { timeline.push('frame'); return new MockNode('FRAME'); },
@@ -104,13 +106,16 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
     getImageByHash(hash) {
       return { async getSizeAsync() { imageSizeReads.push(hash); timeline.push('image-ready'); return { width: 2, height: 2 }; } };
     },
-    async listAvailableFontsAsync() { return fonts; },
-    async loadFontAsync() {},
+    async listAvailableFontsAsync() { fontListReads++; return fonts; },
+    async loadFontAsync() { fontLoads++; },
   };
   const context = vm.createContext({ figma, nativeEditScope: () => {}, nativeEditDiscovery: discovery, setTimeout, clearTimeout });
   vm.runInContext(source, context);
   return { figma, page, fonts, images, imageSizeReads, timeline,
     apply: plan => context.webApply(figma, plan),
+    read: plan => context.webRead(figma, plan),
+    sceneHash: (node, includeTextStyle = true) => context.webSceneHash(node, includeTextStyle),
+    counts: () => ({ fontListReads, fontLoads }),
     corruptInstances: value => { corruptInstanceLineHeight = value; } };
 }
 
@@ -129,6 +134,61 @@ function plan() {
       ] }],
     },
   };
+}
+
+function legacyImportedFrame(harnessState, sourcePlan, nativeFont = { family: 'Inter', style: 'Medium' }) {
+  const screen = sourcePlan.web_design.screens[0];
+  const page = harnessState.page;
+  const root = new MockNode('FRAME');
+  root.name = screen.title;
+  root.resize(screen.layout.width, screen.layout.height);
+  root.layoutMode = 'NONE';
+  root.clipsContent = true;
+  root.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 128 / 255 }];
+  root.setPluginData('figma-flow-web-design-id', `${sourcePlan.web_design.graph_id}/${screen.id}`);
+  root.setPluginData('figma-flow-web-design-sha256', sourcePlan.web_design.graph_sha256);
+  const elements = screen.elements.filter(element => element.kind === 'component');
+  const main = new MockNode('COMPONENT');
+  main.name = 'Legacy component main';
+  main.resize(elements[0].box.width, elements[0].box.height);
+  main.layoutMode = 'HORIZONTAL';
+  main.primaryAxisAlignItems = 'CENTER';
+  main.counterAxisAlignItems = 'CENTER';
+  main.setPluginData('figma-flow-web-element-id', elements[0].id);
+  const mainLabel = new MockNode('TEXT');
+  mainLabel.name = 'label';
+  mainLabel.characters = elements[0].text.characters;
+  mainLabel.fontName = nativeFont;
+  mainLabel.fontSize = elements[0].text.fontSize;
+  mainLabel.lineHeight = { unit: 'PIXELS', value: 20 };
+  mainLabel.letterSpacing = { unit: 'PIXELS', value: 0 };
+  mainLabel.textAlignHorizontal = 'CENTER';
+  mainLabel.textAutoResize = 'WIDTH_AND_HEIGHT';
+  mainLabel.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 1 }];
+  main.appendChild(mainLabel);
+  root.appendChild(main);
+
+  const instance = new MockNode('INSTANCE');
+  instance.name = 'Legacy component instance';
+  instance._mainComponent = main;
+  instance.resize(elements[1].box.width, elements[1].box.height);
+  instance.setPluginData('figma-flow-web-component-main-id', main.id);
+  instance.setPluginData('figma-flow-web-element-id', elements[1].id);
+  const instanceLabel = new MockNode('TEXT');
+  instanceLabel.name = 'label';
+  instanceLabel.characters = elements[1].text.characters;
+  instanceLabel.fontName = nativeFont;
+  instanceLabel.fontSize = elements[1].text.fontSize;
+  instanceLabel.lineHeight = { unit: 'PIXELS', value: 20 };
+  instanceLabel.letterSpacing = { unit: 'PIXELS', value: 0 };
+  instanceLabel.textAlignHorizontal = 'CENTER';
+  instanceLabel.textAutoResize = 'WIDTH_AND_HEIGHT';
+  instanceLabel.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 1 }];
+  instance.appendChild(instanceLabel);
+  root.appendChild(instance);
+  page.appendChild(root);
+  root.setPluginData('figma-flow-web-scene-fingerprint', harnessState.sceneHash(root, false));
+  return root;
 }
 
 test('repeated native components retain the main label and override different instance text', async () => {
@@ -184,6 +244,34 @@ test('reused component instance text style is checked before accepting the scree
   await assert.rejects(() => h.apply(plan()), /line height differs from the captured typography/);
   assert.equal(h.page.children.length, 0);
   corruptInstanceLineHeight = false;
+});
+
+test('legacy reused components with canonical line-height drift are changed and preserved', async () => {
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements[1].text.lineHeight = 24;
+  const legacy = legacyImportedFrame(h, data);
+  const read = await h.read(data);
+  assert.equal(read.screens[0].status, 'changed');
+  assert.match(read.screens[0].error, /line height differs.*new graph ID/i);
+  await assert.rejects(() => h.apply(data), /new graph ID.*line height differs/i);
+  assert.equal(h.page.children.length, 1);
+  assert.equal(h.page.children[0], legacy);
+  assert.equal(legacy.findAll(node => node.type === 'TEXT')[1].lineHeight.value, 20);
+});
+
+test('legacy font-family aliases verify without loading font files', async () => {
+  const h = harness();
+  h.fonts.push({ fontName: { family: 'Geist', style: 'Medium' } });
+  const data = plan();
+  for (const element of data.web_design.screens[0].elements.filter(row => row.kind === 'component')) {
+    element.text.fontFamily = 'Geist Sans';
+  }
+  legacyImportedFrame(h, data, { family: 'Geist', style: 'Medium' });
+  const result = await h.read(data);
+  assert.equal(result.screens[0].status, 'current');
+  assert.equal(h.counts().fontLoads, 0);
+  assert.equal(h.counts().fontListReads, 1);
 });
 
 test('failed scoped readback rolls back only this transaction’s unchanged nodes', async () => {

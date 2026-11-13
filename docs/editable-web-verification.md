@@ -49,6 +49,8 @@ A real browser rendered three visually similar buttons with line heights of 20, 
 
 The importer now includes resolved font family/style, size, weight, line height, letter spacing, alignment and paint in component identity. Before accepting a reused instance, it reads the actual text range values and rejects a mismatch. The focused web-native test set passed 7 of 7 cases, including distinct 20/24 pixel component families and corrupt-instance rollback.
 
+On an earlier imported frame, the newer plugin reread the same graph and reported the incorrect middle line height. It refused to overwrite that frame. The corrected older frame passed the same check and retained its IDs. When an old import differs, a fresh graph ID creates a separate corrected frame and preserves the original.
+
 ## API observations
 
 The browser-to-Figma work recorded 253 actual typed-probe calls: 236 calls across ten observed nodes and 17 calls for the Codeforge vector follow-up. Those calls covered 50 distinct API members. A typography lab then inspected 19 exact member IDs, adding 10 net new members. The total observed set is now 150, up from the previous 127, with 1232 of 1382 audit members unobserved. The work includes `listAvailableFontsAsync`, `createComponentFromNode`, native range metadata, and text-range values. The typography specimen retained its main component and four text children on repeat. Eight before-and-after graph audit checks passed. These observations do not establish support for unobserved members. The [sanitized API observation graph](../specs/editable-web/api-observations.json) links the observed member keys to their receipt summaries.
