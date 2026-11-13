@@ -10,17 +10,43 @@
 
 ## v0.27.1
 
-최종 후보 소스는 `aa8b7191405b160d1119c403510152a12e0ae801`다. 구문·startup 수정은 `25b6f754a4798119defc65c5146d59e0d3f23467`, Intel 실행기는 `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`, CI DB 환경은 `6178905a1f182e5fcfe7b3fdf22fc57116544ea3`, WOFF2 의존성은 최종 소스에 있다.  [패치 상세](patches/25b6f754a4798119defc65c5146d59e0d3f23467.md)와 [고정 재현 검사](patches/23b44e3b3004639e088467bd91d808de24df38d7.md)를 연결한다. 두 manifest와 현재 설치 안내를 0.27.1로 맞췄다.
+제품 소스는 `aa8b7191405b160d1119c403510152a12e0ae801`다. 구문·startup 수정은 `25b6f754a4798119defc65c5146d59e0d3f23467`, Intel 실행기는 `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`, CI DB 환경은 `6178905a1f182e5fcfe7b3fdf22fc57116544ea3`, WOFF2 의존성은 최종 소스에 있다.  [패치 상세](patches/25b6f754a4798119defc65c5146d59e0d3f23467.md)와 [고정 재현 검사](patches/23b44e3b3004639e088467bd91d808de24df38d7.md)를 연결한다. 두 manifest와 현재 설치 안내를 0.27.1로 맞췄다.
 
 0.27.0 발행 후 앱 워크플로는 `--only-binary=:all: -r`의 콜론·공백 때문에 YAML 파싱에 실패해 job이 하나도 시작되지 않았다. 명령을 block scalar로 옮겨 실제 pip argv는 유지했다. 별도로 일반 Python 업데이트 명령이 검증할 패키지에 bytecode를 쓰는 실패를 재현했다. CLI 진입부가 local 모듈을 import하기 전에 bytecode 쓰기를 막으며, 파일 무시나 검증 우회 없이 기존 authority·정확한 바이트·rollback 검사를 유지한다.
 
-로컬에서 YAML 파싱과 정확한 설치 명령 보존, startup 검사 27개, 일반 Python CLI 반복 실행의 전체 패키지 바이트 보존 1개, 진단 버전/runtime 검사 6개가 통과했다. 독립 정적 검수에서 지정 diff의 P1/P2를 찾지 못했다. 0.27.0 제품 소스의 깨끗한 전체 검사와 실제 앱·Figma R8 관찰은 영향을 받지 않은 범위의 근거로 재사용하며, 0.27.1 원격 CI·태그·최종 ZIP·설치본 및 native 재읽기는 각각 실제 실행 후 아래에 기록한다. 현재 성공을 선반영하지 않는다.
+로컬에서 YAML 파싱과 정확한 설치 명령 보존, startup 검사 27개, 일반 Python CLI 반복 실행의 전체 패키지 바이트 보존 1개, 진단 버전/runtime 검사 6개가 통과했다. 독립 정적 검수에서 지정 diff의 P1/P2를 찾지 못했다. 0.27.0 제품 소스의 깨끗한 전체 검사와 실제 앱·Figma R8 관찰은 영향을 받지 않은 범위의 근거로 재사용하며, 0.27.1 원격 CI·태그·최종 ZIP·설치본 및 native 재읽기는 아래 최종 실행 영수증에서 각각 확인한다.
 
 첫 0.27.1 후보 `e75d60b`의 원격 앱 CI는 app이 읽지 않는 `DATABASE_URL` 때문에 기본 DB 포트로 접속하다 실패했다. [DB 환경 수정](patches/6178905a1f182e5fcfe7b3fdf22fc57116544ea3.md) 후 새 pinned PostgreSQL 17 컨테이너를 실제 CI와 같은 loopback 5432·workflow 환경으로 만들고 check·migration 확인·58개 업무 검사·4개 배포 검사를 모두 통과시킨 뒤 컨테이너를 제거했다. 이 local 리허설의 Python host는 Mac ARM이고 최종 Ubuntu AMD64 원격 결과와 구분한다.
 
 같은 후보의 [전체 CI](https://github.com/jonsoku-dev/figma-flow/actions/runs/43339869559)는 WOFF2 글꼴을 열 때 Brotli 누락으로 중단됐다. 이전 clean Git archive 검사는 기존 Python 환경에 있던 Brotli를 사용했다. [FontTools WOFF extra](patches/aa8b7191405b160d1119c403510152a12e0ae801.md)를 선언하고 새 venv·시스템 site 차단·선언된 optional 의존성만으로 전체 파이프라인을 재실행한다. 새 venv에서 선언한 optional 의존성과 WOFF extra만 설치한 뒤 실제 글꼴 변환·디자인 16개·Python 1,107개(2 skip)·추가 Python 75개·Node 299개(1 skip)·demo 2개가 모두 실패 없이 끝났다. 11개 파이프라인 명령의 exit가 0이고 React·typed runtime 재빌드 파일은 원본과 byte-identical이었다. 이 결과는 `aa8b719`의 clean archive와 새 환경에 대한 local 관찰이며 원격 결과와 별도로 보존한다.
 
 동일한 frozen CLI 검사로 base `23b44e3b3004639e088467bd91d808de24df38d7`의 bytecode 경로 AssertionError와 최종 target `aa8b7191405b160d1119c403510152a12e0ae801`의 통과를 확인했다. 개선 gate는 제품·후속 기록을 포함한 정확히 15개 변경 경로와 원본 불변성을 검사해 통과했다. Wiki는 canonical 222개·보존 39개 기록을 검증했다. 원격 CI·최종 패키지·설치·native 재읽기는 별도 판정한다.
+
+### 최종 발행·설치·Figma 영수증
+
+0.27.1 정식 태그는 `v0.27.1`이며 커밋 `42379a56d677ad29296ae3ae6495742a11fbaf43`를 가리킨다. 제품 소스 `aa8b7191405b160d1119c403510152a12e0ae801` 뒤의 문서 발행을 포함한 스냅샷이다. [정식 릴리스](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.27.1)는 latest stable로 확인했고 0.27.0 프리릴리스와 태그는 덮어쓰지 않았다. 이 영수증은 발행 이후 실행의 기록이므로 ZIP의 문서 스냅샷과 이후 main의 기록 시점을 구분한다. 제품 파일은 추가로 변경하지 않았다.
+
+| 항목 | 실제 확인 결과 |
+| --- | --- |
+| 원격 전체 도구 CI | [43341749250](https://github.com/jonsoku-dev/figma-flow/actions/runs/43341749250) success. macOS 15 Intel에서 실제 Codex sandbox 검사, 빌드 동일성, design 16·Python 1,107(2 skip)·추가 Python 75·Node 299(1 skip)·demo 2 통과. |
+| 원격 앱 CI | [43341749145](https://github.com/jonsoku-dev/figma-flow/actions/runs/43341749145) success. Ubuntu/PostgreSQL 17에서 업무 검사 58·배포 검사 4 및 AMD64 Docker build 통과. |
+| 원격 Wiki CI | [43341749039](https://github.com/jonsoku-dev/figma-flow/actions/runs/43341749039) success. 해당 릴리스 소스와 기록 검증. |
+| 배포 ZIP | `13,379,910` bytes, 공개 파일 `1,348`개. 실제 다운로드의 sidecar SHA와 원본 archive가 일치. SHA-256 `b063b013f841be59902a3acabab7c5276ea5636d6f4a030ca1303640660c1380`. |
+| 배포 개인정보 확인 | 실제 staging 자격 정보·control/chat token·compiler key 8개 값을 ZIP과 대조해 0건 일치. 비공개 workspace·venv·원시 readback은 ZIP에서 제외. |
+| Codex 설치 | 정상 업데이트의 반환 installedPath와 CLI 목록에서 0.27.1 installed/enabled 확인. 두 manifest와 공개 파일 1,348개가 ZIP과 일치. 개인 설치 경로는 공개 기록에서 제외. |
+| 일반 시작 명령 | `-B` 없이 실제 설치본의 일반 Python `check` 및 `ensure --figma-access allowed --workspace ...` 실행 성공. Codex `current`, native `files-current`. 패키지 바이트·실행 속성과 이미 검증한 generation은 그대로 유지. |
+| 기존 Figma 등록·작업 | 같은 등록을 유지. 기존 task key 31개를 보존하고 독립 R8 읽기 1개를 추가해 32개. 정상 replay로 32개 generator 파일을 현 설치본과 일치시킨 뒤 같은 플러그인을 재열었음. |
+| 실제 로드 runtime | 설치본 경로에서 control server를 실행한 것을 프로세스 경로로 확인. 실제 HTTP readiness의 expected/observed version·implementation·generation이 모두 0.27.1 현 세대와 일치. 단순 파일 복사 성공으로 로드를 추정하지 않음. |
+| 최종 실제 Figma 읽기 | `4,820`개 node ID·24 main·2 set·494 instance·Group 2·69 variable·collection 1 유지. 전체 파일 갱신 뒤 같은 discovery schema의 node·variable·collection 원시 레코드가 앞선 실제 설치본 읽기와 정확히 일치. |
+| 최종 readback | `18,787,869` bytes, SHA-256 `c8d242150e1dc2ec90bba9486b8bc155cd5b63a8759e0fc5082e491e184bd4ea`. 보호된 원시 JSON과 운영 경로는 공개하지 않음. |
+| 실제 Figma UI | 최신 읽기의 server queued→claimed→native-started→result-received와 같은 실행의 로컬 요청→실행 중→읽기 완료 3단계를 확인. 두 실행을 하나로 합치지 않음. |
+| Figma 버전 기록 | `Figma Flow 0.27.1 · 설치본 재검증`을 일반 UI로 저장한 뒤 버전 내역의 제목·설명·저장 시점을 다시 관찰. 독립 원격 API에 의한 cloud save attestation과 구분. |
+
+검증 보고서가 R8 입력 manifest를 갱신해 기존 source pin이 달라진 경우에는 기존 키를 버리거나 pin을 수동 수정하지 않았다. 원래 generator 인수와 현재 revision의 `prepare --replace-expected`에 해당하는 정상 CAS admission으로 현재 입력을 다시 고정한 뒤 준비 파일을 갱신했다. 보존된 과거 revision·영수증은 새 작업의 성공으로 재분류하지 않았다.
+
+이전 direction readback과 discovery readback은 schema가 다르다. 공통 getter 76종의 값은 동일했고, `fontFamily` binding의 `[alias]`와 `alias` 표현 256건만 동일한 단일 alias ID로 엄격히 정규화했다. 새 collection의 `owner` 관찰 metadata는 원본 instance ownership과 맞았으며 기존 공통 값은 같았다. 이후 완전 갱신된 runtime끼리의 재읽기는 정규화 없이 원시 node·variable·collection 레코드가 동일했다. JSON schema 전체가 처음부터 같았다고 주장하지 않는다.
+
+최종 공개 파일의 Figma JS/UI와 독립 앱 소스는 0.27.0 제품 검증 이후 바뀌지 않았다. 따라서 실제 44화면·3171 leaf bbox·550 clip·314 reaction의 기존 검증은 그 동일 소스 범위의 근거로 재사용하고, 설치/입력/환경 변경은 위 별도 실행으로 확인했다. 사용자 창작·production 승인은 생성하지 않았고 기존 NATIVE_REVIEW_PENDING/DRAFT 경계를 유지했다. BOOLEAN·INSTANCE_SWAP 양성 작성, 앱 영속 SSOT, 실기기, 공개 DNS/TLS 운영, 실제 채팅 첨부 전달, 기존 61-case 전체 및 모든 312 prototype link의 GUI 실행은 이 릴리스에서 완료로 승격하지 않는다. [후속 6개 기능·설계·Cursor 작업서](../next-roadmap/README.md)는 PROPOSED다.
 
 ## v0.27.0
 
