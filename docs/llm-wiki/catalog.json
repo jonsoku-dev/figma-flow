@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.29.0",
     "0.28.0",
     "0.27.1",
     "0.27.0",
@@ -7363,6 +7364,120 @@
           "version": "0.28.0"
         }
       ]
+    },
+    {
+      "commit": "5d3a088c6becc62fef08ecd0fc8fd857ed850957",
+      "diff_sha256": "dbb11f9a9eda4b7b5ac3db67485e65fbc40b17d402d08dc13a9638fae54945fe",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a.md",
+        "docs/llm-wiki/patches/58c2204207bf38eb1ea83bf761ace2d67ed2ed6c.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a"
+      ],
+      "subject": "docs: record distributable font privacy verification",
+      "tree": "a5830c3cdaad0406066eb98f0fce96a16915eaad",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.28.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.28.0"
+        }
+      ]
+    },
+    {
+      "commit": "3fc3002553ecd2f8a3c35f89e68789938f1b76e3",
+      "diff_sha256": "6b237d8bbab17585a971fddafa58db6889509ba59d7bf830a6691ba746d16064",
+      "files": [
+        "tests/test_input_effect_html_asset_map.py",
+        "tests/test_native_graph_review.py"
+      ],
+      "parents": [
+        "5d3a088c6becc62fef08ecd0fc8fd857ed850957"
+      ],
+      "subject": "test: pin graph review admission and mapped asset evidence before release",
+      "tree": "30fa9187d8a898270c9c4dd5959caba80d2c5949",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.28.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.28.0"
+        }
+      ]
+    },
+    {
+      "commit": "b1e4a06ca97450c729c134644f4fb99fc0af80e5",
+      "diff_sha256": "2426e6d3856ff7dc0758e9d7de9777f021827ee4939cd0ac9f142d67293e45f6",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/figjam-review-planner.md",
+        "docs/figma-sdk-project.md",
+        "docs/guide.md",
+        "docs/html-asset-map.md",
+        "docs/native-api-probe.md",
+        "docs/next-roadmap/README.md",
+        "docs/slides-flow-review.md",
+        "figma-bridge/native_api_probe.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/native_graph_review.js",
+        "library/figma-api/coverage-baseline.json",
+        "library/figma-recipes/build.py",
+        "library/figma-recipes/figjam-review-planner.ts",
+        "library/figma-recipes/manifest.json",
+        "library/figma-recipes/slides-flow-review.ts",
+        "plugin.json",
+        "skills/figma-flow/references/figma-feature-routes.md",
+        "specs/README.md",
+        "specs/graph-review/api-observations.json",
+        "specs/graph-review/graph.json",
+        "specs/graph-review/spec.md",
+        "tests/figma_figjam_review_harness.cjs",
+        "tests/figma_slides_review_harness.cjs",
+        "tests/test_figjam_review_planner.py",
+        "tests/test_input_effect_html_asset_map.py",
+        "tests/test_native_api_probe.py",
+        "tests/test_native_graph_review.cjs",
+        "tests/test_review_graph_projection.py",
+        "tests/test_review_selection_identity.py",
+        "tests/test_slides_flow_review_recipe.py",
+        "tests/test_workspace_control.cjs",
+        "tools/figma_feature.py",
+        "tools/figma_sdk_project.py",
+        "tools/figma_workspace.py",
+        "tools/graph_sync.py",
+        "tools/input_effect.py",
+        "tools/native_api_probe.py",
+        "tools/native_edit.py",
+        "tools/review_api_coverage.py",
+        "tools/review_graph.py",
+        "tools/workspace_recipes.py"
+      ],
+      "parents": [
+        "3fc3002553ecd2f8a3c35f89e68789938f1b76e3"
+      ],
+      "subject": "feat: project one product graph into native reviews and trace real inputs",
+      "tree": "07babc70b9d98dab301adbf41f4fc6e30c7d829f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -7423,6 +7538,7 @@
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
     "3f642cea8eaa461f35508b151b448233a0a4272a": "60f8c12cff7c84c233a87cb97fe16f5130644b0befe97e8c448d79adb43a0589",
+    "3fc3002553ecd2f8a3c35f89e68789938f1b76e3": "1aad24ff0995c6ed7233321256324ea46399ac1621278dd75219aeb493f0e967",
     "42379a56d677ad29296ae3ae6495742a11fbaf43": "e7047ae134b516d5d00518da2becde6c92237c8cc9a427f69bf16d75f79aa76b",
     "42752d575ebe17ca5b10a176a29d6525719685b0": "86abf1a25289370752187249e5f15d959da958f30c2dfd80b0aa43ace4e8d421",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
@@ -7446,6 +7562,7 @@
     "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c": "889431a6006c82016784002149f4da64930556dd79c07f2e405b066e083f4759",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
+    "5d3a088c6becc62fef08ecd0fc8fd857ed850957": "cf1b781e084cfc9364e58a7e554e52ee6dd3d411ba3ced3e0cc072a13fa9b713",
     "5d92cd61d7e09a444c5045ddc26911829d92b060": "b3125664aa5026b887cd3647dc65e2790d1569b668781732fb3deb369fb6e98a",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
@@ -7517,6 +7634,7 @@
     "b170f11568364a8c1e4494613f717ad87519ec83": "69f9aa3d96e239653e8b7c63deee1d2bed850119e86df545fc426731a6a6eefe",
     "b1c3824d810a143b6c7eb5e1f6951828e950dfee": "940cfac82c1f43f42d34716af750730c232f4f2a2db4864fd20d313bb0d0da2b",
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
+    "b1e4a06ca97450c729c134644f4fb99fc0af80e5": "802963b00b2d562dc4e1153ada0aef09fb529b6b40c999f61a33713ec3939417",
     "b275a28ad9b31347b7663485aabc93b19fb00f7b": "13b4ccc01c4842c750272208402b50384ee31f3d064c895a43b0d50cf60d20e5",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
     "b3285c42f1189f69ea52d1f7b65ccf71d594a842": "3f4e12c435623cdc6da2c3b3f65da54f78b4e6f1e095865c08be12bff37628ee",
@@ -7791,6 +7909,10 @@
     },
     {
       "observed_at_commit": "b170f11568364a8c1e4494613f717ad87519ec83",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "b1e4a06ca97450c729c134644f4fb99fc0af80e5",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -8081,18 +8203,28 @@
     },
     {
       "source_commits": [
-        "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a"
+        "5d3a088c6becc62fef08ecd0fc8fd857ed850957"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.28.0"
+      ],
+      "version": "0.28.0"
+    },
+    {
+      "source_commits": [
+        "b1e4a06ca97450c729c134644f4fb99fc0af80e5"
       ],
       "tagged": false,
       "tags": [],
-      "version": "0.28.0"
+      "version": "0.29.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a",
+  "source_commit": "b1e4a06ca97450c729c134644f4fb99fc0af80e5",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -8168,6 +8300,11 @@
       "commit": "42379a56d677ad29296ae3ae6495742a11fbaf43",
       "tag": "v0.27.1",
       "version": "0.27.1"
+    },
+    {
+      "commit": "5d3a088c6becc62fef08ecd0fc8fd857ed850957",
+      "tag": "v0.28.0",
+      "version": "0.28.0"
     }
   ]
 }
