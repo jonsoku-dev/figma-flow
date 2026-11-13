@@ -33,7 +33,7 @@ The native count includes text, rectangle, frame, instance, and component nodes.
 
 The focused web subsystem run passed eight Python tests and four native bridge Node tests. The broader Python suite is tracked separately.
 
-The dedicated stable-clone release suite passed 1215 Python tests, 323 Node tests, 75 finalize tests, 18 design tests, and 2 demo tests. Every suite reported zero skips.
+The dedicated stable-clone release suite passed 1215 Python tests, 326 Node tests, 75 finalize tests, 18 design tests, and 2 demo tests. Every suite reported zero skips. The three additional Node cases cover component identity, instance typography readback, and rollback when a reused instance's line height differs.
 
 ### Asset and vector review
 
@@ -46,6 +46,8 @@ The same shipping graph with its stable ID was reapplied to all four screens wit
 ## Component reuse with different line heights
 
 A real browser rendered three visually similar buttons with line heights of 20, 24 and 20 pixels. The first Figma import reported 20 pixels on all three labels. The corrected import created two mains, preserved all three native line heights and linked the third button to the first main. Applying the same graph again preserved the frame and main IDs. This additional case used a separate graph and is outside the four-template totals.
+
+The importer now includes resolved font family/style, size, weight, line height, letter spacing, alignment and paint in component identity. Before accepting a reused instance, it reads the actual text range values and rejects a mismatch. The focused web-native test set passed 7 of 7 cases, including distinct 20/24 pixel component families and corrupt-instance rollback.
 
 ## API observations
 

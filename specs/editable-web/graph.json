@@ -36,6 +36,14 @@
       "detail": "Validate the selected screen graph, pin its source hash, and apply it through the existing native-edit path with bounded geometry and asset inputs."
     },
     {
+      "id": "REQ-WEB-COMPONENT-METRICS",
+      "type": "requirement",
+      "title": "Reuse a component only when observed text metrics match",
+      "status": "observed",
+      "source": "../../figma-bridge/web_design.js",
+      "detail": "Component identity and imported instance readback must preserve captured typography and layout metrics such as line height."
+    },
+    {
       "id": "SCR-PORTFOLIO",
       "type": "screen",
       "title": "Portfolio page capture",
@@ -108,6 +116,14 @@
       "detail": "All four shipping graph IDs reapplied without changes. On SaaS, changing the main button font from 14 to 16 was preserved by an intervening same-graph apply; restoring 14 allowed a final apply with no write."
     },
     {
+      "id": "AC-WEB-COMPONENT-METRICS",
+      "type": "acceptance",
+      "title": "Preserve measured line height through native component reuse",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#component-reuse-with-different-line-heights",
+      "detail": "Three browser buttons with line heights 20, 24, and 20 pixels produced two mains and one instance. All native line heights matched, and repeat apply made no changes."
+    },
+    {
       "id": "CODE-WEB-CAPTURE",
       "type": "code",
       "title": "Read-only browser page capture",
@@ -177,7 +193,7 @@
       "title": "Web graph validation and import checks",
       "status": "verified",
       "source": "../../docs/editable-web-verification.md#unit-checks",
-      "detail": "Focused web tests passed (eight Python and four native bridge Node). The stable-clone release suite also passed 1215 Python, 323 Node, 75 finalize, 18 design, and 2 demo tests, all with zero skips."
+      "detail": "Focused web tests passed (eight Python and four native bridge Node). The stable-clone release suite passed 1215 Python, 326 Node, 75 finalize, 18 design, and 2 demo tests, all with zero skips. The final three Node cases cover component identity, instance typography readback, and mismatch rollback."
     },
     {
       "id": "TEST-WEB-NATIVE",
@@ -204,6 +220,14 @@
       "detail": "Four stable screen IDs produced no-op reapply results. The SaaS font-size edit was preserved during a conflicting apply and restored before an unchanged reapply."
     },
     {
+      "id": "TEST-WEB-COMPONENT-METRICS",
+      "type": "test",
+      "title": "Line-height component separation and readback check",
+      "status": "verified",
+      "source": "../../tests/test_web_design.cjs",
+      "detail": "The native bridge suite verifies different line heights produce distinct mains and rejects an instance whose text metrics differ from the capture."
+    },
+    {
       "id": "TEST-WEB-CAPTURE",
       "type": "test",
       "title": "Actual browser capture of four template pages",
@@ -226,11 +250,13 @@
     {"from": "REQ-WEB-IMPORT", "to": "SCR-CODEFORGE", "type": "appears on"},
     {"from": "REQ-WEB-IMPORT", "to": "SCR-DEVTOOL", "type": "appears on"},
     {"from": "REQ-WEB-IMPORT", "to": "SCR-SAAS", "type": "appears on"},
+    {"from": "REQ-WEB-COMPONENT-METRICS", "to": "SCR-SAAS", "type": "appears on"},
     {"from": "REQ-WEB-CAPTURE", "to": "AC-WEB-CAPTURE", "type": "accepted by"},
     {"from": "REQ-WEB-ASSETS", "to": "AC-WEB-ASSETS", "type": "accepted by"},
     {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-IMPORT", "type": "accepted by"},
     {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-IMPORT-BASELINE", "type": "accepted by"},
     {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-REAPPLY", "type": "accepted by"},
+    {"from": "REQ-WEB-COMPONENT-METRICS", "to": "AC-WEB-COMPONENT-METRICS", "type": "accepted by"},
     {"from": "SCR-PORTFOLIO", "to": "FIG-PORTFOLIO", "type": "represented by"},
     {"from": "SCR-CODEFORGE", "to": "FIG-CODEFORGE", "type": "represented by"},
     {"from": "SCR-DEVTOOL", "to": "FIG-DEVTOOL", "type": "represented by"},
@@ -254,8 +280,11 @@
     {"from": "AC-WEB-IMPORT-BASELINE", "to": "TEST-WEB-NATIVE", "type": "checked by"},
     {"from": "AC-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"},
     {"from": "AC-WEB-REAPPLY", "to": "TEST-WEB-REAPPLY", "type": "checked by"},
+    {"from": "AC-WEB-COMPONENT-METRICS", "to": "TEST-WEB-COMPONENT-METRICS", "type": "checked by"},
     {"from": "CODE-WEB-CAPTURE", "to": "TEST-WEB-UNIT", "type": "checked by"},
     {"from": "CODE-WEB-PLAN", "to": "TEST-WEB-UNIT", "type": "checked by"},
-    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"}
+    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"},
+    {"from": "REQ-WEB-COMPONENT-METRICS", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-COMPONENT-METRICS", "type": "checked by"}
   ]
 }
