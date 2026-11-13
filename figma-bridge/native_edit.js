@@ -67,6 +67,7 @@ function nativeEditValid(value,field) {
 function nativeEditValidatePlan(plan) {
   if(plan?.schema!==NATIVE_EDIT_PLAN_SCHEMA||typeof plan.file_key!=='string'||typeof plan.page_id!=='string')throw Error('Explicit scoped native edit plan required');
   if(plan.provision){nativeProvisionValidate(plan);return;}
+  if(plan.web_design){webValidate(plan);return;}
   if(plan.specifications){nativeSpecificationValidate(plan);return;}
   if(plan.graph_review){graphReviewValidate(plan);return;}
   const variable=plan.variableedit,edits=plan.edits;
@@ -212,6 +213,28 @@ function nativeEditConflict(job, reason) {
 async function runNativeEdit(figma,plan,operation='apply') {
   nativeEditValidatePlan(plan);nativeEditScope(figma,plan);
   if(plan.provision)return nativeProvisionRun(figma,plan,operation);
+  if (plan.web_design) {
+    if (operation === 'read') {
+      const readback = await nativeEditDiscovery(figma, plan);
+      return {
+        ...readback,
+        web_design: await webRead(figma, plan),
+        native_edit: { plan_sha256: NATIVE_EDIT_SHA256, applied: false, operation: 'read' },
+      };
+    }
+    if (operation !== 'apply') throw Error('Unsupported web design operation');
+    const result = await webApply(figma, plan);
+    return {
+      ...result.readback,
+      web_design: result.receipt,
+      native_edit: {
+        plan_sha256: NATIVE_EDIT_SHA256,
+        applied: true,
+        operation: 'apply',
+        changed: result.receipt.screens.some(screen => !screen.reused),
+      },
+    };
+  }
   if(plan.graph_review){
     if(operation==='read'){
       const review=graphReviewRead(figma,plan),readback=await nativeEditDiscovery(figma,plan);

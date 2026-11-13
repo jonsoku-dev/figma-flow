@@ -21,13 +21,38 @@ ID = re.compile(r'(?:I?\d+:\d+)(?:;\d+:\d+)*\Z')
 def validate_plan(plan):
     if not isinstance(plan, dict) or plan.get('schema') != PLAN_SCHEMA:
         raise ValueError('Explicit native edit plan schema required')
-    if set(plan) not in ({'schema', 'file_key', 'page_id', 'edits'}, {'schema', 'file_key', 'page_id', 'variableedit'}, {'schema', 'file_key', 'page_id', 'specifications'}, {'schema', 'file_key', 'page_id', 'provision'}, {'schema', 'file_key', 'page_id', 'graph_review'}):
+    if set(plan) not in ({'schema', 'file_key', 'page_id', 'edits'}, {'schema', 'file_key', 'page_id', 'variableedit'}, {'schema', 'file_key', 'page_id', 'specifications'}, {'schema', 'file_key', 'page_id', 'provision'}, {'schema', 'file_key', 'page_id', 'graph_review'}, {'schema', 'file_key', 'page_id', 'web_design'}):
         raise ValueError('Plan requires exact file/page and one supported edit variant')
     if not isinstance(plan['file_key'], str) or not re.fullmatch(r'[A-Za-z0-9_-]+', plan['file_key']) or not isinstance(plan['page_id'], str) or not ID.fullmatch(plan['page_id']):
         raise ValueError('Exact safe native file/page identity required')
     if 'specifications' in plan:
         from specifications import validate_update
         return validate_update(plan)
+    if 'web_design' in plan:
+        from web_design import validate_graph
+        web = plan['web_design']
+        if not isinstance(web, dict) or set(web) not in ({'schema','graph_id','graph_sha256','source_graph_path','screens'}, {'schema','graph_id','graph_sha256','source_graph_path','screens','preview_width'}) or web['schema'] != 'figma-flow-web-design-v1' or not re.fullmatch(r'[a-f0-9]{64}', str(web['graph_sha256'])):
+            raise ValueError('Pinned web design graph required')
+        if 'preview_width' in web and (type(web['preview_width']) is not int or not 360 <= web['preview_width'] <= 480):
+            raise ValueError('Bounded web preview width required')
+        source = Path(web['source_graph_path'])
+        if not source.is_absolute() or source.is_symlink() or not source.is_file():
+            raise ValueError('Pinned web design source graph changed')
+        source_bytes=source.read_bytes()
+        if len(source_bytes)>12_000_000 or hashlib.sha256(source_bytes).hexdigest()!=web['graph_sha256']:
+            raise ValueError('Pinned web design source graph changed')
+        try: canonical=json.loads(source_bytes)
+        except json.JSONDecodeError as error: raise ValueError('Pinned web design source graph is not valid JSON') from error
+        source_screens=validate_graph(canonical)
+        if canonical['id']!=web['graph_id']:
+            raise ValueError('Pinned graph ID differs from the selected canonical graph')
+        selected_ids=[screen.get('id') for screen in web['screens'] if isinstance(screen,dict)]
+        if len(selected_ids)!=len(web['screens']) or len(set(selected_ids))!=len(selected_ids):
+            raise ValueError('Unique selected WEB screen IDs required')
+        canonical_selection=[screen for screen in source_screens if screen['id'] in set(selected_ids)]
+        if not canonical_selection or canonical_selection!=web['screens']:
+            raise ValueError('Web screen plan must exactly match selected pinned canonical screen content')
+        return plan
     if 'graph_review' in plan:
         review = plan['graph_review']
         if not isinstance(review, dict) or set(review) != {'source_graph_path', 'source_graph_sha256', 'projection'}:
@@ -141,24 +166,33 @@ def validate_plan(plan):
 
 def prepare(plan_path, out, plugin_id=None):
     raw = Path(plan_path).read_bytes()
-    if len(raw) > 128_000:
+    if len(raw) > 12_000_000:
+        raise ValueError('Bounded native edit plan required')
+    parsed = json.loads(raw)
+    if len(raw) > 128_000 and 'web_design' not in parsed:
         raise ValueError('Bounded plan JSON required')
-    plan = validate_plan(json.loads(raw))
+    plan = validate_plan(parsed)
     if plugin_id and not re.fullmatch(r'\d+', plugin_id):
         raise ValueError('Use the actual assigned numeric plugin ID')
     output = Path(out)
-    private_plan = any(key in plan for key in ('specifications', 'provision', 'graph_review'))
-    output.mkdir(parents=True, exist_ok=False, mode=0o700 if private_plan else 0o777)
+    private_plan = any(key in plan for key in ('specifications', 'provision', 'graph_review', 'web_design'))
     session = secrets.token_hex(16)
     digest = hashlib.sha256(raw).hexdigest()
     runtime_plan = json.loads(json.dumps(plan))
+    asset_pins = []
+    if 'web_design' in runtime_plan:
+        from web_design import embed_local_assets
+        asset_pins = embed_local_assets(runtime_plan['web_design'])
+    output.mkdir(parents=True, exist_ok=False, mode=0o700 if private_plan else 0o777)
     if 'provision' in runtime_plan:
         for field in ('source_graph_path', 'token_source_path', 'readback_path', 'label_source_path'):
             runtime_plan['provision'].pop(field, None)
     if 'graph_review' in runtime_plan:
         runtime_plan['graph_review'].pop('source_graph_path', None)
+    if 'web_design' in runtime_plan:
+        runtime_plan['web_design'].pop('source_graph_path', None)
     data = dict(file_key=plan['file_key'], page_id=plan['page_id'], allowed_page_ids=[plan['page_id']])
-    if 'graph_review' in plan:
+    if 'graph_review' in plan or 'web_design' in plan:
         rows = []
     elif 'provision' in plan:
         rows = [plan['provision']]
@@ -191,6 +225,8 @@ def prepare(plan_path, out, plugin_id=None):
     source += '\nconst NATIVE_EDIT_SESSION = ' + json.dumps(session) + ';\nconst NATIVE_EDIT_SHA256 = ' + json.dumps(digest) + ';\nconst NATIVE_EDIT_PLAN = ' + json.dumps(runtime_plan, ensure_ascii=True, allow_nan=False) + ';\n'
     if 'graph_review' in plan:
         source += '\n' + (ROOT/'figma-bridge/native_graph_review.js').read_text()
+    if 'web_design' in plan:
+        source += '\n' + (ROOT/'figma-bridge/web_design.js').read_text()
     if 'specifications' in plan:
         for helper in ('native_annotations.js', 'design_note_board.js', 'native_specifications.js'):
             source += '\n' + (ROOT/'figma-bridge'/helper).read_text()
@@ -210,9 +246,20 @@ def prepare(plan_path, out, plugin_id=None):
                 ('source_graph_path', 'graph_sha256'), ('token_source_path', 'token_source_sha256'), ('readback_path', 'readback_sha256')))
             if 'label_source_path' in provision:
                 pins.append({'path': provision['label_source_path'], 'sha256': provision['label_source_sha256']})
-        else:
+        elif 'graph_review' in plan:
             review = plan['graph_review']
             pins.append({'path': review['source_graph_path'], 'sha256': review['source_graph_sha256']})
+        elif 'web_design' in plan:
+            web = plan['web_design']
+            pins.append({'path': web['source_graph_path'], 'sha256': web['graph_sha256']})
+            pins.extend(asset_pins)
+        unique_pins = {}
+        for pin in pins:
+            old = unique_pins.get(pin['path'])
+            if old is not None and old != pin['sha256']:
+                raise ValueError('One source path resolved to conflicting digests')
+            unique_pins[pin['path']] = pin['sha256']
+        pins = [{'path': path, 'sha256': sha256} for path, sha256 in sorted(unique_pins.items())]
         (output/'source-inputs.json').write_text(json.dumps({'schema':'figma-flow-source-pins-v1','pins':pins}, indent=2)+'\n')
         (output/'source-inputs.json').chmod(0o600)
         (output/'native-edit-plan.json').chmod(0o600)
@@ -267,10 +314,17 @@ def main():
     review.add_argument('--file-key', required=True)
     review.add_argument('--page-id', required=True)
     review.add_argument('--out', required=True)
+    web = sub.add_parser('web-design')
+    web.add_argument('--graph', required=True); web.add_argument('--file-key', required=True); web.add_argument('--page-id', required=True); web.add_argument('--out', required=True)
+    web.add_argument('--screen', action='append', default=[])
+    web.add_argument('--preview-width', type=int)
     args = parser.parse_args()
     try:
         if args.command == 'graph-review':
             print(json.dumps(build_graph_review_plan(args.graph, args.node, args.file_key, args.page_id, args.out)))
+        elif args.command == 'web-design':
+            from web_design import build_plan
+            print(json.dumps(build_plan(args.graph, args.file_key, args.page_id, args.out, args.screen, args.preview_width)))
         else:
             print(json.dumps(prepare(args.plan, args.out, args.plugin_id)))
         return 0

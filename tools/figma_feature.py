@@ -16,7 +16,7 @@ def feature(identity, aliases, kind, steps, prerequisites, recipe=None, editor=N
                 prerequisites=prerequisites, recipe=recipe, editor=editor)
 
 
-def sdk(identity, aliases, editor, scope, review_graph=False):
+def sdk(identity, aliases, editor, scope, review_graph=False, workspace_menu=None):
     steps = [
         f'python3 tools/figma_sdk_project.py init NEW_SDK_DIR --editor {editor} --recipe {identity}',
         'npm --prefix NEW_SDK_DIR install --ignore-scripts --no-audit --no-fund',
@@ -30,7 +30,7 @@ def sdk(identity, aliases, editor, scope, review_graph=False):
         'Initial npm installation needs network or cached packages. Typechecking does not prove runtime support.',
         'Create a separate Figma development plugin, copy its issued ID into manifest.template.json and save as manifest.json.',
         'Import the built manifest in the matching editor/mode, run only with authorized scope, and inspect actual results.']
-    if editor == 'figma':
+    if workspace_menu:
         result = feature(identity, aliases, 'flow-recipe', [
             'python3 tools/figma_workspace.py refresh --workspace WORKSPACE',
             f"In Figma Design, open Figma Flow > Examples · add to current page and choose the {identity} example (command flow-recipe:{identity}).",
@@ -45,8 +45,14 @@ def sdk(identity, aliases, editor, scope, review_graph=False):
 
 
 ROUTES = [
-    *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False))
+    *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False), row.get('workspaceMenu'))
       for row in json.loads((ROOT / 'library/figma-recipes/manifest.json').read_text())['recipes']),
+    feature('web-design', 'editable web design|web to figma|웹 화면 변환|편집 가능한 웹 화면', 'flow',
+            ['Measure the rendered browser page with tools/web_design_capture.js.',
+             'python3 tools/web_design_source.py --capture CAPTURE_JSON --assets ASSET_INDEX --id GRAPH_ID --title TITLE --out NEW_GRAPH_JSON',
+             'python3 tools/native_edit.py web-design --graph NEW_GRAPH_JSON --file-key FILE_KEY --page-id PAGE_ID --out NEW_PLAN_JSON',
+             'Prepare NEW_PLAN_JSON as a native-edit task, apply in the registered workspace and compare the native preview and readback.'],
+            ['Use an authorized rendered page, local pinned image bytes, and a chosen Design destination. See docs/web-design-capture.md.']),
     feature('graph-review', 'review board|graph review|검토 보드|근거 그래프', 'flow',
             ['python3 tools/native_edit.py graph-review --graph GRAPH_JSON --node NODE_ID --file-key FILE_KEY --page-id PAGE_ID --out NEW_PLAN_JSON',
              'Prepare the reviewed plan as a native-edit task in the registered workspace and inspect a fresh native read.'],

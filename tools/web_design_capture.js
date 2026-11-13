@@ -14,8 +14,9 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
   const elements = [], unboundImages = [], limitations = new Set();
   const round = v => Math.round(v * 100) / 100;
   const numeric = (value, fallback = 0) => Number.isFinite(Number.parseFloat(value)) ? Number.parseFloat(value) : fallback;
-  function color(css) {
-    if (!css || css === 'none' || css === 'transparent') return null;
+  function color(css, includeTransparent = false) {
+    if (!css || css === 'none') return null;
+    if (css === 'transparent') return includeTransparent ? '#00000000' : null;
     const numbers = css.match(/-?[\d.]+(?:e[+-]?\d+)?/gi)?.map(Number);
     if (!numbers || numbers.length < 3) return null;
     let [r,g,b,alpha = 1] = numbers;
@@ -45,7 +46,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     } else {
       limitations.add('unsupported CSS color space'); return null;
     }
-    if (alpha <= 0) return null;
+    if (alpha <= 0) return includeTransparent ? '#00000000' : null;
     const hex = v => Math.round(Math.max(0,Math.min(1,v))*255).toString(16).padStart(2,'0');
     return '#'+[r,g,b].map(hex).join('')+(alpha<1 ? hex(alpha) : '');
   }
@@ -56,8 +57,8 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     return b.width>0 && b.height>0 && b.x<width && b.y<height && b.x+b.width>0 && b.y+b.height>0;
   }
   function push(layer) {
-    if (elements.length >= maxLayers) throw Error('Screen exceeds the approved layer budget. Choose a smaller viewport or section.');
-    elements.push(layer);
+    if (elements.length + unboundImages.length >= maxLayers) throw Error('Screen exceeds the approved layer budget. Choose a smaller viewport or section.');
+    elements.push({...layer,path:[...layer.path]});
   }
   function typography(style, characters) {
     return {characters, fontFamily:style.fontFamily.split(',')[0].trim().replace(/^["']|["']$/g,''),
@@ -66,9 +67,32 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       textAlignHorizontal:({center:'center',right:'right',end:'right'})[style.textAlign]||'left',
       color:color(style.color)||'#000000'};
   }
+  function radialGradient(value) {
+    // Browser-computed percentage centers and stops. Commas inside CSS
+    // color functions belong to the color, not to the list of stops.
+    const gradient = /^radial-gradient\(at ([\d.]+)% ([\d.]+)%, (.*)\)$/.exec(value);
+    if (!gradient) return null;
+    const stops = [];
+    for (const entry of gradient[3].split(/,\s*(?![^()]*\))/)) {
+      const match = /^(.*) (\d+(?:\.\d+)?)%$/.exec(entry.trim());
+      if (!match) return null;
+      const hex = color(match[1], true);
+      const position = Number(match[2]) / 100;
+      if (!hex || position > 1 || (stops.length && position < stops[stops.length - 1].position)) return null;
+      stops.push({position, color: hex});
+    }
+    const centerX = Number(gradient[1]) / 100, centerY = Number(gradient[2]) / 100;
+    return stops.length >= 2 && stops.length <= 16 && centerX <= 1 && centerY <= 1
+      ? {centerX, centerY, stops} : null;
+  }
   function paint(style) {
     const p={},bg=color(style.backgroundColor),border=numeric(style.borderTopWidth);
     if (bg) p.background=bg;
+    if (style.backgroundImage !== 'none') {
+      const radial = radialGradient(style.backgroundImage);
+      if (radial) p.radialGradient = radial;
+      else limitations.add('background image or unsupported gradient');
+    }
     if (border>0 && style.borderTopStyle!=='none') {
       const stroke=color(style.borderTopColor);
       if(stroke){p.borderWidth=border;p.borderColor=stroke;}
@@ -149,7 +173,8 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     if(!visible && (['hidden','clip','scroll','auto'].includes(s.overflowY)||tag==='svg'))return;
     let childrenPath=path;
     if(visible){
-      if(s.backgroundImage!=='none')limitations.add('background image or gradient');
+      if(s.maskImage && s.maskImage !== 'none') limitations.add('CSS mask');
+      if(s.filter && s.filter !== 'none') limitations.add('CSS filter');
       if(s.boxShadow!=='none')limitations.add('CSS shadow');
       if(tag==='svg'){
         try{push({id,path,kind:'vector',box:b,svg:simpleVector(el)});}catch(error){if(String(error).includes('budget'))throw error;limitations.add('complex SVG');}
@@ -159,7 +184,12 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         const src=el.currentSrc||el.src;
         if(el.complete&&el.naturalWidth>0 && src){
           const u=new URL(src,location.href);
-          if(u.origin===location.origin){unboundImages.push({id,path,box:b,requestTarget:u.pathname+u.search,alt:el.alt||'',paint:paint(s),position:elements.length});}
+          if(u.origin===location.origin){
+            if(elements.length+unboundImages.length>=maxLayers) throw Error('Screen exceeds the approved layer budget.');
+            const objectFit = s.objectFit === 'contain' ? 'contain' : 'cover';
+            if (!['contain','cover'].includes(s.objectFit) && Math.abs(el.naturalWidth/el.naturalHeight-b.width/b.height)>.02) limitations.add('approximated image fit');
+            unboundImages.push({id,path:[...path],box:b,requestTarget:u.pathname+u.search,alt:el.alt||'',objectFit,paint:paint(s),position:elements.length});
+          }
           else limitations.add('external raster');
         }else limitations.add('unloaded image');
         return;
@@ -172,15 +202,18 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       if(isControl && el.getClientRects().length===1 && label && label.length<=90 && !el.querySelector('svg,img,picture,input,select,textarea,video,button') && el.children.length<=1){
         // Reuse visually equivalent controls only. Identity also contains geometry
         // when its height and visual treatment match a prior control.
+        const labelRange=document.createRange();labelRange.selectNodeContents(el);
+        const measured=box(labelRange.getBoundingClientRect());
+        const labelBox={x:round(measured.x-b.x),y:round(measured.y-b.y),width:measured.width,height:measured.height};
         const text=typography(s,label);const signature=JSON.stringify([tag,b.height,p,text.fontFamily,text.fontSize,text.fontWeight,text.color,text.textAlignHorizontal]);
-        push({id,kind:'component',path,box:b,paint:p,text,componentKey:signature,props:{label}});return;
+        push({id,kind:'component',path,box:b,paint:p,text,componentKey:signature,props:{label,labelBox}});return;
       }
       if(Object.keys(p).length || ['main','section','article','nav','header','footer','aside','form'].includes(tag)){
         push({id,path,kind:'frame',box:b,paint:p});childrenPath=[...path,id];
       }
       if(tag==='input'||tag==='textarea'){
         // Never inspect the value of a form control.
-        if(el.placeholder)push({id:id+'-placeholder',path:childrenPath,kind:'text',box:{...b,x:b.x+numeric(s.paddingLeft),width:Math.max(1,b.width-numeric(s.paddingLeft)-numeric(s.paddingRight))},text:typography(s,el.placeholder)});
+        if(el.placeholder)push({id:id+'-placeholder',path:childrenPath,kind:'text',box:{...b,x:b.x+numeric(s.paddingLeft)+numeric(s.borderLeftWidth),y:b.y+(b.height-numeric(s.lineHeight,numeric(s.fontSize)*1.2))/2,height:numeric(s.lineHeight,numeric(s.fontSize)*1.2),width:Math.max(1,b.width-numeric(s.paddingLeft)-numeric(s.paddingRight)-numeric(s.borderLeftWidth)-numeric(s.borderRightWidth))},text:typography(s,el.placeholder)});
         return;
       }
     }

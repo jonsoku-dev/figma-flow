@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 763,
-    "qualified-static-reference": 53,
-    "unresolved-receiver-name-reference": 566
+    "no-static-reference": 714,
+    "qualified-static-reference": 55,
+    "unresolved-receiver-name-reference": 613
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -401,7 +401,7 @@
       "id": "PluginAPI.mixed#65",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createRectangle#66",
@@ -761,7 +761,7 @@
       "id": "PluginAPI.createNodeFromSvg#125",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createImage#126",
@@ -2351,7 +2351,7 @@
       "id": "DropShadowEffect.blendMode#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DropShadowEffect.showShadowBehindNode#7",
@@ -2405,7 +2405,7 @@
       "id": "InnerShadowEffect.blendMode#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "InnerShadowEffect.boundVariables#7",
@@ -2495,7 +2495,7 @@
       "id": "NoiseEffectBase.blendMode#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NoiseEffectBase.noiseSize#4",
@@ -2789,7 +2789,7 @@
       "id": "SolidPaint.blendMode#4",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "SolidPaint.boundVariables#5",
@@ -2807,7 +2807,7 @@
       "id": "GradientPaint.gradientTransform#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "GradientPaint.gradientStops#2",
@@ -2831,7 +2831,7 @@
       "id": "GradientPaint.blendMode#5",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ImagePaint.type#0",
@@ -2855,7 +2855,7 @@
       "id": "ImagePaint.imageTransform#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ImagePaint.scalingFactor#4",
@@ -2867,13 +2867,13 @@
       "id": "ImagePaint.rotation#5",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ImagePaint.filters#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ImagePaint.visible#7",
@@ -2891,7 +2891,7 @@
       "id": "ImagePaint.blendMode#9",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "VideoPaint.type#0",
@@ -2927,13 +2927,13 @@
       "id": "VideoPaint.rotation#5",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "VideoPaint.filters#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "VideoPaint.visible#7",
@@ -2951,7 +2951,7 @@
       "id": "VideoPaint.blendMode#9",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PatternPaint.type#0",
@@ -3005,7 +3005,7 @@
       "id": "PatternPaint.blendMode#8",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ShaderPaint.type#0",
@@ -3059,7 +3059,7 @@
       "id": "ShaderPaint.blendMode#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ShaderPropertyDefinition.name#0",
@@ -3623,19 +3623,19 @@
       "id": "StyledTextSegment.fontWeight#5",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "StyledTextSegment.fontStyle#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "StyledTextSegment.textDecoration#7",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "StyledTextSegment.textDecorationStyle#8",
@@ -3671,7 +3671,7 @@
       "id": "StyledTextSegment.textCase#13",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "StyledTextSegment.lineHeight#14",
@@ -3725,13 +3725,13 @@
       "id": "StyledTextSegment.paragraphIndent#22",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "StyledTextSegment.paragraphSpacing#23",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "StyledTextSegment.textWrapStyle#24",
@@ -4325,7 +4325,7 @@
       "id": "BaseNodeMixin.getCSSAsync#9",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNodeMixin.getTopLevelFrame#10",
@@ -4415,7 +4415,7 @@
       "id": "SceneNodeMixin.locked#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "SceneNodeMixin.stuckNodes#2",
@@ -4673,7 +4673,7 @@
       "id": "LayoutMixin.rotation#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "LayoutMixin.layoutSizingHorizontal#3",
@@ -4745,7 +4745,7 @@
       "id": "BlendMixin.effectStyleId#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BlendMixin.setEffectStyleIdAsync#4",
@@ -5045,7 +5045,7 @@
       "id": "MinimalStrokesMixin.strokeStyleId#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "MinimalStrokesMixin.setStrokeStyleIdAsync#2",
@@ -5213,7 +5213,7 @@
       "id": "ScatterBrushProperties.rotation#7",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "StretchBrushProperties.type#0",
@@ -5525,7 +5525,7 @@
       "id": "MinimalBlendMixin.blendMode#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "Annotation.label#0",
@@ -5699,13 +5699,13 @@
       "id": "BaseNonResizableTextMixin.fontWeight#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.textCase#4",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.openTypeFeatures#5",
@@ -5747,7 +5747,7 @@
       "id": "BaseNonResizableTextMixin.getRangeFontSize#11",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.setRangeFontSize#12",
@@ -5759,7 +5759,7 @@
       "id": "BaseNonResizableTextMixin.getRangeFontName#13",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.setRangeFontName#14",
@@ -5825,7 +5825,7 @@
       "id": "BaseNonResizableTextMixin.getRangeFills#24",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.setRangeFills#25",
@@ -5891,13 +5891,13 @@
       "id": "NonResizableTextMixin.paragraphIndent#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NonResizableTextMixin.paragraphSpacing#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NonResizableTextMixin.textWrapStyle#2",
@@ -5927,7 +5927,7 @@
       "id": "NonResizableTextMixin.textDecoration#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NonResizableTextMixin.textDecorationStyle#7",
@@ -5969,7 +5969,7 @@
       "id": "NonResizableTextMixin.leadingTrim#13",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NonResizableTextMixin.getRangeTextDecoration#14",
@@ -6497,7 +6497,7 @@
       "id": "TextNode.textAlignVertical#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextNode.textAutoResize#4",
@@ -6557,7 +6557,7 @@
       "id": "TextPathNode.textAlignVertical#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextPathNode.autoRename#4",
@@ -7169,7 +7169,7 @@
       "id": "ShapeWithTextNode.rotation#4",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ShapeWithTextNode.resize#5",
@@ -7277,7 +7277,7 @@
       "id": "ConnectorNode.rotation#9",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ConnectorNode.clone#10",
@@ -8009,7 +8009,7 @@
       "id": "TextStyle.textDecoration#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextStyle.fontName#3",
@@ -8033,19 +8033,19 @@
       "id": "TextStyle.leadingTrim#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextStyle.paragraphIndent#7",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextStyle.paragraphSpacing#8",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextStyle.textWrapStyle#9",
@@ -8075,7 +8075,7 @@
       "id": "TextStyle.textCase#13",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextStyle.boundVariables#14",
@@ -8165,7 +8165,7 @@
       "id": "Image.getSizeAsync#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "Video.hash#0",
@@ -8337,11 +8337,11 @@
     },
     {
       "path": "figma-bridge/native_api_probe.js",
-      "sha256": "33a0aaccd7779964564ffa4d6bda63f104ec26349d9a7e80beba68be1bbc3242"
+      "sha256": "7ce5479d9277052631f5853b6267d5ae8cd5f131eeeb09ab8abd34d7e9f2ee70"
     },
     {
       "path": "figma-bridge/native_edit.js",
-      "sha256": "7b5e378ed552dce984f30ec12aa887eb3f2adcf334e357ee1031836904241a46"
+      "sha256": "9c808f9455f6662150314e54c2aff86734f114432a97707d98517e777c3064f0"
     },
     {
       "path": "figma-bridge/native_graph_review.js",
@@ -8374,6 +8374,10 @@
     {
       "path": "figma-bridge/semantic_tokens.js",
       "sha256": "e2fbf82690c21293d9b1c96e492724169e8569270a99f18e110245865f886a29"
+    },
+    {
+      "path": "figma-bridge/web_design.js",
+      "sha256": "eed9ef665e49635d6998b5b46c5da941a94edb5737769f4a1fb86d94dde14bda"
     },
     {
       "path": "figma-bridge/workspace_chat.js",
