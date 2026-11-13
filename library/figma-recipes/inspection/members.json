@@ -1,0 +1,449 @@
+{
+  "PluginAPI": {
+    "PropertySignature": [
+      "apiVersion",
+      "annotations",
+      "clientStorage",
+      "command",
+      "constants",
+      "currentPage",
+      "hasMissingFont",
+      "mixed",
+      "mode",
+      "motion",
+      "parameters",
+      "pluginId",
+      "root",
+      "skipInvisibleInstanceChildren",
+      "ui",
+      "util",
+      "variables",
+      "viewport"
+    ],
+    "MethodSignature": [
+      "getLocalTextStyles",
+      "getLocalTextStylesAsync",
+      "getLocalPaintStyles",
+      "getLocalPaintStylesAsync",
+      "getLocalEffectStyles",
+      "getLocalEffectStylesAsync",
+      "getLocalGridStyles",
+      "getLocalGridStylesAsync",
+      "getLocalCustomAnimationStyles",
+      "getLocalCustomAnimationStylesAsync",
+      "getNodeById",
+      "getNodeByIdAsync",
+      "getFileThumbnailNode",
+      "getFileThumbnailNodeAsync",
+      "getSelectionColors",
+      "getStyleById",
+      "getStyleByIdAsync",
+      "createPaintStyle",
+      "createTextStyle",
+      "createEffectStyle",
+      "createGridStyle",
+      "getFontFamilyVariationAxes",
+      "listAvailableFontsAsync",
+      "loadFontAsync",
+      "base64Encode",
+      "base64Decode",
+      "createImage",
+      "getImageByHash",
+      "createNodeFromSvg",
+      "createText"
+    ]
+  },
+  "ViewportAPI": {
+    "PropertySignature": [
+      "bounds",
+      "center",
+      "zoom",
+      "canvasView"
+    ]
+  },
+  "Rect": {
+    "PropertySignature": [
+      "x",
+      "y",
+      "width",
+      "height"
+    ]
+  },
+  "Vector": {
+    "PropertySignature": [
+      "x",
+      "y"
+    ]
+  },
+  "ConstantsAPI": {
+    "PropertySignature": [
+      "colors"
+    ]
+  },
+  "Font": {
+    "PropertySignature": [
+      "fontName"
+    ]
+  },
+  "FontName": {
+    "PropertySignature": [
+      "family",
+      "style",
+      "variationSettings"
+    ]
+  },
+  "RGB": {
+    "PropertySignature": [
+      "r",
+      "g",
+      "b"
+    ]
+  },
+  "RGBA": {
+    "PropertySignature": [
+      "r",
+      "g",
+      "b",
+      "a"
+    ]
+  },
+  "RGBWithColorSpace": {
+    "PropertySignature": [
+      "sourceColor"
+    ]
+  },
+  "RGBAWithColorSpace": {
+    "PropertySignature": [
+      "sourceColor"
+    ]
+  },
+  "SolidPaint": {
+    "PropertySignature": [
+      "type",
+      "color",
+      "opacity",
+      "blendMode",
+      "visible",
+      "boundVariables"
+    ]
+  },
+  "DropShadowEffect": {
+    "PropertySignature": [
+      "type",
+      "color",
+      "visible",
+      "radius",
+      "offset",
+      "spread",
+      "blendMode",
+      "boundVariables",
+      "showShadowBehindNode"
+    ]
+  },
+  "GradientPaint": {
+    "PropertySignature": [
+      "type",
+      "gradientTransform",
+      "gradientStops",
+      "opacity",
+      "visible",
+      "blendMode"
+    ]
+  },
+  "ColorStop": {
+    "PropertySignature": [
+      "position",
+      "color",
+      "boundVariables"
+    ]
+  },
+  "ImagePaint": {
+    "PropertySignature": [
+      "type",
+      "imageHash",
+      "scaleMode",
+      "visible",
+      "opacity",
+      "blendMode",
+      "imageTransform",
+      "scalingFactor",
+      "rotation",
+      "filters"
+    ]
+  },
+  "ImageFilters": {
+    "PropertySignature": [
+      "contrast",
+      "exposure",
+      "highlights",
+      "saturation",
+      "shadows",
+      "temperature",
+      "tint"
+    ]
+  },
+  "GridLayoutGrid": {
+    "PropertySignature": [
+      "pattern",
+      "color",
+      "sectionSize",
+      "visible",
+      "boundVariables"
+    ]
+  },
+  "Image": {
+    "PropertySignature": [
+      "hash"
+    ],
+    "MethodSignature": [
+      "getSizeAsync",
+      "getBytesAsync"
+    ]
+  },
+  "BaseStyleMixin": {
+    "PropertySignature": [
+      "id",
+      "name",
+      "type",
+      "consumers"
+    ],
+    "MethodSignature": [
+      "getStyleConsumersAsync"
+    ]
+  },
+  "PublishableMixin": {
+    "PropertySignature": [
+      "description",
+      "descriptionMarkdown",
+      "documentationLinks",
+      "remote",
+      "key"
+    ],
+    "MethodSignature": [
+      "getPublishStatusAsync"
+    ]
+  },
+  "PaintStyle": {
+    "PropertySignature": [
+      "type",
+      "paints",
+      "boundVariables"
+    ]
+  },
+  "TextStyle": {
+    "PropertySignature": [
+      "type",
+      "fontName",
+      "fontSize",
+      "letterSpacing",
+      "lineHeight",
+      "textCase",
+      "textDecoration",
+      "paragraphIndent",
+      "paragraphSpacing",
+      "listSpacing",
+      "hangingPunctuation",
+      "hangingList",
+      "leadingTrim",
+      "textWrapStyle",
+      "boundVariables"
+    ],
+    "MethodSignature": [
+      "setBoundVariable"
+    ]
+  },
+  "GridStyle": {
+    "PropertySignature": [
+      "type",
+      "layoutGrids",
+      "boundVariables"
+    ]
+  },
+  "EffectStyle": {
+    "PropertySignature": [
+      "type",
+      "effects",
+      "boundVariables"
+    ]
+  },
+  "AnnotationCategory": {
+    "PropertySignature": [
+      "color",
+      "id",
+      "isPreset",
+      "label"
+    ]
+  },
+  "Variable": {
+    "PropertySignature": [
+      "id",
+      "name",
+      "remote",
+      "key",
+      "hiddenFromPublishing",
+      "description",
+      "resolvedType",
+      "codeSyntax",
+      "valuesByMode",
+      "scopes",
+      "variableCollectionId"
+    ],
+    "MethodSignature": [
+      "getPublishStatusAsync",
+      "resolveForConsumer",
+      "setValueForMode",
+      "setVariableCodeSyntax",
+      "valuesByModeForCollectionAsync"
+    ]
+  },
+  "VariableCollection": {
+    "PropertySignature": [
+      "id",
+      "name",
+      "hiddenFromPublishing",
+      "key",
+      "remote",
+      "isExtension",
+      "modes",
+      "defaultModeId",
+      "variableIds"
+    ],
+    "MethodSignature": [
+      "getPublishStatusAsync"
+    ]
+  },
+  "VariableAlias": {
+    "PropertySignature": [
+      "type",
+      "id"
+    ]
+  },
+  "Variable.resolveForConsumer": {
+    "PropertySignature": [
+      "value",
+      "resolvedType"
+    ]
+  },
+  "StyledTextSegment": {
+    "PropertySignature": [
+      "start",
+      "end",
+      "characters",
+      "fontName",
+      "fontSize",
+      "fontWeight",
+      "fontStyle",
+      "textDecoration",
+      "textDecorationStyle",
+      "textDecorationColor",
+      "textDecorationThickness",
+      "textDecorationOffset",
+      "textDecorationSkipInk",
+      "textCase",
+      "lineHeight",
+      "fills",
+      "fillStyleId",
+      "textStyleId",
+      "paragraphIndent",
+      "paragraphSpacing",
+      "listSpacing",
+      "letterSpacing",
+      "indentation",
+      "listOptions",
+      "hyperlink",
+      "boundVariables",
+      "openTypeFeatures",
+      "textWrapStyle",
+      "textStyleOverrides"
+    ]
+  },
+  "VectorNetwork": {
+    "PropertySignature": [
+      "vertices",
+      "segments",
+      "regions"
+    ]
+  },
+  "VectorVertex": {
+    "PropertySignature": [
+      "x",
+      "y",
+      "cornerRadius",
+      "strokeCap",
+      "strokeJoin"
+    ]
+  },
+  "VectorSegment": {
+    "PropertySignature": [
+      "start",
+      "end",
+      "tangentStart",
+      "tangentEnd"
+    ]
+  },
+  "VectorRegion": {
+    "PropertySignature": [
+      "loops",
+      "windingRule"
+    ]
+  },
+  "ExportSettingsImage": {
+    "PropertySignature": [
+      "format",
+      "suffix",
+      "constraint",
+      "contentsOnly",
+      "useAbsoluteBounds",
+      "colorProfile"
+    ]
+  },
+  "VariablesAPI": {
+    "MethodSignature": [
+      "getVariableById",
+      "getVariableByIdAsync",
+      "getVariableCollectionById",
+      "getVariableCollectionByIdAsync",
+      "getLocalVariableCollections",
+      "getLocalVariables",
+      "getLocalVariablesAsync",
+      "getLocalVariableCollectionsAsync",
+      "createVariableAlias",
+      "createVariableAliasByIdAsync",
+      "createVariableCollection",
+      "setBoundVariableForEffect",
+      "setBoundVariableForLayoutGrid",
+      "setBoundVariableForPaint"
+    ]
+  },
+  "AnnotationsAPI": {
+    "MethodSignature": [
+      "getAnnotationCategoriesAsync",
+      "getAnnotationCategoryByIdAsync"
+    ]
+  },
+  "UtilAPI": {
+    "MethodSignature": [
+      "rgb",
+      "rgba",
+      "solidPaint",
+      "normalizeMarkdown"
+    ]
+  },
+  "ClientStorageAPI": {
+    "MethodSignature": [
+      "getAsync",
+      "setAsync",
+      "deleteAsync"
+    ]
+  },
+  "PluginDataMixin": {
+    "MethodSignature": [
+      "getPluginData",
+      "setPluginData",
+      "getPluginDataKeys",
+      "getSharedPluginData",
+      "setSharedPluginData",
+      "getSharedPluginDataKeys"
+    ]
+  }
+}
