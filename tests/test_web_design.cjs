@@ -427,6 +427,47 @@ test('intersecting linear and radial CSS masks capture and import as nested nati
   assert.equal(inner.children[0].fills[0].type, 'GRADIENT_RADIAL');
 });
 
+test('centered circular pixel-stop mask clamps descending stops and normalizes to square corners', async () => {
+  const rect = { x: 0, y: 0, width: 800, height: 800 };
+  const style = { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'rgb(20, 80, 152)',
+    backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none', borderTopLeftRadius: '0px',
+    borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '400', fontSize: '16px', lineHeight: '19px',
+    textAlign: 'left', color: 'rgb(0,0,0)', overflowX: 'visible', overflowY: 'visible',
+    maskImage: 'radial-gradient(circle, rgb(255, 255, 255) 400px, rgba(0, 0, 0, 0) 0px)',
+    maskComposite: 'add', maskMode: 'match-source', maskRepeat: 'repeat', maskSize: 'auto', maskPosition: '0% 0%',
+    filter: 'none', boxShadow: 'none' };
+  const shape = { nodeType: 1, tagName: 'DIV', textContent: '', children: [], childNodes: [],
+    getClientRects: () => [rect], getBoundingClientRect: () => rect, querySelector: () => null, getAttribute: () => null };
+  const body = { tagName: 'MAIN', textContent: '', children: [shape], childNodes: [shape],
+    getBoundingClientRect: () => rect, getClientRects: () => [], getAttribute: () => null };
+  const document = { body, documentElement: { clientWidth: 800, scrollHeight: 800 }, title: 'Circle mask fixture' };
+  const context = vm.createContext({ document, location: { origin: 'http://localhost:3000', pathname: '/' },
+    innerHeight: 800, innerWidth: 800, scrollX: 0, scrollY: 0,
+    getComputedStyle: element => element === body ? { ...style, maskImage: 'none', backgroundColor: 'transparent' } : style });
+  vm.runInContext(captureSource, context);
+  const captured = JSON.parse(JSON.stringify(context.captureWebDesign({ screenId: 'WEB-circle-mask' })));
+  const element = captured.screen.elements.find(item => item.paint?.alphaMasks);
+  const layer = element.paint.alphaMasks[0];
+  const edge = 400 / Math.hypot(400, 400);
+  assert.equal(layer.kind, 'radial');
+  assert.equal(layer.centerX, 0.5);
+  assert.equal(layer.centerY, 0.5);
+  assert(Math.abs(layer.stops[0].position - edge) < 1e-12);
+  assert.equal(layer.stops[1].position, layer.stops[0].position);
+  assert.equal(layer.stops[0].color, '#ffffff');
+  assert.equal(layer.stops[1].color, '#00000000');
+  assert(!captured.limitations.includes('unsupported CSS mask composition or layer'));
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements.push({ id: 'circle-mask', kind: 'frame', path: [], box: rect, paint: element.paint });
+  await h.apply(data);
+  const wrapper = h.page.children[0].children.find(item => item.name === 'Mask wrapper · circle-mask');
+  const gradient = wrapper.children[0].fills[0];
+  assert.equal(gradient.type, 'GRADIENT_RADIAL');
+  assert.equal(gradient.gradientStops[0].position, gradient.gradientStops[1].position);
+  assert.deepEqual(gradient.gradientStops.map(stop => stop.color.a), [1, 0]);
+});
+
 test('unsupported mask union and partial filter chains are explicitly reported and omitted', () => {
   const rect = { x: 20, y: 30, width: 100, height: 60 };
   const style = { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'rgb(255, 255, 255)',

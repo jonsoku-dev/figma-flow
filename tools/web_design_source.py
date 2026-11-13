@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Bind reviewed browser observations and pinned local images to a canonical graph."""
 import argparse
+import base64
+import binascii
 from collections import Counter
 import hashlib
 import json
@@ -56,14 +58,70 @@ def bind_screens(captures, graph_id, title, output, asset_index=None, *, respons
         capture = json.loads(raw)
         screen = capture['screen']
         screen_id = screen['id']
-        if any(not isinstance(e.get('path'), list) for e in [*screen['elements'], *capture['images']]):
+        canvases = capture.get('canvases', [])
+        if not isinstance(canvases, list):
+            raise ValueError('Canvas observations must be a list')
+        if any(not isinstance(e.get('path'), list) for e in [*screen['elements'], *capture['images'], *canvases]):
             raise ValueError('Capture did not retain ancestor paths; remeasure this screen.')
         if any(node['id'] == screen_id for node in nodes):
             raise ValueError('Duplicate captured screen ID')
         # The paint list keeps DOM order, including images at the same index.
         omissions = Counter()
         bound_media = []
-        for item in reversed(capture['images']):
+        canvas_observations = []
+        media_candidates = sorted([*capture['images'], *canvases], key=lambda item: item.get('position', -1), reverse=True)
+        for item in media_candidates:
+            if 'canvas' in item:
+                canvas = item.get('canvas')
+                if not isinstance(canvas, dict) or canvas.get('status') != 'captured':
+                    reason = canvas.get('reason', 'canvas pixels unavailable') if isinstance(canvas, dict) else 'canvas pixels unavailable'
+                    omissions['canvas pixels unavailable: ' + reason] += 1
+                    canvas_observations.append({'id': item.get('id'), 'status': 'unavailable', 'reason': reason})
+                    continue
+                data_url = canvas.get('dataUrl')
+                prefix = 'data:image/png;base64,'
+                if not isinstance(data_url, str) or not data_url.startswith(prefix):
+                    raise ValueError('Captured canvas must contain a PNG data URL')
+                if len(data_url) - len(prefix) > 4 * ((8_000_000 + 2) // 3):
+                    raise ValueError('Encoded canvas PNG exceeds the 8 MB limit')
+                try:
+                    content = base64.b64decode(data_url[len(prefix):], validate=True)
+                except (ValueError, binascii.Error) as error:
+                    raise ValueError('Captured canvas PNG base64 is invalid') from error
+                if len(content) > 8_000_000 or not image_signature(content, 'image/png'):
+                    raise ValueError('Captured canvas PNG is invalid or exceeds 8 MB')
+                digest = sha(content)
+                rel = Path('assets') / f'canvas-{digest}.png'
+                asset_dir = output.parent / rel.parent
+                if asset_dir.is_symlink() or not asset_dir.resolve().is_relative_to(output.parent.resolve()):
+                    raise ValueError('Canvas asset directory must stay inside the graph directory')
+                asset_dir.mkdir(parents=True, exist_ok=True)
+                file = output.parent / rel
+                if file.is_symlink() or not file.resolve().is_relative_to(output.parent.resolve()):
+                    raise ValueError('Canvas asset must stay inside the graph directory')
+                if file.exists():
+                    if not file.is_file() or sha(file.read_bytes()) != digest:
+                        raise ValueError('Canvas asset path already contains different bytes')
+                else:
+                    with file.open('xb') as asset_file:
+                        asset_file.write(content)
+                layer = {k: item[k] for k in ('id', 'box', 'paint', 'path')}
+                layer.update(kind='image', objectFit='contain', sourceRole='canvas',
+                             sourceDimensions={'width': canvas.get('width'), 'height': canvas.get('height')},
+                             sourcePixelRatio={'x': canvas.get('pixelRatioX'), 'y': canvas.get('pixelRatioY')},
+                             asset={'path': rel.as_posix(), 'sha256': digest, 'mimeType': 'image/png'})
+                if canvas.get('originalDimensions'):
+                    layer['originalCanvasDimensions'] = canvas['originalDimensions']
+                screen['elements'].insert(item['position'], layer)
+                canvas_observations.append({'id': item.get('id'), 'status': 'captured', 'captureMode': canvas.get('captureMode'),
+                    'dimensions': {'width': canvas.get('width'), 'height': canvas.get('height')},
+                    'devicePixelRatio': canvas.get('devicePixelRatio'), 'pixelRatioX': canvas.get('pixelRatioX'),
+                    'pixelRatioY': canvas.get('pixelRatioY'), 'sha256': digest,
+                    **({'originalDimensions': canvas['originalDimensions']} if canvas.get('originalDimensions') else {}),
+                    **({'screenshotExtent': canvas['screenshotExtent'], 'screenshotCrop': canvas['screenshotCrop']}
+                       if canvas.get('screenshotExtent') and canvas.get('screenshotCrop') else {}),
+                    **({'screenshotSha256': canvas['screenshotSha256']} if canvas.get('screenshotSha256') else {})})
+                continue
             request_target = item['requestTarget']
             bound_fallback = None
             if not request_target:
@@ -212,6 +270,7 @@ def bind_screens(captures, graph_id, title, output, asset_index=None, *, respons
                 'limitations': capture['limitations'],
                 'omitted_images': dict(omissions),
                 'bound_media': bound_media,
+                'canvas_observations': canvas_observations,
             },
         ]
         edges.append({'from': screen_id, 'to': evidence_id, 'type': 'sourced from'})

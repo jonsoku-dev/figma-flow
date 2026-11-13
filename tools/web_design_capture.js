@@ -166,11 +166,30 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     const angle=((Number(match[1]??180)%360)+360)%360;
     return stops.length>=2&&stops.length<=16&&[90,180].includes(angle)?{angle,stops}:null;
   }
-  function maskGradient(value) {
+  function maskGradient(value,bounds) {
     const linear = alphaMask(value);
     if (linear) return { kind: 'linear', ...linear };
     const radial = radialGradient(value);
-    return radial ? { kind: 'radial', ...radial } : null;
+    if (radial) return { kind: 'radial', ...radial };
+    return radialCircleMask(value, bounds);
+  }
+  function radialCircleMask(value, bounds) {
+    const match=/^radial-gradient\(circle(?:\s+at ([\d.]+)% ([\d.]+)%)?,\s*(.*)\)$/.exec(value);
+    if(!match||!bounds||Math.abs(bounds.width-bounds.height)>.01)return null;
+    const centerX=match[1]===undefined ? .5 : Number(match[1])/100;
+    const centerY=match[2]===undefined ? .5 : Number(match[2])/100;
+    if(centerX!==.5||centerY!==.5)return null;
+    const radius=Math.hypot(bounds.width/2,bounds.height/2),stops=[];
+    for(const entry of splitCssList(match[3])){
+      const stop=/^(.*?)\s+(-?(?:\d+(?:\.\d*)?|\.\d+))(px|%)$/.exec(entry);
+      if(!stop)return null;
+      const parsedColor=color(stop[1].trim(),true),raw=Number(stop[2]);
+      if(!parsedColor||raw<0)return null;
+      const position=stop[3]==='px'?raw/radius:raw/100;
+      if(position>1)return null;
+      stops.push({position:stops.length?Math.max(position,stops.at(-1).position):position,color:parsedColor});
+    }
+    return stops.length>=2&&stops.length<=16?{kind:'radial',centerX,centerY,stops}:null;
   }
   function cssFunctions(value) {
     const result=[];let i=0;
@@ -226,7 +245,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     const out=c.map(n=>Math.round(n*255).toString(16).padStart(2,'0')).join('');
     return '#'+out+(a<1?Math.round(a*255).toString(16).padStart(2,'0'):'');
   }
-  function paint(style, allowColorFilters=false) {
+  function paint(style, allowColorFilters=false, bounds=null) {
     const p={},bg=color(style.backgroundColor),border=numeric(style.borderTopWidth);
     if (bg) p.background=bg;
     if (style.backgroundImage !== 'none') {
@@ -235,7 +254,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       else limitations.add('background image or unsupported gradient');
     }
     if(style.maskImage&&style.maskImage!=='none'){
-      const layers=splitCssList(style.maskImage).map(maskGradient);
+      const layers=splitCssList(style.maskImage).map(value=>maskGradient(value,bounds));
       const composites=String(style.maskComposite||'add').split(/,\s*/).map(value=>value.trim());
       const compositeSupported=layers.length===1 || composites.length>=layers.length-1
         && composites.slice(0,layers.length-1).every(value=>value==='intersect');
@@ -368,7 +387,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         const urls=[...s.backgroundImage.matchAll(/url\(["']?(.*?)["']?\)/g)].map(match=>match[1]);
         for(const [index,src] of urls.entries()){
           try{const url=new URL(src,location.href);mediaCandidate({id:`${id}-background-${index+1}`,path:[...path],box:b,
-            requestTarget:url.href,status:mediaLoaded(url.href)?'loaded':'unloaded',mediaKind:'background',alt:'',objectFit:'cover',paint:paint(s),position:elements.length});}
+            requestTarget:url.href,status:mediaLoaded(url.href)?'loaded':'unloaded',mediaKind:'background',alt:'',objectFit:'cover',paint:paint(s,false,b),position:elements.length});}
           catch(_){limitations.add('invalid CSS background media URL');}
         }
       }
@@ -380,7 +399,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
           const loaded=!!(el.complete&&el.naturalWidth>0);
           const objectFit=s.objectFit==='contain'?'contain':'cover';
           if(loaded&&Math.abs(el.naturalWidth/el.naturalHeight-b.width/b.height)>.02&&!['contain','cover'].includes(s.objectFit))limitations.add('approximated image fit');
-          mediaCandidate({id,path:[...path],box:b,requestTarget,status:loaded?'loaded':'unloaded',mediaKind:'image',alt:el.alt||'',objectFit,paint:paint(s),position:elements.length});
+          mediaCandidate({id,path:[...path],box:b,requestTarget,status:loaded?'loaded':'unloaded',mediaKind:'image',alt:el.alt||'',objectFit,paint:paint(s,false,b),position:elements.length});
         }else limitations.add('image without a request URL');
         return;
       }
@@ -391,12 +410,12 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         if(!requestTarget)limitations.add('video without a source');
         const loaded=!!(el.readyState>0)||(requestTarget&&mediaLoaded(requestTarget));
         mediaCandidate({id,path:[...path],box:b,requestTarget,status:requestTarget&&loaded?'loaded':'unloaded',mediaKind:'video',
-          ...(fallbackRequestTarget?{fallbackRequestTarget}:{}),alt:'',objectFit:'cover',paint:paint(s),position:elements.length});
+          ...(fallbackRequestTarget?{fallbackRequestTarget}:{}),alt:'',objectFit:'cover',paint:paint(s,false,b),position:elements.length});
         return;
       }
       if(tag==='canvas'){
         if(elements.length+unboundImages.length+canvases.length>=maxLayers)throw Error('Screen exceeds the approved layer budget.');
-        const candidate={id,path:[...path],box:b,paint:paint(s),position:elements.length+unboundImages.length+canvases.length,
+        const candidate={id,path:[...path],box:b,paint:paint(s,false,b),position:elements.length+unboundImages.length+canvases.length,
           canvas:{width:el.width,height:el.height,devicePixelRatio:typeof devicePixelRatio==='number'?devicePixelRatio:1,
             pixelRatioX:b.width?el.width/b.width:null,pixelRatioY:b.height?el.height/b.height:null,
             captureMode:'canvas.toDataURL',status:'unavailable'}};
@@ -415,7 +434,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         return;
       }
       const colorOnlyLeaf=el.children.length===0&&!el.textContent.trim();
-      const p=paint(s,colorOnlyLeaf);
+      const p=paint(s,colorOnlyLeaf,b);
       if(p.borderRadius)p.borderRadius=round(Math.min(p.borderRadius,b.width/2,b.height/2));
       const label=el.textContent.trim().replace(/\s+/g,' ');
       const isControl=(tag==='a'||tag==='button'||el.getAttribute('role')==='button');

@@ -17,6 +17,22 @@ await require('node:fs/promises').writeFile('capture.json', JSON.stringify(captu
 
 산출물은 화면 크기, 실제 DOM 순서의 배경 프레임·편집 가능한 줄별 텍스트·컨트롤·단순 SVG, 부모 경로, 같은 출처 이미지 요청 목록, 누락 항목을 담는다. 폼 레이블과 placeholder는 서로 구분된다. 텍스트의 폰트 이름·크기·행 높이·무게·색은 브라우저 측정값이다. 퍼센트 중심과 색 정지점을 갖는 CSS 방사형 그라디언트는 Figma에서 편집 가능한 채우기로 변환한다. CSS 마스크·필터·그림자, 다른 배경 효과, 비디오·canvas, 복잡한 SVG 및 외부 이미지는 별도 항목으로 표시한다. 1,500개 레이어를 초과하면 더 작은 범위를 선택해야 한다. 캡처는 원본 웹 앱이나 Figma 문서를 변경하지 않는다.
 
+## Canvas 픽셀 보존
+
+캡처 함수는 각 `<canvas>`의 실제 `width`·`height`, CSS 박스, device pixel ratio와 원본 PNG를 기록한다. 브라우저의 `canvas.toDataURL('image/png')`가 성공하면 그래프 생성기가 PNG 바이트를 해시로 고정하고 `sourceRole: "canvas"`인 래스터 레이어로 연결한다. 원본 canvas 픽셀에는 CSS mask, filter, opacity와 겹친 DOM 요소가 포함되지 않는다. 캡처가 보이지 않는 효과를 보고하면 Figma 비교 전에 해당 한계를 확인한다.
+
+교차 출처 오염이나 브라우저 제한으로 원본 픽셀을 읽을 수 없다면, 같은 경로·뷰포트·스크롤 위치에서 만든 실제 페이지 스크린샷을 준비한다. 다음 명령은 측정된 canvas 경계만 자르고 새 캡처 파일을 만든다. 바깥 DOM은 복사하지 않으며, 스크린샷에 보이는 합성 픽셀만 사용한다.
+
+```sh
+python3 tools/web_design_canvas_crop.py \
+  --capture capture.json --screenshot page.png --canvas-id el-128 \
+  --screenshot-extent viewport --out capture-with-canvas.png.json
+python3 tools/web_design_source.py --capture capture-with-canvas.png.json \
+  --id account-app --title "Account app" --out account-graph.json
+```
+
+`--screenshot-extent`는 스크린샷이 viewport인지 전체 document인지 지정한다. viewport 캡처는 측정 파일에 기록된 스크롤 위치와 일치해야 한다. 원본 측정은 그대로 두고 새 캡처로 작업한다. 그래프 증거에는 `canvas.toDataURL` 또는 `user-supplied-screenshot-crop` 중 실제 픽셀 출처와 해당 PNG 해시가 기록된다.
+
 ## 편집 가능한 Figma 화면 만들기
 
 1. 로컬 이미지가 있으면 캡처의 `origin`과 이미지별 `requestTarget`을 자산 목록과 대조한다. 자산 목록의 각 객체에는 이 두 값과 `path`, `mimeType`, `sha256`을 둔다. 경로의 기준은 생성할 그래프의 폴더다. PNG, JPEG, WebP 원본을 여기에 보관한다. 이미지가 없는 화면은 `--assets`를 생략할 수 있다.
@@ -50,3 +66,5 @@ python3 tools/native_edit.py web-design --graph publication.json \
 `--responsive`는 원본 경로에 측정된 각 뷰포트를 연결한다. 같은 주소와 뷰포트를 두 번 넣으면 거절한다. 그래프에는 최대 256개 화면을 보관할 수 있고, 한 네이티브 작업에는 최대 16개를 선택한다. `--readback-scope screens`를 사용하면 해당 화면과 하위 레이어만 읽어 다른 프로젝트가 있는 페이지에서도 작업별 결과를 비교할 수 있다.
 
 효과와 영상 지원 범위, 실제 예제 페이지의 내보내기 결과는 [반응형 인수 기록](responsive-web-verification.md)에 있다.
+
+뷰포트 캡처는 현재 스크롤 위치를 기준으로 캔버스 좌표를 저장한다. 문서 캡처에서 뷰포트 스크린샷을 자를 때만 기록된 스크롤 오프셋을 적용한다. 스크린샷에 캔버스를 가리는 내용이 있다면 그 내용도 잘라낸 이미지에 들어간다. 검토한 스크린샷에서 해당 영역을 확인하고 원본과 같은 좌표계의 이미지를 사용한다.
