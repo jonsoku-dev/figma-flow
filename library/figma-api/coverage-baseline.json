@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 708,
-    "qualified-static-reference": 56,
-    "unresolved-receiver-name-reference": 618
+    "no-static-reference": 694,
+    "qualified-static-reference": 62,
+    "unresolved-receiver-name-reference": 626
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -413,7 +413,7 @@
       "id": "PluginAPI.createLine#67",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createEllipse#68",
@@ -425,19 +425,19 @@
       "id": "PluginAPI.createPolygon#69",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createStar#70",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createVector#71",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createText#72",
@@ -479,7 +479,7 @@
       "id": "PluginAPI.createSlice#78",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createSlide#79",
@@ -533,7 +533,7 @@
       "id": "PluginAPI.createTextPath#87",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createNodeFromJSXAsync#88",
@@ -5411,7 +5411,7 @@
       "id": "VectorLikeMixin.vectorPaths#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "VectorLikeMixin.handleMirroring#3",
@@ -5753,7 +5753,7 @@
       "id": "BaseNonResizableTextMixin.setRangeFontSize#12",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.getRangeFontName#13",
@@ -5801,13 +5801,13 @@
       "id": "BaseNonResizableTextMixin.getRangeLetterSpacing#20",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.setRangeLetterSpacing#21",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.getRangeHyperlink#22",
@@ -5831,7 +5831,7 @@
       "id": "BaseNonResizableTextMixin.setRangeFills#25",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.getRangeTextStyleId#26",
@@ -6053,7 +6053,7 @@
       "id": "NonResizableTextMixin.setRangeLineHeight#27",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NonResizableTextMixin.getRangeListOptions#28",
@@ -6581,7 +6581,7 @@
       "id": "TextPathNode.vectorPaths#7",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextPathNode.vectorNetwork#8",
@@ -6767,7 +6767,7 @@
       "id": "ComponentNode.createSlot#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ComponentNode.getInstancesAsync#4",
@@ -8336,8 +8336,12 @@
       "sha256": "3922e5da729177502af9399d4e340a0a364bb7bc040b68aef41c0686fdfcb416"
     },
     {
+      "path": "figma-bridge/native_api_fixture.js",
+      "sha256": "4145d01dcc7915356138c3c6108aa719961213074f59615dfdf15a1572b9aac2"
+    },
+    {
       "path": "figma-bridge/native_api_probe.js",
-      "sha256": "4e559f46edf3f07717f3c2a225d900c90f80c410a0084d500074c41863c98ec1"
+      "sha256": "ca33a7927eb1a77c7512da6af19109edfe2e041a9c4d61984cd99831b115f9c0"
     },
     {
       "path": "figma-bridge/native_edit.js",
@@ -8377,7 +8381,7 @@
     },
     {
       "path": "figma-bridge/web_design.js",
-      "sha256": "cb4e2ddd2119a3829496a3863df8a0e6ba06f8919b579925f94d30dbb2be83fe"
+      "sha256": "2256e710562490efd55a4e6473810ca652c623932840d105b7d8dbdff3dc8856"
     },
     {
       "path": "figma-bridge/workspace_chat.js",
