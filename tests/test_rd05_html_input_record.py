@@ -25,7 +25,7 @@ def record():
             {'ref': 'photos/missing.png', 'status': '404', 'kind': 'image', 'source': 'index.html'},
             {'ref': '../secret', 'status': 'rejected', 'kind': 'image', 'source': 'index.html'},
             {'ref': 'https://fonts.example/font.woff2?user=ada#frag', 'status': 'external-unverified', 'kind': 'font', 'source': 'css/type.css'},
-            {'ref': '/Users/jongseoklee/secret.png', 'status': 'rejected', 'kind': 'image', 'source': '/Users/jongseoklee/page.html'},
+            {'ref': '/Users/example-designer/secret.png', 'status': 'rejected', 'kind': 'image', 'source': '/Users/example-designer/page.html'},
         ]}},
         'sources': [{'path': 'index.html', 'sha256': 'a' * 64}],
     }
@@ -40,7 +40,7 @@ class HtmlInputRecordTests(unittest.TestCase):
         self.assertEqual(pinned['sha256'], input_effect.digest(input_effect.canonical(record()).encode()))
         self.assertEqual(len(pinned['sha256']), 64)
         text = json.dumps(pinned['summary'])
-        self.assertNotIn('/Users/jongseoklee', text)
+        self.assertNotIn('/Users/example-designer', text)
         self.assertNotIn('user=ada', text)
         self.assertNotIn('#frag', text)
         self.assertEqual([row['status'] for row in pinned['summary']], ['present', '404', 'rejected', 'external-unverified', 'rejected'])
@@ -62,8 +62,8 @@ class HtmlInputRecordTests(unittest.TestCase):
         self.assertNotEqual(stored['revision'], plain['revision'])
         artifact = workspace.task_artifacts(path, task) / 'input-record.json'
         self.assertEqual(input_effect.digest(artifact.read_bytes()), pinned['sha256'])
-        self.assertIn('/Users/jongseoklee', artifact.read_text(encoding='utf-8'))
-        self.assertNotIn('/Users/jongseoklee', json.dumps(task['input_summary']))
+        self.assertIn('/Users/example-designer', artifact.read_text(encoding='utf-8'))
+        self.assertNotIn('/Users/example-designer', json.dumps(task['input_summary']))
         self.assertEqual(task['input_summary'], pinned['summary'])
         tasks_doc = (Path(__file__).resolve().parents[1] / 'docs/development-roadmap/RD-05-asset-inventory/tasks.md').read_text(encoding='utf-8')
         self.assertIn('summarize_input_record', tasks_doc)

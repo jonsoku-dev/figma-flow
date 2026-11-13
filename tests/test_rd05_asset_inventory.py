@@ -52,11 +52,11 @@ class AssetInventoryTests(unittest.TestCase):
         meta = workspace.public_task_metadata({
             'key': 'html-task', 'title': 'HTML', 'project': 'desk', 'kind': 'discover', 'revision': 'a' * 64,
             'input_record': {'artifact': 'input-record.json', 'sha256': 'b' * 64},
-            'input_summary': rows + [{'ref': '/Users/jongseoklee/secret.png', 'kind': 'image', 'status': 'rejected', 'source': 'index.html', 'digest': 'hid'}],
+            'input_summary': rows + [{'ref': '/Users/example-designer/secret.png', 'kind': 'image', 'status': 'rejected', 'source': 'index.html', 'digest': 'hid'}],
         })
         self.assertEqual(meta['input_summary'], rows)
         self.assertNotIn('input_record', meta)
-        self.assertNotIn('/Users/jongseoklee', json.dumps(meta))
+        self.assertNotIn('/Users/example-designer', json.dumps(meta))
         host = (ROOT / 'figma-bridge/workspace_host.js').read_text(encoding='utf-8')
         self.assertIn('function workspaceAssetSummary', host)
         self.assertIn('input_summary: assets', host)
