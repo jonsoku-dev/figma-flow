@@ -105,6 +105,21 @@ function webValidate(plan) {
           || !Number.isFinite(stop.position) || stop.position < 0 || stop.position > 1
           || (index > 0 && stop.position < stops[index - 1].position)
           || !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(stop.color)))) throw Error('Invalid linear alpha mask');
+      if (paint.alphaMasks !== undefined && (paint.alphaMask !== undefined || paint.alphaMaskComposite !== 'intersect'
+        || !Array.isArray(paint.alphaMasks) || paint.alphaMasks.length < 1 || paint.alphaMasks.length > 8
+        || paint.alphaMasks.some(mask => {
+          if (!mask || !['linear', 'radial'].includes(mask.kind) || !Array.isArray(mask.stops)
+              || mask.stops.length < 2 || mask.stops.length > 16) return true;
+          const keys = mask.kind === 'linear' ? 'angle,kind,stops' : 'centerX,centerY,kind,stops';
+          if (Object.keys(mask).sort().join(',') !== keys
+              || (mask.kind === 'linear' && ![90, 180].includes(mask.angle))
+              || (mask.kind === 'radial' && !['centerX', 'centerY'].every(key => Number.isFinite(mask[key]) && mask[key] >= 0 && mask[key] <= 1))) return true;
+          return mask.stops.some((stop, index, stops) => !stop || Object.keys(stop).sort().join(',') !== 'color,position'
+            || !Number.isFinite(stop.position) || stop.position < 0 || stop.position > 1
+            || (index > 0 && stop.position < stops[index - 1].position)
+            || !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(stop.color));
+        }))) throw Error('Invalid intersecting CSS alpha masks');
+      if (paint.alphaMaskComposite !== undefined && paint.alphaMasks === undefined) throw Error('CSS mask composite requires explicit mask layers');
       if (element.kind === 'image' && (!element.asset || !/^[a-f0-9]{64}$/.test(element.asset.sha256)
           || !['image/png', 'image/jpeg', 'image/webp'].includes(element.asset.mimeType))) throw Error('Image needs a pinned raster hash and supported MIME type');
       if (element.kind === 'video' && (!element.asset || !/^[a-f0-9]{64}$/.test(element.asset.sha256)
@@ -664,31 +679,49 @@ async function webVerifyScreenTypography(figma, plan, frame, screen) {
   }
 }
 
-function webCreateMaskWrapper(figma, element, created) {
-  const host = figma.createFrame();
-  created.add(host);
-  host.name = `Mask wrapper · ${element.id}`;
-  host.fills = [];
-  host.layoutMode = 'NONE';
-  host.clipsContent = false;
-  host.resize(element.box.width, element.box.height);
-  const mask = figma.createRectangle();
-  created.add(mask);
-  mask.name = `Alpha mask · ${element.id}`;
-  mask.x = 0; mask.y = 0;
-  mask.resize(element.box.width, element.box.height);
-  mask.fills = [{ type: 'GRADIENT_LINEAR',
-    gradientTransform: element.paint.alphaMask.angle === 180
-      ? [[0, 1, 0], [-1, 0, 1]] : [[1, 0, 0], [0, 1, 0]],
-    gradientStops: element.paint.alphaMask.stops.map(stop => {
+function webCreateMaskWrapper(figma, element, created, content) {
+  const masks = element.paint.alphaMasks || (element.paint.alphaMask ? [{ kind: 'linear', ...element.paint.alphaMask }] : []);
+  let host = content || null;
+  for (const [index, maskData] of masks.entries()) {
+    const wrapper = figma.createFrame();
+    created.add(wrapper);
+    wrapper.name = `${index === 0 ? 'Mask wrapper' : `Mask wrapper ${index + 1}`} · ${element.id}`;
+    wrapper.fills = [];
+    wrapper.layoutMode = 'NONE';
+    wrapper.clipsContent = false;
+    wrapper.resize(element.box.width, element.box.height);
+    const mask = figma.createRectangle();
+    created.add(mask);
+    mask.name = `Alpha mask ${index + 1} · ${element.id}`;
+    mask.x = 0; mask.y = 0;
+    mask.resize(element.box.width, element.box.height);
+    const radial = maskData.kind === 'radial';
+    let gradientTransform;
+    if (radial) {
+      const radiusX = Math.SQRT2 * Math.max(maskData.centerX, 1 - maskData.centerX);
+      const radiusY = Math.SQRT2 * Math.max(maskData.centerY, 1 - maskData.centerY);
+      const scaleX = 0.5 / radiusX, scaleY = 0.5 / radiusY;
+      gradientTransform = [[scaleX, 0, 0.5 - maskData.centerX * scaleX], [0, scaleY, 0.5 - maskData.centerY * scaleY]];
+    } else gradientTransform = maskData.angle === 180
+      ? [[0, 1, 0], [-1, 0, 1]] : [[1, 0, 0], [0, 1, 0]];
+    mask.fills = [{ type: radial ? 'GRADIENT_RADIAL' : 'GRADIENT_LINEAR', gradientTransform,
+      gradientStops: maskData.stops.map(stop => {
       const value = webColor(stop.color);
       return { position: stop.position, color: { ...value.color, a: value.opacity } };
-    }) }];
-  mask.strokes = [];
-  mask.isMask = true;
-  mask.maskType = 'ALPHA';
-  mask.setPluginData(WEB_ELEMENT_ID, `${element.id}:mask`);
-  host.appendChild(mask);
+      }) }];
+    mask.strokes = [];
+    mask.isMask = true;
+    mask.maskType = 'ALPHA';
+    mask.setPluginData(WEB_ELEMENT_ID, `${element.id}:mask:${index + 1}`);
+    wrapper.appendChild(mask);
+    host = wrapper;
+    if (content) {
+      content.x = 0; content.y = 0;
+      wrapper.appendChild(content);
+    }
+    // The next mask wraps the previous mask plus its content.
+    content = wrapper;
+  }
   return host;
 }
 
@@ -718,11 +751,7 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     frame.layoutMode = 'NONE';
     webNodePaint(frame, element);
     let host = frame;
-    if (element.paint?.alphaMask) {
-      host = webCreateMaskWrapper(figma, element, created);
-      frame.x = 0; frame.y = 0;
-      host.appendChild(frame);
-    }
+    if (element.paint?.alphaMask || element.paint?.alphaMasks) host = webCreateMaskWrapper(figma, element, created, frame);
     frames.set(element.id, {frame, host, element});
   }
 
@@ -760,10 +789,11 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
         node.x = 0; node.y = 0;
       }
       (parentElement ? frames.get(parentElement.id).frame : root).appendChild(record.host);
-    } else if (element.paint?.alphaMask) {
-      const host = webCreateMaskWrapper(figma, element, created);
-      host.x = node.x; host.y = node.y; node.x = 0; node.y = 0;
-      host.appendChild(node); parent.appendChild(host);
+    } else if (element.paint?.alphaMask || element.paint?.alphaMasks) {
+      const x = node.x, y = node.y;
+      const host = webCreateMaskWrapper(figma, element, created, node);
+      host.x = x; host.y = y;
+      parent.appendChild(host);
     }
     else parent.appendChild(node);
   }

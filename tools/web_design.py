@@ -401,6 +401,8 @@ def validate_graph(graph, require_embedded=False):
                 'radialGradient',
                 'effects',
                 'alphaMask',
+                'alphaMasks',
+                'alphaMaskComposite',
             }:
                 raise ValueError('Unsupported paint fields')
             for key in ('background', 'color', 'borderColor'):
@@ -475,6 +477,33 @@ def validate_graph(graph, require_embedded=False):
                         or not COLORS.fullmatch(stop['color'])):
                         raise ValueError('Linear alpha mask stops must be sorted normalized literal colors')
                     previous = stop['position']
+            mask_layers = paint.get('alphaMasks')
+            if mask_layers is not None:
+                if paint.get('alphaMaskComposite') != 'intersect' or mask is not None or not isinstance(mask_layers, list) or not 1 <= len(mask_layers) <= 8:
+                    raise ValueError('Intersecting CSS alpha masks require one to eight mask layers')
+                for layer in mask_layers:
+                    if not isinstance(layer, dict) or layer.get('kind') not in {'linear', 'radial'}:
+                        raise ValueError('CSS alpha mask needs a supported linear or radial layer')
+                    keys = {'kind', 'stops', 'angle'} if layer['kind'] == 'linear' else {'kind', 'stops', 'centerX', 'centerY'}
+                    if set(layer) != keys or not isinstance(layer['stops'], list) or not 2 <= len(layer['stops']) <= 16:
+                        raise ValueError('CSS alpha mask needs bounded gradient stops and geometry')
+                    if layer['kind'] == 'linear' and layer['angle'] not in {90, 180}:
+                        raise ValueError('Linear alpha mask angle must be 90 or 180 degrees')
+                    if layer['kind'] == 'radial' and any(
+                        type(layer[key]) not in (int, float) or not math.isfinite(layer[key]) or not 0 <= layer[key] <= 1
+                        for key in ('centerX', 'centerY')
+                    ):
+                        raise ValueError('Radial alpha mask center must be normalized')
+                    previous = -1
+                    for stop in layer['stops']:
+                        if (not isinstance(stop, dict) or set(stop) != {'position', 'color'}
+                            or type(stop['position']) not in (int, float) or not math.isfinite(stop['position'])
+                            or not 0 <= stop['position'] <= 1 or stop['position'] < previous
+                            or not isinstance(stop['color'], str) or not COLORS.fullmatch(stop['color'])):
+                            raise ValueError('CSS alpha mask stops must be sorted normalized literal colors')
+                        previous = stop['position']
+            elif 'alphaMaskComposite' in paint:
+                raise ValueError('CSS alpha mask composite requires mask layers')
         frame_ids = {element['id'] for element in elements if element['kind'] == 'frame'}
         for element in elements:
             path = element.get('path', [])

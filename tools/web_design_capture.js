@@ -11,7 +11,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
   const height = extent === 'document' ? document.documentElement.scrollHeight : innerHeight;
   const dx = extent === 'document' ? scrollX : 0;
   const dy = extent === 'document' ? scrollY : 0;
-  const elements = [], unboundImages = [], limitations = new Set();
+  const elements = [], unboundImages = [], canvases = [], limitations = new Set();
   const round = v => Math.round(v * 100) / 100;
   const numeric = (value, fallback = 0) => Number.isFinite(Number.parseFloat(value)) ? Number.parseFloat(value) : fallback;
   function color(css, includeTransparent = false) {
@@ -57,11 +57,11 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     return b.width>0 && b.height>0 && b.x<width && b.y<height && b.x+b.width>0 && b.y+b.height>0;
   }
   function push(layer) {
-    if (elements.length + unboundImages.length >= maxLayers) throw Error('Screen exceeds the approved layer budget. Choose a smaller viewport or section.');
+    if (elements.length + unboundImages.length + canvases.length >= maxLayers) throw Error('Screen exceeds the approved layer budget. Choose a smaller viewport or section.');
     elements.push({...layer,path:[...layer.path]});
   }
   function mediaCandidate(candidate) {
-    if(elements.length+unboundImages.length>=maxLayers)throw Error('Screen exceeds the approved layer budget.');
+    if(elements.length+unboundImages.length+canvases.length>=maxLayers)throw Error('Screen exceeds the approved layer budget.');
     unboundImages.push(candidate);
   }
   function mediaLoaded(url) {
@@ -136,7 +136,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
   function radialGradient(value) {
     // Browser-computed percentage centers and stops. Commas inside CSS
     // color functions belong to the color, not to the list of stops.
-    const gradient = /^radial-gradient\(at ([\d.]+)% ([\d.]+)%, (.*)\)$/.exec(value);
+    const gradient = /^radial-gradient\((?:(?:ellipse(?:\s+farthest-corner)?)\s+)?(?:at ([\d.]+)% ([\d.]+)%,\s*)?(.*)\)$/.exec(value);
     if (!gradient) return null;
     const stops = [];
     for (const entry of gradient[3].split(/,\s*(?![^()]*\))/)) {
@@ -147,7 +147,8 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       if (!hex || position > 1 || (stops.length && position < stops[stops.length - 1].position)) return null;
       stops.push({position, color: hex});
     }
-    const centerX = Number(gradient[1]) / 100, centerY = Number(gradient[2]) / 100;
+    const centerX = gradient[1] === undefined ? 0.5 : Number(gradient[1]) / 100;
+    const centerY = gradient[2] === undefined ? 0.5 : Number(gradient[2]) / 100;
     return stops.length >= 2 && stops.length <= 16 && centerX <= 1 && centerY <= 1
       ? {centerX, centerY, stops} : null;
   }
@@ -165,7 +166,67 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     const angle=((Number(match[1]??180)%360)+360)%360;
     return stops.length>=2&&stops.length<=16&&[90,180].includes(angle)?{angle,stops}:null;
   }
-  function paint(style) {
+  function maskGradient(value) {
+    const linear = alphaMask(value);
+    if (linear) return { kind: 'linear', ...linear };
+    const radial = radialGradient(value);
+    return radial ? { kind: 'radial', ...radial } : null;
+  }
+  function cssFunctions(value) {
+    const result=[];let i=0;
+    while(i<value.length){
+      while(/\s/.test(value[i]||''))i++;
+      const head=/^([a-z-]+)\(/i.exec(value.slice(i));if(!head)return null;
+      const name=head[1],start=i+head[0].length;let depth=1,end=start;
+      for(;end<value.length&&depth;end++){if(value[end]==='(')depth++;else if(value[end]===')')depth--;}
+      if(depth)return null;
+      result.push([name,value.slice(start,end-1).trim()]);i=end;
+    }
+    return result;
+  }
+  function colorFilterChain(tokens) {
+    const operations=[];
+    for(const [name,arg] of tokens||[]){
+      const match=/^((?:\d+(?:\.\d*)?|\.\d+))(%)?(deg)?$/.exec(arg);
+      if(!match)return null;
+      const value=Number(match[1])/(match[2]?100:1),unit=match[3]?'deg':match[2]?'%':'';
+      if(!Number.isFinite(value))return null;
+      const allowed={brightness:unit!=='deg'&&value>=0,contrast:unit!=='deg'&&value>=0,saturate:unit!=='deg'&&value>=0,
+        grayscale:unit!=='deg'&&value>=0&&value<=1,sepia:unit!=='deg'&&value>=0&&value<=1,
+        invert:unit!=='deg'&&value>=0&&value<=1,opacity:unit!=='deg'&&value>=0&&value<=1,
+        'hue-rotate':unit==='deg'||(unit===''&&value===0)};
+      if(!allowed[name])return null;
+      operations.push({name,value});
+    }
+    return operations.length?operations:null;
+  }
+  function filterColor(value, operations) {
+    const hex=value?.slice(1)||'';if(!/^[\da-f]{6}(?:[\da-f]{2})?$/i.test(hex))return value;
+    let c=[0,2,4].map(i=>Number.parseInt(hex.slice(i,i+2),16)/255),a=hex.length===8?Number.parseInt(hex.slice(6,8),16)/255:1;
+    const clamp=n=>Math.max(0,Math.min(1,n));
+    for(const {name,value:v} of operations){
+      if(name==='brightness')c=c.map(x=>x*v);
+      else if(name==='contrast')c=c.map(x=>(x-.5)*v+.5);
+      else if(name==='saturate'||name==='grayscale'){
+        const s=name==='grayscale'?1-v:v,[r,g,b]=c,l=.2126*r+.7152*g+.0722*b;
+        c=[l+(r-l)*s,l+(g-l)*s,l+(b-l)*s];
+      }else if(name==='sepia'){
+        const t=v,[r,g,b]=c;c=[r*(1-.607*t)+g*.769*t+b*.189*t,
+          r*.349*t+g*(1-.314*t)+b*.168*t,r*.272*t+g*.534*t+b*(1-.869*t)];
+      }else if(name==='invert')c=c.map(x=>x*(1-2*v)+v);
+      else if(name==='opacity')a*=v;
+      else if(name==='hue-rotate'){
+        const t=v*Math.PI/180,cos=Math.cos(t),sin=Math.sin(t),[r,g,b]=c;
+        c=[r*(.213+cos*.787-sin*.213)+g*(.715-cos*.715-sin*.715)+b*(.072-cos*.072+sin*.928),
+          r*(.213-cos*.213+sin*.143)+g*(.715+cos*.285+sin*.140)+b*(.072-cos*.072-sin*.283),
+          r*(.213-cos*.213-sin*.787)+g*(.715-cos*.715+sin*.715)+b*(.072+cos*.928+sin*.072)];
+      }
+      c=c.map(clamp);a=clamp(a);
+    }
+    const out=c.map(n=>Math.round(n*255).toString(16).padStart(2,'0')).join('');
+    return '#'+out+(a<1?Math.round(a*255).toString(16).padStart(2,'0'):'');
+  }
+  function paint(style, allowColorFilters=false) {
     const p={},bg=color(style.backgroundColor),border=numeric(style.borderTopWidth);
     if (bg) p.background=bg;
     if (style.backgroundImage !== 'none') {
@@ -174,8 +235,14 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       else limitations.add('background image or unsupported gradient');
     }
     if(style.maskImage&&style.maskImage!=='none'){
-      const mask=alphaMask(style.maskImage);
-      if(mask)p.alphaMask=mask;else limitations.add('unsupported CSS mask');
+      const layers=splitCssList(style.maskImage).map(maskGradient);
+      const composites=String(style.maskComposite||'add').split(/,\s*/).map(value=>value.trim());
+      const compositeSupported=layers.length===1 || composites.length>=layers.length-1
+        && composites.slice(0,layers.length-1).every(value=>value==='intersect');
+      if(layers.length&&layers.every(Boolean)&&compositeSupported){
+        if(layers.length===1&&layers[0].kind==='linear')p.alphaMask={angle:layers[0].angle,stops:layers[0].stops};
+        else {p.alphaMasks=layers;p.alphaMaskComposite='intersect';}
+      }else limitations.add('unsupported CSS mask composition or layer');
     }
     if (border>0 && style.borderTopStyle!=='none') {
       const stroke=color(style.borderTopColor);
@@ -199,13 +266,21 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       else limitations.add('unsupported CSS shadow');
     }
     if(style.filter&&style.filter!=='none'){
-      const tokens=[...style.filter.matchAll(/([a-z-]+)\(([^)]*)\)/g)];
-      if(tokens.map(x=>x[0]).join('')!==style.filter.replace(/\s+/g,''))limitations.add('unsupported CSS filter');
-      for(const [,fn,arg] of tokens){
-        if(fn==='blur'&&/^\d+(?:\.\d+)?px$/.test(arg))effects.push({type:'LAYER_BLUR',radius:Math.min(100,Number.parseFloat(arg))});
-        else if(fn==='drop-shadow'){const e=shadow(arg,'DROP_SHADOW');if(e)effects.push(e);else limitations.add('unsupported CSS filter');}
-        else limitations.add('unsupported CSS filter');
+      const tokens=cssFunctions(style.filter);
+      const colorFilters=colorFilterChain(tokens);
+      let supported=!!tokens&&tokens.length>0&&!colorFilters;
+      const parsed=[];
+      for(const [fn,arg] of tokens||[]){
+        if(fn==='blur'&&/^\d+(?:\.\d+)?px$/.test(arg))parsed.push({type:'LAYER_BLUR',radius:Number.parseFloat(arg)});
+        else if(fn==='drop-shadow'){const e=shadow(arg,'DROP_SHADOW');if(e)parsed.push(e);else supported=false;}
+        else supported=false;
       }
+      if(colorFilters&&allowColorFilters&&style.boxShadow==='none'&&style.backgroundImage==='none'){
+        if(p.background)p.background=filterColor(p.background,colorFilters);
+        const borderColor=color(style.borderTopColor);
+        if(borderColor)p.borderColor=filterColor(borderColor,colorFilters);
+      }else if(supported&&effects.length+parsed.length<=8&&parsed.every(effect=>effect.type!=='LAYER_BLUR'||effect.radius<=100))effects.push(...parsed);
+      else limitations.add('unsupported CSS filter chain');
     }
     if(effects.length)p.effects=effects;
     return p;
@@ -319,8 +394,28 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
           ...(fallbackRequestTarget?{fallbackRequestTarget}:{}),alt:'',objectFit:'cover',paint:paint(s),position:elements.length});
         return;
       }
-      if(tag==='canvas'){limitations.add('canvas content');return;}
-      const p=paint(s);
+      if(tag==='canvas'){
+        if(elements.length+unboundImages.length+canvases.length>=maxLayers)throw Error('Screen exceeds the approved layer budget.');
+        const candidate={id,path:[...path],box:b,paint:paint(s),position:elements.length+unboundImages.length+canvases.length,
+          canvas:{width:el.width,height:el.height,devicePixelRatio:typeof devicePixelRatio==='number'?devicePixelRatio:1,
+            pixelRatioX:b.width?el.width/b.width:null,pixelRatioY:b.height?el.height/b.height:null,
+            captureMode:'canvas.toDataURL',status:'unavailable'}};
+        if(el.width>0&&el.height>0){
+          try{
+            const dataUrl=el.toDataURL('image/png');
+            if(typeof dataUrl==='string'&&dataUrl.startsWith('data:image/png;base64,')){
+              const bytes=(dataUrl.length-'data:image/png;base64,'.length)*.75;
+              if(bytes>8_000_000)candidate.canvas.reason='canvas PNG exceeds the 8 MB asset limit';
+              else{candidate.canvas.status='captured';candidate.canvas.mimeType='image/png';candidate.canvas.dataUrl=dataUrl;}
+            }else candidate.canvas.reason='browser returned a non-PNG canvas data URL';
+          }catch(error){candidate.canvas.reason=error?.name==='SecurityError'?'canvas is not origin-clean':'canvas pixel export failed';}
+        }else candidate.canvas.reason='canvas has zero intrinsic width or height';
+        canvases.push(candidate);
+        if(candidate.canvas.status!=='captured')limitations.add('canvas pixels unavailable');
+        return;
+      }
+      const colorOnlyLeaf=el.children.length===0&&!el.textContent.trim();
+      const p=paint(s,colorOnlyLeaf);
       if(p.borderRadius)p.borderRadius=round(Math.min(p.borderRadius,b.width/2,b.height/2));
       const label=el.textContent.trim().replace(/\s+/g,' ');
       const isControl=(tag==='a'||tag==='button'||el.getAttribute('role')==='button');
@@ -353,7 +448,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
   visit(document.body,[]);
   return {screen:{id:screenId,type:'screen',title:document.title,status:'observed',
       layout:{width,height,background:color(getComputedStyle(document.body).backgroundColor)||color(getComputedStyle(document.documentElement).backgroundColor)||'#ffffff'},elements},
-    images:unboundImages,limitations:[...limitations].sort(),origin:location.origin,pathname:location.pathname,
-    extent,viewport:{width:innerWidth,height:innerHeight},observedAt:new Date().toISOString()};
+    images:unboundImages,canvases,limitations:[...limitations].sort(),origin:location.origin,pathname:location.pathname,
+    extent,viewport:{width:innerWidth,height:innerHeight},scrollPosition:{x:scrollX,y:scrollY},observedAt:new Date().toISOString()};
 }
 if(typeof module!=='undefined')module.exports={captureWebDesign};

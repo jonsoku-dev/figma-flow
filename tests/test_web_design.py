@@ -126,6 +126,24 @@ def representative_graph(asset_path, asset_hash, count=506):
 
 
 class WebDesignTests(unittest.TestCase):
+    def test_intersecting_linear_and_radial_alpha_masks_are_validated_as_layers(self):
+        sample = graph()
+        sample['nodes'][0]['elements'][0]['paint'] = {
+            'alphaMaskComposite': 'intersect',
+            'alphaMasks': [
+                {'kind': 'linear', 'angle': 90, 'stops': [
+                    {'position': 0, 'color': '#00000000'}, {'position': 1, 'color': '#000000ff'},
+                ]},
+                {'kind': 'radial', 'centerX': 0.5, 'centerY': 0.5, 'stops': [
+                    {'position': 0, 'color': '#000000ff'}, {'position': 1, 'color': '#00000000'},
+                ]},
+            ],
+        }
+        self.assertEqual(len(web_design.validate_graph(sample)), 1)
+        sample['nodes'][0]['elements'][0]['paint']['alphaMaskComposite'] = 'add'
+        with self.assertRaisesRegex(ValueError, 'Intersecting CSS alpha masks'):
+            web_design.validate_graph(sample)
+
     def test_graph_to_pinned_native_plan(self):
         with tempfile.TemporaryDirectory() as d:
             src = Path(d) / 'graph.json'

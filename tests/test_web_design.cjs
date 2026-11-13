@@ -328,6 +328,26 @@ test('radial gradient capture becomes a native paint and survives readback', asy
   assert.equal(receipt.receipt.screens[0].gradients[0].element_id, 'hero-glow');
 });
 
+test('CSSOM radial gradients without an explicit center keep their rendered solid stops', () => {
+  const rect = { x: 0, y: 0, width: 341, height: 150 };
+  const style = { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundImage: 'radial-gradient(rgb(250, 116, 107) 0%, rgb(168, 74, 240) 55%, rgb(52, 120, 246) 100%)',
+    borderTopWidth: '0px', borderTopStyle: 'none', borderTopLeftRadius: '14px', borderTopColor: 'rgb(0, 0, 0)',
+    fontFamily: 'Arial', fontWeight: '400', fontSize: '16px', lineHeight: '19px', textAlign: 'left', color: 'rgb(0,0,0)',
+    overflowX: 'visible', overflowY: 'visible', maskImage: 'none', filter: 'none', boxShadow: 'none' };
+  const body = { tagName: 'MAIN', textContent: '', children: [], childNodes: [], getBoundingClientRect: () => rect,
+    getClientRects: () => [rect], getAttribute: () => null };
+  const document = { body, documentElement: { clientWidth: 341, scrollHeight: 150 }, title: 'CSSOM radial' };
+  const context = vm.createContext({ document, location: { origin: 'http://localhost:3000', pathname: '/' },
+    innerHeight: 150, innerWidth: 341, scrollX: 0, scrollY: 0, getComputedStyle: () => style });
+  vm.runInContext(captureSource, context);
+  const captured = JSON.parse(JSON.stringify(context.captureWebDesign({ screenId: 'WEB-cssom-radial' })));
+  assert.deepEqual(captured.screen.elements[0].paint.radialGradient, { centerX: 0.5, centerY: 0.5, stops: [
+    { position: 0, color: '#fa746b' }, { position: 0.55, color: '#a84af0' }, { position: 1, color: '#3478f6' },
+  ] });
+  assert.equal(captured.limitations.includes('background image or unsupported gradient'), false);
+});
+
 test('bounded native shadow and blur effects survive editable import', async () => {
   const h = harness();
   const data = plan();
@@ -370,6 +390,88 @@ test('linear alpha mask stays a native editable mask sibling inside an owned wra
   assert.equal(wrapper.children[0].isMask, true);
   assert.equal(wrapper.children[0].maskType, 'ALPHA');
   assert.equal(wrapper.children[1].type, 'FRAME');
+});
+
+test('intersecting linear and radial CSS masks capture and import as nested native alpha masks', async () => {
+  const rect = { x: 20, y: 30, width: 100, height: 60 };
+  const style = { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'rgb(255, 255, 255)',
+    backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none', borderTopLeftRadius: '0px',
+    borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '400', fontSize: '16px', lineHeight: '19px',
+    textAlign: 'left', color: 'rgb(0,0,0)', overflowX: 'visible', overflowY: 'visible',
+    maskImage: 'radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%)',
+    maskComposite: 'intersect', filter: 'none', boxShadow: 'none' };
+  const button = { nodeType: 1, tagName: 'BUTTON', textContent: 'Mask', children: [], childNodes: [],
+    getClientRects: () => [rect], getBoundingClientRect: () => rect, querySelector: () => null, getAttribute: () => null };
+  const body = { tagName: 'BODY', textContent: '', childNodes: [button], children: [button], getAttribute: () => null,
+    getBoundingClientRect: () => rect, getClientRects: () => [] };
+  const document = { body, documentElement: { clientWidth: 400, scrollHeight: 300 }, title: 'Mask fixture',
+    createRange() { return { selectNodeContents() {}, getBoundingClientRect: () => ({ x: 24, y: 44, width: 40, height: 19 }) }; } };
+  const context = vm.createContext({ document, location: { origin: 'http://localhost:3000', pathname: '/' },
+    innerHeight: 300, innerWidth: 400, scrollX: 0, scrollY: 0,
+    getComputedStyle: () => style });
+  vm.runInContext(captureSource, context);
+  const captured = JSON.parse(JSON.stringify(context.captureWebDesign({ screenId: 'WEB-mask-fixture' })));
+  const element = captured.screen.elements.find(item => item.kind === 'component');
+  assert.deepEqual(element.paint.alphaMasks.map(mask => mask.kind), ['radial', 'linear']);
+  assert.equal(element.paint.alphaMaskComposite, 'intersect');
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements.push({ id: 'two-masks', kind: 'frame', path: [], box: rect, paint: element.paint });
+  await h.apply(data);
+  const outer = h.page.children[0].children.find(item => item.name === 'Mask wrapper 2 · two-masks');
+  assert.equal(outer.children[0].isMask, true);
+  const inner = outer.children[1];
+  assert.equal(inner.children[0].isMask, true);
+  assert.equal(inner.children[1].type, 'FRAME');
+  assert.equal(outer.children[0].fills[0].type, 'GRADIENT_LINEAR');
+  assert.equal(inner.children[0].fills[0].type, 'GRADIENT_RADIAL');
+});
+
+test('unsupported mask union and partial filter chains are explicitly reported and omitted', () => {
+  const rect = { x: 20, y: 30, width: 100, height: 60 };
+  const style = { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'rgb(255, 255, 255)',
+    backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none', borderTopLeftRadius: '0px',
+    borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '400', fontSize: '16px', lineHeight: '19px',
+    textAlign: 'left', color: 'rgb(0,0,0)', overflowX: 'visible', overflowY: 'visible',
+    maskImage: 'linear-gradient(90deg, #000, transparent), radial-gradient(ellipse at 50% 50%, #000, transparent)',
+    maskComposite: 'add', filter: 'blur(3px) brightness(1.2)', boxShadow: 'none' };
+  const button = { nodeType: 1, tagName: 'BUTTON', textContent: 'Unsupported', children: [], childNodes: [],
+    getClientRects: () => [rect], getBoundingClientRect: () => rect, querySelector: () => null, getAttribute: () => null };
+  const body = { tagName: 'BODY', textContent: '', childNodes: [button], children: [button], getAttribute: () => null,
+    getBoundingClientRect: () => rect, getClientRects: () => [] };
+  const document = { body, documentElement: { clientWidth: 400, scrollHeight: 300 }, title: 'Unsupported fixture',
+    createRange() { return { selectNodeContents() {}, getBoundingClientRect: () => ({ x: 24, y: 44, width: 80, height: 19 }) }; } };
+  const context = vm.createContext({ document, location: { origin: 'http://localhost:3000', pathname: '/' },
+    innerHeight: 300, innerWidth: 400, scrollX: 0, scrollY: 0,
+    getComputedStyle: () => style });
+  vm.runInContext(captureSource, context);
+  const captured = JSON.parse(JSON.stringify(context.captureWebDesign({ screenId: 'WEB-unsupported' })));
+  const element = captured.screen.elements.find(item => item.kind === 'component');
+  assert.equal(element.paint.alphaMasks, undefined);
+  assert.equal(element.paint.effects, undefined);
+  assert(captured.limitations.includes('unsupported CSS mask composition or layer'));
+  assert(captured.limitations.includes('unsupported CSS filter chain'));
+});
+
+test('color filter chains transform opaque leaf solid paints with ordered CSS matrix math', () => {
+  const rect = { x: 20, y: 30, width: 100, height: 60 };
+  const style = { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'rgb(100, 80, 60)',
+    backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none', borderTopLeftRadius: '0px',
+    borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '400', fontSize: '16px', lineHeight: '19px',
+    textAlign: 'left', color: 'rgb(0,0,0)', overflowX: 'visible', overflowY: 'visible', maskImage: 'none',
+    filter: 'brightness(120%) saturate(150%)', boxShadow: 'none' };
+  const shape = { nodeType: 1, tagName: 'DIV', textContent: '', children: [], childNodes: [],
+    getClientRects: () => [rect], getBoundingClientRect: () => rect, querySelector: () => null, getAttribute: () => null };
+  const body = { tagName: 'BODY', textContent: '', childNodes: [shape], children: [shape], getAttribute: () => null,
+    getBoundingClientRect: () => rect, getClientRects: () => [] };
+  const document = { body, documentElement: { clientWidth: 400, scrollHeight: 300 }, title: 'Filter fixture' };
+  const context = vm.createContext({ document, location: { origin: 'http://localhost:3000', pathname: '/' },
+    innerHeight: 300, innerWidth: 400, scrollX: 0, scrollY: 0,
+    getComputedStyle: element => element === body ? { ...style, backgroundColor: 'transparent', filter: 'none' } : style });
+  vm.runInContext(captureSource, context);
+  const captured = JSON.parse(JSON.stringify(context.captureWebDesign({ screenId: 'WEB-color-filter' })));
+  assert.equal(captured.screen.elements[0].paint.background, '#825e3a');
+  assert.equal(captured.limitations.includes('unsupported CSS filter chain'), false);
 });
 
 test('pinned local video becomes a native VIDEO paint with hash readback', async () => {
@@ -437,7 +539,7 @@ test('browser control keys stay short and typography family is added natively', 
   }));
   buttons.forEach(button => styles.set(button, styleFor(button)));
   styles.get(buttons[0]).boxShadow = 'rgba(0, 0, 0, 0.2) 0px 2px 6px 0px';
-  styles.get(buttons[0]).filter = 'blur(3px)';
+  styles.get(buttons[0]).filter = 'blur(3px) drop-shadow(rgb(0, 0, 0) 0px 2px 4px) blur(4px) drop-shadow(rgba(0, 0, 0, .2) 1px 1px 3px)';
   styles.get(buttons[1]).maskImage = 'linear-gradient(rgb(255, 255, 255), rgba(0, 0, 0, 0))';
   const body = {tagName: 'BODY', textContent: '', childNodes: buttons, children: buttons,
     getAttribute: () => null,
@@ -456,9 +558,11 @@ test('browser control keys stay short and typography family is added natively', 
   assert.equal(controls[1].componentKey, 'control-button');
   assert.ok(controls.every(element => element.componentKey.length < 160));
   assert.notEqual(controls[0].text.lineHeight, controls[1].text.lineHeight);
-  assert.deepEqual(controls[0].paint.effects.map(effect => effect.type), ['DROP_SHADOW', 'LAYER_BLUR']);
+  assert.deepEqual(controls[0].paint.effects.map(effect => effect.type),
+    ['DROP_SHADOW', 'LAYER_BLUR', 'DROP_SHADOW', 'LAYER_BLUR', 'DROP_SHADOW']);
   assert.equal(controls[0].paint.effects[0].y, 2);
   assert.equal(controls[0].paint.effects[1].radius, 3);
+  assert.equal(controls[0].paint.effects[3].radius, 4);
   assert.deepEqual(controls[1].paint.alphaMask.stops.map(stop => stop.position), [0, 1]);
 });
 

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS mask and filter capture fixture</title>
+<style>
+  :root { color-scheme: light; font: 16px/1.5 system-ui, sans-serif; background: #f3f5f8; color: #162033; }
+  body { max-width: 760px; margin: 36px auto; padding: 0 20px; }
+  main { padding: 28px; border: 1px solid #d8deea; border-radius: 18px; background: white; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .sample { min-height: 150px; border-radius: 14px; background: radial-gradient(ellipse at 50% 50%, #fa746b 0%, #a84af0 55%, #3478f6 100%); }
+  .masked { mask-image: radial-gradient(ellipse at 50% 48%, #000 0%, #000 56%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%); mask-composite: intersect; }
+  .filtered { filter: blur(2px) drop-shadow(0 5px 7px rgb(24 43 84 / 35%)); }
+  .solid { background: #64503c; filter: brightness(120%) saturate(150%); }
+  .probe { margin-top: 20px; display: flex; gap: 12px; align-items: center; }
+  .swatch { width: 36px; height: 36px; border-radius: 8px; background: #825e3a; }
+  code { padding: 2px 5px; border-radius: 4px; background: #eef1f7; }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
+<body>
+  <main>
+    <h1>CSS mask and filter capture fixture</h1>
+    <p>Open this local file in a browser to compare layered gradient geometry and native filter samples.</p>
+    <div class="grid">
+      <div><h2>Intersected alpha masks</h2><div class="sample masked" aria-label="Radial and linear mask intersection"></div></div>
+      <div><h2>Blur and shadow chain</h2><div class="sample filtered" aria-label="Blur then drop shadow"></div></div>
+    </div>
+    <h2>Solid color filter</h2>
+    <div class="grid"><div class="sample solid" aria-label="Brightness and saturation filter"></div>
+      <div class="sample" aria-label="Unfiltered comparison"></div></div>
+    <div class="probe"><div class="swatch" aria-label="Pixel probe baseline"></div>
+      <p>Expected ordered solid probe: <code>#825e3a</code> from <code>rgb(100, 80, 60)</code> through <code>brightness(120%) saturate(150%)</code>.</p></div>
+  </main>
+</body>
+</html>
