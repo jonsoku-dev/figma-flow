@@ -1,0 +1,376 @@
+{
+  "schema": "figma-flow-api-audit-curated-evidence-v1",
+  "candidate": {
+    "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "commit": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "tree": "779be49d9fe2068b763d62dcdc23505e9059f83d"
+  },
+  "baseline": {
+    "ref": "v0.27.1",
+    "tag_object": "1c6280fcdf049ed38ec900ec37f3b08e8e66cfaf",
+    "commit": "42379a56d677ad29296ae3ae6495742a11fbaf43",
+    "tree": "0a62cb4cc395ac41ed522927cafce0d3c0f4cdb7"
+  },
+  "members": [
+    {
+      "owner": "PluginAPI",
+      "name": "union",
+      "signature": "union(\n    nodes: ReadonlyArray<BaseNode>,\n    parent: BaseNode & ChildrenMixin,\n    index?: number,\n  ): BooleanOperationNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled shapes example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-shapes.ts",
+          "symbol": "figma.union(",
+          "action": "Choose the Design shapes example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The current-page example produced a distinct UNION BOOLEAN_OPERATION from the corresponding call. All four results were present in the Design layers and full page read."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "subtract",
+      "signature": "subtract(\n    nodes: ReadonlyArray<BaseNode>,\n    parent: BaseNode & ChildrenMixin,\n    index?: number,\n  ): BooleanOperationNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled shapes example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-shapes.ts",
+          "symbol": "figma.subtract(",
+          "action": "Choose the Design shapes example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The current-page example produced a distinct SUBTRACT BOOLEAN_OPERATION from the corresponding call. All four results were present in the Design layers and full page read."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "intersect",
+      "signature": "intersect(\n    nodes: ReadonlyArray<BaseNode>,\n    parent: BaseNode & ChildrenMixin,\n    index?: number,\n  ): BooleanOperationNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled shapes example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-shapes.ts",
+          "symbol": "figma.intersect(",
+          "action": "Choose the Design shapes example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The current-page example produced a distinct INTERSECT BOOLEAN_OPERATION from the corresponding call. All four results were present in the Design layers and full page read."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "exclude",
+      "signature": "exclude(\n    nodes: ReadonlyArray<BaseNode>,\n    parent: BaseNode & ChildrenMixin,\n    index?: number,\n  ): BooleanOperationNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled shapes example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-shapes.ts",
+          "symbol": "figma.exclude(",
+          "action": "Choose the Design shapes example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The current-page example produced a distinct EXCLUDE BOOLEAN_OPERATION from the corresponding call. All four results were present in the Design layers and full page read."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "group",
+      "signature": "group(nodes: ReadonlyArray<BaseNode>, parent: BaseNode & ChildrenMixin, index?: number): GroupNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled shapes example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-shapes.ts",
+          "symbol": "figma.group(",
+          "action": "Choose the Design shapes example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The alpha-mask group and its ellipse and rectangle appeared together in Design layers and the full page read."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "BlendMixin",
+      "name": "isMask",
+      "signature": "isMask: boolean",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled shapes example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-shapes.ts",
+          "symbol": "mask.isMask = true",
+          "action": "Choose the Design shapes example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "Figma marked the ellipse as a mask in the layer tree after the example ran."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createFrame",
+      "signature": "createFrame(): FrameNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled grid example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-grid.ts",
+          "symbol": "figma.createFrame()",
+          "action": "Choose the Design grid example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The named grid frame appeared on the existing page. The fresh page read returned FRAME, GRID, 420 × 280."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createRectangle",
+      "signature": "createRectangle(): RectangleNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled grid example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-grid.ts",
+          "symbol": "figma.createRectangle()",
+          "action": "Choose the Design grid example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "All four rectangle children named Cell 1 through Cell 4 were present under the created grid frame."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "AutoLayoutMixin",
+      "name": "layoutMode",
+      "signature": "layoutMode: 'NONE' | 'HORIZONTAL' | 'VERTICAL' | 'GRID'",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled grid example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-grid.ts",
+          "symbol": "grid.layoutMode = 'GRID'",
+          "action": "Choose the Design grid example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The actual frame getter reported GRID on the 420 × 280 example with four named cells."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ChildrenMixin",
+      "name": "appendChild",
+      "signature": "appendChild(child: SceneNode): void",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled grid example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-grid.ts",
+          "symbol": "grid.appendChild(cell)",
+          "action": "Choose the Design grid example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The created grid contains the four rectangle children, visible in the layers tree; the full page read identifies their parent."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createSection",
+      "signature": "createSection(): SectionNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled motion example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-motion.ts",
+          "symbol": "figma.createSection()",
+          "action": "Choose the Design motion example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The page read returned the named SECTION with the two prototype frames; clicking each dot in Present navigated between them."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "SectionNode",
+      "name": "resizeWithoutConstraints",
+      "signature": "resizeWithoutConstraints(width: number, height: number): void",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled motion example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-motion.ts",
+          "symbol": "container.resizeWithoutConstraints(840, 300)",
+          "action": "Choose the Design motion example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The named section measured 840 × 300 in the native full page read."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createEllipse",
+      "signature": "createEllipse(): EllipseNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled motion example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-motion.ts",
+          "symbol": "figma.createEllipse()",
+          "action": "Choose the Design motion example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The Moving dot was present as an ELLIPSE in each prototype frame. Both were clickable in Present."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "FrameNode",
+      "name": "clone",
+      "signature": "clone(): FrameNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled motion example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-motion.ts",
+          "symbol": "start.clone()",
+          "action": "Choose the Design motion example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "The cloned Finish frame contained its Moving dot and accepted the return reaction; both distinct frame IDs appeared in Present."
+        }
+      ],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ReactionMixin",
+      "name": "setReactionsAsync",
+      "signature": "setReactionsAsync(reactions: Array<Reaction>): Promise<void>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Figma Design existing page; bundled motion example in the registered Flow menu.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/design-motion.ts",
+          "symbol": "dot.setReactionsAsync(",
+          "action": "Choose the Design motion example, then confirm adding it to the current page."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "Ran the registered Design example in the Little Hands file; checked the canvas/layers or presented the actual generated frames as documented in the motion and runtime verification section.",
+          "observed_result": "Both ellipses exposed ON_CLICK SMART_ANIMATE navigation with opposite destination IDs; the user-visible dots navigated in both directions."
+        }
+      ],
+      "baseline_status": "unresolved"
+    }
+  ]
+}

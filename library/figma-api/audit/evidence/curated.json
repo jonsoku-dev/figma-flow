@@ -1,0 +1,907 @@
+{
+  "schema": "figma-flow-api-audit-curated-evidence-v1",
+  "candidate": {
+    "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "commit": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "tree": "779be49d9fe2068b763d62dcdc23505e9059f83d"
+  },
+  "baseline": {
+    "ref": "v0.27.1",
+    "tag_object": "1c6280fcdf049ed38ec900ec37f3b08e8e66cfaf",
+    "commit": "42379a56d677ad29296ae3ae6495742a11fbaf43",
+    "tree": "0a62cb4cc395ac41ed522927cafce0d3c0f4cdb7"
+  },
+  "members": [
+    {
+      "owner": "ComponentNode",
+      "name": "createInstance",
+      "signature": "createInstance(): InstanceNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Two booking CTA instances created from the same local main.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/native_provision.js",
+          "symbol": "nativeProvisionRun",
+          "action": "Calls createdMain.createInstance() for the declared reserve-preview and reserve-login consumers."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_native_provision.cjs",
+          "test": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+          "assertion": "The mock host checks a new main, two instances, the local seed collection, paint alias, preserved sibling, and a second run with zero changed nodes; this is synthetic API behavior, not live Figma evidence."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 local component instance creation/reuse, not the candidate CTA graph-owned instance mapping.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "main.createInstance()",
+          "action": "Creates local component instances in the ordinary reviewed Design import path."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_generated_js_and_realistic_api_lifecycle_readback",
+          "assertion": "The synthetic Figma lifecycle fixture checks the created instance/main relationship."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "ComponentPropertiesMixin",
+      "name": "addComponentProperty",
+      "signature": "addComponentProperty(\n    propertyName: string,\n    type: ComponentPropertyType,\n    defaultValue: string | boolean | VariableAlias,\n    options?: ComponentPropertyOptions,\n  ): string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Live Design `design-component-properties` recipe only; creates BOOLEAN/INSTANCE_SWAP property definitions on its new button component set.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/bundled/design-component-properties.js",
+          "symbol": "bindDeclaredComponentProperties",
+          "action": "Calls addComponentProperty with BOOLEAN/INSTANCE_SWAP declarations, default values and preferredValues."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "bindDeclaredComponentProperties",
+          "action": "Shared production helper validates returned property keys and retained definitions."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_declared_component_properties.cjs",
+          "test": "normal importer binds real BOOLEAN and swap slots, local preferred keys, defaults and overrides",
+          "assertion": "The synthetic Figma host checks BOOLEAN and INSTANCE_SWAP definitions, preferred values, defaults, target references, visibility, nested main IDs and instance overrides; it is separate from the live recipe observation."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "The “모션과 실행 검증의 범위 / 네이티브 속성 예제” sections document the actual Design recipe run and getter check.",
+          "observed_result": "A live Design example created BOOLEAN visibility and INSTANCE_SWAP definitions, default and overridden instances, and checked actual property definitions, preferred component keys, references, and getter values before marking PASS. This is the isolated example route, not the full commercial importDesign workflow."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 creates/verifies owned TEXT label properties only; no BOOLEAN/INSTANCE_SWAP attribution.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "bindOwnedLabelProperty",
+          "action": "Adds or reuses a returned TEXT component property for labels."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_three_shared_labels_use_one_returned_text_property",
+          "assertion": "Fixture verifies native TEXT property creation/reuse and linked instance labels."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "ComponentPropertiesMixin",
+      "name": "componentPropertyDefinitions",
+      "signature": "readonly componentPropertyDefinitions: ComponentPropertyDefinitions",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Live `design-component-properties` Design recipe only; this does not establish the full commercial importer or app-wide BOOLEAN/INSTANCE_SWAP acceptance.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/bundled/design-component-properties.js",
+          "symbol": "bindDeclaredComponentProperties",
+          "action": "Adds actual BOOLEAN/INSTANCE_SWAP property definitions and verifies each returned definition, default and preferredValues."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "verifyDeclaredComponentReadback",
+          "action": "The shared production readback helper checks definitions/defaults against actual native properties."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_declared_component_properties.cjs",
+          "test": "normal importer binds real BOOLEAN and swap slots, local preferred keys, defaults and overrides",
+          "assertion": "The synthetic Figma host checks BOOLEAN and INSTANCE_SWAP definitions, preferred values, defaults, target references, visibility, nested main IDs and instance overrides; it is separate from the live recipe observation."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "The “모션과 실행 검증의 범위 / 네이티브 속성 예제” sections document the actual Design recipe run and getter check.",
+          "observed_result": "A live Design example created BOOLEAN visibility and INSTANCE_SWAP definitions, default and overridden instances, and checked actual property definitions, preferred component keys, references, and getter values before marking PASS. This is the isolated example route, not the full commercial importDesign workflow."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 TEXT label/variant property route only. BOOLEAN/INSTANCE_SWAP are not attributed to this baseline.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "bindOwnedLabelProperty",
+          "action": "Creates or verifies the owned TEXT property definitions used to bind component labels."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_three_shared_labels_use_one_returned_text_property",
+          "assertion": "Fixture verifies one shared TEXT property key links component labels and instance text values."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "ComponentPropertyOptions",
+      "name": "preferredValues",
+      "signature": "preferredValues?: InstanceSwapPreferredValue[]",
+      "status": "observed",
+      "applicability": "type-only",
+      "evidence_scope": "The type contract for INSTANCE_SWAP options; the live Design recipe recorded local preferred component keys, but this is a type alias member rather than an independently callable runtime API.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/bundled/design-component-properties.js",
+          "symbol": "bindDeclaredComponentProperties",
+          "action": "Passes preferredValues in ComponentPropertyOptions when defining the INSTANCE_SWAP property."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "bindDeclaredComponentProperties",
+          "action": "Builds preferred component keys and verifies the retained native preferredValues list."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_declared_component_properties.cjs",
+          "test": "normal importer binds real BOOLEAN and swap slots, local preferred keys, defaults and overrides",
+          "assertion": "The synthetic Figma host checks BOOLEAN and INSTANCE_SWAP definitions, preferred values, defaults, target references, visibility, nested main IDs and instance overrides; it is separate from the live recipe observation."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "The “모션과 실행 검증의 범위 / 네이티브 속성 예제” sections document the actual Design recipe run and getter check.",
+          "observed_result": "A live Design example created BOOLEAN visibility and INSTANCE_SWAP definitions, default and overridden instances, and checked actual property definitions, preferred component keys, references, and getter values before marking PASS. This is the isolated example route, not the full commercial importDesign workflow."
+        }
+      ],
+      "baseline_status": "unresolved",
+      "baseline_evidence_scope": "The 0.27.1 live R8 note recorded no INSTANCE_SWAP property; no baseline type-member evidence was curated.",
+      "baseline_code_evidence": [],
+      "baseline_test_evidence": [],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "InstanceNode",
+      "name": "componentProperties",
+      "signature": "readonly componentProperties: ComponentProperties",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Live `design-component-properties` Design recipe only; this does not establish the full commercial importer or app-wide BOOLEAN/INSTANCE_SWAP acceptance.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "applyDeclaredInstanceProperties",
+          "action": "Sets declared instance values and verifies that getters retain the requested type/value."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "verifyDeclaredComponentReadback",
+          "action": "Reads actual componentProperties values, visibility targets and nested swap main IDs."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_declared_component_properties.cjs",
+          "test": "normal importer binds real BOOLEAN and swap slots, local preferred keys, defaults and overrides",
+          "assertion": "The synthetic Figma host checks BOOLEAN and INSTANCE_SWAP definitions, preferred values, defaults, target references, visibility, nested main IDs and instance overrides; it is separate from the live recipe observation."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "The “모션과 실행 검증의 범위 / 네이티브 속성 예제” sections document the actual Design recipe run and getter check.",
+          "observed_result": "A live Design example created BOOLEAN visibility and INSTANCE_SWAP definitions, default and overridden instances, and checked actual property definitions, preferred component keys, references, and getter values before marking PASS. This is the isolated example route, not the full commercial importDesign workflow."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 TEXT label/variant property route only. BOOLEAN/INSTANCE_SWAP are not attributed to this baseline.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "verifyHandoff",
+          "action": "Reads the actual TEXT component property value when verifying a prepared handoff."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_three_shared_labels_use_one_returned_text_property",
+          "assertion": "Fixture verifies one shared TEXT property key links component labels and instance text values."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "InstanceNode",
+      "name": "getMainComponentAsync",
+      "signature": "getMainComponentAsync(): Promise<ComponentNode | null>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Source-main validation for the two selected CTA instances.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphTokenSync",
+          "action": "Requires each instance getter to resolve to one of the exact declared main components before a field can be paired."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_adoption_creates_independent_tokens_and_pins_only_declared_consumers",
+          "assertion": "The fixture checks distinct primitive/semantic variables and the declared main/instance property consumers; fixture assertions do not establish Figma runtime acceptance."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 scoped main/instance source verification and native semantic readback.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "readNativeSemantics",
+          "action": "Resolves each instance main component during native readback."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_three_shared_labels_use_one_returned_text_property",
+          "assertion": "The synthetic instance fixture checks its resolved main and returned text-property linkage."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "InstanceNode",
+      "name": "setProperties",
+      "signature": "setProperties(properties: { [propertyName: string]: string | boolean | VariableAlias }): void",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Live `design-component-properties` Design recipe only; this does not establish the full commercial importer or app-wide BOOLEAN/INSTANCE_SWAP acceptance.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "applyDeclaredInstanceProperties",
+          "action": "Uses InstanceNode.setProperties for validated BOOLEAN and INSTANCE_SWAP overrides."
+        },
+        {
+          "path": "library/figma-recipes/bundled/design-component-properties.js",
+          "symbol": "applyDeclaredInstanceProperties",
+          "action": "The Design recipe invokes the shared production helper for its default, hidden and swapped instances."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_declared_component_properties.cjs",
+          "test": "normal importer binds real BOOLEAN and swap slots, local preferred keys, defaults and overrides",
+          "assertion": "The synthetic Figma host checks BOOLEAN and INSTANCE_SWAP definitions, preferred values, defaults, target references, visibility, nested main IDs and instance overrides; it is separate from the live recipe observation."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "The “모션과 실행 검증의 범위 / 네이티브 속성 예제” sections document the actual Design recipe run and getter check.",
+          "observed_result": "A live Design example created BOOLEAN visibility and INSTANCE_SWAP definitions, default and overridden instances, and checked actual property definitions, preferred component keys, references, and getter values before marking PASS. This is the isolated example route, not the full commercial importDesign workflow."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 TEXT label/variant property route only. BOOLEAN/INSTANCE_SWAP are not attributed to this baseline.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "node.setProperties({[labelKey]: element.text})",
+          "action": "Applies an instance TEXT label override using its returned property key."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_three_shared_labels_use_one_returned_text_property",
+          "assertion": "Fixture verifies one shared TEXT property key links component labels and instance text values."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createComponent",
+      "signature": "createComponent(): ComponentNode",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "One owned booking CTA main created on an existing Design page.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/native_provision.js",
+          "symbol": "nativeProvisionRun",
+          "action": "Creates the owned main with figma.createComponent() inside the selected work frame."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_native_provision.cjs",
+          "test": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+          "assertion": "The mock host checks a new main, two instances, the local seed collection, paint alias, preserved sibling, and a second run with zero changed nodes; this is synthetic API behavior, not live Figma evidence."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 selected screen/component authoring; not the persistent booking CTA Graph-to-web pairing.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "figma.createComponent()",
+          "action": "Creates local components in the ordinary reviewed Design import path."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_generated_js_and_realistic_api_lifecycle_readback",
+          "assertion": "The synthetic Figma lifecycle fixture checks component creation/readback; it is not a real-Figma receipt."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "PluginDataMixin",
+      "name": "getPluginData",
+      "signature": "getPluginData(key: string): string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Ownership checks for the selected page, collection, variables, main and instances only.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/native_provision.js",
+          "symbol": "nativeProvisionMatches",
+          "action": "Reads the owner markers and semantic keys before treating the existing CTA frame/main/instances as reusable."
+        },
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphTokenPairMigration",
+          "action": "Reads collection and page markers to reject an unrelated owner or stale pairing."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_native_provision.cjs",
+          "test": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+          "assertion": "The mock host checks a new main, two instances, the local seed collection, paint alias, preserved sibling, and a second run with zero changed nodes; this is synthetic API behavior, not live Figma evidence."
+        },
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_adoption_creates_independent_tokens_and_pins_only_declared_consumers",
+          "assertion": "The fixture checks distinct primitive/semantic variables and the declared main/instance property consumers; fixture assertions do not establish Figma runtime acceptance."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 semantic ownership metadata for existing local nodes; not the candidate graph SHA pairing marker.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "info",
+          "action": "Reads stored plugin metadata used to identify owned semantic nodes."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_generated_js_and_realistic_api_lifecycle_readback",
+          "assertion": "Synthetic readback validates semantic metadata on generated nodes."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "PluginDataMixin",
+      "name": "setPluginData",
+      "signature": "setPluginData(key: string, value: string): void",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Ownership and semantic markers for the selected work frame, component, collection and pairing.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/native_provision.js",
+          "symbol": "nativeProvisionRun",
+          "action": "Writes explicit semantic keys and an owner marker on newly provisioned CTA nodes/collection."
+        },
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphTokenPairMigration",
+          "action": "Writes the graph-owned variable/page pairing marker after validated apply."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_native_provision.cjs",
+          "test": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+          "assertion": "The mock host checks a new main, two instances, the local seed collection, paint alias, preserved sibling, and a second run with zero changed nodes; this is synthetic API behavior, not live Figma evidence."
+        },
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_adoption_creates_independent_tokens_and_pins_only_declared_consumers",
+          "assertion": "The fixture checks distinct primitive/semantic variables and the declared main/instance property consumers; fixture assertions do not establish Figma runtime acceptance."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 semantic IDs and ownership metadata for prepared local designs.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "metadata",
+          "action": "Writes local plugin metadata for semantic identity and ownership."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_generated_js_and_realistic_api_lifecycle_readback",
+          "assertion": "Synthetic readback checks semantic metadata is written and retained."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "SceneNodeMixin",
+      "name": "componentPropertyReferences",
+      "signature": "componentPropertyReferences:\n    | {\n        [nodeProperty in 'visible' | 'characters' | 'mainComponent']?: string\n      }\n    | null",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Live Design recipe checks the actual BOOLEAN visibility and INSTANCE_SWAP mainComponent layer references for its demo button.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/bundled/design-component-properties.js",
+          "symbol": "bindDeclaredComponentProperties",
+          "action": "Assigns returned native property keys to the visibility/mainComponent componentPropertyReferences."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "verifyDeclaredComponentReadback",
+          "action": "Verifies actual child layer references against each declared property key."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_declared_component_properties.cjs",
+          "test": "normal importer binds real BOOLEAN and swap slots, local preferred keys, defaults and overrides",
+          "assertion": "The synthetic Figma host checks BOOLEAN and INSTANCE_SWAP definitions, preferred values, defaults, target references, visibility, nested main IDs and instance overrides; it is separate from the live recipe observation."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "docs/figma-recipes.md",
+          "action": "The “모션과 실행 검증의 범위 / 네이티브 속성 예제” sections document the actual Design recipe run and getter check.",
+          "observed_result": "A live Design example created BOOLEAN visibility and INSTANCE_SWAP definitions, default and overridden instances, and checked actual property definitions, preferred component keys, references, and getter values before marking PASS. This is the isolated example route, not the full commercial importDesign workflow."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 TEXT label references only; no BOOLEAN/SWAP reference attribution.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "bindOwnedLabelProperty",
+          "action": "Reads and writes the returned TEXT `characters` reference on owned labels."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_figma_bridge.py",
+          "test": "test_three_shared_labels_use_one_returned_text_property",
+          "assertion": "Fixture verifies the TEXT characters reference is shared and retained."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "VariablesAPI",
+      "name": "createVariable",
+      "signature": "createVariable(\n    name: string,\n    collection: VariableCollection,\n    resolvedType: VariableResolvedDataType,\n  ): Variable",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Primitive and semantic variables in one local collection for the booking CTA.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/native_provision.js",
+          "symbol": "nativeProvisionRun",
+          "action": "Creates the starter seed in a local collection using a collection object."
+        },
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphTokenPairMigration",
+          "action": "Creates graph-declared root and alias variables only within the pinned local collection."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_native_provision.cjs",
+          "test": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+          "assertion": "The mock host checks a new main, two instances, the local seed collection, paint alias, preserved sibling, and a second run with zero changed nodes; this is synthetic API behavior, not live Figma evidence."
+        },
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_adoption_creates_independent_tokens_and_pins_only_declared_consumers",
+          "assertion": "The fixture checks distinct primitive/semantic variables and the declared main/instance property consumers; fixture assertions do not establish Figma runtime acceptance."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 local semantic token collections; no persistent app graph/native/web pairing claim.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/semantic_tokens.js",
+          "symbol": "ensureSemanticTokens",
+          "action": "Creates local variables inside a local collection from an explicitly supplied token contract."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "figma.variables.createVariable(name, collection, kind)",
+          "action": "Uses the collection-object overload for local variable creation."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_native_18_to_24_import_keeps_alias_and_generates_web",
+          "assertion": "Fixture import updates a primitive value, preserves its alias and regenerates the web module."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "VariablesAPI",
+      "name": "getLocalVariablesAsync",
+      "signature": "getLocalVariablesAsync(type?: VariableResolvedDataType): Promise<Variable[]>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Read-only enumeration of the CTA’s declared local collection during scoped discovery/consumer checks.",
+      "code_evidence": [
+        {
+          "path": "tools/graph_sync.py",
+          "symbol": "discovery_bundle",
+          "action": "Generates a Design plugin that reads permitted-page nodes, local variable collections and variables."
+        },
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphSyncConsumerGuard",
+          "action": "Reads local variables to detect shared consumers before applying the scoped field migration."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_discovery_emits_scoped_read_only_installable_plugin",
+          "assertion": "The emitted plugin source requests the bounded full native discovery route and retains local variable/collection data."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 local variable discovery and supported token binding operations.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "readNativeSemantics",
+          "action": "Enumerates local variables for bounded readback."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "imports",
+          "action": "Reads local variables/collections used by the prepared design import."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_discovery_emits_scoped_read_only_installable_plugin",
+          "assertion": "Generated scoped discovery code is checked for bounded read-only native collection/variable reads."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "VariablesAPI",
+      "name": "getVariableByIdAsync",
+      "signature": "getVariableByIdAsync(id: string): Promise<Variable | null>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Getter and alias resolution for the selected local token pair.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphTokenPairMigration",
+          "action": "Resolves current local variable IDs, aliases, ownership, and before values before inspect/apply/import."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_adoption_creates_independent_tokens_and_pins_only_declared_consumers",
+          "assertion": "The fixture checks distinct primitive/semantic variables and the declared main/instance property consumers; fixture assertions do not establish Figma runtime acceptance."
+        },
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_adoption_pairs_actual_new_ids_and_preserves_strict_future_ids",
+          "assertion": "The synthetic discovery binding records map observed variable IDs to the exact graph token keys and reject changed IDs."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 variable alias/getter reconciliation in scoped native/token operations; no persistent CTA route claim.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "readNativeSemantics",
+          "action": "Resolves variable IDs while collecting native readback."
+        },
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphTokenSync",
+          "action": "Reads local variable IDs and verifies aliases before a scoped import/apply."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_initial_getter_rejects_graph_alias_and_declared_scope_drift",
+          "assertion": "Fixture getter rejects mismatched alias identity/scope before graph mutation."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "VariablesAPI",
+      "name": "importVariableByKeyAsync",
+      "signature": "importVariableByKeyAsync(key: string): Promise<Variable>",
+      "status": "unsupported",
+      "applicability": "runtime",
+      "evidence_scope": "Flow team-library import only; the official API declaration remains present and other plugin code may use it.",
+      "code_evidence": [
+        {
+          "path": "tools/figma_feature.py",
+          "symbol": "team-library route",
+          "action": "Routes to declaration search and product UI/library access checks; this router provides no local import operation and grants no teamlibrary manifest permission."
+        }
+      ],
+      "test_evidence": [],
+      "runtime_evidence": [],
+      "limitation_evidence": {
+        "source": "tools/figma_feature.py",
+        "scope": "The Flow team-library feature route only. It does not mark the official Plugin API member unsupported by Figma."
+      },
+      "baseline_status": "unresolved",
+      "baseline_evidence_scope": "No pinned 0.27.1 member-level catalog or explicit route audit; no absence claim is inferred from source scan.",
+      "baseline_code_evidence": [],
+      "baseline_test_evidence": [],
+      "baseline_runtime_evidence": []
+    },
+    {
+      "owner": "VariablesAPI",
+      "name": "setBoundVariableForPaint",
+      "signature": "setBoundVariableForPaint(\n    paint: SolidPaint,\n    field: VariableBindablePaintField,\n    variable: Variable | null,\n  ): SolidPaint",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Solid background color bindings for the selected CTA main and instances.",
+      "code_evidence": [
+        {
+          "path": "figma-bridge/native_provision.js",
+          "symbol": "nativeProvisionRun",
+          "action": "Binds the new main paint to the local seed variable."
+        },
+        {
+          "path": "figma-bridge/graph_token_sync.js",
+          "symbol": "graphSyncBindField",
+          "action": "Binds a declared color field through setBoundVariableForPaint and readbacks the fill."
+        }
+      ],
+      "test_evidence": [
+        {
+          "path": "tests/test_native_provision.cjs",
+          "test": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+          "assertion": "The mock host checks a new main, two instances, the local seed collection, paint alias, preserved sibling, and a second run with zero changed nodes; this is synthetic API behavior, not live Figma evidence."
+        },
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_adoption_creates_independent_tokens_and_pins_only_declared_consumers",
+          "assertion": "The fixture checks distinct primitive/semantic variables and the declared main/instance property consumers; fixture assertions do not establish Figma runtime acceptance."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "action": "Consulted the section “예약 CTA의 영속 웹 소비와 실제 Figma 왕복” and its three-stage table for the local 0.28 candidate.",
+          "observed_result": "The live Figma Design run provisioned one owned CTA main and two instances, bound their background to a local primitive/semantic variable pair, paired the browser-computed color, then imported a reverse Figma edit and re-paired after CSS regeneration. The evidence is scoped to these three consumers and one file; no raw node/file IDs are included."
+        }
+      ],
+      "baseline_status": "implemented",
+      "baseline_evidence_scope": "v0.27.1 bounded local paint/token bindings in reviewed native design flows; not the candidate persistent CTA application pairing.",
+      "baseline_code_evidence": [
+        {
+          "path": "figma-bridge/semantic_tokens.js",
+          "symbol": "ensureSemanticTokens",
+          "action": "Binds eligible local solid paints to resolved local variables."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "figma.variables.setBoundVariableForPaint",
+          "action": "Sets the paint color alias in the existing local design import."
+        }
+      ],
+      "baseline_test_evidence": [
+        {
+          "path": "tests/test_graph_sync.py",
+          "test": "test_native_18_to_24_import_keeps_alias_and_generates_web",
+          "assertion": "Fixture verifies native variable bindings and graph-to-web value propagation."
+        }
+      ],
+      "baseline_runtime_evidence": []
+    }
+  ],
+  "scope_findings": [
+    {
+      "id": "dev-codegen-sdk-scaffold",
+      "scope": "Separate Figma Dev Mode codegen SDK scaffold; not the registered Design Flow plugin or a generic member-support claim.",
+      "status": "compile_only",
+      "baseline_status": "unresolved",
+      "candidate_status": "compile_only",
+      "evidence": [
+        {
+          "path": "tools/figma_feature.py",
+          "symbol": "sdk('dev-codegen', ...) route",
+          "action": "Routes codegen intent to a separate Dev editor SDK recipe with explicit review and import prerequisites."
+        },
+        {
+          "path": "library/figma-recipes/dev-codegen.ts",
+          "symbol": "figma.codegen.on('generate')",
+          "action": "The recipe returns selected-node geometry as JSON from the Dev/codegen callback; it does not write Design nodes."
+        },
+        {
+          "path": "tests/test_figma_sdk_project.py",
+          "symbol": "test_real_compiler_all_editors_and_rejects_invalid_api",
+          "action": "When run with the pinned compiler, checks TypeScript build output for SDK editors; it does not open Figma or execute the callback."
+        }
+      ],
+      "note": "The v0.27.1 tag has no matching route record, so baseline remains unresolved rather than claiming the official API was absent. Candidate evidence is limited to a separate SDK scaffold/build path; live Dev Mode acceptance is unverified."
+    },
+    {
+      "id": "widget-api-inventory-denominator",
+      "scope": "Definition of the 1,382-member Plugin API inventory denominator; not a Widget API product support verdict.",
+      "status": "unresolved",
+      "baseline_status": "unresolved",
+      "candidate_status": "unresolved",
+      "evidence": [
+        {
+          "path": "library/figma-api/source.json",
+          "symbol": "source.files.plugin-api.d.ts",
+          "action": "Pins the Plugin API declaration file used to generate index.json and the 1,382-member count."
+        },
+        {
+          "path": "library/figma-widget/README.md",
+          "symbol": "Official Widget API typings",
+          "action": "Identifies Widget API 1.13.0 as a separate pinned declaration inventory, outside the Plugin API member denominator."
+        }
+      ],
+      "note": "Widget APIs are counted separately, not omitted as unsupported members of the 1,382 Plugin API inventory."
+    },
+    {
+      "id": "commercial-importer-boolean-instance-swap-integration",
+      "scope": "Actual Figma runtime acceptance of BOOLEAN visibility and INSTANCE_SWAP values/overrides.",
+      "status": "unresolved",
+      "baseline_status": "unresolved",
+      "candidate_status": "unresolved",
+      "evidence": [
+        {
+          "path": "docs/figma-recipes.md",
+          "symbol": "design-component-properties live-result section",
+          "action": "Records the separate Design recipe and real native preferred-value/getter PASS."
+        },
+        {
+          "path": "figma-bridge/code.js",
+          "symbol": "importDesign",
+          "action": "Full commercial importer is a separate route; the recipe reuses property helpers without running importDesign."
+        },
+        {
+          "path": "tests/test_declared_component_properties.cjs",
+          "symbol": "normal importer binds real BOOLEAN and swap slots, local preferred keys, defaults and overrides",
+          "action": "Automated synthetic-host regression for the commercial source-importer helper; it is not a live Figma receipt."
+        }
+      ],
+      "note": "The separate design-component-properties recipe was live-checked for native BOOLEAN/INSTANCE_SWAP definitions and preferred values. The full commercial importDesign route and app-wide instance-impact flow were not live-checked; keep that feature scope unresolved."
+    },
+    {
+      "id": "starter-team-plan-multiuser-acceptance",
+      "scope": "Exactly three-page Starter team file, fresh-account collaboration and view-only participant setup.",
+      "status": "unresolved",
+      "baseline_status": "unresolved",
+      "candidate_status": "unresolved",
+      "evidence": [
+        {
+          "path": "apps/little-hands/design/VERIFICATION.md",
+          "symbol": "예약 CTA의 영속 웹 소비와 실제 Figma 왕복",
+          "action": "Records the candidate run on an existing Draft file with a free-plan indicator and explicitly leaves the three-page Starter team and separate-account tests for later."
+        }
+      ],
+      "note": "The observed file/page and Draft context do not establish Starter team/seat policy acceptance."
+    }
+  ]
+}

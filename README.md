@@ -15,6 +15,7 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 
 | 필요한 작업 | 가이드 위치 |
 |---|---|
+| API별 실행 경로·지원 근거·확인된 미구현 항목 | [공개 Plugin API 1,382개 멤버 대조](library/figma-api/audit/report.md) |
 | Figma 기능 찾기·로컬 예제 실행 | [공개 API와 데스크톱 메뉴](docs/guide.md#local-figma-features) |
 | 처음 설치·고정 manifest 등록·첫 예제 | [설치부터 검토까지](docs/guide.md#2-클론하고-codex에-설치) |
 | 한 번 실행한 뒤 Codex에 맡기기 | [로컬 제어](docs/guide.md#기본-흐름-한-번-실행하고-codex에-맡기기) |

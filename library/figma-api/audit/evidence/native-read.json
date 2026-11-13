@@ -1,0 +1,1697 @@
+{
+  "schema": "figma-flow-api-audit-curated-evidence-v1",
+  "candidate": {
+    "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "commit": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "tree": "779be49d9fe2068b763d62dcdc23505e9059f83d"
+  },
+  "baseline": {
+    "ref": "v0.27.1",
+    "tag_object": "1c6280fcdf049ed38ec900ec37f3b08e8e66cfaf",
+    "commit": "42379a56d677ad29296ae3ae6495742a11fbaf43",
+    "tree": "0a62cb4cc395ac41ed522927cafce0d3c0f4cdb7"
+  },
+  "g4_snapshot": {
+    "artifact": "G4 full native readback retained by the local run owner; not distributed.",
+    "sha256": "de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780",
+    "schema": "figma-flow-graph-native-discovery-v1",
+    "node_count": 103,
+    "node_types": {
+      "BOOLEAN_OPERATION": 4,
+      "COMPONENT": 16,
+      "COMPONENT_SET": 3,
+      "ELLIPSE": 11,
+      "FRAME": 6,
+      "GROUP": 1,
+      "INSTANCE": 14,
+      "PAGE": 1,
+      "RECTANGLE": 11,
+      "SECTION": 1,
+      "TEXT": 35
+    },
+    "variable_count": 144,
+    "collection_count": 3,
+    "styles_field_present": false,
+    "style_records": 0,
+    "raster_image_count": 0,
+    "text_segment_node_count": 35,
+    "instance_override_count": 14
+  },
+  "members": [
+    {
+      "owner": "PageNode",
+      "name": "loadAsync",
+      "signature": "loadAsync(): Promise<void>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "One actual selected Design page.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "loadAsync",
+          "action": "Awaits loading the pinned page before reading any node."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "ChildrenMixin",
+      "name": "findAll",
+      "signature": "findAll(callback?: (node: SceneNode) => boolean): SceneNode[]",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Full tree of the selected page: 102 descendants.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "findAll",
+          "action": "Enumerates all descendant nodes for full native discovery."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "ChildrenMixin",
+      "name": "children",
+      "signature": "readonly children: ReadonlyArray<SceneNode>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Actual page/component/instance parent chains.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "children",
+          "action": "Reads ancestor child arrays to determine semantic component paths."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNodeMixin",
+      "name": "id",
+      "signature": "readonly id: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "All 103 actual page/node records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "id",
+          "action": "Serializes each actual node ID."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNodeMixin",
+      "name": "name",
+      "signature": "name: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "All 103 actual page/node records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "name",
+          "action": "Serializes each actual node name."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNodeMixin",
+      "name": "parent",
+      "signature": "readonly parent: (BaseNode & ChildrenMixin) | null",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "All 103 actual page/node records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "parent",
+          "action": "Serializes actual parent IDs and walks ancestry."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "DimensionAndPositionMixin",
+      "name": "x",
+      "signature": "x: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 spatial scene nodes; PAGE root has no geometry getter.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "x",
+          "action": "Reads actual native position/bounds for spatial nodes."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "DimensionAndPositionMixin",
+      "name": "y",
+      "signature": "y: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 spatial scene nodes; PAGE root has no geometry getter.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "y",
+          "action": "Reads actual native position/bounds for spatial nodes."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "DimensionAndPositionMixin",
+      "name": "width",
+      "signature": "readonly width: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 spatial scene nodes; PAGE root has no geometry getter.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "width",
+          "action": "Reads actual native position/bounds for spatial nodes."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "DimensionAndPositionMixin",
+      "name": "height",
+      "signature": "readonly height: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 spatial scene nodes; PAGE root has no geometry getter.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "height",
+          "action": "Reads actual native position/bounds for spatial nodes."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "DimensionAndPositionMixin",
+      "name": "absoluteBoundingBox",
+      "signature": "readonly absoluteBoundingBox: Rect | null",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 spatial scene nodes; PAGE root has no geometry getter.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "absoluteBoundingBox",
+          "action": "Reads actual native position/bounds for spatial nodes."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "SceneNodeMixin",
+      "name": "visible",
+      "signature": "visible: boolean",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 spatial nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "visible",
+          "action": "Reads the actual node visibility property."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "SceneNodeMixin",
+      "name": "boundVariables",
+      "signature": "readonly boundVariables?: {\n    readonly [field in VariableBindableNodeField]?: VariableAlias\n  } & {\n    readonly [field in VariableBindableTextField]?: VariableAlias[]\n  } & {\n    readonly fills?: VariableAlias[]\n    readonly strokes?: VariableAlias[]\n    readonly effects?: VariableAlias[]\n    readonly layoutGrids?: VariableAlias[]\n    readonly componentProperties?: {\n      readonly [propertyName: string]: VariableAlias\n    }\n    readonly textRangeFills?: VariableAlias[]\n  }",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 nodes; 38 have non-empty aliases.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "boundVariables",
+          "action": "Reads native node-level variable bindings and alias closure."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "SceneNodeMixin",
+      "name": "resolvedVariableModes",
+      "signature": "resolvedVariableModes: {\n    [collectionId: string]: string\n  }",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "102 nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "resolvedVariableModes",
+          "action": "Reads actual mode selection for local variable collections."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "ReactionMixin",
+      "name": "reactions",
+      "signature": "reactions: ReadonlyArray<Reaction>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "98 supported nodes; 2 returned non-empty reaction lists.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "reactions",
+          "action": "Reads prototype reactions; no action outcome is inferred."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "AnnotationsMixin",
+      "name": "annotations",
+      "signature": "annotations: ReadonlyArray<Annotation>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "96 nodes returned an empty annotation array.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "annotations",
+          "action": "Reads native annotations; empty result does not imply write permission."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "MinimalFillsMixin",
+      "name": "fills",
+      "signature": "fills: ReadonlyArray<Paint> | PluginAPI['mixed']",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "101 nodes; 83 non-empty paint lists.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "fills",
+          "action": "Reads native paints and color variable aliases."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "MinimalStrokesMixin",
+      "name": "strokes",
+      "signature": "strokes: ReadonlyArray<Paint>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "101 nodes; 8 non-empty stroke lists.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "strokes",
+          "action": "Reads native stroke paints and bindings."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "AutoLayoutMixin",
+      "name": "layoutMode",
+      "signature": "layoutMode: 'NONE' | 'HORIZONTAL' | 'VERTICAL' | 'GRID'",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "36 non-NONE auto-layout nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "layoutMode",
+          "action": "Reads actual FRAME/COMPONENT/INSTANCE/COMPONENT_SET layout mode."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "AutoLayoutMixin",
+      "name": "paddingTop",
+      "signature": "paddingTop: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "36 actual auto-layout nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "paddingTop",
+          "action": "Reads the exact spacing/padding value from the native node."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "AutoLayoutMixin",
+      "name": "paddingRight",
+      "signature": "paddingRight: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "36 actual auto-layout nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "paddingRight",
+          "action": "Reads the exact spacing/padding value from the native node."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "AutoLayoutMixin",
+      "name": "paddingBottom",
+      "signature": "paddingBottom: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "36 actual auto-layout nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "paddingBottom",
+          "action": "Reads the exact spacing/padding value from the native node."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "AutoLayoutMixin",
+      "name": "paddingLeft",
+      "signature": "paddingLeft: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "36 actual auto-layout nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "paddingLeft",
+          "action": "Reads the exact spacing/padding value from the native node."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "AutoLayoutMixin",
+      "name": "itemSpacing",
+      "signature": "itemSpacing: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "36 actual auto-layout nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "itemSpacing",
+          "action": "Reads the exact spacing/padding value from the native node."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNonResizableTextMixin",
+      "name": "characters",
+      "signature": "characters: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 actual TEXT nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "characters",
+          "action": "Reads text content from native TEXT getters."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNonResizableTextMixin",
+      "name": "fontName",
+      "signature": "fontName: FontName | PluginAPI['mixed']",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 actual TEXT nodes and segment font runs.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "fontName",
+          "action": "Reads native font family/style and per-run font names."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNonResizableTextMixin",
+      "name": "fontSize",
+      "signature": "fontSize: number | PluginAPI['mixed']",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 actual TEXT nodes and segment runs.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "fontSize",
+          "action": "Reads actual node and per-run font sizes."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNonResizableTextMixin",
+      "name": "getRangeHyperlink",
+      "signature": "getRangeHyperlink(start: number, end: number): HyperlinkTarget | null | PluginAPI['mixed']",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 TEXT nodes returned hyperlink values including null.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "getRangeHyperlink",
+          "action": "Reads the link over the actual full text range."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "BaseNonResizableTextMixin",
+      "name": "getStyledTextSegments",
+      "signature": "getStyledTextSegments<\n    StyledTextSegmentFields extends (keyof Omit<\n      StyledTextSegment,\n      'characters' | 'start' | 'end'\n    >)[],\n  >(\n    fields: StyledTextSegmentFields,\n    start?: number,\n    end?: number,\n  ): Array<\n    Pick<StyledTextSegment, StyledTextSegmentFields[number] | 'characters' | 'start' | 'end'>\n  >",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 TEXT nodes produced actual styled segments.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "getStyledTextSegments",
+          "action": "Requests characters, range bounds, fonts, styles and bindings from Figma."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "TextNode",
+      "name": "textAutoResize",
+      "signature": "textAutoResize: 'NONE' | 'WIDTH_AND_HEIGHT' | 'HEIGHT' | 'TRUNCATE'",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 actual TEXT nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "textAutoResize",
+          "action": "readNativeSemantics"
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "TextNode",
+      "name": "textAlignHorizontal",
+      "signature": "textAlignHorizontal: 'LEFT' | 'CENTER' | 'RIGHT' | 'JUSTIFIED'",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 actual TEXT nodes.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "textAlignHorizontal",
+          "action": "readNativeSemantics"
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "TextNode",
+      "name": "textStyleId",
+      "signature": "textStyleId: string | PluginAPI['mixed']",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 actual TEXT nodes; 17 have non-empty text style IDs.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "textStyleId",
+          "action": "readNativeSemantics"
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "StyledTextSegment",
+      "name": "characters",
+      "signature": "characters: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 returned segment rows.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "characters",
+          "action": "Returned segment contains actual character substring and range."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "StyledTextSegment",
+      "name": "fontName",
+      "signature": "fontName: FontName",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 returned segment rows.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "fontName",
+          "action": "Returned segment contains actual FontName."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "StyledTextSegment",
+      "name": "fontSize",
+      "signature": "fontSize: number",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 returned segment rows.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "fontSize",
+          "action": "Returned segment contains actual per-run size."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "StyledTextSegment",
+      "name": "textStyleId",
+      "signature": "textStyleId: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 rows; 17 have non-empty IDs.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "textStyleId",
+          "action": "Returned segment carries the style identity where present."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "StyledTextSegment",
+      "name": "boundVariables",
+      "signature": "boundVariables?: {\n    [field in VariableBindableTextField]?: VariableAlias\n  }",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "35 rows; 17 contain aliases.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "boundVariables",
+          "action": "Returned segment carries text-range variable bindings."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "InstanceNode",
+      "name": "overrides",
+      "signature": "readonly overrides: {\n    id: string\n    overriddenFields: NodeChangeProperty[]\n  }[]",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "14 actual INSTANCE rows returned override summaries.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "overrides",
+          "action": "Reads the host-provided overridden field list; it does not claim these overrides are writable."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "VariablesAPI",
+      "name": "getLocalVariableCollectionsAsync",
+      "signature": "getLocalVariableCollectionsAsync(): Promise<VariableCollection[]>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "Called in the full native read; the returned page dependency closure contains 3 collections.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "getLocalVariableCollectionsAsync",
+          "action": "Enumerates local collections to identify owner markers and collection dependencies."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "VariablesAPI",
+      "name": "getVariableCollectionByIdAsync",
+      "signature": "getVariableCollectionByIdAsync(id: string): Promise<VariableCollection | null>",
+      "status": "implemented",
+      "applicability": "runtime",
+      "evidence_scope": "Fallback for referenced collection IDs missing from the local enumeration.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "getVariableCollectionByIdAsync",
+          "action": "Fetches the exact referenced collection by ID."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "getVariableCollectionByIdAsync(id)",
+          "assertion": "Mock coverage returns referenced collections by exact ID and verifies the resulting variable closure; selected G4 page resolved all collections from local enumeration."
+        }
+      ]
+    },
+    {
+      "owner": "VariableCollection",
+      "name": "id",
+      "signature": "readonly id: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "3 actual VariableCollection records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "id",
+          "action": "Serializes exact collection IDs."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "VariableCollection",
+      "name": "name",
+      "signature": "name: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "3 actual VariableCollection records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "name",
+          "action": "Serializes Figma collection names."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "VariableCollection",
+      "name": "modes",
+      "signature": "readonly modes: Array<{\n    modeId: string\n    name: string\n  }>",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "3 actual VariableCollection records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "modes",
+          "action": "Serializes actual mode IDs and names."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "VariableCollection",
+      "name": "defaultModeId",
+      "signature": "readonly defaultModeId: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "3 actual VariableCollection records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "defaultModeId",
+          "action": "Serializes each actual default mode ID."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "VariableCollection",
+      "name": "variableIds",
+      "signature": "readonly variableIds: string[]",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "3 actual VariableCollection records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "variableIds",
+          "action": "Serializes collection membership before reading each variable."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "Variable",
+      "name": "id",
+      "signature": "readonly id: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "144 actual Variable records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "id",
+          "action": "Serializes native variable IDs."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "Variable",
+      "name": "name",
+      "signature": "name: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "144 actual Variable records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "name",
+          "action": "Serializes native variable names."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "Variable",
+      "name": "variableCollectionId",
+      "signature": "readonly variableCollectionId: string",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "144 actual Variable records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "variableCollectionId",
+          "action": "Serializes each variable’s owning collection ID."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "Variable",
+      "name": "resolvedType",
+      "signature": "readonly resolvedType: VariableResolvedDataType",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "144 actual Variable records.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "resolvedType",
+          "action": "Serializes the host-resolved variable type."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "Variable",
+      "name": "valuesByMode",
+      "signature": "readonly valuesByMode: {\n    [modeId: string]: VariableValue\n  }",
+      "status": "observed",
+      "applicability": "runtime",
+      "evidence_scope": "144 actual Variable records, including primitive and semantic alias values.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "valuesByMode",
+          "action": "Copies actual per-mode scalars and VARIABLE_ALIAS chains."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "readPair(env)",
+          "assertion": "Supplemental mock-host coverage checks full/summary freshness and returned values; it does not establish real-host support."
+        }
+      ],
+      "runtime_evidence": [
+        {
+          "source": "apps/little-hands/design/VERIFICATION.md",
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "action": "Cross-checked the G4 final full-native getter table against the retained actual full-page readback digest.",
+          "observed_result": "Actual Figma readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780; 103 nodes, 35 text nodes/segments, 14 instances, 144 referenced variables and 3 collections. This is one selected page/file only; no raw node IDs are copied into this evidence file."
+        }
+      ]
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "getStyleByIdAsync",
+      "signature": "getStyleByIdAsync(id: string): Promise<BaseStyle | null>",
+      "status": "implemented",
+      "applicability": "runtime",
+      "evidence_scope": "Conditional lookup when nodes or text segments reference native styles; G4 selected page returned no style rows.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "getStyleByIdAsync",
+          "action": "Resolves a native style by its exact ID before reading explicit style properties."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "styleReads",
+          "assertion": "The mock reader receives a PaintStyle and verifies a second read after its paint changes; no G4 runtime style is claimed."
+        }
+      ]
+    },
+    {
+      "owner": "PaintStyle",
+      "name": "paints",
+      "signature": "paints: ReadonlyArray<Paint>",
+      "status": "implemented",
+      "applicability": "runtime",
+      "evidence_scope": "Conditional PaintStyle getter result; none appeared in this G4 page readback.",
+      "code_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "figma-bridge/native_semantic_read.js",
+          "symbol": "paints",
+          "action": "Reads `style.paints` only after resolving an exact PAINT style ID."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+          "path": "tests/finalize_reader_freshness_matrix.cjs",
+          "test": "result.full.styles[0].paints[0].color.r",
+          "assertion": "The mocked style paints are included in a fresh full snapshot and reflect changed paint color; this is not live Figma evidence."
+        }
+      ]
+    }
+  ],
+  "scope_findings": [
+    {
+      "id": "g4-style-raster-coverage",
+      "scope": "This exact one-page G4 Starter discovery only",
+      "status": "unresolved",
+      "evidence": [
+        {
+          "path": "apps/little-hands/design/VERIFICATION.md",
+          "symbol": "styles,rasterImages",
+          "action": "The actual full readback SHA-256 de5f51eabe12a50be182f99b79bf1936940a622fc3c8d349affd18acc5b92780 has no styles field and zero raster byte payloads. This selected page cannot establish style/image APIs unavailable or unsupported."
+        }
+      ],
+      "note": "No unsupported finding is inferred from absent style/image evidence."
+    }
+  ]
+}

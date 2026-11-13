@@ -1,0 +1,100 @@
+{
+  "candidate": {
+    "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "commit": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "tree": "779be49d9fe2068b763d62dcdc23505e9059f83d"
+  },
+  "baseline": {
+    "ref": "v0.27.1",
+    "tag_object": "1c6280fcdf049ed38ec900ec37f3b08e8e66cfaf",
+    "commit": "42379a56d677ad29296ae3ae6495742a11fbaf43",
+    "tree": "0a62cb4cc395ac41ed522927cafce0d3c0f4cdb7"
+  },
+  "schema": "figma-flow-api-audit-curated-evidence-v1",
+  "members": [
+    {
+      "owner": "PluginAPI",
+      "name": "createSticky",
+      "signature": "createSticky(): StickyNode",
+      "status": "verified_unimplemented",
+      "applicability": "runtime",
+      "evidence_scope": "FigJam prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe.",
+      "absence_review": {
+        "feature_route": "tools/figma_feature.py sdk route figjam-diagram resolves to the single FigJam recipe in library/figma-recipes/manifest.json. The registered workspace manifest only activates in Figma Design. The standalone default scaffold emits a diagnostic; the FigJam example builds two labelled shapes and an attached connector.",
+        "declaration_lookup": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1238-L1238 — createSticky(): StickyNode",
+        "scope": "FigJam prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe. Inspected library/figma-recipes/figjam-diagram.ts and the SDK template/recipe manifests against the official return type and operation; the recipe provides no corresponding operation. Writing new SDK code or using the Figma UI remains possible."
+      },
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createCodeBlock",
+      "signature": "createCodeBlock(): CodeBlockNode",
+      "status": "verified_unimplemented",
+      "applicability": "runtime",
+      "evidence_scope": "FigJam prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe.",
+      "absence_review": {
+        "feature_route": "tools/figma_feature.py sdk route figjam-diagram resolves to the single FigJam recipe in library/figma-recipes/manifest.json. The registered workspace manifest only activates in Figma Design. The standalone default scaffold emits a diagnostic; the FigJam example builds two labelled shapes and an attached connector.",
+        "declaration_lookup": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1296-L1296 — createCodeBlock(): CodeBlockNode",
+        "scope": "FigJam prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe. Inspected library/figma-recipes/figjam-diagram.ts and the SDK template/recipe manifests against the official return type and operation; the recipe provides no corresponding operation. Writing new SDK code or using the Figma UI remains possible."
+      },
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createTable",
+      "signature": "createTable(numRows?: number, numColumns?: number): TableNode",
+      "status": "verified_unimplemented",
+      "applicability": "runtime",
+      "evidence_scope": "FigJam prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe.",
+      "absence_review": {
+        "feature_route": "tools/figma_feature.py sdk route figjam-diagram resolves to the single FigJam recipe in library/figma-recipes/manifest.json. The registered workspace manifest only activates in Figma Design. The standalone default scaffold emits a diagnostic; the FigJam example builds two labelled shapes and an attached connector.",
+        "declaration_lookup": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1331-L1331 — createTable(numRows?: number, numColumns?: number): TableNode",
+        "scope": "FigJam prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe. Inspected library/figma-recipes/figjam-diagram.ts and the SDK template/recipe manifests against the official return type and operation; the recipe provides no corresponding operation. Writing new SDK code or using the Figma UI remains possible."
+      },
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createSlideRow",
+      "signature": "createSlideRow(row?: number): SlideRowNode",
+      "status": "verified_unimplemented",
+      "applicability": "runtime",
+      "evidence_scope": "Slides prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe.",
+      "absence_review": {
+        "feature_route": "tools/figma_feature.py sdk route slides-slide resolves to the single Slides recipe in library/figma-recipes/manifest.json. The registered workspace manifest only activates in Figma Design. The standalone default scaffold emits a diagnostic; the Slides example builds a single title slide and sets its transition.",
+        "declaration_lookup": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1218-L1218 — createSlideRow(row?: number): SlideRowNode",
+        "scope": "Slides prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe. Inspected library/figma-recipes/slides-slide.ts and the SDK template/recipe manifests against the official return type and operation; the recipe provides no corresponding operation. Writing new SDK code or using the Figma UI remains possible."
+      },
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "getSlideGrid",
+      "signature": "getSlideGrid(): Array<Array<SlideNode>>",
+      "status": "verified_unimplemented",
+      "applicability": "runtime",
+      "evidence_scope": "Slides prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe.",
+      "absence_review": {
+        "feature_route": "tools/figma_feature.py sdk route slides-slide resolves to the single Slides recipe in library/figma-recipes/manifest.json. The registered workspace manifest only activates in Figma Design. The standalone default scaffold emits a diagnostic; the Slides example builds a single title slide and sets its transition.",
+        "declaration_lookup": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L2029-L2029 — getSlideGrid(): Array<Array<SlideNode>>",
+        "scope": "Slides prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe. Inspected library/figma-recipes/slides-slide.ts and the SDK template/recipe manifests against the official return type and operation; the recipe provides no corresponding operation. Writing new SDK code or using the Figma UI remains possible."
+      },
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "setSlideGrid",
+      "signature": "setSlideGrid(slideGrid: Array<Array<SlideNode>>): void",
+      "status": "verified_unimplemented",
+      "applicability": "runtime",
+      "evidence_scope": "Slides prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe.",
+      "absence_review": {
+        "feature_route": "tools/figma_feature.py sdk route slides-slide resolves to the single Slides recipe in library/figma-recipes/manifest.json. The registered workspace manifest only activates in Figma Design. The standalone default scaffold emits a diagnostic; the Slides example builds a single title slide and sets its transition.",
+        "declaration_lookup": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L2053-L2053 — setSlideGrid(slideGrid: Array<Array<SlideNode>>): void",
+        "scope": "Slides prebuilt native operations available to a user running the shipped Flow application or an unmodified bundled recipe. Inspected library/figma-recipes/slides-slide.ts and the SDK template/recipe manifests against the official return type and operation; the recipe provides no corresponding operation. Writing new SDK code or using the Figma UI remains possible."
+      },
+      "baseline_status": "unresolved"
+    }
+  ]
+}

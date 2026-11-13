@@ -1,0 +1,316 @@
+{
+  "candidate": {
+    "ref": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "commit": "4c3b39218e5b214e0e21b762678a23dc55a3cd1f",
+    "tree": "779be49d9fe2068b763d62dcdc23505e9059f83d"
+  },
+  "baseline": {
+    "ref": "v0.27.1",
+    "tag_object": "1c6280fcdf049ed38ec900ec37f3b08e8e66cfaf",
+    "commit": "42379a56d677ad29296ae3ae6495742a11fbaf43",
+    "tree": "0a62cb4cc395ac41ed522927cafce0d3c0f4cdb7"
+  },
+  "schema": "figma-flow-api-audit-curated-evidence-v1",
+  "members": [
+    {
+      "owner": "PluginAPI",
+      "name": "createShapeWithText",
+      "signature": "createShapeWithText(): ShapeWithTextNode",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "figma.createShapeWithText()",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createConnector",
+      "signature": "createConnector(): ConnectorNode",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "figma.createConnector()",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ShapeWithTextNode",
+      "name": "shapeType",
+      "signature": "shapeType:\n    | 'SQUARE'\n    | 'ELLIPSE'\n    | 'ROUNDED_RECTANGLE'\n    | 'DIAMOND'\n    | 'TRIANGLE_UP'\n    | 'TRIANGLE_DOWN'\n    | 'PARALLELOGRAM_RIGHT'\n    | 'PARALLELOGRAM_LEFT'\n    | 'ENG_DATABASE'\n    | 'ENG_QUEUE'\n    | 'ENG_FILE'\n    | 'ENG_FOLDER'\n    | 'TRAPEZOID'\n    | 'PREDEFINED_PROCESS'\n    | 'SHIELD'\n    | 'DOCUMENT_SINGLE'\n    | 'DOCUMENT_MULTIPLE'\n    | 'MANUAL_INPUT'\n    | 'HEXAGON'\n    | 'CHEVRON'\n    | 'PENTAGON'\n    | 'OCTAGON'\n    | 'STAR'\n    | 'PLUS'\n    | 'ARROW_LEFT'\n    | 'ARROW_RIGHT'\n    | 'SUMMING_JUNCTION'\n    | 'OR'\n    | 'SPEECH_BUBBLE'\n    | 'INTERNAL_STORAGE'",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "start.shapeType",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ShapeWithTextNode",
+      "name": "text",
+      "signature": "readonly text: TextSublayerNode",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "start.text",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ConnectorNode",
+      "name": "connectorLineType",
+      "signature": "connectorLineType: 'ELBOWED' | 'STRAIGHT' | 'CURVED'",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "connector.connectorLineType",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ConnectorNode",
+      "name": "connectorStart",
+      "signature": "connectorStart: ConnectorEndpoint",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "connector.connectorStart",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ConnectorNode",
+      "name": "connectorEnd",
+      "signature": "connectorEnd: ConnectorEndpoint",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "connector.connectorEnd",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "ConnectorNode",
+      "name": "connectorEndStrokeCap",
+      "signature": "connectorEndStrokeCap: ConnectorStrokeCap",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe figjam-diagram typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/figjam-diagram.ts",
+          "symbol": "connector.connectorEndStrokeCap",
+          "action": "Generate the figjam-diagram project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "createSlide",
+      "signature": "createSlide(row?: number, col?: number): SlideNode",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe slides-slide typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/slides-slide.ts",
+          "symbol": "figma.createSlide()",
+          "action": "Generate the slides-slide project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "SlideNode",
+      "name": "setSlideTransition",
+      "signature": "setSlideTransition(transition: SlideTransition): void",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe slides-slide typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/slides-slide.ts",
+          "symbol": "slide.setSlideTransition(",
+          "action": "Generate the slides-slide project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "PluginAPI",
+      "name": "codegen",
+      "signature": "readonly codegen: CodegenAPI",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe dev-codegen typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/dev-codegen.ts",
+          "symbol": "figma.codegen",
+          "action": "Generate the dev-codegen project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    },
+    {
+      "owner": "CodegenAPI",
+      "name": "on",
+      "signature": "on(\n    type: 'generate',\n    callback: (event: CodegenEvent) => Promise<CodegenResult[]> | CodegenResult[],\n  ): void",
+      "status": "compile_only",
+      "applicability": "runtime",
+      "evidence_scope": "Standalone editor SDK recipe dev-codegen typechecks and builds. No live execution in its target editor was observed.",
+      "code_evidence": [
+        {
+          "path": "library/figma-recipes/dev-codegen.ts",
+          "symbol": "figma.codegen.on('generate'",
+          "action": "Generate the dev-codegen project with tools/figma_sdk_project.py init --editor and --recipe, then build it."
+        }
+      ],
+      "test_evidence": [
+        {
+          "ref": "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a",
+          "path": "tests/test_figma_sdk_project.py",
+          "test": "test_real_compiler_non_design_editor_recipes",
+          "assertion": "TypeScript 5.9.3 compiled this exact shipped recipe using the pinned Figma declarations; the normal project build emitted nonempty dist/code.js."
+        }
+      ],
+      "runtime_evidence": [],
+      "baseline_status": "unresolved"
+    }
+  ]
+}

@@ -6,6 +6,22 @@ on:
 permissions:
   contents: read
 jobs:
+  api_audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '26'
+      - name: Reproduce the pinned per-member API evidence
+        run: |
+          npm install --prefix "$RUNNER_TEMP/figma-audit" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@5.9.3
+          python -B tools/figma_api_audit.py verify --typescript "$RUNNER_TEMP/figma-audit/node_modules/typescript/lib/typescript.js"
   test:
     runs-on: macos-15-intel
     steps:
