@@ -181,7 +181,6 @@ def route(prompt, registry=None, campaign_data=None, context=None):
     if preserve_font and not matches(r'font\s*redesign|서체\s*재설계|폰트\s*변경|フォント変更', font_scope):
         selected.discard('typography')
         exclusions.append({'lane': 'typography', 'action': 'redesign', 'reason': 'preserve_existing_fonts'})
-    no_mcp = matches(NO_MCP, text)
     ssot = matches(r'ssot|source\s+of\s+truth|원본\s*(?:그대로|기준)|정확(?:히|한)?\s*(?:figma|피그마)|(?:figma|피그마)[^\n]{0,25}(?:그대로|정확|동일)|完全一致', text) and matches(TERMS['figma'], text)
     if ssot:
         selected.add('figma')
@@ -196,8 +195,8 @@ def route(prompt, registry=None, campaign_data=None, context=None):
         ssot = False
     figma_backed = 'figma' in selected
     locales = [locale for locale, pattern in (('KR', r'한일|한국|한글|한국어|korean|\bkr\b|韓国'), ('JP', r'한일|일본|일문|일본어|japanese|\bjp\b|日本')) if matches(pattern, text)]
-    constraints = {'figma_transport': 'local_developer_plugin' if no_mcp else 'local_default_explicit_remote_only',
-                   'figma_mcp_allowed': False if no_mcp else 'only_if_explicitly_requested',
+    constraints = {'figma_transport': 'local_developer_plugin',
+                   'figma_mcp_allowed': False,
                    'native_handoff': 'required_before_acceptance' if figma_backed else 'not_applicable_local_only',
                    'dev_mode_required': False, 'review_destination': scope,
                    'image_generation': 'excluded' if no_images else 'only_for_selected_asset_scopes',
@@ -239,7 +238,7 @@ def route(prompt, registry=None, campaign_data=None, context=None):
             actions.append('Inspect actual KR/JP glyph coverage, font license, weight, fallback and line breaking for requested locales.')
         if lane == 'figma':
             actions.append('Native semantic handoff is required for every Figma-backed design: use actual getters to read screen/control meanings from legacy native annotations or graph-linked structured specification metadata with ordinary readable specification boards outside artboards. Verify target IDs, real component instances and bound variables against the expected graph with tools/native_handoff.py. A planned record or screenshot does not establish actual native state.')
-            actions.insert(0, 'Use local developer-plugin import/readback; do not call Figma MCP.' if no_mcp else 'Use local developer-plugin flow by default; remote MCP only when explicitly requested.')
+            actions.insert(0, 'Use local developer-plugin import/readback; do not call Figma MCP. Run python3 tools/figma_feature.py route FEATURE to find registered Flow operations or a reviewed local SDK route; read skills/figma-flow/references/figma-feature-routes.md for product UI and REST gates.')
         resource_ids = row['resources']
         skill_ids = SKILLS[lane] if lane != 'images' or images_action == 'generate' else ['figma-flow']
         raster_cue = r'(?:raster|bitmap|illustrated|as an? image|래스터|비트맵|이미지(?:로|를)?|일러스트(?:형|풍)?|イラスト|画像(?:で|を))'

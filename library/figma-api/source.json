@@ -1,0 +1,13 @@
+{
+  "schema": "figma-flow-api-source-v1",
+  "repository": "https://github.com/figma/plugin-typings",
+  "ref": "dff4874ca083e18cd74835fd5afc5079d46866b7",
+  "version": "1.142.0",
+  "license": "MIT",
+  "files": {
+    "plugin-api.d.ts": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
+    "LICENSE": "47d92f1103b396b08991cb1237b99dfd96729d62952a64b5895c7ddf8af5a682",
+    "upstream-package.json": "541f3a0c6e57173ae6c7e864f7a814745ffab940d3796aa1c86b42e076eaad05"
+  },
+  "documentation": "https://developers.figma.com/docs/plugins/api/"
+}

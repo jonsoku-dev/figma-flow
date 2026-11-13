@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "tokens": {
+    "color": {
+      "ink": {
+        "$type": "color",
+        "$value": "#202020"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "#ffffff"
+      }
+    },
+    "space": {
+      "gap": {
+        "$type": "dimension",
+        "$value": "8px"
+      }
+    },
+    "font": {
+      "body": {
+        "$type": "fontFamily",
+        "$value": "Arial"
+      },
+      "size": {
+        "$type": "dimension",
+        "$value": "16px"
+      }
+    }
+  },
+  "components": {
+    "button": {
+      "usage": "Button with an optional swappable leading symbol.",
+      "variants": {
+        "default": {
+          "color": "color.ink",
+          "background": "color.surface",
+          "padding": "space.gap",
+          "font-family": "font.body",
+          "font-size": "font.size"
+        }
+      },
+      "properties": {
+        "ShowLabel": {
+          "type": "BOOLEAN",
+          "target": "label",
+          "default_value": true
+        },
+        "Symbol": {
+          "type": "INSTANCE_SWAP",
+          "target": "symbol",
+          "default_value": {
+            "component": "symbol",
+            "variant": "circle"
+          },
+          "preferred_values": [
+            {
+              "component": "symbol",
+              "variant": "circle"
+            },
+            {
+              "component": "symbol",
+              "variant": "square"
+            }
+          ]
+        },
+        "ShowSymbol": {
+          "type": "BOOLEAN",
+          "target": "symbol",
+          "default_value": true
+        }
+      }
+    },
+    "symbol": {
+      "usage": "Two local swap choices.",
+      "variants": {
+        "circle": {
+          "color": "color.ink",
+          "padding": "space.gap",
+          "font-size": "font.size"
+        },
+        "square": {
+          "color": "color.ink",
+          "padding": "space.gap",
+          "font-size": "font.size"
+        }
+      }
+    }
+  },
+  "screens": [
+    {
+      "id": "properties-demo",
+      "title": "Declared component properties",
+      "trace": [
+        "REQ-DECLARED-PROPERTIES"
+      ],
+      "elements": [
+        {
+          "id": "default-button",
+          "kind": "component",
+          "component": "button",
+          "variant": "default",
+          "text": "Default"
+        },
+        {
+          "id": "swapped-button",
+          "kind": "component",
+          "component": "button",
+          "variant": "default",
+          "text": "Swapped",
+          "property_values": {
+            "Symbol": {
+              "component": "symbol",
+              "variant": "square"
+            },
+            "ShowLabel": false
+          }
+        },
+        {
+          "id": "hidden-symbol-button",
+          "kind": "component",
+          "component": "button",
+          "variant": "default",
+          "text": "Hidden symbol",
+          "property_values": {
+            "ShowSymbol": false
+          }
+        }
+      ]
+    }
+  ]
+}

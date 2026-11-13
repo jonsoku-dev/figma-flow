@@ -4,7 +4,7 @@
 
 0.15에서는 [정상 방향 선택 계약](direction-selection.md)의 실제 시안·사용자 선택이 모든 새 제작보다 먼저다. 후크·Computer Use·Stagehand·브라우저 드라이버·GUI 자동화 없이 동작한다. 선택 전에는 탐색 시안과 읽기/감사만 수행하며, 과거의 네이티브 검사 통과를 새 제작 승인으로 사용하지 않는다.
 
-0.5의 기획·그래프·앱·선택 테스트 흐름에 로컬 디자인 원본과 감사 결과를 더한다. Figma가 요청되어도 기본은 이 문서의 로컬 출력과 개발 플러그인 경로다. 사용자가 원격 Figma MCP를 명시한 경우에만 [기존 원격 절차](figma-workflow.md)를 사용한다. MCP 없는 흐름에서는 연결 확인을 포함해 Figma MCP를 호출하지 않는다.
+0.5의 기획·그래프·앱·선택 테스트 흐름에 로컬 디자인 원본과 감사 결과를 더한다. Figma가 요청되어도 기본은 이 문서의 로컬 출력과 개발 플러그인 경로다. 기능별 경로는 `python3 tools/figma_feature.py route FEATURE`와 [기능별 실행 경로](figma-feature-routes.md)에서 찾는다. 기존 등록 Flow의 지원 작업을 우선 사용하고, 추가 기능은 별도 로컬 개발 플러그인 SDK로 작성·검토한다. [네이티브 작업·증거 절차](figma-workflow.md)를 적용하며 Figma MCP를 초기 확인이나 대체 경로로 호출하지 않는다.
 
 ## 기준 원본과 증거
 
@@ -54,10 +54,10 @@ python3 tools/figma_bridge.py --inspect-readback /프로젝트/evidence/figma-re
 
 ## 필수 네이티브 전달 검사 (0.13.0)
 
-Figma 포함 여부는 그래프의 Figma 노드·URL, 시각 원본 또는 `native_handoff` 선언으로 판정한다. 로컬 전송·맞춤 스크립트·원격 MCP 모두 같은 조건을 적용한다. `strict-local`과 `ssot.py --scope local-only` 통과는 이 검사를 면제하지 않는다. 순수 로컬 출력은 Figma 원본을 선언하지 않고 기존 흐름을 유지한다.
+Figma 포함 여부는 그래프의 Figma 노드·URL, 시각 원본 또는 `native_handoff` 선언으로 판정한다. 등록 Flow·맞춤 로컬 SDK 모두 같은 조건을 적용한다. `strict-local`과 `ssot.py --scope local-only` 통과는 이 검사를 면제하지 않는다. 순수 로컬 출력은 Figma 원본을 선언하지 않고 기존 흐름을 유지한다.
 
 1. 현재 기획에서 화면과 중요한 조작마다 실제 액션·상태·토큰·컴포넌트 관계를 정한다. 화면 및 조작 노드의 네이티브 `annotations`에 설명을 작성한다. 조작은 실제 로컬 컴포넌트 세트의 인스턴스로 배치하고 중요한 속성은 실제 변수에 연결한다. 미사용 라이브러리·정적 값·메타데이터 주석은 전달 조건을 채우지 않는다.
-2. 실제 선택 파일/페이지를 다시 읽는다. 일반 플러그인은 **현재 디자인 읽기**로 저장한다. 맞춤 Plugin API 제작자는 동봉된 `figma-bridge/native_semantic_read.js`의 `readNativeSemantics(figma, page)`를 실행해 반환값을 저장한다. 반환값에 현재 선택한 실제 Figma 파일 URL의 파일 키를 `fileKey`로 포함하고, 파일 키·페이지 ID·관측 시각·실행 기록·캡처 경로를 함께 기록한다. 원격 제작도 같은 네이티브 노드·컬렉션·변수 필드를 읽어 이 형식에 맞춘다. 공급한 JSON의 검사는 원격 출처 인증이 아니므로 실제 호스트 캡처 기록을 별도로 유지한다.
+2. 실제 선택 파일/페이지를 다시 읽는다. 일반 플러그인은 **현재 디자인 읽기**로 저장한다. 맞춤 Plugin API 제작자는 동봉된 `figma-bridge/native_semantic_read.js`의 `readNativeSemantics(figma, page)`를 실행해 반환값을 저장한다. 반환값에 현재 선택한 실제 Figma 파일 URL의 파일 키를 `fileKey`로 포함하고, 파일 키·페이지 ID·관측 시각·실행 기록·캡처 경로를 함께 기록한다. 맞춤 SDK도 같은 네이티브 노드·컬렉션·변수 필드를 읽어 이 형식에 맞춘다. 공급한 JSON의 검사는 원격 출처 인증이 아니므로 실제 호스트 캡처 기록을 별도로 유지한다.
 3. **일반 번들:** `design-bundle-002/figma-plugin/expected-native-handoff.json`을 그대로 사용한다. 화면/요소의 의미 ID, 선언 액션·상태·변형, 컴포넌트 관계와 실제 지원 바인딩에서 자동 생성되며 번들의 `native_handoff_contract`·`native_handoff_command`가 이를 가리킨다. 계약이나 네이티브 ID를 재작성하지 않는다. 실제 파일 키는 개발 플러그인 API로 읽기에 포함되며, 프로젝트 선언의 페이지 ID는 읽기에 기록된 실제 페이지 ID를 사용한다.
 
    **맞춤 제작:** 기대 계약에는 요구한 모든 화면과 중요한 조작을 넣는다. 아래는 **맞춤 스키마 예시**다. 값은 실제 프로젝트 의미 키/네이티브 ID와 변수 이름으로 바꾸고, 액션·상태는 기획에서 정한 표현을 사용한다. 캡처를 보고 계약에서 실패한 요구를 지우지 않는다.

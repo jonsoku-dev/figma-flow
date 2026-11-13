@@ -1,0 +1,15 @@
+{
+  "documentation": "https://developers.figma.com/docs/widgets/",
+  "files": {
+    "LICENSE": "47d92f1103b396b08991cb1237b99dfd96729d62952a64b5895c7ddf8af5a682",
+    "index.d.ts": "46832c9b32d4f3bcf82d09d8b0262629322c4aa401733eb0c92487933312f925",
+    "upstream-package.json": "0d093443638bd1b35d56ee347dcfe38c26300154e0d8a5a9e1ecf44babd63c40",
+    "widget-api-standalone.d.ts": "47ceac6e9cb8e998009394a5e0c8bf281f03a3701d06f5eed89c5f9555f59d84",
+    "widget-api.d.ts": "1e9266bd86b89890b4d6c625f6d470a6c01f898b0b1eb700af143cac85b390ef"
+  },
+  "license": "MIT",
+  "ref": "8815555bab1cf358ee9958fe2fa2cf46f77f3fb6",
+  "repository": "https://github.com/figma/widget-typings",
+  "schema": "figma-flow-widget-source-v1",
+  "version": "1.13.0"
+}

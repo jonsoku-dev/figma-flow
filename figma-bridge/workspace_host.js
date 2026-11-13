@@ -39,7 +39,7 @@ async function workspaceRefreshJournal() {
 let workspaceWrites = Promise.resolve();
 let workspaceStorageError = false;
 let workspaceHomeView = 'tasks', workspaceProject = null, workspaceFocus = null;
-const workspaceLoaded = (async () => {
+async function workspaceLoadState() {
   if (!workspaceStorageKey || !figma.clientStorage) return;
   try {
     const saved = await figma.clientStorage.getAsync(workspaceStorageKey);
@@ -53,7 +53,7 @@ const workspaceLoaded = (async () => {
       .map(({taskKey, revision, time, operation, status, executionId}) => ({taskKey, revision, time, operation, status,
         ...(typeof executionId === 'string' && /^[a-z0-9-]{1,80}$/.test(executionId) ? {executionId} : {})}));
   } catch (_) {workspaceStorageError = true;}
-})();
+}
 function workspacePersist() {
   if (!workspaceStorageKey || !figma.clientStorage) return;
   const snapshot = JSON.parse(JSON.stringify(workspaceState));
@@ -291,7 +291,7 @@ function workspaceDependencyEdges(value) {
   }
   return edges.length ? edges : undefined;
 }
-figma.ui.onmessage = async message => {
+async function workspaceOnMessage(message) {
   if (!message || typeof message !== 'object') return;
   const activeBeforeLoad = workspaceActive, homeBeforeLoad = workspaceHomeSession;
   await workspaceLoaded;
@@ -380,5 +380,10 @@ figma.ui.onmessage = async message => {
     current.inFlight--;
     workspaceControl(current);
   }
-};
-workspaceHome();
+}
+let workspaceLoaded;
+if (typeof workspaceRecipeDispatch !== 'function' || !workspaceRecipeDispatch()) {
+  workspaceLoaded = workspaceLoadState();
+  figma.ui.onmessage = workspaceOnMessage;
+  workspaceHome();
+}

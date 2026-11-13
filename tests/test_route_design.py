@@ -115,6 +115,19 @@ class RouteDesignTests(unittest.TestCase):
             self.assertIn(cue, gate['requirement'])
         self.assertIn('do not call Figma MCP', self.lanes(result)['figma']['actions'][0])
 
+    def test_all_figma_requests_use_local_routes_without_remote_fallback(self):
+        for prompt in ('Figma 화면 만들어줘', 'Figma 화면을 MCP 없이 만들어줘',
+                       'Figma 디자인을 원격 MCP로 만들어줘'):
+            with self.subTest(prompt=prompt):
+                plan = self.plan(prompt)
+                self.assertEqual(plan['constraints']['figma_transport'], 'local_developer_plugin')
+                self.assertIs(plan['constraints']['figma_mcp_allowed'], False)
+                action = self.lanes(plan)['figma']['actions'][0]
+                self.assertIn('tools/figma_feature.py route FEATURE', action)
+                self.assertIn('registered Flow', action)
+                self.assertIn('local SDK', action)
+                self.assertNotIn('only when explicitly requested', action)
+
     def test_every_figma_destination_requires_native_handoff_without_ssot_keyword(self):
         for prompt in ('Figma 화면 만들어줘', '피그마 디자인 MCP 없이 만들어줘',
                        'Figma 디자인을 원격 MCP로 만들어줘', 'フィグマの画面を作成して'):

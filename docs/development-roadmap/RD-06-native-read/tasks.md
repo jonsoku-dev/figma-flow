@@ -14,6 +14,8 @@
 
 1은 `nativeReadGetterLedger`가 같은 fixture의 full `readNativeSemantics` 결과와 실제로 읽은 getter 이름을 함께 남긴다. 기존 호출은 인자 없는 full이다. `rect.width`와 `rect.fills`는 기록되고 `rect.exportAsync`는 호출하지 않는다.
 
+full은 `componentPropertyDefinitions`의 전체 데이터(`preferredValues`의 component/component-set key 포함)와 하위 노드의 `componentPropertyReferences`를 복사한다. 참조가 없는 노드의 관측값 `null`과 지원하지 않거나 getter가 실패한 경우의 `unavailable_fields`·`unavailableFields`를 구분한다. width 등 지원 필드만 요청한 summary는 이 getter들을 읽지 않으며 component 데이터 요청은 full로 돌아간다. [component property fixture](../../../tests/test_native_component_properties.cjs)는 getter ledger, 복사한 값의 보존, 재호출 시 최신 값, summary 생략·fallback을 확인한다. 실제 Figma component property getter 실행 인수는 이 fixture가 보장하지 않는다.
+
 2는 native summary coverage를 공유 reader의 summary profile로 반환한다. schema는 `figma-flow-native-read-summary-v1`이고 `coverage.complete`는 false다. 요청한 `width`는 같은 fixture의 full과 같고, `fills`처럼 이미지 closure가 필요한 필드는 full로 돌아간다. 스타일·변수·raster는 생략 목록에 남긴다. ImportPanel의 `NativeSummary`는 그 결과만 보여주고 보내지 않는다. 표준 discovery의 별도 요약 버튼은 주 페이지의 width/height만 요청하며 full fallback 없이 `coverage.pageIds`·nodeIds·fields·omitted·complete false를 표시한다. `expected_scope`의 전체 허용 범위는 실제 읽은 주 페이지 범위와 구분한다.
 
 3은 `requireFullNativeRead`가 summary coverage를 full evidence로 받지 않는다. full readback·native edit·draft read·graph import/apply/pair는 full 경계를 유지한다. graph discovery의 기본 `read`는 모든 허용 페이지를 full로 읽으며 별도 요약 버튼은 partial을 그대로 보여 준다. React·legacy 패널은 별도 summary 파일명을 사용하고 진단에는 최신 읽기 결과를 연결한다.

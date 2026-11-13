@@ -32,12 +32,13 @@ function textVariableAlias(node, field) {
   if (aliases.some(alias => alias?.type !== "VARIABLE_ALIAS" || alias.id !== aliases[0]?.id)) throw new Error(`Mixed native typography binding: ${node.id}.${field}`);
   return aliases[0];
 }
-async function verifyHandoff(page) {
+async function verifyHandoff(page, {preserveInstanceOverrides = false} = {}) {
   const data = await readback([page], "native-handoff-verification");
   if (!data.fileKey) throw new Error("Actual native Figma file key unavailable for handoff");
   const nodes = [];
   function visit(node) { nodes.push(node); for (const child of node.children || []) visit(child); }
   visit(data.pages[0]);
+  verifyDeclaredComponentReadback(PAYLOAD, data.pages[0], {preserveInstanceOverrides});
   function find(identity) {
     const found = nodes.filter(node => node.semantic_id === identity);
     if (found.length !== 1) throw new Error(`Missing or ambiguous native node: ${identity}`);
@@ -344,15 +345,216 @@ function bindOwnedLabelProperty(owner, mains, warnings) {
   return key;
 }
 
+function validateDeclaredComponentProperties(payload) {
+  const fail = message => { throw new Error("Declared component properties: " + message); };
+  const components = payload.components;
+  const dependencies = new Map(Object.keys(components).map(name => [name, new Set()]));
+  const reference = value => {
+    if (!value || typeof value !== "object" || Array.isArray(value) || Object.keys(value).sort().join(",") !== "component,variant" || typeof value.component !== "string" || typeof value.variant !== "string" || !Object.prototype.hasOwnProperty.call(components[value.component]?.variants || {}, value.variant)) fail("swap requires an existing local component variant");
+    return value.component;
+  };
+  for (const [name, definition] of Object.entries(components)) {
+    const properties = Object.prototype.hasOwnProperty.call(definition, "properties") ? definition.properties : {};
+    if (!properties || typeof properties !== "object" || Array.isArray(properties) || Object.keys(properties).length > 32) fail("properties must be a bounded mapping");
+    const swaps = new Set(), targets = new Set();
+    const axes = new Set(["Variant", ...Object.keys(definition.variant_axes || {})]);
+    for (const [display, prop] of Object.entries(properties)) {
+      if (!display.trim() || display.includes("#") || display === "문구" || axes.has(display)) fail("property display name conflicts with an owned native property");
+      if (!prop || !["BOOLEAN", "INSTANCE_SWAP"].includes(prop.type) || typeof prop.target !== "string" || !/^[A-Za-z][A-Za-z0-9_-]*$/.test(prop.target) || !Object.prototype.hasOwnProperty.call(prop, "default_value") || Object.keys(prop).some(key => !["type", "target", "default_value", ...(prop.type === "INSTANCE_SWAP" ? ["preferred_values"] : [])].includes(key))) fail("invalid declaration " + display);
+      const target = prop.type + ":" + prop.target;
+      if (targets.has(target)) fail("duplicate target field " + prop.target);
+      targets.add(target);
+      if (prop.type === "BOOLEAN") { if (typeof prop.default_value !== "boolean") fail("BOOLEAN default must be boolean"); }
+      else {
+        if (prop.target === "label") fail("swap target must be a named slot");
+        swaps.add(prop.target);
+        dependencies.get(name).add(reference(prop.default_value));
+        if (prop.preferred_values !== undefined && (!Array.isArray(prop.preferred_values) || prop.preferred_values.length > 100)) fail("invalid preferred_values");
+        for (const preferred of prop.preferred_values || []) dependencies.get(name).add(reference(preferred));
+      }
+    }
+    for (const prop of Object.values(properties)) if (prop.type === "BOOLEAN" && prop.target !== "label" && !swaps.has(prop.target)) fail("BOOLEAN target must be label or declared slot");
+  }
+  for (const screen of payload.screens) for (const element of screen.elements) {
+    if (!Object.prototype.hasOwnProperty.call(element, "property_values")) continue;
+    const overrides = element.property_values;
+    if (element.kind !== "component" || !overrides || typeof overrides !== "object" || Array.isArray(overrides)) fail("invalid instance property_values");
+    for (const [name, value] of Object.entries(overrides)) {
+      const prop = components[element.component]?.properties?.[name];
+      if (!prop) fail("unknown instance property " + name);
+      if (prop.type === "BOOLEAN") { if (typeof value !== "boolean") fail("BOOLEAN override must be boolean"); }
+      else dependencies.get(element.component).add(reference(value));
+    }
+  }
+  const visiting = new Set(), done = new Set();
+  function visit(name) {
+    if (visiting.has(name)) fail("recursive swap dependencies are unsupported");
+    if (done.has(name)) return;
+    visiting.add(name);
+    for (const dependency of dependencies.get(name)) visit(dependency);
+    visiting.delete(name); done.add(name);
+  }
+  for (const name of dependencies.keys()) visit(name);
+}
+
+function verifyDeclaredComponentReadback(payload, page, {preserveInstanceOverrides = false} = {}) {
+  const nodes = [], parents = new Map();
+  function visit(node, parent) {nodes.push(node); parents.set(node.id,parent); for (const child of node.children || []) visit(child,node);}
+  visit(page,null);
+  const find = identity => {
+    const matches = nodes.filter(node => node.semantic_id === identity);
+    if (matches.length !== 1) throw new Error("Declared property node missing or ambiguous: " + identity);
+    return matches[0];
+  };
+  const fail = message => {throw new Error("Declared component property readback differs: " + message);};
+  const resolve = ref => find(`component:${ref.component}/${ref.variant}`);
+  const target = (node, prop, identity) => {
+    const key = identity + (prop.target === "label" ? "/label" : "/slot:" + prop.target);
+    const child = find(key);
+    if (!(node.children || []).some(item => item.id === child.id)) fail("target is not a direct owned child: " + key);
+    return child;
+  };
+  for (const [name, definition] of Object.entries(payload.components)) {
+    if (!Object.keys(definition.properties || {}).length) continue;
+    for (const variant of Object.keys(definition.variants)) {
+      const identity = `component:${name}/${variant}`, main = find(identity);
+      const parent = parents.get(main.id), owner = parent?.type === "COMPONENT_SET" ? parent : main;
+      if (main.type !== "COMPONENT") fail(identity + " is not a main component");
+      for (const [display, prop] of Object.entries(definition.properties)) {
+        const key = main.declared_metadata?.declared_property_keys?.[display];
+        const matching = Object.keys(owner.componentPropertyDefinitions || {}).filter(candidate => candidate.startsWith(display + "#"));
+        const actual = owner.componentPropertyDefinitions?.[key];
+        if (!key || matching.length !== 1 || matching[0] !== key || actual?.type !== prop.type) fail(identity + "." + display + " definition/key");
+        const value = prop.type === "BOOLEAN" ? prop.default_value : resolve(prop.default_value).id;
+        if (actual.defaultValue !== value) fail(identity + "." + display + " default");
+        if (prop.type === "INSTANCE_SWAP") {
+          const preferred = (prop.preferred_values || []).map(ref => {
+            const component = resolve(ref);
+            if (!component.component_key) fail("swap target component key unavailable");
+            return {type:"COMPONENT",key:component.component_key};
+          });
+          if (JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferred)) fail(identity + "." + display + " preferred values");
+        }
+        const child = target(main,prop,identity), field = prop.type === "BOOLEAN" ? "visible" : "mainComponent";
+        if (child.componentPropertyReferences?.[field] !== key) fail(identity + "." + display + " layer reference");
+        if (prop.type === "BOOLEAN" ? child.visible !== value : child.type !== "INSTANCE" || child.main_component_id !== value) fail(identity + "." + display + " actual target");
+      }
+    }
+  }
+  for (const screen of payload.screens) for (const [index, element] of screen.elements.entries()) {
+    const properties = payload.components[element.component]?.properties || {};
+    if (element.kind !== "component" || !Object.keys(properties).length) continue;
+    const identity = element.id || `${screen.id}/element:${index}`, instance = find(identity), main = resolve({component:element.component,variant:element.variant});
+    if (instance.type !== "INSTANCE" || instance.main_component_id !== main.id) fail(identity + " instance/main");
+    for (const [display, prop] of Object.entries(properties)) {
+      const key = main.declared_metadata?.declared_property_keys?.[display], actual = instance.componentProperties?.[key];
+      if (actual?.type !== prop.type) fail(identity + "." + display + " instance property");
+      const requested = Object.prototype.hasOwnProperty.call(element.property_values || {},display) ? element.property_values[display] : prop.default_value;
+      const expected = prop.type === "BOOLEAN" ? requested : resolve(requested).id;
+      if (!preserveInstanceOverrides && actual.value !== expected) fail(identity + "." + display + " source override");
+      const child = target(instance,prop,identity);
+      if (prop.type === "BOOLEAN") {
+        if (typeof actual.value !== "boolean" || child.visible !== actual.value) fail(identity + "." + display + " actual visibility");
+      } else if (typeof actual.value !== "string" || !nodes.some(node => node.type === "COMPONENT" && node.id === actual.value) || child.type !== "INSTANCE" || child.main_component_id !== actual.value) fail(identity + "." + display + " actual swap");
+    }
+  }
+}
+
+function markComponentSlot(node, semanticId, slot) {
+  metadata(node, semanticId, {kind:"component-slot", slot});
+  for (const [index, child] of (node.children || []).entries()) markComponentSlot(child, semanticId + "/child:" + index, slot);
+}
+
+function markImportedInstanceSlots(instance, identity) {
+  for (const child of instance.children || []) if (child.name?.startsWith("slot:")) markComponentSlot(child, identity + "/" + child.name, child.name.slice(5));
+}
+
+function bindDeclaredComponentProperties(components, definitions) {
+  const done = new Set();
+  const resolve = ref => components.get(JSON.stringify([ref.component, ref.variant]));
+  function bind(name) {
+    if (done.has(name)) return;
+    const properties = definitions[name].properties || {};
+    for (const prop of Object.values(properties)) if (prop.type === "INSTANCE_SWAP") bind(prop.default_value.component);
+    const mains = [...components.entries()].filter(([key]) => JSON.parse(key)[0] === name).map(([, main]) => main);
+    const owners = new Map();
+    for (const main of mains) {
+      const owner = main.parent?.type === "COMPONENT_SET" ? main.parent : main;
+      if (!owners.has(owner)) owners.set(owner, []);
+      owners.get(owner).push(main);
+    }
+    for (const [owner, variants] of owners) {
+      const keys = Object.create(null);
+      const slots = new Map(variants.map(main => [main, new Map()]));
+      // Create real nested instances before assigning any references to their fields.
+      for (const prop of Object.values(properties)) if (prop.type === "INSTANCE_SWAP") for (const main of variants) {
+        const slot = resolve(prop.default_value).createInstance();
+        main.appendChild(slot); slot.name = "slot:" + prop.target;
+        markComponentSlot(slot, info(main).semantic_id + "/slot:" + prop.target, prop.target);
+        slots.get(main).set(prop.target, slot);
+      }
+      for (const [display, prop] of Object.entries(properties)) {
+        if (typeof owner.addComponentProperty !== "function") throw new Error("Native declared component property API unavailable: " + owner.name);
+        const value = prop.type === "BOOLEAN" ? prop.default_value : resolve(prop.default_value).id;
+        const preferredValues = (prop.preferred_values || []).map(ref => {
+          const target = resolve(ref);
+          if (!target.key) throw new Error("Native swap target has no component key: " + ref.component);
+          return {type:"COMPONENT", key:target.key};
+        });
+        const key = owner.addComponentProperty(display, prop.type, value, prop.type === "INSTANCE_SWAP" ? {preferredValues} : undefined);
+        const actual = owner.componentPropertyDefinitions?.[key];
+        if (!key || key === display || actual?.type !== prop.type || actual.defaultValue !== value || (prop.type === "INSTANCE_SWAP" && JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferredValues))) throw new Error("Native declaration was not retained: " + display);
+        keys[display] = key;
+        const field = prop.type === "BOOLEAN" ? "visible" : "mainComponent";
+        for (const main of variants) {
+          const node = prop.target === "label" ? (main.children || []).find(child => child.type === "TEXT") : slots.get(main).get(prop.target);
+          if (!node || node.componentPropertyReferences?.[field]) throw new Error("Owned component property target conflict: " + display);
+          if (field === "visible") node.visible = value;
+          node.componentPropertyReferences = {...(node.componentPropertyReferences || {}), [field]:key};
+          if (node.componentPropertyReferences?.[field] !== key) throw new Error("Native property reference was not retained: " + display);
+        }
+      }
+      if (Object.keys(keys).length) for (const node of [owner, ...variants]) node.setPluginData(KEY, JSON.stringify({...info(node), declared_property_keys:keys}));
+    }
+    done.add(name);
+  }
+  for (const name of Object.keys(definitions)) bind(name);
+}
+
+async function applyDeclaredInstanceProperties(instance, main, element, components) {
+  const values = {};
+  for (const [name, value] of Object.entries(element.property_values || {})) {
+    const key = info(main).declared_property_keys?.[name];
+    if (!key) throw new Error("Native declared instance property key unavailable: " + name);
+    values[key] = typeof value === "boolean" ? value : components.get(JSON.stringify([value.component, value.variant])).id;
+  }
+  if (Object.keys(values).length) instance.setProperties(values);
+  for (const [key, value] of Object.entries(values)) if (instance.componentProperties?.[key]?.value !== value) throw new Error("Native instance property override was not retained: " + key);
+  const definition = PAYLOAD.components[element.component];
+  for (const [name, prop] of Object.entries(definition.properties || {})) {
+    const value = Object.prototype.hasOwnProperty.call(element.property_values || {}, name) ? element.property_values[name] : prop.default_value;
+    const target = prop.target === "label" ? (instance.children || []).find(child => child.type === "TEXT") : (instance.children || []).find(child => child.name === "slot:" + prop.target);
+    if (!target) throw new Error("Native instance property target missing: " + name);
+    if (prop.type === "BOOLEAN") {
+      if (target.visible !== value) throw new Error("Native instance visibility differs from declared property: " + name);
+    } else {
+      const actual = await target.getMainComponentAsync();
+      if (actual?.id !== components.get(JSON.stringify([value.component, value.variant])).id) throw new Error("Native instance swap differs from declared property: " + name);
+    }
+  }
+  markImportedInstanceSlots(instance, element.id || info(main).semantic_id);
+}
+
 async function importDesign(fresh) {
   if (PAYLOAD.technical_existing_only) throw new Error("Existing technical sync cannot author new UI. Select a direction for a production build.");
   if (!PAYLOAD.foundations || !PAYLOAD.selected_direction) throw new Error("Selected canonical design foundations required before native authoring");
   validateProductionColors(PAYLOAD);
+  validateDeclaredComponentProperties(PAYLOAD);
   const existing = await imports();
   const matching = existing.filter(page => info(page).source_sha256 === PAYLOAD.source_sha256 && info(page).complete);
   const same = matching.find(page => page.id === figma.currentPage.id) || matching[matching.length - 1];
   if (same && !fresh) {
-    await verifyHandoff(same);
+    await verifyHandoff(same, {preserveInstanceOverrides:true});
     await focus(same);
     status(FLOW_IMPORT_COPY.reused, {event: "reused", page_id:same.id, source_sha256:PAYLOAD.source_sha256});
     return;
@@ -489,6 +691,7 @@ async function importDesign(fresh) {
         }
       }
     }
+    bindDeclaredComponentProperties(components, PAYLOAD.components);
     layoutFoundationSets(library, componentSets);
     await decorate(library);
     library.x = -library.width - 48;
@@ -519,6 +722,7 @@ async function importDesign(fresh) {
             node.setProperties({[labelKey]: element.text});
             if (!label || label.characters !== element.text || node.componentProperties?.[labelKey]?.type !== "TEXT" || node.componentProperties[labelKey].value !== element.text) throw new Error(`Assigned label differs from the visible text: ${element.text}`);
           } else if (label) label.characters = element.text;
+          await applyDeclaredInstanceProperties(node, main, {...element, id:element.id || `${screen.id}/element:${elementIndex}`}, components);
           if (label) metadata(label, `${element.id || `${screen.id}/element:${elementIndex}`}/label`);
         } else node = text(element.text, element.kind === "heading");
         frame.appendChild(node);
@@ -545,7 +749,9 @@ async function importDesign(fresh) {
     metadata(paletteNode,"foundation-palette");
     for (const sample of palette.samples) {
       const key = sample.instanceKey;
-      metadata(await figma.getNodeByIdAsync(sample.instanceId),key);
+      const sampleInstance = await figma.getNodeByIdAsync(sample.instanceId);
+      metadata(sampleInstance,key);
+      markImportedInstanceSlots(sampleInstance,key);
       metadata(await figma.getNodeByIdAsync(sample.labelNodeId),sample.labelKey);
       metadata(await figma.getNodeByIdAsync(sample.documentationNodeId),sample.documentationKey);
     }
@@ -612,7 +818,7 @@ async function snapshot(node) {
   const declared = info(node);
   const data = { id: node.id, type: node.type, name: node.name, semantic_id: declared.semantic_id || node.getPluginData("semanticKey") || null,
     source_sha256: declared.source_sha256 || null, declared_metadata: declared };
-  const fields = ["x", "y", "width", "height", "visible", "opacity", "layoutMode", "primaryAxisSizingMode", "counterAxisSizingMode", "layoutSizingHorizontal", "layoutSizingVertical", "layoutWrap", "minWidth", "maxWidth", "minHeight", "maxHeight", "absoluteBoundingBox", "clipsContent", "textAutoResize", "itemSpacing", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "cornerRadius", "topLeftRadius", "topRightRadius", "bottomRightRadius", "bottomLeftRadius", "characters", "fontName", "fontSize", "fills", "strokes", "boundVariables", "reactions", "componentProperties", "variantProperties"];
+  const fields = ["x", "y", "width", "height", "visible", "opacity", "layoutMode", "primaryAxisSizingMode", "counterAxisSizingMode", "layoutSizingHorizontal", "layoutSizingVertical", "layoutWrap", "minWidth", "maxWidth", "minHeight", "maxHeight", "absoluteBoundingBox", "clipsContent", "textAutoResize", "itemSpacing", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "cornerRadius", "topLeftRadius", "topRightRadius", "bottomRightRadius", "bottomLeftRadius", "characters", "fontName", "fontSize", "fills", "strokes", "boundVariables", "reactions", "componentProperties", "componentPropertyDefinitions", "componentPropertyReferences", "variantProperties"];
   for (const field of fields) {
     try {
       const value = node[field];
@@ -620,6 +826,10 @@ async function snapshot(node) {
     } catch (error) {
       (data.unavailable_fields ||= {})[field] = error.message || String(error);
     }
+  }
+  if (node.type === "COMPONENT" || node.type === "COMPONENT_SET") {
+    try { data.component_key = node.key; }
+    catch(error) { (data.unavailable_fields ||= {}).component_key = error.message || String(error); }
   }
   if (node.type === "TEXT") {
     try {

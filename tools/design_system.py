@@ -13,7 +13,7 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path:
     sys.path.insert(0, str(TOOLS))
-from figma_bridge import dimension_px
+from figma_bridge import dimension_px, validate_component_properties
 
 NAME = re.compile(r"^[a-zA-Z][a-zA-Z0-9_-]*$")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
@@ -22,6 +22,8 @@ DIMENSION = re.compile(r"^(?:0|[0-9]+(?:\.[0-9]+)?)(?:px|rem)$")
 FONT = re.compile(r"^[a-zA-Z][a-zA-Z0-9 -]*$")
 PROPERTIES = {"background", "color", "border-color", "padding", "padding-inline", "padding-block", "gap", "border-radius", "font-family", "font-size"}
 PROPERTY_TYPES = {"background": "color", "color": "color", "border-color": "color", "padding": "dimension", "padding-inline": "dimension", "padding-block": "dimension", "gap": "dimension", "border-radius": "dimension", "font-family": "fontFamily", "font-size": "dimension"}
+PREVIEW_NODE_LIMIT = 512
+PREVIEW_DEPTH_LIMIT = 32
 
 
 def compile_design(data):
@@ -115,7 +117,7 @@ def compile_design(data):
         raise ValueError("components and screens are required")
     classes = set()
     for name, component in components.items():
-        if not NAME.fullmatch(name) or not isinstance(component, dict) or set(component) - {"usage"} != {"variants"} or not isinstance(component.get("variants"), dict) or not component["variants"]:
+        if not NAME.fullmatch(name) or not isinstance(component, dict) or set(component) - {"usage", "properties"} != {"variants"} or not isinstance(component.get("variants"), dict) or not component["variants"]:
             raise ValueError(f"invalid component: {name}")
         if "usage" in component and (not isinstance(component["usage"], str) or not component["usage"].strip()):
             raise ValueError(f"usage description must be source text: {name}")
@@ -151,6 +153,7 @@ def compile_design(data):
                 raise ValueError(f"unknown target screen: {element['target_screen']}")
             metadata = {"id", "target_screen", "annotation", "action_id"}
             if element["kind"] == "component":
+                metadata.add("property_values")
                 name, variant = element.get("component"), element.get("variant")
                 if set(element) - metadata != {"kind", "text", "component", "variant"} or name not in components or variant not in components[name]["variants"]:
                     raise ValueError(f"unknown component variant in {screen['id']}")
@@ -158,6 +161,7 @@ def compile_design(data):
                 raise ValueError(f"invalid element in {screen['id']}")
     if "variant_axes" in data:
         attach_declared_axes(components, data["variant_axes"])
+    validate_component_properties(components, screens)
     return {"version": 1, "tokens": resolved, "components": components, "screens": screens}
 
 
@@ -199,12 +203,54 @@ def components_css(design):
     return "\n".join(component_css) + "\n"
 
 
+def component_preview(design, name, variant, label, overrides=None, budget=None, depth=0):
+    """Resolve a bounded visible component tree from native property defaults and instance overrides."""
+    if budget is None:
+        budget = [0]
+    budget[0] += 1
+    if budget[0] > PREVIEW_NODE_LIMIT or depth >= PREVIEW_DEPTH_LIMIT:
+        raise ValueError("component preview expansion exceeds its bound")
+    definition = design["components"][name]
+    properties = definition.get("properties", {})
+    overrides = overrides or {}
+    label_visible = True
+    slot_visibility = {}
+    swaps = []
+    for display, prop in properties.items():
+        value = overrides.get(display, prop["default_value"])
+        if prop["type"] == "BOOLEAN":
+            if prop["target"] == "label":
+                label_visible = value
+            else:
+                slot_visibility[prop["target"]] = value
+        else:
+            swaps.append((prop["target"], value))
+    children = []
+    for slot, reference in swaps:
+        if not slot_visibility.get(slot, True):
+            continue
+        child_name, child_variant = reference["component"], reference["variant"]
+        children.append({"slot": slot, "node": component_preview(
+            design, child_name, child_variant, child_name, budget=budget, depth=depth + 1)})
+    return {"component": name, "variant": variant, "styles": definition["variants"][variant],
+            "label": label if label_visible else None, "children": children}
+
+
+def _preview_html(node, root=False):
+    esc = html.escape
+    identity = esc(node["component"] + "--" + node["variant"], quote=True)
+    label = f'<span class="component-label">{esc(node["label"])}</span>' if node["label"] is not None else ""
+    children = "".join(f'<div class="component-slot" data-slot="{esc(child["slot"], quote=True)}">{_preview_html(child["node"])}</div>' for child in node["children"])
+    return f'<div class="component-property-node {identity}"' + (' data-component-root="true"' if root else '') + f'>{label}{children}</div>'
+
+
 def render(design, styled):
     esc = html.escape
     css = [":root {"] + [f"  {v['css_name']}: " + (f"var({design['tokens'][v['alias']]['css_name']})" if v['alias'] else str(v['value'])) + ";" for v in design["tokens"].values()] + ["}"]
     pages = []
     for screen in design["screens"]:
         elements = []
+        preview_budget = [0]
         for item in screen["elements"]:
             content = esc(item["text"])
             if item["kind"] == "heading":
@@ -213,6 +259,17 @@ def render(design, styled):
                 elements.append(f"<p>{content}</p>")
             else:
                 cls = esc(item["component"] + "--" + item["variant"], quote=True)
+                definition = design["components"][item["component"]]
+                if definition.get("properties"):
+                    tree = component_preview(design, item["component"], item["variant"], item["text"],
+                                             item.get("property_values"), preview_budget)
+                    body = _preview_html(tree, root=True)
+                    if item.get('target_screen'):
+                        target = esc(item['target_screen'], quote=True)
+                        elements.append(f'<a href="#{target}" class="component-property-link">{body}</a>')
+                    else:
+                        elements.append(body)
+                    continue
                 if item.get('target_screen'):
                     target = esc(item['target_screen'], quote=True)
                     elements.append(f'<a href="#{target}" class="component {cls}">{content}</a>')
@@ -220,7 +277,11 @@ def render(design, styled):
                     elements.append(f'<div class="component {cls}">{content}</div>')
         pages.append(f'<section id="{esc(screen["id"], quote=True)}" aria-label="{esc(screen["title"], quote=True)}"><small>{esc(screen["id"])}</small>{"".join(elements)}</section>')
     base = "body{margin:0;padding:16px;background:#eef0f2;color:#20242a;font-family:system-ui,sans-serif}main{display:flex;flex-wrap:wrap;gap:24px}section{box-sizing:border-box;width:min(360px,100%);min-height:480px;background:white;padding:24px;border:1px solid #cdd2d8}small{color:#59616b;overflow-wrap:anywhere}h2{margin:20px 0 12px}p{line-height:1.5}.component{overflow-wrap:anywhere;display:block;box-sizing:border-box;width:100%;margin:12px 0;border:1px solid #999;font:inherit;text-align:left}a.component{text-decoration:none}a.component:hover{text-decoration:underline}a.component:focus-visible{outline:3px solid #1849a5}"
-    style = "\n".join(css + [base] + ([components_css(design)] if styled else [".component{padding:16px;background:#fff;color:#222;border-radius:0}"]))
+    preview_css = ".component-property-node{display:block;box-sizing:border-box;width:100%;margin:12px 0;padding:16px;border:1px solid #999;border-radius:0;background:#fff;color:#222;font:inherit;text-align:left}.component-slot{margin:8px 0 0 12px}.component-slot .component-property-node{width:auto;margin:0}.component-property-link{text-decoration:none}.component-property-link:hover{text-decoration:underline}.component-property-link:focus-visible{outline:3px solid #1849a5}"
+    has_property_previews = any(design["components"][item["component"]].get("properties")
+                                for screen in design["screens"] for item in screen["elements"] if item["kind"] == "component")
+    extra_styles = ([preview_css] if has_property_previews else [])
+    style = "\n".join(css + [base] + extra_styles + ([components_css(design)] if styled else [".component{padding:16px;background:#fff;color:#222;border-radius:0}"]))
     return "<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"icon\" href=\"data:,\"><title>디자인 미리보기</title><style>" + style + "</style></head><body><h1>" + ("스타일 시안" if styled else "와이어프레임") + "</h1><main>" + "".join(pages) + "</main></body></html>\n", "\n".join(css) + "\n"
 
 
@@ -228,7 +289,14 @@ def render_svg(design, screen, styled):
     esc = html.escape
     parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="360" height="640" viewBox="0 0 360 640" role="img">', '<rect width="360" height="640" fill="#ffffff"/>']
     y = 32
+    budget = [0]
     for item in screen["elements"]:
+        if item["kind"] == "component" and design["components"][item["component"]].get("properties"):
+            tree = component_preview(design, item["component"], item["variant"], item["text"],
+                                     item.get("property_values"), budget)
+            component_markup, y = _render_component_svg(design, tree, y, styled)
+            parts.extend(component_markup)
+            continue
         styles = {}
         if styled and item["kind"] == "component":
             styles = design["components"][item["component"]]["variants"][item["variant"]]
@@ -263,6 +331,74 @@ def render_svg(design, screen, styled):
             parts.append(f'<text x="{24 + padding_x:g}" y="{y + padding_y + size + i * line_height:g}" fill="{esc(str(color), quote=True)}" font-family="{esc(str(font), quote=True)}" font-size="{size:g}">{esc(line)}</text>')
         y += height + 8
     return "".join(parts) + "</svg>\n"
+
+
+def _render_component_svg(design, root, y, styled):
+    esc = html.escape
+    parts = []
+
+    def style_value(node, prop, fallback):
+        token = node["styles"].get(prop) if styled else None
+        return design["tokens"][token]["value"] if token else fallback
+
+    def dimensions(node):
+        styles = node["styles"] if styled else {}
+        padding = dimension_px(style_value(node, "padding", "16px"))
+        px = py = padding
+        for prop in styles:
+            if prop == "padding": px = py = dimension_px(style_value(node, prop, "16px"))
+            elif prop == "padding-inline": px = dimension_px(style_value(node, prop, "16px"))
+            elif prop == "padding-block": py = dimension_px(style_value(node, prop, "16px"))
+        size = dimension_px(style_value(node, "font-size", "16px"))
+        radius = dimension_px(style_value(node, "border-radius", "0px"))
+        if size <= 0 or size > 96 or max(px, py) > 100 or radius > 180:
+            raise ValueError("SVG style out of bounds: component preview")
+        return px, py, size, radius
+
+    def measure(node, width):
+        px, py, size, _radius = dimensions(node)
+        content_width = width - 2 * px
+        if content_width < size:
+            raise ValueError("SVG component content too narrow")
+        lines = textwrap.wrap(node["label"] or "", width=max(1, int(content_width / size)), break_long_words=True) if node["label"] is not None else []
+        own_height = size * 1.5 * len(lines)
+        child_heights = []
+        for child in node["children"]:
+            child_heights.append(measure(child["node"], width - 16))
+        gap = 8 if child_heights and lines else 0
+        return max(44, py * 2 + own_height + gap + sum(child_heights) + max(0, len(child_heights) - 1) * 8)
+
+    def draw(node, x, top, width):
+        px, py, size, radius = dimensions(node)
+        height = measure(node, width)
+        fill = style_value(node, "background", "#ffffff")
+        border = style_value(node, "border-color", "#999999")
+        color = style_value(node, "color", "#20242a")
+        font = style_value(node, "font-family", "Inter")
+        parts.append(f'<rect x="{x:g}" y="{top:g}" width="{width:g}" height="{height:g}" rx="{radius:g}" fill="{esc(str(fill), quote=True)}" stroke="{esc(str(border), quote=True)}"/>')
+        cursor = top + py
+        if node["label"] is not None:
+            lines = textwrap.wrap(node["label"], width=max(1, int((width - 2 * px) / size)), break_long_words=True) or [""]
+            for line in lines:
+                parts.append(f'<text x="{x + px:g}" y="{cursor + size:g}" fill="{esc(str(color), quote=True)}" font-family="{esc(str(font), quote=True)}" font-size="{size:g}">{esc(line)}</text>')
+                cursor += size * 1.5
+        if node["children"] and node["label"] is not None:
+            cursor += 8
+        child_width = width - 16
+        child_x = x + 8
+        for index, child in enumerate(node["children"]):
+            if index:
+                cursor += 8
+            child_height = draw(child["node"], child_x, cursor, child_width)
+            cursor += child_height
+        return height
+
+    width, x = 312, 24
+    height = measure(root, width)
+    if y + height > 630:
+        raise ValueError("screen exceeds SVG bounds")
+    draw(root, x, y, width)
+    return parts, y + height + 8
 
 
 def main():

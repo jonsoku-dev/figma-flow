@@ -22,6 +22,7 @@ import uuid
 
 from plugin_panel import display_name, render_app, supported_locales
 import input_effect
+import workspace_recipes
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'figma-flow-workspace-v1'
@@ -165,12 +166,22 @@ def assemble_shared_runtime(bridge):
 def trusted_sources():
     hasher = hashlib.sha256()
     seen = set()
+    ignored = {'node_modules', '__pycache__', '.cache', '.pytest_cache', '.mypy_cache', '.git'}
     for folder in ('tools', 'figma-bridge', 'library'):
-        for path in sorted((ROOT / folder).rglob('*')):
-            if path.is_file() and path.suffix in {'.py', '.js', '.html', '.css', '.json'}:
+        paths = []
+        for directory, directories, files in os.walk(ROOT / folder):
+            directories[:] = sorted(name for name in directories if name not in ignored)
+            paths.extend(Path(directory) / name for name in files)
+        for path in sorted(paths):
+            relative = str(path.relative_to(ROOT))
+            # npm's local parser installation is tooling, not a native runtime input.
+            if relative == 'library/figma-api/package-lock.json':
+                continue
+            runtime_source = path.suffix in {'.py', '.js', '.html', '.css', '.json'}
+            library_source = folder == 'library' and path.suffix in {'.cjs', '.mjs', '.ts'}
+            if path.is_file() and (runtime_source or library_source):
                 if path.is_symlink():
                     raise ValueError('Trusted generator sources cannot be symlinks')
-                relative = str(path.relative_to(ROOT))
                 seen.add(relative)
                 hasher.update(relative.encode())
                 hasher.update(path.read_bytes())
@@ -757,6 +768,7 @@ def publish(workspace, catalogue):
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_CONFIG = ' + json.dumps(relay, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_UI = workspaceAppHtml(' + json.dumps(render_app('chat', chat_context=True, shared=True), ensure_ascii=True) + ');\n'
+    code += workspace_recipes.dispatch_source() + '\n'
     code += assemble_shared_runtime(bridge)
     if runtime['implementation'] != trusted_sources():
         raise ValueError('Trusted runtime sources changed during publication; retry')
@@ -767,6 +779,7 @@ def publish(workspace, catalogue):
     manifest = {'name': display_name(), 'id': catalogue['plugin_id'], 'api': '1.0.0',
         'main': f'.generations/{generation}/code.js', 'ui': f'.generations/{generation}/ui.html',
         'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'enablePrivatePluginApi': True,
+        'menu': workspace_recipes.menu(),
         'networkAccess': {'allowedDomains': ['none']}}
     if domains:
         manifest['networkAccess']['devAllowedDomains'] = sorted(domains)

@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "description": "Exact development-only parser dependency for generate.cjs. Offline search does not require Node.",
+  "devDependencies": {"typescript": "5.9.3"}
+}

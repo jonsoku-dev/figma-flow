@@ -1,13 +1,13 @@
 # Figma Flow
 
-Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design 파일에서 플러그인을 실행 세션마다 한 번 직접 열면, Codex가 이 플러그인의 localhost 명령으로 준비된 작업을 실행하고 실제 JSON을 검증합니다. 기본 소비자 경로에는 Computer Use나 공식 Figma MCP가 필요하지 않습니다.
+Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design 파일에서 플러그인을 실행 세션마다 한 번 직접 열면, Codex가 이 플러그인의 localhost 명령으로 준비된 작업을 실행하고 실제 JSON을 검증합니다. Figma 기능 검색·실행·검증은 공식 Figma MCP 없이 동작합니다.
 
 **[통합 사용 가이드](docs/guide.md)** · [English](docs/guide.md#english) · [日本語](docs/guide.md#japanese)
 
 설치·폰트·시안 검토·본제작·그래프 왕복·업데이트·복구·회사 배포는 통합 가이드 한 곳에서 확인합니다.
 
 ```text
-Figma Flow v0.27.1을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.28.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 기존 작업과 작업공간 ID를 보존해. Figma Flow 최초 등록과 세션별 실행은 내가 할게.
 그 뒤 localhost 제어와 실제 JSON으로 검증해. 구체적인 요청은 한 안으로 진행하고, 비교를 요청하면 내 선택을 기다려.
@@ -15,6 +15,7 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 
 | 필요한 작업 | 가이드 위치 |
 |---|---|
+| Figma 기능 찾기·로컬 예제 실행 | [공개 API와 데스크톱 메뉴](docs/guide.md#local-figma-features) |
 | 처음 설치·고정 manifest 등록·첫 예제 | [설치부터 검토까지](docs/guide.md#2-클론하고-codex에-설치) |
 | 한 번 실행한 뒤 Codex에 맡기기 | [로컬 제어](docs/guide.md#기본-흐름-한-번-실행하고-codex에-맡기기) |
 | 선택한 원화·배치를 유지한 0.25.0 본제작 | [입력 핀과 verify-production](docs/guide.md#selected-rich-production) |

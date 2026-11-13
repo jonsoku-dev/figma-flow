@@ -56,6 +56,83 @@ def variable_value(token):
     raise ValueError(f'Unsupported token value/type: {kind!r}')
 
 
+def validate_component_properties(components, screens):
+    """Validate the bounded local property/slot contract before native writes."""
+    def reference(value):
+        if (not isinstance(value, dict) or set(value) != {'component', 'variant'}
+                or not isinstance(value.get('component'), str) or not isinstance(value.get('variant'), str)
+                or value['variant'] not in components.get(value['component'], {}).get('variants', {})):
+            raise ValueError('Component property swap must reference an existing local component variant')
+        return value['component']
+
+    dependencies = {name: set() for name in components}
+    for name, component in components.items():
+        properties = component.get('properties', {})
+        if not isinstance(properties, dict) or len(properties) > 32:
+            raise ValueError('Component properties must be a mapping of at most 32 declarations')
+        swaps = set()
+        targets = set()
+        for display, prop in properties.items():
+            if not isinstance(display, str) or not display.strip() or '#' in display or display == '문구':
+                raise ValueError('Component property names must be nonempty, unique native display names without #')
+            if not isinstance(prop, dict) or prop.get('type') not in ('BOOLEAN', 'INSTANCE_SWAP'):
+                raise ValueError('Declared component properties support BOOLEAN and INSTANCE_SWAP only')
+            required = {'type', 'target', 'default_value'}
+            allowed = required | ({'preferred_values'} if prop['type'] == 'INSTANCE_SWAP' else set())
+            if not required <= set(prop) or set(prop) - allowed or not isinstance(prop['target'], str) or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', prop['target']):
+                raise ValueError('Component properties require type, target and default_value')
+            identity = (prop['type'], prop['target'])
+            if identity in targets:
+                raise ValueError('Only one component property can bind each target field')
+            targets.add(identity)
+            if prop['type'] == 'BOOLEAN':
+                if not isinstance(prop['default_value'], bool):
+                    raise ValueError('BOOLEAN component property defaults must be booleans')
+            else:
+                if prop['target'] == 'label':
+                    raise ValueError('INSTANCE_SWAP target must be a named slot, not label')
+                swaps.add(prop['target'])
+                dependencies[name].add(reference(prop['default_value']))
+                preferred = prop.get('preferred_values', [])
+                if not isinstance(preferred, list) or len(preferred) > 100:
+                    raise ValueError('Swap preferred_values must be a bounded list of local variant references')
+                for value in preferred:
+                    dependencies[name].add(reference(value))
+        for prop in properties.values():
+            if prop['type'] == 'BOOLEAN' and prop['target'] not in swaps | {'label'}:
+                raise ValueError('BOOLEAN target must be label or a declared instance-swap slot')
+        axes = component.get('variant_axes', {'Variant': list(component['variants'])})
+        if set(properties) & (set(axes) | {'Variant'}):
+            raise ValueError('Component property names must not collide with variant axes')
+    for screen in screens:
+        for element in screen.get('elements', []):
+            if 'property_values' not in element:
+                continue
+            overrides = element['property_values']
+            properties = components.get(element.get('component'), {}).get('properties', {})
+            if element.get('kind') != 'component' or not isinstance(overrides, dict) or set(overrides) - set(properties):
+                raise ValueError('Instance property_values must name declared component properties')
+            for name, value in overrides.items():
+                if properties[name]['type'] == 'BOOLEAN':
+                    if not isinstance(value, bool):
+                        raise ValueError('BOOLEAN instance override must be a boolean')
+                else:
+                    dependencies[element['component']].add(reference(value))
+    visiting, done = set(), set()
+    def visit(name):
+        if name in visiting:
+            raise ValueError('Recursive component property swap dependencies are unsupported')
+        if name in done:
+            return
+        visiting.add(name)
+        for dependency in dependencies[name]:
+            visit(dependency)
+        visiting.remove(name)
+        done.add(name)
+    for name in components:
+        visit(name)
+
+
 def validate(data):
     if not isinstance(data, dict) or data.get('version') != 1:
         raise ValueError('Expected resolved design-system version 1')
@@ -123,6 +200,7 @@ def validate(data):
                     raise ValueError('Component elements must reference an existing component variant')
     if count > 1000:
         raise ValueError('At most 1000 screen elements are supported')
+    validate_component_properties(components, screens)
     return values
 
 
@@ -478,6 +556,76 @@ def same_variable_value(kind, expected, actual):
     return type(actual) is type(expected) and actual == expected
 
 
+def compare_declared_component_properties(page, expected):
+    """Check observed definitions, live references and instance targets against source."""
+    nodes, parents, identities = [], {}, {}
+    def mapping(value):
+        return value if isinstance(value, dict) else {}
+    def collect(node, parent=None):
+        nodes.append(node)
+        parents[node.get('id')] = parent
+        identities.setdefault(node.get('semantic_id'), []).append(node)
+        for child in node.get('children', []):
+            collect(child, node)
+    collect(page)
+    def find(identity):
+        matches = identities.get(identity, [])
+        return matches[0] if len(matches) == 1 else None
+    def resolve(ref):
+        return find(f"component:{ref['component']}/{ref['variant']}")
+    def target(node, prop, identity):
+        child = find(identity + ('/label' if prop['target'] == 'label' else '/slot:' + prop['target']))
+        return child if child and node and any(item.get('id') == child.get('id') for item in node.get('children', [])) else None
+    checks = []
+    def record(identity, name, scope, passed, actual=None):
+        checks.append({'semantic_id': identity, 'property': name, 'scope': scope,
+                       'status': 'match' if passed else 'changed', 'current_value': actual})
+    for name, definition in expected['components'].items():
+        for variant in definition['variants']:
+            identity = f'component:{name}/{variant}'
+            main = find(identity)
+            parent = parents.get(main.get('id')) if main else None
+            owner = parent if parent and parent.get('type') == 'COMPONENT_SET' else main
+            for display, prop in definition.get('properties', {}).items():
+                key = mapping(mapping((main or {}).get('declared_metadata')).get('declared_property_keys')).get(display)
+                definitions = mapping((owner or {}).get('componentPropertyDefinitions'))
+                actual = mapping(definitions.get(key))
+                matching = [candidate for candidate in definitions if candidate.startswith(display + '#')]
+                ref = resolve(prop['default_value']) if prop['type'] == 'INSTANCE_SWAP' else None
+                value = prop['default_value'] if prop['type'] == 'BOOLEAN' else (ref or {}).get('id')
+                record(identity, display, 'definition', bool(main and main.get('type') == 'COMPONENT' and key and matching == [key] and actual.get('type') == prop['type']), actual)
+                record(identity, display, 'default', value is not None and type(actual.get('defaultValue')) is type(value) and actual.get('defaultValue') == value, actual.get('defaultValue'))
+                if prop['type'] == 'INSTANCE_SWAP':
+                    preferred = [{'type': 'COMPONENT', 'key': (resolve(item) or {}).get('component_key')} for item in prop.get('preferred_values', [])]
+                    record(identity, display, 'preferred-values', all(item['key'] for item in preferred) and actual.get('preferredValues', []) == preferred, actual.get('preferredValues'))
+                child = target(main, prop, identity)
+                field = 'visible' if prop['type'] == 'BOOLEAN' else 'mainComponent'
+                reference = mapping((child or {}).get('componentPropertyReferences')).get(field)
+                record(identity, display, 'layer-reference', bool(child and key and reference == key), reference)
+                observed = (child or {}).get('visible' if prop['type'] == 'BOOLEAN' else 'main_component_id')
+                passed = child and value is not None and type(observed) is type(value) and observed == value and (prop['type'] == 'BOOLEAN' or child.get('type') == 'INSTANCE')
+                record(identity, display, 'actual-target', bool(passed), observed)
+    for screen in expected['screens']:
+        for index, element in enumerate(screen['elements']):
+            if element['kind'] != 'component':
+                continue
+            identity = element.get('id', f"{screen['id']}/element:{index}")
+            instance = find(identity)
+            main = resolve({'component': element['component'], 'variant': element['variant']})
+            for display, prop in expected['components'][element['component']].get('properties', {}).items():
+                key = mapping(mapping((main or {}).get('declared_metadata')).get('declared_property_keys')).get(display)
+                actual = mapping(mapping((instance or {}).get('componentProperties')).get(key))
+                requested = element.get('property_values', {}).get(display, prop['default_value'])
+                value = requested if prop['type'] == 'BOOLEAN' else (resolve(requested) or {}).get('id')
+                passed = instance and main and instance.get('type') == 'INSTANCE' and instance.get('main_component_id') == main.get('id') and actual.get('type') == prop['type'] and value is not None and type(actual.get('value')) is type(value) and actual.get('value') == value
+                record(identity, display, 'instance-value', bool(passed), actual.get('value'))
+                child = target(instance, prop, identity)
+                observed = (child or {}).get('visible' if prop['type'] == 'BOOLEAN' else 'main_component_id')
+                passed = child and value is not None and type(observed) is type(value) and observed == value and (prop['type'] == 'BOOLEAN' or child.get('type') == 'INSTANCE')
+                record(identity, display, 'instance-target', bool(passed), observed)
+    return checks
+
+
 def compare_import(page, expected, digest, variables, collections, required_annotations=None, specifications=None, file_key=None):
     """Compare only this page and its declared collection; a stamp is not current-state evidence."""
     stamped = page.get('source_sha256') or page.get('declared_metadata', {}).get('source_sha256')
@@ -490,7 +638,7 @@ def compare_import(page, expected, digest, variables, collections, required_anno
         identity = node.get('semantic_id') or node.get('declared_metadata', {}).get('semantic_id')
         # Instances inherit the main component's metadata. Only the explicitly retagged
         # label belongs to the instance and must still be checked for text and bindings.
-        if instance_label is None or identity == instance_label:
+        if instance_label is None or identity == instance_label or isinstance(identity, str) and identity.startswith(instance_label.removesuffix('/label') + '/slot:'):
             semantic.setdefault(identity, []).append(node)
         if node.get('type') == 'INSTANCE' and instance_label is None:
             instance_label = (identity or '') + '/label'
@@ -685,13 +833,14 @@ def compare_import(page, expected, digest, variables, collections, required_anno
     native_coverage = 'complete' if component_usage and all(any(
         check['semantic_id'] in (item['semantic_id'], item['semantic_id'] + '/label') for check in bindings)
         for item in component_usage) else 'partial'
-    status = comparison_status([check['status'] for check in [*screens, *elements, *tokens, *bindings, *annotations, *component_usage]] +
+    component_properties = compare_declared_component_properties(page, expected)
+    status = comparison_status([check['status'] for check in [*screens, *elements, *tokens, *bindings, *annotations, *component_usage, *component_properties]] +
                                (['unsupported'] if native_coverage != 'complete' else []))
     return dict(result, status=status, current_state=status, collection_id=collection_id,
                 screen_checks=screens, element_checks=elements, token_checks=tokens, binding_checks=bindings,
-                annotation_checks=annotations, component_usage_checks=component_usage,
+                annotation_checks=annotations, component_usage_checks=component_usage, component_property_checks=component_properties,
                 native_handoff_coverage='complete' if native_coverage == 'complete' and all(
-                    check['status'] == 'match' for check in [*annotations, *component_usage, *bindings]) else 'partial',
+                    check['status'] == 'match' for check in [*annotations, *component_usage, *bindings, *component_properties]) else 'partial',
                 missing_screens=[check['semantic_id'] for check in screens if check['status'] == 'missing'])
 
 

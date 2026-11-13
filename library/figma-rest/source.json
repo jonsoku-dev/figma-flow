@@ -1,0 +1,12 @@
+{
+  "files": {
+    "LICENSE": "0463fcb48f769333b329e98d9116c38810adaa5da624126eb0cfa883d3282cb3",
+    "openapi.yaml.gz": "902a9ef0aa179c4bde91fcaa960328f695bd4c9471e3486c626990b9d9c7fa6b"
+  },
+  "license": "MIT",
+  "ref": "af027cd20aca8326a41115e4d15bbdf875158e81",
+  "repository": "https://github.com/figma/rest-api-spec",
+  "source_path": "openapi/openapi.yaml",
+  "source_sha256": "490cc17e98f72b8e5eff8f3cfcf8df2e059a67d89993c607761c2e9d6234fb7f",
+  "version": "0.47.0"
+}
