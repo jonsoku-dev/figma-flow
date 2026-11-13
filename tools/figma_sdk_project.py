@@ -94,6 +94,8 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
     manifest = {'name': 'Local SDK workbench', 'api': '1.0.0', 'main': 'dist/code.js',
                 'editorType': [editor], 'documentAccess': 'dynamic-page',
                 'networkAccess': {'allowedDomains': ['none']}}
+    if recipe and row.get('requiresFileKey'):
+        manifest['enablePrivatePluginApi'] = True
     if plugin_id:
         manifest['id'] = plugin_id
     if editor == 'dev':

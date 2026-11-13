@@ -14,6 +14,8 @@ ROOT = LIBRARY.parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 from design_system import compile_design
 from workspace_recipes import registered_actions
+from design_type_review_graph import build_graph as build_type_review_graph
+from review_graph import project_graph, selection_sha256, typescript_projection
 
 
 def digest(data):
@@ -47,10 +49,40 @@ def build(compiler):
     subprocess.run(['node', '--check', str(helpers_path)], check=True)
     rows = []
     ids = registered_actions()
+    sdk_graph_recipes = []
+    manifest = json.loads((LIBRARY / 'manifest.json').read_text())
+    sdk_entries = [row for row in manifest['recipes'] if row.get('editorType') == 'figma'
+                   and row.get('reviewGraph') is True and row.get('requiresFileKey') is True
+                   and row.get('id') not in ids]
     with tempfile.TemporaryDirectory() as directory:
         temp = Path(directory)
         globals = temp / 'globals.d.ts'
         globals.write_text('declare const figma: PluginAPI;\n')
+        for recipe in sdk_entries:
+            if recipe.get('entry') != 'design-type-review.ts':
+                raise ValueError('Unexpected file-scoped graph recipe; add an explicit reviewed build adapter.')
+            source = LIBRARY / recipe['entry']
+            graph_path = temp / 'design-type-review.graph.json'
+            graph = build_type_review_graph('FILE_KEY_PLACEHOLDER', '1:1')
+            graph_path.write_text(json.dumps(graph, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
+            projected_graph, graph_sha = project_graph(graph_path, [])
+            projection = typescript_projection(projected_graph, graph_sha)
+            graph_types = temp / 'review-graph.ts'
+            graph_types.write_text(projection)
+            output = temp / 'design-type-review.js'
+            subprocess.run(['node', str(compiler), '--strict', '--target', 'ES2020', '--lib', 'ES2020',
+                '--module', 'none', '--noEmitOnError', '--outFile', str(output),
+                str(ROOT / 'library/figma-api/plugin-api.d.ts'), str(globals),
+                str(graph_types), str(source)], check=True)
+            code = output.read_bytes()
+            scope = json.loads(next(node['detail'] for node in graph['nodes'] if node['id'] == 'scope:lab'))
+            sdk_graph_recipes.append({'id': recipe['id'], 'source': source.name,
+                'sourceSha256': digest(source.read_bytes()), 'graphTemplate': 'design-type-review.graph.json',
+                'graphTemplateSha256': digest((LIBRARY / 'design-type-review.graph.json').read_bytes()),
+                'graphProjectionSha256': digest(projection.encode()), 'graphSha256': graph_sha,
+                'selectionSha256': selection_sha256(projected_graph),
+                'priorityInventorySha256': scope['priorityInventorySha256'],
+                'compiledSha256': digest(code)})
         for recipe in ids:
             source = LIBRARY / (recipe + '.ts')
             output = temp / (recipe + '.js')
@@ -77,8 +109,8 @@ def build(compiler):
             row['jsSha256'] = digest(target.read_bytes())
             rows.append(row)
     (LIBRARY / 'bundle.json').write_text(json.dumps({'schemaVersion': 1,
-        'typescriptVersion': '5.9.3', 'recipes': rows}, indent=2) + '\n')
-    print('Compiled four Design recipes with owned-node rollback and no page creation.')
+        'typescriptVersion': '5.9.3', 'recipes': rows, 'sdkGraphRecipes': sdk_graph_recipes}, indent=2) + '\n')
+    print(f'Compiled {len(rows)} Design menu recipes and {len(sdk_graph_recipes)} scoped SDK graph recipe(s).')
 
 
 if __name__ == '__main__':

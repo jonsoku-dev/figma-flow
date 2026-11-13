@@ -210,6 +210,44 @@
         "검토 발표",
         "슬라이드 그리드"
       ]
+    },
+    {
+      "id": "design-type-review",
+      "name": "Designer and developer typography specimen",
+      "editorType": "figma",
+      "mode": "default",
+      "entry": "design-type-review.ts",
+      "description": "Build a graph-scoped, reusable typography component on the existing Design lab page. Use only the pinned priority rows and verify native range and frame style getters.",
+      "api": [
+        "figma.listAvailableFontsAsync",
+        "figma.createComponentFromNode",
+        "BaseNodeMixin.getCSSAsync",
+        "TextNode.getRangeFontName",
+        "TextNode.getRangeFontSize",
+        "TextNode.getRangeLineHeight",
+        "TextNode.getRangeLetterSpacing",
+        "TextNode.getRangeFills",
+        "TextNode.setRangeFontName",
+        "TextNode.setRangeFontSize",
+        "TextNode.setRangeLineHeight",
+        "TextNode.setRangeLetterSpacing",
+        "TextNode.setRangeFills",
+        "FrameNode.cornerRadius",
+        "FrameNode.effects",
+        "FrameNode.dashPattern",
+        "FrameNode.strokeWeight",
+        "FrameNode.strokes",
+        "FrameNode.fills"
+      ],
+      "aliases": [
+        "typography specimen",
+        "type scale",
+        "font metadata",
+        "typography review",
+        "타이포그래피 검토"
+      ],
+      "reviewGraph": true,
+      "requiresFileKey": true
     }
   ]
 }

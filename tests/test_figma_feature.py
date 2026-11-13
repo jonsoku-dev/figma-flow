@@ -31,10 +31,18 @@ class FeatureRoutesTests(unittest.TestCase):
             recipe = recipes[row['recipe']]
             self.assertEqual(recipe['editorType'], row['editor'])
             steps = row['sdk_fallback']['next_steps'] if row['kind'] == 'flow-recipe' else row['next_steps']
-            self.assertIn('--recipe ' + row['recipe'], steps[0])
-            if row['editor'] == 'figma':
+            recipe_command = next(step for step in steps if '--recipe ' + row['recipe'] in step)
+            if recipe.get('workspaceMenu'):
                 self.assertEqual(row['kind'], 'flow-recipe')
                 self.assertIn('flow-recipe:' + row['recipe'], ' '.join(row['next_steps']))
+            else:
+                self.assertEqual(row['kind'], 'sdk-recipe')
+                if recipe.get('reviewGraph'):
+                    self.assertIn('--review-graph', recipe_command)
+                if recipe.get('requiresFileKey'):
+                    self.assertIn('design_type_review_graph.py --file-key FILE_KEY --page-id PAGE_ID', steps[0])
+                    self.assertIn('.figma-flow/type-review-graph.json', recipe_command)
+                    self.assertNotIn('--node', recipe_command)
         for query, expected in [('그리드', 'design-grid'), ('피그잼', 'figjam-diagram'),
                                 ('smart animate', 'design-motion'), ('motion', 'motion-timeline'),
                                 ('슬라이드', 'slides-slide'), ('codegen', 'dev-codegen')]:

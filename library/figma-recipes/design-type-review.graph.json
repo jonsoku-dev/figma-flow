@@ -1,0 +1,77 @@
+{
+  "schema": "figma-flow-typography-review-graph-template-v1",
+  "graph": {
+    "version": 1,
+    "id": "figma-flow-designer-developer-typography",
+    "title": "Designer and developer typography specimen",
+    "nodes": [
+      {
+        "id": "scope:lab",
+        "type": "reference",
+        "title": "Typography review lab scope",
+        "detail": "Bound by tools/design_type_review_graph.py from the operator's explicit file key and page ID.",
+        "status": "planned",
+        "source": "design-type-review.graph.json"
+      },
+      {
+        "id": "requirement:designer",
+        "type": "requirement",
+        "title": "Designer · legible type system",
+        "detail": "A reusable typography component presents display, label and body styles with measured range metadata.",
+        "status": "planned",
+        "source": "design-type-review.graph.json"
+      },
+      {
+        "id": "requirement:developer",
+        "type": "requirement",
+        "title": "Developer · inspectable API evidence",
+        "detail": "The component records exact official member keys, rank, receiver and verified values for its styling operations.",
+        "status": "planned",
+        "source": "design-type-review.graph.json"
+      },
+      {
+        "id": "component:typography",
+        "type": "component",
+        "title": "Reusable typography specimen component",
+        "detail": "Created only from a newly created frame. An identical graph selection reuses it; a later version or epoch creates a sibling and preserves previous components.",
+        "status": "planned",
+        "source": "design-type-review.graph.json"
+      },
+      {
+        "id": "test:actual-readback",
+        "type": "test",
+        "title": "Typography setters verified by native getters",
+        "detail": "Read back font name, size, line height, letter spacing, fill, CSS summary, radius, effects, dash pattern, strokes and fills.",
+        "status": "planned",
+        "source": "design-type-review.graph.json"
+      }
+    ],
+    "edges": [
+      { "from": "scope:lab", "to": "component:typography", "type": "targets existing page" },
+      { "from": "requirement:designer", "to": "component:typography", "type": "is satisfied by" },
+      { "from": "requirement:developer", "to": "test:actual-readback", "type": "is checked by" },
+      { "from": "test:actual-readback", "to": "component:typography", "type": "reads back styles from" }
+    ]
+  },
+  "priority_members": [
+    { "owner": "PluginAPI", "name": "listAvailableFontsAsync", "receiver": "PluginAPI", "purpose": "Choose actual font metadata supplied by the current editor." },
+    { "owner": "PluginAPI", "name": "createComponentFromNode", "receiver": "PluginAPI", "purpose": "Convert the newly created typography frame into a reusable component." },
+    { "owner": "BaseNodeMixin", "name": "getCSSAsync", "receiver": "FRAME", "purpose": "Read a bounded CSS summary for the inspectable specimen." },
+    { "owner": "BaseNonResizableTextMixin", "name": "getRangeFontName", "receiver": "TEXT", "purpose": "Read actual font family and style from each text range." },
+    { "owner": "BaseNonResizableTextMixin", "name": "getRangeFontSize", "receiver": "TEXT", "purpose": "Verify the applied text scale." },
+    { "owner": "NonResizableTextMixin", "name": "getRangeLineHeight", "receiver": "TEXT", "purpose": "Verify the applied line height." },
+    { "owner": "BaseNonResizableTextMixin", "name": "getRangeLetterSpacing", "receiver": "TEXT", "purpose": "Verify tracking on each text range." },
+    { "owner": "BaseNonResizableTextMixin", "name": "getRangeFills", "receiver": "TEXT", "purpose": "Verify range color as a safe solid paint." },
+    { "owner": "BaseNonResizableTextMixin", "name": "setRangeFontName", "receiver": "TEXT", "purpose": "Apply the actual available font to a range." },
+    { "owner": "BaseNonResizableTextMixin", "name": "setRangeFontSize", "receiver": "TEXT", "purpose": "Apply the typographic scale to a range." },
+    { "owner": "NonResizableTextMixin", "name": "setRangeLineHeight", "receiver": "TEXT", "purpose": "Apply the line height to a range." },
+    { "owner": "BaseNonResizableTextMixin", "name": "setRangeLetterSpacing", "receiver": "TEXT", "purpose": "Apply letter spacing to a range." },
+    { "owner": "BaseNonResizableTextMixin", "name": "setRangeFills", "receiver": "TEXT", "purpose": "Apply the selected text color to a range." },
+    { "owner": "CornerMixin", "name": "cornerRadius", "receiver": "FRAME", "purpose": "Set and verify specimen radius." },
+    { "owner": "BlendMixin", "name": "effects", "receiver": "FRAME", "purpose": "Set and verify the drop shadow." },
+    { "owner": "MinimalStrokesMixin", "name": "dashPattern", "receiver": "FRAME", "purpose": "Set and verify the frame's dashes." },
+    { "owner": "MinimalStrokesMixin", "name": "strokeWeight", "receiver": "FRAME", "purpose": "Set and verify stroke weight." },
+    { "owner": "MinimalStrokesMixin", "name": "strokes", "receiver": "FRAME", "purpose": "Provide the specimen's visible stroke." },
+    { "owner": "MinimalFillsMixin", "name": "fills", "receiver": "FRAME", "purpose": "Provide the specimen's background color." }
+  ]
+}

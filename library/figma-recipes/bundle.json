@@ -53,5 +53,19 @@
       "productionSourceSha256": "5ae575b91f96b053d61dd82e68b42ce5aa09e1bf4b6cb0776da78f08ebadfa30",
       "jsSha256": "6dd9907a1da5215e17a0cc8221306c0ecd8d628ad87a0b720f0d2e0fcf5254bf"
     }
+  ],
+  "sdkGraphRecipes": [
+    {
+      "id": "design-type-review",
+      "source": "design-type-review.ts",
+      "sourceSha256": "eeed1c65371346d4106bd3296510f15d825acf252d7adff7075641a3020022f5",
+      "graphTemplate": "design-type-review.graph.json",
+      "graphTemplateSha256": "c404112bb757539fa1469824a047d91329d457ab0b7ee6c2787b74494e57f154",
+      "graphProjectionSha256": "0299335a4462533447d945dfc4ec42936c13df481b698ac137a3e102fabba2a3",
+      "graphSha256": "6a41ad44363c19a2ebfc93b139050be9833c8b4ae168a6c80067077499dac740",
+      "selectionSha256": "48e84a0efb8c0c30907571cf4c445410c4ab9fb502a68df65d4f5dfda25b33f5",
+      "priorityInventorySha256": "8593645b17e5888a71e1c884881e144249844008e91144ebecf5687055545c50",
+      "compiledSha256": "57d5e411effe89dcfd90d74b21968621a8f4cadcc25a3889923d80e1005a861f"
+    }
   ]
 }

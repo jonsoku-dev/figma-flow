@@ -16,20 +16,28 @@ def feature(identity, aliases, kind, steps, prerequisites, recipe=None, editor=N
                 prerequisites=prerequisites, recipe=recipe, editor=editor)
 
 
-def sdk(identity, aliases, editor, scope, review_graph=False, workspace_menu=None):
+def sdk(identity, aliases, editor, scope, review_graph=False, workspace_menu=None, requires_file_key=False):
     steps = [
         f'python3 tools/figma_sdk_project.py init NEW_SDK_DIR --editor {editor} --recipe {identity}',
         'npm --prefix NEW_SDK_DIR install --ignore-scripts --no-audit --no-fund',
         'python3 tools/figma_sdk_project.py check NEW_SDK_DIR',
         'python3 tools/figma_sdk_project.py build NEW_SDK_DIR',
     ]
-    if review_graph:
+    if review_graph and requires_file_key:
+        steps = [
+            'python3 tools/design_type_review_graph.py --file-key FILE_KEY --page-id PAGE_ID --out .figma-flow/type-review-graph.json',
+            f'python3 tools/figma_sdk_project.py init NEW_SDK_DIR --editor {editor} --recipe {identity} --review-graph .figma-flow/type-review-graph.json',
+            *steps[1:],
+        ]
+    elif review_graph:
         steps[0] += ' --review-graph GRAPH_JSON --node NODE_ID'
     prerequisites = ['Scope: ' + scope,
         'Use a new directory; review src/code.ts before running anything in Figma.',
         'Initial npm installation needs network or cached packages. Typechecking does not prove runtime support.',
         'Create a separate Figma development plugin, copy its issued ID into manifest.template.json and save as manifest.json.',
         'Import the built manifest in the matching editor/mode, run only with authorized scope, and inspect actual results.']
+    if requires_file_key:
+        prerequisites.insert(1, 'The recipe requires the explicitly selected file key and existing page ID; its generated graph binds both before compilation.')
     if workspace_menu:
         result = feature(identity, aliases, 'flow-recipe', [
             'python3 tools/figma_workspace.py refresh --workspace WORKSPACE',
@@ -45,7 +53,8 @@ def sdk(identity, aliases, editor, scope, review_graph=False, workspace_menu=Non
 
 
 ROUTES = [
-    *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False), row.get('workspaceMenu'))
+    *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False),
+          row.get('workspaceMenu'), row.get('requiresFileKey', False))
       for row in json.loads((ROOT / 'library/figma-recipes/manifest.json').read_text())['recipes']),
     feature('web-design', 'editable web design|web to figma|웹 화면 변환|편집 가능한 웹 화면', 'flow',
             ['Measure the rendered browser page with tools/web_design_capture.js.',
