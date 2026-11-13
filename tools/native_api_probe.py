@@ -317,7 +317,7 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,128}', str(file_key)) or not re.fullmatch(r'\d+:\d+', str(page_id)):
         raise ValueError('A file key and page ID are required to bind the probe request.')
     if (not isinstance(selection, dict) or selection.get('schema') != SELECTION_SCHEMA
-            or set(selection) - {'schema', 'fileKey', 'pageId', 'nodes', 'previous_readback', 'candidate_offset'}):
+            or set(selection) - {'schema', 'fileKey', 'pageId', 'nodes', 'previous_readback', 'candidate_offset', 'recheck_member_ids'}):
         raise ValueError('Expected a figma-flow-native-api-probe-selection-v1 request.')
     if selection.get('fileKey') != file_key or selection.get('pageId') != page_id:
         raise ValueError('Probe selection file/page differs from the admitted discovery scope.')
@@ -329,8 +329,19 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
         raise ValueError(f'Candidate batch offset must be a nonnegative multiple of {MAX_CANDIDATES_PER_TYPE}.')
     seen_semantic, seen_native = set(), set()
     targets, eligible_by_type, candidates_by_type, eligibility_by_type = [], {}, {}, {}
-    ranked_rows = api_priority.queue(api_priority.build(include_public_overlays=True),
-                                     limit=None, feasible_only=True)
+    inventory = api_priority.build(include_public_overlays=True)
+    if 'recheck_member_ids' in selection:
+        requested = selection['recheck_member_ids']
+        if (not isinstance(requested, list) or not 1 <= len(requested) <= MAX_CANDIDATES_PER_TYPE
+                or not all(isinstance(key, str) for key in requested) or len(set(requested)) != len(requested)):
+            raise ValueError('Recheck requires unique exact member keys in a single bounded batch.')
+        admitted = {row['api_member_id']: row for row in inventory['rows']
+                    if row['evidence_status'] in ('observed', 'observed-in-observation-graph')}
+        if any(key not in admitted for key in requested) or offset:
+            raise ValueError('Recheck requires previously observed audit keys and offset zero.')
+        ranked_rows = [admitted[key] for key in requested]
+    else:
+        ranked_rows = api_priority.queue(inventory, limit=None, feasible_only=True)
     priority_order = {row['api_member_id']: index for index, row in enumerate(ranked_rows)}
     priority_by_id = {row['api_member_id']: row for row in ranked_rows}
     if not priority_order:
@@ -376,6 +387,10 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
     if previous_readback is not None and previous is None:
         raise ValueError('Previous readback must have a valid actual receipt timestamp and match the exact file/page scope.')
     api_source = {'version': catalog['source']['version'], 'ref': catalog['source']['ref']}
+    if 'recheck_member_ids' in selection:
+        reachable = {item['api_member_id'] for items in candidates_by_type.values() for item in items}
+        if set(selection['recheck_member_ids']) != reachable:
+            raise ValueError('Recheck keys must be supported by the selected receiver types and static projection policy.')
     field_policy = {name: {'foundation': values[0], 'value_kind': values[1], 'priority': values[2],
                            'allowed_receivers': list(values[3]) if len(values) == 4 else ['*'],
                            'access': 'property'} for name, values in SAFE_FIELDS.items()}
@@ -435,6 +450,8 @@ def normalize_selection(selection, *, file_key, page_id, catalog=None, audit=Non
     result = {'schema': SELECTION_SCHEMA, 'fileKey': file_key, 'pageId': page_id,
               'nodes': config['targets']}
     result['candidate_offset'] = config['candidateOffset']
+    if 'recheck_member_ids' in selection:
+        result['recheck_member_ids'] = list(selection['recheck_member_ids'])
     if config['previous'] is not None:
         result['previous_readback'] = {'schema': READBACK_SCHEMA, 'fileKey': file_key, 'pageId': page_id,
             'observed_at': config['previous']['observed_at'],

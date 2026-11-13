@@ -72,6 +72,18 @@ class NativeApiProbeTest(unittest.TestCase):
         self.assertTrue({'strokeAlign', 'strokeCap', 'strokeJoin', 'dashPattern',
                          'absoluteTransform', 'relativeTransform'} <= vector_fields)
 
+    def test_explicit_recheck_uses_only_observed_exact_keys_on_admitted_receivers(self):
+        audit = json.loads((ROOT / 'library/figma-api/audit/members.json').read_bytes())
+        row = next(r for r in audit['members'] if r['owner'] == 'BaseNodeMixin' and r['name'] == 'getCSSAsync')
+        selection = {**SELECTION, 'recheck_member_ids': [row['key']]}
+        admitted, config = probe.normalize_selection(selection, file_key=FILE_KEY, page_id=PAGE_ID)
+        self.assertEqual(admitted['recheck_member_ids'], [row['key']])
+        self.assertEqual({item['api_member_id'] for group in config['candidatesByType'].values()
+                          for item in group}, {row['key']})
+        for invalid in ([row['key'], row['key']], ['member:' + '0' * 64], []):
+            with self.assertRaises(ValueError):
+                probe.prepare({**SELECTION, 'recheck_member_ids': invalid}, file_key=FILE_KEY, page_id=PAGE_ID)
+
     def test_prior_statuses_require_timestamp_and_matching_hashes(self):
         baseline = probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID)
         catalog = probe.load_catalog()
