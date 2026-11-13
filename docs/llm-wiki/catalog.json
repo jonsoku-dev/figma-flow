@@ -7531,6 +7531,536 @@
           "version": "0.29.0"
         }
       ]
+    },
+    {
+      "commit": "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9",
+      "diff_sha256": "74cda2d4e7e4e30e49721f665577b9451a542d6ec406c8272c001286d7bb9332",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1fa5f0dd4386bfd46bd919284b946d39493ae857.md",
+        "docs/llm-wiki/patches/2de5f65d63c76054f04155d90201d96129af4433.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "1fa5f0dd4386bfd46bd919284b946d39493ae857"
+      ],
+      "subject": "docs: record final graph release regression checks",
+      "tree": "9507215fd210f2210a52ca2e8bacdf8b727a59d0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "4f75cb4af31947f6d4eda1f270279fa905a7c45c",
+      "diff_sha256": "28e98adc68d0478e1d8c8fe73ed3bc0c00c16ba46e329a5632659e095d56c66c",
+      "files": [
+        "docs/web-design-capture.md",
+        "tools/web_design_capture.js"
+      ],
+      "parents": [
+        "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9"
+      ],
+      "subject": "feat: capture rendered web screens as editable graph geometry",
+      "tree": "5080e056a0a558f19865372e5602b3f7a1c91eb6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "c860a86f146e3302caeffbcfcfdbbe9d832f052d",
+      "diff_sha256": "9fce55c8a950b46d787a85b4a767b4974a83721e2b4f750357cdcb97e9af80da",
+      "files": [
+        "tests/test_web_design_entry.py"
+      ],
+      "parents": [
+        "4f75cb4af31947f6d4eda1f270279fa905a7c45c"
+      ],
+      "subject": "test: pin the normal editable web-design graph entry point",
+      "tree": "788b0636465701959c394e789aba66c906fcacc3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "1dc4890d8e294dc30619b76e9aa4ca2e08dd79e5",
+      "diff_sha256": "6595a59b98b3f9935e3059511a637e3dc2bf0516929b18db22b73127ac941983",
+      "files": [
+        "docs/api-priority.md",
+        "docs/native-api-probe.md",
+        "figma-bridge/native_api_probe.js",
+        "tests/native_api_probe_methods.cjs",
+        "tests/test_api_priority.py",
+        "tests/test_native_api_probe.py",
+        "tools/api_priority.py",
+        "tools/native_api_probe.py",
+        "tools/review_api_coverage.py"
+      ],
+      "parents": [
+        "c860a86f146e3302caeffbcfcfdbbe9d832f052d"
+      ],
+      "subject": "feat: rank remaining graph members and probe typed CSS and text operations",
+      "tree": "2b48fc4abf80d5262380ddae874e0a3b6b5e5276",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "dfa773981fa58ddee662b36a3db8ece4960bee4d",
+      "diff_sha256": "398f619ccdd7ba59f909c1a4940c17eb98abb66300f71d83cea0349670deb461",
+      "files": [
+        ".github/workflows/test.yml",
+        "docs/optional-evidence-tests.md",
+        "tests/test_replay_optional_tests.py",
+        "tools/replay_optional_tests.py"
+      ],
+      "parents": [
+        "1dc4890d8e294dc30619b76e9aa4ca2e08dd79e5"
+      ],
+      "subject": "test: replay all three optional cases with pinned original evidence",
+      "tree": "b75c9fc65954943a70aeb4c58e76fc6ae4d542fc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "0ef8fe7126290ba10bd7ffe511e455d027226f74",
+      "diff_sha256": "922b933e320c70a6436891b029eb7d3b471071287ea01f0b7a634dbabe0d03b6",
+      "files": [
+        "tests/test_api_priority.py",
+        "tools/api_priority.py"
+      ],
+      "parents": [
+        "dfa773981fa58ddee662b36a3db8ece4960bee4d"
+      ],
+      "subject": "feat: connect the complete API backlog to ranked receiver-specific graph nodes",
+      "tree": "6169448960f3ea3df67cfe2f59ecafc873c3dde5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "9eba48a5015dc991389e0c5aa3b95cd8597b5f2c",
+      "diff_sha256": "b1bd5351b6c70c31579cf4e3569f74e4ca79dbae977d858ba777acfe862f0a41",
+      "files": [
+        "docs/web-design-capture.md",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/web_design.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design.cjs",
+        "tests/test_web_design.py",
+        "tests/test_web_design_source.py",
+        "tools/figma_feature.py",
+        "tools/native_edit.py",
+        "tools/web_design.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_source.py"
+      ],
+      "parents": [
+        "0ef8fe7126290ba10bd7ffe511e455d027226f74"
+      ],
+      "subject": "feat: build editable native screens from measured web graphs and pinned assets",
+      "tree": "a4354da859bec965cb78bbfd745a4a6d33c8edea",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "9cc41a0c7ca53a233113fd45b86dc330907094fa",
+      "diff_sha256": "fa77d9f7ec68fe6dccc4e5933a20dc679970738dfd7d5759a245e757e8af7ee3",
+      "files": [
+        "figma-bridge/web_design.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design.py",
+        "tools/native_edit.py",
+        "tools/web_design.py",
+        "tools/web_design_capture.js"
+      ],
+      "parents": [
+        "9eba48a5015dc991389e0c5aa3b95cd8597b5f2c"
+      ],
+      "subject": "fix: preserve source pin order, CSS clipping and radial placement in native imports",
+      "tree": "f29b794ba597bab206b371d2f25e4a46cc34ebcc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "78fd03a27d4d81d1e024d8874d5467a568b8418e",
+      "diff_sha256": "5d2e1430c433973547e7838338a63b3d2e515eb075054f9568d5ecb9c85c1717",
+      "files": [
+        "docs/api-priority.md",
+        "specs/editable-web/api-observations.json",
+        "tests/test_api_priority.py",
+        "tools/api_priority.py",
+        "tools/review_api_coverage.py"
+      ],
+      "parents": [
+        "9cc41a0c7ca53a233113fd45b86dc330907094fa"
+      ],
+      "subject": "feat: join real editor receipts into the default member coverage and priority graph",
+      "tree": "f8842c2382e976ecab25361eebbed893babe06d9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "b1a87fc477fe5d8dfea69eaeee996f8cbf1d7e61",
+      "diff_sha256": "89bbaa5b0df018db08ff87b978fbfd30420501a924dc5905a90b7532175aded6",
+      "files": [
+        "tests/helpers/native_api_probe_methods.cjs",
+        "tests/native_api_probe_methods.cjs",
+        "tests/test_native_api_probe.py"
+      ],
+      "parents": [
+        "78fd03a27d4d81d1e024d8874d5467a568b8418e"
+      ],
+      "subject": "fix: execute the parameterized API method harness through its real caller",
+      "tree": "c82a029d68ca09d03dccf9e034536448dc94e2d5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "56d2dd3ceaeb638805717030ff76c587d485d906",
+      "diff_sha256": "49ca9547905950c1ea14b1b787cd21b8f12ed1f8ba56ea52a5247172f55fd06e",
+      "files": [
+        "docs/design-type-review.md",
+        "library/figma-recipes/build.py",
+        "library/figma-recipes/bundle.json",
+        "library/figma-recipes/design-type-review.graph.json",
+        "library/figma-recipes/design-type-review.ts",
+        "library/figma-recipes/manifest.json",
+        "tests/test_figma_feature.py",
+        "tools/design_type_review_graph.py",
+        "tools/figma_feature.py",
+        "tools/figma_sdk_project.py"
+      ],
+      "parents": [
+        "b1a87fc477fe5d8dfea69eaeee996f8cbf1d7e61"
+      ],
+      "subject": "feat: build a reusable native typography component from exact ranked API members",
+      "tree": "f34d36fc0a3ab712e1f4b546154174bf0be98577",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "7f3dcace11483535593ed7a14bddd98314c4e785",
+      "diff_sha256": "9a3ac70e215b93d44ecfab7279c38c5ecd9d11a67fc0a2f9564eb74141ee1ff3",
+      "files": [
+        "docs/api-priority.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/web-design-capture.md"
+      ],
+      "parents": [
+        "56d2dd3ceaeb638805717030ff76c587d485d906"
+      ],
+      "subject": "docs: connect the implemented import and remaining roadmap to reproducible graph commands",
+      "tree": "d0ff9ea4aba38bcdd3dfed257f1c4c1f44e52535",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "6a369fd95b67ef72f5674aeebde33b9366d26e54",
+      "diff_sha256": "c94bcda71f07169c8683f44a3e07558efb11a366a308adeea49dcb8ae8313924",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "docs/editable-web-verification.md",
+        "docs/guide.md",
+        "plugin.json",
+        "specs/editable-web/graph.json"
+      ],
+      "parents": [
+        "7f3dcace11483535593ed7a14bddd98314c4e785"
+      ],
+      "subject": "release: version 0.30.0 with verified editable screens and native member evidence",
+      "tree": "02de2dbefa4a6e404460e8b30c372dbf526e42cd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "9768ac3f6f56f08cc52f53be24d9928d3de17a4b",
+      "diff_sha256": "21707846b9ba2674eb93a14fed0af98eabcf1f202fae680aba8c9d3c3a8466c0",
+      "files": [
+        "docs/editable-web-verification.md",
+        "specs/README.md",
+        "specs/editable-web/graph.json"
+      ],
+      "parents": [
+        "6a369fd95b67ef72f5674aeebde33b9366d26e54"
+      ],
+      "subject": "docs: link verified full-suite results to editable screen acceptance",
+      "tree": "e95855c8c8d6099fc95bd5cd65c33d2e978a3584",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "28eb39bc286e5728563d0b204928c7e323a6259f",
+      "diff_sha256": "3ae2ad869eb734d75e9ff43932efe6a7d0566bb081048ab6ff02627ac484662a",
+      "files": [
+        "docs/design-type-review.md",
+        "docs/guide.md"
+      ],
+      "parents": [
+        "9768ac3f6f56f08cc52f53be24d9928d3de17a4b"
+      ],
+      "subject": "docs: publish the verified typography setup and current API totals",
+      "tree": "930e2ab1920aca65ef2640c1ef0d4035a76c62af",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "cb392ce18d6c6b0654816641b4158dd6eb1291c0",
+      "diff_sha256": "f9e9669d294e64bebaa08393751e83dacafe73a7db5fc55e41c3f14d162525d1",
+      "files": [
+        "tests/test_api_priority.py"
+      ],
+      "parents": [
+        "28eb39bc286e5728563d0b204928c7e323a6259f"
+      ],
+      "subject": "test: use synthetic design identifiers in distributable probe fixtures",
+      "tree": "c3a7e1721720082fe3dc90d8a35f7faae506f3fc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "58ae88cd43143faf59790ef734aba403ad500aa4",
+      "diff_sha256": "38afa1a1b119ea82881e4d304afb273bf3117ff6997fc88e941d96c9a214431f",
+      "files": [
+        "tests/test_api_priority.py",
+        "tools/api_priority.py"
+      ],
+      "parents": [
+        "cb392ce18d6c6b0654816641b4158dd6eb1291c0"
+      ],
+      "subject": "fix: validate the complete priority export against the canonical graph contract",
+      "tree": "3cc241ae92c381b905604199687d66cf8784ffb5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "3101237e7e97c6181416780c94888ba134a005d0",
+      "diff_sha256": "ab29eac51883bd8e9b12d47ca1ab8a6e3a7807dbd1262308e4b4fcbd52261050",
+      "files": [
+        "docs/editable-web-verification.md",
+        "figma-bridge/web_design.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design.cjs",
+        "tools/web_design_capture.js"
+      ],
+      "parents": [
+        "58ae88cd43143faf59790ef734aba403ad500aa4"
+      ],
+      "subject": "fix: preserve native text metrics when reusing captured web controls",
+      "tree": "88702dbaa8b241faf3b8f740cc8fdae92117387c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "bc70451a51ca30e6e639b133593385650da52097",
+      "diff_sha256": "ae15f6fe947710c0aafd4c3f3cb597fa873a985a88d82404fc60bc9d184a8e24",
+      "files": [
+        "docs/editable-web-verification.md",
+        "specs/editable-web/graph.json"
+      ],
+      "parents": [
+        "3101237e7e97c6181416780c94888ba134a005d0"
+      ],
+      "subject": "docs: attach the native line-height reproduction to the acceptance graph",
+      "tree": "86c7a60851bc7e51d9bdcc134f23f3345cedf660",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "c7d5587b7384f0bca9b4fb011204bda567031073",
+      "diff_sha256": "2aded14819872f4104e1c2a894a38a2bf59ad43571eb863f477c5606fca40e58",
+      "files": [
+        "docs/editable-web-verification.md",
+        "figma-bridge/web_design.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design.cjs"
+      ],
+      "parents": [
+        "bc70451a51ca30e6e639b133593385650da52097"
+      ],
+      "subject": "fix: verify previously imported typography against its canonical screen on read and reuse",
+      "tree": "0f407c204156a42390a9fe6d9ec1049175bfcb5d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
+    },
+    {
+      "commit": "c1541b8129bdf3e175dd905cddfed39acd52bc2e",
+      "diff_sha256": "906b737a99b6700a1a02a9432fe9a5ef0ad735193a1851d18ee4ffa280e63742",
+      "files": [
+        "figma-bridge/web_design.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design.cjs"
+      ],
+      "parents": [
+        "c7d5587b7384f0bca9b4fb011204bda567031073"
+      ],
+      "subject": "perf: reuse bounded native font discovery during graph verification",
+      "tree": "1aa98809c008aac393913d3e385e6f25d9f4d49d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.30.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.30.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -7550,6 +8080,7 @@
     "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2": "384f7bc05cbe9ff28dde0a705a63a18cb94b89ebb6da20c8abadce3dfc6d8913",
     "0cf1823f9225b694b40961f2b6fb5d6eaa79834c": "fa2b919c9277a10c3eb30ed75c61256da3c8c215b241bc189a72082bd3c68e76",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
+    "0ef8fe7126290ba10bd7ffe511e455d027226f74": "53e97298a0b490e017649b15a7ed501294917b0f4ae9d3bca8b59967456a93ca",
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
@@ -7561,6 +8092,7 @@
     "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
     "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
+    "1dc4890d8e294dc30619b76e9aa4ca2e08dd79e5": "fe44998229f49bb280d38a93b2a4f37199eca8c301903c4ec52fd8bc4c5b41b8",
     "1e64ada88f76180ab72d6be01c79841d9714335e": "da7b8149162cbc160558aa483ff49ea08fb7eaf04090aea1bf59521be5a93b82",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
@@ -7573,8 +8105,10 @@
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "25b6f754a4798119defc65c5146d59e0d3f23467": "873017a08c42fb2979ab2e5b1c40419e71208433616b8658bab50364c3037bda",
     "28128ac57e43e314aade368f3f8c919c0246d22c": "38b10f4da39774e4cd1504426494e7869e7dc64084e8d9970b12daabec065ee3",
+    "28eb39bc286e5728563d0b204928c7e323a6259f": "43cbe4f1a707d200c686c23ce4a9e4522728aee99b3c3749e2c77801b2aa7960",
     "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
     "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de": "cb22f107fba474d02cdc48753d883fd717077a495e91cb73f3ac311986495999",
+    "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9": "ec2e99a2fd9f6362e416427808e25928b81c4af151b546f2433956d2084d8a65",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "2cf4ce74557f9a2e65b8bc817b92eb3486067554": "dc74175fc83549d2feb280ebac7ac93c1697a9dcdf91cdf902d23ce579c2afdf",
     "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797": "1238da541f9a7c3aea1a35b65a40f48c2dfc85b65633152e151f7a8bc9ed7ee4",
@@ -7582,6 +8116,7 @@
     "2e974fa58123ab1835b117a55451bf837597182f": "721d67fe90a8e8bcd505c29123ab13fd56647c8c796958f18f562cab6d2c7e11",
     "2fb34775511c631fb60f9889fea86c01f676578c": "d7d78880c138153ebb791a7445187ab3b5b38b3667e19b1495ede43945e4fab2",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
+    "3101237e7e97c6181416780c94888ba134a005d0": "eb8cd406e0591b4fa29b20c75057305ae593587084edf8595a5b40a82eb1c3d5",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
     "34d36385c45b4e36a55aeed42fd561dfbba048a5": "aedc55fb360a18c1dbee2c575700507a177cee997552da81f3fd1e25ca133f7b",
@@ -7611,9 +8146,12 @@
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
+    "4f75cb4af31947f6d4eda1f270279fa905a7c45c": "a6c8ed3f9a0e00ce494fbfe1db429a236da0fa7afa39d0e1c32cc8312dcf7cf9",
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
     "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
+    "56d2dd3ceaeb638805717030ff76c587d485d906": "207442f6c327c4622e6fc921a2e53ddaf03c5e670daa6262e0e7e542f8dae261",
+    "58ae88cd43143faf59790ef734aba403ad500aa4": "d87124a8f2176ef7da1e2f79291b691c19f26dba4ad7deca48d4f95d1f2bf6aa",
     "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c": "889431a6006c82016784002149f4da64930556dd79c07f2e405b066e083f4759",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
@@ -7631,11 +8169,13 @@
     "66278decfd7f49906bb32d75f71a0be70fafa7ee": "876ceebcc8296420027aee84f6224eb9b3083d92adf779b69b4a9158bfad6020",
     "674335b0a46d426723e32ab3cc98029b8b6e3744": "aafc966ba29b6010b357cca73160d9070fc6d1ecea6f9b012799d4d8ee0f164f",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
+    "6a369fd95b67ef72f5674aeebde33b9366d26e54": "a3fe01b35a1c58a0c348016b25a6a28f81003fb6ee8bfb3afac1d74645d7420c",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
     "721627bcc9a6eca2e283f879026d942a93a05a20": "6ba953710de7f712d7774c957971f57ee2c54a29c1f9b69b59924ad851c4014d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
     "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2": "503787be10ba57d0d51bb7b06cae6390ccdcfe19dc5b573d040f61e382b12676",
     "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
+    "78fd03a27d4d81d1e024d8874d5467a568b8418e": "9677b5f96bb30d1dabec45446d4fb77172f3afa51576c24dce111622c7a74e4e",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
     "7b5ae4091641430d891e0c110c8efdb9a845a6ce": "063e8f7c15bd7989ed403013c467c8da048f725858a1473274172f3a6ca8492f",
@@ -7643,6 +8183,7 @@
     "7bff2100bccf6db00203cc5351c8773026783d72": "4bf77332ec7b7f05f26b5da425a0f61bee71c346e6e1e8eb8fd28d12681d9f1d",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "7f37a138bae2b4c4977405352fab16f658dd03cf": "fb2031c9c4d9fcb775334bf5ef16c5441c6360268c479897dfb989fbd04c736b",
+    "7f3dcace11483535593ed7a14bddd98314c4e785": "f7a6aeff19716693fb277d3e55574ca00699b709536b8f6483f30a8bcdfb6715",
     "80742c55590c46e85ca8289298abc0a58371a9a8": "c446cccd82c9fa35acfcd6885b96461f92ee0dd56a6eb3f46d92f7d1c41c8c15",
     "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988": "ba173d8e2ea0d442205d290bc722610342be10bb3507ce1ad8f7a4f2694cd3dc",
     "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
@@ -7664,13 +8205,16 @@
     "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
     "961f193437e3699a5fed679d14e9c49f7e799a0d": "f10eff9ac50886388a49e416d60fa26f1740aace9d5915d3781e60d5e0b76a00",
     "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b": "7f89387eaff41cf48c99bb65484ef1fc592113c01a43e4e67f51a80b9e9ace72",
+    "9768ac3f6f56f08cc52f53be24d9928d3de17a4b": "903ba161d758d71e575db07cc87590ed3e5c5c7f7d87b5ea9e79ace3cfa2c08d",
     "9983aab6bfca1bb70ddb9dc1573a6efb054845df": "d8e02ee6d2cac0bb33a492e79c6067bfc73b50ad9814717b42e26a1adb1fd23f",
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
     "9c9d5575eea6d883620407e591972c7e92cc244f": "b707929ad2d5c3aa87de7114e5e2b16f41fce5f17c11804acaf109b13f95f1b7",
+    "9cc41a0c7ca53a233113fd45b86dc330907094fa": "0564b8353cdc3474fc21e05819915c2b89b9165e71a05c746cf4a3b5e9695353",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
+    "9eba48a5015dc991389e0c5aa3b95cd8597b5f2c": "c1b1da598cfb2b69ccfcd4896af4cf1759d9a07b5857f05b9a21296c1f5220db",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
     "a069898acd764f726494c713c2b742cb834fcd0b": "db4ab871a10f73355adb1128293d70cfd30fd1ee4b46556677489292fea2e14e",
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
@@ -7687,6 +8231,7 @@
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
     "b05f2c444105fa3cf261eabb6f79db5e2ec89675": "55d81975928aaec85692c9952fb6bb53c8e962b8cdbfec212a8b8bd889b84609",
     "b170f11568364a8c1e4494613f717ad87519ec83": "69f9aa3d96e239653e8b7c63deee1d2bed850119e86df545fc426731a6a6eefe",
+    "b1a87fc477fe5d8dfea69eaeee996f8cbf1d7e61": "04e19af69d0f55c105a2c995ee53f3744dec4223cd9fb25e6d731c37c26750fe",
     "b1c3824d810a143b6c7eb5e1f6951828e950dfee": "940cfac82c1f43f42d34716af750730c232f4f2a2db4864fd20d313bb0d0da2b",
     "b1dd1d3240435d48cb9f116ca4c1654f210a340c": "9320191b9f4c5111584ef2755d33dbb6d3f31d80c5fa0c26e5828a4e46f455ca",
     "b1e4a06ca97450c729c134644f4fb99fc0af80e5": "802963b00b2d562dc4e1153ada0aef09fb529b6b40c999f61a33713ec3939417",
@@ -7701,11 +8246,13 @@
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
     "ba390f93a7da8d74a4cd5cd1993c8a9244c91467": "1c088036c784d10dcc779037d6d5aecf9401e6efc9555002e0a127e2eaaecf2f",
     "bbe11d2a80604207b8efaba5c521834acad779b3": "16f755f39ab221321d683242cb460fec7e8a20eb3be2a564fe3b98480f8374d2",
+    "bc70451a51ca30e6e639b133593385650da52097": "d2570b38842fe64466f765da9016eac181b1b98ca05d392045d10bd1b61db887",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
     "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
+    "c1541b8129bdf3e175dd905cddfed39acd52bc2e": "8986a6e93a55e9a8ea388260e2d2dfb6cc4b0fbdfa40d33c503e5989edf50d14",
     "c43b4fc6c3958c233ca403769b4ef255bd6708e5": "39a8450f8747becfbdc6c6d80a44fe877ea51041f8f24b14f0d475fa1858169d",
     "c4f8338c4803f88807fab96f58607d8e9f2652df": "66354fee2f0e1f98052d7437da64b97dc03f51c545452e4533f9cc6c0423ae69",
     "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
@@ -7714,8 +8261,11 @@
     "c7542812a50647435b8236c22e96ced91a422b2c": "3b53b0a4e27ca06be7e0519450a933e9ef1fad379379b204cd036eae2ae5da15",
     "c7a3cdef85ad0fdb7bade6a3fe5fa1e896864dd2": "26844f31a36ed8728993ac088396f18033042b463be916d08f0e59ba83ec9563",
     "c7a4dfffb39aaa26eca0f6571a3bf0af97762822": "d5a226feb4d5713a2e8ee032299329944c556c0ae588d995b509d15814154c7d",
+    "c7d5587b7384f0bca9b4fb011204bda567031073": "b94b972da3e0c2c937731c4a4efb0e05610ae1af6f4a6e124ada609c738731ff",
     "c80def58a7b0a875961f13c9ae7307bbc910ff8e": "061218675aaa4315a7464452e1bacc9daf5a366b816c1e63e2becfe63ab7a50e",
+    "c860a86f146e3302caeffbcfcfdbbe9d832f052d": "74ae820117eceb9c09aab0b7d290230871a3a367998f3d6dab2cf41c3fec0502",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
+    "cb392ce18d6c6b0654816641b4158dd6eb1291c0": "f339f9bfba69e83ec4a7dad566ed44d81ac751150588508c1f65c39853224dfd",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
     "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
@@ -7741,6 +8291,7 @@
     "dca7dfcb4ec97ee52427a40050e815f53880d47e": "8a43c301e185fe5f3c1a6bbe27b0a3b23886706716b7d8703529bb63ebbab33b",
     "dee7688ffa829298bc794108f057c18dc6e6d766": "267088ddd7fcd717b1c817584fd2b75d3231b101827e3c16f00bc6b244494125",
     "df65b64205ed85644acf075f0acab8f37f2ac371": "b8a776272c01c8d166432e297cb353abcb97b2e59b42f860b42c6bac2c27b740",
+    "dfa773981fa58ddee662b36a3db8ece4960bee4d": "70f5951ff69a93d09162986940a5ea40e350668303c6145e37cb59ecbcc2c639",
     "e0aeed2ce67caf6570ba37bcf0beda22165cdc32": "f3a9b960239b65c2d01317f2d1bc8976bcd749462b66da6403a93f37a5a7f657",
     "e0f34c2d2db5673cc17a63bf8bb99489445c2492": "8645b1223ce0695b4bdc76c801660ed704bdf3cfbe05f238a0ba56552c9aeb7a",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
@@ -7843,6 +8394,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "28eb39bc286e5728563d0b204928c7e323a6259f",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "29198999ebfe2aa9975576dc5792939315fbc850",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -7852,6 +8407,10 @@
     },
     {
       "observed_at_commit": "306f26c7454a310f9f9b61f5ddb8b9f557d71318",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "3101237e7e97c6181416780c94888ba134a005d0",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -7907,6 +8466,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "58ae88cd43143faf59790ef734aba403ad500aa4",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "5fb07911e3a1b1530f34aee2cca47f9df7319910",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -7927,11 +8490,19 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "6a369fd95b67ef72f5674aeebde33b9366d26e54",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
       "observed_at_commit": "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "78fd03a27d4d81d1e024d8874d5467a568b8418e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -7963,6 +8534,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "9cc41a0c7ca53a233113fd45b86dc330907094fa",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "aa8b7191405b160d1119c403510152a12e0ae801",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -7991,11 +8566,27 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "bc70451a51ca30e6e639b133593385650da52097",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "c072439ece24499776eb80e9d74f2e600c7461a6",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "c1541b8129bdf3e175dd905cddfed39acd52bc2e",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "c4f8338c4803f88807fab96f58607d8e9f2652df",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "c7d5587b7384f0bca9b4fb011204bda567031073",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "cb392ce18d6c6b0654816641b4158dd6eb1291c0",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -8272,10 +8863,12 @@
     },
     {
       "source_commits": [
-        "1fa5f0dd4386bfd46bd919284b946d39493ae857"
+        "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9"
       ],
-      "tagged": false,
-      "tags": [],
+      "tagged": true,
+      "tags": [
+        "v0.29.0"
+      ],
       "version": "0.29.0"
     }
   ],
@@ -8283,7 +8876,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "1fa5f0dd4386bfd46bd919284b946d39493ae857",
+  "source_commit": "c1541b8129bdf3e175dd905cddfed39acd52bc2e",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -8364,6 +8957,11 @@
       "commit": "5d3a088c6becc62fef08ecd0fc8fd857ed850957",
       "tag": "v0.28.0",
       "version": "0.28.0"
+    },
+    {
+      "commit": "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9",
+      "tag": "v0.29.0",
+      "version": "0.29.0"
     }
   ]
 }

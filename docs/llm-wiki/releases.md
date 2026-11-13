@@ -8,6 +8,35 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v0.30.0
+
+0.30.0의 최종 제품 소스는 `c1541b8129bdf3e175dd905cddfed39acd52bc2e`다. 기능·검증·설치 예제는 두 manifest에 고정한 같은 버전을 사용한다. 태그와 ZIP은 [GitHub 배포 페이지](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.30.0)에서 확인할 수 있다.
+
+기능 간 인수 관계는 [editable web graph](../../specs/editable-web/graph.json)에 있고, 사용 범위와 실제 화면·native 결과는 [editable web verification](../../docs/editable-web-verification.md)에 있다.
+
+| 인수 조건 | 실제 결과와 경계 |
+| --- | --- |
+| 웹 화면 캡처 | Portfolio·Codeforge·Devtool·SaaS 네 로컬 템플릿의 브라우저 화면을 문서 크기 그래프로 기록했다. 최종 graph에는 각각 508·492·38·20 요소가 있다. Codeforge 문서 높이는 11,677px다. CSS mask·filter·shadow, 외부 media, canvas·video, 복잡한 SVG와 지원하지 않는 배경 paint는 변환 대상이 아니다. |
+| Figma 편집 가능한 화면 | 최종 shipping apply/readback 결과는 각각 512·526·41·23 editable node, 합계 1,102개다. 27개는 component instance이며 VECTOR descendant는 합계에서 제외했다. Devtool의 21 GeistSans alias 요청은 실제 Geist Regular·Bold·SemiBold로 해석됐다. Receipt에는 family rename이 fallback으로 기록된다. |
+| 이미지와 벡터·그라디언트 | Portfolio 사진 8개(me.png 포함)와 Devtool 썸네일 3개에 대해 byte hash·파일 서명·native IMAGE fill·decode size를 확인했다. 네 개의 최종 Figma PNG 미리보기를 browser 결과와 육안 대조했다. 이는 pixel equality 측정이 아니다. Codeforge의 native radial fill 4개를 확인했고 Portfolio의 외부 SVG 3개는 가져오지 않았다. |
+| 같은 그래프 재적용과 충돌 보호 | 네 stable screen ID를 같은 graph로 재적용해 변경 없는 결과를 확인했다. SaaS signup의 실제 메인 버튼 글꼴 크기를 14에서 16으로 바꾼 상태에서 같은 graph를 다시 적용해 사용자 편집 보존을 확인했다. 값을 14로 복원한 다음 재적용은 변경이 없었다. |
+| 재적용과 사용자 편집 | 네 stable graph ID를 재적용해 변경 없는 결과를 확인했다. SaaS main 버튼을 14→16으로 바꾸고 같은 graph를 재적용해 편집값 보존을 확인한 뒤 14로 복구했다. 마지막 재적용은 쓰기 없이 끝났다. 네 그래프의 shipping-reused 결과도 변경 없음이다. |
+| 컴포넌트 타이포그래피 재사용 | 20·24·20px line-height의 실제 button label을 native import했다. 첫 결과에서 세 번째 값이 20px로 잘못 재사용되는 문제를 재현했다. 수정 후 20/24px 값의 두 main과 첫 main을 재사용한 한 instance를 확인했고, 반복 적용은 변경 없이 끝났다. Instance range style 불일치는 검증에서 실패하고 새 객체를 정리한다. 집중 web-native 테스트 7개가 통과했다. |
+| Figma 작업 이력 | 현재 native metadata 읽기에서 활성 task 54개를 확인했다. 이전 16개 test revision은 감사 이력으로 보존했다. 이 읽기는 해당 실제 workspace의 현재 상태만 확인하며 배포 설치 인수를 뜻하지 않는다. |
+| Plugin API 관측 | 10개 실제 노드에서 236회 typed probe 호출, Codeforge Vector에서 17회를 수행했다. 253 probe 호출은 50개 고유 member에 대응한다. 추가 typography 실측은 19개 exact member ID를 읽었고, 이 중 10개가 기존 140 관측에 더해졌다. 현재 관측은 150/1,382, 미관측은 1,232다. 8개 전·후 graph audit 검사가 통과했다. |
+| API 조사 우선순위 | 1,382개 pinned API audit member를 전체 inventory에 유지하고 관측 그래프의 exact-key 근거만 상태에 반영한다. 현재 기준은 관측 150개와 미관측 1,232개다. 순위 점수는 조사 순서이며 runtime 지원이나 성공 증거가 아니다. [API priority contract](../../docs/api-priority.md) |
+| 집중 검증 | Web subsystem의 Python 8개와 native bridge Node 4개 검사가 통과했다. |
+| 안정된 local release suite | 전용 stable clone에서 Python 1,215개, Node 326개, finalize 75개, design 18개, demo 2개가 모두 통과했고 건너뛴 검사는 0개다. Node의 마지막 세 검사는 native component identity, instance text readback, line-height mismatch rollback을 확인한다. 이 수치는 local suite 실행이며 원격 CI 성공을 뜻하지 않는다. |
+| 이전 skip의 원본 자료 replay | `test_shadow_troupe_light_bars_are_placeholder_bars` 1 pass, `test_supplied_native_evidence_and_tampering` 1 pass, `actual saved initial Moss tint packet is rejected without writes` Node 16 pass. 각 결과의 skip 수는 0이다. 원래 clean checkout에는 Shadow Troupe layout, operator readback, Moss Choir packet이 없어 선택 테스트를 건너뛰었다. 실제 로컬 replay 절차는 [optional evidence tests](../../docs/optional-evidence-tests.md)에 있다. |
+
+최종 브리지에서 줄 높이와 기존 프레임 호환성을 확인했다. 현재 브리지 단위 검사 9개가 통과했고, 전체 로컬 Node 실행은 328개로 늘었다. 올바른 폰트 별칭은 실제로 사용한 글꼴과 대조한다. 이전 버전에서 잘못 만든 레이블은 해당 요소를 보고하며 기존 프레임을 보존한다.
+
+### 개인정보 정정
+
+공개된 중간 commit의 테스트 fixture에 실제 Figma file locator가 들어 있었다. API token은 없었다. `cb392ce`가 그 값을 synthetic test identifier로 바꿔 현재 소스와 일반 archive에서 제거했다. 이전 Git object는 이력을 다시 쓰지 않아 남아 있으며, 이 기록은 locator 문자열을 복사하지 않는다.
+
+이 자료는 네 템플릿과 제공된 native readback의 범위를 다룬다. 임의 웹사이트의 pixel parity, 모든 CSS·media의 변환, 공개 Figma 배포, installer 동작, 전 API의 runtime 지원은 검증하지 않는다. CSS masks·filters·shadows와 외부 media는 변환하지 않으며 외부 SVG 3개는 빠져 있다. GitHub Actions 실행, 배포 ZIP의 SHA-256 파일, 설치된 패키지의 자체 플러그인 읽기 결과를 별도로 확인한다.
+
 ## v0.29.0
 
 제품 소스 `b1e4a06ca97450c729c134644f4fb99fc0af80e5`에서 한 graph의 선택된 노드·관계·상태를 세 에디터에 투영한다. 이전 0.28 배포의 세 원격 CI, 설치본 해시와 설치 후 실제 재읽기는 [0.28 발행 영수증](patches/5d3a088c6becc62fef08ecd0fc8fd857ed850957.md)에 기록했다.
