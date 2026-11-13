@@ -15,7 +15,11 @@ await require('node:fs/promises').writeFile('capture.json', JSON.stringify(captu
 
 `screenId`는 다시 측정해도 같은 화면을 찾을 수 있는 ID다. `extent: 'document'`는 현재 페이지의 문서 영역을, `'viewport'`는 현재 보이는 크기를 측정한다. 반응형 기준점과 로그인 상태가 다르면 서로 다른 화면 ID를 사용한다. 브라우저가 지연 로딩한 이미지나 움직이는 레이어는 측정 시점의 상태를 따른다.
 
-산출물은 화면 크기, 실제 DOM 순서의 배경 프레임·편집 가능한 줄별 텍스트·컨트롤·단순 SVG, 부모 경로, 같은 출처 이미지 요청 목록, 누락 항목을 담는다. 폼 레이블과 placeholder는 서로 구분된다. 텍스트의 폰트 이름·크기·행 높이·무게·색은 브라우저 측정값이다. 퍼센트 중심과 색 정지점을 갖는 CSS 방사형 그라디언트는 Figma에서 편집 가능한 채우기로 변환한다. CSS 마스크·필터·그림자, 다른 배경 효과, 비디오·canvas, 복잡한 SVG 및 외부 이미지는 별도 항목으로 표시한다. 1,500개 레이어를 초과하면 더 작은 범위를 선택해야 한다. 캡처는 원본 웹 앱이나 Figma 문서를 변경하지 않는다.
+산출물은 화면 크기, 실제 DOM 순서의 배경 프레임·편집 가능한 줄별 텍스트·컨트롤·단순 SVG, 부모 경로, 같은 출처 이미지 요청 목록, 누락 항목을 담는다. 폼 레이블과 placeholder는 서로 구분된다. 텍스트의 폰트 이름·크기·행 높이·무게·색은 브라우저 측정값이다. CSS `letter-spacing`이 계산된 픽셀 값이면 텍스트의 `letterSpacing`에 부호가 있는 숫자로 기록한다. CSS 값이 `normal`이면 필드를 생략한다. 그래프 검증과 해시로 고정된 native plan은 이 선택 필드를 그대로 보존한다. [`tests/test_web_design_tracking.py`](../tests/test_web_design_tracking.py)는 숫자 자간 보존과 normal 생략을 확인한다.
+
+같은 `componentKey`의 텍스트 컴포넌트는 자간을 포함한 캡처 스타일과 배경·테두리·레이아웃이 같을 때만 main component를 공유한다. 자간이 다르면 별도 main을 사용한다. 인스턴스의 텍스트 override를 읽을 때는 Figma의 native range API가 반환한 `PIXELS` 단위와 숫자를 캡처값과 비교한다. 캡처값이 없으면 기본 native 자간을 유지하고 자간 readback을 요구하지 않는다. 제공한 자간을 native API에서 읽을 수 없거나 값이 다르면 화면 적용이 실패한다.
+
+퍼센트 중심과 색 정지점을 갖는 CSS 방사형 그라디언트는 Figma에서 편집 가능한 채우기로 변환한다. CSS 마스크·필터·그림자, 다른 배경 효과, 비디오·canvas, 복잡한 SVG 및 외부 이미지는 별도 항목으로 표시한다. 1,500개 레이어를 초과하면 더 작은 범위를 선택해야 한다. 캡처는 원본 웹 앱이나 Figma 문서를 변경하지 않는다.
 
 ## Canvas 픽셀 보존
 
@@ -49,6 +53,12 @@ python3 tools/figma_workspace.py prepare --workspace WORKSPACE --kind native-edi
 ```
 
 페이지를 다시 측정하면 그래프에도 새 해시가 생긴다. 작업이 만든 프레임에서 디자이너가 텍스트나 스타일을 편집하면 같은 그래프를 재적용해도 그 변경을 보존하고 충돌을 보고한다.
+
+### 네이티브 raster 미리보기 제한
+
+새 프레임에 이미지가 있거나 영상이 pinned poster fallback을 사용하면 첫 PNG 내보내기는 준비용으로 버리고 두 번째 결과를 미리보기로 사용한다. 재사용 프레임, 벡터 전용 프레임, native 영상 프레임은 한 번만 내보낸다. 준비용 내보내기를 포함한 전체 미리보기 흐름은 45초 안에 끝나야 한다.
+
+`--preview-width` 요청값은 360~480픽셀 범위로 설정한다. 비율은 유지하며 Figma plan은 결과를 최대 5,000,000픽셀로 축소한다. 이 제한 때문에 긴 변이 요청값보다 작아질 수 있다. 한 작업의 미리보기 PNG 총량은 8 MB를 넘을 수 없다. 이 미리보기는 raster 검토본이다. native 텍스트와 벡터 편집성, 브라우저의 모든 CSS 효과나 글꼴 렌더링이 동일하다는 뜻은 아니다. [`tests/test_web_design_preview.cjs`](../tests/test_web_design_preview.cjs)는 새 이미지 화면의 준비용 내보내기와 재사용·벡터 화면의 단일 내보내기 정책을 확인한다. 실제 native 미리보기와 스타일 readback 결과는 [Web fidelity 0321 인수 기록](web-fidelity-0321.md)에서 확인한다.
 
 ## 경로와 반응형 화면
 

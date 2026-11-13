@@ -234,6 +234,69 @@
       "status": "verified",
       "source": "../../docs/editable-web-verification.md#browser-captures",
       "detail": "Four captured screen graphs retain document dimensions, element counts, and limitations."
+    },
+    {
+      "id": "REQ-WEB-TRACKING",
+      "type": "requirement",
+      "title": "Preserve computed CSS letter spacing",
+      "status": "observed",
+      "source": "../../docs/web-design-capture.md",
+      "detail": "Capture numeric computed CSS letter-spacing in pixels as optional text.letterSpacing. Omit normal values. Keep the value pinned through graph validation and native planning. Include tracking in component ownership, then compare native PIXELS range values when reading mains and instances."
+    },
+    {
+      "id": "AC-WEB-TRACKING-PLAN",
+      "type": "acceptance",
+      "title": "Retain optional letter spacing in the graph and native plan",
+      "status": "verified",
+      "source": "../../tests/test_web_design_tracking.py",
+      "detail": "The focused Python test asserts that -1.12 px survives graph validation and native plan creation, and that normal tracking remains omitted."
+    },
+    {
+      "id": "AC-WEB-TRACKING-NATIVE",
+      "type": "acceptance",
+      "title": "Read back captured letter spacing from native component text",
+      "status": "verified",
+      "source": "../../docs/web-fidelity-0321.md#css-letter-spacing",
+      "detail": "On a four-button browser capture, actual Figma getters returned +1.5 px and -0.75 px. Repeated imports retained both main IDs and linked each instance to the main with matching tracking."
+    },
+    {
+      "id": "REQ-WEB-PREVIEW",
+      "type": "requirement",
+      "title": "Return a bounded raster preview after native import",
+      "status": "observed",
+      "source": "../../docs/web-design-capture.md",
+      "detail": "Warm the first PNG export for a new image-backed screen or video poster fallback, discard those bytes, and return the second export. Bound export time, pixel dimensions, and the private preview-byte total."
+    },
+    {
+      "id": "AC-WEB-PREVIEW",
+      "type": "acceptance",
+      "title": "Return valid raster preview bytes within native export limits",
+      "status": "verified",
+      "source": "../../docs/web-fidelity-0321.md#raster-preview",
+      "detail": "Record the first-export warm-up and fallback rules, the 45-second export timeout, the 5,000,000-pixel ceiling, the 8 MB total preview limit, and actual native preview evidence."
+    },
+    {
+      "id": "TEST-WEB-TRACKING-PLAN",
+      "type": "test",
+      "title": "Optional tracking through graph validation and native planning",
+      "status": "verified",
+      "source": "../../tests/test_web_design_tracking.py",
+      "detail": "The focused Python test covers nonzero CSS pixels through the graph and native plan, plus omission for normal tracking."
+    },
+    {
+      "id": "TEST-WEB-PREVIEW",
+      "type": "test",
+      "title": "First raster export warm-up policy",
+      "status": "observed",
+      "source": "../../tests/test_web_design_preview.cjs",
+      "detail": "The focused Node test checks that new image-backed screens return the second export, while reused or vector-only screens export once. It also covers video fallback policy."
+    },
+    {
+      "id": "TEST-WEB-TRACKING-NATIVE",
+      "type": "test",
+      "status": "verified",
+      "title": "Compare a browser graph with native text ranges and instance main IDs",
+      "source": "../../tests/verify_web_typography.py"
     }
   ],
   "edges": [
@@ -285,6 +348,15 @@
     {"from": "CODE-WEB-PLAN", "to": "TEST-WEB-UNIT", "type": "checked by"},
     {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"},
     {"from": "REQ-WEB-COMPONENT-METRICS", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-COMPONENT-METRICS", "type": "checked by"}
+    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-COMPONENT-METRICS", "type": "checked by"},
+    {"from": "REQ-WEB-TRACKING", "to": "SCR-PORTFOLIO", "type": "appears on"},
+    {"from": "REQ-WEB-TRACKING", "to": "AC-WEB-TRACKING-PLAN", "type": "accepted by"},
+    {"from": "REQ-WEB-TRACKING", "to": "AC-WEB-TRACKING-NATIVE", "type": "accepted by"},
+    {"from": "AC-WEB-TRACKING-PLAN", "to": "TEST-WEB-TRACKING-PLAN", "type": "checked by"},
+    {"from": "REQ-WEB-PREVIEW", "to": "SCR-PORTFOLIO", "type": "appears on"},
+    {"from": "REQ-WEB-PREVIEW", "to": "AC-WEB-PREVIEW", "type": "accepted by"},
+    {"from": "AC-WEB-PREVIEW", "to": "TEST-WEB-PREVIEW", "type": "checked by"},
+    {"from": "REQ-WEB-PREVIEW", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "AC-WEB-TRACKING-NATIVE", "to": "TEST-WEB-TRACKING-NATIVE", "type": "checked by"}
   ]
 }
