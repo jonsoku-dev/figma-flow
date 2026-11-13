@@ -4,6 +4,7 @@ These feature folders register versioned requirements and acceptance relationshi
 
 | Feature | Requirements | Acceptance criteria | Status boundary |
 | --- | --- | --- | --- |
+| [Editable web screens](editable-web/graph.json) | Browser observation, graph-bound local assets and native import | Four captured templates, edit preservation and stable reapply | [Browser and Figma acceptance](../docs/editable-web-verification.md) · [Exact API observations](editable-web/api-observations.json) |
 | [Graph review surfaces](graph-review/spec.md) | Planner, designer and developer review from one source | Design, FigJam, Slides and API evidence | Actual sample and limits in linked graph |
 | [Readable Specifications](readable-specifications/spec.md) | `REQ-SPEC-01`–`REQ-SPEC-05` | `AC-SPEC-01`–`AC-SPEC-07` | Existing-page 16-target migration plus three new apps and a focused copy cover 636 connected targets; unrelated user-note and gated Dev Mode click cases remain unverified. |
 | [Pre-Figma Quality Review](pre-figma-quality/spec.md) | `REQ-QUALITY-01`–`REQ-QUALITY-05` | `AC-QUALITY-01`–`AC-QUALITY-06` | Three controlled fixture apps passed source/native geometry checks; utility warnings were reviewed and aesthetic production approval remains separate. |

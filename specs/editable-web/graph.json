@@ -177,7 +177,7 @@
       "title": "Web graph validation and import checks",
       "status": "verified",
       "source": "../../docs/editable-web-verification.md#unit-checks",
-      "detail": "Eight focused Python tests and four native bridge Node tests passed. Full Python suite results are handled separately."
+      "detail": "Focused web tests passed (eight Python and four native bridge Node). The stable-clone release suite also passed 1215 Python, 323 Node, 75 finalize, 18 design, and 2 demo tests, all with zero skips."
     },
     {
       "id": "TEST-WEB-NATIVE",

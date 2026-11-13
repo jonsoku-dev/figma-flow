@@ -33,6 +33,8 @@ The native count includes text, rectangle, frame, instance, and component nodes.
 
 The focused web subsystem run passed eight Python tests and four native bridge Node tests. The broader Python suite is tracked separately.
 
+The dedicated stable-clone release suite passed 1215 Python tests, 323 Node tests, 75 finalize tests, 18 design tests, and 2 demo tests. Every suite reported zero skips.
+
 ### Asset and vector review
 
 Eight local Portfolio photos, including `me.png`, and three Devtool thumbnails passed byte-hash, file-signature, native image-fill, and decoded-size checks. Four final Figma PNG previews were visually compared with the browser outputs. This was a visual comparison, not a pixel-equality measurement. Four native radial fills were verified on Codeforge. CSS masks, filters, shadows, and external media were not converted. Three external SVGs in Portfolio were not imported.
