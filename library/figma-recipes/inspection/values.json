@@ -1,0 +1,156 @@
+{
+  "schema": "figma-flow-native-value-path-catalog-v1",
+  "limits": {
+    "maxScenarios": 32,
+    "maxCollectionItems": 8,
+    "maxPathBytes": 50000,
+    "maxReceiptBytes": 120000
+  },
+  "routes": [
+    {
+      "id": "prototype-reactions",
+      "source": {"owner": "ReactionMixin", "member": "reactions", "target": "Reaction", "many": true},
+      "fixture": "prototype-source",
+      "owners": {
+        "Reaction": ["action", "actions", "trigger"],
+        "SimpleTransition": ["type", "easing", "duration"],
+        "DirectionalTransition": ["type", "direction", "matchLayers", "easing", "duration"],
+        "Easing": ["type", "easingFunctionCubicBezier", "easingFunctionSpring"],
+        "EasingFunctionBezier": ["x1", "y1", "x2", "y2"],
+        "EasingFunctionSpring": ["mass", "stiffness", "damping", "initialVelocity"],
+        "ConditionalBlock": ["condition", "actions"],
+        "VariableData": ["type", "resolvedType", "value"],
+        "Expression": ["expressionFunction", "expressionArguments"]
+      },
+      "unions": {
+        "Action": {
+          "discriminator": "type",
+          "branches": [
+            {"tag": "BACK", "fields": []},
+            {"tag": "CLOSE", "fields": []},
+            {"tag": "NODE", "fields": ["destinationId", "navigation", "transition", "preserveScrollPosition", "overlayRelativePosition", "resetVideoPosition", "resetScrollPosition", "resetInteractiveComponents"]},
+            {"tag": "CONDITIONAL", "fields": ["conditionalBlocks"]},
+            {"tag": "SET_VARIABLE", "fields": ["variableId", "variableValue"]}
+          ]
+        },
+        "Trigger": {
+          "discriminator": "type",
+          "branches": [
+            {"tag": "ON_CLICK", "fields": []},
+            {"tag": "ON_HOVER", "fields": []},
+            {"tag": "ON_PRESS", "fields": []},
+            {"tag": "ON_DRAG", "fields": []},
+            {"tag": "AFTER_TIMEOUT", "fields": ["timeout"]},
+            {"tag": "ON_KEY_DOWN", "fields": ["device", "keyCodes"]},
+            {"tag": "ON_MEDIA_HIT", "fields": ["mediaHitTime"]},
+            {"tag": "ON_MEDIA_END", "fields": []}
+          ]
+        },
+        "Transition": {
+          "discriminator": "type",
+          "branches": [
+            {"tag": "DISSOLVE", "owner": "SimpleTransition"},
+            {"tag": "SMART_ANIMATE", "owner": "SimpleTransition"},
+            {"tag": "SCROLL_ANIMATE", "owner": "SimpleTransition"},
+            {"tag": "MOVE_IN", "owner": "DirectionalTransition"},
+            {"tag": "MOVE_OUT", "owner": "DirectionalTransition"},
+            {"tag": "PUSH", "owner": "DirectionalTransition"},
+            {"tag": "SLIDE_IN", "owner": "DirectionalTransition"},
+            {"tag": "SLIDE_OUT", "owner": "DirectionalTransition"}
+          ]
+        },
+        "Easing": {
+          "discriminator": "type",
+          "branches": [
+            {"tag": "CUSTOM_CUBIC_BEZIER", "owner": "EasingFunctionBezier"},
+            {"tag": "CUSTOM_SPRING", "owner": "EasingFunctionSpring"}
+          ]
+        },
+        "VariableData": {
+          "discriminator": "type",
+          "branches": [
+            {"tag": "BOOLEAN", "fields": ["value"]},
+            {"tag": "FLOAT", "fields": ["value"]},
+            {"tag": "VARIABLE_ALIAS", "fields": ["value"]},
+            {"tag": "EXPRESSION", "fields": ["value"]}
+          ]
+        }
+      }
+    },
+    {
+      "id": "scene-effects",
+      "source": {"owner": "BlendMixin", "member": "effects", "target": "Effect", "many": true},
+      "fixture": "effect-scenarios",
+      "owners": {
+        "InnerShadowEffect": ["type", "color", "offset", "radius", "spread", "visible", "blendMode", "boundVariables"],
+        "BlurEffectBase": ["type", "radius", "visible", "boundVariables"],
+        "BlurEffectNormal": ["blurType"],
+        "BlurEffectProgressive": ["blurType", "startRadius", "startOffset", "endOffset"],
+        "NoiseEffectBase": ["type", "color", "visible", "blendMode", "noiseSize", "noiseSizeVector", "density", "boundVariables"],
+        "NoiseEffectMonotone": ["noiseType"],
+        "NoiseEffectDuotone": ["noiseType", "secondaryColor"],
+        "NoiseEffectMultitone": ["noiseType", "opacity"],
+        "TextureEffect": ["type", "visible", "noiseSize", "noiseSizeVector", "radius", "clipToShape", "boundVariables"],
+        "GlassEffect": ["type", "visible", "lightIntensity", "lightAngle", "refraction", "depth", "dispersion", "radius", "boundVariables"]
+      },
+      "unions": {
+        "Effect": {
+          "discriminator": "type",
+          "branches": [
+            {"tag": "INNER_SHADOW", "owner": "InnerShadowEffect"},
+            {"tag": "LAYER_BLUR", "owner": "BlurEffect"},
+            {"tag": "BACKGROUND_BLUR", "owner": "BlurEffect"},
+            {"tag": "NOISE", "owner": "NoiseEffect"},
+            {"tag": "TEXTURE", "owner": "TextureEffect"},
+            {"tag": "GLASS", "owner": "GlassEffect"}
+          ]
+        },
+        "BlurEffect": {
+          "discriminator": "blurType",
+          "branches": [
+            {"tag": "NORMAL", "owner": "BlurEffectNormal"},
+            {"tag": "PROGRESSIVE", "owner": "BlurEffectProgressive"}
+          ]
+        },
+        "NoiseEffect": {
+          "discriminator": "noiseType",
+          "branches": [
+            {"tag": "MONOTONE", "owner": "NoiseEffectMonotone"},
+            {"tag": "DUOTONE", "owner": "NoiseEffectDuotone"},
+            {"tag": "MULTITONE", "owner": "NoiseEffectMultitone"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "layout-grid-rows-columns",
+      "source": {"owner": "BaseFrameMixin", "member": "layoutGrids", "target": "LayoutGrid", "many": true},
+      "fixture": "layout-grid-scenarios",
+      "owners": {
+        "RowsColsLayoutGrid": ["pattern", "alignment", "gutterSize", "count", "sectionSize", "offset", "visible", "color", "boundVariables"]
+      },
+      "unions": {
+        "LayoutGrid": {
+          "discriminator": "pattern",
+          "branches": [
+            {"tag": "GRID", "owner": "GridLayoutGrid", "previouslyObserved": true,
+              "evidenceMember": "GridLayoutGrid.pattern"},
+            {"tag": "ROWS", "owner": "RowsColsLayoutGrid"},
+            {"tag": "COLUMNS", "owner": "RowsColsLayoutGrid"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "vector-path-values",
+      "source": {"owner": "VectorLikeMixin", "member": "vectorPaths", "target": "VectorPaths", "many": true},
+      "fixture": "vector-path-scenario",
+      "owners": {"VectorPath": ["windingRule", "data"]},
+      "unions": {}
+    }
+  ],
+  "projection": {
+    "include": ["boolean", "finite number", "declared enum", "RGBA channels", "array counts", "owned geometry summaries", "union tags"],
+    "redact": ["text contents", "node IDs", "page IDs", "file keys", "style IDs", "variable IDs", "URLs", "key code values", "raw vector paths", "images", "network payloads"]
+  }
+}

@@ -14,6 +14,7 @@ PUBLIC_OBSERVATION_OVERLAYS = (
     ROOT / 'specs/responsive-web/api-observations.json',
     ROOT / 'specs/design-inspection/scene-observations.json',
     ROOT / 'specs/design-inspection/service-observations.json',
+    ROOT / 'specs/design-inspection/value-observations.json',
 )
 RECEIPT_SHA256 = re.compile(r'[a-f0-9]{64}\Z')
 

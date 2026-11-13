@@ -36,6 +36,20 @@ python3 tools/design_api_inspect.py --file-key FILE_KEY --page-id PAGE_ID \
 
 새 디렉터리의 그래프에서 검사할 멤버와 생성 코드를 검토하고 manifest를 Design 개발 플러그인으로 등록한다. 지정한 페이지에 표본 프레임과 샘플 스타일·변수가 생성된다. 같은 그래프를 다시 실행하면 마커가 일치하는 표본을 찾는다. 다른 문서의 노드 콘텐츠, 변수 값, 사용자 문자열이나 토큰은 공개 영수증에 담지 않는다. 서비스 속성·반환값·메서드는 정적 정책에 등록된 정확한 선언으로 연결한다. 선택되지 않은 편집기의 타입과 인터페이스를 단순 열거해 성공 수에 넣지 않는다. [서비스 증거 그래프](../specs/design-inspection/service-observations.json) · [Design 노드 증거 그래프](../specs/design-inspection/scene-observations.json)
 
+## API 우선순위와 남은 범위
+
+0.31.0 시점에는 고정된 공식 선언 1,382개 중 189개를 관측했고 1,193개가 미관측이었다. 이번에는 중복을 제외한 368개 멤버에 새 실행 근거가 생겼다. 누적 557개, 잔여 825개다. 계정·편집기 제약, 실행 시나리오가 필요한 메서드와 수신 객체가 없는 타입을 포함한 전체 목록을 보관한다. Design 전용 제작 범위와 기존 릴리스의 역사적 누계는 별도 필드로 표시한다.
+
+- Design 페이지, 문서 루트, 텍스트 경로, 슬롯과 컴포넌트 등 실제 객체에서 속성을 읽었다. 같은 플러그인에서 소유 마커를 확인한 컴포넌트의 인스턴스 1개와 연결된 메인을 읽었다. 서로 다른 플러그인의 개인 마커로는 이 읽기가 거절된 사실도 보존한다. [장면별 영수증](../specs/design-inspection/scene-observations.json)
+- 서비스 검사에서는 269개 고유 항목 중 241개가 성공했다. 15개는 값 미제공, 13개는 런타임 오류였다. 표본을 다시 사용한 검사는 새 멤버로 중복 집계하지 않았다. [서비스 관측 그래프](../specs/design-inspection/service-observations.json)
+- 별도 표본에서 그리드 행·열, 텍스처·유리·블러, 벡터 경로 및 프로토타입의 실제 반환값을 검사했다. 네이티브 필드 62개를 확인했고, 클릭·드래그와 DISSOLVE·MOVE_IN의 실제 반환 분기도 기록했다. 선언에 별도 멤버 키가 없는 분기는 API 누계에 더하지 않는다. [반환값 관측 그래프](../specs/design-inspection/value-observations.json)
+
+```sh
+python3 tools/review_api_coverage.py
+python3 tools/api_priority.py build --out .figma-flow/design-inventory.json
+python3 tools/api_priority.py queue --inventory .figma-flow/design-inventory.json --design-only --format graph
+```
+
 ## 이전 제작 경로 정리
 
 FigJam·Slides의 생성기·레시피·사용법과 해당 전용 테스트를 제거했다. 기존 보드 2개와 덱 3개는 먼저 전체 로컬 사본을 보관했다. 이전 레시피의 원본 그래프 해시, 노드 마커 및 실제 슬라이드 ID 명단에 맞는 보드 객체 129개와 슬라이드 111개(행 37개)를 정리했다. 파일 자체와 백업, 고정된 과거 릴리스는 보존했다. 과거 릴리스의 API 실측은 역사적 누계를 재현할 수 있도록 그 버전에 연결한다.

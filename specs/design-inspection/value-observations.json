@@ -1,0 +1,831 @@
+{
+  "version": 1,
+  "id": "native-value-observations-61015a9cc0ad5b7a",
+  "title": "Native data-object value observations",
+  "nodes": [
+    {
+      "id": "OBS-native-value-61015a9cc0ad5b7a",
+      "type": "test",
+      "status": "observed",
+      "title": "Native Design data-object getter readback",
+      "source": "../../docs/design-runtime-verification.md",
+      "observed_at": "2026-11-13T22:26:26.241Z",
+      "receipt_sha256": "61015a9cc0ad5b7ad1cc922746bb8f333d506145506e9da23ba0a65fabdf234b",
+      "getter_counts": {
+        "success": 62,
+        "unavailable": 0,
+        "runtime_error": 0,
+        "unsupported": 0
+      },
+      "detail": "{\"graph_sha256\": \"0739986a9b48ebe48861e014409322a7209ba4909a31ccf3f850c0967999a0e3\", \"policy_sha256\": \"7d98d6017ace8623d539efe4e5f269a496c141e77ec56614709791a1514fbe0f\", \"union_coverage\": {\"Action\": {\"observed\": [\"NODE\"]}, \"BlurEffect\": {\"observed\": [\"NORMAL\", \"PROGRESSIVE\"]}, \"Easing\": {\"observed\": [\"CUSTOM_CUBIC_BEZIER\"]}, \"Effect\": {\"observed\": [\"BACKGROUND_BLUR\", \"GLASS\", \"INNER_SHADOW\", \"LAYER_BLUR\", \"TEXTURE\"]}, \"LayoutGrid\": {\"observed\": [\"COLUMNS\", \"ROWS\"]}, \"NoiseEffect\": {\"observed\": []}, \"Transition\": {\"observed\": [\"DISSOLVE\", \"MOVE_IN\"]}, \"Trigger\": {\"observed\": [\"ON_CLICK\", \"ON_DRAG\"]}, \"VariableData\": {\"observed\": []}}}"
+    },
+    {
+      "id": "member:00537701723dd1148977af14cf4613c65b637e486f06c094d5413e6540be49ba",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextureEffect.boundVariables",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4602-L4602",
+      "detail": "{\"safe_projection\": {\"count\": 0}, \"signature\": \"readonly boundVariables?: {}\"}"
+    },
+    {
+      "id": "member:0519071fb9743cd09251f827569cdebb1fce425be0a616c6596256d6798ae4e9",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectProgressive.startRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4473-L4473",
+      "detail": "{\"safe_projection\": {\"value\": 2}, \"signature\": \"readonly startRadius: number\"}"
+    },
+    {
+      "id": "member:10a601929002601336e4badffb6c180d9e0708a7e019179a59ad55f8e7d345af",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.radius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4639-L4639",
+      "detail": "{\"safe_projection\": {\"value\": 6}, \"signature\": \"readonly radius: number\"}"
+    },
+    {
+      "id": "member:13f60d0de4e8abb17e86a6f67a6157a0a48d963257de8f45c6969c3c172a9692",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.count",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5074-L5074",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": 3}, {\"value\": 4}]}, \"signature\": \"readonly count: number\"}"
+    },
+    {
+      "id": "member:16b525f6ffed7e290f2da61f14dbb713959caa756a6af1473af2768cc2d1f627",
+      "type": "figma",
+      "status": "observed",
+      "title": "SimpleTransition.type",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5815-L5815",
+      "detail": "{\"safe_projection\": {\"value\": \"DISSOLVE\"}, \"signature\": \"readonly type: 'DISSOLVE' | 'SMART_ANIMATE' | 'SCROLL_ANIMATE'\"}"
+    },
+    {
+      "id": "member:17d565f9f459f37548b12e7b99f909635156ff21a74e753aeba89d61141268e6",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextureEffect.visible",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4579-L4579",
+      "detail": "{\"safe_projection\": {\"value\": true}, \"signature\": \"readonly visible: boolean\"}"
+    },
+    {
+      "id": "member:1d42359a6ea4c3dac465a039f2903dd276d807919f680e248b0beb64a6c041dd",
+      "type": "figma",
+      "status": "observed",
+      "title": "VectorPath.data",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5503-L5503",
+      "detail": "{\"safe_projection\": {\"commands\": {\"L\": 3, \"M\": 1, \"Z\": 1}, \"coordinateCount\": 8, \"coordinateMaximum\": 80, \"coordinateMinimum\": 0}, \"signature\": \"readonly data: string\"}"
+    },
+    {
+      "id": "member:20a87a31db6d1272f880eab6620f360c52487be502eef22ae4e99eb6155c6ae9",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.radius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4410-L4410",
+      "detail": "{\"safe_projection\": {\"value\": 4}, \"signature\": \"readonly radius: number\"}"
+    },
+    {
+      "id": "member:25a72a44ee957bb1dd5549929c2b7e9c175b19e2c9bf6e001f21d028d2eddfb5",
+      "type": "figma",
+      "status": "observed",
+      "title": "SimpleTransition.easing",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5816-L5816",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"cubicBezier\": null, \"spring\": null, \"type\": \"OTHER\"}, {\"cubicBezier\": {\"x1\": 0.18000000715255737, \"x2\": 0.8199999928474426, \"y1\": 0.20000000298023224, \"y2\": 0.800000011920929}, \"spring\": null, \"type\": \"CUSTOM_CUBIC_BEZIER\"}]}, \"signature\": \"readonly easing: Easing\"}"
+    },
+    {
+      "id": "member:26455f1fda05257bbccfe56f5fb4550e98155b2c74b4deae3e8430adc8f17de3",
+      "type": "figma",
+      "status": "observed",
+      "title": "EasingFunctionBezier.x2",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5893-L5893",
+      "detail": "{\"safe_projection\": {\"value\": 0.8199999928474426}, \"signature\": \"x2: number\"}"
+    },
+    {
+      "id": "member:27a875b5e83ec14357c612839c5351c23b36528102835572abf385092c9fc001",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.gutterSize",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5070-L5070",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": 8}, {\"value\": 12}]}, \"signature\": \"readonly gutterSize: number\"}"
+    },
+    {
+      "id": "member:2ce2ef2bb528400451c6d5bf7d8e7372893bdfdf46a3fcaa0d8ce8b8b2cfc163",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.offset",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4406-L4406",
+      "detail": "{\"safe_projection\": {\"x\": 1, \"y\": 2}, \"signature\": \"readonly offset: Vector\"}"
+    },
+    {
+      "id": "member:2f6b707b53363ecfa979b726d4defba35b12a9dcbc83c1b11b1161fcac633270",
+      "type": "figma",
+      "status": "observed",
+      "title": "SimpleTransition.duration",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5817-L5817",
+      "detail": "{\"safe_projection\": {\"value\": 0.20000000298023224}, \"signature\": \"readonly duration: number\"}"
+    },
+    {
+      "id": "member:348b92f35a71be4dff0159054ef04f1b33be2a9ef953f176b7de0f14dacb1767",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.offset",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5082-L5082",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": 4}, {\"value\": 6}]}, \"signature\": \"readonly offset?: number\"}"
+    },
+    {
+      "id": "member:371c7039a70d1bf083b98d393008b14f51292f98ba26331c64ca150cba4bc15a",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.boundVariables",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4643-L4643",
+      "detail": "{\"safe_projection\": {\"count\": 0}, \"signature\": \"readonly boundVariables?: {}\"}"
+    },
+    {
+      "id": "member:3f86995aedcf8e153fe6f6c26974849bf74c0c4ce8ae24fe737a335f62123c67",
+      "type": "figma",
+      "status": "observed",
+      "title": "VectorPath.windingRule",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5490-L5490",
+      "detail": "{\"safe_projection\": {\"value\": \"NONZERO\"}, \"signature\": \"readonly windingRule: WindingRule | 'NONE'\"}"
+    },
+    {
+      "id": "member:46455cb3f34d8035afacff21d2f6731c208c480da5ac9cb0616c4eb4467e8584",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectBase.visible",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4445-L4445",
+      "detail": "{\"safe_projection\": {\"value\": true}, \"signature\": \"readonly visible: boolean\"}"
+    },
+    {
+      "id": "member:4bb477e9fd88eb3c00dfbfcdd520aa78ea0487b9025ea554cc2ce6eaba258d29",
+      "type": "figma",
+      "status": "observed",
+      "title": "DirectionalTransition.direction",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5824-L5824",
+      "detail": "{\"safe_projection\": {\"value\": \"LEFT\"}, \"signature\": \"readonly direction: 'LEFT' | 'RIGHT' | 'TOP' | 'BOTTOM'\"}"
+    },
+    {
+      "id": "member:4d2161198c7e41a3863c2f43b5e99fba9d1088112970acd50c272965e233d7ca",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextureEffect.noiseSizeVector",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4590-L4590",
+      "detail": "{\"safe_projection\": {\"x\": 4, \"y\": 6}, \"signature\": \"readonly noiseSizeVector?: Vector\"}"
+    },
+    {
+      "id": "member:4d2d5da94b7952d7be68dad11b4393f23761b711991ab25113c1729f53e56670",
+      "type": "figma",
+      "status": "observed",
+      "title": "Easing.easingFunctionCubicBezier",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5884-L5884",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"state\": \"UNSET\"}, {\"state\": \"PRESENT\"}]}, \"signature\": \"readonly easingFunctionCubicBezier?: EasingFunctionBezier\"}"
+    },
+    {
+      "id": "member:4f99c3939e5dfb4b21b0054c9958dbfa85925aa2c872d2c3510a03fb16eae1b2",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.depth",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4631-L4631",
+      "detail": "{\"safe_projection\": {\"value\": 2}, \"signature\": \"readonly depth: number\"}"
+    },
+    {
+      "id": "member:51dc0ed20f42e6a332c2940ead9bc11ee356407ba92603e2dd4125549a9f0515",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextureEffect.noiseSize",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4584-L4584",
+      "detail": "{\"safe_projection\": {\"value\": 4}, \"signature\": \"readonly noiseSize: number\"}"
+    },
+    {
+      "id": "member:558511edb199665196da90a1c99044cd7d8ca56372ddb0087c44afc87f94f2c2",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.visible",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4615-L4615",
+      "detail": "{\"safe_projection\": {\"value\": true}, \"signature\": \"readonly visible: boolean\"}"
+    },
+    {
+      "id": "member:58cea4daa2a0779381dc17d70395c264427fc7d9b548ac81a981a6f894bd0f96",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectBase.type",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4437-L4437",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": \"LAYER_BLUR\"}, {\"value\": \"BACKGROUND_BLUR\"}]}, \"signature\": \"readonly type: 'LAYER_BLUR' | 'BACKGROUND_BLUR'\"}"
+    },
+    {
+      "id": "member:5fbbde7c2ff4d74ad30ebe8d54c6dddf9db8fb9d33104e4c0b7f87ea0bc5248e",
+      "type": "figma",
+      "status": "observed",
+      "title": "Easing.type",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5870-L5883",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": \"OTHER\"}, {\"value\": \"CUSTOM_CUBIC_BEZIER\"}]}, \"signature\": \"readonly type:\\n    | 'EASE_IN'\\n    | 'EASE_OUT'\\n    | 'EASE_IN_AND_OUT'\\n    | 'LINEAR'\\n    | 'EASE_IN_BACK'\\n    | 'EASE_OUT_BACK'\\n    | 'EASE_IN_AND_OUT_BACK'\\n    | 'CUSTOM_CUBIC_BEZIER'\\n    | 'GENTLE'\\n    | 'QUICK'\\n    | 'BOUNCY'\\n    | 'SLOW'\\n    | 'CUSTOM_SPRING'\"}"
+    },
+    {
+      "id": "member:65ce7a1a3814a3918c2a120a303823be2632e3c7df0f573b1cc64c7d1a88b08e",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.boundVariables",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4426-L4428",
+      "detail": "{\"safe_projection\": {\"count\": 0}, \"signature\": \"readonly boundVariables?: {\\n    [field in VariableBindableEffectField]?: VariableAlias\\n  }\"}"
+    },
+    {
+      "id": "member:73b21c5e219198ea40427c698550b783957da46a42741c96839872bcc5c8b9e9",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.sectionSize",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5078-L5078",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": 24}, {\"value\": 36}]}, \"signature\": \"readonly sectionSize?: number\"}"
+    },
+    {
+      "id": "member:7b1ca2767e256a0efec819e30e31017fc73e3e55d158f3f5d709225e73b75ec1",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextureEffect.radius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4594-L4594",
+      "detail": "{\"safe_projection\": {\"value\": 5}, \"signature\": \"readonly radius: number\"}"
+    },
+    {
+      "id": "member:7fb1b63583ceacad0797a8e89f6732721bfe0867d52224386ae4132370c472a5",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectBase.radius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4441-L4441",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": 3}, {\"value\": 8}]}, \"signature\": \"readonly radius: number\"}"
+    },
+    {
+      "id": "member:806b2f6cdd299f6bf715260589d4c362691a62c5ea6d677b63c7df4e55475bf7",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectNormal.blurType",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4460-L4460",
+      "detail": "{\"safe_projection\": {\"value\": \"NORMAL\"}, \"signature\": \"readonly blurType: 'NORMAL'\"}"
+    },
+    {
+      "id": "member:827f69d8b9bea3e17cba503eee9121d529f1d7d1b805a407eeb625a5080a10a5",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.color",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5090-L5090",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"a\": 0.25, \"b\": 0.6499999761581421, \"g\": 0.3499999940395355, \"r\": 0.15000000596046448}, {\"a\": 0.20000000298023224, \"b\": 0.699999988079071, \"g\": 0.5, \"r\": 0.25}]}, \"signature\": \"readonly color?: RGBA\"}"
+    },
+    {
+      "id": "member:82981155b61f2b212cd71dbbad81659e5ec558fc9ea16d3cc1aae8dc850d5359",
+      "type": "figma",
+      "status": "observed",
+      "title": "DirectionalTransition.easing",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5826-L5826",
+      "detail": "{\"safe_projection\": {\"cubicBezier\": null, \"spring\": null, \"type\": \"OTHER\"}, \"signature\": \"readonly easing: Easing\"}"
+    },
+    {
+      "id": "member:83c89fa7572e1ef815cdfc438f36df505e0048b181b6b1726d9b3bd6f8f299f5",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.pattern",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5062-L5062",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"value\": \"ROWS\"}, {\"value\": \"COLUMNS\"}]}, \"signature\": \"readonly pattern: 'ROWS' | 'COLUMNS'\"}"
+    },
+    {
+      "id": "member:8489006bfb922f285d6f9a2f247d27968ff196f3aaa7db74d8a92f7634a242bf",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.dispersion",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4635-L4635",
+      "detail": "{\"safe_projection\": {\"value\": 0.10000000149011612}, \"signature\": \"readonly dispersion: number\"}"
+    },
+    {
+      "id": "member:875033c0e3c2fe694bbaf4f0e46631647616fefa1fb6baada032e7d565ceb208",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.lightAngle",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4623-L4623",
+      "detail": "{\"safe_projection\": {\"value\": 45}, \"signature\": \"readonly lightAngle: number\"}"
+    },
+    {
+      "id": "member:87b478a038d63cc9f26ac1ba423bf7c635770f8e987daa4db182af1d2f7d9f8a",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.visible",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5086-L5086",
+      "detail": "{\"safe_projection\": {\"value\": true}, \"signature\": \"readonly visible?: boolean\"}"
+    },
+    {
+      "id": "member:90fbda57a5bb2311b31a45ca295a576bf076a58710466c477699f3fde3a9e716",
+      "type": "figma",
+      "status": "observed",
+      "title": "EasingFunctionBezier.x1",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5891-L5891",
+      "detail": "{\"safe_projection\": {\"value\": 0.18000000715255737}, \"signature\": \"x1: number\"}"
+    },
+    {
+      "id": "member:941102b5e3cad01bd96fccb618b04c8945ee67f29a594c39f525d159989dab97",
+      "type": "figma",
+      "status": "observed",
+      "title": "Easing.easingFunctionSpring",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5885-L5885",
+      "detail": "{\"safe_projection\": {\"state\": \"UNSET\"}, \"signature\": \"readonly easingFunctionSpring?: EasingFunctionSpring\"}"
+    },
+    {
+      "id": "member:a1b7bf0c41aa68241259c86eaec1b729898e5295b45dab04d10364bc8103ffb5",
+      "type": "figma",
+      "status": "observed",
+      "title": "Reaction.action",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5710-L5710",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"state\": \"NULL\"}, \"type\": \"NODE\"}, {\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"direction\": \"OTHER\", \"duration\": 0.20000000298023224, \"easing\": {\"cubicBezier\": null, \"spring\": null, \"type\": \"OTHER\"}, \"matchLayers\": null, \"type\": \"DISSOLVE\"}, \"type\": \"NODE\"}, {\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"direction\": \"OTHER\", \"duration\": 0.20000000298023224, \"easing\": {\"cubicBezier\": {\"x1\": 0.18000000715255737, \"x2\": 0.8199999928474426, \"y1\": 0.20000000298023224, \"y2\": 0.800000011920929}, \"spring\": null, \"type\": \"CUSTOM_CUBIC_BEZIER\"}, \"matchLayers\": null, \"type\": \"DISSOLVE\"}, \"type\": \"NODE\"}, {\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"direction\": \"LEFT\", \"duration\": 0.20000000298023224, \"easing\": {\"cubicBezier\": null, \"spring\": null, \"type\": \"OTHER\"}, \"matchLayers\": false, \"type\": \"MOVE_IN\"}, \"type\": \"NODE\"}]}, \"signature\": \"action?: Action\"}"
+    },
+    {
+      "id": "member:a3fed463f7cb2b18d1b6c8c2c4cc5e220b8665c1a0cefc9d95732efc67eae946",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectBase.boundVariables",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4449-L4451",
+      "detail": "{\"safe_projection\": {\"count\": 0}, \"signature\": \"readonly boundVariables?: {\\n    ['radius']?: VariableAlias\\n  }\"}"
+    },
+    {
+      "id": "member:a65e68542dd903a0eea5bf4c588b8f65ea8e33bdd1c25127cd2139ed2e798ca1",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.type",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4398-L4398",
+      "detail": "{\"safe_projection\": {\"value\": \"INNER_SHADOW\"}, \"signature\": \"readonly type: 'INNER_SHADOW'\"}"
+    },
+    {
+      "id": "member:a763e5620763db804a2ed361c5cfac4b008c2a7ec4cb2f7affe3c8e418d46328",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectProgressive.endOffset",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4481-L4481",
+      "detail": "{\"safe_projection\": {\"x\": 0.8999999761581421, \"y\": 0.5}, \"signature\": \"readonly endOffset: Vector\"}"
+    },
+    {
+      "id": "member:abd51a2f0030be3df616661d79e714790d8205203fa0dcc8c4929ea268c0f34e",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.refraction",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4627-L4627",
+      "detail": "{\"safe_projection\": {\"value\": 0.4000000059604645}, \"signature\": \"readonly refraction: number\"}"
+    },
+    {
+      "id": "member:addddb0027f1c39370422d55af267aaa91a474d156b814818bc39aee79b85c8c",
+      "type": "figma",
+      "status": "observed",
+      "title": "EasingFunctionBezier.y1",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5892-L5892",
+      "detail": "{\"safe_projection\": {\"value\": 0.20000000298023224}, \"signature\": \"y1: number\"}"
+    },
+    {
+      "id": "member:b009e145c7fd1165165aef5d06b3589081559ed3823c7160c1a8f1a5fc0d7219",
+      "type": "figma",
+      "status": "observed",
+      "title": "DirectionalTransition.type",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5823-L5823",
+      "detail": "{\"safe_projection\": {\"value\": \"MOVE_IN\"}, \"signature\": \"readonly type: 'MOVE_IN' | 'MOVE_OUT' | 'PUSH' | 'SLIDE_IN' | 'SLIDE_OUT'\"}"
+    },
+    {
+      "id": "member:bbb905aedc3e43b12614f77a6adc935e305c5dfa298336988432da1a73bc233d",
+      "type": "figma",
+      "status": "observed",
+      "title": "DirectionalTransition.matchLayers",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5825-L5825",
+      "detail": "{\"safe_projection\": {\"value\": false}, \"signature\": \"readonly matchLayers: boolean\"}"
+    },
+    {
+      "id": "member:bc7d99690d3ee4cbd811588f74abe208a2f6a47c8185f5fae0e03f72cf7d8712",
+      "type": "figma",
+      "status": "observed",
+      "title": "EasingFunctionBezier.y2",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5894-L5894",
+      "detail": "{\"safe_projection\": {\"value\": 0.800000011920929}, \"signature\": \"y2: number\"}"
+    },
+    {
+      "id": "member:c1eb3c028c7c087070921ef00301dfb66090e59286b205d84f2efc0949f38703",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.color",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4402-L4402",
+      "detail": "{\"safe_projection\": {\"a\": 0.3499999940395355, \"b\": 0.4000000059604645, \"g\": 0.30000001192092896, \"r\": 0.20000000298023224}, \"signature\": \"readonly color: RGBAWithColorSpace\"}"
+    },
+    {
+      "id": "member:c321f55b7ddae5bf0944221e9106347b4451aa7b765629d450e16082c98435b8",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.blendMode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4422-L4422",
+      "detail": "{\"safe_projection\": {\"value\": \"NORMAL\"}, \"signature\": \"readonly blendMode: BlendMode\"}"
+    },
+    {
+      "id": "member:c8cbfa676734f879c490385a30b52808757b46e53d23abb3a589aae62d59592d",
+      "type": "figma",
+      "status": "observed",
+      "title": "Reaction.actions",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5711-L5711",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"count\": 1, \"samples\": [{\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"state\": \"NULL\"}, \"type\": \"NODE\"}]}, {\"count\": 1, \"samples\": [{\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"direction\": \"OTHER\", \"duration\": 0.20000000298023224, \"easing\": {\"cubicBezier\": null, \"spring\": null, \"type\": \"OTHER\"}, \"matchLayers\": null, \"type\": \"DISSOLVE\"}, \"type\": \"NODE\"}]}, {\"count\": 1, \"samples\": [{\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"direction\": \"OTHER\", \"duration\": 0.20000000298023224, \"easing\": {\"cubicBezier\": {\"x1\": 0.18000000715255737, \"x2\": 0.8199999928474426, \"y1\": 0.20000000298023224, \"y2\": 0.800000011920929}, \"spring\": null, \"type\": \"CUSTOM_CUBIC_BEZIER\"}, \"matchLayers\": null, \"type\": \"DISSOLVE\"}, \"type\": \"NODE\"}]}, {\"count\": 1, \"samples\": [{\"destinationPresent\": true, \"navigation\": \"NAVIGATE\", \"transition\": {\"direction\": \"LEFT\", \"duration\": 0.20000000298023224, \"easing\": {\"cubicBezier\": null, \"spring\": null, \"type\": \"OTHER\"}, \"matchLayers\": false, \"type\": \"MOVE_IN\"}, \"type\": \"NODE\"}]}]}, \"signature\": \"actions?: Action[]\"}"
+    },
+    {
+      "id": "member:dafbf938e3228782988cdc49f5e83838cbd27cbbdea8025ef6ebec1a16d6e745",
+      "type": "figma",
+      "status": "observed",
+      "title": "Reaction.trigger",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5712-L5712",
+      "detail": "{\"safe_projection\": {\"samples\": [{\"type\": \"ON_CLICK\"}, {\"type\": \"ON_DRAG\"}]}, \"signature\": \"trigger: Trigger | null\"}"
+    },
+    {
+      "id": "member:e1fe6beaa1f471df8484f43b30dfb4800762a8ba595a2fc214ea17e5c696cdf6",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.boundVariables",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5094-L5096",
+      "detail": "{\"safe_projection\": {\"count\": 0}, \"signature\": \"readonly boundVariables?: {\\n    [field in VariableBindableLayoutGridField]?: VariableAlias\\n  }\"}"
+    },
+    {
+      "id": "member:e80adc435b5fb4cb334067de103f4fad92cd7b73f612e76810235c1ce65e992c",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextureEffect.type",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4575-L4575",
+      "detail": "{\"safe_projection\": {\"value\": \"TEXTURE\"}, \"signature\": \"readonly type: 'TEXTURE'\"}"
+    },
+    {
+      "id": "member:e8239e7900ca51dc2b5ddf607c9b12c05b5258137b811df0077ebbd006bb1222",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.type",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4611-L4611",
+      "detail": "{\"safe_projection\": {\"value\": \"GLASS\"}, \"signature\": \"readonly type: 'GLASS'\"}"
+    },
+    {
+      "id": "member:f25d5f4b31bf323e175812e47d975297f55f5472d792a9ba0aad424ad47d0114",
+      "type": "figma",
+      "status": "observed",
+      "title": "DirectionalTransition.duration",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5827-L5827",
+      "detail": "{\"safe_projection\": {\"value\": 0.20000000298023224}, \"signature\": \"readonly duration: number\"}"
+    },
+    {
+      "id": "member:f292c00b76b39e9c494fba77a49ccaaea3b2353de16e2bc4a1cb3d0f33326c95",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectProgressive.startOffset",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4477-L4477",
+      "detail": "{\"safe_projection\": {\"x\": 0.10000000149011612, \"y\": 0.5}, \"signature\": \"readonly startOffset: Vector\"}"
+    },
+    {
+      "id": "member:f394d4c0e3480b69165fde1c763b3027e121ba401c036f3ef0222af1a48dfa4e",
+      "type": "figma",
+      "status": "observed",
+      "title": "GlassEffect.lightIntensity",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4619-L4619",
+      "detail": "{\"safe_projection\": {\"value\": 0.6000000238418579}, \"signature\": \"readonly lightIntensity: number\"}"
+    },
+    {
+      "id": "member:f48f978f87fa497c9604ce8420f6196ca1898bebb938dad8d9aca72f3538b2f3",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.visible",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4418-L4418",
+      "detail": "{\"safe_projection\": {\"value\": true}, \"signature\": \"readonly visible: boolean\"}"
+    },
+    {
+      "id": "member:f4e339c56e91130cbf5a35c158a9775ba27aa450a3c619d0f2c6e1d66f2773d4",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextureEffect.clipToShape",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4598-L4598",
+      "detail": "{\"safe_projection\": {\"value\": true}, \"signature\": \"readonly clipToShape: boolean\"}"
+    },
+    {
+      "id": "member:fa4e274a5a5f979ca4f0e9502e67e40e847ccc5020d0b6afe45cdbab2d7a7ba2",
+      "type": "figma",
+      "status": "observed",
+      "title": "RowsColsLayoutGrid.alignment",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L5066-L5066",
+      "detail": "{\"safe_projection\": {\"value\": \"MIN\"}, \"signature\": \"readonly alignment: 'MIN' | 'MAX' | 'STRETCH' | 'CENTER'\"}"
+    },
+    {
+      "id": "member:fb590eb5c52aae1f0e069a1b1803058f270f19a69a31c19c5afe8d86b8eb2da9",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlurEffectProgressive.blurType",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4469-L4469",
+      "detail": "{\"safe_projection\": {\"value\": \"PROGRESSIVE\"}, \"signature\": \"readonly blurType: 'PROGRESSIVE'\"}"
+    },
+    {
+      "id": "member:fbe6441097251366969c555fcf8a506461280c7ede8b6ae71c30d5c4df89280b",
+      "type": "figma",
+      "status": "observed",
+      "title": "InnerShadowEffect.spread",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L4414-L4414",
+      "detail": "{\"safe_projection\": {\"value\": 1}, \"signature\": \"readonly spread?: number\"}"
+    }
+  ],
+  "edges": [
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:00537701723dd1148977af14cf4613c65b637e486f06c094d5413e6540be49ba",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:0519071fb9743cd09251f827569cdebb1fce425be0a616c6596256d6798ae4e9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:10a601929002601336e4badffb6c180d9e0708a7e019179a59ad55f8e7d345af",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:13f60d0de4e8abb17e86a6f67a6157a0a48d963257de8f45c6969c3c172a9692",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:16b525f6ffed7e290f2da61f14dbb713959caa756a6af1473af2768cc2d1f627",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:17d565f9f459f37548b12e7b99f909635156ff21a74e753aeba89d61141268e6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:1d42359a6ea4c3dac465a039f2903dd276d807919f680e248b0beb64a6c041dd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:20a87a31db6d1272f880eab6620f360c52487be502eef22ae4e99eb6155c6ae9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:25a72a44ee957bb1dd5549929c2b7e9c175b19e2c9bf6e001f21d028d2eddfb5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:26455f1fda05257bbccfe56f5fb4550e98155b2c74b4deae3e8430adc8f17de3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:27a875b5e83ec14357c612839c5351c23b36528102835572abf385092c9fc001",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:2ce2ef2bb528400451c6d5bf7d8e7372893bdfdf46a3fcaa0d8ce8b8b2cfc163",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:2f6b707b53363ecfa979b726d4defba35b12a9dcbc83c1b11b1161fcac633270",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:348b92f35a71be4dff0159054ef04f1b33be2a9ef953f176b7de0f14dacb1767",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:371c7039a70d1bf083b98d393008b14f51292f98ba26331c64ca150cba4bc15a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:3f86995aedcf8e153fe6f6c26974849bf74c0c4ce8ae24fe737a335f62123c67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:46455cb3f34d8035afacff21d2f6731c208c480da5ac9cb0616c4eb4467e8584",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:4bb477e9fd88eb3c00dfbfcdd520aa78ea0487b9025ea554cc2ce6eaba258d29",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:4d2161198c7e41a3863c2f43b5e99fba9d1088112970acd50c272965e233d7ca",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:4d2d5da94b7952d7be68dad11b4393f23761b711991ab25113c1729f53e56670",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:4f99c3939e5dfb4b21b0054c9958dbfa85925aa2c872d2c3510a03fb16eae1b2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:51dc0ed20f42e6a332c2940ead9bc11ee356407ba92603e2dd4125549a9f0515",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:558511edb199665196da90a1c99044cd7d8ca56372ddb0087c44afc87f94f2c2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:58cea4daa2a0779381dc17d70395c264427fc7d9b548ac81a981a6f894bd0f96",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:5fbbde7c2ff4d74ad30ebe8d54c6dddf9db8fb9d33104e4c0b7f87ea0bc5248e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:65ce7a1a3814a3918c2a120a303823be2632e3c7df0f573b1cc64c7d1a88b08e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:73b21c5e219198ea40427c698550b783957da46a42741c96839872bcc5c8b9e9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:7b1ca2767e256a0efec819e30e31017fc73e3e55d158f3f5d709225e73b75ec1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:7fb1b63583ceacad0797a8e89f6732721bfe0867d52224386ae4132370c472a5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:806b2f6cdd299f6bf715260589d4c362691a62c5ea6d677b63c7df4e55475bf7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:827f69d8b9bea3e17cba503eee9121d529f1d7d1b805a407eeb625a5080a10a5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:82981155b61f2b212cd71dbbad81659e5ec558fc9ea16d3cc1aae8dc850d5359",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:83c89fa7572e1ef815cdfc438f36df505e0048b181b6b1726d9b3bd6f8f299f5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:8489006bfb922f285d6f9a2f247d27968ff196f3aaa7db74d8a92f7634a242bf",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:875033c0e3c2fe694bbaf4f0e46631647616fefa1fb6baada032e7d565ceb208",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:87b478a038d63cc9f26ac1ba423bf7c635770f8e987daa4db182af1d2f7d9f8a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:90fbda57a5bb2311b31a45ca295a576bf076a58710466c477699f3fde3a9e716",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:941102b5e3cad01bd96fccb618b04c8945ee67f29a594c39f525d159989dab97",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:a1b7bf0c41aa68241259c86eaec1b729898e5295b45dab04d10364bc8103ffb5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:a3fed463f7cb2b18d1b6c8c2c4cc5e220b8665c1a0cefc9d95732efc67eae946",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:a65e68542dd903a0eea5bf4c588b8f65ea8e33bdd1c25127cd2139ed2e798ca1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:a763e5620763db804a2ed361c5cfac4b008c2a7ec4cb2f7affe3c8e418d46328",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:abd51a2f0030be3df616661d79e714790d8205203fa0dcc8c4929ea268c0f34e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:addddb0027f1c39370422d55af267aaa91a474d156b814818bc39aee79b85c8c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:b009e145c7fd1165165aef5d06b3589081559ed3823c7160c1a8f1a5fc0d7219",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:bbb905aedc3e43b12614f77a6adc935e305c5dfa298336988432da1a73bc233d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:bc7d99690d3ee4cbd811588f74abe208a2f6a47c8185f5fae0e03f72cf7d8712",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:c1eb3c028c7c087070921ef00301dfb66090e59286b205d84f2efc0949f38703",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:c321f55b7ddae5bf0944221e9106347b4451aa7b765629d450e16082c98435b8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:c8cbfa676734f879c490385a30b52808757b46e53d23abb3a589aae62d59592d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:dafbf938e3228782988cdc49f5e83838cbd27cbbdea8025ef6ebec1a16d6e745",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:e1fe6beaa1f471df8484f43b30dfb4800762a8ba595a2fc214ea17e5c696cdf6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:e80adc435b5fb4cb334067de103f4fad92cd7b73f612e76810235c1ce65e992c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:e8239e7900ca51dc2b5ddf607c9b12c05b5258137b811df0077ebbd006bb1222",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:f25d5f4b31bf323e175812e47d975297f55f5472d792a9ba0aad424ad47d0114",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:f292c00b76b39e9c494fba77a49ccaaea3b2353de16e2bc4a1cb3d0f33326c95",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:f394d4c0e3480b69165fde1c763b3027e121ba401c036f3ef0222af1a48dfa4e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:f48f978f87fa497c9604ce8420f6196ca1898bebb938dad8d9aca72f3538b2f3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:f4e339c56e91130cbf5a35c158a9775ba27aa450a3c619d0f2c6e1d66f2773d4",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:fa4e274a5a5f979ca4f0e9502e67e40e847ccc5020d0b6afe45cdbab2d7a7ba2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:fb590eb5c52aae1f0e069a1b1803058f270f19a69a31c19c5afe8d86b8eb2da9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-native-value-61015a9cc0ad5b7a",
+      "to": "member:fbe6441097251366969c555fcf8a506461280c7ede8b6ae71c30d5c4df89280b",
+      "type": "observed member"
+    }
+  ]
+}
