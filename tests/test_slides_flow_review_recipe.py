@@ -52,7 +52,7 @@ class SlidesFlowReviewRecipeTest(unittest.TestCase):
             sdk.initialize(project, 'slides', recipe='slides-flow-review', review_graph=graph_path)
             sdk.compile_project(project, build=True, typescript=os.environ['FIGMA_SDK_TEST_TYPESCRIPT'])
             result = subprocess.run(
-                ['node', str(ROOT / 'tests/figma_slides_review_harness.cjs'),
+                ['node', str(ROOT / 'tests/helpers/figma_slides_review_harness.cjs'),
                  str(project / 'dist/code.js'), str(expected_path)],
                 text=True, capture_output=True,
             )

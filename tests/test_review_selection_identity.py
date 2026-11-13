@@ -34,8 +34,8 @@ class ReviewSelectionIdentityTest(unittest.TestCase):
             compiled = {}
             expected = {}
             for editor, recipe, harness in [
-                ('figjam', 'figjam-review-planner', ROOT / 'tests/figma_figjam_review_harness.cjs'),
-                ('slides', 'slides-flow-review', ROOT / 'tests/figma_slides_review_harness.cjs'),
+                ('figjam', 'figjam-review-planner', ROOT / 'tests/helpers/figma_figjam_review_harness.cjs'),
+                ('slides', 'slides-flow-review', ROOT / 'tests/helpers/figma_slides_review_harness.cjs'),
             ]:
                 compiled[editor] = []
                 expected[editor] = []
