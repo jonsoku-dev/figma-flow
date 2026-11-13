@@ -259,7 +259,7 @@ def prepare(plan_path, out, plugin_id=None):
             if old is not None and old != pin['sha256']:
                 raise ValueError('One source path resolved to conflicting digests')
             unique_pins[pin['path']] = pin['sha256']
-        pins = [{'path': path, 'sha256': sha256} for path, sha256 in sorted(unique_pins.items())]
+        pins = [{'path': path, 'sha256': sha256} for path, sha256 in unique_pins.items()]
         (output/'source-inputs.json').write_text(json.dumps({'schema':'figma-flow-source-pins-v1','pins':pins}, indent=2)+'\n')
         (output/'source-inputs.json').chmod(0o600)
         (output/'native-edit-plan.json').chmod(0o600)

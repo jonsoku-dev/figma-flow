@@ -208,8 +208,9 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         const text=typography(s,label);const signature=JSON.stringify([tag,b.height,p,text.fontFamily,text.fontSize,text.fontWeight,text.color,text.textAlignHorizontal]);
         push({id,kind:'component',path,box:b,paint:p,text,componentKey:signature,props:{label,labelBox}});return;
       }
-      if(Object.keys(p).length || ['main','section','article','nav','header','footer','aside','form'].includes(tag)){
-        push({id,path,kind:'frame',box:b,paint:p});childrenPath=[...path,id];
+      const clips = ['hidden','clip'].includes(s.overflowX) && ['hidden','clip'].includes(s.overflowY);
+      if(Object.keys(p).length || clips || ['main','section','article','nav','header','footer','aside','form'].includes(tag)){
+        push({id,path,kind:'frame',name:el.getAttribute('aria-label')?.slice(0,100)||tag,clipsContent:clips,box:b,paint:p});childrenPath=[...path,id];
       }
       if(tag==='input'||tag==='textarea'){
         // Never inspect the value of a form control.

@@ -175,19 +175,15 @@ function webNodePaint(node, element) {
   const paint = element.paint || {};
   if (paint.radialGradient) {
     const { centerX, centerY, stops } = paint.radialGradient;
-    const width = Math.max(1, element.box.width);
-    const height = Math.max(1, element.box.height);
-    const radius = Math.max(
-      Math.hypot(centerX * width, centerY * height),
-      Math.hypot((1 - centerX) * width, centerY * height),
-      Math.hypot(centerX * width, (1 - centerY) * height),
-      Math.hypot((1 - centerX) * width, (1 - centerY) * height),
-    );
-    const radiusX = radius / width;
-    const radiusY = radius / height;
+    // CSS's default ellipse touches the farthest corner. Figma maps
+    // normalized layer coordinates into gradient space, centered at (½, ½).
+    const radiusX = Math.SQRT2 * Math.max(centerX, 1 - centerX);
+    const radiusY = Math.SQRT2 * Math.max(centerY, 1 - centerY);
+    const scaleX = 0.5 / radiusX;
+    const scaleY = 0.5 / radiusY;
     const fill = {
       type: 'GRADIENT_RADIAL',
-      gradientTransform: [[2 * radiusX, 0, centerX - radiusX], [0, 2 * radiusY, centerY - radiusY]],
+      gradientTransform: [[scaleX, 0, 0.5 - centerX * scaleX], [0, scaleY, 0.5 - centerY * scaleY]],
       gradientStops: stops.map(stop => {
         const value = webColor(stop.color);
         return { position: stop.position, color: { ...value.color, a: value.opacity } };
@@ -232,12 +228,14 @@ async function webResolveFonts(figma, screens) {
     if (!requests.has(key)) requests.set(key, { family, style, key, requestedWeight: text.fontWeight ?? 400 });
   }
   const resolved = new Map();
-  const fontKey = value => String(value).normalize('NFKC').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const fontKey = value => String(value).normalize('NFKC').toLowerCase().replace(/[\s_-]/g, '');
   for (const request of requests.values()) {
     const family = fontKey(request.family);
     const exact = available.find(font => fontKey(font.family) === family && fontKey(font.style) === fontKey(request.style));
     const familyRegular = available.find(font => fontKey(font.family) === family && fontKey(font.style) === 'regular');
-    const fallback = exact || familyRegular
+    const resolvedFamily = family === 'geistsans' ? 'geist' : family;
+    const alias = resolvedFamily !== family && available.find(font => fontKey(font.family) === resolvedFamily && fontKey(font.style) === fontKey(request.style));
+    const fallback = exact || alias || familyRegular
       || available.find(font => fontKey(font.family) === 'inter' && fontKey(font.style) === 'regular')
       || available.find(font => fontKey(font.style) === 'regular');
     if (!fallback) throw Error('No regular native font is available');
@@ -341,13 +339,6 @@ function webCreateElement(figma, element, fallbackReport, mains, assets) {
   return figma.createRectangle();
 }
 
-function webNearestFrame(element, frameElements) {
-  const path = Array.isArray(element.path) ? element.path : [];
-  return frameElements
-    .filter(frame => path.includes(frame.id))
-    .sort((left, right) => (right.path?.length || 0) - (left.path?.length || 0))[0] || null;
-}
-
 function webPosition(node, element, parentElement) {
   if (node.type === 'TEXT') {
     const alignment = webTextAlignment(element);
@@ -395,25 +386,27 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
   for (const element of frameElements) {
     const frame = webCreateElement(figma, element, fallbackReport, new Map(), graph.assets);
     created.add(frame);
-    frame.name = element.path?.join(' / ') || element.id;
-    frame.clipsContent = false;
+    frame.clipsContent = element.clipsContent === true;
     frame.layoutMode = 'NONE';
     webNodePaint(frame, element);
-    frames.set(element.id, frame);
+    frames.set(element.id, {frame, element});
   }
 
   const mains = new Map();
   for (const element of screen.elements) {
-    const parentElement = webNearestFrame(element, frameElements);
-    const parent = frames.get(parentElement?.id) || root;
+    const path = element.path || [];
+    const owner = frames.get(path[path.length - 1]);
+    const parentElement = owner?.element;
+    const parent = owner?.frame || root;
     const family = element.kind === 'component' ? webComponentFamily(element) : null;
-    const node = element.kind === 'frame' ? frames.get(element.id)
+    const node = element.kind === 'frame' ? frames.get(element.id).frame
       : element.kind === 'text' || element.kind === 'annotation'
       ? webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, created)
       : webCreateElement(figma, element, fallbackReport, mains, images);
     created.add(node);
     node.setPluginData(WEB_ELEMENT_ID, element.id);
-    node.name = element.path?.join(' / ') || element.id;
+    const label = element.name || element.text?.characters || element.label || element.kind;
+    node.name = label.slice(0, 100) + ' · ' + element.id;
     if (element.kind === 'component' && element.text && mains.get(family) === node) {
       const label = webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, created);
       label.name = 'label';
