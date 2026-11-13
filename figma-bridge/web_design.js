@@ -4,6 +4,7 @@ const WEB_SCENE_HASH = 'figma-flow-web-scene-fingerprint';
 const WEB_COMPONENT_MAIN = 'figma-flow-web-component-main-id';
 const WEB_ELEMENT_ID = 'figma-flow-web-element-id';
 const WEB_TEXT_STYLE = 'figma-flow-web-text-style-v1';
+const WEB_AVAILABLE_FONT_CACHE = new WeakMap();
 
 function webColor(value) {
   const hex = value.slice(1);
@@ -255,8 +256,21 @@ function webResolveFontMap(available, screens) {
   return resolved;
 }
 
+async function webAvailableFonts(figma) {
+  if (WEB_AVAILABLE_FONT_CACHE.has(figma)) return WEB_AVAILABLE_FONT_CACHE.get(figma);
+  const rows = await figma.listAvailableFontsAsync();
+  if (!Array.isArray(rows) || rows.length > 20000
+      || rows.some(row => !row?.fontName || typeof row.fontName.family !== 'string' || typeof row.fontName.style !== 'string')) {
+    throw Error('Figma font list exceeds the bounded typography verification limit');
+  }
+  const fonts = rows.map(row => row.fontName);
+  WEB_AVAILABLE_FONT_CACHE.set(figma, fonts);
+  return fonts;
+}
+
 async function webResolveFonts(figma, screens) {
-  const available = (await figma.listAvailableFontsAsync()).map(item => item.fontName);
+  if (!screens.length) return new Map();
+  const available = await webAvailableFonts(figma);
   const resolved = webResolveFontMap(available, screens);
   await Promise.all([...resolved.values()].map(row => figma.loadFontAsync(row.font)));
   return resolved;
@@ -528,7 +542,7 @@ async function webVerifyScreenTypography(figma, plan, frame, screen) {
     }
   }
   if (checks.length) {
-    const fonts = webResolveFontMap((await figma.listAvailableFontsAsync()).map(item => item.fontName),
+    const fonts = webResolveFontMap(await webAvailableFonts(figma),
       [{ elements: checks.map(check => check.element) }]);
     nativeEditScope(figma, plan);
     for (const check of checks) {

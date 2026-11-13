@@ -217,7 +217,9 @@ test('repeated native components retain the main label and override different in
   assert.equal(nativeImages[0].fills[0].imageHash, nativeImages[1].fills[0].imageHash);
   assert.equal(nativeImages[0].fills[0].scaleMode, 'FIT');
   assert.equal(nativeImages[1].fills[0].scaleMode, 'FILL');
+  const fontsReadBeforeReuse = h.counts().fontListReads;
   assert.equal((await h.apply(plan())).receipt.screens[0].reused, true);
+  assert.equal(h.counts().fontListReads, fontsReadBeforeReuse);
   assert.equal(h.images.length, 1);
   instance.findAll(node => node.type === 'TEXT')[0].characters = 'User edit';
   await assert.rejects(() => h.apply(plan()), /changed/);
