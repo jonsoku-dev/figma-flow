@@ -840,6 +840,100 @@
         "blocked": 1
       },
       "receipt_sha256": "6e45bc5040231771e4225e6e0c29ba8ebdb23042f87c8e6675c0db195c871560"
+    },
+    {
+      "id": "member:0d7d5b5084d3885d9cd3cfda5a0bb72f9a8a77d3aeade5b4807841cceec79180",
+      "type": "figma",
+      "status": "observed",
+      "title": "DevStatusMixin.devStatus",
+      "detail": "devStatus: DevStatus",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6637-L6637"
+    },
+    {
+      "id": "member:354e93e90ed3edf25f09ce445e76f3ec37eee968c7949d3b7507d4846807216c",
+      "type": "figma",
+      "status": "observed",
+      "title": "ContainerMixin.expanded",
+      "detail": "expanded: boolean",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7665-L7665"
+    },
+    {
+      "id": "member:48336a2ceb1f74daf14b440fa7fcb4441ec665b1a99f5a9a59f02e39bfb01378",
+      "type": "figma",
+      "status": "observed",
+      "title": "DeprecatedBackgroundMixin.backgrounds",
+      "detail": "backgrounds: ReadonlyArray<Paint>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7674-L7674"
+    },
+    {
+      "id": "member:c13c5c75264b3c21cf6ad5bd9b11450d1e4dc1557b9a4a97c0523c14b81608a2",
+      "type": "figma",
+      "status": "observed",
+      "title": "VectorLikeMixin.handleMirroring",
+      "detail": "handleMirroring: HandleMirroring | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9188-L9188"
+    },
+    {
+      "id": "member:5cb2167cb07edfa15e792d0154303d9b815343a64886fbaef309c3ba77e3ac1a",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.leadingTrim",
+      "detail": "leadingTrim: LeadingTrim | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10336-L10336"
+    },
+    {
+      "id": "member:97520d2f3d26bde2b1cd7fd65b27ff9bc71c3b9e4a37b17784455740f51d6bc1",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.listSpacing",
+      "detail": "listSpacing: number | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10296-L10296"
+    },
+    {
+      "id": "member:b896ef2b55ff632ef0d1be9a55f45430558168fe6a736b4f310973c79924c560",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextNode.autoRename",
+      "detail": "autoRename: boolean",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11059-L11059"
+    },
+    {
+      "id": "member:5a79b7a8cd39344887191ec50f5c1af935d1967e29ed88ce1d21605360e9228d",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.autoRename",
+      "detail": "autoRename: boolean",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11105-L11105"
+    },
+    {
+      "id": "member:c791d9f658b8362fe05d467ea646dce1e41e787fd0b7a92533e344f27614dcbd",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.handleMirroring",
+      "detail": "readonly handleMirroring: HandleMirroring | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11127-L11127"
+    },
+    {
+      "id": "OBS-scene-final-safe-properties-v032",
+      "type": "test",
+      "status": "observed",
+      "title": "Design owned fixtures · final safe scalar and summary reads",
+      "detail": "Bounded reads on the stable owned Design fixtures. Values and fixture node IDs remain private.",
+      "source": "../../docs/native-api-probe.md",
+      "observed_at": "2026-11-13T22:21:54.797Z",
+      "getter_counts": {
+        "success": 23,
+        "unavailable": 2,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 4,
+      "receipt_sha256": "4440a98fc467d97a5f674865dce2250b937f188c0f613ae13f1c7d9f44f9a577",
+      "api_catalog_ref": "dff4874ca083e18cd74835fd5afc5079d46866b7",
+      "api_catalog_version": "1.142.0",
+      "field_policy_sha256": "fd11555877d7fca4708cc2671f386736214f61e53477a85ac7588c4bbba058a8",
+      "unique_member_ids": 9,
+      "unique_successful_member_ids": 9
     }
   ],
   "edges": [
@@ -1306,6 +1400,51 @@
     {
       "from": "OBS-scene-owned-component-reads-v032",
       "to": "member:dfc325facdea81ec16fbd49bb2d4c011a87536a69917947c92ff41feaac38ec9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:0d7d5b5084d3885d9cd3cfda5a0bb72f9a8a77d3aeade5b4807841cceec79180",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:354e93e90ed3edf25f09ce445e76f3ec37eee968c7949d3b7507d4846807216c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:48336a2ceb1f74daf14b440fa7fcb4441ec665b1a99f5a9a59f02e39bfb01378",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:5a79b7a8cd39344887191ec50f5c1af935d1967e29ed88ce1d21605360e9228d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:5cb2167cb07edfa15e792d0154303d9b815343a64886fbaef309c3ba77e3ac1a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:97520d2f3d26bde2b1cd7fd65b27ff9bc71c3b9e4a37b17784455740f51d6bc1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:b896ef2b55ff632ef0d1be9a55f45430558168fe6a736b4f310973c79924c560",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:c13c5c75264b3c21cf6ad5bd9b11450d1e4dc1557b9a4a97c0523c14b81608a2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-final-safe-properties-v032",
+      "to": "member:c791d9f658b8362fe05d467ea646dce1e41e787fd0b7a92533e344f27614dcbd",
       "type": "observed member"
     }
   ]
