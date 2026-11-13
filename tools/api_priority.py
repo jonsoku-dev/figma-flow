@@ -59,6 +59,11 @@ OWNED_WRITE_METHODS = {
     ('PluginDataMixin', 'setPluginData'): 'Set a temporary marker on an owned API lab node and restore its prior value.',
 }
 
+FUNCTION_VALUED_PROPERTIES = {
+    ('CodegenAPI', 'refresh'),
+    ('UIAPI', 'onmessage'),
+}
+
 FEASIBILITY_TIER = {
     'readable-property': 700,
     'read-only-method': 650,
@@ -68,6 +73,7 @@ FEASIBILITY_TIER = {
     'receiver-unresolved': 100,
     'type-only': 0,
     'editor-or-permission-gated': -1000,
+    'function-valued-property': 10,
     'write-only-in-dynamic-page': 50,
     'unavailable-in-dynamic-page': 25,
 }
@@ -104,6 +110,7 @@ def _priority(row, evidence, receiver_types):
     surface = row.get('type_surface', {}).get('class', 'unresolved-owner-member')
     kind = row.get('kind', '')
     method = kind == 'MethodSignature'
+    function_valued_property = kind == 'PropertySignature' and (owner, raw_name) in FUNCTION_VALUED_PROPERTIES
     editors = declaration.get('documented_editors', [])
     permissions = declaration.get('required_permissions', [])
     restricted = declaration.get('restricted_access') is True
@@ -133,6 +140,8 @@ def _priority(row, evidence, receiver_types):
         feasible = 'owned-write-method'
     elif method and runtime_class:
         feasible = 'method-needs-scenario'
+    elif function_valued_property and runtime_class:
+        feasible = 'function-valued-property'
     elif kind == 'PropertySignature' and runtime_class:
         feasible = 'readable-property'
     else:
@@ -158,6 +167,7 @@ def _priority(row, evidence, receiver_types):
         'receiver-unresolved': 'Audit has no resolved runtime receiver surface.',
         'type-only': 'Declaration is a type contract without an executable runtime receiver.',
         'editor-or-permission-gated': 'Editor or permission requirements need explicit setup.',
+        'function-valued-property': 'The property holds a function value; this probe does not serialize or call it.',
         'write-only-in-dynamic-page': 'The documented dynamic-page contract makes this property write-only; use its getter method.',
         'unavailable-in-dynamic-page': 'The documented dynamic-page contract says this property throws; use its async method.'}[feasible])
     if write_purpose:
@@ -179,16 +189,18 @@ def _priority(row, evidence, receiver_types):
                                'runtime-owner-unmapped' if runtime_class else 'unresolved'),
             'access': ('property-write-only' if feasible == 'write-only-in-dynamic-page' else
                        'property-unavailable' if feasible == 'unavailable-in-dynamic-page' else 'property-read')
-                      if kind == 'PropertySignature' else 'method' if method else 'index-or-type',
+                      if kind == 'PropertySignature' and not function_valued_property else
+                      'function-valued-property' if function_valued_property else 'method' if method else 'index-or-type',
             'write_capability': ('write-only-in-dynamic-page' if feasible == 'write-only-in-dynamic-page' else
                                  'unavailable-in-dynamic-page' if feasible == 'unavailable-in-dynamic-page' else
+                                 'function-property-not-invoked' if function_valued_property else
                                  'readonly' if row.get('readonly') else 'writable-property')
                                 if kind == 'PropertySignature' else
                                 'approved-owned-write' if feasible == 'owned-write-method' else
                                 'method-not-approved-for-write' if method else 'not-applicable',
             'method_requirement': ('purpose-approved-read-only-method-map' if feasible == 'read-only-method' else
                                   'owned-target-purpose-map' if feasible == 'owned-write-method' else
-                                  'scenario-review-required' if method else 'none'),
+                                  'scenario-review-required' if method or function_valued_property else 'none'),
             'editor_requirement': ('other-or-unknown' if editor_blocked else
                                    'figma' if 'figma' in editors else
                                    'undocumented' if not editors else 'other-or-unknown'),
@@ -283,7 +295,8 @@ def build(audit=None, graph=None, overlays=None, catalog=None, *, include_public
                                   for row in rows)},
         'ranking_rules': {'role_value': ROLE_TERMS,
         'feasibility_order': ['readable-property', 'read-only-method', 'owned-write-method',
-                'method-needs-scenario', 'write-only-in-dynamic-page', 'unavailable-in-dynamic-page',
+                'method-needs-scenario', 'function-valued-property',
+                'write-only-in-dynamic-page', 'unavailable-in-dynamic-page',
                 'needs-classification', 'receiver-unresolved', 'type-only',
                 'editor-or-permission-gated'],
             'score_formula': 'feasibility tier + 10 * sum(clamped role-term matches) + min(receiver type count, 20)',

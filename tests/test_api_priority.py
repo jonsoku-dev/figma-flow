@@ -176,6 +176,15 @@ class ApiPriorityTest(unittest.TestCase):
         self.assertEqual(instances['feasibility'], 'unavailable-in-dynamic-page')
         self.assertEqual(get_instances['feasibility'], 'read-only-method')
 
+    def test_function_valued_properties_are_not_method_or_getter_candidates(self):
+        inventory = api_priority.build(include_public_overlays=True)
+        for owner, name in [('CodegenAPI', 'refresh'), ('UIAPI', 'onmessage')]:
+            row = next(row for row in inventory['rows'] if row['owner'] == owner and row['name'] == name)
+            self.assertEqual(row['feasibility'], 'function-valued-property')
+            self.assertEqual(row['access'], 'function-valued-property')
+        feasible = api_priority.queue(inventory, limit=None, feasible_only=True)
+        self.assertFalse(any(row['feasibility'] == 'function-valued-property' for row in feasible))
+
     def test_graph_export_connects_entire_queue_to_members_use_cases_facts_and_status(self):
         inventory = api_priority.build()
         rows = api_priority.queue(inventory, limit=None)
