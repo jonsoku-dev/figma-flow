@@ -7478,6 +7478,59 @@
           "version": "0.29.0"
         }
       ]
+    },
+    {
+      "commit": "2de5f65d63c76054f04155d90201d96129af4433",
+      "diff_sha256": "f688e3f35524eab1dc88fa840daecdd215e26379e601361a874cb5ffaa703663",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/3fc3002553ecd2f8a3c35f89e68789938f1b76e3.md",
+        "docs/llm-wiki/patches/5d3a088c6becc62fef08ecd0fc8fd857ed850957.md",
+        "docs/llm-wiki/patches/b1e4a06ca97450c729c134644f4fb99fc0af80e5.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "b1e4a06ca97450c729c134644f4fb99fc0af80e5"
+      ],
+      "subject": "docs: record 0.29 graph workflows and real editor receipts",
+      "tree": "cb60d1c16bc4b1303f8f680abe31ff7734a16f4b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
+    },
+    {
+      "commit": "1fa5f0dd4386bfd46bd919284b946d39493ae857",
+      "diff_sha256": "14cc687d87e27f1b270694e4a7bd43d31cba4fae130d3520b991ef9b7d2152f5",
+      "files": [
+        "tests/figma_figjam_review_harness.cjs",
+        "tests/figma_slides_review_harness.cjs",
+        "tests/helpers/figma_figjam_review_harness.cjs",
+        "tests/helpers/figma_slides_review_harness.cjs",
+        "tests/test_review_selection_identity.py",
+        "tests/test_slides_flow_review_recipe.py"
+      ],
+      "parents": [
+        "2de5f65d63c76054f04155d90201d96129af4433"
+      ],
+      "subject": "test: keep parameterized editor harnesses out of standalone discovery",
+      "tree": "47e1f72fc2d0f4fbc89ede8f917e20969641f86c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.29.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.29.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -7512,6 +7565,7 @@
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
     "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f": "d595749585931a4fc1811bd87ef6551e1dde1c22be50c9848ba979fe8835f2b5",
+    "1fa5f0dd4386bfd46bd919284b946d39493ae857": "440dcc62a8b1fc9eb88e94da172e2397fc0d6e9c1bf2d7c0dc08fe2f2f2c09f3",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
     "23b44e3b3004639e088467bd91d808de24df38d7": "f418b64bbd6b831f60e6ba10f75d8ef86b4a94d91d769fbf57596b4902058d90",
@@ -7524,6 +7578,7 @@
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
     "2cf4ce74557f9a2e65b8bc817b92eb3486067554": "dc74175fc83549d2feb280ebac7ac93c1697a9dcdf91cdf902d23ce579c2afdf",
     "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797": "1238da541f9a7c3aea1a35b65a40f48c2dfc85b65633152e151f7a8bc9ed7ee4",
+    "2de5f65d63c76054f04155d90201d96129af4433": "ae7568b1c22bb2f51631b74cbcc787efc45e5fc3522d7515522830ef78f4905f",
     "2e974fa58123ab1835b117a55451bf837597182f": "721d67fe90a8e8bcd505c29123ab13fd56647c8c796958f18f562cab6d2c7e11",
     "2fb34775511c631fb60f9889fea86c01f676578c": "d7d78880c138153ebb791a7445187ab3b5b38b3667e19b1495ede43945e4fab2",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
@@ -7769,6 +7824,10 @@
     },
     {
       "observed_at_commit": "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "1fa5f0dd4386bfd46bd919284b946d39493ae857",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -8213,7 +8272,7 @@
     },
     {
       "source_commits": [
-        "b1e4a06ca97450c729c134644f4fb99fc0af80e5"
+        "1fa5f0dd4386bfd46bd919284b946d39493ae857"
       ],
       "tagged": false,
       "tags": [],
@@ -8224,7 +8283,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "b1e4a06ca97450c729c134644f4fb99fc0af80e5",
+  "source_commit": "1fa5f0dd4386bfd46bd919284b946d39493ae857",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
