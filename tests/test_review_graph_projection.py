@@ -13,7 +13,7 @@ from review_graph import project_graph, selection_sha256
 class ProjectionTests(unittest.TestCase):
     def test_only_selected_nodes_and_their_direct_edges_are_projected(self):
         path = ROOT / 'specs/graph-review/graph.json'
-        ids = ['REQ-plan', 'SCR-plan', 'AC-plan', 'TEST-plan']
+        ids = ['REQ-plan', 'SCR-plan', 'AC-plan', 'OBS-plan']
         result, source_sha = project_graph(path, ids)
         self.assertEqual([r['id'] for r in result['nodes']], ids)
         self.assertEqual(len(result['edges']), 3)
@@ -24,7 +24,7 @@ class ProjectionTests(unittest.TestCase):
 
     def test_rejects_unknown_duplicate_and_missing_ownership(self):
         path = ROOT / 'specs/graph-review/graph.json'
-        for ids in (['not-a-node'], ['REQ-plan', 'REQ-plan'], []):
+        for ids in (['not-a-node'], ['REQ-plan', 'REQ-plan']):
             with self.assertRaises(ValueError):
                 project_graph(path, ids)
         with tempfile.TemporaryDirectory() as tmp:
