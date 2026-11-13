@@ -1,6 +1,5 @@
 {
   "schema": "littlehands-native-font-calibration-v1",
-  "fileKey": "QN4Ght8gjyfLTFd7IFjur3",
   "pageId": "0:1",
   "source_evidence": {
     "raw_getter_sha256": "0727cf51407923a625b95921744041d04c45df6a5199ea5dcb6546539c4878eb",
@@ -178,5 +177,6 @@
       },
       "textAutoResize": "WIDTH_AND_HEIGHT"
     }
-  ]
+  ],
+  "fileKeySha256": "d284a78411b800716c8a7adb210e173708946b8b3a5a67948ed88f17042a9b82"
 }

@@ -369,7 +369,12 @@ def observed_native_text(text):
     row,calibration,path=matches[0]
     if not all(isinstance(row.get(field),(int,float)) and math.isfinite(row[field]) and row[field]>0 for field in ('width','height')):
         raise ValueError('Positive actual native text calibration geometry required.')
-    return {'file':path.name,'sha256':sha(path),'sanitized_getter_sha256':calibration['source_evidence']['artifact_sha256'],'raw_getter_sha256':calibration['source_evidence'].get('raw_getter_sha256'),'file_key':calibration['fileKey'],'page_id':calibration['pageId'],'node_id':row['id'],'width':row['width'],'height':row['height'],'scope':'Observed intrinsic TEXT allocation for this exact characters/family/style/weight/size/leading/tracking only; raw CSS box is retained.'}
+    file_digest = calibration.get('fileKeySha256')
+    if file_digest is None and isinstance(calibration.get('fileKey'), str):
+        file_digest = hashlib.sha256(calibration['fileKey'].encode()).hexdigest()
+    if not isinstance(file_digest, str) or not re.fullmatch(r'[0-9a-f]{64}', file_digest):
+        raise ValueError('Pinned source file fingerprint required for native text calibration.')
+    return {'file':path.name,'sha256':sha(path),'sanitized_getter_sha256':calibration['source_evidence']['artifact_sha256'],'raw_getter_sha256':calibration['source_evidence'].get('raw_getter_sha256'),'file_key_sha256':file_digest,'page_id':calibration['pageId'],'node_id':row['id'],'width':row['width'],'height':row['height'],'scope':'Observed intrinsic TEXT allocation for this exact characters/family/style/weight/size/leading/tracking only; raw CSS box is retained.'}
 
 
 def authored_controls(data):

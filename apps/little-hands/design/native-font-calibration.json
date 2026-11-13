@@ -1,6 +1,5 @@
 {
   "schema": "littlehands-native-font-calibration-v1",
-  "fileKey": "QN4Ght8gjyfLTFd7IFjur3",
   "pageId": "0:1",
   "scope": "Manually authored Figma text, observed through ordinary authenticated full discovery; no font binary identity claim",
   "texts": [
@@ -155,5 +154,6 @@
     "source_artifact": ".figma-flow/codex-finalization-20261112/native-font-calibration-values.json",
     "scope": "Six manually created actual Figma TEXT nodes; calibration only, not application native handoff or font-binary identity.",
     "raw_getter_sha256": "0087d508561b0a0e87a29370dd45436b7334751db94b61a2e9eece76e5d391a5"
-  }
+  },
+  "fileKeySha256": "d284a78411b800716c8a7adb210e173708946b8b3a5a67948ed88f17042a9b82"
 }
