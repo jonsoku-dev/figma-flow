@@ -31,7 +31,7 @@ python3 tools/figma_rest_inventory.py template getFileNodes
 
 ### 직군별 그래프 검토
 
-동일한 제품 graph에서 검토할 노드 ID를 선택합니다. Design의 검토 보드는 공개 플러그인의 준비 작업으로 적용하고, FigJam 기획 보드와 Slides 발표 덱은 같은 그래프로 프로젝트를 생성합니다. 기존 명세와 실제 입력으로 재현한 [네 템플릿 검증 및 기능 계약](../specs/graph-review/spec.md)을 참고하세요. 0.28 시점의 [Plugin API 개별 조사](../library/figma-api/audit/report.md)는 역사적 기준선으로 남깁니다.
+기획자는 요구사항과 인수 조건을, 디자이너는 화면과 컴포넌트를, 개발자는 실제 속성과 근거를 같은 Figma Design 페이지에서 검토합니다. 선택한 graph 노드로 기존 페이지에 검토 보드를 적용하세요. [검토 범위와 명령](../specs/graph-review/spec.md)
 
 ### 웹 화면을 편집 가능한 Figma Design으로 가져오기
 

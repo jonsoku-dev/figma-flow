@@ -43,10 +43,15 @@ class FeatureRoutesTests(unittest.TestCase):
                     self.assertIn('design_type_review_graph.py --file-key FILE_KEY --page-id PAGE_ID', steps[0])
                     self.assertIn('.figma-flow/type-review-graph.json', recipe_command)
                     self.assertNotIn('--node', recipe_command)
-        for query, expected in [('그리드', 'design-grid'), ('피그잼', 'figjam-diagram'),
-                                ('smart animate', 'design-motion'), ('motion', 'motion-timeline'),
-                                ('슬라이드', 'slides-slide'), ('codegen', 'dev-codegen')]:
+        for query, expected in [('그리드', 'design-grid'),
+                                ('smart animate', 'design-motion'), ('motion', 'motion-timeline')]:
             self.assertEqual(feature.route(query)['routes'][0]['id'], expected)
+        for query in ('figjam', '피그잼', 'slides', '슬라이드', 'buzz', 'codegen'):
+            result = feature.route(query)
+            self.assertFalse([row for row in result.get('routes', [])
+                              if row['kind'] in ('sdk-recipe', 'flow-recipe', 'widget-project')])
+        self.assertTrue(all(row['editorType'] == 'figma' and row.get('mode', 'default') == 'default'
+                            for row in recipes.values()))
 
     def test_registered_design_menu_and_component_demo_are_explicit(self):
         rows = [row for row in feature.ROUTES if row['kind'] == 'flow-recipe']
@@ -108,6 +113,7 @@ class FeatureRoutesTests(unittest.TestCase):
         route = result['routes'][0]
         self.assertEqual(route['id'], 'widget')
         self.assertEqual(route['kind'], 'widget-project')
+        self.assertIn('Figma Design', ' '.join(route['prerequisites']))
         self.assertEqual(route['next_steps'], [
             'python3 tools/figma_widget_project.py init NEW_WIDGET_DIR',
             'npm --prefix NEW_WIDGET_DIR install --ignore-scripts --no-audit --no-fund',

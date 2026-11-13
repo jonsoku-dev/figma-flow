@@ -12,7 +12,8 @@ from figma_api_inventory import LIBRARY, ROOT, verify_source
 from review_graph import project_graph, typescript_projection
 
 TYPESCRIPT = '5.9.3'
-EDITORS = ('figma', 'figjam', 'slides', 'buzz', 'dev')
+EDITORS = ('figma',)
+MODES = ('default',)
 RECIPES = ROOT / 'library' / 'figma-recipes'
 FLAGS = ['--strict', '--target', 'ES2020', '--lib', 'ES2020', '--module', 'none',
          '--skipLibCheck', 'false', '--typeRoots', 'vendor', '--noEmitOnError', '--outFile', 'dist/code.js']
@@ -31,15 +32,9 @@ def safe_path(value):
 
 
 def example(editor, mode):
-    guard = f"if (figma.editorType !== '{editor}' || figma.mode !== '{mode}') {{\n  throw new Error('Open this plugin in {editor}/{mode}.');\n}}\n\n"
-    if editor == 'dev':
-        return guard + """// Read-only code generation: inspect the requested node, without editing it.
-figma.codegen.on('generate', ({ node }) => [{
-  title: 'Node summary',
-  language: 'JSON',
-  code: JSON.stringify({ id: node.id, name: node.name, type: node.type }, null, 2),
-}]);
-"""
+    if editor != 'figma' or mode != 'default':
+        raise ValueError('The standalone SDK starter is limited to Figma Design default mode.')
+    guard = "if (figma.editorType !== 'figma' || figma.mode !== 'default') {\n  throw new Error('Open this plugin in Figma Design/default.');\n}\n\n"
     return guard + """// Read-only selection report. Select nodes, then run this plugin again.
 const selection = figma.currentPage.selection;
 const summary = selection.map(node => `${node.name} (${node.type}, ${node.id})`);
@@ -55,9 +50,9 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
         raise ValueError('Destination parent must already exist')
     if editor not in EDITORS:
         raise ValueError('Choose exactly one supported editor')
-    mode = mode or ('codegen' if editor == 'dev' else 'default')
-    if mode != ('codegen' if editor == 'dev' else 'default'):
-        raise ValueError('Scaffold supports dev/codegen or another single editor/default only')
+    mode = mode or 'default'
+    if mode not in MODES:
+        raise ValueError('The standalone SDK starter supports Figma Design/default mode only.')
     if plugin_id is not None and not re.fullmatch(r'[0-9]+', plugin_id):
         raise ValueError('Supply the numeric ID issued by Figma; this tool cannot issue or authenticate an ID')
     source = verify_source()
@@ -98,8 +93,6 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
         manifest['enablePrivatePluginApi'] = True
     if plugin_id:
         manifest['id'] = plugin_id
-    if editor == 'dev':
-        manifest.update(capabilities=['codegen'], codegenLanguages=[{'label': 'JSON', 'value': 'json'}])
     inputs = INPUTS[:-1] + (['vendor/recipe-runtime.js'] if helper is not None else []) + INPUTS[-1:]
     if projection is not None:
         inputs.insert(-1, 'src/review-graph.ts')
@@ -128,7 +121,7 @@ Run `npm run check` and `npm run build` (offline after installation).
 No ID? Create a NEW development plugin in Figma, copy its Figma-issued id into
 manifest.template.json, and save that as manifest.json. Do not reuse the registered
 Figma Flow manifest or overwrite its workspace. Build, then import this manifest via
-Figma's development plugin menu in the selected editor. Dev Mode uses Codegen.
+Figma's development plugin menu in Figma Design.
 The ID is supplied by you; this tool cannot verify ownership or platform validity.
 Network is denied by default; no permissions or private/proposed API are enabled.
 Author any additional permissions/network/modes deliberately using official docs:
@@ -198,7 +191,7 @@ def main(argv=None):
     init = commands.add_parser('init')
     init.add_argument('path')
     init.add_argument('--editor', choices=EDITORS, required=True)
-    init.add_argument('--mode', choices=['default', 'codegen'])
+    init.add_argument('--mode', choices=MODES)
     init.add_argument('--plugin-id', help='ID issued by Figma, never a fabricated ID')
     init.add_argument('--recipe', help='ID in library/figma-recipes/manifest.json')
     init.add_argument('--review-graph', type=Path, help='Canonical Figma Flow product graph')

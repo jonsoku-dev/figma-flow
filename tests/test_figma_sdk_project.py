@@ -46,16 +46,19 @@ class SDKProjectTest(unittest.TestCase):
         self.assertFalse((self.project / 'new').exists())
 
     def test_modes_and_id_are_explicit(self):
-        for editor, mode in [('dev', 'default'), ('figma', 'codegen')]:
-            with self.assertRaisesRegex(ValueError, 'supports'):
-                sdk.initialize(self.project, editor, mode)
+        for editor in ('dev', 'figjam', 'slides', 'buzz', 'not-an-editor'):
+            with self.assertRaisesRegex(ValueError, 'supported editor'):
+                sdk.initialize(self.project, editor)
+        with self.assertRaisesRegex(ValueError, 'Figma Design/default'):
+            sdk.initialize(self.project, 'figma', mode='codegen')
         with self.assertRaisesRegex(ValueError, 'numeric ID'):
             sdk.initialize(self.project, 'figma', plugin_id='fake-id')
-        sdk.initialize(self.project, 'dev', plugin_id='123456789')
+        sdk.initialize(self.project, 'figma', plugin_id='123456789')
         manifest = json.loads((self.project / 'manifest.json').read_text())
         self.assertEqual(manifest['id'], '123456789')
-        self.assertEqual(manifest['capabilities'], ['codegen'])
-        self.assertIn("figma.codegen.on('generate'", (self.project / 'src/code.ts').read_text())
+        self.assertEqual(manifest['editorType'], ['figma'])
+        self.assertNotIn('capabilities', manifest)
+        self.assertIn("figma.editorType !== 'figma'", (self.project / 'src/code.ts').read_text())
 
     def test_parent_traversal_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'traversal'):
@@ -68,10 +71,12 @@ class SDKProjectTest(unittest.TestCase):
         (recipes / 'example.ts').write_text(code)
         (recipes / 'helpers.js').write_text('function reviewedHelper() { return 1; }\n')
         (recipes / 'manifest.json').write_text(json.dumps({'recipes': [
-            {'id': 'example', 'entry': 'example.ts', 'editorType': 'figma', 'mode': 'default', 'runtimeHelpers': 'helpers.js'}]}))
+            {'id': 'example', 'entry': 'example.ts', 'editorType': 'other', 'mode': 'default', 'runtimeHelpers': 'helpers.js'}]}))
         with patch.object(sdk, 'RECIPES', recipes):
             with self.assertRaisesRegex(ValueError, 'editor/mode differs'):
-                sdk.initialize(self.project, 'figjam', recipe='example')
+                sdk.initialize(self.project, 'figma', recipe='example')
+            (recipes / 'manifest.json').write_text(json.dumps({'recipes': [
+                {'id': 'example', 'entry': 'example.ts', 'editorType': 'figma', 'mode': 'default', 'runtimeHelpers': 'helpers.js'}]}))
             sdk.initialize(self.project, 'figma', recipe='example')
         self.assertEqual((self.project / 'src/code.ts').read_text(), code)
         self.assertTrue(json.loads((self.project / 'tsconfig.json').read_text())['compilerOptions']['allowJs'])
@@ -90,17 +95,9 @@ class SDKProjectTest(unittest.TestCase):
         self.assertEqual(outside.read_text(), 'preserve')
 
     @unittest.skipUnless(os.environ.get('FIGMA_SDK_TEST_TYPESCRIPT'), 'Set FIGMA_SDK_TEST_TYPESCRIPT to pinned lib/tsc.js for real compilation')
-    def test_real_compiler_non_design_editor_recipes(self):
-        for editor, recipe in [('figjam', 'figjam-diagram'), ('slides', 'slides-slide'), ('dev', 'dev-codegen')]:
-            with self.subTest(recipe=recipe):
-                project = self.parent / recipe
-                sdk.initialize(project, editor, recipe=recipe)
-                sdk.compile_project(project, build=True, typescript=os.environ['FIGMA_SDK_TEST_TYPESCRIPT'])
-                self.assertGreater((project / 'dist/code.js').stat().st_size, 0)
-
-    @unittest.skipUnless(os.environ.get('FIGMA_SDK_TEST_TYPESCRIPT'), 'Set FIGMA_SDK_TEST_TYPESCRIPT to pinned lib/tsc.js for real compilation')
     def test_real_compiler_all_editors_and_rejects_invalid_api(self):
         compiler = os.environ['FIGMA_SDK_TEST_TYPESCRIPT']
+        self.assertEqual(sdk.EDITORS, ('figma',))
         for editor in sdk.EDITORS:
             project = self.parent / editor
             sdk.initialize(project, editor)

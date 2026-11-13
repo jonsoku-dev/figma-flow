@@ -132,10 +132,10 @@ async function harness(command, editor='figma', mode='default', confirm=false) {
   const run=await harness('flow-recipe:design-grid','figma','default',true);
   assert.equal(run.writes,1);assert.equal(run.host,0);assert.equal(run.closes,1);
   for(const [command,editor,mode] of [
-    ['flow-recipe:design-grid','figjam','default'],
+    ['flow-recipe:design-grid','other-editor','default'],
     ['flow-recipe:design-grid','figma','inspect'],
     ['flow-recipe:__proto__','figma','default'],
-    ['flow-recipe:dev-codegen','figma','default'],
+    ['flow-recipe:unknown','figma','default'],
   ]){const denied=await harness(command,editor,mode);assert.equal(denied.writes,0);assert.equal(denied.host,0);assert.equal(denied.shown,0);assert.equal(denied.closes,1);}
 })().catch(error=>{console.error(error);process.exitCode=1;});
 '''.replace('SOURCE', json.dumps(source))

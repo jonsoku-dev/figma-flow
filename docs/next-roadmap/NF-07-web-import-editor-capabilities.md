@@ -60,7 +60,7 @@ NF-07 web import만 구현하라. 현재 디자인 source, native bridge, handof
 
 Feature route는 에디터·mode·operation별로 버전이 있는 지원 상태가 필요하다. Matrix는 `supported`, `unsupported`, `unknown`을 구분한다. `unknown`은 닫힌 상태로 두고 local 대안을 안내한다. API declaration, `editorType` 문자열, manifest 하나만으로 runtime 지원을 확정하지 않는다.
 
-첫 표는 Design, FigJam, Slides, Buzz, Dev Mode를 다룬다. 각 기능을 따로 기록한다. 예를 들면 문서 읽기, node 쓰기, variable, component property, reaction, widget runtime, page access다. 최소 API/manifest 요건, 공식 문서 출처, 마지막 문서 확인, runtime 증거 ID를 보존한다. 한 기능이 동작한다고 에디터 전체를 지원으로 표시하지 않는다.
+첫 표는 Figma Design에서 관측한 기능을 다룬다. 각 기능을 따로 기록한다. 예를 들면 문서 읽기, node 쓰기, variable, component property, reaction, widget runtime, page access다. 최소 API/manifest 요건, 공식 문서 출처, 마지막 문서 확인, runtime 증거 ID를 보존한다. 한 기능이 동작한다고 에디터 전체를 지원으로 표시하지 않는다.
 
 ### 구현과 검증
 

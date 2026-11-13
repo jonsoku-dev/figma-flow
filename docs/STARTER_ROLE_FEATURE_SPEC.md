@@ -28,7 +28,7 @@
 | 기록과 서버 연동 | 허가된 스냅샷·변경 요약·승인 기록을 로컬이나 팀의 Git에 보관한다. | Starter Figma 버전 내역은 30일이다. 로컬 기록의 보존 기간은 팀이 정하고 Figma 클라우드 버전 복원은 별도로 다룬다. REST는 사용 시 좌석·대상 리소스·endpoint별 호출 한도와 권한을 확인한다. [Starter 버전 내역](https://help.figma.com/hc/en-us/articles/13838684089751-Starter-plan-overview) · [REST 한도](https://developers.figma.com/docs/rest-api/rate-limits/) |
 | 배포와 파일 식별 | 현재는 발급된 ID와 로컬 개발 manifest로 동일 workspace를 등록한다. | 현행 manifest는 Design 전용이고 `enablePrivatePluginApi`를 사용한다. 공식 문서는 개발 중 로컬 플러그인에 해당 API를 허용한다. Community 공개판 설계에는 `figma.fileKey` 부재를 포함해야 한다. 파일 식별 실패 시 기존 쓰기 검사를 유지한다. [manifest](https://developers.figma.com/docs/plugins/manifest/) · [fileKey](https://developers.figma.com/docs/plugins/api/figma/) · [현행 workspace](../tools/figma_workspace.py) |
 
-Starter에서 Design·FigJam·Slides·Buzz의 플러그인 실행 가능 여부는 공식 좌석 표로 확인할 수 있다. 현행 Flow의 등록 대상은 Design이다. 별도 SDK 예제를 다른 편집기에 등록하려면 해당 manifest와 실제 대상 파일이 필요하다. Make의 AI 크레딧, Sites 게시, 조직 관리와 Figma의 내장 유료 기능은 별도 제품 조건을 따른다. [편집기별 실행 표](https://help.figma.com/hc/en-us/articles/360042532714-Use-plugins-in-files) · [Starter 제품별 제한](https://help.figma.com/hc/en-us/articles/13838684089751-Starter-plan-overview)
+현재 플러그인의 대상은 Figma Design이다. 같은 파일에서 기획 검토, 컴포넌트 편집, 개발자 인계를 수행하며 좌석·파일별 제한은 실제 편집기 결과에 기록한다.
 
 **운영 단위.** 설치 시 Figma가 발급한 ID로 desktop 개발 플러그인을 한 번 등록한다. 편집자가 파일에서 열면 플러그인이 문서 값을 읽고, 로컬 도구가 그래프 대조·명세 생성·기록을 맡는다. 준비된 작업은 패널 버튼과 JSON 저장 경로로도 사용할 수 있다. 선택적으로 붙이는 Codex·외부 모델의 이용 조건은 해당 서비스를 따르며, 무료 인계 시연은 로컬 CLI와 정적 파일만으로 구성한다. v0.27.1의 개인 작업공간은 POSIX 기준이다. 제어 채널의 읽기 결과 상한은 32 MiB로, 큰 파일은 페이지·대상 범위를 나눠 읽어야 한다. [사용 가이드](guide.md) · [0.27.1 전송 구현](https://github.com/jonsoku-dev/figma-flow/blob/v0.27.1/tools/figma_control.py)
 

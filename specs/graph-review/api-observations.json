@@ -466,7 +466,7 @@
       "title": "FIGJAM · 그래프 검토 제작",
       "detail": "동일 graph의 스티키 21개, 표 1개, 셀 84개, 코드 블록 1개, 커넥터 16개. 반복 실행 후 수량을 보존했다.",
       "status": "observed",
-      "source": "../../docs/figjam-review-planner.md"
+      "source": "https://github.com/jonsoku-dev/figma-flow/blob/v0.31.0/docs/figjam-review-planner.md"
     },
     {
       "id": "member:870fdbc5bcc8428727955b686c83bf9bb4542e5952963229df3d68e3a78401a0",
@@ -538,7 +538,7 @@
       "title": "SLIDES · 그래프 검토 제작",
       "detail": "동일 graph에서 21장·7행·텍스트 42개. 반복 실행 시 같은 덱을 선택하고 노드 수를 보존했다.",
       "status": "observed",
-      "source": "../../docs/slides-flow-review.md"
+      "source": "https://github.com/jonsoku-dev/figma-flow/blob/v0.31.0/docs/slides-flow-review.md"
     },
     {
       "id": "member:32c5ae5384eb37221ee46d6d6d031764362a4f382832076ef3cb8b08ca12ac37",

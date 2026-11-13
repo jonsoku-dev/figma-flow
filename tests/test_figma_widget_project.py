@@ -30,7 +30,7 @@ class WidgetProjectTests(unittest.TestCase):
         self.assertFalse((self.project / 'manifest.json').exists())
         self.assertTrue(manifest['containsWidget'])
         self.assertEqual(manifest['widgetApi'], '1.0.0')
-        self.assertEqual(manifest['editorType'], ['figma', 'figjam'])
+        self.assertEqual(manifest['editorType'], ['figma'])
         self.assertEqual(manifest['networkAccess'], {'allowedDomains': ['none']})
         self.assertNotIn('enablePrivatePluginApi', manifest)
         for folder, library, source in [('widget', widget.LIBRARY, widget.verify_source()),

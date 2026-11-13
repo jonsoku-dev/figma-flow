@@ -71,7 +71,7 @@ def initialize(path, widget_id=None):
     source = verify_source()
     plugin_source = plugin_api.verify_source()
     manifest = {'name': 'Local Widget SDK counter', 'api': '1.0.0', 'widgetApi': '1.0.0',
-                'containsWidget': True, 'editorType': ['figma', 'figjam'], 'main': 'dist/code.js',
+                'containsWidget': True, 'editorType': ['figma'], 'main': 'dist/code.js',
                 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}}
     if widget_id:
         manifest['id'] = widget_id
@@ -86,14 +86,14 @@ def initialize(path, widget_id=None):
         '.gitignore': 'node_modules/\ndist/\n',
         'README.md': '''# Local Widget API counter
 
-This separate widget uses figma.widget, useSyncedState and AutoLayout in Design and FigJam.
+This separate widget uses figma.widget, useSyncedState and AutoLayout in Figma Design.
 Install TypeScript once: npm install --ignore-scripts --no-audit --no-fund.
 Keep package-lock.json; later use npm ci --offline --ignore-scripts with a populated cache.
 Run npm run check and npm run build. Review src/code.tsx before inserting the widget.
 Create a NEW widget through Figma desktop > Widgets > Development > New widget.
 Use its Figma-issued manifest id here. If needed, copy manifest.template.json to
 manifest.json and add that id. Import manifest.json through Widgets > Development
-> Import widget from manifest, then insert this widget in a Design or FigJam file.
+> Import widget from manifest, then insert this widget in a Figma Design file.
 This tool cannot issue IDs or verify their ownership. Do not reuse the Flow plugin ID.
 Clicks update this widget's synced count. No network or private APIs are enabled.
 Compilation proves typing compatibility only; native and collaborative behavior remain unverified.
@@ -110,7 +110,7 @@ Manifest: https://developers.figma.com/docs/widgets/widget-manifest/
         for name in pin['files']:
             shutil.copyfile(library / name, path / 'vendor' / folder / name)
     return {'project': str(path), 'manifest': 'manifest.json' if widget_id else 'manifest.template.json',
-            'editors': ['figma', 'figjam'], 'runtime': 'not-executed'}
+            'editors': ['figma'], 'runtime': 'not-executed'}
 
 
 def compile_project(path, build=False, typescript=None):

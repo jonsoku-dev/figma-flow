@@ -8,7 +8,7 @@ python3 tools/figma_sdk_project.py init my-sdk-plugin --editor figma
 
 목적지는 **아직 존재하지 않는 새 폴더**여야 하고 부모 폴더는 존재해야 한다. 기존 Figma Flow 등록 작업 공간은 대상이 아니다. 심볼릭 링크와 `..` 경로도 거부한다. macOS의 `/tmp` 같은 시스템 링크 경로는 실제 경로(`/private/tmp`)를 사용한다.
 
-`--editor`는 `figma`, `figjam`, `slides`, `buzz`, `dev` 중 정확히 하나를 지정한다. 앞의 네 에디터는 `default` 모드, `dev`는 `codegen` 모드를 생성한다. 필요하면 `--mode default` 또는 `--mode codegen`을 명시할 수 있으며 호환되지 않는 조합은 거부한다. `dev`에는 codegen capability와 JSON 언어를 선언한다. 다른 모드와 권한은 프로젝트 작성자가 공식 문서를 확인해 직접 설계한다. 파트너·비공개·proposed API에 대한 접근을 부여하지 않는다.
+`--editor figma`는 Design/default 프로젝트를 생성한다. 생성한 manifest와 검토한 코드를 대상 Design 파일에서 실행한다.
 
 기본 예제는 현재 페이지의 선택 노드 이름·타입·ID를 플러그인 종료 메시지로 표시한다. Dev Mode 예제는 요청받은 노드의 이름·타입·ID를 JSON 코드 생성 결과로 반환한다. 둘 다 문서를 변경하지 않는다. 작성한 소스는 이후 문서 변경 API도 호출할 수 있으므로 실행 전에 실제 소스를 검토한다. TypeScript는 읽기 전용 보안 경계가 아니다.
 
@@ -28,7 +28,7 @@ python3 tools/figma_workspace.py refresh --workspace WORKSPACE
 
 개발 플러그인의 `Figma Flow → Examples · add to current page`에서 예제를 선택한다. 확인 창의 `Add example to current page`를 직접 눌러야 현재 Design 페이지에 이름 붙인 새 프레임·섹션을 만든다. `Cancel`은 문서를 바꾸지 않는다. 기존 페이지·노드를 수정하지 않지만 현재 페이지를 유지하며 새 컨테이너로 선택이 바뀐다. UI는 준비된 Codex 작업과 분리되어 있으며 이 실행에서 채팅·로컬 제어 서비스를 시작하지 않는다. 메뉴가 갱신되지 않으면 같은 `manifest.json`의 개발 플러그인 등록을 다시 불러온다. 새 ID나 다른 manifest로 바꾸지 않는다.
 
-메뉴 명령은 `flow-recipe:design-shapes`, `flow-recipe:design-grid`, `flow-recipe:design-motion`, `flow-recipe:design-component-properties`로 고정한다. 작성 가능한 명령 문자열이나 JavaScript를 받아 실행하는 브리지가 아니다. 배포된 네 예제의 소스·컴파일 결과 해시를 검사하고 Design/default 문맥을 확인한다. 기존 manifest의 editor·네트워크·권한 범위를 늘리지 않는다. FigJam·Slides·Dev Mode 예제는 아래의 독립 SDK 프로젝트를 사용한다. 컴파일 검사와 실제 Figma API·화면 결과 인수는 별개다.
+메뉴 명령은 `flow-recipe:design-shapes`, `flow-recipe:design-grid`, `flow-recipe:design-motion`, `flow-recipe:design-component-properties`로 고정한다. 작성 가능한 명령 문자열이나 JavaScript를 받아 실행하는 브리지가 아니다. 배포된 네 예제의 소스·컴파일 결과 해시를 검사하고 Design/default 문맥을 확인한다. 기존 manifest의 editor·네트워크·권한 범위를 늘리지 않는다. 컴파일 검사와 실제 Figma API·화면 결과 인수는 별개다.
 
 ## 실제 ID와 Figma 가져오기
 
@@ -79,11 +79,4 @@ FIGMA_SDK_TEST_TYPESCRIPT=/trusted/typescript/lib/tsc.js python3 -m unittest dis
 
 ## 검토 범위를 graph에서 고르기
 
-`figjam-review-planner`와 `slides-flow-review`는 공식 SDK 타입으로 빌드되는 graph 기반 레시피다. `init`에 같은 `--review-graph`와 동일한 순서의 `--node`를 주면 두 프로젝트가 같은 원본 SHA와 선택 SHA를 기록한다. 여러 선택 범위를 같은 문서에서 독립적으로 검토할 수 있다. 생성된 TS를 손으로 고치는 대신 정본에서 변경해 새 프로젝트로 투영한다.
-
-```sh
-python3 tools/figma_sdk_project.py init my-review --editor figjam --recipe figjam-review-planner \
-  --review-graph specs/graph-review/graph.json --node REQ-plan --node SCR-plan --node AC-plan --node TEST-plan
-```
-
-명시한 ID 사이의 관계만 선택되므로 필요한 중간 노드도 함께 지정한다. 오래된 그래프에 소유 ID가 없으면 정본의 최상위 `id`를 먼저 지정한다. [직군별 검증 계약](../specs/graph-review/spec.md), [FigJam](figjam-review-planner.md), [Slides](slides-flow-review.md).
+`design-type-review`는 파일·페이지에 바인딩한 정본 그래프에서 타이포그래피 컴포넌트를 만든다. [Design 검토 SDK 생성·재실행](design-type-review.md) · [기획·디자인·개발 검토 보드](../specs/graph-review/spec.md).

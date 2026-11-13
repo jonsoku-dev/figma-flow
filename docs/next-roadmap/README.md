@@ -6,7 +6,7 @@
 
 ## 0.29의 구현 범위
 
-기존 페이지 Design Board, FigJam 추적표 및 Slides 검토 덱, 같은 출처 에셋의 명시적 입력 매핑, 선택한 네이티브 속성의 관측과 재실행 비교가 추가됐다. [정본 기능 그래프](../../specs/graph-review/graph.json)와 [실제 인수 결과](../../specs/graph-review/spec.md)에서 구체적인 범위를 확인한다. NF-07의 임의 웹 화면 전체 변환과 NF-08 공식 플러그인 선택 연동은 후속 작업이다. 다음 구현자는 기존 등록 경로와 현재 지원 범위에서 이어서 작업한다.
+기존 Design 페이지의 검토 보드, 같은 출처 에셋의 명시적 입력 매핑, 선택한 네이티브 속성의 관측과 재실행 비교가 추가됐다. [정본 기능 그래프](../../specs/graph-review/graph.json)와 [실제 인수 결과](../../specs/graph-review/spec.md)에서 구체적인 범위를 확인한다. NF-07의 임의 웹 화면 전체 변환과 NF-08 공식 플러그인 선택 연동은 후속 작업이다. 다음 구현자는 기존 등록 경로와 현재 지원 범위에서 이어서 작업한다.
 
 ## 현재 구현과 제안의 경계
 
@@ -28,7 +28,7 @@ own-mode는 Figma Flow를 설계·구현·검증에 직접 쓰는 흐름이다. 
 | 3 | Component families | Field/Input/Checkbox/Radio/Table 계열을 명시한 TEXT·BOOLEAN·INSTANCE_SWAP 선언과 실측 override 보존으로 편집한다. | [NF-01](NF-01-component-families.md) |
 | 4 | Causal history와 accessibility | exact operation·artifact revision의 원인과 필드 차이를 읽기 전용으로 찾고, keyboard/focus/label 상태를 함께 검증한다. | [NF-03](NF-03-causal-history.md). 기존 history 요약과 dependency view를 다시 만들지 않는다. |
 | 5 | Large-document optimization과 compatibility | 대형 파일에서 선택적 browse 비용을 줄이되 검증은 fresh getter로 유지한다. 구버전 task/runtime 조합은 정확한 재준비 안내를 받는다. | [NF-02](NF-02-incremental-native-read.md), [NF-06](NF-06-domain-protocol.md) |
-| 6 | Editor capability matrix | Design, FigJam, Slides, Buzz 및 Dev Mode 등에서 기능·mode별로 지원·거절·미확인 경로를 비교한다. API 이름이나 manifest 값만으로 runtime 지원을 단정하지 않는다. | [NF-07 editor capability matrix](NF-07-web-import-editor-capabilities.md#editor-capability-matrix) |
+| 6 | Editor capability matrix | Figma Design의 기능별로 지원·거절·미확인 경로를 비교한다. API 이름이나 manifest 값만으로 runtime 지원을 단정하지 않는다. | [NF-07 editor capability matrix](NF-07-web-import-editor-capabilities.md#editor-capability-matrix) |
 | 7 | 선택적 공식 plugin 연동 | 핵심 own-mode·read·import·component·history·large-document·editor matrix가 인수된 뒤, 정확한 공식 plugin을 선택적으로 연결할지 검토한다. | [NF-08 optional installed-plugin routing](NF-08-optional-plugin-routing.md). 설치, 실행 또는 계정 승인을 자동화하지 않는다. |
 
 G3의 graph-to-web 영속 출력은 [NF-04 SSR adapter와 CSS 내보내기](NF-04-renderer-adapters.md)에서 own-mode의 첫 사용 사례로 수행한다. NF-05의 patch exchange와 improvement runner는 개발자 유지보수 도구다. 첫 own-mode 인수 뒤 독립 과제로 다루며 위 순서를 앞지르지 않는다.

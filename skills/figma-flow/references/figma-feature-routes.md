@@ -40,7 +40,6 @@
 
 Design 구현 입력은 Flow의 실제 native readback·화면 명세·export와 변수/컴포넌트 정보를 조합한다. 별도 SDK에서 필요한 getter·`getCSSAsync`·`exportAsync`를 사용할 수 있으나 생성 코드가 제품 동작·접근성·반응형을 만족한다는 증거는 아니다. 정확한 node ID, 실제 라이브러리 매핑, 대상 코드의 기존 component를 먼저 확인한다. [노드 API](https://developers.figma.com/docs/plugins/api/FrameNode/).
 
-- **Dev Mode 플러그인:** `editorType: 'dev'`, `figma.mode`의 inspect/codegen 맥락과 `figma.codegen`을 확인한다. 모든 일반 편집 API를 동일하게 쓸 수 있다고 가정하지 않는다. [Dev Mode 개발](https://developers.figma.com/docs/plugins/api/figma-codegen/).
 - **Code Connect:** 디자인 component를 저장소 component/snippet에 연결한다. Code Connect UI 또는 CLI template으로 매핑하고 Dev Mode에서 실제 snippet을 확인한다. 현재 Professional/Organization/Enterprise의 Full 또는 Dev seat 조건이 있으며 Professional은 active library/framework 각각 하나로 제한된다. CLI 매핑 발행과 component library 발행은 별도 작업이다. [Code Connect](https://developers.figma.com/docs/code-connect/).
 - **일반 Design 검토:** 읽기 쉬운 화면·주석 보드는 Design 캔버스에서 제공한다. Dev Mode annotation·측정·codegen 제공 여부를 일반 Design 검토의 전제 조건으로 만들지 않는다. [Flow native 검토](design-review.md).
 
@@ -48,13 +47,10 @@ Design 구현 입력은 Flow의 실제 native readback·화면 명세·export와
 
 | 제품·목적 | 우선 경로와 실제 진입점 | 현재 경계 |
 | --- | --- | --- |
-| **FigJam**: 워크숍·흐름·sticky·connector·table | FigJam용 Plugin `createSticky`/`createConnector`/`createShapeWithText`/`createTable`; 필요하면 FigJam 전용 SDK 프로젝트 | `editorType === 'figjam'` 확인. sticky/connector를 Design 프레임으로 대체했다고 FigJam 산출물로 보고하지 않는다. [Plugin 편집기 API](https://developers.figma.com/docs/plugins/api/figma/) |
-| **Slides**: slide deck·행·발표 | Slides용 Plugin `createSlide`, `createSlideRow`, `getSlideGrid`/`setSlideGrid`; 발표·presenter notes·audience view는 Slides UI | manifest/실행 editorType를 slides로 맞춘 별도 지원이 필요하다. Design frame 나열을 Slides 파일과 동일시하지 않는다. [Slides 개발](https://developers.figma.com/docs/plugins/working-in-slides/), [발표 UI](https://help.figma.com/hc/en-us/articles/24338209202327-Present-a-slide-deck) |
-| **Buzz**: 브랜드 template·대량 asset·resize | Buzz UI에서 template/데이터 연결·bulk create·export. Buzz Plugin은 `figma.buzz.createFrame/createInstance`, content 조회, `smartResize` 등 | `editorType === 'buzz'`에서만 Buzz API 가능. 현재 Design 전용 Flow manifest를 Buzz 지원으로 확대 해석하지 않는다. [Buzz API](https://developers.figma.com/docs/plugins/api/figma-buzz/), [제품 workflow](https://www.figma.com/blog/introducing-figma-buzz/) |
 | **Make**: 실행 가능한 코드/앱 prototype | Make UI에서 디자인/context를 넣고 prompt·코드·preview를 검토한다 | 공식 Plugin editorType에 make 없음. Flow가 Make project/code layer를 생성·수정한다고 주장하지 않는다. AI 기능·team library context·배포는 계정/플랜/credit 조건을 확인한다. code layer는 editable design layer가 아니다. [Make FAQ](https://help.figma.com/hc/en-us/articles/31722591905559-Figma-Make-FAQs) |
 | **Sites**: responsive website·CMS·publish | Sites UI에서 webpage/breakpoint/preview·site settings·publish. 원본 Design 캔버스와 Sites 파일을 구분한다 | 공식 Plugin editorType 목록에 sites 없음. 이 문서는 Sites용 범용 Plugin 쓰기 지원을 확인하지 못했다. 현재 Sites는 open beta; 발행은 플랜/edit 권한 필요. 모든 canvas webpage가 발행 대상이며 외부 발행용 사이트 코드 export는 현재 불가. [Sites 발행 계약](https://help.figma.com/hc/en-us/articles/31242845959703-Publish-update-or-unpublish-a-site) |
 | **Weave**: 재사용 이미지·영상 generation workflow | Weave UI에서 node 연결·tool 구성·실행. 별도 Weave Enterprise 통합은 공식 Weave API 문서를 사용한다 | Plugin editorType에 weave 없음. API는 Weave Enterprise 전용이며 workspace admin이 발급한 해당 workspace token이 필요하다. 실행은 Weave credits를 소비하므로 현재 사용자의 비용·실행 권한을 확인한다. Workflow를 Flow의 native graph sync로 취급하지 않는다. [Weave API 조건](https://help.weavy.ai/en/articles/17239354-weave-api), [workflow 제품 설명](https://www.figma.com/blog/the-tldr-on-figma-weave/) |
-| **Widget**: 파일 안 공동 상호작용 객체 | Widget API의 JSX·synced state와 Design/FigJam용 widget manifest | 일반 Plugin과 수명·공유 상태가 다르다. Flow 패널을 widget이라 부르지 않는다. 별도 widget 구현·상태 검증이 필요하다. [Widget API](https://developers.figma.com/docs/widgets/) |
+| **Widget**: 파일 안 공동 상호작용 객체 | Widget API의 JSX·synced state와 Design용 widget manifest | 일반 Plugin과 수명·공유 상태가 다르다. Flow 패널을 widget이라 부르지 않는다. 별도 widget 구현·상태 검증이 필요하다. [Widget API](https://developers.figma.com/docs/widgets/) |
 
 ## 버전·브랜치·댓글·관리·REST
 
@@ -72,7 +68,7 @@ REST는 OAuth/PAT/plan access token 등 현재 지원 인증과 최소 scope를 
 ## 로컬 SDK·제품 게이트를 판단하는 방법
 
 1. 기존 Flow의 준비된 작업으로 해결되는지 먼저 확인한다. 지원되지 않는 필드를 기존 controller에 임의로 보내지 않는다.
-2. 별도 개발 플러그인이 필요하면 `tools/figma_sdk_project.py init NEW_DIR --editor figma`처럼 정확한 편집기로 새 프로젝트를 만든다. figjam/slides/buzz/dev도 지원 editor 목록에서 고르며 dev는 codegen 맥락이다. 기존 등록 workspace를 덮어쓰지 않는다.
+2. 별도 Design 개발 플러그인이 필요하면 `python3 tools/figma_sdk_project.py init NEW_DIR --editor figma`로 생성한다.
 3. 고정된 API declaration·recipe로 구현하고 SDK의 `check`/`build`를 실행한다. 생성 manifest의 기본 network는 비활성이다. 필요한 permission만 명시하고 Figma가 발급한 실제 plugin ID로 등록한다. 생성·typecheck·build가 실제 editor 실행은 아니다.
 4. 사용자가 대상 편집기에서 개발 플러그인을 직접 등록·실행한다. 실제 file/page/node에서 getter·이미지·동작을 검증한다. SDK 프로젝트는 Flow localhost controller에 연결되지 않는 별도 플러그인이다.
 5. API가 없거나 플랜·좌석·편집권·beta에 막히면 `gated`/`unsupported-by-flow`/`unverified`를 구분하고 해당 REST 또는 제품 UI 경로를 제시한다. “미확인”을 제품 전체의 “미지원”으로 바꾸지 않는다. API 명세에 있는 기능만으로 모든 제품 UI의 자동화를 보증하지 않는다.
@@ -84,7 +80,7 @@ REST는 OAuth/PAT/plan access token 등 현재 지원 인증과 최소 scope를 
 | 저장소 근거 | 현재 읽히는 범위 | 확대 해석하면 안 되는 부분 |
 | --- | --- | --- |
 | `tools/figma_sdk_project.py` | 고정 declaration을 사용하는 편집기별 standalone SDK 프로젝트 생성·check·build | 생성 결과는 별도 개발 플러그인이며 실제 Figma 실행과 인수는 미검증 |
-| `tools/figma_bridge.py` 생성 manifest | `editorType: ['figma']`인 Design 플러그인 | FigJam/Slides/Buzz/Sites/Make/Weave를 같은 bridge가 처리한다는 뜻 아님 |
+| `tools/figma_bridge.py` 생성 manifest | `editorType: ['figma']`인 Design 플러그인 | 기존 파일과 페이지 범위를 확인하고 등록된 플러그인에서 실행 |
 | `figma-bridge/README.md`, `tools/figma_control.py` | 준비된 workspace의 bounded review/discover/sync/import operation | 임의 Plugin API JS 실행·닫힌 플러그인 무인 실행·다른 파일 선택 API 아님 |
 | `figma-bridge/code.js` | local variables/collections, component·variant·화면 생성, `setReactionsAsync` 기반 native 클릭 연결, readback | 전체 prototype action, Motion timeline, team library 발행, 모든 node 속성 왕복을 보증하지 않음 |
 | `figma-bridge/code.js`·`semantic_components.js`의 layout/readback 필드 | 현재 선언된 sizing·padding·일부 layout 필드와 semantic component 처리 | 일반 Plugin API의 GRID 지원만으로 Flow grid track 완전 import/export가 생기지 않음 |
@@ -95,4 +91,4 @@ REST는 OAuth/PAT/plan access token 등 현재 지원 인증과 최소 scope를 
 
 ## 그래프 기반 에디터 경로
 
-`graph-review`는 기존 Design 페이지에 선택 노드와 관계를 읽을 수 있는 검토 보드를 만든다. FigJam의 `figjam-review-planner`와 Slides의 `slides-flow-review`는 같은 source graph와 선택 ID로 빌드한다. 각 에디터에서 실제로 확인한 범위, 지원 API와 생략된 화면 특성은 [그래프 검토 기능 계약](../../../specs/graph-review/spec.md)에 기록했다. 이전 릴리스의 FigJam/Slides 내장 경로 제한은 그 당시의 버전 기준이다.
+`graph-review`는 기존 Design 페이지에 선택된 요구사항, 컴포넌트와 검증 근거를 연결한 편집 가능한 검토 보드를 만든다.

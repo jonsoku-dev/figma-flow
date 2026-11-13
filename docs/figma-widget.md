@@ -2,7 +2,7 @@
 
 Widget API 프로젝트는 Figma Flow 플러그인과 별도로 만든다. 샘플은
 `figma.widget.useSyncedState`로 공유 카운트를 보관하고 `AutoLayout`을 클릭할 때
-1씩 증가시킨다. 생성되는 manifest는 Design과 FigJam을 지원 대상으로 선언한다.
+1씩 증가시킨다. 생성되는 manifest는 Figma Design을 지원 대상으로 선언한다.
 실제 에디터 삽입·협업 동기화는 별도 인수 검증이 필요하다.
 
 ## 생성과 빌드
@@ -37,7 +37,7 @@ CLI는 복사된 선언·라이선스·출처의 해시를 확인하고 고정�
 
 ## Figma 데스크톱에서 가져오기
 
-1. Design 또는 FigJam 문서를 연다.
+1. Figma Design 문서를 연다.
 2. **Widgets → Development → New widget…**에서 새 widget을 만든다.
 3. Figma가 만든 manifest의 `id`를 확인한다. 공식 필드명은 `id`이며
    `widgetId`가 아니다. 등록된 Figma Flow 플러그인의 ID는 재사용하지 않는다.
@@ -47,7 +47,7 @@ CLI는 복사된 선언·라이선스·출처의 해시를 확인하고 고정�
 5. `src/code.tsx`를 검토하고 빌드한 뒤 **Widgets → Development → Import widget
    from manifest…**에서 생성 프로젝트의 `manifest.json`을 선택한다.
 6. Development 메뉴에서 widget을 삽입한다. 클릭으로 카운트가 증가하는지 확인한다.
-   Design과 FigJam, 두 협업 클라이언트에서 각각 검증하기 전에는 런타임 통과로
+   두 Design 협업 클라이언트에서 상태 갱신을 검증하기 전에는 런타임 통과로
    보고하지 않는다.
 
 네트워크는 `allowedDomains: ["none"]`으로 막혀 있고 private/proposed API나

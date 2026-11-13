@@ -68,62 +68,6 @@
       "workspaceMenu": "Smart Animate prototype"
     },
     {
-      "id": "figjam-diagram",
-      "name": "FigJam connected diagram",
-      "editorType": "figjam",
-      "mode": "default",
-      "entry": "figjam-diagram.ts",
-      "description": "Create two labelled FigJam shapes and an attached connector. For sticky notes and tables, use the graph-based figjam-review-planner.",
-      "api": [
-        "figma.createShapeWithText",
-        "figma.createConnector",
-        "connectorStart",
-        "connectorEnd"
-      ],
-      "aliases": [
-        "figjam",
-        "diagram",
-        "피그잼",
-        "다이어그램"
-      ]
-    },
-    {
-      "id": "slides-slide",
-      "name": "Slides title slide",
-      "editorType": "slides",
-      "mode": "default",
-      "entry": "slides-slide.ts",
-      "description": "Create a slide with title/text and a slide transition; presentation is a separate UI action.",
-      "api": [
-        "figma.createSlide",
-        "figma.createText",
-        "setSlideTransition"
-      ],
-      "aliases": [
-        "slides",
-        "slide",
-        "슬라이드",
-        "발표 자료"
-      ]
-    },
-    {
-      "id": "dev-codegen",
-      "name": "Dev Mode geometry codegen",
-      "editorType": "dev",
-      "mode": "codegen",
-      "entry": "dev-codegen.ts",
-      "description": "Read-only dev/codegen callback returns JSON geometry; no Design writes.",
-      "api": [
-        "figma.codegen.on"
-      ],
-      "aliases": [
-        "codegen",
-        "dev mode",
-        "코드 생성 플러그인",
-        "개발 모드"
-      ]
-    },
-    {
       "id": "design-component-properties",
       "name": "Design native BOOLEAN and instance swap",
       "editorType": "figma",
@@ -150,66 +94,6 @@
         "가시성"
       ],
       "workspaceMenu": "Component properties and instance swap"
-    },
-    {
-      "id": "figjam-review-planner",
-      "name": "FigJam graph review planner",
-      "editorType": "figjam",
-      "mode": "default",
-      "entry": "figjam-review-planner.ts",
-      "description": "Project the selected requirement, screen, component, and evidence graph into linked FigJam notes, a traceability table, and JSON readback stamped with its graph SHA-256.",
-      "api": [
-        "figma.editorType",
-        "figma.mode",
-        "figma.loadFontAsync",
-        "figma.createSticky",
-        "figma.createTable",
-        "figma.createCodeBlock",
-        "figma.createConnector",
-        "connectorStart",
-        "connectorEnd",
-        "TableNode.cellAt",
-        "TableNode.resizeColumn",
-        "PluginDataMixin.setPluginData",
-        "PluginDataMixin.getPluginData"
-      ],
-      "reviewGraph": true,
-      "aliases": [
-        "figjam review",
-        "sticky notes",
-        "figjam table",
-        "기획 보드",
-        "요구사항 표"
-      ]
-    },
-    {
-      "id": "slides-flow-review",
-      "name": "Slides graph flow review",
-      "editorType": "slides",
-      "mode": "default",
-      "entry": "slides-flow-review.ts",
-      "description": "Create a Slides review deck from the injected selected graph, preserving its node IDs, edge relationships, graph ID, and SHA-256 provenance.",
-      "api": [
-        "figma.createSlideRow",
-        "figma.createSlide",
-        "figma.getCanvasGrid",
-        "figma.setCanvasGrid",
-        "figma.createText",
-        "figma.loadFontAsync",
-        "SlideNode.setSlideTransition",
-        "PluginDataMixin.setPluginData",
-        "PageNode.focusedSlide",
-        "Viewport.slidesView",
-        "Viewport.scrollAndZoomIntoView"
-      ],
-      "reviewGraph": true,
-      "aliases": [
-        "slides review",
-        "graph deck",
-        "slide grid",
-        "검토 발표",
-        "슬라이드 그리드"
-      ]
     },
     {
       "id": "design-type-review",
