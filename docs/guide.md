@@ -37,7 +37,7 @@ python3 tools/figma_rest_inventory.py template getFileNodes
 
 화면 수집기가 만든 graph를 `python3 tools/native_edit.py web-design --graph GRAPH.json --file-key FILE_KEY --page-id PAGE_ID --out PLAN.json`으로 고정합니다. `--screen WEB-ID`를 반복해 가져올 화면만 고를 수 있고, `--preview-width 420`을 주면 private receipt에 제한된 크기의 실제 PNG 미리보기를 포함합니다. 이후 기존 격리 브라우저의 `native-edit` 작업에 `--plan PLAN.json`을 전달해 Figma에서 검토 후 적용합니다. 화면은 기존 요소 오른쪽에 새 소유 frame으로 생성되며 텍스트와 기본 도형은 네이티브 편집 노드가 됩니다. 같은 graph 재적용은 실제 scene이 원본과 같을 때만 기존 frame을 재사용하고, 다른 frame이나 수동 편집이 감지되면 보존을 위해 중단합니다. raster 이미지는 graph 옆 로컬 파일, SHA-256, 파일 형식 서명을 요구하며 외부 요청은 사용하지 않습니다.
 
-실제 게터 근거와 누적 범위는 `python3 tools/review_api_coverage.py`로 재집계할 수 있습니다. 비교에 사용한 [현재 관측 그래프](../specs/graph-review/api-observations.json)에 각 멤버와 읽기·제작 결과를 연결했습니다.
+실제 근거는 `python3 tools/review_api_coverage.py`로 재집계합니다. 0.30.0 기준 1,382개 중 150개를 관측했고 1,232개는 다음 조사 대상으로 남습니다. [이번 관측 그래프](../specs/editable-web/api-observations.json) · [0.29.0 관측 그래프](../specs/graph-review/api-observations.json)
 
 웹 앱의 상대 경로·최적화 이미지·CSS·글꼴을 테스트할 때는 [오프라인 에셋 매핑](html-asset-map.md)에 실제 응답과 로컬 파일의 SHA를 묶어 입력합니다. 지정한 기존 Design 노드의 실제 속성을 비교하려면 [API 조사 명령](native-api-probe.md)에서 선택 범위와 이전 영수증을 지정합니다.
 

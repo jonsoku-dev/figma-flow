@@ -1,30 +1,22 @@
-# Designer and developer typography specimen
+# Typography specimen in Figma Design
 
-`library/figma-recipes/design-type-review.ts` creates a graph-scoped typography component on an explicitly selected existing Design page. It uses a versioned frame name containing the injected graph and selection hashes. Repeating the same graph and selection verifies and reuses the existing component; a different version or graph creates a sibling and leaves previous artifacts intact. The recipe does not delete or edit the board's existing nodes.
+The recipe adds a reusable local component to an existing Design page. It includes a display style, body text, a caption, and a text layer with developer metadata. Each style records its native font, size, line height, letter spacing and fill. A planner can trace each demonstrated API back to its member in the priority graph.
 
-The public graph template is [design-type-review.graph.json](../library/figma-recipes/design-type-review.graph.json). It contains no file or page identifiers. Generate a local, private graph only after selecting an exact existing file and page:
+## Build the scoped developer plugin
+
+Choose the destination file and page. Run these commands from the installation root with an existing local output directory. The first command binds the public template to that destination and records the exact current inventory and member keys. Keep the resulting file private. [Public template](../library/figma-recipes/design-type-review.graph.json)
 
 ```sh
-python3 tools/design_type_review_graph.py \
-  --file-key FILE_KEY \
-  --page-id PAGE_ID \
-  --baseline-only \
+python3 tools/design_type_review_graph.py --file-key FILE_KEY --page-id PAGE_ID \
   --out .figma-flow/type-review-graph.json
+python3 tools/figma_sdk_project.py init .figma-flow/type-review-sdk \
+  --editor figma --recipe design-type-review --review-graph .figma-flow/type-review-graph.json
+npm --prefix .figma-flow/type-review-sdk install --ignore-scripts --no-audit --no-fund
+python3 tools/figma_sdk_project.py build .figma-flow/type-review-sdk
 ```
 
-The generated graph binds the private scope to the current pinned API audit and priority inventory. The proposed manifest row remains a local working artifact and is not added to the shared recipe catalog. It requires `reviewGraph: true` and `runtimeHelpers: false`. Project the generated graph through the `project_graph` and `typescript_projection` helpers in `tools/review_graph.py` so the recipe receives `FLOW_REVIEW_GRAPH`, `FLOW_REVIEW_GRAPH_SHA256`, and `FLOW_REVIEW_SELECTION_SHA256`.
+Use the Figma-issued development plugin ID in the generated manifest. Open the selected Design file and page, then run the built plugin. The SDK enables file-key readback for this recipe so it can verify the destination before writing. The regular Figma Flow menu and this graph-scoped SDK recipe have separate entry points. For the historical priority ranking, pass `--baseline-only` to the graph generator.
 
-The graph was assembled from the pinned 0.28 audit and the 0.29 observation graph. Its queue source can be replayed with:
+## Actual editor result
 
-```sh
-python3 tools/api_priority.py build --baseline-only --out .figma-flow/api-priority-baseline.json
-python3 tools/api_priority.py queue --inventory .figma-flow/api-priority-baseline.json --receiver TEXT --limit 10000
-python3 tools/api_priority.py queue --inventory .figma-flow/api-priority-baseline.json --receiver FRAME --limit 10000
-python3 tools/api_priority.py queue --inventory .figma-flow/api-priority-baseline.json --receiver PluginAPI --limit 10000
-```
-
-The included PluginAPI rows place `listAvailableFontsAsync` at queue position 24 and `createComponentFromNode` at 25. Text range readers begin at 63; range setters follow at 70. Frame `effects` and `dashPattern` appear at 19 and 34. Corner radius, fills, strokes, and stroke weight already have 0.29 graph evidence. The recipe checks every API key, owner, feasibility class, and receiver against the injected graph before using it.
-
-The specimen selects an available font from the actual Figma editor, applies font name, size, line height, letter spacing, and fill to separate text ranges, then checks those values through the matching range getters. It also reads back the frame's CSS summary, radius, effects, dash pattern, fills, and stroke weight before converting only its newly created frame to a component. Visible engineer metadata records the selected member IDs, queue ranks, source, and actual getter results.
-
-Local verification compiles the TypeScript source against the pinned Plugin API declarations and runs the focused graph/source checks. The recipe still needs execution in the registered Figma lab to verify actual fonts, visual layout, getter values, and repeated-run behavior.
+The default graph selected 24 nodes and 23 edges. In the Design editor, the recipe created one main component with four editable text layers and selected the same component on repeat. Actual style readback reported Inter at 30/36, 17/25 and 11/16 pixels for font size and line height. The component also reported a 560-pixel width, 16-pixel corner radius, drop shadow, one-pixel stroke, and an 8/4 dash pattern. The metadata contains the 19 exact API member IDs and the graph and selection hashes. [Release verification](editable-web-verification.md#api-observations)
