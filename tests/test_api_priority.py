@@ -131,9 +131,9 @@ class ApiPriorityTest(unittest.TestCase):
 
     def test_group_and_vector_targets_are_exact_receiver_candidates(self):
         selection = {'schema': native_api_probe.SELECTION_SCHEMA,
-            'fileKey': 'QN4Ght8gjyfLTFd7IFjur3', 'pageId': '71:16342', 'nodes': [
-                {'semantic_id': 'mask-group', 'observed_node_id': '217:21692', 'observed_type': 'GROUP'},
-                {'semantic_id': 'grid-frame', 'observed_node_id': '217:21672', 'observed_type': 'FRAME'}]}
+            'fileKey': 'SampleDesignFile', 'pageId': '1:1', 'nodes': [
+                {'semantic_id': 'mask-group', 'observed_node_id': '2:1', 'observed_type': 'GROUP'},
+                {'semantic_id': 'grid-frame', 'observed_node_id': '2:2', 'observed_type': 'FRAME'}]}
         plan = native_api_probe.prepare(selection, file_key=selection['fileKey'], page_id=selection['pageId'])
         catalog = native_api_probe.load_catalog()
         audit = json.loads(native_api_probe.AUDIT_PATH.read_text())
