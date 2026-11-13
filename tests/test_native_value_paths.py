@@ -130,7 +130,9 @@ class NativeValuePathTests(unittest.TestCase):
         self.assertEqual(overlay['nodes'][0]['source'], '../../docs/design-runtime-verification.md')
 
     def test_private_runner_reuses_exact_scope_without_printing_it(self):
-        with tempfile.TemporaryDirectory(dir=ROOT / '.figma-flow') as folder:
+        private_root = ROOT / '.figma-flow'
+        private_root.mkdir(mode=0o700, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=private_root) as folder:
             root = Path(folder)
             scope = {'schema': 'figma-flow-native-value-path-plan-v1', 'file': 'private-file',
                      'page': '88:1', 'plugin_id': '123456'}
