@@ -80,3 +80,20 @@ test('keeps the created frame when an external manual child appears before faile
  await assert.rejects(()=>h.run(),error=>{assert.equal(error.rollback_conflicts.length,1);return true});
  const frame=h.page.children.find(node=>node.getPluginData('semanticKey')==='little-hands/booking-cta/starter-frame');assert(frame);assert(frame.children.some(node=>node.name==='User addition'));assert.equal(h.collections.size,1);
 });
+
+test('a pinned template migrates only legacy placeholder copy and preserves manual overrides', async () => {
+  const h = world();
+  await h.run();
+  const plan = h.plan;
+  plan.provision.label_source_sha256 = 'a'.repeat(64);
+  plan.provision.labels['reserve-login'] = '로그인하고 예약하기';
+  plan.provision.labels['reserve-preview'] = '예약 내용 확인';
+  const migrated = await h.run(plan);
+  assert.equal(migrated.native_edit.changed, 2);
+  assert.equal((await h.run(plan)).native_edit.changed, 0);
+  const frame = h.page.children.find(node => node.type === 'FRAME' && node.getPluginData('semanticKey') === plan.provision.frame_key);
+  const instances = frame.children.filter(node => node.type === 'INSTANCE');
+  instances[0].findOne(node => node.type === 'TEXT').characters = '사용자 문구';
+  await assert.rejects(h.run(plan), /override changed/);
+  assert.equal(instances[0].findOne(node => node.type === 'TEXT').characters, '사용자 문구');
+});

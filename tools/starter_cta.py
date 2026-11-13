@@ -8,7 +8,7 @@ import re
 
 from graph_design_system import load_graph, resolve_design_system
 from graph_sync import token_native_names
-from native_handoff import normalize
+from native_handoff import little_hands_source_labels, normalize
 from native_edit import PLAN_SCHEMA, validate_plan
 
 
@@ -95,6 +95,12 @@ def prepare(graph_path, readback_path, file_key, page_id, out):
             raise ValueError('Actual page children with bounds are required to place the workbench')
         position = {'x': max(row['absoluteBoundingBox']['x'] + row['absoluteBoundingBox']['width'] for row in root_rows) + 96,
                     'y': 0}
+    action = next((node for node in graph.get('nodes', []) if node.get('web_action') == INSTANCE_KEYS[0]), None)
+    copy_source = little_hands_source_labels(action, INSTANCE_KEYS)
+    labels = copy_source.get('template_branch_labels', {})
+    if any(not isinstance(labels.get(key), str) or not labels[key] for key in INSTANCE_KEYS):
+        raise ValueError('Both booking CTA branch labels must exist in the declared app template')
+    template = Path(__file__).resolve().parents[1] / copy_source['source']
     plan = {
         'schema': PLAN_SCHEMA, 'file_key': file_key, 'page_id': page_id,
         'provision': {
@@ -107,7 +113,8 @@ def prepare(graph_path, readback_path, file_key, page_id, out):
             'seed_collection_name': SEED_COLLECTION, 'seed_variable_name': SEED_VARIABLE,
             'canonical_variable_name': native_names['color.action.primary'],
             'background_color': background, 'text_color': text_color,
-            'labels': {'main': '예약하기', 'reserve-preview': '예약하기', 'reserve-login': '예약하기'},
+            'labels': {'main': '예약하기', **labels},
+            'label_source_path': str(template), 'label_source_sha256': copy_source['source_sha256'],
             'page_roots': root_rows, 'position': position,
         },
     }

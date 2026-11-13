@@ -33,12 +33,15 @@ def validate_plan(plan):
         required = {'schema', 'graph_sha256', 'token_source_sha256', 'readback_sha256', 'frame_key', 'main_key',
                     'instance_keys', 'seed_collection_name', 'seed_variable_name', 'canonical_variable_name', 'background_color', 'text_color',
                     'labels', 'page_roots', 'position', 'source_graph_path', 'token_source_path', 'readback_path'}
-        if not isinstance(provision, dict) or set(provision) != required or provision['schema'] != 'figma-flow-starter-cta-provision-v1':
+        if not isinstance(provision, dict) or set(provision) not in (required, required | {'label_source_path', 'label_source_sha256'}) or provision['schema'] != 'figma-flow-starter-cta-provision-v1':
             raise ValueError('Exact Little Hands CTA provision contract required')
         for field in ('graph_sha256', 'token_source_sha256', 'readback_sha256'):
             if not isinstance(provision[field], str) or not re.fullmatch(r'[a-f0-9]{64}', provision[field]):
                 raise ValueError(f'Valid pinned {field} required')
-        for field, digest_field in (('source_graph_path', 'graph_sha256'), ('token_source_path', 'token_source_sha256'), ('readback_path', 'readback_sha256')):
+        sources = [('source_graph_path', 'graph_sha256'), ('token_source_path', 'token_source_sha256'), ('readback_path', 'readback_sha256')]
+        if 'label_source_path' in provision:
+            sources.append(('label_source_path', 'label_source_sha256'))
+        for field, digest_field in sources:
             source = provision[field]
             if not isinstance(source, str) or not Path(source).is_absolute() or hashlib.sha256(Path(source).read_bytes()).hexdigest() != provision[digest_field]:
                 raise ValueError(f'Pinned Starter CTA source changed or is unavailable: {field}')
@@ -127,8 +130,8 @@ def prepare(plan_path, out, plugin_id=None):
     digest = hashlib.sha256(raw).hexdigest()
     runtime_plan = json.loads(json.dumps(plan))
     if 'provision' in runtime_plan:
-        for field in ('source_graph_path', 'token_source_path', 'readback_path'):
-            runtime_plan['provision'].pop(field)
+        for field in ('source_graph_path', 'token_source_path', 'readback_path', 'label_source_path'):
+            runtime_plan['provision'].pop(field, None)
     data = dict(file_key=plan['file_key'], page_id=plan['page_id'], allowed_page_ids=[plan['page_id']])
     if 'provision' in plan:
         rows = [plan['provision']]
@@ -176,6 +179,8 @@ def prepare(plan_path, out, plugin_id=None):
             provision = plan['provision']
             pins.extend({'path': provision[path_field], 'sha256': provision[digest_field]} for path_field, digest_field in (
                 ('source_graph_path', 'graph_sha256'), ('token_source_path', 'token_source_sha256'), ('readback_path', 'readback_sha256')))
+            if 'label_source_path' in provision:
+                pins.append({'path': provision['label_source_path'], 'sha256': provision['label_source_sha256']})
         (output/'source-inputs.json').write_text(json.dumps({'schema':'figma-flow-source-pins-v1','pins':pins}, indent=2)+'\n')
         (output/'source-inputs.json').chmod(0o600)
         (output/'native-edit-plan.json').chmod(0o600)

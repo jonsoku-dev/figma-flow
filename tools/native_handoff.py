@@ -772,7 +772,7 @@ def component_scope_report(readback, graph_path, pairing_path, component_key, pl
                 'application_screen': 'not included', 'acceptance_conditions': 'not included'}}}
 
 
-def _little_hands_template_copy(action, instances):
+def little_hands_source_labels(action, keys):
     if not isinstance(action, dict) or not isinstance(action.get('source'), str):
         return {'status': 'unavailable', 'reason': 'Approved graph action has no source path'}
     repository = Path(__file__).resolve().parents[1]
@@ -791,12 +791,20 @@ def _little_hands_template_copy(action, instances):
         if not match:
             return None
         return html.unescape(re.sub(r'<[^>]+>', '', match['body'])).strip()
+    return {'source': str(source_path.relative_to(repository)), 'source_sha256': hashlib.sha256(raw).hexdigest(),
+            'template_branch_labels': {key: branch_copy(key) for key in keys}}
+
+
+def _little_hands_template_copy(action, instances):
     actual = {row['key']: row['label'].get('characters') for row in instances}
-    source_copy = {key: branch_copy(key) for key in actual}
+    source = little_hands_source_labels(action, actual)
+    if 'template_branch_labels' not in source:
+        return source
+    source_copy = source['template_branch_labels']
     compared = [key for key in actual if source_copy.get(key) is not None]
     differs = any(source_copy[key] != actual[key] for key in compared)
-    return {'source': str(source_path.relative_to(repository)), 'source_sha256': hashlib.sha256(raw).hexdigest(),
-        'status': 'differs' if differs else 'matches-template-or-unavailable',
+    return {**source,
+        'status': 'differs' if differs else 'matched' if compared and len(compared) == len(actual) else 'unavailable',
         'native_actual_labels': actual, 'template_branch_labels': source_copy,
         'runtime_proof': 'Template source only; browser evidence confirms computed backgroundColor, not rendered copy.'}
 

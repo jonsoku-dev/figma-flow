@@ -8341,7 +8341,7 @@
     },
     {
       "path": "figma-bridge/native_provision.js",
-      "sha256": "22bac0d815d135ca6af0cd1dc93f6e7d96133b667bac16142427083022ac8a30"
+      "sha256": "40b8f82de8347a71304ff16fb9137d31fa608392cabd78dae68043bdf889a357"
     },
     {
       "path": "figma-bridge/native_semantic_read.js",

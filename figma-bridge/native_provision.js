@@ -50,7 +50,7 @@ function nativeProvisionPagePreflight(page, plan, existingFrame) {
   return current;
 }
 
-async function nativeProvisionMatches(figma, page, plan, frame) {
+async function nativeProvisionMatches(figma, page, plan, frame, labelUpdates) {
   const p = plan.provision;
   const rows = [page, ...page.findAll(() => true)];
   const keyed = key => rows.filter(node => nativeProvisionSemantic(node) === key);
@@ -98,7 +98,14 @@ async function nativeProvisionMatches(figma, page, plan, frame) {
     if ((await instance.getMainComponentAsync())?.id !== main.id)
       throw Error('CTA instance points to a different local main: ' + key);
     const instanceLabel = instance.findOne(node => node.type === 'TEXT');
-    if (!instanceLabel || instanceLabel.characters !== p.labels[key]) throw Error('CTA instance override changed: ' + key);
+    if (!instanceLabel) throw Error('CTA instance label missing: ' + key);
+    if (instanceLabel.characters !== p.labels[key]) {
+      // The first workbench wrote the main's placeholder to both instance labels.
+      // Only migrate that exact authored value. Other overrides require review.
+      if (!labelUpdates || !p.label_source_sha256 || instanceLabel.characters !== '예약하기')
+        throw Error('CTA instance override changed: ' + key);
+      labelUpdates.push({key, node: instanceLabel, before: instanceLabel.characters, after: p.labels[key]});
+    }
     instances.push({key, id: instance.id, main_component_id: main.id, label: instanceLabel.characters});
   }
   return {frame_id: frame.id, main_id: main.id, instances};
@@ -130,10 +137,30 @@ async function nativeProvisionRun(figma, plan, operation = 'apply') {
   }
   if (operation !== 'apply') throw Error('Unsupported native provision operation');
   if (existingFrame) {
-    const provision = await nativeProvisionMatches(figma, page, plan, existingFrame);
-    const readback = await nativeEditDiscovery(figma, plan);
-    return {...readback, native_edit: {plan_sha256: NATIVE_EDIT_SHA256, applied: true, operation: 'apply',
-      changed: 0, provision, idempotent: true}};
+    const updates = [], written = [];
+    let provision = await nativeProvisionMatches(figma, page, plan, existingFrame, updates);
+    try {
+      if (updates.length) {
+        await figma.loadFontAsync({family:'Hahmlet', style:'Bold'});
+        nativeEditScope(figma, plan);
+        for (const edit of updates) {
+          if (edit.node.characters !== edit.before || edit.node.parent?.parent !== existingFrame)
+            throw Error('CTA instance changed before label migration: ' + edit.key);
+          edit.node.characters = edit.after;
+          written.push(edit);
+        }
+        provision = await nativeProvisionMatches(figma, page, plan, existingFrame);
+      }
+      const readback = await nativeEditDiscovery(figma, plan);
+      return {...readback, native_edit: {plan_sha256: NATIVE_EDIT_SHA256, applied: true, operation: 'apply',
+        changed: written.length, provision, idempotent: written.length === 0}};
+    } catch (error) {
+      for (const edit of written.reverse()) {
+        if (!edit.node.removed && edit.node.parent?.parent === existingFrame && edit.node.characters === edit.after)
+          edit.node.characters = edit.before;
+      }
+      throw error;
+    }
   }
   nativeProvisionPagePreflight(page, plan, null);
   const font = {family: 'Hahmlet', style: 'Bold'};
