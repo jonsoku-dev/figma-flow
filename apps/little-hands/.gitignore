@@ -8,3 +8,4 @@ __pycache__/
 # Local workflow manifests pin machine paths and managed user provenance.
 design/reviews/
 design/fonts/*.ttf
+design/graph.json.lock

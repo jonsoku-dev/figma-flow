@@ -23,6 +23,10 @@ python3 apps/little-hands/design/prepare_fonts.py
 python3 tools/design_quality.py --layout apps/little-hands/design/native-layout.json --out apps/little-hands/design/quality.json
 ```
 
+기존 graph가 있는 첫 실행은 같은 ID의 기존 값과 사람이 추가한 노드·관계를 보존한다. 생성 원본과 다른 값은 출력의 `retained_legacy_edits`에서 확인한다. 다음 실행부터는 로컬 `.figma-flow/last-source-proposal.json`과 비교해 원본만 바뀐 필드를 반영한다. 양쪽에서 같은 필드를 다르게 바꾸면 경로를 출력하고 저장을 중단한다. 원본에서 사라진 노드·관계는 `retained_without_source`에 남겨 검토할 수 있다.
+
+다른 클론으로 생성 기준을 넘길 때는 `--proposal-out <새 파일>`로 디자인 디렉터리 밖에 이전 생성 후보를 보관하고, 다음 빌드에 `--base-graph <이전 후보>`를 전달한다. 검토한 정확한 그래프 바이트에만 적용하려면 `--expected-sha256 <SHA256>`을 지정한다. 생성기는 토큰 수정기와 같은 잠금을 잡고 임시 출력에서 명세·레이아웃을 완성한 뒤 파일별로 교체한다. 게시 도중 프로세스가 종료됐으면 같은 입력으로 다시 실행하고 명세·레이아웃의 SHA를 확인한다.
+
 `source-status.json`은 누락된 실제 측정/미리보기, 현재 CSS epoch와 실제 블록 콘텐츠 상자 메타데이터, 측정할 수 없는 UA 입력 내부 표현을 표시한다. 전체44개가 모이면 현재 staging static manifest의 CSS와 새 메타데이터가 일치해야 최종 소스를 작성한다. 실제 collected static의 해시 파일·폰트는 source_assets에 바이트 그대로 복사한다. [Circular] 전송 별칭은 같은 실제 DOM selector의 앞선 실제 스타일만 재사용하며 dom-map에 원본 레코드를 남긴다. missing이 있으면 정상 native draft가 닫힌 상태다. graph는 소스에서 읽은 구현을 observed로 기록하지만 acceptance/test는 실제 근거 연결 전 unverified다. strict-local은 이 상태에서 통과하지 않는 것이 맞다.
 
 `prototype-targets.json`을 선택적으로 두어 특정 실제 조작의 시각 목적지를 명시할 수 있다. 키는 `<state-id>/<state-prefixed-control-id>`, 값은 `confirmed` 같은 STATES의 짧은 이름 또는 null이다. 기존 href와 실제 서버 행동을 확인해 연결하며, 같은 상태 링크는 항상 정적으로 둔다. 각 상태의 실제 원본 selector와 native key는 `dom-map.json`에 보존된다.

@@ -9,6 +9,7 @@ import os
 import re
 import shutil
 import sys
+import tempfile
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -16,41 +17,46 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parent
 APP = ROOT.parent
 STATIC_ROOT = Path(os.environ.get("LH_STATIC_ROOT", str(APP / "staticfiles")))
+TOOLS = ROOT.parents[2] / 'tools'
+sys.path.insert(0, str(TOOLS))
+from graph_design_system import _atomic_write, _locked_graph, resolve_design_system
+from specification_contract import derive_specifications, render_screen_spec
+
 STATES = [
-    ('publichome', '수업 둘러보기', 'booking/session_list.html', [1,10], '/'),
-    ('login', '로그인', 'registration/login.html', [2,10], '/accounts/login/'),
-    ('signup', '회원가입', 'registration/signup.html', [2,10], '/accounts/signup/'),
-    ('memberhome', '회원 수업 둘러보기', 'booking/session_list.html', [1,2,10], '/'),
-    ('sessionavailable', '수업과 신청 인원', 'booking/session_detail.html', [1,3,4,8,10], None),
-    ('review', '신청 내용 확인', 'booking/reserve_review.html', [3,4,8,10], None),
-    ('confirmed', '예약 확정', 'booking/booking_detail.html', [3,5,6,7,10], None),
-    ('waitlisted', '대기 등록', 'booking/booking_detail.html', [4,5,6,10], None),
-    ('mybookings', '나의 예약', 'booking/my_bookings.html', [2,5,10], '/bookings/'),
-    ('cancelconfirm', '취소 확인', 'booking/cancel.html', [6,8,10], None),
-    ('cancelled', '취소된 예약', 'booking/booking_detail.html', [5,6,10], None),
-    ('reschedule', '회차 변경', 'booking/reschedule.html', [7,8,10], None),
-    ('conflict', '변경 충돌과 복구', 'booking/conflict.html', [7,8,10], None),
-    ('notifications', '나의 알림', 'booking/notifications.html', [2,9,10], '/notifications/'),
-    ('staffdashboard', '운영 현황', 'staff/dashboard.html', [2,9,10], '/staff/'),
-    ('staffsessions', '운영 일정', 'staff/session_list.html', [2,9,10], '/staff/sessions/'),
-    ('staffcreate', '회차 등록', 'staff/session_form.html', [2,8,9,10], '/staff/sessions/new/'),
-    ('staffroster', '신청 명단', 'staff/session_detail.html', [2,4,9,10], None),
-    ('staffedit', '회차 편집', 'staff/session_form.html', [2,8,9,10], None),
-    ('staffaudit', '변경 기록', 'staff/audit.html', [2,9,10], '/staff/audit/'),
-    ('403', '접근 권한 안내', '403.html', [2,10], None),
-    ('404', '찾을 수 없는 화면', '404.html', [2,10], None),
+    ('publichome', '수업 둘러보기', 'booking/session_list.html', ['REQ-001', 'REQ-010'], '/'),
+    ('login', '로그인', 'registration/login.html', ['REQ-002', 'REQ-010'], '/accounts/login/'),
+    ('signup', '회원가입', 'registration/signup.html', ['REQ-002', 'REQ-010'], '/accounts/signup/'),
+    ('memberhome', '회원 수업 둘러보기', 'booking/session_list.html', ['REQ-001', 'REQ-002', 'REQ-010'], '/'),
+    ('sessionavailable', '수업과 신청 인원', 'booking/session_detail.html', ['REQ-001', 'REQ-003', 'REQ-004', 'REQ-008', 'REQ-010'], None),
+    ('review', '신청 내용 확인', 'booking/reserve_review.html', ['REQ-003', 'REQ-004', 'REQ-008', 'REQ-010'], None),
+    ('confirmed', '예약 확정', 'booking/booking_detail.html', ['REQ-003', 'REQ-005', 'REQ-006', 'REQ-007', 'REQ-010'], None),
+    ('waitlisted', '대기 등록', 'booking/booking_detail.html', ['REQ-004', 'REQ-005', 'REQ-006', 'REQ-010'], None),
+    ('mybookings', '나의 예약', 'booking/my_bookings.html', ['REQ-002', 'REQ-005', 'REQ-010'], '/bookings/'),
+    ('cancelconfirm', '취소 확인', 'booking/cancel.html', ['REQ-006', 'REQ-008', 'REQ-010'], None),
+    ('cancelled', '취소된 예약', 'booking/booking_detail.html', ['REQ-005', 'REQ-006', 'REQ-010'], None),
+    ('reschedule', '회차 변경', 'booking/reschedule.html', ['REQ-007', 'REQ-008', 'REQ-010'], None),
+    ('conflict', '변경 충돌과 복구', 'booking/conflict.html', ['REQ-007', 'REQ-008', 'REQ-010'], None),
+    ('notifications', '나의 알림', 'booking/notifications.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/notifications/'),
+    ('staffdashboard', '운영 현황', 'staff/dashboard.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/staff/'),
+    ('staffsessions', '운영 일정', 'staff/session_list.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/staff/sessions/'),
+    ('staffcreate', '회차 등록', 'staff/session_form.html', ['REQ-002', 'REQ-008', 'REQ-009', 'REQ-010'], '/staff/sessions/new/'),
+    ('staffroster', '신청 명단', 'staff/session_detail.html', ['REQ-002', 'REQ-004', 'REQ-009', 'REQ-010'], None),
+    ('staffedit', '회차 편집', 'staff/session_form.html', ['REQ-002', 'REQ-008', 'REQ-009', 'REQ-010'], None),
+    ('staffaudit', '변경 기록', 'staff/audit.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/staff/audit/'),
+    ('403', '접근 권한 안내', '403.html', ['REQ-002', 'REQ-010'], None),
+    ('404', '찾을 수 없는 화면', '404.html', ['REQ-002', 'REQ-010'], None),
 ]
 REQS = [
-    ('실제 수업·회차·공간·정원·가격 탐색', 'test_expired_session_detail_disables_reservation'),
-    ('Django 인증과 소유자·운영자 권한', 'test_owner_and_staff_authorization_and_method_guards'),
-    ('인원·총액 검토와 원자적 신청', 'test_final_seat_concurrent_confirmed_and_waitlisted'),
-    ('명시적 대기 동의와 엄격한 FIFO 승급', 'test_fifo_does_not_skip_larger_group_with_free_seat'),
-    ('자기 예약 상태와 예약 당시 단가 조회', 'test_reschedule_preserves_original_quote_and_discloses_target_policy'),
-    ('정책 기한과 명시적 원자적 취소', 'test_idempotent_cancel_promotes_and_notifies_once'),
-    ('실패 시 원래 예약을 보존하는 회차 변경', 'test_failed_reschedule_preserves_original_queue_audit_notifications'),
-    ('revision·멱등·DB 제약과 충돌 복구', 'test_view_idempotency_reuse_and_stale_target_are_409'),
-    ('회차·명단·실제 집계·알림·불변 감사', 'test_dashboard_uses_database_totals_and_admin_cannot_mutate'),
-    ('실제 반응형 웹과 편집 가능한 Figma 전달', None),
+    ('REQ-001', '실제 수업·회차·공간·정원·가격 탐색', 'test_expired_session_detail_disables_reservation'),
+    ('REQ-002', 'Django 인증과 소유자·운영자 권한', 'test_owner_and_staff_authorization_and_method_guards'),
+    ('REQ-003', '인원·총액 검토와 원자적 신청', 'test_final_seat_concurrent_confirmed_and_waitlisted'),
+    ('REQ-004', '명시적 대기 동의와 엄격한 FIFO 승급', 'test_fifo_does_not_skip_larger_group_with_free_seat'),
+    ('REQ-005', '자기 예약 상태와 예약 당시 단가 조회', 'test_reschedule_preserves_original_quote_and_discloses_target_policy'),
+    ('REQ-006', '정책 기한과 명시적 원자적 취소', 'test_idempotent_cancel_promotes_and_notifies_once'),
+    ('REQ-007', '실패 시 원래 예약을 보존하는 회차 변경', 'test_failed_reschedule_preserves_original_queue_audit_notifications'),
+    ('REQ-008', 'revision·멱등·DB 제약과 충돌 복구', 'test_view_idempotency_reuse_and_stale_target_are_409'),
+    ('REQ-009', '회차·명단·실제 집계·알림·불변 감사', 'test_dashboard_uses_database_totals_and_admin_cannot_mutate'),
+    ('REQ-010', '실제 반응형 웹과 편집 가능한 Figma 전달', None),
 ]
 PLATFORM = {'web':'Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다.', 'figma':'관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.'}
 
@@ -204,7 +210,7 @@ def restore_transport_aliases(data, path):
     data['_transport_alias_resolutions']=resolutions
 
 
-def copy_static(route):
+def copy_static(route, output=ROOT):
     if not route.startswith('/static/') or '..' in Path(route).parts:
         raise ValueError('Owned static route required: '+route)
     relative=Path(route.removeprefix('/static/'))
@@ -218,7 +224,7 @@ def copy_static(route):
                 raise ValueError('Actual hashed static bytes required via --static-root: '+route)
         if not canonical.is_file():raise ValueError('Actual static bytes unavailable: '+route)
         source=canonical
-    destination=ROOT/'source_assets'/relative
+    destination=output/'source_assets'/relative
     destination.parent.mkdir(parents=True,exist_ok=True)
     if not destination.is_file() or destination.read_bytes()!=source.read_bytes():shutil.copyfile(source,destination)
     if source.suffix in ('.woff2','.ttf'):
@@ -231,7 +237,7 @@ def copy_static(route):
         for url in re.findall(r'url\([\"\']?([^\)\"\']+)',source.read_text()):
             if not urlsplit(url).scheme and not url.startswith('data:'):
                 asset=(relative.parent/url).as_posix()
-                copy_static('/static/'+asset)
+                copy_static('/static/'+asset, output)
     return destination
 
 
@@ -387,7 +393,7 @@ def authored_controls(data):
     return controls
 
 
-def layout_for(data, palette, styles, assets, mappings):
+def layout_for(data, palette, styles, assets, mappings, output=ROOT):
     layers, products = [], {}
     for surface in data['surfaces']:
         x,y,w,h = surface['box']
@@ -415,13 +421,13 @@ def layout_for(data, palette, styles, assets, mappings):
         mappings.append({'key':layer['id'],'selector':surface['selector'],'kind':'surface','semantic':surface.get('semantic')})
     for image in data['images']:
         x,y,w,h = image['box']
-        source = copy_static(image['src'])
+        source = copy_static(image['src'], output)
         if image['style']['objectFit']=='cover' and image['style']['objectPosition'] not in ('50% 50%','center','center center'):
             raise ValueError('Measured noncenter image crop needs explicit authoring: '+image['id'])
         if image['style']['radius'] != 0:
             raise ValueError('Image radius needs supported authoring: '+image['id'])
         asset = 'image-'+sha(source)[:16]
-        assets[asset] = {'path':source.relative_to(ROOT).as_posix(),'sha256':sha(source),'reference':False}
+        assets[asset] = {'path':source.relative_to(output).as_posix(),'sha256':sha(source),'reference':False}
         layers.append(dict(id=image['id'],kind='image',x=x,y=y,w=w,h=h,asset=asset,fit='FILL' if image['style']['objectFit']=='cover' else 'FIT',role='image'))
         mappings.append({'key':image['id'],'selector':image['selector'],'kind':'image','alt':image['alt'],'original_src':image['src'],'object_position':image['style']['objectPosition']})
     for text in used_line_records(data):
@@ -563,7 +569,116 @@ def snapshot_html(captured_html):
     return content
 
 
-def build():
+_MISSING = object()
+
+
+def reconcile(current, proposal, baseline):
+    """Match graph rows by identity. On legacy input, existing values take priority."""
+    review = {'retained_without_source': [], 'retained_legacy_edits': []}
+
+    def keyed(rows, fields):
+        result = {}
+        for row in rows:
+            identity = tuple(row[field] for field in fields)
+            if identity in result:
+                raise ValueError(f'Duplicate graph identity: {identity}')
+            result[identity] = row
+        return result
+
+    def merge(old, new, base, path):
+        if old == new:
+            return old
+        if path.endswith('/type') and old is not _MISSING and new is not _MISSING:
+            raise ValueError('Graph identity type conflicts at ' + path)
+        if baseline is not None:
+            if new == base:
+                return old
+            if old == base and new is not _MISSING and not isinstance(old, dict):
+                return new
+        if new is _MISSING:
+            return old
+        if old is _MISSING:
+            if base is not _MISSING:
+                raise ValueError('Graph edit conflicts with source at ' + path)
+            return new
+        if isinstance(old, dict) and isinstance(new, dict):
+            ancestor = base if isinstance(base, dict) else {}
+            merged = {}
+            for key in dict.fromkeys([*old, *new]):
+                value = merge(old.get(key, _MISSING), new.get(key, _MISSING),
+                              ancestor.get(key, _MISSING), path + '/' + str(key))
+                if value is not _MISSING:
+                    merged[key] = value
+            return merged
+        if baseline is None:
+            review['retained_legacy_edits'].append(path)
+            return old
+        raise ValueError('Graph edit conflicts with source at ' + path)
+
+    if current is not None and (not isinstance(current, dict) or
+                                not all(isinstance(current.get(k), list) for k in ('nodes', 'edges'))):
+        raise ValueError('Expected an existing graph with nodes and edges arrays')
+    current = dict(current or {})
+    proposal = dict(proposal)
+    base = dict(baseline or {})
+    identities = {'nodes': ('id',), 'edges': ('from', 'to', 'type')}
+    for key, fields in identities.items():
+        current[key] = keyed(current.get(key, []), fields)
+        proposal[key] = keyed(proposal[key], fields)
+        base[key] = keyed(base.get(key, []), fields)
+        for identity in sorted(current[key].keys() - proposal[key].keys()):
+            review['retained_without_source'].append(f'{key}/{identity}')
+    merged = merge(current, proposal, base, 'graph')
+    for key in identities:
+        merged[key] = list(merged[key].values())
+    ids = {node['id'] for node in merged['nodes']}
+    if any(edge[field] not in ids for edge in merged['edges'] for field in ('from', 'to')):
+        raise ValueError('Merged graph has a relationship with a missing endpoint')
+    return merged, review
+
+
+def build(base_graph=None, proposal_out=None, expected_sha256=None):
+    path = ROOT / 'graph.json'
+    cached = ROOT / '.figma-flow' / 'last-source-proposal.json'
+    baseline_path = base_graph or cached
+    if proposal_out and (proposal_out.resolve().is_relative_to(ROOT) or proposal_out.exists()):
+        raise ValueError('Use a new proposal output path outside the design directory')
+    with _locked_graph(path):
+        initial = sha(path) if path.exists() else None
+        if expected_sha256 is not None and initial != expected_sha256:
+            raise ValueError('Stale graph SHA256')
+        current = json.loads(path.read_bytes()) if initial else None
+        baseline = (json.loads(baseline_path.read_bytes())
+                    if base_graph or (initial and cached.is_file()) else None)
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            (output / 'app').mkdir()
+            try:
+                proposal, review, summary = generate(output, current, baseline)
+            except ValueError:
+                blocked = output / 'source-status.json'
+                if blocked.exists() and json.loads(blocked.read_bytes()).get('status') == 'blocked-final-source-epoch':
+                    _atomic_write(ROOT / blocked.name, blocked.read_bytes())
+                raise
+            if (sha(path) if path.exists() else None) != initial:
+                raise ValueError('Graph changed during source generation')
+            for staged in sorted(output.rglob('*')):
+                if staged.is_file():
+                    target = ROOT / staged.relative_to(output)
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    raw = staged.read_bytes()
+                    if not target.exists() or target.read_bytes() != raw:
+                        _atomic_write(target, raw)
+            cached.parent.mkdir(exist_ok=True)
+            raw = (json.dumps(proposal, ensure_ascii=False, indent=2) + '\n').encode()
+            _atomic_write(cached, raw)
+            if proposal_out:
+                with proposal_out.open('xb') as stream:
+                    stream.write(raw)
+            print(json.dumps({**summary, **review}, ensure_ascii=False))
+
+
+def generate(output, canonical, baseline):
     captures=load_captures()
     unverified_ua_internals=[{'state':sid,'viewport':vp,'selector':control['selector'],'type':control['type'],'checked':control.get('checked'),'box':control['box'],'reason':'UA-native mark paint is not exposed by measured CSS; no mark is invented by the adapter.'} for (sid,vp),(data,path) in captures.items() for control in data['controls'] if control.get('type') in ('checkbox','radio') and control['style']['fill'] in ('rgba(0, 0, 0, 0)','transparent') and not control['style']['stroke_width']]
     stylesheet_epochs=sorted({route for data,path in captures.values() for route in re.findall(r'href="(/static/[^"]+\.css)"',data['html'])})
@@ -576,14 +691,14 @@ def build():
         if name:current_stylesheet='/static/'+name
     stylesheet_current=len(stylesheet_epochs)==1 and (current_stylesheet is None or stylesheet_epochs==[current_stylesheet])
     if len(captures)==len(STATES)*2 and (metadata_pending or not stylesheet_current):
-        write_json(ROOT/'source-status.json',{'schema':'little-hands-design-source-status-v1','status':'blocked-final-source-epoch','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded'})
+        write_json(output/'source-status.json',{'schema':'little-hands-design-source-status-v1','status':'blocked-final-source-epoch','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded'})
         raise ValueError('Final source requires fresh measured content boxes and one actual current stylesheet epoch; preserve old captures as business observations and refresh design captures.')
     stylesheet='../../static/littlehands/app.css'
     for data,path in captures.values():
         for route in re.findall(r'href="(/static/[^"]+\.css)"',data['html']):
-            stylesheet='../'+copy_static(route).relative_to(ROOT).as_posix()
+            stylesheet='../'+copy_static(route, output).relative_to(output).as_posix()
         if stylesheet!='../../static/littlehands/app.css':break
-    snapshot_dir=ROOT/'snapshots';snapshot_dir.mkdir(exist_ok=True)
+    snapshot_dir=output/'snapshots';snapshot_dir.mkdir(exist_ok=True)
     snapshots=[]
     for (sid,vp),(data,path) in captures.items():
         name=sid.removeprefix('state-')+'-'+vp+'.html'
@@ -592,7 +707,7 @@ def build():
         if not destination.is_file() or destination.read_text(encoding='utf-8')!=content:destination.write_text(content,encoding='utf-8')
         snapshots.append({'state':sid,'viewport':vp,'css_viewport':data['viewport'],'route':data['route'],'path':'snapshots/'+name,'capture':path.relative_to(ROOT).as_posix(),'capture_sha256':sha(path),'html_sha256':sha(destination),'scope':'The actual captured sanitized DOM with only local static URL rewriting and the original UTF-8 and viewport metadata restored; forms are inert. Visual review source only, not a new business action or acceptance observation.'})
     write_json(snapshot_dir/'index.json',{'schema':'little-hands-actual-visual-snapshots-v1','snapshots':snapshots})
-    (ROOT/'visual-review.html').write_text('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 실제 화면별 시각 검토</title><link rel="stylesheet" href="'+stylesheet.removeprefix('../')+'"></head><body><main class="page"><div class="wrap"><h1>실제 화면별 시각 검토</h1><p>각 링크는 해당 상태·뷰포트의 실제 캡처 DOM 하나를 엽니다. 폼은 inert이며 데이터 변경을 실행하지 않습니다. 실제 업무 흐름의 실행 증거와 구분합니다.</p><table class="data-table"><thead><tr><th scope="col">상태</th><th scope="col">데스크톱1200×900 CSS</th><th scope="col">모바일390×960 CSS</th></tr></thead><tbody>'+''.join('<tr><th scope="row">'+html.escape(title)+'</th>'+''.join('<td><a href="snapshots/'+name+'-'+vp+'.html">'+vp+'</a></td>' for vp in ('desktop','mobile'))+'</tr>' for name,title,template,requirements,route in STATES)+'</tbody></table></div></main></body></html>')
+    (output/'visual-review.html').write_text('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 실제 화면별 시각 검토</title><link rel="stylesheet" href="'+stylesheet.removeprefix('../')+'"></head><body><main class="page"><div class="wrap"><h1>실제 화면별 시각 검토</h1><p>각 링크는 해당 상태·뷰포트의 실제 캡처 DOM 하나를 엽니다. 폼은 inert이며 데이터 변경을 실행하지 않습니다. 실제 업무 흐름의 실행 증거와 구분합니다.</p><table class="data-table"><thead><tr><th scope="col">상태</th><th scope="col">데스크톱1200×900 CSS</th><th scope="col">모바일390×960 CSS</th></tr></thead><tbody>'+''.join('<tr><th scope="row">'+html.escape(title)+'</th>'+''.join('<td><a href="snapshots/'+name+'-'+vp+'.html">'+vp+'</a></td>' for vp in ('desktop','mobile'))+'</tr>' for name,title,template,requirements,route in STATES)+'</tbody></table></div></main></body></html>')
     overrides_path=ROOT/'prototype-targets.json'
     overrides=json.loads(overrides_path.read_text()) if overrides_path.exists() else {}
     palette=dict(json.loads((ROOT/'tokens.json').read_text())['colors'])
@@ -602,8 +717,13 @@ def build():
     def edge(a,b,kind):
         row={'from':a,'to':b,'type':kind}
         if row not in edges:edges.append(row)
-    for i,(title,test) in enumerate(REQS,1):
-        rid=f'REQ-{i:03d}'; aid=f'AC-{i:03d}'; tid=f'TEST-{i:03d}'
+    test_by_requirement = {}
+    for rid, title, test in REQS:
+        if not re.fullmatch(r'REQ-[0-9]+', rid) or rid in test_by_requirement:
+            raise ValueError('Invalid or duplicate requirement ID: ' + rid)
+        suffix = rid.removeprefix('REQ-')
+        aid, tid = 'AC-' + suffix, 'TEST-' + suffix
+        test_by_requirement[rid] = tid
         node(rid,'requirement',title,source='brief.md#요구사항-열-가지',detail='에이전트 제품 해석. 현재 구현 사실과 실제 인수 결과를 구분한다.')
         node(aid,'acceptance',title+' 인수',source='../ARCHITECTURE.md',detail='실제 DB/브라우저/Figma 근거를 부모가 연결하기 전까지 미검증.')
         node(tid,'test',test or '실제 데스크톱·모바일·키보드·Figma 직접 조작과 getter 검증',source='../booking/tests/test_booking.py#'+test if test else 'README.md#실제-검증',detail='소스에 존재하는 검사 또는 계획된 실제 검증. 실행 결과는 여기서 생성하지 않는다.')
@@ -625,7 +745,7 @@ def build():
         node(code,'code',template,source='../templates/'+template,detail='현재 소스 읽기만 확인. 실제 실행 인수는 별도 근거가 필요하다.')
         edge(screen,sid,'has state'); edge(screen,code,'implemented by')
         for req in requirements:
-            edge(f'REQ-{req:03d}',screen,'appears on'); edge(code,f'TEST-{req:03d}','checked by')
+            edge(req,screen,'appears on'); edge(code,test_by_requirement[req],'checked by')
         prototype_states.append({'id':sid,'screen':screen,'view':name,'title':title,'body':PLATFORM['figma']})
         desktop=captures.get((sid,'desktop'))
         if desktop:
@@ -635,7 +755,7 @@ def build():
             if (sid,vp) not in captures:continue
             data,path=captures[sid,vp]
             local_mappings=[]
-            layout=layout_for(data,palette,styles[vp],assets,local_mappings)
+            layout=layout_for(data,palette,styles[vp],assets,local_mappings,output)
             state_layouts[vp][sid]=layout
             mappings.extend({'state':sid,'viewport':vp,'measurement':path.relative_to(ROOT).as_posix(),**row} for row in local_mappings)
             for control in authored_controls(data):
@@ -665,9 +785,9 @@ def build():
         if current['type']=='action':edge(current['id'],current['component_id'],'uses component')
     for mapping in mappings:
         if mapping.get('kind')=='control':mapping['shared_variant']=variant_families['Control-'+safe(mapping['key'])]
-    write_json(ROOT/'control-reuse.json',{'schema':'little-hands-shared-control-profiles-v1','scope':'Authored main declarations from exact paired visual profiles, not an actual Figma main/instance readback. Only maxWidth is excluded from identity; each main cap is the maximum observed width in that profile/viewport.','previous_styles':previous_styles,'shared_styles':{viewport:len(variants) for viewport,variants in styles.items()},'shared_component_definitions':len(set(variant_families.values())),'instance_families':variant_families})
+    write_json(output/'control-reuse.json',{'schema':'little-hands-shared-control-profiles-v1','scope':'Authored main declarations from exact paired visual profiles, not an actual Figma main/instance readback. Only maxWidth is excluded from identity; each main cap is the maximum observed width in that profile/viewport.','previous_styles':previous_styles,'shared_styles':{viewport:len(variants) for viewport,variants in styles.items()},'shared_component_definitions':len(set(variant_families.values())),'instance_families':variant_families})
     gallery.append('</body></html>')
-    (ROOT/'app/index.html').write_text('\n'.join(gallery))
+    (output/'app/index.html').write_text('\n'.join(gallery))
     samples=[]
     for option in palette_options:
         if option['label'] not in {row['label'] for row in samples}:samples.append(option)
@@ -704,34 +824,46 @@ def build():
             chosen=next((n for n in actions if n.get('web_action')==primary[current['id'].removeprefix('screen-')]),actions[0] if actions else None)
             if chosen:current['annotation']['first_action']=chosen['id']
     graph={'version':1,'stage':'draft','scope':'Real Django production application; actual captured SSR geometry, acceptance/native execution pending.','nodes':nodes,'edges':edges,'design_foundations':foundations,'draft_prototype':{'entry_state':'state-publichome','entry_states':['state-publichome','state-mybookings','state-staffdashboard','state-conflict','state-waitlisted','state-403','state-404'],'viewports':[{'id':'desktop','width':1200,'height':900},{'id':'mobile','width':390,'height':960}],'states':prototype_states,'bindings':bindings}}
-    write_json(ROOT/'graph.json',graph)
-    candidate={'id':'littlehands','graph':{'path':'graph.json','sha256':sha(ROOT/'graph.json')},'colors':colors,'fonts':{'display':{'family':'Hahmlet','style':'Bold'},'body':{'family':'Hahmlet','style':'Regular'}},'layouts':{vp:states['state-publichome'] for vp,states in state_layouts.items() if 'state-publichome' in states},'state_layouts':state_layouts,'control_styles':styles}
+    proposal = graph
+    graph, review = reconcile(canonical, proposal, baseline)
+    if 'design_system' in graph:
+        resolve_design_system(graph)
+    nodes = graph['nodes']
+    foundations = graph['design_foundations']
+    samples = foundations['palette']['samples']
+    if graph == canonical:
+        # Keep the exact bytes pinned by existing consumers, including their formatting.
+        shutil.copyfile(ROOT/'graph.json', output/'graph.json')
+    else:
+        write_json(output/'graph.json', graph)
+    digest = sha(output/'graph.json')
+    candidate={'id':'littlehands','graph':{'path':'graph.json','sha256':digest},'colors':colors,'fonts':{'display':{'family':'Hahmlet','style':'Bold'},'body':{'family':'Hahmlet','style':'Regular'}},'layouts':{vp:states['state-publichome'] for vp,states in state_layouts.items() if 'state-publichome' in states},'state_layouts':state_layouts,'control_styles':styles}
     for vp in ('desktop','mobile'):
         preview=ROOT/'previews'/('littlehands-'+vp+'.jpg')
         if preview.is_file():assets['reference-'+vp]={'path':preview.relative_to(ROOT).as_posix(),'sha256':sha(preview),'reference':True}
-    write_json(ROOT/'input-pins.json',{'schema':'little-hands-design-input-pins-v1','source':[{'path':'../'+path.relative_to(APP).as_posix(),'sha256':sha(path)} for path in [APP/'ARCHITECTURE.md',APP/'booking/views.py',APP/'booking/services.py',APP/'static/littlehands/app.css',APP/'static/littlehands/app.js',*sorted((APP/'templates').rglob('*.html'))]],'captures':[{'path':path.relative_to(ROOT).as_posix(),'sha256':sha(path)} for data,path in captures.values()]})
-    write_json(ROOT/'native-layout.json',{'schema':'figma-flow-authored-native-layout-v1','scope':'exploratory-only','production_admitted':False,'content':{'path':'content.json','sha256':sha(ROOT/'content.json')},'assets':assets,'candidates':[candidate]})
-    write_json(ROOT/'dom-map.json',{'schema':'little-hands-source-dom-map-v1','controls_and_layers':mappings,'transport_alias_resolutions':[row for data,path in captures.values() for row in data.get('_transport_alias_resolutions',[])],'scope':'Original actual DOM selectors map to state-prefixed source/native keys. No runtime/native verification claim.'})
+    write_json(output/'input-pins.json',{'schema':'little-hands-design-input-pins-v1','source':[{'path':'../'+path.relative_to(APP).as_posix(),'sha256':sha(path)} for path in [APP/'ARCHITECTURE.md',APP/'booking/views.py',APP/'booking/services.py',APP/'static/littlehands/app.css',APP/'static/littlehands/app.js',*sorted((APP/'templates').rglob('*.html'))]],'captures':[{'path':path.relative_to(ROOT).as_posix(),'sha256':sha(path)} for data,path in captures.values()]})
+    write_json(output/'native-layout.json',{'schema':'figma-flow-authored-native-layout-v1','scope':'exploratory-only','production_admitted':False,'content':{'path':'content.json','sha256':sha(ROOT/'content.json')},'assets':assets,'candidates':[candidate]})
+    write_json(output/'dom-map.json',{'schema':'little-hands-source-dom-map-v1','controls_and_layers':mappings,'transport_alias_resolutions':[row for data,path in captures.values() for row in data.get('_transport_alias_resolutions',[])],'scope':'Original actual DOM selectors map to state-prefixed source/native keys. No runtime/native verification claim.'})
     missing=[{'state':'state-'+row[0],'viewport':vp} for row in STATES for vp in ('desktop','mobile') if ('state-'+row[0],vp) not in captures]
-    write_json(ROOT/'source-status.json',{'schema':'little-hands-design-source-status-v1','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'source_epoch_current':stylesheet_current,'pending_measurements':missing,'pending_previews':[p for p in ('previews/littlehands-desktop.jpg','previews/littlehands-mobile.jpg') if not (ROOT/p).is_file()],'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded','graph_acceptance':'unverified'})
-    tools_dir=ROOT.parents[2]/'tools'
-    if str(tools_dir) not in sys.path:sys.path.insert(0,str(tools_dir))
-    from specification_contract import derive_specifications,render_screen_spec
-    write_json(ROOT/'specifications.json',{'schema':'figma-flow-specification-export-v1','source_graph':{'path':'graph.json','sha256':sha(ROOT/'graph.json')},'specifications':derive_specifications(graph,source_graph_sha256=sha(ROOT/'graph.json'))})
-    (ROOT/'screen-spec.md').write_text(render_screen_spec(graph,source_graph_sha256=sha(ROOT/'graph.json')))
+    write_json(output/'source-status.json',{'schema':'little-hands-design-source-status-v1','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'source_epoch_current':stylesheet_current,'pending_measurements':missing,'pending_previews':[p for p in ('previews/littlehands-desktop.jpg','previews/littlehands-mobile.jpg') if not (ROOT/p).is_file()],'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded','graph_acceptance':'unverified'})
+    write_json(output/'specifications.json',{'schema':'figma-flow-specification-export-v1','source_graph':{'path':'graph.json','sha256':digest},'specifications':derive_specifications(graph,source_graph_sha256=digest)})
+    (output/'screen-spec.md').write_text(render_screen_spec(graph,source_graph_sha256=digest))
     notes_html=[]
     for current in nodes:
         if current['type'] not in ('screen','action'):continue
-        meaning=current['annotation']; target=meaning.get('control_id',current['id'])
+        meaning=current.get('annotation',{}); target=meaning.get('control_id',current['id'])
         notes_html.append('<article><a href="index.html#'+target+'">'+html.escape(current['title'])+'</a>'+''.join('<p>'+html.escape(field+': '+value)+'</p>' for field,value in meaning.items() if isinstance(value,str))+'</article>')
     foundation_html=''.join('<p>'+html.escape(' · '.join(str(role[key]) for key in ('name','kind','token','value')))+'</p>' for role in foundations['roles'])+''.join('<p>'+html.escape(' · '.join(str(sample[key]) for key in ('label','component','variant','action','state'))+' · '+' · '.join(sample['useCases']))+'</p>' for sample in samples)
-    (ROOT/'app/inspect.html').write_text('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 단일안 검토</title><link rel="stylesheet" href="'+stylesheet+'"></head><body><main class="page"><div class="wrap"><h1>작은손 커피공방</h1><p>실제 Django 화면을 전달하는 단일 제안입니다. 사용자의 아트 선택·실제 시각 비평·네이티브 인수는 아직 기록하지 않았습니다.</p><p><a href="index.html">실제 화면 소스</a> · <a href="../screen-spec.md">화면 명세</a> · <a href="../source-status.json">누락된 실제 근거</a></p><h2>서체와 색상</h2><p>Hahmlet Regular400 · 본문과 조작</p><h2>Hahmlet Bold700 · 제목</h2>'+''.join('<p style="border-left:24px solid '+value+';padding-left:16px">'+html.escape(key+' '+value)+'</p>' for key,value in colors.items())+'<h2>조작 표본</h2>'+''.join('<p>'+html.escape(sample['label'])+' · '+html.escape(sample['variant'])+'</p>' for sample in samples)+'<p>계획된 디자인 소스와 주석이며 네이티브 검증 결과가 아님.</p>'+''.join(notes_html)+foundation_html+'<h2>실제 캡처</h2><img src="../previews/littlehands-desktop.jpg" alt="실제 데스크톱 화면"><img src="../previews/littlehands-mobile.jpg" alt="실제 모바일 화면"><p>사진은 붉은 바탕 위 흰 커피잔과 긴 그림자입니다. 통계·일정·이름·예약 상태는 실제 SSR 데이터에서만 가져옵니다.</p></div></main></body></html>')
-    print(json.dumps({'actual_captures':len(captures),'pending_measurements':len(missing),'actions':len(seen_actions),'geometry':'actual DOM only','design_completion':'not-claimed'},ensure_ascii=False))
+    (output/'app/inspect.html').write_text('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 단일안 검토</title><link rel="stylesheet" href="'+stylesheet+'"></head><body><main class="page"><div class="wrap"><h1>작은손 커피공방</h1><p>실제 Django 화면을 전달하는 단일 제안입니다. 사용자의 아트 선택·실제 시각 비평·네이티브 인수는 아직 기록하지 않았습니다.</p><p><a href="index.html">실제 화면 소스</a> · <a href="../screen-spec.md">화면 명세</a> · <a href="../source-status.json">누락된 실제 근거</a></p><h2>서체와 색상</h2><p>Hahmlet Regular400 · 본문과 조작</p><h2>Hahmlet Bold700 · 제목</h2>'+''.join('<p style="border-left:24px solid '+value+';padding-left:16px">'+html.escape(key+' '+value)+'</p>' for key,value in colors.items())+'<h2>조작 표본</h2>'+''.join('<p>'+html.escape(sample['label'])+' · '+html.escape(sample['variant'])+'</p>' for sample in samples)+'<p>계획된 디자인 소스와 주석이며 네이티브 검증 결과가 아님.</p>'+''.join(notes_html)+foundation_html+'<h2>실제 캡처</h2><img src="../previews/littlehands-desktop.jpg" alt="실제 데스크톱 화면"><img src="../previews/littlehands-mobile.jpg" alt="실제 모바일 화면"><p>사진은 붉은 바탕 위 흰 커피잔과 긴 그림자입니다. 통계·일정·이름·예약 상태는 실제 SSR 데이터에서만 가져옵니다.</p></div></main></body></html>')
+    return proposal, review, {'actual_captures':len(captures),'pending_measurements':len(missing),'actions':len(seen_actions),'geometry':'actual DOM only','design_completion':'not-claimed'}
 
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--static-root',type=Path,help='Actual Django collected static root; referenced bytes are copied with their hashed tree.')
+    parser.add_argument('--base-graph', type=Path, help='Previous unedited generator proposal for a three-way merge.')
+    parser.add_argument('--proposal-out', type=Path, help='Save this generated proposal for a later source update.')
+    parser.add_argument('--expected-sha256', help='Reject an outdated canonical graph before publishing.')
     args=parser.parse_args()
     if args.static_root:STATIC_ROOT=args.static_root.resolve()
-    build()
+    build(args.base_graph, args.proposal_out, args.expected_sha256)
