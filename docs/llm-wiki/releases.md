@@ -8,6 +8,14 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v0.32.1
+
+웹 화면의 자간과 첫 이미지 미리보기에 관한 패치다. [실측 보고서](../web-fidelity-0321.md)는 브라우저 너비, 자간을 생략한 Figma 대조군, 자간을 복원한 편집 가능 레이어를 같은 입력으로 비교한다. 두 Magic UI 화면에서 본문 글꼴 대체 없이 TEXT 너비를 비교했고, 별도 버튼 표본에서 서로 다른 두 자간과 실제 메인–인스턴스 연결을 검증했다. 한 메인의 자간을 직접 바꿔 충돌을 읽은 뒤 원래 값으로 복원했다.
+
+최초 캔버스 미리보기 비교에서는 동일 RGB 영역이 0개에서 13,500개 픽셀로 바뀌었다. 화면 전체를 두 번째 내보내기와도 대조했다. 이전 그래프는 자간 필드를 추가하지 않고 그대로 읽을 수 있다. 라스터를 포함한 새 화면만 준비 렌더가 하나 추가되며 하나의 45초 제한을 공유한다.
+
+포크에서 검토할 순서는 [재현 기준](https://github.com/jonsoku-dev/figma-flow/commit/925aa87), [구현](https://github.com/jonsoku-dev/figma-flow/commit/abd3af8), [독립적인 네이티브 검증과 정본 그래프](https://github.com/jonsoku-dev/figma-flow/commit/1430fdf), [설치 버전](https://github.com/jonsoku-dev/figma-flow/commit/4de7542)이다. API 정적 커버리지 기준에는 소스 해시만 바뀌었다. 새 API 관측 개수를 주장하지 않는다.
+
 ## v0.32.0
 
 최종 제품 소스는 `86b182e0f579206a65586a8ca34db0131f4d0f3a`이며 두 manifest의 버전은 0.32.0이다. [GitHub 배포 페이지와 다운로드](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.32.0)에서 태그, 설치 ZIP, SHA-256을 확인한다.

@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.32.0",
     "0.31.0",
     "0.30.0",
     "0.29.0",
@@ -8974,6 +8975,151 @@
           "version": "0.32.0"
         }
       ]
+    },
+    {
+      "commit": "91eb4ce74dc14d3160669bf1e96e329fbae5356c",
+      "diff_sha256": "391720f0f1072e662e6f9f9d9e6f34609b7c06c122a8f671f0495589e52ca3c1",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/37f3fde2e8ab54ba82e54bbbba81f82f3956b661.md",
+        "docs/llm-wiki/patches/3cfe367783a7715917562c11d1a0c27d1701cd4f.md",
+        "docs/llm-wiki/patches/456cb515719974311b0051ac86e7e3d764aa18d4.md",
+        "docs/llm-wiki/patches/45ea99992ade788ed7d25de89982652e863e44c7.md",
+        "docs/llm-wiki/patches/550da40d10c9520d8e96478455cc6f14982fc322.md",
+        "docs/llm-wiki/patches/68714bfb9b2b9ee88d3c2b663f4ba64469da23ba.md",
+        "docs/llm-wiki/patches/691080a3b319b9719dadc912c14022a93e2a13a6.md",
+        "docs/llm-wiki/patches/6ac040939170368c6d8a9ebc16f200ef31fd667d.md",
+        "docs/llm-wiki/patches/6df3d7849b82bd36526022e47a276e49f9e0faeb.md",
+        "docs/llm-wiki/patches/7db78d6f3cd8205222288a5e445d06a9c64a8216.md",
+        "docs/llm-wiki/patches/862912e9862e930409896a528eff20e926f8f4be.md",
+        "docs/llm-wiki/patches/86b182e0f579206a65586a8ca34db0131f4d0f3a.md",
+        "docs/llm-wiki/patches/9aaad2284fc4163be26995c4c729ea172bacd751.md",
+        "docs/llm-wiki/patches/a60f977b0093ea35f98d731c197e09f1667dbc75.md",
+        "docs/llm-wiki/patches/b69eed9e48f2205c81b6de5afade664069fc2a09.md",
+        "docs/llm-wiki/patches/bd20be5bdb1d5822b68b314067d912eb8ad7f43c.md",
+        "docs/llm-wiki/patches/be68110615269481f97b2867e3d12ab3eb1442a6.md",
+        "docs/llm-wiki/patches/d934a20173aaad840e477fc4aefd252b93bbc769.md",
+        "docs/llm-wiki/patches/ede4614b7cc87ab2ba1bee27d7a180889f022c92.md",
+        "docs/llm-wiki/patches/f30bd55957a7a9edb294a786e225ada8b3598ceb.md",
+        "docs/llm-wiki/patches/f8ccbff18d207ae881242d7f23bb46da7af6eac5.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "86b182e0f579206a65586a8ca34db0131f4d0f3a"
+      ],
+      "subject": "docs: publish the Design-only release contract, patch history and measured acceptance",
+      "tree": "b37d7844d0911a5ea58c5b68547ea9032d1dbf98",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.0"
+        }
+      ]
+    },
+    {
+      "commit": "925aa87a8b7b16d7f7a7b64671bc3699933b091b",
+      "diff_sha256": "235de1ec43e599f4ad183ddb5867e903f45375fcb0d0803ce0fe7dcc71008297",
+      "files": [
+        "tests/test_web_design.cjs",
+        "tests/test_web_design_tracking.py"
+      ],
+      "parents": [
+        "91eb4ce74dc14d3160669bf1e96e329fbae5356c"
+      ],
+      "subject": "test: pin web tracking and first image preview regressions",
+      "tree": "b2c383684008f5303dfc621fcae84bd1a79a4791",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.0"
+        }
+      ]
+    },
+    {
+      "commit": "abd3af873fa7cf47a02f7c8aeaa1825f46ac7e1c",
+      "diff_sha256": "bb397157c400c01011a39b0d77108a72f89fd20a1cbf76d851540b8de255a4ca",
+      "files": [
+        "figma-bridge/native_edit.js",
+        "figma-bridge/web_design.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design_preview.cjs",
+        "tools/web_design.py",
+        "tools/web_design_capture.js"
+      ],
+      "parents": [
+        "925aa87a8b7b16d7f7a7b64671bc3699933b091b"
+      ],
+      "subject": "fix: preserve editable text tracking and render first bitmap previews",
+      "tree": "53d89e77e5c09d9b5e35d3fc48dbdb3cbb6e02d5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.0"
+        }
+      ]
+    },
+    {
+      "commit": "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de",
+      "diff_sha256": "4f6ffd66467b61d220852c0f01f4fe0c72d5df29adb7e7beb21adff838efbc50",
+      "files": [
+        "docs/web-design-capture.md",
+        "docs/web-fidelity-0321.md",
+        "specs/editable-web/graph.json",
+        "tests/verify_web_typography.py"
+      ],
+      "parents": [
+        "abd3af873fa7cf47a02f7c8aeaa1825f46ac7e1c"
+      ],
+      "subject": "test: document measured typography and verify native component reuse",
+      "tree": "50123e7e898cdaaef963b7deff1930d9913cc52b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.0"
+        }
+      ]
+    },
+    {
+      "commit": "4de75426dcdeeaccb336b227bbade370ae2dffdc",
+      "diff_sha256": "27f005d5b0fd51db21f1ca30c070ebafd631927cbd4763193cd04cd688d52e39",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "docs/guide.md",
+        "plugin.json"
+      ],
+      "parents": [
+        "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de"
+      ],
+      "subject": "release: prepare Figma Flow 0.32.1 and update installation examples",
+      "tree": "fcb94ba005b5b320bd5b0b286109e1f9402c520e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.1"
+        }
+      ]
     }
   ],
   "pages": {
@@ -8999,6 +9145,7 @@
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
     "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
+    "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de": "5f2b7a311e12c35569029d1556b3dd2842d65940a30d79ce1aeca5046864c300",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
     "172924ede1f192cd0f8d42839a1c7d95d2854393": "6ecda83d9ad9ad40abd0bb3cda7d7a45a3d226161f2589ea3901de5d9942670d",
@@ -9063,6 +9210,7 @@
     "4cf19fe6d9e8f20e9f256c238fca3f5a072ca9c3": "d87d9197acf7e107e3986fdb175b95f59e3262383bec955165f74e43257a4fde",
     "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a": "326480bffbb42c4ce4dbb32c8d1f677a40060d3a5ffe546b54e57e674df852e3",
     "4dc23d6d98a7953572228b6bbf829e54c5417d13": "4614f0de857de2a6a8366f20a635591e74458142ba2573fd747d067cf84ec7f6",
+    "4de75426dcdeeaccb336b227bbade370ae2dffdc": "03e71c36cf710eeb087df1787bf6cfe2efc964fb846974db2319a2f651362b3f",
     "4eab91b666eaeead1fe04395f248f936cdb51b7d": "da5bfbe556d77c32c8ec650fee0d17ccf97885063c570ab81b9b70c4136b767b",
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
@@ -9127,6 +9275,8 @@
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "910e7aa74da7c142d7798dbba12e0920490b38cb": "d0f3ac89ca7d7b9bc1ff343116a7f8d42680ae2bcc2347f0069fda8e0ba08f3e",
     "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
+    "91eb4ce74dc14d3160669bf1e96e329fbae5356c": "dca7c34810ada2e732a3fe8daa3ada53aff22ba7ad768969aa8af29b58612593",
+    "925aa87a8b7b16d7f7a7b64671bc3699933b091b": "8ae80f9623c8bbd254de75e1a9b635f1dd3f599f15bb992a68a9002540160079",
     "939f1b997d8cff3bd6efca5c28a9c2a23cd41785": "b9c2ed153924c89dcb8e7bad839fc2716a3bb1db49787092c20c5a372c80cf1b",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
     "9408fdabedc720a7dd266f7a819953dd1abef969": "61b0dbf5ddf56891eda23a57922d7ae34264ba0ccc49b60430390bf947d0e690",
@@ -9160,6 +9310,7 @@
     "aa8b7191405b160d1119c403510152a12e0ae801": "54cbbb00a583768919a9b7e0b55f7b81856bea4671572c502868b4bfb822c74b",
     "ab1c8200cd77e2c24a3e322ddde643d80b179239": "cfe81c94bbe740755a66a14845051416ed74a6f429ea97802ecb7b54b4fe59ff",
     "ab8b1fe594b960fb2b22936dff34e3b7e711ff21": "eeda4fb2ffc63662d4b6bfe478bb32f4b5446a1fd635c3d371bdea59717ace03",
+    "abd3af873fa7cf47a02f7c8aeaa1825f46ac7e1c": "e6c6c4b562e0fbf140427409daffde76379770fe8185ef4e5c13c8ca4fc442e3",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
@@ -9410,6 +9561,10 @@
     },
     {
       "observed_at_commit": "4dc23d6d98a7953572228b6bbf829e54c5417d13",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "4de75426dcdeeaccb336b227bbade370ae2dffdc",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -9897,13 +10052,23 @@
         "v0.31.0"
       ],
       "version": "0.31.0"
+    },
+    {
+      "source_commits": [
+        "91eb4ce74dc14d3160669bf1e96e329fbae5356c"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.32.0"
+      ],
+      "version": "0.32.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "86b182e0f579206a65586a8ca34db0131f4d0f3a",
+  "source_commit": "4de75426dcdeeaccb336b227bbade370ae2dffdc",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -9999,6 +10164,11 @@
       "commit": "6ac040939170368c6d8a9ebc16f200ef31fd667d",
       "tag": "v0.31.0",
       "version": "0.31.0"
+    },
+    {
+      "commit": "91eb4ce74dc14d3160669bf1e96e329fbae5356c",
+      "tag": "v0.32.0",
+      "version": "0.32.0"
     }
   ]
 }

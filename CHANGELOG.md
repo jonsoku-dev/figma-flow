@@ -1,5 +1,12 @@
 # 변경 기록
 
+## 0.32.1 · 2026-11-14
+
+- 웹에서 가져온 제목과 버튼에 CSS 자간을 편집 가능한 Figma 텍스트 속성으로 유지합니다. Portfolio·CodeForge 제목 세 줄의 너비 오차가 기존 35.45~59.83 px에서 1.45~2.83 px로 줄었습니다.
+- 자간이 같은 버튼은 메인 컴포넌트를 재사용합니다. 디자이너가 자간을 바꾸면 기존 프레임을 보존하고 변경을 보고합니다.
+- 이미지 또는 대체 포스터가 포함된 새 화면의 첫 PNG를 준비한 뒤 미리보기를 반환합니다. 캔버스 표본의 첫 출력에서 빠졌던 빨간 영역이 재적용 없이 나타났습니다.
+- [실제 브라우저·Figma 비교](docs/web-fidelity-0321.md) · [포크용 패치 Wiki](docs/llm-wiki/releases.md#v0.32.1) · [설치본과 SHA-256](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.32.1).
+
 ## 0.32.0 · 2026-11-14
 
 - Design 전용 플러그인 ZIP과 SHA-256 파일을 [0.32.0 배포 페이지](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.32.0)에서 제공합니다.
