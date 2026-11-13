@@ -11,24 +11,37 @@ sys.path.insert(0, str(ROOT / 'tools'))
 sys.path.insert(0, str(ROOT / 'skills/figma-flow/scripts'))
 import api_priority
 import native_api_probe
+import design_type_review_graph
 from graph import validate_graph
 from review_api_coverage import observed_member_evidence
 from review_api_coverage import PUBLIC_OBSERVATION_OVERLAYS
 
 
 class ApiPriorityTest(unittest.TestCase):
-    def test_receipt_overlay_reports_030_baseline_and_031_delta_separately(self):
+    def test_receipt_overlays_report_baseline_and_current_exact_key_union(self):
         baseline_overlay = json.loads(PUBLIC_OBSERVATION_OVERLAYS[0].read_text())
         baseline = api_priority.build(overlays=[baseline_overlay])
         current = api_priority.build(include_public_overlays=True)
+        audit = json.loads(api_priority.AUDIT.read_text())
+        base_graph = json.loads(api_priority.OBSERVATIONS.read_text())
+        baseline_keys = {row['key'] for row in audit['members']
+            if row['release_status']['candidate']['status'] == 'observed'}
+        baseline_keys.update(observed_member_evidence(audit, base_graph))
+        for path in PUBLIC_OBSERVATION_OVERLAYS[:2]:
+            baseline_keys.update(observed_member_evidence(audit, json.loads(path.read_text()), require_receipts=True))
+        current_overlay_keys = set()
+        for path in PUBLIC_OBSERVATION_OVERLAYS[2:]:
+            current_overlay_keys.update(observed_member_evidence(audit, json.loads(path.read_text()), require_receipts=True))
+        expected_remaining = len(audit['members']) - len(baseline_keys | current_overlay_keys)
         self.assertEqual(baseline['source']['unobserved_members'], 1232)
-        self.assertEqual(current['source']['unobserved_members'], 1193)
+        self.assertEqual(current['source']['unobserved_members'], expected_remaining)
         report = json.loads(subprocess.check_output(
             [sys.executable, str(ROOT / 'tools/review_api_coverage.py')], text=True))
         self.assertEqual((report['baseline_release'], report['baseline_observed'],
-                          report['before_031_unobserved'], report['this_release'],
+                          report['before_032_unobserved'], report['this_release'],
                           report['newly_observed'], report['remaining_without_live_member_evidence']),
-                         ('0.30.0', 150, 1232, '0.31.0', 39, 1193))
+                         ('0.31.0', len(baseline_keys), len(audit['members']) - len(baseline_keys),
+                          '0.32.0', len(current_overlay_keys - baseline_keys), expected_remaining))
 
     def test_inventory_keeps_every_exact_audit_key_and_real_graph_status(self):
         audit = json.loads(api_priority.AUDIT.read_text())
@@ -43,6 +56,9 @@ class ApiPriorityTest(unittest.TestCase):
         for row in inventory['rows']:
             self.assertTrue(row['priority_reasons'])
             self.assertIn('receiver_types', row)
+            self.assertIn(row['design_scope'], {'design-node', 'shared-node', 'design-api',
+                'figjam-only', 'slides-only', 'other-editor-only', 'runtime-object-unresolved',
+                'other-runtime-node', 'type-only', 'unresolved'})
             if row['api_member_id'] in observed:
                 self.assertEqual(row['evidence_status'], 'observed-in-observation-graph')
                 self.assertTrue(row['observation_evidence'])
@@ -79,6 +95,13 @@ class ApiPriorityTest(unittest.TestCase):
         self.assertTrue(by_receiver)
         self.assertTrue(all('TEXT' in row['receiver_types'] for row in by_receiver))
         self.assertFalse(api_priority.queue(inventory, receiver='BaseNonResizableTextMixin'))
+        design_rows = api_priority.queue(inventory, limit=None, design_only=True)
+        self.assertTrue(design_rows)
+        self.assertTrue(all(row['design_scope'] in {'design-node', 'shared-node', 'design-api'}
+                            for row in design_rows))
+        self.assertFalse(any(row['design_scope'] in {'figjam-only', 'slides-only'} for row in design_rows))
+        self.assertTrue(api_priority.queue(inventory, limit=10, receiver='FRAME', design_only=True))
+        self.assertFalse(api_priority.queue(inventory, limit=10, receiver='CONNECTOR', design_only=True))
 
     def test_writable_property_is_still_readable_and_unapproved_methods_need_scenario(self):
         base = {'owner': 'LayoutMixin', 'name': 'resizeWithoutConstraints', 'kind': 'MethodSignature',
@@ -104,6 +127,54 @@ class ApiPriorityTest(unittest.TestCase):
         self.assertEqual(readable['feasibility'], 'readable-property')
         self.assertEqual(readable['access'], 'property-read')
         self.assertEqual(readable['write_capability'], 'writable-property')
+        self.assertEqual(api_priority._design_scope(writable_property, readable)[0], 'design-node')
+
+    def test_editor_specific_nodes_remain_in_the_denominator_as_out_of_scope(self):
+        inventory = api_priority.build(include_public_overlays=True)
+        sticky = next(row for row in inventory['rows'] if row['owner'] == 'StickyNode' and row['name'] == 'isWideWidth')
+        slide = next(row for row in inventory['rows'] if row['owner'] == 'SlideNode' and row['name'] == 'isSkippedSlide')
+        self.assertEqual(sticky['design_scope'], 'figjam-only')
+        self.assertEqual(slide['design_scope'], 'slides-only')
+        self.assertEqual(inventory['source']['audit_member_count'], 1382)
+        all_unobserved = api_priority.queue(inventory, limit=None)
+        self.assertEqual(len(all_unobserved), inventory['source']['unobserved_members'])
+        design_queue = api_priority.queue(inventory, limit=None, design_only=True)
+        self.assertEqual(design_queue, [row for row in all_unobserved
+            if row['design_scope'] in {'design-node', 'shared-node', 'design-api'}])
+        graph = design_type_review_graph.build_graph('FILE_KEY', '1:1')
+        scope = json.loads(next(node['detail'] for node in graph['nodes'] if node['id'] == 'scope:lab'))
+        queue_commands = [command for command in scope['queueCommands'] if '--receiver' in command]
+        self.assertTrue(queue_commands)
+        self.assertTrue(all('--design-only' in command for command in queue_commands))
+        queue_by_receiver = {}
+        for node in graph['nodes']:
+            if not node['id'].startswith('figma:member:'):
+                continue
+            detail = json.loads(node['detail'])
+            self.assertIn(detail['queue_receiver'], ('TEXT', 'FRAME', 'PluginAPI'))
+            if detail['queue_position'] is not None:
+                if detail['queue_receiver'] not in queue_by_receiver:
+                    queue_by_receiver[detail['queue_receiver']] = api_priority.queue(
+                        inventory, limit=None, receiver=detail['queue_receiver'], design_only=True)
+                queued = queue_by_receiver[detail['queue_receiver']][detail['queue_position'] - 1]
+                self.assertEqual(queued['api_member_id'], detail['api_member_id'])
+                self.assertIn(queued['design_scope'], {'design-node', 'shared-node', 'design-api'})
+
+    def test_dynamic_page_write_only_property_points_to_its_async_read_method(self):
+        inventory = api_priority.build(include_public_overlays=True)
+        prop = next(row for row in inventory['rows']
+                    if row['owner'] == 'InstanceNode' and row['name'] == 'mainComponent')
+        method = next(row for row in inventory['rows']
+                      if row['owner'] == 'InstanceNode' and row['name'] == 'getMainComponentAsync')
+        self.assertEqual(prop['feasibility'], 'write-only-in-dynamic-page')
+        self.assertEqual(prop['access'], 'property-write-only')
+        self.assertEqual(method['feasibility'], 'read-only-method')
+        instances = next(row for row in inventory['rows']
+                         if row['owner'] == 'ComponentNode' and row['name'] == 'instances')
+        get_instances = next(row for row in inventory['rows']
+                             if row['owner'] == 'ComponentNode' and row['name'] == 'getInstancesAsync')
+        self.assertEqual(instances['feasibility'], 'unavailable-in-dynamic-page')
+        self.assertEqual(get_instances['feasibility'], 'read-only-method')
 
     def test_graph_export_connects_entire_queue_to_members_use_cases_facts_and_status(self):
         inventory = api_priority.build()
@@ -196,6 +267,16 @@ class ApiPriorityTest(unittest.TestCase):
         row = next(item for item in result['rows'] if item['api_member_id'] == candidate['key'])
         self.assertEqual(row['evidence_status'], 'observed-in-observation-graph')
         self.assertEqual(row['observation_evidence'][0]['observed_at'], stamp)
+        resize = next(row for row in audit['members'] if row['owner'] == 'LayoutMixin' and row['name'] == 'resize')
+        operation = {'version': 1, 'id': 'priority-operation-overlay', 'nodes': [
+            {'id': 'OBS-owned-write', 'type': 'test', 'status': 'observed', 'source': 'owned-fixture',
+             'observed_at': stamp, 'receipt_sha256': 'b' * 64, 'operation_counts': {'success': 1}},
+            {'id': resize['key'], 'type': 'figma', 'status': 'observed',
+             'title': resize['owner'] + '.' + resize['name']}],
+            'edges': [{'from': 'OBS-owned-write', 'to': resize['key'], 'type': 'observed member'}]}
+        operation_result = api_priority.build(audit, base, overlays=[operation])
+        operation_row = next(item for item in operation_result['rows'] if item['api_member_id'] == resize['key'])
+        self.assertEqual(operation_row['evidence_status'], 'observed-in-observation-graph')
         invalid = json.loads(json.dumps(overlay))
         invalid['nodes'][0].pop('observed_at')
         with self.assertRaisesRegex(ValueError, 'timestamped receipt'):

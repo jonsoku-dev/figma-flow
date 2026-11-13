@@ -38,6 +38,19 @@ async function main() {
     {horizontal: 'LEFT_RIGHT', vertical: 'TOP'});
   assert.deepEqual(project('layout-grid-summary', [{pattern: 'GRID', sectionSize: 12}]).value,
     {count: 1, patterns: ['GRID']});
+  const nested = project('bounded-object-summary', {type: 'BASIC', id: 'PRIVATE-ID', name: 'Private Name',
+    unit: 'PIXELS', value: 12, segments: [{id: 'PRIVATE-SEGMENT'}]});
+  assert.deepEqual(nested.value, {type: 'BASIC', unit: 'PIXELS', value: 12, segments: {count: 1}});
+  assert.ok(!JSON.stringify(nested).includes('PRIVATE'));
+  assert.ok(!JSON.stringify(nested).includes('Private Name'));
+  assert.deepEqual(project('unit-value', {unit: 'PERCENT', value: 125}).value,
+    {mixed: false, unit: 'PERCENT', value: 125});
+  assert.deepEqual(project('mixed-enum', figma.mixed).value, {mixed: true});
+  assert.deepEqual(project('vector-summary', {vertices: [{x: 10, y: 20, id: 'PRIVATE'}],
+    segments: [{start: 0, end: 0}], regions: []}).value,
+  {vertices: 1, segments: 1, regions: 0});
+  assert.deepEqual(project('layout-summary', {layoutMode: 'HORIZONTAL', paddingLeft: 16,
+    privateField: 'do not copy'}).value, {layoutMode: 'HORIZONTAL', paddingLeft: 16});
   assert.equal(JSON.stringify(project('bounded-count', Array(65))).includes('65'), false);
   const scope = {file_key: config.fileKey, page_id: pageId};
   const result = await context.__probeApi.discoverSelectedNativeApi(figma, scope, config);

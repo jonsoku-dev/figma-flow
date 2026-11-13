@@ -19,19 +19,22 @@ AUDIT_CANDIDATE_RELEASE = '0.28.0'
 SELECTION_SCHEMA = 'figma-flow-native-api-probe-selection-v1'
 READBACK_SCHEMA = 'figma-flow-graph-native-discovery-v1'
 CONFIG_SCHEMA = 'figma-flow-native-api-probe-config-v1'
-MAX_TARGETS = 12
+MAX_TARGETS = 24
 MAX_CANDIDATES_PER_TYPE = 16
 MAX_ELIGIBLE_PER_TYPE = 64
 AUDIT_MEMBER_COUNT = 1382
 MAX_GETTERS = MAX_TARGETS * MAX_CANDIDATES_PER_TYPE
-MAX_ELAPSED_MS = 1500
+MAX_ELAPSED_MS = 3000
 MAX_ANCESTORS = 32
 NODE_ID = re.compile(r'(?:I?\d+:\d+)(?:;\d+:\d+)*\Z')
 SAFE_TYPES = {'FRAME': 'FrameNode', 'ELLIPSE': 'EllipseNode',
               'BOOLEAN_OPERATION': 'BooleanOperationNode', 'SECTION': 'SectionNode',
               'INSTANCE': 'InstanceNode', 'COMPONENT': 'ComponentNode',
               'TEXT': 'TextNode', 'RECTANGLE': 'RectangleNode', 'COMPONENT_SET': 'ComponentSetNode',
-              'GROUP': 'GroupNode', 'VECTOR': 'VectorNode'}
+              'GROUP': 'GroupNode', 'VECTOR': 'VectorNode', 'DOCUMENT': 'DocumentNode',
+              'PAGE': 'PageNode', 'SLICE': 'SliceNode',
+              'LINE': 'LineNode', 'POLYGON': 'PolygonNode', 'STAR': 'StarNode',
+              'TEXT_PATH': 'TextPathNode', 'SLOT': 'SlotNode'}
 
 # These fields are safe scalar, geometry, layout, or solid-color foundations.
 # Every entry still requires a matching unresolved PropertySignature in the audit.
@@ -79,7 +82,6 @@ SAFE_FIELDS = {
     'layoutGrids': ('layout', 'layout-grid-summary', 1),
     'strokeGeometry': ('geometry', 'bounded-count', 2),
     'fillGeometry': ('geometry', 'bounded-count', 2),
-    'mainComponent': ('component', 'reference-state', 2, ('INSTANCE',)),
     'numberOfFixedChildren': ('prototype', 'number', 2),
     'textTruncation': ('text-style', 'enum', 2, ('TEXT',)),
     'booleanOperation': ('shape', 'enum', 0, ('BOOLEAN_OPERATION',)),
@@ -143,6 +145,72 @@ SAFE_FIELDS = {
     'width': ('geometry', 'number', 4),
     'height': ('geometry', 'number', 4),
     'rotation': ('geometry', 'number', 4),
+    # Additional Design receivers and scalar or identity-free summaries.
+    'type': ('state', 'enum', 0),
+    'documentColorProfile': ('state', 'enum', 0, ('DOCUMENT',)),
+    'selection': ('state', 'bounded-count', 1, ('PAGE',)),
+    'prototypeStartNode': ('prototype', 'reference-state', 1, ('PAGE',)),
+    'isPageDivider': ('prototype', 'boolean', 2, ('PAGE',)),
+    'children': ('structure', 'bounded-count', 2, ('DOCUMENT',)),
+    'backgrounds': ('appearance', 'solid-paints', 2, ('PAGE',)),
+    'prototypeBackgrounds': ('appearance', 'solid-paints', 2, ('PAGE',)),
+    'flowStartingPoints': ('prototype', 'bounded-count', 2, ('PAGE',)),
+    'guides': ('layout', 'bounded-count', 2, ('PAGE',)),
+    'exposedInstances': ('component', 'bounded-count', 2, ('INSTANCE',)),
+    'documentationLinks': ('component', 'bounded-count', 2, ('COMPONENT', 'COMPONENT_SET')),
+    'strokeTopWeight': ('appearance', 'number', 2, ('COMPONENT', 'COMPONENT_SET', 'FRAME', 'INSTANCE', 'RECTANGLE')),
+    'strokeRightWeight': ('appearance', 'number', 2, ('COMPONENT', 'COMPONENT_SET', 'FRAME', 'INSTANCE', 'RECTANGLE')),
+    'strokeBottomWeight': ('appearance', 'number', 2, ('COMPONENT', 'COMPONENT_SET', 'FRAME', 'INSTANCE', 'RECTANGLE')),
+    'strokeLeftWeight': ('appearance', 'number', 2, ('COMPONENT', 'COMPONENT_SET', 'FRAME', 'INSTANCE', 'RECTANGLE')),
+    'variableWidthStrokeProperties': ('appearance', 'bounded-object-summary', 2),
+    'complexStrokeProperties': ('appearance', 'bounded-object-summary', 2),
+    'inferredAutoLayout': ('layout', 'layout-summary', 2),
+    'animations': ('motion', 'map-count', 2),
+    'manualKeyframeTracks': ('motion', 'map-count', 2),
+    'timelines': ('motion', 'bounded-count', 2),
+    'counterAxisAlignContent': ('layout', 'enum', 2),
+    'itemReverseZIndex': ('layout', 'boolean', 2),
+    'guides': ('layout', 'bounded-count', 2),
+    'gridRowSizes': ('layout', 'grid-track-summary', 2),
+    'gridColumnSizes': ('layout', 'grid-track-summary', 2),
+    'detachedInfo': ('component', 'reference-state', 2),
+    'overlayBackgroundInteraction': ('prototype', 'enum', 2),
+    'overlayPositionType': ('prototype', 'enum', 2),
+    'overflowDirection': ('prototype', 'enum', 2),
+    'overlayBackground': ('prototype', 'bounded-object-summary', 2),
+    'textDecorationStyle': ('text-style', 'mixed-enum', 1, ('TEXT',)),
+    'textAlignHorizontal': ('text-style', 'enum', 1, ('TEXT_PATH',)),
+    'textAlignVertical': ('text-style', 'enum', 1, ('TEXT_PATH',)),
+    'textDecorationColor': ('text-style', 'decoration-color', 1, ('TEXT',)),
+    'textDecorationThickness': ('text-style', 'unit-value', 1, ('TEXT',)),
+    'textDecorationOffset': ('text-style', 'unit-value', 1, ('TEXT',)),
+    'textDecorationSkipInk': ('text-style', 'mixed-boolean', 1, ('TEXT',)),
+    'lineHeight': ('text-style', 'unit-value', 1, ('TEXT',)),
+    'letterSpacing': ('text-style', 'unit-value', 1, ('TEXT',)),
+    'openTypeFeatures': ('text-style', 'mixed-map-count', 2),
+    'hyperlink': ('text-style', 'reference-state', 2),
+    'hangingList': ('text-style', 'boolean', 2, ('TEXT',)),
+    'hangingPunctuation': ('text-style', 'boolean', 2, ('TEXT',)),
+    'leadingTrim': ('text-style', 'enum', 2, ('TEXT',)),
+    'listSpacing': ('text-style', 'mixed-number', 2, ('TEXT',)),
+    'handleMirroring': ('geometry', 'mixed-enum', 2, ('TEXT_PATH', 'VECTOR')),
+    'autoRename': ('state', 'boolean', 2, ('TEXT', 'TEXT_PATH')),
+    'description': ('component', 'string-state', 2),
+    'descriptionMarkdown': ('component', 'string-state', 2),
+    'remote': ('component', 'boolean', 2),
+    'key': ('component', 'style-state', 2),
+    'variantProperties': ('component', 'map-count', 2),
+    'defaultVariant': ('component', 'reference-state', 2, ('COMPONENT_SET',)),
+    'variantGroupProperties': ('component', 'map-count', 2, ('COMPONENT_SET',)),
+    'textStyleId': ('text-style', 'style-state', 2, ('TEXT', 'TEXT_PATH')),
+    'textPathStartData': ('geometry', 'bounded-object-summary', 2, ('TEXT_PATH',)),
+    'selectedTextRange': ('text-style', 'range-state', 2, ('PAGE',)),
+    'vectorPaths': ('geometry', 'bounded-count', 2, ('TEXT_PATH', 'VECTOR')),
+    'vectorNetwork': ('geometry', 'vector-summary', 2, ('TEXT_PATH', 'VECTOR')),
+    'attachedConnectors': ('prototype', 'bounded-count', 2),
+    'pointCount': ('geometry', 'number', 2, ('POLYGON', 'STAR')),
+    'innerRadius': ('geometry', 'number', 2, ('STAR',)),
+    'limitViolations': ('component', 'bounded-count', 2, ('SLOT',)),
 }
 
 # Methods are called only through explicit static branches in the bridge runtime.
@@ -153,6 +221,8 @@ SAFE_METHODS = {
     'getRangeFontSize': ('text-style', 'font-size-range', 0, ('TEXT',)),
     'getRangeFontWeight': ('text-style', 'font-weight-range', 0, ('TEXT',)),
     'getRangeFills': ('text-style', 'solid-paints', 0, ('TEXT',)),
+    'getMainComponentAsync': ('component', 'reference-state', 0, ('INSTANCE',)),
+    'getInstancesAsync': ('component', 'bounded-count', 0, ('COMPONENT',)),
 }
 
 
@@ -183,7 +253,7 @@ def _node_types(catalog):
     return result
 
 
-def candidates_for_type(catalog, audit_rows, node_type):
+def candidates_for_type(catalog, audit_rows, node_type, *, include_observed=False):
     node_interface = SAFE_TYPES.get(node_type)
     if node_interface is None or _node_types(catalog).get(node_type) != node_interface:
         return []
@@ -219,10 +289,11 @@ def candidates_for_type(catalog, audit_rows, node_type):
                 or (member.get('documented_editors') and 'figma' not in member['documented_editors'])):
             continue
         audited = audit_rows.get((member['owner'], member['name'], member['signature']), [])
-        unresolved = [row for row in audited
-                      if row.get('kind') == member.get('kind')
-                      and row.get('release_status', {}).get('candidate', {}).get('status') == 'unresolved']
-        if not unresolved:
+        eligible_audit_rows = [row for row in audited
+                               if row.get('kind') == member.get('kind')
+                               and (row.get('release_status', {}).get('candidate', {}).get('status') == 'unresolved'
+                                    or (include_observed and row.get('release_status', {}).get('candidate', {}).get('status') == 'observed'))]
+        if not eligible_audit_rows:
             continue
         selected = member
         field_policy = SAFE_FIELDS[member['name']] if access == 'property' else SAFE_METHODS[member['name']]
@@ -231,7 +302,7 @@ def candidates_for_type(catalog, audit_rows, node_type):
         if '*' not in allowed_receivers and node_type not in allowed_receivers:
             continue
         by_name.setdefault(member['name'], []).append({
-            'api_member_id': unresolved[0]['key'],
+            'api_member_id': eligible_audit_rows[0]['key'],
             'official_member_id': member['id'],
             'owner': member['owner'],
             'property': member['name'],
@@ -317,7 +388,8 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,128}', str(file_key)) or not re.fullmatch(r'\d+:\d+', str(page_id)):
         raise ValueError('A file key and page ID are required to bind the probe request.')
     if (not isinstance(selection, dict) or selection.get('schema') != SELECTION_SCHEMA
-            or set(selection) - {'schema', 'fileKey', 'pageId', 'nodes', 'previous_readback', 'candidate_offset', 'recheck_member_ids'}):
+            or set(selection) - {'schema', 'fileKey', 'pageId', 'nodes', 'previous_readback',
+                                 'candidate_offset', 'recheck_member_ids', 'candidate_member_ids'}):
         raise ValueError('Expected a figma-flow-native-api-probe-selection-v1 request.')
     if selection.get('fileKey') != file_key or selection.get('pageId') != page_id:
         raise ValueError('Probe selection file/page differs from the admitted discovery scope.')
@@ -330,6 +402,8 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
     seen_semantic, seen_native = set(), set()
     targets, eligible_by_type, candidates_by_type, eligibility_by_type = [], {}, {}, {}
     inventory = api_priority.build(include_public_overlays=True)
+    if 'recheck_member_ids' in selection and 'candidate_member_ids' in selection:
+        raise ValueError('Choose either an observed-key recheck or a targeted candidate batch.')
     if 'recheck_member_ids' in selection:
         requested = selection['recheck_member_ids']
         if (not isinstance(requested, list) or not 1 <= len(requested) <= MAX_CANDIDATES_PER_TYPE
@@ -339,6 +413,16 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
                     if row['evidence_status'] in ('observed', 'observed-in-observation-graph')}
         if any(key not in admitted for key in requested) or offset:
             raise ValueError('Recheck requires previously observed audit keys and offset zero.')
+        ranked_rows = [admitted[key] for key in requested]
+    elif 'candidate_member_ids' in selection:
+        requested = selection['candidate_member_ids']
+        if (not isinstance(requested, list) or not 1 <= len(requested) <= MAX_CANDIDATES_PER_TYPE
+                or not all(isinstance(key, str) for key in requested) or len(set(requested)) != len(requested)):
+            raise ValueError('Targeted candidates require unique exact member keys in a single bounded batch.')
+        admitted = {row['api_member_id']: row for row in api_priority.queue(
+            inventory, limit=None, feasible_only=True)}
+        if any(key not in admitted for key in requested) or offset:
+            raise ValueError('Targeted candidates must be unresolved feasible audit keys and use offset zero.')
         ranked_rows = [admitted[key] for key in requested]
     else:
         ranked_rows = api_priority.queue(inventory, limit=None, feasible_only=True)
@@ -356,7 +440,8 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
         seen_semantic.add(row['semantic_id'])
         seen_native.add(row['observed_node_id'])
         if row['observed_type'] not in eligible_by_type:
-            candidates = candidates_for_type(catalog, audit_rows, row['observed_type'])
+            candidates = candidates_for_type(catalog, audit_rows, row['observed_type'],
+                include_observed='recheck_member_ids' in selection)
             ordered = sorted(
                 (candidate for candidate in candidates if candidate['api_member_id'] in priority_order),
                 key=lambda candidate: priority_order[candidate['api_member_id']])
@@ -387,10 +472,11 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
     if previous_readback is not None and previous is None:
         raise ValueError('Previous readback must have a valid actual receipt timestamp and match the exact file/page scope.')
     api_source = {'version': catalog['source']['version'], 'ref': catalog['source']['ref']}
-    if 'recheck_member_ids' in selection:
+    if 'recheck_member_ids' in selection or 'candidate_member_ids' in selection:
+        requested = selection.get('recheck_member_ids', selection.get('candidate_member_ids', []))
         reachable = {item['api_member_id'] for items in candidates_by_type.values() for item in items}
-        if set(selection['recheck_member_ids']) != reachable:
-            raise ValueError('Recheck keys must be supported by the selected receiver types and static projection policy.')
+        if set(requested) != reachable:
+            raise ValueError('Requested member keys must be supported by the selected receivers and static projection policy.')
     field_policy = {name: {'foundation': values[0], 'value_kind': values[1], 'priority': values[2],
                            'allowed_receivers': list(values[3]) if len(values) == 4 else ['*'],
                            'access': 'property'} for name, values in SAFE_FIELDS.items()}
@@ -452,6 +538,8 @@ def normalize_selection(selection, *, file_key, page_id, catalog=None, audit=Non
     result['candidate_offset'] = config['candidateOffset']
     if 'recheck_member_ids' in selection:
         result['recheck_member_ids'] = list(selection['recheck_member_ids'])
+    if 'candidate_member_ids' in selection:
+        result['candidate_member_ids'] = list(selection['candidate_member_ids'])
     if config['previous'] is not None:
         result['previous_readback'] = {'schema': READBACK_SCHEMA, 'fileKey': file_key, 'pageId': page_id,
             'observed_at': config['previous']['observed_at'],

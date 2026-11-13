@@ -1,6 +1,6 @@
-const NATIVE_API_PROBE_MAX_TARGETS = 12;
-const NATIVE_API_PROBE_MAX_GETTERS = 192;
-const NATIVE_API_PROBE_MAX_ELAPSED_MS = 1500;
+const NATIVE_API_PROBE_MAX_TARGETS = 24;
+const NATIVE_API_PROBE_MAX_GETTERS = 384;
+const NATIVE_API_PROBE_MAX_ELAPSED_MS = 3000;
 const NATIVE_API_PROBE_MAX_ANCESTORS = 32;
 const NATIVE_API_PROBE_STATUSES = ['success', 'unavailable', 'unsupported', 'blocked'];
 const NATIVE_API_PROBE_METHODS = {
@@ -9,6 +9,8 @@ const NATIVE_API_PROBE_METHODS = {
   getRangeFontSize: {foundation: 'text-style', value_kind: 'font-size-range'},
   getRangeFontWeight: {foundation: 'text-style', value_kind: 'font-weight-range'},
   getRangeFills: {foundation: 'text-style', value_kind: 'solid-paints'},
+  getMainComponentAsync: {foundation: 'component', value_kind: 'reference-state', owned_fixture_only: true},
+  getInstancesAsync: {foundation: 'component', value_kind: 'bounded-count', owned_fixture_only: true},
 };
 
 function nativeProbeFinite(value, minimum = -1000000, maximum = 1000000) {
@@ -19,11 +21,42 @@ function nativeProbeRound(value) {
   return Math.round(value * 10000) / 10000;
 }
 
+function nativeProbeIsOwnedFixture(node, semanticId) {
+  if (typeof node?.getPluginData !== 'function') return false;
+  try {
+    const marker = JSON.parse(node.getPluginData('figmaFlowNativeApiLab'));
+    return marker?.version === '0.31-scene-v1' && marker.semanticId === semanticId;
+  } catch (_) { return false; }
+}
+
 function nativeProbeColor(value) {
   if (!value || typeof value !== 'object'
       || !nativeProbeFinite(value.r, 0, 1) || !nativeProbeFinite(value.g, 0, 1)
       || !nativeProbeFinite(value.b, 0, 1)) return null;
   return {r: nativeProbeRound(value.r), g: nativeProbeRound(value.g), b: nativeProbeRound(value.b)};
+}
+
+function nativeProbeBoundedShape(value, depth = 0) {
+  if (depth > 4 || !value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const permitted = new Set(['type', 'unit', 'value', 'visible', 'opacity', 'horizontal', 'vertical',
+    'x', 'y', 'width', 'height', 'count', 'pattern', 'innerRadius', 'startingAngle', 'endingAngle',
+    'segments', 'vertices', 'regions', 'stops', 'handles', 'widthProfile', 'segment', 'position',
+    'color', 'r', 'g', 'b']);
+  const result = {};
+  for (const key of permitted) {
+    if (!(key in value)) continue;
+    const item = value[key];
+    if (typeof item === 'boolean') result[key] = item;
+    else if (nativeProbeFinite(item)) result[key] = nativeProbeRound(item);
+    else if (typeof item === 'string' && ['type', 'unit', 'pattern', 'horizontal', 'vertical', 'widthProfile'].includes(key)
+        && /^[A-Z][A-Z0-9_:-]{0,63}$/.test(item)) result[key] = item;
+    else if (Array.isArray(item)) result[key] = {count: Math.min(item.length, 64)};
+    else if (item && typeof item === 'object') {
+      const nested = nativeProbeBoundedShape(item, depth + 1);
+      if (nested && Object.keys(nested).length) result[key] = nested;
+    }
+  }
+  return Object.keys(result).length ? result : {present: true};
 }
 
 function nativeProbeCssSummary(value) {
@@ -103,6 +136,72 @@ function nativeProbeValue(kind, value, figma) {
     return typeof value === 'string' && value.length <= 160
       ? {ok: true, value: 'assigned'} : {ok: false};
   }
+  if (kind === 'mixed-enum') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (value === null || value === undefined) return {ok: true, value: null};
+    return typeof value === 'string' && /^[A-Z][A-Z0-9_:-]{0,63}$/.test(value)
+      ? {ok: true, value: {mixed: false, value}} : {ok: false};
+  }
+  if (kind === 'mixed-boolean') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (value === null || value === undefined) return {ok: true, value: null};
+    return typeof value === 'boolean' ? {ok: true, value: {mixed: false, value}} : {ok: false};
+  }
+  if (kind === 'mixed-number') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (value === null || value === undefined) return {ok: true, value: null};
+    return nativeProbeFinite(value) ? {ok: true, value: {mixed: false, value: nativeProbeRound(value)}}
+      : {ok: false};
+  }
+  if (kind === 'unit-value') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (value === null || value === undefined) return {ok: true, value: null};
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
+    if (value.unit === 'AUTO') return {ok: true, value: {mixed: false, unit: 'AUTO'}};
+    if (!['PIXELS', 'PERCENT'].includes(value.unit) || !nativeProbeFinite(value.value, -100000, 100000)) return {ok: false};
+    return {ok: true, value: {mixed: false, unit: value.unit, value: nativeProbeRound(value.value)}};
+  }
+  if (kind === 'decoration-color') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (value === null || value === undefined) return {ok: true, value: null};
+    if (value && value.value === 'AUTO') return {ok: true, value: {value: 'AUTO'}};
+    if (value && value.value && value.value.type === 'SOLID') {
+      const paint = nativeProbeValue('solid-paints', [value.value], figma);
+      return paint.ok ? {ok: true, value: {value: paint.value[0]}} : {ok: false};
+    }
+    return {ok: false};
+  }
+  if (kind === 'bounded-object-summary') {
+    return value === null || value === undefined ? {ok: true, value: null}
+      : value && typeof value === 'object' && !Array.isArray(value)
+        ? {ok: true, value: nativeProbeBoundedShape(value)} : {ok: false};
+  }
+  if (kind === 'layout-summary') {
+    if (value === null || value === undefined) return {ok: true, value: null};
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
+    const allowed = ['layoutMode', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom',
+      'horizontalPadding', 'verticalPadding', 'primaryAxisSizingMode', 'counterAxisSizingMode',
+      'strokesIncludedInLayout', 'layoutWrap', 'primaryAxisAlignItems', 'counterAxisAlignItems',
+      'counterAxisAlignContent', 'itemSpacing', 'counterAxisSpacing', 'itemReverseZIndex'];
+    const result = {};
+    for (const key of allowed) {
+      if (!(key in value)) continue;
+      const item = value[key];
+      if (typeof item === 'boolean' || (typeof item === 'string' && /^[A-Z][A-Z0-9_:-]{0,63}$/.test(item))) result[key] = item;
+      else if (item === figma.mixed) result[key] = 'MIXED';
+      else if (nativeProbeFinite(item)) result[key] = nativeProbeRound(item);
+    }
+    return {ok: true, value: result};
+  }
+  if (kind === 'vector-summary') {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
+    const fields = ['vertices', 'segments', 'regions'];
+    const counts = {};
+    for (const key of fields) {
+      if (Array.isArray(value[key]) && value[key].length <= 4096) counts[key] = value[key].length;
+    }
+    return Object.keys(counts).length ? {ok: true, value: counts} : {ok: false};
+  }
   if (kind === 'reference-state') {
     if (value === null || value === undefined) return {ok: true, value: 'unlinked'};
     return value && typeof value === 'object' && typeof value.type === 'string'
@@ -117,6 +216,31 @@ function nativeProbeValue(kind, value, figma) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
     const keys = Object.keys(value);
     return keys.length <= 64 ? {ok: true, value: {count: keys.length}} : {ok: false};
+  }
+  if (kind === 'mixed-map-count') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (value === null || value === undefined) return {ok: true, value: {count: 0}};
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
+    const keys = Object.keys(value);
+    return keys.length <= 64 ? {ok: true, value: {count: keys.length}} : {ok: false};
+  }
+  if (kind === 'string-state') {
+    if (value === null || value === undefined || value === '') return {ok: true, value: 'empty'};
+    return typeof value === 'string' ? {ok: true, value: 'present'} : {ok: false};
+  }
+  if (kind === 'range-state') {
+    return value === null || value === undefined ? {ok: true, value: 'unselected'}
+      : value && typeof value === 'object' ? {ok: true, value: 'selected'} : {ok: false};
+  }
+  if (kind === 'grid-track-summary') {
+    if (!Array.isArray(value) || value.length > 32) return {ok: false};
+    const tracks = [];
+    for (const track of value) {
+      if (!track || typeof track !== 'object' || !['FLEX', 'FIXED', 'HUG'].includes(track.type)
+          || (track.value !== undefined && !nativeProbeFinite(track.value, 0, 100000))) return {ok: false};
+      tracks.push({type: track.type, ...(track.value !== undefined ? {value: nativeProbeRound(track.value)} : {})});
+    }
+    return {ok: true, value: {count: tracks.length, tracks}};
   }
   if (kind === 'constraints-summary') {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
@@ -306,21 +430,27 @@ async function discoverSelectedNativeApi(figma, scope, config) {
     let node = null, targetBlock = null;
     if (Date.now() - start >= NATIVE_API_PROBE_MAX_ELAPSED_MS) targetBlock = 'time-budget';
     else {
-      try { node = await figma.getNodeByIdAsync(target.observed_node_id); }
+      try {
+        node = target.observed_type === 'DOCUMENT' ? figma.root
+          : await figma.getNodeByIdAsync(target.observed_node_id);
+      }
       catch (_) { targetBlock = 'lookup-failed'; }
       if (!node && !targetBlock) targetBlock = 'node-unavailable';
       if (node && node.id !== target.observed_node_id) targetBlock = 'id-mismatch';
       if (node && node.type !== target.observed_type) targetBlock = 'type-mismatch';
+      if (node && target.observed_type === 'DOCUMENT' && node !== figma.root) targetBlock = 'not-document-root';
       if (node && !targetBlock) {
         let cursor = node, depth = 0;
         try {
+          if (target.observed_type === 'DOCUMENT') cursor = null;
+          else
           while (cursor && cursor.id !== scope.page_id && depth < NATIVE_API_PROBE_MAX_ANCESTORS) {
             cursor = cursor.parent;
             depth++;
             ancestorChecks++;
           }
         } catch (_) { targetBlock = 'scope-check-failed'; }
-        if (!targetBlock && (!cursor || cursor.id !== scope.page_id)) targetBlock = 'outside-page';
+        if (!targetBlock && target.observed_type !== 'DOCUMENT' && (!cursor || cursor.id !== scope.page_id)) targetBlock = 'outside-page';
       }
     }
     for (const candidate of candidates) {
@@ -350,6 +480,9 @@ async function discoverSelectedNativeApi(figma, scope, config) {
         status = 'unsupported'; reason = 'property-absent';
       } else if (candidate.access === 'method' && typeof node[candidate.property] !== 'function') {
         status = 'unsupported'; reason = 'method-absent';
+      } else if (candidate.access === 'method' && NATIVE_API_PROBE_METHODS[candidate.property]?.owned_fixture_only
+          && !nativeProbeIsOwnedFixture(node, target.semantic_id)) {
+        status = 'blocked'; reason = 'owned-fixture-required';
       }
       else {
         attempted++;
@@ -357,6 +490,8 @@ async function discoverSelectedNativeApi(figma, scope, config) {
           let rawValue;
           if (candidate.access === 'property') rawValue = node[candidate.property];
           else if (candidate.property === 'getCSSAsync') rawValue = await node.getCSSAsync();
+          else if (candidate.property === 'getMainComponentAsync') rawValue = await node.getMainComponentAsync();
+          else if (candidate.property === 'getInstancesAsync') rawValue = await node.getInstancesAsync();
           else if (candidate.property === 'getRangeFontName'
               || candidate.property === 'getRangeFontSize' || candidate.property === 'getRangeFontWeight'
               || candidate.property === 'getRangeFills') {

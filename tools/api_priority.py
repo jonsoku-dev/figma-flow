@@ -22,6 +22,14 @@ ROLE_TERMS = {
 NODE_TYPE = re.compile(r"(?:readonly )?type: ['\"]([A-Z_]+)['\"]")
 EDITOR_BLOCKERS = ('figjam', 'slides', 'sites', 'buzz', 'draw')
 PERMISSION_TERMS = ('permission', 'private', 'proposed', 'restricted', 'enablePrivatePluginApi')
+DESIGN_NODE_TYPES = {
+    'DOCUMENT', 'PAGE', 'FRAME', 'GROUP', 'TRANSFORM_GROUP', 'SLICE', 'RECTANGLE', 'LINE',
+    'ELLIPSE', 'POLYGON', 'STAR', 'VECTOR', 'TEXT', 'TEXT_PATH', 'COMPONENT_SET',
+    'COMPONENT', 'INSTANCE', 'SLOT', 'BOOLEAN_OPERATION', 'SECTION',
+}
+FIGJAM_NODE_TYPES = {'STICKY', 'STAMP', 'TABLE', 'TABLE_CELL', 'HIGHLIGHT', 'WASHI_TAPE',
+                     'SHAPE_WITH_TEXT', 'CONNECTOR', 'WIDGET'}
+SLIDES_NODE_TYPES = {'SLIDE', 'SLIDE_ROW', 'SLIDE_GRID', 'INTERACTIVE_SLIDE_ELEMENT'}
 
 # Read operations have bounded, reviewed scenarios. All other methods remain research candidates.
 READ_ONLY_METHODS = {
@@ -30,9 +38,12 @@ READ_ONLY_METHODS = {
     ('BaseNonResizableTextMixin', 'getRangeFontSize'): 'Read a selected text range font size.',
     ('BaseNonResizableTextMixin', 'getRangeFontWeight'): 'Read the selected text range font weight.',
     ('BaseNonResizableTextMixin', 'getRangeFills'): 'Read bounded solid fills from a selected text range.',
+    ('InstanceNode', 'getMainComponentAsync'): 'Read the linked component from an owned instance in dynamic-page mode.',
+    ('ComponentNode', 'getInstancesAsync'): 'Count instances of an owned fixture component with the async dynamic-page getter.',
     ('NonResizableTextMixin', 'getRangeLineHeight'): 'Read line height for a selected text range.',
     ('BaseNonResizableTextMixin', 'getRangeLetterSpacing'): 'Read letter spacing for a selected text range.',
     ('PluginAPI', 'listAvailableFontsAsync'): 'Select a font from this editor font list before applying range styles.',
+    ('PluginDataMixin', 'getPluginData'): 'Read only the fixed private marker key on an owned API lab node.',
 }
 
 # Only these signature owners have an approved node-scoped write scenario.
@@ -45,6 +56,7 @@ OWNED_WRITE_METHODS = {
     ('BaseNonResizableTextMixin', 'setRangeFills'): 'Set text color on an owned typography specimen.',
     ('LayoutMixin', 'resize'): 'Set geometry on an owned typography specimen frame.',
     ('PluginAPI', 'createComponentFromNode'): 'Convert only the newly created typography specimen into a reusable component.',
+    ('PluginDataMixin', 'setPluginData'): 'Set a temporary marker on an owned API lab node and restore its prior value.',
 }
 
 FEASIBILITY_TIER = {
@@ -56,6 +68,8 @@ FEASIBILITY_TIER = {
     'receiver-unresolved': 100,
     'type-only': 0,
     'editor-or-permission-gated': -1000,
+    'write-only-in-dynamic-page': 50,
+    'unavailable-in-dynamic-page': 25,
 }
 
 
@@ -93,13 +107,21 @@ def _priority(row, evidence, receiver_types):
     editors = declaration.get('documented_editors', [])
     permissions = declaration.get('required_permissions', [])
     restricted = declaration.get('restricted_access') is True
+    dynamic_page_write_only = ('write-only' in ' '.join(str(item) for item in restrictions).casefold()
+                               and 'dynamic-page' in ' '.join(str(item) for item in restrictions).casefold())
+    dynamic_page_throws = ('will throw' in ' '.join(str(item) for item in restrictions).casefold()
+                           and 'dynamic-page' in ' '.join(str(item) for item in restrictions).casefold())
     type_only = surface == 'type-contract-member'
     unknown_owner = surface == 'unresolved-owner-member'
     editor_blocked = bool(editors and 'figma' not in editors) or any(term in docs for term in EDITOR_BLOCKERS)
     permission_gated = bool(permissions) or restricted or any(term.lower() in docs for term in PERMISSION_TERMS)
     runtime_class = surface in ('runtime-api-member', 'runtime-object-member')
     write_purpose = OWNED_WRITE_METHODS.get((owner, raw_name))
-    if editor_blocked or permission_gated:
+    if dynamic_page_write_only:
+        feasible = 'write-only-in-dynamic-page'
+    elif dynamic_page_throws:
+        feasible = 'unavailable-in-dynamic-page'
+    elif editor_blocked or permission_gated:
         feasible = 'editor-or-permission-gated'
     elif type_only:
         feasible = 'type-only'
@@ -135,7 +157,9 @@ def _priority(row, evidence, receiver_types):
         'needs-classification': 'Runtime surface exists, but safety or receiver applicability needs review.',
         'receiver-unresolved': 'Audit has no resolved runtime receiver surface.',
         'type-only': 'Declaration is a type contract without an executable runtime receiver.',
-        'editor-or-permission-gated': 'Editor or permission requirements need explicit setup.'}[feasible])
+        'editor-or-permission-gated': 'Editor or permission requirements need explicit setup.',
+        'write-only-in-dynamic-page': 'The documented dynamic-page contract makes this property write-only; use its getter method.',
+        'unavailable-in-dynamic-page': 'The documented dynamic-page contract says this property throws; use its async method.'}[feasible])
     if write_purpose:
         reasons.append(write_purpose)
     read_purpose = READ_ONLY_METHODS.get((owner, raw_name))
@@ -153,8 +177,12 @@ def _priority(row, evidence, receiver_types):
             'receiver_basis': ('pinned-node-inheritance' if receiver_types else
                                'catalogued-api-namespace' if surface == 'runtime-api-member' else
                                'runtime-owner-unmapped' if runtime_class else 'unresolved'),
-            'access': 'property-read' if kind == 'PropertySignature' else 'method' if method else 'index-or-type',
-            'write_capability': ('readonly' if row.get('readonly') else 'writable-property')
+            'access': ('property-write-only' if feasible == 'write-only-in-dynamic-page' else
+                       'property-unavailable' if feasible == 'unavailable-in-dynamic-page' else 'property-read')
+                      if kind == 'PropertySignature' else 'method' if method else 'index-or-type',
+            'write_capability': ('write-only-in-dynamic-page' if feasible == 'write-only-in-dynamic-page' else
+                                 'unavailable-in-dynamic-page' if feasible == 'unavailable-in-dynamic-page' else
+                                 'readonly' if row.get('readonly') else 'writable-property')
                                 if kind == 'PropertySignature' else
                                 'approved-owned-write' if feasible == 'owned-write-method' else
                                 'method-not-approved-for-write' if method else 'not-applicable',
@@ -167,6 +195,41 @@ def _priority(row, evidence, receiver_types):
             'permission_requirement': 'required' if permission_gated else 'none-declared',
             'evidence_status': ('observed-in-observation-graph' if evidence else _status(row)),
             'observation_evidence': evidence}
+
+
+def _design_scope(row, rank):
+    """Classify whether an exact API member has a Figma Design receiver."""
+    if rank['feasibility'] == 'type-only':
+        return 'type-only', 'The declaration has no executable runtime receiver.'
+    if rank['feasibility'] == 'editor-or-permission-gated':
+        editors = row.get('official_declaration', {}).get('documented_editors', [])
+        if editors and 'figma' not in editors:
+            return 'other-editor-only', 'The pinned API documentation excludes Figma Design.'
+    receivers = set(rank.get('receiver_types', []))
+    design = receivers & DESIGN_NODE_TYPES
+    figjam = receivers & FIGJAM_NODE_TYPES
+    slides = receivers & SLIDES_NODE_TYPES
+    known_editor_nodes = design | figjam | slides
+    if design and (figjam or slides):
+        return 'shared-node', 'At least one mapped receiver is available in Figma Design and other editors.'
+    if design:
+        return 'design-node', 'A mapped receiver belongs to the Figma Design scene or page model.'
+    if receivers and receivers <= FIGJAM_NODE_TYPES:
+        return 'figjam-only', 'All mapped node receivers are FigJam-specific.'
+    if receivers and receivers <= SLIDES_NODE_TYPES:
+        return 'slides-only', 'All mapped node receivers are Slides-specific.'
+    if rank.get('receiver_basis') == 'catalogued-api-namespace':
+        editors = row.get('official_declaration', {}).get('documented_editors', [])
+        if not editors or 'figma' in editors:
+            return 'design-api', 'The runtime API namespace is available in Figma Design.'
+        return 'other-editor-only', 'The pinned API documentation excludes Figma Design.'
+    if rank.get('receiver_basis') == 'runtime-owner-unmapped':
+        return 'runtime-object-unresolved', 'The runtime owner has no catalogued Design receiver route.'
+    if not receivers and row.get('type_surface', {}).get('applicability') == 'runtime':
+        return 'runtime-object-unresolved', 'The member belongs to a runtime object with no catalogued Design route.'
+    if receivers and not known_editor_nodes:
+        return 'other-runtime-node', 'Mapped receivers are outside the pinned Figma Design, FigJam, and Slides node sets.'
+    return 'unresolved', 'The pinned inventory does not establish a Figma Design receiver.'
 
 
 def build(audit=None, graph=None, overlays=None, catalog=None, *, include_public_overlays=False):
@@ -200,13 +263,15 @@ def build(audit=None, graph=None, overlays=None, catalog=None, *, include_public
         if not isinstance(key, str) or not key.startswith('member:'):
             raise ValueError('Every audit row must have an exact member key.')
         rank = _priority(item, graph_evidence.get(key, []), receivers.get(key, []))
+        design_scope, design_scope_reason = _design_scope(item, rank)
         rows.append({'api_member_id': key, 'owner': item.get('owner'), 'name': item.get('name'),
                      'kind': item.get('kind'), 'signature': item.get('signature'),
                      'readonly': item.get('readonly'), 'optional': item.get('optional'),
                      'release_status': _status(item), 'type_surface': item.get('type_surface'),
                      'official_declaration': item.get('official_declaration'),
                      'route': item.get('route'), 'candidate_evidence': item.get('evidence'),
-                     **rank})
+                     **rank, 'design_scope': design_scope,
+                     'design_scope_reason': design_scope_reason})
     rows.sort(key=lambda row: (-row['priority_score'], row['api_member_id']))
     payload = {'schema': OUTPUT_SCHEMA, 'source': {'audit': str(AUDIT.relative_to(ROOT)),
         'observations': str(OBSERVATIONS.relative_to(ROOT)), 'audit_member_count': len(rows),
@@ -218,7 +283,8 @@ def build(audit=None, graph=None, overlays=None, catalog=None, *, include_public
                                   for row in rows)},
         'ranking_rules': {'role_value': ROLE_TERMS,
         'feasibility_order': ['readable-property', 'read-only-method', 'owned-write-method',
-                'method-needs-scenario', 'needs-classification', 'receiver-unresolved', 'type-only',
+                'method-needs-scenario', 'write-only-in-dynamic-page', 'unavailable-in-dynamic-page',
+                'needs-classification', 'receiver-unresolved', 'type-only',
                 'editor-or-permission-gated'],
             'score_formula': 'feasibility tier + 10 * sum(clamped role-term matches) + min(receiver type count, 20)',
             'owned_write_method_map': {owner + '.' + name: purpose for (owner, name), purpose in OWNED_WRITE_METHODS.items()},
@@ -229,15 +295,22 @@ def build(audit=None, graph=None, overlays=None, catalog=None, *, include_public
     return payload
 
 
-def queue(payload, *, limit=50, receiver=None, feasible_only=False):
+def queue(payload, *, limit=50, receiver=None, feasible_only=False, design_only=False):
     rows = [row for row in payload['rows']
             if row['evidence_status'] not in ('observed', 'observed-in-observation-graph')]
     if feasible_only:
         rows = [row for row in rows if row['feasibility'] in
                 ('readable-property', 'read-only-method', 'owned-write-method')]
+    if design_only:
+        rows = [row for row in rows if row['design_scope'] in ('design-node', 'shared-node', 'design-api')]
     if receiver:
         receiver_key = receiver.casefold()
         rows = [row for row in rows if receiver_key in {item.casefold() for item in row['receiver_types']}]
+        if design_only:
+            design_api_receivers = {item.casefold() for row in payload['rows']
+                if row['design_scope'] == 'design-api' for item in row['receiver_types']}
+            if receiver_key not in {item.casefold() for item in DESIGN_NODE_TYPES} | design_api_receivers:
+                rows = []
     return rows if limit is None else rows[:limit]
 
 
@@ -280,6 +353,7 @@ def queue_graph(payload, rows):
             'status': 'observed' if observed else 'planned', 'detail': json.dumps({
                 'api_member_id': api_id, 'priority_score': row['priority_score'],
                 'feasibility': row['feasibility'], 'priority_reasons': row['priority_reasons'],
+                'design_scope': row['design_scope'], 'design_scope_reason': row['design_scope_reason'],
                 'role_value': row['role_value'], 'role_matches': row['role_matches'],
                 'receiver_types': row['receiver_types'], 'access': row['access'],
                 'readonly': row['readonly'], 'write_capability': row['write_capability'],
@@ -302,6 +376,10 @@ def queue_graph(payload, rows):
         add_node({'id': feasibility_id, 'type': 'requirement', 'title': row['feasibility'],
             'status': 'planned', 'detail': 'Execution class from the pinned audit and explicit probe/write policies.'})
         add_edge(entry_id, feasibility_id, 'classified as')
+        scope_id = 'design-scope:' + row['design_scope']
+        add_node({'id': scope_id, 'type': 'requirement', 'title': row['design_scope'],
+            'status': 'planned', 'detail': row['design_scope_reason']})
+        add_edge(entry_id, scope_id, 'scoped as')
         status_id = 'evidence-status:' + str(row['evidence_status'])
         add_node({'id': status_id, 'type': 'test', 'title': 'Evidence ' + str(row['evidence_status']),
             'status': 'observed' if observed else 'planned',
@@ -365,6 +443,8 @@ def main(argv=None):
                            help='Write row JSON or a portable connected node/edge graph.')
     queue_cmd.add_argument('--feasible-only', action='store_true',
                            help='Keep readable properties and methods with explicit read or owned-write scenarios')
+    queue_cmd.add_argument('--design-only', action='store_true',
+                           help='Keep rows with a documented or catalogued Figma Design route')
     args = parser.parse_args(argv)
     if args.command == 'build':
         if args.baseline_only and args.overlay:
@@ -385,7 +465,8 @@ def main(argv=None):
         payload = json.loads(args.inventory.read_text())
         if payload.get('schema') != OUTPUT_SCHEMA:
             parser.error('Unsupported API priority inventory schema')
-        rows = queue(payload, limit=limit, receiver=args.receiver, feasible_only=args.feasible_only)
+        rows = queue(payload, limit=limit, receiver=args.receiver, feasible_only=args.feasible_only,
+                     design_only=args.design_only)
         if args.format == 'graph':
             print(json.dumps(queue_graph(payload, rows), ensure_ascii=False, indent=2))
         else:

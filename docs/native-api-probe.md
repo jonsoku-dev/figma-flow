@@ -49,7 +49,7 @@ Run the prepared discovery task from the registered workspace plugin. Save its J
 
 ## Continue through the eligible properties
 
-Each batch probes up to 16 properties for each selected node type, with a hard limit of 192 getter attempts. Use offsets `0`, `16`, `32`, and so on. Pass the latest saved readback to compare statuses and retain earlier observations in the output graph.
+Each batch probes up to 16 properties for each selected node type, with a hard limit of 384 getter attempts. Use offsets `0`, `16`, `32`, and so on. Pass the latest saved readback to compare statuses and retain earlier observations in the output graph.
 
 ```sh
 python3 tools/native_api_probe.py prepare \
@@ -69,7 +69,28 @@ The `graph` field uses the shared graph schema. It links selected semantic IDs t
 
 ## Bounds and sample result
 
-The probe accepts at most 12 exact nodes, 16 candidate getters per type per batch, 192 getter attempts, 1,500 ms, and 32 parent checks per node to confirm page scope. It reads numeric, boolean, enum, bounded geometry, arc geometry, and solid paint values. It excludes node names and text, component and variable identities, hierarchy collections, code, images, bytes, network calls, and private or proposed API members.
+The probe accepts at most 24 exact nodes, 16 candidate getters per type per batch, 384 getter attempts, 3,000 ms, and 32 parent checks per node to confirm page scope. It supports documented Design scene nodes, pages, and the document root. A document-root target must match `figma.root`; all other targets must remain under the selected page.
+
+The field allowlist covers scalar layout and appearance properties, bounded geometry, text style values, stroke summaries, motion collection counts, node-reference state, and selected page and document values. It summarizes collections as counts, removes style and node identities, and projects only approved fields from nested layout, paint, and vector structures. It never returns node names, text, code, raw vector paths, variable IDs, image bytes, or network data. The probe rejects private or proposed API members.
+
+The owned fixture lab creates a marked page with sample Design nodes and reuses that page on later runs. It restores the page and selection that were active before the run. It does not delete nodes or send document data over the network. Use it only in the file key pinned in the private lab manifest. The lab returns exact node IDs for a local selection file; keep that selection and its readback under `.figma-flow/`.
+
+## Rebuild the private fixture plugin
+
+Create a new plugin directory under `.figma-flow/` from the public fixture source. Pass the private Figma-issued plugin ID and the exact file key for the owned lab file.
+
+```sh
+python3 tools/native_api_fixture_project.py \
+  --plugin-id FIGMA_ISSUED_PLUGIN_ID \
+  --file-key OWNED_LAB_FILE_KEY \
+  --out .figma-flow/native-api-lab
+```
+
+In Figma Desktop, import `.figma-flow/native-api-lab/manifest.json` as a development plugin. Run the fixture command once, then run the reversible-call command on the generated lab page. The generator limits the plugin to Figma Design, enables private file-key access, and sets network access to `none`. It refuses to overwrite an existing output directory.
+
+The lab's owned-read command calls `getMainComponentAsync()` and `getInstancesAsync()` on fixture-marked nodes. It filters instance results by the same plugin marker that created the fixture and returns only a count or link state. Run these calls from the lab plugin so the marker check uses the same plugin-data namespace.
+
+The lab's reversible-call command can exercise `resize` on the owned frame, text range setters on the owned text, and plugin-data access under one fixed lab key. It saves each prior value, applies a temporary value, checks the result, and restores the saved value before it reports success. The receipt contains only method names, statuses, restoration flags, and aggregate counts.
 
 On one disposable Figma Design page, nine observed nodes produced 141 node–member observations across 37 distinct API member IDs. The two getter batches returned 111 and 30 successful reads, with no unavailable, unsupported, or blocked getters. The merged graph had zero errors under the shared graph validator. This result describes that file, selection, and Plugin API version.
 

@@ -1,0 +1,1312 @@
+{
+  "version": 1,
+  "id": "design-scene-api-observations-20261114",
+  "title": "Figma Design scene and page API observations",
+  "nodes": [
+    {
+      "id": "OBS-scene-api-fixtures-stable0",
+      "type": "test",
+      "status": "observed",
+      "title": "Design owned scene fixtures · API getter batch 0",
+      "detail": "Bounded property reads on owned Figma Design fixtures. The public graph omits node IDs and returned values.",
+      "source": "../../docs/native-api-probe.md",
+      "observed_at": "2026-11-13T21:22:59.818Z",
+      "getter_counts": {
+        "success": 127,
+        "unavailable": 33,
+        "unsupported": 3,
+        "blocked": 0
+      },
+      "measured_ms": 15,
+      "receipt_sha256": "d4addceb11e69f5b953b5cb13ce2656fd3b1c3deffbefa355e64176c2ce978b0",
+      "api_catalog_ref": "dff4874ca083e18cd74835fd5afc5079d46866b7",
+      "api_catalog_version": "1.142.0",
+      "field_policy_sha256": "45bbb42139f92b46ecbb1a484de7b63f63a04d97d9b19b776a742bffd42301d0",
+      "unique_member_ids": 59,
+      "unique_successful_member_ids": 54,
+      "selection_types": [
+        "BOOLEAN_OPERATION",
+        "COMPONENT",
+        "COMPONENT_SET",
+        "DOCUMENT",
+        "ELLIPSE",
+        "FRAME",
+        "GROUP",
+        "INSTANCE",
+        "LINE",
+        "PAGE",
+        "POLYGON",
+        "RECTANGLE",
+        "SECTION",
+        "SLICE",
+        "STAR",
+        "TEXT",
+        "TEXT_PATH",
+        "VECTOR"
+      ]
+    },
+    {
+      "id": "member:0e5c66adf2276fb5c04cd3e807d3bc0d2115f62da2216647f8de8efebe13eb45",
+      "type": "figma",
+      "status": "observed",
+      "title": "PolygonNode.pointCount",
+      "detail": "pointCount: number",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10955-L10955"
+    },
+    {
+      "id": "member:13bb540fee5a44b87cb8685835d7bee0dc9006f95ac03f25791c9db8dab1b18e",
+      "type": "figma",
+      "status": "observed",
+      "title": "IndividualStrokesMixin.strokeLeftWeight",
+      "detail": "strokeLeftWeight: number",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8781-L8781"
+    },
+    {
+      "id": "member:16d5630a5df6c13e7b2527bf980566bad83dc3670e587163e582889ff8861b1d",
+      "type": "figma",
+      "status": "observed",
+      "title": "LineNode.type",
+      "detail": "readonly type: 'LINE'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10909-L10909"
+    },
+    {
+      "id": "member:1e0b5cd1d28bb9e6848401266ba55e4d948061a7350bc2b890241f6b856b535d",
+      "type": "figma",
+      "status": "observed",
+      "title": "InstanceNode.type",
+      "detail": "readonly type: 'INSTANCE'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11248-L11248"
+    },
+    {
+      "id": "member:1e431a80b19ef312f2d1bb93f712ebd95c9e4ec3ec01668a99acc02a0df30815",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.isPageDivider",
+      "detail": "readonly isPageDivider: boolean",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10715-L10715"
+    },
+    {
+      "id": "member:23d74f48c30ebe98268138e1b87f96ff2da6891e7aa760c53883dafc6d17655f",
+      "type": "figma",
+      "status": "observed",
+      "title": "ComponentSetNode.type",
+      "detail": "readonly type: 'COMPONENT_SET'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11179-L11179"
+    },
+    {
+      "id": "member:2e21c30440eda220e1856fc7a1397fd3f3d34c33608ba9acf33c84fbffbbe305",
+      "type": "figma",
+      "status": "observed",
+      "title": "EllipseNode.type",
+      "detail": "readonly type: 'ELLIPSE'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10926-L10926"
+    },
+    {
+      "id": "member:35fa8ad7e6edb3486a6345f1155b18089acaaa237e951a7052faf0e62640c3fb",
+      "type": "figma",
+      "status": "observed",
+      "title": "SceneNodeMixin.attachedConnectors",
+      "detail": "readonly attachedConnectors: ConnectorNode[]",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6680-L6680"
+    },
+    {
+      "id": "member:37721e450dfaec164ddfc7621f73d3e1a0aa5639d4fb88eff01e7a620acdf79f",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textDecorationThickness",
+      "detail": "textDecorationThickness: TextDecorationThickness | PluginAPI['mixed'] | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10320-L10320"
+    },
+    {
+      "id": "member:4008ad872aab889bb977b9c24630dedcf59c8e0d22f6ab7f6e7c4080610c8da4",
+      "type": "figma",
+      "status": "observed",
+      "title": "VectorLikeMixin.vectorPaths",
+      "detail": "vectorPaths: VectorPaths",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9184-L9184"
+    },
+    {
+      "id": "member:404721b748843f53ecff1e4b521e82351f4e0c440efaca456510acd471d9c5bc",
+      "type": "figma",
+      "status": "observed",
+      "title": "BooleanOperationNode.type",
+      "detail": "readonly type: 'BOOLEAN_OPERATION'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11353-L11353"
+    },
+    {
+      "id": "member:4496ffed03a99e41feb0a497fa5d0f48685a851f4c7f588c7700e983e7c4f9c5",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.selection",
+      "detail": "selection: ReadonlyArray<SceneNode>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10672-L10672"
+    },
+    {
+      "id": "member:44b4da531bdd27c1c0131479acd4ca6b10e837caa0a5df73526f9a07f6a29b27",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.guides",
+      "detail": "guides: ReadonlyArray<Guide>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10646-L10646"
+    },
+    {
+      "id": "member:4606fc459aaf9a5d411b7fbc3588e138de1af02582b6de3f28b4e90633a784e2",
+      "type": "figma",
+      "status": "observed",
+      "title": "MotionNodeMixin.animations",
+      "detail": "readonly animations: Animations",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6843-L6843"
+    },
+    {
+      "id": "member:47b8b81596a30a4cc388d61a2a9e562f2c6d4124ce166ba036db8a59691c8ed2",
+      "type": "figma",
+      "status": "observed",
+      "title": "MotionNodeMixin.manualKeyframeTracks",
+      "detail": "readonly manualKeyframeTracks: ManualKeyframeTracks",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6856-L6856"
+    },
+    {
+      "id": "member:4a2ff5a4b16c72b3686e3d0ecd0f4c68b715b22f0265ec6a503d06ec9e8282c2",
+      "type": "figma",
+      "status": "observed",
+      "title": "ComplexStrokesMixin.variableWidthStrokeProperties",
+      "detail": "variableWidthStrokeProperties: VariableWidthStrokeProperties | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8980-L8980"
+    },
+    {
+      "id": "member:4cb53dac35d2033d4fb8d2abcef98448838c01ed4c17315be763f56a9f446fdf",
+      "type": "figma",
+      "status": "observed",
+      "title": "DocumentNode.type",
+      "detail": "readonly type: 'DOCUMENT'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10466-L10466"
+    },
+    {
+      "id": "member:4f61b39ec44ae2ce73192581cd419a2569593d7916a4b6eb6eabe1b01386fe2c",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.vectorNetwork",
+      "detail": "readonly vectorNetwork: VectorNetwork",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11123-L11123"
+    },
+    {
+      "id": "member:55d9377663da8f9b81f5e3ce22e0614170f1753f56dd57e66f5ee643d04f97a8",
+      "type": "figma",
+      "status": "observed",
+      "title": "SliceNode.type",
+      "detail": "readonly type: 'SLICE'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10879-L10879"
+    },
+    {
+      "id": "member:5afc0853fe5f3b49be0c26011be8c8c4212f699f22d83e42edae9251ac2e51e8",
+      "type": "figma",
+      "status": "observed",
+      "title": "ComplexStrokesMixin.complexStrokeProperties",
+      "detail": "complexStrokeProperties: ComplexStrokeProperties",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8991-L8991"
+    },
+    {
+      "id": "member:5b8b871c48727de58aa72f4eae939656944d5194b64c1c9886183da695c0fe2c",
+      "type": "figma",
+      "status": "observed",
+      "title": "IndividualStrokesMixin.strokeTopWeight",
+      "detail": "strokeTopWeight: number",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8777-L8777"
+    },
+    {
+      "id": "member:6c436b774e38a05d784b13f9a8125936ea3c1d735678aee15fc09a4e11c047f2",
+      "type": "figma",
+      "status": "observed",
+      "title": "IndividualStrokesMixin.strokeRightWeight",
+      "detail": "strokeRightWeight: number",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8783-L8783"
+    },
+    {
+      "id": "member:770c1925d5d320653e7fcc3ca12ca5b0e27da886a3563756c0b53b925d14d8fd",
+      "type": "figma",
+      "status": "observed",
+      "title": "IndividualStrokesMixin.strokeBottomWeight",
+      "detail": "strokeBottomWeight: number",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8779-L8779"
+    },
+    {
+      "id": "member:797010d06445732475603f05e4e31bce2dabfa56be1ee09e865bde8e949a8d51",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textDecorationSkipInk",
+      "detail": "textDecorationSkipInk: boolean | PluginAPI['mixed'] | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10328-L10328"
+    },
+    {
+      "id": "member:79c06d1c4c5f56255ad76d4c99de2782cab523391a455f45318aaa7db1f4d058",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.hangingList",
+      "detail": "hangingList: boolean",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10304-L10304"
+    },
+    {
+      "id": "member:7b12d1c7b57e168450a7f84abbcbe28dc41d55191d7a911eeb9d10717a0941fe",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.hangingPunctuation",
+      "detail": "hangingPunctuation: boolean",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10300-L10300"
+    },
+    {
+      "id": "member:7c6c8b57f05e8320cefa6036d325f4e6e2213e63ed6500f70042663707f47e5d",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.textPathStartData",
+      "detail": "textPathStartData: TextPathStartData",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11131-L11131"
+    },
+    {
+      "id": "member:7dd0dd52cce6ec9a542f6d0b26497ec989c87d06b2aa5282331de981f0ab9da7",
+      "type": "figma",
+      "status": "observed",
+      "title": "MotionNodeMixin.timelines",
+      "detail": "readonly timelines: ReadonlyArray<Timeline>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6870-L6870"
+    },
+    {
+      "id": "member:845fd240b5ca57bcaa31b6ce3d17bbb69a981e83346e4aba8598deb44c6e32b8",
+      "type": "figma",
+      "status": "observed",
+      "title": "PublishableMixin.documentationLinks",
+      "detail": "documentationLinks: ReadonlyArray<DocumentationLink>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9400-L9400"
+    },
+    {
+      "id": "member:8c2652834ca088a9015ed3583c96f499583fb8d49f4421731226fb4636d06b18",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextNode.type",
+      "detail": "readonly type: 'TEXT'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11013-L11013"
+    },
+    {
+      "id": "member:92b1c9e78b8b844958643ae9c4543f42a8764ab37b22e1d00db370104b1c9bcf",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.type",
+      "detail": "readonly type: 'TEXT_PATH'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11085-L11085"
+    },
+    {
+      "id": "member:93b94f188bd5168bc2ea7788e3872a30e0e4f472c9e9781dd1f9400062f0ec65",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.flowStartingPoints",
+      "detail": "flowStartingPoints: ReadonlyArray<{\n    nodeId: string\n    name: string\n  }>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10696-L10699"
+    },
+    {
+      "id": "member:94d5e34a58d81b1f96664b3ca6a31381d5a056cf9788745549be8998903f5173",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.vectorPaths",
+      "detail": "readonly vectorPaths: VectorPaths",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11119-L11119"
+    },
+    {
+      "id": "member:a4286212fdc88cf6f7644abdee431030a05fa44fbfa46b230f37b85bb6c45057",
+      "type": "figma",
+      "status": "observed",
+      "title": "GroupNode.type",
+      "detail": "readonly type: 'GROUP'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10841-L10841"
+    },
+    {
+      "id": "member:ab370eab3f378449f48caa130fc84aadc740cf38d875064c141fd48adf3a56d5",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.lineHeight",
+      "detail": "lineHeight: LineHeight | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10332-L10332"
+    },
+    {
+      "id": "member:ae3b44496f9ec5c4f52e1461cb18f393df06dcc75eb6866ba4a8b2306a53e9fd",
+      "type": "figma",
+      "status": "observed",
+      "title": "StarNode.innerRadius",
+      "detail": "innerRadius: number",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10982-L10982"
+    },
+    {
+      "id": "member:b665d42d1e5a935f1173770b6ad2e8515c5ec4bdb98453e55fefc00249388c5c",
+      "type": "figma",
+      "status": "observed",
+      "title": "StarNode.type",
+      "detail": "readonly type: 'STAR'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10968-L10968"
+    },
+    {
+      "id": "member:ba5463fde235c8e4b8228328ed1692ba48fa9eaf7c6e0edbf34c9918cc08647a",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textDecorationStyle",
+      "detail": "textDecorationStyle: TextDecorationStyle | PluginAPI['mixed'] | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10312-L10312"
+    },
+    {
+      "id": "member:bd7eba40badf1e6a8a8dff39e19075877342380a7d20bce7e04f7cc434854999",
+      "type": "figma",
+      "status": "observed",
+      "title": "StarNode.pointCount",
+      "detail": "pointCount: number",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10976-L10976"
+    },
+    {
+      "id": "member:bedcabd9bc4bfb0bfd0664bc6b86e6bbb25c0146ace4fe83c4f3dd03d363cc23",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textDecorationOffset",
+      "detail": "textDecorationOffset: TextDecorationOffset | PluginAPI['mixed'] | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10316-L10316"
+    },
+    {
+      "id": "member:c3130821f2c779dd125e16b748a92c86b2dcc3266c191f94a48075f808d04390",
+      "type": "figma",
+      "status": "observed",
+      "title": "SectionNode.type",
+      "detail": "readonly type: 'SECTION'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L12327-L12327"
+    },
+    {
+      "id": "member:c3c05ba72dfbf0a2caae625e4b71a4ab15e53837458c44999256c370d5cd4506",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.prototypeStartNode",
+      "detail": "readonly prototypeStartNode: FrameNode | GroupNode | ComponentNode | InstanceNode | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10711-L10711"
+    },
+    {
+      "id": "member:c4a14454ea0e56023861c70a99a18320eb182770f69c172121a6a8add3cc4c49",
+      "type": "figma",
+      "status": "observed",
+      "title": "VectorNode.type",
+      "detail": "readonly type: 'VECTOR'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10996-L10996"
+    },
+    {
+      "id": "member:c9e5e8c1f81a89601e8e23cfb1b044ee626681a569eedbb054fd6b38a993b845",
+      "type": "figma",
+      "status": "planned",
+      "title": "InstanceNode.mainComponent",
+      "detail": "mainComponent: ComponentNode | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11262-L11262"
+    },
+    {
+      "id": "member:cb164ddbee6445554c994b9b400ad2338913700e4f1ffc501e058b0d7c8c1cd5",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.letterSpacing",
+      "detail": "letterSpacing: LetterSpacing | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9840-L9840"
+    },
+    {
+      "id": "member:d03e0bbcccaf29e37a95e5d627b1cc13f16926fa2bc25bf6092234e825390ec8",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.backgrounds",
+      "detail": "backgrounds: ReadonlyArray<Paint>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10703-L10703"
+    },
+    {
+      "id": "member:d3ca21be26710d1fc1dfeb62e7ddc990e93d321de691d7ceaa3d3526701e741d",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.textStyleId",
+      "detail": "textStyleId: string | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11111-L11111"
+    },
+    {
+      "id": "member:d463459973432a2ed5ccd6ea924a5d05cca86c511a3cb27718acb4f1e1955dfc",
+      "type": "figma",
+      "status": "observed",
+      "title": "VectorLikeMixin.vectorNetwork",
+      "detail": "vectorNetwork: VectorNetwork",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9176-L9176"
+    },
+    {
+      "id": "member:da01b5f08d75952fec21a95dc1d7c6edfa6692c04f54db8f77b9c3625af659cc",
+      "type": "figma",
+      "status": "observed",
+      "title": "PolygonNode.type",
+      "detail": "readonly type: 'POLYGON'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10947-L10947"
+    },
+    {
+      "id": "member:dba0bef0bec990ad0bde818240e83f0a15689abe039e25e65ccaa595d0c77d63",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.prototypeBackgrounds",
+      "detail": "prototypeBackgrounds: ReadonlyArray<Paint>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10707-L10707"
+    },
+    {
+      "id": "member:e6de1b49781823136571a523d37c0e0b3b5e13728d406904245fbcae57a7bb81",
+      "type": "figma",
+      "status": "observed",
+      "title": "InstanceNode.exposedInstances",
+      "detail": "readonly exposedInstances: InstanceNode[]",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11295-L11295"
+    },
+    {
+      "id": "member:ed434cac87afde074c0bc402e66b65c9d00fdca18c550800cce32d31f9f2545f",
+      "type": "figma",
+      "status": "observed",
+      "title": "FrameNode.type",
+      "detail": "readonly type: 'FRAME'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10820-L10820"
+    },
+    {
+      "id": "member:ee76ffb3615f8b97fb3311475845f906b66e2e5c7bf3702e3cc610086bd34aba",
+      "type": "figma",
+      "status": "observed",
+      "title": "DocumentNode.documentColorProfile",
+      "detail": "readonly documentColorProfile: 'LEGACY' | 'SRGB' | 'DISPLAY_P3'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10474-L10474"
+    },
+    {
+      "id": "member:ef0833b00dfe7aca4c4ed00d482c6278b231ac83203d22da5c55daffeb3233ad",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textDecorationColor",
+      "detail": "textDecorationColor: TextDecorationColor | PluginAPI['mixed'] | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10324-L10324"
+    },
+    {
+      "id": "member:f2455f981483dc6da221d4f424935b9b247b9974f4438fc5380970f47b015115",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleNode.type",
+      "detail": "readonly type: 'RECTANGLE'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10898-L10898"
+    },
+    {
+      "id": "member:f6f154ef9712ffd20cb38e6e3c165eb26651544a24ee9f7ff48562386d6e44ef",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseFrameMixin.inferredAutoLayout",
+      "detail": "inferredAutoLayout: InferredAutoLayoutResult | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9484-L9484"
+    },
+    {
+      "id": "member:fcc7204a1d0a8681e47784069c3514bf363b563c7ce8db8446253ce5cd6b736a",
+      "type": "figma",
+      "status": "observed",
+      "title": "DocumentNode.children",
+      "detail": "readonly children: ReadonlyArray<PageNode>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10470-L10470"
+    },
+    {
+      "id": "member:fd20c58a3db3b4da0d26acdd3a23afb992410314897617149deb15ec39a00d60",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.type",
+      "detail": "readonly type: 'PAGE'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10626-L10626"
+    },
+    {
+      "id": "member:fea428a46cbdfee45d16b6b51dd463473092adfbcec21f2728ad4fe11f70fcfd",
+      "type": "figma",
+      "status": "observed",
+      "title": "ComponentNode.type",
+      "detail": "readonly type: 'COMPONENT'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11205-L11205"
+    },
+    {
+      "id": "OBS-scene-owned-writes-v032",
+      "type": "test",
+      "status": "observed",
+      "title": "Design owned fixtures · reversible API methods",
+      "detail": "Temporary frame, text-range, and plugin-data changes passed and restored. The public graph omits fixture IDs and prior values.",
+      "source": "../../docs/native-api-probe.md",
+      "observed_at": "2026-11-13T21:52:56.759Z",
+      "operation_counts": {
+        "success": 8,
+        "unavailable": 0,
+        "restoreFailed": 0
+      },
+      "receipt_sha256": "7074bdd751478f3e3dffeb452b22572512d3b919dab88fea1a8234ec1b217b18",
+      "fixture_version": "0.31-scene-v1",
+      "unique_member_ids": 8,
+      "restored_methods": 8,
+      "methods": [
+        "resize",
+        "getPluginData",
+        "setPluginData",
+        "setRangeFontName",
+        "setRangeFontSize",
+        "setRangeLineHeight",
+        "setRangeLetterSpacing",
+        "setRangeFills"
+      ]
+    },
+    {
+      "id": "member:564ab097e4e9ca27b58c059db0e268c7ccbead273c24256d2cd1d97ccf2eac2b",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.resize",
+      "detail": "resize(width: number, height: number): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7515-L7515"
+    },
+    {
+      "id": "member:2898a40266ba7f8ca39158384eb1ab037a0b77e6ed747592c6c21f063c67f35d",
+      "type": "figma",
+      "status": "observed",
+      "title": "PluginDataMixin.getPluginData",
+      "detail": "getPluginData(key: string): string",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6528-L6528"
+    },
+    {
+      "id": "member:a958f4c88982709e8a5a947205a0dcf5e58245e4f87fb1ae330f7d04b6b8b4ab",
+      "type": "figma",
+      "status": "observed",
+      "title": "PluginDataMixin.setPluginData",
+      "detail": "setPluginData(key: string, value: string): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6546-L6546"
+    },
+    {
+      "id": "member:57803cdab8acbb5e8a9ba3ec24506f6c17e33057c9f8935ec180193375aa5e08",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeFontName",
+      "detail": "setRangeFontName(start: number, end: number, value: FontNameInput): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9909-L9909"
+    },
+    {
+      "id": "member:447c8c34808ed80daa766ab19aa3dba04be98da602c0742bd53a97b99065a212",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeFontSize",
+      "detail": "setRangeFontSize(start: number, end: number, value: number): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9884-L9884"
+    },
+    {
+      "id": "member:83bba70ec68c4c8a866b233c3765e773d0d212b97f72550895cc3bb0ca9818c2",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.setRangeLineHeight",
+      "detail": "setRangeLineHeight(start: number, end: number, value: LineHeight): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10404-L10404"
+    },
+    {
+      "id": "member:875ac391a64017fe272eaa8f3d983b455b3a21923d0281505dc27e395b9a9133",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeLetterSpacing",
+      "detail": "setRangeLetterSpacing(start: number, end: number, value: LetterSpacing): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9944-L9944"
+    },
+    {
+      "id": "member:bf3d5d481b0b87de0da04e7b12f924cbc0399254fccccdb05b3b57aa9bb89099",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeFills",
+      "detail": "setRangeFills(start: number, end: number, value: Paint[]): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9962-L9962"
+    },
+    {
+      "id": "OBS-scene-api-extra-after-services-v032",
+      "type": "test",
+      "status": "observed",
+      "title": "Design owned scene fixtures · API getter batch 1",
+      "detail": "Bounded API reads on the owned Design fixture page. Public evidence omits node IDs and returned values.",
+      "source": "../../docs/native-api-probe.md",
+      "observed_at": "2026-11-13T21:53:07.058Z",
+      "getter_counts": {
+        "success": 90,
+        "unavailable": 3,
+        "unsupported": 4,
+        "blocked": 1
+      },
+      "receipt_sha256": "67b5043efb64708a0f90e78a232ac7013bb481b741255e4dd854658bf8d633b8"
+    },
+    {
+      "id": "member:080a10ef5225b519dbf32fd9ae15530dc6c289148ad1361ac79ea2f844d5cdf7",
+      "type": "figma",
+      "status": "observed",
+      "title": "FramePrototypingMixin.overlayBackgroundInteraction",
+      "detail": "readonly overlayBackgroundInteraction: OverlayBackgroundInteraction",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9168-L9168"
+    },
+    {
+      "id": "member:0bed7e04652e2409e0d24266ffcef1ff39dd03e6058384e0cbe5c75d324157f6",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.counterAxisAlignContent",
+      "detail": "counterAxisAlignContent: 'AUTO' | 'SPACE_BETWEEN'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8060-L8060"
+    },
+    {
+      "id": "member:2627a2b1da78f8071bcebb6165cccc53d5d0ead8d371ffdc27c5b4ae6e65789a",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.openTypeFeatures",
+      "detail": "readonly openTypeFeatures:\n    | {\n        readonly [feature in OpenTypeFeature]: boolean\n      }\n    | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9832-L9836"
+    },
+    {
+      "id": "member:31ba751e4716f05c507ad1ad653a34139a190659a74fec858dfdba9cce7c5690",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.itemReverseZIndex",
+      "detail": "itemReverseZIndex: boolean",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8200-L8200"
+    },
+    {
+      "id": "member:43584609c770baa7a138af214c445a0d160ef9c38fc90bf7de96a1ef1e6ada95",
+      "type": "figma",
+      "status": "observed",
+      "title": "SlotNode.limitViolations",
+      "detail": "readonly limitViolations: Array<'BELOW_MIN' | 'ABOVE_MAX' | 'HAS_NON_PREFERRED'>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11340-L11340"
+    },
+    {
+      "id": "member:4c291469f3b997cdf2220b6a3df8554d69f77e162ccad12208e03b4bf8380ec9",
+      "type": "figma",
+      "status": "observed",
+      "title": "FramePrototypingMixin.overlayPositionType",
+      "detail": "readonly overlayPositionType: OverlayPositionType",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9160-L9160"
+    },
+    {
+      "id": "member:4fdefb392709e21bdf88bdeafe098b38466e7641d867a26599ee5c31dca05ea2",
+      "type": "figma",
+      "status": "observed",
+      "title": "FramePrototypingMixin.overflowDirection",
+      "detail": "overflowDirection: OverflowDirection",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9148-L9148"
+    },
+    {
+      "id": "member:54129f16d495186c757ab5b8d238a045a439ef5297abbfbea73d519764f6a7a1",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.hyperlink",
+      "detail": "hyperlink: HyperlinkTarget | null | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9844-L9844"
+    },
+    {
+      "id": "member:560e7ce64c6dc0e174608bdcc7f5f4aa7dd626bcc922feb2b3f01e9f17952dad",
+      "type": "figma",
+      "status": "observed",
+      "title": "FramePrototypingMixin.overlayBackground",
+      "detail": "readonly overlayBackground: OverlayBackground",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9164-L9164"
+    },
+    {
+      "id": "member:5615160576e7b0afbdad0ec06fe71db31ae372e51922c973e08dbc30e9c76a67",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseFrameMixin.guides",
+      "detail": "guides: ReadonlyArray<Guide>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9476-L9476"
+    },
+    {
+      "id": "member:7e3434c8da7547b62cab971a225492280b32a5a222a0d8aa281183d095dea254",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.textAlignVertical",
+      "detail": "textAlignVertical: 'TOP' | 'CENTER' | 'BOTTOM'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11097-L11097"
+    },
+    {
+      "id": "member:8657cae167e5f21e182d1d5209a18b0a4811ecd51a66ff3b5752881f1113ef6c",
+      "type": "figma",
+      "status": "observed",
+      "title": "PageNode.selectedTextRange",
+      "detail": "selectedTextRange: {\n    node: TextNode\n    start: number\n    end: number\n  } | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10684-L10688"
+    },
+    {
+      "id": "member:87eb5a832b578f3d86deae563a3306ed3beaa98ca08cbd1f0f56206ecf5e73f9",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextPathNode.textAlignHorizontal",
+      "detail": "textAlignHorizontal: 'LEFT' | 'CENTER' | 'RIGHT' | 'JUSTIFIED'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11093-L11093"
+    },
+    {
+      "id": "member:891e7379132c9a857bc59b876c799452426392e36018acee4367e74e232eb3eb",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridRowSizes",
+      "detail": "gridRowSizes: Array<GridTrackSize>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8342-L8342"
+    },
+    {
+      "id": "member:a9022cfbdf1bbac61a0baeb2a45692ca06643779de650f1189c93f13daeeb860",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridColumnSizes",
+      "detail": "gridColumnSizes: Array<GridTrackSize>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8350-L8350"
+    },
+    {
+      "id": "member:b3d15f67495f7a3fdc78d9f178e3eabcd729e4c019d76e84b937a50fa93dff16",
+      "type": "figma",
+      "status": "observed",
+      "title": "PublishableMixin.descriptionMarkdown",
+      "detail": "descriptionMarkdown: string",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9383-L9383"
+    },
+    {
+      "id": "member:b440f064af6478120738ff4d0506ca9f5f6b9cc64e6df8bcff98264df9a0ce87",
+      "type": "figma",
+      "status": "observed",
+      "title": "ComponentSetNode.defaultVariant",
+      "detail": "readonly defaultVariant: ComponentNode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11187-L11187"
+    },
+    {
+      "id": "member:decfb185bbcc984fb2012f9b13d4598c370cae99c08961829a1dfb27738a96dd",
+      "type": "figma",
+      "status": "observed",
+      "title": "SlotNode.type",
+      "detail": "readonly type: 'SLOT'",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11321-L11321"
+    },
+    {
+      "id": "member:ecada98393bdc52866c078ef19430f4669eb467d6c0749a5a7768cc0cfa3c91b",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseFrameMixin.detachedInfo",
+      "detail": "readonly detachedInfo: DetachedInfo | null",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9454-L9454"
+    },
+    {
+      "id": "OBS-scene-instance-main-component-read-v032",
+      "type": "test",
+      "status": "observed",
+      "title": "Owned Design instance · async component getter",
+      "detail": "The async getter returned a linked state from the owned instance. No component ID or other value is published.",
+      "source": "../../docs/native-api-probe.md",
+      "observed_at": "2026-11-13T21:53:08.048Z",
+      "getter_counts": {
+        "success": 1,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "1ead39f5ca9322e1c3220bc4dc24ce0b10357aeffe421e3293313413a9f638ab"
+    },
+    {
+      "id": "member:9e7fcf03291b370487ba2a7b2d411f1f09d209a8fc7d9625fd16e0296da2b52d",
+      "type": "figma",
+      "status": "observed",
+      "title": "InstanceNode.getMainComponentAsync",
+      "detail": "getMainComponentAsync(): Promise<ComponentNode | null>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11256-L11256"
+    },
+    {
+      "id": "OBS-scene-owned-component-reads-v032",
+      "type": "test",
+      "status": "observed",
+      "title": "Owned Design component · async relationship reads",
+      "detail": "The owned component returned an identity-free instance count and linked-component state. Unowned instance results were excluded.",
+      "source": "../../docs/native-api-probe.md",
+      "observed_at": "2026-11-13T22:05:03.765Z",
+      "operation_counts": {
+        "success": 2,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "8acc1e3e5128d8b8489497c0a4220e70de0f22796c316e90580d4e31f7b266e7"
+    },
+    {
+      "id": "member:dfc325facdea81ec16fbd49bb2d4c011a87536a69917947c92ff41feaac38ec9",
+      "type": "figma",
+      "status": "observed",
+      "title": "ComponentNode.getInstancesAsync",
+      "detail": "getInstancesAsync(): Promise<InstanceNode[]>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11223-L11223"
+    },
+    {
+      "id": "OBS-scene-owned-instance-list-blocked-v032",
+      "type": "test",
+      "status": "blocked",
+      "title": "Workspace instance-list getter · blocked by lab ownership scope",
+      "detail": "The workspace plugin could not verify the private lab plugin marker. No API-member observation was recorded.",
+      "source": "../../docs/native-api-probe.md",
+      "observed_at": "2026-11-13T22:00:30.218Z",
+      "getter_counts": {
+        "success": 0,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 1
+      },
+      "receipt_sha256": "6e45bc5040231771e4225e6e0c29ba8ebdb23042f87c8e6675c0db195c871560"
+    }
+  ],
+  "edges": [
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:0e5c66adf2276fb5c04cd3e807d3bc0d2115f62da2216647f8de8efebe13eb45",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:13bb540fee5a44b87cb8685835d7bee0dc9006f95ac03f25791c9db8dab1b18e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:16d5630a5df6c13e7b2527bf980566bad83dc3670e587163e582889ff8861b1d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:1e0b5cd1d28bb9e6848401266ba55e4d948061a7350bc2b890241f6b856b535d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:1e431a80b19ef312f2d1bb93f712ebd95c9e4ec3ec01668a99acc02a0df30815",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:23d74f48c30ebe98268138e1b87f96ff2da6891e7aa760c53883dafc6d17655f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:2e21c30440eda220e1856fc7a1397fd3f3d34c33608ba9acf33c84fbffbbe305",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:35fa8ad7e6edb3486a6345f1155b18089acaaa237e951a7052faf0e62640c3fb",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:37721e450dfaec164ddfc7621f73d3e1a0aa5639d4fb88eff01e7a620acdf79f",
+      "type": "attempted member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:4008ad872aab889bb977b9c24630dedcf59c8e0d22f6ab7f6e7c4080610c8da4",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:404721b748843f53ecff1e4b521e82351f4e0c440efaca456510acd471d9c5bc",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:4496ffed03a99e41feb0a497fa5d0f48685a851f4c7f588c7700e983e7c4f9c5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:44b4da531bdd27c1c0131479acd4ca6b10e837caa0a5df73526f9a07f6a29b27",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:4606fc459aaf9a5d411b7fbc3588e138de1af02582b6de3f28b4e90633a784e2",
+      "type": "attempted member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:47b8b81596a30a4cc388d61a2a9e562f2c6d4124ce166ba036db8a59691c8ed2",
+      "type": "attempted member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:4a2ff5a4b16c72b3686e3d0ecd0f4c68b715b22f0265ec6a503d06ec9e8282c2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:4cb53dac35d2033d4fb8d2abcef98448838c01ed4c17315be763f56a9f446fdf",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:4f61b39ec44ae2ce73192581cd419a2569593d7916a4b6eb6eabe1b01386fe2c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:55d9377663da8f9b81f5e3ce22e0614170f1753f56dd57e66f5ee643d04f97a8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:5afc0853fe5f3b49be0c26011be8c8c4212f699f22d83e42edae9251ac2e51e8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:5b8b871c48727de58aa72f4eae939656944d5194b64c1c9886183da695c0fe2c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:6c436b774e38a05d784b13f9a8125936ea3c1d735678aee15fc09a4e11c047f2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:770c1925d5d320653e7fcc3ca12ca5b0e27da886a3563756c0b53b925d14d8fd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:797010d06445732475603f05e4e31bce2dabfa56be1ee09e865bde8e949a8d51",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:79c06d1c4c5f56255ad76d4c99de2782cab523391a455f45318aaa7db1f4d058",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:7b12d1c7b57e168450a7f84abbcbe28dc41d55191d7a911eeb9d10717a0941fe",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:7c6c8b57f05e8320cefa6036d325f4e6e2213e63ed6500f70042663707f47e5d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:7dd0dd52cce6ec9a542f6d0b26497ec989c87d06b2aa5282331de981f0ab9da7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:845fd240b5ca57bcaa31b6ce3d17bbb69a981e83346e4aba8598deb44c6e32b8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:8c2652834ca088a9015ed3583c96f499583fb8d49f4421731226fb4636d06b18",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:92b1c9e78b8b844958643ae9c4543f42a8764ab37b22e1d00db370104b1c9bcf",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:93b94f188bd5168bc2ea7788e3872a30e0e4f472c9e9781dd1f9400062f0ec65",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:94d5e34a58d81b1f96664b3ca6a31381d5a056cf9788745549be8998903f5173",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:a4286212fdc88cf6f7644abdee431030a05fa44fbfa46b230f37b85bb6c45057",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:ab370eab3f378449f48caa130fc84aadc740cf38d875064c141fd48adf3a56d5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:ae3b44496f9ec5c4f52e1461cb18f393df06dcc75eb6866ba4a8b2306a53e9fd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:b665d42d1e5a935f1173770b6ad2e8515c5ec4bdb98453e55fefc00249388c5c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:ba5463fde235c8e4b8228328ed1692ba48fa9eaf7c6e0edbf34c9918cc08647a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:bd7eba40badf1e6a8a8dff39e19075877342380a7d20bce7e04f7cc434854999",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:bedcabd9bc4bfb0bfd0664bc6b86e6bbb25c0146ace4fe83c4f3dd03d363cc23",
+      "type": "attempted member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:c3130821f2c779dd125e16b748a92c86b2dcc3266c191f94a48075f808d04390",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:c3c05ba72dfbf0a2caae625e4b71a4ab15e53837458c44999256c370d5cd4506",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:c4a14454ea0e56023861c70a99a18320eb182770f69c172121a6a8add3cc4c49",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:c9e5e8c1f81a89601e8e23cfb1b044ee626681a569eedbb054fd6b38a993b845",
+      "type": "attempted member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:cb164ddbee6445554c994b9b400ad2338913700e4f1ffc501e058b0d7c8c1cd5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:d03e0bbcccaf29e37a95e5d627b1cc13f16926fa2bc25bf6092234e825390ec8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:d3ca21be26710d1fc1dfeb62e7ddc990e93d321de691d7ceaa3d3526701e741d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:d463459973432a2ed5ccd6ea924a5d05cca86c511a3cb27718acb4f1e1955dfc",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:da01b5f08d75952fec21a95dc1d7c6edfa6692c04f54db8f77b9c3625af659cc",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:dba0bef0bec990ad0bde818240e83f0a15689abe039e25e65ccaa595d0c77d63",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:e6de1b49781823136571a523d37c0e0b3b5e13728d406904245fbcae57a7bb81",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:ed434cac87afde074c0bc402e66b65c9d00fdca18c550800cce32d31f9f2545f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:ee76ffb3615f8b97fb3311475845f906b66e2e5c7bf3702e3cc610086bd34aba",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:ef0833b00dfe7aca4c4ed00d482c6278b231ac83203d22da5c55daffeb3233ad",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:f2455f981483dc6da221d4f424935b9b247b9974f4438fc5380970f47b015115",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:f6f154ef9712ffd20cb38e6e3c165eb26651544a24ee9f7ff48562386d6e44ef",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:fcc7204a1d0a8681e47784069c3514bf363b563c7ce8db8446253ce5cd6b736a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:fd20c58a3db3b4da0d26acdd3a23afb992410314897617149deb15ec39a00d60",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-fixtures-stable0",
+      "to": "member:fea428a46cbdfee45d16b6b51dd463473092adfbcec21f2728ad4fe11f70fcfd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:564ab097e4e9ca27b58c059db0e268c7ccbead273c24256d2cd1d97ccf2eac2b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:2898a40266ba7f8ca39158384eb1ab037a0b77e6ed747592c6c21f063c67f35d",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:a958f4c88982709e8a5a947205a0dcf5e58245e4f87fb1ae330f7d04b6b8b4ab",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:57803cdab8acbb5e8a9ba3ec24506f6c17e33057c9f8935ec180193375aa5e08",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:447c8c34808ed80daa766ab19aa3dba04be98da602c0742bd53a97b99065a212",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:83bba70ec68c4c8a866b233c3765e773d0d212b97f72550895cc3bb0ca9818c2",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:875ac391a64017fe272eaa8f3d983b455b3a21923d0281505dc27e395b9a9133",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-writes-v032",
+      "to": "member:bf3d5d481b0b87de0da04e7b12f924cbc0399254fccccdb05b3b57aa9bb89099",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:080a10ef5225b519dbf32fd9ae15530dc6c289148ad1361ac79ea2f844d5cdf7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:0bed7e04652e2409e0d24266ffcef1ff39dd03e6058384e0cbe5c75d324157f6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:2627a2b1da78f8071bcebb6165cccc53d5d0ead8d371ffdc27c5b4ae6e65789a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:31ba751e4716f05c507ad1ad653a34139a190659a74fec858dfdba9cce7c5690",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:37721e450dfaec164ddfc7621f73d3e1a0aa5639d4fb88eff01e7a620acdf79f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:43584609c770baa7a138af214c445a0d160ef9c38fc90bf7de96a1ef1e6ada95",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:4606fc459aaf9a5d411b7fbc3588e138de1af02582b6de3f28b4e90633a784e2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:47b8b81596a30a4cc388d61a2a9e562f2c6d4124ce166ba036db8a59691c8ed2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:4c291469f3b997cdf2220b6a3df8554d69f77e162ccad12208e03b4bf8380ec9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:4fdefb392709e21bdf88bdeafe098b38466e7641d867a26599ee5c31dca05ea2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:54129f16d495186c757ab5b8d238a045a439ef5297abbfbea73d519764f6a7a1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:560e7ce64c6dc0e174608bdcc7f5f4aa7dd626bcc922feb2b3f01e9f17952dad",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:5615160576e7b0afbdad0ec06fe71db31ae372e51922c973e08dbc30e9c76a67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:7e3434c8da7547b62cab971a225492280b32a5a222a0d8aa281183d095dea254",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:8657cae167e5f21e182d1d5209a18b0a4811ecd51a66ff3b5752881f1113ef6c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:87eb5a832b578f3d86deae563a3306ed3beaa98ca08cbd1f0f56206ecf5e73f9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:891e7379132c9a857bc59b876c799452426392e36018acee4367e74e232eb3eb",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:a9022cfbdf1bbac61a0baeb2a45692ca06643779de650f1189c93f13daeeb860",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:b3d15f67495f7a3fdc78d9f178e3eabcd729e4c019d76e84b937a50fa93dff16",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:b440f064af6478120738ff4d0506ca9f5f6b9cc64e6df8bcff98264df9a0ce87",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:bedcabd9bc4bfb0bfd0664bc6b86e6bbb25c0146ace4fe83c4f3dd03d363cc23",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:decfb185bbcc984fb2012f9b13d4598c370cae99c08961829a1dfb27738a96dd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-api-extra-after-services-v032",
+      "to": "member:ecada98393bdc52866c078ef19430f4669eb467d6c0749a5a7768cc0cfa3c91b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-scene-instance-main-component-read-v032",
+      "to": "member:9e7fcf03291b370487ba2a7b2d411f1f09d209a8fc7d9625fd16e0296da2b52d",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-component-reads-v032",
+      "to": "member:9e7fcf03291b370487ba2a7b2d411f1f09d209a8fc7d9625fd16e0296da2b52d",
+      "type": "deduplicated member"
+    },
+    {
+      "from": "OBS-scene-owned-component-reads-v032",
+      "to": "member:dfc325facdea81ec16fbd49bb2d4c011a87536a69917947c92ff41feaac38ec9",
+      "type": "observed member"
+    }
+  ]
+}

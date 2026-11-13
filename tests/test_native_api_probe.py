@@ -12,22 +12,22 @@ import figma_workspace
 import graph_sync
 import native_api_probe as probe
 
-FILE_KEY = 'Qn4Ght8gjyfLTFd7IFjur3'
-PAGE_ID = '71:16342'
+FILE_KEY = 'TEST_FILE_KEY'
+PAGE_ID = '9001:1000'
 SELECTION = {
     'schema': probe.SELECTION_SCHEMA,
     'fileKey': FILE_KEY,
     'pageId': PAGE_ID,
     'nodes': [
-        {'semantic_id': 'demo-grid', 'observed_node_id': '217:21672', 'observed_type': 'FRAME'},
-        {'semantic_id': 'motion-dot', 'observed_node_id': '217:21695', 'observed_type': 'ELLIPSE'},
-        {'semantic_id': 'shape-union', 'observed_node_id': '217:21680', 'observed_type': 'BOOLEAN_OPERATION'},
-        {'semantic_id': 'motion-section', 'observed_node_id': '217:21693', 'observed_type': 'SECTION'},
-        {'semantic_id': 'booking-main', 'observed_node_id': '231:21703', 'observed_type': 'COMPONENT'},
-        {'semantic_id': 'booking-preview', 'observed_node_id': '231:21705', 'observed_type': 'INSTANCE'},
-        {'semantic_id': 'booking-label', 'observed_node_id': '231:21704', 'observed_type': 'TEXT'},
-        {'semantic_id': 'demo-cell', 'observed_node_id': '217:21673', 'observed_type': 'RECTANGLE'},
-        {'semantic_id': 'booking-family', 'observed_node_id': '71:16343', 'observed_type': 'COMPONENT_SET'},
+        {'semantic_id': 'demo-grid', 'observed_node_id': '9001:1001', 'observed_type': 'FRAME'},
+        {'semantic_id': 'motion-dot', 'observed_node_id': '9001:1002', 'observed_type': 'ELLIPSE'},
+        {'semantic_id': 'shape-union', 'observed_node_id': '9001:1003', 'observed_type': 'BOOLEAN_OPERATION'},
+        {'semantic_id': 'motion-section', 'observed_node_id': '9001:1004', 'observed_type': 'SECTION'},
+        {'semantic_id': 'booking-main', 'observed_node_id': '9001:1005', 'observed_type': 'COMPONENT'},
+        {'semantic_id': 'booking-preview', 'observed_node_id': '9001:1006', 'observed_type': 'INSTANCE'},
+        {'semantic_id': 'booking-label', 'observed_node_id': '9001:1007', 'observed_type': 'TEXT'},
+        {'semantic_id': 'demo-cell', 'observed_node_id': '9001:1008', 'observed_type': 'RECTANGLE'},
+        {'semantic_id': 'booking-family', 'observed_node_id': '9001:1009', 'observed_type': 'COMPONENT_SET'},
     ],
 }
 
@@ -72,6 +72,20 @@ class NativeApiProbeTest(unittest.TestCase):
         self.assertTrue({'strokeAlign', 'strokeCap', 'strokeJoin', 'dashPattern',
                          'absoluteTransform', 'relativeTransform'} <= vector_fields)
 
+    def test_probe_receivers_are_design_types_and_dynamic_page_uses_method_getters(self):
+        self.assertTrue({'DOCUMENT', 'PAGE', 'FRAME', 'TEXT', 'TEXT_PATH', 'SLOT'} <= set(probe.SAFE_TYPES))
+        self.assertTrue(set(probe.SAFE_TYPES).isdisjoint(
+            {'STICKY', 'STAMP', 'TABLE', 'TABLE_CELL', 'HIGHLIGHT', 'WASHI_TAPE', 'CONNECTOR',
+             'SHAPE_WITH_TEXT', 'SLIDE', 'SLIDE_ROW', 'SLIDE_GRID', 'INTERACTIVE_SLIDE_ELEMENT'}))
+        catalog = probe.load_catalog()
+        audit_rows = probe._audit_rows(catalog, json.loads(probe.AUDIT_PATH.read_text()))
+        text_path = {row['property'] for row in probe.candidates_for_type(catalog, audit_rows, 'TEXT_PATH')}
+        self.assertTrue({'textAlignHorizontal', 'textAlignVertical', 'vectorNetwork'} <= text_path)
+        slot = {row['property'] for row in probe.candidates_for_type(catalog, audit_rows, 'SLOT')}
+        self.assertIn('limitViolations', slot)
+        self.assertNotIn('mainComponent', probe.SAFE_FIELDS)
+        self.assertIn('getMainComponentAsync', probe.SAFE_METHODS)
+
     def test_explicit_recheck_uses_only_observed_exact_keys_on_admitted_receivers(self):
         audit = json.loads((ROOT / 'library/figma-api/audit/members.json').read_bytes())
         row = next(r for r in audit['members'] if r['owner'] == 'BaseNodeMixin' and r['name'] == 'getCSSAsync')
@@ -95,7 +109,7 @@ class NativeApiProbeTest(unittest.TestCase):
                 'apiSource': baseline['apiSource'], 'auditSha256': baseline['auditSha256'],
                 'fieldPolicySha256': baseline['fieldPolicySha256'],
                 'selectionSha256': baseline['selectionSha256'],
-                'observations': [{'semantic_id': 'demo-grid', 'observed_node_id': '217:21672',
+                'observations': [{'semantic_id': 'demo-grid', 'observed_node_id': '9001:1001',
                     'api_member_id': member['api_member_id'], 'status': 'success', 'value': 'discarded'}]}}
         next_batch = probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID,
                                    candidate_offset=16, previous_readback=receipt)
@@ -141,6 +155,40 @@ class NativeApiProbeTest(unittest.TestCase):
             config_path.write_text(json.dumps(plan))
             subprocess.run(['node', str(ROOT / 'tests/helpers/native_api_probe_methods.cjs'),
                             str(config_path), str(ROOT / 'figma-bridge/native_api_probe.js')], check=True)
+
+    def test_dynamic_page_instance_uses_the_documented_async_main_component_getter(self):
+        audit = json.loads(probe.AUDIT_PATH.read_bytes())
+        member = next(row for row in audit['members']
+                      if row['owner'] == 'InstanceNode' and row['name'] == 'getMainComponentAsync')
+        selection = {'schema': probe.SELECTION_SCHEMA, 'fileKey': FILE_KEY, 'pageId': PAGE_ID,
+            'nodes': [{'semantic_id': 'scene-instance', 'observed_node_id': '9001:1010',
+                       'observed_type': 'INSTANCE'}], 'recheck_member_ids': [member['key']]}
+        plan = probe.prepare(selection, file_key=FILE_KEY, page_id=PAGE_ID)
+        with tempfile.TemporaryDirectory(dir=ROOT) as temporary:
+            config_path = Path(temporary) / 'config.json'
+            config_path.write_text(json.dumps(plan))
+            subprocess.run(['node', str(ROOT / 'tests/helpers/native_api_probe_instance.cjs'),
+                            str(config_path), str(ROOT / 'figma-bridge/native_api_probe.js')], check=True)
+
+    def test_exact_unobserved_candidate_can_be_targeted_without_reading_values(self):
+        component = {'semantic_id': 'scene-component', 'observed_node_id': '9001:1011',
+                     'observed_type': 'COMPONENT'}
+        audit = json.loads(probe.AUDIT_PATH.read_bytes())
+        member = next(row for row in audit['members']
+                      if row['owner'] == 'VariantMixin' and row['name'] == 'variantProperties')
+        selection = {'schema': probe.SELECTION_SCHEMA, 'fileKey': FILE_KEY, 'pageId': PAGE_ID,
+            'nodes': [{'semantic_id': component['semantic_id'], 'observed_node_id': component['observed_node_id'],
+                       'observed_type': component['observed_type']}], 'candidate_member_ids': [member['key']]}
+        plan = probe.prepare(selection, file_key=FILE_KEY, page_id=PAGE_ID)
+        with tempfile.TemporaryDirectory(dir=ROOT) as temporary:
+            config_path = Path(temporary) / 'config.json'
+            config_path.write_text(json.dumps(plan))
+            subprocess.run(['node', str(ROOT / 'tests/helpers/native_api_probe_instance.cjs'),
+                            str(config_path), str(ROOT / 'figma-bridge/native_api_probe.js')], check=True)
+
+    def test_owned_scene_fixture_is_idempotent_and_restores_the_original_page(self):
+        subprocess.run(['node', str(ROOT / 'tests/helpers/native_api_fixture.cjs'),
+                        str(ROOT / 'figma-bridge/native_api_fixture.js')], check=True)
 
     def test_workspace_admission_pins_selection_and_builds_public_read_only_task(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as temporary:

@@ -47,7 +47,7 @@ def build_graph(file_key, page_id, *, baseline_only=False, template=None):
             raise ValueError('Every recipe member purpose must be a string.')
         if row['evidence_status'] not in ('observed', 'observed-in-observation-graph'):
             if receiver not in queue_by_receiver:
-                queue_by_receiver[receiver] = priority_queue(inventory, limit=None, receiver=receiver)
+                queue_by_receiver[receiver] = priority_queue(inventory, limit=None, receiver=receiver, design_only=True)
             if not any(candidate['api_member_id'] == row['api_member_id']
                        for candidate in queue_by_receiver[receiver]):
                 raise ValueError(f'{row["owner"]}.{row["name"]} is missing from the {receiver} priority queue.')
@@ -90,7 +90,7 @@ def build_graph(file_key, page_id, *, baseline_only=False, template=None):
         'queueCommands': [
             'python3 tools/api_priority.py build ' + ('--baseline-only ' if baseline_only else '')
             + '--out .figma-flow/api-priority.json',
-            *[f'python3 tools/api_priority.py queue --inventory .figma-flow/api-priority.json --receiver {receiver} --limit 10000'
+            *[f'python3 tools/api_priority.py queue --inventory .figma-flow/api-priority.json --receiver {receiver} --limit 10000 --design-only'
               for receiver in ('TEXT', 'FRAME', 'PluginAPI')],
         ]}, ensure_ascii=False, sort_keys=True)
     return graph

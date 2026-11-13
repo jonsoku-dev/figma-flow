@@ -12,6 +12,8 @@ OBSERVATIONS = ROOT / 'specs/graph-review/api-observations.json'
 PUBLIC_OBSERVATION_OVERLAYS = (
     ROOT / 'specs/editable-web/api-observations.json',
     ROOT / 'specs/responsive-web/api-observations.json',
+    ROOT / 'specs/design-inspection/scene-observations.json',
+    ROOT / 'specs/design-inspection/service-observations.json',
 )
 RECEIPT_SHA256 = re.compile(r'[a-f0-9]{64}\Z')
 
@@ -66,7 +68,7 @@ def observed_member_evidence(audit, observations, *, require_receipts=False):
             continue
         evidence, member = by_id[edge['from']], by_id[edge['to']]
         key = member['id']
-        counts = evidence.get('getter_counts')
+        counts = evidence.get('getter_counts') or evidence.get('operation_counts')
         if (evidence.get('type') != 'test' or evidence.get('status') != 'observed'
                 or member.get('type') != 'figma' or member.get('status') != 'observed'
                 or key not in members or not isinstance(evidence.get('source'), str)
@@ -109,18 +111,17 @@ def main():
     if not args.baseline_only and args.observations.resolve() == OBSERVATIONS.resolve():
         baseline = {r['key'] for r in audit['members'] if r['release_status']['candidate']['status'] == 'observed'}
         baseline.update(observed_member_evidence(audit, base))
-        release_030 = observed_member_evidence(audit, json.loads(PUBLIC_OBSERVATION_OVERLAYS[0].read_bytes()),
-                                               require_receipts=True)
-        baseline.update(release_030)
-        release_031 = set(observed_member_evidence(audit, json.loads(PUBLIC_OBSERVATION_OVERLAYS[1].read_bytes()),
-                                                   require_receipts=True))
-        through_031 = baseline | release_031
-        result.update(baseline_release='0.30.0', baseline_observed=len(baseline),
-                      before_031_unobserved=len(audit['members']) - len(baseline),
-                      this_release='0.31.0', this_release_observed=len(release_031),
-                      newly_observed=len(release_031 - baseline),
-                      distinct_observed_through_release=len(through_031),
-                      remaining_without_live_member_evidence=len(audit['members']) - len(through_031))
+        for path in PUBLIC_OBSERVATION_OVERLAYS[:2]:
+            baseline.update(observed_member_evidence(audit, json.loads(path.read_bytes()), require_receipts=True))
+        observed = set()
+        for path in PUBLIC_OBSERVATION_OVERLAYS[2:]:
+            observed.update(observed_member_evidence(audit, json.loads(path.read_bytes()), require_receipts=True))
+        result.update(baseline_release='0.31.0', baseline_observed=len(baseline),
+                      before_032_unobserved=len(audit['members']) - len(baseline),
+                      this_release='0.32.0', this_release_observed=len(observed),
+                      newly_observed=len(observed - baseline),
+                      distinct_observed_through_release=len(baseline | observed),
+                      remaining_without_live_member_evidence=len(audit['members']) - len(baseline | observed))
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
