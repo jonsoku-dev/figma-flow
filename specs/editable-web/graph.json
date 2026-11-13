@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "id": "editable-web-0-30",
+  "title": "Editable web capture and native import",
+  "nodes": [
+    {
+      "id": "REF-WEB-CAPTURE",
+      "type": "reference",
+      "title": "Browser capture contract",
+      "status": "observed",
+      "source": "../../docs/web-design-capture.md",
+      "detail": "The read-only page evaluation exports visible text, geometry, supported vector and control structure, local image request references, and explicit limitations. It does not read input values, cookies, or storage."
+    },
+    {
+      "id": "REQ-WEB-CAPTURE",
+      "type": "requirement",
+      "title": "Capture rendered web screens as bounded observations",
+      "status": "observed",
+      "source": "../../docs/web-design-capture.md",
+      "detail": "Capture visible browser content into stable screen and element records while retaining the viewport, observed text and styles, ancestor paths, and unsupported-content limitations."
+    },
+    {
+      "id": "REQ-WEB-ASSETS",
+      "type": "requirement",
+      "title": "Bind local images to exact bytes",
+      "status": "observed",
+      "source": "../../tools/web_design_source.py",
+      "detail": "Bind only explicit root-relative local image requests to files whose declared MIME type, byte signature, and SHA-256 match."
+    },
+    {
+      "id": "REQ-WEB-IMPORT",
+      "type": "requirement",
+      "title": "Prepare and verify editable native screens",
+      "status": "observed",
+      "source": "../../tools/web_design.py",
+      "detail": "Validate the selected screen graph, pin its source hash, and apply it through the existing native-edit path with bounded geometry and asset inputs."
+    },
+    {
+      "id": "SCR-PORTFOLIO",
+      "type": "screen",
+      "title": "Portfolio page capture",
+      "status": "observed",
+      "source": "../../docs/editable-web-verification.md#browser-captures",
+      "detail": "Final shipping graph records 508 elements at a 1265 by 7371 pixel document extent."
+    },
+    {
+      "id": "SCR-CODEFORGE",
+      "type": "screen",
+      "title": "Codeforge page capture",
+      "status": "observed",
+      "source": "../../docs/editable-web-verification.md#browser-captures",
+      "detail": "Final shipping graph records 492 elements at a 1265 by 11677 pixel document extent."
+    },
+    {
+      "id": "SCR-DEVTOOL",
+      "type": "screen",
+      "title": "Devtool blog capture",
+      "status": "observed",
+      "source": "../../docs/editable-web-verification.md#browser-captures",
+      "detail": "Final shipping graph records 38 elements at a 1275 by 1139 pixel document extent."
+    },
+    {
+      "id": "SCR-SAAS",
+      "type": "screen",
+      "title": "SaaS signup capture",
+      "status": "observed",
+      "source": "../../docs/editable-web-verification.md#browser-captures",
+      "detail": "Final shipping graph records 20 elements at a 1280 by 720 pixel document extent."
+    },
+    {
+      "id": "AC-WEB-CAPTURE",
+      "type": "acceptance",
+      "title": "Record observed page geometry and content without unbounded browser data",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#browser-captures",
+      "detail": "Four local template pages were captured into versioned graphs. Their element counts, measured document extents, and reported limitations are listed in the linked verification record."
+    },
+    {
+      "id": "AC-WEB-ASSETS",
+      "type": "acceptance",
+      "title": "Use only explicitly pinned local image bytes in native preparation",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#asset-and-vector-review",
+      "detail": "Eight Portfolio photos and three Devtool thumbnails passed byte-hash, signature, native IMAGE fill, and decoded-size checks. Four final Figma previews were visually compared with the browser outputs. Three external Portfolio SVGs were excluded."
+    },
+    {
+      "id": "AC-WEB-IMPORT",
+      "type": "acceptance",
+      "title": "Create editable native frames from four captured templates",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#native-imports",
+      "detail": "Final shipping apply/readback receipts report 512, 526, 41, and 23 editable nodes, 1102 total, excluding VECTOR descendants. The result covers these four observed inputs, not general website support or pixel parity."
+    },
+    {
+      "id": "AC-WEB-IMPORT-BASELINE",
+      "type": "acceptance",
+      "title": "Create editable native frames from the initial four template graphs",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#native-imports",
+      "detail": "The initial pass reported 510, 462, 40, and 23 editable nodes, 1035 total. This verifies the initial inputs, not visual parity or general website support."
+    },
+    {
+      "id": "AC-WEB-REAPPLY",
+      "type": "acceptance",
+      "title": "Preserve user edits when reapplying unchanged graphs",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#reapply-and-conflict-protection",
+      "detail": "All four shipping graph IDs reapplied without changes. On SaaS, changing the main button font from 14 to 16 was preserved by an intervening same-graph apply; restoring 14 allowed a final apply with no write."
+    },
+    {
+      "id": "CODE-WEB-CAPTURE",
+      "type": "code",
+      "title": "Read-only browser page capture",
+      "status": "observed",
+      "source": "../../tools/web_design_capture.js",
+      "detail": "Exports bounded visible DOM observations and flags unsupported visual content."
+    },
+    {
+      "id": "CODE-WEB-SOURCE",
+      "type": "code",
+      "title": "Bind captures into a graph",
+      "status": "observed",
+      "source": "../../tools/web_design_source.py",
+      "detail": "Combines capture records and explicit local image bindings into a versioned graph."
+    },
+    {
+      "id": "CODE-WEB-PLAN",
+      "type": "code",
+      "title": "Validate and pin a native import plan",
+      "status": "observed",
+      "source": "../../tools/web_design.py",
+      "detail": "Validates screen IDs, geometry, SVG, image hashes, source freshness, and bounded raster embedding."
+    },
+    {
+      "id": "CODE-WEB-IMPORT",
+      "type": "code",
+      "title": "Create and read back native web screens",
+      "status": "observed",
+      "source": "../../figma-bridge/web_design.js",
+      "detail": "Builds editable native nodes, checks the imported scene against its owned frame, and returns per-screen counts."
+    },
+    {
+      "id": "FIG-PORTFOLIO",
+      "type": "figma",
+      "title": "Portfolio editable native frame",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#native-imports",
+      "detail": "Final shipping receipt reports 512 editable nodes, including 2 instances. The frame identifier is retained only in private local evidence."
+    },
+    {
+      "id": "FIG-CODEFORGE",
+      "type": "figma",
+      "title": "Codeforge editable native frame",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#native-imports",
+      "detail": "Final shipping receipt reports 526 editable nodes, including 24 instances. The frame identifier is retained only in private local evidence."
+    },
+    {
+      "id": "FIG-DEVTOOL",
+      "type": "figma",
+      "title": "Devtool editable native frame",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#native-imports",
+      "detail": "Final shipping receipt reports 41 editable nodes, including 1 instance. Twenty-one GeistSans font aliases resolved to Geist Regular, Bold, or SemiBold; fallback notices report the family alias. The frame identifier is retained only in private local evidence."
+    },
+    {
+      "id": "FIG-SAAS",
+      "type": "figma",
+      "title": "SaaS signup editable native frame",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#native-imports",
+      "detail": "Final shipping receipt reports 23 editable nodes. The frame identifier is retained only in private local evidence."
+    },
+    {
+      "id": "TEST-WEB-UNIT",
+      "type": "test",
+      "title": "Web graph validation and import checks",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#unit-checks",
+      "detail": "Eight focused Python tests and four native bridge Node tests passed. Full Python suite results are handled separately."
+    },
+    {
+      "id": "TEST-WEB-NATIVE",
+      "type": "test",
+      "title": "Actual native apply and readback for four templates",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#native-imports",
+      "detail": "Four shipping apply/readback receipts report successful completion and the editable-node counts recorded above."
+    },
+    {
+      "id": "TEST-WEB-ASSET-COMPOSITION",
+      "type": "test",
+      "title": "Image byte and native gradient verification",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#asset-and-vector-review",
+      "detail": "Eight Portfolio photos and three Devtool thumbnails passed native image hash, signature, and decoded-size checks. Four Figma previews were visually compared with browser output. Four Codeforge native radial fills were verified."
+    },
+    {
+      "id": "TEST-WEB-REAPPLY",
+      "type": "test",
+      "title": "Reapply and conflict protection for unchanged graphs",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#reapply-and-conflict-protection",
+      "detail": "Four stable screen IDs produced no-op reapply results. The SaaS font-size edit was preserved during a conflicting apply and restored before an unchanged reapply."
+    },
+    {
+      "id": "TEST-WEB-CAPTURE",
+      "type": "test",
+      "title": "Actual browser capture of four template pages",
+      "status": "verified",
+      "source": "../../docs/editable-web-verification.md#browser-captures",
+      "detail": "Four captured screen graphs retain document dimensions, element counts, and limitations."
+    }
+  ],
+  "edges": [
+    {"from": "REF-WEB-CAPTURE", "to": "REQ-WEB-CAPTURE", "type": "informs"},
+    {"from": "REQ-WEB-CAPTURE", "to": "SCR-PORTFOLIO", "type": "appears on"},
+    {"from": "REQ-WEB-CAPTURE", "to": "SCR-CODEFORGE", "type": "appears on"},
+    {"from": "REQ-WEB-CAPTURE", "to": "SCR-DEVTOOL", "type": "appears on"},
+    {"from": "REQ-WEB-CAPTURE", "to": "SCR-SAAS", "type": "appears on"},
+    {"from": "REQ-WEB-ASSETS", "to": "SCR-PORTFOLIO", "type": "appears on"},
+    {"from": "REQ-WEB-ASSETS", "to": "SCR-CODEFORGE", "type": "appears on"},
+    {"from": "REQ-WEB-ASSETS", "to": "SCR-DEVTOOL", "type": "appears on"},
+    {"from": "REQ-WEB-ASSETS", "to": "SCR-SAAS", "type": "appears on"},
+    {"from": "REQ-WEB-IMPORT", "to": "SCR-PORTFOLIO", "type": "appears on"},
+    {"from": "REQ-WEB-IMPORT", "to": "SCR-CODEFORGE", "type": "appears on"},
+    {"from": "REQ-WEB-IMPORT", "to": "SCR-DEVTOOL", "type": "appears on"},
+    {"from": "REQ-WEB-IMPORT", "to": "SCR-SAAS", "type": "appears on"},
+    {"from": "REQ-WEB-CAPTURE", "to": "AC-WEB-CAPTURE", "type": "accepted by"},
+    {"from": "REQ-WEB-ASSETS", "to": "AC-WEB-ASSETS", "type": "accepted by"},
+    {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-IMPORT", "type": "accepted by"},
+    {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-IMPORT-BASELINE", "type": "accepted by"},
+    {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-REAPPLY", "type": "accepted by"},
+    {"from": "SCR-PORTFOLIO", "to": "FIG-PORTFOLIO", "type": "represented by"},
+    {"from": "SCR-CODEFORGE", "to": "FIG-CODEFORGE", "type": "represented by"},
+    {"from": "SCR-DEVTOOL", "to": "FIG-DEVTOOL", "type": "represented by"},
+    {"from": "SCR-SAAS", "to": "FIG-SAAS", "type": "represented by"},
+    {"from": "SCR-PORTFOLIO", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
+    {"from": "SCR-CODEFORGE", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
+    {"from": "SCR-DEVTOOL", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
+    {"from": "SCR-SAAS", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
+    {"from": "SCR-PORTFOLIO", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "SCR-CODEFORGE", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "SCR-DEVTOOL", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "SCR-SAAS", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "REQ-WEB-CAPTURE", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
+    {"from": "REQ-WEB-ASSETS", "to": "CODE-WEB-SOURCE", "type": "implemented by"},
+    {"from": "REQ-WEB-IMPORT", "to": "CODE-WEB-PLAN", "type": "implemented by"},
+    {"from": "REQ-WEB-IMPORT", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "AC-WEB-CAPTURE", "to": "TEST-WEB-CAPTURE", "type": "checked by"},
+    {"from": "AC-WEB-CAPTURE", "to": "TEST-WEB-UNIT", "type": "checked by"},
+    {"from": "AC-WEB-ASSETS", "to": "TEST-WEB-UNIT", "type": "checked by"},
+    {"from": "AC-WEB-ASSETS", "to": "TEST-WEB-ASSET-COMPOSITION", "type": "checked by"},
+    {"from": "AC-WEB-IMPORT-BASELINE", "to": "TEST-WEB-NATIVE", "type": "checked by"},
+    {"from": "AC-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"},
+    {"from": "AC-WEB-REAPPLY", "to": "TEST-WEB-REAPPLY", "type": "checked by"},
+    {"from": "CODE-WEB-CAPTURE", "to": "TEST-WEB-UNIT", "type": "checked by"},
+    {"from": "CODE-WEB-PLAN", "to": "TEST-WEB-UNIT", "type": "checked by"},
+    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"}
+  ]
+}
