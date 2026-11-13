@@ -1,4 +1,4 @@
 networkx>=3.5,<4
 Pillow>=10,<14
-fonttools>=4,<5
+fonttools[woff]>=4,<5
 tinycss2>=1.5.1,<2
