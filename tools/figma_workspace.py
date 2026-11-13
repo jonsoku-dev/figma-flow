@@ -711,7 +711,9 @@ def public_task_metadata(task):
     return metadata
 
 
-def publish(workspace, catalogue):
+def publish(workspace, catalogue, *, expected_implementation=None):
+    if expected_implementation is not None and not re.fullmatch(r'[a-f0-9]{64}', expected_implementation):
+        raise ValueError('Expected trusted implementation digest required for pinned publication')
     history, retired = dependency_history(workspace)
     if not isinstance(catalogue.get('tasks'), list):
         raise ValueError('Task dependency catalogue required')
@@ -734,6 +736,8 @@ def publish(workspace, catalogue):
     require_idle_publication(workspace)
     generation = uuid.uuid4().hex
     runtime = runtime_info({'generation': generation})
+    if expected_implementation is not None and runtime['implementation'] != expected_implementation:
+        raise ValueError('Trusted implementation changed before pinned batch publication')
     folder = child(workspace, '.generations/' + generation)
     folder.mkdir(mode=0o700)
     tasks, domains = [], set()
@@ -943,6 +947,154 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
             return {'key': key, 'revision': revision, 'unchanged': False, 'manifest': str(workspace / 'manifest.json'),
                 'generation': result['generation'], 'artifacts': str(artifact_root),
                 'web_module': str(artifact_root / 'web-module.mjs') if kind == 'sync' else None}
+
+
+def replay_batch(workspace, expected_catalogue, expected_implementation):
+    """Regenerate stale task bundles in one private batch and publish one generation."""
+    if not isinstance(expected_catalogue, dict) or not re.fullmatch(r'[a-f0-9]{64}', str(expected_implementation)):
+        raise ValueError('A signed workspace snapshot and trusted implementation digest are required')
+    expected_signature = expected_catalogue.get('signature')
+    if not isinstance(expected_signature, str) or not re.fullmatch(r'[a-f0-9]{64}', expected_signature):
+        raise ValueError('A signed workspace snapshot is required')
+    with locked(workspace) as root:
+        catalogue = current(root, repair=False)
+        if (not hmac.compare_digest(expected_signature, sign_catalogue(root, expected_catalogue)['signature'])
+                or not hmac.compare_digest(expected_signature, catalogue['signature'])
+                or expected_catalogue.get('generation') != catalogue['generation']
+                or expected_catalogue.get('plugin_id') != catalogue['plugin_id']):
+            raise ValueError('Workspace changed before native batch replay; inspect current tasks before retrying')
+        if trusted_sources() != expected_implementation:
+            raise ValueError('Trusted implementation changed before native batch replay')
+        require_idle_publication(root)
+        history, _ = dependency_history(root)
+        original_tasks = catalogue['tasks']
+        normalized = normalize_task_dependencies(original_tasks, history=history)
+        if normalized != original_tasks:
+            raise ValueError('Task dependencies changed during native batch preflight')
+
+        admissions = {}
+        for task in original_tasks:
+            if 'generator_args' not in task or 'input_pins' not in task:
+                raise ValueError('Legacy task has no replay arguments; prepare with original admission')
+            task_artifacts(root, task)
+            args, options, pins = arguments(task['kind'], task['generator_args'], create_pair=False)
+            if pins != task['input_pins']:
+                raise ValueError('Prepared task inputs changed; obtain fresh admission')
+            record = task_input_record(root, task)
+            pinned = input_effect.summarize_input_record(record) if record is not None else None
+            if task.get('input_root') is not None and pinned is None:
+                raise ValueError('Task input root has no admitted input record')
+            payload = {'kind': task['kind'], 'args': args, 'pins': pins,
+                'title': label(task['title'], 'task title', 160),
+                'project': label(task.get('project'), 'project label', 120) if task.get('project') else '',
+                'threadId': thread_identity(task.get('threadId')) if task.get('threadId') is not None else None}
+            if 'depends_on' in task:
+                payload['depends_on'] = task['depends_on']
+            if pinned is not None:
+                payload['input_record'] = pinned['sha256']
+            if task.get('input_root') is not None:
+                payload['input_root'] = str(input_effect._root(task['input_root']))
+            request_sha = digest(encode(payload))
+            if task.get('request_sha256') is not None and task['request_sha256'] != request_sha:
+                raise ValueError('Task admission request changed; prepare a fresh admitted task')
+            admissions[task['key']] = (args, options, pins, request_sha, record, pinned)
+
+        with tempfile.TemporaryDirectory(prefix='.replay-batch-', dir=root) as temporary:
+            batch = Path(temporary)
+            next_tasks, staged, replayed_count = [], [], 0
+            for index, task in enumerate(original_tasks):
+                if task.get('generator_sha256') == expected_implementation:
+                    next_tasks.append(task)
+                    continue
+                replayed_count += 1
+                args, options, pins, request_sha, record, pinned = admissions[task['key']]
+                task_stage = batch / f'task-{index:04d}'
+                bundle, file_key, page_id, domains, source_sha = generate(
+                    task['kind'], args, options, task_stage, catalogue['plugin_id'])
+                if arguments(task['kind'], args, create_pair=False)[2] != pins:
+                    raise ValueError('Task inputs changed during native batch replay')
+                nested_pins = source_inputs(task_stage)
+                if nested_pins != task.get('source_input_pins', []):
+                    raise ValueError('Task source pins changed during native batch replay; re-admit this task')
+                if file_key != task.get('fileKey') or page_id != task.get('pageId'):
+                    raise ValueError('Task destination changed during native batch replay; re-admit this task')
+                if task.get('input_root') is not None and input_effect.freshness(record, task['input_root'])['status'] != 'current':
+                    raise ValueError('Task input sources changed during native batch replay; admit a fresh record')
+                if pinned is not None:
+                    atomic(bundle / 'input-record.json', pinned['bytes'])
+                revision = digest(encode({'request': request_sha, 'source': source_sha,
+                    'generators': expected_implementation, 'source_inputs': nested_pins}))
+                if revision == task['revision']:
+                    next_tasks.append({**task, 'generator_sha256': expected_implementation})
+                    continue
+                private_tree(task_stage)
+                relative = '.tasks/' + uuid.uuid4().hex
+                bundle_relative = str(bundle.relative_to(task_stage)) or '.'
+                replayed = {**task, 'generator_args': args, 'input_pins': pins,
+                    'source_input_pins': nested_pins, 'generator_sha256': expected_implementation,
+                    'fileKey': file_key, 'pageId': page_id, 'revision': revision,
+                    'request_sha256': request_sha, 'artifact_dir': relative,
+                    'bundle_relative': bundle_relative, 'domains': domains,
+                    'artifact_hashes': {name: digest(regular(bundle / name, private=True).read_bytes())
+                        for name in ('code.js', 'ui.html', 'manifest.json')}}
+                next_tasks.append(replayed)
+                staged.append((task_stage, relative))
+
+            if trusted_sources() != expected_implementation:
+                raise ValueError('Trusted implementation changed during native batch replay')
+            normalized = normalize_task_dependencies(next_tasks, history=history)
+            if any(before.get('depends_on') != after.get('depends_on')
+                   for before, after in zip(original_tasks, normalized)):
+                raise ValueError('Task dependencies changed during native batch replay; re-admit dependent tasks')
+            require_idle_publication(root)
+            latest = current(root, repair=False)
+            if (latest['generation'] != catalogue['generation']
+                    or not hmac.compare_digest(latest['signature'], catalogue['signature'])):
+                raise ValueError('Workspace changed during native batch replay; inspect current tasks before retrying')
+
+            manifest_before = regular(root / 'manifest.json', private=True).read_bytes()
+            catalogue_path = root / 'catalogue.json'
+            catalogue_before = regular(catalogue_path, private=True).read_bytes() if catalogue_path.exists() else None
+            promoted = []
+            try:
+                for task_stage, relative in staged:
+                    destination = child(root, relative)
+                    private_dir(destination.parent)
+                    if destination.exists():
+                        raise ValueError('Replay artifact identity collision; retry the batch')
+                    os.replace(task_stage, destination)
+                    promoted.append((destination, task_stage))
+                published = publish(root, {**catalogue, 'tasks': normalized},
+                    expected_implementation=expected_implementation)
+            except Exception:
+                manifest_after = regular(root / 'manifest.json', private=True).read_bytes()
+                if manifest_after == manifest_before:
+                    rollback_errors = []
+                    for destination, task_stage in reversed(promoted):
+                        if destination.exists() and not task_stage.exists():
+                            try:
+                                os.replace(destination, task_stage)
+                            except OSError:
+                                rollback_errors.append(destination.name)
+                    if catalogue_before is not None:
+                        atomic(catalogue_path, catalogue_before)
+                    elif catalogue_path.exists():
+                        catalogue_path.unlink()
+                    if rollback_errors:
+                        raise ValueError('Batch publication failed; staged artifacts need workspace inspection')
+                    raise
+                committed = current(root, repair=False)
+                if (committed.get('tasks') != normalized
+                        or committed.get('runtime', {}).get('implementation') != expected_implementation):
+                    raise ValueError('Native batch publication outcome is uncertain; inspect the workspace before retrying')
+                published = committed
+            committed = current(root, repair=False)
+            if (committed['generation'] != published['generation']
+                    or committed.get('tasks') != normalized
+                    or committed.get('runtime', {}).get('implementation') != expected_implementation):
+                raise ValueError('Native batch publication did not match the validated task snapshot')
+            return {'generation': committed['generation'], 'replayed': replayed_count,
+                'tasks': len(normalized)}
 
 
 def replay(workspace, key, expected_revision):

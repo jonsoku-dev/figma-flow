@@ -515,6 +515,103 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(host.native(root,True)['status'],'files-updated')
         self.assertEqual(workspace.current(root)['tasks'][0]['generator_sha256'], workspace.trusted_sources())
 
+    def batch_workspace(self, name):
+        root = self.root / name
+        assigned = self.root / f'{name}-assigned.json'
+        assigned.write_text('{"id":"12345"}')
+        workspace.init(root, assigned)
+        first = workspace.prepare(root, 'read-a', 'Read A', 'discover',
+            ['--file-key', 'fixturefilea', '--page-id', '12:1'])
+        first_task = next(row for row in workspace.current(root)['tasks'] if row['key'] == 'read-a')
+        dependency = {'task_key': first_task['key'], 'revision': first_task['revision'],
+            'relation': 'uses-output', 'artifact': 'code.js',
+            'artifact_sha256': first_task['artifact_hashes']['code.js']}
+        workspace.prepare(root, 'read-b', 'Read B', 'discover',
+            ['--file-key', 'fixturefileb', '--page-id', '12:2'], depends_on=[dependency])
+        workspace.prepare(root, 'read-c', 'Read C', 'discover',
+            ['--file-key', 'fixturefilec', '--page-id', '12:3'])
+        catalogue = workspace.current(root)
+        stale = [{**row, 'generator_sha256': '0' * 64} for row in catalogue['tasks']]
+        workspace.publish(root, {**catalogue, 'tasks': stale})
+        return root
+
+    @staticmethod
+    def workspace_snapshot(root):
+        return {str(path.relative_to(root)): ('dir', path.stat().st_mode & 0o777) if path.is_dir()
+            else ('file', path.stat().st_mode & 0o777, path.read_bytes()) for path in sorted(root.rglob('*'))}
+
+    def test_native_upgrade_replays_three_tasks_and_publishes_once_without_replacing_backups(self):
+        root = self.batch_workspace('batch-replay')
+        before = workspace.current(root)
+        old_generation = root / '.generations' / before['generation']
+        old_generation_code = (old_generation / 'code.js').read_bytes()
+        old_tasks = {row['key']: dict(row) for row in before['tasks']}
+        old_artifacts = {key: workspace.task_artifacts(root, row) / 'code.js'
+            for key, row in old_tasks.items()}
+        old_bytes = {key: path.read_bytes() for key, path in old_artifacts.items()}
+        old_dependency = old_tasks['read-b']['depends_on'][0]
+
+        new_implementation = 'f' * 64
+        with patch.object(workspace, 'trusted_sources', return_value=new_implementation):
+            with patch.object(workspace, 'generate', wraps=workspace.generate) as generate, \
+                    patch.object(workspace, 'publish', wraps=workspace.publish) as publish:
+                result = startup.HostAdapter().native(root, True)
+                self.assertEqual(generate.call_count, 3)
+                self.assertEqual(publish.call_count, 1)
+                self.assertEqual(result['status'], 'files-updated')
+                self.assertEqual(result['replayed_tasks'], 3)
+
+        after = workspace.current(root)
+        self.assertNotEqual(after['generation'], before['generation'])
+        self.assertTrue(old_generation.is_dir())
+        self.assertEqual((old_generation / 'code.js').read_bytes(), old_generation_code)
+        current_by_key = {row['key']: row for row in after['tasks']}
+        for key, row in old_tasks.items():
+            self.assertNotEqual(current_by_key[key]['revision'], row['revision'])
+            self.assertTrue((root / row['artifact_dir']).is_dir())
+            self.assertEqual(old_artifacts[key].read_bytes(), old_bytes[key])
+        self.assertEqual(current_by_key['read-b']['depends_on'][0], old_dependency)
+        retained = {(row['key'], row['revision']) for row in after['dependency_artifacts']}
+        self.assertIn(('read-a', old_dependency['revision']), retained)
+        with patch.object(workspace, 'trusted_sources', return_value=new_implementation), \
+                patch.object(workspace, 'publish', side_effect=AssertionError('current replay must not publish')):
+            self.assertEqual(startup.HostAdapter().native(root, True)['status'], 'files-current')
+
+    def test_native_batch_mid_replay_failure_leaves_catalogue_and_artifacts_unchanged(self):
+        root = self.batch_workspace('batch-replay-failure')
+        before = self.workspace_snapshot(root)
+        calls = 0
+        original_generate = workspace.generate
+
+        def fail_second(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise ValueError('injected middle task failure')
+            return original_generate(*args, **kwargs)
+
+        with patch.object(workspace, 'trusted_sources', return_value='f' * 64), \
+                patch.object(workspace, 'generate', side_effect=fail_second), \
+                patch.object(workspace, 'publish', side_effect=AssertionError('failed batch must not publish')):
+            with self.assertRaisesRegex(ValueError, 'injected middle task failure'):
+                startup.HostAdapter().native(root, True)
+        self.assertEqual(calls, 2)
+        self.assertEqual(self.workspace_snapshot(root), before)
+
+    def test_native_batch_rejects_stale_signed_snapshot_before_generation(self):
+        root = self.batch_workspace('batch-replay-cas')
+        stale = workspace.current(root)
+        changed = workspace.current(root)
+        tasks = [dict(row) for row in changed['tasks']]
+        tasks[0]['title'] = 'Changed after snapshot'
+        workspace.publish(root, {**changed, 'tasks': tasks})
+        with patch.object(workspace, 'generate', side_effect=AssertionError('stale snapshot generated')):
+            with self.assertRaisesRegex(ValueError, 'Workspace changed before native batch replay'):
+                workspace.replay_batch(root, stale, workspace.trusted_sources())
+        with patch.object(workspace, 'generate', side_effect=AssertionError('stale source replayed')):
+            with self.assertRaisesRegex(ValueError, 'Trusted implementation changed before native batch replay'):
+                workspace.replay_batch(root, workspace.current(root), '0' * 64)
+
     def test_native_uncertainty_uses_authoritative_marker_without_read_only_writes(self):
         empty = {'schema':'figma-flow-control-v1', 'operations':{}}
         cases = [

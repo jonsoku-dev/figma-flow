@@ -360,11 +360,10 @@ class HostAdapter:
                 return {'status':'files-current', 'loaded':'unverified', 'action':'Reopen the SAME registered Figma Flow plugin to verify its loaded runtime.'}
         if not apply:
             return {'status':'update-available', 'loaded':'unverified'}
-        for row in catalogue['tasks']:
-            workspace.replay(path, row['key'], row['revision'])
-        with workspace.locked(path) as root:
-            workspace.publish(root, workspace.current(root))
-        return {'status':'files-updated', 'loaded':'unverified', 'action':'Reopen the SAME registered Figma Flow plugin; files do not prove the loaded runtime.'}
+        batch = workspace.replay_batch(path, catalogue, expected_runtime['implementation'])
+        return {'status':'files-updated', 'loaded':'unverified', 'generation':batch['generation'],
+            'replayed_tasks':batch['replayed'],
+            'action':'Reopen the SAME registered Figma Flow plugin; files do not prove the loaded runtime.'}
 
 
 def ensure(adapter, *, apply=True, figma_access='forbidden', workspace_path=None, source=None, pin=None):
