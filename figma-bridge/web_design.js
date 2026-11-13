@@ -287,7 +287,7 @@ function webLabelBounds(element) {
   return element.props?.labelBox || { x: 0, y: 0, width: element.box.width, height: element.box.height };
 }
 
-function webComponentFamily(element) {
+function webComponentFamily(element, fonts) {
   const bounds = webLabelBounds(element);
   const alignment = webTextAlignment(element);
   const horizontal = alignment === 'center' ? 0 : alignment === 'right'
@@ -295,7 +295,33 @@ function webComponentFamily(element) {
   const verticalOffset = bounds.y + bounds.height / 2 - element.box.height / 2;
   const vertical = Math.abs(verticalOffset) <= 1 ? 'CENTER' : verticalOffset < 0 ? 'MIN' : 'MAX';
   const verticalPadding = vertical === 'MIN' ? bounds.y : vertical === 'MAX' ? element.box.height - bounds.y - bounds.height : 0;
-  return JSON.stringify([element.componentKey, alignment, Number(horizontal.toFixed(2)), vertical, Number(verticalPadding.toFixed(2))]);
+  const text = element.text || {};
+  const loaded = element.text ? webFontFor(element, fonts)?.font : null;
+  const paint = element.paint || {};
+  const textColor = text.color || paint.color || null;
+  return JSON.stringify({
+    componentKey: element.componentKey,
+    layout: [alignment, Number(horizontal.toFixed(2)), vertical, Number(verticalPadding.toFixed(2)),
+      Number(bounds.height.toFixed(2))],
+    typography: element.text ? {
+      fontFamily: loaded?.family || text.fontFamily || 'Inter',
+      fontStyle: loaded?.style || webFontStyle(text),
+      fontSize: Number.isFinite(text.fontSize) ? text.fontSize : null,
+      fontWeight: Number.isFinite(Number(text.fontWeight)) ? Number(text.fontWeight) : 400,
+      lineHeight: Number.isFinite(text.lineHeight) ? text.lineHeight : null,
+      letterSpacing: Number.isFinite(text.letterSpacing) ? text.letterSpacing : null,
+      textAlign: alignment,
+      color: textColor,
+    } : null,
+    paint: {
+      background: paint.background || null,
+      borderColor: paint.borderColor || null,
+      borderWidth: paint.borderWidth || 0,
+      borderRadius: paint.borderRadius || 0,
+      opacity: paint.opacity ?? 1,
+      radialGradient: paint.radialGradient || null,
+    },
+  });
 }
 
 function webConfigureComponent(node, element) {
@@ -315,9 +341,9 @@ function webConfigureComponent(node, element) {
   node.itemSpacing = 0;
 }
 
-function webCreateElement(figma, element, fallbackReport, mains, assets) {
+function webCreateElement(figma, element, fallbackReport, mains, assets, fonts) {
   if (element.kind === 'frame') return figma.createFrame();
-  const family = element.kind === 'component' ? webComponentFamily(element) : null;
+  const family = element.kind === 'component' ? webComponentFamily(element, fonts) : null;
   if (family && mains.has(family)) {
     const main = mains.get(family);
     const instance = main.createInstance();
@@ -360,9 +386,50 @@ function webCreateTextOverride(instance, element, fonts, fallbackReport, layoutD
   const loaded = webFontFor(element, fonts);
   if (loaded.fallback) fallbackReport.push({ element_id: element.id, ...loaded.fallback });
   labels[0].characters = element.text.characters || '';
+  webVerifyTextTypography(labels[0], element, loaded.font);
   const observedWidth = webLabelBounds(element).width;
   const difference = labels[0].width - observedWidth;
   if (Math.abs(difference) > 1) layoutDrifts.push({ element_id: element.id, observed_width: observedWidth, native_width: labels[0].width, drift: difference });
+}
+
+function webVerifyTextTypography(textNode, element, expectedFont) {
+  if (!textNode.characters.length) return;
+  const start = 0, end = textNode.characters.length;
+  const font = textNode.getRangeFontName(start, end);
+  if (font === figma.mixed || font.family !== expectedFont.family || font.style !== expectedFont.style) {
+    throw Error(`Imported component text font differs from the captured typography for ${element.id}`);
+  }
+  const expectedText = element.text || {};
+  if (Number.isFinite(expectedText.fontSize)) {
+    const fontSize = textNode.getRangeFontSize(start, end);
+    if (fontSize === figma.mixed || Math.abs(fontSize - expectedText.fontSize) > 0.01) {
+      throw Error(`Imported component text size differs from the captured typography for ${element.id}`);
+    }
+  }
+  if (Number.isFinite(expectedText.lineHeight) && expectedText.lineHeight > 0) {
+    const lineHeight = textNode.getRangeLineHeight(start, end);
+    if (lineHeight === figma.mixed || lineHeight.unit !== 'PIXELS'
+        || Math.abs(lineHeight.value - expectedText.lineHeight) > 0.01) {
+      throw Error(`Imported component text line height differs from the captured typography for ${element.id}`);
+    }
+  }
+  const color = expectedText.color || element.paint?.color;
+  if (color) {
+    const actual = textNode.getRangeFills(start, end);
+    const solid = actual === figma.mixed ? null : actual.find(paint => paint.type === 'SOLID');
+    const expected = webColor(color);
+    if (!solid || Math.abs(solid.color.r - expected.color.r) > 0.001
+        || Math.abs(solid.color.g - expected.color.g) > 0.001
+        || Math.abs(solid.color.b - expected.color.b) > 0.001
+        || Math.abs((solid.opacity ?? 1) - expected.opacity) > 0.001) {
+      throw Error(`Imported component text fill differs from the captured typography for ${element.id}`);
+    }
+  }
+  const expectedAlignment = ({ left: 'LEFT', center: 'CENTER', right: 'RIGHT', justified: 'JUSTIFIED' })[
+    String(expectedText.textAlign || expectedText.textAlignHorizontal || 'left').toLowerCase()];
+  if (expectedAlignment && textNode.textAlignHorizontal !== expectedAlignment) {
+    throw Error(`Imported component text alignment differs from the captured typography for ${element.id}`);
+  }
 }
 
 function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, images) {
@@ -398,11 +465,11 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     const owner = frames.get(path[path.length - 1]);
     const parentElement = owner?.element;
     const parent = owner?.frame || root;
-    const family = element.kind === 'component' ? webComponentFamily(element) : null;
+    const family = element.kind === 'component' ? webComponentFamily(element, fonts) : null;
     const node = element.kind === 'frame' ? frames.get(element.id).frame
       : element.kind === 'text' || element.kind === 'annotation'
       ? webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, created)
-      : webCreateElement(figma, element, fallbackReport, mains, images);
+      : webCreateElement(figma, element, fallbackReport, mains, images, fonts);
     created.add(node);
     node.setPluginData(WEB_ELEMENT_ID, element.id);
     const label = element.name || element.text?.characters || element.label || element.kind;

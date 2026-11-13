@@ -4,6 +4,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const source = fs.readFileSync(require.resolve('../figma-bridge/web_design.js'), 'utf8');
+const captureSource = fs.readFileSync(require.resolve('../tools/web_design_capture.js'), 'utf8');
+let corruptInstanceLineHeight = false;
 
 let nextId = 1;
 class MockNode {
@@ -59,6 +61,15 @@ class MockNode {
   }
   get mainComponent() { throw Error('Cannot call with documentAccess: dynamic-page. Use getMainComponentAsync instead.'); }
   async getMainComponentAsync() { return this._mainComponent || null; }
+  getRangeFontName() { return this.fontName; }
+  getRangeFontSize() { return this.fontSize; }
+  getRangeLineHeight() {
+    if (corruptInstanceLineHeight && this.parent?.type === 'INSTANCE' && this.lineHeight?.unit === 'PIXELS') {
+      return { ...this.lineHeight, value: this.lineHeight.value + 4 };
+    }
+    return this.lineHeight;
+  }
+  getRangeFills() { return this.fills; }
   get absoluteBoundingBox() { return { x: this.x, y: this.y, width: this.width, height: this.height }; }
 }
 
@@ -98,7 +109,9 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
   };
   const context = vm.createContext({ figma, nativeEditScope: () => {}, nativeEditDiscovery: discovery, setTimeout, clearTimeout });
   vm.runInContext(source, context);
-  return { figma, page, fonts, images, imageSizeReads, timeline, apply: plan => context.webApply(figma, plan) };
+  return { figma, page, fonts, images, imageSizeReads, timeline,
+    apply: plan => context.webApply(figma, plan),
+    corruptInstances: value => { corruptInstanceLineHeight = value; } };
 }
 
 function plan() {
@@ -119,6 +132,7 @@ function plan() {
 }
 
 test('repeated native components retain the main label and override different instance text', async () => {
+  corruptInstanceLineHeight = false;
   const h = harness();
   const result = await h.apply(plan());
   const root = h.page.children[0];
@@ -150,6 +164,28 @@ test('repeated native components retain the main label and override different in
   assert.equal(h.page.children.length, 1);
 });
 
+test('component family separates materially different native line heights', async () => {
+  corruptInstanceLineHeight = false;
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements[1].text.lineHeight = 24;
+  const result = await h.apply(data);
+  const root = h.page.children[0];
+  const mains = root.children.filter(node => node.type === 'COMPONENT');
+  assert.equal(mains.length, 2);
+  assert.equal(root.children.some(node => node.type === 'INSTANCE'), false);
+  assert.deepEqual(mains.map(node => node.findAll(child => child.type === 'TEXT')[0].lineHeight.value).sort(), [20, 24]);
+  assert.equal(result.receipt.screens[0].editable_node_count > 0, true);
+});
+
+test('reused component instance text style is checked before accepting the screen', async () => {
+  const h = harness();
+  h.corruptInstances(true);
+  await assert.rejects(() => h.apply(plan()), /line height differs from the captured typography/);
+  assert.equal(h.page.children.length, 0);
+  corruptInstanceLineHeight = false;
+});
+
 test('failed scoped readback rolls back only this transaction’s unchanged nodes', async () => {
   const h = harness(async () => { throw Error('readback failed'); });
   await assert.rejects(() => h.apply(plan()), /readback failed/);
@@ -175,6 +211,7 @@ test('radial gradient capture becomes a native paint and survives readback', asy
 });
 
 test('font style matching ignores native spacing while recording actual family fallback', async () => {
+  corruptInstanceLineHeight = false;
   const h = harness();
   h.fonts.push({ fontName: { family: 'Geist', style: 'Semibold' } });
   const data = plan();
@@ -186,4 +223,37 @@ test('font style matching ignores native spacing while recording actual family f
   const fallbacks = receipt.receipt.screens[0].fallbacks;
   assert.equal(fallbacks.some(row => row.element_id === 'geist-title'), false);
   assert.deepEqual(fallbacks.find(row => row.element_id === 'missing-family').used, { family: 'Inter', style: 'Regular' });
+});
+
+test('browser control keys stay short and typography family is added natively', () => {
+  const rect = {x: 20, y: 40, width: 120, height: 32};
+  const styles = new Map();
+  const styleFor = element => styles.get(element) || { display: 'block', visibility: 'visible', opacity: '1',
+    backgroundColor: 'rgb(231, 0, 11)', backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none',
+    borderTopLeftRadius: '8px', borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '500',
+    fontSize: '14px', lineHeight: element.lineHeight + 'px', textAlign: 'center', color: 'rgb(255,255,255)',
+    overflowX: 'visible', overflowY: 'visible', maskImage: 'none', filter: 'none', boxShadow: 'none' };
+  const buttons = [20, 24].map((lineHeight, index) => ({
+    nodeType: 1, tagName: 'BUTTON', textContent: index ? 'Join now' : 'Continue', children: [],
+    lineHeight, getClientRects: () => [rect], getBoundingClientRect: () => rect,
+    querySelector: () => null, getAttribute: () => null,
+  }));
+  buttons.forEach(button => styles.set(button, styleFor(button)));
+  const body = {tagName: 'BODY', textContent: '', childNodes: buttons, children: buttons,
+    getAttribute: () => null,
+    getBoundingClientRect: () => ({x: 0, y: 0, width: 400, height: 800}),
+    getClientRects: () => []};
+  const document = {body, documentElement: {clientWidth: 400, scrollHeight: 800}, title: 'Buttons',
+    createRange() { let target; return {selectNodeContents(node) { target = node; },
+      getBoundingClientRect() { return {x: rect.x + 12, y: rect.y + 6, width: 96, height: 20}; }}; }};
+  const context = vm.createContext({document, location: {origin: 'http://localhost:3000', pathname: '/'},
+    innerHeight: 600, innerWidth: 400, scrollX: 0, scrollY: 0, getComputedStyle: styleFor});
+  vm.runInContext(captureSource, context);
+  const captured = JSON.parse(JSON.stringify(context.captureWebDesign({screenId: 'WEB-buttons'})));
+  const controls = captured.screen.elements.filter(element => element.kind === 'component');
+  assert.equal(controls.length, 2);
+  assert.equal(controls[0].componentKey, 'control-button');
+  assert.equal(controls[1].componentKey, 'control-button');
+  assert.ok(controls.every(element => element.componentKey.length < 160));
+  assert.notEqual(controls[0].text.lineHeight, controls[1].text.lineHeight);
 });

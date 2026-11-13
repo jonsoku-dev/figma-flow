@@ -43,6 +43,10 @@ Eight local Portfolio photos, including `me.png`, and three Devtool thumbnails p
 
 The same shipping graph with its stable ID was reapplied to all four screens without a change. On the original SaaS signup frame, the main button font size changed from 14 to 16 and then back to 14. A repeated apply preserved the intervening user edit and the final unchanged apply wrote nothing.
 
+## Component reuse with different line heights
+
+A real browser rendered three visually similar buttons with line heights of 20, 24 and 20 pixels. The first Figma import reported 20 pixels on all three labels. The corrected import created two mains, preserved all three native line heights and linked the third button to the first main. Applying the same graph again preserved the frame and main IDs. This additional case used a separate graph and is outside the four-template totals.
+
 ## API observations
 
 The browser-to-Figma work recorded 253 actual typed-probe calls: 236 calls across ten observed nodes and 17 calls for the Codeforge vector follow-up. Those calls covered 50 distinct API members. A typography lab then inspected 19 exact member IDs, adding 10 net new members. The total observed set is now 150, up from the previous 127, with 1232 of 1382 audit members unobserved. The work includes `listAvailableFontsAsync`, `createComponentFromNode`, native range metadata, and text-range values. The typography specimen retained its main component and four text children on repeat. Eight before-and-after graph audit checks passed. These observations do not establish support for unobserved members. The [sanitized API observation graph](../specs/editable-web/api-observations.json) links the observed member keys to their receipt summaries.

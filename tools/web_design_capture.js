@@ -205,8 +205,8 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         const labelRange=document.createRange();labelRange.selectNodeContents(el);
         const measured=box(labelRange.getBoundingClientRect());
         const labelBox={x:round(measured.x-b.x),y:round(measured.y-b.y),width:measured.width,height:measured.height};
-        const text=typography(s,label);const signature=JSON.stringify([tag,b.height,p,text.fontFamily,text.fontSize,text.fontWeight,text.color,text.textAlignHorizontal]);
-        push({id,kind:'component',path,box:b,paint:p,text,componentKey:signature,props:{label,labelBox}});return;
+        const text=typography(s,label);const roleToken=tag==='a'?'link':'button';
+        push({id,kind:'component',path,box:b,paint:p,text,componentKey:'control-'+roleToken,props:{label,labelBox}});return;
       }
       const clips = ['hidden','clip'].includes(s.overflowX) && ['hidden','clip'].includes(s.overflowY);
       if(Object.keys(p).length || clips || ['main','section','article','nav','header','footer','aside','form'].includes(tag)){

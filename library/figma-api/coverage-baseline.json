@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 714,
+    "no-static-reference": 713,
     "qualified-static-reference": 55,
-    "unresolved-receiver-name-reference": 613
+    "unresolved-receiver-name-reference": 614
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -6047,7 +6047,7 @@
       "id": "NonResizableTextMixin.getRangeLineHeight#26",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NonResizableTextMixin.setRangeLineHeight#27",
@@ -8377,7 +8377,7 @@
     },
     {
       "path": "figma-bridge/web_design.js",
-      "sha256": "ca633ed25230197a158769939d214cb15c62a5d783d4d9f327a89678fc0ab218"
+      "sha256": "75044478fddb35874161dea861c670630e37c5fad5ed6bd2bbd6c4a1231f8b40"
     },
     {
       "path": "figma-bridge/workspace_chat.js",
