@@ -14,6 +14,10 @@ import tarfile
 import tempfile
 from urllib.parse import urlsplit
 
+if __name__ == '__main__':
+    # Startup imports must not change the package whose bytes are verified below.
+    sys.dont_write_bytecode = True
+
 import figma_workspace as workspace
 
 ROOT = Path(__file__).resolve().parents[1]
