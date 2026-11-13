@@ -33,20 +33,80 @@ class ApiPriorityTest(unittest.TestCase):
         self.assertIn('TEXT', text_case['receiver_types'])
         css_method = next(row for row in inventory['rows'] if row['name'] == 'getCSSAsync')
         self.assertEqual(css_method['feasibility'], 'read-only-method')
-        self.assertEqual(css_method['method_requirement'], 'read-only-static-allowlist')
+        self.assertEqual(css_method['method_requirement'], 'purpose-approved-read-only-method-map')
+        component_method = next(row for row in inventory['rows'] if row['name'] == 'createComponentFromNode')
+        self.assertEqual(component_method['feasibility'], 'owned-write-method')
+        self.assertTrue(any('reusable component' in reason for reason in component_method['priority_reasons']))
+        font_list = next(row for row in inventory['rows'] if row['name'] == 'listAvailableFontsAsync')
+        self.assertEqual(font_list['feasibility'], 'read-only-method')
 
     def test_feasible_queue_filters_unobserved_rows(self):
         inventory = api_priority.build()
         rows = api_priority.queue(inventory, limit=40, feasible_only=True)
         self.assertLessEqual(len(rows), 40)
         self.assertTrue(all(row['evidence_status'] not in ('observed', 'observed-in-observation-graph')
-                            and row['feasibility'] in ('read-only-property', 'read-only-method', 'owned-disposable-method')
+                            and row['feasibility'] in ('readable-property', 'read-only-method', 'owned-write-method')
                             for row in rows))
         self.assertEqual(rows, sorted(rows, key=lambda row: (-row['priority_score'], row['api_member_id'])))
         all_unobserved = api_priority.queue(inventory, limit=10000)
         self.assertEqual(len(all_unobserved), 1255)
         self.assertTrue(any(row['feasibility'] in ('type-only', 'receiver-unresolved')
                             for row in all_unobserved))
+        top = all_unobserved[:40]
+        self.assertTrue(all(row['feasibility'] in ('readable-property', 'read-only-method', 'owned-write-method')
+                            for row in top))
+        self.assertTrue(any(row['name'] == 'textWrapStyle' and 'TEXT' in row['receiver_types']
+                            for row in top))
+        by_receiver = api_priority.queue(inventory, receiver='TEXT')
+        self.assertTrue(by_receiver)
+        self.assertTrue(all('TEXT' in row['receiver_types'] for row in by_receiver))
+        self.assertFalse(api_priority.queue(inventory, receiver='BaseNonResizableTextMixin'))
+
+    def test_writable_property_is_still_readable_and_unapproved_methods_need_scenario(self):
+        base = {'owner': 'LayoutMixin', 'name': 'resizeWithoutConstraints', 'kind': 'MethodSignature',
+            'signature': 'resizeWithoutConstraints(width: number, height: number): void', 'readonly': False,
+            'official_declaration': {'documented_editors': ['figma'], 'required_permissions': [],
+                                    'restricted_access': False, 'restrictions': []},
+            'type_surface': {'class': 'runtime-object-member'}, 'release_status': {'candidate': {'status': 'unresolved'}}}
+        unapproved = api_priority._priority(base, [], ['FRAME'])
+        self.assertEqual(unapproved['feasibility'], 'method-needs-scenario')
+        approved = dict(base, name='resize', signature='resize(width: number, height: number): void')
+        approved_result = api_priority._priority(approved, [], ['FRAME'])
+        self.assertEqual(approved_result['feasibility'], 'owned-write-method')
+        gate = dict(base, owner='BaseNonResizableTextMixin', name='setRangeFontName',
+            official_declaration={'documented_editors': ['figjam'], 'required_permissions': ['current-user'],
+                                  'restricted_access': True, 'restrictions': []})
+        gated = api_priority._priority(gate, [], ['TEXT'])
+        self.assertEqual(gated['feasibility'], 'editor-or-permission-gated')
+        self.assertEqual(gated['method_requirement'], 'scenario-review-required')
+        writable_property = dict(base, owner='LayoutMixin', name='cornerRadius', kind='PropertySignature',
+            signature='cornerRadius: number', readonly=False)
+        writable_property['type_surface'] = {'class': 'runtime-object-member'}
+        readable = api_priority._priority(writable_property, [], ['RECTANGLE'])
+        self.assertEqual(readable['feasibility'], 'readable-property')
+        self.assertEqual(readable['access'], 'property-read')
+        self.assertEqual(readable['write_capability'], 'writable-property')
+
+    def test_graph_export_connects_entire_queue_to_members_use_cases_facts_and_status(self):
+        inventory = api_priority.build()
+        rows = api_priority.queue(inventory, limit=None)
+        graph = api_priority.queue_graph(inventory, rows)
+        by_id = {node['id']: node for node in graph['nodes']}
+        edge_set = {(edge['from'], edge['to'], edge['type']) for edge in graph['edges']}
+        priority_ids = {node_id for node_id in by_id if node_id.startswith('priority:')}
+        member_ids = {node_id for node_id in by_id if node_id.startswith('api-member:')}
+        self.assertEqual(len(priority_ids), 1255)
+        self.assertEqual(len(member_ids), 1255)
+        for priority_id in priority_ids:
+            api_id = priority_id.removeprefix('priority:')
+            member_id = 'api-member:' + api_id
+            self.assertIn((priority_id, member_id, 'prioritizes'), edge_set)
+            self.assertTrue(any(source == priority_id and relation in ('classified as', 'has evidence status', 'has fact')
+                                for source, _, relation in edge_set))
+        self.assertIn('use-case:designer', by_id)
+        self.assertIn('use-case:developer', by_id)
+        self.assertIn('use-case:planner', by_id)
+        self.assertTrue(all(edge['from'] in by_id and edge['to'] in by_id for edge in graph['edges']))
 
     def test_group_and_vector_targets_are_exact_receiver_candidates(self):
         selection = {'schema': native_api_probe.SELECTION_SCHEMA,

@@ -10,7 +10,6 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from review_api_coverage import observed_member_evidence
 from figma_api_inventory import inherited_members, load as load_catalog
-from native_api_probe import SAFE_METHODS
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / 'library/figma-api/audit/members.json'
@@ -23,9 +22,43 @@ ROLE_TERMS = {
     'planner': ('page', 'section', 'component', 'instance', 'library', 'variable', 'style', 'node', 'team', 'project', 'selection', 'document', 'export', 'design'),
 }
 NODE_TYPE = re.compile(r"(?:readonly )?type: ['\"]([A-Z_]+)['\"]")
-READONLY_OWNER_HINTS = ('Node', 'Mixin', 'PluginAPI', 'Document', 'Page', 'Style', 'Paint', 'Text')
 EDITOR_BLOCKERS = ('figjam', 'slides', 'sites', 'buzz', 'draw')
 PERMISSION_TERMS = ('permission', 'private', 'proposed', 'restricted', 'enablePrivatePluginApi')
+
+# Read operations have bounded, reviewed scenarios. All other methods remain research candidates.
+READ_ONLY_METHODS = {
+    ('BaseNodeMixin', 'getCSSAsync'): 'Read selected node CSS through the probe safe projection.',
+    ('BaseNonResizableTextMixin', 'getRangeFontName'): 'Read a selected text range font without returning text.',
+    ('BaseNonResizableTextMixin', 'getRangeFontSize'): 'Read a selected text range font size.',
+    ('BaseNonResizableTextMixin', 'getRangeFontWeight'): 'Read the selected text range font weight.',
+    ('BaseNonResizableTextMixin', 'getRangeFills'): 'Read bounded solid fills from a selected text range.',
+    ('NonResizableTextMixin', 'getRangeLineHeight'): 'Read line height for a selected text range.',
+    ('BaseNonResizableTextMixin', 'getRangeLetterSpacing'): 'Read letter spacing for a selected text range.',
+    ('PluginAPI', 'listAvailableFontsAsync'): 'Select a font from this editor font list before applying range styles.',
+}
+
+# Only these signature owners have an approved node-scoped write scenario.
+# All other write methods require a separate review and cannot be queued as executable.
+OWNED_WRITE_METHODS = {
+    ('BaseNonResizableTextMixin', 'setRangeFontName'): 'Apply the selected font to a range on an owned typography specimen.',
+    ('BaseNonResizableTextMixin', 'setRangeFontSize'): 'Set the type scale on an owned typography specimen.',
+    ('NonResizableTextMixin', 'setRangeLineHeight'): 'Set line height on an owned typography specimen.',
+    ('BaseNonResizableTextMixin', 'setRangeLetterSpacing'): 'Set tracking on an owned typography specimen.',
+    ('BaseNonResizableTextMixin', 'setRangeFills'): 'Set text color on an owned typography specimen.',
+    ('LayoutMixin', 'resize'): 'Set geometry on an owned typography specimen frame.',
+    ('PluginAPI', 'createComponentFromNode'): 'Convert only the newly created typography specimen into a reusable component.',
+}
+
+FEASIBILITY_TIER = {
+    'readable-property': 700,
+    'read-only-method': 650,
+    'owned-write-method': 450,
+    'method-needs-scenario': 250,
+    'needs-classification': 150,
+    'receiver-unresolved': 100,
+    'type-only': 0,
+    'editor-or-permission-gated': -1000,
+}
 
 
 def _status(row):
@@ -59,7 +92,6 @@ def _priority(row, evidence, receiver_types):
     surface = row.get('type_surface', {}).get('class', 'unresolved-owner-member')
     kind = row.get('kind', '')
     method = kind == 'MethodSignature'
-    getter_like = kind == 'PropertySignature' and row.get('readonly') is True
     editors = declaration.get('documented_editors', [])
     permissions = declaration.get('required_permissions', [])
     restricted = declaration.get('restricted_access') is True
@@ -68,18 +100,27 @@ def _priority(row, evidence, receiver_types):
     editor_blocked = bool(editors and 'figma' not in editors) or any(term in docs for term in EDITOR_BLOCKERS)
     permission_gated = bool(permissions) or restricted or any(term.lower() in docs for term in PERMISSION_TERMS)
     runtime_class = surface in ('runtime-api-member', 'runtime-object-member')
-    feasible = 'read-only-property' if getter_like and runtime_class else (
-        'read-only-method' if method and runtime_class and raw_name in SAFE_METHODS else
-        'owned-disposable-method' if method and runtime_class else
-        'type-only' if type_only else 'receiver-unresolved' if unknown_owner else
-        'editor-or-permission-gated' if editor_blocked or permission_gated else 'needs-classification')
+    write_purpose = OWNED_WRITE_METHODS.get((owner, raw_name))
+    if editor_blocked or permission_gated:
+        feasible = 'editor-or-permission-gated'
+    elif type_only:
+        feasible = 'type-only'
+    elif unknown_owner:
+        feasible = 'receiver-unresolved'
+    elif method and runtime_class and (owner, raw_name) in READ_ONLY_METHODS:
+        feasible = 'read-only-method'
+    elif method and runtime_class and write_purpose:
+        feasible = 'owned-write-method'
+    elif method and runtime_class:
+        feasible = 'method-needs-scenario'
+    elif kind == 'PropertySignature' and runtime_class:
+        feasible = 'readable-property'
+    else:
+        feasible = 'needs-classification'
     # Score is an ordering aid only. It never changes audit or evidence status.
     role_scores = {role: min(5, sum(term in name for term in terms)) for role, terms in ROLE_TERMS.items()}
     value = sum(role_scores.values())
-    receiver = 0 if runtime_class and any(hint in owner for hint in READONLY_OWNER_HINTS) else 2
-    feasibility = {'read-only-property': 0, 'read-only-method': 1, 'owned-disposable-method': 2,
-                   'needs-classification': 3, 'receiver-unresolved': 4,
-                   'type-only': 5, 'editor-or-permission-gated': 6}[feasible]
+    receiver_count = len(receiver_types) or (1 if surface == 'runtime-api-member' else 0)
     role_matches = {role: [term for term in terms if term in name]
                     for role, terms in ROLE_TERMS.items()}
     matched_roles = [role for role, terms in role_matches.items() if terms]
@@ -89,29 +130,39 @@ def _priority(row, evidence, receiver_types):
         reasons.append('Name matches useful API areas for ' + ', '.join(matched_roles) + '.')
     else:
         reasons.append('Name has no direct match to the designer, developer, or planner term lists.')
-    reasons.append({'read-only-property': 'Read-only property on a catalogued runtime surface.',
+    reasons.append({'readable-property': 'Property reads are safe even when the declaration permits writes.',
         'read-only-method': 'Method is an explicit static read-only allowlist entry with bounded output.',
-        'owned-disposable-method': 'Method requires an owned disposable target before any call.',
+        'owned-write-method': 'Method has a purpose-approved write scenario for an owned target.',
+        'method-needs-scenario': 'Method has no approved read or owned-write invocation scenario.',
         'needs-classification': 'Runtime surface exists, but safety or receiver applicability needs review.',
         'receiver-unresolved': 'Audit has no resolved runtime receiver surface.',
         'type-only': 'Declaration is a type contract without an executable runtime receiver.',
         'editor-or-permission-gated': 'Editor or permission requirements need explicit setup.'}[feasible])
+    if write_purpose:
+        reasons.append(write_purpose)
+    read_purpose = READ_ONLY_METHODS.get((owner, raw_name))
+    if read_purpose:
+        reasons.append(read_purpose)
     if receiver_list:
         reasons.append('Catalogued receiver types: ' + ', '.join(receiver_list[:8]) +
                        (' and more.' if len(receiver_list) > 8 else '.'))
     else:
         reasons.append('No concrete node receiver type is mapped in the pinned catalog.')
-    return {'priority_score': value * 10 - feasibility * 2 - receiver,
+    return {'priority_score': FEASIBILITY_TIER[feasible] + value * 10 + min(receiver_count, 20),
             'role_value': role_scores, 'feasibility': feasible,
             'role_matches': role_matches, 'priority_reasons': reasons,
             'receiver_types': receiver_list,
             'receiver_basis': ('pinned-node-inheritance' if receiver_types else
                                'catalogued-api-namespace' if surface == 'runtime-api-member' else
                                'runtime-owner-unmapped' if runtime_class else 'unresolved'),
-            'access': 'read-only' if getter_like else 'method' if method else 'index-or-type',
-            'method_requirement': ('read-only-static-allowlist' if feasible == 'read-only-method' else
-                                  'owned-disposable-target' if feasible == 'owned-disposable-method' else
-                                  'not-callable-with-current-probe' if method else 'none'),
+            'access': 'property-read' if kind == 'PropertySignature' else 'method' if method else 'index-or-type',
+            'write_capability': ('readonly' if row.get('readonly') else 'writable-property')
+                                if kind == 'PropertySignature' else
+                                'approved-owned-write' if feasible == 'owned-write-method' else
+                                'method-not-approved-for-write' if method else 'not-applicable',
+            'method_requirement': ('purpose-approved-read-only-method-map' if feasible == 'read-only-method' else
+                                  'owned-target-purpose-map' if feasible == 'owned-write-method' else
+                                  'scenario-review-required' if method else 'none'),
             'editor_requirement': ('other-or-unknown' if editor_blocked else
                                    'figma' if 'figma' in editors else
                                    'undocumented' if not editors else 'other-or-unknown'),
@@ -166,10 +217,11 @@ def build(audit=None, graph=None, overlays=None, catalog=None):
         'unobserved_members': sum(row['evidence_status'] not in ('observed', 'observed-in-observation-graph')
                                   for row in rows)},
         'ranking_rules': {'role_value': ROLE_TERMS,
-        'feasibility_order': ['read-only-property', 'read-only-method', 'owned-disposable-method',
-                'needs-classification', 'receiver-unresolved', 'type-only',
+        'feasibility_order': ['readable-property', 'read-only-method', 'owned-write-method',
+                'method-needs-scenario', 'needs-classification', 'receiver-unresolved', 'type-only',
                 'editor-or-permission-gated'],
-            'score_formula': '10 * sum(clamped role-term matches) - 2 * feasibility rank - receiver penalty',
+            'score_formula': 'feasibility tier + 10 * sum(clamped role-term matches) + min(receiver type count, 20)',
+            'owned_write_method_map': {owner + '.' + name: purpose for (owner, name), purpose in OWNED_WRITE_METHODS.items()},
             'runtime_claims': 'None. Status is copied from the audit or exact observed graph nodes.'},
         'rows': rows}
     payload['sha256'] = hashlib.sha256(json.dumps(payload, ensure_ascii=False, sort_keys=True,
@@ -182,11 +234,103 @@ def queue(payload, *, limit=50, receiver=None, feasible_only=False):
             if row['evidence_status'] not in ('observed', 'observed-in-observation-graph')]
     if feasible_only:
         rows = [row for row in rows if row['feasibility'] in
-                ('read-only-property', 'read-only-method', 'owned-disposable-method')]
+                ('readable-property', 'read-only-method', 'owned-write-method')]
     if receiver:
-        rows = [row for row in rows if receiver.casefold() in str(row['owner']).casefold()
-                or receiver.casefold() in row['signature'].casefold()]
-    return rows[:limit]
+        receiver_key = receiver.casefold()
+        rows = [row for row in rows if receiver_key in {item.casefold() for item in row['receiver_types']}]
+    return rows if limit is None else rows[:limit]
+
+
+def queue_graph(payload, rows):
+    nodes = []
+    edges = []
+    node_ids = set()
+    edge_ids = set()
+
+    def add_node(node):
+        if node['id'] not in node_ids:
+            node_ids.add(node['id'])
+            nodes.append(node)
+
+    def add_edge(source, target, relation):
+        key = (source, target, relation)
+        if key not in edge_ids:
+            edge_ids.add(key)
+            edges.append({'from': source, 'to': target, 'type': relation})
+
+    queue_id = 'api-priority-queue'
+    add_node({'id': queue_id, 'type': 'requirement', 'title': 'Unobserved Plugin API priority queue',
+        'status': 'planned', 'detail': json.dumps({'rows': len(rows),
+            'audit_member_count': payload['source']['audit_member_count'],
+            'base_observation_graph_id': payload['source']['base_observation_graph_id'],
+            'overlay_graph_ids': payload['source']['overlay_graph_ids'],
+            'ranking_rules': payload['ranking_rules']}, ensure_ascii=False, sort_keys=True)})
+    role_titles = {'designer': 'Designer use case', 'developer': 'Developer use case', 'planner': 'Planner use case'}
+    for role, title in role_titles.items():
+        add_node({'id': 'use-case:' + role, 'type': 'requirement', 'title': title,
+            'status': 'planned', 'detail': json.dumps({'priority_terms': ROLE_TERMS[role]}, ensure_ascii=False)})
+
+    for row in rows:
+        api_id = row['api_member_id']
+        entry_id = 'priority:' + api_id
+        member_id = 'api-member:' + api_id
+        owner_id = 'api-owner:' + hashlib.sha256(str(row['owner']).encode()).hexdigest()[:16]
+        observed = row['evidence_status'] in ('observed', 'observed-in-observation-graph')
+        add_node({'id': entry_id, 'type': 'test', 'title': str(row['owner']) + '.' + str(row['name']) + ' priority',
+            'status': 'observed' if observed else 'planned', 'detail': json.dumps({
+                'api_member_id': api_id, 'priority_score': row['priority_score'],
+                'feasibility': row['feasibility'], 'priority_reasons': row['priority_reasons'],
+                'role_value': row['role_value'], 'role_matches': row['role_matches'],
+                'receiver_types': row['receiver_types'], 'access': row['access'],
+                'readonly': row['readonly'], 'write_capability': row['write_capability'],
+                'method_requirement': row['method_requirement'], 'evidence_status': row['evidence_status'],
+                'editor_requirement': row['editor_requirement'],
+                'permission_requirement': row['permission_requirement']}, ensure_ascii=False, sort_keys=True)})
+        add_node({'id': member_id, 'type': 'figma', 'title': str(row['owner']) + '.' + str(row['name']),
+            'status': 'observed' if observed else row['release_status'], 'detail': json.dumps({
+                'api_member_id': api_id, 'kind': row['kind'], 'signature': row['signature'],
+                'release_status': row['release_status'], 'type_surface': row['type_surface'],
+                'official_source': row['official_declaration']['source_url']}, ensure_ascii=False, sort_keys=True)})
+        add_node({'id': owner_id, 'type': 'figma', 'title': str(row['owner']) + ' owner',
+            'status': 'unverified', 'detail': 'Pinned Plugin API member owner.'})
+        add_edge(queue_id, entry_id, 'queues')
+        add_edge(entry_id, member_id, 'prioritizes')
+        add_edge(member_id, owner_id, 'declared by')
+        feasibility_id = 'feasibility:' + row['feasibility']
+        add_node({'id': feasibility_id, 'type': 'requirement', 'title': row['feasibility'],
+            'status': 'planned', 'detail': 'Execution class from the pinned audit and explicit probe/write policies.'})
+        add_edge(entry_id, feasibility_id, 'classified as')
+        status_id = 'evidence-status:' + str(row['evidence_status'])
+        add_node({'id': status_id, 'type': 'evidence', 'title': 'Evidence ' + str(row['evidence_status']),
+            'status': 'observed' if observed else 'unverified', 'detail': 'Status is copied from the audit or validated observation graph.'})
+        add_edge(entry_id, status_id, 'has evidence status')
+        for role, terms in row['role_matches'].items():
+            if terms:
+                add_edge(entry_id, 'use-case:' + role, 'serves')
+        for receiver in row['receiver_types']:
+            receiver_id = 'api-receiver:' + receiver
+            add_node({'id': receiver_id, 'type': 'figma', 'title': receiver + ' receiver type',
+                'status': 'unverified', 'detail': 'Receiver type from pinned node inheritance.'})
+            add_edge(entry_id, receiver_id, 'receiver candidate')
+        facts = {
+            'write-capability': row['write_capability'],
+            'editor-requirement': row['editor_requirement'],
+            'permission-requirement': row['permission_requirement'],
+        }
+        for fact_name, fact_value in facts.items():
+            fact_id = 'fact:' + api_id + ':' + fact_name
+            add_node({'id': fact_id, 'type': 'evidence', 'title': fact_name.replace('-', ' ').title(),
+                'status': 'unverified', 'detail': str(fact_value)})
+            add_edge(entry_id, fact_id, 'has fact')
+        for evidence in row['observation_evidence']:
+            evidence_id = 'observation:' + hashlib.sha256(
+                (evidence['graph_id'] + '\0' + evidence['evidence_id']).encode()).hexdigest()[:24]
+            add_node({'id': evidence_id, 'type': 'evidence', 'title': 'Observed API receipt',
+                'status': 'observed', 'detail': json.dumps(evidence, sort_keys=True)})
+            add_edge(entry_id, evidence_id, 'supported by')
+    return {'schema': 'figma-flow-api-priority-graph-v1', 'version': 1,
+            'id': 'figma-flow-api-priority', 'title': 'Plugin API evidence priority graph',
+            'nodes': nodes, 'edges': edges}
 
 
 def main(argv=None):
@@ -200,10 +344,12 @@ def main(argv=None):
     build_cmd.add_argument('--out', type=Path, required=True)
     queue_cmd = sub.add_parser('queue', help='Print the next unobserved exact-key rows')
     queue_cmd.add_argument('--inventory', type=Path, required=True)
-    queue_cmd.add_argument('--limit', type=int, default=50)
-    queue_cmd.add_argument('--receiver', help='Filter by owner or declared receiver name')
+    queue_cmd.add_argument('--limit', type=int, help='Maximum rows. Defaults to 50 for JSON and the whole queue for graph output.')
+    queue_cmd.add_argument('--receiver', help='Filter by exact catalogued receiver node type, such as TEXT or PluginAPI')
+    queue_cmd.add_argument('--format', choices=('json', 'graph'), default='json',
+                           help='Write row JSON or a portable connected node/edge graph.')
     queue_cmd.add_argument('--feasible-only', action='store_true',
-                           help='Keep only read-only properties and methods needing owned disposable targets')
+                           help='Keep readable properties and methods with explicit read or owned-write scenarios')
     args = parser.parse_args(argv)
     if args.command == 'build':
         audit = json.loads((args.audit or AUDIT).read_text())
@@ -215,14 +361,18 @@ def main(argv=None):
                           'observed_graph_member_ids': result['source']['observed_graph_member_ids'],
                           'sha256': result['sha256']}))
     else:
-        if args.limit < 1 or args.limit > 10000:
+        limit = args.limit if args.limit is not None else (None if args.format == 'graph' else 50)
+        if limit is not None and (limit < 1 or limit > 10000):
             parser.error('--limit must be between 1 and 10000')
         payload = json.loads(args.inventory.read_text())
         if payload.get('schema') != OUTPUT_SCHEMA:
             parser.error('Unsupported API priority inventory schema')
-        print(json.dumps({'schema': OUTPUT_SCHEMA, 'unobserved_members': payload['source']['unobserved_members'],
-            'queue': queue(payload, limit=args.limit, receiver=args.receiver,
-                           feasible_only=args.feasible_only)}, ensure_ascii=False, indent=2))
+        rows = queue(payload, limit=limit, receiver=args.receiver, feasible_only=args.feasible_only)
+        if args.format == 'graph':
+            print(json.dumps(queue_graph(payload, rows), ensure_ascii=False, indent=2))
+        else:
+            print(json.dumps({'schema': OUTPUT_SCHEMA, 'unobserved_members': payload['source']['unobserved_members'],
+                'queue': rows}, ensure_ascii=False, indent=2))
     return 0
 
 
