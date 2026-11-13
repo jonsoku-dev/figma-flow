@@ -6,6 +6,7 @@ These feature folders register versioned requirements and acceptance relationshi
 
 | Feature | Requirements | Acceptance criteria | Status boundary |
 | --- | --- | --- | --- |
+| [Design native inspection](../docs/design-runtime-verification.md) | Scoped Design operations, CSS and canvas fidelity | Real browser, Figma and independent cloud evidence | [Runtime observations](design-inspection/service-observations.json) |
 | [Responsive route imports](responsive-web/graph.json) | Each route and measured viewport | Editable native frames, CSS/media fidelity and ranked API observations | [54 real screen comparisons](../docs/responsive-web-verification.md) |
 | [Editable web screens](editable-web/graph.json) | Browser observation, graph-bound local assets and native import | Four captured templates, edit preservation and stable reapply | [Browser and Figma acceptance](../docs/editable-web-verification.md) · [0.30 API observations](editable-web/api-observations.json) · [0.31 responsive-web API observations](responsive-web/api-observations.json) |
 | [Graph review surfaces](graph-review/spec.md) | Planner, designer and developer review from one source | Design review board and Plugin API evidence | Actual sample and limits in linked graph |
