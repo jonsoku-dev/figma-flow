@@ -1,0 +1,6 @@
+/* graph-sha256: fcd5a360440de3e0f5c734241f94da8a292ebcd86ec967f38edaaedee45d714c */
+:root {
+  --ff-token-5-636f6c6f72-10-626f6f6b696e67437461: #8e3e28;
+  --ff-token-5-636f6c6f72-6-616374696f6e-7-7072696d617279: var(--ff-token-5-636f6c6f72-10-626f6f6b696e67437461);
+}
+.booking-cta { background-color: var(--ff-token-5-636f6c6f72-6-616374696f6e-7-7072696d617279); }

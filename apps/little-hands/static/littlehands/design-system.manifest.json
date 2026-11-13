@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "graphSha256": "fcd5a360440de3e0f5c734241f94da8a292ebcd86ec967f38edaaedee45d714c",
+  "cssSha256": "b00f3763a529d0223a2f85c70f8920125617acc8595eb1655e765ff3921f7ae1",
+  "moduleSha256": "d1747b8738e37e06fd5e0280aec7049d837071efe58cc022560b52816d7ce175",
+  "tokens": {
+    "color.bookingCta": {
+      "r": 0.5568627450980392,
+      "g": 0.24313725490196078,
+      "b": 0.1568627450980392
+    },
+    "color.action.primary": {
+      "r": 0.5568627450980392,
+      "g": 0.24313725490196078,
+      "b": 0.1568627450980392
+    }
+  },
+  "primitiveRoots": {
+    "color.bookingCta": "color.bookingCta",
+    "color.action.primary": "color.bookingCta"
+  },
+  "nativeNamespace": "ssot/little-hands",
+  "nativeTokenNames": {
+    "color.bookingCta": "ssot/little-hands/color.bookingCta",
+    "color.action.primary": "ssot/little-hands/color.action.primary"
+  },
+  "components": {
+    "button.bookingCTA": {
+      "backgroundColor": {
+        "r": 0.5568627450980392,
+        "g": 0.24313725490196078,
+        "b": 0.1568627450980392
+      }
+    }
+  },
+  "nativeBindings": {
+    "button.bookingCTA": {
+      "mainKeys": [
+        "bookingCTA"
+      ],
+      "instanceKeys": [
+        "reserve-preview",
+        "reserve-login"
+      ],
+      "properties": {
+        "backgroundColor": {
+          "semanticToken": "color.action.primary",
+          "primitiveToken": "color.bookingCta"
+        }
+      }
+    }
+  }
+}

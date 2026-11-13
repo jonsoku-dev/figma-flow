@@ -129,7 +129,7 @@
       "title": "정책 기한과 명시적 원자적 취소",
       "status": "observed",
       "source": "brief.md#요구사항-열-가지",
-      "detail": "에이전트 제품 해석. 현재 구현 사실과 실제 인수 결과를 구분한다."
+      "detail": "취소 기한과 명시적 취소 정책. 연결 화면·예외·검사를 바꾸면 이 ID를 통한 영향 리뷰를 수행한다."
     },
     {
       "id": "AC-006",
@@ -8378,6 +8378,46 @@
       "status": "unverified",
       "source": "native-layout.json#control_styles/Text-e264aaedfa7b",
       "detail": "문구·행동·목적지·상태 ID와 무관한 데스크톱/모바일 시각 스타일 쌍이다. 각 인스턴스의 실제 상자와 TEXT 문구·명세·연결은 별도로 보존한다."
+    },
+    {
+      "id": "TOKEN-color-bookingCta",
+      "type": "design-token",
+      "title": "Booking CTA primitive color",
+      "status": "observed",
+      "source": "../static/littlehands/app.css",
+      "detail": "Observed #8e3e28 from the reservation primary action. This primitive is distinct from --danger."
+    },
+    {
+      "id": "TOKEN-color-action-primary",
+      "type": "design-token",
+      "title": "Primary action semantic color",
+      "status": "observed",
+      "source": "graph.json#design_system.tokens.color.action.primary",
+      "detail": "Semantic alias to color.bookingCta."
+    },
+    {
+      "id": "COMP-button-bookingCTA",
+      "type": "component",
+      "title": "Booking CTA background",
+      "status": "observed",
+      "source": "../templates/booking/session_detail.html#reserve-preview",
+      "detail": "Native main key bookingCTA; instance keys reserve-preview and reserve-login; web class booking-cta."
+    },
+    {
+      "id": "TEST-006-cutoff",
+      "type": "test",
+      "title": "test_cutoff_member_blocked_staff_can_cancel_with_reason",
+      "status": "unverified",
+      "source": "../booking/tests/test_booking.py#test_cutoff_member_blocked_staff_can_cancel_with_reason",
+      "detail": "취소 마감 전·후의 회원 거부와 운영자 사유 기록을 구분하는 소스 검사. 현재 graph 실행 근거는 연결되지 않았다."
+    },
+    {
+      "id": "code-cancellation-policy",
+      "type": "code",
+      "title": "booking/services.py · _policy",
+      "status": "observed",
+      "source": "../booking/services.py#_policy",
+      "detail": "취소·일정 변경 서비스가 ClassSession 정책 기한과 현재 시점을 비교해 변경을 거부한다. 소스 연결이며 실행 증거는 아니다."
     }
   ],
   "edges": [
@@ -9559,7 +9599,8 @@
     {
       "from": "REQ-006",
       "to": "screen-confirmed",
-      "type": "appears on"
+      "type": "appears on",
+      "rationale": "Confirmed bookings expose the active cancellation and reschedule policy for the existing reservation."
     },
     {
       "from": "code-confirmed",
@@ -9739,7 +9780,8 @@
     {
       "from": "REQ-006",
       "to": "screen-waitlisted",
-      "type": "appears on"
+      "type": "appears on",
+      "rationale": "Waitlisted bookings expose status and policy context while the member waits for promotion."
     },
     {
       "from": "code-waitlisted",
@@ -10099,7 +10141,8 @@
     {
       "from": "REQ-006",
       "to": "screen-cancelconfirm",
-      "type": "appears on"
+      "type": "appears on",
+      "rationale": "The member must review the applicable cutoff before submitting an irreversible cancellation."
     },
     {
       "from": "code-cancelconfirm",
@@ -10269,7 +10312,8 @@
     {
       "from": "REQ-006",
       "to": "screen-cancelled",
-      "type": "appears on"
+      "type": "appears on",
+      "rationale": "The terminal cancellation result must reflect the policy-governed cancellation outcome."
     },
     {
       "from": "code-cancelled",
@@ -13885,6 +13929,62 @@
       "from": "action-state-404-error-home",
       "to": "component-Solid-bac98d1be3a2",
       "type": "uses component"
+    },
+    {
+      "from": "TOKEN-color-action-primary",
+      "to": "TOKEN-color-bookingCta",
+      "type": "aliases"
+    },
+    {
+      "from": "COMP-button-bookingCTA",
+      "to": "TOKEN-color-action-primary",
+      "type": "uses"
+    },
+    {
+      "from": "AC-006",
+      "to": "TEST-006-cutoff",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-006",
+      "to": "code-cancellation-policy",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-006",
+      "to": "action-state-confirmed-booking-reschedule",
+      "type": "requires review",
+      "rationale": "Schedule changes use the same cutoff policy and need a separate review."
+    },
+    {
+      "from": "REQ-006",
+      "to": "action-state-confirmed-booking-cancel",
+      "type": "requires review",
+      "rationale": "Member cancellation starts from this booking state and is subject to the cutoff."
+    },
+    {
+      "from": "REQ-006",
+      "to": "action-state-waitlisted-booking-reschedule",
+      "type": "requires review",
+      "rationale": "Schedule changes use the same cutoff policy and need a separate review."
+    },
+    {
+      "from": "REQ-006",
+      "to": "action-state-waitlisted-booking-cancel",
+      "type": "requires review",
+      "rationale": "Member cancellation starts from this booking state and is subject to the cutoff."
+    },
+    {
+      "from": "REQ-006",
+      "to": "action-state-cancelconfirm-cancel-keep",
+      "type": "requires review",
+      "rationale": "This branch preserves the booking when a member declines cancellation."
+    },
+    {
+      "from": "REQ-006",
+      "to": "action-state-cancelconfirm-cancel-confirm",
+      "type": "requires review",
+      "rationale": "This is the irreversible cancellation submission branch."
     }
   ],
   "design_foundations": {
@@ -17425,6 +17525,21 @@
             }
           ]
         }
+      },
+      {
+        "name": "booking CTA background",
+        "kind": "color",
+        "token": "color.action.primary",
+        "alias": "color.bookingCta",
+        "value": "#8e3e28",
+        "native": {
+          "bindings": [
+            {
+              "key": "bookingCTA",
+              "field": "backgroundColor"
+            }
+          ]
+        }
       }
     ],
     "palette": {
@@ -19817,5 +19932,43 @@
         "control_id": "state-404-error-home"
       }
     ]
+  },
+  "design_system": {
+    "version": 1,
+    "id": "little-hands",
+    "tokens": {
+      "color.bookingCta": {
+        "type": "COLOR",
+        "value": {
+          "r": 0.5568627450980392,
+          "g": 0.24313725490196078,
+          "b": 0.1568627450980392
+        }
+      },
+      "color.action.primary": {
+        "type": "COLOR",
+        "alias": "color.bookingCta"
+      }
+    },
+    "components": {
+      "button.bookingCTA": {
+        "properties": {
+          "backgroundColor": "color.action.primary"
+        },
+        "native": {
+          "mainKeys": [
+            "bookingCTA"
+          ],
+          "instanceKeys": [
+            "reserve-preview",
+            "reserve-login"
+          ],
+          "semanticToken": "color.action.primary"
+        },
+        "web": {
+          "selector": ".booking-cta"
+        }
+      }
+    }
   }
 }

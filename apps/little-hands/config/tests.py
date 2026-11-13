@@ -1,11 +1,16 @@
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
+import tempfile
+from unittest.mock import patch
 
 from django.test import RequestFactory, SimpleTestCase
 
 from config.middleware import ResponsePolicyMiddleware
+from config import context as service_context_module
+from config.context import verified_design_system_graph_sha
 from django.http import HttpResponse
 
 
@@ -31,3 +36,22 @@ class ConfigurationTests(SimpleTestCase):
         self.assertIn("frame-ancestors 'none'", response['Content-Security-Policy'])
         self.assertNotIn('unsafe-inline', response['Content-Security-Policy'])
         self.assertIn('camera=()', response['Permissions-Policy'])
+
+    def test_design_system_sha_requires_paired_source_and_collected_assets(self):
+        from django.conf import settings
+        from django.contrib.staticfiles.storage import staticfiles_storage
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for logical in ('littlehands/design-system.css', 'littlehands/design-system.js'):
+                source = settings.BASE_DIR / 'static' / logical
+                target = root / logical
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, target)
+            with self.settings(STATIC_ROOT=root), patch.object(staticfiles_storage, 'stored_name', side_effect=lambda name: name):
+                service_context_module._VERIFIED_DESIGN_SYSTEM = None
+                self.assertRegex(verified_design_system_graph_sha(), r'^[0-9a-f]{64}$')
+                (root / 'littlehands/design-system.css').write_text('stale', encoding='utf-8')
+                service_context_module._VERIFIED_DESIGN_SYSTEM = None
+                with self.assertRaisesRegex(RuntimeError, 'Collected static asset does not match'):
+                    verified_design_system_graph_sha()
+                service_context_module._VERIFIED_DESIGN_SYSTEM = None
