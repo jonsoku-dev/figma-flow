@@ -8,9 +8,47 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v0.31.0
+
+0.31.0의 최종 제품 소스는 `d44a2a6f2eb4051dc8dceb4f1db1bc1f8336462a`이다. 54개 화면의 근거 그래프는 `f6af842f0420301ee533ac0994f3f9b0fbe21109`에서 등록했다. 배포 ZIP과 SHA-256은 [GitHub 릴리스](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.31.0)에서 확인한다.
+
+0.30.0의 제품 source는 `c1541b8129bdf3e175dd905cddfed39acd52bc2e`이고 `v0.30.0` tag가 가리키는 `f9453da79c5f57aa779096468cbf29286c7fb185`는 CHANGELOG·Wiki/catalog만 발행한 docs-only commit이다. 0.31.0은 그 tag나 installer의 연장이 아니라 새 candidate source다.
+
+### Browser 경로와 화면 인수
+
+공급 ZIP에서 20개 일반 페이지와 7개 source error path를 골라 각 경로를 390×844와 1440×900 CSS pixel에서 읽었다. 각 route/viewport를 연결한 54개 frame receipt를 보관했고, 같은 입력 재적용은 이전 frame ID와 main 연결을 유지했다.
+
+| 템플릿 | ZIP 페이지 | 오류 경로 | Figma 프레임 | 편집 요소 | Instance |
+|---|---:|---:|---:|---:|---:|
+| Portfolio | 9 | 2 | 22 | 3,306 | 2 |
+| Codeforge | 1 | 1 | 4 | 1,138 | 48 |
+| Devtool | 5 | 2 | 14 | 1,652 | 22 |
+| SaaS | 5 | 2 | 14 | 1,385 | 16 |
+| **합계** | **20** | **7** | **54** | **7,481** | **88** |
+
+Instance는 편집 요소 수에 포함되고, 1,435개의 native VECTOR descendant는 별도로 센다. 오류 경로는 4개 app의 일반 404, Portfolio dynamic 404, Devtool·SaaS의 원본 dynamic 500을 포함한다. 각 case는 browser에서 측정한 source 응답이며 성공적인 native import와 동일한 개념이 아니다.
+
+54개의 browser/native rendering 비교에서 채널별 절대 차이 평균은 0.29–24.13 범위였다. 이 수치는 글꼴 래스터화, 줄바꿈, animation frame과 지원하지 않는 CSS를 함께 반영하므로 pixel equality로 해석하지 않는다. 별도 mask fixture의 지정 sample points는 RGB 채널별 차이 최대 1이었다.
+
+### Native 편집과 미디어 경계
+
+실제 readback은 ALPHA mask 72개, DROP_SHADOW 1,978개, INNER_SHADOW 4개, LAYER_BLUR 106개, image fill 155개와 VECTOR descendant 1,435개를 확인했다. 108개 origin/request URL 조합의 asset pin을 hash 기준으로 다시 대조했다. 네 영상 source는 원본과 제한된 derivative 및 첫 frame fallback을 고정했다. 현재 유료 Team Figma 파일은 native VIDEO paint를 거절했으므로 실제 적용은 hash-pinned raster fallback이다. 이 파일에서 native video playback은 확인하지 않았다.
+
+지원 범위는 box/inset shadow, bounded blur/drop-shadow, 90°·180° linear alpha mask, text gradient와 안전하게 정규화한 내부 SVG gradient/clip reference다. 임의 filter·mask, 외부 SVG paint reference, canvas의 시간 변화는 자동 복원을 보장하지 않는다. 외부 media fetch는 redirect를 거부하고 검토한 origin·정확한 request URL·응답 bytes의 hash를 요구한다.
+
+### API 관측
+
+0.30.0 baseline은 1,382개 member 중 150개를 관측하고 1,232개를 미관측으로 남겼다. 네 signed native read batch는 getter 488회를 시도해 473회 success, 10회 unavailable, 5회 unsupported, 0회 blocked였다. 새 exact member 39개를 추가해 누적 189개 관측, 1,193개 미관측이다. API priority score는 조사 순서를 정하고 runtime 지원을 보증하지 않는다. `d44a2a6`은 이미 관측된 exact audit member key 1–16개를 같은 receiver의 static allowlist로 재검사하는 private selection을 추가했다. 일반 작업은 계속 미관측 ranked queue를 사용하고, recheck key가 새 관측 사실을 만들지는 않는다. [sanitized overlay](../../specs/responsive-web/api-observations.json) · [queue guide](../../docs/api-priority.md)
+
+### 검증 상태와 잔여
+
+최종 제품 소스에서 Python 1,231개, Node 338개, finalize 75개·디자인 18개·데모 2개가 모두 통과했다. 원본 자료를 연결한 로컬 실행에서 건너뜀은 없었다. 최종 후보를 실제 Design 파일에서 다시 열어 54개 프레임과 main 연결을 확인했다. 별도로 이전 0.30.0 SaaS 프레임이 그대로 읽혔고, 이미 관측한 멤버의 읽기 39회가 모두 성공했다. 이 39회는 신규 관측 합계에서 제외했다.
+
+브라우저 error state와 native Figma 오류 상태는 각각의 원본 응답·receipt 기준으로 분리한다. 유료 계정이 허용하지 않은 native VIDEO, unsupported CSS·SVG, pixel equality, 1,193개 미관측 API member는 0.31.0이 지원한다고 주장하지 않는다. [screen graph](../../specs/responsive-web/graph.json) · [browser/native verification](../../docs/responsive-web-verification.md) · [screen-scope recovery](patches/9974579407d29dd6072fcb9f1cf515115c954cb6.md)
+
 ## v0.30.0
 
-0.30.0의 최종 제품 소스는 `c1541b8129bdf3e175dd905cddfed39acd52bc2e`다. 기능·검증·설치 예제는 두 manifest에 고정한 같은 버전을 사용한다. 태그와 ZIP은 [GitHub 배포 페이지](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.30.0)에서 확인할 수 있다.
+0.30.0의 최종 제품 소스는 `c1541b8129bdf3e175dd905cddfed39acd52bc2e`다. 기능·검증·설치 예제는 두 manifest에 고정한 같은 버전을 사용한다. 태그와 ZIP은 [GitHub 배포 페이지](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.30.0)에서 확인할 수 있다. `v0.30.0` 태그는 문서 전용 발행 커밋 `f9453da79c5f57aa779096468cbf29286c7fb185`를 가리킨다. 이 커밋은 CHANGELOG와 Wiki/catalog를 발행하며 제품 소스 변경은 포함하지 않는다.
 
 기능 간 인수 관계는 [editable web graph](../../specs/editable-web/graph.json)에 있고, 사용 범위와 실제 화면·native 결과는 [editable web verification](../../docs/editable-web-verification.md)에 있다.
 

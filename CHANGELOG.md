@@ -1,5 +1,13 @@
 # 변경 기록
 
+## 0.31.0 · 2026-11-14
+
+- 반응형 route·viewport graph와 signed screen-scope readback을 연결하고, 중단된 가져오기는 동일한 signed 계획의 읽기로만 복구합니다.
+- 검증된 로컬 asset bytes로 SVG·raster·video를 기록하고 native mask, 제한된 shadow·blur, text gradient를 편집 레이어로 가져옵니다. native video paint가 거절되면 source hash가 고정된 raster fallback을 사용합니다.
+- 27 browser case(20 ZIP pages와 7 source error states)에서 desktop/mobile 54화면을 확인했습니다. 7,481 editable node, 88 instance, 별도 vector descendant 1,435개를 기록합니다.
+- 공개 Plugin API 조사에서 0.30.0 baseline 150/1,382와 1,232개 잔여에 39개의 새 exact member를 추가해 189개 관측, 1,193개 잔여를 기록했습니다. 이미 관측한 exact member를 현재 receiver에서 다시 확인하는 bounded recheck도 추가했습니다. [상세 근거와 한계](docs/llm-wiki/releases.md#v0.31.0)
+- 설치 ZIP과 SHA-256 확인 파일은 [0.31.0 릴리스](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.31.0)에서 제공합니다.
+
 ## 0.30.0 · 2026-11-14
 
 - 열린 웹 화면에서 보이는 텍스트·기하·지원되는 벡터와 컨트롤을 측정해 버전 그래프로 저장하고, 선택한 화면을 검증된 로컬 자산과 함께 편집 가능한 Figma 레이어로 가져옵니다. 지원하지 않는 CSS·미디어는 제한으로 남깁니다.
