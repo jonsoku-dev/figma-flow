@@ -129,6 +129,30 @@ class NativeValuePathTests(unittest.TestCase):
         self.assertTrue(set(evidence) <= observed)
         self.assertEqual(overlay['nodes'][0]['source'], '../../docs/design-runtime-verification.md')
 
+    def test_private_runner_reuses_exact_scope_without_printing_it(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / '.figma-flow') as folder:
+            root = Path(folder)
+            scope = {'schema': 'figma-flow-native-value-path-plan-v1', 'file': 'private-file',
+                     'page': '88:1', 'plugin_id': '123456'}
+            scope_path = root / 'scope.json'
+            scope_path.write_text(json.dumps(scope))
+            audit = json.loads(values.API_AUDIT.read_bytes())
+            plugin_member = next(row['key'] for row in audit['members']
+                                 if row['owner'] == 'VariablesAPI' and row['name'] == 'getLocalVariableCollectionsAsync')
+            service = {'schema': 'figma-flow-service-inspection-receipt-v1', 'graph_sha256': 'c' * 64,
+                       'observations': [{'id': plugin_member, 'status': 'success', 'shape': 'array'}]}
+            service_path = root / 'service.json'
+            service_path.write_text(json.dumps(service))
+            destination = root / 'private-bundle'
+            result = values.prepare(destination, service_receipt=service_path, scope_plan=scope_path)
+            plan = json.loads((destination / 'plan.json').read_bytes())
+            self.assertEqual((plan['file'], plan['page'], plan['plugin_id']), ('private-file', '88:1', '123456'))
+            self.assertEqual(plan['capabilities']['getLocalVariableCollectionsAsync'], True)
+            self.assertEqual(Path(result['output']), destination)
+            self.assertEqual(destination.stat().st_mode & 0o777, 0o700)
+            self.assertEqual((destination / 'code.js').stat().st_mode & 0o777, 0o600)
+            self.assertEqual(json.loads((destination / 'manifest.json').read_bytes())['networkAccess']['allowedDomains'], ['none'])
+
 
 if __name__ == '__main__':
     unittest.main()
