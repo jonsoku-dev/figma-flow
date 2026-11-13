@@ -31,8 +31,14 @@ def validate_plan(plan):
     if 'web_design' in plan:
         from web_design import validate_graph
         web = plan['web_design']
-        if not isinstance(web, dict) or set(web) not in ({'schema','graph_id','graph_sha256','source_graph_path','screens'}, {'schema','graph_id','graph_sha256','source_graph_path','screens','preview_width'}) or web['schema'] != 'figma-flow-web-design-v1' or not re.fullmatch(r'[a-f0-9]{64}', str(web['graph_sha256'])):
+        required = {'schema', 'graph_id', 'graph_sha256', 'source_graph_path', 'screens'}
+        if (not isinstance(web, dict) or not required <= web.keys()
+                or web.keys() - required - {'preview_width', 'readback_scope'}
+                or web['schema'] != 'figma-flow-web-design-v1'
+                or not re.fullmatch(r'[a-f0-9]{64}', str(web['graph_sha256']))):
             raise ValueError('Pinned web design graph required')
+        if web.get('readback_scope', 'page') not in ('page', 'screens'):
+            raise ValueError('Web design readback requires page or screens scope')
         if 'preview_width' in web and (type(web['preview_width']) is not int or not 360 <= web['preview_width'] <= 480):
             raise ValueError('Bounded web preview width required')
         source = Path(web['source_graph_path'])
@@ -50,7 +56,7 @@ def validate_plan(plan):
         if len(selected_ids)!=len(web['screens']) or len(set(selected_ids))!=len(selected_ids):
             raise ValueError('Unique selected WEB screen IDs required')
         canonical_selection=[screen for screen in source_screens if screen['id'] in set(selected_ids)]
-        if not canonical_selection or canonical_selection!=web['screens']:
+        if not 1 <= len(canonical_selection) <= 16 or canonical_selection!=web['screens']:
             raise ValueError('Web screen plan must exactly match selected pinned canonical screen content')
         return plan
     if 'graph_review' in plan:
@@ -318,13 +324,15 @@ def main():
     web.add_argument('--graph', required=True); web.add_argument('--file-key', required=True); web.add_argument('--page-id', required=True); web.add_argument('--out', required=True)
     web.add_argument('--screen', action='append', default=[])
     web.add_argument('--preview-width', type=int)
+    web.add_argument('--readback-scope', choices=('page', 'screens'), default='page',
+                     help='Return full page semantics or only layers owned by the selected graph screens.')
     args = parser.parse_args()
     try:
         if args.command == 'graph-review':
             print(json.dumps(build_graph_review_plan(args.graph, args.node, args.file_key, args.page_id, args.out)))
         elif args.command == 'web-design':
             from web_design import build_plan
-            print(json.dumps(build_plan(args.graph, args.file_key, args.page_id, args.out, args.screen, args.preview_width)))
+            print(json.dumps(build_plan(args.graph, args.file_key, args.page_id, args.out, args.screen, args.preview_width, args.readback_scope)))
         else:
             print(json.dumps(prepare(args.plan, args.out, args.plugin_id)))
         return 0

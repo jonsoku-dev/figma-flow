@@ -15,7 +15,7 @@ def sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
-def bind_screens(captures, graph_id, title, output, asset_index=None):
+def bind_screens(captures, graph_id, title, output, asset_index=None, *, responsive=False):
     output = Path(output).absolute()
     if output.exists() or output.is_symlink():
         raise ValueError('Choose a new graph output; keep the original observation.')
@@ -86,7 +86,11 @@ def bind_screens(captures, graph_id, title, output, asset_index=None):
         ]
         edges.append({'from': screen_id, 'to': evidence_id, 'type': 'sourced from'})
     graph = {'version': 1, 'id': graph_id, 'title': title, 'nodes': nodes, 'edges': edges}
-    validate_graph(graph)
+    if responsive:
+        from web_route_graph import link_viewports
+        link_viewports(graph)
+    else:
+        validate_graph(graph)
     with output.open('x', encoding='utf-8') as store:
         json.dump(graph, store, ensure_ascii=False, indent=2, allow_nan=False)
         store.write('\n')
@@ -100,11 +104,12 @@ def main():
     parser.add_argument('--id', required=True)
     parser.add_argument('--title', required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--responsive', action='store_true', help='Link each route to its observed viewport screens.')
     args = parser.parse_args()
     try:
         print(
             json.dumps(
-                bind_screens(args.capture, args.id, args.title, args.out, args.assets),
+                bind_screens(args.capture, args.id, args.title, args.out, args.assets, responsive=args.responsive),
                 ensure_ascii=False,
             )
         )

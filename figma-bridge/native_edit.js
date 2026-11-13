@@ -85,6 +85,28 @@ async function nativeEditDiscovery(figma,plan) {
   nativeEditScope(figma,plan);
   const page=await figma.getNodeByIdAsync(plan.page_id);
   if(page?.type!=='PAGE')throw Error('Declared native page missing');
+  if (plan.web_design?.readback_scope === 'screens') {
+    const requested = new Set(plan.web_design.screens.map(screen => plan.web_design.graph_id + '/' + screen.id));
+    const nodes = [];
+    for (const root of page.children) {
+      const screenKey = root.getPluginData(WEB_DESIGN_KEY);
+      if (!requested.has(screenKey)) continue;
+      for (const node of [root, ...root.findAll(() => true)]) {
+        const fills = Array.isArray(node.fills) ? node.fills : [];
+        nodes.push({
+          id: node.id, parentId: node.parent.id, screenKey, type: node.type,
+          elementId: node.getPluginData(WEB_ELEMENT_ID), width: node.width, height: node.height,
+          fillTypes: fills.map(fill => fill.type),
+          effectTypes: (node.effects || []).map(effect => effect.type),
+          isMask: node.isMask === true,
+        });
+      }
+    }
+    nativeEditScope(figma, plan);
+    return {schema: 'figma-flow-web-screen-discovery-v1', fileKey: figma.fileKey, pageId: page.id,
+      graph_sha256: plan.web_design.graph_sha256, readback_scope: 'screens',
+      nodes, observed_at: new Date().toISOString()};
+  }
   const result=requireFullNativeRead(await readNativeSemantics(figma,page));
   const objects=new Map([page,...page.findAll(()=>true)].map(node=>[node.id,node]));
   for(const row of result.nodes){const node=objects.get(row.id);if(typeof node.strokeWeight==='number')row.strokeWeight=node.strokeWeight;

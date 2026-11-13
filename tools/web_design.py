@@ -173,8 +173,8 @@ def validate_graph(graph, require_embedded=False):
     screens = [
         node for node in nodes if node.get('type') == 'screen' and node.get('id', '').startswith('WEB-')
     ]
-    if not 1 <= len(screens) <= 16:
-        raise ValueError('One to sixteen WEB screen nodes required')
+    if not 1 <= len(screens) <= 256:
+        raise ValueError('Source graph requires one to 256 WEB screen nodes')
     ids = set()
     for screen in screens:
         if set(screen) - {'id', 'type', 'title', 'detail', 'status', 'layout', 'elements'}:
@@ -349,7 +349,7 @@ def validate_graph(graph, require_embedded=False):
     return screens
 
 
-def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_width=None):
+def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_width=None, readback_scope='page'):
     source = Path(graph_path).expanduser().absolute()
     if source.is_symlink() or not source.is_file():
         raise ValueError('Canonical graph must be a regular local file')
@@ -363,6 +363,8 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
         if unknown:
             raise ValueError('Requested WEB screen ID is not in source graph: ' + ', '.join(sorted(unknown)))
         screens = [screen for screen in screens if screen['id'] in set(screen_ids)]
+    if len(screens) > 16:
+        raise ValueError('Select at most sixteen screens per native edit with --screen')
     if preview_width is not None and (type(preview_width) is not int or not 360 <= preview_width <= 480):
         raise ValueError('Preview width must be between 360 and 480 pixels')
     screens = json.loads(json.dumps(screens))
@@ -373,6 +375,10 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
         'source_graph_path': str(source.resolve()),
         'screens': screens,
     }
+    if readback_scope not in ('page', 'screens'):
+        raise ValueError('Unknown web design readback scope')
+    if readback_scope == 'screens':
+        web['readback_scope'] = readback_scope
     if preview_width is not None:
         web['preview_width'] = preview_width
     plan = {
