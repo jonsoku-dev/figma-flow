@@ -7,7 +7,7 @@ Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design
 설치·폰트·시안 검토·본제작·그래프 왕복·업데이트·복구·회사 배포는 통합 가이드 한 곳에서 확인합니다.
 
 ```text
-Figma Flow v0.30.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.31.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 기존 작업과 작업공간 ID를 보존해. Figma Flow 최초 등록과 세션별 실행은 내가 할게.
 그 뒤 localhost 제어와 실제 JSON으로 검증해. 구체적인 요청은 한 안으로 진행하고, 비교를 요청하면 내 선택을 기다려.

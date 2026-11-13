@@ -33,3 +33,20 @@ python3 tools/figma_workspace.py prepare --workspace WORKSPACE --kind native-edi
 ```
 
 페이지를 다시 측정하면 그래프에도 새 해시가 생긴다. 작업이 만든 프레임에서 디자이너가 텍스트나 스타일을 편집하면 같은 그래프를 재적용해도 그 변경을 보존하고 충돌을 보고한다.
+
+## 경로와 반응형 화면
+
+같은 경로라도 모바일과 데스크톱 캡처에 서로 다른 `screenId`를 부여한다. 각 주소를 실제로 열고 두 크기에서 콘텐츠를 스크롤한다. 홈으로 돌아와 폰트와 지연 로딩 이미지, 한 번 재생되는 등장 애니메이션이 안정된 후 캡처한다. 브라우저의 뷰포트와 문서 콘텐츠 폭은 스크롤바 때문에 다를 수 있다. 캡처는 두 값을 모두 기록한다.
+
+```sh
+python3 tools/web_design_source.py --responsive \
+  --capture blog-mobile.json --capture blog-desktop.json --assets media-index.json \
+  --id publication --title "Publication" --out publication.json
+python3 tools/native_edit.py web-design --graph publication.json \
+  --screen WEB-blog-mobile --screen WEB-blog-desktop --readback-scope screens \
+  --file-key FILE_KEY --page-id PAGE_ID --preview-width 420 --out blog-plan.json
+```
+
+`--responsive`는 원본 경로에 측정된 각 뷰포트를 연결한다. 같은 주소와 뷰포트를 두 번 넣으면 거절한다. 그래프에는 최대 256개 화면을 보관할 수 있고, 한 네이티브 작업에는 최대 16개를 선택한다. `--readback-scope screens`를 사용하면 해당 화면과 하위 레이어만 읽어 다른 프로젝트가 있는 페이지에서도 작업별 결과를 비교할 수 있다.
+
+효과와 영상 지원 범위, 실제 예제 페이지의 내보내기 결과는 [반응형 인수 기록](responsive-web-verification.md)에 있다.

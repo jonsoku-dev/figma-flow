@@ -1,0 +1,4452 @@
+{
+  "version": 1,
+  "id": "responsive-web-031",
+  "title": "Route and viewport acceptance",
+  "nodes": [
+    {
+      "id": "REQ-ROUTE",
+      "type": "requirement",
+      "title": "Convert each supplied application route at both measured viewports",
+      "status": "observed"
+    },
+    {
+      "id": "AC-ROUTE",
+      "type": "acceptance",
+      "title": "Editable layers, stable frame and main identity for every captured variant",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "CODE-ROUTE",
+      "type": "code",
+      "title": "Route graph, screen selection and scoped readback",
+      "status": "verified",
+      "source": "../../tools/web_route_graph.py"
+    },
+    {
+      "id": "TEST-ROUTE",
+      "type": "test",
+      "title": "Both browser captures compared with exports and native getters",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "AC-MASK",
+      "type": "acceptance",
+      "title": "Native editable gradients, shadows and masks",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "CODE-MASK",
+      "type": "code",
+      "title": "Native editable gradients, shadows and masks",
+      "status": "verified",
+      "source": "../../figma-bridge/web_design.js"
+    },
+    {
+      "id": "TEST-MASK",
+      "type": "test",
+      "title": "Native editable gradients, shadows and masks",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "AC-MEDIA",
+      "type": "acceptance",
+      "title": "Exact verified media and conditional video fallback",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "CODE-MEDIA",
+      "type": "code",
+      "title": "Exact verified media and conditional video fallback",
+      "status": "verified",
+      "source": "../../tools/web_design_media.py"
+    },
+    {
+      "id": "TEST-MEDIA",
+      "type": "test",
+      "title": "Exact verified media and conditional video fallback",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "AC-API",
+      "type": "acceptance",
+      "title": "Ranked receiver-specific runtime observations",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "CODE-API",
+      "type": "code",
+      "title": "Ranked receiver-specific runtime observations",
+      "status": "verified",
+      "source": "api-observations.json"
+    },
+    {
+      "id": "TEST-API",
+      "type": "test",
+      "title": "Ranked receiver-specific runtime observations",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "ROUTE-codeforge-home",
+      "type": "state",
+      "title": "codeforge /",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-codeforge-home-desktop",
+      "type": "screen",
+      "title": "codeforge-home-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 11963
+      },
+      "editable_nodes": 558,
+      "instances": 24
+    },
+    {
+      "id": "FIG-codeforge-home-desktop",
+      "type": "figma",
+      "title": "codeforge-home-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 11963,
+      "receipt_sha256": "841c4f636565843b8210de3c4b248e924a01a95dfb7d1e14cc981b1822504ec0"
+    },
+    {
+      "id": "OBS-WEB-codeforge-home-desktop",
+      "type": "test",
+      "title": "codeforge-home-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "bdafc57d959db673cc75c1483966725ffbcf28d402b6917631fc2e9f34895a05",
+      "graph_sha256": "ef899bbd496daf78da958baad49856fd01d13ad70d570f82dce7c1b6917e610c",
+      "apply_sha256": "c805b61c0c22694ae215ba40e417d495d1a38cfbfb0310c28cac50c8f9bab3cf",
+      "reapply_sha256": "841c4f636565843b8210de3c4b248e924a01a95dfb7d1e14cc981b1822504ec0",
+      "browser_png_sha256": "1f23ea23a9f4eb9e2ad0aad421c084eb50705e6b41bc3226d8ff2cdc23d2ca2e",
+      "figma_png_sha256": "c4f084b785de76885da4eb12599a3d318160c32a3a9a54f4dbcd0cf42b983bb8",
+      "rgb_mae_0_255": 6.64
+    },
+    {
+      "id": "WEB-codeforge-home-mobile",
+      "type": "screen",
+      "title": "codeforge-home-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 13651
+      },
+      "editable_nodes": 545,
+      "instances": 21
+    },
+    {
+      "id": "FIG-codeforge-home-mobile",
+      "type": "figma",
+      "title": "codeforge-home-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 13651,
+      "receipt_sha256": "841c4f636565843b8210de3c4b248e924a01a95dfb7d1e14cc981b1822504ec0"
+    },
+    {
+      "id": "OBS-WEB-codeforge-home-mobile",
+      "type": "test",
+      "title": "codeforge-home-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "84a16d5809583f904ee90bc358ddf895dbe3930fd76e1d1003b45178d1070a17",
+      "graph_sha256": "ef899bbd496daf78da958baad49856fd01d13ad70d570f82dce7c1b6917e610c",
+      "apply_sha256": "c805b61c0c22694ae215ba40e417d495d1a38cfbfb0310c28cac50c8f9bab3cf",
+      "reapply_sha256": "841c4f636565843b8210de3c4b248e924a01a95dfb7d1e14cc981b1822504ec0",
+      "browser_png_sha256": "ba4116c0e5bcabd9a75471141e56e1eab410d03c1c082161e3532d3c5a80f71c",
+      "figma_png_sha256": "1a8fa03b90175131445a1aa4ddbb50b11bac469d642f880a9054987d4bd53749",
+      "rgb_mae_0_255": 16.45
+    },
+    {
+      "id": "ROUTE-codeforge-not-a-real-slug",
+      "type": "state",
+      "title": "codeforge /not-a-real-slug",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-codeforge-not-a-real-slug-desktop",
+      "type": "screen",
+      "title": "codeforge-not-a-real-slug-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 23,
+      "instances": 3
+    },
+    {
+      "id": "FIG-codeforge-not-a-real-slug-desktop",
+      "type": "figma",
+      "title": "codeforge-not-a-real-slug-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "4354e0bb800c4c9cca4e36a10a0735b7948395beee732372f7cb414e8141fbb8"
+    },
+    {
+      "id": "OBS-WEB-codeforge-not-a-real-slug-desktop",
+      "type": "test",
+      "title": "codeforge-not-a-real-slug-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "6f4f97dff65edcebfd3f7ff3b0f9d211fb676cce71b26483030ad1733f05d686",
+      "graph_sha256": "acc7fb6ee88d8dddebad0aa726f28a977781e7ea7eeda75f513b094a44e8646c",
+      "apply_sha256": "753f8312bb33db79cc989e98601183efa0d0370a915537009e2247ae14d178a9",
+      "reapply_sha256": "4354e0bb800c4c9cca4e36a10a0735b7948395beee732372f7cb414e8141fbb8",
+      "browser_png_sha256": "3c1262f6372df9706e1cd3dbd816b768e685805b8cfae411e782759c798cbde3",
+      "figma_png_sha256": "f245de7c74e47a507e2456c3c47703f03e2f8ea91892c764bfa436626d3cc8bc",
+      "rgb_mae_0_255": 1.29
+    },
+    {
+      "id": "WEB-codeforge-not-a-real-slug-mobile",
+      "type": "screen",
+      "title": "codeforge-not-a-real-slug-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 12,
+      "instances": 0
+    },
+    {
+      "id": "FIG-codeforge-not-a-real-slug-mobile",
+      "type": "figma",
+      "title": "codeforge-not-a-real-slug-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "4354e0bb800c4c9cca4e36a10a0735b7948395beee732372f7cb414e8141fbb8"
+    },
+    {
+      "id": "OBS-WEB-codeforge-not-a-real-slug-mobile",
+      "type": "test",
+      "title": "codeforge-not-a-real-slug-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "d17cc8f66cdccdeeaa5c3b84a870f11fc085d3621a3431be88ace15039c84436",
+      "graph_sha256": "acc7fb6ee88d8dddebad0aa726f28a977781e7ea7eeda75f513b094a44e8646c",
+      "apply_sha256": "753f8312bb33db79cc989e98601183efa0d0370a915537009e2247ae14d178a9",
+      "reapply_sha256": "4354e0bb800c4c9cca4e36a10a0735b7948395beee732372f7cb414e8141fbb8",
+      "browser_png_sha256": "87971fed33898f25228ed509c067af180dc847ff481290db35b9553dc5a3b5c6",
+      "figma_png_sha256": "9387cfd34e5fdb239cea3afeae90b7356d4d0b40270f9cd63a1b9f649e155830",
+      "rgb_mae_0_255": 1.4
+    },
+    {
+      "id": "ROUTE-devtool-blog",
+      "type": "state",
+      "title": "devtool /blog",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-devtool-blog-desktop",
+      "type": "screen",
+      "title": "devtool-blog-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1435,
+        "height": 1185
+      },
+      "editable_nodes": 41,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-desktop",
+      "type": "figma",
+      "title": "devtool-blog-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1435,
+      "frame_height": 1185,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-desktop",
+      "type": "test",
+      "title": "devtool-blog-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "ef2abbeb5085b8b37c363ba0c859f346aff88653685e321ff0e87d0cef44c4d8",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "08562905bd6f863d0342dc434c7edb075e90f121b4e4c1dd5a1256fc302536f0",
+      "figma_png_sha256": "835b2c640729645d81df654e9317a6f873bff87a610a9011945ddfccc0cb58e8",
+      "rgb_mae_0_255": 3.37
+    },
+    {
+      "id": "ROUTE-devtool-blog-how-dev-ai",
+      "type": "state",
+      "title": "devtool /blog/how-dev-ai",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-devtool-blog-how-dev-ai-desktop",
+      "type": "screen",
+      "title": "devtool-blog-how-dev-ai-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1435,
+        "height": 2916
+      },
+      "editable_nodes": 86,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-how-dev-ai-desktop",
+      "type": "figma",
+      "title": "devtool-blog-how-dev-ai-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1435,
+      "frame_height": 2916,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-how-dev-ai-desktop",
+      "type": "test",
+      "title": "devtool-blog-how-dev-ai-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "55a0ad26bff80430aad6ce15e03be2c5c5a5ed2e895deb51ce3b0a977589c1e2",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "8b9baab3de87d0185cbe70e039836b8384b8d6cc747ba91fca0a41ac9d1f0c26",
+      "figma_png_sha256": "852378db497f32c82aa0be193f12a716ef396dc54c38bd63e88e89eed767b0dc",
+      "rgb_mae_0_255": 4.0
+    },
+    {
+      "id": "WEB-devtool-blog-how-dev-ai-mobile",
+      "type": "screen",
+      "title": "devtool-blog-how-dev-ai-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 385,
+        "height": 3230
+      },
+      "editable_nodes": 106,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-how-dev-ai-mobile",
+      "type": "figma",
+      "title": "devtool-blog-how-dev-ai-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 385,
+      "frame_height": 3230,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-how-dev-ai-mobile",
+      "type": "test",
+      "title": "devtool-blog-how-dev-ai-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "916d5975e293b084305438c099dde9b24a4765f95dc4fd8ce55ab8e2f5ef1ce2",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "e60ac878b7f6ed908c793bb4044d43d77968ab1d7204884d183d58a436c5013b",
+      "figma_png_sha256": "1dd706772d4f526b66d6e22441761cb9c7fefe3e230cbcd9dff04ebbf2c0887e",
+      "rgb_mae_0_255": 16.88
+    },
+    {
+      "id": "ROUTE-devtool-blog-introducing-dev-ai",
+      "type": "state",
+      "title": "devtool /blog/introducing-dev-ai",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-devtool-blog-introducing-dev-ai-desktop",
+      "type": "screen",
+      "title": "devtool-blog-introducing-dev-ai-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1435,
+        "height": 2916
+      },
+      "editable_nodes": 86,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-introducing-dev-ai-desktop",
+      "type": "figma",
+      "title": "devtool-blog-introducing-dev-ai-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1435,
+      "frame_height": 2916,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-introducing-dev-ai-desktop",
+      "type": "test",
+      "title": "devtool-blog-introducing-dev-ai-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "8db7eff5dcb1521e1bcb1fd85b8d9d5e9897b58b0ef2c358db3fffe442ef1de8",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "ba92f04805bd85685285e54bb963e993e42f177a9314b674c9112a0745a02ce6",
+      "figma_png_sha256": "9b57cbf3636fb55195f5f4b7e5831a7b0c1d672f1e2fc51a55f6e366e19b3eeb",
+      "rgb_mae_0_255": 4.04
+    },
+    {
+      "id": "WEB-devtool-blog-introducing-dev-ai-mobile",
+      "type": "screen",
+      "title": "devtool-blog-introducing-dev-ai-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 385,
+        "height": 3230
+      },
+      "editable_nodes": 106,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-introducing-dev-ai-mobile",
+      "type": "figma",
+      "title": "devtool-blog-introducing-dev-ai-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 385,
+      "frame_height": 3230,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-introducing-dev-ai-mobile",
+      "type": "test",
+      "title": "devtool-blog-introducing-dev-ai-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "a4adac80e70732dee02d5cbce5aeab16eae3e43907f9f1e231c610f34de42dd4",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "29df7212375894e230a85bce128da72cf8a1b122dffd1eb9ad3d9efe3ba2bf21",
+      "figma_png_sha256": "bf443cf7dd4efad718bc4a5a980c286c01fb31f1727650d6cf82d31561526b5d",
+      "rgb_mae_0_255": 17.07
+    },
+    {
+      "id": "WEB-devtool-blog-mobile",
+      "type": "screen",
+      "title": "devtool-blog-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 385,
+        "height": 1818
+      },
+      "editable_nodes": 41,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-mobile",
+      "type": "figma",
+      "title": "devtool-blog-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 385,
+      "frame_height": 1818,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-mobile",
+      "type": "test",
+      "title": "devtool-blog-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "c45f56f3ef5f4a345859f9e64555c808a3dbf3d05c9e9fbb750b91a39e5b86f9",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "379e43902cae7c442d75b38d558c271e602e857c462540d67f1c85164391f2e6",
+      "figma_png_sha256": "c3d5e76d9cd9fe72cc0c3127dcaaeeae496b7474627ae73867cd7a05aa1e1e14",
+      "rgb_mae_0_255": 16.26
+    },
+    {
+      "id": "ROUTE-devtool-blog-nonexistent-slug",
+      "type": "state",
+      "title": "devtool /blog/nonexistent-slug",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-devtool-blog-nonexistent-slug-desktop",
+      "type": "screen",
+      "title": "devtool-blog-nonexistent-slug-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 916
+      },
+      "editable_nodes": 8,
+      "instances": 0
+    },
+    {
+      "id": "FIG-devtool-blog-nonexistent-slug-desktop",
+      "type": "figma",
+      "title": "devtool-blog-nonexistent-slug-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 916,
+      "receipt_sha256": "4fb0ad26b71855641cb029d649ec145fe11dec5cd442052d156215178601df73"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-nonexistent-slug-desktop",
+      "type": "test",
+      "title": "devtool-blog-nonexistent-slug-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "ec66da5e089ec1c31a80cdbe1fb0cf71d831e06e9776018c2cad5f8fe0eea17c",
+      "graph_sha256": "72b314c03c0b9de480c5d15440ce30b639e37ad501225c13a1e732bd5eecc925",
+      "apply_sha256": "3fb8404dde4f1c0aedd63e9f8cc636a73b4444543828e7b79b8dea334076058d",
+      "reapply_sha256": "4fb0ad26b71855641cb029d649ec145fe11dec5cd442052d156215178601df73",
+      "browser_png_sha256": "6428d7483013bae24964ec2e7d7d9398e601cabb0e762df5dc6d5b364961b615",
+      "figma_png_sha256": "fc449b29ad52a800c14d73cae164a1c6b326716a998b008765f53e97ae6ea4f9",
+      "rgb_mae_0_255": 0.72
+    },
+    {
+      "id": "WEB-devtool-blog-nonexistent-slug-mobile",
+      "type": "screen",
+      "title": "devtool-blog-nonexistent-slug-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 860
+      },
+      "editable_nodes": 9,
+      "instances": 0
+    },
+    {
+      "id": "FIG-devtool-blog-nonexistent-slug-mobile",
+      "type": "figma",
+      "title": "devtool-blog-nonexistent-slug-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 860,
+      "receipt_sha256": "4fb0ad26b71855641cb029d649ec145fe11dec5cd442052d156215178601df73"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-nonexistent-slug-mobile",
+      "type": "test",
+      "title": "devtool-blog-nonexistent-slug-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "0148d201de139bd99fc0c351bc8726397966f5301e14bfc938201ab08eb2169a",
+      "graph_sha256": "72b314c03c0b9de480c5d15440ce30b639e37ad501225c13a1e732bd5eecc925",
+      "apply_sha256": "3fb8404dde4f1c0aedd63e9f8cc636a73b4444543828e7b79b8dea334076058d",
+      "reapply_sha256": "4fb0ad26b71855641cb029d649ec145fe11dec5cd442052d156215178601df73",
+      "browser_png_sha256": "947deb4ba4ce82cd67e904f5ac680365f9da8592bf323266e566f8c169180646",
+      "figma_png_sha256": "f0e3288b2a34d17a15bf073fc69055ffec924e4bd7906979fbe5b338514f243b",
+      "rgb_mae_0_255": 4.39
+    },
+    {
+      "id": "ROUTE-devtool-blog-why-dev-ai",
+      "type": "state",
+      "title": "devtool /blog/why-dev-ai",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-devtool-blog-why-dev-ai-desktop",
+      "type": "screen",
+      "title": "devtool-blog-why-dev-ai-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1435,
+        "height": 2916
+      },
+      "editable_nodes": 86,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-why-dev-ai-desktop",
+      "type": "figma",
+      "title": "devtool-blog-why-dev-ai-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1435,
+      "frame_height": 2916,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-why-dev-ai-desktop",
+      "type": "test",
+      "title": "devtool-blog-why-dev-ai-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "1e9f69b692b657923df32bf65ee4d617ce58e19026a545c16bf927de3c5ff533",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "7cd1c9ca936f8ae43d1611eda47dc597c2cc57d653dbe9960a5aee6af96e0de5",
+      "figma_png_sha256": "6fcd3dfc13bd0725e21c20d4d5fb9dabeae613f69a6f45725b4da5ec0108591d",
+      "rgb_mae_0_255": 4.0
+    },
+    {
+      "id": "WEB-devtool-blog-why-dev-ai-mobile",
+      "type": "screen",
+      "title": "devtool-blog-why-dev-ai-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 385,
+        "height": 3230
+      },
+      "editable_nodes": 106,
+      "instances": 1
+    },
+    {
+      "id": "FIG-devtool-blog-why-dev-ai-mobile",
+      "type": "figma",
+      "title": "devtool-blog-why-dev-ai-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 385,
+      "frame_height": 3230,
+      "receipt_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca"
+    },
+    {
+      "id": "OBS-WEB-devtool-blog-why-dev-ai-mobile",
+      "type": "test",
+      "title": "devtool-blog-why-dev-ai-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "0c5ecbe753c61ddabf8fb193814bdb6f828418f3d25874c76027f7e3e98816a0",
+      "graph_sha256": "ec5ae620d33ec021b195c32a05db723825d9cf314afea1af9c3b823c1f309cab",
+      "apply_sha256": "69e447077506dcaf53c3e29d2576c9cf113cd56e0bdbd42476185e9cad6c08d9",
+      "reapply_sha256": "3a5501525931f45057b929b99b61f2335072f16ee3891202f2360cf203201eca",
+      "browser_png_sha256": "271facc235b8496b884e28e0729b1751d6db5ea4cc6f3bdbcca4f471a3a2767d",
+      "figma_png_sha256": "054badbc209bdca073350ad35141f9dfdd54eafd5161c37992b00851c5c6d9cc",
+      "rgb_mae_0_255": 16.88
+    },
+    {
+      "id": "ROUTE-devtool-home",
+      "type": "state",
+      "title": "devtool /",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-devtool-home-desktop",
+      "type": "screen",
+      "title": "devtool-home-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1435,
+        "height": 5456
+      },
+      "editable_nodes": 490,
+      "instances": 7
+    },
+    {
+      "id": "FIG-devtool-home-desktop",
+      "type": "figma",
+      "title": "devtool-home-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1435,
+      "frame_height": 5456,
+      "receipt_sha256": "a3be662abebb185ea6ee8b398e011e4a577f386c417e4edb6b33ff667f196877"
+    },
+    {
+      "id": "OBS-WEB-devtool-home-desktop",
+      "type": "test",
+      "title": "devtool-home-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "15b82bfbdecb1539fd6ee7d0e137f5b3dd0fe404cac5d984f46adc8bc0ca869d",
+      "graph_sha256": "2a1d6509788b11e48c7d05ad8d9b26eac14e101a055c8bd0ac030b009b71139a",
+      "apply_sha256": "ca0dd879204f1bba010ccc1c34990aae0903f0f3490761057d85346766998916",
+      "reapply_sha256": "a3be662abebb185ea6ee8b398e011e4a577f386c417e4edb6b33ff667f196877",
+      "browser_png_sha256": "0f050db75a1f0b2c86368c8c754d7c22b6193c03e33fdb75f4a2d304908ad0c6",
+      "figma_png_sha256": "19cc9c76063dbf9d14945bdc9acf4ae374d4c6a4f3fa4f870fa4c5041a82c0cc",
+      "rgb_mae_0_255": 4.21
+    },
+    {
+      "id": "WEB-devtool-home-mobile",
+      "type": "screen",
+      "title": "devtool-home-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 385,
+        "height": 10223
+      },
+      "editable_nodes": 481,
+      "instances": 7
+    },
+    {
+      "id": "FIG-devtool-home-mobile",
+      "type": "figma",
+      "title": "devtool-home-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 385,
+      "frame_height": 10223,
+      "receipt_sha256": "a3be662abebb185ea6ee8b398e011e4a577f386c417e4edb6b33ff667f196877"
+    },
+    {
+      "id": "OBS-WEB-devtool-home-mobile",
+      "type": "test",
+      "title": "devtool-home-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "b621e6b4adcdc919e82e99712efe05d8b96b64d447b6b26675287b29543ba875",
+      "graph_sha256": "2a1d6509788b11e48c7d05ad8d9b26eac14e101a055c8bd0ac030b009b71139a",
+      "apply_sha256": "ca0dd879204f1bba010ccc1c34990aae0903f0f3490761057d85346766998916",
+      "reapply_sha256": "a3be662abebb185ea6ee8b398e011e4a577f386c417e4edb6b33ff667f196877",
+      "browser_png_sha256": "cea981342ebe44dc9fc609f5dac82c445227ccd0d081b5d2f96e8e70313f74a3",
+      "figma_png_sha256": "ce5905a2fddd35addc3a1a839d2606b9ce19ac24e6d01ced4a516184c86389a1",
+      "rgb_mae_0_255": 16.31
+    },
+    {
+      "id": "ROUTE-devtool-not-a-real-slug",
+      "type": "state",
+      "title": "devtool /not-a-real-slug",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-devtool-not-a-real-slug-desktop",
+      "type": "screen",
+      "title": "devtool-not-a-real-slug-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 3,
+      "instances": 0
+    },
+    {
+      "id": "FIG-devtool-not-a-real-slug-desktop",
+      "type": "figma",
+      "title": "devtool-not-a-real-slug-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "1fc4bc1c52def93e81d9a71ecf8d043627295b58855a86cc1a30d978f6c67a72"
+    },
+    {
+      "id": "OBS-WEB-devtool-not-a-real-slug-desktop",
+      "type": "test",
+      "title": "devtool-not-a-real-slug-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "980275fc77285e689f4a769e63838f69714480c943096e073c14de959aff3f0d",
+      "graph_sha256": "6f83739b6ae1bb3c906610787f6085bdc4da92e9a50ae552084b8702c5382e14",
+      "apply_sha256": "badb0b75e07f86fa36f11bc8ee6fb4c06f1640f889c8a09dbe6860b314e8b7ea",
+      "reapply_sha256": "1fc4bc1c52def93e81d9a71ecf8d043627295b58855a86cc1a30d978f6c67a72",
+      "browser_png_sha256": "a4716966b0856290e363b2c2bc666cddcbd38fc91a2afc085838626251c38261",
+      "figma_png_sha256": "d3e5f607241abcfdc51ea5b8d5048fd5b9f9ae3a6f5605c9204b50041372858b",
+      "rgb_mae_0_255": 0.29
+    },
+    {
+      "id": "WEB-devtool-not-a-real-slug-mobile",
+      "type": "screen",
+      "title": "devtool-not-a-real-slug-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 3,
+      "instances": 0
+    },
+    {
+      "id": "FIG-devtool-not-a-real-slug-mobile",
+      "type": "figma",
+      "title": "devtool-not-a-real-slug-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "1fc4bc1c52def93e81d9a71ecf8d043627295b58855a86cc1a30d978f6c67a72"
+    },
+    {
+      "id": "OBS-WEB-devtool-not-a-real-slug-mobile",
+      "type": "test",
+      "title": "devtool-not-a-real-slug-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "1e96c97a4770e2337c103cf77cd08da733a9dca6b39b3da3df4999279c2ef837",
+      "graph_sha256": "6f83739b6ae1bb3c906610787f6085bdc4da92e9a50ae552084b8702c5382e14",
+      "apply_sha256": "badb0b75e07f86fa36f11bc8ee6fb4c06f1640f889c8a09dbe6860b314e8b7ea",
+      "reapply_sha256": "1fc4bc1c52def93e81d9a71ecf8d043627295b58855a86cc1a30d978f6c67a72",
+      "browser_png_sha256": "9adbdbbeb495acfb90f3705f01f8a8951a1f7a83dcd774fb64a6d76ee806beb5",
+      "figma_png_sha256": "b9a247d9580032b768ccb581aee0c093ed60ef292fe8009b7c92e33ff2301915",
+      "rgb_mae_0_255": 1.2
+    },
+    {
+      "id": "ROUTE-portfolio-blog-api-design-principles",
+      "type": "state",
+      "title": "portfolio /blog/api-design-principles",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-api-design-principles-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-api-design-principles-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 1393
+      },
+      "editable_nodes": 73,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-api-design-principles-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-api-design-principles-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 1393,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-api-design-principles-desktop",
+      "type": "test",
+      "title": "portfolio-blog-api-design-principles-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "a312b2215a6c68301f5027d574d7dcabdeaa15f6e2ce47636d25321401177c38",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "b575d8cce004295d647c39175383fe1a0dbb58ef61d6bda1e5a5641f89736ff0",
+      "figma_png_sha256": "b5933609ccda5ba06dd65747ad70568844ae05334003c445aff95f31bbac7ba0",
+      "rgb_mae_0_255": 3.87
+    },
+    {
+      "id": "WEB-portfolio-blog-api-design-principles-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-api-design-principles-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 1826
+      },
+      "editable_nodes": 86,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-api-design-principles-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-api-design-principles-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 1826,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-api-design-principles-mobile",
+      "type": "test",
+      "title": "portfolio-blog-api-design-principles-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "462c3b2b31142aa246f30b5fce8bce4f7333b8cb9f8df2065ab0194f27a1248f",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "2d99d746444ffdfd13fddb2bd26d78474f8f8daecd49569ade01b139ff46e6cb",
+      "figma_png_sha256": "ded7f6b53722d5de7f8b3f27aaca6d6a534391973962d920cc23b9a5c9453140",
+      "rgb_mae_0_255": 15.91
+    },
+    {
+      "id": "ROUTE-portfolio-blog-building-design-systems",
+      "type": "state",
+      "title": "portfolio /blog/building-design-systems",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-building-design-systems-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-building-design-systems-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 4349
+      },
+      "editable_nodes": 306,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-building-design-systems-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-building-design-systems-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 4349,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-building-design-systems-desktop",
+      "type": "test",
+      "title": "portfolio-blog-building-design-systems-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "e37c8826efe9fff59a55d64c5a424d48593da84573d01729860880ecaa15ea59",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "5483e4fa37bccc856d235dbf1f452eb830ca7302c3a784a5f057a73d78ddd6a9",
+      "figma_png_sha256": "0284fe8a9f21a1594141260ee00f956c146894ebec4db3ecfab3ec420e0c2565",
+      "rgb_mae_0_255": 3.31
+    },
+    {
+      "id": "WEB-portfolio-blog-building-design-systems-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-building-design-systems-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 4760
+      },
+      "editable_nodes": 310,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-building-design-systems-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-building-design-systems-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 4760,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-building-design-systems-mobile",
+      "type": "test",
+      "title": "portfolio-blog-building-design-systems-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "c6c1040baf03e00cd4c51af64dca374450f75f05f108b96e6a5684306259b2a4",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "6174c30317ccfe546c8bca0249b42e36fee76dbcb222096b77f4e7ed6919a896",
+      "figma_png_sha256": "f488f2eb0f0989d82ff35093ac37bbe579e8e84ebc8dc55b429693772a0a53b2",
+      "rgb_mae_0_255": 11.41
+    },
+    {
+      "id": "ROUTE-portfolio-blog",
+      "type": "state",
+      "title": "portfolio /blog",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 65,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-desktop",
+      "type": "test",
+      "title": "portfolio-blog-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "4b4fe9430c0d983f94018c8acb097c33a0fe4f14ce55f91ae0705d22009fba25",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "84a555b0207c24004a9391a82304bfe9dadd37c3b1d73dd83a6c6bce56f42701",
+      "figma_png_sha256": "d5a0d1b39dc94769b55cf0ab3d9c42da303ea3258884de1368556a8c58e1e638",
+      "rgb_mae_0_255": 2.04
+    },
+    {
+      "id": "ROUTE-portfolio-blog-git-workflow-guide",
+      "type": "state",
+      "title": "portfolio /blog/git-workflow-guide",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-git-workflow-guide-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-git-workflow-guide-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 1512
+      },
+      "editable_nodes": 73,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-git-workflow-guide-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-git-workflow-guide-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 1512,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-git-workflow-guide-desktop",
+      "type": "test",
+      "title": "portfolio-blog-git-workflow-guide-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "64e72c059260fb2a2dd610bc98fe1785b033a3b7aa268b8c943d05e79a0f0add",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "8adfd92a4df228e54afd85d5d4a398663fe92a19e17aca9b7a21e7a2a4d7dedc",
+      "figma_png_sha256": "77afe618e0e74f3caf0a299dbad7d4067e2d9db40935cc4491fce2d10260dfbf",
+      "rgb_mae_0_255": 3.05
+    },
+    {
+      "id": "WEB-portfolio-blog-git-workflow-guide-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-git-workflow-guide-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 1823
+      },
+      "editable_nodes": 83,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-git-workflow-guide-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-git-workflow-guide-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 1823,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-git-workflow-guide-mobile",
+      "type": "test",
+      "title": "portfolio-blog-git-workflow-guide-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "92da99208e4f8a754de3af8ae7b8d9b77edbf30cb17db14905c25dc7042d2629",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "f1264f0264338a18babac592e575dc8dc871a8688b8ac5224622c694985694d7",
+      "figma_png_sha256": "5fdc54ba0063f13bf4541f386f49ff7b792ab2764de5cc802e11e38fffb1783a",
+      "rgb_mae_0_255": 12.76
+    },
+    {
+      "id": "WEB-portfolio-blog-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 70,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-mobile",
+      "type": "test",
+      "title": "portfolio-blog-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "b4b64f9eba278c38531bd7c3fd06f4bed5062fe47dde432c16ad0b511064143b",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "74d6b8abd7735b747c81db0b9389b73e098b6f9d2b62311f2b4878391ccfb83a",
+      "figma_png_sha256": "fbd71e60dcc4bfb2664975b4677bde69228992f65104fdaf503787410e70de9b",
+      "rgb_mae_0_255": 10.96
+    },
+    {
+      "id": "ROUTE-portfolio-blog-nextjs-performance-tips",
+      "type": "state",
+      "title": "portfolio /blog/nextjs-performance-tips",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-nextjs-performance-tips-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 1902
+      },
+      "editable_nodes": 141,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-nextjs-performance-tips-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 1902,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "test",
+      "title": "portfolio-blog-nextjs-performance-tips-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "5e1e366519c6292dff59757f1a5ca1901ae21b326df93f4c939fcd3b67a2f006",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "72341875c4741d56e9a78134f3b0d5220cf4cc17a3d8ec03480d4c27f9f4af6e",
+      "figma_png_sha256": "36f99d88c1b6a1cc5abdab98562104fa50dadcf29e9315f9ccb5e123219df326",
+      "rgb_mae_0_255": 2.22
+    },
+    {
+      "id": "WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-nextjs-performance-tips-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 2031
+      },
+      "editable_nodes": 147,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-nextjs-performance-tips-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 2031,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "test",
+      "title": "portfolio-blog-nextjs-performance-tips-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "f82f0e6268bf8715cc4256fccb61b306f32f06c0180756f23c5038fe559d5df4",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "f2a2a22f702864c6d22ea6b6a75c0546fba3f84b1412b744caffb8bab943781e",
+      "figma_png_sha256": "fab5e1d3f2ab6520e0e599dd82cc57b9cff32cef3c5df4e6c6835b66edfd6abe",
+      "rgb_mae_0_255": 13.93
+    },
+    {
+      "id": "ROUTE-portfolio-blog-nonexistent-slug",
+      "type": "state",
+      "title": "portfolio /blog/nonexistent-slug",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-nonexistent-slug-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-nonexistent-slug-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 33,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-nonexistent-slug-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-nonexistent-slug-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "3b3b91368c04d8d6bac8b453f1a2b1901d18c54815cc87e36e7712adab21c810"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-nonexistent-slug-desktop",
+      "type": "test",
+      "title": "portfolio-blog-nonexistent-slug-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "f868c2377efee4656f0c73ecbffd746057ae4a1b78bace3ae30b677c1ce908b3",
+      "graph_sha256": "3823bb8af49d8dcdf3c227a20f1469f2f34d1af81119684843d2756b1ff56683",
+      "apply_sha256": "446d0167b425f8eee4daea20349c6ffea0ec0e0e61dc4c4c056338e81e824113",
+      "reapply_sha256": "3b3b91368c04d8d6bac8b453f1a2b1901d18c54815cc87e36e7712adab21c810",
+      "browser_png_sha256": "5dffd9c5095a084e8f269b2ca984278d434f03b1be2944bdbab15e7353eeb3f1",
+      "figma_png_sha256": "3e61ff90691ae321603a6ff7c5a83d5f88595235f06ac7aec9bd84653a6271b2",
+      "rgb_mae_0_255": 2.85
+    },
+    {
+      "id": "WEB-portfolio-blog-nonexistent-slug-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-nonexistent-slug-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 33,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-nonexistent-slug-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-nonexistent-slug-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "3b3b91368c04d8d6bac8b453f1a2b1901d18c54815cc87e36e7712adab21c810"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-nonexistent-slug-mobile",
+      "type": "test",
+      "title": "portfolio-blog-nonexistent-slug-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "798866e946a5463d018b692e7ee3854697c86ee333db4036101ca58902029f3c",
+      "graph_sha256": "3823bb8af49d8dcdf3c227a20f1469f2f34d1af81119684843d2756b1ff56683",
+      "apply_sha256": "446d0167b425f8eee4daea20349c6ffea0ec0e0e61dc4c4c056338e81e824113",
+      "reapply_sha256": "3b3b91368c04d8d6bac8b453f1a2b1901d18c54815cc87e36e7712adab21c810",
+      "browser_png_sha256": "6cbe7f970790a506be9a37fcd3e69767bcb7226e68d47dd3cc663ee9037f7f21",
+      "figma_png_sha256": "34410f4a05a57143eff178ad69ff97207830b7aa80934bea660c45c1f91fb647",
+      "rgb_mae_0_255": 10.73
+    },
+    {
+      "id": "ROUTE-portfolio-blog-remote-work-productivity",
+      "type": "state",
+      "title": "portfolio /blog/remote-work-productivity",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-remote-work-productivity-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-remote-work-productivity-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 1733
+      },
+      "editable_nodes": 76,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-remote-work-productivity-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-remote-work-productivity-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 1733,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-remote-work-productivity-desktop",
+      "type": "test",
+      "title": "portfolio-blog-remote-work-productivity-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "921938b4c434552fedfc6265427f701668c20c5deb8b65685e1142fe72141c3e",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "10b0476ff6e8084377b4d8e86716cbd62ebe34b37263031abc77739b2800f1bf",
+      "figma_png_sha256": "e8d2e8c4e7426864652f66319e1eb4ae5f12c73cc90b417f7527f87b09a10ce0",
+      "rgb_mae_0_255": 2.92
+    },
+    {
+      "id": "WEB-portfolio-blog-remote-work-productivity-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-remote-work-productivity-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 1971
+      },
+      "editable_nodes": 87,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-remote-work-productivity-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-remote-work-productivity-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 1971,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-remote-work-productivity-mobile",
+      "type": "test",
+      "title": "portfolio-blog-remote-work-productivity-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "db32abb57c0ddf0923760bc7a4a50800f0a88a901d773960d92f9066f0c3070b",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "ac6e2e2a085da138edc2eaa26187b2469dfe154ebb85284d8b67b81c40d267ec",
+      "figma_png_sha256": "41c0af6f226bf626667ecda87cf171e55466ba55ff4bf5357f5fd4d71d86d436",
+      "rgb_mae_0_255": 13.24
+    },
+    {
+      "id": "ROUTE-portfolio-blog-testing-react-apps",
+      "type": "state",
+      "title": "portfolio /blog/testing-react-apps",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-testing-react-apps-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-testing-react-apps-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 1522
+      },
+      "editable_nodes": 71,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-testing-react-apps-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-testing-react-apps-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 1522,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-testing-react-apps-desktop",
+      "type": "test",
+      "title": "portfolio-blog-testing-react-apps-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "eb7caaec6963a8f587e84e03188206a45daf3c67b3503fcb0039f20262e59d78",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "b1909d6a9f1b90a7fd50964501e7553cc7b35711bd8d67f5dc3c2393d6bbe743",
+      "figma_png_sha256": "6cf08d83b9d23d82afd46b842c7646f093e59d0d289290a0957bb7ab315ad130",
+      "rgb_mae_0_255": 4.2
+    },
+    {
+      "id": "WEB-portfolio-blog-testing-react-apps-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-testing-react-apps-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 1917
+      },
+      "editable_nodes": 88,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-testing-react-apps-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-testing-react-apps-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 1917,
+      "receipt_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-testing-react-apps-mobile",
+      "type": "test",
+      "title": "portfolio-blog-testing-react-apps-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "bd2d2d3b1cbab9412b983b605e2794dbb426b1bab28c976edf6fc23c0a440ad8",
+      "graph_sha256": "e7fadeab7776dd210be45dfceb9cb14e66a96605bf8d991c708dc84aff30dd1c",
+      "apply_sha256": "61b450d35ec5c4ed2b22332ebadbd0cc73bc8eecb24af8cb053e84a560ec7737",
+      "reapply_sha256": "0cbb08713195ce909f5c8cec5e05b1ecd3fa9952aa951ac5dcc5cef5b7a46598",
+      "browser_png_sha256": "d6fde393c091be6628b80edcd6074e72674335c9b0638d239e65387482f75b7f",
+      "figma_png_sha256": "f38f6ea703339bbf91f1e7ccdab13bd7b135cf83a7acd12f80ce96a7924e9524",
+      "rgb_mae_0_255": 17.05
+    },
+    {
+      "id": "ROUTE-portfolio-blog-typescript-best-practices",
+      "type": "state",
+      "title": "portfolio /blog/typescript-best-practices",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-blog-typescript-best-practices-desktop",
+      "type": "screen",
+      "title": "portfolio-blog-typescript-best-practices-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 1739
+      },
+      "editable_nodes": 130,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-typescript-best-practices-desktop",
+      "type": "figma",
+      "title": "portfolio-blog-typescript-best-practices-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 1739,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-typescript-best-practices-desktop",
+      "type": "test",
+      "title": "portfolio-blog-typescript-best-practices-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "388e44eacdea88865087d9da7078d8a4f3e965c2083f5b84c8d8a7afa973ddc4",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "591ac3717b92dc5bf64051133ad16f2acea40cfc84d752ee043a899e49b3e41e",
+      "figma_png_sha256": "1c92b7f9579eefd997865c614f076915e183c70f3acaef20cdf74dad69254730",
+      "rgb_mae_0_255": 5.15
+    },
+    {
+      "id": "WEB-portfolio-blog-typescript-best-practices-mobile",
+      "type": "screen",
+      "title": "portfolio-blog-typescript-best-practices-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 1989
+      },
+      "editable_nodes": 129,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-blog-typescript-best-practices-mobile",
+      "type": "figma",
+      "title": "portfolio-blog-typescript-best-practices-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 1989,
+      "receipt_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0"
+    },
+    {
+      "id": "OBS-WEB-portfolio-blog-typescript-best-practices-mobile",
+      "type": "test",
+      "title": "portfolio-blog-typescript-best-practices-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "eb3a3a878b35f925a6b829f48d6e6ba50394f7c29324f1b46ba89a57c884515d",
+      "graph_sha256": "4af07e74c8b34adcfc6d72e57e00188b41333756e9b3a75c5c35695335e135b4",
+      "apply_sha256": "db0a4b99f4f02a5d486c8c3645079112771a861de221109652e2675a606b06d6",
+      "reapply_sha256": "c735a83dae012ab0a719a57b659248e480a52923003cb450e59c7684d7c7dcb0",
+      "browser_png_sha256": "860b6d495766e85a0568d8540d82ca0a2e67d53ac71f7a8fef002c3902bec1fa",
+      "figma_png_sha256": "e0b3b7c37579d2dc1fabaafd8c02419e66b837584d21b3b97e6bb3051c63c923",
+      "rgb_mae_0_255": 15.22
+    },
+    {
+      "id": "ROUTE-portfolio-home",
+      "type": "state",
+      "title": "portfolio /",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-home-desktop",
+      "type": "screen",
+      "title": "portfolio-home-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 7371
+      },
+      "editable_nodes": 577,
+      "instances": 2
+    },
+    {
+      "id": "FIG-portfolio-home-desktop",
+      "type": "figma",
+      "title": "portfolio-home-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 7371,
+      "receipt_sha256": "8d10c7da552a009bbb50f8262f1b7356004396ff9970d092803202a04251fbc5"
+    },
+    {
+      "id": "OBS-WEB-portfolio-home-desktop",
+      "type": "test",
+      "title": "portfolio-home-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "a578a51c65759833d4033fbcef7b9fbfa89b03df203dbe64fbfee9b9823d2318",
+      "graph_sha256": "435e930ac0208aa8e8c6a029d9395d550902b56ad73eda80ba015d5e2015b6b5",
+      "apply_sha256": "081663d9397fb7901f6a985715bacfec4258d91a763abd8909ceea1ec2910e16",
+      "reapply_sha256": "8d10c7da552a009bbb50f8262f1b7356004396ff9970d092803202a04251fbc5",
+      "browser_png_sha256": "25a71b0a88f5bf6f120f42a069e16423b4117eef1d685ddd2650688a5b35e522",
+      "figma_png_sha256": "caa1e9af4c0909be60a170a6662d152773f5b1a6cfae511780bf28f68fbe87ca",
+      "rgb_mae_0_255": 3.79
+    },
+    {
+      "id": "WEB-portfolio-home-mobile",
+      "type": "screen",
+      "title": "portfolio-home-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 10530
+      },
+      "editable_nodes": 662,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-home-mobile",
+      "type": "figma",
+      "title": "portfolio-home-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 10530,
+      "receipt_sha256": "8d10c7da552a009bbb50f8262f1b7356004396ff9970d092803202a04251fbc5"
+    },
+    {
+      "id": "OBS-WEB-portfolio-home-mobile",
+      "type": "test",
+      "title": "portfolio-home-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "b8a8838756f913845e16eb33dfa9dd89b646157ed81edc50f14bff7888f84012",
+      "graph_sha256": "435e930ac0208aa8e8c6a029d9395d550902b56ad73eda80ba015d5e2015b6b5",
+      "apply_sha256": "081663d9397fb7901f6a985715bacfec4258d91a763abd8909ceea1ec2910e16",
+      "reapply_sha256": "8d10c7da552a009bbb50f8262f1b7356004396ff9970d092803202a04251fbc5",
+      "browser_png_sha256": "358c1e5331748694b9308f030310fff1c97715cb6f01b5f38e3a2febc0e43535",
+      "figma_png_sha256": "a7df3792a4d83034574c4a40d1cbc88ea412868caffdf932584b2c2288870c6b",
+      "rgb_mae_0_255": 24.13
+    },
+    {
+      "id": "ROUTE-portfolio-not-a-real-slug",
+      "type": "state",
+      "title": "portfolio /not-a-real-slug",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-portfolio-not-a-real-slug-desktop",
+      "type": "screen",
+      "title": "portfolio-not-a-real-slug-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 33,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-not-a-real-slug-desktop",
+      "type": "figma",
+      "title": "portfolio-not-a-real-slug-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "e2011a74a64862ff794e5a722735efdb091940412553ffe1c398b7edc3bca7fb"
+    },
+    {
+      "id": "OBS-WEB-portfolio-not-a-real-slug-desktop",
+      "type": "test",
+      "title": "portfolio-not-a-real-slug-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "d07d8b99d4ba2f36fc99a1c94809d1bc3fb7ea01c60be1c30245f2781014bf3d",
+      "graph_sha256": "17b533d2f6cfe22a6232e65ae4b0d3c8cc1d6612a815638f7d4926dcd3900bab",
+      "apply_sha256": "2d7361f0e1d708ed01a1274961b2f793afb1889bf57e1b10d1b2ab1ae9d78258",
+      "reapply_sha256": "e2011a74a64862ff794e5a722735efdb091940412553ffe1c398b7edc3bca7fb",
+      "browser_png_sha256": "a0ff2659e61e481e4f83a3069db26a53756e63a2a70808d70fdfe6fef8b7d76e",
+      "figma_png_sha256": "f9a217670e83fea60e3ae336800c4a86ec658af2e40b59666c0874a84a981790",
+      "rgb_mae_0_255": 2.23
+    },
+    {
+      "id": "WEB-portfolio-not-a-real-slug-mobile",
+      "type": "screen",
+      "title": "portfolio-not-a-real-slug-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 33,
+      "instances": 0
+    },
+    {
+      "id": "FIG-portfolio-not-a-real-slug-mobile",
+      "type": "figma",
+      "title": "portfolio-not-a-real-slug-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "e2011a74a64862ff794e5a722735efdb091940412553ffe1c398b7edc3bca7fb"
+    },
+    {
+      "id": "OBS-WEB-portfolio-not-a-real-slug-mobile",
+      "type": "test",
+      "title": "portfolio-not-a-real-slug-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "fdb3d8941a5290d57fb0dbd06e036db45326c303edae17ed4a56de8be98965b6",
+      "graph_sha256": "17b533d2f6cfe22a6232e65ae4b0d3c8cc1d6612a815638f7d4926dcd3900bab",
+      "apply_sha256": "2d7361f0e1d708ed01a1274961b2f793afb1889bf57e1b10d1b2ab1ae9d78258",
+      "reapply_sha256": "e2011a74a64862ff794e5a722735efdb091940412553ffe1c398b7edc3bca7fb",
+      "browser_png_sha256": "6cea7b1fb5a436d8fd60da162660f9661375b83cbf51c4cbcf19bce23a5b1c5a",
+      "figma_png_sha256": "abad761c342ed142d02694931fe0b5fce0ea15658eae10e5101b9758d34c90a9",
+      "rgb_mae_0_255": 10.73
+    },
+    {
+      "id": "ROUTE-saas-blog",
+      "type": "state",
+      "title": "saas /blog",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-saas-blog-desktop",
+      "type": "screen",
+      "title": "saas-blog-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 1199
+      },
+      "editable_nodes": 67,
+      "instances": 2
+    },
+    {
+      "id": "FIG-saas-blog-desktop",
+      "type": "figma",
+      "title": "saas-blog-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 1199,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-blog-desktop",
+      "type": "test",
+      "title": "saas-blog-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "6b15ec8b7570d8f5efdaa8f4a60b3d95406e625d01db54a495c7c4aa3af002c5",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "b424e9bfc58afc9942d5f6f13d7aa47d394c96e6a7e06f5ff7e846054d15803a",
+      "figma_png_sha256": "2a17507e0c378818ca66564f4a4a42ea2792685f3197ec1b576750b04d11bf7c",
+      "rgb_mae_0_255": 2.26
+    },
+    {
+      "id": "ROUTE-saas-blog-introducing-acme-ai",
+      "type": "state",
+      "title": "saas /blog/introducing-acme-ai",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-saas-blog-introducing-acme-ai-desktop",
+      "type": "screen",
+      "title": "saas-blog-introducing-acme-ai-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 3117
+      },
+      "editable_nodes": 126,
+      "instances": 2
+    },
+    {
+      "id": "FIG-saas-blog-introducing-acme-ai-desktop",
+      "type": "figma",
+      "title": "saas-blog-introducing-acme-ai-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 3117,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-blog-introducing-acme-ai-desktop",
+      "type": "test",
+      "title": "saas-blog-introducing-acme-ai-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "f1e4bc8943a7c6d7e89748ac3e1eab9472fc0b9ab10d58ded2cbb22d3fd81df0",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "603b70d16c4e2f852f306f64883e5916b92a43a44166f114adbe524be5abc7bc",
+      "figma_png_sha256": "61352ecb8f98c244871cc47e5b0ef601add49ddf427d4a09b03325a2aa3d673b",
+      "rgb_mae_0_255": 4.11
+    },
+    {
+      "id": "WEB-saas-blog-introducing-acme-ai-mobile",
+      "type": "screen",
+      "title": "saas-blog-introducing-acme-ai-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 4133
+      },
+      "editable_nodes": 137,
+      "instances": 2
+    },
+    {
+      "id": "FIG-saas-blog-introducing-acme-ai-mobile",
+      "type": "figma",
+      "title": "saas-blog-introducing-acme-ai-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 4133,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-blog-introducing-acme-ai-mobile",
+      "type": "test",
+      "title": "saas-blog-introducing-acme-ai-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "5348275a04005942603a04b302f3b4fe7777a9f807f81ead9a60ce16435de62e",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "5f1f4598c59ce2ff7a851a49dda3def1e717ed798677fa32460dc3d16d5ed2d4",
+      "figma_png_sha256": "0d782bec79e5a718e3256feaa3fab2bd1e53cbbe1c709d87701ae4c641feb699",
+      "rgb_mae_0_255": 18.86
+    },
+    {
+      "id": "WEB-saas-blog-mobile",
+      "type": "screen",
+      "title": "saas-blog-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 1762
+      },
+      "editable_nodes": 54,
+      "instances": 2
+    },
+    {
+      "id": "FIG-saas-blog-mobile",
+      "type": "figma",
+      "title": "saas-blog-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 1762,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-blog-mobile",
+      "type": "test",
+      "title": "saas-blog-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "ca6bb156a1b0d6721aea31295da04fe2c06a211749198fcb0d3272e50ae342d7",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "4a7d6ac2adac45a1fb72cabba270552175ce7435cf0320853392633d10c6b64d",
+      "figma_png_sha256": "29fb08963760acaada057af14c0451c1498dd84998ffbbaa410f4bd49b221578",
+      "rgb_mae_0_255": 9.69
+    },
+    {
+      "id": "ROUTE-saas-blog-nonexistent-slug",
+      "type": "state",
+      "title": "saas /blog/nonexistent-slug",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-saas-blog-nonexistent-slug-desktop",
+      "type": "screen",
+      "title": "saas-blog-nonexistent-slug-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 916
+      },
+      "editable_nodes": 8,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-blog-nonexistent-slug-desktop",
+      "type": "figma",
+      "title": "saas-blog-nonexistent-slug-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 916,
+      "receipt_sha256": "909208cbeee888d616465ef6bce06b2d92a672109039b5b1c1d65b94b15b8583"
+    },
+    {
+      "id": "OBS-WEB-saas-blog-nonexistent-slug-desktop",
+      "type": "test",
+      "title": "saas-blog-nonexistent-slug-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "f7ea5e747eb67793fb1b58ac0ecea6f29e3de99471eb0a4aa8a0e2ee243153e3",
+      "graph_sha256": "c7685e59f62dacb93b1c2f94229bcbcc20d409f6c61e5178c4e87f71f77d3074",
+      "apply_sha256": "ebc14563a02ec90b79197349e5fb248ac654c4183011871e99bb05ae0de2c510",
+      "reapply_sha256": "909208cbeee888d616465ef6bce06b2d92a672109039b5b1c1d65b94b15b8583",
+      "browser_png_sha256": "9f0f47ca8dfae7e51f7cf1f33f31b7355677b025db5fcd88c22ddbf7100a7a01",
+      "figma_png_sha256": "5fbb1d89d469c28f11c4c0b9c536d63f7aaf551b5c4adb764cbaeb52886a34f5",
+      "rgb_mae_0_255": 0.73
+    },
+    {
+      "id": "WEB-saas-blog-nonexistent-slug-mobile",
+      "type": "screen",
+      "title": "saas-blog-nonexistent-slug-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 860
+      },
+      "editable_nodes": 9,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-blog-nonexistent-slug-mobile",
+      "type": "figma",
+      "title": "saas-blog-nonexistent-slug-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 860,
+      "receipt_sha256": "909208cbeee888d616465ef6bce06b2d92a672109039b5b1c1d65b94b15b8583"
+    },
+    {
+      "id": "OBS-WEB-saas-blog-nonexistent-slug-mobile",
+      "type": "test",
+      "title": "saas-blog-nonexistent-slug-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "579da9024d2e0e530aef45fe8120535858d424b11100c28beefc77d2d35dea14",
+      "graph_sha256": "c7685e59f62dacb93b1c2f94229bcbcc20d409f6c61e5178c4e87f71f77d3074",
+      "apply_sha256": "ebc14563a02ec90b79197349e5fb248ac654c4183011871e99bb05ae0de2c510",
+      "reapply_sha256": "909208cbeee888d616465ef6bce06b2d92a672109039b5b1c1d65b94b15b8583",
+      "browser_png_sha256": "7d35773954d4ad0e2e887cf88cca73937d4954a1df896d64f51fe4f79eeaf45a",
+      "figma_png_sha256": "81174dab575bc1132cd7daeefc04b3ecfb6410a9a6bb2adfca6c4df9a9fad688",
+      "rgb_mae_0_255": 2.94
+    },
+    {
+      "id": "ROUTE-saas-home",
+      "type": "state",
+      "title": "saas /",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-saas-home-desktop",
+      "type": "screen",
+      "title": "saas-home-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1425,
+        "height": 9812
+      },
+      "editable_nodes": 488,
+      "instances": 5
+    },
+    {
+      "id": "FIG-saas-home-desktop",
+      "type": "figma",
+      "title": "saas-home-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1425,
+      "frame_height": 9812,
+      "receipt_sha256": "767f016f9f8dd73e54974133e221fc966904ebd205d90ab68427635c4fc463c1"
+    },
+    {
+      "id": "OBS-WEB-saas-home-desktop",
+      "type": "test",
+      "title": "saas-home-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "f7b46c365c21ff907042e3567d37f71025b89cc541a18be24b80b304a17fb917",
+      "graph_sha256": "fdfc17d90d7c9292698142ea47b80135af0be496f73485d688c19a6ff5bdb383",
+      "apply_sha256": "fbd57913bafef857032d14c4cd6cd7e8517124d97334eccf83cb5993eaeaa788",
+      "reapply_sha256": "767f016f9f8dd73e54974133e221fc966904ebd205d90ab68427635c4fc463c1",
+      "browser_png_sha256": "9dc7d3a85ad69a0655f9e6a9d62c831d427245a0a45fbfbf1761e160166a4f1e",
+      "figma_png_sha256": "fe0e167dc6ebf29fc7f53746cdfa3f6b5cb8590bf56490241eabff2d57f50e02",
+      "rgb_mae_0_255": 6.14
+    },
+    {
+      "id": "WEB-saas-home-mobile",
+      "type": "screen",
+      "title": "saas-home-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 375,
+        "height": 12747
+      },
+      "editable_nodes": 392,
+      "instances": 3
+    },
+    {
+      "id": "FIG-saas-home-mobile",
+      "type": "figma",
+      "title": "saas-home-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 375,
+      "frame_height": 12747,
+      "receipt_sha256": "767f016f9f8dd73e54974133e221fc966904ebd205d90ab68427635c4fc463c1"
+    },
+    {
+      "id": "OBS-WEB-saas-home-mobile",
+      "type": "test",
+      "title": "saas-home-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "9b83b6b49c044c77f6342b1b34e58e49a339cc354a2089acbc31bcaee0999cc1",
+      "graph_sha256": "fdfc17d90d7c9292698142ea47b80135af0be496f73485d688c19a6ff5bdb383",
+      "apply_sha256": "fbd57913bafef857032d14c4cd6cd7e8517124d97334eccf83cb5993eaeaa788",
+      "reapply_sha256": "767f016f9f8dd73e54974133e221fc966904ebd205d90ab68427635c4fc463c1",
+      "browser_png_sha256": "10e072204e4001dd00dba3ed1e9eeafcbfb8b4395da209746e1b44c2dab8f076",
+      "figma_png_sha256": "4ad5f7b5c420f660ab4ddbe708b97d7ff9a8a2cfa24a14a7848008aab6c2ffda",
+      "rgb_mae_0_255": 15.68
+    },
+    {
+      "id": "ROUTE-saas-login",
+      "type": "state",
+      "title": "saas /login",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-saas-login-desktop",
+      "type": "screen",
+      "title": "saas-login-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 26,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-login-desktop",
+      "type": "figma",
+      "title": "saas-login-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-login-desktop",
+      "type": "test",
+      "title": "saas-login-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "c202634c1b40f02ec71a33279012e115f346ff11312f5c71dd67eb894ebd7696",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "2446a77de0fc7865efb398d3cd56dd4c45f20a6041174adb4c0ed97a429d5ad2",
+      "figma_png_sha256": "0a8418c654d627f95dc9543ce101b21df1efc780fa575f13181b17943d43c9f6",
+      "rgb_mae_0_255": 0.53
+    },
+    {
+      "id": "WEB-saas-login-mobile",
+      "type": "screen",
+      "title": "saas-login-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 26,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-login-mobile",
+      "type": "figma",
+      "title": "saas-login-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-login-mobile",
+      "type": "test",
+      "title": "saas-login-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "5d351cac3e4a93c1b0d854b622fb9330fe497cabd29cfae8fb81b13982cffaa7",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "8ff814c94b312fe071490cad10be2b29a9967a0c104eae0c349fc37a770a4465",
+      "figma_png_sha256": "9d6a0534d9e0621c9486eb09a32bc515502f08e48c15b6735607bb6014493a97",
+      "rgb_mae_0_255": 3.03
+    },
+    {
+      "id": "ROUTE-saas-not-a-real-slug",
+      "type": "state",
+      "title": "saas /not-a-real-slug",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-saas-not-a-real-slug-desktop",
+      "type": "screen",
+      "title": "saas-not-a-real-slug-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 3,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-not-a-real-slug-desktop",
+      "type": "figma",
+      "title": "saas-not-a-real-slug-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "fc0a1091296c3dad9a4dc944d2b3db1dbaaff2fd16c92644905384468fe17675"
+    },
+    {
+      "id": "OBS-WEB-saas-not-a-real-slug-desktop",
+      "type": "test",
+      "title": "saas-not-a-real-slug-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "b042ac9646b27be8834ec4a391db133249f37a60f631cca58ec61bb0b2c4bee7",
+      "graph_sha256": "c7f940dec3227e04717f16c8c4cc1a62029727aa27b8a6f0b18ef0f56a2ca8e3",
+      "apply_sha256": "f15ca1f66baad8bfe2880e57b7301df7c837dc5cfdeae8544410e5a7f3c61594",
+      "reapply_sha256": "fc0a1091296c3dad9a4dc944d2b3db1dbaaff2fd16c92644905384468fe17675",
+      "browser_png_sha256": "12f7944d3dca99ec00d25fe5cfc47abf86b417a0ea82d33adc5b03723f8a63cf",
+      "figma_png_sha256": "e28e3e08621bb47dacf3a52693b2915935679e4c208fdb6883975c115604c8eb",
+      "rgb_mae_0_255": 0.29
+    },
+    {
+      "id": "WEB-saas-not-a-real-slug-mobile",
+      "type": "screen",
+      "title": "saas-not-a-real-slug-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 3,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-not-a-real-slug-mobile",
+      "type": "figma",
+      "title": "saas-not-a-real-slug-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "fc0a1091296c3dad9a4dc944d2b3db1dbaaff2fd16c92644905384468fe17675"
+    },
+    {
+      "id": "OBS-WEB-saas-not-a-real-slug-mobile",
+      "type": "test",
+      "title": "saas-not-a-real-slug-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "5bc798ab4113c4c32278204f5e7e37cd1f3d7b304f30c2288ae6c44abf7a030b",
+      "graph_sha256": "c7f940dec3227e04717f16c8c4cc1a62029727aa27b8a6f0b18ef0f56a2ca8e3",
+      "apply_sha256": "f15ca1f66baad8bfe2880e57b7301df7c837dc5cfdeae8544410e5a7f3c61594",
+      "reapply_sha256": "fc0a1091296c3dad9a4dc944d2b3db1dbaaff2fd16c92644905384468fe17675",
+      "browser_png_sha256": "2a86f8300d7e48ed9e224237c906cbf63c3b28b0bdec80186852eeebce3bfb5b",
+      "figma_png_sha256": "14bca5ab959f3efdd02c5bdef457afdc9d349a68315bf2981a1c5c8d134d201c",
+      "rgb_mae_0_255": 1.18
+    },
+    {
+      "id": "ROUTE-saas-signup",
+      "type": "state",
+      "title": "saas /signup",
+      "status": "observed",
+      "source": "../../docs/responsive-web-verification.md"
+    },
+    {
+      "id": "WEB-saas-signup-desktop",
+      "type": "screen",
+      "title": "saas-signup-desktop",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 900,
+        "width": 1440
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "editable_nodes": 23,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-signup-desktop",
+      "type": "figma",
+      "title": "saas-signup-desktop · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 1440,
+      "frame_height": 900,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-signup-desktop",
+      "type": "test",
+      "title": "saas-signup-desktop · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "826b1bc54da62ffd739dae4376d22190eddda1d7d964e6797e5635f8db4c745c",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "b07ecc505c88025f7d49f46bbb9859992f3347470444c1c204735245c80c1d20",
+      "figma_png_sha256": "1c8fbace2bdc8235366b5820f47d36d1cb53024b438b7f68e512b90ee23a6815",
+      "rgb_mae_0_255": 0.51
+    },
+    {
+      "id": "WEB-saas-signup-mobile",
+      "type": "screen",
+      "title": "saas-signup-mobile",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "editable_nodes": 23,
+      "instances": 0
+    },
+    {
+      "id": "FIG-saas-signup-mobile",
+      "type": "figma",
+      "title": "saas-signup-mobile · native editable frame",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "frame_width": 390,
+      "frame_height": 844,
+      "receipt_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887"
+    },
+    {
+      "id": "OBS-WEB-saas-signup-mobile",
+      "type": "test",
+      "title": "saas-signup-mobile · actual native reapply",
+      "status": "verified",
+      "source": "../../docs/responsive-web-verification.md",
+      "capture_sha256": "a34b624e56257841bfb03202e6dcde9f0f276a045750ea0316a525c0d6013ae0",
+      "graph_sha256": "82a03e1d1176ce90a58687d91201ba06546a0a74f57077adf70b9e8ef5abf47a",
+      "apply_sha256": "67666d7ac4018e773abf07b0eed997a37ac5ada8f3584d9dde907548b0436d1f",
+      "reapply_sha256": "886d5955901cfbc9de4bacbc159649b89716780d221232809a3cc803019b4887",
+      "browser_png_sha256": "e35fa95440bd0fd9f5e6d7756576ec46a17cdd1994c475b76f90445c0144a488",
+      "figma_png_sha256": "2ecec454b2c651e6546ecf0376c6e867aefe6a9066307625d184765401f6073f",
+      "rgb_mae_0_255": 13.55
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-ROUTE",
+      "to": "AC-ROUTE",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "TEST-ROUTE",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-ROUTE",
+      "to": "TEST-ROUTE",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "AC-MASK",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-MASK",
+      "to": "TEST-MASK",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-MASK",
+      "to": "TEST-MASK",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "AC-MEDIA",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-MEDIA",
+      "to": "TEST-MEDIA",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-MEDIA",
+      "to": "TEST-MEDIA",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "AC-API",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-API",
+      "to": "TEST-API",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-API",
+      "to": "TEST-API",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-codeforge-home-desktop",
+      "to": "FIG-codeforge-home-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-codeforge-home-desktop",
+      "to": "OBS-WEB-codeforge-home-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-codeforge-home-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-codeforge-home",
+      "to": "WEB-codeforge-home-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-codeforge-home-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-codeforge-home-desktop",
+      "to": "OBS-WEB-codeforge-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-codeforge-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-codeforge-home-mobile",
+      "to": "FIG-codeforge-home-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-codeforge-home-mobile",
+      "to": "OBS-WEB-codeforge-home-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-codeforge-home-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-codeforge-home",
+      "to": "WEB-codeforge-home-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-codeforge-home-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-codeforge-home-mobile",
+      "to": "OBS-WEB-codeforge-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-codeforge-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-codeforge-not-a-real-slug-desktop",
+      "to": "FIG-codeforge-not-a-real-slug-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-codeforge-not-a-real-slug-desktop",
+      "to": "OBS-WEB-codeforge-not-a-real-slug-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-codeforge-not-a-real-slug-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-codeforge-not-a-real-slug",
+      "to": "WEB-codeforge-not-a-real-slug-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-codeforge-not-a-real-slug-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-codeforge-not-a-real-slug-desktop",
+      "to": "OBS-WEB-codeforge-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-codeforge-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-codeforge-not-a-real-slug-mobile",
+      "to": "FIG-codeforge-not-a-real-slug-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-codeforge-not-a-real-slug-mobile",
+      "to": "OBS-WEB-codeforge-not-a-real-slug-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-codeforge-not-a-real-slug-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-codeforge-not-a-real-slug",
+      "to": "WEB-codeforge-not-a-real-slug-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-codeforge-not-a-real-slug-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-codeforge-not-a-real-slug-mobile",
+      "to": "OBS-WEB-codeforge-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-codeforge-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-desktop",
+      "to": "FIG-devtool-blog-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-desktop",
+      "to": "OBS-WEB-devtool-blog-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog",
+      "to": "WEB-devtool-blog-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-desktop",
+      "to": "OBS-WEB-devtool-blog-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-how-dev-ai-desktop",
+      "to": "FIG-devtool-blog-how-dev-ai-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-how-dev-ai-desktop",
+      "to": "OBS-WEB-devtool-blog-how-dev-ai-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-how-dev-ai-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-how-dev-ai",
+      "to": "WEB-devtool-blog-how-dev-ai-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-how-dev-ai-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-how-dev-ai-desktop",
+      "to": "OBS-WEB-devtool-blog-how-dev-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-how-dev-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-how-dev-ai-mobile",
+      "to": "FIG-devtool-blog-how-dev-ai-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-how-dev-ai-mobile",
+      "to": "OBS-WEB-devtool-blog-how-dev-ai-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-how-dev-ai-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-how-dev-ai",
+      "to": "WEB-devtool-blog-how-dev-ai-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-how-dev-ai-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-how-dev-ai-mobile",
+      "to": "OBS-WEB-devtool-blog-how-dev-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-how-dev-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-introducing-dev-ai-desktop",
+      "to": "FIG-devtool-blog-introducing-dev-ai-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-introducing-dev-ai-desktop",
+      "to": "OBS-WEB-devtool-blog-introducing-dev-ai-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-introducing-dev-ai-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-introducing-dev-ai",
+      "to": "WEB-devtool-blog-introducing-dev-ai-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-introducing-dev-ai-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-introducing-dev-ai-desktop",
+      "to": "OBS-WEB-devtool-blog-introducing-dev-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-introducing-dev-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-introducing-dev-ai-mobile",
+      "to": "FIG-devtool-blog-introducing-dev-ai-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-introducing-dev-ai-mobile",
+      "to": "OBS-WEB-devtool-blog-introducing-dev-ai-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-introducing-dev-ai-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-introducing-dev-ai",
+      "to": "WEB-devtool-blog-introducing-dev-ai-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-introducing-dev-ai-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-introducing-dev-ai-mobile",
+      "to": "OBS-WEB-devtool-blog-introducing-dev-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-introducing-dev-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-mobile",
+      "to": "FIG-devtool-blog-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-mobile",
+      "to": "OBS-WEB-devtool-blog-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog",
+      "to": "WEB-devtool-blog-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-mobile",
+      "to": "OBS-WEB-devtool-blog-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-nonexistent-slug-desktop",
+      "to": "FIG-devtool-blog-nonexistent-slug-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-nonexistent-slug-desktop",
+      "to": "OBS-WEB-devtool-blog-nonexistent-slug-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-nonexistent-slug-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-nonexistent-slug",
+      "to": "WEB-devtool-blog-nonexistent-slug-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-nonexistent-slug-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-nonexistent-slug-desktop",
+      "to": "OBS-WEB-devtool-blog-nonexistent-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-nonexistent-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-nonexistent-slug-mobile",
+      "to": "FIG-devtool-blog-nonexistent-slug-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-nonexistent-slug-mobile",
+      "to": "OBS-WEB-devtool-blog-nonexistent-slug-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-nonexistent-slug-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-nonexistent-slug",
+      "to": "WEB-devtool-blog-nonexistent-slug-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-nonexistent-slug-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-nonexistent-slug-mobile",
+      "to": "OBS-WEB-devtool-blog-nonexistent-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-nonexistent-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-why-dev-ai-desktop",
+      "to": "FIG-devtool-blog-why-dev-ai-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-why-dev-ai-desktop",
+      "to": "OBS-WEB-devtool-blog-why-dev-ai-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-why-dev-ai-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-why-dev-ai",
+      "to": "WEB-devtool-blog-why-dev-ai-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-why-dev-ai-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-why-dev-ai-desktop",
+      "to": "OBS-WEB-devtool-blog-why-dev-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-why-dev-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-blog-why-dev-ai-mobile",
+      "to": "FIG-devtool-blog-why-dev-ai-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-blog-why-dev-ai-mobile",
+      "to": "OBS-WEB-devtool-blog-why-dev-ai-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-blog-why-dev-ai-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-blog-why-dev-ai",
+      "to": "WEB-devtool-blog-why-dev-ai-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-blog-why-dev-ai-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-blog-why-dev-ai-mobile",
+      "to": "OBS-WEB-devtool-blog-why-dev-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-blog-why-dev-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-home-desktop",
+      "to": "FIG-devtool-home-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-home-desktop",
+      "to": "OBS-WEB-devtool-home-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-home-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-home",
+      "to": "WEB-devtool-home-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-home-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-home-desktop",
+      "to": "OBS-WEB-devtool-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-home-mobile",
+      "to": "FIG-devtool-home-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-home-mobile",
+      "to": "OBS-WEB-devtool-home-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-home-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-home",
+      "to": "WEB-devtool-home-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-home-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-home-mobile",
+      "to": "OBS-WEB-devtool-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-not-a-real-slug-desktop",
+      "to": "FIG-devtool-not-a-real-slug-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-not-a-real-slug-desktop",
+      "to": "OBS-WEB-devtool-not-a-real-slug-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-not-a-real-slug-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-not-a-real-slug",
+      "to": "WEB-devtool-not-a-real-slug-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-not-a-real-slug-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-not-a-real-slug-desktop",
+      "to": "OBS-WEB-devtool-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-devtool-not-a-real-slug-mobile",
+      "to": "FIG-devtool-not-a-real-slug-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-devtool-not-a-real-slug-mobile",
+      "to": "OBS-WEB-devtool-not-a-real-slug-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-devtool-not-a-real-slug-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-devtool-not-a-real-slug",
+      "to": "WEB-devtool-not-a-real-slug-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-devtool-not-a-real-slug-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-devtool-not-a-real-slug-mobile",
+      "to": "OBS-WEB-devtool-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-devtool-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-api-design-principles-desktop",
+      "to": "FIG-portfolio-blog-api-design-principles-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-api-design-principles-desktop",
+      "to": "OBS-WEB-portfolio-blog-api-design-principles-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-api-design-principles-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-api-design-principles",
+      "to": "WEB-portfolio-blog-api-design-principles-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-api-design-principles-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-api-design-principles-desktop",
+      "to": "OBS-WEB-portfolio-blog-api-design-principles-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-api-design-principles-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-api-design-principles-mobile",
+      "to": "FIG-portfolio-blog-api-design-principles-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-api-design-principles-mobile",
+      "to": "OBS-WEB-portfolio-blog-api-design-principles-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-api-design-principles-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-api-design-principles",
+      "to": "WEB-portfolio-blog-api-design-principles-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-api-design-principles-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-api-design-principles-mobile",
+      "to": "OBS-WEB-portfolio-blog-api-design-principles-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-api-design-principles-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-building-design-systems-desktop",
+      "to": "FIG-portfolio-blog-building-design-systems-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-building-design-systems-desktop",
+      "to": "OBS-WEB-portfolio-blog-building-design-systems-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-building-design-systems-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-building-design-systems",
+      "to": "WEB-portfolio-blog-building-design-systems-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-building-design-systems-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-building-design-systems-desktop",
+      "to": "OBS-WEB-portfolio-blog-building-design-systems-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-building-design-systems-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-building-design-systems-mobile",
+      "to": "FIG-portfolio-blog-building-design-systems-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-building-design-systems-mobile",
+      "to": "OBS-WEB-portfolio-blog-building-design-systems-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-building-design-systems-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-building-design-systems",
+      "to": "WEB-portfolio-blog-building-design-systems-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-building-design-systems-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-building-design-systems-mobile",
+      "to": "OBS-WEB-portfolio-blog-building-design-systems-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-building-design-systems-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-desktop",
+      "to": "FIG-portfolio-blog-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-desktop",
+      "to": "OBS-WEB-portfolio-blog-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog",
+      "to": "WEB-portfolio-blog-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-desktop",
+      "to": "OBS-WEB-portfolio-blog-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-git-workflow-guide-desktop",
+      "to": "FIG-portfolio-blog-git-workflow-guide-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-git-workflow-guide-desktop",
+      "to": "OBS-WEB-portfolio-blog-git-workflow-guide-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-git-workflow-guide-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-git-workflow-guide",
+      "to": "WEB-portfolio-blog-git-workflow-guide-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-git-workflow-guide-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-git-workflow-guide-desktop",
+      "to": "OBS-WEB-portfolio-blog-git-workflow-guide-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-git-workflow-guide-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-git-workflow-guide-mobile",
+      "to": "FIG-portfolio-blog-git-workflow-guide-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-git-workflow-guide-mobile",
+      "to": "OBS-WEB-portfolio-blog-git-workflow-guide-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-git-workflow-guide-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-git-workflow-guide",
+      "to": "WEB-portfolio-blog-git-workflow-guide-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-git-workflow-guide-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-git-workflow-guide-mobile",
+      "to": "OBS-WEB-portfolio-blog-git-workflow-guide-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-git-workflow-guide-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-mobile",
+      "to": "FIG-portfolio-blog-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-mobile",
+      "to": "OBS-WEB-portfolio-blog-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog",
+      "to": "WEB-portfolio-blog-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-mobile",
+      "to": "OBS-WEB-portfolio-blog-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "to": "FIG-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-nextjs-performance-tips-desktop",
+      "to": "OBS-WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-nextjs-performance-tips",
+      "to": "WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "to": "OBS-WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-nextjs-performance-tips-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "to": "FIG-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-nextjs-performance-tips-mobile",
+      "to": "OBS-WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-nextjs-performance-tips",
+      "to": "WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "to": "OBS-WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-nextjs-performance-tips-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nonexistent-slug-desktop",
+      "to": "FIG-portfolio-blog-nonexistent-slug-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-nonexistent-slug-desktop",
+      "to": "OBS-WEB-portfolio-blog-nonexistent-slug-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-nonexistent-slug-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-nonexistent-slug",
+      "to": "WEB-portfolio-blog-nonexistent-slug-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-nonexistent-slug-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nonexistent-slug-desktop",
+      "to": "OBS-WEB-portfolio-blog-nonexistent-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-nonexistent-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nonexistent-slug-mobile",
+      "to": "FIG-portfolio-blog-nonexistent-slug-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-nonexistent-slug-mobile",
+      "to": "OBS-WEB-portfolio-blog-nonexistent-slug-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-nonexistent-slug-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-nonexistent-slug",
+      "to": "WEB-portfolio-blog-nonexistent-slug-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-nonexistent-slug-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-nonexistent-slug-mobile",
+      "to": "OBS-WEB-portfolio-blog-nonexistent-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-nonexistent-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-remote-work-productivity-desktop",
+      "to": "FIG-portfolio-blog-remote-work-productivity-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-remote-work-productivity-desktop",
+      "to": "OBS-WEB-portfolio-blog-remote-work-productivity-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-remote-work-productivity-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-remote-work-productivity",
+      "to": "WEB-portfolio-blog-remote-work-productivity-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-remote-work-productivity-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-remote-work-productivity-desktop",
+      "to": "OBS-WEB-portfolio-blog-remote-work-productivity-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-remote-work-productivity-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-remote-work-productivity-mobile",
+      "to": "FIG-portfolio-blog-remote-work-productivity-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-remote-work-productivity-mobile",
+      "to": "OBS-WEB-portfolio-blog-remote-work-productivity-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-remote-work-productivity-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-remote-work-productivity",
+      "to": "WEB-portfolio-blog-remote-work-productivity-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-remote-work-productivity-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-remote-work-productivity-mobile",
+      "to": "OBS-WEB-portfolio-blog-remote-work-productivity-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-remote-work-productivity-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-testing-react-apps-desktop",
+      "to": "FIG-portfolio-blog-testing-react-apps-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-testing-react-apps-desktop",
+      "to": "OBS-WEB-portfolio-blog-testing-react-apps-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-testing-react-apps-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-testing-react-apps",
+      "to": "WEB-portfolio-blog-testing-react-apps-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-testing-react-apps-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-testing-react-apps-desktop",
+      "to": "OBS-WEB-portfolio-blog-testing-react-apps-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-testing-react-apps-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-testing-react-apps-mobile",
+      "to": "FIG-portfolio-blog-testing-react-apps-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-testing-react-apps-mobile",
+      "to": "OBS-WEB-portfolio-blog-testing-react-apps-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-testing-react-apps-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-testing-react-apps",
+      "to": "WEB-portfolio-blog-testing-react-apps-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-testing-react-apps-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-testing-react-apps-mobile",
+      "to": "OBS-WEB-portfolio-blog-testing-react-apps-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-testing-react-apps-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-typescript-best-practices-desktop",
+      "to": "FIG-portfolio-blog-typescript-best-practices-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-typescript-best-practices-desktop",
+      "to": "OBS-WEB-portfolio-blog-typescript-best-practices-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-typescript-best-practices-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-typescript-best-practices",
+      "to": "WEB-portfolio-blog-typescript-best-practices-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-typescript-best-practices-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-typescript-best-practices-desktop",
+      "to": "OBS-WEB-portfolio-blog-typescript-best-practices-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-typescript-best-practices-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-blog-typescript-best-practices-mobile",
+      "to": "FIG-portfolio-blog-typescript-best-practices-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-blog-typescript-best-practices-mobile",
+      "to": "OBS-WEB-portfolio-blog-typescript-best-practices-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-blog-typescript-best-practices-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-blog-typescript-best-practices",
+      "to": "WEB-portfolio-blog-typescript-best-practices-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-blog-typescript-best-practices-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-blog-typescript-best-practices-mobile",
+      "to": "OBS-WEB-portfolio-blog-typescript-best-practices-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-blog-typescript-best-practices-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-home-desktop",
+      "to": "FIG-portfolio-home-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-home-desktop",
+      "to": "OBS-WEB-portfolio-home-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-home-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-home",
+      "to": "WEB-portfolio-home-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-home-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-home-desktop",
+      "to": "OBS-WEB-portfolio-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-home-mobile",
+      "to": "FIG-portfolio-home-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-home-mobile",
+      "to": "OBS-WEB-portfolio-home-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-home-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-home",
+      "to": "WEB-portfolio-home-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-home-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-home-mobile",
+      "to": "OBS-WEB-portfolio-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-not-a-real-slug-desktop",
+      "to": "FIG-portfolio-not-a-real-slug-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-not-a-real-slug-desktop",
+      "to": "OBS-WEB-portfolio-not-a-real-slug-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-not-a-real-slug-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-not-a-real-slug",
+      "to": "WEB-portfolio-not-a-real-slug-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-not-a-real-slug-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-not-a-real-slug-desktop",
+      "to": "OBS-WEB-portfolio-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-portfolio-not-a-real-slug-mobile",
+      "to": "FIG-portfolio-not-a-real-slug-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-portfolio-not-a-real-slug-mobile",
+      "to": "OBS-WEB-portfolio-not-a-real-slug-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-portfolio-not-a-real-slug-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-portfolio-not-a-real-slug",
+      "to": "WEB-portfolio-not-a-real-slug-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-portfolio-not-a-real-slug-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-portfolio-not-a-real-slug-mobile",
+      "to": "OBS-WEB-portfolio-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-portfolio-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-blog-desktop",
+      "to": "FIG-saas-blog-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-blog-desktop",
+      "to": "OBS-WEB-saas-blog-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-blog-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-blog",
+      "to": "WEB-saas-blog-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-blog-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-blog-desktop",
+      "to": "OBS-WEB-saas-blog-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-blog-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-blog-introducing-acme-ai-desktop",
+      "to": "FIG-saas-blog-introducing-acme-ai-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-blog-introducing-acme-ai-desktop",
+      "to": "OBS-WEB-saas-blog-introducing-acme-ai-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-blog-introducing-acme-ai-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-blog-introducing-acme-ai",
+      "to": "WEB-saas-blog-introducing-acme-ai-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-blog-introducing-acme-ai-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-blog-introducing-acme-ai-desktop",
+      "to": "OBS-WEB-saas-blog-introducing-acme-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-blog-introducing-acme-ai-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-blog-introducing-acme-ai-mobile",
+      "to": "FIG-saas-blog-introducing-acme-ai-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-blog-introducing-acme-ai-mobile",
+      "to": "OBS-WEB-saas-blog-introducing-acme-ai-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-blog-introducing-acme-ai-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-blog-introducing-acme-ai",
+      "to": "WEB-saas-blog-introducing-acme-ai-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-blog-introducing-acme-ai-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-blog-introducing-acme-ai-mobile",
+      "to": "OBS-WEB-saas-blog-introducing-acme-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-blog-introducing-acme-ai-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-blog-mobile",
+      "to": "FIG-saas-blog-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-blog-mobile",
+      "to": "OBS-WEB-saas-blog-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-blog-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-blog",
+      "to": "WEB-saas-blog-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-blog-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-blog-mobile",
+      "to": "OBS-WEB-saas-blog-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-blog-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-blog-nonexistent-slug-desktop",
+      "to": "FIG-saas-blog-nonexistent-slug-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-blog-nonexistent-slug-desktop",
+      "to": "OBS-WEB-saas-blog-nonexistent-slug-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-blog-nonexistent-slug-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-blog-nonexistent-slug",
+      "to": "WEB-saas-blog-nonexistent-slug-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-blog-nonexistent-slug-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-blog-nonexistent-slug-desktop",
+      "to": "OBS-WEB-saas-blog-nonexistent-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-blog-nonexistent-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-blog-nonexistent-slug-mobile",
+      "to": "FIG-saas-blog-nonexistent-slug-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-blog-nonexistent-slug-mobile",
+      "to": "OBS-WEB-saas-blog-nonexistent-slug-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-blog-nonexistent-slug-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-blog-nonexistent-slug",
+      "to": "WEB-saas-blog-nonexistent-slug-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-blog-nonexistent-slug-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-blog-nonexistent-slug-mobile",
+      "to": "OBS-WEB-saas-blog-nonexistent-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-blog-nonexistent-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-home-desktop",
+      "to": "FIG-saas-home-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-home-desktop",
+      "to": "OBS-WEB-saas-home-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-home-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-home",
+      "to": "WEB-saas-home-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-home-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-home-desktop",
+      "to": "OBS-WEB-saas-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-home-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-home-mobile",
+      "to": "FIG-saas-home-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-home-mobile",
+      "to": "OBS-WEB-saas-home-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-home-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-home",
+      "to": "WEB-saas-home-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-home-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-home-mobile",
+      "to": "OBS-WEB-saas-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-home-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-login-desktop",
+      "to": "FIG-saas-login-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-login-desktop",
+      "to": "OBS-WEB-saas-login-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-login-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-login",
+      "to": "WEB-saas-login-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-login-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-login-desktop",
+      "to": "OBS-WEB-saas-login-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-login-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-login-mobile",
+      "to": "FIG-saas-login-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-login-mobile",
+      "to": "OBS-WEB-saas-login-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-login-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-login",
+      "to": "WEB-saas-login-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-login-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-login-mobile",
+      "to": "OBS-WEB-saas-login-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-login-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-not-a-real-slug-desktop",
+      "to": "FIG-saas-not-a-real-slug-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-not-a-real-slug-desktop",
+      "to": "OBS-WEB-saas-not-a-real-slug-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-not-a-real-slug-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-not-a-real-slug",
+      "to": "WEB-saas-not-a-real-slug-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-not-a-real-slug-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-not-a-real-slug-desktop",
+      "to": "OBS-WEB-saas-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-not-a-real-slug-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-not-a-real-slug-mobile",
+      "to": "FIG-saas-not-a-real-slug-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-not-a-real-slug-mobile",
+      "to": "OBS-WEB-saas-not-a-real-slug-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-not-a-real-slug-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-not-a-real-slug",
+      "to": "WEB-saas-not-a-real-slug-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-not-a-real-slug-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-not-a-real-slug-mobile",
+      "to": "OBS-WEB-saas-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-not-a-real-slug-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-signup-desktop",
+      "to": "FIG-saas-signup-desktop",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-signup-desktop",
+      "to": "OBS-WEB-saas-signup-desktop",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-signup-desktop",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-signup",
+      "to": "WEB-saas-signup-desktop",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-signup-desktop",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-signup-desktop",
+      "to": "OBS-WEB-saas-signup-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-signup-desktop",
+      "type": "checked by"
+    },
+    {
+      "from": "WEB-saas-signup-mobile",
+      "to": "FIG-saas-signup-mobile",
+      "type": "rendered as"
+    },
+    {
+      "from": "FIG-saas-signup-mobile",
+      "to": "OBS-WEB-saas-signup-mobile",
+      "type": "verified by"
+    },
+    {
+      "from": "REQ-ROUTE",
+      "to": "WEB-saas-signup-mobile",
+      "type": "includes"
+    },
+    {
+      "from": "ROUTE-saas-signup",
+      "to": "WEB-saas-signup-mobile",
+      "type": "renders at viewport"
+    },
+    {
+      "from": "WEB-saas-signup-mobile",
+      "to": "CODE-ROUTE",
+      "type": "implemented by"
+    },
+    {
+      "from": "WEB-saas-signup-mobile",
+      "to": "OBS-WEB-saas-signup-mobile",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-ROUTE",
+      "to": "OBS-WEB-saas-signup-mobile",
+      "type": "checked by"
+    }
+  ]
+}
