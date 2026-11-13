@@ -100,8 +100,7 @@ class FeatureRoutesTests(unittest.TestCase):
         self.assertEqual(shlex.split(result['next_steps'][0])[-1], query)
 
     def test_local_and_native_product_routes(self):
-        for query, kind in [('코드 커넥트', 'official-api'), ('weave', 'interactive'),
-                            ('사이트', 'interactive'), ('라이브러리 발행', 'interactive')]:
+        for query, kind in [('코드 커넥트', 'official-api'), ('라이브러리 발행', 'interactive')]:
             result = feature.route(query)
             self.assertEqual(result['routes'][0]['kind'], kind)
             self.assertEqual(result['runtime_acceptance'], 'unverified')
@@ -140,7 +139,7 @@ class FeatureRoutesTests(unittest.TestCase):
                 self.assertNotIn(term, text)
             self.assertEqual(result['execution'], 'not-executed')
         for identity in ['make', 'sites', 'weave']:
-            self.assertEqual(feature.route(identity)['routes'][0]['kind'], 'interactive')
+            self.assertFalse(feature.route(identity)['routes'])
         self.assertIn('credential', ' '.join(feature.route('comments')['routes'][0]['prerequisites']))
 
     def test_cli_prints_only(self):

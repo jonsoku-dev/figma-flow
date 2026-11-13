@@ -1,5 +1,7 @@
 # 다음 기능 설계안
 
+신규 기능과 최적화는 [제품 헌법](../../CONSTITUTION.md)과 [Design 전용 설계](../../specs/design-specialization/spec.md)에 따라 채택한다. 각 작업에 실제 Design 사용 장면과 graph의 인수 근거를 연결한다.
+
 이 문서는 제안의 우선순위와 기존 설계 문서를 잇는다. 각 항목은 제안 당시의 범위다. 구현된 부분과 남은 범위는 아래 현재 기준에서 확인한다. 현재 동작과 인수 결과는 [최종 인수 기록](../development-roadmap/FINAL_ACCEPTANCE.md) 및 각 소스의 독립 검사에서 다시 확인한다.
 
 예약·대기·취소는 Little Hands 앱의 업무 기능이다. 이를 Figma Flow 제품에 다시 제안하지 않는다. 전체 suite의 과거 통과나 일부 Figma getter 확인은 전체 화면 인수가 아니다.

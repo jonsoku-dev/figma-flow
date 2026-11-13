@@ -1,5 +1,7 @@
 # Feature specifications
 
+[제품 헌법](../CONSTITUTION.md) · [Figma Design 전용 설계 및 인수 계약](design-specialization/spec.md)
+
 These feature folders register versioned requirements and acceptance relationships in the repository’s existing evidence graph format. Each folder contains a concise source excerpt, human requirements, a canonical `graph.json`, and a screen/action prose projection keyed by graph IDs. The graph is per feature/run and remains the only relationship inventory.
 
 | Feature | Requirements | Acceptance criteria | Status boundary |

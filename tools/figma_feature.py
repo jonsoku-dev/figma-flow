@@ -5,6 +5,7 @@ import json
 import re
 import shlex
 
+from workspace_recipes import design_recipes
 from figma_api_inventory import ROOT, load, search
 
 MEMO = 'skills/figma-flow/references/figma-feature-routes.md'
@@ -55,7 +56,7 @@ def sdk(identity, aliases, editor, scope, review_graph=False, workspace_menu=Non
 ROUTES = [
     *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False),
           row.get('workspaceMenu'), row.get('requiresFileKey', False))
-      for row in json.loads((ROOT / 'library/figma-recipes/manifest.json').read_text())['recipes']),
+      for row in design_recipes()),
     feature('web-design', 'editable web design|web to figma|웹 화면 변환|편집 가능한 웹 화면', 'flow',
             ['Measure the rendered browser page with tools/web_design_capture.js.',
              'python3 tools/web_design_source.py --capture CAPTURE_JSON --assets ASSET_INDEX --id GRAPH_ID --title TITLE --out NEW_GRAPH_JSON',
@@ -109,17 +110,6 @@ ROUTES = [
             ['Configure the local Code Connect CLI using https://developers.figma.com/docs/code-connect/ and review local mapping files.'],
             ['Exact component URL, repository component and supported framework are required.',
              'Publishing requires an explicitly configured credential, eligible plan/seat and user authority.']),
-    feature('make', 'make|코드 가져오기|실행 앱', 'interactive',
-            ['Open the target Make project in the native Figma product UI and review its supported code/input workflow.'],
-            ['Confirm product access, destination and credit conditions; code layers are not editable Design layers.',
-             'No local Make execution recipe is provided; generation or publication requires user authority.']),
-    feature('weave', 'weave|위브|generation workflow', 'interactive',
-            ['Open the authorized Weave project in its native product UI and review workflow inputs and run cost.'],
-            ['Requires Weave product access and credits; paid runs require user authority.',
-             'No local Weave execution recipe is provided.']),
-    feature('sites', 'sites|website publish|사이트|웹사이트 발행', 'interactive',
-            ['Open the target Figma Sites file and use preview/settings/publish in its product UI.'],
-            ['Confirm edit access, plan and explicit publication authority; no generic Sites Plugin API route is asserted.']),
     feature('team-library', 'team library|library import|팀 라이브러리|라이브러리 가져오기', 'official-api',
             ['python3 tools/figma_api_inventory.py search figma.teamLibrary',
              'python3 tools/figma_api_inventory.py search importComponentByKeyAsync'],

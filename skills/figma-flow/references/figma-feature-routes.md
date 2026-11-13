@@ -47,9 +47,6 @@ Design 구현 입력은 Flow의 실제 native readback·화면 명세·export와
 
 | 제품·목적 | 우선 경로와 실제 진입점 | 현재 경계 |
 | --- | --- | --- |
-| **Make**: 실행 가능한 코드/앱 prototype | Make UI에서 디자인/context를 넣고 prompt·코드·preview를 검토한다 | 공식 Plugin editorType에 make 없음. Flow가 Make project/code layer를 생성·수정한다고 주장하지 않는다. AI 기능·team library context·배포는 계정/플랜/credit 조건을 확인한다. code layer는 editable design layer가 아니다. [Make FAQ](https://help.figma.com/hc/en-us/articles/31722591905559-Figma-Make-FAQs) |
-| **Sites**: responsive website·CMS·publish | Sites UI에서 webpage/breakpoint/preview·site settings·publish. 원본 Design 캔버스와 Sites 파일을 구분한다 | 공식 Plugin editorType 목록에 sites 없음. 이 문서는 Sites용 범용 Plugin 쓰기 지원을 확인하지 못했다. 현재 Sites는 open beta; 발행은 플랜/edit 권한 필요. 모든 canvas webpage가 발행 대상이며 외부 발행용 사이트 코드 export는 현재 불가. [Sites 발행 계약](https://help.figma.com/hc/en-us/articles/31242845959703-Publish-update-or-unpublish-a-site) |
-| **Weave**: 재사용 이미지·영상 generation workflow | Weave UI에서 node 연결·tool 구성·실행. 별도 Weave Enterprise 통합은 공식 Weave API 문서를 사용한다 | Plugin editorType에 weave 없음. API는 Weave Enterprise 전용이며 workspace admin이 발급한 해당 workspace token이 필요하다. 실행은 Weave credits를 소비하므로 현재 사용자의 비용·실행 권한을 확인한다. Workflow를 Flow의 native graph sync로 취급하지 않는다. [Weave API 조건](https://help.weavy.ai/en/articles/17239354-weave-api), [workflow 제품 설명](https://www.figma.com/blog/the-tldr-on-figma-weave/) |
 | **Widget**: 파일 안 공동 상호작용 객체 | Widget API의 JSX·synced state와 Design용 widget manifest | 일반 Plugin과 수명·공유 상태가 다르다. Flow 패널을 widget이라 부르지 않는다. 별도 widget 구현·상태 검증이 필요하다. [Widget API](https://developers.figma.com/docs/widgets/) |
 
 ## 버전·브랜치·댓글·관리·REST

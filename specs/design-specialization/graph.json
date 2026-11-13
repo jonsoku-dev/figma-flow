@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "id": "design-specialization",
+  "title": "Figma Flow Design authoring contract",
+  "nodes": [
+    {
+      "id": "REQ-DESIGN-ONLY",
+      "type": "requirement",
+      "status": "observed",
+      "title": "Figma Design 전용 제품",
+      "source": "../../CONSTITUTION.md"
+    },
+    {
+      "id": "SCR-DESIGN",
+      "type": "screen",
+      "status": "observed",
+      "title": "세 직군이 함께 검토하는 Design 화면",
+      "source": "spec.md"
+    },
+    {
+      "id": "TARGET-DESIGN",
+      "type": "figma",
+      "status": "observed",
+      "title": "Figma Design 편집기",
+      "source": "spec.md",
+      "editor_types": [
+        "figma"
+      ],
+      "modes": [
+        "default"
+      ]
+    },
+    {
+      "id": "CODE-SCOPE",
+      "type": "code",
+      "status": "verified",
+      "title": "배포된 레시피와 편집기 경계",
+      "source": "../../tools/workspace_recipes.py"
+    },
+    {
+      "id": "AC-SCOPE",
+      "type": "acceptance",
+      "status": "verified",
+      "title": "제작 도구는 Design 파일만 대상으로 한다",
+      "source": "spec.md"
+    },
+    {
+      "id": "TEST-SCOPE",
+      "type": "test",
+      "status": "verified",
+      "title": "실제 진입점의 범위 검사",
+      "source": "../../tests/test_design_specialization.py"
+    }
+  ],
+  "edges": [
+    {
+      "type": "requires",
+      "from": "REQ-DESIGN-ONLY",
+      "to": "SCR-DESIGN"
+    },
+    {
+      "type": "accepted by",
+      "from": "REQ-DESIGN-ONLY",
+      "to": "AC-SCOPE"
+    },
+    {
+      "type": "renders in",
+      "from": "SCR-DESIGN",
+      "to": "TARGET-DESIGN"
+    },
+    {
+      "type": "implemented by",
+      "from": "SCR-DESIGN",
+      "to": "CODE-SCOPE"
+    },
+    {
+      "type": "verified by",
+      "from": "AC-SCOPE",
+      "to": "TEST-SCOPE"
+    },
+    {
+      "type": "verified by",
+      "from": "CODE-SCOPE",
+      "to": "TEST-SCOPE"
+    }
+  ]
+}

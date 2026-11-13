@@ -1,5 +1,7 @@
 # Figma Flow
 
+[제품 헌법](CONSTITUTION.md) · [Design 전용 설계서](specs/design-specialization/spec.md)
+
 Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design 파일에서 플러그인을 실행 세션마다 한 번 직접 열면, Codex가 이 플러그인의 localhost 명령으로 준비된 작업을 실행하고 실제 JSON을 검증합니다. Figma 기능 검색·실행·검증은 공식 Figma MCP 없이 동작합니다.
 
 **[통합 사용 가이드](docs/guide.md)** · [English](docs/guide.md#english) · [日本語](docs/guide.md#japanese)

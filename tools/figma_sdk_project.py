@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from workspace_recipes import design_recipes
 import re
 import shutil
 import subprocess
@@ -61,8 +62,7 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
     projection = None
     graph_pin = None
     if recipe:
-        catalog = json.loads((RECIPES / 'manifest.json').read_text())
-        rows = [row for row in catalog['recipes'] if row['id'] == recipe]
+        rows = [row for row in design_recipes(RECIPES) if row['id'] == recipe]
         if len(rows) != 1:
             raise ValueError('Unknown or ambiguous recipe')
         row = rows[0]

@@ -8,9 +8,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LIBRARY = ROOT / 'library' / 'figma-recipes'
+def design_recipes(library=None):
+    entries = json.loads(((library or LIBRARY) / 'manifest.json').read_text())['recipes']
+    if any(row.get('editorType') != 'figma' or row.get('mode', 'default') != 'default' for row in entries):
+        raise ValueError('Recipe editor/mode differs from Design/default. See CONSTITUTION.md.')
+    return entries
+
+
 def registered_actions():
-    catalog = json.loads((LIBRARY / 'manifest.json').read_text())
-    entries = [row for row in catalog['recipes'] if 'workspaceMenu' in row]
+    entries = [row for row in design_recipes() if 'workspaceMenu' in row]
     if any(row.get('editorType') != 'figma' or row.get('mode') != 'default' or row.get('reviewGraph')
            or not re.fullmatch(r'[a-z][a-z0-9-]+', row['id']) or not row['workspaceMenu'] for row in entries):
         raise ValueError('Invalid static Design menu declaration')

@@ -13,7 +13,7 @@ LIBRARY = Path(__file__).resolve().parent
 ROOT = LIBRARY.parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 from design_system import compile_design
-from workspace_recipes import registered_actions
+from workspace_recipes import design_recipes, registered_actions
 from design_type_review_graph import build_graph as build_type_review_graph
 from review_graph import project_graph, selection_sha256, typescript_projection
 
@@ -50,8 +50,7 @@ def build(compiler):
     rows = []
     ids = registered_actions()
     sdk_graph_recipes = []
-    manifest = json.loads((LIBRARY / 'manifest.json').read_text())
-    sdk_entries = [row for row in manifest['recipes'] if row.get('editorType') == 'figma'
+    sdk_entries = [row for row in design_recipes(LIBRARY) if row.get('editorType') == 'figma'
                    and row.get('reviewGraph') is True and row.get('requiresFileKey') is True
                    and row.get('id') not in ids]
     with tempfile.TemporaryDirectory() as directory:
