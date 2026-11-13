@@ -8,8 +8,10 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / 'skills/figma-flow/scripts'))
 import api_priority
 import native_api_probe
+from graph import validate_graph
 from review_api_coverage import observed_member_evidence
 
 
@@ -109,6 +111,9 @@ class ApiPriorityTest(unittest.TestCase):
         self.assertIn('use-case:developer', by_id)
         self.assertIn('use-case:planner', by_id)
         self.assertTrue(all(edge['from'] in by_id and edge['to'] in by_id for edge in graph['edges']))
+        errors, warnings = validate_graph(graph)
+        self.assertEqual(errors, [])
+        self.assertEqual(graph['validation'], {'status': 'structurally-valid', 'errors': [], 'warnings': warnings})
 
     def test_cli_default_joins_public_overlay_and_baseline_only_replays_029(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as temporary:

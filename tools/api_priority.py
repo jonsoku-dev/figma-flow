@@ -287,12 +287,14 @@ def queue_graph(payload, rows):
                 'editor_requirement': row['editor_requirement'],
                 'permission_requirement': row['permission_requirement']}, ensure_ascii=False, sort_keys=True)})
         add_node({'id': member_id, 'type': 'figma', 'title': str(row['owner']) + '.' + str(row['name']),
-            'status': 'observed' if observed else row['release_status'], 'detail': json.dumps({
+            'status': 'observed' if observed else 'planned', 'source': row['official_declaration']['source_url'],
+            'detail': json.dumps({
                 'api_member_id': api_id, 'kind': row['kind'], 'signature': row['signature'],
                 'release_status': row['release_status'], 'type_surface': row['type_surface'],
+                'readonly': row['readonly'], 'optional': row['optional'],
                 'official_source': row['official_declaration']['source_url']}, ensure_ascii=False, sort_keys=True)})
         add_node({'id': owner_id, 'type': 'figma', 'title': str(row['owner']) + ' owner',
-            'status': 'unverified', 'detail': 'Pinned Plugin API member owner.'})
+            'status': 'planned', 'detail': 'Pinned Plugin API member owner.'})
         add_edge(queue_id, entry_id, 'queues')
         add_edge(entry_id, member_id, 'prioritizes')
         add_edge(member_id, owner_id, 'declared by')
@@ -301,8 +303,11 @@ def queue_graph(payload, rows):
             'status': 'planned', 'detail': 'Execution class from the pinned audit and explicit probe/write policies.'})
         add_edge(entry_id, feasibility_id, 'classified as')
         status_id = 'evidence-status:' + str(row['evidence_status'])
-        add_node({'id': status_id, 'type': 'evidence', 'title': 'Evidence ' + str(row['evidence_status']),
-            'status': 'observed' if observed else 'unverified', 'detail': 'Status is copied from the audit or validated observation graph.'})
+        add_node({'id': status_id, 'type': 'test', 'title': 'Evidence ' + str(row['evidence_status']),
+            'status': 'observed' if observed else 'planned',
+            'detail': json.dumps({'evidence_status': row['evidence_status'],
+                'release_status': row['release_status'],
+                'basis': 'validated observation graph edge or pinned audit row'}, sort_keys=True)})
         add_edge(entry_id, status_id, 'has evidence status')
         for role, terms in row['role_matches'].items():
             if terms:
@@ -310,7 +315,7 @@ def queue_graph(payload, rows):
         for receiver in row['receiver_types']:
             receiver_id = 'api-receiver:' + receiver
             add_node({'id': receiver_id, 'type': 'figma', 'title': receiver + ' receiver type',
-                'status': 'unverified', 'detail': 'Receiver type from pinned node inheritance.'})
+                'status': 'planned', 'detail': 'Receiver type from pinned node inheritance.'})
             add_edge(entry_id, receiver_id, 'receiver candidate')
         facts = {
             'write-capability': row['write_capability'],
@@ -319,18 +324,26 @@ def queue_graph(payload, rows):
         }
         for fact_name, fact_value in facts.items():
             fact_id = 'fact:' + api_id + ':' + fact_name
-            add_node({'id': fact_id, 'type': 'evidence', 'title': fact_name.replace('-', ' ').title(),
-                'status': 'unverified', 'detail': str(fact_value)})
+            add_node({'id': fact_id, 'type': 'reference', 'title': fact_name.replace('-', ' ').title(),
+                'status': 'planned', 'detail': str(fact_value)})
             add_edge(entry_id, fact_id, 'has fact')
         for evidence in row['observation_evidence']:
             evidence_id = 'observation:' + hashlib.sha256(
                 (evidence['graph_id'] + '\0' + evidence['evidence_id']).encode()).hexdigest()[:24]
-            add_node({'id': evidence_id, 'type': 'evidence', 'title': 'Observed API receipt',
-                'status': 'observed', 'detail': json.dumps(evidence, sort_keys=True)})
+            add_node({'id': evidence_id, 'type': 'test', 'title': 'Observed API receipt',
+                'status': 'observed', 'source': evidence['graph_id'],
+                'detail': json.dumps(evidence, sort_keys=True)})
             add_edge(entry_id, evidence_id, 'supported by')
-    return {'schema': 'figma-flow-api-priority-graph-v1', 'version': 1,
-            'id': 'figma-flow-api-priority', 'title': 'Plugin API evidence priority graph',
-            'nodes': nodes, 'edges': edges}
+    graph = {'schema': 'figma-flow-api-priority-graph-v1', 'version': 1,
+             'id': 'figma-flow-api-priority', 'title': 'Plugin API evidence priority graph',
+             'nodes': nodes, 'edges': edges}
+    sys.path.insert(0, str(ROOT / 'skills/figma-flow/scripts'))
+    from graph import validate_graph
+    errors, warnings = validate_graph(graph)
+    if errors:
+        raise ValueError('Priority graph is invalid: ' + '; '.join(errors[:3]))
+    graph['validation'] = {'status': 'structurally-valid', 'errors': errors, 'warnings': warnings}
+    return graph
 
 
 def main(argv=None):
