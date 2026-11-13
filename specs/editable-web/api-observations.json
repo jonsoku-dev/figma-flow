@@ -1,0 +1,1148 @@
+{
+  "version": 1,
+  "id": "flow-editor-observations-030",
+  "title": "Figma Flow 0.30 native member observations",
+  "nodes": [
+    {
+      "id": "OBS-030-api-first",
+      "type": "test",
+      "status": "observed",
+      "title": "Design · api-first",
+      "source": "../../docs/editable-web-verification.md",
+      "detail": "Registered plugin read on a typed Design selection.",
+      "observed_at": "2026-11-13T17:22:00.128Z",
+      "getter_counts": {
+        "success": 148,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "e6f65a3001f27bd9a96fc3900cddf3d70e548450eeafa37cee233cf873498abb"
+    },
+    {
+      "id": "member:7821990348079d68d21707dcd0f1f6ca556564f7f0b13dadc883bb2cbb3602f7",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNodeMixin.getCSSAsync",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6511-L6513",
+      "detail": "getCSSAsync(): Promise<{\n    [key: string]: string\n  }>"
+    },
+    {
+      "id": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridAutoTracks",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8421-L8421",
+      "detail": "gridAutoTracks: 'NONE' | 'ROWS'"
+    },
+    {
+      "id": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridColumnCount",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8299-L8299",
+      "detail": "gridColumnCount: number"
+    },
+    {
+      "id": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridColumnGap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8311-L8311",
+      "detail": "gridColumnGap: number"
+    },
+    {
+      "id": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridItemsPositioning",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8458-L8458",
+      "detail": "gridItemsPositioning: 'MANUAL' | 'ROW_AUTO_FLOW'"
+    },
+    {
+      "id": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridRowCount",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8291-L8291",
+      "detail": "gridRowCount: number"
+    },
+    {
+      "id": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridRowGap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8305-L8305",
+      "detail": "gridRowGap: number"
+    },
+    {
+      "id": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.counterAxisAlignItems",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8049-L8049",
+      "detail": "counterAxisAlignItems: 'MIN' | 'MAX' | 'CENTER' | 'BASELINE'"
+    },
+    {
+      "id": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.counterAxisSizingMode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7828-L7828",
+      "detail": "counterAxisSizingMode: 'FIXED' | 'AUTO'"
+    },
+    {
+      "id": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.counterAxisSpacing",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8160-L8160",
+      "detail": "counterAxisSpacing: number | null"
+    },
+    {
+      "id": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.horizontalPadding",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7764-L7764",
+      "detail": "horizontalPadding: number"
+    },
+    {
+      "id": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.layoutSizingHorizontal",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7492-L7492",
+      "detail": "layoutSizingHorizontal: 'FIXED' | 'HUG' | 'FILL'"
+    },
+    {
+      "id": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.layoutSizingVertical",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7500-L7500",
+      "detail": "layoutSizingVertical: 'FIXED' | 'HUG' | 'FILL'"
+    },
+    {
+      "id": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.layoutWrap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7879-L7879",
+      "detail": "layoutWrap: 'NO_WRAP' | 'WRAP'"
+    },
+    {
+      "id": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.primaryAxisAlignItems",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7966-L7967",
+      "detail": "primaryAxisAlignItems:\n    'MIN' | 'MAX' | 'CENTER' | 'SPACE_BETWEEN' | 'SPACE_EVENLY' | 'SPACE_AROUND'"
+    },
+    {
+      "id": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.primaryAxisSizingMode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7781-L7781",
+      "detail": "primaryAxisSizingMode: 'FIXED' | 'AUTO'"
+    },
+    {
+      "id": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "figma",
+      "status": "observed",
+      "title": "EllipseNode.arcData",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10934-L10934",
+      "detail": "arcData: ArcData"
+    },
+    {
+      "id": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "figma",
+      "status": "observed",
+      "title": "CornerMixin.cornerRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9006-L9006",
+      "detail": "cornerRadius: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "figma",
+      "status": "observed",
+      "title": "SceneNodeMixin.locked",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6664-L6664",
+      "detail": "locked: boolean"
+    },
+    {
+      "id": "member:05842ae84a9eafa463ec57c2ba08c75b3075ac3dceaa08535d505fa05982f8b7",
+      "type": "figma",
+      "status": "observed",
+      "title": "GeometryMixin.strokeCap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8954-L8954",
+      "detail": "strokeCap: StrokeCap | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:ddeafd1c9e8da3da6a0c297a5564bf36029aed24a7cbd82ff290139fb327820f",
+      "type": "figma",
+      "status": "observed",
+      "title": "GeometryMixin.strokeMiterLimit",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8958-L8958",
+      "detail": "strokeMiterLimit: number"
+    },
+    {
+      "id": "member:7fd92ef27565fc8bc2c3e789df506ce24b6f8d9b73f10e585369bea1247b0aa5",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalBlendMixin.blendMode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9502-L9502",
+      "detail": "blendMode: BlendMode"
+    },
+    {
+      "id": "member:3f63b8388af891028b2378d4e7bd01a03b77a4b0433d8bb9a1fbf744f3c68d94",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.dashPattern",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8761-L8761",
+      "detail": "dashPattern: ReadonlyArray<number>"
+    },
+    {
+      "id": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalBlendMixin.opacity",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9498-L9498",
+      "detail": "opacity: number"
+    },
+    {
+      "id": "member:76e1e671aef95bc78772bcac814ed7efffaac922296f82fff0758f57cbe9085e",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeAlign",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8757-L8757",
+      "detail": "strokeAlign: 'CENTER' | 'INSIDE' | 'OUTSIDE'"
+    },
+    {
+      "id": "member:279f4a56faa26d49dcbf20da7a251aed83e7dbcd48c2ea122e87c3d9a7890d29",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeJoin",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8747-L8747",
+      "detail": "strokeJoin: StrokeJoin | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeWeight",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8737-L8737",
+      "detail": "strokeWeight: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.absoluteRenderBounds",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7400-L7400",
+      "detail": "readonly absoluteRenderBounds: Rect | null"
+    },
+    {
+      "id": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.rotation",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7414-L7414",
+      "detail": "rotation: number"
+    },
+    {
+      "id": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "figma",
+      "status": "observed",
+      "title": "BooleanOperationNode.booleanOperation",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11361-L11361",
+      "detail": "booleanOperation: 'UNION' | 'INTERSECT' | 'SUBTRACT' | 'EXCLUDE'"
+    },
+    {
+      "id": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "figma",
+      "status": "observed",
+      "title": "SectionNode.sectionContentsHidden",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L12331-L12331",
+      "detail": "sectionContentsHidden: boolean"
+    },
+    {
+      "id": "member:65e073b9b39f17f45fce95d2808010760ea38502428940470b2339fce1709d4c",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.absoluteTransform",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7386-L7386",
+      "detail": "readonly absoluteTransform: Transform"
+    },
+    {
+      "id": "member:a33f60e2f0146359716b3cb766bf4f93cc3127cf7c2014f63f80bb026d656bb0",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.relativeTransform",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7382-L7382",
+      "detail": "relativeTransform: Transform"
+    },
+    {
+      "id": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "figma",
+      "status": "observed",
+      "title": "InstanceNode.scaleFactor",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11291-L11291",
+      "detail": "scaleFactor: number"
+    },
+    {
+      "id": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "figma",
+      "status": "observed",
+      "title": "InstanceNode.isExposedInstance",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11299-L11299",
+      "detail": "isExposedInstance: boolean"
+    },
+    {
+      "id": "member:2fce75455cc5733bc5ed90674191a2e6b9974e1db16ed99f602e72f2357d2170",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextNode.maxLines",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11051-L11051",
+      "detail": "maxLines: number | null"
+    },
+    {
+      "id": "member:253507d2491f92ba7c36283d2e790b5ad7d96b725dcd9df885157f9506c9b665",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextNode.textAlignVertical",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11025-L11025",
+      "detail": "textAlignVertical: 'TOP' | 'CENTER' | 'BOTTOM'"
+    },
+    {
+      "id": "member:1c98cbc3556635aa8af6b431c96f7509c32087e2e0270098135e7603aa62ebd8",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.paragraphIndent",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10178-L10178",
+      "detail": "paragraphIndent: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:aaa06a95c5c90d0bee2ca0ea1e3af9475602d8efe328e556972b449391f6a0b0",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.paragraphSpacing",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10235-L10235",
+      "detail": "paragraphSpacing: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:38372ad4342a0e0fbe0e91cca5559f81c95edd80a8601795b44be1446840954f",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textDecoration",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10308-L10308",
+      "detail": "textDecoration: TextDecoration | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:680c68c4592dde8f6f84ecc8cf7bb29a3822799de430682b4c5bc29995ea3af7",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeFills",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9956-L9956",
+      "detail": "getRangeFills(start: number, end: number): Paint[] | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:92feaeeb3a10f7f94c457374941aa443901c1c66f9b3fc67e94baeb610891d1c",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeFontName",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9888-L9888",
+      "detail": "getRangeFontName(start: number, end: number): FontName | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:31a014edb3bedba5aa87755040799e8832055ba95a38a00c3d0df2eb81c80068",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeFontSize",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9880-L9880",
+      "detail": "getRangeFontSize(start: number, end: number): number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:223c490494cf8c944d6a76a9173f10965bbb806307b9e15308f2758f1e41760b",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.textCase",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9806-L9806",
+      "detail": "textCase: TextCase | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.bottomLeftRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9031-L9031",
+      "detail": "bottomLeftRadius: number"
+    },
+    {
+      "id": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.bottomRightRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9035-L9035",
+      "detail": "bottomRightRadius: number"
+    },
+    {
+      "id": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.topLeftRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9023-L9023",
+      "detail": "topLeftRadius: number"
+    },
+    {
+      "id": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.topRightRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9027-L9027",
+      "detail": "topRightRadius: number"
+    },
+    {
+      "id": "OBS-030-api-2",
+      "type": "test",
+      "status": "observed",
+      "title": "Design · api-2",
+      "source": "../../docs/editable-web-verification.md",
+      "detail": "Registered plugin read on a typed Design selection.",
+      "observed_at": "2026-11-13T17:22:01.013Z",
+      "getter_counts": {
+        "success": 82,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "93dbecc604df4065aedbef2a7fc10c0456f5c35fae722201a214e7c45de10875"
+    },
+    {
+      "id": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.verticalPadding",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7768-L7768",
+      "detail": "verticalPadding: number"
+    },
+    {
+      "id": "member:a4a407a637676890ba433b537207fdea0e6009a141632c8bdc5ca83582f55359",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseFrameMixin.clipsContent",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9472-L9472",
+      "detail": "clipsContent: boolean"
+    },
+    {
+      "id": "OBS-030-api-3",
+      "type": "test",
+      "status": "observed",
+      "title": "Design · api-3",
+      "source": "../../docs/editable-web-verification.md",
+      "detail": "Registered plugin read on a typed Design selection.",
+      "observed_at": "2026-11-13T17:22:02.012Z",
+      "getter_counts": {
+        "success": 6,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "154fe45cb0f8682ad51bd8d2a004693f76d32b8156699daf8b2a1effad5bea9b"
+    },
+    {
+      "id": "OBS-030-vector-first",
+      "type": "test",
+      "status": "observed",
+      "title": "Design · vector-first",
+      "source": "../../docs/editable-web-verification.md",
+      "detail": "Registered plugin read on a typed Design selection.",
+      "observed_at": "2026-11-13T17:47:48.343Z",
+      "getter_counts": {
+        "success": 16,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "2a7be635f2652669e9c3d8f9a055dbf7bbe33b6d62113f5734351098e2d0599a"
+    },
+    {
+      "id": "OBS-030-vector-next",
+      "type": "test",
+      "status": "observed",
+      "title": "Design · vector-next",
+      "source": "../../docs/editable-web-verification.md",
+      "detail": "Registered plugin read on a typed Design selection.",
+      "observed_at": "2026-11-13T17:47:49.332Z",
+      "getter_counts": {
+        "success": 1,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "291eb579c4028c18a761f3a7e6f887dbbb36958768454edc4fad29faf3d8031e"
+    },
+    {
+      "id": "OBS-030-type-creation",
+      "type": "test",
+      "status": "observed",
+      "title": "Design · graph typography component",
+      "detail": "New native component and three styled text ranges. The same graph selected the same component on repeat.",
+      "source": "../../docs/design-type-review.md",
+      "observed_at": "2026-11-13T18:05:45.670Z",
+      "getter_counts": {
+        "success": 19
+      },
+      "receipt_sha256": "c3d59e35c3b6a789c103e0e85469990ccb1b03817bf1738c791d1fc1806faad5"
+    },
+    {
+      "id": "member:5b6b924901a936cdd4c32c0c0b76d550eb1ee998cb00e0f761bd55e5cc7cb0ad",
+      "type": "figma",
+      "status": "observed",
+      "title": "PluginAPI.listAvailableFontsAsync",
+      "detail": "listAvailableFontsAsync(): Promise<Font[]>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1662-L1662"
+    },
+    {
+      "id": "member:b75b36905b99a2481ecf0e6480d88c8c360221a235d6322dd16a5c113d495d94",
+      "type": "figma",
+      "status": "observed",
+      "title": "PluginAPI.createComponentFromNode",
+      "detail": "createComponentFromNode(node: SceneNode): ComponentNode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1120-L1120"
+    },
+    {
+      "id": "member:2726fa835362ba50faf4c1a2775c57b587da98e492f47e15827312a36fd221d7",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.getRangeLineHeight",
+      "detail": "getRangeLineHeight(start: number, end: number): LineHeight | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10400-L10400"
+    },
+    {
+      "id": "member:7c5cc7ccd900976c330c9a635f5232c994ab71ce17251c481789669c5befaf75",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeLetterSpacing",
+      "detail": "getRangeLetterSpacing(start: number, end: number): LetterSpacing | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9940-L9940"
+    },
+    {
+      "id": "member:57803cdab8acbb5e8a9ba3ec24506f6c17e33057c9f8935ec180193375aa5e08",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeFontName",
+      "detail": "setRangeFontName(start: number, end: number, value: FontNameInput): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9909-L9909"
+    },
+    {
+      "id": "member:447c8c34808ed80daa766ab19aa3dba04be98da602c0742bd53a97b99065a212",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeFontSize",
+      "detail": "setRangeFontSize(start: number, end: number, value: number): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9884-L9884"
+    },
+    {
+      "id": "member:83bba70ec68c4c8a866b233c3765e773d0d212b97f72550895cc3bb0ca9818c2",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.setRangeLineHeight",
+      "detail": "setRangeLineHeight(start: number, end: number, value: LineHeight): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10404-L10404"
+    },
+    {
+      "id": "member:875ac391a64017fe272eaa8f3d983b455b3a21923d0281505dc27e395b9a9133",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeLetterSpacing",
+      "detail": "setRangeLetterSpacing(start: number, end: number, value: LetterSpacing): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9944-L9944"
+    },
+    {
+      "id": "member:bf3d5d481b0b87de0da04e7b12f924cbc0399254fccccdb05b3b57aa9bb89099",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.setRangeFills",
+      "detail": "setRangeFills(start: number, end: number, value: Paint[]): void",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9962-L9962"
+    },
+    {
+      "id": "member:7e594e865f9703a703b99949e6e591f3a9a9830815a9c6e4328e632d9b117c29",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlendMixin.effects",
+      "detail": "effects: ReadonlyArray<Effect>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7646-L7646"
+    },
+    {
+      "id": "member:401ea520ea52370118f0a68e01621eb558d7eeee9aa7c49dabbe5353b10ab071",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokes",
+      "detail": "strokes: ReadonlyArray<Paint>",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8714-L8714"
+    },
+    {
+      "id": "member:25f2ee610adf3460e00415cf1146a9b3933067b85513b2e07103b262c945cbff",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalFillsMixin.fills",
+      "detail": "fills: ReadonlyArray<Paint> | PluginAPI['mixed']",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8802-L8802"
+    }
+  ],
+  "edges": [
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:05842ae84a9eafa463ec57c2ba08c75b3075ac3dceaa08535d505fa05982f8b7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:1c98cbc3556635aa8af6b431c96f7509c32087e2e0270098135e7603aa62ebd8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:223c490494cf8c944d6a76a9173f10965bbb806307b9e15308f2758f1e41760b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:253507d2491f92ba7c36283d2e790b5ad7d96b725dcd9df885157f9506c9b665",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:279f4a56faa26d49dcbf20da7a251aed83e7dbcd48c2ea122e87c3d9a7890d29",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:2fce75455cc5733bc5ed90674191a2e6b9974e1db16ed99f602e72f2357d2170",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:31a014edb3bedba5aa87755040799e8832055ba95a38a00c3d0df2eb81c80068",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:38372ad4342a0e0fbe0e91cca5559f81c95edd80a8601795b44be1446840954f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:3f63b8388af891028b2378d4e7bd01a03b77a4b0433d8bb9a1fbf744f3c68d94",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:65e073b9b39f17f45fce95d2808010760ea38502428940470b2339fce1709d4c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:680c68c4592dde8f6f84ecc8cf7bb29a3822799de430682b4c5bc29995ea3af7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:76e1e671aef95bc78772bcac814ed7efffaac922296f82fff0758f57cbe9085e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:7821990348079d68d21707dcd0f1f6ca556564f7f0b13dadc883bb2cbb3602f7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:7fd92ef27565fc8bc2c3e789df506ce24b6f8d9b73f10e585369bea1247b0aa5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:92feaeeb3a10f7f94c457374941aa443901c1c66f9b3fc67e94baeb610891d1c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:a33f60e2f0146359716b3cb766bf4f93cc3127cf7c2014f63f80bb026d656bb0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:aaa06a95c5c90d0bee2ca0ea1e3af9475602d8efe328e556972b449391f6a0b0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:ddeafd1c9e8da3da6a0c297a5564bf36029aed24a7cbd82ff290139fb327820f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-first",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:05842ae84a9eafa463ec57c2ba08c75b3075ac3dceaa08535d505fa05982f8b7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:279f4a56faa26d49dcbf20da7a251aed83e7dbcd48c2ea122e87c3d9a7890d29",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:3f63b8388af891028b2378d4e7bd01a03b77a4b0433d8bb9a1fbf744f3c68d94",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:65e073b9b39f17f45fce95d2808010760ea38502428940470b2339fce1709d4c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:76e1e671aef95bc78772bcac814ed7efffaac922296f82fff0758f57cbe9085e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:7fd92ef27565fc8bc2c3e789df506ce24b6f8d9b73f10e585369bea1247b0aa5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:a33f60e2f0146359716b3cb766bf4f93cc3127cf7c2014f63f80bb026d656bb0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:a4a407a637676890ba433b537207fdea0e6009a141632c8bdc5ca83582f55359",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:ddeafd1c9e8da3da6a0c297a5564bf36029aed24a7cbd82ff290139fb327820f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-2",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-3",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-3",
+      "to": "member:65e073b9b39f17f45fce95d2808010760ea38502428940470b2339fce1709d4c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-3",
+      "to": "member:a33f60e2f0146359716b3cb766bf4f93cc3127cf7c2014f63f80bb026d656bb0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-api-3",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:05842ae84a9eafa463ec57c2ba08c75b3075ac3dceaa08535d505fa05982f8b7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:279f4a56faa26d49dcbf20da7a251aed83e7dbcd48c2ea122e87c3d9a7890d29",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:3f63b8388af891028b2378d4e7bd01a03b77a4b0433d8bb9a1fbf744f3c68d94",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:65e073b9b39f17f45fce95d2808010760ea38502428940470b2339fce1709d4c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:76e1e671aef95bc78772bcac814ed7efffaac922296f82fff0758f57cbe9085e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:7821990348079d68d21707dcd0f1f6ca556564f7f0b13dadc883bb2cbb3602f7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:7fd92ef27565fc8bc2c3e789df506ce24b6f8d9b73f10e585369bea1247b0aa5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:ddeafd1c9e8da3da6a0c297a5564bf36029aed24a7cbd82ff290139fb327820f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-first",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-vector-next",
+      "to": "member:a33f60e2f0146359716b3cb766bf4f93cc3127cf7c2014f63f80bb026d656bb0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:5b6b924901a936cdd4c32c0c0b76d550eb1ee998cb00e0f761bd55e5cc7cb0ad",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:b75b36905b99a2481ecf0e6480d88c8c360221a235d6322dd16a5c113d495d94",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:7821990348079d68d21707dcd0f1f6ca556564f7f0b13dadc883bb2cbb3602f7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:92feaeeb3a10f7f94c457374941aa443901c1c66f9b3fc67e94baeb610891d1c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:31a014edb3bedba5aa87755040799e8832055ba95a38a00c3d0df2eb81c80068",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:2726fa835362ba50faf4c1a2775c57b587da98e492f47e15827312a36fd221d7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:7c5cc7ccd900976c330c9a635f5232c994ab71ce17251c481789669c5befaf75",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:680c68c4592dde8f6f84ecc8cf7bb29a3822799de430682b4c5bc29995ea3af7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:57803cdab8acbb5e8a9ba3ec24506f6c17e33057c9f8935ec180193375aa5e08",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:447c8c34808ed80daa766ab19aa3dba04be98da602c0742bd53a97b99065a212",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:83bba70ec68c4c8a866b233c3765e773d0d212b97f72550895cc3bb0ca9818c2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:875ac391a64017fe272eaa8f3d983b455b3a21923d0281505dc27e395b9a9133",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:bf3d5d481b0b87de0da04e7b12f924cbc0399254fccccdb05b3b57aa9bb89099",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:7e594e865f9703a703b99949e6e591f3a9a9830815a9c6e4328e632d9b117c29",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:3f63b8388af891028b2378d4e7bd01a03b77a4b0433d8bb9a1fbf744f3c68d94",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:401ea520ea52370118f0a68e01621eb558d7eeee9aa7c49dabbe5353b10ab071",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-030-type-creation",
+      "to": "member:25f2ee610adf3460e00415cf1146a9b3933067b85513b2e07103b262c945cbff",
+      "type": "observed member"
+    }
+  ]
+}

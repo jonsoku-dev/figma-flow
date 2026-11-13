@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / 'library/figma-api/audit/members.json'
 OBSERVATIONS = ROOT / 'specs/graph-review/api-observations.json'
+PUBLIC_OBSERVATION_OVERLAYS = (ROOT / 'specs/editable-web/api-observations.json',)
 RECEIPT_SHA256 = re.compile(r'[a-f0-9]{64}\Z')
 
 
@@ -97,8 +98,21 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--audit', type=Path, default=AUDIT)
     parser.add_argument('--observations', type=Path, default=OBSERVATIONS)
+    parser.add_argument('--baseline-only', action='store_true', help='Show the original 0.29 report without later receipts.')
     args = parser.parse_args()
-    result = coverage(json.loads(args.audit.read_bytes()), json.loads(args.observations.read_bytes()))
+    audit = json.loads(args.audit.read_bytes())
+    base = json.loads(args.observations.read_bytes())
+    result = coverage(audit, base)
+    if not args.baseline_only and args.observations.resolve() == OBSERVATIONS.resolve():
+        previous = {r['key'] for r in audit['members'] if r['release_status']['candidate']['status'] == 'observed'}
+        previous.update(observed_member_evidence(audit, base))
+        live = set()
+        for path in PUBLIC_OBSERVATION_OVERLAYS:
+            live.update(observed_member_evidence(audit, json.loads(path.read_bytes()), require_receipts=True))
+        result.update(baseline_release='0.29.0', baseline_observed=len(previous),
+                      this_release_observed=len(live), newly_observed=len(live - previous),
+                      distinct_observed_through_release=len(previous | live),
+                      remaining_without_live_member_evidence=len(audit['members']) - len(previous | live))
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

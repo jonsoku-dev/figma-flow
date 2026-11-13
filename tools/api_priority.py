@@ -8,12 +8,10 @@ import re
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from review_api_coverage import observed_member_evidence
+from review_api_coverage import AUDIT, OBSERVATIONS, PUBLIC_OBSERVATION_OVERLAYS, observed_member_evidence
 from figma_api_inventory import inherited_members, load as load_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIT = ROOT / 'library/figma-api/audit/members.json'
-OBSERVATIONS = ROOT / 'specs/graph-review/api-observations.json'
 OUTPUT_SCHEMA = 'figma-flow-api-priority-v1'
 
 ROLE_TERMS = {
@@ -171,11 +169,13 @@ def _priority(row, evidence, receiver_types):
             'observation_evidence': evidence}
 
 
-def build(audit=None, graph=None, overlays=None, catalog=None):
+def build(audit=None, graph=None, overlays=None, catalog=None, *, include_public_overlays=False):
     audit = audit or json.loads(AUDIT.read_text())
     graph = graph or json.loads(OBSERVATIONS.read_text())
     catalog = catalog or load_catalog()
-    overlay_graphs = overlays or []
+    overlay_graphs = list(overlays or [])
+    if include_public_overlays:
+        overlay_graphs.extend(json.loads(path.read_text()) for path in PUBLIC_OBSERVATION_OVERLAYS)
     graph_evidence = observed_member_evidence(audit, graph)
     graph_ids = {graph.get('id')}
     for overlay in overlay_graphs:
@@ -341,6 +341,8 @@ def main(argv=None):
     build_cmd.add_argument('--observations', type=Path)
     build_cmd.add_argument('--overlay', type=Path, action='append', default=[],
                            help='Additional sanitized observation graph. May be repeated; overlays require fresh timestamped receipts.')
+    build_cmd.add_argument('--baseline-only', action='store_true',
+                           help='Reproduce the original 0.29 queue without the public editable-web observation overlay.')
     build_cmd.add_argument('--out', type=Path, required=True)
     queue_cmd = sub.add_parser('queue', help='Print the next unobserved exact-key rows')
     queue_cmd.add_argument('--inventory', type=Path, required=True)
@@ -352,10 +354,13 @@ def main(argv=None):
                            help='Keep readable properties and methods with explicit read or owned-write scenarios')
     args = parser.parse_args(argv)
     if args.command == 'build':
+        if args.baseline_only and args.overlay:
+            parser.error('--baseline-only cannot be combined with --overlay')
         audit = json.loads((args.audit or AUDIT).read_text())
         graph = json.loads((args.observations or OBSERVATIONS).read_text())
         overlays = [json.loads(path.read_text()) for path in args.overlay]
-        result = build(audit, graph, overlays=overlays)
+        result = build(audit, graph, overlays=overlays,
+                       include_public_overlays=not args.baseline_only)
         args.out.write_text(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
         print(json.dumps({'path': str(args.out), 'rows': len(result['rows']),
                           'observed_graph_member_ids': result['source']['observed_graph_member_ids'],

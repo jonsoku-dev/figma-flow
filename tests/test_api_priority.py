@@ -1,7 +1,9 @@
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+import subprocess
 import sys
+import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -107,6 +109,25 @@ class ApiPriorityTest(unittest.TestCase):
         self.assertIn('use-case:developer', by_id)
         self.assertIn('use-case:planner', by_id)
         self.assertTrue(all(edge['from'] in by_id and edge['to'] in by_id for edge in graph['edges']))
+
+    def test_cli_default_joins_public_overlay_and_baseline_only_replays_029(self):
+        with tempfile.TemporaryDirectory(dir=ROOT) as temporary:
+            default_path = Path(temporary) / 'default.json'
+            baseline_path = Path(temporary) / 'baseline.json'
+            subprocess.run([sys.executable, str(ROOT / 'tools/api_priority.py'), 'build',
+                '--out', str(default_path)], check=True, capture_output=True, text=True)
+            subprocess.run([sys.executable, str(ROOT / 'tools/api_priority.py'), 'build',
+                '--baseline-only', '--out', str(baseline_path)], check=True, capture_output=True, text=True)
+            default = json.loads(default_path.read_text())
+            baseline = json.loads(baseline_path.read_text())
+            self.assertEqual(baseline['source']['overlay_graph_ids'], [])
+            self.assertIn('flow-editor-observations-030', default['source']['overlay_graph_ids'])
+            self.assertLess(default['source']['unobserved_members'], baseline['source']['unobserved_members'])
+            default_keys = {row['api_member_id'] for row in default['rows']
+                            if row['evidence_status'] == 'observed-in-observation-graph'}
+            baseline_keys = {row['api_member_id'] for row in baseline['rows']
+                             if row['evidence_status'] == 'observed-in-observation-graph'}
+            self.assertGreater(len(default_keys - baseline_keys), 0)
 
     def test_group_and_vector_targets_are_exact_receiver_candidates(self):
         selection = {'schema': native_api_probe.SELECTION_SCHEMA,
