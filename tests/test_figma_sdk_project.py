@@ -90,6 +90,15 @@ class SDKProjectTest(unittest.TestCase):
         self.assertEqual(outside.read_text(), 'preserve')
 
     @unittest.skipUnless(os.environ.get('FIGMA_SDK_TEST_TYPESCRIPT'), 'Set FIGMA_SDK_TEST_TYPESCRIPT to pinned lib/tsc.js for real compilation')
+    def test_real_compiler_non_design_editor_recipes(self):
+        for editor, recipe in [('figjam', 'figjam-diagram'), ('slides', 'slides-slide'), ('dev', 'dev-codegen')]:
+            with self.subTest(recipe=recipe):
+                project = self.parent / recipe
+                sdk.initialize(project, editor, recipe=recipe)
+                sdk.compile_project(project, build=True, typescript=os.environ['FIGMA_SDK_TEST_TYPESCRIPT'])
+                self.assertGreater((project / 'dist/code.js').stat().st_size, 0)
+
+    @unittest.skipUnless(os.environ.get('FIGMA_SDK_TEST_TYPESCRIPT'), 'Set FIGMA_SDK_TEST_TYPESCRIPT to pinned lib/tsc.js for real compilation')
     def test_real_compiler_all_editors_and_rejects_invalid_api(self):
         compiler = os.environ['FIGMA_SDK_TEST_TYPESCRIPT']
         for editor in sdk.EDITORS:
