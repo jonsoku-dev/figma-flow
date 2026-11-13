@@ -16,7 +16,7 @@ import design_api_inspect as inspect
 class ServiceInspectionTest(unittest.TestCase):
     def test_project_is_private_design_only_and_graph_pinned(self):
         with tempfile.TemporaryDirectory() as directory:
-            target = Path(directory) / 'specimen'
+            target = Path(directory).resolve() / 'specimen'
             receipt = inspect.prepare(target, 'SampleDesignFile', '2:1', '123456')
             graph = json.loads((target / 'graph.json').read_bytes())
             self.assertEqual(receipt['graph_sha256'], hashlib.sha256((target/'graph.json').read_bytes()).hexdigest())
