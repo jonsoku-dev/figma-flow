@@ -9,7 +9,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / 'library/figma-api/audit/members.json'
 OBSERVATIONS = ROOT / 'specs/graph-review/api-observations.json'
-PUBLIC_OBSERVATION_OVERLAYS = (ROOT / 'specs/editable-web/api-observations.json',)
+PUBLIC_OBSERVATION_OVERLAYS = (
+    ROOT / 'specs/editable-web/api-observations.json',
+    ROOT / 'specs/responsive-web/api-observations.json',
+)
 RECEIPT_SHA256 = re.compile(r'[a-f0-9]{64}\Z')
 
 
@@ -104,15 +107,20 @@ def main():
     base = json.loads(args.observations.read_bytes())
     result = coverage(audit, base)
     if not args.baseline_only and args.observations.resolve() == OBSERVATIONS.resolve():
-        previous = {r['key'] for r in audit['members'] if r['release_status']['candidate']['status'] == 'observed'}
-        previous.update(observed_member_evidence(audit, base))
-        live = set()
-        for path in PUBLIC_OBSERVATION_OVERLAYS:
-            live.update(observed_member_evidence(audit, json.loads(path.read_bytes()), require_receipts=True))
-        result.update(baseline_release='0.29.0', baseline_observed=len(previous),
-                      this_release_observed=len(live), newly_observed=len(live - previous),
-                      distinct_observed_through_release=len(previous | live),
-                      remaining_without_live_member_evidence=len(audit['members']) - len(previous | live))
+        baseline = {r['key'] for r in audit['members'] if r['release_status']['candidate']['status'] == 'observed'}
+        baseline.update(observed_member_evidence(audit, base))
+        release_030 = observed_member_evidence(audit, json.loads(PUBLIC_OBSERVATION_OVERLAYS[0].read_bytes()),
+                                               require_receipts=True)
+        baseline.update(release_030)
+        release_031 = set(observed_member_evidence(audit, json.loads(PUBLIC_OBSERVATION_OVERLAYS[1].read_bytes()),
+                                                   require_receipts=True))
+        through_031 = baseline | release_031
+        result.update(baseline_release='0.30.0', baseline_observed=len(baseline),
+                      before_031_unobserved=len(audit['members']) - len(baseline),
+                      this_release='0.31.0', this_release_observed=len(release_031),
+                      newly_observed=len(release_031 - baseline),
+                      distinct_observed_through_release=len(through_031),
+                      remaining_without_live_member_evidence=len(audit['members']) - len(through_031))
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

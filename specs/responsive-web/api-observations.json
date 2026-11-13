@@ -1,0 +1,1229 @@
+{
+  "version": 1,
+  "id": "responsive-web-native-api-observations-20261114",
+  "title": "Responsive web selected node API observations",
+  "nodes": [
+    {
+      "id": "OBS-responsive-api-batch-0",
+      "type": "test",
+      "status": "observed",
+      "title": "Responsive web · native API batch 0",
+      "source": "../../docs/api-priority.md",
+      "detail": "Bounded native Figma Plugin API getter batch; outputs passed type-specific safe projections.",
+      "observed_at": "2026-11-13T19:35:39.706Z",
+      "getter_counts": {
+        "success": 164,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "5635a61c554c29e6b4b6cbf0ffea7e2c1f6fa5877fd011d2330cb17725c82802"
+    },
+    {
+      "id": "member:2fce75455cc5733bc5ed90674191a2e6b9974e1db16ed99f602e72f2357d2170",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextNode.maxLines",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11051-L11051",
+      "detail": "maxLines: number | null"
+    },
+    {
+      "id": "member:253507d2491f92ba7c36283d2e790b5ad7d96b725dcd9df885157f9506c9b665",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextNode.textAlignVertical",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11025-L11025",
+      "detail": "textAlignVertical: 'TOP' | 'CENTER' | 'BOTTOM'"
+    },
+    {
+      "id": "member:1c98cbc3556635aa8af6b431c96f7509c32087e2e0270098135e7603aa62ebd8",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.paragraphIndent",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10178-L10178",
+      "detail": "paragraphIndent: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:aaa06a95c5c90d0bee2ca0ea1e3af9475602d8efe328e556972b449391f6a0b0",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.paragraphSpacing",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10235-L10235",
+      "detail": "paragraphSpacing: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:38372ad4342a0e0fbe0e91cca5559f81c95edd80a8601795b44be1446840954f",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textDecoration",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10308-L10308",
+      "detail": "textDecoration: TextDecoration | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:7821990348079d68d21707dcd0f1f6ca556564f7f0b13dadc883bb2cbb3602f7",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNodeMixin.getCSSAsync",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6511-L6513",
+      "detail": "getCSSAsync(): Promise<{\n    [key: string]: string\n  }>"
+    },
+    {
+      "id": "member:680c68c4592dde8f6f84ecc8cf7bb29a3822799de430682b4c5bc29995ea3af7",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeFills",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9956-L9956",
+      "detail": "getRangeFills(start: number, end: number): Paint[] | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:92feaeeb3a10f7f94c457374941aa443901c1c66f9b3fc67e94baeb610891d1c",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeFontName",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9888-L9888",
+      "detail": "getRangeFontName(start: number, end: number): FontName | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:31a014edb3bedba5aa87755040799e8832055ba95a38a00c3d0df2eb81c80068",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeFontSize",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9880-L9880",
+      "detail": "getRangeFontSize(start: number, end: number): number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:f1669cfbb410b795f629736e618b6dadcc38e07ed86ddf7bff60e9ac86b094ea",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.getRangeFontWeight",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9913-L9913",
+      "detail": "getRangeFontWeight(start: number, end: number): number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:223c490494cf8c944d6a76a9173f10965bbb806307b9e15308f2758f1e41760b",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.textCase",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9806-L9806",
+      "detail": "textCase: TextCase | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.layoutSizingHorizontal",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7492-L7492",
+      "detail": "layoutSizingHorizontal: 'FIXED' | 'HUG' | 'FILL'"
+    },
+    {
+      "id": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.layoutSizingVertical",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7500-L7500",
+      "detail": "layoutSizingVertical: 'FIXED' | 'HUG' | 'FILL'"
+    },
+    {
+      "id": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "figma",
+      "status": "observed",
+      "title": "SceneNodeMixin.locked",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6664-L6664",
+      "detail": "locked: boolean"
+    },
+    {
+      "id": "member:05842ae84a9eafa463ec57c2ba08c75b3075ac3dceaa08535d505fa05982f8b7",
+      "type": "figma",
+      "status": "observed",
+      "title": "GeometryMixin.strokeCap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8954-L8954",
+      "detail": "strokeCap: StrokeCap | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:ddeafd1c9e8da3da6a0c297a5564bf36029aed24a7cbd82ff290139fb327820f",
+      "type": "figma",
+      "status": "observed",
+      "title": "GeometryMixin.strokeMiterLimit",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8958-L8958",
+      "detail": "strokeMiterLimit: number"
+    },
+    {
+      "id": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridAutoTracks",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8421-L8421",
+      "detail": "gridAutoTracks: 'NONE' | 'ROWS'"
+    },
+    {
+      "id": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridColumnCount",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8299-L8299",
+      "detail": "gridColumnCount: number"
+    },
+    {
+      "id": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridColumnGap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8311-L8311",
+      "detail": "gridColumnGap: number"
+    },
+    {
+      "id": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridItemsPositioning",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8458-L8458",
+      "detail": "gridItemsPositioning: 'MANUAL' | 'ROW_AUTO_FLOW'"
+    },
+    {
+      "id": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridRowCount",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8291-L8291",
+      "detail": "gridRowCount: number"
+    },
+    {
+      "id": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridLayoutMixin.gridRowGap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8305-L8305",
+      "detail": "gridRowGap: number"
+    },
+    {
+      "id": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.counterAxisAlignItems",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8049-L8049",
+      "detail": "counterAxisAlignItems: 'MIN' | 'MAX' | 'CENTER' | 'BASELINE'"
+    },
+    {
+      "id": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.counterAxisSizingMode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7828-L7828",
+      "detail": "counterAxisSizingMode: 'FIXED' | 'AUTO'"
+    },
+    {
+      "id": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.counterAxisSpacing",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8160-L8160",
+      "detail": "counterAxisSpacing: number | null"
+    },
+    {
+      "id": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.horizontalPadding",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7764-L7764",
+      "detail": "horizontalPadding: number"
+    },
+    {
+      "id": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.layoutWrap",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7879-L7879",
+      "detail": "layoutWrap: 'NO_WRAP' | 'WRAP'"
+    },
+    {
+      "id": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.primaryAxisAlignItems",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7966-L7967",
+      "detail": "primaryAxisAlignItems:\n    'MIN' | 'MAX' | 'CENTER' | 'SPACE_BETWEEN' | 'SPACE_EVENLY' | 'SPACE_AROUND'"
+    },
+    {
+      "id": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.primaryAxisSizingMode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7781-L7781",
+      "detail": "primaryAxisSizingMode: 'FIXED' | 'AUTO'"
+    },
+    {
+      "id": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "figma",
+      "status": "observed",
+      "title": "CornerMixin.cornerRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9006-L9006",
+      "detail": "cornerRadius: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:7fd92ef27565fc8bc2c3e789df506ce24b6f8d9b73f10e585369bea1247b0aa5",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalBlendMixin.blendMode",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9502-L9502",
+      "detail": "blendMode: BlendMode"
+    },
+    {
+      "id": "member:3f63b8388af891028b2378d4e7bd01a03b77a4b0433d8bb9a1fbf744f3c68d94",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.dashPattern",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8761-L8761",
+      "detail": "dashPattern: ReadonlyArray<number>"
+    },
+    {
+      "id": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalBlendMixin.opacity",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9498-L9498",
+      "detail": "opacity: number"
+    },
+    {
+      "id": "member:76e1e671aef95bc78772bcac814ed7efffaac922296f82fff0758f57cbe9085e",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeAlign",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8757-L8757",
+      "detail": "strokeAlign: 'CENTER' | 'INSIDE' | 'OUTSIDE'"
+    },
+    {
+      "id": "member:279f4a56faa26d49dcbf20da7a251aed83e7dbcd48c2ea122e87c3d9a7890d29",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeJoin",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8747-L8747",
+      "detail": "strokeJoin: StrokeJoin | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeWeight",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8737-L8737",
+      "detail": "strokeWeight: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.absoluteRenderBounds",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7400-L7400",
+      "detail": "readonly absoluteRenderBounds: Rect | null"
+    },
+    {
+      "id": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.rotation",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7414-L7414",
+      "detail": "rotation: number"
+    },
+    {
+      "id": "member:65e073b9b39f17f45fce95d2808010760ea38502428940470b2339fce1709d4c",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.absoluteTransform",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7386-L7386",
+      "detail": "readonly absoluteTransform: Transform"
+    },
+    {
+      "id": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "figma",
+      "status": "observed",
+      "title": "InstanceNode.scaleFactor",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11291-L11291",
+      "detail": "scaleFactor: number"
+    },
+    {
+      "id": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "figma",
+      "status": "observed",
+      "title": "InstanceNode.isExposedInstance",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11299-L11299",
+      "detail": "isExposedInstance: boolean"
+    },
+    {
+      "id": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.bottomLeftRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9031-L9031",
+      "detail": "bottomLeftRadius: number"
+    },
+    {
+      "id": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.bottomRightRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9035-L9035",
+      "detail": "bottomRightRadius: number"
+    },
+    {
+      "id": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.topLeftRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9023-L9023",
+      "detail": "topLeftRadius: number"
+    },
+    {
+      "id": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "figma",
+      "status": "observed",
+      "title": "RectangleCornerMixin.topRightRadius",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9027-L9027",
+      "detail": "topRightRadius: number"
+    },
+    {
+      "id": "member:a33f60e2f0146359716b3cb766bf4f93cc3127cf7c2014f63f80bb026d656bb0",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.relativeTransform",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7382-L7382",
+      "detail": "relativeTransform: Transform"
+    },
+    {
+      "id": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "figma",
+      "status": "observed",
+      "title": "EllipseNode.arcData",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10934-L10934",
+      "detail": "arcData: ArcData"
+    },
+    {
+      "id": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "figma",
+      "status": "observed",
+      "title": "BooleanOperationNode.booleanOperation",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11361-L11361",
+      "detail": "booleanOperation: 'UNION' | 'INTERSECT' | 'SUBTRACT' | 'EXCLUDE'"
+    },
+    {
+      "id": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "figma",
+      "status": "observed",
+      "title": "SectionNode.sectionContentsHidden",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L12331-L12331",
+      "detail": "sectionContentsHidden: boolean"
+    },
+    {
+      "id": "OBS-responsive-api-batch-1",
+      "type": "test",
+      "status": "observed",
+      "title": "Responsive web · native API batch 1",
+      "source": "../../docs/api-priority.md",
+      "detail": "Bounded native Figma Plugin API getter batch; outputs passed type-specific safe projections.",
+      "observed_at": "2026-11-13T19:42:52.005Z",
+      "getter_counts": {
+        "success": 163,
+        "unavailable": 1,
+        "unsupported": 4,
+        "blocked": 0
+      },
+      "receipt_sha256": "3b6f5050eb777224fdc4adb5e866d1dd29bfeeaea8a447617f78dc2dac9b541d"
+    },
+    {
+      "id": "member:4c4a51f7135efc4c3df6fd61b9e56383ad81ac60f22187c7e07fafbca1d45255",
+      "type": "figma",
+      "status": "observed",
+      "title": "NonResizableTextMixin.textWrapStyle",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10292-L10292",
+      "detail": "textWrapStyle: TextWrapStyle | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:37a4c9763c7b78063d1e1911c89b4b7b64f7dd8727955309410561a7027a75e0",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutChildrenMixin.layoutGrow",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8546-L8546",
+      "detail": "layoutGrow: number"
+    },
+    {
+      "id": "member:40443f16cfb416bb0a2c138db24cfa61e2d3e3788d92098c47a48b33df585af3",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.maxHeight",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7336-L7336",
+      "detail": "maxHeight: number | null"
+    },
+    {
+      "id": "member:53ba01625f7f6ffdd3c19ac0a5fcd8fe32fa59b45b26e037bfa8a6d5dc6fab1c",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutChildrenMixin.layoutPositioning",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8580-L8580",
+      "detail": "layoutPositioning: 'AUTO' | 'ABSOLUTE'"
+    },
+    {
+      "id": "member:73368901a7b0a18aab1273be17a2237878b9d93e56a0a9699220eae673377d57",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutChildrenMixin.layoutAlign",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8536-L8536",
+      "detail": "layoutAlign: 'MIN' | 'CENTER' | 'MAX' | 'STRETCH' | 'INHERIT'"
+    },
+    {
+      "id": "member:d1fcb4adc2bf1a94d1a3bd3635547ce3ac02678233ee4515df5ca5960fdf008b",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.maxWidth",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7328-L7328",
+      "detail": "maxWidth: number | null"
+    },
+    {
+      "id": "member:d47265734407adecffeb8e525c5919f270bc90d33e153922d3499b4101fb8ba4",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.minWidth",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7324-L7324",
+      "detail": "minWidth: number | null"
+    },
+    {
+      "id": "member:f3839c4fd9c47895994a89354bdae565364625ce615133d27c2cb939cf3e6a9b",
+      "type": "figma",
+      "status": "observed",
+      "title": "DimensionAndPositionMixin.minHeight",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7332-L7332",
+      "detail": "minHeight: number | null"
+    },
+    {
+      "id": "member:eb3696cd67cf781fa4339b453971b72f8c34ca2a5cc5c7631ff614575e39479a",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.fontWeight",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9802-L9802",
+      "detail": "readonly fontWeight: number | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:ee86de268cb4e7424a5fc02b4ef187bf63818b614ccd51b8fe2ce8ade8be651c",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNonResizableTextMixin.hasMissingFont",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9771-L9771",
+      "detail": "readonly hasMissingFont: boolean"
+    },
+    {
+      "id": "member:09eb06f66e49915a182a6624f463a228671128038e57b43dad0bb4d42c01b0fb",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridChildrenMixin.gridColumnSpan",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8663-L8663",
+      "detail": "gridColumnSpan: number"
+    },
+    {
+      "id": "member:1e8b208cfdd25c035e07eca972511215333ec5ec3ffeeb87c26d62b6d9972977",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNodeMixin.isAsset",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6506-L6506",
+      "detail": "readonly isAsset: boolean"
+    },
+    {
+      "id": "member:23a7b2efc7ab23a7d5c286c4515419de61abcb7d4d0188ce2b76120f90909776",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridChildrenMixin.gridChildHorizontalAlign",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8674-L8674",
+      "detail": "gridChildHorizontalAlign: 'MIN' | 'CENTER' | 'MAX' | 'AUTO'"
+    },
+    {
+      "id": "member:3ac8af945b121cd3b1723f83326b0dec30421808d0c2cb182691e7aca7279b42",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridChildrenMixin.gridChildVerticalAlign",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8685-L8685",
+      "detail": "gridChildVerticalAlign: 'MIN' | 'CENTER' | 'MAX' | 'AUTO'"
+    },
+    {
+      "id": "member:42c8cf93e7ddc451eb2f7fe78885ac0dc859787cb9c92082e9fe565edd720b23",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseNodeMixin.removed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6407-L6407",
+      "detail": "readonly removed: boolean"
+    },
+    {
+      "id": "member:9e1c568c5f18aac13c3c31094721aeb8fc50e8ff42238eb79dedf1b18ff80aea",
+      "type": "figma",
+      "status": "observed",
+      "title": "AutoLayoutMixin.strokesIncludedInLayout",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7869-L7869",
+      "detail": "strokesIncludedInLayout: boolean"
+    },
+    {
+      "id": "member:59afe80420ea415e23559b1261a3888990d414fb8307ca6937d032b619331c3b",
+      "type": "figma",
+      "status": "observed",
+      "title": "CornerMixin.cornerSmoothing",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9014-L9014",
+      "detail": "cornerSmoothing: number"
+    },
+    {
+      "id": "member:4d3d91590d20bf75da5f7ad5caad97d839ac6d6135bff7c976f0268d5c298b09",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridChildrenMixin.gridColumnAnchorIndex",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8645-L8645",
+      "detail": "readonly gridColumnAnchorIndex: number"
+    },
+    {
+      "id": "member:57b5289f35bdc9ab1f5e38eabe7e3105e2d5d1ab2e45a616da9a45d158df133a",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridChildrenMixin.gridRowAnchorIndex",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8636-L8636",
+      "detail": "readonly gridRowAnchorIndex: number"
+    },
+    {
+      "id": "member:a676e09642d68d1b6cfbe0b8397736d41c19d262a11038119ddb4a18d82164d2",
+      "type": "figma",
+      "status": "observed",
+      "title": "LayoutMixin.constrainProportions",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7406-L7406",
+      "detail": "constrainProportions: boolean"
+    },
+    {
+      "id": "member:b5867d1bafc4b0ab3ce2d2f2c37ff6242f19e1d0e696bff9af52d34912bee1f6",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlendMixin.maskType",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7642-L7642",
+      "detail": "maskType: MaskType"
+    },
+    {
+      "id": "member:e11f34ba699bd4628297a6c8f01605e76a5a8abe2242069ce4ef3783d02e8652",
+      "type": "figma",
+      "status": "observed",
+      "title": "AspectRatioLockMixin.targetAspectRatio",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7584-L7584",
+      "detail": "readonly targetAspectRatio: Vector | null"
+    },
+    {
+      "id": "OBS-responsive-api-batch-2",
+      "type": "test",
+      "status": "observed",
+      "title": "Responsive web · native API batch 2",
+      "source": "../../docs/api-priority.md",
+      "detail": "Bounded native Figma Plugin API getter batch; outputs passed type-specific safe projections.",
+      "observed_at": "2026-11-13T19:43:19.003Z",
+      "getter_counts": {
+        "success": 36,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "receipt_sha256": "b41d8b2e6ae1cfd4887f93d21135eb5a9c14784a4230052c62db54f542736a47"
+    },
+    {
+      "id": "member:cb6711607d5db03a2cce4473c483f777942747f48d49871e1758c9f5e395bc94",
+      "type": "figma",
+      "status": "observed",
+      "title": "GridChildrenMixin.gridRowSpan",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8654-L8654",
+      "detail": "gridRowSpan: number"
+    },
+    {
+      "id": "OBS-responsive-api-batch-3",
+      "type": "test",
+      "status": "observed",
+      "title": "Responsive web · native API batch 3",
+      "source": "../../docs/api-priority.md",
+      "detail": "Bounded native Figma Plugin API getter batch; outputs passed type-specific safe projections.",
+      "observed_at": "2026-11-13T19:49:55.066Z",
+      "getter_counts": {
+        "success": 110,
+        "unavailable": 9,
+        "unsupported": 1,
+        "blocked": 0
+      },
+      "receipt_sha256": "e27b9737478b07ce1b966805131075938a5755b2c85588ae5775ef342e5b61ee"
+    },
+    {
+      "id": "member:03866463bb19861f8b0c82e6345ab32894772c6f513ae9a1b521382c1b58e3bd",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalFillsMixin.fillStyleId",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8812-L8812",
+      "detail": "fillStyleId: string | PluginAPI['mixed']"
+    },
+    {
+      "id": "member:041ccdd6e5d9c586f921002bf8a8ba674a273d6950bc2bc549768614e06dd0ec",
+      "type": "figma",
+      "status": "observed",
+      "title": "BlendMixin.effectStyleId",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7652-L7652",
+      "detail": "effectStyleId: string"
+    },
+    {
+      "id": "member:5b555aa9b72170a92b6ec49d36dd57e9a615fdf90eccea82aec77dfc6307b3c9",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeStyleId",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8720-L8720",
+      "detail": "strokeStyleId: string"
+    },
+    {
+      "id": "member:3253e8105785a37617cf99400ef90e27aaf16d6a4c4665ab926e3c119ae82d39",
+      "type": "figma",
+      "status": "observed",
+      "title": "ExportMixin.exportSettings",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9044-L9044",
+      "detail": "exportSettings: ReadonlyArray<ExportSettings>"
+    },
+    {
+      "id": "member:8b3b37e43b8c4e085ccce739fcb77e92d074774f485ebd72a1d8e14a9586e69e",
+      "type": "figma",
+      "status": "observed",
+      "title": "MotionNodeMixin.animationStyles",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6830-L6830",
+      "detail": "readonly animationStyles: AppliedAnimationStyle[]"
+    },
+    {
+      "id": "member:05b03c02177d4a8d73d4e1463d1f8889f547129c79c5564fd44577cba584e99a",
+      "type": "figma",
+      "status": "observed",
+      "title": "SceneNodeMixin.inferredVariables",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6755-L6760",
+      "detail": "readonly inferredVariables?: {\n    readonly [field in VariableBindableNodeField]?: VariableAlias[]\n  } & {\n    readonly fills?: VariableAlias[][]\n    readonly strokes?: VariableAlias[][]\n  }"
+    },
+    {
+      "id": "member:131a8b1cd45e8a38088b8fad6acd191a74dfabc54555779b9d3a7759b6be68a5",
+      "type": "figma",
+      "status": "observed",
+      "title": "MinimalStrokesMixin.strokeGeometry",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8766-L8766",
+      "detail": "readonly strokeGeometry: VectorPaths"
+    },
+    {
+      "id": "member:3e167b7466c1f830656c7f0cbb021eea7e335f1a265d3e0bb33ff75e437043d0",
+      "type": "figma",
+      "status": "observed",
+      "title": "ExplicitVariableModesMixin.explicitVariableModes",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10592-L10594",
+      "detail": "explicitVariableModes: {\n    [collectionId: string]: string\n  }"
+    },
+    {
+      "id": "member:af5f1efdbb9d7e04129430cd342b018729a341e872d81a2ebe48981972f087d1",
+      "type": "figma",
+      "status": "observed",
+      "title": "GeometryMixin.fillGeometry",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8966-L8966",
+      "detail": "readonly fillGeometry: VectorPaths"
+    },
+    {
+      "id": "member:3bd642b08c5d9095d2c1b90310865eaf67fd71b4235edea5e7dac6c7fa193305",
+      "type": "figma",
+      "status": "observed",
+      "title": "TextNode.textTruncation",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11043-L11043",
+      "detail": "textTruncation: 'DISABLED' | 'ENDING'"
+    },
+    {
+      "id": "member:0f62d0e849c64d895f524a0decf24156f1847f8a3c30639f2d9db081e94a2c52",
+      "type": "figma",
+      "status": "observed",
+      "title": "DeprecatedBackgroundMixin.backgroundStyleId",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7678-L7678",
+      "detail": "backgroundStyleId: string"
+    },
+    {
+      "id": "member:02103ebb880c910c08daf307cc0a7b2a8d6b278be274bd0ae0566de911f3ff07",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseFrameMixin.gridStyleId",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9464-L9464",
+      "detail": "gridStyleId: string"
+    },
+    {
+      "id": "member:58d695ae2cf59965d6689615468602561f43e31eb1f61a8c3207287723aafd09",
+      "type": "figma",
+      "status": "observed",
+      "title": "BaseFrameMixin.layoutGrids",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9458-L9458",
+      "detail": "layoutGrids: ReadonlyArray<LayoutGrid>"
+    },
+    {
+      "id": "member:94915ce5fb7cc8b3c96083a9ac0107d9b5ac2f609372e1863b140c4b42b4f98a",
+      "type": "figma",
+      "status": "observed",
+      "title": "FramePrototypingMixin.numberOfFixedChildren",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9156-L9156",
+      "detail": "numberOfFixedChildren: number"
+    },
+    {
+      "id": "member:f192db60d3f8e6b2282701667023a93a8c40852b47d71f6682199dd11ccf0f5a",
+      "type": "figma",
+      "status": "observed",
+      "title": "ConstraintMixin.constraints",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7291-L7291",
+      "detail": "constraints: Constraints"
+    }
+  ],
+  "edges": [
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:2fce75455cc5733bc5ed90674191a2e6b9974e1db16ed99f602e72f2357d2170",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:253507d2491f92ba7c36283d2e790b5ad7d96b725dcd9df885157f9506c9b665",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:1c98cbc3556635aa8af6b431c96f7509c32087e2e0270098135e7603aa62ebd8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:aaa06a95c5c90d0bee2ca0ea1e3af9475602d8efe328e556972b449391f6a0b0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:38372ad4342a0e0fbe0e91cca5559f81c95edd80a8601795b44be1446840954f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:7821990348079d68d21707dcd0f1f6ca556564f7f0b13dadc883bb2cbb3602f7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:680c68c4592dde8f6f84ecc8cf7bb29a3822799de430682b4c5bc29995ea3af7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:92feaeeb3a10f7f94c457374941aa443901c1c66f9b3fc67e94baeb610891d1c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:31a014edb3bedba5aa87755040799e8832055ba95a38a00c3d0df2eb81c80068",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:f1669cfbb410b795f629736e618b6dadcc38e07ed86ddf7bff60e9ac86b094ea",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:223c490494cf8c944d6a76a9173f10965bbb806307b9e15308f2758f1e41760b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:05842ae84a9eafa463ec57c2ba08c75b3075ac3dceaa08535d505fa05982f8b7",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:ddeafd1c9e8da3da6a0c297a5564bf36029aed24a7cbd82ff290139fb327820f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:7fd92ef27565fc8bc2c3e789df506ce24b6f8d9b73f10e585369bea1247b0aa5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:3f63b8388af891028b2378d4e7bd01a03b77a4b0433d8bb9a1fbf744f3c68d94",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:76e1e671aef95bc78772bcac814ed7efffaac922296f82fff0758f57cbe9085e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:279f4a56faa26d49dcbf20da7a251aed83e7dbcd48c2ea122e87c3d9a7890d29",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:65e073b9b39f17f45fce95d2808010760ea38502428940470b2339fce1709d4c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:a33f60e2f0146359716b3cb766bf4f93cc3127cf7c2014f63f80bb026d656bb0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-0",
+      "to": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:4c4a51f7135efc4c3df6fd61b9e56383ad81ac60f22187c7e07fafbca1d45255",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:37a4c9763c7b78063d1e1911c89b4b7b64f7dd8727955309410561a7027a75e0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:40443f16cfb416bb0a2c138db24cfa61e2d3e3788d92098c47a48b33df585af3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:53ba01625f7f6ffdd3c19ac0a5fcd8fe32fa59b45b26e037bfa8a6d5dc6fab1c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:73368901a7b0a18aab1273be17a2237878b9d93e56a0a9699220eae673377d57",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:d1fcb4adc2bf1a94d1a3bd3635547ce3ac02678233ee4515df5ca5960fdf008b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:d47265734407adecffeb8e525c5919f270bc90d33e153922d3499b4101fb8ba4",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:f3839c4fd9c47895994a89354bdae565364625ce615133d27c2cb939cf3e6a9b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:eb3696cd67cf781fa4339b453971b72f8c34ca2a5cc5c7631ff614575e39479a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:ee86de268cb4e7424a5fc02b4ef187bf63818b614ccd51b8fe2ce8ade8be651c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:09eb06f66e49915a182a6624f463a228671128038e57b43dad0bb4d42c01b0fb",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:1e8b208cfdd25c035e07eca972511215333ec5ec3ffeeb87c26d62b6d9972977",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:23a7b2efc7ab23a7d5c286c4515419de61abcb7d4d0188ce2b76120f90909776",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:3ac8af945b121cd3b1723f83326b0dec30421808d0c2cb182691e7aca7279b42",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:42c8cf93e7ddc451eb2f7fe78885ac0dc859787cb9c92082e9fe565edd720b23",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:9e1c568c5f18aac13c3c31094721aeb8fc50e8ff42238eb79dedf1b18ff80aea",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:59afe80420ea415e23559b1261a3888990d414fb8307ca6937d032b619331c3b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:4d3d91590d20bf75da5f7ad5caad97d839ac6d6135bff7c976f0268d5c298b09",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:57b5289f35bdc9ab1f5e38eabe7e3105e2d5d1ab2e45a616da9a45d158df133a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:a676e09642d68d1b6cfbe0b8397736d41c19d262a11038119ddb4a18d82164d2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:b5867d1bafc4b0ab3ce2d2f2c37ff6242f19e1d0e696bff9af52d34912bee1f6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-1",
+      "to": "member:e11f34ba699bd4628297a6c8f01605e76a5a8abe2242069ce4ef3783d02e8652",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-2",
+      "to": "member:4d3d91590d20bf75da5f7ad5caad97d839ac6d6135bff7c976f0268d5c298b09",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-2",
+      "to": "member:57b5289f35bdc9ab1f5e38eabe7e3105e2d5d1ab2e45a616da9a45d158df133a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-2",
+      "to": "member:a676e09642d68d1b6cfbe0b8397736d41c19d262a11038119ddb4a18d82164d2",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-2",
+      "to": "member:b5867d1bafc4b0ab3ce2d2f2c37ff6242f19e1d0e696bff9af52d34912bee1f6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-2",
+      "to": "member:cb6711607d5db03a2cce4473c483f777942747f48d49871e1758c9f5e395bc94",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-2",
+      "to": "member:e11f34ba699bd4628297a6c8f01605e76a5a8abe2242069ce4ef3783d02e8652",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:03866463bb19861f8b0c82e6345ab32894772c6f513ae9a1b521382c1b58e3bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:041ccdd6e5d9c586f921002bf8a8ba674a273d6950bc2bc549768614e06dd0ec",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:5b555aa9b72170a92b6ec49d36dd57e9a615fdf90eccea82aec77dfc6307b3c9",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:3253e8105785a37617cf99400ef90e27aaf16d6a4c4665ab926e3c119ae82d39",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:8b3b37e43b8c4e085ccce739fcb77e92d074774f485ebd72a1d8e14a9586e69e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:05b03c02177d4a8d73d4e1463d1f8889f547129c79c5564fd44577cba584e99a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:131a8b1cd45e8a38088b8fad6acd191a74dfabc54555779b9d3a7759b6be68a5",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:3e167b7466c1f830656c7f0cbb021eea7e335f1a265d3e0bb33ff75e437043d0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:af5f1efdbb9d7e04129430cd342b018729a341e872d81a2ebe48981972f087d1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:3bd642b08c5d9095d2c1b90310865eaf67fd71b4235edea5e7dac6c7fa193305",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:0f62d0e849c64d895f524a0decf24156f1847f8a3c30639f2d9db081e94a2c52",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:02103ebb880c910c08daf307cc0a7b2a8d6b278be274bd0ae0566de911f3ff07",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:58d695ae2cf59965d6689615468602561f43e31eb1f61a8c3207287723aafd09",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:94915ce5fb7cc8b3c96083a9ac0107d9b5ac2f609372e1863b140c4b42b4f98a",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-responsive-api-batch-3",
+      "to": "member:f192db60d3f8e6b2282701667023a93a8c40852b47d71f6682199dd11ccf0f5a",
+      "type": "observed member"
+    }
+  ]
+}

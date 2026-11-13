@@ -7,6 +7,7 @@ const NATIVE_API_PROBE_METHODS = {
   getCSSAsync: {foundation: 'css', value_kind: 'css-summary'},
   getRangeFontName: {foundation: 'text-style', value_kind: 'font-range'},
   getRangeFontSize: {foundation: 'text-style', value_kind: 'font-size-range'},
+  getRangeFontWeight: {foundation: 'text-style', value_kind: 'font-weight-range'},
   getRangeFills: {foundation: 'text-style', value_kind: 'solid-paints'},
 };
 
@@ -90,6 +91,51 @@ function nativeProbeValue(kind, value, figma) {
     if (value === figma.mixed) return {ok: true, value: {mixed: true}};
     if (!nativeProbeFinite(value, 0, 10000)) return {ok: false};
     return {ok: true, value: {mixed: false, value: nativeProbeRound(value)}};
+  }
+  if (kind === 'font-weight-range') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (!nativeProbeFinite(value, 1, 1000)) return {ok: false};
+    return {ok: true, value: {mixed: false, value: nativeProbeRound(value)}};
+  }
+  if (kind === 'style-state') {
+    if (value === figma.mixed) return {ok: true, value: 'mixed'};
+    if (value === null || value === undefined || value === '') return {ok: true, value: 'unassigned'};
+    return typeof value === 'string' && value.length <= 160
+      ? {ok: true, value: 'assigned'} : {ok: false};
+  }
+  if (kind === 'reference-state') {
+    if (value === null || value === undefined) return {ok: true, value: 'unlinked'};
+    return value && typeof value === 'object' && typeof value.type === 'string'
+      ? {ok: true, value: 'linked'} : {ok: false};
+  }
+  if (kind === 'bounded-count') {
+    return Array.isArray(value) && value.length <= 64
+      ? {ok: true, value: {count: value.length}} : {ok: false};
+  }
+  if (kind === 'map-count') {
+    if (value === null || value === undefined) return {ok: true, value: {count: 0}};
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
+    const keys = Object.keys(value);
+    return keys.length <= 64 ? {ok: true, value: {count: keys.length}} : {ok: false};
+  }
+  if (kind === 'constraints-summary') {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
+    const enums = {
+      horizontal: ['LEFT', 'RIGHT', 'CENTER', 'LEFT_RIGHT', 'SCALE'],
+      vertical: ['TOP', 'BOTTOM', 'CENTER', 'TOP_BOTTOM', 'SCALE'],
+    };
+    const summary = {};
+    for (const key of Object.keys(enums)) {
+      if (enums[key].includes(value[key])) summary[key] = value[key];
+    }
+    return Object.keys(summary).length === 2 ? {ok: true, value: summary} : {ok: false};
+  }
+  if (kind === 'layout-grid-summary') {
+    if (!Array.isArray(value) || value.length > 32) return {ok: false};
+    const patterns = value.map(item => item && item.pattern).filter(pattern =>
+      ['ROWS', 'COLUMNS', 'GRID'].includes(pattern));
+    return patterns.length === value.length
+      ? {ok: true, value: {count: value.length, patterns}} : {ok: false};
   }
   if (kind === 'boolean') return typeof value === 'boolean' ? {ok: true, value} : {ok: false};
   if (kind === 'number') {
@@ -212,7 +258,9 @@ function nativeProbeGraph(observations, targets, probeMeta, eligibleByType, elig
         status: 'unverified', source: `Figma Plugin API ${probeMeta.apiVersion} unresolved candidate`,
         detail: JSON.stringify({api_member_id: candidate.api_member_id,
           official_member_id: candidate.official_member_id, signature: candidate.signature,
-          foundation: candidate.foundation, audit_status: candidate.audit_status})});
+          foundation: candidate.foundation, audit_status: candidate.audit_status,
+          priority_score: candidate.priority_score, feasibility: candidate.feasibility,
+          priority_reasons: candidate.priority_reasons, role_matches: candidate.role_matches})});
       addNode({id: observationId, type: 'test', title: `Probe ${candidate.property} on selected node`, status,
         source: 'bounded read-only native API probe', detail: JSON.stringify(detail)});
       addEdge(memberId, typeId, 'declared for');
@@ -310,13 +358,16 @@ async function discoverSelectedNativeApi(figma, scope, config) {
           if (candidate.access === 'property') rawValue = node[candidate.property];
           else if (candidate.property === 'getCSSAsync') rawValue = await node.getCSSAsync();
           else if (candidate.property === 'getRangeFontName'
-              || candidate.property === 'getRangeFontSize' || candidate.property === 'getRangeFills') {
+              || candidate.property === 'getRangeFontSize' || candidate.property === 'getRangeFontWeight'
+              || candidate.property === 'getRangeFills') {
             if (typeof node.characters !== 'string' || !node.characters.length) {
               status = 'unavailable'; reason = 'empty-text-range';
             } else if (candidate.property === 'getRangeFontName') {
               rawValue = node.getRangeFontName(0, node.characters.length);
             } else if (candidate.property === 'getRangeFontSize') {
               rawValue = node.getRangeFontSize(0, node.characters.length);
+            } else if (candidate.property === 'getRangeFontWeight') {
+              rawValue = node.getRangeFontWeight(0, node.characters.length);
             } else rawValue = node.getRangeFills(0, node.characters.length);
           } else { status = 'blocked'; reason = 'method-not-allowlisted'; }
           const safe = status ? {ok: false} : nativeProbeValue(candidate.value_kind, rawValue, figma);

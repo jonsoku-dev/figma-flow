@@ -12,6 +12,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 from figma_api_inventory import inherited_members, load as load_catalog
+import api_priority
 
 AUDIT_PATH = ROOT / 'library' / 'figma-api' / 'audit' / 'members.json'
 AUDIT_CANDIDATE_RELEASE = '0.28.0'
@@ -35,6 +36,52 @@ SAFE_TYPES = {'FRAME': 'FrameNode', 'ELLIPSE': 'EllipseNode',
 # These fields are safe scalar, geometry, layout, or solid-color foundations.
 # Every entry still requires a matching unresolved PropertySignature in the audit.
 SAFE_FIELDS = {
+    # High-ranked native scalar properties with useful observed receivers.
+    # Keep style identities, variable maps, geometry payloads and nested node
+    # collections out of the readback; these candidates expose only scalars.
+    'hasMissingFont': ('text-style', 'boolean', 0, ('TEXT',)),
+    'fontWeight': ('text-style', 'font-weight-range', 0, ('TEXT',)),
+    'textWrapStyle': ('text-style', 'enum', 0, ('TEXT',)),
+    'textDecorationStyle': ('text-style', 'enum', 0, ('TEXT',)),
+    'minWidth': ('layout', 'nullable-number', 1),
+    'maxWidth': ('layout', 'nullable-number', 1),
+    'minHeight': ('layout', 'nullable-number', 1),
+    'maxHeight': ('layout', 'nullable-number', 1),
+    'layoutGrow': ('layout', 'number', 1),
+    'layoutPositioning': ('layout', 'enum', 1),
+    'layoutAlign': ('layout', 'enum', 1),
+    'strokesIncludedInLayout': ('layout', 'boolean', 1),
+    'cornerSmoothing': ('appearance', 'number', 2),
+    'constrainProportions': ('layout', 'boolean', 2),
+    'maskType': ('appearance', 'enum', 2),
+    'targetAspectRatio': ('geometry', 'nullable-number', 2),
+    'gridColumnSpan': ('grid', 'number', 2),
+    'gridRowSpan': ('grid', 'number', 2),
+    'gridChildHorizontalAlign': ('grid', 'enum', 2),
+    'gridChildVerticalAlign': ('grid', 'enum', 2),
+    'gridColumnAnchorIndex': ('grid', 'number', 2),
+    'gridRowAnchorIndex': ('grid', 'number', 2),
+    'isAsset': ('state', 'boolean', 3),
+    'removed': ('state', 'boolean', 3),
+    # Opaque identifiers are reduced to state. Collection-valued properties
+    # expose counts or a small enum summary, never their contents or identities.
+    'fillStyleId': ('appearance', 'style-state', 0),
+    'effectStyleId': ('appearance', 'style-state', 0),
+    'strokeStyleId': ('appearance', 'style-state', 0),
+    'backgroundStyleId': ('appearance', 'style-state', 1),
+    'gridStyleId': ('layout', 'style-state', 1),
+    'textStyleId': ('text-style', 'style-state', 0, ('TEXT',)),
+    'exportSettings': ('export', 'bounded-count', 1),
+    'animationStyles': ('motion', 'bounded-count', 1),
+    'explicitVariableModes': ('variables', 'map-count', 1),
+    'inferredVariables': ('variables', 'map-count', 1),
+    'constraints': ('layout', 'constraints-summary', 1),
+    'layoutGrids': ('layout', 'layout-grid-summary', 1),
+    'strokeGeometry': ('geometry', 'bounded-count', 2),
+    'fillGeometry': ('geometry', 'bounded-count', 2),
+    'mainComponent': ('component', 'reference-state', 2, ('INSTANCE',)),
+    'numberOfFixedChildren': ('prototype', 'number', 2),
+    'textTruncation': ('text-style', 'enum', 2, ('TEXT',)),
     'booleanOperation': ('shape', 'enum', 0, ('BOOLEAN_OPERATION',)),
     'sectionContentsHidden': ('section', 'boolean', 0, ('SECTION',)),
     'arcData': ('ellipse', 'arc', 0, ('ELLIPSE',)),
@@ -104,6 +151,7 @@ SAFE_METHODS = {
     'getCSSAsync': ('css', 'css-summary', 0, ('*',)),
     'getRangeFontName': ('text-style', 'font-range', 0, ('TEXT',)),
     'getRangeFontSize': ('text-style', 'font-size-range', 0, ('TEXT',)),
+    'getRangeFontWeight': ('text-style', 'font-weight-range', 0, ('TEXT',)),
     'getRangeFills': ('text-style', 'solid-paints', 0, ('TEXT',)),
 }
 
@@ -281,6 +329,12 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
         raise ValueError(f'Candidate batch offset must be a nonnegative multiple of {MAX_CANDIDATES_PER_TYPE}.')
     seen_semantic, seen_native = set(), set()
     targets, eligible_by_type, candidates_by_type, eligibility_by_type = [], {}, {}, {}
+    ranked_rows = api_priority.queue(api_priority.build(include_public_overlays=True),
+                                     limit=None, feasible_only=True)
+    priority_order = {row['api_member_id']: index for index, row in enumerate(ranked_rows)}
+    priority_by_id = {row['api_member_id']: row for row in ranked_rows}
+    if not priority_order:
+        raise ValueError('The validated priority queue has no remaining feasible API members.')
     for row in selected:
         if (not isinstance(row, dict) or set(row) != {'semantic_id', 'observed_node_id', 'observed_type'}
                 or not _safe_semantic_id(row.get('semantic_id'))
@@ -290,8 +344,18 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
             raise ValueError('Each selected item needs unique exact semantic_id, observed_node_id, and a supported observed_type.')
         seen_semantic.add(row['semantic_id'])
         seen_native.add(row['observed_node_id'])
-        all_candidates = eligible_by_type.setdefault(row['observed_type'],
-            candidates_for_type(catalog, audit_rows, row['observed_type']))
+        if row['observed_type'] not in eligible_by_type:
+            candidates = candidates_for_type(catalog, audit_rows, row['observed_type'])
+            ordered = sorted(
+                (candidate for candidate in candidates if candidate['api_member_id'] in priority_order),
+                key=lambda candidate: priority_order[candidate['api_member_id']])
+            eligible_by_type[row['observed_type']] = [{**candidate,
+                'priority_score': priority_by_id[candidate['api_member_id']]['priority_score'],
+                'feasibility': priority_by_id[candidate['api_member_id']]['feasibility'],
+                'priority_reasons': priority_by_id[candidate['api_member_id']]['priority_reasons'],
+                'role_matches': priority_by_id[candidate['api_member_id']]['role_matches']}
+                for candidate in ordered]
+        all_candidates = eligible_by_type[row['observed_type']]
         if len(all_candidates) > MAX_ELIGIBLE_PER_TYPE:
             raise ValueError(f'{row["observed_type"]} has more than {MAX_ELIGIBLE_PER_TYPE} eligible getters; narrow the probe policy.')
         batch = candidates_by_type.setdefault(row['observed_type'], all_candidates[offset:offset + MAX_CANDIDATES_PER_TYPE])

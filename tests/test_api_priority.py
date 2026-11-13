@@ -13,9 +13,23 @@ import api_priority
 import native_api_probe
 from graph import validate_graph
 from review_api_coverage import observed_member_evidence
+from review_api_coverage import PUBLIC_OBSERVATION_OVERLAYS
 
 
 class ApiPriorityTest(unittest.TestCase):
+    def test_receipt_overlay_reports_030_baseline_and_031_delta_separately(self):
+        baseline_overlay = json.loads(PUBLIC_OBSERVATION_OVERLAYS[0].read_text())
+        baseline = api_priority.build(overlays=[baseline_overlay])
+        current = api_priority.build(include_public_overlays=True)
+        self.assertEqual(baseline['source']['unobserved_members'], 1232)
+        self.assertEqual(current['source']['unobserved_members'], 1193)
+        report = json.loads(subprocess.check_output(
+            [sys.executable, str(ROOT / 'tools/review_api_coverage.py')], text=True))
+        self.assertEqual((report['baseline_release'], report['baseline_observed'],
+                          report['before_031_unobserved'], report['this_release'],
+                          report['newly_observed'], report['remaining_without_live_member_evidence']),
+                         ('0.30.0', 150, 1232, '0.31.0', 39, 1193))
+
     def test_inventory_keeps_every_exact_audit_key_and_real_graph_status(self):
         audit = json.loads(api_priority.AUDIT.read_text())
         graph = json.loads(api_priority.OBSERVATIONS.read_text())

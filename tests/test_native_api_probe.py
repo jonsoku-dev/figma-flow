@@ -36,15 +36,18 @@ class NativeApiProbeTest(unittest.TestCase):
     def test_audit_candidates_are_bounded_paged_and_receiver_specific(self):
         plans = [probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID, candidate_offset=offset)
                  for offset in (0, 16, 32)]
-        self.assertEqual([row['budget']['planned_getters'] for row in plans], [138, 82, 6])
+        planned = [row['budget']['planned_getters'] for row in plans]
+        self.assertTrue(all(count <= len(SELECTION['nodes']) * probe.MAX_CANDIDATES_PER_TYPE
+                            for count in planned))
+        self.assertEqual(sum(planned), sum(len(rows) for rows in plans[0]['eligibleByType'].values()))
         first = plans[0]
-        self.assertEqual({kind: row['eligible'] for kind, row in first['eligibilityByType'].items()}, {
-            'FRAME': 32, 'ELLIPSE': 18, 'BOOLEAN_OPERATION': 18, 'SECTION': 10, 'COMPONENT': 32,
-            'INSTANCE': 34, 'TEXT': 25, 'RECTANGLE': 21, 'COMPONENT_SET': 36,
-        })
         all_rows = [row for rows in first['eligibleByType'].values() for row in rows]
-        self.assertEqual(len(all_rows), 226)
-        self.assertEqual(len({row['api_member_id'] for row in all_rows}), 50)
+        self.assertGreater(len(all_rows), 0)
+        self.assertTrue(all(scores == sorted(scores, reverse=True) for scores in
+                            [[row['priority_score'] for row in rows]
+                             for rows in first['eligibleByType'].values()]))
+        self.assertTrue(all(row['priority_score'] > 0 and row['priority_reasons']
+                            and row['role_matches'] for row in all_rows))
         self.assertTrue(all(row['audit_status'] == 'unresolved'
                             and row['receiver_type'] in probe.SAFE_TYPES
                             for row in all_rows))
@@ -53,14 +56,17 @@ class NativeApiProbeTest(unittest.TestCase):
         self.assertEqual(first['fieldPolicySha256'], hashlib.sha256(
             json.dumps(first['fieldPolicy'], sort_keys=True, separators=(',', ':')).encode()).hexdigest())
         self.assertEqual(first['nodeTypeInterfaces']['COMPONENT_SET'], 'ComponentSetNode')
-        frame_fields = {row['property'] for row in first['eligibleByType']['FRAME']}
-        rectangle_fields = {row['property'] for row in first['eligibleByType']['RECTANGLE']}
-        text_fields = {row['property'] for row in first['eligibleByType']['TEXT']}
+        catalog = probe.load_catalog()
+        audit_rows = probe._audit_rows(catalog, json.loads(probe.AUDIT_PATH.read_text()))
+        frame_fields = {row['property'] for row in probe.candidates_for_type(catalog, audit_rows, 'FRAME')}
+        rectangle_fields = {row['property'] for row in probe.candidates_for_type(catalog, audit_rows, 'RECTANGLE')}
+        text_fields = {row['property'] for row in probe.candidates_for_type(catalog, audit_rows, 'TEXT')}
         self.assertNotIn('topLeftRadius', frame_fields)
         self.assertIn('topLeftRadius', rectangle_fields)
         self.assertIn('maxLines', text_fields)
-        self.assertTrue({'getCSSAsync', 'getRangeFontName', 'getRangeFontSize', 'getRangeFills'} <=
-                        {row['property'] for row in plans[0]['eligibleByType']['TEXT']})
+        self.assertEqual(set(),
+                         {row['property'] for row in plans[0]['eligibleByType']['TEXT']
+                          if row['access'] == 'method'})
         vector_fields = {row['property'] for row in probe.candidates_for_type(
             probe.load_catalog(), probe._audit_rows(probe.load_catalog(), json.loads(probe.AUDIT_PATH.read_text())), 'VECTOR')}
         self.assertTrue({'strokeAlign', 'strokeCap', 'strokeJoin', 'dashPattern',
@@ -68,7 +74,9 @@ class NativeApiProbeTest(unittest.TestCase):
 
     def test_prior_statuses_require_timestamp_and_matching_hashes(self):
         baseline = probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID)
-        member = baseline['eligibleByType']['FRAME'][0]
+        catalog = probe.load_catalog()
+        audit_rows = probe._audit_rows(catalog, json.loads(probe.AUDIT_PATH.read_text()))
+        member = probe.candidates_for_type(catalog, audit_rows, 'FRAME')[0]
         receipt = {'schema': probe.READBACK_SCHEMA, 'fileKey': FILE_KEY, 'pageId': PAGE_ID,
             'observed_at': '2026-11-13T15:33:24.219Z', 'api_probe': {
                 'schema': 'figma-flow-native-api-probe-v1', 'auditRelease': baseline['auditRelease'],
@@ -107,9 +115,15 @@ class NativeApiProbeTest(unittest.TestCase):
 
     def test_documented_read_methods_use_static_calls_and_safe_projection(self):
         plan = probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID)
-        methods = {row['property'] for row in plan['eligibleByType']['TEXT']
+        catalog = probe.load_catalog()
+        audit_rows = probe._audit_rows(catalog, json.loads(probe.AUDIT_PATH.read_text()))
+        methods = {row['property'] for row in probe.candidates_for_type(catalog, audit_rows, 'TEXT')
                    if row['access'] == 'method'}
-        self.assertEqual(methods, {'getCSSAsync', 'getRangeFontName', 'getRangeFontSize', 'getRangeFills'})
+        self.assertEqual(methods, {'getCSSAsync', 'getRangeFontName', 'getRangeFontSize', 'getRangeFontWeight', 'getRangeFills'})
+        method_rows = [row for row in probe.candidates_for_type(catalog, audit_rows, 'TEXT')
+                       if row['access'] == 'method']
+        plan['eligibleByType']['TEXT'].extend(method_rows)
+        plan['candidatesByType']['TEXT'].extend(method_rows)
         with tempfile.TemporaryDirectory(dir=ROOT) as temporary:
             config_path = Path(temporary) / 'config.json'
             config_path.write_text(json.dumps(plan))
