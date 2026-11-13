@@ -29,7 +29,8 @@ NODE_ID = re.compile(r'(?:I?\d+:\d+)(?:;\d+:\d+)*\Z')
 SAFE_TYPES = {'FRAME': 'FrameNode', 'ELLIPSE': 'EllipseNode',
               'BOOLEAN_OPERATION': 'BooleanOperationNode', 'SECTION': 'SectionNode',
               'INSTANCE': 'InstanceNode', 'COMPONENT': 'ComponentNode',
-              'TEXT': 'TextNode', 'RECTANGLE': 'RectangleNode', 'COMPONENT_SET': 'ComponentSetNode'}
+              'TEXT': 'TextNode', 'RECTANGLE': 'RectangleNode', 'COMPONENT_SET': 'ComponentSetNode',
+              'GROUP': 'GroupNode', 'VECTOR': 'VectorNode'}
 
 # These fields are safe scalar, geometry, layout, or solid-color foundations.
 # Every entry still requires a matching unresolved PropertySignature in the audit.
@@ -41,6 +42,7 @@ SAFE_FIELDS = {
     'isExposedInstance': ('instance', 'boolean', 1, ('INSTANCE',)),
     'textCase': ('text-style', 'enum', 0, ('TEXT',)),
     'textDecoration': ('text-style', 'enum', 0, ('TEXT',)),
+    'textAutoResize': ('text-style', 'enum', 0, ('TEXT',)),
     'textAlignVertical': ('text-style', 'enum', 0, ('TEXT',)),
     'paragraphIndent': ('text-style', 'number', 0, ('TEXT',)),
     'paragraphSpacing': ('text-style', 'number', 0, ('TEXT',)),
@@ -70,6 +72,15 @@ SAFE_FIELDS = {
     'locked': ('state', 'boolean', 3),
     'opacity': ('appearance', 'number', 3),
     'strokeWeight': ('appearance', 'number', 3),
+    'strokeAlign': ('appearance', 'enum', 3),
+    'strokeCap': ('appearance', 'enum', 3),
+    'strokeJoin': ('appearance', 'enum', 3),
+    'strokeMiterLimit': ('appearance', 'number', 3),
+    'dashPattern': ('appearance', 'number-list', 3),
+    'blendMode': ('appearance', 'enum', 3),
+    'visible': ('state', 'boolean', 3),
+    'isMask': ('state', 'boolean', 3),
+    'clipsContent': ('state', 'boolean', 3),
     'cornerRadius': ('appearance', 'number', 3),
     'topLeftRadius': ('appearance', 'number', 3, ('RECTANGLE', 'COMPONENT_SET')),
     'topRightRadius': ('appearance', 'number', 3, ('RECTANGLE', 'COMPONENT_SET')),
@@ -78,11 +89,22 @@ SAFE_FIELDS = {
     'fills': ('appearance', 'solid-paints', 3),
     'strokes': ('appearance', 'solid-paints', 3),
     'absoluteRenderBounds': ('geometry', 'rect', 4),
+    'relativeTransform': ('geometry', 'matrix', 4),
+    'absoluteTransform': ('geometry', 'matrix', 4),
     'x': ('geometry', 'number', 4),
     'y': ('geometry', 'number', 4),
     'width': ('geometry', 'number', 4),
     'height': ('geometry', 'number', 4),
     'rotation': ('geometry', 'number', 4),
+}
+
+# Methods are called only through explicit static branches in the bridge runtime.
+# Text range methods derive their bounds from characters.length without emitting the text.
+SAFE_METHODS = {
+    'getCSSAsync': ('css', 'css-summary', 0, ('*',)),
+    'getRangeFontName': ('text-style', 'font-range', 0, ('TEXT',)),
+    'getRangeFontSize': ('text-style', 'font-size-range', 0, ('TEXT',)),
+    'getRangeFills': ('text-style', 'solid-paints', 0, ('TEXT',)),
 }
 
 
@@ -138,7 +160,9 @@ def candidates_for_type(catalog, audit_rows, node_type):
                 pending_depth.append(base)
     by_name = {}
     for member in members:
-        if member.get('kind') != 'PropertySignature' or member.get('name') not in SAFE_FIELDS:
+        access = 'property' if member.get('kind') == 'PropertySignature' and member.get('name') in SAFE_FIELDS else (
+            'method' if member.get('kind') == 'MethodSignature' and member.get('name') in SAFE_METHODS else None)
+        if access is None:
             continue
         docs = member.get('documentation', '')
         if (not isinstance(docs, str) or not docs.strip() or member.get('restricted_access')
@@ -148,12 +172,12 @@ def candidates_for_type(catalog, audit_rows, node_type):
             continue
         audited = audit_rows.get((member['owner'], member['name'], member['signature']), [])
         unresolved = [row for row in audited
-                      if row.get('kind') == 'PropertySignature'
+                      if row.get('kind') == member.get('kind')
                       and row.get('release_status', {}).get('candidate', {}).get('status') == 'unresolved']
         if not unresolved:
             continue
         selected = member
-        field_policy = SAFE_FIELDS[member['name']]
+        field_policy = SAFE_FIELDS[member['name']] if access == 'property' else SAFE_METHODS[member['name']]
         foundation, value_kind, priority = field_policy[:3]
         allowed_receivers = field_policy[3] if len(field_policy) == 4 else ('*',)
         if '*' not in allowed_receivers and node_type not in allowed_receivers:
@@ -170,6 +194,7 @@ def candidates_for_type(catalog, audit_rows, node_type):
             'allowed_receivers': list(allowed_receivers),
             'audit_status': 'unresolved',
             'audit_release': AUDIT_CANDIDATE_RELEASE,
+            'access': access,
             '_priority': priority,
             '_depth': depth.get(selected['owner'], 999),
         })
@@ -288,8 +313,11 @@ def prepare(selection, *, file_key, page_id, catalog=None, audit=None, previous_
         raise ValueError('Previous readback must have a valid actual receipt timestamp and match the exact file/page scope.')
     api_source = {'version': catalog['source']['version'], 'ref': catalog['source']['ref']}
     field_policy = {name: {'foundation': values[0], 'value_kind': values[1], 'priority': values[2],
-                           'allowed_receivers': list(values[3]) if len(values) == 4 else ['*']}
-                    for name, values in SAFE_FIELDS.items()}
+                           'allowed_receivers': list(values[3]) if len(values) == 4 else ['*'],
+                           'access': 'property'} for name, values in SAFE_FIELDS.items()}
+    field_policy.update({name: {'foundation': values[0], 'value_kind': values[1], 'priority': values[2],
+                                'allowed_receivers': list(values[3]), 'access': 'method'}
+                         for name, values in SAFE_METHODS.items()})
     field_policy_sha = hashlib.sha256(json.dumps(field_policy, sort_keys=True,
         separators=(',', ':')).encode()).hexdigest()
     selection_sha = hashlib.sha256(json.dumps(targets, ensure_ascii=False, sort_keys=True,

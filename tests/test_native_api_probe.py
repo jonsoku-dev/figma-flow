@@ -36,20 +36,20 @@ class NativeApiProbeTest(unittest.TestCase):
     def test_audit_candidates_are_bounded_paged_and_receiver_specific(self):
         plans = [probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID, candidate_offset=offset)
                  for offset in (0, 16, 32)]
-        self.assertEqual([row['budget']['planned_getters'] for row in plans], [111, 30, 0])
+        self.assertEqual([row['budget']['planned_getters'] for row in plans], [138, 82, 6])
         first = plans[0]
         self.assertEqual({kind: row['eligible'] for kind, row in first['eligibilityByType'].items()}, {
-            'FRAME': 22, 'ELLIPSE': 9, 'BOOLEAN_OPERATION': 9, 'SECTION': 4, 'COMPONENT': 22,
-            'INSTANCE': 24, 'TEXT': 13, 'RECTANGLE': 12, 'COMPONENT_SET': 26,
+            'FRAME': 32, 'ELLIPSE': 18, 'BOOLEAN_OPERATION': 18, 'SECTION': 10, 'COMPONENT': 32,
+            'INSTANCE': 34, 'TEXT': 25, 'RECTANGLE': 21, 'COMPONENT_SET': 36,
         })
         all_rows = [row for rows in first['eligibleByType'].values() for row in rows]
-        self.assertEqual(len(all_rows), 141)
-        self.assertEqual(len({row['api_member_id'] for row in all_rows}), 37)
+        self.assertEqual(len(all_rows), 226)
+        self.assertEqual(len({row['api_member_id'] for row in all_rows}), 50)
         self.assertTrue(all(row['audit_status'] == 'unresolved'
                             and row['receiver_type'] in probe.SAFE_TYPES
                             for row in all_rows))
-        self.assertTrue(all(probe.SAFE_FIELDS[row['property']][1] == row['value_kind']
-                            for row in all_rows))
+        self.assertTrue(all((probe.SAFE_FIELDS if row['access'] == 'property' else probe.SAFE_METHODS)
+                            [row['property']][1] == row['value_kind'] for row in all_rows))
         self.assertEqual(first['fieldPolicySha256'], hashlib.sha256(
             json.dumps(first['fieldPolicy'], sort_keys=True, separators=(',', ':')).encode()).hexdigest())
         self.assertEqual(first['nodeTypeInterfaces']['COMPONENT_SET'], 'ComponentSetNode')
@@ -59,6 +59,12 @@ class NativeApiProbeTest(unittest.TestCase):
         self.assertNotIn('topLeftRadius', frame_fields)
         self.assertIn('topLeftRadius', rectangle_fields)
         self.assertIn('maxLines', text_fields)
+        self.assertTrue({'getCSSAsync', 'getRangeFontName', 'getRangeFontSize', 'getRangeFills'} <=
+                        {row['property'] for row in plans[0]['eligibleByType']['TEXT']})
+        vector_fields = {row['property'] for row in probe.candidates_for_type(
+            probe.load_catalog(), probe._audit_rows(probe.load_catalog(), json.loads(probe.AUDIT_PATH.read_text())), 'VECTOR')}
+        self.assertTrue({'strokeAlign', 'strokeCap', 'strokeJoin', 'dashPattern',
+                         'absoluteTransform', 'relativeTransform'} <= vector_fields)
 
     def test_prior_statuses_require_timestamp_and_matching_hashes(self):
         baseline = probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID)
@@ -96,6 +102,19 @@ class NativeApiProbeTest(unittest.TestCase):
         self.assertIn('config.fieldPolicy?.[candidate?.property]', source)
         self.assertIn('fieldPolicy.allowed_receivers.includes(target.observed_type)', source)
         self.assertIn('candidate?.audit_status !== \'unresolved\'', source)
+        self.assertIn('NATIVE_API_PROBE_METHODS[candidate.property]', source)
+        self.assertNotIn('node[candidate.property](', source)
+
+    def test_documented_read_methods_use_static_calls_and_safe_projection(self):
+        plan = probe.prepare(SELECTION, file_key=FILE_KEY, page_id=PAGE_ID)
+        methods = {row['property'] for row in plan['eligibleByType']['TEXT']
+                   if row['access'] == 'method'}
+        self.assertEqual(methods, {'getCSSAsync', 'getRangeFontName', 'getRangeFontSize', 'getRangeFills'})
+        with tempfile.TemporaryDirectory(dir=ROOT) as temporary:
+            config_path = Path(temporary) / 'config.json'
+            config_path.write_text(json.dumps(plan))
+            subprocess.run(['node', str(ROOT / 'tests/native_api_probe_methods.cjs'),
+                            str(config_path), str(ROOT / 'figma-bridge/native_api_probe.js')], check=True)
 
     def test_workspace_admission_pins_selection_and_builds_public_read_only_task(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as temporary:

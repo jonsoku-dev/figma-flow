@@ -3,6 +3,12 @@ const NATIVE_API_PROBE_MAX_GETTERS = 192;
 const NATIVE_API_PROBE_MAX_ELAPSED_MS = 1500;
 const NATIVE_API_PROBE_MAX_ANCESTORS = 32;
 const NATIVE_API_PROBE_STATUSES = ['success', 'unavailable', 'unsupported', 'blocked'];
+const NATIVE_API_PROBE_METHODS = {
+  getCSSAsync: {foundation: 'css', value_kind: 'css-summary'},
+  getRangeFontName: {foundation: 'text-style', value_kind: 'font-range'},
+  getRangeFontSize: {foundation: 'text-style', value_kind: 'font-size-range'},
+  getRangeFills: {foundation: 'text-style', value_kind: 'solid-paints'},
+};
 
 function nativeProbeFinite(value, minimum = -1000000, maximum = 1000000) {
   return typeof value === 'number' && Number.isFinite(value) && value >= minimum && value <= maximum;
@@ -19,7 +25,72 @@ function nativeProbeColor(value) {
   return {r: nativeProbeRound(value.r), g: nativeProbeRound(value.g), b: nativeProbeRound(value.b)};
 }
 
-function nativeProbeValue(kind, value) {
+function nativeProbeCssSummary(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {ok: false};
+  const entries = Object.entries(value);
+  if (entries.length > 96 || entries.some(([key, item]) => typeof key !== 'string'
+      || key.length > 80 || typeof item !== 'string' || item.length > 256)) return {ok: false};
+  const numeric = new Set(['width', 'height', 'min-width', 'max-width', 'min-height', 'max-height',
+    'top', 'right', 'bottom', 'left', 'font-size', 'line-height', 'border-radius', 'opacity',
+    'gap', 'row-gap', 'column-gap', 'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left']);
+  const colorProperties = new Set(['color', 'background-color', 'border-color', 'outline-color']);
+  const enumValues = {
+    display: ['block', 'flex', 'inline', 'inline-block', 'none'],
+    position: ['static', 'relative', 'absolute', 'fixed'],
+    'flex-direction': ['row', 'row-reverse', 'column', 'column-reverse'],
+    'align-items': ['stretch', 'flex-start', 'flex-end', 'center', 'baseline'],
+    'justify-content': ['normal', 'flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'],
+    overflow: ['visible', 'hidden', 'clip', 'scroll', 'auto'],
+    'box-sizing': ['content-box', 'border-box'],
+    'text-align': ['left', 'right', 'center', 'justify', 'start', 'end'],
+  };
+  const projected = {};
+  for (const [key, raw] of entries) {
+    const valueText = raw.trim().toLowerCase();
+    if (numeric.has(key)) {
+      const match = /^(-?(?:\d+\.?\d*|\.\d+))(px|deg|%)?$/.exec(valueText);
+      const amount = match ? Number(match[1]) : NaN;
+      if (match && nativeProbeFinite(amount)) {
+        projected[key] = {type: 'number', value: nativeProbeRound(amount), unit: match[2] || ''};
+      }
+    } else if (colorProperties.has(key)) {
+      const hex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(valueText);
+      if (hex) {
+        const digits = hex[1].length === 3 ? [...hex[1]].map(char => char + char).join('') : hex[1];
+        projected[key] = {type: 'SOLID', color: {r: nativeProbeRound(parseInt(digits.slice(0, 2), 16) / 255),
+          g: nativeProbeRound(parseInt(digits.slice(2, 4), 16) / 255),
+          b: nativeProbeRound(parseInt(digits.slice(4, 6), 16) / 255)}};
+      }
+    } else if (enumValues[key]?.includes(valueText)) {
+      projected[key] = {type: 'enum', value: valueText.toUpperCase().replaceAll('-', '_')};
+    }
+  }
+  return {ok: true, value: {propertyCount: entries.length, projected}};
+}
+
+function nativeProbeValue(kind, value, figma) {
+  if (kind === 'css-summary') return nativeProbeCssSummary(value);
+  if (kind === 'font-range') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (!value || typeof value !== 'object' || Array.isArray(value)
+        || typeof value.family !== 'string' || !/^[\p{L}\p{M}\p{N} .,'()+&_-]{1,96}$/u.test(value.family)
+        || typeof value.style !== 'string' || !/^[\p{L}\p{M}\p{N} .,'()+&_-]{1,96}$/u.test(value.style)) return {ok: false};
+    const result = {mixed: false, family: value.family, style: value.style};
+    if (value.variationSettings !== undefined) {
+      if (!value.variationSettings || typeof value.variationSettings !== 'object'
+          || Array.isArray(value.variationSettings)) return {ok: false};
+      const entries = Object.entries(value.variationSettings);
+      if (entries.length > 12 || entries.some(([axis, amount]) => !/^[A-Za-z0-9]{4}$/.test(axis)
+          || !nativeProbeFinite(amount, -100000, 100000))) return {ok: false};
+      result.variationSettings = Object.fromEntries(entries.map(([axis, amount]) => [axis, nativeProbeRound(amount)]));
+    }
+    return {ok: true, value: result};
+  }
+  if (kind === 'font-size-range') {
+    if (value === figma.mixed) return {ok: true, value: {mixed: true}};
+    if (!nativeProbeFinite(value, 0, 10000)) return {ok: false};
+    return {ok: true, value: {mixed: false, value: nativeProbeRound(value)}};
+  }
   if (kind === 'boolean') return typeof value === 'boolean' ? {ok: true, value} : {ok: false};
   if (kind === 'number') {
     if (!nativeProbeFinite(value)) return {ok: false};
@@ -40,6 +111,17 @@ function nativeProbeValue(kind, value) {
         || !nativeProbeFinite(value.width, 0) || !nativeProbeFinite(value.height, 0)) return {ok: false};
     return {ok: true, value: {x: nativeProbeRound(value.x), y: nativeProbeRound(value.y),
       width: nativeProbeRound(value.width), height: nativeProbeRound(value.height)}};
+  }
+  if (kind === 'matrix') {
+    if (!Array.isArray(value) || value.length !== 2
+        || !value.every(row => Array.isArray(row) && row.length === 3
+          && row.every(item => nativeProbeFinite(item)))) return {ok: false};
+    return {ok: true, value: value.map(row => row.map(nativeProbeRound))};
+  }
+  if (kind === 'number-list') {
+    if (!Array.isArray(value) || value.length > 16
+        || !value.every(item => nativeProbeFinite(item, 0, 100000))) return {ok: false};
+    return {ok: true, value: value.map(nativeProbeRound)};
   }
   if (kind === 'arc') {
     if (!value || typeof value !== 'object'
@@ -179,6 +261,7 @@ async function discoverSelectedNativeApi(figma, scope, config) {
       try { node = await figma.getNodeByIdAsync(target.observed_node_id); }
       catch (_) { targetBlock = 'lookup-failed'; }
       if (!node && !targetBlock) targetBlock = 'node-unavailable';
+      if (node && node.id !== target.observed_node_id) targetBlock = 'id-mismatch';
       if (node && node.type !== target.observed_type) targetBlock = 'type-mismatch';
       if (node && !targetBlock) {
         let cursor = node, depth = 0;
@@ -196,6 +279,10 @@ async function discoverSelectedNativeApi(figma, scope, config) {
       const fieldPolicy = config.fieldPolicy?.[candidate?.property];
       if (!fieldPolicy || fieldPolicy.value_kind !== candidate?.value_kind
           || fieldPolicy.foundation !== candidate?.foundation
+          || fieldPolicy.access !== candidate?.access
+          || (candidate?.access === 'method' && (!NATIVE_API_PROBE_METHODS[candidate?.property]
+            || NATIVE_API_PROBE_METHODS[candidate.property].value_kind !== candidate.value_kind
+            || NATIVE_API_PROBE_METHODS[candidate.property].foundation !== candidate.foundation))
           || candidate?.receiver_type !== target.observed_type
           || !Array.isArray(fieldPolicy.allowed_receivers)
           || (!fieldPolicy.allowed_receivers.includes('*')
@@ -211,13 +298,30 @@ async function discoverSelectedNativeApi(figma, scope, config) {
       else if (node.type !== target.observed_type) { status = 'blocked'; reason = 'type-mismatch'; }
       else if (Date.now() - start >= NATIVE_API_PROBE_MAX_ELAPSED_MS || attempted >= NATIVE_API_PROBE_MAX_GETTERS) {
         status = 'blocked'; reason = 'getter-budget';
-      } else if (!(candidate.property in node)) { status = 'unsupported'; reason = 'property-absent'; }
+      } else if (candidate.access === 'property' && !(candidate.property in node)) {
+        status = 'unsupported'; reason = 'property-absent';
+      } else if (candidate.access === 'method' && typeof node[candidate.property] !== 'function') {
+        status = 'unsupported'; reason = 'method-absent';
+      }
       else {
         attempted++;
         try {
-          const safe = nativeProbeValue(candidate.value_kind, node[candidate.property]);
+          let rawValue;
+          if (candidate.access === 'property') rawValue = node[candidate.property];
+          else if (candidate.property === 'getCSSAsync') rawValue = await node.getCSSAsync();
+          else if (candidate.property === 'getRangeFontName'
+              || candidate.property === 'getRangeFontSize' || candidate.property === 'getRangeFills') {
+            if (typeof node.characters !== 'string' || !node.characters.length) {
+              status = 'unavailable'; reason = 'empty-text-range';
+            } else if (candidate.property === 'getRangeFontName') {
+              rawValue = node.getRangeFontName(0, node.characters.length);
+            } else if (candidate.property === 'getRangeFontSize') {
+              rawValue = node.getRangeFontSize(0, node.characters.length);
+            } else rawValue = node.getRangeFills(0, node.characters.length);
+          } else { status = 'blocked'; reason = 'method-not-allowlisted'; }
+          const safe = status ? {ok: false} : nativeProbeValue(candidate.value_kind, rawValue, figma);
           if (safe.ok) { status = 'success'; value = safe.value; }
-          else { status = 'unavailable'; reason = 'value-not-in-safe-projection'; }
+          else if (!status) { status = 'unavailable'; reason = 'value-not-in-safe-projection'; }
         } catch (_) { status = 'unavailable'; reason = 'getter-threw'; }
       }
       const delta = prior === undefined ? 'unknown' : prior === status ? 'matched' : 'changed';
