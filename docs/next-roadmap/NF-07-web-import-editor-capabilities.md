@@ -1,6 +1,6 @@
 # NF-07 웹 가져오기와 에디터 기능 범위
 
-상태는 **PROPOSED**다. 이 설계는 검토된 웹 입력 경로와 Figma 에디터 모드별 기능표를 추가한다. [NF-04](NF-04-renderer-adapters.md)의 graph-to-web 출력은 바꾸지 않는다.
+0.30.0에서 웹 캡처 → 그래프 → 편집 가능한 Design 프레임 경로를 구현했다. Portfolio·Codeforge 홈, DevTool 블로그, SaaS 가입 화면의 실제 브라우저와 Figma 읽기를 확인했다. 아래 설계 중 디자인 시스템의 기존 컴포넌트와 자동 매핑, CSS 마스크·필터 복원, 편집기별 전체 기능표는 후속 범위다. [현재 사용법](../web-design-capture.md) · [실측과 제한](../editable-web-verification.md) · [API 우선순위 재생](../api-priority.md)
 
 ## Web import
 

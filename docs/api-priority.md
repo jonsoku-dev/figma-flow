@@ -1,13 +1,13 @@
 # Plugin API evidence priority
 
-`tools/api_priority.py` builds a deterministic ranking over every exact-key member in the pinned 0.28 audit and marks keys already present as observed in the 0.29 API observation graph. Ranking estimates usefulness to designers, developers, and planners, then favors runtime owners and feasible read-only properties. Methods require an owned disposable target before they are considered safe queue work. Type-only, unresolved-receiver, editor-gated, and permission-gated rows remain in the complete inventory with their limits visible.
+The ranked graph connects each audited API member to its exact owner, compatible receivers, user roles, feasibility and evidence. The default command joins the pinned audit and the 0.29 and 0.30 observations. A property can be readable even when the SDK also allows writes. Only explicitly mapped methods enter the read-only or owned-write queues. Methods needing a scenario, declaration-only types, unresolved receivers and editor or permission gates retain distinct classifications.
 
 The score is a work-order hint, not evidence that a method or getter works. Graph status is copied only from a validated `observed member` edge to the exact `member:<hash>` audit key. An unlinked graph node with status `observed` contributes nothing. The builder never converts audit references, declarations, or queue membership into successful runtime observations.
 
 ```sh
 python3 tools/api_priority.py build --out .figma-flow/api-priority.json
-python3 tools/api_priority.py queue --inventory .figma-flow/api-priority.json --limit 1255
-python3 tools/api_priority.py queue --inventory .figma-flow/api-priority.json --receiver TextNode --limit 30 --feasible-only
+python3 tools/api_priority.py queue --inventory .figma-flow/api-priority.json --format graph > .figma-flow/ranked-graph.json
+python3 tools/api_priority.py queue --inventory .figma-flow/api-priority.json --receiver TEXT --limit 30 --feasible-only
 python3 tools/api_priority.py build --baseline-only --out .figma-flow/api-priority-029.json
 python3 tools/api_priority.py build --observations specs/graph-review/api-observations.json \
   --overlay .figma-flow/new-sanitized-api-observations.json --out .figma-flow/api-priority-updated.json
