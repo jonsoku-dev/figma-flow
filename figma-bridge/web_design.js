@@ -180,6 +180,8 @@ function webSceneValue(node, includeTextStyle = true, includeMaskState = true) {
     strokeStyleId: node.strokeStyleId,
     effectStyleId: node.effectStyleId,
     clipsContent: node.clipsContent,
+    // Preserve the key order of unversioned snapshots when mask state is included.
+    ...(includeMaskState === 'unversioned' ? { isMask: node.isMask, maskType: node.maskType } : {}),
     webComponentMainId: node.getPluginData?.(WEB_COMPONENT_MAIN) || null,
     layoutMode: node.layoutMode,
     paddingLeft: node.paddingLeft,
@@ -187,7 +189,7 @@ function webSceneValue(node, includeTextStyle = true, includeMaskState = true) {
     paddingTop: node.paddingTop,
     paddingBottom: node.paddingBottom,
   };
-  if (includeMaskState) {
+  if (includeMaskState === true) {
     scene.isMask = node.isMask;
     scene.maskType = node.maskType;
   }
@@ -243,7 +245,7 @@ function webSceneMatches(node) {
   }
   // Unversioned imports can still carry the current exact scene digest. This
   // proves the mask state itself before trying older digests that omit masks.
-  if (stored === webSceneHash(node)) return true;
+  if (stored === webSceneHash(node) || stored === webSceneHash(node, true, 'unversioned')) return true;
   if (node.findAll(candidate => candidate.isMask === true).length) return false;
   return stored === webSceneHash(node, true, false) || stored === webSceneHash(node, false, false);
 }
