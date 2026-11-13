@@ -113,7 +113,7 @@ class NativeApiProbeTest(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=ROOT) as temporary:
             config_path = Path(temporary) / 'config.json'
             config_path.write_text(json.dumps(plan))
-            subprocess.run(['node', str(ROOT / 'tests/native_api_probe_methods.cjs'),
+            subprocess.run(['node', str(ROOT / 'tests/helpers/native_api_probe_methods.cjs'),
                             str(config_path), str(ROOT / 'figma-bridge/native_api_probe.js')], check=True)
 
     def test_workspace_admission_pins_selection_and_builds_public_read_only_task(self):
