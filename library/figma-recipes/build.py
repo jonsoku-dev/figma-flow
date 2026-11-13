@@ -13,6 +13,7 @@ LIBRARY = Path(__file__).resolve().parent
 ROOT = LIBRARY.parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 from design_system import compile_design
+from workspace_recipes import registered_actions
 
 
 def digest(data):
@@ -45,7 +46,7 @@ def build(compiler):
     assert 'importDesign(' not in helpers and 'figma.createPage(' not in helpers and '.remove(' not in helpers
     subprocess.run(['node', '--check', str(helpers_path)], check=True)
     rows = []
-    ids = ['design-shapes', 'design-grid', 'design-motion', 'design-component-properties']
+    ids = registered_actions()
     with tempfile.TemporaryDirectory() as directory:
         temp = Path(directory)
         globals = temp / 'globals.d.ts'

@@ -9,6 +9,7 @@ import shutil
 import subprocess
 
 from figma_api_inventory import LIBRARY, ROOT, verify_source
+from review_graph import project_graph, typescript_projection
 
 TYPESCRIPT = '5.9.3'
 EDITORS = ('figma', 'figjam', 'slides', 'buzz', 'dev')
@@ -46,7 +47,7 @@ figma.closePlugin(summary.length ? summary.join('; ') : 'No nodes selected on th
 """
 
 
-def initialize(path, editor, mode=None, plugin_id=None, recipe=None):
+def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_graph=None, selected_ids=None):
     path = safe_path(path)
     if path.exists():
         raise ValueError('Destination already exists; choose a new directory (registered workspaces are never replaced)')
@@ -62,6 +63,8 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None):
     source = verify_source()
     code = example(editor, mode)
     helper = None
+    projection = None
+    graph_pin = None
     if recipe:
         catalog = json.loads((RECIPES / 'manifest.json').read_text())
         rows = [row for row in catalog['recipes'] if row['id'] == recipe]
@@ -75,12 +78,19 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None):
                 or any(part.is_symlink() for part in [(RECIPES / entry), *(RECIPES / entry).parents])):
             raise ValueError('Unsafe recipe entry')
         code = (RECIPES / entry).read_text()
+        if row.get('reviewGraph') is True:
+            if review_graph is None:
+                raise ValueError('Graph-driven recipes require --review-graph and the intended node selection')
+            graph, graph_pin = project_graph(review_graph, selected_ids)
+            projection = typescript_projection(graph, graph_pin)
         if row.get('runtimeHelpers'):
             helper_entry = Path(row['runtimeHelpers'])
             if (helper_entry.is_absolute() or '..' in helper_entry.parts
                     or any(part.is_symlink() for part in [(RECIPES / helper_entry), *(RECIPES / helper_entry).parents])):
                 raise ValueError('Unsafe recipe helpers')
             helper = (RECIPES / helper_entry).read_text()
+    if projection is None and (review_graph is not None or selected_ids):
+        raise ValueError('This recipe does not consume a review graph')
     manifest = {'name': 'Local SDK workbench', 'api': '1.0.0', 'main': 'dist/code.js',
                 'editorType': [editor], 'documentAccess': 'dynamic-page',
                 'networkAccess': {'allowedDomains': ['none']}}
@@ -89,6 +99,8 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None):
     if editor == 'dev':
         manifest.update(capabilities=['codegen'], codegenLanguages=[{'label': 'JSON', 'value': 'json'}])
     inputs = INPUTS[:-1] + (['vendor/recipe-runtime.js'] if helper is not None else []) + INPUTS[-1:]
+    if projection is not None:
+        inputs.insert(-1, 'src/review-graph.ts')
     files = {
         'manifest.json' if plugin_id else 'manifest.template.json': encoded(manifest),
         'package.json': encoded({'name': 'local-figma-sdk-project', 'version': '0.0.0', 'private': True,
@@ -101,7 +113,9 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None):
         'vendor/source.json': encoded(source),
         'sdk-project.json': encoded({'schemaVersion': 1, 'editor': editor, 'mode': mode, 'typescript': TYPESCRIPT,
                                     'recipe': recipe, 'runtimeHelpers': None if helper is None else {'path': 'vendor/recipe-runtime.js',
-                                        'sha256': hashlib.sha256(helper.encode()).hexdigest()}, 'runtimeAcceptance': 'unverified'}),
+                                        'sha256': hashlib.sha256(helper.encode()).hexdigest()}, 'runtimeAcceptance': 'unverified',
+                                    **({'reviewGraph': {'graphSha256': graph_pin,
+                                        'projectionSha256': hashlib.sha256(projection.encode()).hexdigest()}} if projection else {})}),
         '.gitignore': 'node_modules/\ndist/\n',
         'README.md': """# Local Figma SDK project
 
@@ -120,6 +134,8 @@ https://developers.figma.com/docs/plugins/manifest/
 Typechecking proves declaration compatibility only, not editor support or runtime safety.
 """,
     }
+    if projection is not None:
+        files['src/review-graph.ts'] = projection
     if helper is not None:
         files['vendor/recipe-runtime.js'] = helper
     # Exclusive creation prevents accidental replacement of an existing plugin.
@@ -159,6 +175,11 @@ def compile_project(path, build=False, typescript=None):
         if helper_path.is_symlink() or hashlib.sha256(helper_path.read_bytes()).hexdigest() != helper.get('sha256'):
             raise ValueError('Pinned recipe helpers changed')
         inputs.insert(-1, helper['path'])
+    if 'reviewGraph' in metadata:
+        projection = safe_path(path / 'src/review-graph.ts').read_bytes()
+        if hashlib.sha256(projection).hexdigest() != metadata['reviewGraph']['projectionSha256']:
+            raise ValueError('Review graph projection changed. Regenerate it from the canonical graph.')
+        inputs.insert(-1, 'src/review-graph.ts')
     compiler = Path(typescript).resolve() if typescript else path / 'node_modules/typescript/lib/tsc.js'
     package = json.loads((compiler.parent.parent / 'package.json').read_text())
     if package.get('name') != 'typescript' or package.get('version') != TYPESCRIPT or compiler.name != 'tsc.js':
@@ -178,6 +199,8 @@ def main(argv=None):
     init.add_argument('--mode', choices=['default', 'codegen'])
     init.add_argument('--plugin-id', help='ID issued by Figma, never a fabricated ID')
     init.add_argument('--recipe', help='ID in library/figma-recipes/manifest.json')
+    init.add_argument('--review-graph', type=Path, help='Canonical Figma Flow product graph')
+    init.add_argument('--node', action='append', help='Node to include in the reviewed subgraph (repeatable)')
     for command in ('check', 'build'):
         child = commands.add_parser(command)
         child.add_argument('path')
@@ -185,7 +208,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.command == 'init':
-            result = initialize(args.path, args.editor, args.mode, args.plugin_id, args.recipe)
+            result = initialize(args.path, args.editor, args.mode, args.plugin_id, args.recipe,
+                                args.review_graph, args.node)
         else:
             result = compile_project(args.path, args.command == 'build', args.typescript)
         print(encoded(result), end='')

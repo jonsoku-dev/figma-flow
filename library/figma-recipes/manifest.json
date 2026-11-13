@@ -7,7 +7,7 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-shapes.ts",
-      "description": "Create four boolean operations and an alpha mask inside one new frame on the current page.",
+      "description": "Boolean union/subtract/intersect/exclude and alpha masks on newly created shapes.",
       "api": [
         "figma.union",
         "figma.subtract",
@@ -15,7 +15,15 @@
         "figma.exclude",
         "isMask",
         "maskType"
-      ]
+      ],
+      "aliases": [
+        "boolean shapes",
+        "boolean operation",
+        "mask",
+        "벡터 불리언",
+        "마스크"
+      ],
+      "workspaceMenu": "Boolean operations + alpha mask"
     },
     {
       "id": "design-grid",
@@ -23,13 +31,21 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-grid.ts",
-      "description": "Create a two-column auto layout grid as one new frame on the current page.",
+      "description": "Create an auto layout GRID example; layout guide grids are a different API.",
       "api": [
         "figma.createFrame",
         "layoutMode",
         "gridRowCount",
         "gridColumnCount"
-      ]
+      ],
+      "aliases": [
+        "auto layout grid",
+        "grid layout",
+        "grid",
+        "오토 레이아웃 그리드",
+        "그리드"
+      ],
+      "workspaceMenu": "Auto layout grid"
     },
     {
       "id": "design-motion",
@@ -37,12 +53,19 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-motion.ts",
-      "description": "Create two prototype frames inside one new section on the current page with click-triggered Smart Animate navigation.",
+      "description": "Smart Animate reactions between two new frames; not Motion timelines/keyframes.",
       "api": [
         "figma.createSection",
         "setReactionsAsync",
         "SMART_ANIMATE"
-      ]
+      ],
+      "aliases": [
+        "prototype",
+        "smart animate",
+        "프로토타입",
+        "스마트 애니메이트"
+      ],
+      "workspaceMenu": "Smart Animate prototype"
     },
     {
       "id": "figjam-diagram",
@@ -50,12 +73,18 @@
       "editorType": "figjam",
       "mode": "default",
       "entry": "figjam-diagram.ts",
-      "description": "Create two labelled shapes and a connector attached to their node IDs.",
+      "description": "Create two labelled FigJam shapes and an attached connector. For sticky notes and tables, use the graph-based figjam-review-planner.",
       "api": [
         "figma.createShapeWithText",
         "figma.createConnector",
         "connectorStart",
         "connectorEnd"
+      ],
+      "aliases": [
+        "figjam",
+        "diagram",
+        "피그잼",
+        "다이어그램"
       ]
     },
     {
@@ -64,11 +93,17 @@
       "editorType": "slides",
       "mode": "default",
       "entry": "slides-slide.ts",
-      "description": "Create one title slide with a dissolve presentation transition.",
+      "description": "Create a slide with title/text and a slide transition; presentation is a separate UI action.",
       "api": [
         "figma.createSlide",
         "figma.createText",
         "setSlideTransition"
+      ],
+      "aliases": [
+        "slides",
+        "slide",
+        "슬라이드",
+        "발표 자료"
       ]
     },
     {
@@ -77,9 +112,15 @@
       "editorType": "dev",
       "mode": "codegen",
       "entry": "dev-codegen.ts",
-      "description": "Return selected-node geometry as JSON in Dev Mode without changing document nodes.",
+      "description": "Read-only dev/codegen callback returns JSON geometry; no Design writes.",
       "api": [
         "figma.codegen.on"
+      ],
+      "aliases": [
+        "codegen",
+        "dev mode",
+        "코드 생성 플러그인",
+        "개발 모드"
       ]
     },
     {
@@ -89,12 +130,85 @@
       "mode": "default",
       "entry": "design-component-properties.ts",
       "runtimeHelpers": "component-properties.helpers.js",
-      "description": "Create one new frame with real BOOLEAN and INSTANCE_SWAP component definitions, default and overridden instances.",
+      "description": "Add a demonstration frame with native BOOLEAN/INSTANCE_SWAP definitions and default/swapped/hidden instances. Use the components source-authoring route for your own declared payload.",
       "api": [
         "addComponentProperty",
         "componentPropertyReferences",
         "setProperties",
         "getMainComponentAsync"
+      ],
+      "aliases": [
+        "component property demo",
+        "boolean property",
+        "boolean",
+        "visibility",
+        "instance swap",
+        "컴포넌트 속성 예제",
+        "속성",
+        "불리언",
+        "인스턴스 교체",
+        "가시성"
+      ],
+      "workspaceMenu": "Component properties and instance swap"
+    },
+    {
+      "id": "figjam-review-planner",
+      "name": "FigJam graph review planner",
+      "editorType": "figjam",
+      "mode": "default",
+      "entry": "figjam-review-planner.ts",
+      "description": "Project the selected requirement, screen, component, and evidence graph into linked FigJam notes, a traceability table, and JSON readback stamped with its graph SHA-256.",
+      "api": [
+        "figma.editorType",
+        "figma.mode",
+        "figma.loadFontAsync",
+        "figma.createSticky",
+        "figma.createTable",
+        "figma.createCodeBlock",
+        "figma.createConnector",
+        "connectorStart",
+        "connectorEnd",
+        "TableNode.cellAt",
+        "TableNode.resizeColumn",
+        "PluginDataMixin.setPluginData",
+        "PluginDataMixin.getPluginData"
+      ],
+      "reviewGraph": true,
+      "aliases": [
+        "figjam review",
+        "sticky notes",
+        "figjam table",
+        "기획 보드",
+        "요구사항 표"
+      ]
+    },
+    {
+      "id": "slides-flow-review",
+      "name": "Slides graph flow review",
+      "editorType": "slides",
+      "mode": "default",
+      "entry": "slides-flow-review.ts",
+      "description": "Create a Slides review deck from the injected selected graph, preserving its node IDs, edge relationships, graph ID, and SHA-256 provenance.",
+      "api": [
+        "figma.createSlideRow",
+        "figma.createSlide",
+        "figma.getCanvasGrid",
+        "figma.setCanvasGrid",
+        "figma.createText",
+        "figma.loadFontAsync",
+        "SlideNode.setSlideTransition",
+        "PluginDataMixin.setPluginData",
+        "PageNode.focusedSlide",
+        "Viewport.slidesView",
+        "Viewport.scrollAndZoomIntoView"
+      ],
+      "reviewGraph": true,
+      "aliases": [
+        "slides review",
+        "graph deck",
+        "slide grid",
+        "검토 발표",
+        "슬라이드 그리드"
       ]
     }
   ]

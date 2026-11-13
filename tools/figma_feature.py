@@ -5,7 +5,7 @@ import json
 import re
 import shlex
 
-from figma_api_inventory import load, search
+from figma_api_inventory import ROOT, load, search
 
 MEMO = 'skills/figma-flow/references/figma-feature-routes.md'
 DOCS = 'https://developers.figma.com/docs/plugins/api/'
@@ -16,13 +16,15 @@ def feature(identity, aliases, kind, steps, prerequisites, recipe=None, editor=N
                 prerequisites=prerequisites, recipe=recipe, editor=editor)
 
 
-def sdk(identity, aliases, editor, scope):
+def sdk(identity, aliases, editor, scope, review_graph=False):
     steps = [
         f'python3 tools/figma_sdk_project.py init NEW_SDK_DIR --editor {editor} --recipe {identity}',
         'npm --prefix NEW_SDK_DIR install --ignore-scripts --no-audit --no-fund',
         'python3 tools/figma_sdk_project.py check NEW_SDK_DIR',
         'python3 tools/figma_sdk_project.py build NEW_SDK_DIR',
     ]
+    if review_graph:
+        steps[0] += ' --review-graph GRAPH_JSON --node NODE_ID'
     prerequisites = ['Scope: ' + scope,
         'Use a new directory; review src/code.ts before running anything in Figma.',
         'Initial npm installation needs network or cached packages. Typechecking does not prove runtime support.',
@@ -43,20 +45,12 @@ def sdk(identity, aliases, editor, scope):
 
 
 ROUTES = [
-    sdk('design-shapes', 'boolean shapes|boolean operation|mask|벡터 불리언|마스크', 'figma',
-        'Boolean union/subtract/intersect/exclude and alpha masks on newly created shapes.'),
-    sdk('design-grid', 'auto layout grid|grid layout|grid|오토 레이아웃 그리드|그리드', 'figma',
-        'Create an auto layout GRID example; layout guide grids are a different API.'),
-    sdk('design-motion', 'prototype|smart animate|프로토타입|스마트 애니메이트', 'figma',
-        'Smart Animate reactions between two new frames; not Motion timelines/keyframes.'),
-    sdk('design-component-properties', 'component property demo|boolean property|boolean|visibility|instance swap|컴포넌트 속성 예제|속성|불리언|인스턴스 교체|가시성', 'figma',
-        'Add a demonstration frame with native BOOLEAN/INSTANCE_SWAP definitions and default/swapped/hidden instances. Use the components source-authoring route for your own declared payload.'),
-    sdk('figjam-diagram', 'figjam|diagram|피그잼|다이어그램', 'figjam',
-        'Create shapes with text and an attached connector; this recipe does not author sticky notes.'),
-    sdk('slides-slide', 'slides|slide|슬라이드|발표 자료', 'slides',
-        'Create a slide with title/text and a slide transition; presentation is a separate UI action.'),
-    sdk('dev-codegen', 'codegen|dev mode|코드 생성 플러그인|개발 모드', 'dev',
-        'Read-only dev/codegen callback returns JSON geometry; no Design writes.'),
+    *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False))
+      for row in json.loads((ROOT / 'library/figma-recipes/manifest.json').read_text())['recipes']),
+    feature('graph-review', 'review board|graph review|검토 보드|근거 그래프', 'flow',
+            ['python3 tools/native_edit.py graph-review --graph GRAPH_JSON --node NODE_ID --file-key FILE_KEY --page-id PAGE_ID --out NEW_PLAN_JSON',
+             'Prepare the reviewed plan as a native-edit task in the registered workspace and inspect a fresh native read.'],
+            ['Select authorized graph records and an existing Design page.']),
     feature('motion-timeline', 'motion|timeline|keyframe|모션|타임라인|키프레임', 'official-api',
             ['python3 tools/figma_api_inventory.py search figma.motion',
              'python3 tools/figma_sdk_project.py init NEW_SDK_DIR --editor figma'],

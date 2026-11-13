@@ -68,6 +68,7 @@ function nativeEditValidatePlan(plan) {
   if(plan?.schema!==NATIVE_EDIT_PLAN_SCHEMA||typeof plan.file_key!=='string'||typeof plan.page_id!=='string')throw Error('Explicit scoped native edit plan required');
   if(plan.provision){nativeProvisionValidate(plan);return;}
   if(plan.specifications){nativeSpecificationValidate(plan);return;}
+  if(plan.graph_review){graphReviewValidate(plan);return;}
   const variable=plan.variableedit,edits=plan.edits;
   if(Boolean(variable)===Boolean(edits))throw Error('Choose node edits or one existing variable edit');
   if(variable){if(!variable.variable_id||!variable.mode_id||!('before'in variable)||!('after'in variable))throw Error('Exact existing variable/mode and values required');return;}
@@ -211,6 +212,21 @@ function nativeEditConflict(job, reason) {
 async function runNativeEdit(figma,plan,operation='apply') {
   nativeEditValidatePlan(plan);nativeEditScope(figma,plan);
   if(plan.provision)return nativeProvisionRun(figma,plan,operation);
+  if(plan.graph_review){
+    if(operation==='read'){
+      const review=graphReviewRead(figma,plan),readback=await nativeEditDiscovery(figma,plan);
+      return {...readback,graph_review:review,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:false,operation:'read'}};
+    }
+    if(operation==='apply')try{
+      const review=await graphReviewApply(figma,plan),readback=await nativeEditDiscovery(figma,plan);
+      return {...readback,graph_review:review,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:true,operation:'apply',changed:!review.unchanged}};
+    }catch(error){
+      let existing=null;try{existing=graphReviewRead(figma,plan);}catch(_){}
+      error.readback={schema:'figma-flow-graph-review-v1',status:error.rollback_conflicts?.length?'rollback-conflict':'rolled-back',operation:'apply',graph_id:plan.graph_review.projection.id,existing_board:existing,error:String(error.message||error),rollback_conflicts:error.rollback_conflicts||[]};
+      throw error;
+    }
+    throw Error('Unsupported graph review operation');
+  }
   if(operation==='read'){const readback=await nativeEditDiscovery(figma,plan);return {...readback,native_edit:{plan_sha256:NATIVE_EDIT_SHA256,applied:false,operation:'read'}};}
   if(operation!=='apply')throw Error('Unsupported native edit operation');
   if(plan.specifications){

@@ -1,0 +1,1513 @@
+{
+  "version": 1,
+  "id": "flow-public-api-observations",
+  "title": "Figma Flow · 실제 에디터 API 관측",
+  "nodes": [
+    {
+      "id": "OBS-DESIGN-first-70",
+      "type": "test",
+      "title": "Design · first-70",
+      "detail": "지정된 실제 노드에서 읽기 전용 게터를 실행한 결과. 표시는 이번 실행의 상태다.",
+      "status": "observed",
+      "source": "spec.md",
+      "observed_at": "2026-11-13T15:40:30.161Z",
+      "getter_counts": {
+        "success": 70,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 3,
+      "receipt_sha256": "b0f94c6bdb9a123d800f9984d0567583f8bdc6babee02011fdda4e7f75076817",
+      "previous_comparable": false,
+      "delta_counts": {
+        "matched": 0,
+        "changed": 0,
+        "unknown": 70
+      }
+    },
+    {
+      "id": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "figma",
+      "title": "GridLayoutMixin.gridAutoTracks",
+      "detail": "gridAutoTracks: 'NONE' | 'ROWS'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8421-L8421"
+    },
+    {
+      "id": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "figma",
+      "title": "GridLayoutMixin.gridColumnCount",
+      "detail": "gridColumnCount: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8299-L8299"
+    },
+    {
+      "id": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "figma",
+      "title": "GridLayoutMixin.gridColumnGap",
+      "detail": "gridColumnGap: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8311-L8311"
+    },
+    {
+      "id": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "figma",
+      "title": "GridLayoutMixin.gridItemsPositioning",
+      "detail": "gridItemsPositioning: 'MANUAL' | 'ROW_AUTO_FLOW'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8458-L8458"
+    },
+    {
+      "id": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "figma",
+      "title": "GridLayoutMixin.gridRowCount",
+      "detail": "gridRowCount: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8291-L8291"
+    },
+    {
+      "id": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "figma",
+      "title": "GridLayoutMixin.gridRowGap",
+      "detail": "gridRowGap: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8305-L8305"
+    },
+    {
+      "id": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "figma",
+      "title": "AutoLayoutMixin.counterAxisAlignItems",
+      "detail": "counterAxisAlignItems: 'MIN' | 'MAX' | 'CENTER' | 'BASELINE'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8049-L8049"
+    },
+    {
+      "id": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "figma",
+      "title": "AutoLayoutMixin.counterAxisSizingMode",
+      "detail": "counterAxisSizingMode: 'FIXED' | 'AUTO'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7828-L7828"
+    },
+    {
+      "id": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "figma",
+      "title": "AutoLayoutMixin.counterAxisSpacing",
+      "detail": "counterAxisSpacing: number | null",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8160-L8160"
+    },
+    {
+      "id": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "figma",
+      "title": "AutoLayoutMixin.horizontalPadding",
+      "detail": "horizontalPadding: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7764-L7764"
+    },
+    {
+      "id": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "figma",
+      "title": "LayoutMixin.layoutSizingHorizontal",
+      "detail": "layoutSizingHorizontal: 'FIXED' | 'HUG' | 'FILL'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7492-L7492"
+    },
+    {
+      "id": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "figma",
+      "title": "LayoutMixin.layoutSizingVertical",
+      "detail": "layoutSizingVertical: 'FIXED' | 'HUG' | 'FILL'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7500-L7500"
+    },
+    {
+      "id": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "figma",
+      "title": "AutoLayoutMixin.layoutWrap",
+      "detail": "layoutWrap: 'NO_WRAP' | 'WRAP'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7879-L7879"
+    },
+    {
+      "id": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "figma",
+      "title": "AutoLayoutMixin.primaryAxisAlignItems",
+      "detail": "primaryAxisAlignItems:\n    'MIN' | 'MAX' | 'CENTER' | 'SPACE_BETWEEN' | 'SPACE_EVENLY' | 'SPACE_AROUND'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7966-L7967"
+    },
+    {
+      "id": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "figma",
+      "title": "AutoLayoutMixin.primaryAxisSizingMode",
+      "detail": "primaryAxisSizingMode: 'FIXED' | 'AUTO'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7781-L7781"
+    },
+    {
+      "id": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "figma",
+      "title": "AutoLayoutMixin.verticalPadding",
+      "detail": "verticalPadding: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7768-L7768"
+    },
+    {
+      "id": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "figma",
+      "title": "EllipseNode.arcData",
+      "detail": "arcData: ArcData",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10934-L10934"
+    },
+    {
+      "id": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "figma",
+      "title": "CornerMixin.cornerRadius",
+      "detail": "cornerRadius: number | PluginAPI['mixed']",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9006-L9006"
+    },
+    {
+      "id": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "figma",
+      "title": "SceneNodeMixin.locked",
+      "detail": "locked: boolean",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L6664-L6664"
+    },
+    {
+      "id": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "figma",
+      "title": "MinimalBlendMixin.opacity",
+      "detail": "opacity: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9498-L9498"
+    },
+    {
+      "id": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "figma",
+      "title": "MinimalStrokesMixin.strokeWeight",
+      "detail": "strokeWeight: number | PluginAPI['mixed']",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L8737-L8737"
+    },
+    {
+      "id": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "figma",
+      "title": "LayoutMixin.absoluteRenderBounds",
+      "detail": "readonly absoluteRenderBounds: Rect | null",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7400-L7400"
+    },
+    {
+      "id": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "figma",
+      "title": "LayoutMixin.rotation",
+      "detail": "rotation: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L7414-L7414"
+    },
+    {
+      "id": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "figma",
+      "title": "BooleanOperationNode.booleanOperation",
+      "detail": "booleanOperation: 'UNION' | 'INTERSECT' | 'SUBTRACT' | 'EXCLUDE'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11361-L11361"
+    },
+    {
+      "id": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "figma",
+      "title": "SectionNode.sectionContentsHidden",
+      "detail": "sectionContentsHidden: boolean",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L12331-L12331"
+    },
+    {
+      "id": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "figma",
+      "title": "InstanceNode.scaleFactor",
+      "detail": "scaleFactor: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11291-L11291"
+    },
+    {
+      "id": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "figma",
+      "title": "InstanceNode.isExposedInstance",
+      "detail": "isExposedInstance: boolean",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11299-L11299"
+    },
+    {
+      "id": "OBS-DESIGN-next-20",
+      "type": "test",
+      "title": "Design · next-20",
+      "detail": "지정된 실제 노드에서 읽기 전용 게터를 실행한 결과. 표시는 이번 실행의 상태다.",
+      "status": "observed",
+      "source": "spec.md",
+      "observed_at": "2026-11-13T15:40:31.177Z",
+      "getter_counts": {
+        "success": 20,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 2,
+      "receipt_sha256": "313bc2512427b0c78059606afd9607b2f0f491f2dd28ed7a7f9b2f484dbddef0",
+      "previous_comparable": false,
+      "delta_counts": {
+        "matched": 0,
+        "changed": 0,
+        "unknown": 20
+      }
+    },
+    {
+      "id": "OBS-DESIGN-all-90",
+      "type": "test",
+      "title": "Design · all-90",
+      "detail": "지정된 실제 노드에서 읽기 전용 게터를 실행한 결과. 표시는 이번 실행의 상태다.",
+      "status": "observed",
+      "source": "spec.md",
+      "observed_at": "2026-11-13T15:41:52.690Z",
+      "getter_counts": {
+        "success": 20,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 2,
+      "receipt_sha256": "7106138a214487fb4e40880aa445415abf190977936b3eaf72524b27bbb2a279",
+      "previous_comparable": true,
+      "delta_counts": {
+        "matched": 0,
+        "changed": 0,
+        "unknown": 20
+      }
+    },
+    {
+      "id": "OBS-DESIGN-repeat-70",
+      "type": "test",
+      "title": "Design · repeat-70",
+      "detail": "지정된 실제 노드에서 읽기 전용 게터를 실행한 결과. 표시는 이번 실행의 상태다.",
+      "status": "observed",
+      "source": "spec.md",
+      "observed_at": "2026-11-13T15:41:53.689Z",
+      "getter_counts": {
+        "success": 70,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 4,
+      "receipt_sha256": "8c74a467e396a26ffa75a93c85eda1252dd2d028ab2b1305eb219c59f37b4f37",
+      "previous_comparable": true,
+      "delta_counts": {
+        "matched": 70,
+        "changed": 0,
+        "unknown": 0
+      }
+    },
+    {
+      "id": "OBS-DESIGN-nine-first",
+      "type": "test",
+      "title": "Design · nine-first",
+      "detail": "지정된 실제 노드에서 읽기 전용 게터를 실행한 결과. 표시는 이번 실행의 상태다.",
+      "status": "observed",
+      "source": "spec.md",
+      "observed_at": "2026-11-13T15:54:44.269Z",
+      "getter_counts": {
+        "success": 111,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 5,
+      "receipt_sha256": "d3425c42d54ec4f9ac6e797ff9f888a86c3967c9ddc4793bd9da05482dc18d1b",
+      "previous_comparable": false,
+      "delta_counts": {
+        "matched": 0,
+        "changed": 0,
+        "unknown": 111
+      }
+    },
+    {
+      "id": "member:2fce75455cc5733bc5ed90674191a2e6b9974e1db16ed99f602e72f2357d2170",
+      "type": "figma",
+      "title": "TextNode.maxLines",
+      "detail": "maxLines: number | null",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11051-L11051"
+    },
+    {
+      "id": "member:253507d2491f92ba7c36283d2e790b5ad7d96b725dcd9df885157f9506c9b665",
+      "type": "figma",
+      "title": "TextNode.textAlignVertical",
+      "detail": "textAlignVertical: 'TOP' | 'CENTER' | 'BOTTOM'",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11025-L11025"
+    },
+    {
+      "id": "member:1c98cbc3556635aa8af6b431c96f7509c32087e2e0270098135e7603aa62ebd8",
+      "type": "figma",
+      "title": "NonResizableTextMixin.paragraphIndent",
+      "detail": "paragraphIndent: number | PluginAPI['mixed']",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10178-L10178"
+    },
+    {
+      "id": "member:aaa06a95c5c90d0bee2ca0ea1e3af9475602d8efe328e556972b449391f6a0b0",
+      "type": "figma",
+      "title": "NonResizableTextMixin.paragraphSpacing",
+      "detail": "paragraphSpacing: number | PluginAPI['mixed']",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10235-L10235"
+    },
+    {
+      "id": "member:38372ad4342a0e0fbe0e91cca5559f81c95edd80a8601795b44be1446840954f",
+      "type": "figma",
+      "title": "NonResizableTextMixin.textDecoration",
+      "detail": "textDecoration: TextDecoration | PluginAPI['mixed']",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L10308-L10308"
+    },
+    {
+      "id": "member:223c490494cf8c944d6a76a9173f10965bbb806307b9e15308f2758f1e41760b",
+      "type": "figma",
+      "title": "BaseNonResizableTextMixin.textCase",
+      "detail": "textCase: TextCase | PluginAPI['mixed']",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9806-L9806"
+    },
+    {
+      "id": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "figma",
+      "title": "RectangleCornerMixin.bottomLeftRadius",
+      "detail": "bottomLeftRadius: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9031-L9031"
+    },
+    {
+      "id": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "figma",
+      "title": "RectangleCornerMixin.bottomRightRadius",
+      "detail": "bottomRightRadius: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9035-L9035"
+    },
+    {
+      "id": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "figma",
+      "title": "RectangleCornerMixin.topLeftRadius",
+      "detail": "topLeftRadius: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9023-L9023"
+    },
+    {
+      "id": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "figma",
+      "title": "RectangleCornerMixin.topRightRadius",
+      "detail": "topRightRadius: number",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L9027-L9027"
+    },
+    {
+      "id": "OBS-DESIGN-nine-last",
+      "type": "test",
+      "title": "Design · nine-last",
+      "detail": "지정된 실제 노드에서 읽기 전용 게터를 실행한 결과. 표시는 이번 실행의 상태다.",
+      "status": "observed",
+      "source": "spec.md",
+      "observed_at": "2026-11-13T15:54:45.263Z",
+      "getter_counts": {
+        "success": 30,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 1,
+      "receipt_sha256": "8245a7b391181ed70051db35afd484a3f90f1f82b02a8c87103e9dd6d6577274",
+      "previous_comparable": false,
+      "delta_counts": {
+        "matched": 0,
+        "changed": 0,
+        "unknown": 30
+      }
+    },
+    {
+      "id": "OBS-DESIGN-nine-complete",
+      "type": "test",
+      "title": "Design · nine-complete",
+      "detail": "지정된 실제 노드에서 읽기 전용 게터를 실행한 결과. 표시는 이번 실행의 상태다.",
+      "status": "observed",
+      "source": "spec.md",
+      "observed_at": "2026-11-13T15:55:53.799Z",
+      "getter_counts": {
+        "success": 30,
+        "unavailable": 0,
+        "unsupported": 0,
+        "blocked": 0
+      },
+      "measured_ms": 3,
+      "receipt_sha256": "3b0f2911f9f4f4323687de8d7d946219b928348026f44cb876eff339da1bf8aa",
+      "previous_comparable": true,
+      "delta_counts": {
+        "matched": 0,
+        "changed": 0,
+        "unknown": 30
+      }
+    },
+    {
+      "id": "OBS-FIGJAM",
+      "type": "test",
+      "title": "FIGJAM · 그래프 검토 제작",
+      "detail": "동일 graph의 스티키 21개, 표 1개, 셀 84개, 코드 블록 1개, 커넥터 16개. 반복 실행 후 수량을 보존했다.",
+      "status": "observed",
+      "source": "../../docs/figjam-review-planner.md"
+    },
+    {
+      "id": "member:870fdbc5bcc8428727955b686c83bf9bb4542e5952963229df3d68e3a78401a0",
+      "type": "figma",
+      "title": "PluginAPI.createSticky",
+      "detail": "createSticky(): StickyNode",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1238-L1238"
+    },
+    {
+      "id": "member:3f71c8ee2ba8bf1a05a9b04782af5f7dc6c58243199853d10fd12f405f79a342",
+      "type": "figma",
+      "title": "PluginAPI.createTable",
+      "detail": "createTable(numRows?: number, numColumns?: number): TableNode",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1331-L1331"
+    },
+    {
+      "id": "member:a230af2e1ee53dd8c4cae8eb5ec19b38891fd0e32bea2d4ce8dccb492cf75e98",
+      "type": "figma",
+      "title": "PluginAPI.createCodeBlock",
+      "detail": "createCodeBlock(): CodeBlockNode",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1296-L1296"
+    },
+    {
+      "id": "member:f7b57338a066a0b3553b4902bb31e42c7e62f277a6954da2a2d80839d07a43ce",
+      "type": "figma",
+      "title": "PluginAPI.createConnector",
+      "detail": "createConnector(): ConnectorNode",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1269-L1269"
+    },
+    {
+      "id": "member:aa342072a6b252b8170c958d97a616d59ea6f2ea8777442573f185fc8efa3d59",
+      "type": "figma",
+      "title": "ConnectorNode.connectorStart",
+      "detail": "connectorStart: ConnectorEndpoint",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11696-L11696"
+    },
+    {
+      "id": "member:4adda67e8f1b2f5d2e27e243c633e63e7eb1e913025265021314c3f35c3c79b1",
+      "type": "figma",
+      "title": "ConnectorNode.connectorEnd",
+      "detail": "connectorEnd: ConnectorEndpoint",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11700-L11700"
+    },
+    {
+      "id": "member:1f7752e1d537168e8e6c9c3c32008011335089d0d85e49e090d2f7ac60eaef22",
+      "type": "figma",
+      "title": "TableNode.cellAt",
+      "detail": "cellAt(rowIndex: number, columnIndex: number): TableCellNode",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11437-L11437"
+    },
+    {
+      "id": "member:6691bb2467f5005e008bda6beef0e1e8094366143e555f121d7ce0f8a921214c",
+      "type": "figma",
+      "title": "TableNode.resizeColumn",
+      "detail": "resizeColumn(columnIndex: number, width: number): void",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L11495-L11495"
+    },
+    {
+      "id": "OBS-SLIDES",
+      "type": "test",
+      "title": "SLIDES · 그래프 검토 제작",
+      "detail": "동일 graph에서 21장·7행·텍스트 42개. 반복 실행 시 같은 덱을 선택하고 노드 수를 보존했다.",
+      "status": "observed",
+      "source": "../../docs/slides-flow-review.md"
+    },
+    {
+      "id": "member:32c5ae5384eb37221ee46d6d6d031764362a4f382832076ef3cb8b08ca12ac37",
+      "type": "figma",
+      "title": "PluginAPI.createSlideRow",
+      "detail": "createSlideRow(row?: number): SlideRowNode",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1218-L1218"
+    },
+    {
+      "id": "member:b5766ed7074b71f2593f7de3e89ed01a28eb0027b9f424cb0439c406d8f885b0",
+      "type": "figma",
+      "title": "PluginAPI.createSlide",
+      "detail": "createSlide(row?: number, col?: number): SlideNode",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L1198-L1198"
+    },
+    {
+      "id": "member:c4abf091bbef081750d7c22384813a32ba5c83829a7daacefd5ca064db1e688b",
+      "type": "figma",
+      "title": "PluginAPI.getCanvasGrid",
+      "detail": "getCanvasGrid(): Array<Array<SceneNode>>",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L2070-L2070"
+    },
+    {
+      "id": "member:215a3f06e8d9f71160a267e82376e9b647724e91fc6c8ff8a8530a42d12787e2",
+      "type": "figma",
+      "title": "PluginAPI.setCanvasGrid",
+      "detail": "setCanvasGrid(canvasGrid: Array<Array<SceneNode>>): void",
+      "status": "observed",
+      "source": "https://github.com/figma/plugin-typings/blob/dff4874ca083e18cd74835fd5afc5079d46866b7/plugin-api.d.ts#L2093-L2093"
+    }
+  ],
+  "edges": [
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-first-70",
+      "to": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-next-20",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-all-90",
+      "to": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-repeat-70",
+      "to": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:2fce75455cc5733bc5ed90674191a2e6b9974e1db16ed99f602e72f2357d2170",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:253507d2491f92ba7c36283d2e790b5ad7d96b725dcd9df885157f9506c9b665",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:1c98cbc3556635aa8af6b431c96f7509c32087e2e0270098135e7603aa62ebd8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:aaa06a95c5c90d0bee2ca0ea1e3af9475602d8efe328e556972b449391f6a0b0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:38372ad4342a0e0fbe0e91cca5559f81c95edd80a8601795b44be1446840954f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:223c490494cf8c944d6a76a9173f10965bbb806307b9e15308f2758f1e41760b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-first",
+      "to": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-last",
+      "to": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:0cc26f4a27bc81fd5aecb30a4ff6e8e857f59d90a743e4f68243013877dbe351",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:27f8ea0d921e833e6eca8df864c1880889927192dc3299b9efb3453278738d46",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:32bf7d94034a84b5e30b4a10a549b95b30a4414c4007c67ee7b7a00e263acf66",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:63d35b6df3ec459de25b23e89156cbed3aaec4beb10f639b889e1bc62f5ef024",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:64e86149a2e06688d901a0c2f76c5f47d816908b96dd5aef44214020aaa3ac05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:6e00c155f6409cbc9e89596ee306723925618e6607e9e145e2c4c44f3ad5f4e3",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:754f38e16e7e70a1eea9714286970f6f834c341cf9d1701c59a66e44f61f5bce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:7c7d98b2d9e7fcb9cb3c226de85dadbfea33bc878ac7defb8df15f158578520c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:7d25b4a6e48ea81a5b190d5e082d7b65cf4c9c04737649c90c588f98a6a9c91d",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:8986a6a2532490a60133c033b321bb90eccf802503f9d2725ddb5f8022feb634",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:90836b9e668e0d5a5594e74cf72ecdc64c93f84c3eeb1f09a7c1a53a8ecb67b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:992662ae249b115f4dff470a18e71e6c4757693df02a4bf6b9bf6d6df5cea941",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:9be8a1ca8b739d51bed5cc48c4f0493dd48caa4e5d5d5615eec0c0b4746134c1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:b96e089aaa9a37dcb477b0d5990827a0248c5140b664def3fedfed3598348e67",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:cc1b98df4c40459def6f23eb55cc1e56b55db6d3987b73518a4bb29288fee9bd",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:e8f828dd5b4253075d7411b516581b153487bc7c7f71bb7a934c67c881609162",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:08989534ce72547bdb6e0e73fd34281a443518f9020c1e615b2c5dc969d2aba6",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:1c98cbc3556635aa8af6b431c96f7509c32087e2e0270098135e7603aa62ebd8",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:223c490494cf8c944d6a76a9173f10965bbb806307b9e15308f2758f1e41760b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:253507d2491f92ba7c36283d2e790b5ad7d96b725dcd9df885157f9506c9b665",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:2fce75455cc5733bc5ed90674191a2e6b9974e1db16ed99f602e72f2357d2170",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:38372ad4342a0e0fbe0e91cca5559f81c95edd80a8601795b44be1446840954f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:705aafee7a9e058c907d0563818bc8aa05d71df0c7cfc0e3768b060691428a93",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:8942cce441d61440f409a7e271c2fa7cfded92f45489a22913186c4c3bddfa05",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:aaa06a95c5c90d0bee2ca0ea1e3af9475602d8efe328e556972b449391f6a0b0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:be4da70b3a9a27afea67b87e2ec737b0db67760a8225d3f39786eec21d63d497",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:fe1f26e02cc1915df661a3f452566f281b62c515915497f8427da1870c01212e",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:79ce212f49ae4937728d51dfe917b2c373a9b88f73e83091a2dd6ff46f4cc4ed",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:de1b4aa32fc6ba93327ee701a992f58bcf5aff631d76510b0e20ede74332e53c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:11e722c346174b0facad2fbacc224a603e394bcd5ff8b57e093200562df7c184",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:5ba39661f6d440bf67374ffb455fae4bf2ded4d30648575fd43ef9630974567f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:6cfa692e82d179a7d4f7d87ca6e747057c6964920b28e065920e51e6f894913c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:9f509a354129954cbe3c624867d84ca210153154ff7902060f02e3a60ee55991",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:a7ed452f0f1bae9c9ac5f0b39d40c4d0fc835186bc888416f8b143fb91eec739",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:31c5ac32c7ed971ab823ecd0eaf9d74a4461a94a22959453ef42e118ff06bd54",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:367ad492f99a2581855c9d2a2b3f69582cf02c87c359c065b46813060236b75f",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-DESIGN-nine-complete",
+      "to": "member:e42e6dff4ee02d740d456e23cd3514bdee22ea3c7b9b3ef5e440aef9623445ae",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:870fdbc5bcc8428727955b686c83bf9bb4542e5952963229df3d68e3a78401a0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:3f71c8ee2ba8bf1a05a9b04782af5f7dc6c58243199853d10fd12f405f79a342",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:a230af2e1ee53dd8c4cae8eb5ec19b38891fd0e32bea2d4ce8dccb492cf75e98",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:f7b57338a066a0b3553b4902bb31e42c7e62f277a6954da2a2d80839d07a43ce",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:aa342072a6b252b8170c958d97a616d59ea6f2ea8777442573f185fc8efa3d59",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:4adda67e8f1b2f5d2e27e243c633e63e7eb1e913025265021314c3f35c3c79b1",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:1f7752e1d537168e8e6c9c3c32008011335089d0d85e49e090d2f7ac60eaef22",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-FIGJAM",
+      "to": "member:6691bb2467f5005e008bda6beef0e1e8094366143e555f121d7ce0f8a921214c",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-SLIDES",
+      "to": "member:32c5ae5384eb37221ee46d6d6d031764362a4f382832076ef3cb8b08ca12ac37",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-SLIDES",
+      "to": "member:b5766ed7074b71f2593f7de3e89ed01a28eb0027b9f424cb0439c406d8f885b0",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-SLIDES",
+      "to": "member:c4abf091bbef081750d7c22384813a32ba5c83829a7daacefd5ca064db1e688b",
+      "type": "observed member"
+    },
+    {
+      "from": "OBS-SLIDES",
+      "to": "member:215a3f06e8d9f71160a267e82376e9b647724e91fc6c8ff8a8530a42d12787e2",
+      "type": "observed member"
+    }
+  ]
+}

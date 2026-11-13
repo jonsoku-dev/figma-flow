@@ -76,3 +76,14 @@ FIGMA_SDK_TEST_TYPESCRIPT=/trusted/typescript/lib/tsc.js python3 -m unittest dis
 ```
 
 함수 의존성이 변경되면 검토 후 `python3 library/figma-recipes/build.py --typescript /trusted/typescript/lib/tsc.js`로 번들을 다시 생성한다. `verify-helpers`는 해당 함수 본문만 비교하고, 위 테스트는 실제 컴파일 결과와 승인된 번들의 바이트 일치도 검사한다. inventory용 로컬 `npm install`의 `node_modules`, 생성된 lockfile과 도구 캐시는 native 런타임 소스 정체성에 포함하지 않는다.
+
+## 검토 범위를 graph에서 고르기
+
+`figjam-review-planner`와 `slides-flow-review`는 공식 SDK 타입으로 빌드되는 graph 기반 레시피다. `init`에 같은 `--review-graph`와 동일한 순서의 `--node`를 주면 두 프로젝트가 같은 원본 SHA와 선택 SHA를 기록한다. 여러 선택 범위를 같은 문서에서 독립적으로 검토할 수 있다. 생성된 TS를 손으로 고치는 대신 정본에서 변경해 새 프로젝트로 투영한다.
+
+```sh
+python3 tools/figma_sdk_project.py init my-review --editor figjam --recipe figjam-review-planner \
+  --review-graph specs/graph-review/graph.json --node REQ-plan --node SCR-plan --node AC-plan --node TEST-plan
+```
+
+명시한 ID 사이의 관계만 선택되므로 필요한 중간 노드도 함께 지정한다. 오래된 그래프에 소유 ID가 없으면 정본의 최상위 `id`를 먼저 지정한다. [직군별 검증 계약](../specs/graph-review/spec.md), [FigJam](figjam-review-planner.md), [Slides](slides-flow-review.md).

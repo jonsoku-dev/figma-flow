@@ -31,10 +31,10 @@ OPTIONS = {
     'native-edit': {'--plan'},
     'import': {'--input', '--reviewed-sha256', '--selection', '--product-graph', '--batch', '--asset-receipts', '--paired-state'},
     'review': {'--manifest', '--layout', '--file-key', '--pair-dir', '--receiver-port', '--selection', '--product-graph', '--change-request', '--plan'},
-    'discover': {'--file-key', '--page-id', '--include-page-id'},
+    'discover': {'--file-key', '--page-id', '--include-page-id', '--api-probe'},
     'sync': {'--graph', '--pairing', '--native-readback', '--import-report', '--adopt'},
 }
-PATH_OPTIONS = {'--plan', '--input', '--selection', '--product-graph', '--batch', '--asset-receipts', '--manifest', '--layout', '--graph', '--pairing', '--native-readback', '--import-report', '--change-request'}
+PATH_OPTIONS = {'--plan', '--input', '--selection', '--product-graph', '--batch', '--asset-receipts', '--manifest', '--layout', '--graph', '--pairing', '--native-readback', '--import-report', '--change-request', '--api-probe'}
 
 
 def encode(value):

@@ -8,12 +8,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LIBRARY = ROOT / 'library' / 'figma-recipes'
-ACTIONS = {
-    'design-shapes': 'Boolean operations + alpha mask',
-    'design-grid': 'Auto layout grid',
-    'design-motion': 'Smart Animate prototype',
-    'design-component-properties': 'Component properties and instance swap',
-}
+def registered_actions():
+    catalog = json.loads((LIBRARY / 'manifest.json').read_text())
+    entries = [row for row in catalog['recipes'] if 'workspaceMenu' in row]
+    if any(row.get('editorType') != 'figma' or row.get('mode') != 'default' or row.get('reviewGraph')
+           or not re.fullmatch(r'[a-z][a-z0-9-]+', row['id']) or not row['workspaceMenu'] for row in entries):
+        raise ValueError('Invalid static Design menu declaration')
+    actions = {row['id']: row['workspaceMenu'] for row in entries}
+    if len(actions) != len(entries):
+        raise ValueError('Duplicate Design menu declaration')
+    return actions
+
+
+ACTIONS = registered_actions()
 PREFIX = 'flow-recipe:'
 def helper_sources(source, names):
     starts = list(re.finditer(r'^(?:async )?function ([A-Za-z0-9_]+)\(', source, re.M))

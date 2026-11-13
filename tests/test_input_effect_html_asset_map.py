@@ -120,6 +120,7 @@ class HtmlAssetMapTests(unittest.TestCase):
                 self.assertEqual(assets[ref]['request_target'], ref)
             transformed = assets['/_next/image?url=%2Fimages%2Fhero.png&w=640&q=75']
             self.assertEqual(transformed['mapping'], 'transformed')
+            self.assertEqual(transformed['kind'], 'image')
             self.assertNotEqual(transformed['response_sha256'], transformed['source_sha256'])
             expected = {
                 'assets-map.json','captures/page.json','captures/assets.json',
@@ -146,6 +147,8 @@ class HtmlAssetMapTests(unittest.TestCase):
             record = input_effect.project(root, spec)
             assets = record['channels']['html']['assets']
             self.assertEqual(next(item for item in assets if item['ref']=='/images/panel.webp')['status'], 'rejected')
+            self.assertEqual(next(item for item in assets if item['ref']=='/images/icon.svg')['status'], 'rejected')
+            self.assertEqual(next(item for item in assets if item['ref']=='/images/hero.png?w=320')['status'], 'rejected')
             self.assertEqual(input_effect._relative_asset(root/'page.html', root, 'https://other.example/a.png')['status'], 'external-unverified')
 
     def test_query_is_exact_and_unlisted_same_origin_request_is_not_inferred(self):
@@ -217,6 +220,20 @@ class HtmlAssetMapTests(unittest.TestCase):
             result=input_effect.freshness(record,root)
             self.assertEqual(result['status'],'stale')
             self.assertIn('captures/assets.json',result['changed'])
+
+    def test_same_origin_next_proxy_to_remote_source_is_never_bound(self):
+        temp, root, _app, _manifest, spec = self.fixture()
+        with temp:
+            page=root/'page.html'
+            page.write_bytes(page.read_bytes().replace(b'</body>',b'<img src="/_next/image?url=https%3A%2F%2Fremote.example%2Fimage.png&w=64">\n</body>'))
+            meta=json.loads((root/'captures/page.json').read_text());meta['body_sha256']=sha(page.read_bytes());meta['body_bytes']=page.stat().st_size
+            (root/'captures/page.json').write_text(json.dumps(meta,indent=2)+'\n')
+            manifest=json.loads((root/'assets-map.json').read_text());manifest['page_capture']['metadata_sha256']=sha((root/'captures/page.json').read_bytes())
+            (root/'assets-map.json').write_text(json.dumps(manifest,indent=2)+'\n')
+            record=input_effect.project(root,spec)
+            remote=next(item for item in record['channels']['html']['assets'] if 'remote.example' in item['ref'])
+            self.assertEqual(remote['status'],'rejected')
+            self.assertNotIn('binding_id',remote)
 
 
 if __name__ == '__main__':

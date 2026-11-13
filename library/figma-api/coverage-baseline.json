@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 777,
-    "qualified-static-reference": 52,
-    "unresolved-receiver-name-reference": 553
+    "no-static-reference": 763,
+    "qualified-static-reference": 53,
+    "unresolved-receiver-name-reference": 566
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -11,7 +11,7 @@
       "id": "PluginAPI.apiVersion#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.command#1",
@@ -1721,7 +1721,7 @@
       "id": "TimerAPI.remaining#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TimerAPI.total#1",
@@ -1763,7 +1763,7 @@
       "id": "ViewportAPI.center#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "ViewportAPI.zoom#1",
@@ -2297,19 +2297,19 @@
       "id": "ArcData.startingAngle#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ArcData.endingAngle#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ArcData.innerRadius#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DropShadowEffect.type#0",
@@ -2327,7 +2327,7 @@
       "id": "DropShadowEffect.offset#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DropShadowEffect.radius#3",
@@ -2381,7 +2381,7 @@
       "id": "InnerShadowEffect.offset#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "InnerShadowEffect.radius#3",
@@ -3131,7 +3131,7 @@
       "id": "Guide.offset#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "RowsColsLayoutGrid.pattern#0",
@@ -3167,7 +3167,7 @@
       "id": "RowsColsLayoutGrid.offset#5",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "RowsColsLayoutGrid.visible#6",
@@ -4907,7 +4907,7 @@
       "id": "GridTrackReorderEntry.to#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "GridLayoutMixin.gridRowCount#0",
@@ -5609,7 +5609,7 @@
       "id": "Measurement.offset#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "Measurement.freeText#4",
@@ -6461,7 +6461,7 @@
       "id": "StarNode.innerRadius#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "VectorNode.type#0",
@@ -8279,7 +8279,7 @@
       "id": "RepeatModifier.offset#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "LinearRepeatModifier.repeatType#0",
@@ -8336,8 +8336,16 @@
       "sha256": "3922e5da729177502af9399d4e340a0a364bb7bc040b68aef41c0686fdfcb416"
     },
     {
+      "path": "figma-bridge/native_api_probe.js",
+      "sha256": "33a0aaccd7779964564ffa4d6bda63f104ec26349d9a7e80beba68be1bbc3242"
+    },
+    {
       "path": "figma-bridge/native_edit.js",
-      "sha256": "8d24e597cbdab73b7fa01aaf7d4dada642fdcf11f67ce961d52b51659d1cdff6"
+      "sha256": "7b5e378ed552dce984f30ec12aa887eb3f2adcf334e357ee1031836904241a46"
+    },
+    {
+      "path": "figma-bridge/native_graph_review.js",
+      "sha256": "b4989a4d57885cdd3a4a13eca0eadc375ff0d280c803c5c302a3d01e4a52b12d"
     },
     {
       "path": "figma-bridge/native_provision.js",

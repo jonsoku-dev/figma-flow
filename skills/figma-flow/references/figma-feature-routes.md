@@ -92,3 +92,7 @@ REST는 OAuth/PAT/plan access token 등 현재 지원 인증과 최소 scope를 
 | `skills/figma-flow/references/token-sync.md` | 문서에 명시된 제한된 토큰·binding 및 실제 비교 경로 | 임의 파일·전체 페이지·asset·반응·스타일의 양방향 동기화 아님 |
 
 **완료 보고:** 사용한 경로, 대상 제품/파일/페이지/노드, 변경 전후 getter·실제 이미지/재생·웹 동작 증거, 남은 권한/미검증 범위를 적는다. “공식 경로를 찾음”, “로컬 테스트 통과”, “실제 계정에서 실행”, “제품 인수 통과”를 별도로 보고한다.
+
+## 그래프 기반 에디터 경로
+
+`graph-review`는 기존 Design 페이지에 선택 노드와 관계를 읽을 수 있는 검토 보드를 만든다. FigJam의 `figjam-review-planner`와 Slides의 `slides-flow-review`는 같은 source graph와 선택 ID로 빌드한다. 각 에디터에서 실제로 확인한 범위, 지원 API와 생략된 화면 특성은 [그래프 검토 기능 계약](../../../specs/graph-review/spec.md)에 기록했다. 이전 릴리스의 FigJam/Slides 내장 경로 제한은 그 당시의 버전 기준이다.

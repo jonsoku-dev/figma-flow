@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "id": "flow-review-surfaces",
+  "title": "Figma Flow · 직군별 그래프 검토",
+  "nodes": [
+    {
+      "id": "REQ-plan",
+      "type": "requirement",
+      "title": "기획자의 검토",
+      "detail": "선택한 요구사항과 그 근거를 검토한다.",
+      "status": "observed",
+      "source": "../../docs/figjam-review-planner.md"
+    },
+    {
+      "id": "SCR-plan",
+      "type": "screen",
+      "title": "FigJam 검토 보드",
+      "detail": "선택한 요구사항과 그 근거를 검토한다.",
+      "status": "observed",
+      "source": "../../docs/figjam-review-planner.md"
+    },
+    {
+      "id": "AC-plan",
+      "type": "acceptance",
+      "title": "표·스티키·연결선이 graph ID를 유지한다.",
+      "detail": "선택한 요구사항과 그 근거를 검토한다.",
+      "status": "observed",
+      "source": "../../docs/figjam-review-planner.md"
+    },
+    {
+      "id": "OBS-plan",
+      "type": "reference",
+      "title": "기획자 관측 근거",
+      "detail": "../../docs/figjam-review-planner.md",
+      "status": "observed",
+      "source": "../../docs/figjam-review-planner.md"
+    },
+    {
+      "id": "REQ-design",
+      "type": "requirement",
+      "title": "디자이너의 검토",
+      "detail": "소유 프레임의 같은 노드를 재사용하고 변경 범위를 확인한다.",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "SCR-design",
+      "type": "screen",
+      "title": "Design 근거 보드",
+      "detail": "소유 프레임의 같은 노드를 재사용하고 변경 범위를 확인한다.",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "AC-design",
+      "type": "acceptance",
+      "title": "같은 선택을 다시 적용해 프레임과 인스턴스를 재사용한다.",
+      "detail": "소유 프레임의 같은 노드를 재사용하고 변경 범위를 확인한다.",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "OBS-design",
+      "type": "reference",
+      "title": "디자이너 관측 근거",
+      "detail": "spec.md",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "REQ-dev",
+      "type": "requirement",
+      "title": "개발자의 검토",
+      "detail": "API 속성의 실제 관측과 출처를 graph에 연결한다.",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "SCR-dev",
+      "type": "screen",
+      "title": "속성 관측 그래프",
+      "detail": "API 속성의 실제 관측과 출처를 graph에 연결한다.",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "AC-dev",
+      "type": "acceptance",
+      "title": "실제 선택 노드별 조회 결과와 API 멤버 ID를 대조한다.",
+      "detail": "API 속성의 실제 관측과 출처를 graph에 연결한다.",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "OBS-dev",
+      "type": "reference",
+      "title": "개발자 관측 근거",
+      "detail": "spec.md",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "REQ-handoff",
+      "type": "requirement",
+      "title": "검토 발표의 검토",
+      "detail": "직군 간 검토에서 같은 그래프 버전을 참조한다.",
+      "status": "observed",
+      "source": "../../docs/slides-flow-review.md"
+    },
+    {
+      "id": "SCR-handoff",
+      "type": "screen",
+      "title": "Slides 검토 덱",
+      "detail": "직군 간 검토에서 같은 그래프 버전을 참조한다.",
+      "status": "observed",
+      "source": "../../docs/slides-flow-review.md"
+    },
+    {
+      "id": "AC-handoff",
+      "type": "acceptance",
+      "title": "내용과 순서를 보존하고 동일한 선택을 재사용한다.",
+      "detail": "직군 간 검토에서 같은 그래프 버전을 참조한다.",
+      "status": "observed",
+      "source": "../../docs/slides-flow-review.md"
+    },
+    {
+      "id": "OBS-handoff",
+      "type": "reference",
+      "title": "검토 발표 관측 근거",
+      "detail": "../../docs/slides-flow-review.md",
+      "status": "observed",
+      "source": "../../docs/slides-flow-review.md"
+    },
+    {
+      "id": "CODE-plan",
+      "type": "code",
+      "title": "figjam-review-planner.ts",
+      "status": "observed",
+      "source": "../../library/figma-recipes/figjam-review-planner.ts"
+    },
+    {
+      "id": "FIG-plan",
+      "type": "figma",
+      "title": "FigJam에서 실제 생성된 기획 보드",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "TEST-plan",
+      "type": "test",
+      "title": "직군별 검토·재실행 증거",
+      "status": "observed",
+      "source": "../../tests/test_figjam_review_planner.py"
+    },
+    {
+      "id": "CODE-design",
+      "type": "code",
+      "title": "native_graph_review.js",
+      "status": "observed",
+      "source": "../../figma-bridge/native_graph_review.js"
+    },
+    {
+      "id": "FIG-design",
+      "type": "figma",
+      "title": "Design 페이지의 실제 근거 보드",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "TEST-design",
+      "type": "test",
+      "title": "직군별 검토·재실행 증거",
+      "status": "observed",
+      "source": "../../tests/test_native_graph_review.cjs"
+    },
+    {
+      "id": "CODE-dev",
+      "type": "code",
+      "title": "native_api_probe.js",
+      "status": "observed",
+      "source": "../../figma-bridge/native_api_probe.js"
+    },
+    {
+      "id": "FIG-dev",
+      "type": "figma",
+      "title": "Design 실제 노드 속성 조회",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "TEST-dev",
+      "type": "test",
+      "title": "직군별 검토·재실행 증거",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "CODE-handoff",
+      "type": "code",
+      "title": "slides-flow-review.ts",
+      "status": "observed",
+      "source": "../../library/figma-recipes/slides-flow-review.ts"
+    },
+    {
+      "id": "FIG-handoff",
+      "type": "figma",
+      "title": "Slides에 생성된 실제 검토 덱",
+      "status": "observed",
+      "source": "spec.md"
+    },
+    {
+      "id": "TEST-handoff",
+      "type": "test",
+      "title": "직군별 검토·재실행 증거",
+      "status": "observed",
+      "source": "../../tests/test_slides_flow_review_recipe.py"
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-plan",
+      "to": "SCR-plan",
+      "type": "describes"
+    },
+    {
+      "from": "REQ-plan",
+      "to": "AC-plan",
+      "type": "has acceptance criterion"
+    },
+    {
+      "from": "AC-plan",
+      "to": "OBS-plan",
+      "type": "evidence"
+    },
+    {
+      "from": "REQ-design",
+      "to": "SCR-design",
+      "type": "describes"
+    },
+    {
+      "from": "REQ-design",
+      "to": "AC-design",
+      "type": "has acceptance criterion"
+    },
+    {
+      "from": "AC-design",
+      "to": "OBS-design",
+      "type": "evidence"
+    },
+    {
+      "from": "REQ-dev",
+      "to": "SCR-dev",
+      "type": "describes"
+    },
+    {
+      "from": "REQ-dev",
+      "to": "AC-dev",
+      "type": "has acceptance criterion"
+    },
+    {
+      "from": "AC-dev",
+      "to": "OBS-dev",
+      "type": "evidence"
+    },
+    {
+      "from": "REQ-handoff",
+      "to": "SCR-handoff",
+      "type": "describes"
+    },
+    {
+      "from": "REQ-handoff",
+      "to": "AC-handoff",
+      "type": "has acceptance criterion"
+    },
+    {
+      "from": "AC-handoff",
+      "to": "OBS-handoff",
+      "type": "evidence"
+    },
+    {
+      "from": "SCR-plan",
+      "to": "CODE-plan",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-plan",
+      "to": "FIG-plan",
+      "type": "represented by"
+    },
+    {
+      "from": "AC-plan",
+      "to": "TEST-plan",
+      "type": "verified by"
+    },
+    {
+      "from": "SCR-design",
+      "to": "CODE-design",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-design",
+      "to": "FIG-design",
+      "type": "represented by"
+    },
+    {
+      "from": "AC-design",
+      "to": "TEST-design",
+      "type": "verified by"
+    },
+    {
+      "from": "SCR-dev",
+      "to": "CODE-dev",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-dev",
+      "to": "FIG-dev",
+      "type": "represented by"
+    },
+    {
+      "from": "AC-dev",
+      "to": "TEST-dev",
+      "type": "verified by"
+    },
+    {
+      "from": "SCR-handoff",
+      "to": "CODE-handoff",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-handoff",
+      "to": "FIG-handoff",
+      "type": "represented by"
+    },
+    {
+      "from": "AC-handoff",
+      "to": "TEST-handoff",
+      "type": "verified by"
+    }
+  ]
+}

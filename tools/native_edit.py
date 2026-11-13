@@ -21,13 +21,35 @@ ID = re.compile(r'(?:I?\d+:\d+)(?:;\d+:\d+)*\Z')
 def validate_plan(plan):
     if not isinstance(plan, dict) or plan.get('schema') != PLAN_SCHEMA:
         raise ValueError('Explicit native edit plan schema required')
-    if set(plan) not in ({'schema', 'file_key', 'page_id', 'edits'}, {'schema', 'file_key', 'page_id', 'variableedit'}, {'schema', 'file_key', 'page_id', 'specifications'}, {'schema', 'file_key', 'page_id', 'provision'}):
+    if set(plan) not in ({'schema', 'file_key', 'page_id', 'edits'}, {'schema', 'file_key', 'page_id', 'variableedit'}, {'schema', 'file_key', 'page_id', 'specifications'}, {'schema', 'file_key', 'page_id', 'provision'}, {'schema', 'file_key', 'page_id', 'graph_review'}):
         raise ValueError('Plan requires exact file/page and one supported edit variant')
     if not isinstance(plan['file_key'], str) or not re.fullmatch(r'[A-Za-z0-9_-]+', plan['file_key']) or not isinstance(plan['page_id'], str) or not ID.fullmatch(plan['page_id']):
         raise ValueError('Exact safe native file/page identity required')
     if 'specifications' in plan:
         from specifications import validate_update
         return validate_update(plan)
+    if 'graph_review' in plan:
+        review = plan['graph_review']
+        if not isinstance(review, dict) or set(review) != {'source_graph_path', 'source_graph_sha256', 'projection'}:
+            raise ValueError('Graph review needs a pinned source graph and bounded projection')
+        source = Path(review['source_graph_path'])
+        if (not source.is_absolute() or source.is_symlink() or not source.is_file()
+                or not isinstance(review['source_graph_sha256'], str)
+                or not re.fullmatch(r'[a-f0-9]{64}', review['source_graph_sha256'])):
+            raise ValueError('Pinned graph review source is missing or changed')
+        projection = review['projection']
+        if not isinstance(projection, dict) or set(projection) != {'id', 'title', 'nodes', 'edges'}:
+            raise ValueError('Graph review projection has an unsupported shape')
+        nodes = projection.get('nodes')
+        if not isinstance(nodes, list) or any(not isinstance(row, dict) or not isinstance(row.get('id'), str) for row in nodes):
+            raise ValueError('Graph review projection must select canonical node IDs')
+        from review_graph import project_graph
+        expected, source_sha256 = project_graph(source, [row['id'] for row in nodes])
+        if source_sha256 != review['source_graph_sha256'] or hashlib.sha256(source.read_bytes()).hexdigest() != source_sha256:
+            raise ValueError('Pinned graph review source changed after plan creation')
+        if projection != expected:
+            raise ValueError('Graph review projection differs from its exact pinned canonical source')
+        return plan
     if 'provision' in plan:
         provision = plan['provision']
         required = {'schema', 'graph_sha256', 'token_source_sha256', 'readback_sha256', 'frame_key', 'main_key',
@@ -125,15 +147,20 @@ def prepare(plan_path, out, plugin_id=None):
     if plugin_id and not re.fullmatch(r'\d+', plugin_id):
         raise ValueError('Use the actual assigned numeric plugin ID')
     output = Path(out)
-    output.mkdir(parents=True, exist_ok=False, mode=0o700 if 'specifications' in plan or 'provision' in plan else 0o777)
+    private_plan = any(key in plan for key in ('specifications', 'provision', 'graph_review'))
+    output.mkdir(parents=True, exist_ok=False, mode=0o700 if private_plan else 0o777)
     session = secrets.token_hex(16)
     digest = hashlib.sha256(raw).hexdigest()
     runtime_plan = json.loads(json.dumps(plan))
     if 'provision' in runtime_plan:
         for field in ('source_graph_path', 'token_source_path', 'readback_path', 'label_source_path'):
             runtime_plan['provision'].pop(field, None)
+    if 'graph_review' in runtime_plan:
+        runtime_plan['graph_review'].pop('source_graph_path', None)
     data = dict(file_key=plan['file_key'], page_id=plan['page_id'], allowed_page_ids=[plan['page_id']])
-    if 'provision' in plan:
+    if 'graph_review' in plan:
+        rows = []
+    elif 'provision' in plan:
         rows = [plan['provision']]
     else:
         rows = plan['specifications']['targets'] if 'specifications' in plan else plan.get('edits', [plan.get('variableedit')])
@@ -162,6 +189,8 @@ def prepare(plan_path, out, plugin_id=None):
     ui_plan['components'] = [dict(id=main, main_keys=[main], instance_keys=[], properties=fields) for main, fields in grouped.items()]
     source = spec_label_prelude() + 'var NATIVE_EDIT_PLAN_SCHEMA = ' + json.dumps(PLAN_SCHEMA) + ';\n' + (ROOT/'figma-bridge/native_semantic_read.js').read_text()
     source += '\nconst NATIVE_EDIT_SESSION = ' + json.dumps(session) + ';\nconst NATIVE_EDIT_SHA256 = ' + json.dumps(digest) + ';\nconst NATIVE_EDIT_PLAN = ' + json.dumps(runtime_plan, ensure_ascii=True, allow_nan=False) + ';\n'
+    if 'graph_review' in plan:
+        source += '\n' + (ROOT/'figma-bridge/native_graph_review.js').read_text()
     if 'specifications' in plan:
         for helper in ('native_annotations.js', 'design_note_board.js', 'native_specifications.js'):
             source += '\n' + (ROOT/'figma-bridge'/helper).read_text()
@@ -171,16 +200,19 @@ def prepare(plan_path, out, plugin_id=None):
     (output/'code.js').write_text(source)
     (output/'ui.html').write_text(graph_panel('sync', data, ui_plan, session=session))
     (output/'native-edit-plan.json').write_bytes(raw)
-    if 'specifications' in plan or 'provision' in plan:
+    if private_plan:
         pins = [dict(path=str(Path(plan_path).resolve()), sha256=digest)]
         if 'specifications' in plan:
             pins.append(plan['specifications']['source_graph'])
-        else:
+        elif 'provision' in plan:
             provision = plan['provision']
             pins.extend({'path': provision[path_field], 'sha256': provision[digest_field]} for path_field, digest_field in (
                 ('source_graph_path', 'graph_sha256'), ('token_source_path', 'token_source_sha256'), ('readback_path', 'readback_sha256')))
             if 'label_source_path' in provision:
                 pins.append({'path': provision['label_source_path'], 'sha256': provision['label_source_sha256']})
+        else:
+            review = plan['graph_review']
+            pins.append({'path': review['source_graph_path'], 'sha256': review['source_graph_sha256']})
         (output/'source-inputs.json').write_text(json.dumps({'schema':'figma-flow-source-pins-v1','pins':pins}, indent=2)+'\n')
         (output/'source-inputs.json').chmod(0o600)
         (output/'native-edit-plan.json').chmod(0o600)
@@ -188,7 +220,38 @@ def prepare(plan_path, out, plugin_id=None):
     if plugin_id:
         manifest['id'] = plugin_id
     (output/'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
+    if private_plan:
+        (output/'manifest.json').chmod(0o600)
     return dict(manifest=str((output/'manifest.json').resolve()), plan=str((output/'native-edit-plan.json').resolve()), file_key=plan['file_key'], page_id=plan['page_id'], plan_sha256=digest, status='prepared-not-executed')
+
+
+def build_graph_review_plan(graph_path, node_ids, file_key, page_id, out):
+    from review_graph import project_graph
+    graph_path = Path(graph_path).expanduser().absolute()
+    if graph_path.is_symlink() or not graph_path.is_file():
+        raise ValueError('Canonical graph must be a regular local file')
+    projection, source_sha256 = project_graph(graph_path, node_ids)
+    if hashlib.sha256(graph_path.read_bytes()).hexdigest() != source_sha256:
+        raise ValueError('Canonical graph changed during projection')
+    plan = {
+        'schema': PLAN_SCHEMA,
+        'file_key': file_key,
+        'page_id': page_id,
+        'graph_review': {
+            'source_graph_path': str(graph_path.resolve()),
+            'source_graph_sha256': source_sha256,
+            'projection': projection,
+        },
+    }
+    validate_plan(plan)
+    output = Path(out).expanduser().absolute()
+    if output.exists() or output.is_symlink():
+        raise FileExistsError(f'Refusing to overwrite graph review plan: {output}')
+    if not output.parent.is_dir() or output.parent.is_symlink():
+        raise ValueError('Graph review plan parent must be an existing local directory')
+    output.write_text(json.dumps(plan, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
+    output.chmod(0o600)
+    return {'plan': str(output), 'graph_sha256': source_sha256, 'node_count': len(projection['nodes']), 'edge_count': len(projection['edges']), 'status': 'prepared-not-executed'}
 
 
 def main():
@@ -198,9 +261,18 @@ def main():
     build.add_argument('--plan', required=True)
     build.add_argument('--out', required=True)
     build.add_argument('--plugin-id')
+    review = sub.add_parser('graph-review')
+    review.add_argument('--graph', required=True)
+    review.add_argument('--node', action='append', default=[])
+    review.add_argument('--file-key', required=True)
+    review.add_argument('--page-id', required=True)
+    review.add_argument('--out', required=True)
     args = parser.parse_args()
     try:
-        print(json.dumps(prepare(args.plan, args.out, args.plugin_id)))
+        if args.command == 'graph-review':
+            print(json.dumps(build_graph_review_plan(args.graph, args.node, args.file_key, args.page_id, args.out)))
+        else:
+            print(json.dumps(prepare(args.plan, args.out, args.plugin_id)))
         return 0
     except (OSError, ValueError, TypeError, KeyError) as error:
         print(json.dumps({'status':'blocked', 'error':str(error)}))

@@ -13,15 +13,17 @@ import re
 from collections import deque
 from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
-from urllib.parse import unquote, urlsplit, urlunsplit
+from urllib.parse import parse_qs, unquote, urljoin, urlsplit, urlunsplit
 
 import design_directions
 import design_system
 
 SCHEMA = 'figma-flow-input-effect-v1'
-RESULT_SCHEMA = 'figma-flow-input-effect-result-v3'
+RESULT_SCHEMA = 'figma-flow-input-effect-result-v4'
+LEGACY_RESULT_SCHEMAS = {'figma-flow-input-effect-result-v3'}
 URL_SCHEMA = 'figma-flow-url-snapshot-v1'
-INPUT_NAMES = ('html', 'url', 'design-system')
+HTML_ASSET_MAP_SCHEMA = 'figma-flow-html-asset-map-v1'
+INPUT_NAMES = ('html', 'html-asset-map', 'url', 'design-system')
 RENDER_STATUSES = {'rendered', 'text-only', 'js-required', 'redirect', 'login-required', 'not-found', 'rate-limited'}
 FAILURE_STATUSES = {'redirect', 'login-required', 'not-found', 'rate-limited'}
 INSTRUCTION = re.compile(r'(?i)ignore previous instructions|you are now|overwrite brief\.md|run this command')
@@ -81,6 +83,193 @@ def _load_json(path):
     return value
 
 
+def _http_origin(value):
+    try:
+        parts = urlsplit(value)
+        hostname = parts.hostname
+        port = parts.port
+    except (TypeError, ValueError):
+        raise ValueError('Asset map URLs must be valid absolute HTTP(S) URLs') from None
+    if (parts.scheme.lower() not in {'http', 'https'} or not hostname or parts.username is not None
+            or parts.password is not None or parts.fragment):
+        raise ValueError('Asset map URLs must be absolute HTTP(S) URLs without credentials or fragments')
+    effective_port = port if port is not None else (443 if parts.scheme.lower() == 'https' else 80)
+    return parts.scheme.lower(), hostname.lower(), effective_port
+
+
+def _asset_request_target(base_url, reference):
+    if not isinstance(reference, str) or not reference or '\\' in reference or '\x00' in reference or reference.startswith('#'):
+        return None
+    try:
+        raw = urlsplit(reference)
+        decoded_path = unquote(raw.path)
+        target_url = urljoin(base_url, reference)
+        target = urlsplit(target_url)
+        if _http_origin(target_url) != _http_origin(base_url):
+            return None
+    except (TypeError, ValueError):
+        return None
+    decoded_target_path = unquote(target.path)
+    if ('\\' in decoded_path or '\x00' in decoded_path or '\\' in decoded_target_path or '\x00' in decoded_target_path
+            or any(part in {'.', '..'} for part in PurePosixPath(decoded_target_path).parts)):
+        return None
+    if target.path.endswith('/_next/image'):
+        nested = parse_qs(target.query, keep_blank_values=True).get('url', [])
+        if len(nested) > 1:
+            return None
+        if nested:
+            try:
+                nested_parts = urlsplit(nested[0])
+                nested_path = unquote(nested_parts.path)
+                if ('\\' in nested_path or '\x00' in nested_path
+                        or any(part in {'.', '..'} for part in PurePosixPath(nested_path).parts)
+                        or _http_origin(urljoin(base_url, nested[0])) != _http_origin(base_url)):
+                    return None
+            except ValueError:
+                return None
+    path = target.path or '/'
+    return path + ('?' + target.query if target.query else '')
+
+
+def _url_for_request_target(page_url, request_target):
+    page = urlsplit(page_url)
+    target = urlsplit(request_target)
+    return urlunsplit((page.scheme.lower(), page.netloc, target.path or '/', target.query, ''))
+
+
+def _capture_json(root, relative, expected_sha256):
+    if not isinstance(expected_sha256, str) or not re.fullmatch(r'[a-f0-9]{64}', expected_sha256):
+        raise ValueError('Captured HTTP metadata requires its exact file SHA-256')
+    path = locate(root, relative)
+    raw = path.read_bytes()
+    if digest(raw) != expected_sha256:
+        raise ValueError('Captured HTTP metadata file changed')
+    return _load_json(path), {'path': relative, 'sha256': expected_sha256}
+
+
+def _load_html_asset_map(path, root, html_path):
+    manifest = _load_json(path)
+    if manifest.get('schema') != HTML_ASSET_MAP_SCHEMA or set(manifest) != {'schema', 'page_capture', 'local_root', 'assets'}:
+        raise ValueError('Unknown HTML asset map schema')
+    page_capture = manifest['page_capture']
+    if (not isinstance(page_capture, dict) or set(page_capture) != {'metadata_path', 'metadata_sha256'}
+            or not isinstance(page_capture.get('metadata_path'), str)):
+        raise ValueError('Asset map must reference captured page response metadata')
+    page_meta, page_source = _capture_json(root, page_capture['metadata_path'], page_capture.get('metadata_sha256'))
+    page_url = page_meta.get('url_final')
+    page_sha256 = page_meta.get('body_sha256')
+    if (type(page_meta.get('http_status')) is not int or page_meta['http_status'] != 200 or not isinstance(page_sha256, str)
+            or not re.fullmatch(r'[a-f0-9]{64}', page_sha256)):
+        raise ValueError('Asset map page capture must record a successful body hash')
+    _http_origin(page_url)
+    if digest(Path(html_path).read_bytes()) != page_sha256:
+        raise ValueError('Asset map page body hash does not match the declared HTML input')
+    local_root_rel = manifest['local_root']
+    local_root = locate(root, local_root_rel, require_file=False)
+    if not local_root.is_dir():
+        raise ValueError('Asset map local_root must be an existing directory')
+    entries = manifest['assets']
+    if not isinstance(entries, list) or len(entries) > 4096:
+        raise ValueError('Asset map entries must be a bounded list')
+    by_target, sources, ids = {}, [page_source], set()
+    capture_cache = {}
+    for row in entries:
+        fields = {'id', 'capture_path', 'capture_sha256', 'reference', 'request_target', 'local_app_path', 'mapping'}
+        if isinstance(row, dict) and 'base_target' in row:
+            fields.add('base_target')
+        if isinstance(row, dict) and row.get('mapping') == 'transformed':
+            fields.add('reason')
+        if not isinstance(row, dict) or set(row) != fields:
+            raise ValueError('Asset map entry has an unsupported shape')
+        entry_id, target = row['id'], row['request_target']
+        if (not isinstance(entry_id, str) or not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}', entry_id)
+                or entry_id in ids or not isinstance(row.get('capture_path'), str)
+                or not isinstance(row.get('reference'), str) or not isinstance(row.get('local_app_path'), str)
+                or not isinstance(target, str) or not target.startswith('/') or target.startswith('//')
+                or '\\' in target or '\x00' in target or '#' in target):
+            raise ValueError('Asset map requires stable IDs, captured references, and root-relative request targets')
+        target_parts = urlsplit(target)
+        if target_parts.scheme or target_parts.netloc or not target_parts.path.startswith('/'):
+            raise ValueError('Asset map request target must be a same-origin path and query')
+        if '\\' in unquote(target_parts.path) or '\x00' in unquote(target_parts.path) or any(part in {'.', '..'} for part in PurePosixPath(unquote(target_parts.path)).parts):
+            raise ValueError('Asset map request target contains path traversal')
+        resolved_target = target_parts.path + ('?' + target_parts.query if target_parts.query else '')
+        if resolved_target != target or resolved_target in by_target:
+            raise ValueError('Asset map request targets must be canonical and unique')
+        base_target = row.get('base_target')
+        if base_target is not None:
+            if not isinstance(base_target, str) or not base_target.startswith('/') or base_target.startswith('//') or '#' in base_target or '\\' in base_target:
+                raise ValueError('CSS asset base target must be a same-origin path and query')
+            base_parts = urlsplit(base_target)
+            if (base_parts.scheme or base_parts.netloc or any(part in {'.', '..'} for part in PurePosixPath(unquote(base_parts.path)).parts)
+                    or base_parts.path + ('?' + base_parts.query if base_parts.query else '') != base_target):
+                raise ValueError('CSS asset base target is not canonical')
+        if row['capture_path'] not in capture_cache:
+            capture_cache[row['capture_path']] = _capture_json(root, row['capture_path'], row.get('capture_sha256'))
+            report, capture_source = capture_cache[row['capture_path']]
+            if not isinstance(report.get('assets'), list):
+                raise ValueError('Asset capture metadata must contain an assets list')
+            if type(report.get('external_assets_requested')) is not int or report['external_assets_requested'] != 0:
+                raise ValueError('Asset capture metadata records external requests')
+            capture_origin = report.get('origin')
+            if not isinstance(capture_origin, str) or _http_origin(capture_origin) != _http_origin(page_url):
+                raise ValueError('Asset capture origin differs from the page capture origin')
+            sources.append(capture_source)
+        elif capture_cache[row['capture_path']][1]['sha256'] != row.get('capture_sha256'):
+            raise ValueError('Asset map has conflicting pins for one capture file')
+        report, _capture_source = capture_cache[row['capture_path']]
+        matching = [asset for asset in report['assets'] if isinstance(asset, dict)
+                    and asset.get('reference') == row['reference'] and asset.get('base_target') == base_target]
+        if len(matching) != 1:
+            raise ValueError('Asset mapping must select one exact captured HTTP reference')
+        captured = matching[0]
+        reference_base = _url_for_request_target(page_url, base_target) if base_target else page_url
+        computed_target = _asset_request_target(reference_base, row['reference'])
+        if computed_target != resolved_target:
+            raise ValueError('Mapped HTTP request target differs from the captured same-origin reference')
+        if (type(captured.get('http_status')) is not int or captured['http_status'] != 200
+                or type(captured.get('bytes')) is not int or captured['bytes'] <= 0
+                or not isinstance(captured.get('response_sha256'), str) or not re.fullmatch(r'[a-f0-9]{64}', captured['response_sha256'])
+                or not isinstance(captured.get('local_sha256'), str) or not re.fullmatch(r'[a-f0-9]{64}', captured['local_sha256'])
+                or type(captured.get('bytes_match_local')) is not bool
+                or captured.get('local_app_path') != row['local_app_path']):
+            raise ValueError('Captured asset must pin successful response and local source hashes')
+        if not isinstance(row.get('mapping'), str) or row['mapping'] not in {'byte-identical', 'transformed'}:
+            raise ValueError('Asset mapping must be byte-identical or transformed')
+        if row['mapping'] == 'transformed' and (not isinstance(row.get('reason'), str) or not row['reason'].strip() or len(row['reason']) > 512):
+            raise ValueError('Transformed asset mappings require a bounded explanation')
+        local_rel = (PurePosixPath(local_root_rel) / PurePosixPath(row['local_app_path'])).as_posix()
+        local_path = locate(root, local_rel)
+        local_sha = digest(local_path.read_bytes())
+        if local_sha != captured['local_sha256']:
+            raise ValueError('Captured local file hash does not match the mapped source path')
+        if row['mapping'] == 'byte-identical' and (captured['response_sha256'] != local_sha or captured['bytes'] != local_path.stat().st_size or captured.get('bytes_match_local') is not True):
+            raise ValueError('Byte-identical mapping does not match captured response bytes')
+        if row['mapping'] == 'transformed' and (captured.get('bytes_match_local') is not False or captured['response_sha256'] == local_sha):
+            raise ValueError('Captured byte-identical asset must use the byte-identical mapping kind')
+        asset_kind = _asset_kind(row['reference'])
+        if asset_kind == 'file':
+            asset_kind = _asset_kind(row['local_app_path'])
+        by_target[resolved_target] = {
+            'id': entry_id, 'path': local_rel, 'kind': asset_kind, 'mapping': row['mapping'],
+            'reason': row.get('reason'), 'http_status': captured['http_status'], 'response_sha256': captured['response_sha256'],
+            'response_bytes': captured['bytes'], 'sha256': local_sha,
+        }
+        ids.add(entry_id)
+        sources.append({'path': local_rel, 'sha256': local_sha})
+    unique_sources = []
+    seen_sources = {}
+    for source in sources:
+        previous = seen_sources.get(source['path'])
+        if previous is not None and previous != source['sha256']:
+            raise ValueError('Asset map pins conflicting hashes for one source path')
+        if previous is None:
+            seen_sources[source['path']] = source['sha256']
+            unique_sources.append(source)
+    return {'schema': manifest['schema'], 'page_url': page_url, 'page_sha256': page_sha256,
+            'by_target': by_target, 'sources': unique_sources}
+
+
 def _quarantine(text):
     return [match.group(0) for match in INSTRUCTION.finditer(text)]
 
@@ -126,6 +315,32 @@ def _relative_asset(html_path, root, url):
     }
 
 
+def _srcset_urls(value):
+    if not isinstance(value, str):
+        return []
+    result, index = [], 0
+    while index < len(value):
+        while index < len(value) and (value[index].isspace() or value[index] == ','):
+            index += 1
+        start = index
+        while index < len(value) and not value[index].isspace():
+            index += 1
+        url = value[start:index]
+        if not url:
+            break
+        stripped = url.rstrip(',')
+        trailing_delimiter = len(stripped) != len(url)
+        if stripped:
+            result.append(stripped)
+        if trailing_delimiter:
+            continue
+        while index < len(value) and value[index] != ',':
+            index += 1
+        if index < len(value):
+            index += 1
+    return result
+
+
 class _HTMLAssets(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -136,14 +351,17 @@ class _HTMLAssets(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        if tag.lower() in {'link', 'script', 'img'}:
-            key = 'href' if tag.lower() == 'link' else 'src'
+        tag = tag.lower()
+        if tag in {'link', 'script', 'img', 'image', 'source'}:
+            key = 'href' if tag in {'link', 'image'} else 'src'
             if attrs.get(key):
                 ref = attrs[key]
                 rel = set((attrs.get('rel') or '').lower().split())
-                is_stylesheet = tag.lower() == 'link' and ('stylesheet' in rel or (attrs.get('type') or '').lower() == 'text/css' or ref.split('?', 1)[0].split('#', 1)[0].lower().endswith('.css'))
-                kind = 'stylesheet' if is_stylesheet else 'script' if tag.lower() == 'script' else 'image' if tag.lower() == 'img' else attrs.get('as')
+                is_stylesheet = tag == 'link' and ('stylesheet' in rel or (attrs.get('type') or '').lower() == 'text/css' or ref.split('?', 1)[0].split('#', 1)[0].lower().endswith('.css'))
+                kind = 'stylesheet' if is_stylesheet else 'script' if tag == 'script' else 'image' if tag in {'img', 'image'} or tag == 'source' and (attrs.get('type') or '').lower().startswith('image/') else attrs.get('as')
                 self.references.append((ref, is_stylesheet, kind))
+        if tag in {'img', 'source'}:
+            self.references.extend((ref, False, 'image') for ref in _srcset_urls(attrs.get('srcset')))
         if attrs.get('style'):
             self.inline_styles.append(attrs['style'])
         if tag.lower() == 'style':
@@ -251,6 +469,8 @@ def _asset_kind(ref):
 def _ingress(asset, source, kind=None):
     copied = dict(asset)
     inferred = _asset_kind(asset.get('ref', ''))
+    if inferred == 'file' and copied.get('kind') in {'font', 'image', 'stylesheet', 'script'}:
+        inferred = copied['kind']
     copied['kind'] = inferred if inferred != 'file' else kind if kind in {'font', 'image', 'stylesheet', 'script'} else 'file'
     if source:
         copied['sources'] = [source]
@@ -263,7 +483,8 @@ def _merge_ingress(assets):
     order = []
     for asset in assets:
         identity = {key: value for key, value in asset.items() if key != 'sources'}
-        key = canonical({name: identity[name] for name in ('path', 'kind', 'status')}) if isinstance(identity.get('path'), str) else canonical(identity)
+        fields = ('path', 'kind', 'status', 'binding_id', 'request_target', 'response_sha256', 'source_sha256', 'mapping')
+        key = canonical({name: identity[name] for name in fields if name in identity}) if isinstance(identity.get('path'), str) else canonical(identity)
         if key not in merged:
             merged[key] = {**identity, 'sources': list(asset.get('sources') or [])}
             order.append(key)
@@ -274,7 +495,25 @@ def _merge_ingress(assets):
     return [merged[key] for key in order]
 
 
-def html_channel(path, root, *, required_facts=None):
+def _html_asset(path, root, ref, source, kind, asset_map, base_url):
+    request_target = _asset_request_target(base_url, ref) if base_url else None
+    binding = asset_map['by_target'].get(request_target) if asset_map and request_target else None
+    if binding:
+        asset = {'ref': ref, 'status': 'present', 'path': binding['path'], 'binding_id': binding['id'],
+                 'request_target': request_target, 'response_sha256': binding['response_sha256'],
+                 'response_bytes': binding['response_bytes'], 'source_sha256': binding['sha256'],
+                 'mapping': binding['mapping'], 'kind': binding['kind']}
+        if binding.get('reason'):
+            asset['mapping_reason'] = binding['reason']
+        asset_map['used'].add(request_target)
+    else:
+        asset = _relative_asset(path, root, ref)
+        if request_target:
+            asset['request_target'] = request_target
+    return _ingress(asset, source, kind)
+
+
+def html_channel(path, root, *, required_facts=None, asset_map=None):
     root = _root(root)
     raw = path.read_bytes()
     text = raw.decode('utf-8')
@@ -290,25 +529,28 @@ def html_channel(path, root, *, required_facts=None):
     seen_css = set()
     direct_css_paths = set()
     html_relative = Path(path).resolve().relative_to(root).as_posix()
+    page_url = asset_map['page_url'] if asset_map else None
     for ref, is_stylesheet, kind in parser.references:
-        asset = _ingress(_relative_asset(path, root, ref), html_relative, kind)
+        asset = _html_asset(path, root, ref, html_relative, kind, asset_map, page_url)
         assets.append(asset)
         if is_stylesheet and asset.get('status') == 'present':
-            css_queue.append((locate(root, asset['path']), asset['path'], None))
+            css_url = _url_for_request_target(page_url, asset['request_target']) if page_url and asset.get('request_target') else None
+            css_queue.append((locate(root, asset['path']), asset['path'], None, css_url))
             direct_css_paths.add(asset['path'])
     for style in parser.styles:
         refs, encoding = _css_references(style.encode('utf-8'))
         for ref, kind in refs:
-            assets.append(_ingress(_relative_asset(path, root, ref), html_relative, 'stylesheet' if kind == 'import' else None))
+            assets.append(_html_asset(path, root, ref, html_relative, 'stylesheet' if kind == 'import' else None, asset_map, page_url))
             asset = assets[-1]
             if kind == 'import' and asset.get('status') == 'present':
-                css_queue.append((locate(root, asset['path']), asset['path'], encoding))
+                css_url = _url_for_request_target(page_url, asset['request_target']) if page_url and asset.get('request_target') else None
+                css_queue.append((locate(root, asset['path']), asset['path'], encoding, css_url))
     for style in parser.inline_styles:
         refs, _encoding = _css_references(style.encode('utf-8'), declarations=True)
         for ref, _kind in refs:
-            assets.append(_ingress(_relative_asset(path, root, ref), html_relative))
+            assets.append(_html_asset(path, root, ref, html_relative, None, asset_map, page_url))
     while css_queue:
-        css_path, css_relative, environment_encoding = css_queue.popleft()
+        css_path, css_relative, environment_encoding, css_url = css_queue.popleft()
         encoding_key = environment_encoding.name if environment_encoding else None
         css_key = (css_relative, encoding_key)
         if css_key in seen_css:
@@ -316,10 +558,13 @@ def html_channel(path, root, *, required_facts=None):
         seen_css.add(css_key)
         refs, child_encoding = _css_references(css_path.read_bytes(), environment_encoding=environment_encoding)
         for ref, kind in refs:
-            asset = _ingress(_relative_asset(css_path, root, ref), css_relative, 'stylesheet' if kind == 'import' else None)
+            asset = _html_asset(css_path, root, ref, css_relative, 'stylesheet' if kind == 'import' else None, asset_map, css_url)
             assets.append(asset)
             if asset.get('status') == 'present' and (kind == 'import' or asset.get('path', '').lower().endswith('.css')):
-                css_queue.append((locate(root, asset['path']), asset['path'], child_encoding))
+                next_css_url = _url_for_request_target(page_url, asset['request_target']) if page_url and asset.get('request_target') else None
+                css_queue.append((locate(root, asset['path']), asset['path'], child_encoding, next_css_url))
+    if asset_map and asset_map['used'] != set(asset_map['by_target']):
+        raise ValueError('HTML asset map contains request targets unused by static HTML/CSS references')
     assets = _merge_ingress(assets)
     layout = list(design_directions._layout_signature(text))
     for css_relative in sorted(direct_css_paths):
@@ -544,17 +789,31 @@ def project(root, spec):
     inputs = spec.get('inputs') or {}
     if not isinstance(inputs, dict) or any(name not in INPUT_NAMES for name in inputs):
         raise ValueError('Unknown input channel')
+    if 'html-asset-map' in inputs and 'html' not in inputs:
+        raise ValueError('HTML asset map requires an HTML input')
     if 'html' in inputs:
         path = locate(root, inputs['html'])
-        channels['html'] = html_channel(path, root, required_facts=required_facts)
+        asset_map = None
+        if 'html-asset-map' in inputs:
+            map_path = locate(root, inputs['html-asset-map'])
+            asset_map = _load_html_asset_map(map_path, root, path)
+            asset_map['used'] = set()
+            sources.append({'path': inputs['html-asset-map'], 'sha256': digest(map_path.read_bytes())})
+            sources.extend(asset_map['sources'])
+        channels['html'] = html_channel(path, root, required_facts=required_facts, asset_map=asset_map)
         sources.append({'path': inputs['html'], 'sha256': digest(path.read_bytes())})
-        source_paths = {item['path'] for item in sources}
+        source_hashes = {item['path']: item['sha256'] for item in sources}
         for asset in channels['html']['assets']:
             relative = asset.get('path')
-            if relative and relative not in source_paths:
+            if relative and relative not in source_hashes:
                 asset_path = locate(root, relative, require_file=False)
-                sources.append({'path': relative, 'sha256': digest(asset_path.read_bytes()) if asset_path.is_file() else None})
-                source_paths.add(relative)
+                asset_sha256 = digest(asset_path.read_bytes()) if asset_path.is_file() else None
+                sources.append({'path': relative, 'sha256': asset_sha256})
+                source_hashes[relative] = asset_sha256
+            elif relative and source_hashes[relative] is not None:
+                asset_path = locate(root, relative, require_file=False)
+                if not asset_path.is_file() or digest(asset_path.read_bytes()) != source_hashes[relative]:
+                    raise ValueError('HTML asset source hash changed during projection')
     if 'url' in inputs:
         path = locate(root, inputs['url'])
         channels['url'] = url_channel(path)
@@ -594,6 +853,7 @@ def project(root, spec):
             'text extraction and HTTP status are not a browser render',
             'TSX files were not executed',
             'local HTML and CSS dependencies are tracked without executing scripts or resolving external URLs',
+            'opt-in HTML asset maps bind captured same-origin response hashes to local files without fetching network resources',
         ],
     }
 
@@ -601,7 +861,7 @@ def project(root, spec):
 def freshness(record, root):
     if not isinstance(record, dict) or not isinstance(record.get('sources'), list):
         raise ValueError('Projection record has no source hashes')
-    if record.get('schema') != RESULT_SCHEMA:
+    if record.get('schema') not in {RESULT_SCHEMA, *LEGACY_RESULT_SCHEMAS}:
         raise ValueError('Projection record schema is outdated; regenerate the projection before checking freshness')
     changed = []
     for item in record['sources']:
@@ -675,7 +935,7 @@ def _safe_ref(value):
 
 def summarize_input_record(record):
     """Hash the private record and return only relative, status-preserving rows."""
-    if not isinstance(record, dict) or record.get('schema') != RESULT_SCHEMA:
+    if not isinstance(record, dict) or record.get('schema') not in {RESULT_SCHEMA, *LEGACY_RESULT_SCHEMAS}:
         raise ValueError('Invalid input record')
     channels = record.get('channels')
     assets = channels.get('html', {}).get('assets') if isinstance(channels, dict) else None

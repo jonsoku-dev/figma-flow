@@ -52,6 +52,16 @@ test('discovery returns the actual scoped getter and never calls apply',async()=
   const {run}=driver('discover',(m,post)=>{assert.equal(m.type,'read');post({session:m.session,operation:m.type,readback:{schema:'figma-flow-graph-native-discovery-v1',fileKey:'file',pageId:'0:1',nodes:[{id:'n'}]}});});
   assert.equal((await run('read')).nodes[0].id,'n');
 });
+test('native graph review uses the signed native-edit read and apply contract',async()=>{
+  const {run,env}=driver('native-edit',()=>{});
+  env.workspaceOpen=async()=>{const active={inFlight:0,model:{session:'s'},html:'<script type="application/json" id="flow-model">{"session":"s"}</script>'};active.handler=msg=>activeHandler(msg,event=>active.onOutput(event));env.workspaceActive=active;return active;};
+  const read=await run('read');assert.equal(read.schema,'figma-flow-graph-native-discovery-v1');assert.equal(read.native_edit.applied,false);
+  const applied=await run('apply');assert.equal(applied.native_edit.applied,true);assert.equal(applied.graph_review.status,'created');
+  function activeHandler(message,post){
+    const applied=message.type==='apply';
+    post({session:message.session,operation:message.type,readback:{schema:'figma-flow-graph-native-discovery-v1',fileKey:'file',pageId:'0:1',nodes:[],graph_review:{status:applied?'created':'absent'},native_edit:{operation:message.type,applied}}});
+  }
+});
 test('remote review retains its native readback on receiver failure',async()=>{
   const d=driver('review',(m,post)=>post({type:'readback',data:{packet_sha256:'pin',fileKey:'file',nodes:[{id:'n'}]}}));
   const original=d.env.workspaceOpen;

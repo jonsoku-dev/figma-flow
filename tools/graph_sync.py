@@ -1050,9 +1050,15 @@ def graph_panel(mode, scope, plan=None, session=None):
                    'mains': len(mains), 'instances': len(instances), 'updates': len(changes),
                    'creates': sum(bool(token.get('create')) for token in plan['tokens']),
                    'bindings': len(plan.get('migrations', [])) + len(plan.get('repair_bindings', []))})
+    if mode == 'discovery' and scope.get('api_probe'):
+        config['api_probe'] = scope['api_probe']
     template = (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'graph-panel.html').read_text(encoding='utf-8')
     data = json.dumps(config, ensure_ascii=False, allow_nan=False).replace('&', '\\u0026').replace('<', '\\u003c').replace('>', '\\u003e')
-    return render_panel(template).replace('__GRAPH_PANEL_CONFIG__', data)
+    panel = render_panel(template).replace('__GRAPH_PANEL_CONFIG__', data)
+    if config.get('api_probe'):
+        panel = panel.replace("byId('summary-read').hidden = !discovery;",
+                              "byId('summary-read').hidden = !discovery || !!config.api_probe;")
+    return panel
 
 
 def verify_native_marker(data, graph_sha256, required=True):
@@ -1171,17 +1177,55 @@ def import_values(graph_path, pairing, readback, web_module, out, apply=False, n
     return report
 
 
-def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None):
+def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None, api_probe_path=None):
     pages = list(dict.fromkeys([page_id] + include_page_ids))
     if not file_key or not page_id or not all(pages):
         raise ValueError('explicit native file and page IDs required')
     output = Path(out)
     output.mkdir(parents=True, exist_ok=False)
     session = secrets.token_urlsafe(24)
-    source = spec_label_prelude() + (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'native_semantic_read.js').read_text()
-    source += '\nconst GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\n'
-    source += '\nconst DISCOVERY_SCOPE = ' + json.dumps({'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}) + ';\n'
-    source += r"""
+    probe_config = None
+    if api_probe_path is not None:
+        if include_page_ids:
+            raise ValueError('--api-probe is limited to the explicitly selected current page')
+        path = Path(api_probe_path)
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > 256 * 1024:
+            raise ValueError('--api-probe must be a bounded regular selection file without symlinks')
+        from native_api_probe import prepare as prepare_native_api_probe
+        request = json.loads(path.read_text(encoding='utf-8'))
+        probe_config = prepare_native_api_probe(request, file_key=file_key, page_id=page_id)
+        selection = {'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}
+        source = 'const GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\n'
+        source += 'const DISCOVERY_SCOPE = ' + json.dumps(selection) + ';\n'
+        source += 'const NATIVE_API_PROBE_CONFIG = ' + json.dumps(probe_config, ensure_ascii=True, allow_nan=False) + ';\n'
+        source += '\n' + (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'native_api_probe.js').read_text(encoding='utf-8')
+    else:
+        source = spec_label_prelude() + (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'native_semantic_read.js').read_text()
+        source += '\nconst GRAPH_PANEL_SESSION = ' + json.dumps(session) + ';\n'
+        source += '\nconst DISCOVERY_SCOPE = ' + json.dumps({'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}) + ';\n'
+    if probe_config:
+        source += r"""
+figma.showUI(__html__, {width: 440, height: 390, themeColors: true});
+let discoveryBusy = false;
+figma.ui.onmessage = async message => {
+  if (message?.type !== 'read' || message.session !== GRAPH_PANEL_SESSION || discoveryBusy) return;
+  discoveryBusy = true;
+  figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation: 'read'});
+  try {
+    const readback = await discoverSelectedNativeApi(figma, DISCOVERY_SCOPE, NATIVE_API_PROBE_CONFIG);
+    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: 'read', readback});
+  } catch (error) {
+    const detail = String(error?.message || error).slice(0, 1200);
+    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation: 'read', error: detail, readback: {
+      schema: 'figma-flow-graph-native-discovery-v1', status: 'failed', error: detail,
+      fileKey: figma.fileKey, pageId: figma.currentPage.id, expected_scope: DISCOVERY_SCOPE,
+      observed_at: new Date().toISOString()}});
+  }
+  finally { discoveryBusy = false; }
+};
+"""
+    else:
+        source += r"""
 async function discoverGraphNative(figma, scope) {
   if (figma.fileKey !== scope.file_key || figma.currentPage.id !== scope.page_id) throw Error('Wrong native discovery file or main page');
   const result = {schema: 'figma-flow-graph-native-discovery-v1', fileKey: figma.fileKey,
@@ -1237,21 +1281,30 @@ figma.ui.onmessage = async message => {
   const operation = message.type;
   discoveryBusy = true;
   figma.ui.postMessage({session: GRAPH_PANEL_SESSION, state: 'busy', operation});
-  try { figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation, readback: await (operation === 'native-summary' ? discoverGraphSummary : discoverGraphNative)(figma, DISCOVERY_SCOPE)}); }
-  catch (error) {
-    const detail = error.message || String(error);
+  try {
+    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation,
+      readback: await (operation === 'native-summary' ? discoverGraphSummary : discoverGraphNative)(figma, DISCOVERY_SCOPE)});
+  } catch (error) {
+    const detail = String(error?.message || error).slice(0, 1200);
     const safely = getter => {try {return getter() ?? null;} catch (_) {return null;}};
-    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation, error: detail, readback: {schema: 'figma-flow-graph-native-discovery-v1',
-      status: 'failed', error: detail, stack: error.stack || detail, fileKey: safely(() => figma.fileKey), pageId: safely(() => figma.currentPage.id),
+    figma.ui.postMessage({session: GRAPH_PANEL_SESSION, operation, error: detail, readback: {
+      schema: 'figma-flow-graph-native-discovery-v1', status: 'failed', error: detail,
+      fileKey: safely(() => figma.fileKey), pageId: safely(() => figma.currentPage.id),
       expected_scope: DISCOVERY_SCOPE, observed_at: new Date().toISOString()}});
   }
   finally { discoveryBusy = false; }
 };
 """
     (output / 'code.js').write_text(source, encoding='utf-8')
-    (output / 'ui.html').write_text(graph_panel('discovery', {'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}, session=session), encoding='utf-8')
+    scope = {'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}
+    if probe_config:
+        scope['api_probe'] = {'selected_nodes': len(probe_config['targets']),
+                              'planned_getters': probe_config['budget']['planned_getters']}
+    (output / 'ui.html').write_text(graph_panel('discovery', scope, session=session), encoding='utf-8')
     manifest = {'name': 'Graph scoped native discovery', 'api': '1.0.0', 'main': 'code.js', 'ui': 'ui.html',
-                'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}, 'enablePrivatePluginApi': True}
+                'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'networkAccess': {'allowedDomains': ['none']}}
+    if api_probe_path is None:
+        manifest['enablePrivatePluginApi'] = True
     if plugin_id:
         manifest['id'] = plugin_id
     save(output / 'manifest.json', manifest)
@@ -1312,6 +1365,13 @@ def main(argv=None):
     discovery_parser.add_argument('--file-key', required=True)
     discovery_parser.add_argument('--page-id', required=True)
     discovery_parser.add_argument('--include-page-id', action='append', default=[])
+    discovery_parser.add_argument('--api-probe', help=('Prepared bounded selection JSON. Create it with '
+        '`python3 tools/native_api_probe.py prepare --selection SELECTION.json --file-key KEY --page-id PAGE '
+        '--candidate-offset 0 --out probe-selection.json`; prepare later batches at offsets 16, 32, ... '
+        'with `--previous-readback` from the last saved readback. Submit it through the registered workspace: '
+        '`python3 tools/figma_workspace.py prepare --workspace WORKSPACE --key probe-0 --title "API probe 0" '
+        '--kind discover -- --file-key KEY --page-id PAGE --api-probe probe-selection.json`. Reads only '
+        'explicit nodes and unresolved safe properties.'))
     discovery_parser.add_argument('--plugin-id')
     discovery_parser.add_argument('--out', required=True)
     recovery_parser = sub.add_parser('recover')
@@ -1327,7 +1387,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.command == 'discover':
-            print(json.dumps(discovery_bundle(args.file_key, args.page_id, args.include_page_id, args.out, args.plugin_id)))
+            print(json.dumps(discovery_bundle(args.file_key, args.page_id, args.include_page_id, args.out,
+                                              args.plugin_id, args.api_probe)))
             return 0
         if args.command == 'recover':
             print(json.dumps(recover_projection(args.recovery)))
