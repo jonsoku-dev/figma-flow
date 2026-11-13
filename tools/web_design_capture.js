@@ -60,12 +60,78 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     if (elements.length + unboundImages.length >= maxLayers) throw Error('Screen exceeds the approved layer budget. Choose a smaller viewport or section.');
     elements.push({...layer,path:[...layer.path]});
   }
+  function mediaCandidate(candidate) {
+    if(elements.length+unboundImages.length>=maxLayers)throw Error('Screen exceeds the approved layer budget.');
+    unboundImages.push(candidate);
+  }
+  function mediaLoaded(url) {
+    try { return typeof performance!=='undefined' && performance.getEntriesByName(url).length>0; }
+    catch (_) { return false; }
+  }
+  function firstLinearGradient(value) {
+    const start=value.indexOf('linear-gradient(');if(start<0)return null;
+    let depth=0;
+    for(let i=start;i<value.length;i++){
+      if(value[i]==='(')depth++;else if(value[i]===')'){depth--;if(depth===0)return value.slice(start,i+1);}
+    }
+    return null;
+  }
+  function firstTextGradient(value) {
+    const starts=['linear-gradient(','radial-gradient('].map(token=>value.indexOf(token)).filter(index=>index>=0);
+    if(!starts.length)return null;
+    const start=Math.min(...starts);let depth=0;
+    for(let i=start;i<value.length;i++){
+      if(value[i]==='(')depth++;else if(value[i]===')'){depth--;if(depth===0)return value.slice(start,i+1);}
+    }
+    return null;
+  }
+  function splitCssList(value) {
+    const parts=[];let start=0,depth=0;
+    for(let i=0;i<value.length;i++){
+      if(value[i]==='(')depth++;else if(value[i]===')')depth--;
+      else if(value[i]===','&&depth===0){parts.push(value.slice(start,i).trim());start=i+1;}
+    }
+    parts.push(value.slice(start).trim());return parts;
+  }
+  function linearGradient(value) {
+    const match=/^linear-gradient\(\s*(-?[\d.]+)deg\s*,\s*(.*)\)$/.exec(value);if(!match)return null;
+    const stops=[];
+    for(const part of splitCssList(match[2])){
+      const row=/^(.*?)(?:\s+([\d.]+)%)?$/.exec(part);if(!row)return null;
+      const parsed=color(row[1].trim(),true);if(!parsed)return null;
+      stops.push({position:row[2]===undefined?null:Number(row[2])/100,color:parsed});
+    }
+    if(stops.length<2||stops.length>16)return null;
+    if(stops[0].position===null)stops[0].position=0;
+    if(stops.at(-1).position===null)stops.at(-1).position=1;
+    for(let i=1;i<stops.length-1;){
+      if(stops[i].position!==null){i++;continue;}
+      let end=i+1;while(end<stops.length&&stops[end].position===null)end++;
+      const from=i-1,step=(stops[end].position-stops[from].position)/(end-from);
+      for(let j=i;j<end;j++)stops[j].position=stops[from].position+step*(j-from);i=end;
+    }
+    if(stops.some((stop,i)=>stop.position<0||stop.position>1||(i>0&&stop.position<stops[i-1].position)))return null;
+    return {angle:(Number(match[1])%360+360)%360,stops:stops.map(stop=>({position:stop.position,color:stop.color}))};
+  }
   function typography(style, characters) {
-    return {characters, fontFamily:style.fontFamily.split(',')[0].trim().replace(/^["']|["']$/g,''),
+    const clipped=style.backgroundClip==='text'||style.webkitBackgroundClip==='text';
+    const cssGradient=clipped?firstTextGradient(style.backgroundImage||''):null;
+    const gradient=cssGradient?.startsWith('linear-gradient(')?linearGradient(cssGradient):null;
+    const text={characters, fontFamily:style.fontFamily.split(',')[0].trim().replace(/^['"]|['"]$/g,''),
       fontWeight:numeric(style.fontWeight,400),fontSize:numeric(style.fontSize,16),
       lineHeight:numeric(style.lineHeight,numeric(style.fontSize,16)*1.2),
       textAlignHorizontal:({center:'center',right:'right',end:'right'})[style.textAlign]||'left',
-      color:color(style.color)||'#000000'};
+      color:gradient?undefined:color(style.color)||'#000000'};
+    if(gradient)text.linearGradient=gradient;
+    else if(clipped){
+      const first=cssGradient;
+      const stop=first&&splitCssList(first.slice(first.indexOf(',')+1,first.length-1))[0];
+      const representative=stop&&color(stop.replace(/\s+[\d.]+%$/,''),true)
+        ||color(style.color)||color(style.backgroundColor);
+      if(representative){text.color=representative;text.paintApproximation='first-gradient-stop';}
+      limitations.add('text gradient approximated as a solid color');
+    }
+    return text;
   }
   function radialGradient(value) {
     // Browser-computed percentage centers and stops. Commas inside CSS
@@ -85,6 +151,20 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     return stops.length >= 2 && stops.length <= 16 && centerX <= 1 && centerY <= 1
       ? {centerX, centerY, stops} : null;
   }
+  function alphaMask(value) {
+    const match=/^linear-gradient\((?:(-?[\d.]+)deg,\s*)?(.*)\)$/.exec(value);if(!match)return null;
+    const stops=[];
+    for(const part of match[2].split(/,\s*(?![^()]*\))/)){
+      const stop=/^(.*?)(?:\s+([\d.]+)%)?$/.exec(part.trim());if(!stop)return null;
+      const c=color(stop[1].trim(),true),position=stop[2]===undefined?null:Number(stop[2])/100;
+      if(!c||position!==null&&(position<0||position>1||stops.length&&position<stops.at(-1).position))return null;
+      stops.push({position,color:c});
+    }
+    if(stops.length) { if(stops[0].position===null)stops[0].position=0; if(stops.at(-1).position===null)stops.at(-1).position=1; }
+    for(let i=1;i<stops.length-1;){if(stops[i].position!==null){i++;continue;}let end=i+1;while(end<stops.length&&stops[end].position===null)end++;const start=i-1,step=(stops[end].position-stops[start].position)/(end-start);for(let j=i;j<end;j++)stops[j].position=stops[start].position+step*(j-start);i=end;}
+    const angle=((Number(match[1]??180)%360)+360)%360;
+    return stops.length>=2&&stops.length<=16&&[90,180].includes(angle)?{angle,stops}:null;
+  }
   function paint(style) {
     const p={},bg=color(style.backgroundColor),border=numeric(style.borderTopWidth);
     if (bg) p.background=bg;
@@ -93,6 +173,10 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       if (radial) p.radialGradient = radial;
       else limitations.add('background image or unsupported gradient');
     }
+    if(style.maskImage&&style.maskImage!=='none'){
+      const mask=alphaMask(style.maskImage);
+      if(mask)p.alphaMask=mask;else limitations.add('unsupported CSS mask');
+    }
     if (border>0 && style.borderTopStyle!=='none') {
       const stroke=color(style.borderTopColor);
       if(stroke){p.borderWidth=border;p.borderColor=stroke;}
@@ -100,6 +184,30 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     const radius=numeric(style.borderTopLeftRadius);
     if(radius>0)p.borderRadius=radius;
     if(numeric(style.opacity,1)<1)p.opacity=numeric(style.opacity,1);
+    const effects=[];
+    const splitFunctions=value=>value.match(/(?:rgba?\([^)]*\)|[^,])+/g)?.map(x=>x.trim())||[];
+    const shadow=(part,type)=>{
+      const colorMatch=part.match(/rgba?\([^)]*\)|#[\da-f]{3,8}|\b(?:black|white|transparent)\b/i);
+      const nums=(part.replace(colorMatch?.[0]||'', '').match(/-?(?:\d*\.)?\d+px/g)||[]).map(x=>Number.parseFloat(x));
+      if(nums.length<2||nums.length>4)return null;
+      const c=color(colorMatch?.[0]||'rgba(0,0,0,.25)',true);if(!c)return null;
+      return {type,x:nums[0],y:nums[1],blur:nums[2]||0,spread:nums[3]||0,color:c};
+    };
+    if(style.boxShadow&&style.boxShadow!=='none'){
+      const parts=splitFunctions(style.boxShadow);
+      if(parts.length<=8){for(const part of parts){const inset=/\binset\b/.test(part);const e=shadow(part,inset?'INNER_SHADOW':'DROP_SHADOW');if(e)effects.push(e);else limitations.add('unsupported CSS shadow');}}
+      else limitations.add('unsupported CSS shadow');
+    }
+    if(style.filter&&style.filter!=='none'){
+      const tokens=[...style.filter.matchAll(/([a-z-]+)\(([^)]*)\)/g)];
+      if(tokens.map(x=>x[0]).join('')!==style.filter.replace(/\s+/g,''))limitations.add('unsupported CSS filter');
+      for(const [,fn,arg] of tokens){
+        if(fn==='blur'&&/^\d+(?:\.\d+)?px$/.test(arg))effects.push({type:'LAYER_BLUR',radius:Math.min(100,Number.parseFloat(arg))});
+        else if(fn==='drop-shadow'){const e=shadow(arg,'DROP_SHADOW');if(e)effects.push(e);else limitations.add('unsupported CSS filter');}
+        else limitations.add('unsupported CSS filter');
+      }
+    }
+    if(effects.length)p.effects=effects;
     return p;
   }
   function simpleVector(el) {
@@ -169,32 +277,49 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     const s=getComputedStyle(el);
     if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)return;
     const b=box(el.getBoundingClientRect()),id='el-'+(++serial);
+    if(b.width<=1&&b.height<=1&&/rect\(0(?:px)?,\s*0(?:px)?,\s*0(?:px)?,\s*0(?:px)?\)/.test(s.clip||''))return;
     const visible=intersects(b);
     if(!visible && (['hidden','clip','scroll','auto'].includes(s.overflowY)||tag==='svg'))return;
     let childrenPath=path;
     if(visible){
-      if(s.maskImage && s.maskImage !== 'none') limitations.add('CSS mask');
-      if(s.filter && s.filter !== 'none') limitations.add('CSS filter');
-      if(s.boxShadow!=='none')limitations.add('CSS shadow');
       if(tag==='svg'){
+        if(s.maskImage&&s.maskImage!=='none')limitations.add('unsupported CSS mask on SVG');
+        if(s.filter&&s.filter!=='none')limitations.add('unsupported CSS filter on SVG');
+        if(s.boxShadow&&s.boxShadow!=='none')limitations.add('unsupported CSS shadow on SVG');
         try{push({id,path,kind:'vector',box:b,svg:simpleVector(el)});}catch(error){if(String(error).includes('budget'))throw error;limitations.add('complex SVG');}
         return;
       }
+      if(s.backgroundImage&&s.backgroundImage!=='none'&&/url\(/.test(s.backgroundImage)){
+        const urls=[...s.backgroundImage.matchAll(/url\(["']?(.*?)["']?\)/g)].map(match=>match[1]);
+        for(const [index,src] of urls.entries()){
+          try{const url=new URL(src,location.href);mediaCandidate({id:`${id}-background-${index+1}`,path:[...path],box:b,
+            requestTarget:url.href,status:mediaLoaded(url.href)?'loaded':'unloaded',mediaKind:'background',alt:'',objectFit:'cover',paint:paint(s),position:elements.length});}
+          catch(_){limitations.add('invalid CSS background media URL');}
+        }
+      }
       if(tag==='img'){
         const src=el.currentSrc||el.src;
-        if(el.complete&&el.naturalWidth>0 && src){
-          const u=new URL(src,location.href);
-          if(u.origin===location.origin){
-            if(elements.length+unboundImages.length>=maxLayers) throw Error('Screen exceeds the approved layer budget.');
-            const objectFit = s.objectFit === 'contain' ? 'contain' : 'cover';
-            if (!['contain','cover'].includes(s.objectFit) && Math.abs(el.naturalWidth/el.naturalHeight-b.width/b.height)>.02) limitations.add('approximated image fit');
-            unboundImages.push({id,path:[...path],box:b,requestTarget:u.pathname+u.search,alt:el.alt||'',objectFit,paint:paint(s),position:elements.length});
-          }
-          else limitations.add('external raster');
-        }else limitations.add('unloaded image');
+        if(src){
+          let requestTarget;
+          try{requestTarget=new URL(src,location.href).href;}catch(_){requestTarget=null;}
+          const loaded=!!(el.complete&&el.naturalWidth>0);
+          const objectFit=s.objectFit==='contain'?'contain':'cover';
+          if(loaded&&Math.abs(el.naturalWidth/el.naturalHeight-b.width/b.height)>.02&&!['contain','cover'].includes(s.objectFit))limitations.add('approximated image fit');
+          mediaCandidate({id,path:[...path],box:b,requestTarget,status:loaded?'loaded':'unloaded',mediaKind:'image',alt:el.alt||'',objectFit,paint:paint(s),position:elements.length});
+        }else limitations.add('image without a request URL');
         return;
       }
-      if(tag==='video'||tag==='canvas'){limitations.add(tag+' content');return;}
+      if(tag==='video'){
+        const source=el.currentSrc||el.querySelector('source')?.src||'';
+        let requestTarget=null,fallbackRequestTarget=null;
+        try{if(source)requestTarget=new URL(source,location.href).href;if(el.poster)fallbackRequestTarget=new URL(el.poster,location.href).href;}catch(_){limitations.add('invalid video media URL');}
+        if(!requestTarget)limitations.add('video without a source');
+        const loaded=!!(el.readyState>0)||(requestTarget&&mediaLoaded(requestTarget));
+        mediaCandidate({id,path:[...path],box:b,requestTarget,status:requestTarget&&loaded?'loaded':'unloaded',mediaKind:'video',
+          ...(fallbackRequestTarget?{fallbackRequestTarget}:{}),alt:'',objectFit:'cover',paint:paint(s),position:elements.length});
+        return;
+      }
+      if(tag==='canvas'){limitations.add('canvas content');return;}
       const p=paint(s);
       if(p.borderRadius)p.borderRadius=round(Math.min(p.borderRadius,b.width/2,b.height/2));
       const label=el.textContent.trim().replace(/\s+/g,' ');

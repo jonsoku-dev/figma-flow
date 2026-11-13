@@ -172,6 +172,39 @@ class WebDesignTests(unittest.TestCase):
             with self.subTest(svg=svg), self.assertRaises(ValueError):
                 web_design.validate_graph(bad)
 
+    def test_local_svg_clip_references_and_hash_pinned_video_fallback_are_bounded(self):
+        sample = graph()
+        element = sample['nodes'][0]['elements'][0]
+        element.update(kind='vector', svg=(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">'
+            '<g clip-path="url(#clip0)"><path d="M0 0h10v10H0z" fill="#ffffff" fill-rule="evenodd"/></g>'
+            '<defs><clipPath id="clip0"><rect x="0" y="0" width="10" height="10"/></clipPath></defs></svg>'
+        ))
+        self.assertEqual(len(web_design.validate_graph(sample)), 1)
+        element['svg'] = element['svg'].replace('url(#clip0)', 'url(#missing)')
+        with self.assertRaisesRegex(ValueError, 'resolve locally'):
+            web_design.validate_graph(sample)
+        element['svg'] = (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">'
+            '<defs><linearGradient id="paint0" x1="0" y1="0" x2="10" y2="10" gradientUnits="userSpaceOnUse">'
+            '<stop offset="0" stop-color="#000000"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0.5"/>'
+            '</linearGradient></defs><path d="M0 0h10v10H0z" fill="url(#paint0)"/></svg>'
+        )
+        self.assertEqual(len(web_design.validate_graph(sample)), 1)
+        element['svg'] = element['svg'].replace('paint0)', 'missing)')
+        with self.assertRaisesRegex(ValueError, 'resolve locally'):
+            web_design.validate_graph(sample)
+        element.pop('svg')
+        element.update(
+            kind='video', objectFit='cover',
+            asset={'path': 'media/a.mp4', 'sha256': 'a' * 64, 'mimeType': 'video/mp4'},
+            fallbackAsset={'path': 'media/a.png', 'sha256': 'b' * 64, 'mimeType': 'image/png'},
+        )
+        self.assertEqual(len(web_design.validate_graph(sample)), 1)
+        element['fallbackAsset']['mimeType'] = 'image/gif'
+        with self.assertRaisesRegex(ValueError, 'supported raster fallback'):
+            web_design.validate_graph(sample)
+
     def test_screen_selection_and_image_signature_are_enforced(self):
         data = b'not a png'
         digest = hashlib.sha256(data).hexdigest()

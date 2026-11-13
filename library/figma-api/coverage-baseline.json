@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 713,
-    "qualified-static-reference": 55,
-    "unresolved-receiver-name-reference": 614
+    "no-static-reference": 708,
+    "qualified-static-reference": 56,
+    "unresolved-receiver-name-reference": 618
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -785,7 +785,7 @@
       "id": "PluginAPI.createVideoAsync#129",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.createLinkPreviewAsync#130",
@@ -2909,7 +2909,7 @@
       "id": "VideoPaint.videoHash#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "VideoPaint.videoTransform#3",
@@ -3137,7 +3137,7 @@
       "id": "RowsColsLayoutGrid.pattern#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "RowsColsLayoutGrid.alignment#1",
@@ -3191,7 +3191,7 @@
       "id": "GridLayoutGrid.pattern#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "GridLayoutGrid.sectionSize#1",
@@ -5771,7 +5771,7 @@
       "id": "BaseNonResizableTextMixin.getRangeFontWeight#15",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "BaseNonResizableTextMixin.getRangeAllFontNames#16",
@@ -8337,11 +8337,11 @@
     },
     {
       "path": "figma-bridge/native_api_probe.js",
-      "sha256": "7ce5479d9277052631f5853b6267d5ae8cd5f131eeeb09ab8abd34d7e9f2ee70"
+      "sha256": "4e559f46edf3f07717f3c2a225d900c90f80c410a0084d500074c41863c98ec1"
     },
     {
       "path": "figma-bridge/native_edit.js",
-      "sha256": "9c808f9455f6662150314e54c2aff86734f114432a97707d98517e777c3064f0"
+      "sha256": "18e6380596697335e2f5a57eb69d4369447d6f6a01fecce303d3f484b7cec146"
     },
     {
       "path": "figma-bridge/native_graph_review.js",
@@ -8377,7 +8377,7 @@
     },
     {
       "path": "figma-bridge/web_design.js",
-      "sha256": "13e7b88352822377e466a647c912956641f4bbb085a55d75d310753196f4baf2"
+      "sha256": "fe94562590298ed732b311de1a3c325eab6acb25627f03ce9ea38d6b4029ba4a"
     },
     {
       "path": "figma-bridge/workspace_chat.js",
@@ -8385,7 +8385,7 @@
     },
     {
       "path": "figma-bridge/workspace_control.js",
-      "sha256": "8a409e870b4cbe19527a269eb6b00ae0b01c1b139d4bdf6945daaee6e692be4b"
+      "sha256": "ecd9393bb622787437b7931773a9d8bee1f62370ba45c649f4b234ff1183f81f"
     },
     {
       "path": "figma-bridge/workspace_host.js",

@@ -35,7 +35,7 @@ python3 tools/figma_rest_inventory.py template getFileNodes
 
 ### 웹 화면을 편집 가능한 Figma Design으로 가져오기
 
-화면 수집기가 만든 graph를 `python3 tools/native_edit.py web-design --graph GRAPH.json --file-key FILE_KEY --page-id PAGE_ID --out PLAN.json`으로 고정합니다. `--screen WEB-ID`를 반복해 가져올 화면만 고를 수 있고, `--preview-width 420`을 주면 private receipt에 제한된 크기의 실제 PNG 미리보기를 포함합니다. 이후 기존 격리 브라우저의 `native-edit` 작업에 `--plan PLAN.json`을 전달해 Figma에서 검토 후 적용합니다. 화면은 기존 요소 오른쪽에 새 소유 frame으로 생성되며 텍스트와 기본 도형은 네이티브 편집 노드가 됩니다. 같은 graph 재적용은 실제 scene이 원본과 같을 때만 기존 frame을 재사용하고, 다른 frame이나 수동 편집이 감지되면 보존을 위해 중단합니다. raster 이미지는 graph 옆 로컬 파일, SHA-256, 파일 형식 서명을 요구하며 외부 요청은 사용하지 않습니다.
+화면 수집기가 만든 graph를 `python3 tools/native_edit.py web-design --graph GRAPH.json --file-key FILE_KEY --page-id PAGE_ID --out PLAN.json`으로 고정합니다. `--screen WEB-ID`를 반복해 가져올 화면만 고를 수 있고, `--preview-width 420`을 주면 private receipt에 제한된 크기의 실제 PNG 미리보기를 포함합니다. 이후 기존 격리 브라우저의 `native-edit` 작업에 `--plan PLAN.json`을 전달해 Figma에서 검토 후 적용합니다. 화면은 기존 요소 오른쪽에 새 소유 frame으로 생성되며 텍스트와 기본 도형은 네이티브 편집 노드가 됩니다. 지원하는 CSS 효과는 box-shadow, inset shadow, `filter: blur(px)`와 `drop-shadow(...)`, 그리고 90°·180° 선형 alpha mask입니다. 다른 filter와 mask, SVG paint server 및 clip reference는 지원하지 않으며 관측 제한으로 남습니다. 같은 graph 재적용은 실제 scene이 원본과 같을 때만 기존 frame을 재사용하고, 다른 frame이나 수동 편집이 감지되면 보존을 위해 중단합니다. raster 이미지는 graph 옆 로컬 파일, SHA-256, 파일 형식 서명을 요구하며 외부 요청은 사용하지 않습니다.
 
 실제 근거는 `python3 tools/review_api_coverage.py`로 재집계합니다. 0.30.0 기준 1,382개 중 150개를 관측했고 1,232개는 다음 조사 대상으로 남습니다. [이번 관측 그래프](../specs/editable-web/api-observations.json) · [0.29.0 관측 그래프](../specs/graph-review/api-observations.json)
 

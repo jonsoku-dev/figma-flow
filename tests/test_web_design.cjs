@@ -19,6 +19,8 @@ class MockNode {
     this.width = 0;
     this.height = 0;
     this.opacity = 1;
+    this.isMask = false;
+    this.maskType = 'ALPHA';
     this.fills = [];
     this.strokes = [];
     this.children = [];
@@ -88,6 +90,7 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
   page.id = '1:1';
   const fonts = [{ fontName: { family: 'Inter', style: 'Regular' } }, { fontName: { family: 'Inter', style: 'Medium' } }];
   const images = [];
+  const videos = [];
   const imageSizeReads = [];
   const timeline = [];
   let fontListReads = 0;
@@ -98,11 +101,14 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
     createComponent: () => new MockNode('COMPONENT'),
     createText: () => new MockNode('TEXT'),
     createRectangle: () => new MockNode('RECTANGLE'),
+    createNodeFromSvg: () => new MockNode('VECTOR'),
     createImage(bytes) {
       const signature = Array.from(bytes).join(',');
       images.push(signature);
       return { hash: `image-${signature}` };
     },
+    async createVideoAsync(bytes) { const video = { hash: `video-${videos.length + 1}` }; videos.push({ bytes: Array.from(bytes), video }); return video; },
+    getVideoByHash(hash) { return videos.find(item => item.video.hash === hash)?.video || null; },
     getImageByHash(hash) {
       return { async getSizeAsync() { imageSizeReads.push(hash); timeline.push('image-ready'); return { width: 2, height: 2 }; } };
     },
@@ -111,10 +117,11 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
   };
   const context = vm.createContext({ figma, nativeEditScope: () => {}, nativeEditDiscovery: discovery, setTimeout, clearTimeout });
   vm.runInContext(source, context);
-  return { figma, page, fonts, images, imageSizeReads, timeline,
+  return { figma, page, fonts, images, videos, imageSizeReads, timeline,
     apply: plan => context.webApply(figma, plan),
     read: plan => context.webRead(figma, plan),
     sceneHash: (node, includeTextStyle = true) => context.webSceneHash(node, includeTextStyle),
+    sceneHashLegacy: (node, includeTextStyle = true) => context.webSceneHash(node, includeTextStyle, false),
     counts: () => ({ fontListReads, fontLoads }),
     corruptInstances: value => { corruptInstanceLineHeight = value; } };
 }
@@ -187,7 +194,7 @@ function legacyImportedFrame(harnessState, sourcePlan, nativeFont = { family: 'I
   instance.appendChild(instanceLabel);
   root.appendChild(instance);
   page.appendChild(root);
-  root.setPluginData('figma-flow-web-scene-fingerprint', harnessState.sceneHash(root, false));
+  root.setPluginData('figma-flow-web-scene-fingerprint', harnessState.sceneHashLegacy(root, false));
   return root;
 }
 
@@ -248,6 +255,27 @@ test('reused component instance text style is checked before accepting the scree
   corruptInstanceLineHeight = false;
 });
 
+test('v0.30 scene fingerprint compatibility rejects legacy or newly edited mask state', async () => {
+  const h = harness();
+  const sourcePlan = plan();
+  const legacy = legacyImportedFrame(h, sourcePlan);
+  assert.equal((await h.read(sourcePlan)).screens[0].status, 'current');
+  const addedMask = new MockNode('RECTANGLE');
+  addedMask.isMask = true;
+  legacy.appendChild(addedMask);
+  assert.equal((await h.read(sourcePlan)).screens[0].status, 'changed');
+
+  const current = harness();
+  const currentPlan = plan();
+  await current.apply(currentPlan);
+  const root = current.page.children[0];
+  assert.equal(root.getPluginData('figma-flow-web-scene-version'), '2');
+  root.maskType = 'VECTOR';
+  assert.equal((await current.read(currentPlan)).screens[0].status, 'changed');
+  root.setPluginData('figma-flow-web-scene-version', '');
+  assert.equal((await current.read(currentPlan)).screens[0].status, 'changed');
+});
+
 test('legacy reused components with canonical line-height drift are changed and preserved', async () => {
   const h = harness();
   const data = plan();
@@ -300,6 +328,85 @@ test('radial gradient capture becomes a native paint and survives readback', asy
   assert.equal(receipt.receipt.screens[0].gradients[0].element_id, 'hero-glow');
 });
 
+test('bounded native shadow and blur effects survive editable import', async () => {
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements.push({ id: 'fx', kind: 'frame', path: [],
+    box: { x: 12, y: 260, width: 80, height: 40 }, paint: { background: '#ffffff', effects: [
+      { type: 'DROP_SHADOW', x: 0, y: 2, blur: 6, spread: 0, color: '#00000033' },
+      { type: 'LAYER_BLUR', radius: 3 },
+    ] } });
+  await h.apply(data);
+  const node = h.page.children[0].children.find(item => item.name === 'frame · fx');
+  assert.deepEqual(node.effects.map(effect => effect.type), ['DROP_SHADOW', 'LAYER_BLUR']);
+  assert.equal(node.effects[0].color.a, 0x33 / 255);
+  assert.equal('opacity' in node.effects[0], false);
+  assert.equal(node.effects[0].offset.y, 2);
+  assert.equal(node.effects[1].blurType, 'NORMAL');
+});
+
+test('image filter effects are retained beside the pinned image fill', async () => {
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements.push({ id: 'filtered-image', kind: 'image',
+    box: { x: 8, y: 265, width: 40, height: 40 }, asset: { sha256: 'c'.repeat(64), mimeType: 'image/png' },
+    paint: { effects: [{ type: 'DROP_SHADOW', x: 0, y: 1, blur: 3, spread: 0, color: '#00000044' }] } });
+  await h.apply(data);
+  const node = h.page.children[0].children.find(item => item.name === 'image · filtered-image');
+  assert.equal(node.fills[0].type, 'IMAGE');
+  assert.equal(node.effects[0].type, 'DROP_SHADOW');
+});
+
+test('linear alpha mask stays a native editable mask sibling inside an owned wrapper', async () => {
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements.push({ id: 'masked', kind: 'frame', path: [],
+    box: { x: 12, y: 260, width: 80, height: 40 }, paint: { background: '#ffffff', alphaMask: {
+      angle: 90, stops: [{ position: 0, color: '#00000000' }, { position: 1, color: '#000000ff' }],
+    } } });
+  await h.apply(data);
+  const wrapper = h.page.children[0].children.find(item => item.name === 'Mask wrapper · masked');
+  assert.equal(wrapper.children.length, 2);
+  assert.equal(wrapper.children[0].isMask, true);
+  assert.equal(wrapper.children[0].maskType, 'ALPHA');
+  assert.equal(wrapper.children[1].type, 'FRAME');
+});
+
+test('pinned local video becomes a native VIDEO paint with hash readback', async () => {
+  const h = harness();
+  const data = plan();
+  const videoHash = 'd'.repeat(64), pngHash = 'e'.repeat(64);
+  data.web_design.assets[videoHash] = Buffer.from('0000ftypmp42').toString('base64');
+  data.web_design.assets[pngHash] = Buffer.from([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a]).toString('base64');
+  data.web_design.screens[0].elements.push({ id: 'video', kind: 'video', box: { x: 10, y: 260, width: 160, height: 90 },
+    objectFit: 'cover', asset: { path: 'media/source.mp4', sha256: videoHash, mimeType: 'video/mp4' },
+    fallbackAsset: { path: 'media/frame.png', sha256: pngHash, mimeType: 'image/png' } });
+  await h.apply(data);
+  assert.equal(h.videos.length, 1);
+  const node = h.page.children[0].children.find(item => item.name === 'video · video');
+  assert.equal(node.fills[0].type, 'VIDEO');
+  assert.equal(node.fills[0].videoHash, 'video-1');
+});
+
+test('video permission failure uses only its pinned first-frame fallback and reports why', async () => {
+  const h = harness();
+  h.figma.createVideoAsync = async () => { throw Error('Uploads are unavailable in this plan'); };
+  const data = plan();
+  const videoHash = 'd'.repeat(64), pngHash = 'e'.repeat(64);
+  data.web_design.assets[videoHash] = Buffer.from('0000ftypmp42').toString('base64');
+  data.web_design.assets[pngHash] = Buffer.from([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a]).toString('base64');
+  data.web_design.screens[0].elements.push({ id: 'video', kind: 'video', box: { x: 10, y: 260, width: 160, height: 90 },
+    objectFit: 'cover', asset: { path: 'media/source.mp4', sha256: videoHash, mimeType: 'video/mp4' },
+    fallbackAsset: { path: 'media/frame.png', sha256: pngHash, mimeType: 'image/png' } });
+  const result = await h.apply(data);
+  const node = h.page.children[0].children.find(item => item.name === 'video · video');
+  assert.equal(node.fills[0].type, 'IMAGE');
+  const diagnostic = result.receipt.screens[0].fallbacks.find(row => row.element_id === 'video');
+  assert.equal(diagnostic.type, 'video');
+  assert.equal(diagnostic.status, 'poster-fallback');
+  assert.match(diagnostic.reason, /Uploads are unavailable/);
+});
+
 test('font style matching ignores native spacing while recording actual family fallback', async () => {
   corruptInstanceLineHeight = false;
   const h = harness();
@@ -329,6 +436,9 @@ test('browser control keys stay short and typography family is added natively', 
     querySelector: () => null, getAttribute: () => null,
   }));
   buttons.forEach(button => styles.set(button, styleFor(button)));
+  styles.get(buttons[0]).boxShadow = 'rgba(0, 0, 0, 0.2) 0px 2px 6px 0px';
+  styles.get(buttons[0]).filter = 'blur(3px)';
+  styles.get(buttons[1]).maskImage = 'linear-gradient(rgb(255, 255, 255), rgba(0, 0, 0, 0))';
   const body = {tagName: 'BODY', textContent: '', childNodes: buttons, children: buttons,
     getAttribute: () => null,
     getBoundingClientRect: () => ({x: 0, y: 0, width: 400, height: 800}),
@@ -346,4 +456,94 @@ test('browser control keys stay short and typography family is added natively', 
   assert.equal(controls[1].componentKey, 'control-button');
   assert.ok(controls.every(element => element.componentKey.length < 160));
   assert.notEqual(controls[0].text.lineHeight, controls[1].text.lineHeight);
+  assert.deepEqual(controls[0].paint.effects.map(effect => effect.type), ['DROP_SHADOW', 'LAYER_BLUR']);
+  assert.equal(controls[0].paint.effects[0].y, 2);
+  assert.equal(controls[0].paint.effects[1].radius, 3);
+  assert.deepEqual(controls[1].paint.alphaMask.stops.map(stop => stop.position), [0, 1]);
+});
+
+test('video capture keeps source and poster URLs on one distinct video candidate', () => {
+  const rect = { x: 0, y: 0, width: 320, height: 180 };
+  const video = { nodeType: 1, tagName: 'VIDEO', textContent: '', children: [], childNodes: [],
+    currentSrc: '', poster: '/poster.png', querySelector: () => ({ src: '/clip.mp4' }),
+    getBoundingClientRect: () => rect, getClientRects: () => [rect], getAttribute: () => null };
+  const style = { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'transparent',
+    backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none', borderTopLeftRadius: '0px',
+    borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '400', fontSize: '16px', lineHeight: '19px',
+    textAlign: 'left', color: 'rgb(0,0,0)', overflowX: 'visible', overflowY: 'visible', maskImage: 'none', filter: 'none', boxShadow: 'none' };
+  const body = { tagName: 'BODY', textContent: '', childNodes: [video], children: [video], getAttribute: () => null,
+    getBoundingClientRect: () => rect, getClientRects: () => [] };
+  const document = { body, documentElement: { clientWidth: 320, scrollHeight: 180 }, title: 'Video' };
+  const context = vm.createContext({ document, location: { origin: 'https://portfolio.example', pathname: '/', href: 'https://portfolio.example/' },
+    innerHeight: 180, innerWidth: 320, scrollX: 0, scrollY: 0, getComputedStyle: () => style, URL });
+  vm.runInContext(captureSource, context);
+  const result = JSON.parse(JSON.stringify(context.captureWebDesign({ screenId: 'WEB-video' })));
+  assert.equal(result.images.length, 1);
+  assert.equal(result.images[0].mediaKind, 'video');
+  assert.equal(result.images[0].requestTarget, 'https://portfolio.example/clip.mp4');
+  assert.equal(result.images[0].fallbackRequestTarget, 'https://portfolio.example/poster.png');
+});
+
+test('native SVG preflight accepts only resolved local clip and gradient references', async () => {
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements.push({ id: 'svg-logo', kind: 'vector', box: { x: 10, y: 260, width: 20, height: 20 },
+    svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><defs><clipPath id="clip0"><rect width="10" height="10"/></clipPath><linearGradient id="paint0"><stop offset="0" stop-color="#000000"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs><g clip-path="url(#clip0)"><path d="M0 0h10v10H0z" fill="url(#paint0)"/></g></svg>' });
+  await h.apply(data);
+  data.web_design.graph_id = 'svg-bad';
+  data.web_design.screens[0].elements.at(-1).svg = data.web_design.screens[0].elements.at(-1).svg.replace('paint0)', 'missing)');
+  await assert.rejects(() => h.apply(data), /Unresolved or duplicate SVG local reference/);
+});
+
+test('captured text gradients stay editable with normalized stops', () => {
+  const rect = {x: 20, y: 40, width: 120, height: 32};
+  const styles = new Map();
+  const styleFor = element => styles.get(element) || { display: 'block', visibility: 'visible', opacity: '1',
+    backgroundColor: 'rgb(231, 0, 11)', backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none',
+    borderTopLeftRadius: '8px', borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '500',
+    fontSize: '14px', lineHeight: '20px', textAlign: 'left', color: 'rgb(255,255,255)',
+    overflowX: 'visible', overflowY: 'visible', maskImage: 'none', filter: 'none', boxShadow: 'none' };
+  const span = { nodeType: 1, tagName: 'SPAN', textContent: 'AI Agent SDK', children: [], childNodes: [{nodeType: 3, textContent: 'AI Agent SDK'}],
+    getClientRects: () => [rect], getBoundingClientRect: () => rect, querySelector: () => null, getAttribute: () => null };
+  const textStyle = styleFor(span);
+  textStyle.color = 'rgba(0, 0, 0, 0)';
+  textStyle.backgroundClip = 'text';
+  textStyle.backgroundImage = 'linear-gradient(135deg, oklch(0.68 0.17 15), oklch(0.68 0.17 321), oklch(0.68 0.17 130))';
+  styles.set(span, textStyle);
+  const srOnly = { nodeType: 1, tagName: 'SPAN', textContent: 'AI Agent SDK', children: [],
+    childNodes: [{nodeType: 3, textContent: 'AI Agent SDK'}], getClientRects: () => [{x: 0, y: 0, width: 1, height: 1}],
+    getBoundingClientRect: () => ({x: 0, y: 0, width: 1, height: 1}), querySelector: () => null, getAttribute: () => null };
+  styles.set(srOnly, {...styleFor(srOnly), clip: 'rect(0px, 0px, 0px, 0px)'});
+  const body = { tagName: 'BODY', textContent: 'AI Agent SDK', childNodes: [span, srOnly], children: [span, srOnly], getAttribute: () => null,
+    getBoundingClientRect: () => ({x: 0, y: 0, width: 400, height: 800}), getClientRects: () => [] };
+  const document = {body, documentElement: {clientWidth: 400, scrollHeight: 800}, title: 'Gradient',
+    createRange() { return {selectNodeContents() {}, getClientRects: () => [rect], setStart() {}, setEnd() {}, getBoundingClientRect: () => rect}; }};
+  const context = vm.createContext({document, location: {origin: 'http://localhost', pathname: '/', href: 'http://localhost/'},
+    innerHeight: 600, innerWidth: 400, scrollX: 0, scrollY: 0, getComputedStyle: styleFor, URL});
+  vm.runInContext(captureSource, context);
+  const result = JSON.parse(JSON.stringify(context.captureWebDesign({screenId: 'WEB-text-gradient'})));
+  assert.equal(result.screen.elements.filter(element => element.kind === 'text').length, 1);
+  const text = result.screen.elements.find(element => element.kind === 'text').text;
+  assert.equal(text.color, undefined);
+  assert.equal(text.linearGradient.angle, 135);
+  assert.deepEqual(text.linearGradient.stops.map(stop => stop.position), [0, 0.5, 1]);
+  textStyle.backgroundImage = 'radial-gradient(ellipse at center, oklch(0.68 0.17 15), oklch(0.68 0.17 130))';
+  const fallback = JSON.parse(JSON.stringify(context.captureWebDesign({screenId: 'WEB-text-gradient-fallback'})));
+  const fallbackText = fallback.screen.elements.find(element => element.kind === 'text').text;
+  assert.equal(fallbackText.paintApproximation, 'first-gradient-stop');
+  assert.notEqual(fallbackText.color, '#000000');
+  assert.ok(fallback.limitations.includes('text gradient approximated as a solid color'));
+});
+
+test('editable text gradient is written and checked through native range fills', async () => {
+  const h = harness();
+  const data = plan();
+  data.web_design.screens[0].elements.push({ id: 'gradient-title', kind: 'text', box: { x: 10, y: 260, width: 160, height: 30 },
+    text: { characters: 'AI Agent SDK', fontFamily: 'Inter', fontSize: 24, fontWeight: 700, lineHeight: 30,
+      linearGradient: { angle: 135, stops: [{position: 0, color: '#ee5577'}, {position: 1, color: '#33aa88'}] } } });
+  await h.apply(data);
+  const node = h.page.children[0].children.find(item => item.name === 'AI Agent SDK · gradient-title');
+  assert.equal(node.fills[0].type, 'GRADIENT_LINEAR');
+  assert.equal(node.fills[0].gradientStops.length, 2);
+  assert.equal(node.fills[0].gradientTransform.length, 2);
 });

@@ -4,6 +4,7 @@ const WEB_SCENE_HASH = 'figma-flow-web-scene-fingerprint';
 const WEB_COMPONENT_MAIN = 'figma-flow-web-component-main-id';
 const WEB_ELEMENT_ID = 'figma-flow-web-element-id';
 const WEB_TEXT_STYLE = 'figma-flow-web-text-style-v1';
+const WEB_SCENE_VERSION = 'figma-flow-web-scene-version';
 const WEB_AVAILABLE_FONT_CACHE = new WeakMap();
 
 function webColor(value) {
@@ -22,6 +23,18 @@ function webColor(value) {
 function webSolid(value) {
   const parsed = webColor(value);
   return { type: 'SOLID', color: parsed.color, opacity: parsed.opacity };
+}
+
+function webTextGradientPaint(gradient) {
+  const angle = (gradient.angle - 90) * Math.PI / 180;
+  const cosine = Math.cos(angle), sine = Math.sin(angle);
+  return { type: 'GRADIENT_LINEAR',
+    gradientTransform: [[cosine, sine, 0.5 - (cosine + sine) / 2],
+      [-sine, cosine, 0.5 + (sine - cosine) / 2]],
+    gradientStops: gradient.stops.map(stop => {
+      const value = webColor(stop.color);
+      return { position: stop.position, color: { ...value.color, a: value.opacity } };
+    }) };
 }
 
 function webDecodeBase64(value) {
@@ -44,6 +57,19 @@ function webDecodeBase64(value) {
   return output;
 }
 
+function webValidateSvgReferences(svg) {
+  const clipRefs = [...svg.matchAll(/\bclip-path="url\(#([A-Za-z_][A-Za-z0-9_.-]{0,79})\)"/g)].map(match => match[1]);
+  const gradientRefs = [...svg.matchAll(/\b(?:fill|stroke)="url\(#([A-Za-z_][A-Za-z0-9_.-]{0,79})\)"/g)].map(match => match[1]);
+  const withoutLocalRefs = svg.replace(/\bclip-path="url\(#[A-Za-z_][A-Za-z0-9_.-]{0,79}\)"/g, '')
+    .replace(/\b(?:fill|stroke)="url\(#[A-Za-z_][A-Za-z0-9_.-]{0,79}\)"/g, '');
+  if (/url\s*\(/i.test(withoutLocalRefs)) throw Error('Unsafe external SVG paint reference');
+  const clipIds = [...svg.matchAll(/<clipPath\b[^>]*\bid="([A-Za-z_][A-Za-z0-9_.-]{0,79})"/g)].map(match => match[1]);
+  const gradientIds = [...svg.matchAll(/<(?:linearGradient|radialGradient)\b[^>]*\bid="([A-Za-z_][A-Za-z0-9_.-]{0,79})"/g)].map(match => match[1]);
+  const allIds = [...clipIds, ...gradientIds];
+  if (new Set(allIds).size !== allIds.length || clipRefs.some(id => !clipIds.includes(id))
+      || gradientRefs.some(id => !gradientIds.includes(id))) throw Error('Unresolved or duplicate SVG local reference');
+}
+
 function webValidate(plan) {
   const design = plan.web_design;
   if (design?.schema !== 'figma-flow-web-design-v1' || !Array.isArray(design.screens) || !design.screens.length) {
@@ -57,7 +83,7 @@ function webValidate(plan) {
     }
     for (const element of screen.elements) {
       const box = element.box;
-      if (!['frame', 'text', 'component', 'image', 'vector', 'annotation'].includes(element.kind)
+      if (!['frame', 'text', 'component', 'image', 'video', 'vector', 'annotation'].includes(element.kind)
           || !box || !['x', 'y', 'width', 'height'].every(key => Number.isFinite(box[key]))
           || Math.abs(box.x) > 100000 || Math.abs(box.y) > 100000 || box.width < 0 || box.height < 0
           || box.width > 32768 || box.height > 32768) {
@@ -66,15 +92,44 @@ function webValidate(plan) {
       if (element.kind === 'image' && !['cover', 'contain'].includes(element.objectFit || 'cover')) throw Error('Unsupported image object fit');
       const paint = element.paint || {};
       if (paint.borderRadius > 1_000_000_000 || paint.borderWidth > 128 || paint.opacity > 1) throw Error('Paint exceeds native frame limits');
+      if (paint.effects !== undefined && (!Array.isArray(paint.effects) || paint.effects.length > 8 || paint.effects.some(effect =>
+        !effect || !['DROP_SHADOW', 'INNER_SHADOW', 'LAYER_BLUR'].includes(effect.type)
+        || (effect.type === 'LAYER_BLUR' ? Object.keys(effect).sort().join(',') !== 'radius,type' || !Number.isFinite(effect.radius) || effect.radius < 0 || effect.radius > 100
+          : Object.keys(effect).sort().join(',') !== 'blur,color,spread,type,x,y'
+            || !['x', 'y', 'blur', 'spread'].every(key => Number.isFinite(effect[key]) && Math.abs(effect[key]) <= 1000)
+            || effect.blur < 0 || !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(effect.color))))) throw Error('Invalid native effects');
+      if (paint.alphaMask !== undefined && (!paint.alphaMask || Object.keys(paint.alphaMask).sort().join(',') !== 'angle,stops'
+        || ![90, 180].includes(paint.alphaMask.angle) || !Array.isArray(paint.alphaMask.stops)
+        || paint.alphaMask.stops.length < 2 || paint.alphaMask.stops.length > 16
+        || paint.alphaMask.stops.some((stop, index, stops) => !stop || Object.keys(stop).sort().join(',') !== 'color,position'
+          || !Number.isFinite(stop.position) || stop.position < 0 || stop.position > 1
+          || (index > 0 && stop.position < stops[index - 1].position)
+          || !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(stop.color)))) throw Error('Invalid linear alpha mask');
       if (element.kind === 'image' && (!element.asset || !/^[a-f0-9]{64}$/.test(element.asset.sha256)
           || !['image/png', 'image/jpeg', 'image/webp'].includes(element.asset.mimeType))) throw Error('Image needs a pinned raster hash and supported MIME type');
+      if (element.kind === 'video' && (!element.asset || !/^[a-f0-9]{64}$/.test(element.asset.sha256)
+          || !['video/mp4', 'video/webm'].includes(element.asset.mimeType)
+          || !element.fallbackAsset || !/^[a-f0-9]{64}$/.test(element.fallbackAsset.sha256)
+          || !['image/png', 'image/jpeg', 'image/webp'].includes(element.fallbackAsset.mimeType))) throw Error('Video needs pinned MP4/WebM bytes and a supported raster fallback');
       if (element.kind === 'component' && (typeof element.componentKey !== 'string' || !element.componentKey || element.componentKey.length > 160)) {
         throw Error('Component needs a bounded stable componentKey');
       }
-      if (element.kind === 'vector' && (!element.svg || element.svg.length > 200000 || /<!|<\?|url\s*\(|javascript:/i.test(element.svg))) {
+      if (element.kind === 'vector' && (!element.svg || element.svg.length > 200000 || /<!|<\?|javascript:/i.test(element.svg))) {
         throw Error('Unsafe SVG vector');
       }
+      if (element.kind === 'vector') webValidateSvgReferences(element.svg);
       if (element.kind === 'text' && typeof element.text?.characters !== 'string') throw Error('Text element needs observed characters');
+      const text = element.text || {};
+      if (text.paintApproximation !== undefined && (text.paintApproximation !== 'first-gradient-stop'
+          || !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(text.color || ''))) throw Error('Text gradient approximation needs a visible literal color');
+      if (text.linearGradient !== undefined) {
+        const gradient = text.linearGradient;
+        if (text.color !== undefined || text.paintApproximation !== undefined || !gradient || !Number.isFinite(gradient.angle)
+            || !Array.isArray(gradient.stops) || gradient.stops.length < 2 || gradient.stops.length > 16
+            || gradient.stops.some((stop, index, stops) => !Number.isFinite(stop.position) || stop.position < 0 || stop.position > 1
+              || (index > 0 && stop.position < stops[index - 1].position)
+              || !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(stop.color))) throw Error('Invalid captured text gradient');
+      }
     }
   }
   if (design.preview_width !== undefined && (!Number.isInteger(design.preview_width) || design.preview_width < 360 || design.preview_width > 480)) {
@@ -86,16 +141,18 @@ function webValidate(plan) {
     if (element.kind === 'image' && (!assetHashes.has(element.asset.sha256) || typeof design.assets[element.asset.sha256] !== 'string')) {
       throw Error(`Image ${element.id} has no embedded content for its pinned hash`);
     }
+    if (element.kind === 'video' && [element.asset.sha256, element.fallbackAsset.sha256].some(hash =>
+      !assetHashes.has(hash) || typeof design.assets[hash] !== 'string')) throw Error(`Video ${element.id} has no embedded source or fallback content`);
   }
 }
 
-function webSceneValue(node, includeTextStyle = true) {
+function webSceneValue(node, includeTextStyle = true, includeMaskState = true) {
   const plain = value => {
     try { return JSON.parse(JSON.stringify(value)); }
     catch (_) { return String(value); }
   };
   const paints = value => Array.isArray(value) ? value.map(paint => ({
-    type: paint.type, color: plain(paint.color), opacity: paint.opacity, visible: paint.visible,
+    type: paint.type, color: plain(paint.color), opacity: paint.opacity, visible: paint.visible, videoHash: paint.videoHash,
     blendMode: paint.blendMode, scaleMode: paint.scaleMode, imageHash: paint.imageHash,
     imageTransform: plain(paint.imageTransform), rotation: paint.rotation, filters: plain(paint.filters),
     gradientStops: plain(paint.gradientStops), gradientTransform: plain(paint.gradientTransform),
@@ -130,6 +187,10 @@ function webSceneValue(node, includeTextStyle = true) {
     paddingTop: node.paddingTop,
     paddingBottom: node.paddingBottom,
   };
+  if (includeMaskState) {
+    scene.isMask = node.isMask;
+    scene.maskType = node.maskType;
+  }
   if (includeTextStyle) scene.webTextStyle = node.getPluginData?.(WEB_TEXT_STYLE) || null;
   if (node.type === 'TEXT') {
     scene.characters = node.characters;
@@ -158,12 +219,12 @@ function webSceneValue(node, includeTextStyle = true) {
       }));
     }
   }
-  if ('children' in node) scene.children = node.children.map(child => webSceneValue(child, includeTextStyle));
+  if ('children' in node) scene.children = node.children.map(child => webSceneValue(child, includeTextStyle, includeMaskState));
   return scene;
 }
 
-function webSceneHash(node, includeTextStyle = true) {
-  const scene = webSceneValue(node, includeTextStyle);
+function webSceneHash(node, includeTextStyle = true, includeMaskState = true) {
+  const scene = webSceneValue(node, includeTextStyle, includeMaskState);
   const source = JSON.stringify(scene);
   const states = [2166136261, 2246822519, 3266489917, 668265263];
   for (let index = 0; index < source.length; index++) {
@@ -177,7 +238,14 @@ function webSceneHash(node, includeTextStyle = true) {
 
 function webSceneMatches(node) {
   const stored = node.getPluginData(WEB_SCENE_HASH);
-  return stored === webSceneHash(node) || stored === webSceneHash(node, false);
+  if (node.getPluginData(WEB_SCENE_VERSION) === '2') {
+    return stored === webSceneHash(node) || stored === webSceneHash(node, false);
+  }
+  // Unversioned imports can still carry the current exact scene digest. This
+  // proves the mask state itself before trying older digests that omit masks.
+  if (stored === webSceneHash(node)) return true;
+  if (node.findAll(candidate => candidate.isMask === true).length) return false;
+  return stored === webSceneHash(node, true, false) || stored === webSceneHash(node, false, false);
 }
 
 function webNodePaint(node, element) {
@@ -208,12 +276,21 @@ function webNodePaint(node, element) {
   }
   if (Number.isFinite(paint.borderRadius)) node.cornerRadius = Math.min(paint.borderRadius, element.box.width / 2, element.box.height / 2);
   if (Number.isFinite(paint.opacity)) node.opacity = paint.opacity;
+  if (Array.isArray(paint.effects)) node.effects = webNativeEffects(paint.effects);
+}
+
+function webNativeEffects(effects) {
+  return effects.map(effect => effect.type === 'LAYER_BLUR'
+    ? { type: 'LAYER_BLUR', blurType: 'NORMAL', radius: effect.radius, visible: true }
+    : { type: effect.type, offset: { x: effect.x, y: effect.y }, radius: effect.blur, spread: effect.spread,
+      color: { ...webColor(effect.color).color, a: webColor(effect.color).opacity }, blendMode: 'NORMAL', visible: true });
 }
 
 function webImagePaint(node, element) {
   const paint = element.paint || {};
   if (Number.isFinite(paint.borderRadius)) node.cornerRadius = Math.min(paint.borderRadius, element.box.width / 2, element.box.height / 2);
   if (Number.isFinite(paint.opacity)) node.opacity = paint.opacity;
+  if (Array.isArray(paint.effects)) node.effects = webNativeEffects(paint.effects);
   if (paint.borderColor && paint.borderWidth > 0) {
     node.strokes = [webSolid(paint.borderColor)];
     node.strokeWeight = paint.borderWidth;
@@ -297,7 +374,11 @@ function webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, create
   if (align) node.textAlignHorizontal = align;
   if (element.kind === 'component') node.textAlignVertical = 'CENTER';
   const color = text.color || element.paint?.color;
-  if (color) node.fills = [webSolid(color)];
+  if (text.linearGradient) node.fills = [webTextGradientPaint(text.linearGradient)];
+  else if (color) node.fills = [webSolid(color)];
+  if (text.paintApproximation === 'first-gradient-stop') {
+    fallbackReport.push({ element_id: element.id, type: 'text-gradient', status: 'solid-color-fallback', reason: 'The captured CSS text gradient was unsupported; using its first gradient stop.' });
+  }
   node.textAutoResize = 'WIDTH_AND_HEIGHT';
   node.setPluginData(WEB_TEXT_STYLE, webTextStyleRecord(element, loaded.font));
   if (element.kind !== 'annotation') {
@@ -370,7 +451,7 @@ function webConfigureComponent(node, element) {
   node.itemSpacing = 0;
 }
 
-function webCreateElement(figma, element, fallbackReport, mains, assets, fonts) {
+function webCreateElement(figma, element, fallbackReport, mains, assets, fonts, videos) {
   if (element.kind === 'frame') return figma.createFrame();
   const family = element.kind === 'component' ? webComponentFamily(element, fonts) : null;
   if (family && mains.has(family)) {
@@ -388,6 +469,15 @@ function webCreateElement(figma, element, fallbackReport, mains, assets, fonts) 
   if (element.kind === 'image') {
     const node = figma.createRectangle();
     node.fills = [{ type: 'IMAGE', imageHash: assets[element.asset.sha256], scaleMode: element.objectFit === 'contain' ? 'FIT' : 'FILL' }];
+    return node;
+  }
+  if (element.kind === 'video') {
+    const video = videos[element.asset.sha256];
+    const node = figma.createRectangle();
+    node.fills = video.mode === 'native'
+      ? [{ type: 'VIDEO', videoHash: video.videoHash, scaleMode: element.objectFit === 'contain' ? 'FIT' : 'FILL' }]
+      : [{ type: 'IMAGE', imageHash: assets[element.fallbackAsset.sha256], scaleMode: element.objectFit === 'contain' ? 'FIT' : 'FILL' }];
+    if (video.mode === 'fallback') fallbackReport.push({ element_id: element.id, type: 'video', status: 'poster-fallback', reason: video.reason });
     return node;
   }
   if (element.kind === 'vector') return figma.createNodeFromSvg(element.svg);
@@ -430,7 +520,7 @@ function webTextInput(element) {
 
 function webTextStyleSpec(element) {
   const text = webTextInput(element);
-  return {
+  const spec = {
     fontFamily: text.fontFamily || 'Inter', fontStyle: webFontStyle(text),
     fontSize: Number.isFinite(text.fontSize) ? text.fontSize : null,
     fontWeight: Number.isFinite(Number(text.fontWeight)) ? Number(text.fontWeight) : 400,
@@ -440,6 +530,9 @@ function webTextStyleSpec(element) {
       start: 'LEFT', end: 'RIGHT' })[String(text.textAlign || text.textAlignHorizontal || 'left').toLowerCase()] || 'LEFT',
     color: text.color || element.paint?.color || null,
   };
+  if (text.linearGradient) spec.linearGradient = text.linearGradient;
+  if (text.paintApproximation) spec.paintApproximation = text.paintApproximation;
+  return spec;
 }
 
 function webTextStyleRecord(element, font) {
@@ -483,7 +576,23 @@ function webVerifyTextTypography(textNode, element, expectedFont) {
     }
   }
   const color = expectedText.color || element.paint?.color;
-  if (color) {
+  if (expectedText.linearGradient) {
+    const actual = textNode.getRangeFills(start, end);
+    const gradient = actual === figma.mixed ? null : actual.find(paint => paint.type === 'GRADIENT_LINEAR');
+    const expected = webTextGradientPaint(expectedText.linearGradient);
+    const transformMatches = Array.isArray(gradient?.gradientTransform) && gradient.gradientTransform.length === 2
+      && expected.gradientTransform.every((row, i) => Array.isArray(gradient.gradientTransform[i])
+        && row.every((value, j) => Math.abs(value - gradient.gradientTransform[i][j]) <= 0.001));
+    if (!gradient || gradient.gradientStops?.length !== expected.gradientStops.length
+        || gradient.gradientStops.some((stop, index) => Math.abs(stop.position - expected.gradientStops[index].position) > 0.001
+          || Math.abs(stop.color.r - expected.gradientStops[index].color.r) > 0.001
+          || Math.abs(stop.color.g - expected.gradientStops[index].color.g) > 0.001
+          || Math.abs(stop.color.b - expected.gradientStops[index].color.b) > 0.001
+          || Math.abs((stop.color.a ?? 1) - expected.gradientStops[index].color.a) > 0.001)
+        || !transformMatches) {
+      throw Error(`Imported text gradient differs from the captured CSS gradient for ${element.id}`);
+    }
+  } else if (color) {
     const actual = textNode.getRangeFills(start, end);
     const solid = actual === figma.mixed ? null : actual.find(paint => paint.type === 'SOLID');
     const expected = webColor(color);
@@ -553,7 +662,35 @@ async function webVerifyScreenTypography(figma, plan, frame, screen) {
   }
 }
 
-function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, images) {
+function webCreateMaskWrapper(figma, element, created) {
+  const host = figma.createFrame();
+  created.add(host);
+  host.name = `Mask wrapper · ${element.id}`;
+  host.fills = [];
+  host.layoutMode = 'NONE';
+  host.clipsContent = false;
+  host.resize(element.box.width, element.box.height);
+  const mask = figma.createRectangle();
+  created.add(mask);
+  mask.name = `Alpha mask · ${element.id}`;
+  mask.x = 0; mask.y = 0;
+  mask.resize(element.box.width, element.box.height);
+  mask.fills = [{ type: 'GRADIENT_LINEAR',
+    gradientTransform: element.paint.alphaMask.angle === 180
+      ? [[0, 1, 0], [-1, 0, 1]] : [[1, 0, 0], [0, 1, 0]],
+    gradientStops: element.paint.alphaMask.stops.map(stop => {
+      const value = webColor(stop.color);
+      return { position: stop.position, color: { ...value.color, a: value.opacity } };
+    }) }];
+  mask.strokes = [];
+  mask.isMask = true;
+  mask.maskType = 'ALPHA';
+  mask.setPluginData(WEB_ELEMENT_ID, `${element.id}:mask`);
+  host.appendChild(mask);
+  return host;
+}
+
+function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, images, videos) {
   const fallbackReport = [];
   const layoutDrifts = [];
   const root = figma.createFrame();
@@ -567,6 +704,7 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
   root.fills = screen.layout.background ? [webSolid(screen.layout.background)] : [];
   root.setPluginData(WEB_DESIGN_KEY, `${graph.graph_id}/${screen.id}`);
   root.setPluginData(WEB_DESIGN_HASH, graph.graph_sha256);
+  root.setPluginData(WEB_SCENE_VERSION, '2');
   figma.currentPage.appendChild(root);
 
   const frameElements = screen.elements.filter(element => element.kind === 'frame');
@@ -577,7 +715,13 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     frame.clipsContent = element.clipsContent === true;
     frame.layoutMode = 'NONE';
     webNodePaint(frame, element);
-    frames.set(element.id, {frame, element});
+    let host = frame;
+    if (element.paint?.alphaMask) {
+      host = webCreateMaskWrapper(figma, element, created);
+      frame.x = 0; frame.y = 0;
+      host.appendChild(frame);
+    }
+    frames.set(element.id, {frame, host, element});
   }
 
   const mains = new Map();
@@ -590,7 +734,7 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     const node = element.kind === 'frame' ? frames.get(element.id).frame
       : element.kind === 'text' || element.kind === 'annotation'
       ? webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, created)
-      : webCreateElement(figma, element, fallbackReport, mains, images, fonts);
+      : webCreateElement(figma, element, fallbackReport, mains, images, fonts, videos);
     created.add(node);
     node.setPluginData(WEB_ELEMENT_ID, element.id);
     const label = element.name || element.text?.characters || element.label || element.kind;
@@ -604,10 +748,22 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     }
     if (element.kind === 'component' && mains.get(family) === node) webNodePaint(node, element);
     if (element.kind === 'component' && mains.get(family) !== node && node.type === 'INSTANCE') webCreateTextOverride(node, element, fonts, fallbackReport, layoutDrifts);
-    if (element.kind === 'image') webImagePaint(node, element);
+    if (element.kind === 'image' || element.kind === 'video') webImagePaint(node, element);
     else if (element.kind !== 'text' && element.kind !== 'vector' && element.kind !== 'frame') webNodePaint(node, element);
     webPosition(node, element, parentElement);
-    parent.appendChild(node);
+    if (element.kind === 'frame') {
+      const record = frames.get(element.id);
+      if (record.host !== node) {
+        record.host.x = node.x; record.host.y = node.y;
+        node.x = 0; node.y = 0;
+      }
+      (parentElement ? frames.get(parentElement.id).frame : root).appendChild(record.host);
+    } else if (element.paint?.alphaMask) {
+      const host = webCreateMaskWrapper(figma, element, created);
+      host.x = node.x; host.y = node.y; node.x = 0; node.y = 0;
+      host.appendChild(node); parent.appendChild(host);
+    }
+    else parent.appendChild(node);
   }
   const sceneHash = webSceneHash(root);
   root.setPluginData(WEB_SCENE_HASH, sceneHash);
@@ -663,8 +819,9 @@ async function webBounded(promise, timeoutMs, message) {
 }
 
 async function webResolveImages(figma, plan, screens) {
-  const imageHashes = new Set(screens.flatMap(screen => screen.elements
-    .filter(element => element.kind === 'image').map(element => element.asset.sha256)));
+  const imageHashes = new Set(screens.flatMap(screen => screen.elements.flatMap(element =>
+    element.kind === 'image' ? [element.asset.sha256]
+      : element.kind === 'video' ? [element.fallbackAsset.sha256] : [])));
   const resolved = {};
   for (const hash of imageHashes) {
     nativeEditScope(figma, plan);
@@ -678,6 +835,35 @@ async function webResolveImages(figma, plan, screens) {
       throw Error(`Native image ${hash} decoded to invalid dimensions`);
     }
     resolved[hash] = image.hash;
+  }
+  return resolved;
+}
+
+async function webResolveVideos(figma, plan, screens) {
+  const resolved = {};
+  for (const element of screens.flatMap(screen => screen.elements.filter(item => item.kind === 'video'))) {
+    nativeEditScope(figma, plan);
+    let error = null;
+    try {
+      const video = await webBounded(figma.createVideoAsync(webDecodeBase64(plan.web_design.assets[element.asset.sha256])),
+        30_000, `Timed out creating native video ${element.id}`);
+      if (!video || typeof video.hash !== 'string' || !video.hash) throw Error('Figma returned no video hash');
+      const check = typeof figma.getVideoByHash === 'function' ? figma.getVideoByHash(video.hash) : video;
+      if (!check || check.hash !== video.hash) throw Error('Native video hash readback failed');
+      if (typeof check.getSizeAsync === 'function') {
+        const size = await webBounded(check.getSizeAsync(), 10_000, `Timed out decoding native video ${element.id}`);
+        if (!size || !Number.isFinite(size.width) || !Number.isFinite(size.height) || size.width <= 0 || size.height <= 0) {
+          throw Error('Native video decoded to invalid dimensions');
+        }
+      }
+      resolved[element.asset.sha256] = { mode: 'native', videoHash: video.hash };
+    } catch (cause) {
+      error = String(cause?.message || cause).slice(0, 240);
+      const fallback = plan.web_design.assets[element.fallbackAsset.sha256];
+      if (!fallback) throw Error(`Video ${element.id} failed and has no pinned frame fallback`);
+      resolved[element.asset.sha256] = { mode: 'fallback', reason: error };
+    }
+    nativeEditScope(figma, plan);
   }
   return resolved;
 }
@@ -756,9 +942,10 @@ async function webApply(figma, plan) {
       }
     }
     const newScreens = plan.web_design.screens.filter(screen => !existingByScreen.has(screen.id));
-    const [fonts, images] = await Promise.all([
+    const [fonts, images, videos] = await Promise.all([
       webResolveFonts(figma, newScreens),
       webResolveImages(figma, plan, newScreens),
+      webResolveVideos(figma, plan, newScreens),
     ]);
     nativeEditScope(figma, plan);
     for (const screen of plan.web_design.screens) {
@@ -800,7 +987,7 @@ async function webApply(figma, plan) {
         return Math.max(max, bounds ? bounds.x + bounds.width : node.x + node.width);
       }, 0);
       const x = rightEdge > 0 ? rightEdge + 160 : 0;
-      receipts.push(webCreateScreen(figma, screen, plan.web_design, created, baselines, fonts, x, images));
+      receipts.push(webCreateScreen(figma, screen, plan.web_design, created, baselines, fonts, x, images, videos));
     }
     synchronousFailure = false;
     const receipt = {
@@ -833,7 +1020,8 @@ async function webApply(figma, plan) {
         const requestedWidth = plan.web_design.preview_width;
         const maxPixels = 5_000_000;
         const scale = Math.min(requestedWidth / frame.width, Math.sqrt(maxPixels / (frame.width * frame.height)));
-        const bytes = await frame.exportAsync({ format: 'PNG', constraint: { type: 'SCALE', value: scale } });
+        const bytes = await webBounded(frame.exportAsync({ format: 'PNG', constraint: { type: 'SCALE', value: scale } }),
+          45_000, 'Figma did not finish the requested screen preview export');
         totalPreviewBytes += bytes.length;
         if (bytes.length > 8_000_000 || totalPreviewBytes > 8_000_000) throw Error(`Previews exceed the private 8 MB total limit at ${screen.screen_id}`);
         screen.preview = {

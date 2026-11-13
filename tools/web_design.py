@@ -15,7 +15,7 @@ sys.path.insert(0, str(SCRIPT_ROOT))
 from graph import validate_graph as validate_canonical_graph
 
 SCHEMA = 'figma-flow-web-design-v1'
-KINDS = {'frame', 'text', 'component', 'image', 'vector', 'annotation'}
+KINDS = {'frame', 'text', 'component', 'image', 'video', 'vector', 'annotation'}
 COLORS = re.compile(r'#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?\Z')
 
 
@@ -35,47 +35,112 @@ def _box(box):
 
 
 def validate_svg(svg):
-    if not isinstance(svg, str) or len(svg) > 200_000 or re.search(r'<!|<\?|url\s*\(|javascript:', svg, re.I):
+    if not isinstance(svg, str) or len(svg) > 200_000 or re.search(r'<!|<\?|javascript:', svg, re.I):
         raise ValueError('Bounded standalone SVG required')
     try:
         root = ET.fromstring(svg)
     except ET.ParseError as error:
         raise ValueError('Malformed SVG vector') from error
     allowed = {
-        'svg': {'viewBox', 'width', 'height', 'xmlns'},
-        'g': {'fill', 'stroke', 'stroke-width', 'opacity', 'transform'},
-        'path': {'d', 'fill', 'stroke', 'stroke-width', 'fill-rule', 'opacity', 'transform'},
+        'svg': {'viewBox', 'width', 'height', 'xmlns', 'fill', 'stroke'},
+        'g': {'fill', 'stroke', 'stroke-width', 'opacity', 'transform', 'fill-rule', 'clip-rule', 'clip-path'},
+        'path': {'d', 'fill', 'stroke', 'stroke-width', 'fill-rule', 'clip-rule', 'opacity', 'transform'},
         'rect': {'x', 'y', 'width', 'height', 'rx', 'ry', 'fill', 'stroke', 'stroke-width', 'opacity'},
         'circle': {'cx', 'cy', 'r', 'fill', 'stroke', 'stroke-width', 'opacity'},
         'ellipse': {'cx', 'cy', 'rx', 'ry', 'fill', 'stroke', 'stroke-width', 'opacity'},
         'line': {'x1', 'y1', 'x2', 'y2', 'fill', 'stroke', 'stroke-width', 'opacity'},
         'polyline': {'points', 'fill', 'stroke', 'stroke-width', 'opacity'},
         'polygon': {'points', 'fill', 'stroke', 'stroke-width', 'opacity'},
+        'defs': set(),
+        'clipPath': {'id'},
+        'linearGradient': {'id', 'x1', 'y1', 'x2', 'y2', 'gradientUnits'},
+        'radialGradient': {'id', 'cx', 'cy', 'r', 'fx', 'fy', 'gradientUnits'},
+        'stop': {'offset', 'stop-color', 'stop-opacity'},
     }
     if root.tag.split('}')[-1] != 'svg':
         raise ValueError('SVG root required')
     count = 0
+    parents = {child: parent for parent in root.iter() for child in parent}
+    clip_ids = set()
+    clip_refs = set()
+    gradient_ids = set()
+    gradient_refs = set()
+    safe_id = re.compile(r'[A-Za-z_][A-Za-z0-9_.-]{0,79}\Z')
     for node in root.iter():
         tag = node.tag.split('}')[-1]
         count += 1
         if tag not in allowed or count > 2000 or node.text and node.text.strip():
             raise ValueError('Unsupported SVG element or text')
+        parent_tag = parents.get(node).tag.split('}')[-1] if parents.get(node) is not None else None
+        if tag == 'defs' and parent_tag != 'svg':
+            raise ValueError('SVG definitions must be direct root children')
+        if tag == 'clipPath':
+            clip_id = node.attrib.get('id')
+            if parent_tag != 'defs' or not clip_id or not safe_id.fullmatch(clip_id) or clip_id in clip_ids:
+                raise ValueError('SVG clip paths need unique bounded local IDs')
+            clip_ids.add(clip_id)
+            if any(child.tag.split('}')[-1] not in {'path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline'} for child in node):
+                raise ValueError('Unsupported SVG clip geometry')
+        if tag in {'linearGradient', 'radialGradient'}:
+            gradient_id = node.attrib.get('id')
+            if parent_tag != 'defs' or not gradient_id or not safe_id.fullmatch(gradient_id) or gradient_id in clip_ids or gradient_id in gradient_ids:
+                raise ValueError('SVG gradients need unique bounded local IDs')
+            gradient_ids.add(gradient_id)
+            if node.attrib.get('gradientUnits', 'objectBoundingBox') not in {'objectBoundingBox', 'userSpaceOnUse'}:
+                raise ValueError('Unsupported SVG gradient coordinate system')
+            if not 1 <= len(node) <= 32 or any(child.tag.split('}')[-1] != 'stop' for child in node):
+                raise ValueError('SVG gradients need one to thirty two stops')
+        if tag == 'defs' and any(child.tag.split('}')[-1] not in {'clipPath', 'linearGradient', 'radialGradient'} for child in node):
+            raise ValueError('Unsupported SVG definition')
+        if tag == 'stop' and len(node):
+            raise ValueError('SVG gradient stops cannot have child elements')
         for key, value in node.attrib.items():
             name = key.split('}')[-1]
+            if name == 'clip-path':
+                match = re.fullmatch(r'url\(#([A-Za-z_][A-Za-z0-9_.-]{0,79})\)', value)
+                if tag != 'g' or not match:
+                    raise ValueError('SVG clip path references need a local ID on a group')
+                clip_refs.add(match.group(1))
+                continue
+            if name in {'fill', 'stroke'} and value.startswith('url('):
+                match = re.fullmatch(r'url\(#([A-Za-z_][A-Za-z0-9_.-]{0,79})\)', value)
+                if not match:
+                    raise ValueError('SVG paint server references need a bounded local ID')
+                gradient_refs.add(match.group(1))
+                continue
             if (
                 name not in allowed[tag]
                 or name.lower().startswith('on')
-                or re.search(r'url\s*\(|javascript:|data:|https?:|file:', value, re.I)
+                or re.search(r'javascript:|data:|https?:|file:', value, re.I)
             ):
                 raise ValueError('Unsupported or external SVG attribute')
+            if name in {'fill-rule', 'clip-rule'} and value not in {'evenodd', 'nonzero'}:
+                raise ValueError('SVG fill and clip rules must be evenodd or nonzero')
+            if name in {'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'r', 'fx', 'fy'} and tag in {'linearGradient', 'radialGradient'}:
+                if not re.fullmatch(r'-?(?:\d+(?:\.\d*)?|\.\d+)%?', value) or abs(float(value.rstrip('%'))) > 32768:
+                    raise ValueError('SVG gradient coordinate is outside bounded numeric values')
+            if name == 'gradientUnits' and value not in {'objectBoundingBox', 'userSpaceOnUse'}:
+                raise ValueError('Unsupported SVG gradient coordinate system')
+            if name == 'offset':
+                if not re.fullmatch(r'(?:0(?:\.\d+)?|1(?:\.0+)?|\d+(?:\.\d+)?%)', value):
+                    raise ValueError('SVG gradient stop offset must be normalized')
+                amount = float(value[:-1]) / 100 if value.endswith('%') else float(value)
+                if not 0 <= amount <= 1:
+                    raise ValueError('SVG gradient stop offset must be between zero and one')
+            if name == 'stop-opacity' and (not re.fullmatch(r'(?:0(?:\.\d+)?|1(?:\.0+)?)', value) or float(value) > 1):
+                raise ValueError('SVG gradient stop opacity must be between zero and one')
+            if name == 'stop-color' and value.lower() not in {'black', 'white', 'currentcolor'} and not COLORS.fullmatch(value):
+                raise ValueError('SVG gradient stop color must be literal')
             if (
                 name in {'fill', 'stroke'}
-                and value not in {'none', 'currentColor'}
+                and value.lower() not in {'none', 'currentcolor', 'black', 'white'}
                 and not COLORS.fullmatch(value)
             ):
                 raise ValueError('SVG paint must use literal hex colors')
             if tag == 'line' and name == 'fill' and value != 'none':
                 raise ValueError('SVG line fill must be none')
+    if clip_refs - clip_ids or gradient_refs - gradient_ids:
+        raise ValueError('SVG clip and gradient references must resolve locally')
     return svg
 
 
@@ -87,6 +152,13 @@ def image_signature(data, mime):
     }.get(mime, False)
 
 
+def video_signature(data, mime):
+    return {
+        'video/mp4': len(data) >= 12 and data[4:8] == b'ftyp',
+        'video/webm': data.startswith(b'\x1a\x45\xdf\xa3'),
+    }.get(mime, False)
+
+
 def embed_local_assets(web, max_total=8_000_000):
     graph_dir = Path(web['source_graph_path']).resolve().parent
     pins = []
@@ -94,28 +166,28 @@ def embed_local_assets(web, max_total=8_000_000):
     assets = {}
     for screen in web['screens']:
         for element in screen['elements']:
-            if element['kind'] != 'image':
+            if element['kind'] not in ('image', 'video'):
                 continue
-            asset = element['asset']
-            relative = Path(asset['path'])
-            path = graph_dir
-            for part in relative.parts:
-                path = path / part
-                if path.is_symlink():
-                    raise ValueError('Image asset path crosses a symbolic link')
-            if not path.is_file() or not path.resolve().is_relative_to(graph_dir):
-                raise ValueError('Image asset must stay under the graph directory')
-            data = path.read_bytes()
-            if hashlib.sha256(data).hexdigest() != asset['sha256'] or not image_signature(
-                data, asset['mimeType']
-            ):
-                raise ValueError('Image asset hash or file signature is invalid')
-            if asset['sha256'] not in assets:
-                total += len(data)
-                if len(data) > 8_000_000 or total > max_total:
-                    raise ValueError('Unique embedded assets exceed the 8 MB total limit')
-                assets[asset['sha256']] = base64.b64encode(data).decode('ascii')
-            pins.append({'path': str(path.resolve()), 'sha256': asset['sha256']})
+            for key in (('asset', 'fallbackAsset') if element['kind'] == 'video' else ('asset',)):
+                asset = element[key]
+                relative = Path(asset['path'])
+                path = graph_dir
+                for part in relative.parts:
+                    path = path / part
+                    if path.is_symlink():
+                        raise ValueError('Media asset path crosses a symbolic link')
+                if not path.is_file() or not path.resolve().is_relative_to(graph_dir):
+                    raise ValueError('Media asset must stay under the graph directory')
+                data = path.read_bytes()
+                valid = video_signature(data, asset['mimeType']) if key == 'asset' and element['kind'] == 'video' else image_signature(data, asset['mimeType'])
+                if hashlib.sha256(data).hexdigest() != asset['sha256'] or not valid:
+                    raise ValueError('Media asset hash or file signature is invalid')
+                if asset['sha256'] not in assets:
+                    total += len(data)
+                    if len(data) > 8_000_000 or total > max_total:
+                        raise ValueError('Unique embedded assets exceed the 8 MB total limit')
+                    assets[asset['sha256']] = base64.b64encode(data).decode('ascii')
+                pins.append({'path': str(path.resolve()), 'sha256': asset['sha256']})
     web['assets'] = assets
     return pins
 
@@ -234,6 +306,8 @@ def validate_graph(graph, require_embedded=False):
                     'textAlign',
                     'textAlignHorizontal',
                     'color',
+                    'linearGradient',
+                    'paintApproximation',
                 }:
                     raise ValueError('Unsupported observed text fields')
                 if e.get('kind') == 'text' and not isinstance(text.get('characters'), str):
@@ -247,6 +321,26 @@ def validate_graph(graph, require_embedded=False):
                         raise ValueError(f'Finite text {key} required')
                 if 'color' in text and text['color'] is not None and not COLORS.fullmatch(text['color']):
                     raise ValueError('Text color must be a literal hex color')
+                if 'paintApproximation' in text and text['paintApproximation'] != 'first-gradient-stop':
+                    raise ValueError('Unsupported text paint approximation')
+                gradient = text.get('linearGradient')
+                if gradient is not None and ('color' in text or 'paintApproximation' in text):
+                    raise ValueError('Text gradient paint cannot mix with solid text paint')
+                if text.get('paintApproximation') and not isinstance(text.get('color'), str):
+                    raise ValueError('Text paint approximation needs a visible representative color')
+                if gradient is not None:
+                    if (not isinstance(gradient, dict) or set(gradient) != {'angle', 'stops'}
+                        or type(gradient['angle']) not in (int, float) or not math.isfinite(gradient['angle'])
+                        or not isinstance(gradient['stops'], list) or not 2 <= len(gradient['stops']) <= 16):
+                        raise ValueError('Text linear gradient needs a finite angle and two to sixteen stops')
+                    previous = -1
+                    for stop in gradient['stops']:
+                        if (not isinstance(stop, dict) or set(stop) != {'position', 'color'}
+                            or type(stop['position']) not in (int, float) or not math.isfinite(stop['position'])
+                            or not 0 <= stop['position'] <= 1 or stop['position'] < previous
+                            or not isinstance(stop['color'], str) or not COLORS.fullmatch(stop['color'])):
+                            raise ValueError('Text linear gradient stops must be sorted normalized literal colors')
+                        previous = stop['position']
             _box(e.get('box'))
             label_box = e.get('props', {}).get('labelBox') if isinstance(e.get('props', {}), dict) else None
             if label_box is not None:
@@ -265,7 +359,7 @@ def validate_graph(graph, require_embedded=False):
                 or len(e['text']['characters']) > 10000
             ):
                 raise ValueError('Bounded text characters required')
-            if e['kind'] == 'image' and e.get('objectFit', 'cover') not in ('cover', 'contain'):
+            if e['kind'] in ('image', 'video') and e.get('objectFit', 'cover') not in ('cover', 'contain'):
                 raise ValueError('Image objectFit must be cover or contain')
             if e['kind'] == 'vector':
                 validate_svg(e.get('svg'))
@@ -287,6 +381,15 @@ def validate_graph(graph, require_embedded=False):
                     raise ValueError(
                         'Raster bytes are loaded from pinned local paths during native preparation'
                     )
+            if e['kind'] == 'video':
+                def media_ref(value, mime_types):
+                    return (isinstance(value, dict) and set(value) == {'path', 'sha256', 'mimeType'}
+                        and value['mimeType'] in mime_types and re.fullmatch(r'[a-f0-9]{64}', str(value['sha256']))
+                        and isinstance(value['path'], str) and not Path(value['path']).is_absolute()
+                        and '..' not in Path(value['path']).parts and bool(Path(value['path']).parts)
+                        and not any(char in value['path'] for char in ':\\\0\n\r'))
+                if not media_ref(e.get('asset'), {'video/mp4', 'video/webm'}) or not media_ref(e.get('fallbackAsset'), {'image/png', 'image/jpeg', 'image/webp'}):
+                    raise ValueError('Video needs hash-pinned MP4/WebM bytes and a supported raster fallback')
             paint = e.get('paint', {})
             if not isinstance(paint, dict) or set(paint) - {
                 'background',
@@ -296,6 +399,8 @@ def validate_graph(graph, require_embedded=False):
                 'borderRadius',
                 'opacity',
                 'radialGradient',
+                'effects',
+                'alphaMask',
             }:
                 raise ValueError('Unsupported paint fields')
             for key in ('background', 'color', 'borderColor'):
@@ -340,6 +445,35 @@ def validate_graph(graph, require_embedded=False):
                         raise ValueError(
                             'Radial gradient stops must use sorted normalized positions and literal colors'
                         )
+                    previous = stop['position']
+            effects = paint.get('effects', [])
+            if not isinstance(effects, list) or len(effects) > 8:
+                raise ValueError('At most eight bounded native effects are supported')
+            for effect in effects:
+                if not isinstance(effect, dict) or effect.get('type') not in {'DROP_SHADOW', 'INNER_SHADOW', 'LAYER_BLUR'}:
+                    raise ValueError('Unsupported native effect')
+                if effect['type'] == 'LAYER_BLUR':
+                    if set(effect) != {'type', 'radius'} or type(effect['radius']) not in (int, float) or not 0 <= effect['radius'] <= 100:
+                        raise ValueError('Layer blur radius must be between 0 and 100')
+                elif (
+                    set(effect) != {'type', 'x', 'y', 'blur', 'spread', 'color'}
+                    or any(type(effect[k]) not in (int, float) or not math.isfinite(effect[k]) or abs(effect[k]) > 1000 for k in ('x', 'y', 'blur', 'spread'))
+                    or effect['blur'] < 0 or not isinstance(effect['color'], str) or not COLORS.fullmatch(effect['color'])
+                ):
+                    raise ValueError('Shadow needs bounded geometry and a literal color')
+            mask = paint.get('alphaMask')
+            if mask is not None:
+                if (not isinstance(mask, dict) or set(mask) != {'angle', 'stops'}
+                    or type(mask['angle']) not in (int, float) or not math.isfinite(mask['angle'])
+                    or not isinstance(mask['stops'], list) or not 2 <= len(mask['stops']) <= 16):
+                    raise ValueError('Linear alpha mask needs an angle and two to sixteen stops')
+                previous = -1
+                for stop in mask['stops']:
+                    if (not isinstance(stop, dict) or set(stop) != {'position', 'color'}
+                        or type(stop['position']) not in (int, float) or not 0 <= stop['position'] <= 1
+                        or stop['position'] < previous or not isinstance(stop['color'], str)
+                        or not COLORS.fullmatch(stop['color'])):
+                        raise ValueError('Linear alpha mask stops must be sorted normalized literal colors')
                     previous = stop['position']
         frame_ids = {element['id'] for element in elements if element['kind'] == 'frame'}
         for element in elements:
