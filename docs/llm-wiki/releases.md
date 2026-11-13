@@ -1,10 +1,20 @@
 # 버전과 전체 Git 기록 대조
 
-현재 catalog 소스 기준은 `841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988`다. 이 기준에서 catalog는 도달 가능한 canonical 커밋 215개와 별도 보존 계보 커밋 39개(저장된 head 19개)를 기록한다. 2026-11-13 원본 Git 대조에서 별도 보존 계보의 39개 patch와 19개 head가 source-backed로 확인됐다. 기본 `verify`의 structural 검사와 이 source-Git 대조는 별도 근거다. 0.27.0은 catalog에 연결된 제품 소스 커밋이며, 현재 태그는 없다. 기존 태그는 이후 Wiki/CHANGELOG 전용 발행 커밋을 가리킬 수 있으므로 suffix를 제품 소스와 구분한다.
+현재 catalog 소스 기준은 `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`다. 도달 가능한 canonical 커밋 219개와 별도 보존 계보 39개(저장 head 19개)를 기록한다. 별도 39개 patch와 19개 head는 2026-11-13 원본 Git 객체로 대조했다. 기본 verify의 structural 검사와 source-Git 대조는 별도 근거다. 0.27.0은 기존 태그와 프리릴리스 영수증을 보존하고, 0.27.1의 최종 발행·설치는 해당 절의 실제 결과를 따른다. 제품 소스 뒤 Wiki/CHANGELOG 전용 발행 커밋은 코드 변경과 구분한다.
 
 ## 대조 방법
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
+
+## v0.27.1
+
+최종 후보 소스는 `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`이며, 구문·startup 수정은 `25b6f754a4798119defc65c5146d59e0d3f23467`에 있다.  [패치 상세](patches/25b6f754a4798119defc65c5146d59e0d3f23467.md)와 [고정 재현 검사](patches/23b44e3b3004639e088467bd91d808de24df38d7.md)를 연결한다. 두 manifest와 현재 설치 안내를 0.27.1로 맞췄다.
+
+0.27.0 발행 후 앱 워크플로는 `--only-binary=:all: -r`의 콜론·공백 때문에 YAML 파싱에 실패해 job이 하나도 시작되지 않았다. 명령을 block scalar로 옮겨 실제 pip argv는 유지했다. 별도로 일반 Python 업데이트 명령이 검증할 패키지에 bytecode를 쓰는 실패를 재현했다. CLI 진입부가 local 모듈을 import하기 전에 bytecode 쓰기를 막으며, 파일 무시나 검증 우회 없이 기존 authority·정확한 바이트·rollback 검사를 유지한다.
+
+로컬에서 YAML 파싱과 정확한 설치 명령 보존, startup 검사 27개, 일반 Python CLI 반복 실행의 전체 패키지 바이트 보존 1개, 진단 버전/runtime 검사 6개가 통과했다. 독립 정적 검수에서 지정 diff의 P1/P2를 찾지 못했다. 0.27.0 제품 소스의 깨끗한 전체 검사와 실제 앱·Figma R8 관찰은 영향을 받지 않은 범위의 근거로 재사용하며, 0.27.1 원격 CI·태그·최종 ZIP·설치본 및 native 재읽기는 각각 실제 실행 후 아래에 기록한다. 현재 성공을 선반영하지 않는다.
+
+동일한 frozen CLI 검사로 base `23b44e3b3004639e088467bd91d808de24df38d7`의 bytecode 경로 AssertionError와 target `ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e`의 통과를 확인했다. 개선 gate는 정확히 8개 변경 경로와 원본 불변성을 검사해 통과했다. Wiki는 canonical 219개·보존 39개 기록을 검증했다. 원격 CI·최종 패키지·설치·native 재읽기는 별도 판정한다.
 
 ## v0.27.0
 
@@ -15,6 +25,12 @@
 보고된 검증 범위는 clean archive에서 root Python 1,107개 중 1,105개 통과·2개 skip·0개 실패, PostgreSQL backend 58개, packaging 4개, design 16개, finalize Python 74개, native demo 2개 성공과 Node 299개 중 298개 통과·1개 skip·0개 실패다. 14개 local 명령은 모두 exit 0이었다. React build 및 typed runtime의 배포 파일은 원본과 byte-identical이었다. 독립 frozen improvement gate는 정확히 347개 변경 경로에서 baseline AssertionError 재현 및 target diagnostic privacy·Group Python·partial consumer Node를 통과시켰고 checkout 원본을 유지했다. 별도 native 관찰은 44 screens/4,820 nodes, Group 2개, main 24개, component set 2개, instances 494개, variables 69개, 기존 Frame clip 550개, nonempty reaction node 314개(312 product + 2 palette)의 semantic target 보존, leaf geometry 3,171개의 bbox 차이 0이다. 이는 앱·플러그인 전체의 출시 인수나 모든 prototype 링크 실행을 뜻하지 않는다.
 
 45 AC bounded pass는 45 REQ의 전체 긍정 구현이 아니다. BOOLEAN/INSTANCE_SWAP 양성 작성과 앱의 영속 Graph SSOT는 미구현이며 NF-01/NF-04 제안 범위다. 정적 prototype의 14개 실제 GUI 조작은 Django 업무 요청이 아니다. 실기기, 사람의 art/production 승인, 공개 DNS/TLS·상용 배포, 기존 61개 회귀 전체는 검증되지 않았다. 최종 local Python·frozen improvement gate는 통과했다. 원격 release, CI 및 설치 결과는 별도 확인 전까지 pending이다.
+
+### 0.27.0 발행·설치 관찰
+
+`v0.27.0`은 문서 발행 커밋 `e0aeed2ce67caf6570ba37bcf0beda22165cdc32`를 가리키고 제품 소스는 `841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988`다. [발행 기록](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.27.0)은 원격 최종 검사 전 프리릴리스로 전환했다. ZIP 13,356,051 bytes의 SHA-256은 `a937dc8b2eced24868371fbd4ab424efb4fd42e27623063966e960587f66d019`이며 실제 다운로드의 sidecar 검사가 통과했다. `plugin_startup ensure`는 최초 bytecode 변경에 따른 거절 뒤 검증된 기존 캐시 복원과 `-B` 재시도로 0.26.3→0.27.0 업데이트에 성공했다. 반환된 실제 installedPath의 공개 파일 1,340개가 ZIP과 byte-identical이었다. 기존 작업 공간·서버·R8은 유지했지만 이 0.27.0 설치본에서 native 재읽기는 하지 않았다.
+
+[Patch knowledge CI](https://github.com/jonsoku-dev/figma-flow/actions/runs/43327580949)는 성공했다. [앱 워크플로](https://github.com/jonsoku-dev/figma-flow/actions/runs/43327579170)는 YAML 문법으로 job 시작 전에 실패했고 0.27.1에서 수정한다. [전체 도구 CI](https://github.com/jonsoku-dev/figma-flow/actions/runs/43327581031)는 초기 queued 뒤 ARM hosted runner 공급 부족으로 job을 받지 못해 취소됐다. [macOS Intel 실행기 변경](patches/ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e.md)은 같은 OS 검사와 명령을 보존하며 0.27.1에서 재실행한다. 이 상태를 안정 릴리스 전체 통과로 표시하지 않는다.
 
 ## v0.26.3
 

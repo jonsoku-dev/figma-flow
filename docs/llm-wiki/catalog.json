@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.27.1",
     "0.27.0",
     "0.26.3",
     "0.26.2",
@@ -6667,6 +6668,140 @@
           "version": "0.27.0"
         }
       ]
+    },
+    {
+      "commit": "e0aeed2ce67caf6570ba37bcf0beda22165cdc32",
+      "diff_sha256": "d039607cf754c44a996694efeda73ce7d2b36f754674a2ad338f634535caa6ed",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0145921ca4ed5d22187b9e259cb8d8224b4a7d86.md",
+        "docs/llm-wiki/patches/03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67.md",
+        "docs/llm-wiki/patches/06a40a1b83fac2f94b540d24e081ee87779e79ae.md",
+        "docs/llm-wiki/patches/0ad26187e423973a3895b3ae63e6953c0189761b.md",
+        "docs/llm-wiki/patches/1e64ada88f76180ab72d6be01c79841d9714335e.md",
+        "docs/llm-wiki/patches/28128ac57e43e314aade368f3f8c919c0246d22c.md",
+        "docs/llm-wiki/patches/2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de.md",
+        "docs/llm-wiki/patches/2cf4ce74557f9a2e65b8bc817b92eb3486067554.md",
+        "docs/llm-wiki/patches/2e974fa58123ab1835b117a55451bf837597182f.md",
+        "docs/llm-wiki/patches/493ee6f561112181f82e90a45b58fa35482c7219.md",
+        "docs/llm-wiki/patches/5d92cd61d7e09a444c5045ddc26911829d92b060.md",
+        "docs/llm-wiki/patches/6459de5ca0711f10629945fe36a2b4a2063fbbae.md",
+        "docs/llm-wiki/patches/65bd407b96ebaf14d6a965f6aa83c20c451795ca.md",
+        "docs/llm-wiki/patches/674335b0a46d426723e32ab3cc98029b8b6e3744.md",
+        "docs/llm-wiki/patches/721627bcc9a6eca2e283f879026d942a93a05a20.md",
+        "docs/llm-wiki/patches/7b5ae4091641430d891e0c110c8efdb9a845a6ce.md",
+        "docs/llm-wiki/patches/7ba864310c66d6f972cb4b9e15cacc04c3761ccd.md",
+        "docs/llm-wiki/patches/841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988.md",
+        "docs/llm-wiki/patches/8b984daa4733739c1c5ce72ab30232504d3fe4a4.md",
+        "docs/llm-wiki/patches/904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2.md",
+        "docs/llm-wiki/patches/939f1b997d8cff3bd6efca5c28a9c2a23cd41785.md",
+        "docs/llm-wiki/patches/b1c3824d810a143b6c7eb5e1f6951828e950dfee.md",
+        "docs/llm-wiki/patches/b7209c96bfa57c008c59f351d55ac7f2d781811a.md",
+        "docs/llm-wiki/patches/ba390f93a7da8d74a4cd5cd1993c8a9244c91467.md",
+        "docs/llm-wiki/patches/bbe11d2a80604207b8efaba5c521834acad779b3.md",
+        "docs/llm-wiki/patches/c43b4fc6c3958c233ca403769b4ef255bd6708e5.md",
+        "docs/llm-wiki/patches/c7a3cdef85ad0fdb7bade6a3fe5fa1e896864dd2.md",
+        "docs/llm-wiki/patches/c80def58a7b0a875961f13c9ae7307bbc910ff8e.md",
+        "docs/llm-wiki/patches/d2e1b384ffe60e403c111b542df688b5e238deac.md",
+        "docs/llm-wiki/patches/d8a540b84376f39997583204aa6801aece6e31f0.md",
+        "docs/llm-wiki/patches/d9e8840c2fb51e8722cb2f95a3a810eb2f6de743.md",
+        "docs/llm-wiki/patches/dafe4bde488c82bb41cbf4096e4f83833c017fff.md",
+        "docs/llm-wiki/patches/dca7dfcb4ec97ee52427a40050e815f53880d47e.md",
+        "docs/llm-wiki/patches/e8ada75f03b253aed9ab4d9528872575f7cc8051.md",
+        "docs/llm-wiki/patches/ee296599d76993f3a8481edddf08ca9643c9301b.md",
+        "docs/llm-wiki/patches/f8e3b4a327afa4f939c3355cf94a601814936342.md",
+        "docs/llm-wiki/patches/fbf83b3f9aa43801306d2678a8ed3bbfc6c9f904.md",
+        "docs/llm-wiki/patches/fcace533169f7f37116ec1048857e7010790390e.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988"
+      ],
+      "subject": "docs: publish complete 0.27 patch knowledge",
+      "tree": "f8acf722831ff4cfcff01c516c9bc98f89a4269a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.0"
+        }
+      ]
+    },
+    {
+      "commit": "23b44e3b3004639e088467bd91d808de24df38d7",
+      "diff_sha256": "f3ed3daf53881161c7e384fe875d09ec301f58003423166ac848b0879d399e4c",
+      "files": [
+        "tests/finalize_startup_self_cache.py"
+      ],
+      "parents": [
+        "e0aeed2ce67caf6570ba37bcf0beda22165cdc32"
+      ],
+      "subject": "test: pin startup package byte preservation",
+      "tree": "1cb84f8edbdf7596f82d4fd7a7bf0f31d501a0bf",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.0"
+        }
+      ]
+    },
+    {
+      "commit": "25b6f754a4798119defc65c5146d59e0d3f23467",
+      "diff_sha256": "19039a972f4f5c80dcf63384eceed4fff5573dc3d4471aa37e61ab052dc65ea2",
+      "files": [
+        ".codex-plugin/plugin.json",
+        ".github/workflows/little-hands.yml",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/guide.md",
+        "plugin.json",
+        "tools/plugin_startup.py"
+      ],
+      "parents": [
+        "23b44e3b3004639e088467bd91d808de24df38d7"
+      ],
+      "subject": "fix: stabilize startup and production app CI",
+      "tree": "466223ea2f397fb7d88164c4d463e0b6a8723ba0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.1"
+        }
+      ]
+    },
+    {
+      "commit": "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e",
+      "diff_sha256": "494cfbcc234a23f1cc36c5e837677dcbe928e7cef7b9dab29486c6824485fbba",
+      "files": [
+        ".github/workflows/test.yml",
+        "CHANGELOG.md"
+      ],
+      "parents": [
+        "25b6f754a4798119defc65c5146d59e0d3f23467"
+      ],
+      "subject": "ci: use available macOS Intel runners",
+      "tree": "35b29e4dabf766a72e03b8848a5bd99556f3e23a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.27.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.27.1"
+        }
+      ]
     }
   ],
   "pages": {
@@ -6702,8 +6837,10 @@
     "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f": "d595749585931a4fc1811bd87ef6551e1dde1c22be50c9848ba979fe8835f2b5",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
+    "23b44e3b3004639e088467bd91d808de24df38d7": "f418b64bbd6b831f60e6ba10f75d8ef86b4a94d91d769fbf57596b4902058d90",
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
+    "25b6f754a4798119defc65c5146d59e0d3f23467": "873017a08c42fb2979ab2e5b1c40419e71208433616b8658bab50364c3037bda",
     "28128ac57e43e314aade368f3f8c919c0246d22c": "38b10f4da39774e4cd1504426494e7869e7dc64084e8d9970b12daabec065ee3",
     "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
     "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de": "cb22f107fba474d02cdc48753d883fd717077a495e91cb73f3ac311986495999",
@@ -6856,6 +6993,7 @@
     "dca7dfcb4ec97ee52427a40050e815f53880d47e": "8a43c301e185fe5f3c1a6bbe27b0a3b23886706716b7d8703529bb63ebbab33b",
     "dee7688ffa829298bc794108f057c18dc6e6d766": "267088ddd7fcd717b1c817584fd2b75d3231b101827e3c16f00bc6b244494125",
     "df65b64205ed85644acf075f0acab8f37f2ac371": "b8a776272c01c8d166432e297cb353abcb97b2e59b42f860b42c6bac2c27b740",
+    "e0aeed2ce67caf6570ba37bcf0beda22165cdc32": "f3a9b960239b65c2d01317f2d1bc8976bcd749462b66da6403a93f37a5a7f657",
     "e0f34c2d2db5673cc17a63bf8bb99489445c2492": "8645b1223ce0695b4bdc76c801660ed704bdf3cfbe05f238a0ba56552c9aeb7a",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
@@ -6869,6 +7007,7 @@
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "ed846239ebafe20621f61d44517ec0eb8b3737eb": "a648e5f836f0edb32b4244917953ce83478429ace3cc5caab41858f542b8aaa1",
     "ee296599d76993f3a8481edddf08ca9643c9301b": "094a8be5b5da5acb3308330f2dfaf833e7874dd65440742d53f238c1e9c47cf2",
+    "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e": "5a9fddcce5e54b7589547706f7bab366777a77d6fc049c145cc25679496b7b33",
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
     "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
@@ -6937,6 +7076,10 @@
     },
     {
       "observed_at_commit": "24730598c912ef01c3da487193fa44e011981e7d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "25b6f754a4798119defc65c5146d59e0d3f23467",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -7097,6 +7240,10 @@
     },
     {
       "observed_at_commit": "e8ada75f03b253aed9ab4d9528872575f7cc8051",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -7295,18 +7442,28 @@
     },
     {
       "source_commits": [
-        "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988"
+        "e0aeed2ce67caf6570ba37bcf0beda22165cdc32"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.27.0"
+      ],
+      "version": "0.27.0"
+    },
+    {
+      "source_commits": [
+        "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e"
       ],
       "tagged": false,
       "tags": [],
-      "version": "0.27.0"
+      "version": "0.27.1"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988",
+  "source_commit": "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -7372,6 +7529,11 @@
       "commit": "3a3d68e64d178d1ca37c3ff275d97d41bc92274d",
       "tag": "v0.26.3",
       "version": "0.26.3"
+    },
+    {
+      "commit": "e0aeed2ce67caf6570ba37bcf0beda22165cdc32",
+      "tag": "v0.27.0",
+      "version": "0.27.0"
     }
   ]
 }
