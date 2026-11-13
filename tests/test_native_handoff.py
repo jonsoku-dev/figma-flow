@@ -1,5 +1,6 @@
 """Local fixtures test evidence validation, not live Figma provenance."""
 import copy
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -60,6 +61,125 @@ def attach_design_note_board(data, expected):
 
 
 class NativeHandoffTest(unittest.TestCase):
+    def test_offline_pack_pairing_checks_graph_native_getter_web_and_scope(self):
+        from graph_design_system import load_graph, resolve_design_system, emit_web_module
+        import graph_sync
+        from graph_sync import token_native_names
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            graph = {'design_system': {'id':'little-hands','version':1,'tokens':{
+                'color.bookingCta':{'type':'COLOR','value':{'r':1,'g':0,'b':0}},
+                'color.action.primary':{'type':'COLOR','alias':'color.bookingCta'}},
+                'components':{'button.bookingCTA':{'properties':{'backgroundColor':'color.action.primary'},
+                    'native':{'mainKeys':['components.play/idle'],'instanceKeys':['screen.play'],'semanticToken':'color.action.primary'},
+                    'web':{'selector':'.button.booking-cta:not(:hover):not(:active)'}}}}}
+            graph_path=root/'graph.json';graph_path.write_text(json.dumps(graph,ensure_ascii=False))
+            loaded=load_graph(graph_path);resolved=resolve_design_system(loaded);names=token_native_names(loaded,require_namespace=True)[1]
+            web=root/'tokens.mjs';emit_web_module(graph_path,web)
+            data,contract=fixture()
+            data['collections'][0]['modes']=[data['collections'][0]['modes'][0]]
+            for variable in data['variables']:
+                variable['valuesByMode'].pop('m:2',None)
+            data['variables'][0]['name']=names['color.bookingCta']
+            data['variables'][1]['name']=names['color.action.primary']
+            data['nodes'][1]['semanticKey']='screen.play'
+            data['nodes'][1]['fills'][0]['color']={'r':1,'g':0,'b':0}
+            data['nodes'][3]['semanticKey']='components.play/idle'
+            data['nodes'][3]['fills']=[{'type':'SOLID','color':{'r':1,'g':0,'b':0},'boundVariables':{'color':{'type':'VARIABLE_ALIAS','id':'v:semantic'}}}]
+            contract['variables']=[{'name':names[key],'resolved_type':'COLOR'} for key in ('color.bookingCta','color.action.primary')]
+            contract['screens'][0]['controls'][0]['token_bindings']=[{'property':'fills.0.color','variable':names['color.action.primary']}]
+            values=resolved['tokens']
+            tokens=[]
+            for variable_id,key in zip(('v:raw','v:semantic'),('color.bookingCta','color.action.primary')):
+                tokens.append({'key':key,'variable_id':variable_id,'variable_name':names[key],
+                    'type':'COLOR','resolved':values[key]})
+            web_proof={'schema':'figma-flow-graph-web-readback-v1','graph_sha256':resolved['graphSha256'],
+                'observed_at':'2026-11-13T14:00:00Z','url':'http://localhost:8769/sessions/1/',
+                'components':[{'id':'button.bookingCTA','selector':'.button.booking-cta:not(:hover):not(:active)',
+                    'graph_sha256':resolved['graphSha256'],'properties':resolved['components']['button.bookingCTA']}]}
+            pairing={'schema':graph_sync.RECEIPT,'graph_sha256':resolved['graphSha256'],
+                'primitive_roots':resolved['primitiveRoots'],'declarations':graph['design_system']['components'],
+                'native_scope':{},'web_module_sha256':hashlib.sha256(web.read_bytes()).hexdigest(),'web_proof':web_proof,
+                    'plan':{'file_key':'fixture','page_id':'1:1','collection_id':'c:1','tokens':[
+                    {'key':token['key'],'variable_name':token['variable_name']} for token in tokens],
+                    'components':[{'id':'button.bookingCTA','properties':{'backgroundColor':'color.action.primary'},
+                        'main_keys':['1:5'],'instance_keys':['1:3']} ]},'tokens':tokens}
+            pairing_path=root/'pairing.json';pairing_path.write_text(json.dumps(pairing))
+            report=handoff.evaluate(data,contract)
+            self.assertTrue(report['passed'],report['errors'])
+            readback={'schema':'figma-flow-graph-native-discovery-v1','fileKey':'fixture','pageId':'1:1','allowed_page_ids':['1:1'],**data}
+            verified=handoff.verify_graph_sync_handoff(readback,report,graph_path,pairing_path,web)
+            self.assertEqual(verified['status'],'paired-current-at-export')
+            self.assertEqual(verified['graph_sha256'],resolved['graphSha256'])
+            stale_native=copy.deepcopy(report);stale_native['variables'][0]['resolved_modes']['m:1']['value']['r']=0.9
+            with self.assertRaisesRegex(ValueError,'Native handoff getter differs'):
+                handoff.verify_graph_sync_handoff(readback,stale_native,graph_path,pairing_path,web)
+            wrong_page={**readback,'pageId':'9:9'}
+            with self.assertRaisesRegex(ValueError,'outside the paired file or page'):
+                handoff.verify_graph_sync_handoff(wrong_page,report,graph_path,pairing_path,web)
+            web.write_text('/* stale module */')
+            with self.assertRaisesRegex(ValueError,'Web module changed after pairing'):
+                handoff.verify_graph_sync_handoff(readback,report,graph_path,pairing_path,web)
+            emit_web_module(graph_path,web)
+
+            stale=json.loads(graph_path.read_text());stale['design_system']['tokens']['color.bookingCta']['value']['r']=0.6
+            graph_path.write_text(json.dumps(stale,ensure_ascii=False))
+            with self.assertRaisesRegex(ValueError,'Graph changed after'):
+                handoff.verify_graph_sync_handoff(readback,report,graph_path,pairing_path,web)
+
+            graph_path.write_text(json.dumps(graph,ensure_ascii=False))
+            (root/'readback.json').write_text(json.dumps(readback,ensure_ascii=False))
+            (root/'contract.json').write_text(json.dumps(contract,ensure_ascii=False))
+            args=[sys.executable,str(ROOT/'tools/native_handoff.py'),'--readback',str(root/'readback.json'),
+                '--contract',str(root/'contract.json'),'--page-id','1:1','--out',str(root/'out'),
+                '--offline-pack','--graph-sync-graph',str(graph_path),'--graph-sync-pairing',str(pairing_path),'--web-module',str(web)]
+            self.assertNotEqual(subprocess.run(args,capture_output=True).returncode,0)
+            self.assertFalse((root/'out').exists())
+            confirmed=subprocess.run(args+['--confirm-included-text'],capture_output=True,text=True)
+            self.assertEqual(confirmed.returncode,0,confirmed.stderr)
+            pack=json.loads((root/'out/handoff.json').read_text())
+            self.assertEqual(pack['provenance']['graph_sync']['status'],'paired-current-at-export')
+            self.assertEqual(pack['provenance']['graph_sha256'],resolved['graphSha256'])
+            self.assertEqual(set(path.name for path in (root/'out').iterdir()),{'report.json','screen-spec.json','screen-spec.md','handoff.json','handoff.html'})
+            stale=json.loads(graph_path.read_text());stale['design_system']['tokens']['color.bookingCta']['value']['r']=0.6
+            graph_path.write_text(json.dumps(stale,ensure_ascii=False))
+            stale_args=args.copy();stale_args[stale_args.index(str(root/'out'))]=str(root/'stale-out')
+            stale_result=subprocess.run(stale_args+['--confirm-included-text'],capture_output=True,text=True)
+            self.assertEqual(stale_result.returncode,2)
+            self.assertIn('Graph changed after',stale_result.stderr)
+            self.assertFalse((root/'stale-out').exists())
+
+    def test_offline_html_is_self_contained_escapes_content_and_shows_actual_constraints(self):
+        data, expected = fixture()
+        data['nodes'][0].update(name='</script><img src=x onerror=alert(1)>', width=390, height=720)
+        data['nodes'][1].update(constraints={'horizontal':'MIN','vertical':'MAX'}, layoutSizingHorizontal='FILL',
+            boundVariables={'paddingLeft':{'type':'VARIABLE_ALIAS','id':'v:semantic'}})
+        report=handoff.evaluate(data,expected)
+        pack={'format_version':'figma-flow-offline-handoff-v1','provenance':{
+            'observed_at':'2026-11-13T00:00:00Z','file_key':'fixture','page_id':'1:1','revision':None,
+            'revision_status':'unavailable','scope':'full selected page','coverage':'all native nodes on the admitted page',
+            'graph_sha256':'a'*64,'graph_sha256_status':'paired-current-at-export','readback_sha256':'b'*64,
+            'contract_sha256':'c'*64,'graph_sync':{'status':'paired-current-at-export'},
+            'assets':{'included':[],'excluded':[{'sha256':'d'*64,'reason':'image bytes omitted'}]},
+            'omissions':['Private plugin data','Unsupported or unavailable native fields','Raster image bytes']},'report':report}
+        document=handoff.offline_html(pack)
+        self.assertIn('constraints',document);self.assertIn('layoutSizingHorizontal',document);self.assertIn('boundVariables',document)
+        self.assertIn('image bytes omitted',document);self.assertIn('paired-current-at-export',document)
+        self.assertNotIn('</script><img',document);self.assertNotIn('<script src=',document);self.assertNotIn('<link rel="stylesheet" href=',document)
+        self.assertIn('이후 변경',document);self.assertIn('handoff-data',document)
+
+    def test_little_hands_template_copy_comparison_does_not_claim_browser_text(self):
+        graph=json.loads((ROOT/'apps/little-hands/design/graph.json').read_text())
+        action=next(node for node in graph['nodes'] if node.get('web_action')=='reserve-preview')
+        comparison=handoff._little_hands_template_copy(action,[
+            {'key':'reserve-preview','label':{'characters':'예약하기'}},
+            {'key':'reserve-login','label':{'characters':'예약하기'}},
+        ])
+        self.assertEqual(comparison['status'],'differs')
+        self.assertEqual(comparison['native_actual_labels'],{'reserve-preview':'예약하기','reserve-login':'예약하기'})
+        self.assertEqual(comparison['template_branch_labels'],{'reserve-preview':'예약 내용 확인','reserve-login':'로그인하고 예약하기'})
+        self.assertIn('Template source only',comparison['runtime_proof'])
+
     def test_flat_current_native_evidence_and_actual_spec(self):
         data, expected = fixture()
         result = handoff.evaluate(data, expected)

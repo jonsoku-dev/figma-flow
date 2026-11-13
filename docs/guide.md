@@ -29,6 +29,28 @@ python3 tools/figma_rest_inventory.py template getFileNodes
 
 다른 공개 Plugin API는 [로컬 SDK 프로젝트](figma-sdk-project.md)에서 타입을 확인하고 코드를 작성·빌드한 뒤 대상 편집기에서 실행할 수 있습니다. [예제와 실행 범위](figma-recipes.md), [컴포넌트 속성 입력](component-property-authoring.md), [기능별 사용 경로](../skills/figma-flow/references/figma-feature-routes.md)를 참고하세요. REST는 인증이 필요한 별도 경로이며 내보낸 요청은 실행 전에 검토합니다. 팀 관리·유료 플랜·편집 권한·파트너 전용 API의 조건은 Figma가 결정합니다.
 
+### 예약 CTA를 내보내고 오프라인으로 인계하기
+
+작은손의 예약 링크는 정본 그래프에서 생성한 CSS를 Django 정적 파일로 읽습니다. 기획자는 변경 전후의 요구사항과 직접 연결된 행동을 확인하고, 디자이너는 같은 페이지의 메인·인스턴스를 편집합니다. 개발자는 같은 graph SHA의 웹 모듈과 브라우저 계산값을 대조합니다. 실제 실행 결과와 3개 버전의 대응 관계는 [예약 CTA 검증](../apps/little-hands/design/VERIFICATION.md)에 있습니다.
+
+```sh
+python3 tools/policy_impact.py --help
+python3 apps/little-hands/design/publish_design_system.py
+python3 tools/starter_cta.py prepare --graph GRAPH_JSON --readback FULL_NATIVE_JSON \
+  --file-key FILE_KEY --page-id EXISTING_PAGE_ID --out NEW_PLAN_JSON
+```
+
+계획을 검토한 뒤 기존 workspace의 `native-edit` 작업에 `--plan NEW_PLAN_JSON`을 전달합니다. 적용한 메인과 인스턴스의 실제 ID를 다시 읽고, `graph_sync.py export --adopt`의 계획을 해당 작업의 파일·페이지에서 적용합니다. `pair`에는 실제 변수 getter와 브라우저가 읽은 CSS의 graph SHA 및 웹 모듈을 함께 제공합니다. Figma에서 바꾼 원색을 가져올 때는 먼저 `graph_sync.py import`로 dry-run을 하고, 같은 graph SHA의 관측으로 `--apply`를 실행합니다. 생성 CSS를 다시 발행하고 collectstatic 및 worker 재시작 후 새 pairing을 기록합니다.
+
+실제 읽기와 웹 근거가 준비되면 아래 명령으로 컴포넌트 인계 팩을 만듭니다. 포함할 문구와 수신 범위를 확인하고 `--confirm-included-text`를 사용하세요. 수신자는 새 폴더의 `handoff.html`을 열 수 있습니다. `handoff.json`은 같은 관측의 기계 판독본입니다.
+
+```sh
+python3 tools/native_handoff.py --readback FULL_NATIVE_JSON \
+  --graph-sync-graph GRAPH_JSON --graph-sync-pairing FRESH_PAIR_JSON \
+  --web-module GENERATED_WEB_MODULE --component-key button.bookingCTA \
+  --offline-pack --confirm-included-text --out NEW_OUTPUT_DIR
+```
+
 ## 1. 두 플러그인의 위치 확인
 
 | 어디에서 | 설치하거나 여는 것 | 역할 |

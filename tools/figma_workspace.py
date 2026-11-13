@@ -171,6 +171,9 @@ def trusted_sources():
         paths = []
         for directory, directories, files in os.walk(ROOT / folder):
             directories[:] = sorted(name for name in directories if name not in ignored)
+            if Path(directory) == ROOT / 'library' / 'figma-api':
+                # Release audit records describe other revisions and are never compiled into the host.
+                directories[:] = [name for name in directories if name != 'audit']
             paths.extend(Path(directory) / name for name in files)
         for path in sorted(paths):
             relative = str(path.relative_to(ROOT))

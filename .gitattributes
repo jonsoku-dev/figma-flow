@@ -2,3 +2,10 @@
 vendor/skills/impeccable/** -text -whitespace
 vendor/skills/design-taste-frontend/** -text -whitespace
 vendor/skills/unslop/** -text -whitespace
+library/figma-api/plugin-api.d.ts -text -whitespace
+library/figma-widget/*.d.ts -text -whitespace
+library/figma-api/upstream-package.json -text
+library/figma-widget/upstream-package.json -text
+library/figma-api/LICENSE -text
+library/figma-widget/LICENSE -text
+library/figma-rest/LICENSE -text
