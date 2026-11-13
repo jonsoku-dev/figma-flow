@@ -53,3 +53,29 @@ python3 tools/api_priority.py queue --inventory .figma-flow/design-inventory.jso
 ## 이전 제작 경로 정리
 
 FigJam·Slides의 생성기·레시피·사용법과 해당 전용 테스트를 제거했다. 기존 보드 2개와 덱 3개는 먼저 전체 로컬 사본을 보관했다. 이전 레시피의 원본 그래프 해시, 노드 마커 및 실제 슬라이드 ID 명단에 맞는 보드 객체 129개와 슬라이드 111개(행 37개)를 정리했다. 파일 자체와 백업, 고정된 과거 릴리스는 보존했다. 과거 릴리스의 API 실측은 역사적 누계를 재현할 수 있도록 그 버전에 연결한다.
+
+## 추가 네이티브 값 경로 실행
+
+공식 Plugin API 타입 목록에 고정한 데이터 경로를 사용한다. `prepare`는 이전 서비스 검사에서 나온 영수증과 제외할 성공 영수증을 읽고, 새 private plugin bundle을 만든다. `.figma-flow/` 안의 새 출력 디렉터리를 사용한다.
+
+```sh
+python3 tools/native_value_paths.py prepare \
+  --file-key FILE_KEY --page-id PAGE_ID --plugin-id FIGMA_ISSUED_ID \
+  --service-receipt .figma-flow/service-real.json \
+  --exclude-receipt .figma-flow/native-api-probe-readback.json \
+  --out .figma-flow/native-value-paths
+```
+
+`manifest.json`을 Design 개발 플러그인으로 등록하고 준비한 파일과 페이지에서 실행한다. 플러그인은 새로 만든 표본 노드만 변경하고, 고정된 타입 경로로 표본의 네이티브 getter 응답을 다시 읽는다. 영수증은 필드별 읽기 성공 수, union 분기, 고정된 숫자·enum·색·geometry 요약을 저장한다. 텍스트·URL·노드·페이지·변수 ID, 이미지 바이트는 저장하지 않는다.
+
+영수증을 검토 그래프로 정규화할 때마다 새 출력 파일을 고른다. 기본 우선순위 그래프는 exact API member 키로 근거를 합치므로, 이전 실행의 성공을 새 증거에서 제거하지 않는다.
+
+```sh
+python3 tools/native_value_paths.py normalize \
+  --receipt .figma-flow/native-value-paths-receipt.json \
+  --plan .figma-flow/native-value-paths/plan.json \
+  --out .figma-flow/native-value-paths-observations.json
+python3 tools/api_priority.py build \
+  --overlay .figma-flow/native-value-paths-observations.json \
+  --out .figma-flow/api-priority-with-values.json
+```
