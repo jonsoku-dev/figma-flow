@@ -1,5 +1,14 @@
 # 변경 기록
 
+## 0.32.0 · 2026-11-14
+
+- Design 전용 플러그인 ZIP과 SHA-256 파일을 [0.32.0 배포 페이지](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.32.0)에서 제공합니다.
+- Figma Flow의 작성 경로를 Figma Design/default로 좁혔습니다. FigJam·Slides용 레시피와 독립 SDK 생성 경로를 제거했습니다. Widget SDK scaffold도 Design 파일에만 등록합니다.
+- 웹 캡처에서 CSSOM이 생략한 래디얼 기본 중심을 복원하고, 선형·래디얼 마스크 교차, 제한된 필터 체인, 캔버스 PNG와 출처가 표시된 스크린샷 crop을 전달합니다. 지원하지 않는 합성은 limitation으로 남깁니다.
+- Design API 관측은 1,193개 미관측에서 368개의 새 unique member 근거를 더해 557/1,382개 관측, 825개 잔여를 기록합니다. typed value-path 검사에서 62개 정규화 field를 읽었으며 일부는 기존 member key와 겹칩니다.
+- workspace 업데이트는 stale task를 한 번에 재생하고 generation 하나를 발행합니다. 한 실제 79-task 실행은 기존 generation 1,138개를 보존했으며, 한 번의 15.12초 관측은 반복 성능 비교가 아닙니다.
+- 실제 Design cloud/playback·CSS effect·canvas 경계와 복구된 원본 보드·덱 수는 [0.32.0 Wiki](docs/llm-wiki/releases.md#v0.32.0)에서 실행 범위별로 구분합니다.
+
 ## 0.31.0 · 2026-11-14
 
 - 반응형 route·viewport graph와 signed screen-scope readback을 연결하고, 중단된 가져오기는 동일한 signed 계획의 읽기로만 복구합니다.

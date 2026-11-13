@@ -8,6 +8,49 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v0.32.0
+
+최종 제품 소스는 `86b182e0f579206a65586a8ca34db0131f4d0f3a`이며 두 manifest의 버전은 0.32.0이다. [GitHub 배포 페이지와 다운로드](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.32.0)에서 태그, 설치 ZIP, SHA-256을 확인한다.
+
+### Design 범위
+
+프로젝트 헌법, 에이전트 규칙, 활성 라우트와 SDK 생성기를 Figma Design/default에 맞춘다. 독립 FigJam·Slides 생성 레시피와 편집기 전용 테스트를 제거했다. Figma Widget 프로젝트는 Design 파일에서만 등록한다. 이전 릴리스의 API 선언과 역사 기록은 과거 근거로 유지한다.
+
+기존 테스트 소유 FigJam 보드 2개와 Slides 덱 3개는 정리 전에 각각 복구 자료로 저장했다. 실제 plugin-data 소유 marker와 기존 ID 명단을 기준으로 보드 객체 129개와 슬라이드 111개, 행 37개를 정리했다. 원본 파일, 백업, 고정된 과거 release는 보존했다. [정리 근거](../design-runtime-verification.md#이전-제작-경로-정리) · [제품 헌법](../../CONSTITUTION.md).
+
+### CSS masks, filters and canvas
+
+브라우저 CSSOM이 생략한 기본 중심을 복원해 래디얼 배경을 Figma paint로 전달한다. 선형·래디얼 alpha mask의 `intersect`는 중첩 네이티브 마스크로 가져온다. 단색 leaf에서 지원하는 색상 필터는 CSS 순서대로 계산한다. 지원하지 않는 mask operator와 이미지 필터는 limitation으로 남긴다.
+
+| 비교 영역 | 수정 전 중앙 최대 채널 차이 | 수정 후 |
+| --- | ---: | ---: |
+| 래디얼·선형 mask 교차 | 119 | 2 |
+| blur와 drop shadow | 167.5 | 2 |
+| 필터 없는 래디얼 원본 | 167 | 1.5 |
+| 단색 밝기·채도 | 0 | 0 |
+
+수치는 각 영역 6개 표본에서 RGB 채널별 최대 차이의 중앙값이다. 단색 면 중심에서 브라우저와 Figma가 모두 `#825e3a`를 반환했다. Magic UI SaaS의 800×800 canvas PNG를 읽어 네이티브 이미지 레이어로 옮겼다. 원본 출처가 다른 canvas는 사용자가 제공한 screenshot에서 측정된 crop만 쓴다. 정적인 캔버스 이미지는 animation frame을 보존하지 않는다. [실제 브라우저·Figma 측정](../design-runtime-verification.md#복합-마스크와-필터) · [canvas 입력과 crop 규칙](../web-design-capture.md).
+
+### Design API inspection
+
+Design API 우선순위 row는 Design 적용 범위를 별도로 분류한다. Design review graph의 조사 queue에는 Design 호환 row만 넣고, 고정된 공식 선언 인벤토리의 편집기별 row는 분모와 과거 기록을 위해 보존한다. 0.31 baseline에서 미관측이던 1,193개 중 368개의 새 unique member ID에 관측 근거를 더해 누적 557/1,382개를 확인했고 잔여는 825개다. 중복되는 API 키는 합계에서 제외한다.
+
+비공개 fixture 플러그인은 정확한 member ID와 소유한 receiver만 조사한다. 일반 사용자 페이지를 훑거나 원시 텍스트, 레이어 이름, path, 이미지 바이트를 내보내지 않는다. Service graph는 269개 항목을 시도해 241개 성공, 15개 값 미제공, 13개 런타임 오류를 기록했다. Scene graph는 265회 읽기 시도와 8회 복구된 write, 79개 successful member edge, 9개 deduplicated edge, 5개 attempt-only edge를 기록한다. 마지막 safe property receipt는 23회 성공, 2회 값 미제공을 기록한다.
+
+Native value graph는 exact getter를 통해 정규화한 62개 field를 기록한다. 62는 필드 관측 수이며 62개의 새 API member를 뜻하지 않는다. scene·service graph와 겹치는 member ID는 다시 고유 키로 세지 않는다. Function-valued property는 probe에서 호출하거나 직렬화하지 않는다. 현재 비식별 [scene evidence](../../specs/design-inspection/scene-observations.json), [service evidence](../../specs/design-inspection/service-observations.json), [typed value evidence](../../specs/design-inspection/value-observations.json)에서 원본 receipt의 해시·member edge를 확인한다. [API 우선순위 안내](../api-priority.md) · [native probe 안내](../native-api-probe.md) · [value-path 절차](../design-runtime-verification.md#추가-네이티브-값-경로-실행).
+
+### Native workspace update
+
+Startup에서 오래된 task generator를 찾으면 `HostAdapter.native`가 서명된 workspace snapshot, 소스 revision, task 입력, dependency pin을 확인한다. 오래된 row를 함께 준비하고 generation 하나를 게시한다. Batch 중 실패하면 현재 generation과 이전 task artifact를 유지한다. 실제 79 task 실행에서는 generation 1개를 만들고 이전 generation 1,138개를 보존했다. 15.12초는 이 단일 실행의 receipt 값이며 재현 가능한 성능 비교가 아니다. 개별 task replay API는 직접 task 준비를 위해 남아 있다. [workspace replay 변경](patches/456cb515719974311b0051ac86e7e3d764aa18d4.md).
+
+### Independent Design observations
+
+새 Design frame의 정확한 ID가 Cloud editor에 나타났지만 Desktop에는 미동기화 안내가 남았다. 이는 해당 frame이 브라우저 파일에 도달했다는 근거이며 Desktop 변경 전체가 동기화되었다는 뜻은 아니다. 공개 Figma 예제는 1920×1080, 18.033초로 재생했다. 16.378초, 17.681초, 반복 후 0.863초 표본에서 재생 위치가 진행했다. 무료 초안은 새 source video upload를 거절했으므로 이 영수증은 공개 예제 재생만 다룬다. [Design 런타임 기록](../design-runtime-verification.md#클라우드와-프로토타입).
+
+이 source
+
+최종 소스에서 원본 선택 자료를 연결한 전체 로컬 Python 1,254개, Node 348개, finalize 75개, 디자인 18개, 데모 2개가 통과했다. 건너뜀과 실패는 0건이었다. 복합 CSS 마스크의 개선 전 실패와 후속 성공은 별도 커밋에 보존한 동일 검사로 재실행했다.
+
 ## v0.31.0
 
 0.31.0의 최종 제품 소스는 `d44a2a6f2eb4051dc8dceb4f1db1bc1f8336462a`이다. 54개 화면의 근거 그래프는 `f6af842f0420301ee533ac0994f3f9b0fbe21109`에서 등록했다. 배포 ZIP과 SHA-256은 [GitHub 릴리스](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.31.0)에서 확인한다.
