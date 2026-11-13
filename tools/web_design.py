@@ -303,6 +303,7 @@ def validate_graph(graph, require_embedded=False):
                     'fontSize',
                     'fontWeight',
                     'lineHeight',
+                    'letterSpacing',
                     'textAlign',
                     'textAlignHorizontal',
                     'color',
@@ -312,7 +313,7 @@ def validate_graph(graph, require_embedded=False):
                     raise ValueError('Unsupported observed text fields')
                 if e.get('kind') == 'text' and not isinstance(text.get('characters'), str):
                     raise ValueError('Text characters required')
-                for key in ('fontSize', 'fontWeight', 'lineHeight'):
+                for key in ('fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'):
                     if key in text and (
                         type(text[key]) not in (int, float)
                         and not (key == 'fontWeight' and isinstance(text[key], str) and text[key].isdigit())

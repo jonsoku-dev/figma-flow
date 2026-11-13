@@ -8345,7 +8345,7 @@
     },
     {
       "path": "figma-bridge/native_edit.js",
-      "sha256": "18e6380596697335e2f5a57eb69d4369447d6f6a01fecce303d3f484b7cec146"
+      "sha256": "f73eeeed9f8dd574574023484341fc562a7cbff1cb5f4fe109fe573bbd6e94ca"
     },
     {
       "path": "figma-bridge/native_graph_review.js",
@@ -8381,7 +8381,7 @@
     },
     {
       "path": "figma-bridge/web_design.js",
-      "sha256": "2256e710562490efd55a4e6473810ca652c623932840d105b7d8dbdff3dc8856"
+      "sha256": "7775d87c8e56e55b8f39a9642800ad62c3b06d81a46737daf0abfa57bafd665c"
     },
     {
       "path": "figma-bridge/workspace_chat.js",

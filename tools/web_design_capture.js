@@ -122,6 +122,8 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       lineHeight:numeric(style.lineHeight,numeric(style.fontSize,16)*1.2),
       textAlignHorizontal:({center:'center',right:'right',end:'right'})[style.textAlign]||'left',
       color:gradient?undefined:color(style.color)||'#000000'};
+    const measuredSpacing=/^(-?(?:\d+\.?\d*|\.\d+))px$/.exec(typeof style.letterSpacing==='string'?style.letterSpacing.trim():'');
+    if(measuredSpacing){const value=Number(measuredSpacing[1]);if(Number.isFinite(value))text.letterSpacing=value;}
     if(gradient)text.linearGradient=gradient;
     else if(clipped){
       const first=cssGradient;

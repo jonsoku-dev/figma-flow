@@ -135,6 +135,7 @@ function webValidate(plan) {
       if (element.kind === 'vector') webValidateSvgReferences(element.svg);
       if (element.kind === 'text' && typeof element.text?.characters !== 'string') throw Error('Text element needs observed characters');
       const text = element.text || {};
+      if (text.letterSpacing !== undefined && !Number.isFinite(text.letterSpacing)) throw Error('Text letter spacing must be finite pixels');
       if (text.paintApproximation !== undefined && (text.paintApproximation !== 'first-gradient-stop'
           || !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(text.color || ''))) throw Error('Text gradient approximation needs a visible literal color');
       if (text.linearGradient !== undefined) {
@@ -387,6 +388,7 @@ function webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, create
   node.characters = text.characters || '';
   if (Number.isFinite(text.fontSize) && text.fontSize > 0) node.fontSize = text.fontSize;
   if (Number.isFinite(text.lineHeight) && text.lineHeight > 0) node.lineHeight = { unit: 'PIXELS', value: text.lineHeight };
+  if (Number.isFinite(text.letterSpacing)) node.letterSpacing = { unit: 'PIXELS', value: text.letterSpacing };
   const align = { left: 'LEFT', center: 'CENTER', right: 'RIGHT', justified: 'JUSTIFIED' }[String(text.textAlign || text.textAlignHorizontal || 'left').toLowerCase()];
   if (align) node.textAlignHorizontal = align;
   if (element.kind === 'component') node.textAlignVertical = 'CENTER';
@@ -590,6 +592,18 @@ function webVerifyTextTypography(textNode, element, expectedFont) {
     if (lineHeight === figma.mixed || lineHeight.unit !== 'PIXELS'
         || Math.abs(lineHeight.value - expectedText.lineHeight) > 0.01) {
       throw Error(`Imported component text line height differs from the captured typography for ${element.id}`);
+    }
+  }
+  if (Number.isFinite(expectedText.letterSpacing)) {
+    if (typeof textNode.getRangeLetterSpacing !== 'function') {
+      throw Error(`Native text letter spacing cannot be read for ${element.id}`);
+    }
+    const letterSpacing = textNode.getRangeLetterSpacing(start, end);
+    if (letterSpacing === figma.mixed || !letterSpacing || typeof letterSpacing !== 'object'
+        || letterSpacing.unit !== 'PIXELS' || typeof letterSpacing.value !== 'number'
+        || !Number.isFinite(letterSpacing.value)
+        || Math.abs(letterSpacing.value - expectedText.letterSpacing) > 0.01) {
+      throw Error(`Imported text letter spacing differs from the captured typography for ${element.id}`);
     }
   }
   const color = expectedText.color || element.paint?.color;
@@ -850,6 +864,24 @@ async function webBounded(promise, timeoutMs, message) {
   }
 }
 
+function webPreviewNeedsWarmup(screen, receiptScreen, videos) {
+  return !receiptScreen.reused && screen.elements.some(element => element.kind === 'image'
+    || (element.kind === 'video' && videos[element.asset.sha256]?.mode === 'fallback'));
+}
+
+async function webExportPreview(frame, scale, warmup) {
+  const options = { format: 'PNG', constraint: { type: 'SCALE', value: scale } };
+  const deadline = Date.now() + 45_000;
+  const render = () => {
+    const remaining = deadline - Date.now();
+    const message = 'Figma did not finish the requested screen preview export';
+    if (remaining <= 0) throw Error(message);
+    return webBounded(frame.exportAsync(options), remaining, message);
+  };
+  if (warmup) await render();
+  return render();
+}
+
 async function webResolveImages(figma, plan, screens) {
   const imageHashes = new Set(screens.flatMap(screen => screen.elements.flatMap(element =>
     element.kind === 'image' ? [element.asset.sha256]
@@ -1052,8 +1084,8 @@ async function webApply(figma, plan) {
         const requestedWidth = plan.web_design.preview_width;
         const maxPixels = 5_000_000;
         const scale = Math.min(requestedWidth / frame.width, Math.sqrt(maxPixels / (frame.width * frame.height)));
-        const bytes = await webBounded(frame.exportAsync({ format: 'PNG', constraint: { type: 'SCALE', value: scale } }),
-          45_000, 'Figma did not finish the requested screen preview export');
+        const sourceScreen = plan.web_design.screens.find(item => item.id === screen.screen_id);
+        const bytes = await webExportPreview(frame, scale, webPreviewNeedsWarmup(sourceScreen, screen, videos));
         totalPreviewBytes += bytes.length;
         if (bytes.length > 8_000_000 || totalPreviewBytes > 8_000_000) throw Error(`Previews exceed the private 8 MB total limit at ${screen.screen_id}`);
         screen.preview = {

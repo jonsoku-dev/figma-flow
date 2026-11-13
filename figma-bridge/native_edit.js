@@ -93,12 +93,29 @@ async function nativeEditDiscovery(figma,plan) {
       if (!requested.has(screenKey)) continue;
       for (const node of [root, ...root.findAll(() => true)]) {
         const fills = Array.isArray(node.fills) ? node.fills : [];
+        let elementId = node.getPluginData(WEB_ELEMENT_ID) || null;
+        if (!elementId && node.type === 'TEXT' && ['COMPONENT', 'INSTANCE'].includes(node.parent?.type)) {
+          elementId = node.parent.getPluginData(WEB_ELEMENT_ID) || null;
+        }
+        let letterSpacing;
+        if (node.type === 'TEXT' && node.characters.length) {
+          try {
+            const measured = node.getRangeLetterSpacing(0, node.characters.length);
+            if (measured === figma.mixed) letterSpacing = { unit: 'MIXED' };
+            else if (measured && ['PIXELS', 'PERCENT'].includes(measured.unit) && Number.isFinite(measured.value)) {
+              letterSpacing = { unit: measured.unit, value: measured.value };
+            }
+          } catch (_) {
+            // A failed getter supplies no observation; other layers can still be read.
+          }
+        }
         nodes.push({
           id: node.id, parentId: node.parent.id, screenKey, type: node.type,
-          elementId: node.getPluginData(WEB_ELEMENT_ID), width: node.width, height: node.height,
+          elementId, width: node.width, height: node.height,
           fillTypes: fills.map(fill => fill.type),
           effectTypes: (node.effects || []).map(effect => effect.type),
           isMask: node.isMask === true,
+          ...(letterSpacing ? { letterSpacing } : {}),
         });
       }
     }
