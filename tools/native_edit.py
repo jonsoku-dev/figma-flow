@@ -198,6 +198,11 @@ def prepare(plan_path, out, plugin_id=None):
     if 'web_design' in runtime_plan:
         runtime_plan['web_design'].pop('source_graph_path', None)
     data = dict(file_key=plan['file_key'], page_id=plan['page_id'], allowed_page_ids=[plan['page_id']])
+    if plan.get('web_design', {}).get('readback_scope') == 'screens':
+        data['web_screen_receipt'] = {
+            'graph_sha256': plan['web_design']['graph_sha256'],
+            'screen_ids': [screen['id'] for screen in plan['web_design']['screens']],
+        }
     if 'graph_review' in plan or 'web_design' in plan:
         rows = []
     elif 'provision' in plan:

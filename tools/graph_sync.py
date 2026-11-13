@@ -1027,6 +1027,8 @@ def graph_panel(mode, scope, plan=None, session=None):
     config = {'mode': mode, 'session': session or secrets.token_urlsafe(24), 'file_key': scope['file_key'], 'page_id': scope['page_id'],
               'plugin_version': read(Path(__file__).resolve().parents[1] / 'plugin.json')['version'],
               'pages': scope.get('allowed_page_ids', [scope['page_id']])}
+    if 'web_screen_receipt' in scope:
+        config['web_screen_receipt'] = scope['web_screen_receipt']
     if plan is not None:
         mains = sorted({key for component in plan['components'] for key in component['main_keys']})
         instances = sorted({key for component in plan['components'] for key in component['instance_keys']})

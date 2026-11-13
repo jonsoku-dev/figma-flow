@@ -116,7 +116,15 @@ async function controlExecute(task, cmd, beforeDispatch) {
       if (!session) throw Error('Missing prepared native edit session.');
       const messages = await invoke({type:operation,session});
       const data = messages.find(m => m.session === session && m.operation === operation && m.readback)?.readback;
-      if (!data || data.schema !== 'figma-flow-graph-native-discovery-v1' ||
+      const expected = model.web_screen_receipt;
+      const screens = data?.web_design?.screens;
+      const valid = expected
+        ? data?.schema === 'figma-flow-web-screen-discovery-v1' && data.readback_scope === 'screens'
+          && data.graph_sha256 === expected.graph_sha256 && data.web_design?.graph_sha256 === expected.graph_sha256
+          && Array.isArray(data.nodes) && Array.isArray(screens) && screens.length === expected.screen_ids.length
+          && screens.every((screen, i) => screen.screen_id === expected.screen_ids[i])
+        : data?.schema === 'figma-flow-graph-native-discovery-v1';
+      if (!valid ||
           data.fileKey !== cmd.file_key || data.pageId !== cmd.page_id || data.native_edit?.operation !== operation ||
           data.native_edit?.applied !== (operation === 'apply'))
         throw Object.assign(Error('Native edit did not return the expected actual getter.'), {nativeReadback:data});
