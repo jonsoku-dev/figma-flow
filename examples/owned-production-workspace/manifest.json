@@ -58,7 +58,7 @@
       "license": "MIT",
       "media_type": "application/json",
       "serve": true,
-      "sha256": "4750c8b019b1b48ba424d1af356287f77d2e92b389bf43142df60767bc58fe9c"
+      "sha256": "05141b36bcd985acc3b7124566302af95225a6d6069e2fe7edb14ce552d44813"
     },
     {
       "path": "index.html",
@@ -94,7 +94,7 @@
       "license": "MIT",
       "media_type": "text/javascript; charset=utf-8",
       "serve": true,
-      "sha256": "88bf76d9fe6711ff83d147a26f509794676d66c1f38816665a7402bbdb89ad2f"
+      "sha256": "d24cfd7d4460ecdcd7eacddf94498e8d194a0557dbde44822d55ac9911e09066"
     },
     {
       "path": "media/evidence-token-swatches.svg",
@@ -154,7 +154,7 @@
       "license": "MIT",
       "media_type": "text/markdown; charset=utf-8",
       "serve": false,
-      "sha256": "d4e6324ae2aae292957dacb83f8954d000440e52c95ab719e910bb4c4d109c8b"
+      "sha256": "d2202525aa6978eadd134fd2554532ce5b67b1fcfc25573c0e6c56ab56f10a02"
     }
   ],
   "private_generated_outputs": [

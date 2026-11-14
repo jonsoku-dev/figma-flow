@@ -32,17 +32,24 @@ function indexGraph(graph) {
   for (const screen of screens) {
     for (const state of outgoing(screen.id, 'has state')) screenOfState.set(state.id, screen);
   }
-  const componentKeys = new Set(graph.nodes.filter(node => node.type === 'component').map(node => node.component_key));
+  const components = new Map(graph.nodes.filter(node => node.type === 'component').map(node => [node.component_key, node]));
+  const actionFor = (state, control, outcome) => {
+    const actions = outgoing(state.id, 'accepts input')
+      .filter(action => action.control === control && (action.outcome === undefined || action.outcome === outcome));
+    return actions.length === 1 ? actions[0] : null;
+  };
   return {
     screens,
     screenOfState,
-    statesOf: screen => outgoing(screen.id, 'has state'),
+    statesOf: owner => outgoing(owner.id, 'has state'),
+    initialOf: owner => outgoing(owner.id, 'has state').find(state => state.initial),
+    actionFor,
     follow(state, control, outcome) {
-      const actions = outgoing(state.id, 'accepts input')
-        .filter(action => action.control === control && (action.outcome === undefined || action.outcome === outcome));
-      return actions.length === 1 ? outgoing(actions[0].id, 'navigates to')[0] : null;
+      const action = actionFor(state, control, outcome);
+      return action ? outgoing(action.id, 'navigates to')[0] : null;
     },
-    component: key => (componentKeys.has(key) ? key : null),
+    component: key => (components.has(key) ? key : null),
+    componentNode: key => components.get(key),
   };
 }
 
@@ -149,10 +156,6 @@ async function mount() {
   let fromAction = false;
   let pendingFocus = null;
 
-  function initialOf(screen) {
-    return g.statesOf(screen).find(state => state.initial);
-  }
-
   function hrefFor(state, packageKey) {
     const screen = g.screenOfState.get(state.id);
     const path = state.initial ? `#/${screen.route}` : `#/${screen.route}/${state.route}`;
@@ -164,10 +167,18 @@ async function mount() {
     const screen = match && g.screens.find(candidate => candidate.route === match[1]);
     const state = screen && (match[2]
       ? g.statesOf(screen).find(candidate => candidate.route === match[2] && !candidate.initial)
-      : initialOf(screen));
+      : g.initialOf(screen));
     if (!state) return null;
     const packageKey = packageOf.has(match[3]) ? match[3] : data.default_package;
     return { screen, state, packageKey };
+  }
+
+  const disclosure = g.componentNode('gate-disclosure');
+  const evidenceRail = g.componentNode('evidence-card');
+
+  function freshInteractions() {
+    const railState = g.initialOf(evidenceRail);
+    return { gateState: g.initialOf(disclosure), openGate: null, railState, railIndex: railState.initial_position };
   }
 
   function freshModel(state, packageKey) {
@@ -176,7 +187,7 @@ async function mount() {
       packageKey,
       filter: { query: fixture.query || '', status: fixture.status || '' },
       decision: { choice: fixture.decision || '', note: fixture.note || '' },
-      openGate: null,
+      ...freshInteractions(),
     };
   }
 
@@ -304,7 +315,7 @@ async function mount() {
       const openReview = pkg => {
         model.packageKey = pkg.key;
         model.decision = { choice: '', note: '' };
-        model.openGate = null;
+        Object.assign(model, freshInteractions());
         const target = g.follow(state, 'open-review');
         if (target) go(target, 'screen-title');
       };
@@ -383,7 +394,11 @@ async function mount() {
               className: 'disclosure-trigger', type: 'button', id: triggerId, 'data-slot': 'accordion-trigger',
               'aria-expanded': String(open), 'aria-controls': panelId, 'data-state': open ? 'open' : 'closed',
               onclick() {
-                model.openGate = open ? null : gate.key;
+                const relation = open ? 'open' : (model.openGate === null ? 'closed' : 'other');
+                const target = g.follow(model.gateState, 'toggle-gate', relation);
+                if (!target) return;
+                model.gateState = target;
+                model.openGate = target.open_item === 'activated' ? gate.key : null;
                 fromAction = true;
                 pendingFocus = triggerId;
                 render();
@@ -419,16 +434,31 @@ async function mount() {
           textContent: fill(copy.evidence_position, { index: index + 1, count: data.evidence.length }),
         }),
       ])));
-    const step = direction => () => {
-      const card = rail.firstElementChild;
-      rail.scrollBy({ left: direction * (card ? card.getBoundingClientRect().width + 12 : rail.clientWidth), behavior: 'smooth' });
+    const cardOffset = index => rail.children[index].offsetLeft - rail.firstElementChild.offsetLeft;
+    const nearestCard = () => {
+      const offsets = Array.from(rail.children, (_, index) => Math.abs(cardOffset(index) - rail.scrollLeft));
+      return offsets.indexOf(Math.min(...offsets));
     };
+    const clampCard = index => Math.max(0, Math.min(rail.children.length - 1, index));
+    const step = outcome => () => {
+      const action = g.actionFor(model.railState, 'rail-step', outcome);
+      if (!action || model.railState.bounds !== 'clamp') return;
+      model.railState = g.follow(model.railState, 'rail-step', outcome);
+      model.railIndex = clampCard(nearestCard() + action.step);
+      rail.scrollTo({ left: cardOffset(model.railIndex), behavior: 'smooth' });
+    };
+    afterMount.push(() => {
+      rail.scrollLeft = cardOffset(clampCard(model.railIndex));
+      rail.addEventListener('scroll', () => {
+        model.railIndex = nearestCard();
+      });
+    });
     const evidence = el('section', { className: 'card', 'aria-labelledby': 'evidence-title' }, [
       el('div', { className: 'card-head' }, [
         el('h3', { className: 'card-title', id: 'evidence-title', textContent: copy.evidence_heading }),
         el('div', { className: 'rail-controls' }, [
-          el('button', { className: 'button button-compact', type: 'button', 'aria-controls': 'evidence-rail', textContent: copy.evidence_previous, onclick: step(-1) }),
-          el('button', { className: 'button button-compact', type: 'button', 'aria-controls': 'evidence-rail', textContent: copy.evidence_next, onclick: step(1) }),
+          el('button', { className: 'button button-compact', type: 'button', 'aria-controls': 'evidence-rail', textContent: copy.evidence_previous, onclick: step('previous') }),
+          el('button', { className: 'button button-compact', type: 'button', 'aria-controls': 'evidence-rail', textContent: copy.evidence_next, onclick: step('next') }),
         ]),
       ]),
       rail,
@@ -507,7 +537,7 @@ async function mount() {
   function render() {
     const route = resolveRoute();
     if (!route) {
-      history.replaceState(null, '', hrefFor(initialOf(queueScreen), data.default_package));
+      history.replaceState(null, '', hrefFor(g.initialOf(queueScreen), data.default_package));
       fromAction = false;
       return render();
     }
@@ -518,7 +548,7 @@ async function mount() {
     afterMount = [];
 
     const content = screen.layout === 'queue' ? renderQueue(state) : renderReview(state);
-    const reviewHref = hrefFor(initialOf(reviewScreen), model.packageKey);
+    const reviewHref = hrefFor(g.initialOf(reviewScreen), model.packageKey);
     const main = el('main', {
       id: 'workspace-main', className: 'screen', tabindex: '-1',
       'data-screen-route': screen.route, 'data-state-route': state.route, 'data-state-kind': state.kind,
@@ -539,7 +569,7 @@ async function mount() {
           el('p', { className: 'app-summary', textContent: copy.app_summary }),
         ]),
         el('nav', { className: 'app-nav', 'aria-label': copy.nav_label }, [el('ul', {}, [
-          el('li', {}, [el('a', { href: hrefFor(initialOf(queueScreen)), 'aria-current': screen === queueScreen ? 'page' : null, textContent: copy.nav_queue })]),
+          el('li', {}, [el('a', { href: hrefFor(g.initialOf(queueScreen)), 'aria-current': screen === queueScreen ? 'page' : null, textContent: copy.nav_queue })]),
           el('li', {}, [el('a', { href: reviewHref, 'aria-current': screen === reviewScreen ? 'page' : null, textContent: copy.nav_review })]),
         ])]),
       ]),

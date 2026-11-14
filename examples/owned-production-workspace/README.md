@@ -36,7 +36,14 @@ Each state renders directly from its route, so a reviewer can open any state wit
 | `#/review/invalid?package=pkg-field-input` | Decision form with linked field errors |
 | `#/review/recorded?package=pkg-field-input` | Decision recorded and form locked |
 
-The renderer follows a transition only when the graph declares an action for it. The disclosure open state and the rail scroll position are local UI state and do not appear in the graph. The graph declares desktop (1440x900) and mobile (390x844) layouts.
+The renderer follows a transition only when the graph declares an action for it. The graph declares desktop (1440x900) and mobile (390x844) layouts.
+
+The gate disclosure and the evidence rail use the same rule. Each component owns `planned` state and action nodes in the graph, and the renderer runs them through the same `follow` lookup as the screens:
+
+- The disclosure starts with all gates closed. Its open, close, and switch actions take the activated gate's relation (`closed`, `open`, or `other`) as the outcome.
+- The rail starts at the card that `initial_position` names. Its next and previous actions move by their `step` from the card nearest the scroll position and stop at either end (`bounds: clamp`).
+
+Only the current open gate and rail state live in page memory. Removing an action makes its input do nothing, and changing a step or initial position changes the behaviour. These are planned contracts, not observed transitions. Native scrolling of the rail is browser behaviour.
 
 ## Verification
 
@@ -45,10 +52,11 @@ Run from the repository root:
 ```bash
 python3 -B tools/owned_production_workspace.py verify
 python3 -B -m unittest tests.test_owned_production_workspace
+python3 -B -m unittest tests.test_owned_production_workspace_interactions
 python3 -B -m unittest discover -s tests -p 'test_web_design.py'
 ```
 
-`verify` rejects an undeclared file, a symlink, a path that escapes the fixture, a digest mismatch, an external URL, an email address, a personal home path, a credential marker, a Figma file link, and a graph `source` outside the manifest. The unit tests apply each rejection to a temporary copy. They also exercise the serve boundary and project the graph through `tools/review_graph.py`.
+`verify` rejects an undeclared file, a symlink, a path that escapes the fixture, a digest mismatch, an external URL, an email address, a personal home path, a credential marker, a Figma file link, and a graph `source` outside the manifest. The unit tests apply each rejection to a temporary copy. They also exercise the serve boundary and project the graph through `tools/review_graph.py`. The interaction test serves edited graph copies and clicks the disclosure and rail in headless Chromium. It skips when Node or Chromium is missing.
 
 The graph keeps requirement, screen, state, action, component, and acceptance nodes `unverified` until a live browser and Design check records them. Strict-local validation reports only those pending statuses. Automated checks do not replace the rights review.
 
