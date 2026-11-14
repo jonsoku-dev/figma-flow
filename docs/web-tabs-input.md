@@ -36,7 +36,7 @@ The input is a UTF-8 JSON object with `schemaVersion: 1`, `source`, `tabs`, `sta
 }
 ```
 
-Each state needs a distinct screen and a distinct panel content hash. The panel text, not a CSS class, identifies the state. Each transition is one observed click from one state to a different state. `controlElementId` is the captured `frame` element in the source screen whose box matches the clicked tab. Element IDs can differ between screens, so the recorder resolves the ID separately in each source screen.
+Each state needs a distinct screen and a distinct panel content hash. The panel text, not a CSS class, identifies the state. Each transition is one observed click from one state to a different state. `controlElementId` is the captured `frame` element in the source screen whose box matches the clicked tab. Element IDs can differ between screens, so the recorder resolves the ID separately in each source screen. A state takes the label of the tab clicked to reach it. The page's initial state keeps the label `Initial state` until a click returns to it. Repeating an already observed click, as in A→B→A→B, is listed once in `transitions` and every click stays in `inputs.json`.
 
 ## Checks
 

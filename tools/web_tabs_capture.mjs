@@ -15,12 +15,16 @@ The direct children of --tabs are the tab controls. The visible text of --panel 
 Writes screenshots, measured WEB screens, click receipts and tabs-graph.json. Requires Chromium, Node and Python on PATH.`;
 
 // Evaluated in the page. Labels come from the first heading or first text line of each control.
-function readTabs(tabsSelector, panelSelector) {
+// `probe` scrolls the list into view or hit-tests a point against the same visible controls that were read.
+function readTabs(tabsSelector, panelSelector, probe) {
   const visible = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
   const lists = Array.from(document.querySelectorAll(tabsSelector)).filter(visible);
   const panels = Array.from(document.querySelectorAll(panelSelector)).filter(visible);
   if (lists.length !== 1 || panels.length !== 1) return null;
-  const tabs = Array.from(lists[0].children).filter(visible).map(el => {
+  const controls = Array.from(lists[0].children).filter(visible);
+  if (probe === 'scroll') { lists[0].scrollIntoView({ block: 'center', behavior: 'instant' }); return true; }
+  if (probe) { const p = document.elementFromPoint(probe.x, probe.y); return !!p && controls.findIndex(c => c.contains(p)) === probe.index; }
+  const tabs = controls.map(el => {
     const { x, y, width, height } = el.getBoundingClientRect();
     return { label: (el.querySelector('h1,h2,h3,h4,h5,h6')?.innerText || el.innerText || '').trim().split('\n')[0],
       rect: { x, y, width, height } };
@@ -34,10 +38,10 @@ async function capture(options, out, width, height) {
     await command('Page.enable');
     await command('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
     await command('Page.navigate', { url: options.url });
-    const read = () => evaluate('(' + readTabs.toString() + ')(' + JSON.stringify(options.tabs) + ',' + JSON.stringify(options.panel) + ')');
+    const read = probe => evaluate('(' + readTabs.toString() + ')(' + JSON.stringify(options.tabs) + ',' + JSON.stringify(options.panel) + ',' + JSON.stringify(probe ?? null) + ')');
     await until(read, Date.now() + 20000, 'No unique visible --tabs list and --panel region');
     await evaluate('document.fonts.ready.then(() => true)');
-    await evaluate('document.querySelector(' + JSON.stringify(options.tabs) + ').scrollIntoView({block:"center",behavior:"instant"}), true');
+    await read('scroll');
     // Entrance effects start when the section scrolls into view. Infinite loops never finish and are tolerated.
     await until(() => evaluate('document.getAnimations().every(a => a.playState !== "running" || a.effect?.getComputedTiming().iterations === Infinity)'),
       Date.now() + 15000, 'Finite page animations did not finish');
@@ -87,8 +91,7 @@ async function capture(options, out, width, height) {
       if (before.scrollY !== first.scrollY) throw Error('Page scrolled between clicks; rerun with a fixed layout');
       const tab = before.tabs.find(item => item.label === label);
       const x = tab.rect.x + tab.rect.width / 2, y = tab.rect.y + tab.rect.height / 2;
-      const hit = await evaluate('(() => {const p=document.elementFromPoint(' + x + ',' + y + ');const list=document.querySelector(' + JSON.stringify(options.tabs) + ');'
-        + 'return !!p && Array.from(list.children).findIndex(c => c.contains(p)) === ' + labels.indexOf(label) + ';})()');
+      const hit = await read({ x, y, index: before.tabs.indexOf(tab) });
       if (!hit) throw Error('The center of tab ' + JSON.stringify(label) + ' is covered by another element');
       const controls = screens.get(current.id).elements.filter(element => element.kind === 'frame'
         && ['x', 'y', 'width', 'height'].every(key => Math.abs(element.box[key] - tab.rect[key]) <= 1));
@@ -101,7 +104,9 @@ async function capture(options, out, width, height) {
       const evidence = await screenshot('click-' + (index + 1) + '.png');
       const target = states.find(state => state.contentSha256 === digest(after.content)) || await record(after);
       target.label = label;
-      transitions.push({ from: current.id, to: target.id, input: 'click', controlElementId: controls[0].id, observed: true, evidence });
+      // Repeating an observed click (A→B→A→B) confirms the same edge; the graph keeps it once.
+      if (!transitions.some(edge => edge.from === current.id && edge.to === target.id && edge.controlElementId === controls[0].id))
+        transitions.push({ from: current.id, to: target.id, input: 'click', controlElementId: controls[0].id, observed: true, evidence });
       trace.push({ click: label, point: { x, y }, hitTest: hit, from: current.id, to: target.id,
         returnedToRecordedState: target.capture.sha256 === evidence.sha256, evidence });
       current = target;
