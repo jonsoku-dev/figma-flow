@@ -10,22 +10,22 @@
 
 ## 현재 경로와 확장 위치
 
-- `tools/figma_control.py`의 `record_phase`, `journal_history`, `history`, `conflict_detail`가 canonical phase와 충돌 정보를 갖는다. `history`는 exact file/page/runtime을 요구하며 최근 80개를 반환한다.
+- `tools/figma_control.py`의 `record_phase`, `journal_history`, `history`, `conflict_detail`가 canonical phase와 충돌 정보를 갖는다. `history`는 exact file/page/runtime을 요구하며 최근 80개를 반환하고, `tools/operation_detail.py`가 exact-scope 상세 읽기 projection(`history_detail`)을 담당한다.
 - `tools/figma_workspace.py`의 `normalize_task_dependencies`, `dependency_history`, `task_artifacts`, `task_input_freshness`가 정확한 revision/digest를 처리한다.
 - `figma-bridge/workspace_host.js`의 `workspaceJournalHistory`와 `panel-ui/src/Workspace.jsx`의 History·dependency view가 이미 있다. 차트를 새로 만드는 것이 아니다.
 - `panel-ui/src/dependencyView.mjs`, `figma-bridge/audit_log.js`, `panel-ui/src/DiagnosticExport.jsx`의 관계·진단·redaction 처리를 재사용한다. 진단 로그를 phase 원장으로 승격하지 않는다.
 
 ## 데이터와 인터페이스 설계
 
-기존 `/control/history` 요청과 80개 요약을 호환 유지한다. 새 읽기 endpoint 제안은 `/control/history-detail`이며 요청은 현재 session/file/page/runtime과 `operation_id`를 모두 요구한다. 서버는 같은 scope의 canonical request가 존재하는지 확인한 뒤 아래 형태의 제한된 DTO를 만든다.
+기존 `/control/history` 요청과 80개 요약을 호환 유지한다. 읽기 전용 endpoint `/control/history-detail`은 현재 `session_id`, `file_key`, `page_id`, `runtime`, `operation_id`(32자 hex)와 선택한 행의 `task_key`, `revision`(64자 hex)을 모두 요구한다. 같은 `file_key`/`page_id`에 해당 요청이 없으면 `404`(`not-found-in-scope`), `runtime`이나 `(task_key, revision)` 또는 `operation_id` 형식이 어긋나면 `409`(`runtime-mismatch`, `task-revision-mismatch`, `invalid-operation-id`)로 거절한 뒤 아래 형태의 제한된 DTO를 만든다.
 
 ```json
-{"schema":"figma-flow-operation-detail-v1","operationId":"exact-id","task":{"key":"screen-a","revision":"sha256"},"classification":"recorded","phases":[],"relations":[{"type":"declared-dependency","taskKey":"tokens","revision":"sha256","artifactSha256":"sha256"}],"diff":{"status":"unavailable","reason":"before-artifact-missing","fields":[]}}
+{"schema":"figma-flow-operation-detail-v1","readOnly":true,"operationId":"exact-id","scope":{"fileKey":"file","pageId":"12:1","runtime":{"version":"0.9.0","implementation":"sha256","generation":"hex32"}},"task":{"key":"screen-a","revision":"sha256","currentRevision":"sha256","revisionBinding":"current"},"classification":"recorded","phase":"result-received","phases":[],"relations":[{"type":"declared-dependency","direction":"predecessor","taskKey":"tokens","revision":"sha256","revisionBinding":"current","artifact":"code.js","artifactSha256":"sha256"}],"diff":{"status":"unavailable","reason":"before-artifact-missing","basis":null,"truncated":false,"totalFields":0,"fields":[],"conflicts":[]},"truncated":false,"scopeNotice":null}
 ```
 
 관계 type은 `declared-dependency`, `recovery-of`, `artifact-input`만 허용한다. 관측된 canonical ID만 연결하고 UI execution ID와 control operation ID를 혼용하지 않는다. phase의 순서는 canonical 이벤트에서 읽는다. 시각적 시간 정렬은 원인 순서와 다를 수 있다.
 
-차이는 동일 semantic key의 허용된 design 필드만 `{key, field, before, after}`로 반환한다. 추가·삭제·타입 변경은 별도 kind다. before/after가 exact revision으로 보존되지 않았으면 `unavailable`이다. 최신 graph와 오래된 native readback을 섞지 않는다. 충돌 상세는 예상값·관측값·범위·원인을 구분하되 현재 readback 보존 계약 이상으로 raw 내용을 노출하지 않는다.
+차이는 두 개의 검증된 task revision artifact가 모두 존재할 때(`basis: "revision-pair"`) 동일 semantic key의 허용된 design 필드만 `{key, field, kind, before, after}`(`changed | added | removed | type-changed`)로 반환한다. `TEXT` 필드는 원문 없이 `{valueType: "text", changed, length}`만 반환한다. before/after가 exact revision으로 보존·검증되지 않았으면 `unavailable`이다. 최신 graph와 오래된 native readback을 섞지 않는다. 충돌 상세는 예상값·관측값·범위·원인을 구분하되 raw 텍스트·노드 ID·경로·토큰을 노출하지 않는다.
 
 상세 응답은 최대 256 KiB, diff는 최대 200행을 제안한다. 넘으면 `truncated: true`와 읽기 전용 범위 안내를 표시한다. 초기 버전은 전역 검색·무제한 pagination을 제외한다. 중첩 artifact 접근은 기존 private path·symlink·digest 검사를 통과해야 한다.
 
@@ -45,7 +45,7 @@ History 행의 **상세 보기**를 누르면 같은 패널의 상세 영역을 
 
 ## 작은 작업과 한 writer 경계
 
-1. `tools/figma_control.py`, 새 `tests/test_operation_detail.py` 소유자가 같은 scope 조회·차이 projection과 누출 방지 검사를 만든다.
+1. `tools/figma_control.py`, `tools/operation_detail.py`, 새 `tests/test_operation_detail.py` 소유자가 같은 scope 조회·차이 projection과 누출 방지 검사를 만든다.
 2. `figma-bridge/workspace_transport.js`, `figma-bridge/workspace_control.js`, `figma-bridge/workspace_host.js`, 새 `tests/nf03_history_detail.cjs` 소유자가 새 읽기 route와 오류 전달을 연결한다. 1번 API가 확정된 뒤 시작한다.
 3. `panel-ui/src/Workspace.jsx`, `panel-ui/src/styles/workspace.css`, `figma-bridge/locales/workspace.json` 소유자가 상세·뒤로가기·텍스트 관계와 접근성 상태를 구현한다.
 4. 통합 담당자가 새 artifact·legacy·scope 변경·잘린 diff를 실제 패널에서 검증하고 생성 패널 자산을 빌드한다.
