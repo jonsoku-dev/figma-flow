@@ -1,0 +1,25 @@
+name: Reference distribution guard
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.13'
+      - name: Run synthetic guard behavior tests
+        run: python -B -m unittest -v tests.test_reference_distribution_guard
+      - name: Verify pinned external skill dependencies
+        run: python -B tools/skill_dependencies.py --check
+      - name: Check tracked ref paths and ephemeral evidence (paths-only; no local reference lists)
+        run: python -B tools/reference_distribution_guard.py --ref HEAD --format text
+      - name: Check distribution archive packaging (paths-only; no local reference lists)
+        run: |
+          git archive --format=zip --prefix=figma-flow-plugin/ --output="$RUNNER_TEMP/dist-check.zip" HEAD
+          python -B tools/reference_distribution_guard.py --target-zip "$RUNNER_TEMP/dist-check.zip" --format text
