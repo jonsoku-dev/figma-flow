@@ -1,0 +1,42 @@
+{
+  "schema": "figma-flow-owned-example-manifest-v1",
+  "license": "MIT",
+  "example_id": "owned-component-families",
+  "ssot": "design.json",
+  "graph": "graph.json",
+  "sharing_scope": "public",
+  "layers": [
+    {
+      "id": "contract-policy",
+      "sharing_scope": "public-contract-only",
+      "owner": "docs/next-roadmap/NF-01-component-families.md",
+      "description": "NF-01 family IDs, declared property types (TEXT, BOOLEAN, INSTANCE_SWAP), and DOM semantic linkage rules."
+    },
+    {
+      "id": "owned-public-baseline",
+      "sharing_scope": "public",
+      "license": "MIT",
+      "files": [
+        "README.md",
+        "design.json",
+        "graph.json",
+        "manifest.json",
+        "index.html",
+        "styles.css",
+        "renderer.js",
+        "prepare.py"
+      ],
+      "description": "Zero-external-asset canonical NF-01 fixture, semantic HTML accessibility demo, and CLI plugin preparation wrapper."
+    },
+    {
+      "id": "private-runtime-acceptance",
+      "sharing_scope": "private-untracked",
+      "description": "Localhost browser verification transcripts, screenshots, and native plugin artifacts written under private evidence outside Git."
+    }
+  ],
+  "constraints": {
+    "external_requests": "forbidden",
+    "personal_paths_or_secrets": "forbidden",
+    "duplicate_design_literals": "forbidden"
+  }
+}

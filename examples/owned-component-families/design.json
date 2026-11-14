@@ -1,0 +1,429 @@
+{
+  "version": 1,
+  "tokens": {
+    "color": {
+      "ink": { "$type": "color", "$value": "#1f242b" },
+      "muted": { "$type": "color", "$value": "#59616b" },
+      "surface": { "$type": "color", "$value": "#ffffff" },
+      "subtle": { "$type": "color", "$value": "#f4f6f8" },
+      "border": { "$type": "color", "$value": "#c7cdd4" },
+      "accent": { "$type": "color", "$value": "#1849a5" },
+      "danger": { "$type": "color", "$value": "#b42318" }
+    },
+    "space": {
+      "xs": { "$type": "dimension", "$value": "4px" },
+      "sm": { "$type": "dimension", "$value": "8px" },
+      "md": { "$type": "dimension", "$value": "12px" }
+    },
+    "radius": {
+      "sm": { "$type": "dimension", "$value": "4px" }
+    },
+    "font": {
+      "body": { "$type": "fontFamily", "$value": "Arial" },
+      "size": { "$type": "dimension", "$value": "14px" }
+    }
+  },
+  "componentFamilies": [
+    {
+      "id": "input",
+      "version": 1,
+      "component": "input",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["default", "focus", "error", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "value",
+          "name": "Value",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Sample input"
+        }
+      ]
+    },
+    {
+      "id": "checkbox",
+      "version": 1,
+      "component": "checkbox",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["unchecked", "checked", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "optionLabel",
+          "name": "Label",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Agree to workshop guide"
+        }
+      ]
+    },
+    {
+      "id": "radio",
+      "version": 1,
+      "component": "radio",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["unselected", "selected", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "choiceLabel",
+          "name": "Label",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Morning session"
+        }
+      ]
+    },
+    {
+      "id": "field",
+      "version": 1,
+      "component": "field",
+      "layout": "VERTICAL",
+      "axes": {
+        "state": ["default", "error", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "TEXT",
+          "targetKey": "field-label",
+          "default_value": "Participant name"
+        },
+        {
+          "id": "helpText",
+          "name": "Help",
+          "type": "TEXT",
+          "targetKey": "field-help",
+          "default_value": "Use the name shown on booking confirmation."
+        },
+        {
+          "id": "showHelp",
+          "name": "Show help",
+          "type": "BOOLEAN",
+          "targetKey": "field-help",
+          "default_value": true
+        },
+        {
+          "id": "control",
+          "name": "Control",
+          "type": "INSTANCE_SWAP",
+          "targetKey": "field-control",
+          "allowedFamilyIds": ["input", "checkbox", "radio"],
+          "default_value": { "component": "input", "variant": "default" },
+          "preferred_values": [
+            { "component": "input", "variant": "default" },
+            { "component": "checkbox", "variant": "unchecked" },
+            { "component": "radio", "variant": "unselected" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "table-cell",
+      "version": 1,
+      "component": "table-cell",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["default", "header", "selected", "muted"]
+      },
+      "properties": [
+        {
+          "id": "cellText",
+          "name": "Cell text",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Sample cell"
+        }
+      ]
+    },
+    {
+      "id": "table-row",
+      "version": 1,
+      "component": "table-row",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["default", "selected"]
+      },
+      "properties": [
+        {
+          "id": "firstCell",
+          "name": "Cell",
+          "type": "INSTANCE_SWAP",
+          "targetKey": "cell-0",
+          "allowedFamilyIds": ["table-cell"],
+          "default_value": { "component": "table-cell", "variant": "default" }
+        },
+        {
+          "id": "secondCell",
+          "name": "Cell",
+          "type": "INSTANCE_SWAP",
+          "targetKey": "cell-1",
+          "allowedFamilyIds": ["table-cell"],
+          "default_value": { "component": "table-cell", "variant": "default" }
+        },
+        {
+          "id": "showSecondCell",
+          "name": "Show optional column",
+          "type": "BOOLEAN",
+          "targetKey": "cell-1",
+          "default_value": true
+        }
+      ]
+    }
+  ],
+  "components": {
+    "input": {
+      "usage": "Single-line form input visual states.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "padding": "space.sm", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" },
+        "focus": { "color": "color.ink", "background": "color.surface", "border-color": "color.accent", "padding": "space.sm", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" },
+        "error": { "color": "color.danger", "background": "color.surface", "border-color": "color.danger", "padding": "space.sm", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.subtle", "border-color": "color.border", "padding": "space.sm", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "checkbox": {
+      "usage": "Checkbox indicator and label row.",
+      "variants": {
+        "unchecked": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "checked": { "color": "color.accent", "background": "color.surface", "border-color": "color.accent", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.subtle", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "radio": {
+      "usage": "Radio indicator and label row.",
+      "variants": {
+        "unselected": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "selected": { "color": "color.accent", "background": "color.surface", "border-color": "color.accent", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.subtle", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "field": {
+      "usage": "Vertical form field composing label, swappable control, and help/error copy.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "padding": "space.sm", "gap": "space.xs", "font-family": "font.body", "font-size": "font.size" },
+        "error": { "color": "color.danger", "background": "color.surface", "padding": "space.sm", "gap": "space.xs", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.subtle", "padding": "space.sm", "gap": "space.xs", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "table-cell": {
+      "usage": "Reusable table cell carrying TEXT data.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "padding": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "header": { "color": "color.ink", "background": "color.subtle", "border-color": "color.border", "padding": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "selected": { "color": "color.accent", "background": "color.subtle", "border-color": "color.accent", "padding": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "muted": { "color": "color.muted", "background": "color.surface", "padding": "space.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "table-row": {
+      "usage": "Horizontal table row composing table-cell swap slots.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "gap": "space.sm", "padding": "space.xs", "font-family": "font.body", "font-size": "font.size" },
+        "selected": { "color": "color.accent", "background": "color.subtle", "border-color": "color.accent", "gap": "space.sm", "padding": "space.xs", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "action-button": {
+      "usage": "Preserved undeclared control proving non-family components remain untouched.",
+      "variants": {
+        "primary": { "color": "color.surface", "background": "color.accent", "border-color": "color.accent", "padding": "space.sm", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    }
+  },
+  "screens": [
+    {
+      "id": "booking-form",
+      "title": "Representative Form",
+      "trace": ["REQ-NF01-FORM"],
+      "elements": [
+        {
+          "id": "form-participant-field",
+          "kind": "component",
+          "component": "field",
+          "variant": "default",
+          "text": "Participant name",
+          "property_values": {
+            "label": "Participant name",
+            "helpText": "Required for check-in.",
+            "showHelp": true,
+            "control": { "component": "input", "variant": "default" }
+          },
+          "dom_source": {
+            "selector": "form.booking-form .field-participant",
+            "control_selector": "input#id_participant_name",
+            "tag": "input",
+            "input_type": "text",
+            "label_for": "id_participant_name",
+            "required": true,
+            "disabled": false
+          }
+        },
+        {
+          "id": "form-consent-field",
+          "kind": "component",
+          "component": "field",
+          "variant": "error",
+          "text": "Safety notice",
+          "property_values": {
+            "label": "Safety notice",
+            "helpText": "Please confirm.",
+            "showHelp": true,
+            "control": { "component": "checkbox", "variant": "checked" }
+          },
+          "dom_source": {
+            "selector": "form.booking-form .field-consent",
+            "control_selector": "input#id_safety_consent",
+            "tag": "input",
+            "input_type": "checkbox",
+            "label_for": "id_safety_consent",
+            "error_id": "error_safety_consent",
+            "required": true,
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "booking-options",
+      "title": "Booking Options and Submit",
+      "trace": ["REQ-NF01-FORM"],
+      "elements": [
+        {
+          "id": "form-note-field",
+          "kind": "component",
+          "component": "field",
+          "variant": "disabled",
+          "text": "Studio code",
+          "property_values": {
+            "label": "Studio code",
+            "helpText": "Auto-assigned.",
+            "showHelp": false,
+            "control": { "component": "input", "variant": "disabled" }
+          },
+          "dom_source": {
+            "selector": "form.booking-form .field-studio-code",
+            "control_selector": "input#id_studio_code",
+            "tag": "input",
+            "input_type": "text",
+            "label_for": "id_studio_code",
+            "required": false,
+            "disabled": true
+          }
+        },
+        {
+          "id": "radio-session-morning",
+          "kind": "component",
+          "component": "radio",
+          "variant": "selected",
+          "text": "Morning session",
+          "property_values": {
+            "choiceLabel": "Morning session"
+          },
+          "dom_source": {
+            "selector": "fieldset.session-group input#id_session_morning",
+            "control_selector": "input#id_session_morning",
+            "fieldset_legend": "Preferred session slot",
+            "tag": "input",
+            "input_type": "radio",
+            "label_for": "id_session_morning",
+            "disabled": false
+          }
+        },
+        {
+          "id": "radio-session-afternoon",
+          "kind": "component",
+          "component": "radio",
+          "variant": "unselected",
+          "text": "Afternoon session",
+          "property_values": {
+            "choiceLabel": "Afternoon session"
+          },
+          "dom_source": {
+            "selector": "fieldset.session-group input#id_session_afternoon",
+            "control_selector": "input#id_session_afternoon",
+            "fieldset_legend": "Preferred session slot",
+            "tag": "input",
+            "input_type": "radio",
+            "label_for": "id_session_afternoon",
+            "disabled": false
+          }
+        },
+        {
+          "id": "undeclared-review-action",
+          "kind": "component",
+          "component": "action-button",
+          "variant": "primary",
+          "text": "Review booking summary",
+          "dom_source": {
+            "selector": "form.booking-form button#review-booking-summary",
+            "tag": "button"
+          }
+        }
+      ]
+    },
+    {
+      "id": "roster-table",
+      "title": "Roster Table",
+      "trace": ["REQ-NF01-TABLE"],
+      "elements": [
+        {
+          "id": "roster-header-row",
+          "kind": "component",
+          "component": "table-row",
+          "variant": "default",
+          "text": "Participant / Check-in status",
+          "property_values": {
+            "firstCell": { "component": "table-cell", "variant": "header" },
+            "secondCell": { "component": "table-cell", "variant": "header" },
+            "showSecondCell": true
+          },
+          "dom_source": {
+            "selector": "table.data-table thead tr",
+            "tag": "tr",
+            "table_caption": "Session roster",
+            "th_scope": "col"
+          }
+        },
+        {
+          "id": "roster-row-1",
+          "kind": "component",
+          "component": "table-row",
+          "variant": "selected",
+          "text": "Mina Park / Confirmed",
+          "property_values": {
+            "firstCell": { "component": "table-cell", "variant": "default" },
+            "secondCell": { "component": "table-cell", "variant": "selected" },
+            "showSecondCell": true
+          },
+          "dom_source": {
+            "selector": "table.data-table tbody tr:nth-child(1)",
+            "tag": "tr",
+            "table_caption": "Session roster",
+            "th_scope": "row"
+          }
+        },
+        {
+          "id": "roster-row-2",
+          "kind": "component",
+          "component": "table-row",
+          "variant": "default",
+          "text": "Joon Kim / Waitlisted",
+          "property_values": {
+            "firstCell": { "component": "table-cell", "variant": "default" },
+            "secondCell": { "component": "table-cell", "variant": "muted" },
+            "showSecondCell": false
+          },
+          "dom_source": {
+            "selector": "table.data-table tbody tr:nth-child(2)",
+            "tag": "tr",
+            "table_caption": "Session roster",
+            "th_scope": "row"
+          }
+        }
+      ]
+    }
+  ]
+}

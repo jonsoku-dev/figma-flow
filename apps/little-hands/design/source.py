@@ -781,6 +781,20 @@ def build_family_design(root=ROOT, family_targets=None):
         },
     }
 
+    def dom_source_for(selector, ctrl, label_for, *, required=None):
+        ds = {
+            'selector': selector,
+            'control_selector': ctrl['selector'],
+            'tag': ctrl['tag'],
+            'label_for': label_for,
+            'disabled': bool(ctrl.get('disabled', False)),
+        }
+        if isinstance(ctrl.get('type'), str) and ctrl['type'].strip():
+            ds['input_type'] = ctrl['type']
+        if required is not None:
+            ds['required'] = bool(required)
+        return ds
+
     screens = [
         {
             'id': 'state-sessionavailable',
@@ -798,15 +812,7 @@ def build_family_design(root=ROOT, family_targets=None):
                         'showHelp': False,
                         'control': {'component': 'input', 'variant': 'default'},
                     },
-                    'dom_source': {
-                        'selector': '[data-native-key="field-quantity"]',
-                        'control_selector': qty_ctrl['selector'],
-                        'tag': qty_ctrl['tag'],
-                        'input_type': qty_ctrl.get('type'),
-                        'label_for': 'id_quantity',
-                        'required': True,
-                        'disabled': bool(qty_ctrl.get('disabled', False)),
-                    },
+                    'dom_source': dom_source_for('[data-native-key="field-quantity"]', qty_ctrl, 'id_quantity', required=True),
                 },
                 {
                     'id': has_target('littlehands.form.reserve.field.allow_waitlist'),
@@ -822,15 +828,7 @@ def build_family_design(root=ROOT, family_targets=None):
                             'variant': 'checked' if waitlist_ctrl.get('checked') else 'unchecked',
                         },
                     },
-                    'dom_source': {
-                        'selector': '[data-native-key="field-allow_waitlist"]',
-                        'control_selector': waitlist_ctrl['selector'],
-                        'tag': waitlist_ctrl['tag'],
-                        'input_type': waitlist_ctrl.get('type'),
-                        'label_for': 'id_allow_waitlist',
-                        'required': False,
-                        'disabled': bool(waitlist_ctrl.get('disabled', False)),
-                    },
+                    'dom_source': dom_source_for('[data-native-key="field-allow_waitlist"]', waitlist_ctrl, 'id_allow_waitlist', required=False),
                 },
             ],
         },
@@ -846,14 +844,7 @@ def build_family_design(root=ROOT, family_targets=None):
                     'variant': 'selected' if radio_ctrls[i].get('checked') else 'unselected',
                     'text': radio_labels[i],
                     'property_values': {'choiceLabel': radio_labels[i]},
-                    'dom_source': {
-                        'selector': radio_ctrls[i]['selector'],
-                        'control_selector': radio_ctrls[i]['selector'],
-                        'tag': radio_ctrls[i]['tag'],
-                        'input_type': radio_ctrls[i].get('type'),
-                        'label_for': f'id_target_session_id_{i}',
-                        'disabled': bool(radio_ctrls[i].get('disabled', False)),
-                    },
+                    'dom_source': dom_source_for(radio_ctrls[i]['selector'], radio_ctrls[i], f'id_target_session_id_{i}'),
                 }
                 for i in range(3)
             ],
@@ -874,14 +865,7 @@ def build_family_design(root=ROOT, family_targets=None):
                         'showHelp': False,
                         'control': {'component': 'input', 'variant': 'disabled' if course_ctrl.get('disabled') else 'default'},
                     },
-                    'dom_source': {
-                        'selector': '[data-native-key="field-course"]',
-                        'control_selector': course_ctrl['selector'],
-                        'tag': course_ctrl['tag'],
-                        'input_type': course_ctrl.get('type'),
-                        'label_for': 'id_course',
-                        'disabled': bool(course_ctrl.get('disabled', False)),
-                    },
+                    'dom_source': dom_source_for('[data-native-key="field-course"]', course_ctrl, 'id_course'),
                 },
                 {
                     'id': has_target('littlehands.form.session_edit.field.price_krw'),
@@ -895,14 +879,7 @@ def build_family_design(root=ROOT, family_targets=None):
                         'showHelp': True,
                         'control': {'component': 'input', 'variant': 'default'},
                     },
-                    'dom_source': {
-                        'selector': '[data-native-key="field-price_krw"]',
-                        'control_selector': price_ctrl['selector'],
-                        'tag': price_ctrl['tag'],
-                        'input_type': price_ctrl.get('type'),
-                        'label_for': 'id_price_krw',
-                        'disabled': bool(price_ctrl.get('disabled', False)),
-                    },
+                    'dom_source': dom_source_for('[data-native-key="field-price_krw"]', price_ctrl, 'id_price_krw'),
                 },
             ],
         },

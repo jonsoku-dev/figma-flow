@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "id": "owned-component-families",
+  "title": "Owned Component Families Baseline",
+  "design_source": "design.json",
+  "nodes": [
+    {
+      "id": "REF-NF01-CONTRACT",
+      "type": "reference",
+      "status": "verified",
+      "layer": "contract-policy",
+      "source": "../../docs/next-roadmap/NF-01-component-families.md",
+      "title": "NF-01 Component Families Contract",
+      "detail": "Defines the 6 canonical families (field, input, checkbox, radio, table-row, table-cell), declared TEXT/BOOLEAN/INSTANCE_SWAP properties, sibling preservation, and sample-only defaults."
+    },
+    {
+      "id": "REQ-NF01-FORM",
+      "type": "requirement",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "design.json#componentFamilies",
+      "title": "Canonical Form Family Mapping & Accessibility Correspondence",
+      "detail": "Field, input, checkbox, and radio families compose via INSTANCE_SWAP, preserve independent sibling overrides, leave undeclared action-button controls untouched, and map dom_source to real label-for/fieldset/keyboard controls."
+    },
+    {
+      "id": "REQ-NF01-TABLE",
+      "type": "requirement",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "design.json#componentFamilies",
+      "title": "TableRow Slot Composition & Semantic Table Semantics",
+      "detail": "table-row composes named table-cell INSTANCE_SWAP slots without combinatorial column variants and binds caption and th scope semantics in HTML."
+    },
+    {
+      "id": "SCR-FAMILIES-DEMO",
+      "type": "screen",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "design.json#screens[0]",
+      "screen_ref": "booking-form-and-roster",
+      "title": "Owned Component Families Accessibility & Canonical Demo",
+      "detail": "Interactive accessible HTML demo and plugin preparation source compiled directly from design.json."
+    },
+    {
+      "id": "AC-NF01-DEMO",
+      "type": "acceptance",
+      "status": "pending",
+      "layer": "private-runtime-acceptance",
+      "source": "manifest.json#private-runtime-acceptance",
+      "title": "Localhost Browser A11y & Native Compiler Verification",
+      "detail": "Verified via prepare.py / design_system.py / figma_bridge.py and localhost browser label, keyboard, and table interaction checks stored in private evidence."
+    }
+  ],
+  "edges": [
+    { "from": "REF-NF01-CONTRACT", "type": "informs", "to": "REQ-NF01-FORM" },
+    { "from": "REF-NF01-CONTRACT", "type": "informs", "to": "REQ-NF01-TABLE" },
+    { "from": "REQ-NF01-FORM", "type": "appears on", "to": "SCR-FAMILIES-DEMO" },
+    { "from": "REQ-NF01-TABLE", "type": "appears on", "to": "SCR-FAMILIES-DEMO" },
+    { "from": "REQ-NF01-FORM", "type": "accepted by", "to": "AC-NF01-DEMO" },
+    { "from": "REQ-NF01-TABLE", "type": "accepted by", "to": "AC-NF01-DEMO" }
+  ]
+}
