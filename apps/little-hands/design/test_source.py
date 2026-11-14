@@ -192,4 +192,193 @@ class SourceChecks(unittest.TestCase):
         with self.assertRaises(ValueError):source.color('rgba(0, 0, 0, 0.2)',palette)
         self.assertEqual(source.color('rgb(41, 39, 32)',palette),'css-292720')
 
+
+class FamilyTargetMappingTests(unittest.TestCase):
+    def test_family_targets_remap_representative_forms_and_tables_without_changing_actions_or_styles(self):
+        loaded = source.load_family_targets(HERE / 'family-targets.json')
+        targets = loaded['targets']
+        self.assertEqual(
+            {entry['family'] for entry in targets},
+            {'Field', 'Input', 'Checkbox', 'Radio', 'TableRow', 'TableCell'},
+        )
+        for state in ('sessionavailable', 'reschedule', 'staffedit', 'staffsessions'):
+            for viewport in ('desktop', 'mobile'):
+                cap = json.loads((HERE / 'captures' / f'{state}-{viewport}.json').read_text(encoding='utf-8'))
+                p_plain, s_plain, a_plain, m_plain = {}, {}, {}, []
+                plain = source.layout_for(cap, p_plain, s_plain, a_plain, m_plain, HERE)
+                p_map, s_map, a_map, m_map = {}, {}, {}, []
+                mapped = source.layout_for(cap, p_map, s_map, a_map, m_map, HERE, family_targets=loaded)
+
+                self.assertEqual(s_plain, s_map)
+                self.assertEqual(p_plain, p_map)
+                self.assertEqual(plain['product_buttons'], mapped['product_buttons'])
+                self.assertEqual(len(plain['layers']), len(mapped['layers']))
+                self.assertEqual(len(plain['containers']), len(mapped['containers']))
+
+                remapped = {row['semantic_id']: row for row in m_map if 'family' in row}
+                self.assertTrue(remapped)
+                for row in remapped.values():
+                    self.assertIn('original_key', row)
+                    self.assertNotEqual(row['original_key'], row['semantic_id'])
+
+                if state == 'staffedit':
+                    self.assertTrue(remapped['littlehands.form.session_edit.input.course']['control_state']['disabled'])
+                    self.assertFalse(remapped['littlehands.form.session_edit.input.price_krw']['control_state']['disabled'])
+                    self.assertEqual(
+                        'littlehands.form.session_edit.field.price_krw.help.line-1' in remapped,
+                        viewport == 'mobile',
+                    )
+                if state == 'sessionavailable':
+                    self.assertEqual(
+                        'littlehands.form.reserve.field.allow_waitlist.label.line-1' in remapped,
+                        viewport == 'mobile',
+                    )
+                if state == 'staffsessions':
+                    row_entries = [row for row in m_map if row.get('kind') == 'table_row']
+                    self.assertEqual(len(row_entries), 2)
+                    self.assertEqual({row['family'] for row in row_entries}, {'TableRow'})
+
+    def test_family_targets_reject_duplicate_password_action_or_unknown_values(self):
+        import tempfile
+
+        base = json.loads((HERE / 'family-targets.json').read_text(encoding='utf-8'))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            bad_dup = json.loads(json.dumps(base))
+            bad_dup['targets'][1]['semantic_id'] = bad_dup['targets'][0]['semantic_id']
+            dup_path = Path(tmp) / 'dup.json'
+            dup_path.write_text(json.dumps(bad_dup), encoding='utf-8')
+            with self.assertRaises(ValueError):
+                source.load_family_targets(dup_path)
+
+            bad_pwd = json.loads(json.dumps(base))
+            bad_pwd['targets'].append({
+                'state': 'state-staffedit',
+                'kind': 'surface',
+                'selector': '#id_password',
+                'family': 'Input',
+                'role': 'surface',
+                'semantic_id': 'littlehands.form.auth.input.password',
+            })
+            pwd_path = Path(tmp) / 'pwd.json'
+            pwd_path.write_text(json.dumps(bad_pwd), encoding='utf-8')
+            with self.assertRaises(ValueError):
+                source.load_family_targets(pwd_path)
+
+            bad_fam = json.loads(json.dumps(base))
+            bad_fam['targets'][0]['family'] = 'Button'
+            fam_path = Path(tmp) / 'fam.json'
+            fam_path.write_text(json.dumps(bad_fam), encoding='utf-8')
+            with self.assertRaises(ValueError):
+                source.load_family_targets(fam_path)
+
+        cap = json.loads((HERE / 'captures' / 'sessionavailable-desktop.json').read_text(encoding='utf-8'))
+        bad_action = {
+            'schema': 'little-hands-family-targets-v1',
+            'targets': [{
+                'state': 'state-sessionavailable',
+                'kind': 'surface',
+                'selector': 'button.primary',
+                'family': 'Input',
+                'role': 'surface',
+                'semantic_id': 'littlehands.form.reserve.illegal_action',
+            }],
+        }
+        with self.assertRaises(ValueError):
+            source.layout_for(cap, {}, {}, {}, [], HERE, family_targets=bad_action)
+
+    def test_generate_with_family_targets_preserves_graph_structure_and_reuse_ids(self):
+        import shutil
+        import subprocess
+        import sys
+        import tempfile
+
+        baseline = json.loads((HERE / 'graph.json').read_bytes())
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            design = root / 'apps/little-hands/design'
+            shutil.copytree(HERE, design, ignore=shutil.ignore_patterns('reviews', '.figma-flow', '__pycache__'))
+            app = design.parent
+            for name in ('templates', 'static', 'booking', 'ARCHITECTURE.md'):
+                (app / name).symlink_to(HERE.parent / name)
+            for name in ('tools', 'skills'):
+                (root / name).symlink_to(HERE.parents[2] / name)
+
+            subprocess.run(
+                [sys.executable, str(design / 'source.py'), '--static-root', str(HERE / 'source_assets')],
+                check=True,
+                capture_output=True,
+            )
+            plain_dom = json.loads((design / 'dom-map.json').read_bytes())
+            self.assertEqual(json.loads((design / 'graph.json').read_bytes()), baseline)
+            self.assertFalse(any('semantic_id' in item for item in plain_dom['controls_and_layers']))
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(design / 'source.py'),
+                    '--static-root',
+                    str(HERE / 'source_assets'),
+                    '--family-targets',
+                    str(design / 'family-targets.json'),
+                ],
+                check=True,
+                capture_output=True,
+            )
+            mapped_graph = json.loads((design / 'graph.json').read_bytes())
+            mapped_dom = json.loads((design / 'dom-map.json').read_bytes())
+            mapped_layout = json.loads((design / 'native-layout.json').read_bytes())
+
+            self.assertEqual(mapped_graph['nodes'], baseline['nodes'])
+            self.assertEqual(mapped_graph['edges'], baseline['edges'])
+            self.assertEqual(mapped_graph['design_system'], baseline['design_system'])
+            self.assertEqual(mapped_graph['design_foundations']['palette'], baseline['design_foundations']['palette'])
+            self.assertEqual(mapped_graph['draft_prototype'], baseline['draft_prototype'])
+            size_role = next(
+                role for role in mapped_graph['design_foundations']['roles']
+                if role.get('token') == 'type/body'
+            )
+            binding_keys = {entry['key'] for entry in size_role['native']['bindings']}
+            self.assertIn(
+                'littlehands.desktop.state-sessionavailable.littlehands.form.reserve.input.quantity.value',
+                binding_keys,
+            )
+            self.assertNotIn(
+                'littlehands.desktop.state-sessionavailable.state-sessionavailable-id_quantity-value',
+                binding_keys,
+            )
+            action_cids = {
+                node.get('component_id')
+                for node in mapped_graph['nodes']
+                if node.get('type') == 'action'
+            }
+            self.assertTrue(action_cids)
+            self.assertTrue(all(
+                cid and cid.startswith(('component-Solid-', 'component-Outline-', 'component-Text-'))
+                for cid in action_cids
+            ))
+            control_styles = mapped_layout['candidates'][0]['control_styles']['desktop']
+            self.assertTrue(all(k.startswith(('Solid-', 'Outline-', 'Text-')) for k in control_styles))
+
+            session_map = {
+                row['semantic_id']: row
+                for row in mapped_dom['controls_and_layers']
+                if row.get('state') == 'state-sessionavailable'
+                and row.get('viewport') == 'desktop'
+                and 'semantic_id' in row
+            }
+            self.assertIn('littlehands.form.reserve.input.quantity', session_map)
+            self.assertEqual(
+                session_map['littlehands.form.reserve.input.quantity']['original_key'],
+                'state-sessionavailable-id_quantity-surface',
+            )
+            layer_ids = {
+                layer['id']
+                for layer in mapped_layout['candidates'][0]['state_layouts']['desktop']['state-sessionavailable']['layers']
+            }
+            self.assertIn('littlehands.form.reserve.input.quantity', layer_ids)
+            self.assertNotIn('state-sessionavailable-id_quantity-surface', layer_ids)
+
+
 if __name__=='__main__':unittest.main()

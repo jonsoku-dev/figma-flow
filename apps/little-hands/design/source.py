@@ -398,7 +398,166 @@ def authored_controls(data):
     return controls
 
 
-def layout_for(data, palette, styles, assets, mappings, output=ROOT):
+ALLOWED_FAMILIES = frozenset({'Field', 'Input', 'Checkbox', 'Radio', 'TableRow', 'TableCell'})
+ALLOWED_TARGET_KINDS = frozenset({'container', 'surface', 'text', 'control_value', 'row'})
+
+
+def load_family_targets(path):
+    data = json.loads(Path(path).read_text(encoding='utf-8'))
+    if not isinstance(data, dict) or data.get('schema') != 'little-hands-family-targets-v1':
+        raise ValueError('Unsupported family targets schema')
+    targets = data.get('targets')
+    if not isinstance(targets, list) or not targets:
+        raise ValueError('Family targets require a nonempty targets list')
+    seen_selectors = set()
+    seen_semantic_ids = set()
+    known_states = {'state-' + row[0] for row in STATES}
+    for entry in targets:
+        if not isinstance(entry, dict):
+            raise ValueError('Invalid family target entry')
+        state = entry.get('state')
+        kind = entry.get('kind')
+        selector = entry.get('selector')
+        family = entry.get('family')
+        role = entry.get('role')
+        semantic_id = entry.get('semantic_id')
+        occurrence = entry.get('occurrence')
+        if state not in known_states or kind not in ALLOWED_TARGET_KINDS or family not in ALLOWED_FAMILIES:
+            raise ValueError(f'Invalid family target metadata: {entry}')
+        if not all(isinstance(v, str) and v.strip() for v in (selector, role, semantic_id)):
+            raise ValueError(f'Family target requires selector, role, and semantic_id: {entry}')
+        if 'password' in selector.lower():
+            raise ValueError(f'Refusing to map password selector: {selector}')
+        if occurrence is not None and (type(occurrence) is not int or occurrence < 0 or kind != 'text'):
+            raise ValueError(f'Invalid family target occurrence: {entry}')
+        selector_key = (state, kind, selector, occurrence)
+        if selector_key in seen_selectors:
+            raise ValueError(f'Duplicate family target selector: {selector_key}')
+        seen_selectors.add(selector_key)
+        if semantic_id in seen_semantic_ids:
+            raise ValueError(f'Duplicate semantic_id in family targets: {semantic_id}')
+        seen_semantic_ids.add(semantic_id)
+    return data
+
+
+def _apply_family_targets(data, layers, groups, mappings, family_targets):
+    state_id = data['state']
+    entries = [entry for entry in family_targets['targets'] if entry['state'] == state_id]
+    if not entries:
+        return
+    controls_by_selector = {}
+    for control in data.get('controls', []):
+        controls_by_selector.setdefault(control['selector'], []).append(control)
+    layer_by_id = {layer['id']: layer for layer in layers}
+    layer_remap = {}
+    container_remap = {}
+    for entry in entries:
+        kind = entry['kind']
+        selector = entry['selector']
+        semantic_id = entry['semantic_id']
+        family = entry['family']
+        role = entry['role']
+        if kind == 'container':
+            matches = [row for row in mappings if row['kind'] in ('frame', 'auto-layout') and row['selector'] == selector]
+            if len(matches) != 1:
+                raise ValueError(f'Expected one container match for {state_id} {selector}, got {len(matches)}')
+            row = matches[0]
+            old_key = row['key']
+            container_remap[old_key] = semantic_id
+            row.update(original_key=old_key, key=semantic_id, semantic_id=semantic_id, family=family, role=role)
+        elif kind == 'surface':
+            matches = [row for row in mappings if row['kind'] == 'surface' and row['selector'] == selector]
+            if len(matches) != 1:
+                raise ValueError(f'Expected one surface match for {state_id} {selector}, got {len(matches)}')
+            row = matches[0]
+            if family in ('Input', 'Checkbox', 'Radio') and role == 'surface':
+                ctrls = controls_by_selector.get(selector, [])
+                if len(ctrls) != 1 or ctrls[0]['tag'] in ('a', 'button'):
+                    raise ValueError(f'Family {family} surface must map to one form control: {state_id} {selector}')
+                ctrl = ctrls[0]
+                row['control_state'] = {
+                    'tag': ctrl['tag'],
+                    'type': ctrl.get('type'),
+                    'disabled': bool(ctrl.get('disabled', False)),
+                    'checked': ctrl.get('checked'),
+                }
+            elif any(ctrl['tag'] in ('a', 'button') for ctrl in controls_by_selector.get(selector, [])):
+                raise ValueError(f'Surface target may not remap action button/link: {state_id} {selector}')
+            old_key = row['key']
+            layer_remap[old_key] = semantic_id
+            for layer in layers:
+                if layer['id'].startswith(old_key + '-edge-'):
+                    layer_remap[layer['id']] = semantic_id + layer['id'][len(old_key):]
+            row.update(original_key=old_key, key=semantic_id, semantic_id=semantic_id, family=family, role=role)
+        elif kind == 'text':
+            matches = [row for row in mappings if row['kind'] == 'text' and row['selector'] == selector]
+            if not matches:
+                raise ValueError(f'Missing text match for {state_id} {selector}')
+            occurrence = entry.get('occurrence')
+            if occurrence is not None:
+                if occurrence >= len(matches):
+                    raise ValueError(f'Occurrence {occurrence} out of range for {state_id} {selector}')
+                selected = [(matches[occurrence], semantic_id)]
+            else:
+                selected = [(row, semantic_id if i == 0 else f'{semantic_id}.line-{i}') for i, row in enumerate(matches)]
+            for row, target_id in selected:
+                old_key = row['key']
+                layer_remap[old_key] = target_id
+                row.update(original_key=old_key, key=target_id, semantic_id=target_id, family=family, role=role)
+        elif kind == 'row':
+            rows = [surface for surface in data.get('surfaces', []) if surface['selector'] == selector and surface['tag'] == 'tr']
+            if len(rows) != 1:
+                raise ValueError(f'Expected one TableRow match for {state_id} {selector}, got {len(rows)}')
+            row_surface = rows[0]
+            mappings.append({
+                'key': semantic_id,
+                'original_key': row_surface['id'],
+                'selector': selector,
+                'kind': 'table_row',
+                'semantic_id': semantic_id,
+                'family': family,
+                'role': role,
+                'box': list(row_surface['box']),
+            })
+        elif kind == 'control_value':
+            ctrls = controls_by_selector.get(selector, [])
+            if len(ctrls) != 1 or ctrls[0]['tag'] in ('a', 'button'):
+                raise ValueError(f'control_value requires one non-action control: {state_id} {selector}')
+            ctrl = ctrls[0]
+            old_key = ctrl['id'] + '-value'
+            if old_key not in layer_by_id:
+                raise ValueError(f'Missing control value layer for {state_id} {selector}')
+            layer_remap[old_key] = semantic_id
+            mappings.append({
+                'key': semantic_id,
+                'original_key': old_key,
+                'selector': selector,
+                'kind': 'control_value',
+                'semantic_id': semantic_id,
+                'family': family,
+                'role': role,
+                'control_state': {
+                    'tag': ctrl['tag'],
+                    'type': ctrl.get('type'),
+                    'disabled': bool(ctrl.get('disabled', False)),
+                },
+            })
+    for layer in layers:
+        layer['id'] = layer_remap.get(layer['id'], layer['id'])
+    layer_ids = [layer['id'] for layer in layers]
+    if len(set(layer_ids)) != len(layer_ids):
+        raise ValueError(f'Semantic ID collision in layers for {state_id}')
+    for group in groups:
+        group['key'] = container_remap.get(group['key'], group['key'])
+        if 'parent' in group:
+            group['parent'] = container_remap.get(group['parent'], group['parent'])
+        group['children'] = [layer_remap.get(child, container_remap.get(child, child)) for child in group['children']]
+    group_keys = [group['key'] for group in groups]
+    if len(set(group_keys)) != len(group_keys) or set(group_keys) & set(layer_ids):
+        raise ValueError(f'Semantic ID collision in containers for {state_id}')
+
+
+def layout_for(data, palette, styles, assets, mappings, output=ROOT, family_targets=None):
     layers, products = [], {}
     for surface in data['surfaces']:
         x,y,w,h = surface['box']
@@ -532,6 +691,8 @@ def layout_for(data, palette, styles, assets, mappings, output=ROOT):
             mappings.append({'key':row['id'],'selector':row['selector'],'kind':declaration['kind'],'css_box':row['box'],'flow':'actual child geometry is a linear flex sequence' if linear else 'Frame retained because wrapped, aligned, or spaced geometry is not a supported linear flow'})
         else:mappings.append({'key':row['id'],'selector':row['selector'],'kind':'frame','css_box':row['box']})
         groups.append(declaration)
+    if family_targets is not None:
+        _apply_family_targets(data, layers, groups, mappings, family_targets)
     return {'width':data['viewport']['width'],'height':data['document']['height'],'bg':color(data['body_background'],palette,'paper'),'layers':layers,'control_boxes':{},'product_buttons':products,'containers':groups}
 
 
@@ -745,7 +906,8 @@ def reconcile(current, proposal, baseline, *, prior_orphans=None):
     return merged, review
 
 
-def build(base_graph=None, proposal_out=None, expected_sha256=None):
+def build(base_graph=None, proposal_out=None, expected_sha256=None, family_targets_path=None):
+    family_targets = load_family_targets(family_targets_path) if family_targets_path else None
     path = ROOT / 'graph.json'
     cached = ROOT / '.figma-flow' / 'last-source-proposal.json'
     baseline_path = base_graph or cached
@@ -765,7 +927,7 @@ def build(base_graph=None, proposal_out=None, expected_sha256=None):
             output = Path(temporary)
             (output / 'app').mkdir()
             try:
-                proposal, review, summary = generate(output, current, baseline, prior_orphans=prior_orphans)
+                proposal, review, summary = generate(output, current, baseline, prior_orphans=prior_orphans, family_targets=family_targets)
             except ValueError:
                 blocked = output / 'source-status.json'
                 if blocked.exists() and json.loads(blocked.read_bytes()).get('status') == 'blocked-final-source-epoch':
@@ -789,7 +951,7 @@ def build(base_graph=None, proposal_out=None, expected_sha256=None):
             print(json.dumps({**summary, **review}, ensure_ascii=False))
 
 
-def generate(output, canonical, baseline, *, prior_orphans=None):
+def generate(output, canonical, baseline, *, prior_orphans=None, family_targets=None):
     captures=load_captures()
     unverified_ua_internals=[{'state':sid,'viewport':vp,'selector':control['selector'],'type':control['type'],'checked':control.get('checked'),'box':control['box'],'reason':'UA-native mark paint is not exposed by measured CSS; no mark is invented by the adapter.'} for (sid,vp),(data,path) in captures.items() for control in data['controls'] if control.get('type') in ('checkbox','radio') and control['style']['fill'] in ('rgba(0, 0, 0, 0)','transparent') and not control['style']['stroke_width']]
     stylesheet_epochs=sorted({route for data,path in captures.values() for route in re.findall(r'href="(/static/[^"]+\.css)"',data['html'])})
@@ -873,7 +1035,7 @@ def generate(output, canonical, baseline, *, prior_orphans=None):
             if (sid,vp) not in captures:continue
             data,path=captures[sid,vp]
             local_mappings=[]
-            layout=layout_for(data,palette,styles[vp],assets,local_mappings,output)
+            layout=layout_for(data,palette,styles[vp],assets,local_mappings,output,family_targets=family_targets)
             state_layouts[vp][sid]=layout
             mappings.extend({'state':sid,'viewport':vp,'measurement':path.relative_to(ROOT).as_posix(),**row} for row in local_mappings)
             for control in authored_controls(data):
@@ -984,6 +1146,7 @@ if __name__=='__main__':
     parser.add_argument('--base-graph', type=Path, help='Previous unedited generator proposal for a three-way merge.')
     parser.add_argument('--proposal-out', type=Path, help='Save this generated proposal for a later source update.')
     parser.add_argument('--expected-sha256', help='Reject an outdated canonical graph before publishing.')
+    parser.add_argument('--family-targets', type=Path, help='Optional explicit DOM-to-semantic-ID family targets JSON.')
     args=parser.parse_args()
     if args.static_root:STATIC_ROOT=args.static_root.resolve()
-    build(args.base_graph, args.proposal_out, args.expected_sha256)
+    build(args.base_graph, args.proposal_out, args.expected_sha256, args.family_targets)

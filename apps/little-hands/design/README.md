@@ -62,3 +62,17 @@ python3 apps/little-hands/design/export.py --out apps/little-hands/design/export
 새 layout 디렉터리에서는 assets의 상대 경로가 같은 원본 파일을 가리키도록 다시 계산하고, 로컬 metric 검사용 `fonts/sources.json`과 두 실제 Hahmlet TTF를 함께 준비한다. 위 `prepare_fonts.py`는 동봉 OFL WOFF2에서 이를 만든다. 원본 후보 spec의 native_layout 경로만 새 파일로 바꾼 뒤 정상 `design_actions.py draft → quality → review → prepare-native-review` 경로를 사용한다. 현재 artifact에 연결한 agent critique와 경고 판정이 필요하며 사람의 선택이나 production 승인을 새로 만들면 안 된다.
 
 정상 현재 제작기에서 실제 Group 두 개를 포함한4,820개 노드를 읽어 검증했다. 이전 제작본과 비교한3,171개 leaf의 절대 bbox 차이는0이고 기존550개 Frame의 clip과314개 nonempty reaction 노드(제품312개와 palette2개)의 의미 연결이 같다. 같은 패킷 재실행은 같은 페이지·전체 node ID를 유지했다. 이는 정적 Design·prototype의 범위이며 Django 인증·POST·DB 동작과 공개 운영 배포는 별도다. 상세 범위는 [검증 기록](VERIFICATION.md)에서 구분한다.
+
+## 대표 폼·표 안정 semantic ID 선언 (`--family-targets`)
+
+[family-targets.json](family-targets.json)은 체크인된 원본 [graph.json](graph.json)이나 기존 재사용 ID(`Solid-*`, `Outline-*`, `Text-*`)를 덮어쓰지 않고, 대표 폼(`state-sessionavailable`, `state-reschedule`, `state-staffedit`)과 표(`state-staffsessions`)의 실제 DOM selector만 안정 semantic ID로 opt-in 매핑하기 위한 선언 파일이다.
+
+- 대상 계열: `Field`, `Input`, `Checkbox`, `Radio`, `TableRow`, `TableCell`
+- 보존 계약: 미선언 컨트롤·`a`/`button` 액션·`control_styles` 재사용 변형과 원본 `original_key`를 그대로 보존하며, 비밀번호·숨김 입력·버튼 덮어쓰기는 거부한다.
+- 실행 예시(임시 작업본 또는 별도 출력 경로에서 사용):
+
+```sh
+python3 apps/little-hands/design/source.py --family-targets apps/little-hands/design/family-targets.json --static-root apps/little-hands/design/source_assets
+```
+
+이 단계의 매핑 규격은 정적 레이아웃·DOM 추적용이며, 컴포넌트 계열 compiler(`design_system` / `native` schema) 정본 연결은 핵심 계열 작업자의 계약 확정 후 후속 단계에서 맞춘다.
