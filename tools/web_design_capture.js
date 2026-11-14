@@ -457,7 +457,8 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         const text=typography(s,label);const roleToken=tag==='a'?'link':'button';
         push({id,kind:'component',path,box:b,paint:p,text,componentKey:'control-'+roleToken,props:{label,labelBox}});return;
       }
-      const clips = ['hidden','clip'].includes(s.overflowX) && ['hidden','clip'].includes(s.overflowY);
+      const clips = ['hidden','clip','auto','scroll'].includes(s.overflowX)
+        && ['hidden','clip','auto','scroll'].includes(s.overflowY);
       if(Object.keys(p).length || clips || ['main','section','article','nav','header','footer','aside','form'].includes(tag)){
         push({id,path,kind:'frame',name:el.getAttribute('aria-label')?.slice(0,100)||tag,clipsContent:clips,box:b,paint:p});childrenPath=[...path,id];
       }
