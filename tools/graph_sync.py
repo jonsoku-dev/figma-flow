@@ -1317,10 +1317,12 @@ def import_values(graph_path, pairing, readback, web_module, out, apply=False, n
     return report
 
 
-def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None, api_probe_path=None):
+def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None, api_probe_path=None, read_measure=None):
     pages = list(dict.fromkeys([page_id] + include_page_ids))
     if not file_key or not page_id or not all(pages):
         raise ValueError('explicit native file and page IDs required')
+    if read_measure is not None and (api_probe_path is not None or read_measure not in ('timing', 'getter-counts')):
+        raise ValueError('--read-measure is timing or getter-counts on a full discovery task')
     output = Path(out)
     output.mkdir(parents=True, exist_ok=False)
     session = secrets.token_urlsafe(24)
@@ -1435,6 +1437,9 @@ figma.ui.onmessage = async message => {
   finally { discoveryBusy = false; }
 };
 """
+    if read_measure is not None:
+        source += '\n' + (Path(__file__).resolve().parents[1] / 'figma-bridge' / 'native_read_measurement.js').read_text(encoding='utf-8')
+        source += '\ninstallNativeReadMeasurement(' + json.dumps(read_measure) + ');\n'
     (output / 'code.js').write_text(source, encoding='utf-8')
     scope = {'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}
     if probe_config:
@@ -1512,6 +1517,8 @@ def main(argv=None):
         '`python3 tools/figma_workspace.py prepare --workspace WORKSPACE --key probe-0 --title "API probe 0" '
         '--kind discover -- --file-key KEY --page-id PAGE --api-probe probe-selection.json`. Reads only '
         'explicit nodes and unresolved safe properties.'))
+    discovery_parser.add_argument('--read-measure', choices=['timing', 'getter-counts'],
+        help='Benchmark-only task: wrap the full reader with a clock (timing) or a Proxy call counter (getter-counts)')
     discovery_parser.add_argument('--plugin-id')
     discovery_parser.add_argument('--out', required=True)
     recovery_parser = sub.add_parser('recover')
@@ -1528,7 +1535,7 @@ def main(argv=None):
     try:
         if args.command == 'discover':
             print(json.dumps(discovery_bundle(args.file_key, args.page_id, args.include_page_id, args.out,
-                                              args.plugin_id, args.api_probe)))
+                                              args.plugin_id, args.api_probe, args.read_measure)))
             return 0
         if args.command == 'recover':
             print(json.dumps(recover_projection(args.recovery)))
