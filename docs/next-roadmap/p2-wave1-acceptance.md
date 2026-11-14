@@ -90,7 +90,7 @@ fixture·baseline writer는 그래프, CHANGELOG, Wiki를 바꾸지 않는다. �
 | A4 | 입력 digest, 출력 graph digest, 화면 범위가 receipt에 기록된다 | 공개 요약에는 digest와 범위만 쓴다 |
 | A5 | 기존 참고 자료와 보존 사본의 bytes·파일 수가 변하지 않는다 | P0 보존 대조 재실행 |
 | A6 | 실제 브라우저에서 fixture를 열 때 허용 파일 밖 요청과 외부 네트워크 요청이 0건이다 | root의 격리 브라우저 관측 |
-| A7 | 대표 작업과 제외 범위를 기획자 역할이 승인한 기록이 있다. 이 기록과 자동 검사는 법률 검토가 아니다 | 사람의 승인 기록 |
+| A7 | 사용 근거를 기록한다. 현재 사용자의 P2 진행 승인, 모든 파일의 저장소 자체 저작, 저장소 MIT 라이선스가 근거다. 이 근거 외에 새 인간 승인을 요구하지 않는다. 제3자 권리는 자동 검사만으로 인정하지 않으므로 제3자 자산을 넣지 않는다. 이 기록과 자동 검사는 법률 검토가 아니다 | manifest `ownership`, 승인 범위 기록 |
 | A8 | 공개 트리에 캡처 PNG, compiled plan, 파일 키, 페이지 ID가 없다 | 새 fixture 검사, 배포 가드 |
 
 ### 명령
@@ -131,23 +131,25 @@ export, sync, discovery 전체 경로는 이 두 워크로드가 아니다. 재�
 | `reader_elapsed_ms` | `readNativeSemantics` await 시간만 |
 | `end_to_end_elapsed_ms` | 같은 워크로드의 host 왕복. 전송·직렬화 포함, 진단 ledger 제외 |
 | `bytes` | 기존 `utf8JsonBytes`로 잰 그 읽기 결과 |
-| `coverage_complete` | summary는 false. full은 coverage 객체가 없다는 표시 |
+| `coverage_complete` | summary는 `false`. 의도된 범위이며 실패가 아니다. full은 반환에 coverage 객체가 없으므로 `null`로 두고 `true`로 추정하지 않는다 |
 | `content_sha256` | 비교용 정규 JSON의 SHA-256 |
-| `getter_count` | 시간 샘플에서는 null |
-| `failures`, `timeouts`, `retries` | 실패를 지우지 않는다 |
+| `getter_count` | 시간 샘플에서는 `null`. 같은 scope 핀을 가진 독립 진단 회차의 값을 옆에 따로 표시한다 |
+| `attempt`, `outcome` | 계획 순번과 결과(`ok`, `failure`, `timeout`, `retry`, `drift`). 모든 시도를 남긴다 |
 | `execution` | `unit-mock` 또는 `root-live` |
 
-getter 수는 별도 진단 회차에서 `nativeReadGetterLedger`(`figma-flow-native-read-ledger-v1`)로 얻는다. ledger는 노드 속성의 첫 읽기를 `nodeId.property`로 한 번만 기록한다. 호출 횟수나 API 호출 수가 아니다. 진단 회차는 시간 샘플 밖에 둔다.
+getter 수는 별도 진단 회차에서 `nativeReadGetterLedger`(`figma-flow-native-read-ledger-v1`)로 얻는다. ledger는 노드 속성의 첫 읽기를 `nodeId.property`로 한 번만 기록한 고유 접근 목록이다. 호출 횟수나 API 호출 수가 아니다. 진단 회차는 시간 샘플 밖에 두고, 보고할 때는 시간 샘플과 같은 scope 핀(범위 digest, 요청 필드, reader blob)을 함께 적는다.
+
+기록은 네 가지를 구분한다. native getter 접근(진단 ledger), reader 시계(`reader_elapsed_ms`), 전송을 포함한 host 왕복(`end_to_end_elapsed_ms`), 저장소 fixture 파이프라인(`unit-mock`)이다. 한 값을 다른 값으로 바꿔 쓰지 않는다.
 
 ### 인수 항목
 
 | ID | 기준 | 근거 |
 |---|---|---|
-| B1 | 한 워크로드의 모든 샘플에서 범위와 요청 필드가 같다 | 기록 대조 |
-| B2 | 같은 환경에서 워크로드마다 `root-live` 샘플이 5건 이상이다 | root의 실제 Figma 측정 |
-| B3 | 다섯 샘플의 `content_sha256`이 같다. 갈라지면 median을 만들지 않고 드리프트 실패로 센다 | 기록 대조 |
-| B4 | 각 시계는 median, 최소, 최대만 보고한다. 평균을 개선율로 바꾸지 않는다. 실패·시간 초과를 빼거나 성공할 때까지 재시도한 결과만 남기지 않는다 | 기록 대조 |
-| B5 | summary 결과를 full 근거나 complete로 적지 않는다. `requireFullNativeRead`가 summary를 거절한다 | 기존 RD-06 검사 |
+| B1 | 같은 환경에서 워크로드마다 같은 scope의 `root-live` 시도를 5회 이상 미리 계획하고, 모든 시도를 순번대로 보존한다. 실패, 시간 초과, 재시도, drift를 조용히 빼거나 성공한 5건만 고르지 않는다 | root의 실제 Figma 측정, 시도 기록 |
+| B2 | 계획한 시도 중 범위·요청 필드가 바뀌거나 `content_sha256`이 갈라지면 그 워크로드는 실패 또는 비교 불가로 보고하고 median을 만들지 않는다 | 기록 대조 |
+| B3 | summary의 `coverage.complete: false`는 의도된 범위이며 실패가 아니다. full의 coverage 부재를 `true`로 추정하지 않는다. summary 결과를 full 근거로 적지 않으며 `requireFullNativeRead`가 summary를 거절한다 | 기록 대조, 기존 RD-06 검사 |
+| B4 | 비교 가능한 워크로드의 각 시계는 median, 최소, 최대만 보고한다. 평균을 개선율로 바꾸지 않는다 | 기록 대조 |
+| B5 | 시간 샘플의 `getter_count`는 `null`이다. getter 수는 같은 scope 핀을 가진 독립 진단 회차의 ledger 고유 접근 수로 따로 표시한다 | 기록 대조 |
 | B6 | 동결된 RD-06 검사와 `test_graph_sync.py`가 blob 변경 없이 통과한다 | 아래 명령, blob 대조 |
 | B7 | `unit-mock` 샘플이나 ledger 길이를 `root-live` 값으로 적지 않는다 | 기록 대조 |
 | B8 | 속도 향상을 주장하지 않는다. NF-02의 과거 실행 수치는 이 기준선에 쓰지 않는다 | 문서 검토 |
@@ -169,6 +171,6 @@ root는 두 작업의 구현이 `main`에 통합된 뒤 다음을 수행하고 �
 
 1. 통합 소스의 SHA를 고정하고, 설치·로드된 개발 플러그인의 runtime generation이 그 소스와 같은지 확인한다.
 2. A6. 격리 브라우저에서 새 fixture를 열고 요청 목록을 저장한다. 허용 목록 밖 요청과 외부 요청 수를 센다.
-3. B2. 로드된 reader blob과 플러그인 버전을 샘플에 적는다. 기준 트리와 다르면 이 트리의 측정으로 보고하지 않는다. 등록된 Design 테스트 페이지에서 워크로드마다 같은 범위의 fresh read를 5회 이상 실행한다. 샘플과 별도 진단 ledger를 Git 밖에 저장한다.
+3. B1–B5. 로드된 reader blob과 플러그인 버전을 샘플에 적는다. 기준 트리와 다르면 이 트리의 측정으로 보고하지 않는다. 등록된 Design 테스트 페이지에서 워크로드마다 같은 범위의 fresh read를 5회 이상 실행한다. 성공 여부와 관계없이 모든 시도와 별도 진단 ledger를 Git 밖에 저장한다.
 4. 공개 요약만 이 문서에 쓰고, 노드의 `observed_evidence`·`proof_refs`·`evidence_status`를 갱신한다. 그다음 `python3 -B -m unittest tests.test_next_roadmap_backlog`를 실행한다.
 5. 관측하지 못한 항목은 미관측으로 남긴다. 그 작업은 `verified`로 바꾸지 않는다.
