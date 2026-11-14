@@ -8,6 +8,14 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v0.34.0
+
+[탭 계약과 실제 사용 장면](../../specs/interactive-web/tabs.md) · [정본 그래프](../../specs/interactive-web/graph.json) · [입력 형식](../web-tabs-input.md) · [사용 절차](../guide.md#web-tabs-quickstart).
+
+1440 × 900 CSS px의 실제 Devtool 홈에서 탭 두 상태와 관찰한 클릭 두 번을 기록했다. 상태 구분은 패널 글자 해시, 전이의 출발점은 출발 화면에서 누른 탭과 같은 상자의 frame 요소다. 처음 구현은 반응을 탭 레이어에 직접 넣었다. Figma Desktop은 이 장면에서 `setReactionsAsync` 연결 시간 초과로 두 번 거절했고, 두 번 모두 새 노드를 롤백했다. 같은 장면에서 최상위 투명 프레임에 같은 반응을 넣으면 성공해, 탭 클릭도 캐러셀 드래그와 같은 최상위 hotspot 경로를 쓴다. Chrome과 Figma 프레젠테이션에서 A→B→A를 같은 클릭으로 대조했다. 그래프에 없는 탭을 누르면 프로토타입은 현재 상태에 머문다.
+
+캐러셀과 탭의 읽기·적용은 하나의 관찰 상태 그래프 경로를 쓰고, 0.33 프레임의 플러그인 데이터 키는 바꾸지 않았다. 홈 요약은 0.33부터 누락되던 이전/다음 버튼 전이를 포함한다. 두 캡처 CLI는 같은 Chromium 파이프 모듈을 사용한다. 탭과 무관하게 바뀌는 로고 띠 같은 주변 애니메이션은 캡처 순간의 모습으로 남는다.
+
 ## v0.33.0
 
 [캐러셀 계약과 실제 사용 장면](../../specs/interactive-web/carousel.md) · [정본 그래프](../../specs/interactive-web/graph.json) · [입력 형식](../web-carousel-input.md) · [사용 절차](../guide.md#web-carousel-quickstart).
