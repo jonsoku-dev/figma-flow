@@ -372,6 +372,65 @@ test('a tabs readback observed during a run is stored on that run for the plugin
   assert.equal(event.carousel.edges.length,2);
 });
 
+test('a disclosure readback attaches the prototype summary on both workspace observe and remote controlExecute paths',async()=>{
+  const disclosureReadback={schema:'figma-flow-web-screen-discovery-v1',readback_scope:'screens',
+    fileKey:'file-a',pageId:'1:2',graph_sha256:'d'.repeat(64),native_edit:{operation:'apply',applied:true},nodes:[{}],
+    web_design:{graph_id:'saas-faq',graph_sha256:'d'.repeat(64),
+      screens:[{screen_id:'WEB-1'},{screen_id:'WEB-2'},{screen_id:'WEB-3'}],
+      disclosure:{frame_key:'faq',status:'current',initial_state:'disclosure-1',flow_start_node_id:'1:10',states:[
+        {state_id:'disclosure-1',screen_id:'WEB-1',frame_id:'1:10',title:'All closed',status:'current',reactions:[],controls:[],
+          hotspots:[{edge_id:'edge-1',input:'click',trigger:'ON_CLICK',destination_id:'1:11',boundary:false,status:'current'},
+            {edge_id:'edge-5',input:'click',trigger:'ON_CLICK',destination_id:'1:12',boundary:false,status:'current'}]},
+        {state_id:'disclosure-2',screen_id:'WEB-2',frame_id:'1:11',title:'What is PlanHub?',status:'current',reactions:[],controls:[],
+          hotspots:[{edge_id:'edge-2',input:'click',trigger:'ON_CLICK',destination_id:'1:10',boundary:false,status:'current'},
+            {edge_id:'edge-3',input:'click',trigger:'ON_CLICK',destination_id:'1:12',boundary:false,status:'current'}]},
+        {state_id:'disclosure-3',screen_id:'WEB-3',frame_id:'1:12',title:'How do I create my first workspace?',status:'current',reactions:[],controls:[],
+          hotspots:[{edge_id:'edge-4',input:'click',trigger:'ON_CLICK',destination_id:'1:10',boundary:false,status:'current'},
+            {edge_id:'edge-6',input:'click',trigger:'ON_CLICK',destination_id:'1:11',boundary:false,status:'current'}]}]}}};
+
+  // 1. Direct workspaceObserve path.
+  const h=harness(false,{page:{id:'1:2',type:'PAGE'}});
+  const current={task:{key:'faq-task',revision:'r1',fileKey:'file-a',pageId:'1:2'},executionId:'exec-faq',operation:'apply'};
+  h.context.workspaceObserve(current,{readback:disclosureReadback});
+  const observedHistory=JSON.parse(vm.runInContext('JSON.stringify(workspaceState.history)',h.context));
+  const observedEvent=observedHistory.find(row=>row.taskKey==='faq-task'&&row.executionId==='exec-faq'&&row.carousel);
+  assert.equal(observedEvent?.carousel?.schema,'figma-flow-carousel-summary-v1');
+  assert.equal(observedEvent?.carousel?.frame_key,'faq');
+  assert.equal(observedEvent?.carousel?.initial_state,'disclosure-1');
+  assert.equal(observedEvent?.carousel?.flow_start_node_id,'1:10');
+  assert.deepEqual(observedEvent.carousel.states.map(state=>state.title),
+    ['All closed','What is PlanHub?','How do I create my first workspace?']);
+  assert.equal(observedEvent.carousel.edges.length,6);
+  assert.deepEqual(observedEvent.carousel.edges[0],
+    {from:'disclosure-1',to:'disclosure-2',trigger:'ON_CLICK',destination_id:'1:11',edge_id:'edge-1'});
+
+  // 2. Remote controlExecute path (verifies workspace_control.js attaches summary to the terminal readback history entry).
+  const controlSource=fs.readFileSync(path.join(__dirname,'../figma-bridge/workspace_control.js'),'utf8');
+  const remote=harness(false,{kind:'native-edit',page:{id:'1:2',type:'PAGE'}});
+  vm.runInContext(controlSource,remote.context);
+  const modelJson=JSON.stringify({session:'sess-faq',web_screen_receipt:{graph_sha256:'d'.repeat(64),screen_ids:['WEB-1','WEB-2','WEB-3']}});
+  const faqTask={
+    key:'faq-remote',title:'FAQ Disclosure',project:'Project A',kind:'native-edit',revision:'r1',fileKey:'file-a',pageId:'1:2',
+    run(){
+      const scoped=remote.context.workspaceTaskFigma();
+      scoped.showUI(`<html><head><script type="application/json" id="flow-model">${modelJson}</script></head><body></body></html>`,{width:480,height:640});
+      scoped.ui.onmessage=async message=>{
+        scoped.ui.postMessage({session:message.session,operation:message.type,readback:disclosureReadback});
+      };
+    }
+  };
+  const data=await remote.context.controlExecute(faqTask,{
+    key:'faq-remote',revision:'r1',file_key:'file-a',page_id:'1:2',operation:'apply',
+    claim_id:'1'.repeat(32),session_id:'s1',id:'op1',deadline:Math.floor(Date.now()/1000)+60
+  });
+  assert.equal(data.web_design.disclosure.frame_key,'faq');
+  const remoteHistory=JSON.parse(vm.runInContext('JSON.stringify(workspaceState.history)',remote.context));
+  const readbackRow=remoteHistory.find(row=>row.taskKey==='faq-remote'&&row.status==='readback');
+  assert.equal(readbackRow?.carousel?.schema,'figma-flow-carousel-summary-v1');
+  assert.equal(readbackRow?.carousel?.frame_key,'faq');
+  assert.equal(readbackRow?.carousel?.edges.length,6);
+});
+
 test('carousel start selection requires the current task readback and exact native frame',async()=>{
   const page={id:'1:2',type:'PAGE',flowStartingPoints:[{nodeId:'1:3',name:'Carousel'}],async loadAsync(){}};
   const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};
@@ -640,7 +699,9 @@ console.log('Compiled React workspace/shared components/Lucide,3 locales and pha
 `;
   const plugin=JSON.parse(fs.readFileSync(path.join(__dirname,'../plugin.json'),'utf8'));
   const common=JSON.parse(fs.readFileSync(path.join(__dirname,'../figma-bridge/locales/common.json'),'utf8'));
+  const nodePaths=process.env.NODE_PATH?process.env.NODE_PATH.split(path.delimiter).filter(Boolean):[];
   const built=buildSync({stdin:{contents:entry,resolveDir:panelRoot,loader:'jsx'},absWorkingDir:panelRoot,
+    ...(nodePaths.length?{nodePaths}:{}),
     bundle:true,write:false,platform:'node',format:'cjs',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"',__FLOW_DISPLAY_NAME__:JSON.stringify(plugin.extensions['com.openai'].interface.displayName),__FLOW_LOCALES__:JSON.stringify(Object.keys(Object.values(common)[0]))},logLevel:'silent'});
   const run=spawnSync(process.execPath,['-e',built.outputFiles[0].text],{cwd:panelRoot,encoding:'utf8'});
   assert.equal(run.status,0,run.stdout+run.stderr);

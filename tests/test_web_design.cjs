@@ -279,6 +279,304 @@ test('tab plans refuse clicks that start outside a captured frame', async () => 
   await assert.rejects(harness().apply(offscreen), /Invalid graph tabs contract/);
 });
 
+function disclosurePlan() {
+  const packet = plan();
+  const q1 = 'What is PlanHub?';
+  const q2 = 'How do I create my first workspace?';
+  const chevronSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" stroke="#111827" fill="none"/></svg>';
+  const faqScreen = (screenId, prefix, openIndex) => {
+    const q1CardHeight = openIndex === 0 ? 110 : 54;
+    const q2CardHeight = openIndex === 1 ? 110 : 54;
+    const y1 = 200;
+    const y2 = y1 + q1CardHeight + 12;
+    const item = (idx, y, cardHeight, question, answer) => {
+      const cardId = `${prefix}-card-${idx}`;
+      const triggerId = `${prefix}-trigger-${idx}`;
+      const rows = [
+        { id: cardId, kind: 'frame', path: [`${prefix}-accordion`], box: { x: 320, y, width: 800, height: cardHeight },
+          paint: { borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 8 } },
+        { id: triggerId, kind: 'frame', path: [`${prefix}-accordion`, cardId], box: { x: 321, y: y + 1, width: 798, height: 52 } },
+        { id: `${triggerId}-question`, kind: 'text', path: [`${prefix}-accordion`, cardId, triggerId],
+          box: { x: 337, y: y + 15, width: 420, height: 24 },
+          text: { characters: question, fontFamily: 'Inter', fontSize: 16, fontWeight: 500, lineHeight: 24, color: '#111827' } },
+        { id: `${triggerId}-chevron`, kind: 'vector', path: [`${prefix}-accordion`, cardId, triggerId],
+          box: { x: 1087, y: y + 19, width: 16, height: 16 }, svg: chevronSvg },
+      ];
+      if (answer) {
+        rows.push({ id: `${cardId}-answer`, kind: 'text', path: [`${prefix}-accordion`, cardId],
+          box: { x: 337, y: y + 61, width: 766, height: 36 },
+          text: { characters: answer, fontFamily: 'Inter', fontSize: 14, fontWeight: 400, lineHeight: 20, color: '#4b5563' } });
+      }
+      return rows;
+    };
+    return {
+      id: screenId,
+      title: openIndex === null ? 'FAQ Closed' : `FAQ ${openIndex + 1}`,
+      layout: { width: 1440, height: 900, background: '#ffffff' },
+      elements: [
+        { id: `${prefix}-accordion`, kind: 'frame', path: [], box: { x: 320, y: 200, width: 800, height: q1CardHeight + 12 + q2CardHeight } },
+        ...item(1, y1, q1CardHeight, q1, openIndex === 0 ? 'PlanHub is a workspace for organizing team design handoffs.' : null),
+        ...item(2, y2, q2CardHeight, q2, openIndex === 1 ? 'You can create your first workspace from the local dashboard page.' : null),
+      ],
+    };
+  };
+  packet.web_design.assets = {};
+  packet.web_design.screens = [
+    faqScreen('WEB-faq-1', 's1', null),
+    faqScreen('WEB-faq-2', 's2', 0),
+    faqScreen('WEB-faq-3', 's3', 1),
+  ];
+  packet.web_design.disclosure = {
+    frameKey: 'faq',
+    mode: 'single-collapsible',
+    items: [q1, q2],
+    initialState: 'disclosure-1',
+    states: [
+      { id: 'disclosure-1', screenId: 'WEB-faq-1', index: 0, label: 'All closed', expandedItem: null,
+        answerSha256: null, contentSha256: '0'.repeat(64), capture: { path: 'state-1.png', sha256: 'a'.repeat(64) } },
+      { id: 'disclosure-2', screenId: 'WEB-faq-2', index: 1, label: q1, expandedItem: q1,
+        answerSha256: '1'.repeat(64), contentSha256: '2'.repeat(64), capture: { path: 'state-2.png', sha256: 'b'.repeat(64) } },
+      { id: 'disclosure-3', screenId: 'WEB-faq-3', index: 2, label: q2, expandedItem: q2,
+        answerSha256: '3'.repeat(64), contentSha256: '4'.repeat(64), capture: { path: 'state-3.png', sha256: 'c'.repeat(64) } },
+    ],
+    transitions: [
+      { id: 'edge-1', from: 'disclosure-1', to: 'disclosure-2', trigger: 'click', action: 'open',
+        itemLabel: q1, autoClosedItem: null, controlElementId: 's1-trigger-1', observed: true, evidence: { path: 'c1.png', sha256: 'd'.repeat(64) } },
+      { id: 'edge-2', from: 'disclosure-2', to: 'disclosure-1', trigger: 'click', action: 'close',
+        itemLabel: q1, autoClosedItem: null, controlElementId: 's2-trigger-1', observed: true, evidence: { path: 'c2.png', sha256: 'e'.repeat(64) } },
+      { id: 'edge-3', from: 'disclosure-2', to: 'disclosure-3', trigger: 'click', action: 'switch',
+        itemLabel: q2, autoClosedItem: q1, controlElementId: 's2-trigger-2', observed: true, evidence: { path: 'c3.png', sha256: 'f'.repeat(64) } },
+      { id: 'edge-4', from: 'disclosure-3', to: 'disclosure-1', trigger: 'click', action: 'close',
+        itemLabel: q2, autoClosedItem: null, controlElementId: 's3-trigger-2', observed: true, evidence: { path: 'c4.png', sha256: '9'.repeat(64) } },
+      { id: 'edge-5', from: 'disclosure-1', to: 'disclosure-3', trigger: 'click', action: 'open',
+        itemLabel: q2, autoClosedItem: null, controlElementId: 's1-trigger-2', observed: true, evidence: { path: 'c5.png', sha256: '8'.repeat(64) } },
+      { id: 'edge-6', from: 'disclosure-3', to: 'disclosure-2', trigger: 'click', action: 'switch',
+        itemLabel: q1, autoClosedItem: q2, controlElementId: 's3-trigger-1', observed: true, evidence: { path: 'c6.png', sha256: '7'.repeat(64) } },
+    ],
+  };
+  return packet;
+}
+
+test('single-collapsible FAQ disclosure links open, close, and sibling switch hotspots over local trigger headers', async () => {
+  const packet = disclosurePlan();
+  const h = harness();
+  const result = await h.apply(packet);
+  assert.equal(result.receipt.disclosure.status, 'current', JSON.stringify(result.receipt.disclosure));
+  assert.equal(result.receipt.carousel, undefined);
+  assert.equal(result.receipt.tabs, undefined);
+
+  const plain = value => JSON.parse(JSON.stringify(value));
+  const frame = id => h.page.children.find(node => node.getPluginData('figma-flow-web-design-id') === `saas-capture/${id}`);
+  const [closed, q1Open, q2Open] = [frame('WEB-faq-1'), frame('WEB-faq-2'), frame('WEB-faq-3')];
+  const hotspots = root => root.children.filter(node => node.getPluginData('figma-flow-carousel-hotspot'));
+  const layer = (root, id) => root.findAll(node => node.getPluginData('figma-flow-web-element-id') === id)[0];
+
+  assert.deepEqual(
+    [closed, q1Open, q2Open].map(node => [node.getPluginData('figmaFlowDisclosureKey'), node.getPluginData('figmaFlowDisclosureState')]),
+    [['faq', 'disclosure-1'], ['faq', 'disclosure-2'], ['faq', 'disclosure-3']],
+  );
+  assert.deepEqual(plain(h.page.flowStartingPoints), [{ nodeId: closed.id, name: 'FAQ · faq' }]);
+
+  // Verify hotspots use the 798x52 local trigger header box rather than the 800x110 expanded item card.
+  assert.equal(layer(q1Open, 's2-card-1').width, 800);
+  assert.equal(layer(q1Open, 's2-card-1').height, 110);
+  assert.deepEqual(
+    plain(hotspots(closed).map(spot => [spot.name, spot.x, spot.y, spot.width, spot.height, spot.opacity, spot.fills,
+      spot.getPluginData('figma-flow-carousel-hotspot'), spot.getPluginData('figma-flow-carousel-side'),
+      spot.reactions[0].trigger.type, spot.reactions[0].actions[0].destinationId, spot.reactions[0].actions[0].transition])),
+    [
+      ['Open · What is PlanHub?', 321, 201, 798, 52, 0, [], 'faq/disclosure-1/edge-1', '', 'ON_CLICK', q1Open.id, null],
+      ['Open · How do I create my first workspace?', 321, 267, 798, 52, 0, [], 'faq/disclosure-1/edge-5', '', 'ON_CLICK', q2Open.id, null],
+    ],
+  );
+  assert.deepEqual(
+    plain(hotspots(q1Open).map(spot => [spot.name, spot.x, spot.y, spot.width, spot.height, spot.reactions[0].actions[0].destinationId])),
+    [
+      ['Close · What is PlanHub?', 321, 201, 798, 52, closed.id],
+      ['Switch · How do I create my first workspace?', 321, 323, 798, 52, q2Open.id],
+    ],
+  );
+  assert.deepEqual(
+    plain(hotspots(q2Open).map(spot => [spot.name, spot.x, spot.y, spot.width, spot.height, spot.reactions[0].actions[0].destinationId])),
+    [
+      ['Close · How do I create my first workspace?', 321, 267, 798, 52, closed.id],
+      ['Switch · What is PlanHub?', 321, 201, 798, 52, q1Open.id],
+    ],
+  );
+
+  // Underlying question text, answer text, chevron vector, and nested frames stay editable with zero reactions.
+  for (const root of [closed, q1Open, q2Open]) {
+    assert.equal(root.reactions.length, 0);
+    const contentNodes = root.findAll(node => !node.getPluginData('figma-flow-carousel-hotspot'));
+    assert.ok(contentNodes.some(node => node.type === 'TEXT'));
+    assert.ok(contentNodes.some(node => node.type === 'VECTOR'));
+    assert.ok(contentNodes.some(node => node.type === 'FRAME'));
+    assert.ok(contentNodes.every(node => node.reactions.length === 0));
+  }
+  assert.equal(layer(q1Open, 's2-card-1-answer').characters, 'PlanHub is a workspace for organizing team design handoffs.');
+  assert.equal(layer(closed, 's1-card-1-answer'), undefined);
+
+  // Idempotent read and re-apply.
+  const readback = await h.read(packet);
+  assert.equal(readback.disclosure.status, 'current');
+  assert.deepEqual(readback.disclosure.states.map(state => state.title), ['All closed', 'What is PlanHub?', 'How do I create my first workspace?']);
+  const reapplied = await h.apply(packet);
+  assert.equal(reapplied.receipt.disclosure.status, 'current');
+  assert.ok(reapplied.receipt.screens.every(screen => screen.reused));
+  assert.equal(hotspots(q1Open).length, 2);
+
+  // User-edited prototype reaction on an existing state frame is preserved on re-apply.
+  const closeSpot = hotspots(q1Open)[0];
+  await closeSpot.setReactionsAsync([]);
+  assert.equal((await h.read(packet)).disclosure.states[1].status, 'changed');
+  await assert.rejects(h.apply(packet), /Prototype interaction changed on WEB-faq-2/);
+  assert.deepEqual(plain(closeSpot.reactions), []);
+
+  // User-edited text on an existing state frame is also preserved on re-apply.
+  const h2 = harness();
+  await h2.apply(packet);
+  const editedAnswer = h2.page.children
+    .find(node => node.getPluginData('figma-flow-web-design-id') === 'saas-capture/WEB-faq-2')
+    .findAll(node => node.getPluginData('figma-flow-web-element-id') === 's2-card-1-answer')[0];
+  editedAnswer.characters = 'User customized FAQ answer';
+  assert.equal((await h2.read(packet)).screens[1].status, 'changed');
+  await assert.rejects(h2.apply(packet), /Owned frame WEB-faq-2 changed; preserving its current editable scene/);
+  assert.equal(editedAnswer.characters, 'User customized FAQ answer');
+});
+
+test('disclosure validation rejects combined interactions, action mismatches, non-frame controls, and unreachable states', async () => {
+  const combined = disclosurePlan();
+  combined.web_design.tabs = tabsPlan().web_design.tabs;
+  await assert.rejects(harness().apply(combined), /One observed interaction per web design plan/);
+
+  const badSwitch = disclosurePlan();
+  badSwitch.web_design.disclosure.transitions[2].autoClosedItem = null;
+  await assert.rejects(harness().apply(badSwitch), /Invalid graph disclosure contract/);
+
+  const badOpen = disclosurePlan();
+  badOpen.web_design.disclosure.transitions[0].action = 'switch';
+  badOpen.web_design.disclosure.transitions[0].autoClosedItem = 'What is PlanHub?';
+  await assert.rejects(harness().apply(badOpen), /Invalid graph disclosure contract/);
+
+  const badAnswerHash = disclosurePlan();
+  badAnswerHash.web_design.disclosure.states[0].answerSha256 = 'a'.repeat(64);
+  await assert.rejects(harness().apply(badAnswerHash), /Invalid graph disclosure contract/);
+
+  const duplicateExpanded = disclosurePlan();
+  duplicateExpanded.web_design.disclosure.states[2].expandedItem = 'What is PlanHub?';
+  duplicateExpanded.web_design.disclosure.states[2].label = 'What is PlanHub?';
+  await assert.rejects(harness().apply(duplicateExpanded), /Invalid graph disclosure contract/);
+
+  const nonFrameControl = disclosurePlan();
+  nonFrameControl.web_design.disclosure.transitions[0].controlElementId = 's1-trigger-1-question';
+  await assert.rejects(harness().apply(nonFrameControl), /Invalid graph disclosure contract/);
+
+  const duplicateItemClick = disclosurePlan();
+  duplicateItemClick.web_design.disclosure.transitions.push({
+    id: 'edge-dup', from: 'disclosure-1', to: 'disclosure-2', trigger: 'click', action: 'open',
+    itemLabel: 'What is PlanHub?', autoClosedItem: null, controlElementId: 's1-accordion', observed: true,
+  });
+  await assert.rejects(harness().apply(duplicateItemClick), /Invalid graph disclosure contract/);
+
+  const unreachable = disclosurePlan();
+  unreachable.web_design.disclosure.transitions = unreachable.web_design.disclosure.transitions.slice(0, 2);
+  await assert.rejects(harness().apply(unreachable), /Invalid graph disclosure contract/);
+});
+
+test('public webApply entrypoint rejects a 4-state disclosure plan with a disconnected sibling cycle', async () => {
+  const q1 = 'What is PlanHub?';
+  const q2 = 'How do I create my first workspace?';
+  const q3 = 'How does PlanHub sync?';
+  const disconnectedCycle = disclosurePlan();
+  disconnectedCycle.web_design.screens[2].elements.push(
+    { id: 's3-trigger-3', kind: 'frame', path: ['s3-accordion'], box: { x: 321, y: 400, width: 798, height: 52 } },
+  );
+  disconnectedCycle.web_design.screens.push({
+    id: 'WEB-faq-4',
+    title: 'FAQ 4',
+    layout: { width: 1440, height: 900, background: '#ffffff' },
+    elements: [
+      { id: 's4-accordion', kind: 'frame', path: [], box: { x: 320, y: 200, width: 800, height: 260 } },
+      { id: 's4-trigger-1', kind: 'frame', path: ['s4-accordion'], box: { x: 321, y: 201, width: 798, height: 52 } },
+      { id: 's4-trigger-2', kind: 'frame', path: ['s4-accordion'], box: { x: 321, y: 267, width: 798, height: 52 } },
+      { id: 's4-trigger-3', kind: 'frame', path: ['s4-accordion'], box: { x: 321, y: 333, width: 798, height: 52 } },
+    ],
+  });
+  disconnectedCycle.web_design.disclosure = {
+    frameKey: 'faq',
+    mode: 'single-collapsible',
+    items: [q1, q2, q3],
+    initialState: 'disclosure-1',
+    states: [
+      { id: 'disclosure-1', screenId: 'WEB-faq-1', index: 0, label: 'All closed', expandedItem: null,
+        answerSha256: null, contentSha256: '0'.repeat(64), capture: { path: 'state-1.png', sha256: 'a'.repeat(64) } },
+      { id: 'disclosure-2', screenId: 'WEB-faq-2', index: 1, label: q1, expandedItem: q1,
+        answerSha256: '1'.repeat(64), contentSha256: '2'.repeat(64), capture: { path: 'state-2.png', sha256: 'b'.repeat(64) } },
+      { id: 'disclosure-3', screenId: 'WEB-faq-3', index: 2, label: q2, expandedItem: q2,
+        answerSha256: '3'.repeat(64), contentSha256: '4'.repeat(64), capture: { path: 'state-3.png', sha256: 'c'.repeat(64) } },
+      { id: 'disclosure-4', screenId: 'WEB-faq-4', index: 3, label: q3, expandedItem: q3,
+        answerSha256: '5'.repeat(64), contentSha256: '6'.repeat(64), capture: { path: 'state-4.png', sha256: 'd'.repeat(64) } },
+    ],
+    transitions: [
+      { id: 'edge-1', from: 'disclosure-1', to: 'disclosure-2', trigger: 'click', action: 'open',
+        itemLabel: q1, autoClosedItem: null, controlElementId: 's1-trigger-1', observed: true, evidence: { path: 'c1.png', sha256: 'd'.repeat(64) } },
+      { id: 'edge-2', from: 'disclosure-2', to: 'disclosure-1', trigger: 'click', action: 'close',
+        itemLabel: q1, autoClosedItem: null, controlElementId: 's2-trigger-1', observed: true, evidence: { path: 'c2.png', sha256: 'e'.repeat(64) } },
+      { id: 'edge-3', from: 'disclosure-3', to: 'disclosure-4', trigger: 'click', action: 'switch',
+        itemLabel: q3, autoClosedItem: q2, controlElementId: 's3-trigger-3', observed: true, evidence: { path: 'c3.png', sha256: 'f'.repeat(64) } },
+      { id: 'edge-4', from: 'disclosure-4', to: 'disclosure-3', trigger: 'click', action: 'switch',
+        itemLabel: q2, autoClosedItem: q3, controlElementId: 's4-trigger-2', observed: true, evidence: { path: 'c4.png', sha256: '9'.repeat(64) } },
+    ],
+  };
+  const h = harness();
+  await assert.rejects(h.apply(disconnectedCycle), /Invalid graph disclosure contract/);
+  assert.equal(h.page.children.length, 0);
+});
+
+test('disclosure triggers with aria-expanded capture as local frames while normal buttons remain components', () => {
+  const triggerRect = { x: 321, y: 201, width: 798, height: 52 };
+  const labelRect = { x: 337, y: 215, width: 160, height: 24 };
+  const ctaRect = { x: 321, y: 300, width: 140, height: 40 };
+  const baseStyle = { display: 'flex', visibility: 'visible', opacity: '1', backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundImage: 'none', borderTopWidth: '0px', borderTopStyle: 'none', borderTopLeftRadius: '0px',
+    borderTopColor: 'rgb(0,0,0)', fontFamily: 'Inter', fontWeight: '500', fontSize: '16px', lineHeight: '24px',
+    textAlign: 'left', color: 'rgb(17, 24, 39)', overflowX: 'visible', overflowY: 'visible',
+    maskImage: 'none', filter: 'none', boxShadow: 'none' };
+  const questionText = { nodeType: 3, textContent: 'What is PlanHub?' };
+  const trigger = { nodeType: 1, tagName: 'BUTTON', textContent: 'What is PlanHub?', children: [], childNodes: [questionText],
+    getClientRects: () => [triggerRect], getBoundingClientRect: () => triggerRect, querySelector: () => null,
+    hasAttribute: name => name === 'aria-expanded', getAttribute: name => name === 'aria-expanded' ? 'false' : null };
+  const cta = { nodeType: 1, tagName: 'BUTTON', textContent: 'Get started', children: [], childNodes: [{ nodeType: 3, textContent: 'Get started' }],
+    getClientRects: () => [ctaRect], getBoundingClientRect: () => ctaRect, querySelector: () => null,
+    hasAttribute: () => false, getAttribute: () => null };
+  const body = { tagName: 'BODY', textContent: '', childNodes: [trigger, cta], children: [trigger, cta],
+    getAttribute: () => null, hasAttribute: () => false,
+    getBoundingClientRect: () => ({ x: 0, y: 0, width: 1440, height: 900 }), getClientRects: () => [] };
+  const document = { body, documentElement: { clientWidth: 1440, scrollHeight: 900 }, title: 'FAQ capture',
+    createRange() {
+      let node;
+      return {
+        selectNodeContents(target) { node = target; },
+        setStart(target) { node = target; },
+        setEnd() {},
+        getClientRects: () => [node === questionText ? labelRect : ctaRect],
+        getBoundingClientRect: () => (node === questionText ? labelRect : { x: 333, y: 308, width: 116, height: 24 }),
+      };
+    } };
+  const context = vm.createContext({ document, location: { origin: 'http://127.0.0.1:8874', pathname: '/' },
+    innerHeight: 900, innerWidth: 1440, scrollX: 0, scrollY: 0,
+    getComputedStyle: element => element === cta ? { ...baseStyle, backgroundColor: 'rgb(17, 24, 39)', color: 'rgb(255, 255, 255)' } : baseStyle });
+  vm.runInContext(captureSource, context);
+  const captured = JSON.parse(JSON.stringify(context.captureWebDesign({ screenId: 'WEB-faq-capture' })));
+  const triggerFrame = captured.screen.elements.find(el => el.kind === 'frame' && el.box.width === 798 && el.box.height === 52);
+  assert.ok(triggerFrame, 'unstyled aria-expanded button must emit a local trigger frame');
+  const triggerText = captured.screen.elements.find(el => el.kind === 'text' && el.text.characters === 'What is PlanHub?');
+  assert.deepEqual(triggerText.path, [triggerFrame.id]);
+  const normalButton = captured.screen.elements.find(el => el.kind === 'component');
+  assert.equal(normalButton.componentKey, 'control-button');
+  assert.equal(normalButton.text.characters, 'Get started');
+});
+
 function legacyImportedFrame(harnessState, sourcePlan, nativeFont = { family: 'Inter', style: 'Medium' }) {
   const screen = sourcePlan.web_design.screens[0];
   const page = harnessState.page;
