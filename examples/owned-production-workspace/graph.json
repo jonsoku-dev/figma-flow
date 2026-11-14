@@ -1,0 +1,631 @@
+{
+  "version": 1,
+  "id": "owned-production-workspace",
+  "title": "Owned Production Handoff Workspace",
+  "workspace": {
+    "tokens": {
+      "bg-canvas": "#f4f6f9",
+      "bg-surface": "#ffffff",
+      "bg-subtle": "#f8fafc",
+      "bg-accent": "#eff6ff",
+      "bg-contract": "#f5f3ff",
+      "bg-owned": "#ecfdf5",
+      "bg-private": "#fffbeb",
+      "bg-danger": "#fef2f2",
+      "ink-primary": "#111827",
+      "ink-secondary": "#374151",
+      "ink-muted": "#4b5563",
+      "ink-accent": "#1d4ed8",
+      "ink-contract": "#5b21b6",
+      "ink-owned": "#065f46",
+      "ink-private": "#92400e",
+      "ink-danger": "#b91c1c",
+      "border-subtle": "#cbd5e1",
+      "border-control": "#64748b",
+      "border-accent": "#1d4ed8",
+      "border-contract": "#c4b5fd",
+      "border-owned": "#6ee7b7",
+      "border-private": "#fcd34d",
+      "border-danger": "#fca5a5",
+      "font-sans": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif"
+    },
+    "viewports": [
+      {"key": "desktop", "width": 1440, "height": 900},
+      {"key": "mobile", "width": 390, "height": 844}
+    ],
+    "copy": {
+      "skip_link": "Skip to workspace content",
+      "eyebrow": "Design handoff operations",
+      "app_title": "Handoff Operations Workspace",
+      "app_summary": "Triage component handoff packages, review their gates, and record a decision before the Design import is prepared.",
+      "nav_label": "Workspace sections",
+      "nav_queue": "Queue",
+      "nav_review": "Review",
+      "summary_heading": "Queue summary",
+      "filter_legend": "Filter packages",
+      "search_label": "Search packages",
+      "search_hint": "Matches package code, title, or component family.",
+      "status_label": "Status",
+      "status_all": "All statuses",
+      "filter_apply": "Apply filters",
+      "filter_clear": "Clear filters",
+      "result_count": "{count} of {total} packages shown",
+      "table_caption": "Handoff packages awaiting review",
+      "col_package": "Package",
+      "col_family": "Component family",
+      "col_team": "Owner team",
+      "col_status": "Status",
+      "col_gates": "Gates passed",
+      "col_updated": "Updated",
+      "col_action": "Action",
+      "open_review": "Open review",
+      "open_review_label": "Open review for {title}",
+      "gates_value": "{passed} of {total}",
+      "retry": "Retry sync",
+      "back": "Back to queue",
+      "package_meta": "{code} · {team} · updated {updated}",
+      "gates_heading": "Handoff gates",
+      "gates_mode": "One gate open at a time",
+      "evidence_heading": "Evidence",
+      "evidence_position": "{index} of {count}",
+      "evidence_previous": "Previous evidence",
+      "evidence_next": "Next evidence",
+      "trend_heading": "Gate pass trend",
+      "trend_point": "{label}: {passed} of {total} gates passed",
+      "decision_heading": "Review decision",
+      "decision_legend": "Decision",
+      "note_label": "Reviewer note",
+      "note_hint": "Required for a change request or a block. Use at least 12 characters.",
+      "decision_submit": "Record decision",
+      "error_summary": "Fix the following before recording the decision",
+      "error_decision": "Choose a decision.",
+      "error_note": "Add a reviewer note of at least 12 characters.",
+      "recorded": "{decision} recorded for {code}. Nothing was sent; the record stays in this page."
+    },
+    "statuses": [
+      {"key": "in-review", "label": "In review", "tone": "accent"},
+      {"key": "changes-requested", "label": "Changes requested", "tone": "private"},
+      {"key": "ready", "label": "Ready for import", "tone": "owned"},
+      {"key": "blocked", "label": "Blocked", "tone": "danger"}
+    ],
+    "gate_results": [
+      {"key": "pass", "label": "Passed", "tone": "owned", "passed": true},
+      {"key": "fail", "label": "Failed", "tone": "danger", "passed": false},
+      {"key": "pending", "label": "Pending", "tone": "private", "passed": false}
+    ],
+    "teams": [
+      {"key": "design-systems", "label": "Design systems"},
+      {"key": "product-design", "label": "Product design"},
+      {"key": "frontend-platform", "label": "Frontend platform"}
+    ],
+    "gates": [
+      {
+        "key": "tokens",
+        "title": "Token binding gate",
+        "checks": [
+          "Surface, ink, and stroke fills bind to workspace tokens with no detached hex values.",
+          "Text uses the local Inter stack and makes no external font request."
+        ]
+      },
+      {
+        "key": "components",
+        "title": "Component reuse gate",
+        "checks": [
+          "Repeated rows, badges, and fields are instances of one main component.",
+          "Instance overrides change text and state only and never detach layers."
+        ]
+      },
+      {
+        "key": "states",
+        "title": "State coverage gate",
+        "checks": [
+          "Every list surface has ready, empty, and error variants.",
+          "Form errors are linked to their fields and announced to assistive technology."
+        ]
+      },
+      {
+        "key": "media",
+        "title": "Media rights gate",
+        "checks": [
+          "Every image is a repo-authored local file listed in the asset manifest.",
+          "Asset bytes match the manifest digest before they are served or captured."
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "key": "tokens",
+        "title": "Token swatches",
+        "caption": "Surface, ink, and accent swatches bound to workspace tokens.",
+        "alt": "Five colour swatches above three token bars of different lengths.",
+        "asset": "media/evidence-token-swatches.svg"
+      },
+      {
+        "key": "layout",
+        "title": "Responsive frame grid",
+        "caption": "Desktop and mobile frames share one column system.",
+        "alt": "A wide desktop frame with a four-column grid beside a narrow single-column mobile frame.",
+        "asset": "media/evidence-layout-grid.svg"
+      },
+      {
+        "key": "states",
+        "title": "State map",
+        "caption": "Ready, empty, and error variants linked by recorded actions.",
+        "alt": "Three state cards connected by arrows, with one card marked by a warning stripe.",
+        "asset": "media/evidence-state-map.svg"
+      }
+    ],
+    "empty_media": {
+      "alt": "An empty tray with a dashed outline.",
+      "asset": "media/queue-empty.svg"
+    },
+    "packages": [
+      {
+        "key": "pkg-field-input",
+        "code": "HO-201",
+        "title": "Field and input family",
+        "family": "field, input",
+        "team": "design-systems",
+        "status": "in-review",
+        "updated": "2026-11-09",
+        "gate_results": {"tokens": "pass", "components": "pass", "states": "pending", "media": "pass"}
+      },
+      {
+        "key": "pkg-selection",
+        "code": "HO-202",
+        "title": "Selection controls",
+        "family": "checkbox, radio",
+        "team": "product-design",
+        "status": "changes-requested",
+        "updated": "2026-11-08",
+        "gate_results": {"tokens": "pass", "components": "fail", "states": "pending", "media": "pass"}
+      },
+      {
+        "key": "pkg-table-density",
+        "code": "HO-203",
+        "title": "Data table density",
+        "family": "table-row, table-cell",
+        "team": "frontend-platform",
+        "status": "ready",
+        "updated": "2026-11-06",
+        "gate_results": {"tokens": "pass", "components": "pass", "states": "pass", "media": "pass"}
+      },
+      {
+        "key": "pkg-gate-disclosure",
+        "code": "HO-204",
+        "title": "Gate disclosure",
+        "family": "disclosure",
+        "team": "design-systems",
+        "status": "ready",
+        "updated": "2026-11-05",
+        "gate_results": {"tokens": "pass", "components": "pass", "states": "pass", "media": "pass"}
+      },
+      {
+        "key": "pkg-evidence-rail",
+        "code": "HO-205",
+        "title": "Evidence rail",
+        "family": "scroll-snap rail",
+        "team": "product-design",
+        "status": "blocked",
+        "updated": "2026-11-10",
+        "gate_results": {"tokens": "pass", "components": "pending", "states": "fail", "media": "fail"}
+      },
+      {
+        "key": "pkg-queue-states",
+        "code": "HO-206",
+        "title": "Queue empty and error states",
+        "family": "status banner",
+        "team": "frontend-platform",
+        "status": "in-review",
+        "updated": "2026-11-10",
+        "gate_results": {"tokens": "pass", "components": "pass", "states": "pending", "media": "pass"}
+      }
+    ],
+    "default_package": "pkg-field-input",
+    "trend": [
+      {"label": "Cycle 1", "passed": 9, "total": 16},
+      {"label": "Cycle 2", "passed": 11, "total": 16},
+      {"label": "Cycle 3", "passed": 10, "total": 16},
+      {"label": "Cycle 4", "passed": 13, "total": 16},
+      {"label": "Cycle 5", "passed": 14, "total": 16},
+      {"label": "Cycle 6", "passed": 16, "total": 20}
+    ],
+    "decisions": [
+      {"key": "approve", "label": "Approve handoff", "requires_note": false},
+      {"key": "changes", "label": "Request changes", "requires_note": true},
+      {"key": "block", "label": "Block release", "requires_note": true}
+    ],
+    "note_min_length": 12
+  },
+  "nodes": [
+    {
+      "id": "REF-OPS-CONTINUATION",
+      "type": "reference",
+      "status": "verified",
+      "layer": "reference-input",
+      "source": "README.md#continuation-boundary",
+      "title": "Continuation of the owned handoff and component family baselines",
+      "detail": "Restates the owned baseline sRGB token values and the label, fieldset, and table patterns as new values in this graph. Neither earlier example is read at runtime and no external template is recorded."
+    },
+    {
+      "id": "REQ-OPS-QUEUE",
+      "type": "requirement",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "graph.json#workspace.packages",
+      "title": "Triage the handoff queue",
+      "detail": "A designer or engineer filters handoff packages by text and status in a native form, reads them in a captioned table, and sees distinct ready, empty, and error views."
+    },
+    {
+      "id": "REQ-OPS-REVIEW",
+      "type": "requirement",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "graph.json#workspace.gates",
+      "title": "Review gates and record a decision",
+      "detail": "A reviewer opens one package, reads its gates in a single-open disclosure, scans evidence in a scroll-snap rail, and records a decision whose validation errors are tied to native fields."
+    },
+    {
+      "id": "REQ-OPS-RIGHTS",
+      "type": "requirement",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "manifest.json#files",
+      "title": "Serve only approved unchanged local files",
+      "detail": "Only manifest-listed repo-authored files with matching SHA-256 digests are read or served. Symlinks, path escapes, undeclared files, and external URLs are rejected before capture."
+    },
+    {
+      "id": "SCR-OPS-QUEUE",
+      "type": "screen",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "index.html",
+      "route": "queue",
+      "layout": "queue",
+      "title": "Handoff queue",
+      "detail": "Summary counts, a filter form, and the package table at desktop and mobile widths."
+    },
+    {
+      "id": "SCR-OPS-REVIEW",
+      "type": "screen",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "index.html",
+      "route": "review",
+      "layout": "review",
+      "title": "Package review",
+      "detail": "Gate disclosure, evidence rail with repo-authored SVG, a canvas pass trend, and the decision form."
+    },
+    {
+      "id": "STATE-QUEUE-READY",
+      "type": "state",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "route": "ready",
+      "kind": "ready",
+      "initial": true,
+      "title": "Queue ready",
+      "detail": "Rows match the current filters."
+    },
+    {
+      "id": "STATE-QUEUE-EMPTY",
+      "type": "state",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "route": "empty",
+      "kind": "empty",
+      "initial": false,
+      "route_fixture": {"query": "HO-999", "status": ""},
+      "title": "No matching packages",
+      "detail": "No packages match these filters. Clear the filters to see the full queue."
+    },
+    {
+      "id": "STATE-QUEUE-ERROR",
+      "type": "state",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "route": "error",
+      "kind": "error",
+      "tone": "danger",
+      "initial": false,
+      "entry": "route",
+      "title": "Queue sync failed",
+      "detail": "The queue could not be refreshed. Retry to reload the last approved snapshot."
+    },
+    {
+      "id": "STATE-REVIEW-IDLE",
+      "type": "state",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "route": "pending",
+      "kind": "idle",
+      "initial": true,
+      "title": "Decision pending",
+      "detail": "The reviewer has not recorded a decision for this package."
+    },
+    {
+      "id": "STATE-REVIEW-INVALID",
+      "type": "state",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "route": "invalid",
+      "kind": "invalid",
+      "initial": false,
+      "route_fixture": {"decision": "", "note": ""},
+      "title": "Decision needs fixes",
+      "detail": "The decision form lists each missing field and marks it invalid."
+    },
+    {
+      "id": "STATE-REVIEW-RECORDED",
+      "type": "state",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "route": "recorded",
+      "kind": "recorded",
+      "tone": "owned",
+      "initial": false,
+      "route_fixture": {"decision": "approve", "note": ""},
+      "title": "Decision recorded",
+      "detail": "The decision is confirmed in a status message and the form is locked."
+    },
+    {
+      "id": "ACT-QUEUE-FILTER-EMPTY",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-QUEUE",
+      "target_ids": ["STATE-QUEUE-EMPTY"],
+      "control": "filter",
+      "outcome": "none",
+      "title": "Apply filters with no match",
+      "detail": "Submitting the filter form with no matching rows shows the empty view."
+    },
+    {
+      "id": "ACT-QUEUE-FILTER-MATCH",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-QUEUE",
+      "target_ids": ["STATE-QUEUE-READY"],
+      "control": "filter",
+      "outcome": "match",
+      "title": "Apply filters with matches",
+      "detail": "Submitting filters that match rows from the empty view returns to the table."
+    },
+    {
+      "id": "ACT-QUEUE-CLEAR",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-QUEUE",
+      "target_ids": ["STATE-QUEUE-READY"],
+      "control": "clear-filters",
+      "title": "Clear filters",
+      "detail": "Clearing filters from the empty view restores every row."
+    },
+    {
+      "id": "ACT-QUEUE-RETRY",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-QUEUE",
+      "target_ids": ["STATE-QUEUE-READY"],
+      "control": "retry",
+      "title": "Retry queue sync",
+      "detail": "Retrying from the error view reloads the approved snapshot."
+    },
+    {
+      "id": "ACT-QUEUE-OPEN-REVIEW",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-QUEUE",
+      "target_ids": ["STATE-REVIEW-IDLE"],
+      "control": "open-review",
+      "title": "Open a package review",
+      "detail": "The row button opens the review screen for that package."
+    },
+    {
+      "id": "ACT-REVIEW-SUBMIT-INVALID",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-REVIEW",
+      "target_ids": ["STATE-REVIEW-INVALID"],
+      "control": "submit-decision",
+      "outcome": "invalid",
+      "title": "Submit an incomplete decision",
+      "detail": "Submitting without a decision, or without a long enough note when one is required, shows field errors."
+    },
+    {
+      "id": "ACT-REVIEW-SUBMIT-VALID",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-REVIEW",
+      "target_ids": ["STATE-REVIEW-RECORDED"],
+      "control": "submit-decision",
+      "outcome": "valid",
+      "title": "Record a complete decision",
+      "detail": "A valid decision is confirmed locally and the form locks."
+    },
+    {
+      "id": "ACT-REVIEW-BACK",
+      "type": "action",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-OPS-REVIEW",
+      "target_ids": ["STATE-QUEUE-READY"],
+      "control": "back",
+      "title": "Return to the queue",
+      "detail": "The back button returns to the unfiltered queue."
+    },
+    {
+      "id": "CMP-STATUS-BADGE",
+      "type": "component",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "component_key": "status-badge",
+      "title": "Status badge",
+      "detail": "Pill with a tone per package status or gate result."
+    },
+    {
+      "id": "CMP-DATA-TABLE",
+      "type": "component",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "component_key": "data-table",
+      "title": "Package table",
+      "detail": "Captioned table with column headers, a row header, and one action per row."
+    },
+    {
+      "id": "CMP-FORM-FIELD",
+      "type": "component",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "component_key": "form-field",
+      "title": "Form field",
+      "detail": "Native control with a label, an optional hint, and an optional linked error."
+    },
+    {
+      "id": "CMP-GATE-DISCLOSURE",
+      "type": "component",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "component_key": "gate-disclosure",
+      "title": "Gate disclosure",
+      "detail": "Single-open disclosure item with a button trigger and a labelled region."
+    },
+    {
+      "id": "CMP-EVIDENCE-CARD",
+      "type": "component",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "component_key": "evidence-card",
+      "title": "Evidence card",
+      "detail": "Rail card with an inline repo-authored SVG, a heading, and a caption."
+    },
+    {
+      "id": "CODE-OPS-RENDERER",
+      "type": "code",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "title": "Graph-driven workspace renderer",
+      "detail": "Renders both screens, every state, and each action from graph.json and follows only transitions the graph declares."
+    },
+    {
+      "id": "TEST-OPS-WORKSPACE",
+      "type": "test",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "README.md#verification",
+      "title": "Allowlist, digest, projection, and single-source checks",
+      "detail": "Runs the manifest verifier against pristine and tampered copies, exercises the serve boundary, projects the graph through the review projection, and checks that the renderer repeats no graph copy."
+    },
+    {
+      "id": "AC-OPS-RIGHTS",
+      "type": "acceptance",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "manifest.json#files",
+      "title": "Only approved assets are read and digests are recorded",
+      "detail": "No account, session, or private source text is published, only approved unchanged files are served, and the receipt records input and output digests. Automated checks do not replace the rights review."
+    },
+    {
+      "id": "AC-OPS-WORKFLOW",
+      "type": "acceptance",
+      "status": "unverified",
+      "layer": "owned-public-baseline",
+      "source": "graph.json#nodes",
+      "title": "Queue and review workflow renders every declared state",
+      "detail": "Each declared state renders from its route at both viewports, and every transition the renderer follows is a graph action. Browser and Design observation is pending the root live check."
+    },
+    {
+      "id": "FIG-OPS-PRIVATE-FRAMES",
+      "type": "figma",
+      "status": "planned",
+      "layer": "generated-private-output",
+      "title": "Private generated Design frames",
+      "detail": "Generated outside Git through the existing disclosure capture and native edit routes and kept in private evidence storage."
+    }
+  ],
+  "edges": [
+    {"from": "REF-OPS-CONTINUATION", "to": "REQ-OPS-QUEUE", "type": "informs"},
+    {"from": "REF-OPS-CONTINUATION", "to": "REQ-OPS-REVIEW", "type": "informs"},
+    {"from": "REF-OPS-CONTINUATION", "to": "REQ-OPS-RIGHTS", "type": "informs"},
+    {"from": "REQ-OPS-QUEUE", "to": "SCR-OPS-QUEUE", "type": "appears on"},
+    {"from": "REQ-OPS-REVIEW", "to": "SCR-OPS-REVIEW", "type": "appears on"},
+    {"from": "REQ-OPS-RIGHTS", "to": "SCR-OPS-REVIEW", "type": "appears on"},
+    {"from": "REQ-OPS-QUEUE", "to": "AC-OPS-WORKFLOW", "type": "accepted by"},
+    {"from": "REQ-OPS-REVIEW", "to": "AC-OPS-WORKFLOW", "type": "accepted by"},
+    {"from": "REQ-OPS-RIGHTS", "to": "AC-OPS-RIGHTS", "type": "accepted by"},
+    {"from": "SCR-OPS-QUEUE", "to": "STATE-QUEUE-READY", "type": "has state"},
+    {"from": "SCR-OPS-QUEUE", "to": "STATE-QUEUE-EMPTY", "type": "has state"},
+    {"from": "SCR-OPS-QUEUE", "to": "STATE-QUEUE-ERROR", "type": "has state"},
+    {"from": "SCR-OPS-REVIEW", "to": "STATE-REVIEW-IDLE", "type": "has state"},
+    {"from": "SCR-OPS-REVIEW", "to": "STATE-REVIEW-INVALID", "type": "has state"},
+    {"from": "SCR-OPS-REVIEW", "to": "STATE-REVIEW-RECORDED", "type": "has state"},
+    {"from": "SCR-OPS-QUEUE", "to": "ACT-QUEUE-FILTER-EMPTY", "type": "triggers"},
+    {"from": "SCR-OPS-QUEUE", "to": "ACT-QUEUE-FILTER-MATCH", "type": "triggers"},
+    {"from": "SCR-OPS-QUEUE", "to": "ACT-QUEUE-CLEAR", "type": "triggers"},
+    {"from": "SCR-OPS-QUEUE", "to": "ACT-QUEUE-RETRY", "type": "triggers"},
+    {"from": "SCR-OPS-QUEUE", "to": "ACT-QUEUE-OPEN-REVIEW", "type": "triggers"},
+    {"from": "SCR-OPS-REVIEW", "to": "ACT-REVIEW-SUBMIT-INVALID", "type": "triggers"},
+    {"from": "SCR-OPS-REVIEW", "to": "ACT-REVIEW-SUBMIT-VALID", "type": "triggers"},
+    {"from": "SCR-OPS-REVIEW", "to": "ACT-REVIEW-BACK", "type": "triggers"},
+    {"from": "STATE-QUEUE-READY", "to": "ACT-QUEUE-FILTER-EMPTY", "type": "accepts input"},
+    {"from": "ACT-QUEUE-FILTER-EMPTY", "to": "STATE-QUEUE-EMPTY", "type": "navigates to"},
+    {"from": "STATE-QUEUE-EMPTY", "to": "ACT-QUEUE-FILTER-MATCH", "type": "accepts input"},
+    {"from": "ACT-QUEUE-FILTER-MATCH", "to": "STATE-QUEUE-READY", "type": "navigates to"},
+    {"from": "STATE-QUEUE-EMPTY", "to": "ACT-QUEUE-CLEAR", "type": "accepts input"},
+    {"from": "ACT-QUEUE-CLEAR", "to": "STATE-QUEUE-READY", "type": "navigates to"},
+    {"from": "STATE-QUEUE-ERROR", "to": "ACT-QUEUE-RETRY", "type": "accepts input"},
+    {"from": "ACT-QUEUE-RETRY", "to": "STATE-QUEUE-READY", "type": "navigates to"},
+    {"from": "STATE-QUEUE-READY", "to": "ACT-QUEUE-OPEN-REVIEW", "type": "accepts input"},
+    {"from": "ACT-QUEUE-OPEN-REVIEW", "to": "STATE-REVIEW-IDLE", "type": "navigates to"},
+    {"from": "STATE-REVIEW-IDLE", "to": "ACT-REVIEW-SUBMIT-INVALID", "type": "accepts input"},
+    {"from": "STATE-REVIEW-INVALID", "to": "ACT-REVIEW-SUBMIT-INVALID", "type": "accepts input"},
+    {"from": "ACT-REVIEW-SUBMIT-INVALID", "to": "STATE-REVIEW-INVALID", "type": "navigates to"},
+    {"from": "STATE-REVIEW-IDLE", "to": "ACT-REVIEW-SUBMIT-VALID", "type": "accepts input"},
+    {"from": "STATE-REVIEW-INVALID", "to": "ACT-REVIEW-SUBMIT-VALID", "type": "accepts input"},
+    {"from": "ACT-REVIEW-SUBMIT-VALID", "to": "STATE-REVIEW-RECORDED", "type": "navigates to"},
+    {"from": "STATE-REVIEW-IDLE", "to": "ACT-REVIEW-BACK", "type": "accepts input"},
+    {"from": "STATE-REVIEW-INVALID", "to": "ACT-REVIEW-BACK", "type": "accepts input"},
+    {"from": "STATE-REVIEW-RECORDED", "to": "ACT-REVIEW-BACK", "type": "accepts input"},
+    {"from": "ACT-REVIEW-BACK", "to": "STATE-QUEUE-READY", "type": "navigates to"},
+    {"from": "SCR-OPS-QUEUE", "to": "CMP-STATUS-BADGE", "type": "uses"},
+    {"from": "SCR-OPS-QUEUE", "to": "CMP-DATA-TABLE", "type": "uses"},
+    {"from": "SCR-OPS-QUEUE", "to": "CMP-FORM-FIELD", "type": "uses"},
+    {"from": "SCR-OPS-REVIEW", "to": "CMP-STATUS-BADGE", "type": "uses"},
+    {"from": "SCR-OPS-REVIEW", "to": "CMP-FORM-FIELD", "type": "uses"},
+    {"from": "SCR-OPS-REVIEW", "to": "CMP-GATE-DISCLOSURE", "type": "uses"},
+    {"from": "SCR-OPS-REVIEW", "to": "CMP-EVIDENCE-CARD", "type": "uses"},
+    {"from": "SCR-OPS-QUEUE", "to": "CODE-OPS-RENDERER", "type": "implemented by"},
+    {"from": "SCR-OPS-REVIEW", "to": "CODE-OPS-RENDERER", "type": "implemented by"},
+    {"from": "SCR-OPS-QUEUE", "to": "FIG-OPS-PRIVATE-FRAMES", "type": "represented by"},
+    {"from": "SCR-OPS-REVIEW", "to": "FIG-OPS-PRIVATE-FRAMES", "type": "represented by"},
+    {"from": "AC-OPS-RIGHTS", "to": "TEST-OPS-WORKSPACE", "type": "checked by"},
+    {"from": "AC-OPS-WORKFLOW", "to": "TEST-OPS-WORKSPACE", "type": "checked by"},
+    {"from": "CODE-OPS-RENDERER", "to": "TEST-OPS-WORKSPACE", "type": "checked by"}
+  ]
+}

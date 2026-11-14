@@ -1,0 +1,202 @@
+{
+  "schema": "figma-flow-owned-production-workspace-manifest-v1",
+  "id": "owned-production-workspace",
+  "title": "Owned production workspace rights and digest manifest",
+  "canonical_graph": "graph.json",
+  "ownership": {
+    "copyright": "Copyright (c) 2026 Jongseok Lee",
+    "authored_in_repo": true,
+    "license": "MIT",
+    "license_path": "../../LICENSE",
+    "third_party_sources": [],
+    "third_party_licenses_claimed": [],
+    "external_media_assets": 0,
+    "external_font_requests": 0,
+    "external_network_requests": 0
+  },
+  "external_reference_policy": {
+    "policy_id": "zero-external-template-trace",
+    "requires_template_source": false,
+    "record_external_names": false,
+    "record_external_urls": false,
+    "record_external_screenshots": false,
+    "record_external_copy": false,
+    "summary": "The fixture continues repo-owned examples only. External template names, URLs, screenshots, and source text are never recorded."
+  },
+  "artifact_layers": {
+    "reference-input": {
+      "label": "Reference contract input",
+      "sharing_scope": "public-contract-only",
+      "git_tracked": true,
+      "summary": "Repo-internal continuation boundary restated in this fixture without reading other examples at runtime."
+    },
+    "owned-public-baseline": {
+      "label": "Owned public fixture",
+      "sharing_scope": "public",
+      "git_tracked": true,
+      "summary": "Repo-authored graph, shell, stylesheet, renderer, vector media, and guide under the repository MIT license, each pinned by SHA-256."
+    },
+    "generated-private-output": {
+      "label": "Generated private output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "summary": "Receipts, access logs, browser captures, compiled graphs, Design plans, bundles, and readbacks kept outside Git."
+    }
+  },
+  "approval": {
+    "serve_and_read_rule": "A file is read or served only when it is listed here, is a regular non-symlink file inside the fixture, and its bytes match the declared SHA-256.",
+    "rights_review": "Automated checks record digests and policy results. They do not replace the rights review."
+  },
+  "files": [
+    {
+      "path": "graph.json",
+      "role": "canonical-ssot-graph",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "application/json",
+      "serve": true,
+      "sha256": "4750c8b019b1b48ba424d1af356287f77d2e92b389bf43142df60767bc58fe9c"
+    },
+    {
+      "path": "index.html",
+      "role": "semantic-shell",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "text/html; charset=utf-8",
+      "serve": true,
+      "sha256": "e761cfc0f64b292fdbf1ac682e44fac8e37894faac851527ae464dc1cc7c852e"
+    },
+    {
+      "path": "styles.css",
+      "role": "token-only-stylesheet",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "text/css; charset=utf-8",
+      "serve": true,
+      "sha256": "07f8cc19987432f7381e1fbe10fd7942565784bcbe4d05dc60813933d1274304"
+    },
+    {
+      "path": "renderer.js",
+      "role": "graph-driven-renderer",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "text/javascript; charset=utf-8",
+      "serve": true,
+      "sha256": "88bf76d9fe6711ff83d147a26f509794676d66c1f38816665a7402bbdb89ad2f"
+    },
+    {
+      "path": "media/evidence-token-swatches.svg",
+      "role": "media",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "image/svg+xml",
+      "serve": true,
+      "sha256": "095c11518bbc242ad33adbc1fcc45648b4af6d97419e9d31e97895059996a7f7"
+    },
+    {
+      "path": "media/evidence-layout-grid.svg",
+      "role": "media",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "image/svg+xml",
+      "serve": true,
+      "sha256": "d8865f179c55213320c63aaabcdf212258729d93b3d2ce9e03b6d191efab52e7"
+    },
+    {
+      "path": "media/evidence-state-map.svg",
+      "role": "media",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "image/svg+xml",
+      "serve": true,
+      "sha256": "a4dfffe6da97a30df43f07d9534cac96e85589726cb4549615d1bd3f0df935e0"
+    },
+    {
+      "path": "media/queue-empty.svg",
+      "role": "media",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "image/svg+xml",
+      "serve": true,
+      "sha256": "502cc338e8cd31e55558f10f7606f80df8c0244bf12985e12c0ef1d76e0cac9f"
+    },
+    {
+      "path": "README.md",
+      "role": "reproducible-cli-guide",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "retention": "repository-history",
+      "ownership": "repo-authored",
+      "license": "MIT",
+      "media_type": "text/markdown; charset=utf-8",
+      "serve": false,
+      "sha256": "d4e6324ae2aae292957dacb83f8954d000440e52c95ab719e910bb4c4d109c8b"
+    }
+  ],
+  "private_generated_outputs": [
+    {
+      "pattern": "receipt.json",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "retention": "private-evidence-untracked",
+      "git_tracked": false,
+      "purpose": "Verify receipt with input file digests, screen routes, viewports, and review projection digest."
+    },
+    {
+      "pattern": "served.jsonl",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "retention": "private-evidence-untracked",
+      "git_tracked": false,
+      "purpose": "Served path, status, and digest log from the loopback server."
+    },
+    {
+      "pattern": "gates-*/**",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "retention": "private-evidence-untracked",
+      "git_tracked": false,
+      "purpose": "Disclosure capture screenshots, measured screens, observations, inputs, and compiled graph."
+    },
+    {
+      "pattern": "*-plan.json",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "retention": "private-evidence-untracked",
+      "git_tracked": false,
+      "purpose": "Pinned Design execution and review plans."
+    },
+    {
+      "pattern": "*-bundle/**",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "retention": "private-evidence-untracked",
+      "git_tracked": false,
+      "purpose": "Prepared plugin bundles and Design readbacks."
+    }
+  ]
+}
