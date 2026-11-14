@@ -1,0 +1,346 @@
+{
+  "schema": "figma-flow-capability-backlog-v1",
+  "id": "figma-design-capability-expansion",
+  "title": "Figma Design capability expansion",
+  "description": "Canonical proposed Figma Design-only capability backlog beyond the accepted narrow CTA baseline. Graph registration does not claim product implementation or runtime verification.",
+  "entry_document": "README.md",
+  "planning_document": "capability-review.md",
+  "edge_direction": "A depends-on B means A requires B first. An extends edge points from new work to the accepted narrow baseline it expands.",
+  "status_vocabulary": ["accepted", "proposed", "in-progress", "verified", "blocked"],
+  "nodes": [
+    {
+      "id": "accepted-narrow-cta-baseline",
+      "type": "reference",
+      "status": "accepted",
+      "priority": "baseline",
+      "evidence_status": "accepted-baseline",
+      "title": "Accepted narrow CTA G2-G5 path",
+      "doc_ref": "capability-review.md#accepted-cta-baseline",
+      "spec_refs": [
+        "../STARTER_ROLE_FEATURE_SPEC.md#ssot-graph-plan",
+        "../llm-wiki/releases.md#v0.28.0",
+        "../../specs/design-specialization/spec.md",
+        "../../specs/graph-review/spec.md",
+        "../../specs/interactive-web/disclosure.md",
+        "../../specs/interactive-web/graph.json"
+      ],
+      "scope": "One selected CTA and its accepted policy review, CSS output, native round trip, and handoff evidence (with 0.33-0.35 interactive prototype baselines tracked separately in specs/interactive-web/). Broader app, component, and input coverage remains separate."
+    },
+    {
+      "id": "p0-reference-safety",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P0",
+      "evidence_status": "pending-independent-proof",
+      "title": "Protect references and isolate owned baseline inputs",
+      "doc_ref": "capability-review.md#p0-reference-safety",
+      "roles": ["planner", "designer", "engineer"],
+      "deliverables": [
+        "Protected input manifest",
+        "Independent regression fixtures",
+        "Source and generated-output ownership record"
+      ],
+      "spec_refs": [
+        "../../CONSTITUTION.md",
+        "../../specs/design-specialization/spec.md"
+      ],
+      "proof_refs": [
+        "../../tools/reference_distribution_guard.py",
+        "../../tests/test_reference_distribution_guard.py",
+        "../../examples/owned-design-baseline/",
+        "../../examples/owned-design-baseline/README.md"
+      ],
+      "commands": [
+        "python3 -B -m unittest tests.test_design_specialization",
+        "python3 -B tools/reference_distribution_guard.py --ref HEAD --format text",
+        "python3 -B -m unittest tests.test_reference_distribution_guard"
+      ],
+      "acceptance": [
+        "Existing reference bytes remain unchanged",
+        "New fixtures do not depend on protected source artifacts",
+        "Every public fixture has provenance and rights status",
+        "Independent guard and owned-baseline proof artifacts are integrated and verified before setting status to verified"
+      ]
+    },
+    {
+      "id": "p0-api-queue-validation",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P0",
+      "evidence_status": "cli-reproduction-observed",
+      "title": "Refresh and classify the Design API queue",
+      "doc_ref": "capability-review.md#current-cli-evidence",
+      "roles": ["engineer", "designer"],
+      "deliverables": [
+        "Fresh temporary API inventory",
+        "Design feasible queue summary",
+        "Unobserved-member classification"
+      ],
+      "spec_refs": [
+        "../api-priority.md",
+        "../../specs/design-inspection/scene-observations.json",
+        "../../specs/design-inspection/service-observations.json",
+        "../../specs/design-specialization/spec.md"
+      ],
+      "proof_refs": [
+        "../../tools/api_priority.py",
+        "../api-priority.md",
+        "../../specs/design-inspection/scene-observations.json"
+      ],
+      "commands": [
+        "python3 -B tools/api_priority.py build --out <temporary-inventory>",
+        "python3 -B tools/api_priority.py queue --inventory <temporary-inventory> --limit 2000",
+        "python3 -B tools/api_priority.py queue --inventory <temporary-inventory> --design-only --feasible-only"
+      ],
+      "observed_evidence": {
+        "kind": "carried-forward-cli-measurement",
+        "inventory_sha256": "4e5480245bf3779a7d39668698be65fd5d0974bee71b5ce9316eea0918c551a5",
+        "audit_rows": 1382,
+        "observed_graph_member_ids": 502,
+        "unobserved_members": 825,
+        "design_feasible_queue_rows": 12,
+        "design_feasible_scope_counts": {
+          "design-api": 8,
+          "design-node": 4
+        },
+        "note": "Carried-forward independent CLI measurement only, separate from P0 task acceptance; observed_graph_member_ids is a separate input metric, not a runtime support rate; feasible candidates are investigation targets, not supported features."
+      },
+      "acceptance": [
+        "Queue counts are reproduced or their changed evidence is classified",
+        "Feasible candidates are not reported as supported",
+        "Inventory generation does not overwrite protected evidence"
+      ]
+    },
+    {
+      "id": "p1-native-component-families",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P1",
+      "evidence_status": "unstarted",
+      "title": "Add native component families with override preservation",
+      "doc_ref": "capability-review.md#p1-component-families",
+      "roles": ["designer", "engineer", "planner"],
+      "deliverables": [
+        "Declared field and table families",
+        "Semantic target mapping",
+        "Native property readback and rollback evidence"
+      ],
+      "spec_refs": [
+        "NF-01-component-families.md",
+        "../../specs/design-specialization/spec.md",
+        "../../specs/graph-review/spec.md"
+      ],
+      "commands": [
+        "python3 -B -m unittest discover -s tests -p 'test_design_system.py'",
+        "python3 -B -m unittest discover -s tests -p 'test_rd04_component_fields.py'",
+        "node --test tests/test_semantic_component_reuse.cjs tests/test_graph_token_sync.cjs"
+      ],
+      "proposed_checks": [
+        "python3 -B -m unittest discover -s tests -p 'test_component_families.py'",
+        "node --test tests/nf01_component_properties.cjs"
+      ],
+      "acceptance": [
+        "Declared property keys resolve to exact semantic targets",
+        "Undeclared variants are rejected",
+        "Actual instance overrides survive repeat apply"
+      ]
+    },
+    {
+      "id": "p1-causal-review-history",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P1",
+      "evidence_status": "unstarted",
+      "title": "Show causal review history for exact revisions",
+      "doc_ref": "capability-review.md#p1-causal-history",
+      "roles": ["planner", "engineer", "designer"],
+      "deliverables": [
+        "Bounded read-only operation detail",
+        "Exact dependency and revision links",
+        "Field diff with unavailable and stale states"
+      ],
+      "spec_refs": [
+        "NF-03-causal-history.md",
+        "../../specs/workspace-activity/spec.md",
+        "../../specs/workspace-activity/graph.json",
+        "../../specs/readable-specifications/spec.md"
+      ],
+      "commands": [
+        "python3 -B -m unittest discover -s tests -p 'test_rd08_journal_history.py'",
+        "python3 -B -m unittest discover -s tests -p 'test_rd08_conflict_detail.py'",
+        "python3 -B -m unittest discover -s tests -p 'test_rd03_task_dependencies.py'",
+        "node --test tests/test_workspace_host.cjs tests/test_workspace_activity.cjs",
+        "npm --prefix panel-ui run build"
+      ],
+      "proposed_checks": [
+        "python3 -B -m unittest discover -s tests -p 'test_operation_detail.py'",
+        "node --test tests/nf03_history_detail.cjs"
+      ],
+      "acceptance": [
+        "Only the selected operation and exact scope are read",
+        "Missing before evidence remains unavailable",
+        "The view cannot trigger execution or recovery"
+      ]
+    },
+    {
+      "id": "p2-rights-cleared-fixture",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P2",
+      "evidence_status": "unstarted",
+      "title": "Prepare rights-cleared production-like fixtures",
+      "doc_ref": "capability-review.md#p2-production-fixture",
+      "roles": ["planner", "designer", "engineer"],
+      "deliverables": [
+        "Public fixture",
+        "Rights and provenance record",
+        "Sensitive-data exclusion check"
+      ],
+      "spec_refs": [
+        "NF-07-web-import-editor-capabilities.md",
+        "NF-09-interactive-web-design.md",
+        "../../specs/editable-web/graph.json",
+        "../../specs/responsive-web/graph.json"
+      ],
+      "commands": [
+        "python3 -B -m unittest discover -s tests -p 'test_web_design.py'"
+      ],
+      "acceptance": [
+        "No real account or private source text is published",
+        "Only approved assets are read",
+        "Input and output digests are recorded"
+      ]
+    },
+    {
+      "id": "p2-faq-mobile-keyboard",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P2",
+      "evidence_status": "unstarted",
+      "title": "Verify FAQ mobile and keyboard interactions",
+      "doc_ref": "capability-review.md#p2-faq-accessibility",
+      "roles": ["planner", "designer", "engineer"],
+      "deliverables": [
+        "Mobile captures",
+        "Observed keyboard transition graph",
+        "Accessibility-tree review"
+      ],
+      "spec_refs": [
+        "NF-09-interactive-web-design.md",
+        "../../specs/interactive-web/disclosure.md",
+        "../../specs/interactive-web/graph.json"
+      ],
+      "commands": [
+        "python3 -B -m unittest discover -s tests -p 'test_web_design.py'",
+        "node --test tests/test_web_design.cjs"
+      ],
+      "acceptance": [
+        "Only observed transitions enter the graph",
+        "Keyboard reaches the same browser states as pointer input",
+        "Focus and disclosure semantics are inspected in the browser"
+      ]
+    },
+    {
+      "id": "p2-complex-render-fidelity",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P2",
+      "evidence_status": "unstarted",
+      "title": "Extend complex CSS, SVG, canvas, and media fidelity",
+      "doc_ref": "capability-review.md#p2-css-fidelity",
+      "roles": ["designer", "engineer", "planner"],
+      "deliverables": [
+        "Per-fixture source-to-native mapping",
+        "Unsupported media report",
+        "Staged output with recovery proof"
+      ],
+      "spec_refs": [
+        "NF-04-renderer-adapters.md",
+        "NF-07-web-import-editor-capabilities.md",
+        "../web-design-capture.md",
+        "../../specs/editable-web/graph.json",
+        "../../specs/responsive-web/graph.json"
+      ],
+      "commands": [
+        "python3 -B -m unittest discover -s tests -p 'test_web_design.py'",
+        "node --test tests/test_web_design.cjs",
+        "python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'"
+      ],
+      "acceptance": [
+        "Observed, editable, raster-fallback, and unsupported cases are distinct",
+        "Output is deterministic for the same input",
+        "Stale hashes and interrupted writes preserve existing graph and outputs"
+      ]
+    },
+    {
+      "id": "p2-read-performance-baseline",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P2",
+      "evidence_status": "unstarted",
+      "title": "Measure fresh-read performance baseline",
+      "doc_ref": "capability-review.md#p2-performance-baseline",
+      "roles": ["engineer", "designer", "planner"],
+      "deliverables": [
+        "Fixed-scope repeated measurements",
+        "Coverage and freshness report",
+        "Observed bottleneck summary"
+      ],
+      "spec_refs": [
+        "NF-02-incremental-native-read.md",
+        "../../specs/design-inspection/service-observations.json"
+      ],
+      "commands": [
+        "node --test tests/rd06_fresh_read.cjs tests/rd06_summary_coverage.cjs tests/rd06_reject_partial.cjs",
+        "python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'"
+      ],
+      "acceptance": [
+        "File, page, node, and field scope stay fixed",
+        "Getter count, time, bytes, and completeness are recorded",
+        "No speedup is claimed without comparable measurements"
+      ]
+    },
+    {
+      "id": "p2-incremental-native-read",
+      "type": "task",
+      "status": "proposed",
+      "priority": "P2",
+      "evidence_status": "unstarted",
+      "title": "Optimize measured native browse reads",
+      "doc_ref": "capability-review.md#p2-incremental-read",
+      "roles": ["engineer", "designer", "planner"],
+      "deliverables": [
+        "Bounded browse summary",
+        "Invalidation rules",
+        "Fresh-read fallback"
+      ],
+      "spec_refs": [
+        "NF-02-incremental-native-read.md",
+        "../../specs/design-inspection/service-observations.json"
+      ],
+      "proposed_checks": [
+        "node --test tests/nf02_summary_cache.cjs"
+      ],
+      "acceptance": [
+        "Same IDs, fields, and coverage result as baseline",
+        "Unknown freshness requests a fresh getter",
+        "Full read and apply validation never use browse-only data"
+      ]
+    }
+  ],
+  "edges": [
+    {"from": "p0-api-queue-validation", "to": "p0-reference-safety", "type": "depends-on"},
+    {"from": "p1-native-component-families", "to": "p0-reference-safety", "type": "depends-on"},
+    {"from": "p1-native-component-families", "to": "p0-api-queue-validation", "type": "depends-on"},
+    {"from": "p1-native-component-families", "to": "accepted-narrow-cta-baseline", "type": "extends"},
+    {"from": "p1-causal-review-history", "to": "p0-reference-safety", "type": "depends-on"},
+    {"from": "p1-causal-review-history", "to": "accepted-narrow-cta-baseline", "type": "extends"},
+    {"from": "p2-rights-cleared-fixture", "to": "p0-reference-safety", "type": "depends-on"},
+    {"from": "p2-faq-mobile-keyboard", "to": "p2-rights-cleared-fixture", "type": "depends-on"},
+    {"from": "p2-faq-mobile-keyboard", "to": "accepted-narrow-cta-baseline", "type": "extends"},
+    {"from": "p2-complex-render-fidelity", "to": "p2-rights-cleared-fixture", "type": "depends-on"},
+    {"from": "p2-complex-render-fidelity", "to": "p1-native-component-families", "type": "depends-on"},
+    {"from": "p2-read-performance-baseline", "to": "p0-reference-safety", "type": "depends-on"},
+    {"from": "p2-incremental-native-read", "to": "p2-read-performance-baseline", "type": "depends-on"}
+  ]
+}
