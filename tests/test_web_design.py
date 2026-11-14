@@ -270,6 +270,8 @@ class WebDesignTests(unittest.TestCase):
             'duplicate content': lambda o: o['states'][1].update(contentSha256='a' * 64),
             'unreached state': lambda o: o.update(transitions=o['transitions'][1:]),
             'non-click input': lambda o: o['transitions'][0].update(input='hover'),
+            'leading underscore key': lambda o: o['tabs'].update(frameKey='_tabs'),
+            'non-ASCII key': lambda o: o['tabs'].update(frameKey='탭'),
         }
         for name, mutate in cases.items():
             with self.subTest(name), tempfile.TemporaryDirectory() as d:

@@ -639,11 +639,15 @@ def _evidence_pin(value):
             and re.fullmatch(r'[a-f0-9]{64}', str(value['sha256'])) is not None)
 
 
+TAB_KEY = re.compile(r'[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}')
+
+
 def validate_tabs(tabs, screens):
     """Validate click-selected panel states. Only observed browser transitions are allowed."""
+    key = lambda value: isinstance(value, str) and TAB_KEY.fullmatch(value) is not None
     if (not isinstance(tabs, dict)
             or set(tabs) != {'frameKey', 'source', 'states', 'initialState', 'transitions'}
-            or not isinstance(tabs['frameKey'], str) or not re.fullmatch(r'[\w.-]{1,120}', tabs['frameKey'])):
+            or not key(tabs['frameKey'])):
         raise ValueError('Tabs need a stable frame key and an observed state contract')
     validate_capture_source(tabs['source'], 'Tabs')
     states = tabs['states']
@@ -653,7 +657,7 @@ def validate_tabs(tabs, screens):
     state_screens, contents = {}, set()
     for index, state in enumerate(states):
         if (not isinstance(state, dict) or set(state) != {'id', 'screenId', 'index', 'label', 'contentSha256', 'capture'}
-                or not isinstance(state['id'], str) or not re.fullmatch(r'[\w.-]{1,120}', state['id'])
+                or not key(state['id'])
                 or state['id'] in state_screens or type(state['index']) is not int or state['index'] != index
                 or state['screenId'] not in by_screen or state['screenId'] in state_screens.values()
                 or not isinstance(state['label'], str) or not state['label'].strip() or len(state['label']) > 160
@@ -671,7 +675,7 @@ def validate_tabs(tabs, screens):
     for edge in transitions:
         if (not isinstance(edge, dict)
                 or set(edge) != {'id', 'from', 'to', 'trigger', 'controlElementId', 'observed', 'evidence'}
-                or not isinstance(edge['id'], str) or not re.fullmatch(r'[\w.-]{1,120}', edge['id']) or edge['id'] in ids
+                or not key(edge['id']) or edge['id'] in ids
                 or edge['from'] not in state_screens or edge['to'] not in state_screens or edge['from'] == edge['to']
                 or edge['trigger'] != 'click' or edge['observed'] is not True or not _evidence_pin(edge['evidence'])
                 or not isinstance(edge['controlElementId'], str)):

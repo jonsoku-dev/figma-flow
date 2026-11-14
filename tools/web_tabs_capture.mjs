@@ -127,7 +127,7 @@ values.id ||= 'captured-tabs';
 values['frame-key'] ||= 'tabs';
 values['settle-ms'] ||= '1500';
 if (!values.tabs || !values.panel || !values.out || !values.click?.length || values.click.length > 32 || !/^https?:\/\//.test(values.url || '')
-    || !/^[a-z0-9][a-z0-9-]{0,60}$/.test(values.id) || !/^[\w.-]{1,120}$/.test(values['frame-key'])
+    || !/^[a-z0-9][a-z0-9-]{0,60}$/.test(values.id) || !/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/.test(values['frame-key'])
     || !(Number(values['settle-ms']) >= 0 && Number(values['settle-ms']) <= 30000)
     || ![width, height].every(n => Number.isInteger(n) && n >= 100 && n <= 4096)) throw Error(help);
 const out = path.resolve(values.out);
