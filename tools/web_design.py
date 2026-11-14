@@ -200,7 +200,7 @@ def validate_graph(graph, require_embedded=False):
         raise ValueError('Invalid canonical graph: ' + '; '.join(errors[:3]))
     if (
         not isinstance(graph, dict)
-        or set(graph) - {'version', 'id', 'title', 'nodes', 'edges', 'carousel'}
+        or set(graph) - {'version', 'id', 'title', 'nodes', 'edges', 'carousel', 'tabs'}
         or not {'version', 'id', 'title', 'nodes', 'edges'} <= graph.keys()
         or graph.get('version') != 1
         or not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', str(graph.get('id', '')))
@@ -546,8 +546,12 @@ def validate_graph(graph, require_embedded=False):
             path = element.get('path', [])
             if any(frame_id not in frame_ids for frame_id in path) or element['id'] in path:
                 raise ValueError('Element path must name existing ancestor frame IDs')
+    if carousel is not None and graph.get('tabs') is not None:
+        raise ValueError('A canonical web graph owns at most one observed interaction')
     if carousel is not None:
         validate_carousel(carousel, screens)
+    if graph.get('tabs') is not None:
+        validate_tabs(graph['tabs'], screens)
     validate_image_component_families(screens)
     return screens
 
@@ -617,6 +621,81 @@ def derive_repeated_carousel_images(graph):
     return assigned
 
 
+def validate_capture_source(source, label):
+    if (not isinstance(source, dict) or set(source) != {'url', 'title', 'browser', 'viewport', 'dpr', 'capturedAt'}
+            or not isinstance(source['url'], str) or not re.fullmatch(r'https?://[^\s]{1,500}', source['url'])
+            or not isinstance(source['title'], str) or not source['title'].strip() or len(source['title']) > 160
+            or not isinstance(source['browser'], str) or not source['browser'].strip() or len(source['browser']) > 120
+            or not isinstance(source['viewport'], dict) or set(source['viewport']) != {'width', 'height'}
+            or any(type(source['viewport'][key]) is not int or not 1 <= source['viewport'][key] <= 32768 for key in ('width', 'height'))
+            or type(source['dpr']) not in (int, float) or not math.isfinite(source['dpr']) or not 0.1 <= source['dpr'] <= 8
+            or not isinstance(source['capturedAt'], str) or len(source['capturedAt']) > 64):
+        raise ValueError(label + ' source must pin its page, browser, viewport, DPR, and capture time')
+
+
+def _evidence_pin(value):
+    return (isinstance(value, dict) and set(value) == {'path', 'sha256'}
+            and isinstance(value['path'], str) and value['path'] and len(value['path']) <= 500
+            and re.fullmatch(r'[a-f0-9]{64}', str(value['sha256'])) is not None)
+
+
+def validate_tabs(tabs, screens):
+    """Validate click-selected panel states. Only observed browser transitions are allowed."""
+    if (not isinstance(tabs, dict)
+            or set(tabs) != {'frameKey', 'source', 'states', 'initialState', 'transitions'}
+            or not isinstance(tabs['frameKey'], str) or not re.fullmatch(r'[\w.-]{1,120}', tabs['frameKey'])):
+        raise ValueError('Tabs need a stable frame key and an observed state contract')
+    validate_capture_source(tabs['source'], 'Tabs')
+    states = tabs['states']
+    if not isinstance(states, list) or not 2 <= len(states) <= 16:
+        raise ValueError('Tabs require two to sixteen observed panel states')
+    by_screen = {screen['id']: screen for screen in screens}
+    state_screens, contents = {}, set()
+    for index, state in enumerate(states):
+        if (not isinstance(state, dict) or set(state) != {'id', 'screenId', 'index', 'label', 'contentSha256', 'capture'}
+                or not isinstance(state['id'], str) or not re.fullmatch(r'[\w.-]{1,120}', state['id'])
+                or state['id'] in state_screens or type(state['index']) is not int or state['index'] != index
+                or state['screenId'] not in by_screen or state['screenId'] in state_screens.values()
+                or not isinstance(state['label'], str) or not state['label'].strip() or len(state['label']) > 160
+                or not re.fullmatch(r'[a-f0-9]{64}', str(state['contentSha256'])) or state['contentSha256'] in contents
+                or not _evidence_pin(state['capture'])):
+            raise ValueError('Tab states need unique screens, panel content hashes, labels, and screenshot pins')
+        state_screens[state['id']] = state['screenId']
+        contents.add(state['contentSha256'])
+    if tabs['initialState'] not in state_screens:
+        raise ValueError('Tabs must name their observed initial state')
+    transitions = tabs['transitions']
+    if not isinstance(transitions, list) or not 1 <= len(transitions) <= 80:
+        raise ValueError('Tabs need a bounded list of observed transitions')
+    ids, sources, reached = set(), set(), {tabs['initialState']}
+    for edge in transitions:
+        if (not isinstance(edge, dict)
+                or set(edge) != {'id', 'from', 'to', 'trigger', 'controlElementId', 'observed', 'evidence'}
+                or not isinstance(edge['id'], str) or not re.fullmatch(r'[\w.-]{1,120}', edge['id']) or edge['id'] in ids
+                or edge['from'] not in state_screens or edge['to'] not in state_screens or edge['from'] == edge['to']
+                or edge['trigger'] != 'click' or edge['observed'] is not True or not _evidence_pin(edge['evidence'])
+                or not isinstance(edge['controlElementId'], str)):
+            raise ValueError('Tab transitions must be observed clicks between two different states with screenshot evidence')
+        control = (edge['from'], edge['controlElementId'])
+        if control in sources:
+            raise ValueError('A tab control can lead to only one observed destination')
+        source_screen = by_screen[state_screens[edge['from']]]
+        if not any(element['id'] == edge['controlElementId'] and element['kind'] == 'frame'
+                   for element in source_screen['elements']):
+            raise ValueError('Tab transitions must start at a captured frame in the source state screen')
+        ids.add(edge['id'])
+        sources.add(control)
+        reached.add(edge['to'])
+    if reached != set(state_screens):
+        raise ValueError('Every tab state must be the initial state or an observed destination')
+    for state in states:
+        layout = by_screen[state['screenId']]['layout']
+        viewport = tabs['source']['viewport']
+        if layout['height'] != viewport['height'] or not 0 <= viewport['width'] - layout['width'] <= 24:
+            raise ValueError('Captured tab screens must match the browser viewport, allowing only a scrollbar gutter')
+    return tabs
+
+
 def validate_carousel(carousel, screens):
     """Validate a finite, ordered carousel and its explicit deterministic edges."""
     required = {'frameKey', 'states', 'initialState', 'autoplay', 'wrap', 'transitions', 'source'}
@@ -626,16 +705,7 @@ def validate_carousel(carousel, screens):
             or not isinstance(carousel['frameKey'], str)
             or not re.fullmatch(r'[\w.-]{1,120}', carousel['frameKey'])):
         raise ValueError('Carousel needs a stable frame key and bounded finite-state contract')
-    source = carousel['source']
-    if (not isinstance(source, dict) or set(source) != {'url', 'title', 'browser', 'viewport', 'dpr', 'capturedAt'}
-            or not isinstance(source['url'], str) or not re.fullmatch(r'https?://[^\s]{1,500}', source['url'])
-            or not isinstance(source['title'], str) or not source['title'].strip() or len(source['title']) > 160
-            or not isinstance(source['browser'], str) or not source['browser'].strip() or len(source['browser']) > 120
-            or not isinstance(source['viewport'], dict) or set(source['viewport']) != {'width', 'height'}
-            or any(type(source['viewport'][key]) is not int or not 1 <= source['viewport'][key] <= 32768 for key in ('width', 'height'))
-            or type(source['dpr']) not in (int, float) or not math.isfinite(source['dpr']) or not 0.1 <= source['dpr'] <= 8
-            or not isinstance(source['capturedAt'], str) or len(source['capturedAt']) > 64):
-        raise ValueError('Carousel source must pin its page, browser, viewport, DPR, and capture time')
+    validate_capture_source(carousel['source'], 'Carousel')
     states = carousel['states']
     if not isinstance(states, list) or not 2 <= len(states) <= 16:
         raise ValueError('Carousel requires two to sixteen ordered states')
@@ -736,37 +806,37 @@ def validate_carousel(carousel, screens):
     return carousel
 
 
-def validate_carousel_evidence(graph_path, graph):
-    carousel = graph.get('carousel')
-    if carousel is None:
+def validate_interaction_evidence(graph_path, graph):
+    interaction = graph.get('carousel') or graph.get('tabs')
+    if interaction is None:
         return
     root = Path(graph_path).resolve().parent
-    pins = [state['capture'] for state in carousel['states']]
-    pins.extend(edge['evidence'] for edge in carousel['transitions'] if edge['observed'])
+    pins = [state['capture'] for state in interaction['states']]
+    pins.extend(edge['evidence'] for edge in interaction['transitions'] if edge['observed'])
     unique = {}
     total = 0
     for pin in pins:
         relative = Path(pin['path'])
         if (relative.is_absolute() or '..' in relative.parts or not relative.parts
                 or any(char in pin['path'] for char in ':\\\0\n\r')):
-            raise ValueError('Carousel evidence paths must stay relative to the canonical graph')
+            raise ValueError('Interaction evidence paths must stay relative to the canonical graph')
         candidate = root
         for part in relative.parts:
             candidate = candidate / part
             if candidate.is_symlink():
-                raise ValueError('Carousel evidence path cannot cross a symbolic link')
+                raise ValueError('Interaction evidence path cannot cross a symbolic link')
         if not candidate.is_file() or not candidate.resolve().is_relative_to(root):
-            raise ValueError('Pinned carousel evidence file is missing or outside the graph directory')
+            raise ValueError('Pinned interaction evidence file is missing or outside the graph directory')
         data = candidate.read_bytes()
         if len(data) > 8_000_000 or not valid_png(data):
-            raise ValueError('Carousel evidence must be a bounded PNG screenshot')
+            raise ValueError('Interaction evidence must be a bounded PNG screenshot')
         if hashlib.sha256(data).hexdigest() != pin['sha256']:
-            raise ValueError('Pinned carousel evidence SHA-256 changed')
+            raise ValueError('Pinned interaction evidence SHA-256 changed')
         if pin['sha256'] not in unique:
             unique[pin['sha256']] = len(data)
             total += len(data)
             if total > 8_000_000:
-                raise ValueError('Unique carousel screenshots exceed the 8 MB evidence limit')
+                raise ValueError('Unique interaction screenshots exceed the 8 MB evidence limit')
 
 
 def valid_png(data):
@@ -804,8 +874,7 @@ def valid_png(data):
     return bool(width and height and saw_idat and saw_iend)
 
 
-def join_carousel_observations(graph_path, observation_path, out_path):
-    """Join bounded browser interaction receipts to an existing captured-screen graph."""
+def _read_join_inputs(graph_path, observation_path, out_path):
     source = Path(graph_path).expanduser().absolute()
     observations_file = Path(observation_path).expanduser().absolute()
     output = Path(out_path).expanduser().absolute()
@@ -817,8 +886,61 @@ def join_carousel_observations(graph_path, observation_path, out_path):
     graph, observations = json.loads(graph_bytes), json.loads(observation_bytes)
     if not isinstance(graph, dict) or not isinstance(observations, dict):
         raise ValueError('Canonical graph and browser observations must be JSON objects')
-    if graph.get('carousel') is not None:
-        raise ValueError('Refusing to replace an existing canonical carousel')
+    if graph.get('carousel') is not None or graph.get('tabs') is not None:
+        raise ValueError('Refusing to replace an existing canonical interaction')
+    if output.parent != observations_file.parent:
+        raise ValueError('Joined graph must stay beside its browser evidence so relative pins remain valid')
+    return graph, observations, output
+
+
+def _write_joined_graph(output, graph):
+    validate_interaction_evidence(output, graph)
+    if output.exists() or output.is_symlink():
+        raise FileExistsError(f'Refusing to overwrite canonical graph: {output}')
+    output.write_text(json.dumps(graph, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
+    output.chmod(0o600)
+    return hashlib.sha256(output.read_bytes()).hexdigest()
+
+
+def join_tab_observations(graph_path, observation_path, out_path):
+    """Join observed tab clicks to an existing captured-screen graph without inferring unobserved edges."""
+    graph, observations, output = _read_join_inputs(graph_path, observation_path, out_path)
+    if (observations.get('schemaVersion') != 1 or not isinstance(observations.get('tabs'), dict)
+            or not isinstance(observations.get('states'), list) or not isinstance(observations.get('transitions'), list)):
+        raise ValueError('Versioned browser tab observations are required')
+    validate_graph(graph)
+    screen_ids = [state.get('id') if isinstance(state, dict) else None for state in observations['states']]
+    if not 2 <= len(screen_ids) <= 16 or any(not isinstance(item, str) for item in screen_ids) or len(set(screen_ids)) != len(screen_ids):
+        raise ValueError('Browser evidence must contain two to sixteen distinct tab states')
+    keys = {screen_id: f'tab-{index + 1}' for index, screen_id in enumerate(screen_ids)}
+    measured = observations['tabs']
+    if measured.get('initialState') not in keys:
+        raise ValueError('Browser evidence must name its observed initial tab state')
+    transitions = []
+    for index, item in enumerate(observations['transitions']):
+        if not isinstance(item, dict) or item.get('from') not in keys or item.get('to') not in keys or item.get('input') != 'click':
+            raise ValueError('Browser tab receipts must be clicks between known states')
+        transitions.append({'id': f'edge-{index + 1}', 'from': keys[item['from']], 'to': keys[item['to']], 'trigger': 'click',
+                            'controlElementId': item.get('controlElementId'), 'observed': item.get('observed'),
+                            'evidence': item.get('evidence')})
+    graph['tabs'] = {
+        'frameKey': measured.get('frameKey'),
+        'source': observations.get('source'),
+        'states': [{'id': keys[state['id']], 'screenId': state['id'], 'index': index, 'label': state.get('label'),
+                    'contentSha256': state.get('contentSha256'), 'capture': state.get('capture')}
+                   for index, state in enumerate(observations['states'])],
+        'initialState': keys[measured['initialState']],
+        'transitions': transitions,
+    }
+    validate_graph(graph)
+    graph_sha256 = _write_joined_graph(output, graph)
+    return {'graph': str(output), 'state_count': len(screen_ids), 'transition_count': len(transitions),
+            'graph_sha256': graph_sha256, 'status': 'compiled-not-applied'}
+
+
+def join_carousel_observations(graph_path, observation_path, out_path):
+    """Join bounded browser interaction receipts to an existing captured-screen graph."""
+    graph, observations, output = _read_join_inputs(graph_path, observation_path, out_path)
     if (not isinstance(observations, dict) or observations.get('schemaVersion') != 1
             or not isinstance(observations.get('carousel'), dict)
             or not isinstance(observations.get('states'), list)
@@ -901,16 +1023,10 @@ def join_carousel_observations(graph_path, observation_path, out_path):
             raise ValueError('Captured screen dimensions must match the browser observation viewport')
     if len({screen['id'] for screen in screens} & set(state_ids)) != len(state_ids):
         raise ValueError('Canonical graph carousel must resolve every captured state screen')
-    if output.parent != observations_file.parent:
-        raise ValueError('Joined graph must stay beside its browser evidence so relative pins remain valid')
-    validate_carousel_evidence(output, graph)
-    if output.exists() or output.is_symlink():
-        raise FileExistsError(f'Refusing to overwrite canonical graph: {output}')
-    output.write_text(json.dumps(graph, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
-    output.chmod(0o600)
+    graph_sha256 = _write_joined_graph(output, graph)
     return {'graph': str(output), 'state_count': len(state_ids), 'transition_count': len(transitions),
             'shared_image_main_count': shared_image_main_count,
-            'graph_sha256': hashlib.sha256(output.read_bytes()).hexdigest(), 'status': 'compiled-not-applied'}
+            'graph_sha256': graph_sha256, 'status': 'compiled-not-applied'}
 
 
 def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_width=None, readback_scope='page'):
@@ -944,6 +1060,10 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
         if not {state['screenId'] for state in carousel['states']} <= {screen['id'] for screen in screens}:
             raise ValueError('Selected screens must include every carousel state')
         web['carousel'] = carousel
+    if graph.get('tabs') is not None:
+        if not {state['screenId'] for state in graph['tabs']['states']} <= {screen['id'] for screen in screens}:
+            raise ValueError('Selected screens must include every tab state')
+        web['tabs'] = json.loads(json.dumps(graph['tabs']))
     if readback_scope not in ('page', 'screens'):
         raise ValueError('Unknown web design readback scope')
     if readback_scope == 'screens':

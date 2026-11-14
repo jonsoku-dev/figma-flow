@@ -29,11 +29,11 @@ def validate_plan(plan):
         from specifications import validate_update
         return validate_update(plan)
     if 'web_design' in plan:
-        from web_design import validate_graph, validate_carousel_evidence
+        from web_design import validate_graph, validate_interaction_evidence
         web = plan['web_design']
         required = {'schema', 'graph_id', 'graph_sha256', 'source_graph_path', 'screens'}
         if (not isinstance(web, dict) or not required <= web.keys()
-                or web.keys() - required - {'preview_width', 'readback_scope', 'carousel'}
+                or web.keys() - required - {'preview_width', 'readback_scope', 'carousel', 'tabs'}
                 or web['schema'] != 'figma-flow-web-design-v1'
                 or not re.fullmatch(r'[a-f0-9]{64}', str(web['graph_sha256']))):
             raise ValueError('Pinned web design graph required')
@@ -50,7 +50,7 @@ def validate_plan(plan):
         try: canonical=json.loads(source_bytes)
         except json.JSONDecodeError as error: raise ValueError('Pinned web design source graph is not valid JSON') from error
         source_screens=validate_graph(canonical)
-        validate_carousel_evidence(source, canonical)
+        validate_interaction_evidence(source, canonical)
         if canonical['id']!=web['graph_id']:
             raise ValueError('Pinned graph ID differs from the selected canonical graph')
         selected_ids=[screen.get('id') for screen in web['screens'] if isinstance(screen,dict)]
@@ -64,6 +64,11 @@ def validate_plan(plan):
             raise ValueError('Web carousel plan must exactly match the pinned canonical transition graph')
         if source_carousel and not {state['screenId'] for state in source_carousel['states']} <= set(selected_ids):
             raise ValueError('Web screen plan must include every pinned carousel state')
+        source_tabs=canonical.get('tabs')
+        if web.get('tabs') != source_tabs:
+            raise ValueError('Web tabs plan must exactly match the pinned canonical transition graph')
+        if source_tabs and not {state['screenId'] for state in source_tabs['states']} <= set(selected_ids):
+            raise ValueError('Web screen plan must include every pinned tab state')
         return plan
     if 'graph_review' in plan:
         review = plan['graph_review']
@@ -337,6 +342,10 @@ def main():
     web.add_argument('--preview-width', type=int)
     web.add_argument('--readback-scope', choices=('page', 'screens'), default='page',
                      help='Return full page semantics or only layers owned by the selected graph screens.')
+    tabs = sub.add_parser('web-tabs')
+    tabs.add_argument('--graph', required=True, help='Existing canonical graph with captured WEB screens')
+    tabs.add_argument('--observations', required=True, help='Observed browser tab states and click receipts')
+    tabs.add_argument('--out', required=True, help='New canonical graph path; existing files are preserved')
     carousel = sub.add_parser('web-carousel')
     carousel.add_argument('--graph', required=True, help='Existing canonical graph with captured WEB screens')
     carousel.add_argument('--observations', required=True, help='Bounded browser carousel state and transition receipts')
@@ -348,6 +357,9 @@ def main():
         elif args.command == 'web-design':
             from web_design import build_plan
             print(json.dumps(build_plan(args.graph, args.file_key, args.page_id, args.out, args.screen, args.preview_width, args.readback_scope)))
+        elif args.command == 'web-tabs':
+            from web_design import join_tab_observations
+            print(json.dumps(join_tab_observations(args.graph, args.observations, args.out)))
         elif args.command == 'web-carousel':
             from web_design import join_carousel_observations
             print(json.dumps(join_carousel_observations(args.graph, args.observations, args.out)))

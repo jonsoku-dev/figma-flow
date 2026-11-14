@@ -86,6 +86,46 @@ def write_carousel_evidence(directory):
         (directory / filename).write_bytes(PNG_SAMPLE)
 
 
+def tab_screens():
+    value = graph()
+    value['id'] = 'devtool-tabs-demo'
+    value['nodes'] = []
+    for index, (label, code) in enumerate((('Single Queue Pipeline', 'queue.execute()'),
+                                           ('Parallel Worker Handshake', 'stage.sync()')), start=1):
+        value['nodes'].append({'id': f'WEB-tabs-{index}', 'type': 'screen', 'title': label, 'status': 'observed',
+            'layout': {'width': 1425, 'height': 900, 'background': '#0d0e12'},
+            'elements': [
+                {'id': f's{index}-tab-a', 'kind': 'frame', 'path': [], 'box': {'x': 20, 'y': 40, 'width': 300, 'height': 98}},
+                {'id': f's{index}-tab-b', 'kind': 'frame', 'path': [], 'box': {'x': 20, 'y': 146, 'width': 300, 'height': 98}},
+                {'id': f's{index}-code', 'kind': 'text', 'path': [], 'box': {'x': 400, 'y': 40, 'width': 600, 'height': 24},
+                 'text': {'characters': code, 'fontFamily': 'Inter', 'fontSize': 14, 'fontWeight': '400', 'color': '#ffffff'}},
+            ]})
+    return value
+
+
+def tab_observations():
+    pin = {'path': 'state.png', 'sha256': hashlib.sha256(PNG_SAMPLE).hexdigest()}
+    return {
+        'schemaVersion': 1,
+        'source': {'url': 'http://127.0.0.1:8873/', 'title': 'Devtool', 'browser': 'Chromium',
+                   'viewport': {'width': 1440, 'height': 900}, 'dpr': 1, 'capturedAt': '2026-11-14T00:00:00Z'},
+        'tabs': {'frameKey': 'devtool-examples', 'initialState': 'WEB-tabs-1'},
+        'states': [{'id': 'WEB-tabs-1', 'label': 'Single Queue Pipeline', 'contentSha256': 'a' * 64, 'capture': pin},
+                   {'id': 'WEB-tabs-2', 'label': 'Parallel Worker Handshake', 'contentSha256': 'b' * 64, 'capture': pin}],
+        'transitions': [
+            {'from': 'WEB-tabs-1', 'to': 'WEB-tabs-2', 'input': 'click', 'controlElementId': 's1-tab-b', 'observed': True, 'evidence': pin},
+            {'from': 'WEB-tabs-2', 'to': 'WEB-tabs-1', 'input': 'click', 'controlElementId': 's2-tab-a', 'observed': True, 'evidence': pin},
+        ],
+    }
+
+
+def write_tab_inputs(directory, observations=None):
+    (directory / 'state.png').write_bytes(PNG_SAMPLE)
+    (directory / 'screens.json').write_text(json.dumps(tab_screens()))
+    (directory / 'observations.json').write_text(json.dumps(observations or tab_observations()))
+    return directory / 'screens.json', directory / 'observations.json'
+
+
 def representative_graph(asset_path, asset_hash, count=506):
     elements = [
         {
@@ -198,6 +238,47 @@ class WebDesignTests(unittest.TestCase):
             self.assertEqual(plan['web_design']['screens'][0]['layout']['width'], 390)
             with self.assertRaises(FileExistsError):
                 web_design.build_plan(src, 'file', '1:1', out)
+
+    def test_observed_tab_clicks_compile_into_a_pinned_plan(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            graph_path, observations_path = write_tab_inputs(root)
+            completed = subprocess.run([sys.executable, '-B', str(ROOT / 'tools/native_edit.py'), 'web-tabs',
+                                        '--graph', str(graph_path), '--observations', str(observations_path),
+                                        '--out', str(root / 'tabs-graph.json')], capture_output=True, text=True, check=True)
+            self.assertEqual(json.loads(completed.stdout)['transition_count'], 2)
+            joined = json.loads((root / 'tabs-graph.json').read_text())
+            self.assertEqual(joined['tabs']['initialState'], 'tab-1')
+            self.assertEqual([(e['from'], e['to'], e['controlElementId']) for e in joined['tabs']['transitions']],
+                             [('tab-1', 'tab-2', 's1-tab-b'), ('tab-2', 'tab-1', 's2-tab-a')])
+            web_design.build_plan(root / 'tabs-graph.json', 'file', '1:1', root / 'plan.json')
+            plan = json.loads((root / 'plan.json').read_text())
+            native_edit.validate_plan(plan)
+            plan['web_design']['tabs']['transitions'][0]['controlElementId'] = 's1-tab-a'
+            with self.assertRaisesRegex(ValueError, 'tabs plan must exactly match'):
+                native_edit.validate_plan(plan)
+            (root / 'state.png').write_bytes(PNG_SAMPLE + b'x')
+            with self.assertRaisesRegex(ValueError, 'evidence'):
+                native_edit.validate_plan(json.loads((root / 'plan.json').read_text()))
+
+    def test_tab_join_refuses_unobserved_or_ambiguous_transitions(self):
+        cases = {
+            'unobserved': lambda o: o['transitions'][0].update(observed=False),
+            'self-loop': lambda o: o['transitions'][0].update(to='WEB-tabs-1'),
+            'foreign control': lambda o: o['transitions'][0].update(controlElementId='s2-tab-b'),
+            'text control': lambda o: o['transitions'][0].update(controlElementId='s1-code'),
+            'duplicate content': lambda o: o['states'][1].update(contentSha256='a' * 64),
+            'unreached state': lambda o: o.update(transitions=o['transitions'][1:]),
+            'non-click input': lambda o: o['transitions'][0].update(input='hover'),
+        }
+        for name, mutate in cases.items():
+            with self.subTest(name), tempfile.TemporaryDirectory() as d:
+                observations = tab_observations()
+                mutate(observations)
+                graph_path, observations_path = write_tab_inputs(Path(d), observations)
+                with self.assertRaises(ValueError):
+                    web_design.join_tab_observations(graph_path, observations_path, Path(d) / 'out.json')
+                self.assertFalse((Path(d) / 'out.json').exists())
 
     def test_finite_carousel_compiles_into_exact_pinned_plan(self):
         with tempfile.TemporaryDirectory() as d:
