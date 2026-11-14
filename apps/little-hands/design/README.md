@@ -67,12 +67,13 @@ python3 apps/little-hands/design/export.py --out apps/little-hands/design/export
 
 [family-targets.json](family-targets.json)은 체크인된 원본 [graph.json](graph.json)이나 기존 재사용 ID(`Solid-*`, `Outline-*`, `Text-*`)를 덮어쓰지 않고, 대표 폼(`state-sessionavailable`, `state-reschedule`, `state-staffedit`)과 표(`state-staffsessions`)의 실제 DOM selector만 안정 semantic ID로 opt-in 매핑하기 위한 선언 파일이다.
 
-- 대상 계열: `Field`, `Input`, `Checkbox`, `Radio`, `TableRow`, `TableCell`
+- 대상 계열: `field`, `input`, `checkbox`, `radio`, `table-row`, `table-cell`
 - 보존 계약: 미선언 컨트롤·`a`/`button` 액션·`control_styles` 재사용 변형과 원본 `original_key`를 그대로 보존하며, 비밀번호·숨김 입력·버튼 덮어쓰기는 거부한다.
 - 실행 예시(임시 작업본 또는 별도 출력 경로에서 사용):
 
 ```sh
 python3 apps/little-hands/design/source.py --family-targets apps/little-hands/design/family-targets.json --static-root apps/little-hands/design/source_assets
+python3 apps/little-hands/design/source.py --family-design-out /tmp/little-hands-families.json
 ```
 
-이 단계의 매핑 규격은 정적 레이아웃·DOM 추적용이며, 컴포넌트 계열 compiler(`design_system` / `native` schema) 정본 연결은 핵심 계열 작업자의 계약 확정 후 후속 단계에서 맞춘다.
+이 단계의 매핑 규격은 정적 레이아웃·DOM 추적 및 정본 NF-01 `componentFamilies` / `dom_source` 변환(`figma-flow-component-families-v1`)을 제공하며, 체크인된 [graph.json](graph.json) 및 `control-reuse.json`은 변경하지 않는다.

@@ -398,7 +398,7 @@ def authored_controls(data):
     return controls
 
 
-ALLOWED_FAMILIES = frozenset({'Field', 'Input', 'Checkbox', 'Radio', 'TableRow', 'TableCell'})
+ALLOWED_FAMILIES = frozenset({'field', 'input', 'checkbox', 'radio', 'table-row', 'table-cell'})
 ALLOWED_TARGET_KINDS = frozenset({'container', 'surface', 'text', 'control_value', 'row'})
 
 
@@ -470,16 +470,24 @@ def _apply_family_targets(data, layers, groups, mappings, family_targets):
             if len(matches) != 1:
                 raise ValueError(f'Expected one surface match for {state_id} {selector}, got {len(matches)}')
             row = matches[0]
-            if family in ('Input', 'Checkbox', 'Radio') and role == 'surface':
+            if family in ('input', 'checkbox', 'radio') and role == 'surface':
                 ctrls = controls_by_selector.get(selector, [])
                 if len(ctrls) != 1 or ctrls[0]['tag'] in ('a', 'button'):
                     raise ValueError(f'Family {family} surface must map to one form control: {state_id} {selector}')
                 ctrl = ctrls[0]
+                label_for = ctrl['id'].removeprefix(state_id + '-') if ctrl.get('id', '').startswith(state_id + '-') else None
                 row['control_state'] = {
                     'tag': ctrl['tag'],
                     'type': ctrl.get('type'),
                     'disabled': bool(ctrl.get('disabled', False)),
                     'checked': ctrl.get('checked'),
+                }
+                row['dom_source'] = {
+                    'selector': selector,
+                    'tag': ctrl['tag'],
+                    'input_type': ctrl.get('type'),
+                    'label_for': label_for,
+                    'disabled': bool(ctrl.get('disabled', False)),
                 }
             elif any(ctrl['tag'] in ('a', 'button') for ctrl in controls_by_selector.get(selector, [])):
                 raise ValueError(f'Surface target may not remap action button/link: {state_id} {selector}')
@@ -500,10 +508,13 @@ def _apply_family_targets(data, layers, groups, mappings, family_targets):
                 selected = [(matches[occurrence], semantic_id)]
             else:
                 selected = [(row, semantic_id if i == 0 else f'{semantic_id}.line-{i}') for i, row in enumerate(matches)]
+            text_ctx = next((t.get('text_context') for t in data.get('texts', []) if t.get('selector') == selector), None)
             for row, target_id in selected:
                 old_key = row['key']
                 layer_remap[old_key] = target_id
                 row.update(original_key=old_key, key=target_id, semantic_id=target_id, family=family, role=role)
+                if family == 'table-cell' and text_ctx and text_ctx.get('tag') == 'th':
+                    row['dom_source'] = {'selector': selector, 'tag': 'th', 'th_scope': 'col'}
         elif kind == 'row':
             rows = [surface for surface in data.get('surfaces', []) if surface['selector'] == selector and surface['tag'] == 'tr']
             if len(rows) != 1:
@@ -518,6 +529,7 @@ def _apply_family_targets(data, layers, groups, mappings, family_targets):
                 'family': family,
                 'role': role,
                 'box': list(row_surface['box']),
+                'dom_source': {'selector': selector, 'tag': 'tr'},
             })
         elif kind == 'control_value':
             ctrls = controls_by_selector.get(selector, [])
@@ -555,6 +567,394 @@ def _apply_family_targets(data, layers, groups, mappings, family_targets):
     group_keys = [group['key'] for group in groups]
     if len(set(group_keys)) != len(group_keys) or set(group_keys) & set(layer_ids):
         raise ValueError(f'Semantic ID collision in containers for {state_id}')
+
+
+def build_family_design(root=ROOT, family_targets=None):
+    """Build canonical figma-flow-component-families-v1 JSON from captured Little Hands sources."""
+    root = Path(root)
+    targets = load_family_targets(root / 'family-targets.json') if family_targets is None else family_targets
+    raw_tokens = json.loads((root / 'tokens.json').read_text(encoding='utf-8'))
+    colors = raw_tokens['colors']
+    spacing = raw_tokens['spacing_px']
+    font_family = raw_tokens['fonts']['body']['family']
+    control_size = raw_tokens['font_sizes_px']['control']
+    radius_px = raw_tokens['controls']['radius']
+
+    def load_cap(name):
+        return json.loads((root / 'captures' / f'{name}-desktop.json').read_text(encoding='utf-8'))
+
+    caps = {
+        'state-sessionavailable': load_cap('sessionavailable'),
+        'state-reschedule': load_cap('reschedule'),
+        'state-staffedit': load_cap('staffedit'),
+        'state-staffsessions': load_cap('staffsessions'),
+    }
+
+    def text_of(state_id, selector, occ=0):
+        rows = [t for t in caps[state_id]['texts'] if t['selector'] == selector]
+        if occ >= len(rows):
+            raise ValueError(f'Missing capture text {state_id} {selector}[{occ}]')
+        return rows[occ]['value']
+
+    def ctrl_of(state_id, selector):
+        rows = [c for c in caps[state_id]['controls'] if c['selector'] == selector]
+        if len(rows) != 1:
+            raise ValueError(f'Expected one control {state_id} {selector}')
+        return rows[0]
+
+    def has_target(semantic_id):
+        if not any(entry['semantic_id'] == semantic_id for entry in targets['targets']):
+            raise ValueError(f'Missing declared family target: {semantic_id}')
+        return semantic_id
+
+    tokens = {
+        'color': {
+            'ink': {'$type': 'color', '$value': colors['ink']},
+            'muted': {'$type': 'color', '$value': colors['muted']},
+            'surface': {'$type': 'color', '$value': colors['cream']},
+            'border': {'$type': 'color', '$value': colors['line']},
+            'accent': {'$type': 'color', '$value': colors['green']},
+            'danger': {'$type': 'color', '$value': colors['rust']},
+        },
+        'space': {
+            'xs': {'$type': 'dimension', '$value': f'{spacing[0]}px'},
+            'sm': {'$type': 'dimension', '$value': f'{spacing[1]}px'},
+            'md': {'$type': 'dimension', '$value': f'{spacing[2]}px'},
+        },
+        'radius': {
+            'sm': {'$type': 'dimension', '$value': f'{radius_px}px'},
+        },
+        'font': {
+            'body': {'$type': 'fontFamily', '$value': font_family},
+            'size': {'$type': 'dimension', '$value': f'{control_size}px'},
+        },
+    }
+
+    qty_ctrl = ctrl_of('state-sessionavailable', '#id_quantity')
+    waitlist_ctrl = ctrl_of('state-sessionavailable', '#id_allow_waitlist')
+    course_ctrl = ctrl_of('state-staffedit', '#id_course')
+    price_ctrl = ctrl_of('state-staffedit', '#id_price_krw')
+    radio_ctrls = [
+        ctrl_of('state-reschedule', f'#id_target_session_id_{i}')
+        for i in range(3)
+    ]
+
+    radio_labels = [
+        text_of(
+            'state-reschedule',
+            f'body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>section:nth-child(2)>form:nth-child(3)>div:nth-child(4)>div:nth-child(2)>div:nth-child({i + 1})>label:nth-child(1)',
+        )
+        for i in range(3)
+    ]
+    th_date = text_of('state-staffsessions', '[data-native-key="staff-session_table-th-2-0"]')
+    th_course = text_of('state-staffsessions', '[data-native-key="staff-session_table-th-1-0"]')
+    row9_date = text_of('state-staffsessions', '[data-native-key="staff-session_table-td-9-1"]', 0)
+    row9_course = text_of('state-staffsessions', '[data-native-key="staff-session_table-td-9-1"]', 1)
+
+    component_families = [
+        {
+            'id': 'input',
+            'version': 1,
+            'component': 'input',
+            'layout': 'HORIZONTAL',
+            'axes': {'state': ['default', 'focus', 'error', 'disabled']},
+            'properties': [
+                {'id': 'value', 'name': 'Value', 'type': 'TEXT', 'targetKey': 'label', 'default_value': str(qty_ctrl.get('value') or '1')},
+            ],
+        },
+        {
+            'id': 'checkbox',
+            'version': 1,
+            'component': 'checkbox',
+            'layout': 'HORIZONTAL',
+            'axes': {'state': ['unchecked', 'checked', 'disabled']},
+            'properties': [
+                {'id': 'optionLabel', 'name': 'Label', 'type': 'TEXT', 'targetKey': 'label', 'default_value': text_of('state-sessionavailable', '[data-native-key="includes-form-label-3-4"]')},
+            ],
+        },
+        {
+            'id': 'radio',
+            'version': 1,
+            'component': 'radio',
+            'layout': 'HORIZONTAL',
+            'axes': {'state': ['unselected', 'selected', 'disabled']},
+            'properties': [
+                {'id': 'choiceLabel', 'name': 'Label', 'type': 'TEXT', 'targetKey': 'label', 'default_value': radio_labels[0]},
+            ],
+        },
+        {
+            'id': 'field',
+            'version': 1,
+            'component': 'field',
+            'layout': 'VERTICAL',
+            'axes': {'state': ['default', 'error', 'disabled']},
+            'properties': [
+                {'id': 'label', 'name': 'Label', 'type': 'TEXT', 'targetKey': 'field-label', 'default_value': text_of('state-sessionavailable', '[data-native-key="includes-form-label-4-3"]')},
+                {'id': 'helpText', 'name': 'Help', 'type': 'TEXT', 'targetKey': 'field-help', 'default_value': text_of('state-staffedit', '#id_price_krw_helptext')},
+                {'id': 'showHelp', 'name': 'Show help', 'type': 'BOOLEAN', 'targetKey': 'field-help', 'default_value': True},
+                {
+                    'id': 'control',
+                    'name': 'Control',
+                    'type': 'INSTANCE_SWAP',
+                    'targetKey': 'field-control',
+                    'allowedFamilyIds': ['input', 'checkbox', 'radio'],
+                    'default_value': {'component': 'input', 'variant': 'default'},
+                    'preferred_values': [
+                        {'component': 'input', 'variant': 'default'},
+                        {'component': 'checkbox', 'variant': 'unchecked'},
+                        {'component': 'radio', 'variant': 'unselected'},
+                    ],
+                },
+            ],
+        },
+        {
+            'id': 'table-cell',
+            'version': 1,
+            'component': 'table-cell',
+            'layout': 'HORIZONTAL',
+            'axes': {'state': ['default', 'header']},
+            'properties': [
+                {'id': 'cellText', 'name': 'Cell text', 'type': 'TEXT', 'targetKey': 'label', 'default_value': th_course},
+            ],
+        },
+        {
+            'id': 'table-row',
+            'version': 1,
+            'component': 'table-row',
+            'layout': 'HORIZONTAL',
+            'axes': {'state': ['default', 'selected']},
+            'properties': [
+                {'id': 'firstCell', 'name': 'Cell', 'type': 'INSTANCE_SWAP', 'targetKey': 'cell-0', 'allowedFamilyIds': ['table-cell'], 'default_value': {'component': 'table-cell', 'variant': 'default'}},
+                {'id': 'secondCell', 'name': 'Cell', 'type': 'INSTANCE_SWAP', 'targetKey': 'cell-1', 'allowedFamilyIds': ['table-cell'], 'default_value': {'component': 'table-cell', 'variant': 'default'}},
+                {'id': 'showSecondCell', 'name': 'Show optional column', 'type': 'BOOLEAN', 'targetKey': 'cell-1', 'default_value': True},
+            ],
+        },
+    ]
+
+    components = {
+        'input': {
+            'usage': 'Single-line form input and select visual states from Little Hands.',
+            'variants': {
+                'default': {'color': 'color.ink', 'background': 'color.surface', 'border-color': 'color.border', 'padding': 'space.sm', 'border-radius': 'radius.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'focus': {'color': 'color.ink', 'background': 'color.surface', 'border-color': 'color.accent', 'padding': 'space.sm', 'border-radius': 'radius.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'error': {'color': 'color.danger', 'background': 'color.surface', 'border-color': 'color.danger', 'padding': 'space.sm', 'border-radius': 'radius.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'disabled': {'color': 'color.muted', 'background': 'color.surface', 'border-color': 'color.border', 'padding': 'space.sm', 'border-radius': 'radius.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+            },
+        },
+        'checkbox': {
+            'usage': 'Checkbox indicator and option row.',
+            'variants': {
+                'unchecked': {'color': 'color.ink', 'background': 'color.surface', 'border-color': 'color.border', 'padding': 'space.xs', 'gap': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'checked': {'color': 'color.accent', 'background': 'color.surface', 'border-color': 'color.accent', 'padding': 'space.xs', 'gap': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'disabled': {'color': 'color.muted', 'background': 'color.surface', 'border-color': 'color.border', 'padding': 'space.xs', 'gap': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+            },
+        },
+        'radio': {
+            'usage': 'Radio option row.',
+            'variants': {
+                'unselected': {'color': 'color.ink', 'background': 'color.surface', 'border-color': 'color.border', 'padding': 'space.xs', 'gap': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'selected': {'color': 'color.accent', 'background': 'color.surface', 'border-color': 'color.accent', 'padding': 'space.xs', 'gap': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'disabled': {'color': 'color.muted', 'background': 'color.surface', 'border-color': 'color.border', 'padding': 'space.xs', 'gap': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+            },
+        },
+        'field': {
+            'usage': 'Form field composing label, control slot, and help copy.',
+            'variants': {
+                'default': {'color': 'color.ink', 'background': 'color.surface', 'padding': 'space.sm', 'gap': 'space.xs', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'error': {'color': 'color.danger', 'background': 'color.surface', 'padding': 'space.sm', 'gap': 'space.xs', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'disabled': {'color': 'color.muted', 'background': 'color.surface', 'padding': 'space.sm', 'gap': 'space.xs', 'font-family': 'font.body', 'font-size': 'font.size'},
+            },
+        },
+        'table-cell': {
+            'usage': 'Table cell holding text data.',
+            'variants': {
+                'default': {'color': 'color.ink', 'background': 'color.surface', 'padding': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'header': {'color': 'color.ink', 'background': 'color.surface', 'border-color': 'color.border', 'padding': 'space.sm', 'font-family': 'font.body', 'font-size': 'font.size'},
+            },
+        },
+        'table-row': {
+            'usage': 'Table row composing swappable table-cell instances.',
+            'variants': {
+                'default': {'color': 'color.ink', 'background': 'color.surface', 'border-color': 'color.border', 'gap': 'space.sm', 'padding': 'space.xs', 'font-family': 'font.body', 'font-size': 'font.size'},
+                'selected': {'color': 'color.accent', 'background': 'color.surface', 'border-color': 'color.accent', 'gap': 'space.sm', 'padding': 'space.xs', 'font-family': 'font.body', 'font-size': 'font.size'},
+            },
+        },
+    }
+
+    screens = [
+        {
+            'id': 'state-sessionavailable',
+            'title': caps['state-sessionavailable']['title'],
+            'trace': ['REQ-003', 'REQ-004'],
+            'elements': [
+                {
+                    'id': has_target('littlehands.form.reserve.field.quantity'),
+                    'kind': 'component',
+                    'component': 'field',
+                    'variant': 'default',
+                    'text': text_of('state-sessionavailable', '[data-native-key="includes-form-label-4-3"]'),
+                    'property_values': {
+                        'label': text_of('state-sessionavailable', '[data-native-key="includes-form-label-4-3"]'),
+                        'showHelp': False,
+                        'control': {'component': 'input', 'variant': 'default'},
+                    },
+                    'dom_source': {
+                        'selector': '[data-native-key="field-quantity"]',
+                        'control_selector': qty_ctrl['selector'],
+                        'tag': qty_ctrl['tag'],
+                        'input_type': qty_ctrl.get('type'),
+                        'label_for': 'id_quantity',
+                        'required': True,
+                        'disabled': bool(qty_ctrl.get('disabled', False)),
+                    },
+                },
+                {
+                    'id': has_target('littlehands.form.reserve.field.allow_waitlist'),
+                    'kind': 'component',
+                    'component': 'field',
+                    'variant': 'default',
+                    'text': text_of('state-sessionavailable', '[data-native-key="includes-form-label-3-4"]'),
+                    'property_values': {
+                        'label': text_of('state-sessionavailable', '[data-native-key="includes-form-label-3-4"]'),
+                        'showHelp': False,
+                        'control': {
+                            'component': 'checkbox',
+                            'variant': 'checked' if waitlist_ctrl.get('checked') else 'unchecked',
+                        },
+                    },
+                    'dom_source': {
+                        'selector': '[data-native-key="field-allow_waitlist"]',
+                        'control_selector': waitlist_ctrl['selector'],
+                        'tag': waitlist_ctrl['tag'],
+                        'input_type': waitlist_ctrl.get('type'),
+                        'label_for': 'id_allow_waitlist',
+                        'required': False,
+                        'disabled': bool(waitlist_ctrl.get('disabled', False)),
+                    },
+                },
+            ],
+        },
+        {
+            'id': 'state-reschedule',
+            'title': caps['state-reschedule']['title'],
+            'trace': ['REQ-005'],
+            'elements': [
+                {
+                    'id': has_target(f'littlehands.form.reschedule.radio.option_{i}'),
+                    'kind': 'component',
+                    'component': 'radio',
+                    'variant': 'selected' if radio_ctrls[i].get('checked') else 'unselected',
+                    'text': radio_labels[i],
+                    'property_values': {'choiceLabel': radio_labels[i]},
+                    'dom_source': {
+                        'selector': radio_ctrls[i]['selector'],
+                        'control_selector': radio_ctrls[i]['selector'],
+                        'tag': radio_ctrls[i]['tag'],
+                        'input_type': radio_ctrls[i].get('type'),
+                        'label_for': f'id_target_session_id_{i}',
+                        'disabled': bool(radio_ctrls[i].get('disabled', False)),
+                    },
+                }
+                for i in range(3)
+            ],
+        },
+        {
+            'id': 'state-staffedit',
+            'title': caps['state-staffedit']['title'],
+            'trace': ['REQ-009'],
+            'elements': [
+                {
+                    'id': has_target('littlehands.form.session_edit.field.course'),
+                    'kind': 'component',
+                    'component': 'field',
+                    'variant': 'disabled' if course_ctrl.get('disabled') else 'default',
+                    'text': text_of('state-staffedit', '[data-native-key="includes-form-label-4-1"]'),
+                    'property_values': {
+                        'label': text_of('state-staffedit', '[data-native-key="includes-form-label-4-1"]'),
+                        'showHelp': False,
+                        'control': {'component': 'input', 'variant': 'disabled' if course_ctrl.get('disabled') else 'default'},
+                    },
+                    'dom_source': {
+                        'selector': '[data-native-key="field-course"]',
+                        'control_selector': course_ctrl['selector'],
+                        'tag': course_ctrl['tag'],
+                        'input_type': course_ctrl.get('type'),
+                        'label_for': 'id_course',
+                        'disabled': bool(course_ctrl.get('disabled', False)),
+                    },
+                },
+                {
+                    'id': has_target('littlehands.form.session_edit.field.price_krw'),
+                    'kind': 'component',
+                    'component': 'field',
+                    'variant': 'default',
+                    'text': text_of('state-staffedit', '[data-native-key="includes-form-label-4-5"]'),
+                    'property_values': {
+                        'label': text_of('state-staffedit', '[data-native-key="includes-form-label-4-5"]'),
+                        'helpText': text_of('state-staffedit', '#id_price_krw_helptext'),
+                        'showHelp': True,
+                        'control': {'component': 'input', 'variant': 'default'},
+                    },
+                    'dom_source': {
+                        'selector': '[data-native-key="field-price_krw"]',
+                        'control_selector': price_ctrl['selector'],
+                        'tag': price_ctrl['tag'],
+                        'input_type': price_ctrl.get('type'),
+                        'label_for': 'id_price_krw',
+                        'disabled': bool(price_ctrl.get('disabled', False)),
+                    },
+                },
+            ],
+        },
+        {
+            'id': 'state-staffsessions',
+            'title': caps['state-staffsessions']['title'],
+            'trace': ['REQ-009'],
+            'elements': [
+                {
+                    'id': 'littlehands.table.staff_sessions.header_row',
+                    'kind': 'component',
+                    'component': 'table-row',
+                    'variant': 'default',
+                    'text': th_course,
+                    'property_values': {
+                        'firstCell': {'component': 'table-cell', 'variant': 'header'},
+                        'secondCell': {'component': 'table-cell', 'variant': 'header'},
+                        'showSecondCell': True,
+                    },
+                    'dom_source': {
+                        'selector': '[data-native-key="staff-session_table-th-1-0"]',
+                        'tag': 'tr',
+                        'th_scope': 'col',
+                    },
+                },
+                {
+                    'id': has_target('littlehands.table.sessions.row.9'),
+                    'kind': 'component',
+                    'component': 'table-row',
+                    'variant': 'default',
+                    'text': f'{row9_course} / {row9_date}',
+                    'property_values': {
+                        'firstCell': {'component': 'table-cell', 'variant': 'default'},
+                        'secondCell': {'component': 'table-cell', 'variant': 'default'},
+                        'showSecondCell': True,
+                    },
+                    'dom_source': {
+                        'selector': '[data-native-key="staff-session-9"]',
+                        'tag': 'tr',
+                    },
+                },
+            ],
+        },
+    ]
+
+    return {
+        'version': 1,
+        'tokens': tokens,
+        'componentFamilies': component_families,
+        'components': components,
+        'screens': screens,
+    }
 
 
 def layout_for(data, palette, styles, assets, mappings, output=ROOT, family_targets=None):
@@ -1147,6 +1547,11 @@ if __name__=='__main__':
     parser.add_argument('--proposal-out', type=Path, help='Save this generated proposal for a later source update.')
     parser.add_argument('--expected-sha256', help='Reject an outdated canonical graph before publishing.')
     parser.add_argument('--family-targets', type=Path, help='Optional explicit DOM-to-semantic-ID family targets JSON.')
+    parser.add_argument('--family-design-out', type=Path, help='Write canonical NF-01 componentFamilies design JSON without altering checked-in graph.json.')
     args=parser.parse_args()
     if args.static_root:STATIC_ROOT=args.static_root.resolve()
-    build(args.base_graph, args.proposal_out, args.expected_sha256, args.family_targets)
+    if args.family_design_out:
+        targets = load_family_targets(args.family_targets or (ROOT / 'family-targets.json'))
+        write_json(args.family_design_out, build_family_design(ROOT, targets))
+    else:
+        build(args.base_graph, args.proposal_out, args.expected_sha256, args.family_targets)

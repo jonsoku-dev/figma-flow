@@ -14,7 +14,7 @@
       "state": "state-sessionavailable",
       "kind": "container",
       "selector": "[data-native-key=\"field-quantity\"]",
-      "family": "Field",
+      "family": "field",
       "role": "container",
       "semantic_id": "littlehands.form.reserve.field.quantity"
     },
@@ -22,7 +22,7 @@
       "state": "state-sessionavailable",
       "kind": "text",
       "selector": "[data-native-key=\"includes-form-label-4-3\"]",
-      "family": "Field",
+      "family": "field",
       "role": "label",
       "semantic_id": "littlehands.form.reserve.field.quantity.label"
     },
@@ -30,7 +30,7 @@
       "state": "state-sessionavailable",
       "kind": "surface",
       "selector": "#id_quantity",
-      "family": "Input",
+      "family": "input",
       "role": "surface",
       "semantic_id": "littlehands.form.reserve.input.quantity"
     },
@@ -38,7 +38,7 @@
       "state": "state-sessionavailable",
       "kind": "control_value",
       "selector": "#id_quantity",
-      "family": "Input",
+      "family": "input",
       "role": "value",
       "semantic_id": "littlehands.form.reserve.input.quantity.value"
     },
@@ -46,7 +46,7 @@
       "state": "state-sessionavailable",
       "kind": "container",
       "selector": "[data-native-key=\"field-allow_waitlist\"]",
-      "family": "Field",
+      "family": "field",
       "role": "container",
       "semantic_id": "littlehands.form.reserve.field.allow_waitlist"
     },
@@ -54,7 +54,7 @@
       "state": "state-sessionavailable",
       "kind": "text",
       "selector": "[data-native-key=\"includes-form-label-3-4\"]",
-      "family": "Field",
+      "family": "field",
       "role": "label",
       "semantic_id": "littlehands.form.reserve.field.allow_waitlist.label"
     },
@@ -62,7 +62,7 @@
       "state": "state-sessionavailable",
       "kind": "surface",
       "selector": "#id_allow_waitlist",
-      "family": "Checkbox",
+      "family": "checkbox",
       "role": "surface",
       "semantic_id": "littlehands.form.reserve.checkbox.allow_waitlist"
     },
@@ -70,7 +70,7 @@
       "state": "state-sessionavailable",
       "kind": "text",
       "selector": "[data-native-key=\"id_allow_waitlist-mark\"]",
-      "family": "Checkbox",
+      "family": "checkbox",
       "role": "mark",
       "semantic_id": "littlehands.form.reserve.checkbox.allow_waitlist.mark"
     },
@@ -78,7 +78,7 @@
       "state": "state-reschedule",
       "kind": "container",
       "selector": "[data-native-key=\"field-target_session_id\"]",
-      "family": "Field",
+      "family": "field",
       "role": "container",
       "semantic_id": "littlehands.form.reschedule.field.target_session"
     },
@@ -86,7 +86,7 @@
       "state": "state-reschedule",
       "kind": "text",
       "selector": "[data-native-key=\"includes-form-label-4-3\"]",
-      "family": "Field",
+      "family": "field",
       "role": "label",
       "semantic_id": "littlehands.form.reschedule.field.target_session.label"
     },
@@ -94,7 +94,7 @@
       "state": "state-reschedule",
       "kind": "surface",
       "selector": "#id_target_session_id_0",
-      "family": "Radio",
+      "family": "radio",
       "role": "surface",
       "semantic_id": "littlehands.form.reschedule.radio.option_0"
     },
@@ -102,7 +102,7 @@
       "state": "state-reschedule",
       "kind": "text",
       "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>section:nth-child(2)>form:nth-child(3)>div:nth-child(4)>div:nth-child(2)>div:nth-child(1)>label:nth-child(1)",
-      "family": "Radio",
+      "family": "radio",
       "role": "label",
       "semantic_id": "littlehands.form.reschedule.radio.option_0.label"
     },
@@ -110,7 +110,7 @@
       "state": "state-reschedule",
       "kind": "surface",
       "selector": "#id_target_session_id_1",
-      "family": "Radio",
+      "family": "radio",
       "role": "surface",
       "semantic_id": "littlehands.form.reschedule.radio.option_1"
     },
@@ -118,7 +118,7 @@
       "state": "state-reschedule",
       "kind": "surface",
       "selector": "[data-native-key=\"id_target_session_id_1-mark\"]",
-      "family": "Radio",
+      "family": "radio",
       "role": "mark",
       "semantic_id": "littlehands.form.reschedule.radio.option_1.mark"
     },
@@ -126,7 +126,7 @@
       "state": "state-reschedule",
       "kind": "text",
       "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>section:nth-child(2)>form:nth-child(3)>div:nth-child(4)>div:nth-child(2)>div:nth-child(2)>label:nth-child(1)",
-      "family": "Radio",
+      "family": "radio",
       "role": "label",
       "semantic_id": "littlehands.form.reschedule.radio.option_1.label"
     },
@@ -134,7 +134,7 @@
       "state": "state-reschedule",
       "kind": "surface",
       "selector": "#id_target_session_id_2",
-      "family": "Radio",
+      "family": "radio",
       "role": "surface",
       "semantic_id": "littlehands.form.reschedule.radio.option_2"
     },
@@ -142,7 +142,7 @@
       "state": "state-reschedule",
       "kind": "text",
       "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(4)>section:nth-child(2)>form:nth-child(3)>div:nth-child(4)>div:nth-child(2)>div:nth-child(3)>label:nth-child(1)",
-      "family": "Radio",
+      "family": "radio",
       "role": "label",
       "semantic_id": "littlehands.form.reschedule.radio.option_2.label"
     },
@@ -150,7 +150,7 @@
       "state": "state-staffedit",
       "kind": "container",
       "selector": "[data-native-key=\"field-course\"]",
-      "family": "Field",
+      "family": "field",
       "role": "container",
       "semantic_id": "littlehands.form.session_edit.field.course"
     },
@@ -158,7 +158,7 @@
       "state": "state-staffedit",
       "kind": "text",
       "selector": "[data-native-key=\"includes-form-label-4-1\"]",
-      "family": "Field",
+      "family": "field",
       "role": "label",
       "semantic_id": "littlehands.form.session_edit.field.course.label"
     },
@@ -166,7 +166,7 @@
       "state": "state-staffedit",
       "kind": "surface",
       "selector": "#id_course",
-      "family": "Input",
+      "family": "input",
       "role": "surface",
       "semantic_id": "littlehands.form.session_edit.input.course"
     },
@@ -174,7 +174,7 @@
       "state": "state-staffedit",
       "kind": "control_value",
       "selector": "#id_course",
-      "family": "Input",
+      "family": "input",
       "role": "value",
       "semantic_id": "littlehands.form.session_edit.input.course.value"
     },
@@ -182,7 +182,7 @@
       "state": "state-staffedit",
       "kind": "container",
       "selector": "[data-native-key=\"field-price_krw\"]",
-      "family": "Field",
+      "family": "field",
       "role": "container",
       "semantic_id": "littlehands.form.session_edit.field.price_krw"
     },
@@ -190,7 +190,7 @@
       "state": "state-staffedit",
       "kind": "text",
       "selector": "[data-native-key=\"includes-form-label-4-6\"]",
-      "family": "Field",
+      "family": "field",
       "role": "label",
       "semantic_id": "littlehands.form.session_edit.field.price_krw.label"
     },
@@ -198,7 +198,7 @@
       "state": "state-staffedit",
       "kind": "surface",
       "selector": "#id_price_krw",
-      "family": "Input",
+      "family": "input",
       "role": "surface",
       "semantic_id": "littlehands.form.session_edit.input.price_krw"
     },
@@ -206,7 +206,7 @@
       "state": "state-staffedit",
       "kind": "control_value",
       "selector": "#id_price_krw",
-      "family": "Input",
+      "family": "input",
       "role": "value",
       "semantic_id": "littlehands.form.session_edit.input.price_krw.value"
     },
@@ -214,7 +214,7 @@
       "state": "state-staffedit",
       "kind": "text",
       "selector": "#id_price_krw_helptext",
-      "family": "Field",
+      "family": "field",
       "role": "help",
       "semantic_id": "littlehands.form.session_edit.field.price_krw.help"
     },
@@ -222,7 +222,7 @@
       "state": "state-staffsessions",
       "kind": "row",
       "selector": "[data-native-key=\"staff-session-9\"]",
-      "family": "TableRow",
+      "family": "table-row",
       "role": "row",
       "semantic_id": "littlehands.table.sessions.row.9"
     },
@@ -230,7 +230,7 @@
       "state": "state-staffsessions",
       "kind": "row",
       "selector": "[data-native-key=\"staff-session-6\"]",
-      "family": "TableRow",
+      "family": "table-row",
       "role": "row",
       "semantic_id": "littlehands.table.sessions.row.6"
     },
@@ -238,7 +238,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-th-1-0\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "header",
       "semantic_id": "littlehands.table.sessions.header.course"
     },
@@ -246,7 +246,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-th-2-0\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "header",
       "semantic_id": "littlehands.table.sessions.header.schedule"
     },
@@ -254,7 +254,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-th-3-0\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "header",
       "semantic_id": "littlehands.table.sessions.header.capacity"
     },
@@ -262,7 +262,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-th-4-0\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "header",
       "semantic_id": "littlehands.table.sessions.header.confirmed"
     },
@@ -270,7 +270,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-th-5-0\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "header",
       "semantic_id": "littlehands.table.sessions.header.waitlist"
     },
@@ -278,7 +278,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-th-6-0\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "header",
       "semantic_id": "littlehands.table.sessions.header.status"
     },
@@ -286,7 +286,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-th-7-0\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "header",
       "semantic_id": "littlehands.table.sessions.header.actions"
     },
@@ -294,7 +294,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(1)>strong:nth-child(1)",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.course.title"
     },
@@ -302,7 +302,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(1)>span:nth-child(3)",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.course.room"
     },
@@ -311,7 +311,7 @@
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-td-9-1\"]",
       "occurrence": 0,
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.schedule.date"
     },
@@ -320,7 +320,7 @@
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-td-9-1\"]",
       "occurrence": 1,
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.schedule.time"
     },
@@ -328,7 +328,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-td-10-1\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.capacity"
     },
@@ -336,7 +336,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-td-11-1\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.confirmed"
     },
@@ -344,7 +344,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "[data-native-key=\"staff-session_table-td-12-1\"]",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.waitlist"
     },
@@ -352,7 +352,7 @@
       "state": "state-staffsessions",
       "kind": "text",
       "selector": "body>main:nth-child(3)>div:nth-child(1)>div:nth-child(3)>table:nth-child(1)>tbody:nth-child(3)>tr:nth-child(1)>td:nth-child(6)>span:nth-child(1)",
-      "family": "TableCell",
+      "family": "table-cell",
       "role": "cell",
       "semantic_id": "littlehands.table.sessions.row.9.cell.status"
     }

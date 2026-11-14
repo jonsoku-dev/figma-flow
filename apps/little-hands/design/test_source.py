@@ -199,7 +199,7 @@ class FamilyTargetMappingTests(unittest.TestCase):
         targets = loaded['targets']
         self.assertEqual(
             {entry['family'] for entry in targets},
-            {'Field', 'Input', 'Checkbox', 'Radio', 'TableRow', 'TableCell'},
+            {'field', 'input', 'checkbox', 'radio', 'table-row', 'table-cell'},
         )
         for state in ('sessionavailable', 'reschedule', 'staffedit', 'staffsessions'):
             for viewport in ('desktop', 'mobile'):
@@ -236,7 +236,7 @@ class FamilyTargetMappingTests(unittest.TestCase):
                 if state == 'staffsessions':
                     row_entries = [row for row in m_map if row.get('kind') == 'table_row']
                     self.assertEqual(len(row_entries), 2)
-                    self.assertEqual({row['family'] for row in row_entries}, {'TableRow'})
+                    self.assertEqual({row['family'] for row in row_entries}, {'table-row'})
 
     def test_family_targets_reject_duplicate_password_action_or_unknown_values(self):
         import tempfile
@@ -256,7 +256,7 @@ class FamilyTargetMappingTests(unittest.TestCase):
                 'state': 'state-staffedit',
                 'kind': 'surface',
                 'selector': '#id_password',
-                'family': 'Input',
+                'family': 'input',
                 'role': 'surface',
                 'semantic_id': 'littlehands.form.auth.input.password',
             })
@@ -279,7 +279,7 @@ class FamilyTargetMappingTests(unittest.TestCase):
                 'state': 'state-sessionavailable',
                 'kind': 'surface',
                 'selector': 'button.primary',
-                'family': 'Input',
+                'family': 'input',
                 'role': 'surface',
                 'semantic_id': 'littlehands.form.reserve.illegal_action',
             }],
@@ -379,6 +379,48 @@ class FamilyTargetMappingTests(unittest.TestCase):
             }
             self.assertIn('littlehands.form.reserve.input.quantity', layer_ids)
             self.assertNotIn('state-sessionavailable-id_quantity-surface', layer_ids)
+
+    def test_build_family_design_emits_canonical_nf01_schema_and_dom_source(self):
+        import subprocess
+        import sys
+        import tempfile
+
+        design = source.build_family_design(HERE)
+        self.assertEqual(design['version'], 1)
+        family_ids = [fam['id'] for fam in design['componentFamilies']]
+        self.assertEqual(family_ids, ['input', 'checkbox', 'radio', 'field', 'table-cell', 'table-row'])
+        self.assertEqual(set(design['components']), set(family_ids))
+
+        screen_map = {scr['id']: scr for scr in design['screens']}
+        self.assertEqual(
+            set(screen_map),
+            {'state-sessionavailable', 'state-reschedule', 'state-staffedit', 'state-staffsessions'},
+        )
+        waitlist_el = next(
+            el for el in screen_map['state-sessionavailable']['elements']
+            if el['id'] == 'littlehands.form.reserve.field.allow_waitlist'
+        )
+        self.assertEqual(waitlist_el['property_values']['control']['component'], 'checkbox')
+        self.assertEqual(waitlist_el['dom_source']['label_for'], 'id_allow_waitlist')
+        self.assertEqual(waitlist_el['dom_source']['input_type'], 'checkbox')
+
+        radios = screen_map['state-reschedule']['elements']
+        self.assertEqual(len(radios), 3)
+        self.assertEqual([r['variant'] for r in radios], ['unselected', 'selected', 'unselected'])
+        self.assertEqual(len({r['property_values']['choiceLabel'] for r in radios}), 3)
+
+        table_els = screen_map['state-staffsessions']['elements']
+        self.assertEqual(table_els[0]['dom_source']['th_scope'], 'col')
+        self.assertEqual(table_els[1]['property_values']['firstCell'], {'component': 'table-cell', 'variant': 'default'})
+
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / 'little-hands-families.json'
+            subprocess.run(
+                [sys.executable, str(HERE / 'source.py'), '--family-design-out', str(out)],
+                check=True,
+                capture_output=True,
+            )
+            self.assertEqual(json.loads(out.read_bytes()), design)
 
 
 if __name__=='__main__':unittest.main()
