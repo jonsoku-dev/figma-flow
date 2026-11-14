@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 694,
+    "no-static-reference": 680,
     "qualified-static-reference": 62,
-    "unresolved-receiver-name-reference": 626
+    "unresolved-receiver-name-reference": 640
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -1265,7 +1265,7 @@
       "id": "NotificationOptions.timeout#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "NotificationOptions.error#1",
@@ -3791,7 +3791,7 @@
       "id": "Reaction.trigger#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "Expression.expressionFunction#0",
@@ -3845,13 +3845,13 @@
       "id": "SimpleTransition.easing#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "SimpleTransition.duration#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DirectionalTransition.type#0",
@@ -3869,19 +3869,19 @@
       "id": "DirectionalTransition.matchLayers#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DirectionalTransition.easing#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DirectionalTransition.duration#4",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "Easing.type#0",
@@ -4031,7 +4031,7 @@
       "id": "FigmaAnimationStyleConfiguration.duration#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "FigmaAnimationStyleConfiguration.timelineOffset#2",
@@ -4103,7 +4103,7 @@
       "id": "ManualKeyframeInput.easing#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ManualKeyframeInput.value#3",
@@ -4139,7 +4139,7 @@
       "id": "ManualKeyframe.easing#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ManualKeyframeBinding.id#0",
@@ -4205,7 +4205,7 @@
       "id": "Timeline.duration#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ConnectorEndpointPosition.position#0",
@@ -5585,7 +5585,7 @@
       "id": "Measurement.start.side#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "Measurement.end#2",
@@ -5603,7 +5603,7 @@
       "id": "Measurement.end.side#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "Measurement.offset#3",
@@ -7901,7 +7901,7 @@
       "id": "SlideTransition.duration#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "SlideTransition.curve#2",
@@ -8381,7 +8381,7 @@
     },
     {
       "path": "figma-bridge/web_design.js",
-      "sha256": "b0246da2359e1f51eb662eb7a845b7173f940ffec5d38db454fbd675888918ae"
+      "sha256": "deea576d1ee30615536cbbf48c480f1d7bfb6bbffbe07ca12ce84bd0d2388c9e"
     },
     {
       "path": "figma-bridge/workspace_chat.js",
@@ -8389,11 +8389,11 @@
     },
     {
       "path": "figma-bridge/workspace_control.js",
-      "sha256": "ecd9393bb622787437b7931773a9d8bee1f62370ba45c649f4b234ff1183f81f"
+      "sha256": "ea0761ebcf42399ce37269b957fa56fde2117067ee71ddbafdeb9a5065df76b8"
     },
     {
       "path": "figma-bridge/workspace_host.js",
-      "sha256": "190fa561f71b2b0e34eaabe46e318d3019c2e8bf19b77e9176cc7fad3096d4df"
+      "sha256": "c125cfa332b183963569369a62d610660db2b4b8f5684200dff7b8b0ac88b46c"
     },
     {
       "path": "figma-bridge/workspace_transport.js",
