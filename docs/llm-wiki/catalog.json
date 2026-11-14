@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.32.2",
     "0.32.1",
     "0.32.0",
     "0.31.0",
@@ -9319,6 +9320,369 @@
           "version": "0.32.2"
         }
       ]
+    },
+    {
+      "commit": "5e89c53918a01646bd693fcd96cef5502d0e8718",
+      "diff_sha256": "41c7a3ae2b18013d942820aaf662c8b2da4df67fe6bd7f31901c3565cefbf603",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/05422a6e1cecfe76edc96077ac046a9e02ba8b04.md",
+        "docs/llm-wiki/patches/09ea462e817112edc790234f6482cc19e7c7e4a2.md",
+        "docs/llm-wiki/patches/1d0b5c0f176dc089f82fd1100cecd13c90996fc8.md",
+        "docs/llm-wiki/patches/3d72453c628224f3e4d3b1a4a291802e7e759278.md",
+        "docs/llm-wiki/patches/6b448d99524804101f37ccf3c4283c5c70e485e4.md",
+        "docs/llm-wiki/patches/9a8321f9349969e990f1238d2616f21d4e4c6195.md",
+        "docs/llm-wiki/patches/ec9eb9ba1610ddad2bf568c8ec528aa44c1fbf43.md",
+        "docs/llm-wiki/patches/ef00dddce6ed5d06701b2c6c870762f9e14f6029.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "1d0b5c0f176dc089f82fd1100cecd13c90996fc8"
+      ],
+      "subject": "docs: publish SVG fidelity comparisons, plugin limits and fork notes",
+      "tree": "35daa0c8396f64148706eb27979be813742dab1e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "104652403ef26368729086588387e9fae7dfe4ac",
+      "diff_sha256": "36d6824f867672a9ee77c40e42bae735785bcb40dbb3821f3afa176493c60e75",
+      "files": [
+        "docs/web-carousel-input.md",
+        "tests/fixtures/web_carousel_synthetic/README.md",
+        "tests/fixtures/web_carousel_synthetic/capture.png",
+        "tests/fixtures/web_carousel_synthetic/observations.json",
+        "tests/fixtures/web_carousel_synthetic/screens.json",
+        "tests/fixtures/web_carousel_synthetic/transition.png",
+        "tests/test_web_design.py",
+        "tools/native_edit.py",
+        "tools/web_design.py"
+      ],
+      "parents": [
+        "5e89c53918a01646bd693fcd96cef5502d0e8718"
+      ],
+      "subject": "feat: compile measured carousel states into pinned Design plans",
+      "tree": "bc2b264659e5008e0de5879ef6563f2aef0d5560",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "a13e89c27c16108e4fb75a446154636124312c4d",
+      "diff_sha256": "507591357f5ba5060e9f7352d55488a189d71ac0e92d457b223bf6b8aca66291",
+      "files": [
+        "figma-bridge/web_design.js",
+        "tests/test_web_design.cjs"
+      ],
+      "parents": [
+        "104652403ef26368729086588387e9fae7dfe4ac"
+      ],
+      "subject": "feat: create editable carousel frames with verified drag and timer reactions",
+      "tree": "5e3c6e31c6ed44761a7f2f7623b497c3709bc22c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "61647d636f23142c76d453f24512566043c40517",
+      "diff_sha256": "ab94f67ef53ac5ec65f2fbcf9061104bf141b7b1ee21a64931d87c7f04d92c31",
+      "files": [
+        "tools/web_carousel_capture.mjs"
+      ],
+      "parents": [
+        "a13e89c27c16108e4fb75a446154636124312c4d"
+      ],
+      "subject": "feat: capture a live carousel through a local Chromium pipe",
+      "tree": "1eedae6a820d41924b4cb7a57c83483377df25e1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "bcf2dd6434c0650b91f7e5d78e47b04ba6d0e1b3",
+      "diff_sha256": "bf9f1ba8c9ff52d9af1911e248957e09a4661bbf80fc536f5ff7912a17aee9f7",
+      "files": [
+        "tests/test_web_design_capture_clipping.cjs"
+      ],
+      "parents": [
+        "61647d636f23142c76d453f24512566043c40517"
+      ],
+      "subject": "test: pin scroll rail clipping for editable web frames",
+      "tree": "453e1332077553db8443e62c5716196fa67ca415",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "59dba566f4982923076ef0ed22cc0da5f60f42c5",
+      "diff_sha256": "23ee3a0ee0b3af714ebd3b383154099a61388289fee18906da4629a2aa6068b5",
+      "files": [
+        "tests/web_carousel_clipping_gate.py"
+      ],
+      "parents": [
+        "bcf2dd6434c0650b91f7e5d78e47b04ba6d0e1b3"
+      ],
+      "subject": "test: preserve the clipping assertion for archive replay",
+      "tree": "b04f3d3921973e164a376c9aab2f7e0aa054623e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "2078ea9a94edd1f1c652953f30819c4fae50d20d",
+      "diff_sha256": "91f0a55e4c8a0a5080e4057a090528ef254d500f29da214a3b2562d7fa859da3",
+      "files": [
+        "tools/web_design_capture.js"
+      ],
+      "parents": [
+        "59dba566f4982923076ef0ed22cc0da5f60f42c5"
+      ],
+      "subject": "fix: clip both axes of a browser scroll rail in Design",
+      "tree": "c9771ed7b35dbacdc6f3756e435c83b889c0707a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "428a358688a50116956006b734b5ad850c88bbf6",
+      "diff_sha256": "aa67bb79808578e7283f947c66fdcc3512a14bb2ab173f5db7e7190a2b0136cb",
+      "files": [
+        "figma-bridge/web_design.js",
+        "tests/fixtures/web_carousel_synthetic/README.md",
+        "tests/fixtures/web_carousel_synthetic/media.png",
+        "tests/fixtures/web_carousel_synthetic/screens.json",
+        "tests/test_web_design.cjs",
+        "tests/test_web_design.py",
+        "tools/web_design.py"
+      ],
+      "parents": [
+        "2078ea9a94edd1f1c652953f30819c4fae50d20d"
+      ],
+      "subject": "feat: share unchanged carousel artwork through native image components",
+      "tree": "49df854def422ba9142f7559ff13355195cee88d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "561d1c9f25516f4e6c44b6e75047e39a7e86afa3",
+      "diff_sha256": "6e5c663f42c4890d2797a22fc5410844d5d82948ee9944b9f23021d8e91bb661",
+      "files": [
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/styles/workspace.css",
+        "tests/test_workspace_host.cjs"
+      ],
+      "parents": [
+        "428a358688a50116956006b734b5ad850c88bbf6"
+      ],
+      "subject": "feat: inspect carousel states and open Present from the plugin",
+      "tree": "559fbd2b24c5524c3825ba229655f129d2425416",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "91e394ca399a987bccff4e785e1c49964e153fdd",
+      "diff_sha256": "c048e0e4fb200bc312bfb17ef44372ef986ab6d910468440f5f3c70e397b26a9",
+      "files": [
+        "tests/test_web_design.py",
+        "tools/web_design.py"
+      ],
+      "parents": [
+        "561d1c9f25516f4e6c44b6e75047e39a7e86afa3"
+      ],
+      "subject": "fix: preserve legacy component identities during carousel workspace updates",
+      "tree": "d14421f74984ebdb7321b1b00af05ec92de489da",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "a46a608d94731afdf0af5f1214d6e7b00dd495af",
+      "diff_sha256": "7f867c613b8656ac8ff6c18bcd24a95c277f1521159b8623a1791f3d5b509935",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "AGENTS.md",
+        "CONSTITUTION.md",
+        "README.md",
+        "docs/guide.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "plugin.json",
+        "specs/README.md",
+        "specs/interactive-web/carousel.md",
+        "specs/interactive-web/graph.json",
+        "tools/web_carousel_capture.mjs"
+      ],
+      "parents": [
+        "91e394ca399a987bccff4e785e1c49964e153fdd"
+      ],
+      "subject": "release: document and version the no-hook carousel workflow for 0.33.0",
+      "tree": "f22eed1c1a71b459a91dab39b8ad72ad072d04cd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "2f58c8c1722a67e15a08180dc97e424a6e2a91a4",
+      "diff_sha256": "93d6490cd0ccd4817da71bc8429d8eab30e59a60135a07733008e5f3fa37ef78",
+      "files": [
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "tests/test_workspace_carousel_ui.cjs",
+        "tests/test_workspace_host.cjs"
+      ],
+      "parents": [
+        "a46a608d94731afdf0af5f1214d6e7b00dd495af"
+      ],
+      "subject": "fix: route carousel actions from the file home and translate playback notices",
+      "tree": "2d9b4d996764a9e324490823376939481e93fd3b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "0fc65bae7c72d818abfb8ec27d6cd309f67e43f2",
+      "diff_sha256": "6e8cc6c965c45feae332dbb3fc04c732373d1011c1ff3356b32c8b1ea7141730",
+      "files": [
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/locales/workspace.json",
+        "panel-ui/src/CarouselPresentLink.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/carouselPresentation.mjs",
+        "tests/test_carousel_present_link.cjs"
+      ],
+      "parents": [
+        "2f58c8c1722a67e15a08180dc97e424a6e2a91a4"
+      ],
+      "subject": "fix: expose a validated replay link after the Present action",
+      "tree": "bc0c3bb44290fca0792321388579d01157e60540",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "7aef05e416b625ccab46122d8d0720e45e9471a5",
+      "diff_sha256": "39db6eb3b2f348f257f44f4d7fc6587c5bc4e456a0502cbc08bdca3674da0c89",
+      "files": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "parents": [
+        "0fc65bae7c72d818abfb8ec27d6cd309f67e43f2"
+      ],
+      "subject": "chore: refresh static API source hashes for the carousel release",
+      "tree": "bbc3c169f4c1ebcf273a486ac5f97d63adc23e2e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -9341,7 +9705,9 @@
     "0cf1823f9225b694b40961f2b6fb5d6eaa79834c": "fa2b919c9277a10c3eb30ed75c61256da3c8c215b241bc189a72082bd3c68e76",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ef8fe7126290ba10bd7ffe511e455d027226f74": "53e97298a0b490e017649b15a7ed501294917b0f4ae9d3bca8b59967456a93ca",
+    "0fc65bae7c72d818abfb8ec27d6cd309f67e43f2": "d80a327d7a0eb98c16c33bcdf5b333cbffaec1fd505363485d4326470f4e5bb8",
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
+    "104652403ef26368729086588387e9fae7dfe4ac": "fbf138e0d0c03121c0cdee700c3f9208156c26abb58146300d55d4518867bef1",
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
@@ -9362,6 +9728,7 @@
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
     "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f": "d595749585931a4fc1811bd87ef6551e1dde1c22be50c9848ba979fe8835f2b5",
     "1fa5f0dd4386bfd46bd919284b946d39493ae857": "440dcc62a8b1fc9eb88e94da172e2397fc0d6e9c1bf2d7c0dc08fe2f2f2c09f3",
+    "2078ea9a94edd1f1c652953f30819c4fae50d20d": "0e461fabc4e32b323eea47e0134ec5139331d8fb35a73e44219b7f3767e5da1d",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
     "23b44e3b3004639e088467bd91d808de24df38d7": "f418b64bbd6b831f60e6ba10f75d8ef86b4a94d91d769fbf57596b4902058d90",
@@ -9379,6 +9746,7 @@
     "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797": "1238da541f9a7c3aea1a35b65a40f48c2dfc85b65633152e151f7a8bc9ed7ee4",
     "2de5f65d63c76054f04155d90201d96129af4433": "ae7568b1c22bb2f51631b74cbcc787efc45e5fc3522d7515522830ef78f4905f",
     "2e974fa58123ab1835b117a55451bf837597182f": "721d67fe90a8e8bcd505c29123ab13fd56647c8c796958f18f562cab6d2c7e11",
+    "2f58c8c1722a67e15a08180dc97e424a6e2a91a4": "0a98a16f461f5be5e3044245f9f4eee52a8c43d66f0f9ed012062630efe4b627",
     "2fb34775511c631fb60f9889fea86c01f676578c": "d7d78880c138153ebb791a7445187ab3b5b38b3667e19b1495ede43945e4fab2",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
     "3101237e7e97c6181416780c94888ba134a005d0": "eb8cd406e0591b4fa29b20c75057305ae593587084edf8595a5b40a82eb1c3d5",
@@ -9400,6 +9768,7 @@
     "3fc3002553ecd2f8a3c35f89e68789938f1b76e3": "1aad24ff0995c6ed7233321256324ea46399ac1621278dd75219aeb493f0e967",
     "42379a56d677ad29296ae3ae6495742a11fbaf43": "e7047ae134b516d5d00518da2becde6c92237c8cc9a427f69bf16d75f79aa76b",
     "42752d575ebe17ca5b10a176a29d6525719685b0": "86abf1a25289370752187249e5f15d959da958f30c2dfd80b0aa43ace4e8d421",
+    "428a358688a50116956006b734b5ad850c88bbf6": "fe6e2939926d72b3d1b95870813b4be17831db8599445ed3fdc3ff1e389a87a6",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
     "456cb515719974311b0051ac86e7e3d764aa18d4": "67b78cce4d3b87d16d9403b9ffb0b21a20bea3c9a1305a45d71b790155a12397",
     "45ea99992ade788ed7d25de89982652e863e44c7": "ff680017620f851353098263e029734d60eb1339b3e2c27a9f11ba91966027b3",
@@ -9422,18 +9791,22 @@
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
     "550da40d10c9520d8e96478455cc6f14982fc322": "7f6cd0ea80f869bc1eccb855009ab51cb290f4a22b605c3791dca5ecdf8d05e7",
     "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
+    "561d1c9f25516f4e6c44b6e75047e39a7e86afa3": "fc61bbc9fdc4445ee00d679a8852596f4a6b43e15e0affd728fa39b205aa65b1",
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
     "56d2dd3ceaeb638805717030ff76c587d485d906": "207442f6c327c4622e6fc921a2e53ddaf03c5e670daa6262e0e7e542f8dae261",
     "58ae88cd43143faf59790ef734aba403ad500aa4": "d87124a8f2176ef7da1e2f79291b691c19f26dba4ad7deca48d4f95d1f2bf6aa",
     "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c": "889431a6006c82016784002149f4da64930556dd79c07f2e405b066e083f4759",
+    "59dba566f4982923076ef0ed22cc0da5f60f42c5": "917fd3ff94e55217641f9ce07b69f6ae6017762eb3b6292a8b5588bf76384e06",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5d3a088c6becc62fef08ecd0fc8fd857ed850957": "cf1b781e084cfc9364e58a7e554e52ee6dd3d411ba3ced3e0cc072a13fa9b713",
     "5d92cd61d7e09a444c5045ddc26911829d92b060": "b3125664aa5026b887cd3647dc65e2790d1569b668781732fb3deb369fb6e98a",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
+    "5e89c53918a01646bd693fcd96cef5502d0e8718": "98baad18661cf604bd082520c2ce546c1c9a3e94e556051fac9801b1659d5e49",
     "5f1842e2a904583813db63dc3adc402a5cb31318": "fe86a34f14d6c5d9fc535e33368b22110d5756f91f2b98a971ccdd609e6af66b",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
+    "61647d636f23142c76d453f24512566043c40517": "7eead01fb27d1f5a6df3152c9447ed5e452bb79ec23b22f4772a3d6e58085ce8",
     "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
@@ -9457,6 +9830,7 @@
     "78fd03a27d4d81d1e024d8874d5467a568b8418e": "9677b5f96bb30d1dabec45446d4fb77172f3afa51576c24dce111622c7a74e4e",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
+    "7aef05e416b625ccab46122d8d0720e45e9471a5": "a58774684a8c8dd7c1fb3d3226d068c52a3f401c9b7444ddd3cd6732b38b1ad3",
     "7b5ae4091641430d891e0c110c8efdb9a845a6ce": "063e8f7c15bd7989ed403013c467c8da048f725858a1473274172f3a6ca8492f",
     "7ba864310c66d6f972cb4b9e15cacc04c3761ccd": "6b8b7e52db476fbb4ddfb6330a32b0747fb0548cd21b6fdb94c91c245843e109",
     "7bff2100bccf6db00203cc5351c8773026783d72": "4bf77332ec7b7f05f26b5da425a0f61bee71c346e6e1e8eb8fd28d12681d9f1d",
@@ -9479,6 +9853,7 @@
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
     "910e7aa74da7c142d7798dbba12e0920490b38cb": "d0f3ac89ca7d7b9bc1ff343116a7f8d42680ae2bcc2347f0069fda8e0ba08f3e",
     "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
+    "91e394ca399a987bccff4e785e1c49964e153fdd": "ce84d749c4b86d3b2aefedeaf054caccf97063b8455c9510b5e2d5a1cf604f99",
     "91eb4ce74dc14d3160669bf1e96e329fbae5356c": "dca7c34810ada2e732a3fe8daa3ada53aff22ba7ad768969aa8af29b58612593",
     "925aa87a8b7b16d7f7a7b64671bc3699933b091b": "8ae80f9623c8bbd254de75e1a9b635f1dd3f599f15bb992a68a9002540160079",
     "939f1b997d8cff3bd6efca5c28a9c2a23cd41785": "b9c2ed153924c89dcb8e7bad839fc2716a3bb1db49787092c20c5a372c80cf1b",
@@ -9506,6 +9881,8 @@
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
     "a069898acd764f726494c713c2b742cb834fcd0b": "db4ab871a10f73355adb1128293d70cfd30fd1ee4b46556677489292fea2e14e",
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
+    "a13e89c27c16108e4fb75a446154636124312c4d": "f12e95d0da042f4f9a9a3904b769cd32486c82c2c5f3eacd64c9ab936c3717d6",
+    "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
     "a60f977b0093ea35f98d731c197e09f1667dbc75": "042be96fc647eb926e4a73c7b8cd0abab87342c59956acb1ad1d2f3e8e6d250d",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
@@ -9539,6 +9916,7 @@
     "bacb81cbe48f1afdad79bcc135778af4ffe1c2b4": "60e3d7b0291406611a381e27097a75a3491203fda742b22894b8ea8436ddbd35",
     "bbe11d2a80604207b8efaba5c521834acad779b3": "16f755f39ab221321d683242cb460fec7e8a20eb3be2a564fe3b98480f8374d2",
     "bc70451a51ca30e6e639b133593385650da52097": "d2570b38842fe64466f765da9016eac181b1b98ca05d392045d10bd1b61db887",
+    "bcf2dd6434c0650b91f7e5d78e47b04ba6d0e1b3": "cf30cc7f3cd40982a4b29adf4ac5bb7b04d1bca0cec9334bb6fd3ac6a309f544",
     "bd20be5bdb1d5822b68b314067d912eb8ad7f43c": "1bc8a9afbdbc99720da37bd4644b607d0e565d8c935874ddf4273c8f495a11bf",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
@@ -9836,6 +10214,10 @@
     },
     {
       "observed_at_commit": "78fd03a27d4d81d1e024d8874d5467a568b8418e",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "7aef05e416b625ccab46122d8d0720e45e9471a5",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -10283,13 +10665,23 @@
         "v0.32.1"
       ],
       "version": "0.32.1"
+    },
+    {
+      "source_commits": [
+        "5e89c53918a01646bd693fcd96cef5502d0e8718"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.32.2"
+      ],
+      "version": "0.32.2"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "1d0b5c0f176dc089f82fd1100cecd13c90996fc8",
+  "source_commit": "7aef05e416b625ccab46122d8d0720e45e9471a5",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -10395,6 +10787,11 @@
       "commit": "9a8321f9349969e990f1238d2616f21d4e4c6195",
       "tag": "v0.32.1",
       "version": "0.32.1"
+    },
+    {
+      "commit": "5e89c53918a01646bd693fcd96cef5502d0e8718",
+      "tag": "v0.32.2",
+      "version": "0.32.2"
     }
   ]
 }
