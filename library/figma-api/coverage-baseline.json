@@ -8381,7 +8381,7 @@
     },
     {
       "path": "figma-bridge/web_design.js",
-      "sha256": "deea576d1ee30615536cbbf48c480f1d7bfb6bbffbe07ca12ce84bd0d2388c9e"
+      "sha256": "dabc2b71de04e46b6513196d76a7b6e88bcffec445a293307d4f3146acdcec1a"
     },
     {
       "path": "figma-bridge/workspace_chat.js",
@@ -8389,11 +8389,11 @@
     },
     {
       "path": "figma-bridge/workspace_control.js",
-      "sha256": "ea0761ebcf42399ce37269b957fa56fde2117067ee71ddbafdeb9a5065df76b8"
+      "sha256": "810f0df7498d9fd5c54760a2bc8e651e524c033c3fb8a7d31c5a9e39aec315b4"
     },
     {
       "path": "figma-bridge/workspace_host.js",
-      "sha256": "c125cfa332b183963569369a62d610660db2b4b8f5684200dff7b8b0ac88b46c"
+      "sha256": "298f11a468f6661b01775c03f472dd15e5aacf99866d1856a0a042e8e24ba599"
     },
     {
       "path": "figma-bridge/workspace_transport.js",
