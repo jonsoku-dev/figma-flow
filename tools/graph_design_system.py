@@ -34,6 +34,8 @@ def _number(value):
 def _validate_value(kind, value, name):
     if kind == 'FLOAT':
         valid = _number(value)
+    elif kind == 'BOOLEAN':
+        valid = isinstance(value, bool)
     elif kind == 'STRING':
         valid = isinstance(value, str) and bool(value.strip()) and all(ord(c) >= 32 for c in value)
     elif kind == 'COLOR':
@@ -49,8 +51,15 @@ def _validate_value(kind, value, name):
 _FLOAT_PROPERTIES = {'fontSize', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom',
                      'gap', 'borderWidth', 'borderRadius', 'width', 'height', 'minWidth', 'minHeight'}
 _COLOR_PROPERTIES = {'color', 'backgroundColor', 'borderColor'}
+_SECRET_VALUE_RE = re.compile(
+    r'(?i)(?:sk-[a-z0-9]{16,}|ghp_[a-z0-9]{16,}|figd_[a-z0-9_-]{16,}|bearer\s+[a-z0-9._-]{16,}|-----begin [a-z ]*private key-----)'
+)
 SUPPORTED_PROPERTY_TYPES = {**dict.fromkeys(_FLOAT_PROPERTIES, 'FLOAT'),
-                            **dict.fromkeys(_COLOR_PROPERTIES, 'COLOR'), 'fontFamily': 'STRING'}
+                            **dict.fromkeys(_COLOR_PROPERTIES, 'COLOR'),
+                            'fontFamily': 'STRING',
+                            'visible': 'BOOLEAN',
+                            'characters': 'STRING',
+                            'instanceSwap': 'STRING'}
 
 
 def _validate_property(prop, kind, value):
@@ -60,6 +69,14 @@ def _validate_property(prop, kind, value):
     if prop == 'fontFamily':
         valid = (valid and value == value.strip() and len(value) <= 200 and
                  not any(c in value for c in ',;:{}\\\"\'<>/'))
+    elif prop == 'characters':
+        valid = valid and len(value) <= 2000 and not _SECRET_VALUE_RE.search(value)
+    elif prop == 'instanceSwap':
+        valid = (valid and value == value.strip() and len(value) <= 200 and
+                 bool(re.fullmatch(r'[A-Za-z0-9_.:/-]+', value)) and
+                 not value.lower().startswith(('http:', 'https:')))
+    elif prop == 'visible':
+        valid = valid and isinstance(value, bool)
     elif prop in _FLOAT_PROPERTIES:
         valid = valid and value >= 0 and (prop != 'fontSize' or value > 0)
     if not valid:
@@ -91,9 +108,17 @@ def _stylesheet(declarations, mui_components):
                 raise ValueError(f'invalid web selector: {name}')
         if depth:
             raise ValueError(f'invalid web selector: {name}')
-        styles = '; '.join(re.sub(r'[A-Z]', lambda match: '-' + match[0].lower(), prop) + ': ' + value
-                           for prop, value in mui_components[name].items())
-        rules.append(selector + ' { ' + styles + '; }')
+        css_items = []
+        for prop, value in mui_components[name].items():
+            if prop in {'characters', 'instanceSwap'}:
+                continue
+            if prop == 'visible':
+                if value is False:
+                    css_items.append('display: none')
+                continue
+            css_items.append(re.sub(r'[A-Z]', lambda match: '-' + match[0].lower(), prop) + ': ' + value)
+        if css_items:
+            rules.append(selector + ' { ' + '; '.join(css_items) + '; }')
     return '\n'.join(rules)
 
 

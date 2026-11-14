@@ -120,21 +120,93 @@ def commit_selective_apply(payload, selection, observed):
     }
 
 
+_COMPONENT_FIELD_TYPES = {'FLOAT', 'STRING', 'TEXT', 'BOOLEAN', 'COLOR', 'INSTANCE_SWAP'}
+_SECRET_FIELD_RE = re.compile(
+    r'(?i)(?:sk-[a-z0-9]{16,}|ghp_[a-z0-9]{16,}|figd_[a-z0-9_-]{16,}|bearer\s+[a-z0-9._-]{16,}|-----begin [a-z ]*private key-----)'
+)
+
+
+def _validate_component_field_value(field_type, value, field, allowed_swap_ids=None):
+    if field_type == 'BOOLEAN':
+        valid = isinstance(value, bool)
+    elif field_type == 'FLOAT':
+        valid = isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+    elif field_type == 'STRING':
+        valid = isinstance(value, str) and bool(value.strip()) and all(ord(c) >= 32 for c in value)
+    elif field_type == 'TEXT':
+        valid = (isinstance(value, str) and bool(value.strip()) and len(value) <= 2000 and
+                 all(ord(c) >= 32 for c in value) and not _SECRET_FIELD_RE.search(value))
+    elif field_type == 'INSTANCE_SWAP':
+        valid = (isinstance(value, str) and value == value.strip() and bool(value) and len(value) <= 200 and
+                 bool(re.fullmatch(r'[A-Za-z0-9_.:/-]+', value)) and not value.lower().startswith(('http:', 'https:')))
+        if not valid:
+            raise ValueError(f'invalid component field value: {field}')
+        if allowed_swap_ids is not None and value not in allowed_swap_ids:
+            raise ValueError(f'disallowed swap target: {field}')
+        return
+    elif field_type == 'COLOR':
+        try:
+            _validate_value('COLOR', value, field)
+            valid = True
+        except ValueError:
+            valid = False
+    else:
+        raise ValueError(f'unsupported component field type: {field_type}')
+    if not valid:
+        raise ValueError(f'invalid component field value: {field}')
+
+
 def commit_component_fields(spec, selection, observed):
-    """Apply a whole shared-token field closure without creating another component."""
+    """Apply a whole shared-token or declared component property field selection without creating another component."""
     if not isinstance(spec, dict) or spec.get('schema') != 'figma-flow-component-field-v1':
         raise ValueError('Invalid component field selection')
     if not isinstance(observed, dict):
         raise ValueError('component field selection requires observed values')
     if not isinstance(selection, list) or not selection:
         raise ValueError('empty selection')
-    component = spec['component']
-    by_field, groups = {}, {}
-    for item in spec['fields']:
-        if item['field'] in by_field:
+    component = spec.get('component')
+    fields = spec.get('fields')
+    if (not isinstance(component, dict) or any(not isinstance(component.get(k), str) or not component.get(k).strip()
+            for k in ('id', 'node_id', 'main_component_id')) or not isinstance(fields, list) or not fields):
+        raise ValueError('Invalid component field selection')
+    by_field, groups, seen_property_keys = {}, {}, set()
+    for item in fields:
+        if not isinstance(item, dict) or not isinstance(item.get('field'), str) or not item['field'].strip():
+            raise ValueError('Invalid component field selection')
+        field_name = item['field']
+        if field_name in by_field:
             raise ValueError('duplicate component field')
-        by_field[item['field']] = item
-        groups.setdefault(item['token'], []).append(item['field'])
+        if 'before' not in item or 'after' not in item:
+            raise ValueError(f'missing before/after value: {field_name}')
+        property_key = item.get('property_key')
+        if property_key is not None:
+            parts = property_key.split('#', 1) if isinstance(property_key, str) else []
+            if len(parts) != 2 or not parts[0].strip() or not parts[1].strip():
+                raise ValueError(f'invalid component property key: {field_name}')
+            if property_key in seen_property_keys:
+                raise ValueError('duplicate component property key')
+            seen_property_keys.add(property_key)
+        field_type = item.get('type')
+        allowed_swap = item.get('allowed_swap_ids')
+        if allowed_swap is not None:
+            if (field_type != 'INSTANCE_SWAP' or not isinstance(allowed_swap, list) or not allowed_swap or
+                    any(not isinstance(s, str) or s != s.strip() or not s or not re.fullmatch(r'[A-Za-z0-9_.:/-]+', s)
+                        or s.lower().startswith(('http:', 'https:')) for s in allowed_swap)):
+                raise ValueError(f'invalid swap target allowlist: {field_name}')
+        if field_type is not None:
+            if field_type not in _COMPONENT_FIELD_TYPES:
+                raise ValueError(f'unsupported component field type: {field_type}')
+            _validate_component_field_value(field_type, item['before'], field_name, allowed_swap)
+            _validate_component_field_value(field_type, item['after'], field_name, allowed_swap)
+        token_key = item.get('token')
+        if 'token' in item and token_key is not None:
+            if not isinstance(token_key, str) or not token_key.strip():
+                raise ValueError(f'invalid component field token: {field_name}')
+            group_id = ('token', token_key)
+        else:
+            group_id = ('field', field_name)
+        by_field[field_name] = item
+        groups.setdefault(group_id, []).append(field_name)
     if any(field not in by_field for field in selection) or len(selection) != len(set(selection)):
         raise ValueError('unknown component field')
     chosen = set(selection)
@@ -143,25 +215,59 @@ def commit_component_fields(spec, selection, observed):
         if picked and len(picked) != len(members):
             raise ValueError('partial component closure')
     for field in selection:
-        if observed.get(field) != by_field[field]['before']:
+        if field not in observed or not same_value(observed[field], by_field[field]['before']):
             raise ValueError(f'stale before value: {field}')
-    values = dict(observed)
+    values = copy.deepcopy(observed)
     applied = []
-    for item in spec['fields']:
+    for item in fields:
         if item['field'] not in chosen:
             continue
-        values[item['field']] = item['after']
-        applied.append({'id': component['id'], 'field': item['field'], 'value': values[item['field']]})
-    skipped = [{'field': item['field']} for item in spec['fields'] if item['field'] not in chosen]
+        values[item['field']] = copy.deepcopy(item['after'])
+        entry = {'id': component['id'], 'field': item['field'], 'value': copy.deepcopy(values[item['field']])}
+        if item.get('property_key') is not None:
+            entry['property_key'] = item['property_key']
+        applied.append(entry)
+    skipped = [{'field': item['field']} for item in fields if item['field'] not in chosen]
     return {
         'node_id': component['node_id'],
         'main_component_id': component['main_component_id'],
         'applied': applied,
         'skipped': skipped,
         'values': values,
-        'readback': dict(values),
-        'baseline': {item['field']: item['value'] for item in applied},
+        'readback': copy.deepcopy(values),
+        'baseline': {item['field']: copy.deepcopy(item['value']) for item in applied},
         'full_apply': not skipped,
+    }
+
+
+def sync_selected_component_fields(graph_path, selections, expected_sha256, *, web_module=None):
+    """Apply selected component-field CAS commits to canonical graph tokens and optional web ESM output."""
+    if not isinstance(selections, list) or not selections:
+        raise ValueError('empty component field selections')
+    committed = []
+    updates = {}
+    preserved = []
+    for entry in selections:
+        if not isinstance(entry, dict) or any(k not in entry for k in ('spec', 'selection', 'observed')):
+            raise ValueError('component field entry requires spec, selection, and observed')
+        spec = entry['spec']
+        result = commit_component_fields(spec, entry['selection'], entry['observed'])
+        by_field = {item['field']: item for item in spec['fields']}
+        for item in result['applied']:
+            token = by_field[item['field']].get('token')
+            if token is not None:
+                if token in updates and not same_value(updates[token], item['value']):
+                    raise ValueError(f'conflicting selected token update: {token}')
+                updates[token] = copy.deepcopy(item['value'])
+        for skipped in result['skipped']:
+            preserved.append({'id': spec['component']['id'], 'node_id': result['node_id'], 'field': skipped['field']})
+        committed.append(result)
+    resolved = update_graph_values(graph_path, updates, expected_sha256, web_module=web_module)
+    return {
+        'graph_sha256': resolved['graphSha256'],
+        'results': committed,
+        'token_updates': updates,
+        'preserved_fields': preserved,
     }
 
 
@@ -174,6 +280,8 @@ def save(path, value):
 
 
 def same_value(first, second):
+    if isinstance(first, bool) != isinstance(second, bool):
+        return False
     if isinstance(first, dict) and isinstance(second, dict) and set('rgb') <= set(first) and set('rgb') <= set(second):
         try:
             _validate_value('COLOR', first, 'comparison')
@@ -238,7 +346,16 @@ def plan_scope(graph, baseline, plan):
 def consumer_targets(node, descendants, field):
     if field not in SUPPORTED_PROPERTY_TYPES:
         raise ValueError(f'unsupported native component property: {field}')
-    return [target for target in [node] + descendants if target['type'] == 'TEXT'] if field in {'fontFamily', 'fontSize', 'color'} else [node]
+    if field in {'fontFamily', 'fontSize', 'color', 'characters'}:
+        return [target for target in [node] + descendants if target['type'] == 'TEXT']
+    if field == 'instanceSwap':
+        if isinstance(node.get('componentProperties'), dict) and any(
+                isinstance(prop, dict) and prop.get('type') == 'INSTANCE_SWAP'
+                for prop in node['componentProperties'].values()):
+            return [node]
+        nested = [target for target in descendants if target.get('type') == 'INSTANCE']
+        return nested if nested else [node]
+    return [node]
 
 
 def native_property(node, field):
@@ -266,6 +383,22 @@ def native_property(node, field):
         if any(binding != bindings[0] for binding in bindings):
             raise ValueError(f'mixed native corner bindings: {node["id"]}')
         binding = bindings[0]
+    elif field == 'instanceSwap':
+        swap_props = [prop for prop in (node.get('componentProperties') or {}).values()
+                      if isinstance(prop, dict) and prop.get('type') == 'INSTANCE_SWAP']
+        if len(swap_props) == 1:
+            value = swap_props[0].get('value')
+            binding = (swap_props[0].get('boundVariables') or {}).get('value')
+        elif len(swap_props) > 1:
+            raise ValueError(f'ambiguous native instanceSwap properties: {node["id"]}')
+        elif node.get('type') == 'INSTANCE' and isinstance(node.get('mainComponentId'), str):
+            value = node.get('mainComponentId')
+            binding = bound.get('componentProperties')
+        else:
+            raise ValueError(f'missing native instanceSwap: {node["id"]}')
+    elif field == 'visible':
+        value = node.get('visible', True)
+        binding = bound.get('visible')
     else:
         native_field = {'gap': 'itemSpacing', 'borderWidth': 'strokeWeight'}.get(field, field)
         if field in {'width', 'height'} and node.get('layoutSizingHorizontal' if field == 'width' else 'layoutSizingVertical') != 'FIXED':
@@ -878,6 +1011,8 @@ def verify_web_proof(graph, proof, component_ids=None):
                         same = observed == struct.unpack('f', struct.pack('f', value))[0]
                     except OverflowError:
                         same = False
+            elif SUPPORTED_PROPERTY_TYPES[field] == 'BOOLEAN':
+                same = isinstance(observed, bool) and observed is value
             else:
                 same = observed == value
             if not same:
@@ -905,7 +1040,7 @@ def web_probe(graph, component_ids=None):
     const element = elements[0], style = getComputedStyle(element), properties = {};
     let typedStyle;
     try { typedStyle = element.computedStyleMap?.(); } catch {}
-    if (%s && (!Array.from(element.getClientRects()).some(rect => rect.width > 0 && rect.height > 0) || ['hidden', 'collapse'].includes(style.visibility) || style.display === 'none')) throw Error('Web component is not rendered: ' + id + ' (' + declaration.selector + ')');
+    if (%s && !declaration.properties.includes('visible') && (!Array.from(element.getClientRects()).some(rect => rect.width > 0 && rect.height > 0) || ['hidden', 'collapse'].includes(style.visibility) || style.display === 'none')) throw Error('Web component is not rendered: ' + id + ' (' + declaration.selector + ')');
     for (const field of declaration.properties) {
       const value = style[field];
       if (['backgroundColor', 'color', 'borderColor'].includes(field)) {
@@ -914,6 +1049,9 @@ def web_probe(graph, component_ids=None):
         properties[field] = {r: channels[0] / 255, g: channels[1] / 255, b: channels[2] / 255, a: channels[3] ?? 1};
       }
       else if (field === 'fontFamily') properties[field] = value.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+      else if (field === 'visible') properties[field] = !element.hidden && style.display !== 'none' && !['hidden', 'collapse'].includes(style.visibility);
+      else if (field === 'characters') properties[field] = ('value' in element && ['INPUT', 'TEXTAREA'].includes(element.tagName) ? String(element.value) : (element.textContent || '')).trim();
+      else if (field === 'instanceSwap') properties[field] = (element.getAttribute('data-component-swap') || element.getAttribute('data-swap-target') || '').trim();
       else {
         let typed;
         if (!['width', 'height'].includes(field)) {

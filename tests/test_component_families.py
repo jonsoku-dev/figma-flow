@@ -12,6 +12,8 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from design_system import compile_design, compile_graph_component_families, render, render_svg
 from figma_bridge import compare_declared_component_properties, validate
+from graph_design_system import load_graph, resolve_design_system
+from graph_sync import commit_component_fields, native_property, sync_selected_component_fields
 
 FIXTURES = ROOT / "tests" / "fixtures" / "nf01"
 
@@ -374,6 +376,199 @@ class ComponentFamiliesCompileTests(unittest.TestCase):
         bad_url["screens"][0]["elements"][0]["dom_source"]["selector"] = "https://example.invalid/form"
         with self.assertRaisesRegex(ValueError, "external URL forbidden"):
             compile_design(bad_url)
+
+    def test_selective_sync_cas_for_field_and_table_row_boolean_swap_and_text(self):
+        field_spec = {
+            "schema": "figma-flow-component-field-v1",
+            "component": {"id": "participant-field", "node_id": "inst:field-1", "main_component_id": "comp:field-default"},
+            "fields": [
+                {
+                    "field": "label",
+                    "type": "TEXT",
+                    "property_key": "Label#field:label",
+                    "token": "nf01/field/label",
+                    "before": "Participant name",
+                    "after": "Attendee full name",
+                },
+                {
+                    "field": "showHelp",
+                    "type": "BOOLEAN",
+                    "property_key": "Show help#field:showHelp",
+                    "token": "nf01/field/show-help",
+                    "before": True,
+                    "after": False,
+                },
+                {
+                    "field": "control",
+                    "type": "INSTANCE_SWAP",
+                    "property_key": "Control#field:control",
+                    "token": "nf01/field/control-swap",
+                    "allowed_swap_ids": ["comp:input-default", "comp:checkbox-checked", "comp:radio-selected"],
+                    "before": "comp:input-default",
+                    "after": "comp:checkbox-checked",
+                },
+                {
+                    "field": "helpText",
+                    "type": "TEXT",
+                    "property_key": "Help#field:helpText",
+                    "token": "nf01/field/help-text",
+                    "before": "As shown on roster",
+                    "after": "Unselected edit must stay untouched",
+                },
+            ],
+        }
+        row_spec = {
+            "schema": "figma-flow-component-field-v1",
+            "component": {"id": "roster-row-1", "node_id": "inst:row-1", "main_component_id": "comp:row-default"},
+            "fields": [
+                {
+                    "field": "primaryCell",
+                    "type": "TEXT",
+                    "property_key": "Cell#row:cell0",
+                    "token": "nf01/row/primary-cell",
+                    "before": "Sample row",
+                    "after": "Confirmed participant",
+                },
+                {
+                    "field": "showSecondCell",
+                    "type": "BOOLEAN",
+                    "property_key": "Show second#row:showSecondCell",
+                    "token": "nf01/row/show-second",
+                    "before": True,
+                    "after": True,
+                },
+            ],
+        }
+        field_observed = {
+            "label": "Participant name",
+            "showHelp": True,
+            "control": "comp:input-default",
+            "helpText": "As shown on roster",
+        }
+        row_observed = {
+            "primaryCell": "Sample row",
+            "showSecondCell": True,
+        }
+
+        # Python vs JS commitComponentFields parity on selective TEXT + BOOLEAN + INSTANCE_SWAP
+        py_field = commit_component_fields(field_spec, ["label", "showHelp", "control"], field_observed)
+        js_runner = (
+            "const {commitComponentFields} = require('./figma-bridge/graph_token_sync.js');"
+            "const input = JSON.parse(process.argv[1]);"
+            "process.stdout.write(JSON.stringify(commitComponentFields(input.spec, input.selection, input.observed)));"
+        )
+        completed = subprocess.run(
+            ["node", "--eval", js_runner, json.dumps({
+                "spec": field_spec,
+                "selection": ["control", "label", "showHelp"],
+                "observed": field_observed,
+            })],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertEqual(json.loads(completed.stdout), py_field)
+        self.assertEqual(py_field["values"]["helpText"], "As shown on roster")
+        self.assertNotIn("helpText", py_field["baseline"])
+        self.assertFalse(py_field["full_apply"])
+        self.assertEqual(py_field["applied"][2]["property_key"], "Control#field:control")
+
+        # Stale BOOLEAN / INSTANCE_SWAP CAS and disallowed swap target leave observed untouched
+        stale_bool = dict(field_observed, showHelp=False)
+        stale_before = copy.deepcopy(stale_bool)
+        with self.assertRaisesRegex(ValueError, "stale before value: showHelp"):
+            commit_component_fields(field_spec, ["showHelp"], stale_bool)
+        self.assertEqual(stale_bool, stale_before)
+
+        bad_type_observed = dict(field_observed, showHelp=1)
+        with self.assertRaisesRegex(ValueError, "stale before value: showHelp"):
+            commit_component_fields(field_spec, ["showHelp"], bad_type_observed)
+
+        bad_swap_spec = copy.deepcopy(field_spec)
+        bad_swap_spec["fields"][2]["after"] = "comp:table-row-default"
+        with self.assertRaisesRegex(ValueError, "disallowed swap target: control"):
+            commit_component_fields(bad_swap_spec, ["control"], field_observed)
+
+        # End-to-end selective sync of 1 Field + 1 TableRow into canonical graph.json + generated web ESM module
+        with tempfile.TemporaryDirectory() as tmp:
+            graph_path = Path(tmp) / "graph.json"
+            web_path = Path(tmp) / "tokens.mjs"
+            graph_doc = {
+                "design_system": {
+                    "version": 1,
+                    "tokens": {
+                        "nf01/field/label": {"type": "STRING", "value": "Participant name"},
+                        "nf01/field/show-help": {"type": "BOOLEAN", "value": True},
+                        "nf01/field/control-swap": {"type": "STRING", "value": "comp:input-default"},
+                        "nf01/field/help-text": {"type": "STRING", "value": "As shown on roster"},
+                        "nf01/row/primary-cell": {"type": "STRING", "value": "Sample row"},
+                        "nf01/row/show-second": {"type": "BOOLEAN", "value": True},
+                    },
+                    "components": {
+                        "participant-field-help": {
+                            "properties": {
+                                "visible": "nf01/field/show-help",
+                                "characters": "nf01/field/help-text",
+                            },
+                            "web": {"selector": "#help_participant_name"},
+                        },
+                        "participant-field": {
+                            "properties": {
+                                "characters": "nf01/field/label",
+                                "instanceSwap": "nf01/field/control-swap",
+                            },
+                            "web": {"selector": "label#label_participant_name"},
+                        },
+                        "roster-row-1": {
+                            "properties": {
+                                "characters": "nf01/row/primary-cell",
+                                "visible": "nf01/row/show-second",
+                            },
+                            "web": {"selector": "tr#roster-row-1"},
+                        },
+                    },
+                }
+            }
+            graph_path.write_text(json.dumps(graph_doc, indent=2) + "\n", encoding="utf-8")
+            initial_sha = load_graph(graph_path).source_sha256
+
+            synced = sync_selected_component_fields(
+                graph_path,
+                [
+                    {"spec": field_spec, "selection": ["label", "showHelp", "control"], "observed": field_observed},
+                    {"spec": row_spec, "selection": ["primaryCell"], "observed": row_observed},
+                ],
+                initial_sha,
+                web_module=web_path,
+            )
+            updated_resolved = resolve_design_system(load_graph(graph_path))
+            self.assertEqual(updated_resolved["graphSha256"], synced["graph_sha256"])
+            self.assertEqual(updated_resolved["tokens"]["nf01/field/label"], "Attendee full name")
+            self.assertIs(updated_resolved["tokens"]["nf01/field/show-help"], False)
+            self.assertEqual(updated_resolved["tokens"]["nf01/field/control-swap"], "comp:checkbox-checked")
+            self.assertEqual(updated_resolved["tokens"]["nf01/row/primary-cell"], "Confirmed participant")
+            # Unselected helpText and showSecondCell remain untouched
+            self.assertEqual(updated_resolved["tokens"]["nf01/field/help-text"], "As shown on roster")
+            self.assertIs(updated_resolved["tokens"]["nf01/row/show-second"], True)
+            self.assertIn("#help_participant_name { display: none; }", updated_resolved["graphStylesheet"])
+            self.assertTrue(web_path.is_file())
+            self.assertIn("Attendee full name", web_path.read_text(encoding="utf-8"))
+
+        # Native property reader supports visible, characters, and instanceSwap
+        self.assertEqual(native_property({"id": "n1", "type": "TEXT", "visible": False}, "visible"), (False, None))
+        self.assertEqual(native_property({"id": "n2", "type": "TEXT", "characters": "Cell value"}, "characters"), ("Cell value", None))
+        self.assertEqual(
+            native_property(
+                {
+                    "id": "n3",
+                    "type": "INSTANCE",
+                    "componentProperties": {"Control#1:0": {"type": "INSTANCE_SWAP", "value": "comp:radio-selected"}},
+                },
+                "instanceSwap",
+            ),
+            ("comp:radio-selected", None),
+        )
 
 
 if __name__ == "__main__":

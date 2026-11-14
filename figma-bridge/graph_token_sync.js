@@ -3,11 +3,11 @@ function graphSyncEqual(a, b) {
   if (a && b && ['r', 'g', 'b'].every(key => typeof a[key] === 'number' && typeof b[key] === 'number')) return ['r', 'g', 'b', 'a'].every(key => Math.abs((a[key] === undefined ? 1 : a[key]) - (b[key] === undefined ? 1 : b[key])) <= 0.000001);
   return JSON.stringify(a) === JSON.stringify(b);
 }
-const GRAPH_SYNC_FIELDS = new Set(['fontFamily', 'fontSize', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'backgroundColor', 'color', 'borderColor', 'borderWidth', 'borderRadius', 'gap', 'minWidth', 'minHeight', 'width', 'height']);
+const GRAPH_SYNC_FIELDS = new Set(['fontFamily', 'fontSize', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'backgroundColor', 'color', 'borderColor', 'borderWidth', 'borderRadius', 'gap', 'minWidth', 'minHeight', 'width', 'height', 'visible', 'characters', 'instanceSwap']);
 const graphSyncNativeField = field => ({backgroundColor: 'fills', color: 'fills', borderColor: 'strokes', borderWidth: 'strokeWeight', borderRadius: 'cornerRadius', gap: 'itemSpacing'})[field] || field;
 const graphSyncPaintField = field => ['backgroundColor', 'color', 'borderColor'].includes(field);
-const graphSyncTextField = field => field.startsWith('font') || field === 'color';
-const graphSyncFieldType = field => graphSyncPaintField(field) ? 'COLOR' : field === 'fontFamily' ? 'STRING' : 'FLOAT';
+const graphSyncTextField = field => field.startsWith('font') || field === 'color' || field === 'characters';
+const graphSyncFieldType = field => graphSyncPaintField(field) ? 'COLOR' : field === 'visible' ? 'BOOLEAN' : ['fontFamily', 'characters', 'instanceSwap'].includes(field) ? 'STRING' : 'FLOAT';
 function graphSyncPaint(node, field) {
   const paints = node[graphSyncNativeField(field)];
   if (!Array.isArray(paints) || paints.length !== 1 || paints[0].type !== 'SOLID' || paints[0].visible === false) throw Error(`Graph token sync: single visible SOLID paint required: ${node.id}.${field}`);
@@ -22,6 +22,10 @@ function graphSyncFieldBinding(node, field) {
     const aliases = fields.map(key => node.boundVariables?.[key] || node.boundVariables?.cornerRadius || null);
     if (aliases.some(alias => (alias?.id || null) !== (aliases[0]?.id || null))) throw Error(`Graph token sync: mixed corner bindings: ${node.id}`);
     result = aliases[0];
+  } else if (field === 'instanceSwap') {
+    const swaps = Object.values(node.componentProperties || {}).filter(prop => prop?.type === 'INSTANCE_SWAP');
+    if (swaps.length > 1) throw Error(`Graph token sync: ambiguous instanceSwap properties: ${node.id}`);
+    result = swaps.length === 1 ? swaps[0].boundVariables?.value : node.boundVariables?.componentProperties;
   } else result = node.boundVariables?.[graphSyncNativeField(field)];
   if (Array.isArray(result)) {
     if (!result.length || result.some(item => item.id !== result[0].id)) throw Error(`Graph token sync: mixed bindings: ${node.id}.${field}`);
@@ -36,6 +40,19 @@ function graphSyncFieldValue(node, field) {
     const families = [...new Set(node.getRangeAllFontNames(0, node.characters.length).map(font => font.family))];
     if (families.length !== 1) throw Error(`Graph token sync: mixed font families: ${node.id}`);
     return families[0];
+  }
+  if (field === 'instanceSwap') {
+    const swaps = Object.values(node.componentProperties || {}).filter(prop => prop?.type === 'INSTANCE_SWAP');
+    if (swaps.length > 1) throw Error(`Graph token sync: ambiguous instanceSwap properties: ${node.id}`);
+    if (swaps.length === 1 && typeof swaps[0].value === 'string') return swaps[0].value;
+    const mainId = node.mainComponent?.id || node.mainComponentId;
+    if (node.type === 'INSTANCE' && typeof mainId === 'string' && mainId.length > 0) return mainId;
+    throw Error(`Graph token sync: unavailable native field: ${node.id}.${field}`);
+  }
+  if (field === 'visible') {
+    const visible = node.visible === undefined ? true : node.visible;
+    if (typeof visible !== 'boolean') throw Error(`Graph token sync: unavailable native field: ${node.id}.${field}`);
+    return visible;
   }
   const value = node[graphSyncNativeField(field)];
   if (field === 'borderRadius') {
@@ -739,19 +756,70 @@ function commitGraphSelection(payload, selection, observed) {
   for (const item of applied) if (Object.prototype.hasOwnProperty.call(item, 'value')) baseline[item.key] = item.value;
   return {applied, skipped, values, readback: {...values}, baseline, plan_sha256: planSha, full_apply: skipped.length === 0};
 }
+const COMPONENT_FIELD_TYPES = new Set(['FLOAT', 'STRING', 'TEXT', 'BOOLEAN', 'COLOR', 'INSTANCE_SWAP']);
+const COMPONENT_SECRET_RE = /(?:sk-[a-z0-9]{16,}|ghp_[a-z0-9]{16,}|figd_[a-z0-9_-]{16,}|bearer\s+[a-z0-9._-]{16,}|-----begin [a-z ]*private key-----)/i;
+function validateComponentFieldValue(fieldType, value, field, allowedSwapIds = null) {
+  let valid = false;
+  if (fieldType === 'BOOLEAN') valid = typeof value === 'boolean';
+  else if (fieldType === 'FLOAT') valid = typeof value === 'number' && Number.isFinite(value);
+  else if (fieldType === 'STRING') valid = typeof value === 'string' && value.trim().length > 0 && [...value].every(ch => ch.charCodeAt(0) >= 32);
+  else if (fieldType === 'TEXT') valid = typeof value === 'string' && value.trim().length > 0 && value.length <= 2000 && [...value].every(ch => ch.charCodeAt(0) >= 32) && !COMPONENT_SECRET_RE.test(value);
+  else if (fieldType === 'INSTANCE_SWAP') {
+    valid = typeof value === 'string' && value === value.trim() && value.length > 0 && value.length <= 200 && /^[A-Za-z0-9_.:/-]+$/.test(value) && !/^https?:/i.test(value);
+    if (!valid) throw Error('invalid component field value: ' + field);
+    if (allowedSwapIds !== null && !allowedSwapIds.includes(value)) throw Error('disallowed swap target: ' + field);
+    return;
+  } else if (fieldType === 'COLOR') {
+    valid = Boolean(value && typeof value === 'object' && !Array.isArray(value) && ['r', 'g', 'b'].every(k => typeof value[k] === 'number' && Number.isFinite(value[k]) && value[k] >= 0 && value[k] <= 1) && (value.a === undefined || value.a === 1));
+  } else throw Error('unsupported component field type: ' + fieldType);
+  if (!valid) throw Error('invalid component field value: ' + field);
+}
 function commitComponentFields(spec, selection, observed) {
   if (!spec || spec.schema !== 'figma-flow-component-field-v1' || !observed || typeof observed !== 'object' || Array.isArray(observed)) {
     throw Error('component field selection requires observed values');
   }
   if (!Array.isArray(selection) || !selection.length) throw Error('empty selection');
+  const component = spec.component;
+  if (!component || typeof component !== 'object' || ['id', 'node_id', 'main_component_id'].some(k => typeof component[k] !== 'string' || !component[k].trim()) || !Array.isArray(spec.fields) || !spec.fields.length) {
+    throw Error('Invalid component field selection');
+  }
+  const clone = value => JSON.parse(JSON.stringify(value));
   const byField = new Map();
   const groups = new Map();
+  const seenPropertyKeys = new Set();
   for (const item of spec.fields) {
+    if (!item || typeof item !== 'object' || typeof item.field !== 'string' || !item.field.trim()) throw Error('Invalid component field selection');
     if (byField.has(item.field)) throw Error('duplicate component field');
+    if (!Object.prototype.hasOwnProperty.call(item, 'before') || !Object.prototype.hasOwnProperty.call(item, 'after')) throw Error('missing before/after value: ' + item.field);
+    if (item.property_key !== undefined && item.property_key !== null) {
+      const idx = typeof item.property_key === 'string' ? item.property_key.indexOf('#') : -1;
+      if (idx <= 0 || !item.property_key.slice(0, idx).trim() || !item.property_key.slice(idx + 1).trim()) throw Error('invalid component property key: ' + item.field);
+      if (seenPropertyKeys.has(item.property_key)) throw Error('duplicate component property key');
+      seenPropertyKeys.add(item.property_key);
+    }
+    const fieldType = item.type ?? null;
+    const allowedSwap = item.allowed_swap_ids === undefined ? null : item.allowed_swap_ids;
+    if (allowedSwap !== null) {
+      if (fieldType !== 'INSTANCE_SWAP' || !Array.isArray(allowedSwap) || !allowedSwap.length || allowedSwap.some(s => typeof s !== 'string' || s !== s.trim() || !s || !/^[A-Za-z0-9_.:/-]+$/.test(s) || /^https?:/i.test(s))) {
+        throw Error('invalid swap target allowlist: ' + item.field);
+      }
+    }
+    if (fieldType !== null) {
+      if (!COMPONENT_FIELD_TYPES.has(fieldType)) throw Error('unsupported component field type: ' + fieldType);
+      validateComponentFieldValue(fieldType, item.before, item.field, allowedSwap);
+      validateComponentFieldValue(fieldType, item.after, item.field, allowedSwap);
+    }
+    let groupId;
+    if (Object.prototype.hasOwnProperty.call(item, 'token') && item.token !== null && item.token !== undefined) {
+      if (typeof item.token !== 'string' || !item.token.trim()) throw Error('invalid component field token: ' + item.field);
+      groupId = 'token:' + item.token;
+    } else {
+      groupId = 'field:' + item.field;
+    }
     byField.set(item.field, item);
-    const members = groups.get(item.token) || [];
+    const members = groups.get(groupId) || [];
     members.push(item.field);
-    groups.set(item.token, members);
+    groups.set(groupId, members);
   }
   if (selection.some(field => !byField.has(field)) || new Set(selection).size !== selection.length) throw Error('unknown component field');
   const chosen = new Set(selection);
@@ -759,20 +827,26 @@ function commitComponentFields(spec, selection, observed) {
     const picked = members.filter(field => chosen.has(field));
     if (picked.length && picked.length !== members.length) throw Error('partial component closure');
   }
-  for (const field of selection) if (observed[field] !== byField.get(field).before) throw Error('stale before value: ' + field);
-  const values = {...observed};
+  for (const field of selection) {
+    if (!Object.prototype.hasOwnProperty.call(observed, field) || !graphSyncEqual(observed[field], byField.get(field).before)) {
+      throw Error('stale before value: ' + field);
+    }
+  }
+  const values = clone(observed);
   const applied = [];
   for (const item of spec.fields) if (chosen.has(item.field)) {
-    values[item.field] = item.after;
-    applied.push({id: spec.component.id, field: item.field, value: values[item.field]});
+    values[item.field] = clone(item.after);
+    const entry = {id: component.id, field: item.field, value: clone(values[item.field])};
+    if (item.property_key !== undefined && item.property_key !== null) entry.property_key = item.property_key;
+    applied.push(entry);
   }
   const skipped = spec.fields.filter(item => !chosen.has(item.field)).map(item => ({field: item.field}));
   const baseline = {};
-  for (const item of applied) baseline[item.field] = item.value;
+  for (const item of applied) baseline[item.field] = clone(item.value);
   return {
-    node_id: spec.component.node_id,
-    main_component_id: spec.component.main_component_id,
-    applied, skipped, values, readback: {...values}, baseline, full_apply: skipped.length === 0,
+    node_id: component.node_id,
+    main_component_id: component.main_component_id,
+    applied, skipped, values, readback: clone(values), baseline, full_apply: skipped.length === 0,
   };
 }
 function graphSyncPlanForMessage(plan, message) {

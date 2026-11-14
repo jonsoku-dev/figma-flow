@@ -481,3 +481,83 @@ test('partial failure during reapply rolls back newly created owned nodes while 
   env.context.observed = observed;
   vm.runInContext('verifyDeclaredComponentReadback(nextPayload, observed, {preserveInstanceOverrides: true})', env.context);
 });
+
+test('commitComponentFields enforces CAS, swap allowlists, #suffix property keys, and selective apply for BOOLEAN/INSTANCE_SWAP/TEXT', () => {
+  const {commitComponentFields} = require(path.join(root, 'figma-bridge/graph_token_sync.js'));
+  const spec = {
+    schema: 'figma-flow-component-field-v1',
+    component: {id: 'participant-field', node_id: 'inst:field-1', main_component_id: 'comp:field-default'},
+    fields: [
+      {
+        field: 'label',
+        type: 'TEXT',
+        property_key: 'Label#field:label',
+        token: 'nf01/field/label',
+        before: 'Participant name',
+        after: 'Attendee full name',
+      },
+      {
+        field: 'showHelp',
+        type: 'BOOLEAN',
+        property_key: 'Show help#field:showHelp',
+        token: 'nf01/field/show-help',
+        before: true,
+        after: false,
+      },
+      {
+        field: 'control',
+        type: 'INSTANCE_SWAP',
+        property_key: 'Control#field:control',
+        allowed_swap_ids: ['comp:input-default', 'comp:checkbox-checked', 'comp:radio-selected'],
+        before: 'comp:input-default',
+        after: 'comp:radio-selected',
+      },
+      {
+        field: 'helpText',
+        type: 'TEXT',
+        property_key: 'Help#field:helpText',
+        before: 'As shown on roster',
+        after: 'Should not apply when unselected',
+      },
+    ],
+  };
+  const observed = {
+    label: 'Participant name',
+    showHelp: true,
+    control: 'comp:input-default',
+    helpText: 'As shown on roster',
+  };
+  const observedSnapshot = JSON.stringify(observed);
+
+  const committed = commitComponentFields(spec, ['showHelp', 'control'], observed);
+  assert.equal(JSON.stringify(observed), observedSnapshot, 'input observed map is never mutated');
+  assert.equal(committed.node_id, 'inst:field-1');
+  assert.equal(committed.main_component_id, 'comp:field-default');
+  assert.equal(committed.full_apply, false);
+  assert.deepEqual(committed.applied, [
+    {id: 'participant-field', field: 'showHelp', value: false, property_key: 'Show help#field:showHelp'},
+    {id: 'participant-field', field: 'control', value: 'comp:radio-selected', property_key: 'Control#field:control'},
+  ]);
+  assert.equal(committed.values.label, 'Participant name');
+  assert.equal(committed.values.helpText, 'As shown on roster');
+  assert.deepEqual(committed.baseline, {showHelp: false, control: 'comp:radio-selected'});
+
+  // CAS rejection on drifted BOOLEAN or INSTANCE_SWAP
+  assert.throws(
+    () => commitComponentFields(spec, ['showHelp'], {...observed, showHelp: false}),
+    /stale before value: showHelp/
+  );
+  assert.throws(
+    () => commitComponentFields(spec, ['control'], {...observed, control: 'comp:checkbox-checked'}),
+    /stale before value: control/
+  );
+
+  // Disallowed swap target and missing #suffix property key rejection
+  const disallowedSpec = structuredClone(spec);
+  disallowedSpec.fields[2].after = 'comp:table-row-default';
+  assert.throws(() => commitComponentFields(disallowedSpec, ['control'], observed), /disallowed swap target: control/);
+
+  const badKeySpec = structuredClone(spec);
+  badKeySpec.fields[1].property_key = 'Show help without suffix';
+  assert.throws(() => commitComponentFields(badKeySpec, ['showHelp'], observed), /invalid component property key: showHelp/);
+});
