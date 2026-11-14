@@ -8357,11 +8357,11 @@
     },
     {
       "path": "figma-bridge/native_read_measurement.js",
-      "sha256": "f77a0dc896bfee09f6f87f64d84ca24423ddce90ebe8b8cb9525f35df80d70ca"
+      "sha256": "263a6e38eb13bc6b2f84d64d1b5f14b45fe02fc9bc8436d86c6e066c52416eab"
     },
     {
       "path": "figma-bridge/native_semantic_read.js",
-      "sha256": "43ec52cc54e0600c81202954d8c015356f5bb652f4788327296e768b3ebcdee8"
+      "sha256": "a79aa6b166df07dc39727d9db6372e988f15422d955345b3514a98945ed59628"
     },
     {
       "path": "figma-bridge/native_specifications.js",
