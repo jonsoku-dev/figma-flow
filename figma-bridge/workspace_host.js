@@ -81,7 +81,7 @@ function workspaceStoredCarousel(value) {
     flow_start_node_id:typeof value.flow_start_node_id === 'string' ? value.flow_start_node_id : '', states, edges};
 }
 function workspaceCarouselSummary(data, task, pageId) {
-  const receipt = data?.web_design, carousel = receipt?.carousel || receipt?.tabs;
+  const receipt = data?.web_design, carousel = receipt?.carousel || receipt?.tabs || receipt?.disclosure;
   const actualScreenRead = data?.schema === 'figma-flow-web-screen-discovery-v1' && data.readback_scope === 'screens'
     && Array.isArray(data.nodes) && data.graph_sha256 === receipt?.graph_sha256;
   if (!actualScreenRead || data.fileKey !== figma.fileKey
@@ -208,7 +208,7 @@ function workspaceRecord(current, operation, status, journal) {
 }
 function workspaceObserve(current, message) {
   if (!message || !current.operation) return;
-  if (message.readback?.web_design?.carousel || message.readback?.web_design?.tabs) workspaceAttachCarousel(current, message.readback, figma.currentPage.id);
+  if (message.readback?.web_design?.carousel || message.readback?.web_design?.tabs || message.readback?.web_design?.disclosure) workspaceAttachCarousel(current, message.readback, figma.currentPage.id);
   if (message.busy === true || message.state === 'busy' || (message.type === 'busy' && message.value === true)) {
     if (!current.started) workspaceRecord(current, current.operation, 'running');
     current.started = true;

@@ -156,9 +156,10 @@ function webValidate(plan) {
     }
   }
   webValidateImageComponentFamilies(design);
-  if (design.carousel !== undefined && design.tabs !== undefined) throw Error('One observed interaction per web design plan');
+  if ([design.carousel, design.tabs, design.disclosure].filter(value => value !== undefined).length > 1) throw Error('One observed interaction per web design plan');
   if (design.carousel !== undefined) webCarouselValidate(design);
   if (design.tabs !== undefined) webTabsValidate(design);
+  if (design.disclosure !== undefined) webDisclosureValidate(design);
   if (design.preview_width !== undefined && (!Number.isInteger(design.preview_width) || design.preview_width < 360 || design.preview_width > 480)) {
     throw Error('Preview width must be between 360 and 480 pixels');
   }
@@ -280,6 +281,64 @@ function webTabsValidate(design) {
   }
 }
 
+function webDisclosureValidate(design) {
+  const disclosure = design.disclosure;
+  const fail = () => { throw Error('Invalid graph disclosure contract'); };
+  const key = /^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/;
+  const validKey = value => typeof value === 'string' && key.test(value);
+  if (!disclosure || typeof disclosure !== 'object' || Array.isArray(disclosure)) fail();
+  const {items} = disclosure;
+  if (!validKey(disclosure.frameKey) || disclosure.mode !== 'single-collapsible'
+      || !Array.isArray(items) || items.length < 2 || items.length > 16
+      || items.some(item => typeof item !== 'string' || !item.trim().length || item.length > 160)
+      || !Array.isArray(disclosure.states) || disclosure.states.length < 2 || disclosure.states.length > 16
+      || !Array.isArray(disclosure.transitions) || !disclosure.transitions.length || disclosure.transitions.length > 80) fail();
+  const itemsSet = new Set(items);
+  if (itemsSet.size !== items.length) fail();
+  const screens = new Map(design.screens.map(screen => [screen.id, screen]));
+  const states = new Map(), stateScreens = new Set(), expandedItems = new Set();
+  for (const [index, state] of disclosure.states.entries()) {
+    if (!state || typeof state !== 'object' || !validKey(state.id) || state.index !== index || states.has(state.id)
+        || typeof state.screenId !== 'string' || !screens.has(state.screenId) || stateScreens.has(state.screenId)
+        || typeof state.label !== 'string' || !state.label.trim().length || state.label.length > 160
+        || (state.expandedItem !== null && !itemsSet.has(state.expandedItem)) || expandedItems.has(state.expandedItem)) fail();
+    if (state.expandedItem !== null) {
+      if (state.label !== state.expandedItem || typeof state.answerSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(state.answerSha256)) fail();
+    } else if (state.answerSha256 !== null) fail();
+    states.set(state.id, state);
+    stateScreens.add(state.screenId);
+    expandedItems.add(state.expandedItem);
+  }
+  if (typeof disclosure.initialState !== 'string' || !states.has(disclosure.initialState)) fail();
+  const ids = new Set(), controls = new Set(), itemClicks = new Set(), reached = new Set([disclosure.initialState]);
+  for (const edge of disclosure.transitions) {
+    if (!edge || typeof edge !== 'object' || !validKey(edge.id) || ids.has(edge.id)
+        || typeof edge.from !== 'string' || typeof edge.to !== 'string'
+        || !states.has(edge.from) || !states.has(edge.to) || edge.from === edge.to
+        || edge.trigger !== 'click' || edge.observed !== true || typeof edge.itemLabel !== 'string' || !itemsSet.has(edge.itemLabel)
+        || typeof edge.controlElementId !== 'string') fail();
+    const srcExp = states.get(edge.from).expandedItem, dstExp = states.get(edge.to).expandedItem;
+    if (edge.action === 'open') {
+      if (srcExp !== null || dstExp !== edge.itemLabel || edge.autoClosedItem !== null) fail();
+    } else if (edge.action === 'close') {
+      if (srcExp !== edge.itemLabel || dstExp !== null || edge.autoClosedItem !== null) fail();
+    } else if (edge.action === 'switch') {
+      if (srcExp === null || srcExp === edge.itemLabel || dstExp !== edge.itemLabel || edge.autoClosedItem !== srcExp) fail();
+    } else fail();
+    const controlKey = edge.from + '/' + edge.controlElementId, clickKey = edge.from + '\0' + edge.itemLabel;
+    if (controls.has(controlKey) || itemClicks.has(clickKey)) fail();
+    const sourceScreen = screens.get(states.get(edge.from).screenId), layout = sourceScreen.layout;
+    if (!sourceScreen.elements.some(element => element.id === edge.controlElementId && element.kind === 'frame'
+        && element.box.x >= 0 && element.box.y >= 0 && element.box.width > 0 && element.box.height > 0
+        && element.box.x + element.box.width <= layout.width + 1 && element.box.y + element.box.height <= layout.height + 1)) fail();
+    ids.add(edge.id);
+    controls.add(controlKey);
+    itemClicks.add(clickKey);
+    reached.add(edge.to);
+  }
+  if (reached.size !== states.size) fail();
+}
+
 function webNavigationReaction(destinationId, input, intervalMs) {
   const type = input === 'autoplay' ? 'AFTER_TIMEOUT' : input.startsWith('swipe_') ? 'ON_DRAG' : 'ON_CLICK';
   return { trigger: type === 'AFTER_TIMEOUT' ? {type, timeout: intervalMs / 1000} : {type},
@@ -319,10 +378,21 @@ function webTabsRoutes(tabs, state, frames, design) {
   });
 }
 
+function webDisclosureRoutes(disclosure, state, frames, design) {
+  const screen = design.screens.find(item => item.id === state.screenId);
+  return disclosure.transitions.filter(edge => edge.from === state.id).map(edge => {
+    const dst = frames.get(edge.to), box = screen.elements.find(element => element.id === edge.controlElementId).box;
+    const verb = edge.action === 'close' ? 'Close' : edge.action === 'switch' ? 'Switch' : 'Open';
+    return {kind:'hotspot', edge, name:(verb + ' · ' + edge.itemLabel).slice(0, 100), key:disclosure.frameKey + '/' + state.id + '/' + edge.id,
+      x:box.x, y:box.y, width:box.width, height:box.height, reactions:dst ? [webNavigationReaction(dst.id, 'click')] : []};
+  });
+}
+
 // One observed state graph per plan. The plugin-data keys stay per kind so 0.33 carousel frames keep reading as current.
 const WEB_INTERACTIONS = {
   carousel: {groupKey:'figmaFlowCarouselKey', stateKey:'figmaFlowCarouselState', flowName:'Carousel', routes:webCarouselRoutes},
   tabs: {groupKey:'figmaFlowTabsKey', stateKey:'figmaFlowTabsState', flowName:'Tabs', routes:webTabsRoutes},
+  disclosure: {groupKey:'figmaFlowDisclosureKey', stateKey:'figmaFlowDisclosureState', flowName:'FAQ', routes:webDisclosureRoutes},
 };
 
 function webInteraction(design) {
