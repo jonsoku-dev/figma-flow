@@ -5,7 +5,12 @@ const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString
 const controlAllowed = {review: ['create'], import: ['read', 'import', 'sync'], discover: ['read'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply']};
 
 function controlState(outcome, busy) {
-  figma.ui.postMessage({type:'workspace-control-state', workspaceSession:workspaceHomeSession, history:workspaceState.history,
+  figma.ui.postMessage({type:'workspace-control-state', workspaceSession:workspaceHomeSession,
+    fileKey:(typeof figma !== 'undefined' && figma.fileKey) || null,
+    pageId:(typeof figma !== 'undefined' && figma.currentPage && figma.currentPage.id) || null,
+    ...(typeof WORKSPACE_RUNTIME !== 'undefined' && WORKSPACE_RUNTIME && typeof WORKSPACE_RUNTIME.generation === 'string'
+      ? {runtimeGeneration:WORKSPACE_RUNTIME.generation} : {}),
+    history:workspaceState.history,
     journalHistory:workspaceServerHistory, journalUnavailable:workspaceJournalUnavailable, inputFreshness:workspaceInputFreshness, outcome, busy});
 }
 
@@ -166,7 +171,7 @@ async function workspaceControlTick() {
     cmd = reply.operation;
     if (!cmd) return;
     const receipt = Object.fromEntries(['id','claim_id','session_id','revision','file_key','page_id'].map(k=>[k,cmd[k]]));
-    controlState('running', true);
+    if (home === workspaceHomeSession) controlState('running', true);
     try {
       if (workspaceActive || home !== workspaceHomeSession || cmd.session_id !== controlRunSession) throw Error('The open workspace session changed.');
       const data = await controlExecute(workspaceTasks.get(cmd.key), cmd, async () => {
@@ -182,10 +187,12 @@ async function workspaceControlTick() {
     }
     await controlRequest('result', receipt);
     await workspaceRefreshJournal();
-    controlState(receipt.status === 'ok' ? 'finished' : 'failed', false);
+    if (typeof workspaceHandleScopeChange === 'function') await workspaceHandleScopeChange();
+    if (home === workspaceHomeSession) controlState(receipt.status === 'ok' ? 'finished' : 'failed', false);
   } catch (_error) {
     controlRetryAt = Date.now() + 8000;
     await workspaceRefreshJournal();
-    if (cmd) controlState('uncertain', false);
+    if (typeof workspaceHandleScopeChange === 'function') await workspaceHandleScopeChange();
+    if (cmd && home === workspaceHomeSession) controlState('uncertain', false);
   } finally {controlPolling = false;}
 }
