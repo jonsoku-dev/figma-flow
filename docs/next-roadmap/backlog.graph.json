@@ -433,9 +433,9 @@
     {
       "id": "p2-rights-cleared-fixture",
       "type": "task",
-      "status": "proposed",
+      "status": "in-progress",
       "priority": "P2",
-      "evidence_status": "unstarted",
+      "evidence_status": "pending-root-live-evidence",
       "title": "Prepare rights-cleared production-like fixtures",
       "doc_ref": "capability-review.md#p2-production-fixture",
       "roles": ["planner", "designer", "engineer"],
@@ -445,6 +445,7 @@
         "Sensitive-data exclusion check"
       ],
       "spec_refs": [
+        "p2-wave1-acceptance.md#p2-rights-cleared-fixture",
         "NF-07-web-import-editor-capabilities.md",
         "NF-09-interactive-web-design.md",
         "../../specs/editable-web/graph.json",
@@ -456,7 +457,8 @@
       "acceptance": [
         "No real account or private source text is published",
         "Only approved assets are read",
-        "Input and output digests are recorded"
+        "Input and output digests are recorded",
+        "Root-verified integrated evidence is recorded before status leaves in-progress"
       ]
     },
     {
@@ -523,9 +525,9 @@
     {
       "id": "p2-read-performance-baseline",
       "type": "task",
-      "status": "proposed",
+      "status": "in-progress",
       "priority": "P2",
-      "evidence_status": "unstarted",
+      "evidence_status": "pending-root-live-evidence",
       "title": "Measure fresh-read performance baseline",
       "doc_ref": "capability-review.md#p2-performance-baseline",
       "roles": ["engineer", "designer", "planner"],
@@ -535,17 +537,20 @@
         "Observed bottleneck summary"
       ],
       "spec_refs": [
+        "p2-wave1-acceptance.md#p2-read-performance-baseline",
         "NF-02-incremental-native-read.md",
         "../../specs/design-inspection/service-observations.json"
       ],
       "commands": [
         "node --test tests/rd06_fresh_read.cjs tests/rd06_summary_coverage.cjs tests/rd06_reject_partial.cjs",
+        "node --test tests/rd06_full_getter_ledger.cjs tests/rd06_read_comparison.cjs",
         "python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'"
       ],
       "acceptance": [
         "File, page, node, and field scope stay fixed",
         "Getter count, time, bytes, and completeness are recorded",
-        "No speedup is claimed without comparable measurements"
+        "No speedup is claimed without comparable measurements",
+        "Root-verified integrated evidence is recorded before status leaves in-progress"
       ]
     },
     {

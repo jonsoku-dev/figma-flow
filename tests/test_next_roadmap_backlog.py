@@ -164,6 +164,14 @@ def validate_backlog_graph(graph, roadmap_dir=ROADMAP_DIR):
                 errors.append(f'{node_id}: {status} node lacks public evidence references')
             for ref in node.get('proof_refs', []):
                 check_local_ref(ref, node_id, allow_missing=False)
+        elif status == 'in-progress':
+            if evidence_status in SATISFIED_STATUSES or evidence_status.startswith('verified'):
+                errors.append(f'{node_id}: in-progress node cannot claim evidence_status {evidence_status!r}')
+            for dep in deps[node_id]:
+                if by_id[dep].get('status') not in SATISFIED_STATUSES:
+                    errors.append(f'{node_id}: in-progress task has unsatisfied dependency {dep!r}')
+            for ref in node.get('proof_refs', []):
+                check_local_ref(ref, node_id)
         elif status == 'proposed':
             if evidence_status in SATISFIED_STATUSES:
                 errors.append(f'{node_id}: proposed node cannot claim evidence_status {evidence_status!r}')
@@ -185,7 +193,11 @@ class NextRoadmapBacklogTest(unittest.TestCase):
         if by_id['p1-causal-review-history']['status'] in SATISFIED_STATUSES:
             self.assertTrue(EXPECTED_P1_NF03_PROOF_REFS.issubset(set(by_id['p1-causal-review-history']['proof_refs'])))
         ready = next_ready_tasks(graph)
-        self.assertTrue(ready or all(n['status'] in SATISFIED_STATUSES for n in graph['nodes'] if n['type'] == 'task'))
+        in_progress = [n['id'] for n in graph['nodes'] if n['type'] == 'task' and n['status'] == 'in-progress']
+        self.assertTrue(
+            ready or in_progress
+            or all(n['status'] in SATISFIED_STATUSES for n in graph['nodes'] if n['type'] == 'task')
+        )
         for task_id in ready:
             self.assertEqual(by_id[task_id]['status'], 'proposed')
 
@@ -271,7 +283,27 @@ class NextRoadmapBacklogTest(unittest.TestCase):
             bad_proposed['nodes'][2]['evidence_status'] = 'verified'
             self.assertTrue(any('proposed node cannot claim' in e for e in validate_backlog_graph(bad_proposed, doc_dir)))
 
-            # Negative 5: depends-on cycle.
+            # Positive: starting the next-ready task removes it from next-ready without exposing its dependents.
+            started = copy.deepcopy(base_graph)
+            started['nodes'][2]['status'] = 'in-progress'
+            started['nodes'][2]['evidence_status'] = 'pending-root-live-evidence'
+            self.assertEqual(validate_backlog_graph(started, doc_dir), [])
+            self.assertEqual(next_ready_tasks(started), [])
+
+            # Negative 5: in-progress task whose depends-on dependency is not yet satisfied.
+            early_start = copy.deepcopy(started)
+            early_start['nodes'][3]['status'] = 'in-progress'
+            self.assertTrue(any('in-progress task has unsatisfied dependency' in e for e in validate_backlog_graph(early_start, doc_dir)))
+
+            # Negative 6: in-progress task claiming verified evidence or a missing proof file.
+            claimed = copy.deepcopy(started)
+            claimed['nodes'][2]['evidence_status'] = 'verified-with-public-receipt'
+            self.assertTrue(any('in-progress node cannot claim' in e for e in validate_backlog_graph(claimed, doc_dir)))
+            phantom_proof = copy.deepcopy(started)
+            phantom_proof['nodes'][2]['proof_refs'] = ['../../tools/missing.py']
+            self.assertTrue(any('missing referenced path' in e for e in validate_backlog_graph(phantom_proof, doc_dir)))
+
+            # Negative 7: depends-on cycle.
             cyclic = copy.deepcopy(base_graph)
             cyclic['edges'].append({'from': 'p0', 'to': 'p1', 'type': 'depends-on'})
             self.assertTrue(any('Cycle detected' in e for e in validate_backlog_graph(cyclic, doc_dir)))
@@ -288,7 +320,14 @@ class NextRoadmapBacklogTest(unittest.TestCase):
             '4237a49c',
         )
         anchor_cache = {}
-        for filename in ('README.md', 'capability-review.md', 'p0-reference-acceptance.md', 'p1-acceptance.md', 'backlog.graph.json'):
+        for filename in (
+            'README.md',
+            'capability-review.md',
+            'p0-reference-acceptance.md',
+            'p1-acceptance.md',
+            'p2-wave1-acceptance.md',
+            'backlog.graph.json',
+        ):
             path = ROADMAP_DIR / filename
             text = path.read_text(encoding='utf-8')
             for marker in forbidden_substrings:
