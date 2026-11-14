@@ -240,9 +240,9 @@
     "ja": "このファイルの実行履歴"
   },
   "workspace.carouselTitle": {
-    "ko": "캐러셀 프로토타입",
-    "en": "Carousel prototype",
-    "ja": "カルーセルプロトタイプ"
+    "ko": "프로토타입 상태 흐름",
+    "en": "Prototype state flow",
+    "ja": "プロトタイプの状態フロー"
   },
   "workspace.carouselFileTitle": {
     "ko": "이 파일의 디자인 작업",
@@ -270,9 +270,9 @@
     "ja": "プレゼンテーション"
   },
   "workspace.carouselPresentLabel": {
-    "ko": "{title} 캐러셀을 Figma Present에서 열기",
-    "en": "Open {title} carousel in Figma Present",
-    "ja": "{title}のカルーセルをFigmaプレゼンテーションで開く"
+    "ko": "{title} 프로토타입을 Figma Present에서 열기",
+    "en": "Open the {title} prototype in Figma Present",
+    "ja": "{title}のプロトタイプをFigmaプレゼンテーションで開く"
   },
   "workspace.carouselPresented": {
     "ko": "검증된 시작 프레임을 선택하고 Figma Present 열기를 요청했습니다. 새 탭이 보이지 않으면 아래의 확인된 링크를 여세요.",
@@ -335,9 +335,9 @@
     "ja": "開始フレームを選択"
   },
   "workspace.carouselStates": {
-    "ko": "캐러셀 상태",
-    "en": "Carousel states",
-    "ja": "カルーセルの状態"
+    "ko": "프로토타입 상태",
+    "en": "Prototype states",
+    "ja": "プロトタイプの状態"
   },
   "workspace.carouselTransitions": {
     "ko": "실제 프로토타입 전환",

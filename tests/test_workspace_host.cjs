@@ -335,6 +335,26 @@ test('carousel receipt summaries remain bounded and discard malformed edges',()=
   assert.equal(actual.states[0].title,'Team Status Overview');
   assert.equal(actual.edges[0].trigger,'NO_NAVIGATION');assert.equal(actual.edges[0].boundary,'stay');
 });
+test('tab hotspots and carousel click controls both become navigation edges in the summary',()=>{
+  const h=harness();
+  const summarize=(kind,states)=>h.context.workspaceCarouselSummary({schema:'figma-flow-web-screen-discovery-v1',readback_scope:'screens',
+    fileKey:'file-a',pageId:'1:2',graph_sha256:'b'.repeat(64),nodes:[{}],web_design:{graph_id:'graph',graph_sha256:'b'.repeat(64),
+      [kind]:{frame_key:'key',status:'current',initial_state:'s1',flow_start_node_id:'node-1',states}}},{fileKey:'file-a',pageId:'1:2'},'1:2');
+  const tabs=summarize('tabs',[
+    {state_id:'s1',screen_id:'WEB-1',frame_id:'node-1',title:'Single Queue Pipeline',status:'current',reactions:[],controls:[],
+      hotspots:[{edge_id:'edge-1',input:'click',trigger:'ON_CLICK',destination_id:'node-2',boundary:false,status:'current'}]},
+    {state_id:'s2',screen_id:'WEB-2',frame_id:'node-2',title:'Parallel Worker Handshake',status:'current',reactions:[],controls:[],
+      hotspots:[{edge_id:'edge-2',input:'click',trigger:'ON_CLICK',destination_id:'node-1',boundary:false,status:'current'}]}]);
+  assert.deepEqual(JSON.parse(JSON.stringify(tabs.edges)),[
+    {from:'s1',to:'s2',trigger:'ON_CLICK',destination_id:'node-2',edge_id:'edge-1'},
+    {from:'s2',to:'s1',trigger:'ON_CLICK',destination_id:'node-1',edge_id:'edge-2'}]);
+  const carousel=summarize('carousel',[
+    {state_id:'s1',screen_id:'WEB-1',frame_id:'node-1',status:'current',reactions:[],hotspots:[],
+      controls:[{edge_id:'next-1',input:'next',trigger:'ON_CLICK',destination_id:'node-2',element_id:'el-next',status:'current'}]},
+    {state_id:'s2',screen_id:'WEB-2',frame_id:'node-2',status:'current',reactions:[],hotspots:[],controls:[]}]);
+  assert.deepEqual(JSON.parse(JSON.stringify(carousel.edges)),[{from:'s1',to:'s2',trigger:'ON_CLICK',destination_id:'node-2',edge_id:'next-1'}]);
+});
+
 test('carousel start selection requires the current task readback and exact native frame',async()=>{
   const page={id:'1:2',type:'PAGE',flowStartingPoints:[{nodeId:'1:3',name:'Carousel'}],async loadAsync(){}};
   const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};

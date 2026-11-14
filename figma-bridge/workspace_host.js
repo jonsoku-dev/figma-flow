@@ -81,7 +81,7 @@ function workspaceStoredCarousel(value) {
     flow_start_node_id:typeof value.flow_start_node_id === 'string' ? value.flow_start_node_id : '', states, edges};
 }
 function workspaceCarouselSummary(data, task, pageId) {
-  const receipt = data?.web_design, carousel = receipt?.carousel;
+  const receipt = data?.web_design, carousel = receipt?.carousel || receipt?.tabs;
   const actualScreenRead = data?.schema === 'figma-flow-web-screen-discovery-v1' && data.readback_scope === 'screens'
     && Array.isArray(data.nodes) && data.graph_sha256 === receipt?.graph_sha256;
   if (!actualScreenRead || data.fileKey !== figma.fileKey
@@ -101,8 +101,9 @@ function workspaceCarouselSummary(data, task, pageId) {
         to:stateByFrame.get(hotspot.destination_id) || '', trigger:hotspot.trigger, destination_id:hotspot.destination_id,
         timeout:hotspot.timeout, direction:hotspot.transition?.direction, input:hotspot.input, edge_id:hotspot.edge_id});
     }
-    for (const control of state.controls || []) for (const reaction of control.reactions || []) edges.push({from:state.state_id,
-      to:stateByFrame.get(reaction.destination_id) || '', trigger:reaction.trigger, destination_id:reaction.destination_id});
+    for (const control of state.controls || []) if (control.trigger) edges.push({from:state.state_id,
+      to:stateByFrame.get(control.destination_id) || '', trigger:control.trigger, destination_id:control.destination_id,
+      input:control.input, edge_id:control.edge_id});
   }
   return workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1', graph_sha256:receipt.graph_sha256,
     graph_id:receipt.graph_id, file_key:data.fileKey, page_id:data.pageId, frame_key:carousel.frame_key,
@@ -207,7 +208,7 @@ function workspaceRecord(current, operation, status, journal) {
 }
 function workspaceObserve(current, message) {
   if (!message || !current.operation) return;
-  if (message.readback?.web_design?.carousel) workspaceAttachCarousel(current, message.readback, figma.currentPage.id);
+  if (message.readback?.web_design?.carousel || message.readback?.web_design?.tabs) workspaceAttachCarousel(current, message.readback, figma.currentPage.id);
   if (message.busy === true || message.state === 'busy' || (message.type === 'busy' && message.value === true)) {
     if (!current.started) workspaceRecord(current, current.operation, 'running');
     current.started = true;
