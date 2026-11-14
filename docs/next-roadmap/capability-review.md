@@ -134,7 +134,7 @@ npm --prefix panel-ui run build
 
 **통과 기준:** 원본 계정·세션·개인 문구·외부 전용 이미지가 공개 입력이나 생성 graph에 없다. 허용된 파일만 로드되고 입력 hash와 화면 범위가 receipt에 기록된다. 자동 검사는 권리 승인 자체를 대신하지 않는다.
 
-**실행 계약:** 최소 manifest 형태, 파일 소유, 인수 항목 A1–A8, 상태 승격 규칙은 [p2-wave1-acceptance.md#p2-rights-cleared-fixture](p2-wave1-acceptance.md#p2-rights-cleared-fixture)에 있다. 이 계약은 인수 영수증이 아니다.
+**실행 계약과 결과:** 최소 manifest 형태, 파일 소유, 인수 항목 A1–A8, 상태 승격 규칙은 [p2-wave1-acceptance.md#p2-rights-cleared-fixture](p2-wave1-acceptance.md#p2-rights-cleared-fixture)에, 인수 결과와 한계는 [A 인수 결과](p2-wave1-acceptance.md#p2-rights-cleared-fixture-result)에 있다.
 
 <a id="p2-faq-accessibility"></a>
 

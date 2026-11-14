@@ -433,9 +433,9 @@
     {
       "id": "p2-rights-cleared-fixture",
       "type": "task",
-      "status": "in-progress",
+      "status": "verified",
       "priority": "P2",
-      "evidence_status": "pending-root-live-evidence",
+      "evidence_status": "verified-with-root-browser-native-and-preservation-receipt",
       "title": "Prepare rights-cleared production-like fixtures",
       "doc_ref": "capability-review.md#p2-production-fixture",
       "roles": ["planner", "designer", "engineer"],
@@ -452,8 +452,66 @@
         "../../specs/responsive-web/graph.json"
       ],
       "commands": [
-        "python3 -B -m unittest discover -s tests -p 'test_web_design.py'"
+        "python3 -B -m unittest discover -s tests -p 'test_web_design.py'",
+        "python3 -B -m unittest tests.test_owned_production_workspace tests.test_owned_production_workspace_boundaries tests.test_owned_production_workspace_hostforms tests.test_owned_production_workspace_interactions tests.test_owned_production_workspace_rail_memory",
+        "python3 -B tools/owned_production_workspace.py verify"
       ],
+      "proof_refs": [
+        "p2-wave1-acceptance.md",
+        "../../examples/owned-production-workspace/",
+        "../../examples/owned-production-workspace/README.md",
+        "../../examples/owned-production-workspace/graph.json",
+        "../../examples/owned-production-workspace/manifest.json",
+        "../../tools/owned_production_workspace.py",
+        "../../tests/test_owned_production_workspace.py",
+        "../../tests/test_owned_production_workspace_boundaries.py",
+        "../../tests/test_owned_production_workspace_hostforms.py",
+        "../../tests/test_owned_production_workspace_interactions.py",
+        "../../tests/test_owned_production_workspace_rail_memory.py",
+        "../../tests/owned_production_workspace_interactions.mjs",
+        "../../tests/owned_production_workspace_rail_memory.mjs"
+      ],
+      "observed_evidence": {
+        "integrated_main_commits": {"fixture": "61b895d", "graph_interaction_contracts": "13551ac"},
+        "accepted_source": {
+          "commit": "13551ac",
+          "graph_sha256": "05141b36bcd985acc3b7124566302af95225a6d6069e2fe7edb14ce552d44813",
+          "manifest_sha256": "d8ad1cecc2312361502411aef40814f2bddaa3df39bc5307815569a59d9bcd5e",
+          "renderer_sha256": "d24cfd7d4460ecdcd7eacddf94498e8d194a0557dbde44822d55ac9911e09066",
+          "manifest_files": 9
+        },
+        "browser_final_renders": {
+          "routes": 12,
+          "states_per_viewport": ["queue", "empty", "error", "review", "invalid", "recorded"],
+          "requested_viewports": ["1440x900", "390x844"],
+          "content_widths": {"desktop": [1425, 1440], "mobile": [375, 390]},
+          "horizontal_overflow": false,
+          "network_requests": 8,
+          "external_requests": 0,
+          "console_errors": 0
+        },
+        "disclosure_capture": {"desktop": {"states": 3, "transitions": 6, "clicks": 7}, "mobile": {"states": 3, "transitions": 6, "clicks": 7}},
+        "native_readback": {
+          "desktop": {"screens_current": 3, "content_width": 1425, "nodes": 406, "text_nodes": 136},
+          "mobile": {"screens_current": 3, "content_width": 375, "nodes": 277, "text_nodes": 73},
+          "observed_click_connections_current": 12,
+          "flow_starts_current": 2,
+          "graph_review": {"status": "current", "nodes": 19, "edges": 37, "source_graph_matches_fixture": true}
+        },
+        "manual_native_edit": {
+          "font_size": "18 -> 19 -> 18",
+          "observed_width": "139 -> 147",
+          "first_undo": "did not restore; failed read retained privately",
+          "restore": "explicit Figma UI font field",
+          "full_read_properties_restored": 9,
+          "unobserved_properties": ["relativeTransform"]
+        },
+        "preservation": {"original_task_records": 101, "total_tasks": 108, "p2_tasks_added": 7, "p1_native_family_state_unchanged": true},
+        "reference_preservation": {"original_zips": 4, "preserved_copies": 4, "bytes_and_member_counts_unchanged": true, "pre_public_git_bundle_unchanged": true, "remote_tags_unchanged": 25},
+        "reference_guard": {"git_tree_files": 1772, "reference_zips": 4, "reference_literals": 67, "status": "clear"},
+        "history": "61b895d browser desktop flow and mobile smoke are initial evidence only; acceptance uses the 13551ac renders, rail flow, and disclosure captures",
+        "not_claimed": ["legal review", "cloud sync", "presented prototype playback", "whole multi-scroll app capture", "pixel parity", "full FAQ keyboard acceptance", "complex render fidelity"]
+      },
       "acceptance": [
         "No real account or private source text is published",
         "Only approved assets are read",

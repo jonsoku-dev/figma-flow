@@ -58,6 +58,14 @@ EXPECTED_P2_BASELINE_PROOF_REFS = {
     '../../tests/test_native_read_benchmark_diagnostic.py',
     '../../tests/p2_native_read_sandbox_globals.cjs',
 }
+EXPECTED_P2_FIXTURE_PROOF_REFS = {
+    'p2-wave1-acceptance.md',
+    '../../examples/owned-production-workspace/manifest.json',
+    '../../examples/owned-production-workspace/graph.json',
+    '../../tools/owned_production_workspace.py',
+    '../../tests/test_owned_production_workspace.py',
+    '../../tests/test_owned_production_workspace_boundaries.py',
+}
 
 
 def _markdown_anchors(text):
@@ -202,6 +210,8 @@ class NextRoadmapBacklogTest(unittest.TestCase):
             self.assertTrue(EXPECTED_P1_NF03_PROOF_REFS.issubset(set(by_id['p1-causal-review-history']['proof_refs'])))
         if by_id['p2-read-performance-baseline']['status'] in SATISFIED_STATUSES:
             self.assertTrue(EXPECTED_P2_BASELINE_PROOF_REFS.issubset(set(by_id['p2-read-performance-baseline']['proof_refs'])))
+        if by_id['p2-rights-cleared-fixture']['status'] in SATISFIED_STATUSES:
+            self.assertTrue(EXPECTED_P2_FIXTURE_PROOF_REFS.issubset(set(by_id['p2-rights-cleared-fixture']['proof_refs'])))
         ready = next_ready_tasks(graph)
         in_progress = [n['id'] for n in graph['nodes'] if n['type'] == 'task' and n['status'] == 'in-progress']
         self.assertTrue(

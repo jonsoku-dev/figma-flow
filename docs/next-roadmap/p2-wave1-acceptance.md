@@ -1,20 +1,20 @@
 # P2 1차 실행 계약 (`p2-rights-cleared-fixture` · `p2-read-performance-baseline`)
 
-이 문서는 P2 1차 두 작업의 실행 계약과 인수 경계다. `p2-read-performance-baseline`의 인수 결과는 [B 인수 결과](#p2-read-performance-baseline-result)에 있다. `p2-rights-cleared-fixture`는 아직 인수 영수증이 없다. 두 작업의 현재 상태(`status` · `evidence_status`)와 선행 관계의 정본은 [backlog.graph.json](backlog.graph.json)이며, 범위·역할·통과 기준의 원문은 [capability-review.md](capability-review.md)의 해당 절이다. 인수 결과 절 밖의 내용은 구현 완료, 실제 브라우저·Figma 결과 또는 성능 수치를 주장하지 않는다.
+이 문서는 P2 1차 두 작업의 실행 계약과 인수 경계다. 두 작업의 인수 결과는 [A 인수 결과](#p2-rights-cleared-fixture-result)와 [B 인수 결과](#p2-read-performance-baseline-result)에 있다. 두 작업의 현재 상태(`status` · `evidence_status`)와 선행 관계의 정본은 [backlog.graph.json](backlog.graph.json)이며, 범위·역할·통과 기준의 원문은 [capability-review.md](capability-review.md)의 해당 절이다. 인수 결과 절 밖의 내용은 구현 완료, 실제 브라우저·Figma 결과 또는 성능 수치를 주장하지 않는다.
 
 - **착수 근거:** 두 작업은 각자의 유일한 `depends-on` 선행 노드 `p0-reference-safety`가 `verified`라서 `next-ready`였다.
-- **현재 상태:** `p2-read-performance-baseline`은 `verified`다. `p2-rights-cleared-fixture`는 `in-progress`(`pending-root-live-evidence`)다.
-- **후속 노드:** `p2-faq-mobile-keyboard`와 `p2-complex-render-fidelity`는 fixture가 `verified`가 되기 전에는 `next-ready`가 아니다. `p2-incremental-native-read`는 그래프 규칙상 `next-ready`지만 `proposed`로 남는다. 이번 기준선의 관측 병목은 reader가 아니라 poll queue이므로 [착수 조건](capability-review.md#p2-incremental-read)을 충족하지 않는다.
+- **현재 상태:** 두 노드 모두 `verified`다. 인수 범위는 각 결과 절의 한계를 따른다.
+- **후속 노드:** `p2-faq-mobile-keyboard`와 `p2-complex-render-fidelity`는 그래프 규칙상 `next-ready`이고 `proposed`다. fixture 인수는 두 노드의 키보드·fidelity 인수를 대신하지 않는다. `p2-incremental-native-read`는 그래프 규칙상 `next-ready`지만 `proposed`로 남는다. 이번 기준선의 관측 병목은 reader가 아니라 poll queue이므로 [착수 조건](capability-review.md#p2-incremental-read)을 충족하지 않는다.
 - **그래프 검사:** `python3 -B -m unittest tests.test_next_roadmap_backlog`. `in-progress` 작업은 모든 `depends-on` 선행이 충족돼야 하고, 충족 상태의 근거 표시(`verified*` 등)를 가질 수 없다.
 
 ## 의존성 그래프
 
 ```text
 p0-reference-safety (verified)
-├── p2-rights-cleared-fixture (in-progress)
+├── p2-rights-cleared-fixture (verified)
 │   ├── p2-faq-mobile-keyboard (proposed)
 │   └── p2-complex-render-fidelity (proposed; p1-native-component-families도 선행)
-└── p2-read-performance-baseline (in-progress)
+└── p2-read-performance-baseline (verified)
     └── p2-incremental-native-read (proposed)
 ```
 
@@ -112,6 +112,35 @@ python3 -B tools/reference_distribution_guard.py --ref HEAD --format text
 ```
 
 `test_web_design.py`는 비회귀 검사다. 새 허용 목록을 검사하지 않는다. 새 fixture 검사 명령은 구현 커밋이 통합된 뒤 노드의 `commands`에 추가한다. 존재하지 않는 검사를 미리 등록하지 않는다. 화면이나 모바일 레이아웃이 fixture에 있다는 사실로 `p2-faq-mobile-keyboard`나 `p2-complex-render-fidelity`를 통과시키지 않는다.
+
+<a id="p2-rights-cleared-fixture-result"></a>
+
+### A 인수 결과
+
+root가 통합 소스 `13551ac`에서 브라우저와 개발 플러그인으로 관측하고 최종 receipt를 남겼다. 인수한 입력은 그래프 `05141b36…`, manifest `d8ad1cec…`(파일 9개), renderer `d24cfd7d…`다. 원시 node·file·page ID, 스크린샷, native 그래프 원본은 Git 밖 비공개 증거에 있다.
+
+| ID | 결과 | 판정 |
+|---|---|---|
+| A1 | `tools/owned_production_workspace.py verify`가 파일 9개의 digest와 manifest 일치를 확인했다 | 충족 |
+| A2 | fixture 검사 25개가 통과한다. 바뀐 bytes, 미선언 파일, symlink, 경로 탈출, 외부·scheme-relative 주소, stylesheet fetch를 거절하고, 검증한 manifest snapshot만 제공한다 | 충족 |
+| A3 | 배포 가드가 `13551ac`의 Git 트리(파일 1,772개)와 로컬 소스 ZIP을 원본 참고 ZIP 4개와 참고 literal 67개에 대조해 `clear`다. fixture 검사가 외부·민감 텍스트를 거절한다 | 충족 |
+| A4 | verify receipt가 입력 manifest, 파일별 digest, 선택 digest를 남긴다. 공개 기록에는 digest만 쓴다 | 충족 |
+| A5 | 최종 receipt 뒤 P0 보존 대조를 다시 실행했다. 원본 참고 ZIP 4개와 보존 사본 4개가 bytes·파일 수 모두 원본 및 P0 기록 SHA-256과 같다. 공개 전 Git bundle과 원격 태그 25개도 바뀌지 않았다. fixture는 신규 경로만 추가했다 | 충족 |
+| A6 | 최종 브라우저 관측에서 요청 8건, 외부 요청 0건, console 오류 0건이다 | 충족 |
+| A7 | 사용 근거는 현재 사용자의 P2 진행 승인, 저장소 자체 저작, MIT 라이선스다. 검사가 manifest 권리와 저장소 라이선스 일치를 확인한다. 법률 검토가 아니다 | 충족 |
+| A8 | 공개 fixture 트리에 PNG·compiled plan·파일 키·페이지 ID가 없다 | 충족 |
+
+브라우저. 최종 렌더 12개는 queue, empty, error, review, invalid, recorded 6개 상태를 데스크톱(요청 1440×900)과 모바일(요청 390×844)에서 그렸다. 가로 overflow는 없었다. 세로 scrollbar 때문에 일부 화면의 content 폭은 1425·375다. disclosure 캡처는 viewport마다 3개 상태, 6개 전이, 7회 클릭이다. rail·gate 흐름도 최종 소스에서 관측했다. `61b895d`에서 본 데스크톱 흐름과 mobile smoke는 초기 근거이며 이 판정에 쓰지 않았다.
+
+Native. 데스크톱과 모바일 각각 화면 3개가 `current`이고 편집 가능한 frame이다. 데스크톱은 노드 406개(TEXT 136), 모바일은 277개(TEXT 73)이며 content 폭은 1425·375다. 관측한 클릭 연결 12개와 flow 시작 2개가 `current`다. 그래프 review board는 노드 19개, edge 37개로 `current`이고 source 그래프 digest가 fixture와 같다. root가 board를 선택해 화면에서 확인했지만 그래프 사용성 인수는 아니다.
+
+수동 편집. root가 Figma UI에서 `Package review` 텍스트 크기를 18에서 19로 바꾸고 다시 읽었다(관측 폭 139→147). 첫 Cmd+Z는 되돌리지 못했고 그 실패한 읽기는 비공개로 보존했다. UI 글꼴 필드로 18을 명시해 되돌린 뒤 full 읽기에서 직렬화된 9개 속성(characters, fontName, fontSize, textStyleId, lineHeight, letterSpacing, width, height, boundVariables)이 편집 전 값으로 복원됐다. `relativeTransform`은 편집 전후 두 full 읽기 모두에 없어 관측하지 못했으며 복원 여부는 알 수 없다. 처음 receipt는 이 부재를 복원으로 잘못 세어 10개로 적었고, root가 통합 전에 9개로 고쳤다. 원래 receipt도 보존했다.
+
+보존. 기존 작업 정의 101개와 P1 native component family 상태는 바뀌지 않았다. P2 작업 7개가 더해져 전체 108개다.
+
+한계. 로드된 Design 편집기 상태만 관측했고 Figma cloud sync 경고가 남아 있다. 클릭 프로토타입은 readback으로 확인했으며 이번 실행에서 재생하지 않았다. 캡처는 viewport 단위이며 여러 번 스크롤하는 앱 전체가 아니다. 글꼴 metric 차이로 레이아웃이 어긋날 수 있어 pixel 일치를 주장하지 않는다. FAQ 전체 키보드 인수와 복합 렌더 fidelity는 후속 노드의 범위다.
+
+통합 커밋. fixture `61b895d`, 그래프 상호작용 계약 `13551ac`.
 
 <a id="p2-read-performance-baseline"></a>
 
