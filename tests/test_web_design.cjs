@@ -26,6 +26,7 @@ class MockNode {
     this.strokes = [];
     this.children = [];
     this.data = {};
+    this.reactions = [];
     Object.defineProperties(this, {
       x: { get: () => this._x, set: value => { if (this.parent?.type === 'INSTANCE') throw Error('relative-transform cannot be overridden in an instance'); this.geometryWrites++; this._x = value; } },
       y: { get: () => this._y, set: value => { if (this.parent?.type === 'INSTANCE') throw Error('relative-transform cannot be overridden in an instance'); this.geometryWrites++; this._y = value; } },
@@ -52,6 +53,7 @@ class MockNode {
   }
   setPluginData(key, value) { this.data[key] = value; }
   getPluginData(key) { return this.data[key] || ''; }
+  async setReactionsAsync(value) { this.reactions = structuredClone(value); }
   findAll(predicate) {
     return this.children.flatMap(child => [ ...(predicate(child) ? [child] : []), ...child.findAll(predicate) ]);
   }
@@ -92,6 +94,7 @@ function harness(discovery = async () => ({ schema: 'figma-flow-graph-native-dis
   nextId = 1;
   const page = new MockNode('PAGE');
   page.id = '1:1';
+  page.flowStartingPoints = [];
   const fonts = [{ fontName: { family: 'Inter', style: 'Regular' } }, { fontName: { family: 'Inter', style: 'Medium' } }];
   const images = [];
   const videos = [];
@@ -147,6 +150,44 @@ function plan() {
     },
   };
 }
+
+test('graph carousel imports directional editable swipe targets and timeout loop with actual readback', async () => {
+  const packet = plan();
+  const second = structuredClone(packet.web_design.screens[0]);
+  second.id = 'WEB-carousel-2'; second.title = 'Carousel 2';
+  packet.web_design.screens.push(second);
+  const states = packet.web_design.screens.map((screen, index) => ({id: `slide-${index + 1}`, screenId: screen.id,
+    index, railBounds: {x: 64, y: 250, width: 262, height: 120}}));
+  const transitions = [];
+  for (const [index, state] of states.entries()) {
+    const next = states[index + 1]?.id || state.id, previous = states[index - 1]?.id || state.id;
+    transitions.push({id: `left-${index}`, from: state.id, trigger: 'swipe_left', to: next});
+    transitions.push({id: `right-${index}`, from: state.id, trigger: 'swipe_right', to: previous});
+    transitions.push({id: `auto-${index}`, from: state.id, trigger: 'autoplay', to: states[(index + 1) % states.length].id});
+  }
+  packet.web_design.carousel = {frameKey: 'hero-carousel', states, initialState: states[0].id,
+    autoplay: {enabled: true, intervalMs: 3200}, wrap: {manual: false, autoplay: true}, transitions};
+  const state = harness();
+  const result = await state.apply(packet);
+  assert.equal(result.receipt.carousel.status, 'current', JSON.stringify(result.receipt.carousel));
+  const first = state.page.children.find(node => node.getPluginData('figma-flow-web-design-id') === `saas-capture/${states[0].screenId}`);
+  const left = first.children.find(node => node.getPluginData('figma-flow-carousel-side') === 'left');
+  const right = first.children.find(node => node.getPluginData('figma-flow-carousel-side') === 'right');
+  assert.deepEqual([left.x, left.y, left.width, left.height], [64, 250, 131, 120]);
+  assert.deepEqual([right.x, right.y, right.width, right.height], [195, 250, 131, 120]);
+  assert.equal(left.reactions.length, 0);
+  assert.equal(right.reactions[0].trigger.type, 'ON_DRAG');
+  assert.deepEqual(right.reactions[0].actions[0].transition, {type: 'PUSH', direction: 'LEFT',
+    matchLayers: false, easing: {type: 'EASE_OUT'}, duration: 0.3});
+  assert.equal(first.reactions[0].trigger.type, 'AFTER_TIMEOUT');
+  assert.equal(first.reactions[0].trigger.timeout, 3.2);
+  assert.equal(result.receipt.carousel.states[0].hotspots.length, 2);
+  assert.ok(state.page.flowStartingPoints.some(start => start.nodeId === first.id));
+  const before = first.children.length;
+  const repeated = await state.apply(packet);
+  assert.equal(first.children.length, before);
+  assert.equal(repeated.receipt.carousel.status, 'current');
+});
 
 function legacyImportedFrame(harnessState, sourcePlan, nativeFont = { family: 'Inter', style: 'Medium' }) {
   const screen = sourcePlan.web_design.screens[0];
