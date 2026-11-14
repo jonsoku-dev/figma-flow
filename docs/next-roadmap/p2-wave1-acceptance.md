@@ -23,13 +23,13 @@ p0-reference-safety (verified)
 
 ## 파일 소유
 
-한 파일은 한 writer만 바꾼다. 아래 경로 중 기준 커밋 `9962afa`에 있는 것은 없다. 경로가 있다는 사실만으로 구현이나 인수를 뜻하지 않는다.
+한 파일은 한 writer만 바꾼다. 신규 경로는 기준 커밋 `9962afa`에 없던 파일이다. 기존 경로는 그 커밋에 있던 파일이며 아래 조건 안에서만 바꾼다. 경로가 있다는 사실만으로 구현이나 인수를 뜻하지 않는다.
 
-| 작업 | writer | 소유 경로 |
-|---|---|---|
-| `p2-rights-cleared-fixture` | fixture writer | `examples/owned-production-workspace/**`, `tests/test_owned_production_workspace.py`, `tools/owned_production_workspace.py` |
-| `p2-read-performance-baseline` | baseline writer | 새 `figma-bridge/native_read_measurement.js`, `tools/native_read_benchmark.py`, `tests/p2_native_read_measurement.cjs`, `tests/test_native_read_benchmark.py`, `figma-bridge/native_semantic_read.js`, `tools/graph_sync.py`·`tools/figma_workspace.py`의 최소 discovery 호출부, [NF-02](NF-02-incremental-native-read.md)의 측정 기록 부록. 기존 파일은 아래 계측 조건 안에서만 바꾼다 |
-| 두 작업의 기록 | records writer | `docs/next-roadmap/backlog.graph.json`, `capability-review.md`, `README.md`, 이 문서, `tests/test_next_roadmap_backlog.py`, `CHANGELOG.md`, `docs/llm-wiki/` |
+| 작업 | writer | 신규 경로 | 기존 경로 |
+|---|---|---|---|
+| `p2-rights-cleared-fixture` | fixture writer | `examples/owned-production-workspace/**`, `tools/owned_production_workspace.py`, `tests/test_owned_production_workspace*.py` | 없음 |
+| `p2-read-performance-baseline` | baseline writer | `figma-bridge/native_read_measurement.js`, `tools/native_read_benchmark.py`, `tests/p2_native_read_*.cjs`, `tests/test_native_read_benchmark*.py` | `figma-bridge/native_semantic_read.js`의 공유 `utf8JsonBytes`, `tools/graph_sync.py`·`tools/figma_workspace.py`의 최소 discovery 호출부, [NF-02](NF-02-incremental-native-read.md)의 측정 기록 부록 |
+| 두 작업의 기록 | records writer | 이 문서 | `docs/next-roadmap/backlog.graph.json`, `capability-review.md`, `README.md`, `tests/test_next_roadmap_backlog.py`, `CHANGELOG.md`, `docs/llm-wiki/`, 공식 generator 출력인 `library/figma-api/coverage-baseline.json` |
 
 fixture·baseline writer는 그래프, CHANGELOG, Wiki를 바꾸지 않는다. fixture writer는 코어 캡처·컴파일러·플러그인을 바꾸지 않는다. 두 writer 모두 기존 `examples/owned-design-baseline/`·`examples/owned-component-families/`, 패널 UI, `figma-bridge/assets/panels.js`, `docs/development-roadmap/RD-06-native-read/tasks.md`를 바꾸지 않는다.
 
