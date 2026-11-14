@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowDown, ChevronDown, CircleCheck, Clock3, FileText, TriangleAlert } from 'lucide-react';
 import { Section } from './components.jsx';
+import { CarouselPresentLink } from './CarouselPresentLink.jsx';
 
 function StepIcon({ status }) {
   const Icon = status === 'failed' ? TriangleAlert : status === 'verified' ? CircleCheck :
@@ -47,7 +48,7 @@ function CarouselNotice({ notice, tr }) {
   return <p className="workspace-carousel-notice" role="status">{text}</p>;
 }
 
-export function CarouselOverview({ items, tr, onOpenTask, onSelectCarousel, onPresentCarousel, notice }) {
+export function CarouselOverview({ items, tr, onOpenTask, onSelectCarousel, onPresentCarousel, notice, presentLink }) {
   if (!items.length) return null;
   return (
     <Section title={tr('carouselFileTitle')} className="workspace-carousel-overview">
@@ -70,6 +71,7 @@ export function CarouselOverview({ items, tr, onOpenTask, onSelectCarousel, onPr
               {current && <button type="button" className="workspace-carousel-select"
                 onClick={() => onSelectCarousel?.(event, carousel)}>{tr('carouselSelectStart')}</button>}
               <button type="button" className="workspace-carousel-open" onClick={() => onOpenTask(task)}>{tr('carouselOpenTask')}</button>
+              {current && <CarouselPresentLink link={presentLink} event={event} tr={tr} />}
             </div>
           </li>;
         })}
@@ -78,7 +80,7 @@ export function CarouselOverview({ items, tr, onOpenTask, onSelectCarousel, onPr
   );
 }
 
-export function ExecutionFlows({ flows, tasks, tr, stateText, date, rememberFocus, onSelectCarousel, onPresentCarousel, carouselNotice }) {
+export function ExecutionFlows({ flows, tasks, tr, stateText, date, rememberFocus, onSelectCarousel, onPresentCarousel, carouselNotice, presentLink }) {
   const operation = event => tr(event.operation === 'verification' ? 'verification' :
     event.operation === 'download' ? 'downloadRequested' : 'op.' + event.operation);
   return (
@@ -127,6 +129,7 @@ export function ExecutionFlows({ flows, tasks, tr, stateText, date, rememberFocu
                 </div>
               </div>
               <CarouselNotice notice={carouselNotice} tr={tr} />
+              {canSelectStart && <CarouselPresentLink link={presentLink} event={carouselEvent} tr={tr} />}
               <ol className="workspace-carousel-states" aria-label={tr('carouselStates')}>
                 {carousel.states.map((state, stateIndex) => <li key={state.state_id} data-state={state.status}>
                   <span className="workspace-carousel-index">{stateIndex + 1}</span>

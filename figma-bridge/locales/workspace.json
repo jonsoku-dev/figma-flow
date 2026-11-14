@@ -275,9 +275,34 @@
     "ja": "{title}のカルーセルをFigmaプレゼンテーションで開く"
   },
   "workspace.carouselPresented": {
-    "ko": "검증된 시작 프레임으로 Figma Present를 열었습니다.",
-    "en": "Opened Figma Present at the verified start frame.",
-    "ja": "確認済みの開始フレームでFigmaプレゼンテーションを開きました。"
+    "ko": "검증된 시작 프레임을 선택하고 Figma Present 열기를 요청했습니다. 새 탭이 보이지 않으면 아래의 확인된 링크를 여세요.",
+    "en": "Selected the verified start frame and asked Figma to open Present. If no new tab appears, open the verified link below.",
+    "ja": "確認済みの開始フレームを選択し、Figmaにプレゼンテーションを開くよう要求しました。新しいタブが表示されない場合は、下の確認済みリンクを開いてください。"
+  },
+  "workspace.carouselLinkGroup": {
+    "ko": "확인된 Figma Present 링크",
+    "en": "Verified Figma Present link",
+    "ja": "確認済みのFigmaプレゼンテーションリンク"
+  },
+  "workspace.carouselLinkOpen": {
+    "ko": "새 탭에서 Present 열기",
+    "en": "Open Present in a new tab",
+    "ja": "新しいタブでプレゼンテーションを開く"
+  },
+  "workspace.carouselLinkCopy": {
+    "ko": "링크 복사",
+    "en": "Copy link",
+    "ja": "リンクをコピー"
+  },
+  "workspace.carouselLinkCopied": {
+    "ko": "링크를 복사했습니다.",
+    "en": "Link copied.",
+    "ja": "リンクをコピーしました。"
+  },
+  "workspace.carouselLinkCopyManual": {
+    "ko": "자동 복사가 차단되었습니다. 선택된 링크를 ⌘C 또는 Ctrl+C로 복사하세요.",
+    "en": "Automatic copy was blocked. Press ⌘C or Ctrl+C to copy the selected link.",
+    "ja": "自動コピーがブロックされました。選択されたリンクを⌘CまたはCtrl+Cでコピーしてください。"
   },
   "workspace.carouselStateCount": {
     "ko": "상태 {count}개",
