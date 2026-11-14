@@ -29,6 +29,7 @@ def build(compiler):
         raise ValueError('Use the pinned TypeScript 5.9.3 lib/tsc.js')
     runtime = (ROOT / 'figma-bridge/code.js').read_text()
     names = ['metadata', 'info', 'bindOwnedLabelProperty', 'validateDeclaredComponentProperties',
+             'hasValidPropertyKey', 'resolveCollisionSafePropertyName', 'addDeclaredPropertySafely',
              'markComponentSlot', 'markImportedInstanceSlots', 'bindDeclaredComponentProperties', 'applyDeclaredInstanceProperties']
     starts = list(re.finditer(r'^(?:async )?function ([A-Za-z0-9_]+)\(', runtime, re.M))
     functions = []

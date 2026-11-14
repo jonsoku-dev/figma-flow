@@ -8313,7 +8313,7 @@
     },
     {
       "path": "figma-bridge/code.js",
-      "sha256": "50cca44e54df15e504de3169ac83f42e4d69f1942dee039e47cab422b1663312"
+      "sha256": "68e298956e9f8ec0978b0e3cc590180274532e5354125287b0015fe946cfdfe6"
     },
     {
       "path": "figma-bridge/design_note_board.js",
@@ -8353,7 +8353,7 @@
     },
     {
       "path": "figma-bridge/native_provision.js",
-      "sha256": "eb86ca22e38e9774c502532a167ab9f73b9d5e2c33e3505d286af48e6ae7d895"
+      "sha256": "b685bae57fd3178938c7c7f2b3299aa9632507574cae507207c1d5fe200b99c4"
     },
     {
       "path": "figma-bridge/native_semantic_read.js",
@@ -8373,7 +8373,7 @@
     },
     {
       "path": "figma-bridge/semantic_components.js",
-      "sha256": "43a26c97c8db7590adf91fc637b0d248511fe705b85a31f41a48e3539a3f8325"
+      "sha256": "171dc4ba236f051c742f3856b1d6bf3f0019d64f84849f072a5c226e9b5d816e"
     },
     {
       "path": "figma-bridge/semantic_tokens.js",
@@ -8413,11 +8413,11 @@
     },
     {
       "path": "library/figma-recipes/bundled/design-component-properties.js",
-      "sha256": "a92f876d3a237663801a2e389bed14ba941f7c0cabcf4ae4f531294b5fa6ed31"
+      "sha256": "1e675750962f919753a5847975b70a084ee0d7a6c8b0b30fe19383cc44f9e362"
     },
     {
       "path": "tools/workspace_recipes.py::dispatch_source",
-      "sha256": "17e134f3f60e806f5a77caee078fa4380490cd18ddd18078837f22b9e732c1a5"
+      "sha256": "95e97ae84d15da3c33337385fb1d3a09b64e0ead276351600f3c62d550172100"
     }
   ]
 }

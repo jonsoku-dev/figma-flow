@@ -29,12 +29,15 @@
       "sourceSha256": "ffa87adb507e63cb9207cc116038f8ab91da480bad19525a2ea02596b620fd24",
       "entry": "bundled/design-component-properties.js",
       "helpers": "component-properties.helpers.js",
-      "helpersSha256": "2a987381ace4a5bb83c5aedec9710fc6cb823123dc7012457fbb4062341d758f",
+      "helpersSha256": "4309afcd5ef3c5c8eae359ee670bb8ba9813af041ba0b9b7c7b1b1800bdfcc17",
       "productionFunctions": [
         "metadata",
         "info",
         "bindOwnedLabelProperty",
         "validateDeclaredComponentProperties",
+        "hasValidPropertyKey",
+        "resolveCollisionSafePropertyName",
+        "addDeclaredPropertySafely",
         "markComponentSlot",
         "markImportedInstanceSlots",
         "bindDeclaredComponentProperties",
@@ -45,13 +48,16 @@
         "info": "390be9dbe6d154d8ffab16b70016e51473496737c35550fbdfa8649f701bd8cd",
         "bindOwnedLabelProperty": "a56806403f83adafc5993e3aef461ce4303309829bf424cebaf829fb978ba18a",
         "validateDeclaredComponentProperties": "35e0daa18d0cfbe6c067d0b7712772d4906b2ecdb31fddb68d34fd2c87db1464",
+        "hasValidPropertyKey": "8c675ed4d84355f1240e2a837473a245d78d6a04ad98eb1ab432f166225154b9",
+        "resolveCollisionSafePropertyName": "fdb022760642644f22677879a86a2ab09f6c606d5e14d61026e32adcc7131e6c",
+        "addDeclaredPropertySafely": "0e3a31c1032881a0feb25ec68d467bc7f54159a8e34bbcb52342ae33e779127a",
         "markComponentSlot": "4defa2972a13c9242e4a2d22baf144d604c90f7a909372c95c839234ad8e44a3",
         "markImportedInstanceSlots": "2eadfd703e609da61fa9ce30dcb2c8ac7b8578c34e09e932ec80e4b2b122cd2d",
-        "bindDeclaredComponentProperties": "9185beb268ea4b371548c59bdb103488509c7f8c72b6795b55837fb43780610f",
+        "bindDeclaredComponentProperties": "dbef1b9c44b6073e891e689890b8f1ed5ee174aa3ac4c220b2852a75be561ed8",
         "applyDeclaredInstanceProperties": "46e6ecdc3fea128fc2582a8dfb379efe6d9a57381d5945706fcf23e42f9c5822"
       },
-      "productionSourceSha256": "50cca44e54df15e504de3169ac83f42e4d69f1942dee039e47cab422b1663312",
-      "jsSha256": "a92f876d3a237663801a2e389bed14ba941f7c0cabcf4ae4f531294b5fa6ed31"
+      "productionSourceSha256": "68e298956e9f8ec0978b0e3cc590180274532e5354125287b0015fe946cfdfe6",
+      "jsSha256": "1e675750962f919753a5847975b70a084ee0d7a6c8b0b30fe19383cc44f9e362"
     }
   ],
   "sdkGraphRecipes": [
