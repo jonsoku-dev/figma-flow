@@ -794,6 +794,7 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     if (element.kind === 'component' && mains.get(family) === node) webNodePaint(node, element);
     if (element.kind === 'component' && mains.get(family) !== node && node.type === 'INSTANCE') webCreateTextOverride(node, element, fonts, fallbackReport, layoutDrifts);
     if (element.kind === 'image' || element.kind === 'video') webImagePaint(node, element);
+    else if (element.kind === 'vector' && Number.isFinite(element.paint?.opacity)) node.opacity = element.paint.opacity;
     else if (element.kind !== 'text' && element.kind !== 'vector' && element.kind !== 'frame') webNodePaint(node, element);
     webPosition(node, element, parentElement);
     if (element.kind === 'frame') {
