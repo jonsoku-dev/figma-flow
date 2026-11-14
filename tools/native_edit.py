@@ -33,7 +33,7 @@ def validate_plan(plan):
         web = plan['web_design']
         required = {'schema', 'graph_id', 'graph_sha256', 'source_graph_path', 'screens'}
         if (not isinstance(web, dict) or not required <= web.keys()
-                or web.keys() - required - {'preview_width', 'readback_scope', 'carousel', 'tabs'}
+                or web.keys() - required - {'preview_width', 'readback_scope', 'carousel', 'tabs', 'disclosure'}
                 or web['schema'] != 'figma-flow-web-design-v1'
                 or not re.fullmatch(r'[a-f0-9]{64}', str(web['graph_sha256']))):
             raise ValueError('Pinned web design graph required')
@@ -69,6 +69,11 @@ def validate_plan(plan):
             raise ValueError('Web tabs plan must exactly match the pinned canonical transition graph')
         if source_tabs and not {state['screenId'] for state in source_tabs['states']} <= set(selected_ids):
             raise ValueError('Web screen plan must include every pinned tab state')
+        source_disclosure=canonical.get('disclosure')
+        if web.get('disclosure') != source_disclosure or ('disclosure' in web and source_disclosure is None):
+            raise ValueError('Web disclosure plan must exactly match the pinned canonical transition graph')
+        if source_disclosure and not {state['screenId'] for state in source_disclosure['states']} <= set(selected_ids):
+            raise ValueError('Web screen plan must include every pinned disclosure state')
         return plan
     if 'graph_review' in plan:
         review = plan['graph_review']
@@ -346,6 +351,10 @@ def main():
     tabs.add_argument('--graph', required=True, help='Existing canonical graph with captured WEB screens')
     tabs.add_argument('--observations', required=True, help='Observed browser tab states and click receipts')
     tabs.add_argument('--out', required=True, help='New canonical graph path; existing files are preserved')
+    disclosure = sub.add_parser('web-disclosure')
+    disclosure.add_argument('--graph', required=True, help='Existing canonical graph with captured WEB screens')
+    disclosure.add_argument('--observations', required=True, help='Observed browser disclosure states and click receipts')
+    disclosure.add_argument('--out', required=True, help='New canonical graph path; existing files are preserved')
     carousel = sub.add_parser('web-carousel')
     carousel.add_argument('--graph', required=True, help='Existing canonical graph with captured WEB screens')
     carousel.add_argument('--observations', required=True, help='Bounded browser carousel state and transition receipts')
@@ -360,6 +369,9 @@ def main():
         elif args.command == 'web-tabs':
             from web_design import join_tab_observations
             print(json.dumps(join_tab_observations(args.graph, args.observations, args.out)))
+        elif args.command == 'web-disclosure':
+            from web_design import join_disclosure_observations
+            print(json.dumps(join_disclosure_observations(args.graph, args.observations, args.out)))
         elif args.command == 'web-carousel':
             from web_design import join_carousel_observations
             print(json.dumps(join_carousel_observations(args.graph, args.observations, args.out)))

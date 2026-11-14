@@ -126,6 +126,95 @@ def write_tab_inputs(directory, observations=None):
     return directory / 'screens.json', directory / 'observations.json'
 
 
+FAQ_Q1 = 'What is PlanHub?'
+FAQ_Q2 = 'How do I create my first workspace?'
+FAQ_Q3 = 'How does PlanHub sync?'
+
+
+def disclosure_screens():
+    value = graph()
+    value['id'] = 'saas-faq-demo'
+    value['nodes'] = []
+    chevron = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="#111111" fill="none"/></svg>'
+    for index, title in enumerate(('All closed', FAQ_Q1, FAQ_Q2), start=1):
+        q2_y = 358 if index == 2 else 300
+        elements = [
+            {'id': f's{index}-q1-item', 'kind': 'frame', 'path': [],
+             'box': {'x': 312, 'y': 240, 'width': 800, 'height': 110 if index == 2 else 52}},
+            {'id': f's{index}-q1-trigger', 'kind': 'frame', 'path': [f's{index}-q1-item'],
+             'box': {'x': 313, 'y': 240, 'width': 798, 'height': 52}},
+            {'id': f's{index}-q1-label', 'kind': 'text', 'path': [f's{index}-q1-item', f's{index}-q1-trigger'],
+             'box': {'x': 329, 'y': 254, 'width': 400, 'height': 24},
+             'text': {'characters': FAQ_Q1, 'fontFamily': 'Inter', 'fontSize': 16, 'fontWeight': '500', 'color': '#111111'}},
+            {'id': f's{index}-q1-chevron', 'kind': 'vector', 'path': [f's{index}-q1-item', f's{index}-q1-trigger'],
+             'box': {'x': 1083, 'y': 260, 'width': 12, 'height': 12}, 'svg': chevron},
+            {'id': f's{index}-q2-trigger', 'kind': 'frame', 'path': [],
+             'box': {'x': 313, 'y': q2_y, 'width': 798, 'height': 52}},
+            {'id': f's{index}-q2-label', 'kind': 'text', 'path': [f's{index}-q2-trigger'],
+             'box': {'x': 329, 'y': q2_y + 14, 'width': 460, 'height': 24},
+             'text': {'characters': FAQ_Q2, 'fontFamily': 'Inter', 'fontSize': 16, 'fontWeight': '500', 'color': '#111111'}},
+        ]
+        if index == 2:
+            elements.append({'id': 's2-q1-answer', 'kind': 'text', 'path': ['s2-q1-item'],
+                             'box': {'x': 329, 'y': 300, 'width': 760, 'height': 40},
+                             'text': {'characters': 'PlanHub is a workspace for team design handoffs.',
+                                      'fontFamily': 'Inter', 'fontSize': 14, 'fontWeight': '400', 'color': '#444444'}})
+        if index == 3:
+            elements.append({'id': 's3-q2-answer', 'kind': 'text', 'path': [],
+                             'box': {'x': 329, 'y': 360, 'width': 760, 'height': 40},
+                             'text': {'characters': 'You can create a workspace from your dashboard.',
+                                      'fontFamily': 'Inter', 'fontSize': 14, 'fontWeight': '400', 'color': '#444444'}})
+        value['nodes'].append({
+            'id': f'WEB-faq-{index}', 'type': 'screen', 'title': title, 'status': 'observed',
+            'layout': {'width': 1425, 'height': 900, 'background': '#ffffff'}, 'elements': elements,
+        })
+    return value
+
+
+def disclosure_observations():
+    pin = {'path': 'state.png', 'sha256': hashlib.sha256(PNG_SAMPLE).hexdigest()}
+    return {
+        'schemaVersion': 1,
+        'source': {'url': 'http://127.0.0.1:8874/', 'title': 'PlanHub', 'browser': 'Chromium',
+                   'viewport': {'width': 1440, 'height': 900}, 'dpr': 1, 'capturedAt': '2026-11-14T00:00:00Z'},
+        'disclosure': {
+            'frameKey': 'faq',
+            'mode': 'single-collapsible',
+            'initialState': 'WEB-faq-1',
+            'items': [FAQ_Q1, FAQ_Q2, FAQ_Q3],
+        },
+        'states': [
+            {'id': 'WEB-faq-1', 'label': 'All closed', 'expandedItem': None, 'answerSha256': None,
+             'contentSha256': '1' * 64, 'capture': pin},
+            {'id': 'WEB-faq-2', 'label': FAQ_Q1, 'expandedItem': FAQ_Q1, 'answerSha256': 'a' * 64,
+             'contentSha256': '2' * 64, 'capture': pin},
+            {'id': 'WEB-faq-3', 'label': FAQ_Q2, 'expandedItem': FAQ_Q2, 'answerSha256': 'b' * 64,
+             'contentSha256': '3' * 64, 'capture': pin},
+        ],
+        'transitions': [
+            {'from': 'WEB-faq-1', 'to': 'WEB-faq-2', 'input': 'click', 'action': 'open', 'itemLabel': FAQ_Q1,
+             'autoClosedItem': None, 'controlElementId': 's1-q1-trigger', 'observed': True, 'evidence': pin},
+            {'from': 'WEB-faq-2', 'to': 'WEB-faq-1', 'input': 'click', 'action': 'close', 'itemLabel': FAQ_Q1,
+             'autoClosedItem': None, 'controlElementId': 's2-q1-trigger', 'observed': True, 'evidence': pin},
+            {'from': 'WEB-faq-2', 'to': 'WEB-faq-3', 'input': 'click', 'action': 'switch', 'itemLabel': FAQ_Q2,
+             'autoClosedItem': FAQ_Q1, 'controlElementId': 's2-q2-trigger', 'observed': True, 'evidence': pin},
+            {'from': 'WEB-faq-3', 'to': 'WEB-faq-1', 'input': 'click', 'action': 'close', 'itemLabel': FAQ_Q2,
+             'autoClosedItem': None, 'controlElementId': 's3-q2-trigger', 'observed': True, 'evidence': pin},
+            {'from': 'WEB-faq-1', 'to': 'WEB-faq-3', 'input': 'click', 'action': 'open', 'itemLabel': FAQ_Q2,
+             'autoClosedItem': None, 'controlElementId': 's1-q2-trigger', 'observed': True, 'evidence': pin},
+            {'from': 'WEB-faq-3', 'to': 'WEB-faq-2', 'input': 'click', 'action': 'switch', 'itemLabel': FAQ_Q1,
+             'autoClosedItem': FAQ_Q2, 'controlElementId': 's3-q1-trigger', 'observed': True, 'evidence': pin},
+        ],
+    }
+
+
+def write_disclosure_inputs(directory, observations=None, screens=None):
+    (directory / 'state.png').write_bytes(PNG_SAMPLE)
+    (directory / 'screens.json').write_text(json.dumps(screens or disclosure_screens()))
+    (directory / 'observations.json').write_text(json.dumps(observations or disclosure_observations()))
+    return directory / 'screens.json', directory / 'observations.json'
+
+
 def representative_graph(asset_path, asset_hash, count=506):
     elements = [
         {
@@ -288,6 +377,159 @@ class WebDesignTests(unittest.TestCase):
             graph_path.write_text(json.dumps(screens))
             with self.assertRaisesRegex(ValueError, 'inside the source state screen'):
                 web_design.join_tab_observations(graph_path, observations_path, Path(d) / 'out.json')
+
+    def test_observed_disclosure_clicks_compile_into_a_pinned_plan_and_bundle(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            graph_path, observations_path = write_disclosure_inputs(root)
+            joined_path = root / 'disclosure-graph.json'
+            completed = subprocess.run(
+                [sys.executable, '-B', str(ROOT / 'tools/native_edit.py'), 'web-disclosure',
+                 '--graph', str(graph_path), '--observations', str(observations_path),
+                 '--out', str(joined_path)],
+                capture_output=True, text=True, check=True,
+            )
+            receipt = json.loads(completed.stdout)
+            self.assertEqual(receipt['state_count'], 3)
+            self.assertEqual(receipt['transition_count'], 6)
+            self.assertEqual(receipt['status'], 'compiled-not-applied')
+            joined = json.loads(joined_path.read_text())
+            disclosure = joined['disclosure']
+            self.assertEqual(set(disclosure), {'frameKey', 'mode', 'items', 'source', 'states', 'initialState', 'transitions'})
+            self.assertEqual(disclosure['mode'], 'single-collapsible')
+            self.assertEqual(disclosure['initialState'], 'disclosure-1')
+            self.assertEqual([state['id'] for state in disclosure['states']], ['disclosure-1', 'disclosure-2', 'disclosure-3'])
+            self.assertEqual([state['expandedItem'] for state in disclosure['states']], [None, FAQ_Q1, FAQ_Q2])
+            self.assertEqual(
+                [(e['id'], e['from'], e['to'], e['action'], e['itemLabel'], e['autoClosedItem'], e['controlElementId'])
+                 for e in disclosure['transitions']],
+                [
+                    ('edge-1', 'disclosure-1', 'disclosure-2', 'open', FAQ_Q1, None, 's1-q1-trigger'),
+                    ('edge-2', 'disclosure-2', 'disclosure-1', 'close', FAQ_Q1, None, 's2-q1-trigger'),
+                    ('edge-3', 'disclosure-2', 'disclosure-3', 'switch', FAQ_Q2, FAQ_Q1, 's2-q2-trigger'),
+                    ('edge-4', 'disclosure-3', 'disclosure-1', 'close', FAQ_Q2, None, 's3-q2-trigger'),
+                    ('edge-5', 'disclosure-1', 'disclosure-3', 'open', FAQ_Q2, None, 's1-q2-trigger'),
+                    ('edge-6', 'disclosure-3', 'disclosure-2', 'switch', FAQ_Q1, FAQ_Q2, 's3-q1-trigger'),
+                ],
+            )
+            with self.assertRaisesRegex(ValueError, 'include every disclosure state'):
+                web_design.build_plan(joined_path, 'file', '1:1', root / 'partial-plan.json', ['WEB-faq-1', 'WEB-faq-2'])
+            plan_path = root / 'plan.json'
+            web_design.build_plan(joined_path, 'file', '1:1', plan_path, readback_scope='screens')
+            plan = json.loads(plan_path.read_text())
+            native_edit.validate_plan(plan)
+            self.assertEqual(plan['web_design']['disclosure'], disclosure)
+            bundle = root / 'plugin'
+            prepared = native_edit.prepare(plan_path, bundle)
+            self.assertEqual(prepared['status'], 'prepared-not-executed')
+            for filename in ('source-inputs.json', 'manifest.json', 'native-edit-plan.json', 'code.js', 'ui.html'):
+                self.assertTrue((bundle / filename).is_file())
+            syntax = subprocess.run(['node', '--check', str(bundle / 'code.js')], capture_output=True, text=True)
+            self.assertEqual(syntax.returncode, 0, syntax.stderr)
+            tampered = json.loads(plan_path.read_text())
+            tampered['web_design']['disclosure']['transitions'][2]['autoClosedItem'] = FAQ_Q2
+            with self.assertRaisesRegex(ValueError, 'Web disclosure plan must exactly match'):
+                native_edit.validate_plan(tampered)
+            omitted_screen = json.loads(plan_path.read_text())
+            omitted_screen['web_design']['screens'].pop()
+            with self.assertRaisesRegex(ValueError, 'Web screen plan must include every pinned disclosure state'):
+                native_edit.validate_plan(omitted_screen)
+            (root / 'state.png').write_bytes(PNG_SAMPLE + b'x')
+            with self.assertRaisesRegex(ValueError, 'evidence'):
+                native_edit.validate_plan(json.loads(plan_path.read_text()))
+
+    def test_disclosure_join_and_validation_reject_contract_violations(self):
+        cases = {
+            'open with autoClosedItem': lambda o: o['transitions'][0].update(autoClosedItem=FAQ_Q1),
+            'open from already open state': lambda o: o['transitions'][2].update(action='open', autoClosedItem=None),
+            'open wrong itemLabel': lambda o: o['transitions'][0].update(itemLabel=FAQ_Q2),
+            'close with autoClosedItem': lambda o: o['transitions'][1].update(autoClosedItem=FAQ_Q1),
+            'close wrong itemLabel': lambda o: o['transitions'][1].update(itemLabel=FAQ_Q2),
+            'close into open state': lambda o: o['transitions'][2].update(action='close', autoClosedItem=None),
+            'switch without autoClosedItem': lambda o: o['transitions'][2].update(autoClosedItem=None),
+            'switch wrong autoClosedItem': lambda o: o['transitions'][2].update(autoClosedItem=FAQ_Q3),
+            'switch from closed state': lambda o: o['transitions'][0].update(action='switch', autoClosedItem=FAQ_Q2),
+            'unknown action': lambda o: o['transitions'][0].update(action='toggle'),
+            'closed state with answerSha256': lambda o: o['states'][0].update(answerSha256='c' * 64),
+            'open state missing answerSha256': lambda o: o['states'][1].update(answerSha256=None),
+            'open state bad answerSha256': lambda o: o['states'][1].update(answerSha256='A' * 64),
+            'open state label mismatch': lambda o: o['states'][1].update(label='Different question?'),
+            'undeclared expandedItem': lambda o: o['states'][1].update(expandedItem='Unknown?', label='Unknown?'),
+            'duplicate null expandedItem': lambda o: (
+                o['states'][2].update(label='Closed copy', expandedItem=None, answerSha256=None),
+                o.update(transitions=o['transitions'][:2]),
+            ),
+            'duplicate open expandedItem': lambda o: (
+                o['states'][2].update(label=FAQ_Q1, expandedItem=FAQ_Q1),
+                o.update(transitions=o['transitions'][:2]),
+            ),
+            'duplicate contentSha256': lambda o: o['states'][2].update(contentSha256='2' * 64),
+            'text controlElementId': lambda o: o['transitions'][0].update(controlElementId='s1-q1-label'),
+            'vector controlElementId': lambda o: o['transitions'][0].update(controlElementId='s1-q1-chevron'),
+            'foreign controlElementId': lambda o: o['transitions'][0].update(controlElementId='s2-q1-trigger'),
+            'duplicate (from, controlElementId)': lambda o: o['transitions'][4].update(controlElementId='s1-q1-trigger'),
+            'duplicate (from, itemLabel)': lambda o: (
+                o['transitions'].append({
+                    'from': 'WEB-faq-1', 'to': 'WEB-faq-2', 'input': 'click', 'action': 'open', 'itemLabel': FAQ_Q1,
+                    'autoClosedItem': None, 'controlElementId': 's1-q1-item', 'observed': True,
+                    'evidence': o['transitions'][0]['evidence'],
+                })
+            ),
+            'unreachable state': lambda o: o.update(transitions=o['transitions'][:2]),
+            'self-loop': lambda o: o['transitions'][0].update(to='WEB-faq-1'),
+            'unobserved transition': lambda o: o['transitions'][0].update(observed=False),
+            'non-click input': lambda o: o['transitions'][0].update(input='hover'),
+            'unsupported mode': lambda o: o['disclosure'].update(mode='multiple'),
+            'duplicate items': lambda o: o['disclosure'].update(items=[FAQ_Q1, FAQ_Q1]),
+            'leading underscore frameKey': lambda o: o['disclosure'].update(frameKey='_faq'),
+            'non-ASCII frameKey': lambda o: o['disclosure'].update(frameKey='질문'),
+        }
+        for name, mutate in cases.items():
+            with self.subTest(name), tempfile.TemporaryDirectory() as d:
+                observations = disclosure_observations()
+                mutate(observations)
+                graph_path, observations_path = write_disclosure_inputs(Path(d), observations)
+                with self.assertRaises(ValueError):
+                    web_design.join_disclosure_observations(graph_path, observations_path, Path(d) / 'out.json')
+                self.assertFalse((Path(d) / 'out.json').exists())
+
+        with tempfile.TemporaryDirectory() as d:
+            screens = disclosure_screens()
+            screens['nodes'][0]['elements'][1]['box']['y'] = 860
+            graph_path, observations_path = write_disclosure_inputs(Path(d), screens=screens)
+            with self.assertRaisesRegex(ValueError, 'inside the source state screen'):
+                web_design.join_disclosure_observations(graph_path, observations_path, Path(d) / 'out.json')
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            graph_path, observations_path = write_disclosure_inputs(root)
+            joined_path = root / 'disclosure-graph.json'
+            web_design.join_disclosure_observations(graph_path, observations_path, joined_path)
+            joined = json.loads(joined_path.read_text())
+            for field, target in (('state id', joined['disclosure']['states'][0]),
+                                  ('edge id', joined['disclosure']['transitions'][0])):
+                bad = json.loads(json.dumps(joined))
+                if field == 'state id':
+                    bad['disclosure']['states'][0]['id'] = '상태-1'
+                else:
+                    bad['disclosure']['transitions'][0]['id'] = '전이-1'
+                with self.subTest(field), self.assertRaises(ValueError):
+                    web_design.validate_graph(bad)
+            with self.assertRaisesRegex(ValueError, 'replace an existing canonical interaction'):
+                web_design.join_disclosure_observations(joined_path, observations_path, root / 'again.json')
+            combined = json.loads(json.dumps(joined))
+            combined['tabs'] = {
+                'frameKey': 'tabs', 'source': combined['disclosure']['source'], 'initialState': 'tab-1',
+                'states': [{'id': 'tab-1', 'screenId': 'WEB-faq-1', 'index': 0, 'label': 'A',
+                            'contentSha256': 'a' * 64, 'capture': combined['disclosure']['states'][0]['capture']},
+                           {'id': 'tab-2', 'screenId': 'WEB-faq-2', 'index': 1, 'label': 'B',
+                            'contentSha256': 'b' * 64, 'capture': combined['disclosure']['states'][1]['capture']}],
+                'transitions': [{'id': 'edge-1', 'from': 'tab-1', 'to': 'tab-2', 'trigger': 'click',
+                                 'controlElementId': 's1-q1-trigger', 'observed': True,
+                                 'evidence': combined['disclosure']['transitions'][0]['evidence']}],
+            }
+            with self.assertRaisesRegex(ValueError, 'at most one observed interaction'):
+                web_design.validate_graph(combined)
 
     def test_finite_carousel_compiles_into_exact_pinned_plan(self):
         with tempfile.TemporaryDirectory() as d:

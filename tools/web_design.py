@@ -200,7 +200,7 @@ def validate_graph(graph, require_embedded=False):
         raise ValueError('Invalid canonical graph: ' + '; '.join(errors[:3]))
     if (
         not isinstance(graph, dict)
-        or set(graph) - {'version', 'id', 'title', 'nodes', 'edges', 'carousel', 'tabs'}
+        or set(graph) - {'version', 'id', 'title', 'nodes', 'edges', 'carousel', 'tabs', 'disclosure'}
         or not {'version', 'id', 'title', 'nodes', 'edges'} <= graph.keys()
         or graph.get('version') != 1
         or not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', str(graph.get('id', '')))
@@ -546,12 +546,14 @@ def validate_graph(graph, require_embedded=False):
             path = element.get('path', [])
             if any(frame_id not in frame_ids for frame_id in path) or element['id'] in path:
                 raise ValueError('Element path must name existing ancestor frame IDs')
-    if carousel is not None and graph.get('tabs') is not None:
+    if sum(graph.get(k) is not None for k in ('carousel', 'tabs', 'disclosure')) > 1:
         raise ValueError('A canonical web graph owns at most one observed interaction')
     if carousel is not None:
         validate_carousel(carousel, screens)
     if graph.get('tabs') is not None:
         validate_tabs(graph['tabs'], screens)
+    if 'disclosure' in graph:
+        validate_disclosure(graph['disclosure'], screens)
     validate_image_component_families(screens)
     return screens
 
@@ -705,6 +707,109 @@ def validate_tabs(tabs, screens):
     return tabs
 
 
+def validate_disclosure(disclosure, screens):
+    """Validate single-collapsible disclosure states and observed open, close, and switch clicks."""
+    key = lambda value: isinstance(value, str) and TAB_KEY.fullmatch(value) is not None
+    if (not isinstance(disclosure, dict)
+            or set(disclosure) != {'frameKey', 'mode', 'items', 'source', 'states', 'initialState', 'transitions'}
+            or not key(disclosure['frameKey'])
+            or disclosure['mode'] != 'single-collapsible'):
+        raise ValueError('Disclosure needs a stable frame key, single-collapsible mode, and an observed state contract')
+    items = disclosure['items']
+    if (not isinstance(items, list) or not 2 <= len(items) <= 16
+            or any(not isinstance(item, str) or not item.strip() or len(item) > 160 for item in items)
+            or len(set(items)) != len(items)):
+        raise ValueError('Disclosure requires two to sixteen unique bounded item labels')
+    items_set = set(items)
+    validate_capture_source(disclosure['source'], 'Disclosure')
+    states = disclosure['states']
+    if not isinstance(states, list) or not 2 <= len(states) <= 16:
+        raise ValueError('Disclosure requires two to sixteen observed states')
+    by_screen = {screen['id']: screen for screen in screens}
+    state_screens, states_by_id, contents, expanded_items = {}, {}, set(), set()
+    for index, state in enumerate(states):
+        if (not isinstance(state, dict)
+                or set(state) != {'id', 'screenId', 'index', 'label', 'expandedItem', 'answerSha256', 'contentSha256', 'capture'}
+                or not key(state['id']) or state['id'] in state_screens
+                or type(state['index']) is not int or state['index'] != index
+                or not isinstance(state['screenId'], str)
+                or state['screenId'] not in by_screen or state['screenId'] in state_screens.values()
+                or not isinstance(state['label'], str) or not state['label'].strip() or len(state['label']) > 160
+                or not isinstance(state['contentSha256'], str)
+                or not re.fullmatch(r'[a-f0-9]{64}', state['contentSha256']) or state['contentSha256'] in contents
+                or not _evidence_pin(state['capture'])):
+            raise ValueError('Disclosure states need unique screens, content hashes, labels, and screenshot pins')
+        expanded = state['expandedItem']
+        answer_sha = state['answerSha256']
+        if expanded is None:
+            if answer_sha is not None:
+                raise ValueError('Closed disclosure state cannot carry an expanded answer hash')
+        elif (not isinstance(expanded, str) or expanded not in items_set
+              or state['label'] != expanded
+              or not isinstance(answer_sha, str) or not re.fullmatch(r'[a-f0-9]{64}', answer_sha)):
+            raise ValueError('Expanded disclosure state must match a declared item label and pin its answer hash')
+        if expanded in expanded_items:
+            raise ValueError('Single-collapsible disclosure states cannot repeat an expanded item or closed state')
+        state_screens[state['id']] = state['screenId']
+        states_by_id[state['id']] = state
+        contents.add(state['contentSha256'])
+        expanded_items.add(expanded)
+    if not isinstance(disclosure['initialState'], str) or disclosure['initialState'] not in state_screens:
+        raise ValueError('Disclosure must name its observed initial state')
+    transitions = disclosure['transitions']
+    if not isinstance(transitions, list) or not 1 <= len(transitions) <= 80:
+        raise ValueError('Disclosure needs a bounded list of observed transitions')
+    ids, controls, item_clicks, reached = set(), set(), set(), {disclosure['initialState']}
+    for edge in transitions:
+        if (not isinstance(edge, dict)
+                or set(edge) != {'id', 'from', 'to', 'trigger', 'action', 'itemLabel', 'autoClosedItem', 'controlElementId', 'observed', 'evidence'}
+                or not key(edge['id']) or edge['id'] in ids
+                or not isinstance(edge['from'], str) or not isinstance(edge['to'], str)
+                or edge['from'] not in state_screens or edge['to'] not in state_screens or edge['from'] == edge['to']
+                or edge['trigger'] != 'click' or edge['observed'] is not True or not _evidence_pin(edge['evidence'])
+                or not isinstance(edge['itemLabel'], str) or edge['itemLabel'] not in items_set
+                or not isinstance(edge['controlElementId'], str) or not edge['controlElementId']):
+            raise ValueError('Disclosure transitions must be observed clicks between two different states with screenshot evidence')
+        src_exp = states_by_id[edge['from']]['expandedItem']
+        dst_exp = states_by_id[edge['to']]['expandedItem']
+        action = edge['action']
+        item_label = edge['itemLabel']
+        auto_closed = edge['autoClosedItem']
+        valid_action = (
+            (action == 'open' and src_exp is None and dst_exp == item_label and auto_closed is None)
+            or (action == 'close' and src_exp == item_label and dst_exp is None and auto_closed is None)
+            or (action == 'switch' and src_exp is not None and src_exp != item_label
+                and dst_exp == item_label and isinstance(auto_closed, str) and auto_closed == src_exp)
+        )
+        if not valid_action:
+            raise ValueError('Disclosure transition action and autoClosedItem must match source and destination expanded items')
+        control = (edge['from'], edge['controlElementId'])
+        item_click = (edge['from'], item_label)
+        if control in controls or item_click in item_clicks:
+            raise ValueError('Each disclosure state can have at most one observed transition per trigger control and item')
+        source_screen = by_screen[state_screens[edge['from']]]
+        layout = source_screen['layout']
+        if not any(element['id'] == edge['controlElementId'] and element['kind'] == 'frame'
+                   and element['box']['x'] >= 0 and element['box']['y'] >= 0
+                   and element['box']['width'] > 0 and element['box']['height'] > 0
+                   and element['box']['x'] + element['box']['width'] <= layout['width'] + 1
+                   and element['box']['y'] + element['box']['height'] <= layout['height'] + 1
+                   for element in source_screen['elements']):
+            raise ValueError('Disclosure transitions must start at a captured frame inside the source state screen')
+        ids.add(edge['id'])
+        controls.add(control)
+        item_clicks.add(item_click)
+        reached.add(edge['to'])
+    if reached != set(state_screens):
+        raise ValueError('Every disclosure state must be the initial state or an observed destination')
+    for state in states:
+        layout = by_screen[state['screenId']]['layout']
+        viewport = disclosure['source']['viewport']
+        if layout['height'] != viewport['height'] or not 0 <= viewport['width'] - layout['width'] <= 24:
+            raise ValueError('Captured disclosure screens must match the browser viewport, allowing only a scrollbar gutter')
+    return disclosure
+
+
 def validate_carousel(carousel, screens):
     """Validate a finite, ordered carousel and its explicit deterministic edges."""
     required = {'frameKey', 'states', 'initialState', 'autoplay', 'wrap', 'transitions', 'source'}
@@ -816,7 +921,7 @@ def validate_carousel(carousel, screens):
 
 
 def validate_interaction_evidence(graph_path, graph):
-    interaction = graph.get('carousel') or graph.get('tabs')
+    interaction = graph.get('carousel') or graph.get('tabs') or graph.get('disclosure')
     if interaction is None:
         return
     root = Path(graph_path).resolve().parent
@@ -895,7 +1000,7 @@ def _read_join_inputs(graph_path, observation_path, out_path):
     graph, observations = json.loads(graph_bytes), json.loads(observation_bytes)
     if not isinstance(graph, dict) or not isinstance(observations, dict):
         raise ValueError('Canonical graph and browser observations must be JSON objects')
-    if graph.get('carousel') is not None or graph.get('tabs') is not None:
+    if any(graph.get(key) is not None or key in graph for key in ('carousel', 'tabs', 'disclosure')):
         raise ValueError('Refusing to replace an existing canonical interaction')
     if output.parent != observations_file.parent:
         raise ValueError('Joined graph must stay beside its browser evidence so relative pins remain valid')
@@ -945,6 +1050,74 @@ def join_tab_observations(graph_path, observation_path, out_path):
     graph_sha256 = _write_joined_graph(output, graph)
     return {'graph': str(output), 'state_count': len(screen_ids), 'transition_count': len(transitions),
             'graph_sha256': graph_sha256, 'status': 'compiled-not-applied'}
+
+
+def join_disclosure_observations(graph_path, observation_path, out_path):
+    """Join observed single-collapsible disclosure clicks to an existing captured-screen graph."""
+    graph, observations, output = _read_join_inputs(graph_path, observation_path, out_path)
+    if (set(observations) != {'schemaVersion', 'source', 'disclosure', 'states', 'transitions'}
+            or observations.get('schemaVersion') != 1 or not isinstance(observations.get('disclosure'), dict)
+            or not isinstance(observations.get('states'), list) or not isinstance(observations.get('transitions'), list)):
+        raise ValueError('Versioned browser disclosure observations are required')
+    validate_graph(graph)
+    screen_ids = [state.get('id') if isinstance(state, dict) else None for state in observations['states']]
+    if not 2 <= len(screen_ids) <= 16 or any(not isinstance(item, str) for item in screen_ids) or len(set(screen_ids)) != len(screen_ids):
+        raise ValueError('Browser evidence must contain two to sixteen distinct disclosure states')
+    keys = {screen_id: f'disclosure-{index + 1}' for index, screen_id in enumerate(screen_ids)}
+    measured = observations['disclosure']
+    if set(measured) != {'frameKey', 'mode', 'initialState', 'items'}:
+        raise ValueError('Browser disclosure header must declare frameKey, mode, initialState, and items')
+    if not isinstance(measured.get('initialState'), str) or measured['initialState'] not in keys:
+        raise ValueError('Browser evidence must name its observed initial disclosure state')
+    for state in observations['states']:
+        if set(state) != {'id', 'label', 'expandedItem', 'answerSha256', 'contentSha256', 'capture'}:
+            raise ValueError('Browser disclosure states need exact state, answer, content, and capture fields')
+    transitions = []
+    for index, item in enumerate(observations['transitions']):
+        if (not isinstance(item, dict)
+                or set(item) != {'from', 'to', 'input', 'action', 'itemLabel', 'autoClosedItem', 'controlElementId', 'observed', 'evidence'}
+                or not isinstance(item.get('from'), str) or not isinstance(item.get('to'), str)
+                or item['from'] not in keys or item['to'] not in keys or item.get('input') != 'click'):
+            raise ValueError('Browser disclosure receipts must be clicks between known states')
+        transitions.append({
+            'id': f'edge-{index + 1}',
+            'from': keys[item['from']],
+            'to': keys[item['to']],
+            'trigger': 'click',
+            'action': item.get('action'),
+            'itemLabel': item.get('itemLabel'),
+            'autoClosedItem': item.get('autoClosedItem'),
+            'controlElementId': item.get('controlElementId'),
+            'observed': item.get('observed'),
+            'evidence': item.get('evidence'),
+        })
+    graph['disclosure'] = {
+        'frameKey': measured.get('frameKey'),
+        'mode': measured.get('mode'),
+        'items': measured.get('items'),
+        'source': observations.get('source'),
+        'states': [{
+            'id': keys[state['id']],
+            'screenId': state['id'],
+            'index': index,
+            'label': state.get('label'),
+            'expandedItem': state.get('expandedItem'),
+            'answerSha256': state.get('answerSha256'),
+            'contentSha256': state.get('contentSha256'),
+            'capture': state.get('capture'),
+        } for index, state in enumerate(observations['states'])],
+        'initialState': keys[measured['initialState']],
+        'transitions': transitions,
+    }
+    validate_graph(graph)
+    graph_sha256 = _write_joined_graph(output, graph)
+    return {
+        'graph': str(output),
+        'state_count': len(screen_ids),
+        'transition_count': len(transitions),
+        'graph_sha256': graph_sha256,
+        'status': 'compiled-not-applied',
+    }
 
 
 def join_carousel_observations(graph_path, observation_path, out_path):
@@ -1073,6 +1246,10 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
         if not {state['screenId'] for state in graph['tabs']['states']} <= {screen['id'] for screen in screens}:
             raise ValueError('Selected screens must include every tab state')
         web['tabs'] = json.loads(json.dumps(graph['tabs']))
+    if graph.get('disclosure') is not None:
+        if not {state['screenId'] for state in graph['disclosure']['states']} <= {screen['id'] for screen in screens}:
+            raise ValueError('Selected screens must include every disclosure state')
+        web['disclosure'] = json.loads(json.dumps(graph['disclosure']))
     if readback_scope not in ('page', 'screens'):
         raise ValueError('Unknown web design readback scope')
     if readback_scope == 'screens':
