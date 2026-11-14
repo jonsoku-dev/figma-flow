@@ -44,3 +44,5 @@ G3의 graph-to-web 영속 출력은 [NF-04 SSR adapter와 CSS 내보내기](NF-0
 기존 명령은 저장소에 있는 회귀 검사다. "새 검사 제안"은 아직 구현되지 않은 검사다. 제품 변경에는 각 설계의 독립 인수 조건과 필요한 실제 browser/Figma 관찰을 추가한다. `skills/patch-knowledge/SKILL.md`에 따라 CHANGELOG와 Wiki를 갱신하고 `python3 tools/patch_knowledge.py verify --ref HEAD`를 실행한다. 실패 기반 개선은 수정하지 않은 기준으로 `python3 tools/patch_knowledge_check.py gate <proposal.json> --execute`를 통과해야 한다. 이 gate에는 실제 base/target commit이 필요하다.
 
 이 문서들은 기능 구현, 실제 native 인수, 성능 수치, 클라우드 저장 또는 배포 성공을 주장하지 않는다. 공식 API 문서는 구현 시 다시 읽고, API 존재와 현재 host/runtime에서 사용할 수 있는지는 각각 검증한다.
+
+[웹 스와이퍼·모션·인터랙션의 Design 변환 설계](NF-09-interactive-web-design.md)는 브라우저 상태 그래프, 네이티브 표현과 실제 프로토타입 인수 절차를 제안한다.
