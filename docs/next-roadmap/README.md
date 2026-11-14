@@ -12,7 +12,7 @@
 
 ## 현재 구현과 제안의 경계
 
-Little Hands의 `apps/little-hands/design/source.py`는 실제 캡처를 그래프와 디자인 파일로 변환한다. `reconcile()`은 graph source와 사람이 편집한 값을 비교한다. baseline이 없는 기존 값은 `retained_legacy_edits`에 보존하고, 양쪽에서 같은 필드를 다르게 바꾸면 충돌로 중단한다. `--expected-sha256`는 오래된 graph 입력을 거절한다. 이 동작은 own-mode의 G1 기준 일부다. 기존 `REQS`·`STATES`의 위치 참조를 안정된 의미 ID로 바꾸는 G1 조건과 G0~G5 전체 인수는 별도로 남아 있다.
+Little Hands의 `apps/little-hands/design/source.py`는 실제 캡처를 그래프와 디자인 파일로 변환한다. `reconcile()`은 graph source와 사람이 편집한 값을 비교한다. baseline이 없는 기존 값은 `retained_legacy_edits`에 보존하고, 양쪽에서 같은 필드를 다르게 바꾸면 충돌로 중단한다. `--expected-sha256`는 오래된 graph 입력을 거절한다. `v0.34.0` 이후 `main`에 통합된 G1 소스 재생성 변경(`0.35.0` 배포 버전 연결)은 `REQS`·`STATES`의 명시적 ID 이관과 채택된 토큰·직접 작성 관계 보존, 차단된 CSS epoch와 재시도에 걸친 `retained_without_source` 고아 후보 유지를 구현했다. G0~G5 전체 직군 인수는 별도로 남아 있다.
 
 `share_control_styles()`는 기존 492개 컨트롤 선언을 12개 profile 계열의 desktop/mobile main 선언 24개로 공유한다. 이는 현재 authored declaration 재사용이다. 입력·선택·표 계열의 완전한 native property 지원은 [NF-01](NF-01-component-families.md) 제안이다. main/instance 실제 getter의 결과는 별도 인수 근거로 다룬다.
 
@@ -24,7 +24,7 @@ own-mode는 Figma Flow를 설계·구현·검증에 직접 쓰는 흐름이다. 
 
 | 순서 | 작업 | 사용 결과와 완료 방향 | 기존 계약과 새 문서 |
 | --- | --- | --- | --- |
-| 0 | G0~G5 own-mode | 작은손의 기준값·원문·캡처·검증을 고정하고, 정책 변경 리뷰·영속 웹 출력·Starter native round trip·오프라인 인계까지 실제 한 건으로 입증한다. | G0~G5 전체는 PROPOSED다. G1의 일부 source merge 구현은 끝났지만 안정 ID 이관과 role acceptance는 남아 있다. [Starter Role 기능 계약](../STARTER_ROLE_FEATURE_SPEC.md) |
+| 0 | G0~G5 own-mode | 작은손의 기준값·원문·캡처·검증을 고정하고, 정책 변경 리뷰·영속 웹 출력·Starter native round trip·오프라인 인계까지 실제 한 건으로 입증한다. | G1 소스 재생성(안정 ID 이관, 토큰 보존, 차단·재시도 간 `retained_without_source` 고아 후보 유지)은 `v0.34.0` 이후 `main`에 통합되어 `0.35.0` 배포 대상에 연결된다. G0~G5 전체 직군 인수는 별도다. [Starter Role 기능 계약](../STARTER_ROLE_FEATURE_SPEC.md) |
 | 1 | Native read와 기존 코드에 맞춘 디자인 구현 | 현재 Figma 파일의 정확한 node·component·variable 읽기를 실제 프로젝트의 기존 코드 구조와 대조한다. 확인된 component와 상태를 재사용하고, 읽기·생성·검증 결과를 각각 표시한다. | [기능 경로와 readback 제한](../../skills/figma-flow/references/figma-feature-routes.md), [가이드의 native 작업](../guide.md), RD-06/08. 새 일반 SDK scaffold는 이미 지원되는 design context 작업을 대신하지 않는다. |
 | 2 | Web import | 실제 브라우저 capture를 제한된 source DTO로 바꾸고, review 뒤 기존 graph와 native importer 경로로 들여온다. SSR/CSS 출력인 G3와 방향이 반대인 입력 경로다. | [NF-07 web import와 editor capability](NF-07-web-import-editor-capabilities.md#web-import) |
 | 3 | Component families | Field/Input/Checkbox/Radio/Table 계열을 명시한 TEXT·BOOLEAN·INSTANCE_SWAP 선언과 실측 override 보존으로 편집한다. | [NF-01](NF-01-component-families.md) |
@@ -45,4 +45,4 @@ G3의 graph-to-web 영속 출력은 [NF-04 SSR adapter와 CSS 내보내기](NF-0
 
 이 문서들은 기능 구현, 실제 native 인수, 성능 수치, 클라우드 저장 또는 배포 성공을 주장하지 않는다. 공식 API 문서는 구현 시 다시 읽고, API 존재와 현재 host/runtime에서 사용할 수 있는지는 각각 검증한다.
 
-[웹 스와이퍼·모션·인터랙션의 Design 변환 설계](NF-09-interactive-web-design.md)는 브라우저 상태 그래프, 네이티브 표현과 실제 프로토타입 인수 절차를 제안한다. 캐러셀(0.33.0)과 탭 A→B→A(0.34.0)는 실제 Figma 재생까지 인수했다.
+[웹 스와이퍼·모션·인터랙션의 Design 변환 설계](NF-09-interactive-web-design.md)는 브라우저 상태 그래프, 네이티브 표현과 실제 프로토타입 인수 절차를 제안한다. 캐러셀(0.33.0)과 탭 A→B→A(0.34.0)는 실제 Figma 재생까지 인수했고, 0.35.0 후보의 단일 열림 SaaS FAQ 아코디언(5개 중 2개 질문, 7번 브라우저 입력 → 3개 상태·6방향 전이)은 이전 후보(`e92b3ad`)에서 Figma 재생 도달을 확인했으며 `initialState` directed traversal 도달성 수정(`066830a`·`43a8b1b`)의 최종 게이트·설치 검증은 별도 절차로 확인한다.
