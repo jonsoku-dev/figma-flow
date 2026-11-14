@@ -118,8 +118,10 @@ function createHarness() {
   let next = 1;
   let failDiscovery = false;
   let beforeDiscovery = null;
+  let ensureOverride = null;
   let ensureCalls = 0;
   let readCalls = 0;
+  let removeCalls = 0;
   const objects = new Map();
 
   class Node {
@@ -143,6 +145,7 @@ function createHarness() {
       this.children.push(child);
     }
     remove() {
+      removeCalls += 1;
       if (this.parent) {
         const idx = this.parent.children.indexOf(this);
         if (idx >= 0) this.parent.children.splice(idx, 1);
@@ -204,6 +207,11 @@ function createHarness() {
 
   async function ensureSemanticComponents(_figma, targetPage, contract) {
     ensureCalls += 1;
+    if (ensureOverride) {
+      const fn = ensureOverride;
+      ensureOverride = null;
+      return fn(_figma, targetPage, contract);
+    }
     let wb = targetPage.findAll(n => n.getPluginData('semanticKey') === contract.workbench.frameKey)[0] || null;
     if (wb) {
       const sets = wb.findAll(n => n.type === 'COMPONENT_SET');
@@ -431,8 +439,10 @@ function createHarness() {
     plan,
     get ensureCalls() { return ensureCalls; },
     get readCalls() { return readCalls; },
+    get removeCalls() { return removeCalls; },
     failGetter() { failDiscovery = true; },
     onBeforeDiscovery(fn) { beforeDiscovery = fn; },
+    onEnsure(fn) { ensureOverride = fn; },
     run(p = plan, op = 'apply') { return context.nativeProvisionRun(figma, p, op); },
   };
 }
@@ -529,38 +539,107 @@ test('rejects scope mismatch, leaked local paths, sibling drift, overlapping add
   assert.equal(collision.ensureCalls, 0);
 });
 
-test('rolls back newly created owned workbench on failed getter, but retains it when manual child added or workbench pre-existed', async () => {
-  const cleanFail = createHarness();
-  cleanFail.failGetter();
-  await assert.rejects(
-    () => cleanFail.run(),
-    err => {
-      assert.equal(err.native_rollback, 'created component families workbench removed after failed getter');
-      return true;
-    },
-  );
-  assert.equal(cleanFail.page.children.length, 1);
-  assert.equal(cleanFail.page.children[0], cleanFail.sibling);
-
-  const manualChildFail = createHarness();
-  manualChildFail.failGetter();
-  manualChildFail.onBeforeDiscovery(() => {
-    const wb = manualChildFail.page.children.find(n => n.getPluginData('semanticKey') === 'nf01.component-families/workbench');
-    const userNote = new manualChildFail.Node('FRAME', 'Manual note');
-    wb.appendChild(userNote);
+test('skips duplicate wrapper compensation on apply failure and conservatively classifies rolled-back, partial, and unknown outcomes', async () => {
+  // 1) Core throws `rollback incomplete` even with zero visible residual owned nodes (exact live failure pattern) -> unknown, zero wrapper remove()
+  const incNoResidual = createHarness();
+  incNoResidual.onEnsure(() => {
+    throw Error('Native component property declaration was not retained for nf01.component-families/set:table-row.secondCell; rollback incomplete: Error: in remove: Removing this node is not allowed');
   });
   await assert.rejects(
-    () => manualChildFail.run(),
+    () => incNoResidual.run(),
     err => {
+      assert.equal(err.readback.schema, 'figma-flow-native-edit-receipt-v1');
+      assert.equal(err.readback.status, 'unknown');
+      assert.equal(err.readback.mutation_state, 'unknown');
+      assert.equal(err.readback.native_edit.applied, null);
+      assert.equal(err.readback.native_edit.wrapper_compensated, false);
+      assert.equal(err.readback.native_edit.internal_rollback_incomplete, true);
       assert.equal(err.rollback_conflicts.length, 1);
+      assert.equal(err.rollback_conflicts[0].kind, 'internal-rollback-incomplete');
       return true;
     },
   );
-  assert.equal(manualChildFail.page.children.length, 2);
+  assert.equal(incNoResidual.removeCalls, 0);
+  assert.equal(incNoResidual.page.children.length, 1);
 
-  const repeatFail = createHarness();
-  await repeatFail.run();
-  repeatFail.failGetter();
-  await assert.rejects(() => repeatFail.run(), /getter failure/);
-  assert.equal(repeatFail.page.children.length, 2);
+  // 2) Core throws and leaves residual owned workbench/nodes on page -> partial, retained untouched (zero wrapper remove())
+  const partialLeftover = createHarness();
+  partialLeftover.onEnsure((_f, targetPage, contract) => {
+    const wb = new partialLeftover.Node('FRAME', contract.workbench.name);
+    wb.setPluginData('semanticKey', contract.workbench.frameKey);
+    targetPage.appendChild(wb);
+    throw Error('Partial creation aborted; rollback incomplete: Error: in remove: Removing this node is not allowed');
+  });
+  await assert.rejects(
+    () => partialLeftover.run(),
+    err => {
+      assert.equal(err.readback.status, 'partial');
+      assert.equal(err.readback.mutation_state, 'partial');
+      assert.equal(err.readback.native_edit.applied, null);
+      assert.equal(err.readback.native_edit.wrapper_compensated, false);
+      assert.equal(err.readback.native_edit.observed_post_failure.workbench_present, true);
+      assert.equal(err.readback.native_edit.observed_post_failure.residual_owned_node_count, 1);
+      assert.equal(err.rollback_conflicts[0].kind, 'partial-owned-nodes-retained');
+      return true;
+    },
+  );
+  assert.equal(partialLeftover.removeCalls, 0);
+  assert.equal(partialLeftover.page.children.length, 2);
+
+  // 3) Core throws cleanly on fresh page with zero residual owned nodes and intact page_roots -> rolled-back, zero wrapper remove()
+  const cleanCoreRollback = createHarness();
+  cleanCoreRollback.onEnsure(() => {
+    throw Error('Preflight inside core semantic runtime rejected contract');
+  });
+  await assert.rejects(
+    () => cleanCoreRollback.run(),
+    err => {
+      assert.equal(err.readback.status, 'rolled-back');
+      assert.equal(err.readback.mutation_state, 'rolled-back');
+      assert.equal(err.readback.native_edit.applied, false);
+      assert.equal(err.readback.native_edit.wrapper_compensated, false);
+      assert.equal(err.rollback_conflicts.length, 0);
+      return true;
+    },
+  );
+  assert.equal(cleanCoreRollback.removeCalls, 0);
+
+  // 4) Core completes creation, then post-apply discovery getter fails -> partial, created tree retained untouched (zero wrapper remove())
+  const postApplyGetterFail = createHarness();
+  postApplyGetterFail.failGetter();
+  await assert.rejects(
+    () => postApplyGetterFail.run(),
+    err => {
+      assert.equal(err.readback.status, 'partial');
+      assert.equal(err.readback.mutation_state, 'partial');
+      assert.equal(err.readback.native_edit.applied, null);
+      assert.equal(err.readback.native_edit.core_completed, true);
+      assert.equal(err.readback.native_edit.wrapper_compensated, false);
+      assert.equal(err.rollback_conflicts[0].kind, 'post-apply-readback-failed');
+      return true;
+    },
+  );
+  assert.equal(postApplyGetterFail.removeCalls, 0);
+  assert.equal(postApplyGetterFail.page.children.length, 2);
+
+  // 5) Repeat apply on pre-existing workbench fails inside core -> unknown, existing workbench retained untouched (zero wrapper remove())
+  const repeatCoreFail = createHarness();
+  await repeatCoreFail.run();
+  assert.equal(repeatCoreFail.removeCalls, 0);
+  repeatCoreFail.onEnsure(() => {
+    throw Error('CAS conflict on existing workbench');
+  });
+  await assert.rejects(
+    () => repeatCoreFail.run(),
+    err => {
+      assert.equal(err.readback.status, 'unknown');
+      assert.equal(err.readback.mutation_state, 'unknown');
+      assert.equal(err.readback.native_edit.applied, null);
+      assert.equal(err.readback.native_edit.wrapper_compensated, false);
+      assert.equal(err.rollback_conflicts[0].kind, 'repeat-apply-outcome-uncertain');
+      return true;
+    },
+  );
+  assert.equal(repeatCoreFail.removeCalls, 0);
+  assert.equal(repeatCoreFail.page.children.length, 2);
 });

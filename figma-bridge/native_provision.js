@@ -161,20 +161,7 @@ function nativeFamilyCollisionCheck(page, contract, existingFrame) {
   const ownedIds = existingFrame
     ? new Set([existingFrame.id, ...existingFrame.findAll(() => true).map(node => node.id)])
     : new Set();
-  const reserved = new Set([
-    contract.workbench.frameKey,
-    contract.workbench.libraryKey,
-    contract.workbench.instancesFrameKey,
-  ]);
-  for (const cs of contract.componentSets) {
-    reserved.add(cs.id);
-    reserved.add('component.' + cs.id);
-    for (const v of cs.variants || []) {
-      reserved.add(v.key);
-      reserved.add('component.' + v.key);
-    }
-  }
-  for (const inst of contract.instances) reserved.add(inst.key);
+  const reserved = nativeFamilyReservedKeys(contract);
   const ownerPrefix = contract.ownerKey + '/';
   const compOwnerPrefix = 'component.' + ownerPrefix;
   for (const node of page.findAll(() => true)) {
@@ -223,29 +210,184 @@ function nativeFamilyEnrichDiscovery(page, readback, familyPayload) {
   }
 }
 
-function nativeFamilySubtreeOwned(wbFrame, ownerKey) {
-  if (!wbFrame || nativeProvisionSemantic(wbFrame) !== ownerKey + '/workbench') return false;
-  const ownerPrefix = ownerKey + '/';
-  const compOwnerPrefix = 'component.' + ownerPrefix;
-  const nodeOwnedDirectly = node => {
-    const sk = nativeProvisionSemantic(node);
-    if (sk && (sk.startsWith(ownerPrefix) || sk.startsWith(compOwnerPrefix))) return true;
-    return Boolean(node.getPluginData?.('figmaFlow') || node.getPluginData?.('figmaFlowFamilyWorkbench'));
-  };
-  for (const node of wbFrame.findAll(() => true)) {
-    if (nodeOwnedDirectly(node)) continue;
-    let cur = node.parent;
-    let insideOwnedContainer = false;
-    while (cur && cur !== wbFrame) {
-      if ((cur.type === 'COMPONENT' || cur.type === 'COMPONENT_SET' || cur.type === 'INSTANCE') && nodeOwnedDirectly(cur)) {
-        insideOwnedContainer = true;
-        break;
-      }
-      cur = cur.parent;
+function nativeFamilyReservedKeys(contract) {
+  const reserved = new Set([
+    contract.workbench.frameKey,
+    contract.workbench.libraryKey,
+    contract.workbench.instancesFrameKey,
+  ]);
+  for (const cs of contract.componentSets) {
+    reserved.add(cs.id);
+    reserved.add('component.' + cs.id);
+    for (const v of cs.variants || []) {
+      reserved.add(v.key);
+      reserved.add('component.' + v.key);
     }
-    if (!insideOwnedContainer) return false;
   }
-  return true;
+  for (const inst of contract.instances) reserved.add(inst.key);
+  return reserved;
+}
+
+function nativeFamilyObservePostFailure(figma, page, plan, contract) {
+  try {
+    if (figma?.fileKey !== plan.file_key || figma?.currentPage?.id !== plan.page_id || page?.id !== plan.page_id) {
+      return {
+        inspectable: false,
+        workbench_present: null,
+        workbench_frame_ids: [],
+        residual_owned_node_count: null,
+        page_roots_unchanged: null,
+      };
+    }
+    const reserved = nativeFamilyReservedKeys(contract);
+    const ownerPrefix = contract.ownerKey + '/';
+    const compOwnerPrefix = 'component.' + ownerPrefix;
+    const workbenchFrames = [];
+    let residualCount = 0;
+    for (const node of page.findAll(() => true)) {
+      const sk = nativeProvisionSemantic(node);
+      let wbMarker = null;
+      const rawWb = node.getPluginData?.('figmaFlowFamilyWorkbench') || '';
+      if (rawWb) {
+        try { wbMarker = JSON.parse(rawWb); } catch (_) { wbMarker = { ownerKey: contract.ownerKey }; }
+      }
+      let instMarker = null;
+      const rawInst = node.getPluginData?.('figmaFlowFamilyInstance') || '';
+      if (rawInst) {
+        try { instMarker = JSON.parse(rawInst); } catch (_) { instMarker = { key: ownerPrefix }; }
+      }
+      const isWb = sk === contract.workbench.frameKey || wbMarker?.ownerKey === contract.ownerKey;
+      if (isWb) workbenchFrames.push(node.id);
+      const isOwned = isWb ||
+        Boolean(sk && (reserved.has(sk) || sk.startsWith(ownerPrefix) || sk.startsWith(compOwnerPrefix))) ||
+        Boolean(instMarker?.key && String(instMarker.key).startsWith(ownerPrefix));
+      if (isOwned) residualCount += 1;
+    }
+    const wbIdSet = new Set(workbenchFrames);
+    const nonWbRoots = nativeProvisionRows(page).filter(row => !wbIdSet.has(row.id));
+    const expectedRoots = plan.provision.page_roots;
+    const pageRootsUnchanged = nonWbRoots.length === expectedRoots.length &&
+      expectedRoots.every((expected, idx) => nativeEditEqual(nonWbRoots[idx], expected));
+    return {
+      inspectable: true,
+      workbench_present: workbenchFrames.length > 0,
+      workbench_frame_ids: workbenchFrames,
+      residual_owned_node_count: residualCount,
+      page_roots_unchanged: pageRootsUnchanged,
+    };
+  } catch (_) {
+    return {
+      inspectable: false,
+      workbench_present: null,
+      workbench_frame_ids: [],
+      residual_owned_node_count: null,
+      page_roots_unchanged: null,
+    };
+  }
+}
+
+function nativeFamilyAttachFailureReceipt(error, figma, page, plan, contract, state) {
+  const messageText = String(error?.message || error);
+  const existingCoreConflicts = Array.isArray(error?.rollback_conflicts) ? [...error.rollback_conflicts] : [];
+  const internalRollbackIncomplete = /rollback incomplete/i.test(messageText) || existingCoreConflicts.length > 0;
+  const obs = nativeFamilyObservePostFailure(figma, page, plan, contract);
+
+  let mutationState;
+  let status;
+  let applied;
+  const conflicts = [...existingCoreConflicts];
+
+  if (!state.coreStarted) {
+    mutationState = 'none';
+    status = 'failed';
+    applied = false;
+  } else if (!obs.inspectable) {
+    mutationState = 'unknown';
+    status = 'unknown';
+    applied = null;
+    conflicts.push({
+      kind: 'post-failure-uninspectable',
+      owner_key: contract.ownerKey,
+      reason: 'Post-failure page state could not be verified in scope; wrapper skipped duplicate compensation',
+    });
+  } else if (state.coreCompleted) {
+    mutationState = state.applyResult?.status === 'unchanged' && obs.page_roots_unchanged ? 'unknown' : 'partial';
+    status = mutationState;
+    applied = null;
+    conflicts.push({
+      kind: 'post-apply-readback-failed',
+      owner_key: contract.ownerKey,
+      core_status: state.applyResult?.status || null,
+      workbench_present: obs.workbench_present,
+      residual_owned_node_count: obs.residual_owned_node_count,
+      reason: 'Core semantic apply returned before post-apply readback failed; wrapper skipped compensation and retained tree',
+    });
+  } else if (state.existingFrame) {
+    mutationState = internalRollbackIncomplete ? 'partial' : 'unknown';
+    status = mutationState;
+    applied = null;
+    conflicts.push({
+      kind: internalRollbackIncomplete ? 'internal-rollback-incomplete' : 'repeat-apply-outcome-uncertain',
+      owner_key: contract.ownerKey,
+      workbench_present: obs.workbench_present,
+      residual_owned_node_count: obs.residual_owned_node_count,
+      reason: internalRollbackIncomplete
+        ? 'Core semantic runtime reported incomplete internal rollback on existing workbench; wrapper skipped duplicate compensation'
+        : 'Core semantic runtime failed during repeat apply on existing workbench; wrapper skipped duplicate compensation',
+    });
+  } else if (obs.residual_owned_node_count > 0 || !obs.page_roots_unchanged) {
+    mutationState = 'partial';
+    status = 'partial';
+    applied = null;
+    conflicts.push({
+      kind: 'partial-owned-nodes-retained',
+      owner_key: contract.ownerKey,
+      workbench_present: obs.workbench_present,
+      residual_owned_node_count: obs.residual_owned_node_count,
+      page_roots_unchanged: obs.page_roots_unchanged,
+      internal_rollback_incomplete: internalRollbackIncomplete,
+      reason: 'Residual owned nodes or page root drift observed after core semantic apply failure; wrapper skipped duplicate compensation',
+    });
+  } else if (internalRollbackIncomplete) {
+    mutationState = 'unknown';
+    status = 'unknown';
+    applied = null;
+    conflicts.push({
+      kind: 'internal-rollback-incomplete',
+      owner_key: contract.ownerKey,
+      workbench_present: false,
+      residual_owned_node_count: 0,
+      page_roots_unchanged: true,
+      reason: 'Core semantic runtime reported incomplete internal rollback; wrapper skipped duplicate compensation and classified state as unknown',
+    });
+  } else {
+    mutationState = 'rolled-back';
+    status = 'rolled-back';
+    applied = false;
+  }
+
+  error.rollback_conflicts = conflicts;
+  error.readback = {
+    schema: 'figma-flow-native-edit-receipt-v1',
+    status,
+    mutation_state: mutationState,
+    fileKey: figma?.fileKey || null,
+    pageId: figma?.currentPage?.id || null,
+    error: messageText,
+    rollback_conflicts: conflicts,
+    native_edit: {
+      plan_sha256: NATIVE_EDIT_SHA256,
+      operation: 'apply',
+      applied,
+      mutation_state: mutationState,
+      wrapper_compensated: false,
+      core_started: state.coreStarted,
+      core_completed: state.coreCompleted,
+      internal_rollback_incomplete: internalRollbackIncomplete,
+      observed_post_failure: obs,
+    },
+  };
+  return error;
 }
 
 async function nativeFamilyProvisionRun(figma, plan, operation = 'apply') {
@@ -287,14 +429,23 @@ async function nativeFamilyProvisionRun(figma, plan, operation = 'apply') {
   if (typeof ensureSemanticComponents !== 'function')
     throw Error('Core ensureSemanticComponents helper is unavailable');
 
-  const applyResult = await ensureSemanticComponents(figma, page, contract);
-  nativeEditScope(figma, plan);
-  const actualFrames = page.findAll(node => nativeProvisionSemantic(node) === contract.workbench.frameKey);
-  if (actualFrames.length !== 1 || actualFrames[0].parent !== page)
-    throw Error('Component families workbench postcondition failed; created nodes were retained for review');
-  const wbFrame = actualFrames[0];
-
+  const execState = {
+    existingFrame,
+    coreStarted: false,
+    coreCompleted: false,
+    applyResult: null,
+  };
   try {
+    execState.coreStarted = true;
+    const applyResult = await ensureSemanticComponents(figma, page, contract);
+    execState.coreCompleted = true;
+    execState.applyResult = applyResult;
+
+    nativeEditScope(figma, plan);
+    const actualFrames = page.findAll(node => nativeProvisionSemantic(node) === contract.workbench.frameKey);
+    if (actualFrames.length !== 1 || actualFrames[0].parent !== page)
+      throw Error('Component families workbench postcondition failed; created nodes were retained for review');
+
     const familyReadback = typeof readSemanticComponentFamilies === 'function'
       ? await readSemanticComponentFamilies(figma, page, contract)
       : null;
@@ -322,24 +473,8 @@ async function nativeFamilyProvisionRun(figma, plan, operation = 'apply') {
       },
     };
   } catch (error) {
-    if (!existingFrame) {
-      let safe = false;
-      try {
-        const originalIds = new Set(plan.provision.page_roots.map(row => row.id));
-        const currentRoots = nativeProvisionRows(page);
-        const extras = currentRoots.filter(row => !originalIds.has(row.id));
-        safe = figma.fileKey === plan.file_key && figma.currentPage.id === plan.page_id &&
-          wbFrame.parent === page && extras.length === 1 && extras[0].id === wbFrame.id &&
-          nativeFamilySubtreeOwned(wbFrame, contract.ownerKey);
-      } catch (_) { safe = false; }
-      if (safe) {
-        try { wbFrame.remove(); } catch (_) {}
-        error.native_rollback = 'created component families workbench removed after failed getter';
-      } else {
-        error.rollback_conflicts = ['Created component families workbench retained because exact ownership or unchanged children could not be confirmed'];
-      }
-    }
-    throw error;
+    // Never perform duplicate wrapper compensation: ensureSemanticComponents owns internal rollback.
+    throw nativeFamilyAttachFailureReceipt(error, figma, page, plan, contract, execState);
   }
 }
 
