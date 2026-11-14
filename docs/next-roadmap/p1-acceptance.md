@@ -92,12 +92,16 @@
      - Top-level and main/instance IDs remained stable (`full_node_ids_stable_after_manual_swap = true`); deliberately swapping the nested `INSTANCE_SWAP` control replaced only the `3` inner swapped child IDs inside that manually swapped instance (`ids_changed_only_inside_manually_swapped_instance = 3`, expected swap semantics).
      - The remaining `7` sibling instances (`unchanged_other_instances = 7`) and the pre-existing `MAIN` component (`radius = 16`, `own_original_component_unchanged = true`) stayed unchanged.
    - The private inspector screenshot remains excluded from Git history.
+3. **Owned Example Browser Accessibility Verification (`examples/owned-component-families/`, local loopback):**
+   - Verified on the live rendered owned-example page (`external_requests = 0`, `console_or_page_errors = 0`; raw URL, personal paths, and sample person names redacted):
+     - Form & sibling state: clicking `<label>` focused the participant input, checkbox toggle succeeded, radio sibling selection stayed isolated, disabled field remained non-editable, and undeclared action state stayed preserved.
+     - Keyboard & table semantics: `ArrowUp` switched the selected radio option and `Enter` selected the second table row cleanly in submit state; semantic table `caption`, `2` column `<th>` headers, `2` row headers, and conditional cell `hidden` / `aria-hidden` states matched.
 
 ### Scope Boundaries & Unobserved Claims
 
 - Legacy `metadata` fields and separate three-family duplicated helper paths outside the NF-01 six-family workbench remain unchanged and out of scope; this receipt claims only the verified NF-01 six-family compiler, importer/workbench, provision CLI, and rollback guarantees.
 - **Prior ENOSPC Failure Preserved, Isolated Gate Retry & CI Skip Boundaries:** An earlier formal improvement gate run failed on host disk exhaustion (`No space left on device`, preserved in local evidence logs); the subsequent isolated formal gate retry passed cleanly on `tools/figma_bridge.py` (`f88643b` -> `e6f4fd8`, frozen `tests/test_bridge_declared_property_compare.py`, `rc = 1` with `2` `Lists differ` failures -> `rc = 0` with `3/3` tests passing). On `e6f4fd8`, the full CI workflow (run `43599181267`) succeeded cleanly with `3` private/optional fixture skips (`2` in `unittest` for `regression layout not present` and `Optional operator evidence not supplied`, plus `1` in `node --test` for `Saved project evidence not present in isolated plugin checkout`); all P1 focused tests executed without skips.
-- Official Figma MCP was not used, cloud sync is not guaranteed, and separate browser DOM accessibility correspondence for `examples/owned-component-families/` is not claimed as live-observed in this receipt unless separately recorded.
+- Official Figma MCP was not used and cloud sync is not guaranteed; browser DOM accessibility correspondence is verified within the local loopback `examples/owned-component-families/` scope above and does not claim broader external browser coverage.
 - Static API coverage baseline counts (`664` `no-static-reference`, `70` `qualified-static-reference`, `648` `unresolved-receiver-name-reference` across `1,382` members) reflect AST source occurrences only and keep all `implementation` and `runtime_acceptance` fields `unverified`.
 
 ### Automated Repository Verification (NF-01 & Recipe/API Sync on `e6f4fd8`)

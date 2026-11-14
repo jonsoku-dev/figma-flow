@@ -293,7 +293,16 @@
             "nf03_probe_negative_http_403_404_409": "all_passed"
           }
         },
-        "legacy_and_unobserved_scope": "Legacy metadata and three-family duplicated helper paths outside NF-01 six-family workbench scope remain untouched; browser accessibility correspondence and static AST coverage counts are not claimed as live NF-01 execution proof; an earlier Python formal gate attempt hit host disk exhaustion (No space left on device; failure log preserved) before the subsequent isolated formal gate retry passed on e6f4fd8. Full CI run 43599181267 on e6f4fd8 passed with 3 environment-gated skips (missing private regression layout, optional operator native evidence, and isolated-checkout saved project packet absent); all P1 focused tests ran with zero skips.",
+        "owned_example_browser_verification": {
+          "scope": "examples/owned-component-families/ local loopback page (external URL and raw names redacted)",
+          "label_focus_and_checkbox_and_radio_sibling_ok": true,
+          "disabled_field_and_undeclared_action_preserved": true,
+          "keyboard_radio_arrow_up_and_table_enter_ok": true,
+          "table_caption_and_th_headers_and_hidden_state_ok": true,
+          "external_requests": 0,
+          "console_or_page_errors": 0
+        },
+        "legacy_and_unobserved_scope": "Legacy metadata and three-family duplicated helper paths outside NF-01 six-family workbench scope remain untouched; browser accessibility correspondence is verified for the owned local loopback example (examples/owned-component-families/) only, while external sites, official Figma MCP, and static AST coverage counts remain outside live NF-01 execution claims. An earlier Python formal gate attempt hit host disk exhaustion (No space left on device; failure log preserved) before the subsequent isolated formal gate retry passed on e6f4fd8. Full CI run 43599181267 on e6f4fd8 passed with 3 environment-gated skips (missing private regression layout, optional operator native evidence, and isolated-checkout saved project packet absent); all P1 focused tests ran with zero skips.",
         "automated_checks": {
           "node_nf01_and_provision_and_repair_passed": 27,
           "python_nf01_readback_comparator_passed": 24,
