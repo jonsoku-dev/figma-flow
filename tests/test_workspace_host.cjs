@@ -355,6 +355,23 @@ test('tab hotspots and carousel click controls both become navigation edges in t
   assert.deepEqual(JSON.parse(JSON.stringify(carousel.edges)),[{from:'s1',to:'s2',trigger:'ON_CLICK',destination_id:'node-2',edge_id:'next-1'}]);
 });
 
+test('a tabs readback observed during a run is stored on that run for the plugin home',()=>{
+  const h=harness(false,{page:{id:'1:2',type:'PAGE'}});
+  const current={task:{key:'tabs-task',revision:'r1',fileKey:'file-a',pageId:'1:2'},executionId:'exec-tabs',operation:'read'};
+  h.context.workspaceObserve(current,{readback:{schema:'figma-flow-web-screen-discovery-v1',readback_scope:'screens',
+    fileKey:'file-a',pageId:'1:2',graph_sha256:'c'.repeat(64),nodes:[{}],web_design:{graph_id:'devtool-tabs',graph_sha256:'c'.repeat(64),
+      tabs:{frame_key:'devtool-examples',status:'current',initial_state:'tab-1',flow_start_node_id:'node-1',states:[
+        {state_id:'tab-1',screen_id:'WEB-1',frame_id:'node-1',title:'Single Queue Pipeline',status:'current',reactions:[],controls:[],
+          hotspots:[{edge_id:'edge-1',input:'click',trigger:'ON_CLICK',destination_id:'node-2',boundary:false,status:'current'}]},
+        {state_id:'tab-2',screen_id:'WEB-2',frame_id:'node-2',title:'Parallel Worker Handshake',status:'current',reactions:[],controls:[],
+          hotspots:[{edge_id:'edge-2',input:'click',trigger:'ON_CLICK',destination_id:'node-1',boundary:false,status:'current'}]}]}}}});
+  const stored=JSON.parse(vm.runInContext('JSON.stringify(workspaceState.history)',h.context));
+  const event=stored.find(row=>row.taskKey==='tabs-task'&&row.executionId==='exec-tabs');
+  assert.equal(event?.carousel?.frame_key,'devtool-examples');
+  assert.deepEqual(event.carousel.states.map(state=>state.title),['Single Queue Pipeline','Parallel Worker Handshake']);
+  assert.equal(event.carousel.edges.length,2);
+});
+
 test('carousel start selection requires the current task readback and exact native frame',async()=>{
   const page={id:'1:2',type:'PAGE',flowStartingPoints:[{nodeId:'1:3',name:'Carousel'}],async loadAsync(){}};
   const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};

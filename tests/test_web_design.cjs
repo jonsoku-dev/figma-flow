@@ -204,6 +204,10 @@ test('graph carousel imports directional editable swipe targets and timeout loop
   assert.equal(first.reactions[0].trigger.type, 'AFTER_TIMEOUT');
   assert.equal(first.reactions[0].trigger.timeout, 3.2);
   assert.equal(result.receipt.carousel.states[0].hotspots.length, 2);
+  // Frames applied by 0.33 carry these literal keys; renaming them would read every existing carousel as changed.
+  assert.deepEqual([first.getPluginData('figmaFlowCarouselKey'), first.getPluginData('figmaFlowCarouselState'),
+    left.getPluginData('figma-flow-carousel-hotspot'), left.getPluginData('figma-flow-carousel-side')],
+    ['hero-carousel', 'slide-1', 'hero-carousel/slide-1/swipe-left', 'left']);
   assert.ok(state.page.flowStartingPoints.some(start => start.nodeId === first.id));
   const before = first.children.length;
   const repeated = await state.apply(packet);
