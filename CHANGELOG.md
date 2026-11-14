@@ -2,6 +2,9 @@
 
 ## 미배포
 
+- NF-01 컴포넌트 계열: 정본 6패밀리를 Figma 컴포넌트 세트·변형·`TEXT`/`BOOLEAN`/`INSTANCE_SWAP` 속성으로 가산 적용하고 다시 읽어 대조합니다. 실기에서 `6`세트·`19`변형·`8`인스턴스를 만들었고, 수동 편집과 이동이 반복 적용 뒤에도 남았으며 기존 컴포넌트는 바뀌지 않았습니다. 첫 적용의 중복 표시명 실패와 롤백, 공개 재현 대응(`578ffc3`→`974b5de`, `node --test tests/test_property_repair_regression.cjs`), Python 비교기 gate checker pin을 기록했습니다. [P1 기록](docs/llm-wiki/releases.md#p1-design-acceptance) · [공개 인수 영수증](docs/next-roadmap/p1-acceptance.md).
+- NF-03 원인 이력 상세: History 패널에서 실행별 읽기 전용 필드 diff, 선행 기록 링크, 뒤로가기와 키보드 포커스 복귀를 제공합니다. 상세 조회는 정본 요청·영수증을 쓰지 않으며 인증 누락은 `403`, 범위 밖은 `404`/`409`로 거절합니다.
+- P1 최종 제품 소스 `e6f4fd8`의 CI Run `43599181267`이 성공했습니다(비공개·선택 fixture 부재로 skip 3건). 자체 예제 브라우저 접근성은 로컬 화면 범위에서 확인했습니다.
 - 배포 검증·CI 경로 가드를 추가하고 로컬 스캔(`paths-only` 및 전체 규칙 검사, 1,682 tracked paths `forbidden_paths=0`, `ephemeral_evidence=0`)과 CI `paths-only` 게이트를 연결했습니다. Linux CI 기본 브랜치 분기 오류(`368db1a9`)를 수정해 `b9495234`에서 통과를 확인했습니다.
 - 외부 참고 아카이브 4종과 보존 사본 4종의 변동 0건을 유지한 채 자체 웹·Design 기준 입력(`examples/owned-design-baseline/`)을 도입했습니다. 독립 Chromium 7클릭·3상태·6전이·10/10 바이트 동일 PNG와 `6/6` Figma Present 클릭 및 `85/103/103` 편집 가능 노드 수(초안 `86/104/104` 폐기)를 확인했습니다.
 - P0 기준 자료·자체 입력·인수 영수증(`docs/next-roadmap/p0-reference-acceptance.md`)과 로드맵 그래프(`docs/next-roadmap/backlog.graph.json`), API 우선순위 큐(`1,382`행 중 전체 미관측 `825`건, Design 후보 `12`건=`8+4`, 런타임 지원 범위와 구분)를 정리했습니다. [P0 패치 기록](docs/llm-wiki/releases.md#p0-reference-safety) · [공개 인수 영수증](docs/next-roadmap/p0-reference-acceptance.md).

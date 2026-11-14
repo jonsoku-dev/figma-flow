@@ -10659,12 +10659,702 @@
           "version": "0.35.0"
         }
       ]
+    },
+    {
+      "commit": "cd4789321dafb40a82277fd1185a3462318f7748",
+      "diff_sha256": "e3e505607bb5b7dd36c1a98fa50314efecf57d7c06755db18c437617587b150e",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/057f949078e2af85f8c911e4045a4977a3bd7f0b.md",
+        "docs/llm-wiki/patches/2f7e901355faf6a02f4e1b9e3300d608b024ace2.md",
+        "docs/llm-wiki/patches/368db1a9826de1455fe1d4598671ddd57bb9aa77.md",
+        "docs/llm-wiki/patches/5302e7ec33c30964a7c343b0a85497a6f70e61a7.md",
+        "docs/llm-wiki/patches/6c9c6e454d826347971d4f7e612abcd43b8a306b.md",
+        "docs/llm-wiki/patches/976a966c1b497890aae12dd1a63b1dd6b05ee763.md",
+        "docs/llm-wiki/patches/ae0df29e3e3a44849a8946466ff566163c0b2c91.md",
+        "docs/llm-wiki/patches/b9495234cdbc4547f083f5ee21cbd623c67a381f.md",
+        "docs/llm-wiki/patches/d98860037b4082b744a3ecd9fd7aae9ae2d729bf.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "6c9c6e454d826347971d4f7e612abcd43b8a306b"
+      ],
+      "subject": "docs(wiki): record P0 guard, owned baseline, and roadmap commits",
+      "tree": "fc4d00ac1dc0c4099690dd9bd60383134f7ac83d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "13c36f870bcca606cde9ba15a5cb238e2c3cc9b6",
+      "diff_sha256": "853b51d8a0d5b5561a37b5b7b33d8077ef900843d5a8f9bab92b71fd40c687f7",
+      "files": [
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/family-targets.json",
+        "apps/little-hands/design/source.py",
+        "apps/little-hands/design/test_source.py"
+      ],
+      "parents": [
+        "cd4789321dafb40a82277fd1185a3462318f7748"
+      ],
+      "subject": "feat(little-hands): add opt-in DOM-to-semantic family target mapping",
+      "tree": "274d0b97ce5791432a552a8b2d63af13d1133e08",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "ad26c908c5db034ef58d253e4c125df3e2afe469",
+      "diff_sha256": "d677a4f818a37648917ecbf4bfd43296c71bab8556633818d659627b6ada9a4a",
+      "files": [
+        "tests/fixtures/nf01/invalid-cases.json",
+        "tests/fixtures/nf01/six-families.json",
+        "tests/test_component_families.py",
+        "tools/design_system.py",
+        "tools/figma_bridge.py"
+      ],
+      "parents": [
+        "13c36f870bcca606cde9ba15a5cb238e2c3cc9b6"
+      ],
+      "subject": "nf01: compile canonical component families, properties, and readback checks",
+      "tree": "ff8a3451747956e8cc3a2468a6cab2be334b4ee0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "b40278221d8c023249462cd628edbdc51c0b041f",
+      "diff_sha256": "7fd99ca719555687ab5f5924dd1dc211103b83f6d156bcddc06091fc04ab7cf7",
+      "files": [
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/family-targets.json",
+        "apps/little-hands/design/source.py",
+        "apps/little-hands/design/test_source.py"
+      ],
+      "parents": [
+        "ad26c908c5db034ef58d253e4c125df3e2afe469"
+      ],
+      "subject": "feat(little-hands): align family targets and exporter with nf01-contract",
+      "tree": "01ca1f97de0dafa734601e9f9c718ef8eb3cf837",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "baac57eb1582698d4cdfef2cbf63b2c34d3ba9fd",
+      "diff_sha256": "73637018b7ee978d2c8197c446ce42bee620002c0e6a3a1f991c63fdf43e8aa0",
+      "files": [
+        "apps/little-hands/design/source.py",
+        "examples/owned-component-families/README.md",
+        "examples/owned-component-families/design.json",
+        "examples/owned-component-families/graph.json",
+        "examples/owned-component-families/index.html",
+        "examples/owned-component-families/manifest.json",
+        "examples/owned-component-families/prepare.py",
+        "examples/owned-component-families/renderer.js",
+        "examples/owned-component-families/styles.css",
+        "tests/test_nf01_app_mapping.py"
+      ],
+      "parents": [
+        "b40278221d8c023249462cd628edbdc51c0b041f"
+      ],
+      "subject": "Add graph-owned six-family handoff example and accessible form/table browser checks",
+      "tree": "fd427a4676cffc8b5c28530a7c3ce975a5df46dc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "3e7b44cc9903b3bfc753b77797e96c2c831dcd5b",
+      "diff_sha256": "2a12ba9a98bcff3b1f615a152441e4f27cdc5063931e79511d02ca22b25a0d00",
+      "files": [
+        "tools/figma_control.py",
+        "tools/operation_detail.py"
+      ],
+      "parents": [
+        "baac57eb1582698d4cdfef2cbf63b2c34d3ba9fd"
+      ],
+      "subject": "feat(control): add read-only exact-scope history-detail projection",
+      "tree": "83d1b7f5e2e1dc6574d4d2efe3409ebaf12a0b98",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "ce1bc7d2988a7247f61cbf8fd827ed0278e0964d",
+      "diff_sha256": "3c8d63282952f3f6b52a882ef3a650aa54f0da25ad86ab95857917c712f99946",
+      "files": [
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "figma-bridge/workspace_transport.js",
+        "tests/nf03_history_detail.cjs"
+      ],
+      "parents": [
+        "3e7b44cc9903b3bfc753b77797e96c2c831dcd5b"
+      ],
+      "subject": "Relay scoped read-only history details and preserve the direction of recorded relations",
+      "tree": "cafae81b51c79d2b5bcec1e8f7432d919f639639",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "e7b1efbda8fcbe78bec9aa77d480daa0438c1039",
+      "diff_sha256": "b2447e98783096333b58cdea36f3785ad45ce31dbf4b072fac728d7e000cb72a",
+      "files": [
+        "tests/test_operation_detail.py",
+        "tools/operation_detail.py"
+      ],
+      "parents": [
+        "ce1bc7d2988a7247f61cbf8fd827ed0278e0964d"
+      ],
+      "subject": "test(control): add portable NF-03 operation detail and causal diff suite",
+      "tree": "4f94390cf7dfc0781eb1361db13d9e2b24251f9d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "016a777e0bc582414c2062a122dfae553851eefc",
+      "diff_sha256": "4e4b121628617b9dae9aaeee3d43b8aac85387d271dfbe89c16ceca514cffcd6",
+      "files": [
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/assets/panels.js.LEGAL.txt",
+        "figma-bridge/locales/workspace.json",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/operationDetail.mjs",
+        "panel-ui/src/styles/workspace.css",
+        "tests/test_nf03_panel_ui.cjs"
+      ],
+      "parents": [
+        "e7b1efbda8fcbe78bec9aa77d480daa0438c1039"
+      ],
+      "subject": "Add scoped read-only operation detail and keyboard return path to the History panel",
+      "tree": "a24cc2963afa5e67105ac480baba892ea3228441",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "4e2539eb137242bff971a8e133a7c9325078c803",
+      "diff_sha256": "3b41486c5b0ae9e7b62e72a599388299bb15f45ab24bc911c07d097fe17c7a4c",
+      "files": [
+        "docs/next-roadmap/NF-03-causal-history.md"
+      ],
+      "parents": [
+        "016a777e0bc582414c2062a122dfae553851eefc"
+      ],
+      "subject": "docs(roadmap): align NF-03 causal history spec with finalized DTO contract",
+      "tree": "a2f6d6211e0f67287fb8f64bd0c3da6f047f2949",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "cfc7fbd1a2867d2665c29e9eaa066b4b18eac254",
+      "diff_sha256": "14f54ab38faafa52341a8a404226f7fa6904c4dc2515a06aebfd8af72c684168",
+      "files": [
+        "figma-bridge/code.js",
+        "tests/nf01_component_properties.cjs"
+      ],
+      "parents": [
+        "4e2539eb137242bff971a8e133a7c9325078c803"
+      ],
+      "subject": "nf01: author TEXT/BOOLEAN/INSTANCE_SWAP properties, swap ranges, and repeat-apply rollback in code.js",
+      "tree": "81e21341adaeaac8036b35c1bc3eba97728497cc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "3f0bc4f289ccc055191e57bf20b32df534506371",
+      "diff_sha256": "e51c81a1baaf3410d617f7579c776a1b1142be2832915ae64c3f7617b856d968",
+      "files": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "parents": [
+        "cfc7fbd1a2867d2665c29e9eaa066b4b18eac254"
+      ],
+      "subject": "chore(api): refresh static API coverage baseline for P1 bridge and importer",
+      "tree": "a7d1d1caee196dfd0742d99293191670387eaf20",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "fd1a9d28551e9101fa5f5bc1e0d42570b385aa31",
+      "diff_sha256": "91ec24f7a3b83eaea1881be428dbc92dc504380b7463533de2f77ed39a83a245",
+      "files": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "figma-bridge/graph_token_sync.js",
+        "tests/nf01_component_properties.cjs",
+        "tests/test_component_families.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "3f0bc4f289ccc055191e57bf20b32df534506371"
+      ],
+      "subject": "nf01: add BOOLEAN/INSTANCE_SWAP/TEXT selective CAS sync and finalize NF-01 spec",
+      "tree": "3327728b1211d2e40b926bcc20c67fdf27f2cc70",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "709f11042d3aa621dd47a064168828f6aa4f828d",
+      "diff_sha256": "a8a9315dc9873d6ac55c52ec937c8dba065827cb70269426772fb535684c6a33",
+      "files": [
+        "figma-bridge/semantic_components.js",
+        "tests/nf01_semantic_family_runtime.cjs"
+      ],
+      "parents": [
+        "fd1a9d28551e9101fa5f5bc1e0d42570b385aa31"
+      ],
+      "subject": "feat(semantic-components): implement NF-01 six-family additive workbench, property bindings, override/placement preservation, and readback",
+      "tree": "e7e0aff8897b8d7e82b35ead81615d9c8f58264b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "8af6db43123e03bdf6b28456944243cf487da3fd",
+      "diff_sha256": "10ac532d594c99bc0a9fb72297faa1ca99ec3176d169a82c370bbc5e62ea04c7",
+      "files": [
+        "figma-bridge/native_provision.js",
+        "tests/test_family_provision.py",
+        "tests/test_family_provision_runtime.cjs",
+        "tools/family_provision.py",
+        "tools/native_edit.py"
+      ],
+      "parents": [
+        "709f11042d3aa621dd47a064168828f6aa4f828d"
+      ],
+      "subject": "feat(provision): add scope-pinned NF-01 component-families native-edit plan and runtime wiring",
+      "tree": "6eb1700b18ef4d473308a77c8112a48ddb3e7b9f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "f9ba8978d04dcee8164d9f8f78b4f942fcbadd3d",
+      "diff_sha256": "3f4557dc26a04352a3a7cf04aa29f06ac33024fe13547d4b98c6480a1a08a24f",
+      "files": [
+        "tests/nf01_semantic_family_runtime.cjs"
+      ],
+      "parents": [
+        "8af6db43123e03bdf6b28456944243cf487da3fd"
+      ],
+      "subject": "test(semantic-components): verify unconditional owned-component-families and graph repeat-apply integration",
+      "tree": "e22add8298f7f0f08b82e78f32f93bf65b064bc8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "22995b1f3658295729ddacb0c55320110a08c999",
+      "diff_sha256": "851d08f091cda667669d5b6afcbe4dc51a6a1ab1732690f45986b69921fb6538",
+      "files": [
+        "library/figma-api/coverage-baseline.json",
+        "library/figma-recipes/bundle.json",
+        "library/figma-recipes/bundled/design-component-properties.js",
+        "library/figma-recipes/component-properties.helpers.js"
+      ],
+      "parents": [
+        "f9ba8978d04dcee8164d9f8f78b4f942fcbadd3d"
+      ],
+      "subject": "chore(api): rebuild recipe bundle and refresh coverage baseline for NF-01 native runtime",
+      "tree": "342d733159646854ab5bbf2fdcc0d9561d598dcf",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "bf65bf084304acebeb59b5d7d8aff8383d2f31e7",
+      "diff_sha256": "3c27510f23716e460b06f9c233096cc7d39e91cfc4be4229429ef4f816423f08",
+      "files": [
+        "docs/next-roadmap/README.md",
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "tests/test_next_roadmap_backlog.py"
+      ],
+      "parents": [
+        "22995b1f3658295729ddacb0c55320110a08c999"
+      ],
+      "subject": "docs(roadmap): record verified NF-03 causal history acceptance receipt",
+      "tree": "e17eff8dfb397f01bc809fd412373c17a9f4a67d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "63b355586fdd2cc9df5c7324980d490d393b543c",
+      "diff_sha256": "5e672299ffb4f3c656ea3cdfe95ce11b09261a162d5a8eb989249f02c87fd0ac",
+      "files": [
+        "figma-bridge/native_provision.js",
+        "tests/test_family_provision_runtime.cjs"
+      ],
+      "parents": [
+        "bf65bf084304acebeb59b5d7d8aff8383d2f31e7"
+      ],
+      "subject": "fix(provision): prevent duplicate wrapper rollback and classify partial or unknown apply failures conservatively",
+      "tree": "8480cbbb4c787555fa08c1284fb09266127692a2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "578ffc3c51ae6e9664f03c6f71ae3d1c18a922ec",
+      "diff_sha256": "84ed42c127daf10f0ee7837caaed900ada33d5e8eb1a10a63d2feb13694e78e1",
+      "files": [
+        "tests/test_property_repair_regression.cjs"
+      ],
+      "parents": [
+        "63b355586fdd2cc9df5c7324980d490d393b543c"
+      ],
+      "subject": "test(components): add regression tests for duplicate display names, auto-rename keys, and top-level rollback",
+      "tree": "d25078d01d706aeea1663b136596621753bece97",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "974b5de74bc99d645926afd5595f21f155356203",
+      "diff_sha256": "48f79f3722a01dcfd7931b3b29c77c12e3955987dcc039cf9bef267ff339127c",
+      "files": [
+        "figma-bridge/code.js",
+        "figma-bridge/semantic_components.js"
+      ],
+      "parents": [
+        "578ffc3c51ae6e9664f03c6f71ae3d1c18a922ec"
+      ],
+      "subject": "fix(components): handle duplicate/auto-renamed native property keys and remove only top-level created rollback roots",
+      "tree": "48e435bffaf45cf00a1b159472913e8aa269bd43",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "a7378b827b74e34a6a1129f4c172303242ec73ed",
+      "diff_sha256": "08b7822da5c7a73dde10e583ed60e700d41136ef6566ab968695f356bf46c133",
+      "files": [
+        "library/figma-api/coverage-baseline.json",
+        "library/figma-recipes/build.py",
+        "library/figma-recipes/bundle.json",
+        "library/figma-recipes/bundled/design-component-properties.js",
+        "library/figma-recipes/component-properties.helpers.js"
+      ],
+      "parents": [
+        "974b5de74bc99d645926afd5595f21f155356203"
+      ],
+      "subject": "chore(api): sync recipe build helpers, bundle, and coverage baseline for NF-01 repair",
+      "tree": "eea08ac8266ba28bdd85b2cd6a70018e324c9d2f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "f88643bcb99f060f1f9af09e618bc3491c5e8f02",
+      "diff_sha256": "78c094b25239ecd417e46aeb78b018ddd953e5a5540218d506f94a770594c486",
+      "files": [
+        "tests/test_bridge_declared_property_compare.py"
+      ],
+      "parents": [
+        "a7378b827b74e34a6a1129f4c172303242ec73ed"
+      ],
+      "subject": "test(bridge): add frozen Node-to-Python readback test for disambiguated property keys",
+      "tree": "529b2d08cfad2630301c123acea541ef8e98d2fd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10",
+      "diff_sha256": "a642d11ee4eec29cf55c5dce09561b849014123395560cf8d2adbc02e1799357",
+      "files": [
+        "tools/figma_bridge.py"
+      ],
+      "parents": [
+        "f88643bcb99f060f1f9af09e618bc3491c5e8f02"
+      ],
+      "subject": "fix(bridge): accept collision-safe and Figma-normalized property keys in readback compare",
+      "tree": "747bb31d584b924d7b0ff46fd171d55d13e5f9af",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "c208a3f3cd8d83266f50b27b7534e9d4274ef900",
+      "diff_sha256": "141d00dce883120c89755ca290df265fb5fbe098f1b59d1d10428481e957dde6",
+      "files": [
+        "docs/next-roadmap/README.md",
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "tests/test_next_roadmap_backlog.py"
+      ],
+      "parents": [
+        "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10"
+      ],
+      "subject": "docs(roadmap): record verified NF-01 native component families and readback acceptance",
+      "tree": "08779412b854cc6f0da63c08d7ba2cb174d861fb",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "fac5f7a4caae31e11223e3bd82e5687b23cea1bd",
+      "diff_sha256": "c54486d55544aeaaa0b22a3d211ec4584a9c7742b770eedb8debe69b23dec1e5",
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/p1-acceptance.md"
+      ],
+      "parents": [
+        "c208a3f3cd8d83266f50b27b7534e9d4274ef900"
+      ],
+      "subject": "docs(roadmap): record Python readback gate pass, e6f4fd8 probe, and 403 auth code",
+      "tree": "36ad7d37ec1b02e42e91147f48a8f7b11a12a5b1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "5355e61fb65f3c1a47f9cfbccdd26f71ec6a9979",
+      "diff_sha256": "f144b9a143bbf035299672513385d267be4ca8972ef086e0158ef443109909f6",
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/p1-acceptance.md"
+      ],
+      "parents": [
+        "fac5f7a4caae31e11223e3bd82e5687b23cea1bd"
+      ],
+      "subject": "docs(roadmap): record e6f4fd8 CI run 43599181267 skip bounds and gate retry",
+      "tree": "258c1238f47d072fe70d928d242e0872c3cadc77",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "452acf1302bdc37269a31977773a7f277e45d212",
+      "diff_sha256": "866aa6249417d7481291be2e86c28837a35ac168349f97a0122a8e6411ae43d4",
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/p1-acceptance.md"
+      ],
+      "parents": [
+        "5355e61fb65f3c1a47f9cfbccdd26f71ec6a9979"
+      ],
+      "subject": "docs(roadmap): record verified NF-01 owned-example browser accessibility evidence",
+      "tree": "426d9d660082063ae4f804e53ec34ee18c9effd7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
     }
   ],
   "pages": {
     "008c01c64e41b255c43b7e81e4029f4368b1f797": "0786fd05695bb51303a051b0c3c3b66acdca4d4e6309a6616c67c847362974ef",
     "0145921ca4ed5d22187b9e259cb8d8224b4a7d86": "8409151bca6c8159ae0a54504ec87862bb192df5b350700b260b1d6099b78747",
     "015f440ee635d817f033dddabb504acaea69895f": "f93c2b26a34b0ef631052e746b4779ecbaed228c48b0ad2e0e374c18fe3bb2d8",
+    "016a777e0bc582414c2062a122dfae553851eefc": "92b634f5f68391e92944c1dbfb2ebd8b155c94a3397d56fb8a08fc6443c0f4f9",
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
     "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
@@ -10689,6 +11379,7 @@
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
+    "13c36f870bcca606cde9ba15a5cb238e2c3cc9b6": "3ffdca7760ca4f88f10a2cf6a370576e55e95837e337d0cc80590ea10d56678e",
     "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
     "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de": "5f2b7a311e12c35569029d1556b3dd2842d65940a30d79ce1aeca5046864c300",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
@@ -10710,6 +11401,7 @@
     "2078ea9a94edd1f1c652953f30819c4fae50d20d": "0e461fabc4e32b323eea47e0134ec5139331d8fb35a73e44219b7f3767e5da1d",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
+    "22995b1f3658295729ddacb0c55320110a08c999": "429577f84e9d8f782ad31c47052dfdf4585a7a32ce9bec52b019110c3b658020",
     "23b44e3b3004639e088467bd91d808de24df38d7": "f418b64bbd6b831f60e6ba10f75d8ef86b4a94d91d769fbf57596b4902058d90",
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
@@ -10746,7 +11438,9 @@
     "3cfe367783a7715917562c11d1a0c27d1701cd4f": "fa9715dc04b18c8beace9aaa605c62d530ddc6ee287495f045d9e5f25a09c30b",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3d72453c628224f3e4d3b1a4a291802e7e759278": "9b035e18525c7fe899c6d23a66e485f0674c81d0032cc4cba084e2d8b1b6bea9",
+    "3e7b44cc9903b3bfc753b77797e96c2c831dcd5b": "59f5631613e78b02e966cccb9ae4c4eb626c791b0d718e292028f939c96ac59f",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
+    "3f0bc4f289ccc055191e57bf20b32df534506371": "a4c524095f4a22f778efa3a39d740e65ac94b80c9f4d2411fbce57abee3a7321",
     "3f412c18e80c28df04729bc4b914dcfef5df1242": "b7a563c588dfeba233c7820e11a8afa3b9aa50c8d62db4c9c9258a229fb0fc00",
     "3f642cea8eaa461f35508b151b448233a0a4272a": "60f8c12cff7c84c233a87cb97fe16f5130644b0befe97e8c448d79adb43a0589",
     "3fc3002553ecd2f8a3c35f89e68789938f1b76e3": "1aad24ff0995c6ed7233321256324ea46399ac1621278dd75219aeb493f0e967",
@@ -10756,6 +11450,7 @@
     "428a358688a50116956006b734b5ad850c88bbf6": "fe6e2939926d72b3d1b95870813b4be17831db8599445ed3fdc3ff1e389a87a6",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
     "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f": "6a04bf9a05de4f803e55d6b64b9335a059ec38355bacf463607f871de2b8aa00",
+    "452acf1302bdc37269a31977773a7f277e45d212": "ecda0b5be8b327f47912fb86ffcf62fabc846aa27d23703d7c14cf7a0868c266",
     "456cb515719974311b0051ac86e7e3d764aa18d4": "67b78cce4d3b87d16d9403b9ffb0b21a20bea3c9a1305a45d71b790155a12397",
     "45ea99992ade788ed7d25de89982652e863e44c7": "ff680017620f851353098263e029734d60eb1339b3e2c27a9f11ba91966027b3",
     "4621d47b6deb866d913e4430f44fb7f7635827a8": "30e9d78690465a33693207da17e39ce313af2bb36ae2e799c0e1880fe165e433",
@@ -10770,6 +11465,7 @@
     "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a": "326480bffbb42c4ce4dbb32c8d1f677a40060d3a5ffe546b54e57e674df852e3",
     "4dc23d6d98a7953572228b6bbf829e54c5417d13": "4614f0de857de2a6a8366f20a635591e74458142ba2573fd747d067cf84ec7f6",
     "4de75426dcdeeaccb336b227bbade370ae2dffdc": "03e71c36cf710eeb087df1787bf6cfe2efc964fb846974db2319a2f651362b3f",
+    "4e2539eb137242bff971a8e133a7c9325078c803": "88ef3dddbc5d52af55e8265454b5b02bb1e41a194075acbb02365db3c0ba9864",
     "4eab91b666eaeead1fe04395f248f936cdb51b7d": "da5bfbe556d77c32c8ec650fee0d17ccf97885063c570ab81b9b70c4136b767b",
     "4ebdb77a73746f95dc985507b2ba0d704975cf9c": "04ac89ace63504ab45e930012f68a17fd86064cd29e82d993b25a348c9a2a8e6",
     "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
@@ -10777,12 +11473,14 @@
     "4f75cb4af31947f6d4eda1f270279fa905a7c45c": "a6c8ed3f9a0e00ce494fbfe1db429a236da0fa7afa39d0e1c32cc8312dcf7cf9",
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
     "5302e7ec33c30964a7c343b0a85497a6f70e61a7": "bbe9bb786cd83f51f6b746f76900d85946898a3c12b37d0c516c1cdb6bcb78d5",
+    "5355e61fb65f3c1a47f9cfbccdd26f71ec6a9979": "9c53f969ba7c610e4fd063bc9b74a03d0edbb11d89983018d7ff57669dbfcc3e",
     "550da40d10c9520d8e96478455cc6f14982fc322": "7f6cd0ea80f869bc1eccb855009ab51cb290f4a22b605c3791dca5ecdf8d05e7",
     "55267d1eb771e6ee403dc30e5e191b0c3742d9cc": "6a8661f86cf9dea9b9a8e0af296f8d44dcb8024f25cc7583faab7d667432eb50",
     "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
     "561d1c9f25516f4e6c44b6e75047e39a7e86afa3": "fc61bbc9fdc4445ee00d679a8852596f4a6b43e15e0affd728fa39b205aa65b1",
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
     "56d2dd3ceaeb638805717030ff76c587d485d906": "207442f6c327c4622e6fc921a2e53ddaf03c5e670daa6262e0e7e542f8dae261",
+    "578ffc3c51ae6e9664f03c6f71ae3d1c18a922ec": "ccd6da928f00e446dbefb035307def5fe8d7be3ae4160467d78d74114f6314ca",
     "58ae88cd43143faf59790ef734aba403ad500aa4": "d87124a8f2176ef7da1e2f79291b691c19f26dba4ad7deca48d4f95d1f2bf6aa",
     "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c": "889431a6006c82016784002149f4da64930556dd79c07f2e405b066e083f4759",
     "59dba566f4982923076ef0ed22cc0da5f60f42c5": "917fd3ff94e55217641f9ce07b69f6ae6017762eb3b6292a8b5588bf76384e06",
@@ -10799,6 +11497,7 @@
     "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
     "61937dc11c4540bc3c5e88412f449389470647d8": "5f8885938a63573aee5223c6e20a4dbad7f39f7d63041004eba81d88d56d5589",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
+    "63b355586fdd2cc9df5c7324980d490d393b543c": "9839d052d3c7b81795c5d5aeb1f1e54f7cd651038a3ea26aa361f436ad458920",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "6459de5ca0711f10629945fe36a2b4a2063fbbae": "6b4766e5ac2243bcb0c81a876ba0c813c23cc095e68109e4fab702e8755d0bd3",
     "64d89e40f048197c3f09545cbecf4630bf9ea8ab": "f5309490ce7062a6b8286c7c6a3133e18ed2a007d216f09c8cc90d9a2f8cdc99",
@@ -10814,6 +11513,7 @@
     "6b448d99524804101f37ccf3c4283c5c70e485e4": "ddb4c752a9b18098fef47f03d4c453006631cb2e33c1fe6d3c908d5271c2dafd",
     "6c9c6e454d826347971d4f7e612abcd43b8a306b": "a5619e59333e45a675013515a44153553ef7193116938b5ea0e4de2fd8ded382",
     "6df3d7849b82bd36526022e47a276e49f9e0faeb": "5de4e85f36ca52686ae7655313ac78e326c7dff764261b32834030f500b91ebb",
+    "709f11042d3aa621dd47a064168828f6aa4f828d": "d54437dbbde2e4f42c8b83d2b46aa7db79c0cffa48eeaea18e1a3bd8386ce0b3",
     "721627bcc9a6eca2e283f879026d942a93a05a20": "6ba953710de7f712d7774c957971f57ee2c54a29c1f9b69b59924ad851c4014d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
     "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2": "503787be10ba57d0d51bb7b06cae6390ccdcfe19dc5b573d040f61e382b12676",
@@ -10838,6 +11538,7 @@
     "86b182e0f579206a65586a8ca34db0131f4d0f3a": "e77228a9b0229e65b2aff467e583074c2200aaaa8990a9ca83b368c3e5714b72",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
+    "8af6db43123e03bdf6b28456944243cf487da3fd": "b24356b1fd17cda85dc6ef52a28fa8e266e8abf5f0c3804b0d6f5fabd493d7a2",
     "8b984daa4733739c1c5ce72ab30232504d3fe4a4": "47a0e5bda40761d06ee023093dfe0fad878f1f38c1f0433fb9a9176b7c2c6cb5",
     "8c4bd9bf80aa1f6975b79447ed60b3b48b311fb7": "3c4c58477ada0e1a3e548b52c4c37b8f35b8aae05a59addcf9606ec050fe566f",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
@@ -10859,6 +11560,7 @@
     "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
     "961f193437e3699a5fed679d14e9c49f7e799a0d": "f10eff9ac50886388a49e416d60fa26f1740aace9d5915d3781e60d5e0b76a00",
     "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b": "7f89387eaff41cf48c99bb65484ef1fc592113c01a43e4e67f51a80b9e9ace72",
+    "974b5de74bc99d645926afd5595f21f155356203": "817924295e4f6192e595ccd8b1156c826a9bdefeab8ba188513288b4deb4e965",
     "9768ac3f6f56f08cc52f53be24d9928d3de17a4b": "903ba161d758d71e575db07cc87590ed3e5c5c7f7d87b5ea9e79ace3cfa2c08d",
     "976a966c1b497890aae12dd1a63b1dd6b05ee763": "e2516c2647dbe5d820c720ae68cfb4a70bba50bea9ceb871dba72aac0d4720a6",
     "9974579407d29dd6072fcb9f1cf515115c954cb6": "d0a78212bf3184be2d9649789fe45d327c6ea43e4ea7eabe7bf1b19d8e105a68",
@@ -10880,6 +11582,7 @@
     "a13e89c27c16108e4fb75a446154636124312c4d": "f12e95d0da042f4f9a9a3904b769cd32486c82c2c5f3eacd64c9ab936c3717d6",
     "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
     "a60f977b0093ea35f98d731c197e09f1667dbc75": "042be96fc647eb926e4a73c7b8cd0abab87342c59956acb1ad1d2f3e8e6d250d",
+    "a7378b827b74e34a6a1129f4c172303242ec73ed": "80779eb5cc8b9f49377f958bc6c0f91ff6b36ce02cee0826b88dd8453e81f5ed",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
     "a803681008485f85e9e31c01cf40c6c48f0a26ce": "0ec6d1cbb83a27b8e2763b97516f1355949be5d509a0c9bee223c53b7350388b",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
@@ -10891,6 +11594,7 @@
     "ab8b1fe594b960fb2b22936dff34e3b7e711ff21": "eeda4fb2ffc63662d4b6bfe478bb32f4b5446a1fd635c3d371bdea59717ace03",
     "abd3af873fa7cf47a02f7c8aeaa1825f46ac7e1c": "e6c6c4b562e0fbf140427409daffde76379770fe8185ef4e5c13c8ca4fc442e3",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
+    "ad26c908c5db034ef58d253e4c125df3e2afe469": "9ea9c5931192270625e371cf4f13747a06bd3965aaa7b3ffc60426ee5be8c12c",
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
     "ae0df29e3e3a44849a8946466ff566163c0b2c91": "f9715f05bdf6bc94f9b825a03553600e3a916e2299025f176f24fbefde89d276",
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
@@ -10904,6 +11608,7 @@
     "b275a28ad9b31347b7663485aabc93b19fb00f7b": "13b4ccc01c4842c750272208402b50384ee31f3d064c895a43b0d50cf60d20e5",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
     "b3285c42f1189f69ea52d1f7b65ccf71d594a842": "3f4e12c435623cdc6da2c3b3f65da54f78b4e6f1e095865c08be12bff37628ee",
+    "b40278221d8c023249462cd628edbdc51c0b041f": "5615997535ba8209c68b39455603c55b069a57148d9c64181dc8b017b26d0f0f",
     "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
     "b52d107dbd5cbabb0524985462f924517dda1a57": "bbab7983b2eb796f3aaa63bc9ee8a92b23877511d3f2393cab0eadc6686f9c1d",
     "b605165745eee3a4d1f94c3a8677f05a4d7302e3": "9ed9381e591d9719609dea919c0bfc51c929cac364b7a8f237133f4cf558ffd6",
@@ -10913,6 +11618,7 @@
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
     "b9495234cdbc4547f083f5ee21cbd623c67a381f": "75028b56cfb85ace6ecd2576189d8cc27fb19b62522f6dfb181818c4670470e7",
     "ba390f93a7da8d74a4cd5cd1993c8a9244c91467": "1c088036c784d10dcc779037d6d5aecf9401e6efc9555002e0a127e2eaaecf2f",
+    "baac57eb1582698d4cdfef2cbf63b2c34d3ba9fd": "aa2d3a7e17fc25281aa6de9d0ed537a978c6135d503ea2d102f1f92a57f97ca3",
     "bacb81cbe48f1afdad79bcc135778af4ffe1c2b4": "60e3d7b0291406611a381e27097a75a3491203fda742b22894b8ea8436ddbd35",
     "bbe11d2a80604207b8efaba5c521834acad779b3": "16f755f39ab221321d683242cb460fec7e8a20eb3be2a564fe3b98480f8374d2",
     "bc70451a51ca30e6e639b133593385650da52097": "d2570b38842fe64466f765da9016eac181b1b98ca05d392045d10bd1b61db887",
@@ -10923,10 +11629,12 @@
     "be68110615269481f97b2867e3d12ab3eb1442a6": "cc9a9fbd12e64882bc64eef8112fda41f043f62e08efee939da5bbbd6a8c5ca4",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
+    "bf65bf084304acebeb59b5d7d8aff8383d2f31e7": "b15eaaa3281e28ca11d31f56a62db622d1c3660581bdbc859c4f2370a8df18c0",
     "bfb5e8f95af859098921f80da3811047a2a75f4d": "788a950797847695161906718296513042db2d17e9f1b4141bccb2f972dc4c02",
     "c01f895fc1c7c894c1a03aeb625f2baa6497147f": "4b48d33bac3194fa5f94a0acf79c6721108b33ad470ac11cf24067300a914a53",
     "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
     "c1541b8129bdf3e175dd905cddfed39acd52bc2e": "8986a6e93a55e9a8ea388260e2d2dfb6cc4b0fbdfa40d33c503e5989edf50d14",
+    "c208a3f3cd8d83266f50b27b7534e9d4274ef900": "c79fa8cf123bbbe1214ecab594ba381a868f9dd317d42bb517c03e4ebbbc54ed",
     "c43b4fc6c3958c233ca403769b4ef255bd6708e5": "39a8450f8747becfbdc6c6d80a44fe877ea51041f8f24b14f0d475fa1858169d",
     "c4f8338c4803f88807fab96f58607d8e9f2652df": "66354fee2f0e1f98052d7437da64b97dc03f51c545452e4533f9cc6c0423ae69",
     "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
@@ -10942,8 +11650,11 @@
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cb392ce18d6c6b0654816641b4158dd6eb1291c0": "f339f9bfba69e83ec4a7dad566ed44d81ac751150588508c1f65c39853224dfd",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
+    "cd4789321dafb40a82277fd1185a3462318f7748": "bf1aaca69565d201eaa42f7315291e7c2eaa0e3026c86097cd1e21fee62e0d0b",
     "cdd7786be9eb7468ed0e5ae3c84d9a50f987d016": "c2cf75832c707c196b382cafb45cc793b9b35849468d2a5ff9840422344bc973",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
+    "ce1bc7d2988a7247f61cbf8fd827ed0278e0964d": "6c193b7204aa16ae651956ce75ccde03f2d45d5adf55c2f6317d76dcd7b2cb9a",
+    "cfc7fbd1a2867d2665c29e9eaa066b4b18eac254": "fb3af507f949f2cd5fe7bc906a4d8412552dfcb2b5df688287daf280e20ab193",
     "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
     "d161ee42784220bf20a3fb0649fcb7d3c3c3af18": "81899b8b791caf981018417dcb41425411a6356308303a68ecfdca51b6322098",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
@@ -10985,7 +11696,9 @@
     "e4f2da50dbc3224119d70b99cb687c8951764cb8": "fec51957da5e3bfb168f509c57cc8c0a920d05b6832cf2df0ceb79642564528e",
     "e4f974ffeed2f9509c948141bce42de13027d157": "0fafc04266ee9445ce0675b04c7523ce0f0888af3d5e182ed0b09dd6399ef0cb",
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
+    "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10": "8a34bee32fe9ddc41543864e28c8aabf3ad93b9286d249cbd4b69d65c62620fb",
     "e75d60b7b95fc48144368f7d659ad0d0918fddce": "5c47ca4f6f872bbb15e07db8e9f846ecb78e0313de97cd09ef257e8098cd45e2",
+    "e7b1efbda8fcbe78bec9aa77d480daa0438c1039": "09a8d0ea3bd101bacb9d6bcb8f421dbd22c0931738ca0e771c2e459462631b7e",
     "e86cb81decb3b369f59d4e3799945f996d342eb9": "8499a65c22ddda33e11e16f65487cc0b74524a2c8f5cde7db46889c0399ffda3",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
@@ -11015,14 +11728,18 @@
     "f6af842f0420301ee533ac0994f3f9b0fbe21109": "6459a5553865aca20a3da70366ec37673fe4adb07b41c9232ad9a0bcda7949f6",
     "f798d57e5690501a542c130bebaa52f3a59485e2": "a487b5e8f752772e7b0c76b778f0f47e18429804b4747384d9a2d6b1524ad16c",
     "f838d46167cc8078e755c579bc3340c85968f8aa": "58cfcc4d03a25f590a3d2d6ab7ee4b696d048b24355567a317cd497419cbc524",
+    "f88643bcb99f060f1f9af09e618bc3491c5e8f02": "dcf4df6fa03552ea5ac6a7e604f30c7796a5b1f1c6bf3c3fce3e831415f5bbef",
     "f8ccbff18d207ae881242d7f23bb46da7af6eac5": "51586ebea866b3403e1fb83065ea0a610ffb624aecb2b8482d5b5232d523fc3d",
     "f8e3b4a327afa4f939c3355cf94a601814936342": "d81b55a7e2ff42e1a4c5e8f6b4d3f82cfb2a564ac80f03fc23c01a9699d1115b",
     "f943bc9f1f316f0f7c6624087e1bba2c1b6f45eb": "c9ca5626d15e5319d59924abe6936e05438d8afe671f42e02bf46a879868b328",
     "f9453da79c5f57aa779096468cbf29286c7fb185": "d76cd3ab615daf5d2bf32bd7c9a1ef552d9297b5535ea25e849204aa8efa3979",
+    "f9ba8978d04dcee8164d9f8f78b4f942fcbadd3d": "175cded218daa2410ff39d56b9cfb402a77eef4cbf47e0e8d241c9037855c2df",
+    "fac5f7a4caae31e11223e3bd82e5687b23cea1bd": "d2f3e38c73c12eade661f53a8ecd8c9b92786f04fc31acc71f3ffba7e6a33acf",
     "fad40b21f8fbb14209f50b3029bd656d40bbb1fe": "b6fd14b3b752b483962efe024a97ad466054e04b56e18fda5b08d376a1df74c2",
     "fbf83b3f9aa43801306d2678a8ed3bbfc6c9f904": "968313ae1da493e8475e05cd94d703e70f61c54c62e4d2c159e39aaa856b2659",
     "fcace533169f7f37116ec1048857e7010790390e": "289990fc043adec635cfb7ad88bb40ecc2f9919aefd835a4ff2ef181a0a69fc8",
     "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f",
+    "fd1a9d28551e9101fa5f5bc1e0d42570b385aa31": "1b8c47ec84413c8118619b7f82c945b80f8fc773767c9e2546ba98049c169ec5",
     "ffcde43350120941afad855b159ee3785f45619c": "0694d4315c2136e4f54c46e55bffd538a46dcb95b7af6bfcd311b3873bfa1603"
   },
   "provenance_remotes": [
@@ -11133,6 +11850,10 @@
     {
       "observed_at_commit": "42752d575ebe17ca5b10a176a29d6525719685b0",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "452acf1302bdc37269a31977773a7f277e45d212",
+      "remote": "[redacted-private-or-local-remote]"
     },
     {
       "observed_at_commit": "45ea99992ade788ed7d25de89982652e863e44c7",
@@ -11742,10 +12463,10 @@
     }
   ],
   "remotes": [
-    "github.com/jonsoku-dev/figma-flow.git"
+    "[redacted-private-or-local-remote]"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "6c9c6e454d826347971d4f7e612abcd43b8a306b",
+  "source_commit": "452acf1302bdc37269a31977773a7f277e45d212",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
