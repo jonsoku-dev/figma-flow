@@ -10,6 +10,7 @@
   "source_epoch_current": true,
   "pending_measurements": [],
   "pending_previews": [],
+  "orphan_candidates": [],
   "native_handoff": "pending",
   "visual_quality": "unverified",
   "approval": "not-recorded",

@@ -577,9 +577,14 @@ def snapshot_html(captured_html):
 _MISSING = object()
 
 
-def reconcile(current, proposal, baseline):
+def reconcile(current, proposal, baseline, *, prior_orphans=None):
     """Match graph rows by identity. On legacy input, existing values take priority."""
-    review = {'retained_without_source': [], 'retained_legacy_edits': []}
+    review = {
+        'retained_without_source': [],
+        'authored_without_source': [],
+        'orphan_candidates': [],
+        'retained_legacy_edits': [],
+    }
 
     def keyed(rows, fields):
         result = {}
@@ -590,7 +595,45 @@ def reconcile(current, proposal, baseline):
             result[identity] = row
         return result
 
+    def rekey_nested(trees, parent_key, list_key, fields):
+        present = [
+            tree[parent_key] for tree in trees
+            if isinstance(tree.get(parent_key), dict) and list_key in tree[parent_key]
+        ]
+        if not present:
+            return False
+        converted = []
+        for section in present:
+            items = section[list_key]
+            if not isinstance(items, list) or not all(isinstance(row, dict) and all(f in row for f in fields) for row in items):
+                return False
+            converted.append((section, keyed(items, fields)))
+        for section, mapping in converted:
+            section[list_key] = mapping
+        return True
+
+    adopted_role_paths = set()
+    if isinstance(current, dict) and isinstance(current.get('design_system'), dict):
+        design = current['design_system']
+        tokens = design.get('tokens')
+        roles = current.get('design_foundations', {}).get('roles', [])
+        if isinstance(tokens, dict) and isinstance(roles, list):
+            namespace = design.get('foundationNamespace')
+            for role in roles:
+                if not isinstance(role, dict):
+                    continue
+                token_name = role.get('token')
+                resolved_name = token_name
+                if namespace and token_name not in tokens:
+                    resolved_name = str(namespace).rstrip('/') + '/' + str(token_name)
+                if resolved_name in tokens:
+                    prefix = f"graph/design_foundations/roles/{(token_name,)!r}"
+                    for suffix in ('/value', '/source_values', '/alias', '/native/type', '/native/value'):
+                        adopted_role_paths.add(prefix + suffix)
+
     def merge(old, new, base, path):
+        if path in adopted_role_paths:
+            return old
         if old == new:
             return old
         if path.endswith('/type') and old is not _MISSING and new is not _MISSING:
@@ -623,22 +666,82 @@ def reconcile(current, proposal, baseline):
     if current is not None and (not isinstance(current, dict) or
                                 not all(isinstance(current.get(k), list) for k in ('nodes', 'edges'))):
         raise ValueError('Expected an existing graph with nodes and edges arrays')
-    current = dict(current or {})
-    proposal = dict(proposal)
-    base = dict(baseline or {})
+    current = json.loads(json.dumps(current)) if current is not None else {}
+    proposal = json.loads(json.dumps(proposal))
+    base = json.loads(json.dumps(baseline)) if baseline is not None else {}
+    prior_orphan_nodes = {
+        item['id'] for item in (prior_orphans or ())
+        if isinstance(item, dict) and item.get('kind') == 'node' and isinstance(item.get('id'), str)
+    }
+    prior_orphan_edges = {
+        (item['from'], item['to'], item['type']) for item in (prior_orphans or ())
+        if isinstance(item, dict) and item.get('kind') == 'edge'
+        and all(isinstance(item.get(f), str) for f in ('from', 'to', 'type'))
+    }
     identities = {'nodes': ('id',), 'edges': ('from', 'to', 'type')}
+    orphan_identities = {'nodes': [], 'edges': []}
     for key, fields in identities.items():
         current[key] = keyed(current.get(key, []), fields)
         proposal[key] = keyed(proposal[key], fields)
         base[key] = keyed(base.get(key, []), fields)
         for identity in sorted(current[key].keys() - proposal[key].keys()):
             review['retained_without_source'].append(f'{key}/{identity}')
+            is_prior_orphan = (
+                (key == 'nodes' and identity[0] in prior_orphan_nodes)
+                or (key == 'edges' and identity in prior_orphan_edges)
+            )
+            if identity in base[key] or is_prior_orphan:
+                orphan_identities[key].append(identity)
+            elif baseline is not None:
+                review['authored_without_source'].append(f'{key}/{identity}')
+    nested_specs = (
+        ('design_foundations', 'roles', ('token',)),
+        ('draft_prototype', 'states', ('id',)),
+        ('draft_prototype', 'bindings', ('action', 'source_state', 'target_state', 'viewport', 'control_id')),
+    )
+    active_nested = [
+        (parent_key, list_key)
+        for parent_key, list_key, fields in nested_specs
+        if rekey_nested((current, proposal, base), parent_key, list_key, fields)
+    ]
     merged = merge(current, proposal, base, 'graph')
     for key in identities:
         merged[key] = list(merged[key].values())
+    for parent_key, list_key in active_nested:
+        section = merged.get(parent_key)
+        if isinstance(section, dict) and isinstance(section.get(list_key), dict):
+            section[list_key] = list(section[list_key].values())
     ids = {node['id'] for node in merged['nodes']}
     if any(edge[field] not in ids for edge in merged['edges'] for field in ('from', 'to')):
         raise ValueError('Merged graph has a relationship with a missing endpoint')
+    merged_nodes_by_id = {node['id']: node for node in merged['nodes']}
+    for identity in orphan_identities['nodes']:
+        node = merged_nodes_by_id[identity[0]]
+        entry = {
+            'kind': 'node',
+            'id': node['id'],
+            'type': node.get('type'),
+            'title': node.get('title'),
+            'status': node.get('status'),
+        }
+        for field in ('source', 'detail', 'review_note'):
+            if field in node:
+                entry[field] = node[field]
+        extra = {
+            k: v for k, v in node.items()
+            if k not in ('id', 'type', 'title', 'status', 'source', 'detail', 'review_note')
+        }
+        if extra:
+            entry['extra_fields'] = extra
+        entry['related_edges'] = [
+            dict(edge) for edge in merged['edges']
+            if edge['from'] == node['id'] or edge['to'] == node['id']
+        ]
+        review['orphan_candidates'].append(entry)
+    merged_edges_by_key = {(edge['from'], edge['to'], edge['type']): edge for edge in merged['edges']}
+    for identity in orphan_identities['edges']:
+        edge = merged_edges_by_key[identity]
+        review['orphan_candidates'].append({'kind': 'edge', **edge})
     return merged, review
 
 
@@ -654,12 +757,15 @@ def build(base_graph=None, proposal_out=None, expected_sha256=None):
             raise ValueError('Stale graph SHA256')
         current = json.loads(path.read_bytes()) if initial else None
         baseline = (json.loads(baseline_path.read_bytes())
-                    if base_graph or (initial and cached.is_file()) else None)
+                    if current is not None and (base_graph or cached.is_file()) else None)
+        status_path = ROOT / 'source-status.json'
+        prior_orphans = (json.loads(status_path.read_bytes()).get('orphan_candidates', [])
+                         if current is not None and status_path.is_file() else [])
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
             (output / 'app').mkdir()
             try:
-                proposal, review, summary = generate(output, current, baseline)
+                proposal, review, summary = generate(output, current, baseline, prior_orphans=prior_orphans)
             except ValueError:
                 blocked = output / 'source-status.json'
                 if blocked.exists() and json.loads(blocked.read_bytes()).get('status') == 'blocked-final-source-epoch':
@@ -683,7 +789,7 @@ def build(base_graph=None, proposal_out=None, expected_sha256=None):
             print(json.dumps({**summary, **review}, ensure_ascii=False))
 
 
-def generate(output, canonical, baseline):
+def generate(output, canonical, baseline, *, prior_orphans=None):
     captures=load_captures()
     unverified_ua_internals=[{'state':sid,'viewport':vp,'selector':control['selector'],'type':control['type'],'checked':control.get('checked'),'box':control['box'],'reason':'UA-native mark paint is not exposed by measured CSS; no mark is invented by the adapter.'} for (sid,vp),(data,path) in captures.items() for control in data['controls'] if control.get('type') in ('checkbox','radio') and control['style']['fill'] in ('rgba(0, 0, 0, 0)','transparent') and not control['style']['stroke_width']]
     stylesheet_epochs=sorted({route for data,path in captures.values() for route in re.findall(r'href="(/static/[^"]+\.css)"',data['html'])})
@@ -743,13 +849,20 @@ def generate(output, canonical, baseline):
     state_layouts={'desktop':{},'mobile':{}}; styles={'desktop':{},'mobile':{}}; assets={}; mappings=[]; bindings=[]; seen_actions={}; palette_options=[]
     prototype_states=[]
     gallery=['<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 커피공방 실제 화면 소스</title><link rel="stylesheet" href="'+stylesheet+'"></head><body><aside class="wrap"><h1>작은손 커피공방 실제 화면 소스</h1><p>실제 Django 응답의 읽기 전용 디자인 소스입니다. 폼 제출과 업무 처리는 실제 서비스에서만 실행합니다.</p></aside>']
+    seen_states = set()
     for name,title,template,requirements,route in STATES:
+        if name in seen_states:
+            raise ValueError('Duplicate state ID: ' + name)
+        seen_states.add(name)
         sid='state-'+name; screen='screen-'+name; code='code-'+name
-        node(screen,'screen',title,source='../templates/'+template,annotation={'summary':title+' 화면의 목적과 동작','purpose':SCREEN_MEANING[name][0],'journey':SCREEN_MEANING[name][1],'failure':'폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.','platform_scope':'웹: '+PLATFORM['web']+' Figma: '+PLATFORM['figma']})
+        purpose, journey = SCREEN_MEANING.get(name, (title+' 화면의 목적과 동작', title+' 화면 흐름'))
+        node(screen,'screen',title,source='../templates/'+template,annotation={'summary':title+' 화면의 목적과 동작','purpose':purpose,'journey':journey,'failure':'폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.','platform_scope':'웹: '+PLATFORM['web']+' Figma: '+PLATFORM['figma']})
         node(sid,'state',title+' 표시',source='../templates/'+template)
         node(code,'code',template,source='../templates/'+template,detail='현재 소스 읽기만 확인. 실제 실행 인수는 별도 근거가 필요하다.')
         edge(screen,sid,'has state'); edge(screen,code,'implemented by')
         for req in requirements:
+            if req not in test_by_requirement:
+                raise ValueError(f'Unknown requirement ID in state {name}: {req}')
             edge(req,screen,'appears on'); edge(code,test_by_requirement[req],'checked by')
         prototype_states.append({'id':sid,'screen':screen,'view':name,'title':title,'body':PLATFORM['figma']})
         desktop=captures.get((sid,'desktop'))
@@ -826,13 +939,15 @@ def generate(output, canonical, baseline):
     for current in nodes:
         if current['type']=='screen':
             actions=[n for n in nodes if n['type']=='action' and n.get('source_screen')==current['id']]
-            chosen=next((n for n in actions if n.get('web_action')==primary[current['id'].removeprefix('screen-')]),actions[0] if actions else None)
+            chosen=next((n for n in actions if n.get('web_action')==primary.get(current['id'].removeprefix('screen-'))),actions[0] if actions else None)
             if chosen:current['annotation']['first_action']=chosen['id']
     graph={'version':1,'stage':'draft','scope':'Real Django production application; actual captured SSR geometry, acceptance/native execution pending.','nodes':nodes,'edges':edges,'design_foundations':foundations,'draft_prototype':{'entry_state':'state-publichome','entry_states':['state-publichome','state-mybookings','state-staffdashboard','state-conflict','state-waitlisted','state-403','state-404'],'viewports':[{'id':'desktop','width':1200,'height':900},{'id':'mobile','width':390,'height':960}],'states':prototype_states,'bindings':bindings}}
     proposal = graph
-    graph, review = reconcile(canonical, proposal, baseline)
+    graph, review = reconcile(canonical, proposal, baseline, prior_orphans=prior_orphans)
     if 'design_system' in graph:
-        resolve_design_system(graph)
+        resolved = resolve_design_system(graph)
+        if 'design_foundations' in graph:
+            graph['design_foundations'] = resolved['designFoundations']
     nodes = graph['nodes']
     foundations = graph['design_foundations']
     samples = foundations['palette']['samples']
@@ -850,7 +965,7 @@ def generate(output, canonical, baseline):
     write_json(output/'native-layout.json',{'schema':'figma-flow-authored-native-layout-v1','scope':'exploratory-only','production_admitted':False,'content':{'path':'content.json','sha256':sha(ROOT/'content.json')},'assets':assets,'candidates':[candidate]})
     write_json(output/'dom-map.json',{'schema':'little-hands-source-dom-map-v1','controls_and_layers':mappings,'transport_alias_resolutions':[row for data,path in captures.values() for row in data.get('_transport_alias_resolutions',[])],'scope':'Original actual DOM selectors map to state-prefixed source/native keys. No runtime/native verification claim.'})
     missing=[{'state':'state-'+row[0],'viewport':vp} for row in STATES for vp in ('desktop','mobile') if ('state-'+row[0],vp) not in captures]
-    write_json(output/'source-status.json',{'schema':'little-hands-design-source-status-v1','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'source_epoch_current':stylesheet_current,'pending_measurements':missing,'pending_previews':[p for p in ('previews/littlehands-desktop.jpg','previews/littlehands-mobile.jpg') if not (ROOT/p).is_file()],'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded','graph_acceptance':'unverified'})
+    write_json(output/'source-status.json',{'schema':'little-hands-design-source-status-v1','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'source_epoch_current':stylesheet_current,'pending_measurements':missing,'pending_previews':[p for p in ('previews/littlehands-desktop.jpg','previews/littlehands-mobile.jpg') if not (ROOT/p).is_file()],'orphan_candidates':review['orphan_candidates'],'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded','graph_acceptance':'unverified'})
     write_json(output/'specifications.json',{'schema':'figma-flow-specification-export-v1','source_graph':{'path':'graph.json','sha256':digest},'specifications':derive_specifications(graph,source_graph_sha256=digest)})
     (output/'screen-spec.md').write_text(render_screen_spec(graph,source_graph_sha256=digest))
     notes_html=[]

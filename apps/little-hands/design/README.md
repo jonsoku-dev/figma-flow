@@ -23,7 +23,7 @@ python3 apps/little-hands/design/prepare_fonts.py
 python3 tools/design_quality.py --layout apps/little-hands/design/native-layout.json --out apps/little-hands/design/quality.json
 ```
 
-기존 graph가 있는 첫 실행은 같은 ID의 기존 값과 사람이 추가한 노드·관계를 보존한다. 생성 원본과 다른 값은 출력의 `retained_legacy_edits`에서 확인한다. 다음 실행부터는 로컬 `.figma-flow/last-source-proposal.json`과 비교해 원본만 바뀐 필드를 반영한다. 양쪽에서 같은 필드를 다르게 바꾸면 경로를 출력하고 저장을 중단한다. 원본에서 사라진 노드·관계는 `retained_without_source`에 남겨 검토할 수 있다.
+기존 graph가 있는 첫 실행은 같은 ID의 기존 값과 사람이 추가한 노드·관계를 보존한다. 생성 원본과 다른 값은 출력의 `retained_legacy_edits`에서 확인한다. 다음 실행부터는 로컬 `.figma-flow/last-source-proposal.json`과 비교해 원본만 바뀐 필드를 반영한다. 양쪽에서 같은 필드를 다르게 바꾸면 경로를 출력하고 저장을 중단한다. 원본에서 사라진 노드·관계는 `graph.json`에 보존하고 출력과 `source-status.json`의 `orphan_candidates`에 이전 근거·연결 관계와 함께 보고한다(`retained_without_source`는 원본 없는 항목 전체를 유지한다).
 
 다른 클론으로 생성 기준을 넘길 때는 `--proposal-out <새 파일>`로 디자인 디렉터리 밖에 이전 생성 후보를 보관하고, 다음 빌드에 `--base-graph <이전 후보>`를 전달한다. 검토한 정확한 그래프 바이트에만 적용하려면 `--expected-sha256 <SHA256>`을 지정한다. 생성기는 토큰 수정기와 같은 잠금을 잡고 임시 출력에서 명세·레이아웃을 완성한 뒤 파일별로 교체한다. 게시 도중 프로세스가 종료됐으면 같은 입력으로 다시 실행하고 명세·레이아웃의 SHA를 확인한다.
 
