@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 670,
+    "no-static-reference": 664,
     "qualified-static-reference": 70,
-    "unresolved-receiver-name-reference": 642
+    "unresolved-receiver-name-reference": 648
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -3257,7 +3257,7 @@
       "id": "ExportSettingsImage.suffix#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ExportSettingsImage.constraint#4",
@@ -3287,7 +3287,7 @@
       "id": "ExportSettingsSVGBase.suffix#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ExportSettingsSVGBase.svgOutlineText#3",
@@ -3347,7 +3347,7 @@
       "id": "ExportSettingsPDF.suffix#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ExportSettingsPDF.colorProfile#4",
@@ -5669,7 +5669,7 @@
       "id": "ComponentPropertiesMixin.editComponentProperty#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ComponentPropertiesMixin.deleteComponentProperty#3",
@@ -6833,13 +6833,13 @@
       "id": "InstanceNode.mainComponent#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "InstanceNode.swapComponent#4",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "InstanceNode.setProperties#5",
@@ -8329,7 +8329,7 @@
     },
     {
       "path": "figma-bridge/graph_token_sync.js",
-      "sha256": "3ed35ad1552ffd21f2353d6147e992a834498694ec34b7b566bc8e72e7de094b"
+      "sha256": "4b242f1d756c76ac63a83e01ca8ca9d22707a25303b6f7010a87198042ff284e"
     },
     {
       "path": "figma-bridge/native_annotations.js",
@@ -8353,7 +8353,7 @@
     },
     {
       "path": "figma-bridge/native_provision.js",
-      "sha256": "40b8f82de8347a71304ff16fb9137d31fa608392cabd78dae68043bdf889a357"
+      "sha256": "eb86ca22e38e9774c502532a167ab9f73b9d5e2c33e3505d286af48e6ae7d895"
     },
     {
       "path": "figma-bridge/native_semantic_read.js",
@@ -8373,7 +8373,7 @@
     },
     {
       "path": "figma-bridge/semantic_components.js",
-      "sha256": "065dcd1746746a4a3736ec3495c927f6b5f3dbb14433fbe675c88e300a101b9b"
+      "sha256": "43a26c97c8db7590adf91fc637b0d248511fe705b85a31f41a48e3539a3f8325"
     },
     {
       "path": "figma-bridge/semantic_tokens.js",
@@ -8413,11 +8413,11 @@
     },
     {
       "path": "library/figma-recipes/bundled/design-component-properties.js",
-      "sha256": "6dd9907a1da5215e17a0cc8221306c0ecd8d628ad87a0b720f0d2e0fcf5254bf"
+      "sha256": "a92f876d3a237663801a2e389bed14ba941f7c0cabcf4ae4f531294b5fa6ed31"
     },
     {
       "path": "tools/workspace_recipes.py::dispatch_source",
-      "sha256": "cbcae862c1311c8420bd299b431dfdb6d3965e45813716872e1fd535799c4a9e"
+      "sha256": "17e134f3f60e806f5a77caee078fa4380490cd18ddd18078837f22b9e732c1a5"
     }
   ]
 }
