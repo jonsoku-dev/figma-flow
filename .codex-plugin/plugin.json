@@ -1,6 +1,6 @@
 {
   "name": "figma-flow",
-  "version": "0.32.1",
+  "version": "0.32.2",
   "description": "Turn a product brief into traceable Figma screens, screen specifications, and frontend implementation.",
   "skills": "./skills/",
   "requires_local_executor": true,
