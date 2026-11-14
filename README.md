@@ -9,7 +9,7 @@ Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design
 설치·폰트·시안 검토·본제작·그래프 왕복·업데이트·복구·회사 배포는 통합 가이드 한 곳에서 확인합니다.
 
 ```text
-Figma Flow v0.34.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.35.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 기존 작업과 작업공간 ID를 보존해. Figma Flow 최초 등록과 세션별 실행은 내가 할게.
 그 뒤 localhost 제어와 실제 JSON으로 검증해. 구체적인 요청은 한 안으로 진행하고, 비교를 요청하면 내 선택을 기다려.
@@ -24,7 +24,8 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 | 선택한 원화·배치를 유지한 0.25.0 본제작 | [입력 핀과 verify-production](docs/guide.md#selected-rich-production) |
 | 실제 Figma 값을 준비된 JSON으로 편집 | [native-edit 범위](docs/guide.md#prepared-native-edit) |
 | 이미지·그라디언트 위 글자 대비 | [전체 배경 픽셀의 최소값과 판정 불가](docs/guide.md#contrast-evidence) |
-| Figma·그래프·웹 왕복 | [동기화와 실제 증거](docs/guide.md#10-그래프와-figma-컴포넌트-동기화) |
+| Figma·그래프·웹 왕복 | [동기화와 실제 증거](docs/guide.md#10-그래프와-figma-컴포넌트-동기화) · [G1 소스 재생성(0.35.0)](docs/guide.md#g1-source-regeneration) |
+| 웹 캐러셀·탭·FAQ 프로토타입 | [캐러셀](docs/guide.md#web-carousel-quickstart) · [탭](docs/guide.md#web-tabs-quickstart) · [SaaS FAQ 아코디언(0.35.0)](docs/guide.md#web-disclosure-quickstart) |
 | 시작 시 두 플러그인 최신화 | [자동 확인과 업데이트](docs/guide.md#automatic-startup) |
 | graph 기반 사람용 스펙 설명 | [설명 보드와 기술 정보 분리](docs/guide.md#readable-specifications) |
 | 새 릴리스·서비스 교체·복구 | [업데이트](docs/guide.md#updates) |

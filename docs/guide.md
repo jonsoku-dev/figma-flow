@@ -1,10 +1,10 @@
-# Figma Flow 0.34.0 통합 가이드
+# Figma Flow 0.35.0 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
 <a id="korean"></a>
 
-이 문서는 0.34.0 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md)에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다.
+이 문서는 0.35.0 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md)에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다.
 
 설치·사용·업데이트 안내의 정본은 이 문서 하나입니다. [설치 프롬프트](#setup-prompt) · [환경 설정](#environment) · [업데이트와 복구](#updates) · [회사 private 배포](#private-distribution)
 
@@ -92,13 +92,36 @@ python3 -B "$PLUGIN_ROOT/tools/native_edit.py" web-design \
 
 패널 내용이 바뀌지 않는 클릭, 다른 요소에 가려진 탭, 페이지 스크롤이 생긴 클릭은 실패로 끝납니다. 각 전이는 출발 화면에서 실제로 누른 탭 프레임을 기록합니다. Figma에서는 그 탭 위에 투명한 `Click · 목적지` 프레임을 두고 즉시 이동하는 클릭 반응을 연결합니다. 탭 레이어는 그대로 편집할 수 있습니다. 관찰하지 않은 탭 조합은 연결하지 않습니다. 준비·적용·읽기와 **Present**는 위 캐러셀과 같습니다. [입력 형식](web-tabs-input.md)
 
+<a id="web-disclosure-quickstart"></a>
+
+### 웹 SaaS FAQ 아코디언을 캡처해 Figma에서 재생하기
+
+단일 열림(`single-collapsible`) FAQ/아코디언도 같은 흐름으로 가져옵니다. 아래 예제는 로컬 SaaS(`example.test`) 페이지(`http://127.0.0.1:8874/`)를 1440×900으로 열고 5개 질문 중 2개 질문(`What is PlanHub?`, `How do I create my first workspace?`)에 7번 클릭을 실행해 `All closed`와 두 열림 상태(3개 상태), 6방향 전이(`open`·`close`·`switch`)를 관찰합니다.
+
+```sh
+node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
+  --url "http://127.0.0.1:8874/" --accordion '#faq' \
+  --click 'What is PlanHub?' --click 'What is PlanHub?' \
+  --click 'What is PlanHub?' --click 'How do I create my first workspace?' \
+  --click 'How do I create my first workspace?' --click 'How do I create my first workspace?' \
+  --click 'What is PlanHub?' \
+  --id saas-faq-1440 --frame-key faq --out "$PROJECT/saas-faq-1440"
+python3 -B "$PLUGIN_ROOT/tools/native_edit.py" web-design \
+  --graph "$PROJECT/saas-faq-1440/disclosure-graph.json" --file-key "$FILE_KEY" \
+  --page-id "$PAGE_ID" --readback-scope screens --out "$PROJECT/faq-plan.json"
+```
+
+수집기는 `aria-expanded`·`data-state`, 상태당 최대 1개 열림, 접힌 답변 비노출, trigger 상자 크기, 클릭 전후 스크롤 고정과 `hitTest`를 검사합니다. 기본 선택자(`--item`, `--trigger`, `--content`)가 페이지 마크업과 다르면 옵션으로 지정하고, 최대 32회 클릭까지 순서대로 전달할 수 있습니다. 컴파일러와 Figma 브리지는 모든 상태가 `initialState`에서 directed traversal로 도달할 수 있어야 통과시키며, 분리 순환이나 관찰하지 않은 전이는 거절합니다. Figma에서는 각 출발 화면의 trigger 위에 투명한 `Open · 질문`, `Close · 질문`, `Switch · 질문` hotspot(`ON_CLICK` → `NAVIGATE`)이 생기고 질문·답변 텍스트와 chevron 벡터는 편집 가능하게 남습니다. 준비·적용·읽기와 **Present**는 위 캐러셀과 같습니다. [관찰 입력 형식](web-disclosure-input.md) · [SaaS FAQ 인수 기록](../specs/interactive-web/disclosure.md)
+
 현재 관측·미관측 API와 사용 가능한 Design 수신 객체는 `python3 tools/review_api_coverage.py` 및 우선순위 그래프에서 확인합니다. [Design 실측과 기능 범위](design-runtime-verification.md) · [Design 전용 설계](../specs/design-specialization/spec.md)
 
 웹 앱의 상대 경로·최적화 이미지·CSS·글꼴을 테스트할 때는 [오프라인 에셋 매핑](html-asset-map.md)에 실제 응답과 로컬 파일의 SHA를 묶어 입력합니다. 지정한 기존 Design 노드의 실제 속성을 비교하려면 [API 조사 명령](native-api-probe.md)에서 선택 범위와 이전 영수증을 지정합니다.
 
+<a id="g1-source-regeneration"></a>
+
 ### 예약 CTA를 내보내고 오프라인으로 인계하기
 
-작은손의 예약 링크는 정본 그래프에서 생성한 CSS를 Django 정적 파일로 읽습니다. 기획자는 변경 전후의 요구사항과 직접 연결된 행동을 확인하고, 디자이너는 같은 페이지의 메인·인스턴스를 편집합니다. 개발자는 같은 graph SHA의 웹 모듈과 브라우저 계산값을 대조합니다. 실제 실행 결과와 3개 버전의 대응 관계는 [예약 CTA 검증](../apps/little-hands/design/VERIFICATION.md)에 있습니다.
+작은손의 예약 링크는 정본 그래프에서 생성한 CSS를 Django 정적 파일로 읽습니다. 기획자는 변경 전후의 요구사항과 직접 연결된 행동을 확인하고, 디자이너는 같은 페이지의 메인·인스턴스를 편집합니다. 개발자는 같은 graph SHA의 웹 모듈과 브라우저 계산값을 대조합니다. `0.35.0`에는 `v0.34.0` 이후 `main`에 통합된 **G1 소스 재생성**(`apps/little-hands/design/source.py`의 명시적 ID 이관, 채택 토큰·작성자 관계 보존, 차단된 CSS epoch와 재시도에 걸친 `retained_without_source` 고아 후보 유지)이 함께 배포 대상으로 연결됩니다. [G1 계약](STARTER_ROLE_FEATURE_SPEC.md#g1--기존-생성기와-id-보존) · [실제 빌드 경로](../apps/little-hands/design/README.md) · [예약 CTA 검증](../apps/little-hands/design/VERIFICATION.md).
 
 ```sh
 python3 tools/policy_impact.py --help
@@ -243,7 +266,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.34.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.35.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -252,7 +275,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.34.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.34.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.35.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.35.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -620,7 +643,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.34.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.35.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -764,7 +787,7 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 
 ## English quick start
 
-This guide targets 0.34.0. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md).
+This guide targets 0.35.0. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md). Version 0.35.0 also connects G1 source regeneration (`apps/little-hands/design/source.py`, preserving explicit IDs, adopted tokens, authored links, and `retained_without_source` orphan candidates across blocked CSS epochs and retries).
 
 At each workflow start, check and safely update both plugin packages/runtime files from the exact registered source. Pins, active work, unknown source, offline/auth failures and forbidden Figma access are explicit exceptions; actual loaded runtime remains separately verified. A concrete direction uses one `direct` draft; `compare` is for requested alternatives. Human specifications come from graph meaning and appear outside artwork, with technical ownership retained separately. [Startup](#automatic-startup) · [Readable specifications](#readable-specifications) · [Direction contract](../skills/figma-flow/references/direction-selection.md).
 
@@ -785,14 +808,14 @@ Codex can retrieve the result while local control is connected. For offline work
 ## Install once
 
 ```sh
-git clone --branch v0.34.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.35.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.34.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.35.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -911,6 +934,22 @@ node "$PLUGIN_ROOT/tools/web_tabs_capture.mjs" \
 ```
 
 A click that leaves the panel unchanged, a covered tab, or a click that scrolls the page stops the capture. Each transition records the tab frame actually clicked in its source screen. In Figma, a transparent `Click · destination` frame over that tab holds an instant click navigation, and the tab layers stay editable. Unobserved tab pairs stay unlinked. Plan, prepare, Apply, Read and **Present** match the carousel steps above. [Input format](web-tabs-input.md)
+
+## Capture and play web FAQ disclosure
+
+The same workflow imports single-collapsible FAQ/accordion items. This example opens the local `example.test` page at 1440×900 and runs seven browser clicks across two of the five questions (`What is PlanHub?` and `How do I create my first workspace?`) to record three states (`All closed` plus two expanded states) and six directed transitions (`open`, `close`, and `switch`).
+
+```sh
+node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
+  --url "http://127.0.0.1:8874/" --accordion '#faq' \
+  --click 'What is PlanHub?' --click 'What is PlanHub?' \
+  --click 'What is PlanHub?' --click 'How do I create my first workspace?' \
+  --click 'How do I create my first workspace?' --click 'How do I create my first workspace?' \
+  --click 'What is PlanHub?' \
+  --id saas-faq-1440 --frame-key faq --out "$PROJECT/saas-faq-1440"
+```
+
+Both the compiler and the Figma bridge require every state to be reachable from `initialState` by directed traversal across observed transitions and reject disconnected cycles. In Figma, transparent top-level `Open · <item>`, `Close · <item>`, and `Switch · <item>` hotspots hold instant `ON_CLICK` navigation while question text, answer text, and chevron vectors remain editable. Plan, prepare, Apply, Read, and **Present** match the steps above. [Input format](web-disclosure-input.md) · [SaaS FAQ acceptance record](../specs/interactive-web/disclosure.md)
 ## Prepared native edits
 
 `native-edit` is a separate task kind with `read` and `apply` operations. Prepare `figma-flow-native-edit-plan-v1` JSON containing the exact file/page, admitted node or local variable/mode, and before/after values with `prepare --kind native-edit -- --plan PLAN.json`. The plugin executes the plan through the actual Figma API, without arbitrary JavaScript. Stale values/revisions stop the write. Preserve rollback conflicts and read current state before retrying an uncertain write. Import native edits into the graph and verify the real web separately. [Plan example and limits](#prepared-native-edit).
@@ -946,7 +985,7 @@ For updates, preserve the old source and complete workspace, install the chosen 
 
 ## 日本語クイックスタート
 
-このガイドは0.34.0向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)で確認します。
+このガイドは0.35.0向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)で確認します。0.35.0 には `v0.34.0` 以降の `main` に統合された G1 ソース再生成（`apps/little-hands/design/source.py` における安定 ID 移行、採用トークン・手書き関連の保持、失敗 epoch や再試行をまたぐ `retained_without_source` 孤立候補の維持）も含まれます。
 
 各作業の開始時に、登録済みの正確な配布元から Codex パッケージと Figma 実行ファイルを確認し、安全な場合は更新します。バージョン固定・実行中・配布元不明・オフライン・認証失敗・Figma アクセス禁止は例外として記録し、実際に読み込まれた実行版は別途確認します。具体的な方向指定は `direct` 一案、比較の依頼は `compare` を使います。説明は graph の意味から生成して画面の外に表示し、技術情報と所有権は別に保持します。[開始時の確認](#automatic-startup) · [説明の契約](#readable-specifications) · [方向の契約](../skills/figma-flow/references/direction-selection.md)。
 
@@ -973,14 +1012,14 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.34.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.35.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.34.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.35.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 
@@ -1097,6 +1136,22 @@ node "$PLUGIN_ROOT/tools/web_tabs_capture.mjs" \
 ```
 
 パネルが変わらないクリック、他の要素に隠れたタブ、ページがスクロールしたクリックは失敗として止まります。各遷移は出発画面で実際に押したタブフレームを記録します。Figma ではそのタブの上に透明な `Click · 移動先` フレームを置き、即時移動のクリック反応を設定します。タブのレイヤーはそのまま編集できます。観察していないタブの組み合わせは接続しません。Plan、準備、Apply、Read、**プレゼンテーション**はカルーセルと同じです。[入力形式](web-tabs-input.md)
+
+## WebのFAQアコーディオンをキャプチャしてFigmaで再生する
+
+単一展開（`single-collapsible`）の FAQ／アコーディオンも同様に取得できます。次の例はローカルの `example.test` ページを 1440×900 で開き、5つの質問のうち2つ（`What is PlanHub?` と `How do I create my first workspace?`）に7回のクリックを行って 3つの状態（`All closed` と2つの展開状態）および6方向の遷移（`open`・`close`・`switch`）を記録します。
+
+```sh
+node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
+  --url "http://127.0.0.1:8874/" --accordion '#faq' \
+  --click 'What is PlanHub?' --click 'What is PlanHub?' \
+  --click 'What is PlanHub?' --click 'How do I create my first workspace?' \
+  --click 'How do I create my first workspace?' --click 'How do I create my first workspace?' \
+  --click 'What is PlanHub?' \
+  --id saas-faq-1440 --frame-key faq --out "$PROJECT/saas-faq-1440"
+```
+
+コンパイラと Figma ブリッジは `initialState` から有向グラフ探索（directed traversal）で全状態へ到達できることを要求し、孤立した循環は拒否します。Figma では各開始フレームのトリガー上に透明な `Open · 質問`、`Close · 質問`、`Switch · 質問` のホットスポット（`ON_CLICK` → `NAVIGATE`）を配置し、質問文・回答文・シェブロンベクターは編集可能なまま保ちます。Plan、準備、Apply、Read、**プレゼンテーション**は上記と同じです。[入力形式](web-disclosure-input.md) · [SaaS FAQ 受入記録](../specs/interactive-web/disclosure.md)
 ## 画面の見方
 
 0.27では `prepare` の `--` 前に `--depends-on FILE --input-record FILE --input-root ROOT` を指定できます。依存 JSON は `task_key`、正確な `revision`、`relation: uses-output`、登録済み `artifact`、`artifact_sha256` を使います。64桁の実値は準備した成果物から取得します。[例と契約](#027에서-준비하고-확인할-범위)を参照してください。資産の種類・状態・全CSS出典・freshnessは一覧情報であり、描画成功ではありません。要求していない曖昧なgapは未解決のまま残します。TEXTラベルと共有main、明示したGroup/Frame/Auto Layoutを使い、scrollはclip付きFrameの宣言を検証します。選択pinはaliasの分割適用を防ぎ、部分markerを保持します。全体pairingには最新full読み取りが必要です。summaryは部分観測です。scopeを固定したserver journalとローカルUI履歴を区別し、秘密を除去した診断exportはnative書き込みを追加しません。[受入状況](development-roadmap/FINAL_ACCEPTANCE.md)・[独立Django/PostgreSQLアプリ](../apps/little-hands/README.md)・[次の提案](next-roadmap/README.md)。
