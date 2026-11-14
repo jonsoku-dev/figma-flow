@@ -257,7 +257,17 @@ function requireFullNativeRead(read) {
   return read;
 }
 function utf8JsonBytes(value) {
-  return new TextEncoder().encode(JSON.stringify(value)).length;
+  // The Figma plugin sandbox has no TextEncoder; count UTF-8 bytes, lone surrogates as U+FFFD like TextEncoder.
+  const text = JSON.stringify(value);
+  let bytes = 0;
+  for (let index = 0; index < text.length; index++) {
+    const unit = text.charCodeAt(index);
+    if (unit < 0x80) bytes += 1;
+    else if (unit < 0x800) bytes += 2;
+    else if (unit >= 0xd800 && unit < 0xdc00 && (text.charCodeAt(index + 1) & 0xfc00) === 0xdc00) { bytes += 4; index++; }
+    else bytes += 3;
+  }
+  return bytes;
 }
 async function compareNativeReadProfiles(figma, page, request) {
   const full = await readNativeSemantics(figma, page);
