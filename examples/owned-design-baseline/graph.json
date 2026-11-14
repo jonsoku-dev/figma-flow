@@ -1,0 +1,375 @@
+{
+  "version": 1,
+  "id": "owned-design-baseline",
+  "title": "Owned Design Handoff Baseline",
+  "workspace_meta": {
+    "eyebrow": "Canonical Graph SSOT",
+    "summary": "Self-contained Figma Design review and engineering handoff baseline with separated contract policy, owned public source, and private runtime outputs.",
+    "disclosure_heading": "Production Handoff Disclosures",
+    "disclosure_mode": "single-collapsible",
+    "inspector_heading": "Active State & Graph Relationships",
+    "routes_heading": "Directed Click Routes from Current State",
+    "trace_heading": "Screen & Verification Trace"
+  },
+  "nodes": [
+    {
+      "id": "REF-DISCLOSURE-CONTRACT",
+      "type": "reference",
+      "status": "verified",
+      "layer": "reference-input",
+      "source": "../../docs/web-disclosure-input.md",
+      "title": "Single-collapsible disclosure capture contract",
+      "detail": "Defines internal DOM and traversal rules only: one visible accordion root, unique trigger labels, and 3-state 6-direction reachability without external template names or copied text."
+    },
+    {
+      "id": "REQ-HANDOFF-TOKENS",
+      "type": "requirement",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "manifest.json#owned-public-baseline",
+      "title": "Token & Typography Handoff Gate",
+      "detail": "All surface, ink, and stroke tokens bind to repo-owned sRGB CSS custom properties using local Inter metrics, uniform 4-sided borders, and zero external font or media requests.",
+      "handoff_checks": [
+        "Body text maintains >= 7:1 contrast and interactive trigger borders maintain >= 3:1 contrast on light surfaces.",
+        "Zero external stylesheet, webfont, image, or runtime network fetches occur during browser capture or Figma import."
+      ]
+    },
+    {
+      "id": "REQ-HANDOFF-TRANSITIONS",
+      "type": "requirement",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "manifest.json#owned-public-baseline",
+      "title": "Single-Collapsible Transition Parity",
+      "detail": "All 6 directed trigger actions (2 open, 2 close, and 2 sibling switches) settle deterministically inside a fixed 1440x900 viewport with matching vector chevron orientation.",
+      "handoff_checks": [
+        "Expanding either requirement auto-closes its sibling and keeps collapsed answer text hidden from layout and capture.",
+        "Closing an expanded requirement returns to the exact initial All closed state geometry and content hash without scroll drift."
+      ]
+    },
+    {
+      "id": "SCR-HANDOFF-REVIEW",
+      "type": "screen",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "index.html",
+      "title": "Design Handoff Readiness Review",
+      "detail": "Repo-owned 1440x900 desktop review workspace rendering disclosure gates, active state transitions, and three-layer provenance directly from graph.json and manifest.json."
+    },
+    {
+      "id": "STATE-HANDOFF-CLOSED",
+      "type": "state",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "initial": true,
+      "expanded_requirement": null,
+      "title": "All closed",
+      "detail": "Initial baseline state with both production handoff requirement panels collapsed and ready for open traversal."
+    },
+    {
+      "id": "STATE-TOKENS-OPEN",
+      "type": "state",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "initial": false,
+      "expanded_requirement": "REQ-HANDOFF-TOKENS",
+      "title": "Token & Typography Handoff Gate expanded",
+      "detail": "Token and typography gate criteria expanded for design-to-engineering signoff while transition parity stays collapsed."
+    },
+    {
+      "id": "STATE-TRANSITIONS-OPEN",
+      "type": "state",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "initial": false,
+      "expanded_requirement": "REQ-HANDOFF-TRANSITIONS",
+      "title": "Single-Collapsible Transition Parity expanded",
+      "detail": "Transition parity criteria expanded for prototype hotspot verification while token gate stays collapsed."
+    },
+    {
+      "id": "ACT-OPEN-TOKENS",
+      "type": "action",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-HANDOFF-REVIEW",
+      "target_ids": [
+        "STATE-TOKENS-OPEN"
+      ],
+      "trigger_requirement": "REQ-HANDOFF-TOKENS",
+      "transition_kind": "open",
+      "title": "Open Token & Typography Handoff Gate",
+      "detail": "Click Token & Typography Handoff Gate from All closed to inspect surface, stroke, and font handoff rules."
+    },
+    {
+      "id": "ACT-CLOSE-TOKENS",
+      "type": "action",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-HANDOFF-REVIEW",
+      "target_ids": [
+        "STATE-HANDOFF-CLOSED"
+      ],
+      "trigger_requirement": "REQ-HANDOFF-TOKENS",
+      "transition_kind": "close",
+      "title": "Close Token & Typography Handoff Gate",
+      "detail": "Click Token & Typography Handoff Gate while expanded to return to All closed."
+    },
+    {
+      "id": "ACT-SWITCH-TOKENS-TO-TRANSITIONS",
+      "type": "action",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-HANDOFF-REVIEW",
+      "target_ids": [
+        "STATE-TRANSITIONS-OPEN"
+      ],
+      "trigger_requirement": "REQ-HANDOFF-TRANSITIONS",
+      "transition_kind": "switch",
+      "title": "Switch from Token Gate to Transition Parity",
+      "detail": "Click Single-Collapsible Transition Parity while Token Gate is open to auto-close sibling panel and switch states."
+    },
+    {
+      "id": "ACT-CLOSE-TRANSITIONS",
+      "type": "action",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-HANDOFF-REVIEW",
+      "target_ids": [
+        "STATE-HANDOFF-CLOSED"
+      ],
+      "trigger_requirement": "REQ-HANDOFF-TRANSITIONS",
+      "transition_kind": "close",
+      "title": "Close Single-Collapsible Transition Parity",
+      "detail": "Click Single-Collapsible Transition Parity while expanded to return to All closed."
+    },
+    {
+      "id": "ACT-OPEN-TRANSITIONS",
+      "type": "action",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-HANDOFF-REVIEW",
+      "target_ids": [
+        "STATE-TRANSITIONS-OPEN"
+      ],
+      "trigger_requirement": "REQ-HANDOFF-TRANSITIONS",
+      "transition_kind": "open",
+      "title": "Open Single-Collapsible Transition Parity",
+      "detail": "Click Single-Collapsible Transition Parity from All closed to inspect 6-direction prototype routing rules."
+    },
+    {
+      "id": "ACT-SWITCH-TRANSITIONS-TO-TOKENS",
+      "type": "action",
+      "status": "observed",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "source_screen": "SCR-HANDOFF-REVIEW",
+      "target_ids": [
+        "STATE-TOKENS-OPEN"
+      ],
+      "trigger_requirement": "REQ-HANDOFF-TOKENS",
+      "transition_kind": "switch",
+      "title": "Switch from Transition Parity to Token Gate",
+      "detail": "Click Token & Typography Handoff Gate while Transition Parity is open to auto-close sibling panel and switch states."
+    },
+    {
+      "id": "CODE-HANDOFF-RENDERER",
+      "type": "code",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "renderer.js",
+      "title": "Graph-driven disclosure and state relationship renderer",
+      "detail": "Renders disclosures, state transitions, and provenance badges from graph.json and manifest.json with zero duplicated semantic IDs or copy."
+    },
+    {
+      "id": "AC-OWNED-BASELINE",
+      "type": "acceptance",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "manifest.json#artifact_layers",
+      "title": "Public owned baseline separates policy, source, and private captures across 3 states and 6 routes",
+      "detail": "Requires zero external templates or network assets, preserves MIT provenance, and compiles 3 reachable disclosure states with 6 directed transitions."
+    },
+    {
+      "id": "TEST-OWNED-BASELINE",
+      "type": "test",
+      "status": "verified",
+      "layer": "owned-public-baseline",
+      "source": "../../tests/test_owned_design_baseline.py",
+      "title": "Strict-local graph, SSOT renderer, and provenance manifest verification",
+      "detail": "Checks graph.py strict-local validation, review_graph projection bounds, manifest license integrity, and zero hardcoded semantic copy in HTML/CSS/JS."
+    },
+    {
+      "id": "FIG-PRIVATE-REVIEW-FRAMES",
+      "type": "figma",
+      "status": "planned",
+      "layer": "generated-private-output",
+      "title": "Private generated Figma Design frames and ON_CLICK hotspots",
+      "detail": "Generated outside Git via tools/web_disclosure_capture.mjs and tools/native_edit.py web-design inside private evidence storage."
+    }
+  ],
+  "edges": [
+    {
+      "from": "REF-DISCLOSURE-CONTRACT",
+      "to": "REQ-HANDOFF-TOKENS",
+      "type": "informs"
+    },
+    {
+      "from": "REF-DISCLOSURE-CONTRACT",
+      "to": "REQ-HANDOFF-TRANSITIONS",
+      "type": "informs"
+    },
+    {
+      "from": "REQ-HANDOFF-TOKENS",
+      "to": "SCR-HANDOFF-REVIEW",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-HANDOFF-TRANSITIONS",
+      "to": "SCR-HANDOFF-REVIEW",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-HANDOFF-TOKENS",
+      "to": "AC-OWNED-BASELINE",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-HANDOFF-TRANSITIONS",
+      "to": "AC-OWNED-BASELINE",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "STATE-HANDOFF-CLOSED",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "STATE-TOKENS-OPEN",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "STATE-TRANSITIONS-OPEN",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "ACT-OPEN-TOKENS",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "ACT-CLOSE-TOKENS",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "ACT-SWITCH-TOKENS-TO-TRANSITIONS",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "ACT-CLOSE-TRANSITIONS",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "ACT-OPEN-TRANSITIONS",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "ACT-SWITCH-TRANSITIONS-TO-TOKENS",
+      "type": "triggers"
+    },
+    {
+      "from": "STATE-HANDOFF-CLOSED",
+      "to": "ACT-OPEN-TOKENS",
+      "type": "accepts input"
+    },
+    {
+      "from": "ACT-OPEN-TOKENS",
+      "to": "STATE-TOKENS-OPEN",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-TOKENS-OPEN",
+      "to": "ACT-CLOSE-TOKENS",
+      "type": "accepts input"
+    },
+    {
+      "from": "ACT-CLOSE-TOKENS",
+      "to": "STATE-HANDOFF-CLOSED",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-TOKENS-OPEN",
+      "to": "ACT-SWITCH-TOKENS-TO-TRANSITIONS",
+      "type": "accepts input"
+    },
+    {
+      "from": "ACT-SWITCH-TOKENS-TO-TRANSITIONS",
+      "to": "STATE-TRANSITIONS-OPEN",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-TRANSITIONS-OPEN",
+      "to": "ACT-CLOSE-TRANSITIONS",
+      "type": "accepts input"
+    },
+    {
+      "from": "ACT-CLOSE-TRANSITIONS",
+      "to": "STATE-HANDOFF-CLOSED",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-HANDOFF-CLOSED",
+      "to": "ACT-OPEN-TRANSITIONS",
+      "type": "accepts input"
+    },
+    {
+      "from": "ACT-OPEN-TRANSITIONS",
+      "to": "STATE-TRANSITIONS-OPEN",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-TRANSITIONS-OPEN",
+      "to": "ACT-SWITCH-TRANSITIONS-TO-TOKENS",
+      "type": "accepts input"
+    },
+    {
+      "from": "ACT-SWITCH-TRANSITIONS-TO-TOKENS",
+      "to": "STATE-TOKENS-OPEN",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "CODE-HANDOFF-RENDERER",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-HANDOFF-REVIEW",
+      "to": "FIG-PRIVATE-REVIEW-FRAMES",
+      "type": "represented by"
+    },
+    {
+      "from": "AC-OWNED-BASELINE",
+      "to": "TEST-OWNED-BASELINE",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-HANDOFF-RENDERER",
+      "to": "TEST-OWNED-BASELINE",
+      "type": "checked by"
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "schema": "figma-flow-owned-design-baseline-manifest-v1",
+  "id": "owned-design-baseline",
+  "title": "Owned Design Handoff Baseline Provenance Manifest",
+  "canonical_graph": "graph.json",
+  "ownership": {
+    "copyright": "Copyright (c) 2026 Jongseok Lee",
+    "authored_in_repo": true,
+    "license": "MIT",
+    "license_path": "../../LICENSE",
+    "third_party_sources": [],
+    "third_party_licenses_claimed": [],
+    "external_media_assets": 0,
+    "external_font_requests": 0,
+    "external_network_requests": 0
+  },
+  "external_reference_policy": {
+    "policy_id": "zero-external-template-trace",
+    "requires_template_source": false,
+    "record_external_names": false,
+    "record_external_urls": false,
+    "record_external_screenshots": false,
+    "record_external_copy": false,
+    "summary": "Reference inputs supply internal interaction contracts only; external template names, URLs, screenshots, and source text are never recorded."
+  },
+  "artifact_layers": {
+    "reference-input": {
+      "label": "Reference Contract Input",
+      "sharing_scope": "public-contract-only",
+      "git_tracked": true,
+      "summary": "Repo-internal single-collapsible disclosure invariants without external template names or copied material."
+    },
+    "owned-public-baseline": {
+      "label": "Owned Public Baseline",
+      "sharing_scope": "public",
+      "git_tracked": true,
+      "summary": "Original repo-authored canonical graph, provenance manifest, stylesheet, and renderer under the repository MIT license."
+    },
+    "generated-private-output": {
+      "label": "Generated Private Output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "summary": "Runtime browser captures, screenshots, compiled disclosure graphs, native-edit plans, and Figma readbacks stored outside Git."
+    }
+  },
+  "files": [
+    {
+      "path": "graph.json",
+      "role": "canonical-ssot-graph",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "ownership": "repo-authored",
+      "license": "MIT"
+    },
+    {
+      "path": "manifest.json",
+      "role": "provenance-and-rights-manifest",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "ownership": "repo-authored",
+      "license": "MIT"
+    },
+    {
+      "path": "index.html",
+      "role": "semantic-shell",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "ownership": "repo-authored",
+      "license": "MIT"
+    },
+    {
+      "path": "styles.css",
+      "role": "local-token-stylesheet",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "ownership": "repo-authored",
+      "license": "MIT"
+    },
+    {
+      "path": "renderer.js",
+      "role": "graph-driven-dom-renderer",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "ownership": "repo-authored",
+      "license": "MIT"
+    },
+    {
+      "path": "README.md",
+      "role": "reproducible-cli-guide",
+      "layer": "owned-public-baseline",
+      "sharing_scope": "public",
+      "ownership": "repo-authored",
+      "license": "MIT"
+    }
+  ],
+  "private_generated_outputs": [
+    {
+      "pattern": "disclosure-capture/state-*.png",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Viewport screenshots for observed disclosure states."
+    },
+    {
+      "pattern": "disclosure-capture/click-*.png",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Click transition verification receipts."
+    },
+    {
+      "pattern": "disclosure-capture/WEB-*.json",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Measured DOM geometry per disclosure state."
+    },
+    {
+      "pattern": "disclosure-capture/observations.json",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Pinned browser state and transition hashes."
+    },
+    {
+      "pattern": "disclosure-capture/inputs.json",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Recorded click sequence, hit-tests, and state return checks."
+    },
+    {
+      "pattern": "disclosure-capture/disclosure-graph.json",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Compiled web-design graph input for tools/native_edit.py web-design."
+    },
+    {
+      "pattern": "disclosure-plan.json",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Pinned Figma Design execution plan."
+    },
+    {
+      "pattern": "prepared-bundle/**",
+      "layer": "generated-private-output",
+      "sharing_scope": "private",
+      "git_tracked": false,
+      "purpose": "Prepared Figma plugin bundle and runtime readbacks."
+    }
+  ]
+}
