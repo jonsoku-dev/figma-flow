@@ -388,11 +388,12 @@ def _extract_sync_map(plan):
 def _flatten_import_tokens(node, prefix, entries):
     if not isinstance(node, dict):
         return
-    if '$value' in node:
-        token_type = node.get('$type')
+    if '$value' in node or ('value' in node and ('type' in node or '$type' in node)):
+        raw_val = node['$value'] if '$value' in node else node['value']
+        token_type = node.get('$type', node.get('type'))
         field = 'characters' if token_type in {'text'} else 'value'
         key = _safe_semantic_key(prefix, 'token', len(entries) + 1)
-        norm = _normalize_design_value(field, node.get('$value'))
+        norm = _normalize_design_value(field, raw_val)
         if norm is not None:
             entries[(key, field)] = norm
         return
