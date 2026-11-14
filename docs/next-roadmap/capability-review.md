@@ -4,7 +4,7 @@
 
 ## 목표와 경계
 
-Figma Design 안에서 기획자, 디자이너, 개발자가 같은 그래프를 사용해 검토·편집·대조하는 범위를 SaaS 데스크톱 FAQ의 현재 예보다 넓힌다. 각 항목은 **추가 기능 제안(`proposed`)**이며 그래프 등록만으로 구현이나 인수를 주장하지 않는다.
+Figma Design 안에서 기획자, 디자이너, 개발자가 같은 그래프를 사용해 검토·편집·대조하는 범위를 SaaS 데스크톱 FAQ의 현재 예보다 넓힌다. 각 항목의 현재 상태(`status` · `evidence_status`)와 선행 충족 여부는 [backlog.graph.json](backlog.graph.json)을 정본으로 따르며, 그래프 등록만으로 미검증 항목의 구현이나 인수를 주장하지 않는다.
 
 <a id="accepted-cta-baseline"></a>
 
@@ -31,7 +31,7 @@ python3 -B tools/api_priority.py queue \
   --design-only --feasible-only
 ```
 
-검증자는 출력의 row 수와 `unobserved_members`를 요약해 기록한다. 각 API 후보는 선언·permission·Design route·기존 실제 증거를 대조한 뒤에만 probe 대상으로 삼는다. queue 수, 이름 참조나 테스트 파일 존재를 기능 통과율로 바꾸지 않는다. 위 CLI 수치와 SHA-256은 현재 소스에서 독립 재실행해 이관한 측정 근거(`observed_evidence`: `carried-forward-cli-measurement`)이며, `p0-api-queue-validation` 작업의 완료·인수 여부(`status`)는 [backlog.graph.json](backlog.graph.json)의 선행 `p0-reference-safety` 충족과 별도 분류 검토에 따른다.
+검증자는 출력의 row 수와 `unobserved_members`를 요약해 기록한다. 각 API 후보는 선언·permission·Design route·기존 실제 증거를 대조한 뒤에만 probe 대상으로 삼는다. queue 수, 이름 참조나 테스트 파일 존재를 기능 통과율로 바꾸지 않는다. 재현 수치와 CLI 재분류 요약·최종 상태(`status`·`evidence_status`)의 정본은 [backlog.graph.json](backlog.graph.json)(`p0-api-queue-validation`)에 기록하며, 관련 도구·회귀 검사는 [tools/api_priority.py](../../tools/api_priority.py) · [tests/test_api_priority.py](../../tests/test_api_priority.py)에 연결된다.
 
 ## 우선순위와 의존성 그래프 (`backlog.graph.json`)
 
@@ -45,22 +45,20 @@ python3 -B tools/api_priority.py queue \
 
 **역할 우선순위:** 엔지니어가 먼저 기준 입력과 명령을 고정하고, 디자이너와 기획자가 변경 소유자·검토 책임을 확인한다.
 
-**산출물:** 기준 입력 manifest, 생성물 경로, 보존 대상 목록, 각 입력의 출처·권리·민감도, 변경 전후 비교 명령. P0 CLI 요약은 이 기준선에 첨부한다.
+**산출물:** 기준 입력 manifest, 생성물 경로, 보존 대상 목록, 각 입력의 출처·권리·민감도, 변경 전후 비교 명령. 상세 인수 기록은 [p0-reference-acceptance.md](p0-reference-acceptance.md)에 연결하고, 작업 상태와 `observed_evidence` 정본은 [backlog.graph.json](backlog.graph.json)에서 읽는다.
 
-**P0 인수 근거 경로 (`proof_refs`):**
-- 배포 가드 도구: `tools/reference_distribution_guard.py`
-- 배포 가드 회귀 검사: `tests/test_reference_distribution_guard.py`
-- 자체 공개 기준 입력: `examples/owned-design-baseline/` 및 fixture 안내문(`examples/owned-design-baseline/README.md`)
+**P0 인수 근거 경로 및 운영 안내 (`proof_refs` / `spec_refs`):**
+- 공개 인수 기록: [p0-reference-acceptance.md](p0-reference-acceptance.md)
+- 배포 가드 도구·CI·회귀 검사: [tools/reference_distribution_guard.py](../../tools/reference_distribution_guard.py) · [tests/test_reference_distribution_guard.py](../../tests/test_reference_distribution_guard.py) · [.github/workflows/reference-guard.yml](../../.github/workflows/reference-guard.yml)
+- 자체 공개 기준 입력 및 테스트: [examples/owned-design-baseline/README.md](../../examples/owned-design-baseline/README.md) · [manifest.json](../../examples/owned-design-baseline/manifest.json) · [graph.json](../../examples/owned-design-baseline/graph.json) · [tests/test_owned_design_baseline.py](../../tests/test_owned_design_baseline.py)
+- 배포·기여 안내: [CONTRIBUTING.md](../../CONTRIBUTING.md) · [docs/guide.md#private-distribution](../guide.md#private-distribution)
 
-> 위 P0 인수 근거 경로는 해당 산출물이 이 저장소에 통합되고 독립 검증을 통과하기 전까지 존재가 확인(`seen`)되거나 `verified`로 승격된 것으로 간주하지 않는다. 실제 작업 상태는 [backlog.graph.json](backlog.graph.json)의 `status`와 `evidence_status`를 따른다.
-
-**작업 범위와 명령:** 새 계획·manifest·테스트 fixture와 배포 가드만 추가한다. 기존 참고 자료나 인수 파일을 이동·수정하지 않는다. 현재 저장소에서는 아래 기존 검사와 임시 경로 API queue 재현을 실행하고, 배포 가드 및 owned baseline 통합 후 해당 검사를 함께 확인한다.
+**작업 범위와 명령:** 새 계획·manifest·테스트 fixture와 배포 가드만 추가한다. 기존 참고 자료나 인수 파일을 이동·수정하지 않는다.
 
 ```sh
-python3 -B -m unittest tests.test_design_specialization
-# 통합 후 실행 대상 P0 근거 검증:
+python3 -B -m unittest tests.test_design_specialization tests.test_owned_design_baseline tests.test_reference_distribution_guard
 python3 -B tools/reference_distribution_guard.py --ref HEAD --format text
-python3 -B -m unittest tests.test_reference_distribution_guard
+python3 -B skills/figma-flow/scripts/graph.py validate examples/owned-design-baseline/graph.json --strict-local
 ```
 
 **통과 기준:** 실행 전후 기존 자료의 바이트와 파일 수가 바뀌지 않는다. 새 fixture는 기존 자료를 가리키지 않는 독립 입력이다. 이번 기록에 새 기준의 revision과 명령 출력이 연결된다. Design queue 수치는 12 feasible/825 unobserved로 재현되거나, 차이가 나면 차이를 만든 source/receipt와 분류를 설명한다.

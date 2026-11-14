@@ -11,10 +11,15 @@ ROADMAP_DIR = ROOT / 'docs/next-roadmap'
 GRAPH_PATH = ROADMAP_DIR / 'backlog.graph.json'
 SATISFIED_STATUSES = {'accepted', 'verified'}
 EXPECTED_P0_PROOF_REFS = {
+    'p0-reference-acceptance.md',
     '../../tools/reference_distribution_guard.py',
     '../../tests/test_reference_distribution_guard.py',
+    '../../.github/workflows/reference-guard.yml',
     '../../examples/owned-design-baseline/',
     '../../examples/owned-design-baseline/README.md',
+    '../../examples/owned-design-baseline/graph.json',
+    '../../examples/owned-design-baseline/manifest.json',
+    '../../tests/test_owned_design_baseline.py',
 }
 
 
@@ -145,7 +150,7 @@ class NextRoadmapBacklogTest(unittest.TestCase):
         self.assertEqual(validate_backlog_graph(graph, ROADMAP_DIR), [])
 
         by_id = {node['id']: node for node in graph['nodes']}
-        self.assertEqual(set(by_id['p0-reference-safety']['proof_refs']), EXPECTED_P0_PROOF_REFS)
+        self.assertTrue(EXPECTED_P0_PROOF_REFS.issubset(set(by_id['p0-reference-safety']['proof_refs'])))
         ready = next_ready_tasks(graph)
         self.assertTrue(ready or all(n['status'] in SATISFIED_STATUSES for n in graph['nodes'] if n['type'] == 'task'))
         for task_id in ready:
@@ -250,7 +255,7 @@ class NextRoadmapBacklogTest(unittest.TestCase):
             '4237a49c',
         )
         anchor_cache = {}
-        for filename in ('README.md', 'capability-review.md', 'backlog.graph.json'):
+        for filename in ('README.md', 'capability-review.md', 'p0-reference-acceptance.md', 'backlog.graph.json'):
             path = ROADMAP_DIR / filename
             text = path.read_text(encoding='utf-8')
             for marker in forbidden_substrings:

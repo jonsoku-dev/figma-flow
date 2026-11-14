@@ -29,9 +29,9 @@
     {
       "id": "p0-reference-safety",
       "type": "task",
-      "status": "proposed",
+      "status": "verified",
       "priority": "P0",
-      "evidence_status": "pending-independent-proof",
+      "evidence_status": "verified-with-public-receipt-and-local-full-guard",
       "title": "Protect references and isolate owned baseline inputs",
       "doc_ref": "capability-review.md#p0-reference-safety",
       "roles": ["planner", "designer", "engineer"],
@@ -42,19 +42,67 @@
       ],
       "spec_refs": [
         "../../CONSTITUTION.md",
-        "../../specs/design-specialization/spec.md"
+        "../../specs/design-specialization/spec.md",
+        "../../CONTRIBUTING.md",
+        "../guide.md#private-distribution"
       ],
       "proof_refs": [
+        "p0-reference-acceptance.md",
         "../../tools/reference_distribution_guard.py",
         "../../tests/test_reference_distribution_guard.py",
+        "../../.github/workflows/reference-guard.yml",
         "../../examples/owned-design-baseline/",
-        "../../examples/owned-design-baseline/README.md"
+        "../../examples/owned-design-baseline/README.md",
+        "../../examples/owned-design-baseline/graph.json",
+        "../../examples/owned-design-baseline/manifest.json",
+        "../../tests/test_owned_design_baseline.py"
       ],
       "commands": [
         "python3 -B -m unittest tests.test_design_specialization",
         "python3 -B tools/reference_distribution_guard.py --ref HEAD --format text",
-        "python3 -B -m unittest tests.test_reference_distribution_guard"
+        "python3 -B -m unittest tests.test_reference_distribution_guard",
+        "python3 -B -m unittest tests.test_owned_design_baseline",
+        "python3 -B skills/figma-flow/scripts/graph.py validate examples/owned-design-baseline/graph.json --strict-local"
       ],
+      "observed_evidence": {
+        "integrated_main_commits": {
+          "baseline_fixture": "d988600",
+          "reference_guard": "976a966",
+          "branch_fix": "b949523",
+          "guard_ci_workflow": ".github/workflows/reference-guard.yml"
+        },
+        "archive_and_guard": {
+          "external_zip_and_preserved_copy_sha_match": 4,
+          "protected_registry_and_licensed_guard": "clean",
+          "ci_guard_scope": "paths-only repo scan, git archive check, and 12 synthetic guard tests",
+          "release_local_full_guard_scope": "4 private sources and 67 guard rules"
+        },
+        "browser_capture_parity": {
+          "viewport": "1440x900",
+          "clicks": 7,
+          "states": 3,
+          "transitions": 6,
+          "byte_identical_pngs": 10,
+          "runners": ["carbon", "independent-chromium"]
+        },
+        "native_plugin_acceptance": {
+          "host": "codex-installed-own-plugin",
+          "official_mcp_used": false,
+          "cloud_sync_guaranteed": false,
+          "apply_repeat_read_status": "current",
+          "editable_node_counts_by_state": [85, 103, 103],
+          "preserved_frame_id_count": 3,
+          "on_click_native_destinations": 6,
+          "present_click_verification": "6/6",
+          "superseded_draft_capture": "86/104/104 retired under its exact revision after capture correction; final acceptance re-run on a fresh task"
+        },
+        "automated_checks": {
+          "test_owned_design_baseline_passed": 4,
+          "test_design_specialization_passed": 2,
+          "test_reference_distribution_guard_passed": 12,
+          "strict_local_graph_validate": "passed"
+        }
+      },
       "acceptance": [
         "Existing reference bytes remain unchanged",
         "New fixtures do not depend on protected source artifacts",
@@ -65,9 +113,9 @@
     {
       "id": "p0-api-queue-validation",
       "type": "task",
-      "status": "proposed",
+      "status": "verified",
       "priority": "P0",
-      "evidence_status": "cli-reproduction-observed",
+      "evidence_status": "verified-with-post-p0-reproduction",
       "title": "Refresh and classify the Design API queue",
       "doc_ref": "capability-review.md#current-cli-evidence",
       "roles": ["engineer", "designer"],
@@ -84,26 +132,36 @@
       ],
       "proof_refs": [
         "../../tools/api_priority.py",
+        "../../tests/test_api_priority.py",
         "../api-priority.md",
-        "../../specs/design-inspection/scene-observations.json"
+        "../../specs/design-inspection/scene-observations.json",
+        "../../specs/design-inspection/service-observations.json"
       ],
       "commands": [
         "python3 -B tools/api_priority.py build --out <temporary-inventory>",
         "python3 -B tools/api_priority.py queue --inventory <temporary-inventory> --limit 2000",
-        "python3 -B tools/api_priority.py queue --inventory <temporary-inventory> --design-only --feasible-only"
+        "python3 -B tools/api_priority.py queue --inventory <temporary-inventory> --design-only --feasible-only",
+        "python3 -B -m unittest tests.test_api_priority"
       ],
       "observed_evidence": {
-        "kind": "carried-forward-cli-measurement",
+        "kind": "post-p0-safety-reproduction",
         "inventory_sha256": "4e5480245bf3779a7d39668698be65fd5d0974bee71b5ce9316eea0918c551a5",
+        "byte_identical_to_prior_inventory": true,
         "audit_rows": 1382,
         "observed_graph_member_ids": 502,
         "unobserved_members": 825,
+        "new_api_observations": 0,
         "design_feasible_queue_rows": 12,
         "design_feasible_scope_counts": {
           "design-api": 8,
           "design-node": 4
         },
-        "note": "Carried-forward independent CLI measurement only, separate from P0 task acceptance; observed_graph_member_ids is a separate input metric, not a runtime support rate; feasible candidates are investigation targets, not supported features."
+        "reclassification_summary": {
+          "api_or_service_properties": 8,
+          "owned_fixture_variant_getter_exceptions": 2,
+          "transform_group_without_public_factory": 2
+        },
+        "note": "Re-run after p0-reference-safety acceptance produced byte-identical inventory SHA-256 and counts (1382/825/12) with 0 new API observations; observed_graph_member_ids is a separate input metric rather than a runtime support rate, and feasible candidates remain investigation targets rather than supported features."
       },
       "acceptance": [
         "Queue counts are reproduced or their changed evidence is classified",

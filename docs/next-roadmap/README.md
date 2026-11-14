@@ -10,18 +10,20 @@
 
 - **기계 판독 작업 그래프:** [backlog.graph.json](backlog.graph.json) (`schema: figma-flow-capability-backlog-v1`)
 - **정본 검토·인수 기준서:** [capability-review.md](capability-review.md)
+- **P0 기준 보호·자체 입력 인수 기록:** [p0-reference-acceptance.md](p0-reference-acceptance.md)
 - **그래프 검증 검사:** `python3 -B -m unittest tests.test_next_roadmap_backlog`
 
 중복 우선순위 표나 고정된 운영 상태 목록을 두지 않는다. 모든 작업의 상태, 선행 `depends-on`·`extends` 관계, `next-ready` 판정(`status == "proposed"`이면서 모든 `depends-on` 선행 노드가 `accepted` 또는 `verified`인 작업), 산출물, 검증 명령은 [backlog.graph.json](backlog.graph.json)에서 직접 읽는다.
 
 - **기준선 및 작업 그래프:** [backlog.graph.json](backlog.graph.json)은 기준선 노드(`accepted-narrow-cta-baseline`, [Starter Role 기능 계약](../STARTER_ROLE_FEATURE_SPEC.md#ssot-graph-plan) · [이전 own-mode 기록](../llm-wiki/releases.md#v0.28.0) · [상호작용 정본 그래프](../../specs/interactive-web/graph.json))와 후속 P0–P2 작업 노드 간의 `depends-on`·`extends` 관계를 정의한다.
-- **측정 이관과 작업 인수 구분:** `p0-api-queue-validation`에 기록된 `api_priority.py` CLI 재현 수치(`1382` audit rows, `502` `observed_graph_member_ids`, `825` unobserved, `12` Design feasible [`8 design-api`, `4 design-node`])는 현재 소스에서 이관한 독립 측정 근거(`observed_evidence`)이며, 작업 인수 상태(`status`)와는 별개로 취급한다.
-- **P0 인수 근거 경로 (`p0-reference-safety` `proof_refs`):**
-  - 배포 가드 도구: `tools/reference_distribution_guard.py`
-  - 배포 가드 회귀 검사: `tests/test_reference_distribution_guard.py`
-  - 자체 공개 기준 입력 및 안내문: `examples/owned-design-baseline/` · `examples/owned-design-baseline/README.md`
+- **P0 API queue 재검증 근거 (`p0-api-queue-validation`):** [tools/api_priority.py](../../tools/api_priority.py) · [tests/test_api_priority.py](../../tests/test_api_priority.py) · [docs/api-priority.md](../api-priority.md) · [scene-observations.json](../../specs/design-inspection/scene-observations.json) · [service-observations.json](../../specs/design-inspection/service-observations.json) (상세 재현 수치·재분류 근거·인수 상태 정본은 [backlog.graph.json](backlog.graph.json))
+- **P0 인수 근거 경로 및 운영 안내 (`p0-reference-safety`):**
+  - 공개 인수 기록: [p0-reference-acceptance.md](p0-reference-acceptance.md)
+  - 배포 가드·CI·회귀 검사: [tools/reference_distribution_guard.py](../../tools/reference_distribution_guard.py) · [tests/test_reference_distribution_guard.py](../../tests/test_reference_distribution_guard.py) · [.github/workflows/reference-guard.yml](../../.github/workflows/reference-guard.yml)
+  - 자체 공개 기준 입력 및 테스트: [examples/owned-design-baseline/README.md](../../examples/owned-design-baseline/README.md) · [tests/test_owned_design_baseline.py](../../tests/test_owned_design_baseline.py)
+  - 배포·기여 안내: [CONTRIBUTING.md](../../CONTRIBUTING.md) · [docs/guide.md#private-distribution](../guide.md#private-distribution)
 
-> 위 경로가 현재 저장소에 통합되어 실제로 확인되기 전에는 존재(`seen`)나 검증(`verified`)으로 간주하지 않는다. 작업 인수 상태 변경과 근거 승격은 [backlog.graph.json](backlog.graph.json)과 [capability-review.md](capability-review.md)를 기준으로 기록하며, `tests/test_next_roadmap_backlog.py`가 그래프 불변식(`verified`/`accepted` 시 공개 근거 실존 및 `depends-on` 선행 충족, `proposed` 시 미검증 유지, `depends-on` 비순환)을 검증한다.
+> 모든 작업의 현재 상태(`status`·`evidence_status`)와 근거 승격은 [backlog.graph.json](backlog.graph.json)에서 직접 판정하며, `tests/test_next_roadmap_backlog.py`가 그래프 불변식(`verified`/`accepted` 시 공개 근거 실존 및 `depends-on` 선행 충족, `proposed` 시 미검증 유지, `depends-on` 비순환)을 검증한다.
 
 ## 0.29–0.35 구현 범위와 제안의 경계
 
