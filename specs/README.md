@@ -29,3 +29,4 @@ Actual source/test scope and remaining native limits: [verification](verificatio
 [Development roadmap](../docs/development-roadmap/README.md) contains separate functional, design and Cursor task documents for eight proposed features, optimizations and architecture changes. They are not implemented feature registrations or evidence of acceptance.
 
 - [웹 캐러셀의 Design 프로토타입 변환](interactive-web/carousel.md) · [정본 그래프](interactive-web/graph.json)
+- [웹 탭 전환의 Design 프로토타입 변환](interactive-web/tabs.md) · [정본 그래프](interactive-web/graph.json)

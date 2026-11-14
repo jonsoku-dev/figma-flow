@@ -1,8 +1,8 @@
 # NF-09 · 웹 상호작용을 편집 가능한 Figma 프로토타입으로 가져오기
 
-**0.33.0 구현 범위는 모바일 CSS 스크롤 스냅 캐러셀이다.** 2~16개의 카드 상태와 드래그·타이머 전이를 정본 그래프로 묶어 편집 가능한 Figma Design 프레임으로 가져온다. [캐러셀 사용 및 인수 기록](../../specs/interactive-web/carousel.md)에서 실제 SaaS 표본을 확인할 수 있다. 탭·overlay 및 자유 모션에 대한 아래 항목은 후속 설계다. Figma Flow에는 이미 클릭으로 두 네이티브 프레임을 연결하는 [Smart Animate 레시피](../../library/figma-recipes/design-motion.ts)가 있다. 현재 [웹 캡처](../web-design-capture.md)는 측정 시점의 보이는 화면을 읽는다.
+**0.33.0은 모바일 CSS 스크롤 스냅 캐러셀, 0.34.0은 클릭으로 패널을 바꾸는 탭을 구현했다.** 캐러셀은 2~16개의 카드 상태와 드래그·타이머 전이를, 탭은 관찰한 클릭 전이만 정본 그래프로 묶어 편집 가능한 Figma Design 프레임으로 가져온다. [캐러셀 인수 기록](../../specs/interactive-web/carousel.md) · [탭 인수 기록](../../specs/interactive-web/tabs.md). overlay·아코디언·hover와 자유 모션은 후속 설계다. Figma Flow에는 이미 클릭으로 두 네이티브 프레임을 연결하는 [Smart Animate 레시피](../../library/figma-recipes/design-motion.ts)가 있다. 현재 [웹 캡처](../web-design-capture.md)는 측정 시점의 보이는 화면을 읽는다.
 
-실제 Devtool 홈에서 두 번째 탭 카드를 클릭하면 표시 코드가 두 번째 패널 본문으로, 첫 번째 탭 카드를 다시 클릭하면 초기 패널 본문으로 바뀌었다. 이는 브라우저에서 직접 확인한 전환이다. 이 사례의 Figma 전환 생성과 재생 검증은 아직 수행하지 않았다.
+실제 Devtool 홈에서 두 번째 탭 카드를 클릭하면 표시 코드가 두 번째 패널 본문으로, 첫 번째 탭 카드를 다시 클릭하면 초기 패널 본문으로 바뀌었다. 0.34.0에서 이 A→B→A를 Figma 프레임과 클릭 hotspot으로 만들고, Chrome과 Figma 프레젠테이션에서 같은 클릭으로 대조했다.
 
 [관찰 상태·이벤트·미검증 인수를 연결한 정본 그래프](../../specs/interactive-web/graph.json)
 

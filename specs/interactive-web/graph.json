@@ -7,7 +7,7 @@
       "id": "REQ-INTERACTION",
       "type": "requirement",
       "title": "Preserve observed input and state transitions",
-      "status": "planned",
+      "status": "verified",
       "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
     },
     {
@@ -15,42 +15,42 @@
       "type": "screen",
       "title": "Devtool task cards",
       "status": "observed",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "source": "tabs.md"
     },
     {
       "id": "STATE-SIMPLE",
       "type": "reference",
       "title": "Tab state A displays first panel snippet",
       "status": "observed",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "source": "tabs.md"
     },
     {
       "id": "STATE-MULTI",
       "type": "reference",
       "title": "Tab state B displays second panel snippet",
       "status": "observed",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "source": "tabs.md"
     },
     {
       "id": "EVENT-MULTI",
       "type": "reference",
       "title": "Select second tab (state B)",
       "status": "observed",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "source": "tabs.md"
     },
     {
       "id": "EVENT-RETURN",
       "type": "reference",
       "title": "Select first tab (state A)",
       "status": "observed",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "source": "tabs.md"
     },
     {
       "id": "FIG-PROTOTYPE",
       "type": "figma",
-      "title": "Editable Figma Design prototype replay",
-      "status": "planned",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "title": "Editable state frames with instant click hotspots over the observed tabs",
+      "status": "observed",
+      "source": "tabs.md"
     },
     {
       "id": "CODE-RECIPE",
@@ -63,15 +63,15 @@
       "id": "AC-REPLAY",
       "type": "acceptance",
       "title": "Same input reaches the same visible destination and returns in Figma presentation mode",
-      "status": "planned",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "status": "verified",
+      "source": "tabs.md"
     },
     {
       "id": "TEST-REPLAY",
       "type": "test",
-      "title": "Compare browser and Figma playback; graph readback alone is insufficient",
-      "status": "planned",
-      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+      "title": "Chrome clicks and Figma presentation clicks reach the same panel and return",
+      "status": "observed",
+      "source": "tabs.md"
     },
     {
       "id": "REQ-CAROUSEL",
@@ -121,6 +121,27 @@
       "status": "verified",
       "source": "../../figma-bridge/web_design.js",
       "title": "Native frame realization, reuse and reaction readback"
+    },
+    {
+      "id": "CODE-TABS-CAPTURE",
+      "type": "code",
+      "status": "verified",
+      "source": "../../tools/web_tabs_capture.mjs",
+      "title": "Chromium tab clicks compiled into a pinned Design graph"
+    },
+    {
+      "id": "CODE-TABS-BRIDGE",
+      "type": "code",
+      "status": "verified",
+      "source": "../../figma-bridge/web_design.js",
+      "title": "Native state frames, click hotspots and reaction readback"
+    },
+    {
+      "id": "LIMIT-NESTED-REACTION",
+      "type": "reference",
+      "status": "observed",
+      "source": "tabs.md",
+      "title": "setReactionsAsync on the nested tab layer timed out; a top-level hotspot succeeded"
     }
   ],
   "edges": [
@@ -208,6 +229,21 @@
       "from": "AC-SAAS-PLAYER",
       "to": "TEST-SAAS-PLAYER",
       "type": "checked by"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "CODE-TABS-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "CODE-TABS-BRIDGE",
+      "type": "implemented by"
+    },
+    {
+      "from": "CODE-TABS-BRIDGE",
+      "to": "LIMIT-NESTED-REACTION",
+      "type": "constrained by"
     }
   ]
 }

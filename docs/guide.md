@@ -75,6 +75,23 @@ python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
 
 현재 readback 이후 홈 작업 목록과 History에 **Present**와 **시작 프레임 선택**이 표시됩니다. **Present**는 검증된 prototype을 엽니다. **시작 프레임 선택**은 Design 파일에서 시작 프레임을 선택합니다. 이어서 Figma의 Present 제어로 재생하세요. [Codex 제어 서비스가 필요한 경로](#11-작업을-준비한-codex-채팅으로-연결).
 
+<a id="web-tabs-quickstart"></a>
+### 웹 탭 전환을 캡처해 Figma에서 재생하기
+
+탭을 누르면 옆 패널의 내용이 바뀌는 화면을 같은 방식으로 가져옵니다. 아래 예제는 로컬 Devtool 홈(`http://127.0.0.1:8873/`)을 1440×900으로 열고 **Parallel Worker Handshake**, **Single Queue Pipeline**를 차례로 눌러 A→B→A를 관찰합니다. `--tabs`의 직접 자식이 탭 버튼이고, `--panel`의 보이는 글자가 상태를 구분합니다. CSS 클래스로 선택 상태를 추측하지 않습니다.
+
+```sh
+node "$PLUGIN_ROOT/tools/web_tabs_capture.mjs" \
+  --url "http://127.0.0.1:8873/" --tabs .feature-btn-container --panel 'div.font-mono' \
+  --click 'Parallel Worker Handshake' --click 'Single Queue Pipeline' \
+  --id devtool-tabs-1440 --frame-key devtool-examples --out "$PROJECT/devtool-tabs-1440"
+python3 -B "$PLUGIN_ROOT/tools/native_edit.py" web-design \
+  --graph "$PROJECT/devtool-tabs-1440/tabs-graph.json" --file-key "$FILE_KEY" \
+  --page-id "$PAGE_ID" --readback-scope screens --out "$PROJECT/tabs-plan.json"
+```
+
+패널 내용이 바뀌지 않는 클릭, 다른 요소에 가려진 탭, 페이지 스크롤이 생긴 클릭은 실패로 끝납니다. 각 전이는 출발 화면에서 실제로 누른 탭 프레임을 기록합니다. Figma에서는 그 탭 위에 투명한 `Click · 목적지` 프레임을 두고 즉시 이동하는 클릭 반응을 연결합니다. 탭 레이어는 그대로 편집할 수 있습니다. 관찰하지 않은 탭 조합은 연결하지 않습니다. 준비·적용·읽기와 **Present**는 위 캐러셀과 같습니다. [입력 형식](web-tabs-input.md)
+
 현재 관측·미관측 API와 사용 가능한 Design 수신 객체는 `python3 tools/review_api_coverage.py` 및 우선순위 그래프에서 확인합니다. [Design 실측과 기능 범위](design-runtime-verification.md) · [Design 전용 설계](../specs/design-specialization/spec.md)
 
 웹 앱의 상대 경로·최적화 이미지·CSS·글꼴을 테스트할 때는 [오프라인 에셋 매핑](html-asset-map.md)에 실제 응답과 로컬 파일의 SHA를 묶어 입력합니다. 지정한 기존 Design 노드의 실제 속성을 비교하려면 [API 조사 명령](native-api-probe.md)에서 선택 범위와 이전 영수증을 지정합니다.
@@ -881,6 +898,19 @@ Use a new directory for `--out`. The command needs Chrome or Chromium, Node and 
 
 After a current readback, the home task list and History show **Present** and **Select start frame**. Click **Present** to open the verified prototype. Click **Select start frame** to focus the start frame in the Design file, then use Figma's Present control. The Korean labels are **이 파일의 디자인 작업**, **Read / Apply 열기**, **확인한 범위에 적용**, **Figma 값 읽고 저장**, and **시작 프레임 선택**. The [Korean quickstart](#web-carousel-quickstart) has the same commands.
 
+
+## Capture and play web tab switching
+
+The same workflow imports tabs that swap a neighbouring panel. This example opens the local Devtool home at 1440×900 and clicks **Parallel Worker Handshake**, then **Single Queue Pipeline**, to observe A→B→A. The direct children of `--tabs` are the tab buttons. The visible text of `--panel` identifies each state; CSS classes are never used to guess the selected tab.
+
+```sh
+node "$PLUGIN_ROOT/tools/web_tabs_capture.mjs" \
+  --url "http://127.0.0.1:8873/" --tabs .feature-btn-container --panel 'div.font-mono' \
+  --click 'Parallel Worker Handshake' --click 'Single Queue Pipeline' \
+  --id devtool-tabs-1440 --frame-key devtool-examples --out "$PROJECT/devtool-tabs-1440"
+```
+
+A click that leaves the panel unchanged, a covered tab, or a click that scrolls the page stops the capture. Each transition records the tab frame actually clicked in its source screen. In Figma, a transparent `Click · destination` frame over that tab holds an instant click navigation, and the tab layers stay editable. Unobserved tab pairs stay unlinked. Plan, prepare, Apply, Read and **Present** match the carousel steps above. [Input format](web-tabs-input.md)
 ## Prepared native edits
 
 `native-edit` is a separate task kind with `read` and `apply` operations. Prepare `figma-flow-native-edit-plan-v1` JSON containing the exact file/page, admitted node or local variable/mode, and before/after values with `prepare --kind native-edit -- --plan PLAN.json`. The plugin executes the plan through the actual Figma API, without arbitrary JavaScript. Stale values/revisions stop the write. Preserve rollback conflicts and read current state before retrying an uncertain write. Import native edits into the graph and verify the real web separately. [Plan example and limits](#prepared-native-edit).
@@ -1054,6 +1084,19 @@ python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
 
 現在の readback 後、ホームの task list と History に **プレゼンテーション**と**開始フレームを選択**が表示されます。**プレゼンテーション**で検証済み prototype を開きます。**開始フレームを選択**で Design ファイル内の開始フレームにフォーカスし、Figma の Present 操作から再生します。[English quickstart](#english-quick-start) · [한국어 quickstart](#web-carousel-quickstart)。
 
+
+## Webのタブ切り替えをキャプチャしてFigmaで再生する
+
+タブを押すと隣のパネルが切り替わる画面も同じ手順で取り込みます。この例はローカルの Devtool ホームを1440×900で開き、**Parallel Worker Handshake**、**Single Queue Pipeline** の順に押して A→B→A を観察します。`--tabs` の直接の子がタブボタンで、`--panel` の表示テキストが状態を区別します。CSS クラスから選択状態を推測しません。
+
+```sh
+node "$PLUGIN_ROOT/tools/web_tabs_capture.mjs" \
+  --url "http://127.0.0.1:8873/" --tabs .feature-btn-container --panel 'div.font-mono' \
+  --click 'Parallel Worker Handshake' --click 'Single Queue Pipeline' \
+  --id devtool-tabs-1440 --frame-key devtool-examples --out "$PROJECT/devtool-tabs-1440"
+```
+
+パネルが変わらないクリック、他の要素に隠れたタブ、ページがスクロールしたクリックは失敗として止まります。各遷移は出発画面で実際に押したタブフレームを記録します。Figma ではそのタブの上に透明な `Click · 移動先` フレームを置き、即時移動のクリック反応を設定します。タブのレイヤーはそのまま編集できます。観察していないタブの組み合わせは接続しません。Plan、準備、Apply、Read、**プレゼンテーション**はカルーセルと同じです。[入力形式](web-tabs-input.md)
 ## 画面の見方
 
 0.27では `prepare` の `--` 前に `--depends-on FILE --input-record FILE --input-root ROOT` を指定できます。依存 JSON は `task_key`、正確な `revision`、`relation: uses-output`、登録済み `artifact`、`artifact_sha256` を使います。64桁の実値は準備した成果物から取得します。[例と契約](#027에서-준비하고-확인할-범위)を参照してください。資産の種類・状態・全CSS出典・freshnessは一覧情報であり、描画成功ではありません。要求していない曖昧なgapは未解決のまま残します。TEXTラベルと共有main、明示したGroup/Frame/Auto Layoutを使い、scrollはclip付きFrameの宣言を検証します。選択pinはaliasの分割適用を防ぎ、部分markerを保持します。全体pairingには最新full読み取りが必要です。summaryは部分観測です。scopeを固定したserver journalとローカルUI履歴を区別し、秘密を除去した診断exportはnative書き込みを追加しません。[受入状況](development-roadmap/FINAL_ACCEPTANCE.md)・[独立Django/PostgreSQLアプリ](../apps/little-hands/README.md)・[次の提案](next-roadmap/README.md)。
