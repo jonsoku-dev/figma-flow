@@ -483,6 +483,100 @@ function validateDeclaredComponentProperties(payload) {
   for (const name of dependencies.keys()) visit(name);
 }
 
+function hasValidPropertyKey(key) {
+  if (typeof key !== "string" || !key) return false;
+  const hashIndex = key.indexOf("#");
+  return hashIndex > 0 && hashIndex < key.length - 1;
+}
+
+function resolveCollisionSafePropertyName(display, propId, usedNativeNames, reservedUniqueNames) {
+  const isBlocked = candidate => !candidate || candidate.includes("#") || usedNativeNames.has(candidate) || reservedUniqueNames.has(candidate);
+  const primary = `${display} (${propId})`;
+  if (!isBlocked(primary)) return primary;
+  let seq = 2;
+  while (isBlocked(`${display} (${propId}:${seq})`)) seq += 1;
+  return `${display} (${propId}:${seq})`;
+}
+
+function addDeclaredPropertySafely(owner, propId, display, prop, value, preferredValues, state) {
+  const clone = v => JSON.parse(JSON.stringify(v));
+  const defs = owner.componentPropertyDefinitions || {};
+  const { seenNativeKeys, usedNativeNames, reservedUniqueNames } = state;
+  const prevSnapshots = new Map();
+  for (const [k, meta] of seenNativeKeys.entries()) {
+    prevSnapshots.set(k, { meta, def: defs[k] ? clone(defs[k]) : null });
+  }
+  const restoreMutatedPrior = () => {
+    const liveDefs = owner.componentPropertyDefinitions || {};
+    for (const [k, { meta, def: prevDef }] of prevSnapshots.entries()) {
+      const curDef = liveDefs[k];
+      if (!prevDef || JSON.stringify(curDef) === JSON.stringify(prevDef)) continue;
+      if (typeof owner.editComponentProperty !== "function") {
+        throw new Error(`Duplicate display name collision overwrote ${meta.propId} (${k}) and editComponentProperty is unavailable`);
+      }
+      const patch = { defaultValue: prevDef.defaultValue };
+      if (prevDef.type === "INSTANCE_SWAP") patch.preferredValues = clone(prevDef.preferredValues || []);
+      owner.editComponentProperty(k, patch);
+      if (JSON.stringify((owner.componentPropertyDefinitions || {})[k]) !== JSON.stringify(prevDef)) {
+        throw new Error(`Failed to restore overwritten property ${meta.propId} (${k})`);
+      }
+    }
+  };
+  const evaluateResult = (nativeName, key) => {
+    const liveDefs = owner.componentPropertyDefinitions || {};
+    const actual = typeof key === "string" && Object.prototype.hasOwnProperty.call(liveDefs, key) ? liveDefs[key] : null;
+    let status = "ok";
+    if (typeof key !== "string" || !key) status = "actual-key-missing";
+    else if (!hasValidPropertyKey(key)) status = "actual-key-unsuffixed";
+    else if (seenNativeKeys.has(key)) status = "duplicate-actual-key";
+    else if (!actual) status = "definition-missing";
+    else if (actual.type !== prop.type) status = "definition-type-mismatch";
+    else if (actual.defaultValue !== value) status = "definition-default-mismatch";
+    else if (prop.type === "INSTANCE_SWAP" && JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferredValues)) status = "definition-preferred-mismatch";
+    return { nativeName, key, actual, status, defCount: Object.keys(liveDefs).length };
+  };
+  const options = prop.type === "INSTANCE_SWAP" ? { preferredValues } : undefined;
+  const isRepeatedDisplay = usedNativeNames.has(display);
+  let skipDirectDuplicate = false;
+  if (isRepeatedDisplay && typeof owner.editComponentProperty !== "function") {
+    for (const { meta, def: prevDef } of prevSnapshots.values()) {
+      if (meta.nativeName === display && prevDef && (prevDef.defaultValue !== value || (prop.type === "INSTANCE_SWAP" && JSON.stringify(prevDef.preferredValues || []) !== JSON.stringify(preferredValues)))) {
+        skipDirectDuplicate = true;
+        break;
+      }
+    }
+  }
+  if (!skipDirectDuplicate) {
+    let thrown = null;
+    let key;
+    try { key = owner.addComponentProperty(display, prop.type, value, options); } catch (err) { thrown = err; }
+    if (!thrown) {
+      const result = evaluateResult(display, key);
+      if (result.status === "ok") {
+        let mutatedPrior = false;
+        const liveDefs = owner.componentPropertyDefinitions || {};
+        for (const [k, { def: prevDef }] of prevSnapshots.entries()) {
+          if (prevDef && JSON.stringify(liveDefs[k]) !== JSON.stringify(prevDef)) { mutatedPrior = true; break; }
+        }
+        if (!mutatedPrior) return result;
+      }
+      restoreMutatedPrior();
+      if (!isRepeatedDisplay) throw new Error(`Native declaration was not retained: ${propId} (nativeName=${result.nativeName}, actualKey=${result.key || "none"}, status=${result.status}, defCount=${result.defCount})`);
+    } else if (!isRepeatedDisplay) {
+      throw thrown;
+    } else {
+      restoreMutatedPrior();
+    }
+  }
+  const fallbackName = resolveCollisionSafePropertyName(display, propId, usedNativeNames, reservedUniqueNames);
+  const fallbackKey = owner.addComponentProperty(fallbackName, prop.type, value, options);
+  const fallbackResult = evaluateResult(fallbackName, fallbackKey);
+  if (fallbackResult.status !== "ok") {
+    throw new Error(`Native declaration was not retained: ${propId} (nativeName=${fallbackResult.nativeName}, actualKey=${fallbackResult.key || "none"}, status=${fallbackResult.status}, defCount=${fallbackResult.defCount})`);
+  }
+  return fallbackResult;
+}
+
 function verifyDeclaredComponentReadback(payload, page, {preserveInstanceOverrides = false} = {}) {
   const nodes = [], parents = new Map();
   function visit(node, parent) {nodes.push(node); parents.set(node.id,parent); for (const child of node.children || []) visit(child,node);}
@@ -510,11 +604,6 @@ function verifyDeclaredComponentReadback(payload, page, {preserveInstanceOverrid
   for (const [name, definition] of Object.entries(payload.components)) {
     const properties = definition.properties || {};
     if (!Object.keys(properties).length) continue;
-    const displayCounts = new Map();
-    for (const [propId, prop] of Object.entries(properties)) {
-      const display = prop.name === undefined ? propId : prop.name;
-      displayCounts.set(display, (displayCounts.get(display) || 0) + 1);
-    }
     for (const variant of Object.keys(definition.variants)) {
       const identity = `component:${name}/${variant}`, main = find(identity);
       const parent = parents.get(main.id), owner = parent?.type === "COMPONENT_SET" ? parent : main;
@@ -522,12 +611,14 @@ function verifyDeclaredComponentReadback(payload, page, {preserveInstanceOverrid
       const declaredKeys = main.declared_metadata?.declared_property_keys || {};
       const allKeyVals = Object.values(declaredKeys);
       const distinctKeys = new Set(allKeyVals).size === allKeyVals.length;
+      const defs = owner.componentPropertyDefinitions || {};
       for (const [propId, prop] of Object.entries(properties)) {
         const display = prop.name === undefined ? propId : prop.name;
         const key = declaredKeys[propId];
-        const matching = Object.keys(owner.componentPropertyDefinitions || {}).filter(candidate => candidate.startsWith(display + "#"));
-        const actual = owner.componentPropertyDefinitions?.[key];
-        if (!key || !distinctKeys || !matching.includes(key) || matching.length !== displayCounts.get(display) || actual?.type !== prop.type) fail(identity + "." + propId + " definition/key");
+        const actual = hasValidPropertyKey(key) && Object.prototype.hasOwnProperty.call(defs, key) ? defs[key] : null;
+        const contract = main.declared_metadata?.declared_property_contracts?.[propId];
+        const contractOk = !contract || (contract.name === display && contract.actual_key === key);
+        if (!hasValidPropertyKey(key) || !distinctKeys || !actual || actual.type !== prop.type || !contractOk) fail(identity + "." + propId + " definition/key");
         const value = prop.type === "INSTANCE_SWAP" ? resolve(prop.default_value).id : prop.default_value;
         if (actual.defaultValue !== value) fail(identity + "." + propId + " default");
         if (prop.type === "INSTANCE_SWAP") {
@@ -616,7 +707,17 @@ function bindDeclaredComponentProperties(components, definitions) {
     for (const [owner, variants] of owners) {
       const keys = Object.create(null);
       const contracts = Object.create(null);
-      const seenNativeKeys = new Set();
+      const seenNativeKeys = new Map();
+      const usedNativeNames = new Set();
+      const displayCounts = new Map();
+      for (const [propId, prop] of Object.entries(properties)) {
+        const disp = prop.name === undefined ? propId : prop.name;
+        displayCounts.set(disp, (displayCounts.get(disp) || 0) + 1);
+      }
+      const reservedUniqueNames = new Set(["문구", "Variant", ...Object.keys(definition.variant_axes || {})]);
+      for (const [disp, count] of displayCounts.entries()) {
+        if (count === 1) reservedUniqueNames.add(disp);
+      }
       let explicitLabelKey = null;
       const slots = new Map(variants.map(main => [main, new Map()]));
       const textSlots = new Map(variants.map(main => [main, new Map()]));
@@ -653,13 +754,20 @@ function bindDeclaredComponentProperties(components, definitions) {
           if (!target.key) throw new Error("Native swap target has no component key: " + ref.component);
           return {type:"COMPONENT", key:target.key};
         });
-        const key = owner.addComponentProperty(display, prop.type, value, prop.type === "INSTANCE_SWAP" ? {preferredValues} : undefined);
-        const actual = owner.componentPropertyDefinitions?.[key];
-        if (!key || key === display || seenNativeKeys.has(key) || actual?.type !== prop.type || actual.defaultValue !== value || (prop.type === "INSTANCE_SWAP" && JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferredValues))) throw new Error("Native declaration was not retained: " + propId);
-        seenNativeKeys.add(key);
+        const { nativeName, key } = addDeclaredPropertySafely(
+          owner,
+          propId,
+          display,
+          prop,
+          value,
+          preferredValues,
+          { seenNativeKeys, usedNativeNames, reservedUniqueNames }
+        );
+        seenNativeKeys.set(key, { propId, nativeName });
+        usedNativeNames.add(nativeName);
         keys[propId] = key;
         const targetSuffix = prop.target === "label" ? "/label" : (slots.get(variants[0])?.has(prop.target) ? "/slot:" + prop.target : "/text:" + prop.target);
-        contracts[propId] = {id:propId, name:display, actual_key:key, type:prop.type, target:prop.target, target_semantic_suffix:targetSuffix};
+        contracts[propId] = {id:propId, name:display, ...(nativeName !== display ? {native_name:nativeName} : {}), actual_key:key, type:prop.type, target:prop.target, target_semantic_suffix:targetSuffix};
         if (prop.type === "TEXT" && prop.target === "label") explicitLabelKey = key;
         const field = prop.type === "TEXT" ? "characters" : (prop.type === "BOOLEAN" ? "visible" : "mainComponent");
         for (const main of variants) {

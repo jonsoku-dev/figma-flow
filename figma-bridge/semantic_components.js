@@ -161,13 +161,164 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
   };
 
   const rollbackCreatedNodes = (nodes, rollbackErrors) => {
-    for (const node of nodes) {
+    const validNodes = (nodes || []).filter(Boolean);
+    const createdSet = new Set(validNodes);
+    const hasCreatedAncestor = node => {
+      for (let p = node.parent; p; p = p.parent) {
+        if (createdSet.has(p)) return true;
+      }
+      return false;
+    };
+    const rootsToRemove = validNodes.filter(node => !node.removed && !hasCreatedAncestor(node));
+    for (const node of rootsToRemove) {
       try {
-        if (node && !node.removed) node.remove();
+        if (!node.removed && typeof node.remove === 'function') node.remove();
       } catch (failure) {
         rollbackErrors.push(String(failure));
       }
     }
+  };
+
+  const hasValidPropertyKey = key => {
+    if (typeof key !== 'string' || !key) return false;
+    const hashIndex = key.indexOf('#');
+    return hashIndex > 0 && hashIndex < key.length - 1;
+  };
+
+  const resolveCollisionSafePropertyName = (display, propId, usedNativeNames, reservedUniqueNames) => {
+    const isBlocked = candidate => (
+      !candidate ||
+      candidate.includes('#') ||
+      usedNativeNames.has(candidate) ||
+      reservedUniqueNames.has(candidate)
+    );
+    const primary = `${display} (${propId})`;
+    if (!isBlocked(primary)) return primary;
+    let seq = 2;
+    while (isBlocked(`${display} (${propId}:${seq})`)) seq += 1;
+    return `${display} (${propId}:${seq})`;
+  };
+
+  const addDeclaredPropertySafely = (owner, setPlan, prop, nativeDefault, options, state) => {
+    const defs = owner.componentPropertyDefinitions || {};
+    const { usedActualKeys, usedNativeNames, reservedUniqueNames } = state;
+    const prevSnapshots = new Map();
+    for (const [k, meta] of usedActualKeys.entries()) {
+      prevSnapshots.set(k, { meta, def: defs[k] ? copy(defs[k]) : null });
+    }
+
+    const restoreMutatedPrior = () => {
+      const liveDefs = owner.componentPropertyDefinitions || {};
+      for (const [k, { meta, def: prevDef }] of prevSnapshots.entries()) {
+        const curDef = liveDefs[k];
+        if (!prevDef || equal(curDef, prevDef)) continue;
+        if (typeof owner.editComponentProperty !== 'function') {
+          throw new Error(
+            `Duplicate display name collision overwrote ${setPlan.id}.${meta.propId} (${k}) and editComponentProperty is unavailable`
+          );
+        }
+        const revertPatch = { defaultValue: prevDef.defaultValue };
+        if (prevDef.type === 'INSTANCE_SWAP') {
+          revertPatch.preferredValues = copy(prevDef.preferredValues || []);
+        }
+        owner.editComponentProperty(k, revertPatch);
+        const restored = (owner.componentPropertyDefinitions || {})[k];
+        if (!equal(restored, prevDef)) {
+          throw new Error(`Failed to restore overwritten property ${setPlan.id}.${meta.propId} (${k})`);
+        }
+      }
+    };
+
+    const evaluateResult = (nativeName, actualKey) => {
+      const liveDefs = owner.componentPropertyDefinitions || {};
+      const actualDef = typeof actualKey === 'string' && Object.prototype.hasOwnProperty.call(liveDefs, actualKey)
+        ? liveDefs[actualKey]
+        : null;
+      let status = 'ok';
+      if (typeof actualKey !== 'string' || !actualKey) status = 'actual-key-missing';
+      else if (!hasValidPropertyKey(actualKey)) status = 'actual-key-unsuffixed';
+      else if (usedActualKeys.has(actualKey)) status = 'duplicate-actual-key';
+      else if (!actualDef) status = 'definition-missing';
+      else if (actualDef.type !== prop.type) status = 'definition-type-mismatch';
+      else if (actualDef.defaultValue !== nativeDefault) status = 'definition-default-mismatch';
+      else if (prop.type === 'INSTANCE_SWAP' && !equal(actualDef.preferredValues || [], options.preferredValues)) {
+        status = 'definition-preferred-mismatch';
+      }
+      return { nativeName, actualKey, actualDef, status, defCount: Object.keys(liveDefs).length };
+    };
+
+    const isRepeatedDisplay = usedNativeNames.has(prop.name);
+    let skipDirectDuplicate = false;
+    if (isRepeatedDisplay && typeof owner.editComponentProperty !== 'function') {
+      for (const { meta, def: prevDef } of prevSnapshots.values()) {
+        if (meta.nativeName === prop.name && prevDef && (
+          prevDef.defaultValue !== nativeDefault ||
+          (prop.type === 'INSTANCE_SWAP' && !equal(prevDef.preferredValues || [], options.preferredValues))
+        )) {
+          skipDirectDuplicate = true;
+          break;
+        }
+      }
+    }
+
+    let result = null;
+    if (!skipDirectDuplicate) {
+      let thrown = null;
+      let actualKey;
+      try {
+        actualKey = owner.addComponentProperty(prop.name, prop.type, nativeDefault, options);
+      } catch (err) {
+        thrown = err;
+      }
+      if (!thrown) {
+        result = evaluateResult(prop.name, actualKey);
+        if (result.status === 'ok') {
+          let mutatedPrior = false;
+          const liveDefs = owner.componentPropertyDefinitions || {};
+          for (const [k, { def: prevDef }] of prevSnapshots.entries()) {
+            if (prevDef && !equal(liveDefs[k], prevDef)) {
+              mutatedPrior = true;
+              break;
+            }
+          }
+          if (!mutatedPrior) {
+            return result;
+          }
+        }
+      } else if (!isRepeatedDisplay) {
+        throw thrown;
+      }
+      restoreMutatedPrior();
+      if (!isRepeatedDisplay) {
+        if (result.status === 'definition-preferred-mismatch') {
+          throw new Error(
+            `Native INSTANCE_SWAP preferredValues were not retained for ${setPlan.id}.${prop.id} ` +
+            `(nativeName=${result.nativeName}, actualKey=${result.actualKey || 'none'}, status=${result.status}, defCount=${result.defCount})`
+          );
+        }
+        throw new Error(
+          `Native component property declaration was not retained for ${setPlan.id}.${prop.id} ` +
+          `(nativeName=${result.nativeName}, actualKey=${result.actualKey || 'none'}, status=${result.status}, defCount=${result.defCount})`
+        );
+      }
+    }
+
+    const fallbackName = resolveCollisionSafePropertyName(prop.name, prop.id, usedNativeNames, reservedUniqueNames);
+    const fallbackKey = owner.addComponentProperty(fallbackName, prop.type, nativeDefault, options);
+    result = evaluateResult(fallbackName, fallbackKey);
+    if (result.status === 'definition-preferred-mismatch') {
+      throw new Error(
+        `Native INSTANCE_SWAP preferredValues were not retained for ${setPlan.id}.${prop.id} ` +
+        `(nativeName=${result.nativeName}, actualKey=${result.actualKey || 'none'}, status=${result.status}, defCount=${result.defCount})`
+      );
+    }
+    if (result.status !== 'ok') {
+      throw new Error(
+        `Native component property declaration was not retained for ${setPlan.id}.${prop.id} ` +
+        `(nativeName=${result.nativeName}, actualKey=${result.actualKey || 'none'}, status=${result.status}, defCount=${result.defCount})`
+      );
+    }
+    return result;
   };
 
   const isFamilyContract = contract => Boolean(
@@ -954,8 +1105,7 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
 
       for (const prop of setPlan.properties) {
         const actualKey = declaredKeys[prop.id];
-        if (typeof actualKey !== 'string' || !actualKey.startsWith(`${prop.name}#`) ||
-            actualKey.length <= prop.name.length + 1 || seenActualKeys.has(actualKey)) {
+        if (!hasValidPropertyKey(actualKey) || seenActualKeys.has(actualKey)) {
           throw new Error(`Missing or colliding suffixed actualKey for ${setPlan.id}.${prop.id}`);
         }
         seenActualKeys.add(actualKey);
@@ -1489,7 +1639,16 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
 
     const declaredKeys = {};
     const declaredContracts = {};
-    const usedActualKeys = new Set();
+    const usedActualKeys = new Map();
+    const usedNativeNames = new Set();
+    const displayCounts = new Map();
+    for (const prop of setPlan.properties) {
+      displayCounts.set(prop.name, (displayCounts.get(prop.name) || 0) + 1);
+    }
+    const reservedUniqueNames = new Set(['문구', ...setPlan.axisNameSet]);
+    for (const [disp, count] of displayCounts.entries()) {
+      if (count === 1) reservedUniqueNames.add(disp);
+    }
     let explicitLabelKey = null;
 
     for (const prop of setPlan.properties) {
@@ -1513,22 +1672,22 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
         options = { preferredValues };
       }
 
-      const actualKey = nativeSet.addComponentProperty(prop.name, prop.type, nativeDefault, options);
-      const actualDef = nativeSet.componentPropertyDefinitions?.[actualKey];
-      if (typeof actualKey !== 'string' || !actualKey.startsWith(`${prop.name}#`) ||
-          actualKey.length <= prop.name.length + 1 || usedActualKeys.has(actualKey) ||
-          !actualDef || actualDef.type !== prop.type || actualDef.defaultValue !== nativeDefault) {
-        throw new Error(`Native component property declaration was not retained for ${setPlan.id}.${prop.id}`);
-      }
-      if (prop.type === 'INSTANCE_SWAP' && !equal(actualDef.preferredValues || [], options.preferredValues)) {
-        throw new Error(`Native INSTANCE_SWAP preferredValues were not retained for ${setPlan.id}.${prop.id}`);
-      }
-      usedActualKeys.add(actualKey);
+      const { nativeName, actualKey } = addDeclaredPropertySafely(
+        nativeSet,
+        setPlan,
+        prop,
+        nativeDefault,
+        options,
+        { usedActualKeys, usedNativeNames, reservedUniqueNames }
+      );
+      usedActualKeys.set(actualKey, { propId: prop.id, nativeName });
+      usedNativeNames.add(nativeName);
       declaredKeys[prop.id] = actualKey;
       if (prop.type === 'TEXT' && prop.targetKey === 'label') explicitLabelKey = actualKey;
       declaredContracts[prop.id] = {
         id: prop.id,
         name: prop.name,
+        ...(nativeName !== prop.name ? { nativeName } : {}),
         actual_key: actualKey,
         type: prop.type,
         target: prop.targetKey,
