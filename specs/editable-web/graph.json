@@ -297,6 +297,62 @@
       "status": "verified",
       "title": "Compare a browser graph with native text ranges and instance main IDs",
       "source": "../../tests/verify_web_typography.py"
+    },
+    {
+      "id": "REQ-WEB-SVG-FILTER",
+      "type": "requirement",
+      "title": "Preserve supported color filters on external SVG images",
+      "status": "observed",
+      "source": "../../docs/web-design-capture.md",
+      "detail": "Capture bounded color filter operations for external SVG images. When brightness(0) makes the filtered RGB color independent of the source paint, recolor literal SVG fills and strokes while retaining alpha and separate element opacity. Preserve source vectors and report a limitation when the filter or paint cannot be transformed safely."
+    },
+    {
+      "id": "AC-WEB-SVG-FILTER",
+      "type": "acceptance",
+      "title": "Match the six Devtool logos' browser monochrome treatment",
+      "status": "verified",
+      "source": "../../docs/web-svg-fidelity-0322.md",
+      "detail": "All six source SVGs remained pinned in bound_media; none was omitted or raster-fallbacked. Their subtrees contain 26 editable VECTOR descendants. In measured logo boxes, pixels whose RGB channel range exceeded 40 fell from 4,308 in the 0.32.1 first output to zero in the 0.32.2 first output, matching the browser count. The Google layer's native opacity readback was 30 percent. First apply and reapply reused the same Figma frame. The 480 by 1,052 preview was 73,070 bytes, within the 5,000,000-pixel and 8 MB limits."
+    },
+    {
+      "id": "TEST-WEB-SVG-FILTER-CAPTURE",
+      "type": "test",
+      "title": "Capture exact supported SVG image filter operations",
+      "status": "verified",
+      "source": "../../tests/test_web_design_svg_capture.cjs",
+      "detail": "The browser capture test retains brightness(0), grayscale(1), invert(1), the computed silhouette color, and the separate 0.3 image opacity."
+    },
+    {
+      "id": "TEST-WEB-SVG-FILTER-BIND",
+      "type": "test",
+      "title": "Recolor supported SVG paints and retain encoded alpha",
+      "status": "verified",
+      "source": "../../tests/test_web_design_svg_filter.py",
+      "detail": "The media binding test verifies monochrome literal fills and strokes, preserved encoded alpha, the filter data, and the image opacity."
+    },
+    {
+      "id": "TEST-WEB-SVG-FILTER-LIMITS",
+      "type": "test",
+      "title": "Keep unsupported filtered source vectors visible",
+      "status": "verified",
+      "source": "../../tests/test_web_design_svg_filter_limits.py",
+      "detail": "The binder keeps an SVG that uses currentColor in its original colors and records the unsupported-filter limitation instead of omitting the image."
+    },
+    {
+      "id": "TEST-WEB-SVG-FILTER-BOUNDS",
+      "type": "test",
+      "title": "Bound captured SVG filter-chain metadata",
+      "status": "verified",
+      "source": "../../tests/test_web_design_svg_capture_limits.cjs",
+      "detail": "A 17-operation chain remains visible, has no claimed silhouette transform, and reports the unsupported filter limitation."
+    },
+    {
+      "id": "TEST-WEB-SVG-OPACITY",
+      "type": "test",
+      "title": "Keep element opacity separate from SVG group opacity",
+      "status": "verified",
+      "source": "../../tests/test_web_design_svg_root_opacity.cjs",
+      "detail": "The native vector test applies the captured element opacity to the vector root without changing SVG child paint or the SVG group's own opacity."
     }
   ],
   "edges": [
@@ -357,6 +413,16 @@
     {"from": "REQ-WEB-PREVIEW", "to": "AC-WEB-PREVIEW", "type": "accepted by"},
     {"from": "AC-WEB-PREVIEW", "to": "TEST-WEB-PREVIEW", "type": "checked by"},
     {"from": "REQ-WEB-PREVIEW", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "AC-WEB-TRACKING-NATIVE", "to": "TEST-WEB-TRACKING-NATIVE", "type": "checked by"}
+    {"from": "AC-WEB-TRACKING-NATIVE", "to": "TEST-WEB-TRACKING-NATIVE", "type": "checked by"},
+    {"from": "REQ-WEB-SVG-FILTER", "to": "SCR-DEVTOOL", "type": "appears on"},
+    {"from": "REQ-WEB-SVG-FILTER", "to": "AC-WEB-SVG-FILTER", "type": "accepted by"},
+    {"from": "REQ-WEB-SVG-FILTER", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
+    {"from": "REQ-WEB-SVG-FILTER", "to": "CODE-WEB-SOURCE", "type": "implemented by"},
+    {"from": "REQ-WEB-SVG-FILTER", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
+    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-CAPTURE", "type": "checked by"},
+    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-BIND", "type": "checked by"},
+    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-LIMITS", "type": "checked by"},
+    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-BOUNDS", "type": "checked by"},
+    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-OPACITY", "type": "checked by"}
   ]
 }

@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "id": "interactive-web-design",
+  "title": "Observed web interactions and proposed Design replay",
+  "nodes": [
+    {
+      "id": "REQ-INTERACTION",
+      "type": "requirement",
+      "title": "Preserve observed input and state transitions",
+      "status": "planned",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "SCR-DEVTOOL",
+      "type": "screen",
+      "title": "Devtool task cards",
+      "status": "observed",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "STATE-SIMPLE",
+      "type": "reference",
+      "title": "Tab state A displays first panel snippet",
+      "status": "observed",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "STATE-MULTI",
+      "type": "reference",
+      "title": "Tab state B displays second panel snippet",
+      "status": "observed",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "EVENT-MULTI",
+      "type": "reference",
+      "title": "Select second tab (state B)",
+      "status": "observed",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "EVENT-RETURN",
+      "type": "reference",
+      "title": "Select first tab (state A)",
+      "status": "observed",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "FIG-PROTOTYPE",
+      "type": "figma",
+      "title": "Editable Figma Design prototype replay",
+      "status": "planned",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "CODE-RECIPE",
+      "type": "code",
+      "title": "Existing explicit two-frame Smart Animate recipe",
+      "status": "observed",
+      "source": "../../library/figma-recipes/design-motion.ts"
+    },
+    {
+      "id": "AC-REPLAY",
+      "type": "acceptance",
+      "title": "Same input reaches the same visible destination and returns in Figma presentation mode",
+      "status": "planned",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "TEST-REPLAY",
+      "type": "test",
+      "title": "Compare browser and Figma playback; graph readback alone is insufficient",
+      "status": "planned",
+      "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    }
+  ],
+  "edges": [
+    {
+      "from": "REQ-INTERACTION",
+      "to": "SCR-DEVTOOL",
+      "type": "appears on"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "STATE-SIMPLE",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "STATE-MULTI",
+      "type": "has state"
+    },
+    {
+      "from": "STATE-SIMPLE",
+      "to": "EVENT-MULTI",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-MULTI",
+      "to": "STATE-MULTI",
+      "type": "observed destination"
+    },
+    {
+      "from": "STATE-MULTI",
+      "to": "EVENT-RETURN",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-RETURN",
+      "to": "STATE-SIMPLE",
+      "type": "observed destination"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "FIG-PROTOTYPE",
+      "type": "represented by"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "CODE-RECIPE",
+      "type": "implementation reference"
+    },
+    {
+      "from": "REQ-INTERACTION",
+      "to": "AC-REPLAY",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-REPLAY",
+      "to": "TEST-REPLAY",
+      "type": "checked by"
+    }
+  ]
+}

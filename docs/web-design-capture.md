@@ -21,6 +21,12 @@ await require('node:fs/promises').writeFile('capture.json', JSON.stringify(captu
 
 퍼센트 중심과 색 정지점을 갖는 CSS 방사형 그라디언트는 Figma에서 편집 가능한 채우기로 변환한다. CSS 마스크·필터·그림자, 다른 배경 효과, 비디오·canvas, 복잡한 SVG 및 외부 이미지는 별도 항목으로 표시한다. 1,500개 레이어를 초과하면 더 작은 범위를 선택해야 한다. 캡처는 원본 웹 앱이나 Figma 문서를 변경하지 않는다.
 
+## 외부 SVG 이미지 색 필터
+
+외부 `<img>`가 SVG이고 계산된 CSS 색 필터 체인에 `brightness(0)`이 있으면 그래프 생성기가 나머지 체인의 최종 색을 계산한다. 생성기는 그 RGB 값을 SVG의 리터럴 `fill`, `stroke`, `stop-color`에 적용하고, 색에 포함된 alpha와 SVG 그룹 opacity를 보존한다. `<img>`의 CSS `opacity`는 Figma 벡터 루트에 별도로 적용한다. 바인딩 그래프에는 정규화 SVG와 원본 SVG의 해시 고정 경로를 모두 남긴다.
+
+`opacity()` 필터, `brightness(0)`이 없는 색 필터, `currentColor` 또는 SVG paint-server 참조는 이 단색 변환 대상이 아니다. 이 경우 Figma에는 원래 벡터를 남기고 그래프의 제한 항목을 기록한다. 캡처된 이미지를 생략하지 않는다. 래스터 이미지의 색 필터도 적용하지 않으며, 원본 픽셀을 유지하고 제한 항목을 기록한다. 실제 로고 측정값과 범위는 [외부 SVG 로고 필터 실측](web-svg-fidelity-0322.md)을 참고한다.
+
 ## Canvas 픽셀 보존
 
 캡처 함수는 각 `<canvas>`의 실제 `width`·`height`, CSS 박스, device pixel ratio와 원본 PNG를 기록한다. 브라우저의 `canvas.toDataURL('image/png')`가 성공하면 그래프 생성기가 PNG 바이트를 해시로 고정하고 `sourceRole: "canvas"`인 래스터 레이어로 연결한다. 원본 canvas 픽셀에는 CSS mask, filter, opacity와 겹친 DOM 요소가 포함되지 않는다. 캡처가 보이지 않는 효과를 보고하면 Figma 비교 전에 해당 한계를 확인한다.
