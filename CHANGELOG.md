@@ -1,5 +1,11 @@
 # 변경 기록
 
+## 미배포
+
+- 배포 검증·CI 경로 가드를 추가하고 로컬 스캔(`paths-only` 및 전체 규칙 검사, 1,682 tracked paths `forbidden_paths=0`, `ephemeral_evidence=0`)과 CI `paths-only` 게이트를 연결했습니다. Linux CI 기본 브랜치 분기 오류(`368db1a9`)를 수정해 `b9495234`에서 통과를 확인했습니다.
+- 외부 참고 아카이브 4종과 보존 사본 4종의 변동 0건을 유지한 채 자체 웹·Design 기준 입력(`examples/owned-design-baseline/`)을 도입했습니다. 독립 Chromium 7클릭·3상태·6전이·10/10 바이트 동일 PNG와 `6/6` Figma Present 클릭 및 `85/103/103` 편집 가능 노드 수(초안 `86/104/104` 폐기)를 확인했습니다.
+- P0 기준 자료·자체 입력·인수 영수증(`docs/next-roadmap/p0-reference-acceptance.md`)과 로드맵 그래프(`docs/next-roadmap/backlog.graph.json`), API 우선순위 큐(`1,382`행 중 전체 미관측 `825`건, Design 후보 `12`건=`8+4`, 런타임 지원 범위와 구분)를 정리했습니다. [P0 패치 기록](docs/llm-wiki/releases.md#p0-reference-safety) · [공개 인수 영수증](docs/next-roadmap/p0-reference-acceptance.md).
+
 ## 0.35.0 · 2026-11-14
 
 - 한 번에 답변 하나만 여는 SaaS FAQ를 Chromium에서 측정해 편집 가능한 Figma Design 프로토타입으로 가져옵니다. 관측한 질문에만 클릭을 연결하며, 시작 상태에서 갈 수 없는 전이는 CLI와 플러그인 양쪽에서 거절합니다. 실제 SaaS 질문 두 개의 열기·닫기·상호 전환을 Figma 프레젠테이션에서 확인했습니다.

@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.35.0",
     "0.34.0",
     "0.33.0",
     "0.32.2",
@@ -10432,6 +10433,232 @@
           "version": "0.35.0"
         }
       ]
+    },
+    {
+      "commit": "2f7e901355faf6a02f4e1b9e3300d608b024ace2",
+      "diff_sha256": "885a982d2c34f899596e24067077b5ad8fbe8067489349e810c8c788bf600683",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/066830a97f7f053e880cdf2a6418aadb3de781ab.md",
+        "docs/llm-wiki/patches/1fae7a5c9b7a0d134c3f3b2f0563993ea56833db.md",
+        "docs/llm-wiki/patches/3f412c18e80c28df04729bc4b914dcfef5df1242.md",
+        "docs/llm-wiki/patches/43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f.md",
+        "docs/llm-wiki/patches/494f63f62cea516fb5c626e183a0584b0e00c834.md",
+        "docs/llm-wiki/patches/55267d1eb771e6ee403dc30e5e191b0c3742d9cc.md",
+        "docs/llm-wiki/patches/8c4bd9bf80aa1f6975b79447ed60b3b48b311fb7.md",
+        "docs/llm-wiki/patches/91f7dd2d32b4d750795c7fd631cacd5cb64560fd.md",
+        "docs/llm-wiki/patches/9cd119198eb7761fbb60fc23fa83b18b93ec0511.md",
+        "docs/llm-wiki/patches/c01f895fc1c7c894c1a03aeb625f2baa6497147f.md",
+        "docs/llm-wiki/patches/e92b3ad6e251fc5c2db009036ab8696e45396a38.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "494f63f62cea516fb5c626e183a0584b0e00c834"
+      ],
+      "subject": "Record 0.35 FAQ playback and G1 retry evidence in the patch wiki",
+      "tree": "1f102ee309b55954d7ac986a88e47849cbba5c0c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "ae0df29e3e3a44849a8946466ff566163c0b2c91",
+      "diff_sha256": "7c492245b70b2267445ad899eba5339bc4bf43164f9af3bb665e7fb983a4e16d",
+      "files": [
+        ".gitignore"
+      ],
+      "parents": [
+        "2f7e901355faf6a02f4e1b9e3300d608b024ace2"
+      ],
+      "subject": "chore: ignore local reference archives, private dirs, and ephemeral outputs",
+      "tree": "fab09ac8261ac78b9c6993f99798db01d38c2fc8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "976a966c1b497890aae12dd1a63b1dd6b05ee763",
+      "diff_sha256": "e5f43b73bf4df7027bfe3e54c11d859650033fd9264717b920927eea2b104fa4",
+      "files": [
+        "tests/test_reference_distribution_guard.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "parents": [
+        "ae0df29e3e3a44849a8946466ff566163c0b2c91"
+      ],
+      "subject": "feat: integrate hardened reference distribution guard CLI and synthetic tests",
+      "tree": "f62aa7c12acd4516ad6deb28f7c967ed6c7b5b28",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "368db1a9826de1455fe1d4598671ddd57bb9aa77",
+      "diff_sha256": "dae9a083429c5ebc499784ee48fb83ff3befe269a61bb46360b87686af70935a",
+      "files": [
+        ".github/workflows/reference-guard.yml"
+      ],
+      "parents": [
+        "976a966c1b497890aae12dd1a63b1dd6b05ee763"
+      ],
+      "subject": "ci: add paths-only reference distribution guard workflow",
+      "tree": "f6c5b7351c8dfc135594bcabd208cf920818d1f5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "5302e7ec33c30964a7c343b0a85497a6f70e61a7",
+      "diff_sha256": "7574f182cfa63ee1ba83825210e37dc6527a38d95f2f57b8a7b3df7c518b0e08",
+      "files": [
+        "CONTRIBUTING.md",
+        "docs/guide.md"
+      ],
+      "parents": [
+        "368db1a9826de1455fe1d4598671ddd57bb9aa77"
+      ],
+      "subject": "docs: document offline reference distribution guard in release guides",
+      "tree": "337254db8a33539e6c646cff57b0a639752c2da1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "057f949078e2af85f8c911e4045a4977a3bd7f0b",
+      "diff_sha256": "e50bf4e655f9f6161afdc53011a6cf906cd64f3178d0f895191af9070430488a",
+      "files": [
+        "docs/next-roadmap/README.md",
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "tests/test_next_roadmap_backlog.py"
+      ],
+      "parents": [
+        "5302e7ec33c30964a7c343b0a85497a6f70e61a7"
+      ],
+      "subject": "Document the dependency graph and evidence requirements for the Design roadmap",
+      "tree": "bae9067560af84e2cdc72c1b918d385667c5e4f6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "b9495234cdbc4547f083f5ee21cbd623c67a381f",
+      "diff_sha256": "4b94470654605f6c7918c041c7ddde1e93371c88d4a0567978646fd43147e9e5",
+      "files": [
+        "tests/test_reference_distribution_guard.py"
+      ],
+      "parents": [
+        "057f949078e2af85f8c911e4045a4977a3bd7f0b"
+      ],
+      "subject": "test: set explicit initial branch and restore previous branch in guard test",
+      "tree": "29255cdd1c3a5748f5ed1dd3d4d6d8ad2b82932a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "d98860037b4082b744a3ecd9fd7aae9ae2d729bf",
+      "diff_sha256": "fb18293d44ebf08beb70e09d4e7e530763fff096a50c8f558e3091df7f5c2751",
+      "files": [
+        "examples/owned-design-baseline/README.md",
+        "examples/owned-design-baseline/graph.json",
+        "examples/owned-design-baseline/index.html",
+        "examples/owned-design-baseline/manifest.json",
+        "examples/owned-design-baseline/renderer.js",
+        "examples/owned-design-baseline/styles.css",
+        "tests/test_owned_design_baseline.py"
+      ],
+      "parents": [
+        "b9495234cdbc4547f083f5ee21cbd623c67a381f"
+      ],
+      "subject": "Add owned public Design handoff baseline and provenance manifest",
+      "tree": "00304001a1fd56d1a6657aa1823ade0317f3ee7d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "6c9c6e454d826347971d4f7e612abcd43b8a306b",
+      "diff_sha256": "1115818f2230c37c4a17ba47474d7b405db1f666c864d5508968950b4d5c0750",
+      "files": [
+        "docs/next-roadmap/README.md",
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "tests/test_next_roadmap_backlog.py"
+      ],
+      "parents": [
+        "d98860037b4082b744a3ecd9fd7aae9ae2d729bf"
+      ],
+      "subject": "docs(roadmap): mark P0 reference safety and API queue verified with public receipts",
+      "tree": "c7faa8f7099c98c5b3b548c6d1b49eb5ea2f3b83",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -10441,6 +10668,7 @@
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
     "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
+    "057f949078e2af85f8c911e4045a4977a3bd7f0b": "27ab48b75f989f49c4a712f9079ef27d3cc0616875ae6ee8070931ea80d4824a",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
     "066830a97f7f053e880cdf2a6418aadb3de781ab": "550a1650979fd370795a40ad579f23195fee79154c67083518d72a9383a0fbb5",
     "068eb35374c2ec5f6f86efad6cefe7c316fa0740": "5cde070cb9aca85ddd63b513bccc198fdce5f444e227cc139986fa39bc380779",
@@ -10499,6 +10727,7 @@
     "2de5f65d63c76054f04155d90201d96129af4433": "ae7568b1c22bb2f51631b74cbcc787efc45e5fc3522d7515522830ef78f4905f",
     "2e974fa58123ab1835b117a55451bf837597182f": "721d67fe90a8e8bcd505c29123ab13fd56647c8c796958f18f562cab6d2c7e11",
     "2f58c8c1722a67e15a08180dc97e424a6e2a91a4": "0a98a16f461f5be5e3044245f9f4eee52a8c43d66f0f9ed012062630efe4b627",
+    "2f7e901355faf6a02f4e1b9e3300d608b024ace2": "2186a5a8b417b96795029475bc0baee145e6bc8ee990187c10eba1ac440b45df",
     "2fb34775511c631fb60f9889fea86c01f676578c": "d7d78880c138153ebb791a7445187ab3b5b38b3667e19b1495ede43945e4fab2",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
     "3101237e7e97c6181416780c94888ba134a005d0": "eb8cd406e0591b4fa29b20c75057305ae593587084edf8595a5b40a82eb1c3d5",
@@ -10507,6 +10736,7 @@
     "3491b7d3d2971826f3f4cba89067cceffb91940d": "818031aaaeb16be08c12fdc8c6bd3aa3c0613361d4e428483bdd9bf99c867a68",
     "34d36385c45b4e36a55aeed42fd561dfbba048a5": "aedc55fb360a18c1dbee2c575700507a177cee997552da81f3fd1e25ca133f7b",
     "35c6d3e3e798dee10c51335719d6ef9cd0539fb8": "57e66fd038cc6cfae4611ad95a163464d18dfa3c6e7217c6431a9b34e75a66d8",
+    "368db1a9826de1455fe1d4598671ddd57bb9aa77": "85c68530537fe7fe3677352ac0a3b80c7e3e9c66353e241572d69cf29d57e5c6",
     "37f3fde2e8ab54ba82e54bbbba81f82f3956b661": "f4a36ee84c1fe8be3378876d6d78c0a198f93d3b1ff289a9de6f9d9a93de818e",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
@@ -10546,6 +10776,7 @@
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
     "4f75cb4af31947f6d4eda1f270279fa905a7c45c": "a6c8ed3f9a0e00ce494fbfe1db429a236da0fa7afa39d0e1c32cc8312dcf7cf9",
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
+    "5302e7ec33c30964a7c343b0a85497a6f70e61a7": "bbe9bb786cd83f51f6b746f76900d85946898a3c12b37d0c516c1cdb6bcb78d5",
     "550da40d10c9520d8e96478455cc6f14982fc322": "7f6cd0ea80f869bc1eccb855009ab51cb290f4a22b605c3791dca5ecdf8d05e7",
     "55267d1eb771e6ee403dc30e5e191b0c3742d9cc": "6a8661f86cf9dea9b9a8e0af296f8d44dcb8024f25cc7583faab7d667432eb50",
     "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
@@ -10581,6 +10812,7 @@
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
     "6ac040939170368c6d8a9ebc16f200ef31fd667d": "5151cfbe3236dce7eb433ab45833b664445f4ecaf49766bab0e9d19e6e474da1",
     "6b448d99524804101f37ccf3c4283c5c70e485e4": "ddb4c752a9b18098fef47f03d4c453006631cb2e33c1fe6d3c908d5271c2dafd",
+    "6c9c6e454d826347971d4f7e612abcd43b8a306b": "a5619e59333e45a675013515a44153553ef7193116938b5ea0e4de2fd8ded382",
     "6df3d7849b82bd36526022e47a276e49f9e0faeb": "5de4e85f36ca52686ae7655313ac78e326c7dff764261b32834030f500b91ebb",
     "721627bcc9a6eca2e283f879026d942a93a05a20": "6ba953710de7f712d7774c957971f57ee2c54a29c1f9b69b59924ad851c4014d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
@@ -10628,6 +10860,7 @@
     "961f193437e3699a5fed679d14e9c49f7e799a0d": "f10eff9ac50886388a49e416d60fa26f1740aace9d5915d3781e60d5e0b76a00",
     "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b": "7f89387eaff41cf48c99bb65484ef1fc592113c01a43e4e67f51a80b9e9ace72",
     "9768ac3f6f56f08cc52f53be24d9928d3de17a4b": "903ba161d758d71e575db07cc87590ed3e5c5c7f7d87b5ea9e79ace3cfa2c08d",
+    "976a966c1b497890aae12dd1a63b1dd6b05ee763": "e2516c2647dbe5d820c720ae68cfb4a70bba50bea9ceb871dba72aac0d4720a6",
     "9974579407d29dd6072fcb9f1cf515115c954cb6": "d0a78212bf3184be2d9649789fe45d327c6ea43e4ea7eabe7bf1b19d8e105a68",
     "9983aab6bfca1bb70ddb9dc1573a6efb054845df": "d8e02ee6d2cac0bb33a492e79c6067bfc73b50ad9814717b42e26a1adb1fd23f",
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
@@ -10659,6 +10892,7 @@
     "abd3af873fa7cf47a02f7c8aeaa1825f46ac7e1c": "e6c6c4b562e0fbf140427409daffde76379770fe8185ef4e5c13c8ca4fc442e3",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
+    "ae0df29e3e3a44849a8946466ff566163c0b2c91": "f9715f05bdf6bc94f9b825a03553600e3a916e2299025f176f24fbefde89d276",
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
     "b05f2c444105fa3cf261eabb6f79db5e2ec89675": "55d81975928aaec85692c9952fb6bb53c8e962b8cdbfec212a8b8bd889b84609",
     "b08a778410917942eae007572834688bfd60d1cc": "90a324ce599816398e41a22ba8a9b01f3bcff329d16b406ec16332be2566a920",
@@ -10677,6 +10911,7 @@
     "b7209c96bfa57c008c59f351d55ac7f2d781811a": "7628f37cf4f54bd2d2df1ecf3b0d13a7ce756859f8c6845278477a26e10afed3",
     "b89ee860423de1716456931197d1adffac0dba89": "bb0d5493febe7552de1d29dd9a52e222da2b7637898e328097e796579728c283",
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
+    "b9495234cdbc4547f083f5ee21cbd623c67a381f": "75028b56cfb85ace6ecd2576189d8cc27fb19b62522f6dfb181818c4670470e7",
     "ba390f93a7da8d74a4cd5cd1993c8a9244c91467": "1c088036c784d10dcc779037d6d5aecf9401e6efc9555002e0a127e2eaaecf2f",
     "bacb81cbe48f1afdad79bcc135778af4ffe1c2b4": "60e3d7b0291406611a381e27097a75a3491203fda742b22894b8ea8436ddbd35",
     "bbe11d2a80604207b8efaba5c521834acad779b3": "16f755f39ab221321d683242cb460fec7e8a20eb3be2a564fe3b98480f8374d2",
@@ -10723,6 +10958,7 @@
     "d8a540b84376f39997583204aa6801aece6e31f0": "e53685cc204c8b55f9c1e737b0e3f88ddf89665739e5ae3d2f5f00b4372b62d0",
     "d934a20173aaad840e477fc4aefd252b93bbc769": "990b433f0883f6279a35619dbcde7e98bacde20848c5b1ef8379349522219b76",
     "d93b801dad2cfd6fdb853cb8d8a01f01c26538ba": "50631091c707315abe98de13323d7f44722622c85c19c334fefae1fe55fcb34c",
+    "d98860037b4082b744a3ecd9fd7aae9ae2d729bf": "6e33461beda69e5d4e1ad7bad970745ad6bb41e5d4e1a0cac338e186c76248ab",
     "d9e8840c2fb51e8722cb2f95a3a810eb2f6de743": "e15f8cbb7a4d44842d252fd57cc6527931c2a5146e9fa3913de390a3b2b64f6b",
     "da3c7c51c4bc20733a5bf27278f9b459de1773ff": "890b558b6975c7c584d2e31f7bafef3c8d298a3b1431694811a545c30fdf97d1",
     "dacfdc577faed0cb155e1b30620cc9265ba4d1bb": "3ba3f068f27ebd14458b6a9738983bd4b7677a352184f1a526f0e9074e0c6de0",
@@ -10988,6 +11224,10 @@
     },
     {
       "observed_at_commit": "6a50f5c0aea3e8a131e0698151875cd83102ed69",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "6c9c6e454d826347971d4f7e612abcd43b8a306b",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -11489,13 +11729,23 @@
         "v0.34.0"
       ],
       "version": "0.34.0"
+    },
+    {
+      "source_commits": [
+        "2f7e901355faf6a02f4e1b9e3300d608b024ace2"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.35.0"
+      ],
+      "version": "0.35.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "494f63f62cea516fb5c626e183a0584b0e00c834",
+  "source_commit": "6c9c6e454d826347971d4f7e612abcd43b8a306b",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -11616,6 +11866,11 @@
       "commit": "c89403fd4dd5923eb633ff079bf62db4f22861f1",
       "tag": "v0.34.0",
       "version": "0.34.0"
+    },
+    {
+      "commit": "2f7e901355faf6a02f4e1b9e3300d608b024ace2",
+      "tag": "v0.35.0",
+      "version": "0.35.0"
     }
   ]
 }

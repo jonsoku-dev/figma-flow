@@ -8,6 +8,17 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+<a id="p0-reference-safety"></a>
+
+## 미배포 · P0 기준 자료 보호·자체 입력·로드맵 그래프
+
+기준 태그 `v0.35.0`은 변경하지 않으며, 배포 전 미배포 묶음으로 P0 기준 자료 배포 가드, 자체 웹·Design 기준 입력, 로드맵 그래프 및 API 분류, 공개 인수 영수증을 기록했다.
+
+- **공개 인수 영수증 및 범위**: [P0 인수 영수증](../next-roadmap/p0-reference-acceptance.md) · [로드맵 그래프](../next-roadmap/backlog.graph.json) · [역량 검토](../next-roadmap/capability-review.md) · [API 우선순위](../api-priority.md) · [최종 기준 커밋 노트](patches/6c9c6e454d826347971d4f7e612abcd43b8a306b.md).
+- **배포 가드 및 CI**: tracked path `1,682`개 대상 `reference_distribution_guard.py --ref HEAD`에서 `forbidden_paths=0`, `ephemeral_evidence=0`을 확인했다. CI 워크플로우 `paths-only` 게이트는 Linux 기본 브랜치(`368db1a9`) 분기 오류를 수정한 뒤 `b9495234`에서 통과를 확인했다(이전 실패는 성공으로 소급하지 않는다).
+- **자체 기준 입력 및 인수 결과**: 외부 참고 아카이브 4종과 보존 사본 4종은 변동 0건을 유지한다. `examples/owned-design-baseline/` 기준 입력은 독립 Chromium `7`클릭·`3`상태·`6`전이·`10/10` 바이트 동일 PNG, `6/6` `ON_CLICK`·`6/6` Figma Present 클릭, `85/103/103` 편집 가능 노드 수(superseded `86/104/104` 초안 폐기) 및 `strict-local` 그래프 검증을 통과했다.
+- **API 분류 경계**: `tools/api_priority.py` 재빌드 결과 `1,382`행(`observed_graph_member_ids=502`), 전체 미관측 `825`건, Design 후보 `12`건(`8` `design-api` + `4` `design-node`)으로 분류되며 이는 우선 검토 후보일 뿐 런타임 지원(`supported`) 선언이 아니다.
+
 ## v0.35.0
 
 [사용 절차](../guide.md#web-disclosure-quickstart) · [FAQ 인수 조건](../../specs/interactive-web/disclosure.md) · [설계 그래프](../../specs/interactive-web/graph.json) · [배포본과 SHA-256](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.35.0).
