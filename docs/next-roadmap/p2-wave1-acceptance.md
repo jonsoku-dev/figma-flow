@@ -154,7 +154,7 @@ summary profile의 라이브 성능은 이번 범위에서 측정하지 않는�
 | ID | 기준 | 근거 |
 |---|---|---|
 | B1 | 같은 환경에서 workload마다 같은 scope의 `root-live` 시도를 5회 이상 미리 계획하고, 모든 시도를 순번대로 보존한다. 실패, 시간 초과, 재시도, drift를 조용히 빼거나 성공한 5건만 고르지 않는다 | root의 실제 Figma 측정, 시도 기록 |
-| B2 | 계획한 시도 중 실패가 있거나, 범위가 바뀌거나, `content_sha256`이 갈라지면 통계를 만들지 않고 실패, 비교 불가 또는 판정 불가로 보고한다 | 기록 대조 |
+| B2 | 계획한 시도 중 실패가 있거나, 범위가 바뀌거나, 요청한 file·page와 readback의 file·page가 다르거나, `content_sha256`이 갈라지면 통계를 만들지 않고 실패, 비교 불가 또는 판정 불가로 보고한다 | 기록 대조 |
 | B3 | discovery full의 coverage 부재를 `true`로 추정하지 않는다. summary 결과를 full 근거로 적지 않으며 `requireFullNativeRead`가 summary를 거절한다 | 기록 대조, 기존 RD-06 검사 |
 | B4 | 기준 workload의 각 시계는 median, 최소, 최대만 보고한다. 평균을 개선율로 바꾸지 않는다. `discovery-full-timed`와의 차이는 관측 overhead로만 적는다 | 기록 대조 |
 | B5 | 시간 샘플의 `getter_count`는 `null`이다. 진단 counts는 같은 scope 핀과 함께 별도 단위로 표시한다 | 기록 대조 |
@@ -177,7 +177,7 @@ baseline 구현의 새 검사(측정 단위 검사와 러너 검사)는 통합�
 
 root는 두 작업의 구현이 `main`에 통합된 뒤 다음을 수행하고 결과를 이 문서와 그래프에 기록한다.
 
-1. 통합 소스의 SHA를 고정하고, 설치·로드된 개발 플러그인의 runtime generation이 그 소스와 같은지 확인한다.
+1. 통합 소스의 SHA를 고정하고, 설치·로드된 개발 플러그인의 runtime generation이 그 소스와 같은지 확인한다. 소스 작업 트리에 커밋되지 않은 변경이 있으면 그 측정은 판정 불가다.
 2. A6. 격리 브라우저에서 새 fixture를 열고 요청 목록을 저장한다. 허용 목록 밖 요청과 외부 요청 수를 센다.
 3. B1–B5. 로드된 reader blob과 플러그인 버전을 샘플에 적는다. 기준 트리와 다르면 이 트리의 측정으로 보고하지 않는다. 등록된 Design 테스트 페이지에서 `discovery-full-default`와 `discovery-full-timed`를 각각 같은 범위로 5회 이상 실행한다. 성공 여부와 관계없이 모든 시도와 별도 진단 ledger를 Git 밖에 저장한다.
 4. 공개 요약만 이 문서에 쓰고, 노드의 `observed_evidence`·`proof_refs`·`evidence_status`를 갱신한다. 그다음 `python3 -B -m unittest tests.test_next_roadmap_backlog`를 실행한다.
