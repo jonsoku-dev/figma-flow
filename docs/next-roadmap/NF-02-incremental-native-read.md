@@ -71,3 +71,60 @@ npm --prefix panel-ui run build
 ```text
 NF-02의 summary browse 전용 메모리 캐시만 구현하라. AGENTS.md, 패치 기록 계약, RD-06과 현재 native reader/모든 호출자를 먼저 읽어라. 소유 파일은 작업 1~3 목록과 필요한 패치 기록이다. 다른 dirty 변경은 보존하고 한 파일은 한 writer만 다뤄라. fresh가 기본이고 full/apply 검증은 실제 getter를 유지한다. Figma event는 배치되며 dynamic-page documentchange와 main/style 전파에 제약이 있다는 공식 문서를 재확인하라. 관찰 범위가 부족하면 cache disable 또는 possiblyStale이지 완전 최신 증명이 아니다. 영속 저장, 전체 페이지 자동 load, 새 권한/의존성, 기존 독립 검사 수정, 게시·커밋을 하지 말라. 새 회귀 검사와 기존 명령을 실행하고 동일 작업 기준·변경 후 getter 수/시간/bytes를 실측하라. 실제 native 권한이 없으면 그 인수만 미검증으로 보고하라. 반환은 변경 파일, 무효화 표, 정확성 검사, 측정 조건/결과, 미검증 범위와 rollback 방법이다.
 ```
+
+## 부록. P2 fresh-read 기준선 측정 (`p2-read-performance-baseline`)
+
+이 부록은 측정 계약이다. 캐시·browse·증분 읽기를 구현하지 않는다. 위의 과거 R5–R7 수치를 기준값으로 옮기지 않는다. 개선 코드가 없으므로 속도 향상을 주장하지 않는다.
+
+### 측정 대상과 경계
+
+생산 fresh 경로는 등록된 Figma Flow 플러그인의 `discover` 작업 `read`다. `tools/figma_control.py run`이 작업을 넣고 플러그인이 `tools/graph_sync.py`가 생성한 `discoverGraphNative`를 실행한다. 이 함수는 허용된 각 페이지에서 `requireFullNativeRead(await readNativeSemantics(figma, page))`를 호출한 뒤 `strokeWeight`·글꼴·컬렉션 후처리를 한다.
+
+`figma-bridge/native_semantic_read.js`와 기본 discovery 출력은 바꾸지 않는다. 측정은 `graph_sync.py discover --read-measure timing|getter-counts`로 준비한 별도 작업에서만 켠다. 이 옵션이 있을 때만 `figma-bridge/native_read_measurement.js`를 번들 끝에 붙인다. 이 블록은 같은 `readNativeSemantics`를 감싸 시간을 재거나 호출을 센다. 옵션이 없으면 생성 `code.js`는 기존과 바이트 단위로 같다.
+
+| 워크로드 | 작업 준비 | 시계 | 보고 |
+| --- | --- | --- | --- |
+| `discovery-full-default` | 옵션 없음 | 러너 end-to-end, 서버 queue·plugin span | 5회 이상 |
+| `discovery-full-timed` | `--read-measure timing` | 위 시계 + 플러그인 `reader_elapsed_ms`·`discovery_elapsed_ms` | 5회 이상, default와 교대 |
+| `discovery-full-diagnostic` | `--read-measure getter-counts` | Proxy 계측으로 부풀려진 시간 | 1회, 통계 제외 |
+| `readNativeSemantics-summary-default` | 패널 `native-summary` 동작 | 없음 | 라이브 미측정 |
+
+summary는 control `discover`가 `read`만 허용하므로 이 러너로 실행할 수 없다. 단위 mock에서 스키마·bytes·거절만 확인한다. summary와 full은 다른 일이며 두 값의 차이를 개선으로 쓰지 않는다. `compareNativeReadProfiles`는 한 호출에서 네 번 읽으므로 시간 샘플로 쓰지 않는다. `code.js` export/sync readback과 `direction_review.js`의 index 경로도 이 기준선이 아니다.
+
+### 시계 정의
+
+- `end_to_end_ms`: 러너의 `time.monotonic()`으로 `figma_control.py run` 하위 프로세스 시작부터 종료까지. Python 시작, readiness HTTP, 큐 대기, 0.2초 status polling을 포함한다.
+- `queue_ms`: 서버 `claimed_at - created_at`. 플러그인 poll 간격이다. 읽기 작업이 아니다.
+- `plugin_span_ms`: 서버 `completed_at - claimed_at`. poll 응답 전달, 패널 invoke, discovery, readback `JSON.stringify`, 결과 POST, 서버 검증·저장을 포함한다.
+- `reader_elapsed_ms`: 플러그인 `Date.now()`로 `await readNativeSemantics(figma, page)` 한 번만. 페이지 `loadAsync`는 reader 안이다. 허용 페이지별 값과 합계를 적는다.
+- `discovery_elapsed_ms`: 플러그인 `Date.now()`로 `discoverGraphNative` 진입부터 반환까지. 후처리 getter를 포함한다.
+
+서로 다른 시계의 절대 시각을 빼지 않는다. 같은 시계 안의 차이만 쓴다. `plugin_span_ms - discovery_elapsed_ms`는 서로 다른 시계라 근사치로만 적는다.
+
+### getter 정의
+
+`getter-counts` 진단에서 페이지와 `findAll`·`children`·`parent`로 도달한 실제 노드를 Proxy로 감싼다. `node_property_gets`는 그 노드 객체의 문자열 키 [[Get]] 실행 횟수다. 메서드 조회(`getPluginData`, `findAll` 등)도 한 번으로 센다. `then`은 뺀다. 같은 노드·속성을 다시 읽으면 다시 센다. `api_calls`는 reader가 실제 호출한 노드 메서드와 `figma`·`figma.variables` 함수의 호출 횟수와 Promise 대기 합계 ms다. style·variable·collection·image·main component 객체의 속성 읽기는 세지 않는다. 기존 `nativeReadGetterLedger`는 처음 본 `nodeId.property` 목록이라 이 수와 다르다. mock 테스트의 수는 라이브 getter 수가 아니다. 시간 샘플의 getter 수는 null이다.
+
+### 데이터 형태
+
+플러그인은 측정 작업에서만 discovery readback에 선택 필드를 더한다. 기존 필드와 `readNativeSemantics` 반환값은 그대로다.
+
+```json
+{"read_measurement": {"schema": "figma-flow-native-read-measurement-v1", "mode": "timing", "clock": "Date.now",
+  "pages": [{"pageId": "…", "reader_elapsed_ms": 0}], "discovery_elapsed_ms": 0}}
+```
+
+`getter-counts` 페이지 행은 `reader_result_bytes`(기존 `utf8JsonBytes` 정의), `node_property_gets`, `by_property`, `api_calls`를 더한다.
+
+러너 샘플 `figma-flow-native-read-benchmark-sample-v1`은 `workload`, `role`(`sample`|`diagnostic`), `execution`(`root-live`|`unit-mock`), `pins`(source commit, reader·discovery·measurement 파일 blob, 플러그인 version, control implementation, expected·observed native runtime, task key·revision), `scope`(file·page·allowed page ID, node 수와 ID 목록 SHA-256, profile `full`, 필드 목록은 reader blob이 고정), `state`, 위 시계들, `readback_bytes`, `coverage`(complete, node·unavailable field·raster 수), `content_sha256`, `getter_counts`를 가진다. `content_sha256`은 `observed_at`·`read_measurement`를 뺀 readback의 정렬 JSON SHA-256이다.
+
+보고 `figma-flow-native-read-benchmark-report-v1`은 워크로드별 성공·실패·시간초과·재시도(러너는 재시도하지 않으므로 0) 수, 고유 content hash, 각 시계의 n·median·min·max, 진단 1회를 따로 둔다. 원시 ID와 경로는 사설 evidence에만 둔다. 공개 요약은 ID를 해시로 바꾸고 경로를 뺀다.
+
+### 인수 조건
+
+1. 기존 `rd06_fresh_read`, `rd06_summary_coverage`, `rd06_reject_partial`, `test_graph_sync.py` blob·모드가 그대로이고 통과한다.
+2. 옵션 없는 discovery 생성물은 변경 전과 같은 바이트다. 측정 블록은 summary 요청을 감싸지 않는다.
+3. 워크로드별 성공 샘플이 5개 이상이고 모든 성공 샘플의 `content_sha256`이 같다. 다르면 drift로 통계를 내지 않고 inconclusive로 보고한다.
+4. 실패·시간초과·불확실 샘플은 지우지 않고 세며 통계에서만 뺀다. 성공할 때까지 재시도하지 않는다.
+5. 진단 회차는 보고 median에 들어가지 않는다. 단위 mock 결과는 `execution: unit-mock`이고 native 증거로 표시하지 않는다.
+6. 측정 전후 readiness가 `current-self-reported`이고 expected와 observed native runtime이 같다. 아니면 샘플을 이 소스의 생산 읽기로 보고하지 않는다.
