@@ -448,7 +448,8 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       if(p.borderRadius)p.borderRadius=round(Math.min(p.borderRadius,b.width/2,b.height/2));
       const label=el.textContent.trim().replace(/\s+/g,' ');
       const isControl=(tag==='a'||tag==='button'||el.getAttribute('role')==='button');
-      if(isControl && el.getClientRects().length===1 && label && label.length<=90 && !el.querySelector('svg,img,picture,input,select,textarea,video,button') && el.children.length<=1){
+      const isDisclosure=(isControl && (typeof el.hasAttribute==='function'?el.hasAttribute('aria-expanded'):el.getAttribute('aria-expanded')!==null))||tag==='summary';
+      if(isControl && !isDisclosure && el.getClientRects().length===1 && label && label.length<=90 && !el.querySelector('svg,img,picture,input,select,textarea,video,button') && el.children.length<=1){
         // Reuse visually equivalent controls only. Identity also contains geometry
         // when its height and visual treatment match a prior control.
         const labelRange=document.createRange();labelRange.selectNodeContents(el);
@@ -459,7 +460,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
       }
       const clips = ['hidden','clip','auto','scroll'].includes(s.overflowX)
         && ['hidden','clip','auto','scroll'].includes(s.overflowY);
-      if(Object.keys(p).length || clips || ['main','section','article','nav','header','footer','aside','form'].includes(tag)){
+      if(Object.keys(p).length || clips || isDisclosure || ['main','section','article','nav','header','footer','aside','form'].includes(tag)){
         push({id,path,kind:'frame',name:el.getAttribute('aria-label')?.slice(0,100)||tag,clipsContent:clips,box:b,paint:p});childrenPath=[...path,id];
       }
       if(tag==='input'||tag==='textarea'){
