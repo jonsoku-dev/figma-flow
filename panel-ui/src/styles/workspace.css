@@ -246,6 +246,97 @@
 .workspace-history h3 {
   font-size: 14px;
 }
+.workspace-carousel {
+  margin: 12px 0 4px 20px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.workspace-carousel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.workspace-carousel-heading h4 { margin: 0; font-size: 13px; line-height: 18px; }
+.workspace-carousel-heading p, .workspace-carousel-notice { margin: 4px 0 0; color: var(--muted); font-size: 11px; line-height: 16px; }
+.workspace-carousel-select {
+  min-height: 32px;
+  flex: none;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.workspace-carousel-select:disabled { opacity: .55; cursor: not-allowed; }
+.workspace-carousel-select:focus-visible, .workspace-carousel-present:focus-visible,
+.workspace-carousel-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.workspace-carousel-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; }
+.workspace-carousel-present, .workspace-carousel-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.workspace-carousel-present { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+.workspace-carousel-open { color: var(--muted); }
+.workspace-carousel-states, .workspace-carousel-edges {
+  display: grid;
+  gap: 5px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.workspace-carousel-states li, .workspace-carousel-edges li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 5px 0;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  line-height: 16px;
+}
+.workspace-carousel-index { display: grid; place-items: center; width: 20px; height: 20px; flex: none; border: 1px solid var(--line); border-radius: 50%; font-variant-numeric: tabular-nums; }
+.workspace-carousel-states li > span:nth-child(2) { display: grid; min-width: 0; flex: 1; }
+.workspace-carousel-states strong { overflow: hidden; text-overflow: ellipsis; }
+.workspace-carousel-states small, .workspace-carousel-state-status { color: var(--muted); }
+.workspace-carousel-edges { margin-left: 10px; padding-left: 12px; border-left: 1px solid var(--line); }
+.workspace-carousel-edges li { justify-content: space-between; gap: 12px; }
+.workspace-carousel-edges li span { min-width: 0; overflow-wrap: anywhere; }
+.workspace-carousel-edges li span:last-child { color: var(--muted); text-align: right; }
+.workspace-carousel-list { display: grid; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.workspace-carousel-list > li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+.workspace-carousel-list-copy { display: grid; gap: 3px; min-width: 0; }
+.workspace-carousel-list-copy strong { overflow: hidden; text-overflow: ellipsis; }
+.workspace-carousel-list-copy span { color: var(--muted); font-size: 11px; line-height: 16px; }
+.workspace-carousel-titles { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 4px 0 0; padding: 0; color: var(--muted); font-size: 11px; line-height: 16px; list-style: none; }
+@media (max-width: 420px) {
+  .workspace-carousel { margin-left: 0; padding: 9px; }
+  .workspace-carousel-heading { align-items: stretch; flex-direction: column; }
+  .workspace-carousel-select { align-self: flex-start; }
+  .workspace-carousel-actions { justify-content: flex-start; }
+  .workspace-carousel-list > li { align-items: flex-start; flex-direction: column; }
+  .workspace-carousel-edges li { align-items: flex-start; flex-direction: column; gap: 0; }
+  .workspace-carousel-edges li span:last-child { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace-carousel, .workspace-carousel * { scroll-behavior: auto; animation: none; transition: none; }
+}
 .workspace-history p {
   font-size: 12px;
   color: var(--muted);

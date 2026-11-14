@@ -9,9 +9,14 @@ const flowLocales = JSON.stringify(Object.keys(Object.values(localeCatalog)[0]))
 const home = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_home.html'), 'utf8');
 function harness(frozen = false, options = {}) {
   const messages = [], shown = [], writes = [], commands = [], proxies = [];
-  const probe = {messages, shown, writes, commands, proxies, pending: null, closeCount: 0, chatCalls: []};
+  const probe = {messages, shown, writes, commands, proxies, pending: null, closeCount: 0, chatCalls: [], external: []};
   const figma = {
     fileKey: options.fileKey || 'file-a', ui: {postMessage(message) {assert.equal(this, figma.ui); messages.push(message);}},
+    currentPage: options.page || {id:'1:1',type:'PAGE'},
+    viewport: {scrollAndZoomIntoView(nodes) {probe.scrolled = nodes.map(node => node.id);}},
+    async getNodeByIdAsync(id) {return id === options.page?.id ? options.page : (options.nodes || []).find(node => node.id === id) || null;},
+    async setCurrentPageAsync(page) {this.currentPage = page;},
+    openExternal(url) {probe.external.push(url);},
     showUI(html, options) {assert.equal(this, figma); shown.push({html, options});},
     createPage() {assert.equal(this, figma); writes.push('page');}
   };
@@ -303,6 +308,58 @@ test('history loading keeps safe event summaries but strips malformed execution 
     {taskKey:'a',revision:'r1',time:'2026-11-10T00:01:00Z',operation:'read',status:'finished',executionId:'mabc-1234567890'}]};},async setAsync(){}};
   const listed=await harness(false,{storage}).listing();
   assert.equal(listed.history.length,2);assert.equal(listed.history[0].executionId,undefined);assert.equal(listed.history[1].executionId,'mabc-1234567890');
+});
+test('carousel receipt summaries remain bounded and discard malformed edges',()=>{
+  const h=harness();
+  const accepted=h.context.workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1',graph_sha256:'a'.repeat(64),
+    graph_id:'graph',file_key:'file-a',page_id:'1:2',frame_key:'slides',status:'current',initial_state:'one',flow_start_node_id:'node-1',
+    states:[{state_id:'one',screen_id:'WEB-one',frame_id:'node-1',title:'Team Status Overview',status:'current'},
+      {state_id:'two',screen_id:'WEB-two',frame_id:'node-2',status:'current'}],
+    edges:[{from:'one',to:'two',trigger:'ON_DRAG',destination_id:'node-2',direction:'LEFT',edge_id:'swipe-next'},
+      {from:'two',to:'two',trigger:'NO_NAVIGATION',destination_id:null,boundary:'stay',input:'swipe_left',edge_id:'edge-stay'},
+      {from:'one',to:'two',trigger:'UNSAFE',destination_id:'node-2',url:'https://outside.invalid'}]});
+  assert.equal(accepted.states.length,2);
+  assert.equal(accepted.states[0].title,'Team Status Overview');
+  assert.deepEqual(JSON.parse(JSON.stringify(accepted.edges)),[
+    {from:'one',to:'two',trigger:'ON_DRAG',destination_id:'node-2',direction:'LEFT',edge_id:'swipe-next'},
+    {from:'two',to:'two',trigger:'NO_NAVIGATION',destination_id:null,boundary:'stay',input:'swipe_left',edge_id:'edge-stay'}]);
+  assert.equal(h.context.workspaceStoredCarousel({...accepted,states:Array(33).fill(accepted.states[0])}),null);
+  const actual=h.context.workspaceCarouselSummary({schema:'figma-flow-web-screen-discovery-v1',readback_scope:'screens',
+    fileKey:'file-a',pageId:'1:2',graph_sha256:'a'.repeat(64),nodes:[{}],web_design:{graph_id:'graph',graph_sha256:'a'.repeat(64),
+      carousel:{frame_key:'slides',status:'current',initial_state:'one',flow_start_node_id:'node-1',
+        states:[{state_id:'one',screen_id:'WEB-one',frame_id:'node-1',title:'Team Status Overview',status:'current',reactions:[],
+          hotspots:[{edge_id:'edge-stay',input:'swipe_right',trigger:null,boundary:true,destination_id:null}]},
+          {state_id:'two',screen_id:'WEB-two',frame_id:'node-2',title:'Release Schedule Milestones',status:'current',reactions:[],hotspots:[]}],edges:[]}}},
+    {fileKey:'file-a',pageId:'1:2'},'1:2');
+  assert.equal(actual.status,'current');assert.equal(actual.graph_sha256,'a'.repeat(64));
+  assert.equal(actual.states[0].title,'Team Status Overview');
+  assert.equal(actual.edges[0].trigger,'NO_NAVIGATION');assert.equal(actual.edges[0].boundary,'stay');
+});
+test('carousel start selection requires the current task readback and exact native frame',async()=>{
+  const page={id:'1:2',type:'PAGE',flowStartingPoints:[{nodeId:'1:3',name:'Carousel'}],async loadAsync(){}};
+  const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};
+  const frame={id:'1:3',type:'FRAME',parent:page,getPluginData:key=>values[key]||''};
+  page.children=[frame];
+  const h=harness(false,{page,nodes:[frame]});const session=await h.open('a');
+  const summary=h.context.workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1',graph_sha256:'a'.repeat(64),
+    graph_id:'graph',file_key:'file-a',page_id:'1:2',frame_key:'slides',status:'current',initial_state:'one',flow_start_node_id:'1:3',
+    states:[{state_id:'one',screen_id:'WEB-one',frame_id:'1:3',status:'current'},
+      {state_id:'two',screen_id:'WEB-two',frame_id:'1:4',status:'current'}],edges:[]});
+  vm.runInContext(`workspaceState.history.push({taskKey:'a',revision:'r1',operation:'apply',status:'readback',executionId:'exec-a',carousel:${JSON.stringify(summary)}})`,h.context);
+  const active=vm.runInContext('workspaceActive',h.context);
+  await h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'one',nodeId:'1:3'});
+  assert.equal(page.selection.length,1);assert.equal(page.selection[0].id,'1:3');assert.deepEqual(Array.from(h.probe.scrolled),['1:3']);
+  assert.equal(h.probe.messages.at(-1).payload.type,'workspace-carousel-selected');
+  await h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'one',nodeId:'1:3',action:'present'});
+  assert.equal(h.probe.external.at(-1),'https://www.figma.com/proto/file-a/SaaS?node-id=1-3&starting-point-node-id=1-3&page-id=1-2&scaling=scale-down');
+  assert.equal(h.probe.external.length,1);
+  assert.equal(h.probe.messages.at(-1).payload.type,'workspace-carousel-presented');
+  await assert.rejects(h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'two',nodeId:'node-2'}),/stale or outside/);
+  assert.equal(h.probe.external.length,1);
+  assert.equal(h.probe.messages.at(-1).payload.type,'workspace-carousel-presented');
+  page.flowStartingPoints=[];
+  await assert.rejects(h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'one',nodeId:'1:3'}),/no longer a Figma flow start/);
+  assert.equal(h.probe.external.length,1);
 });
 test('late storage loading cannot populate an expired home session or admit a forged verification',async()=>{
   let release;const storage={getAsync:()=>new Promise(resolve=>{release=resolve;}),async setAsync(){}};

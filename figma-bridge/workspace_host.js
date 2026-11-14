@@ -50,9 +50,120 @@ async function workspaceLoadState() {
       typeof event.revision === 'string' && event.revision.length <= 128 &&
       workspaceOperations.has(event.operation) && workspaceStatuses.has(event.status) &&
       typeof event.time === 'string' && event.time.length <= 40 && Number.isFinite(Date.parse(event.time))).slice(-80)
-      .map(({taskKey, revision, time, operation, status, executionId}) => ({taskKey, revision, time, operation, status,
-        ...(typeof executionId === 'string' && /^[a-z0-9-]{1,80}$/.test(executionId) ? {executionId} : {})}));
+      .map(({taskKey, revision, time, operation, status, executionId, carousel}) => ({taskKey, revision, time, operation, status,
+        ...(typeof executionId === 'string' && /^[a-z0-9-]{1,80}$/.test(executionId) ? {executionId} : {}),
+        ...(workspaceStoredCarousel(carousel) ? {carousel: workspaceStoredCarousel(carousel)} : {})}));
   } catch (_) {workspaceStorageError = true;}
+}
+function workspaceStoredCarousel(value) {
+  if (!value || value.schema !== 'figma-flow-carousel-summary-v1' || !/^[a-f0-9]{64}$/.test(value.graph_sha256 || '')
+      || typeof value.graph_id !== 'string' || value.graph_id.length > 120 || typeof value.page_id !== 'string' || value.page_id.length > 64
+      || typeof value.file_key !== 'string' || value.file_key.length > 128 || typeof value.frame_key !== 'string' || value.frame_key.length > 120
+      || !Array.isArray(value.states) || value.states.length < 2 || value.states.length > 16
+      || !Array.isArray(value.edges) || value.edges.length > 80) return null;
+  const states = value.states.filter(state => state && ['current','changed','missing'].includes(state.status)
+    && [state.state_id,state.screen_id,state.frame_id].every(item => typeof item === 'string' && item.length <= 128))
+    .map(state => ({state_id:state.state_id, screen_id:state.screen_id, frame_id:state.frame_id, status:state.status,
+      ...(typeof state.title === 'string' && state.title.trim().length <= 160 ? {title:state.title.trim()} : {})}));
+  const edges = value.edges.filter(edge => edge && typeof edge.from === 'string' && typeof edge.to === 'string'
+    && (['AFTER_TIMEOUT','ON_DRAG','ON_CLICK'].includes(edge.trigger) && typeof edge.destination_id === 'string'
+      || edge.trigger === 'NO_NAVIGATION' && edge.boundary === 'stay' && edge.destination_id === null))
+      .slice(0,80).map(edge => ({from:edge.from, to:edge.to, trigger:edge.trigger, destination_id:edge.destination_id,
+      ...(Number.isFinite(edge.timeout) && edge.timeout >= 0 && edge.timeout <= 60 ? {timeout:edge.timeout} : {}),
+      ...(edge.direction === 'LEFT' || edge.direction === 'RIGHT' ? {direction:edge.direction} : {}),
+      ...(edge.boundary === 'stay' ? {boundary:'stay'} : {}),
+      ...(edge.input === 'swipe_left' || edge.input === 'swipe_right' ? {input:edge.input} : {}),
+      ...(edge.edge_id && typeof edge.edge_id === 'string' && edge.edge_id.length <= 120 ? {edge_id:edge.edge_id} : {})}));
+  if (states.length !== value.states.length) return null;
+  return {schema:value.schema, graph_sha256:value.graph_sha256, graph_id:value.graph_id, file_key:value.file_key, page_id:value.page_id,
+    frame_key:value.frame_key, status:['current','changed','missing'].includes(value.status) ? value.status : 'changed',
+    initial_state:typeof value.initial_state === 'string' ? value.initial_state : '',
+    flow_start_node_id:typeof value.flow_start_node_id === 'string' ? value.flow_start_node_id : '', states, edges};
+}
+function workspaceCarouselSummary(data, task, pageId) {
+  const receipt = data?.web_design, carousel = receipt?.carousel;
+  const actualScreenRead = data?.schema === 'figma-flow-web-screen-discovery-v1' && data.readback_scope === 'screens'
+    && Array.isArray(data.nodes) && data.graph_sha256 === receipt?.graph_sha256;
+  if (!actualScreenRead || data.fileKey !== figma.fileKey
+      || data.pageId !== pageId || task.fileKey !== data.fileKey || task.pageId && task.pageId !== pageId
+      || !receipt || !/^[a-f0-9]{64}$/.test(receipt.graph_sha256 || '') || typeof receipt.graph_id !== 'string'
+      || carousel?.frame_key === undefined || !Array.isArray(carousel.states)) return null;
+  const stateByFrame = new Map(carousel.states.map(state => [state.frame_id, state.state_id]));
+  const edges = [];
+  for (const state of carousel.states.slice(0,16)) {
+    for (const reaction of state.reactions || []) edges.push({from:state.state_id,
+      to:stateByFrame.get(reaction.destination_id) || '', trigger:reaction.trigger, destination_id:reaction.destination_id,
+      timeout:reaction.timeout, direction:reaction.transition?.direction, edge_id:reaction.edge_id});
+    for (const hotspot of state.hotspots || []) {
+      if (hotspot.boundary === true) edges.push({from:state.state_id, to:state.state_id, trigger:'NO_NAVIGATION',
+        destination_id:null, boundary:'stay', input:hotspot.input, edge_id:hotspot.edge_id});
+      else if (hotspot.trigger) edges.push({from:state.state_id,
+        to:stateByFrame.get(hotspot.destination_id) || '', trigger:hotspot.trigger, destination_id:hotspot.destination_id,
+        timeout:hotspot.timeout, direction:hotspot.transition?.direction, input:hotspot.input, edge_id:hotspot.edge_id});
+    }
+    for (const control of state.controls || []) for (const reaction of control.reactions || []) edges.push({from:state.state_id,
+      to:stateByFrame.get(reaction.destination_id) || '', trigger:reaction.trigger, destination_id:reaction.destination_id});
+  }
+  return workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1', graph_sha256:receipt.graph_sha256,
+    graph_id:receipt.graph_id, file_key:data.fileKey, page_id:data.pageId, frame_key:carousel.frame_key,
+    status:carousel.status, initial_state:carousel.initial_state, flow_start_node_id:carousel.flow_start_node_id,
+    states:carousel.states.slice(0,16), edges:edges.slice(0,80)});
+}
+function workspaceAttachCarousel(current, data, pageId) {
+  const summary = workspaceCarouselSummary(data, current.task, pageId);
+  if (!summary) return;
+  let event = [...workspaceState.history].reverse().find(row => row.taskKey === current.task.key && row.revision === current.task.revision
+    && row.executionId === current.executionId);
+  if (!event) {
+    event = {taskKey:current.task.key, revision:current.task.revision || '', time:new Date().toISOString(), operation:'apply', status:'readback', executionId:current.executionId};
+    workspaceState.history.push(event);
+  }
+  event.carousel = summary;
+  workspaceState.history = workspaceState.history.slice(-80);
+  workspacePersist();
+}
+async function workspaceSelectCarousel(current, request) {
+  const event = [...workspaceState.history].reverse().find(row => row.taskKey === current.task.key && row.revision === current.task.revision
+    && row.executionId === request?.executionId);
+  const summary = workspaceStoredCarousel(event?.carousel), state = summary?.states.find(item => item.state_id === summary.initial_state);
+  if (!summary || summary.status !== 'current' || !state || state.status !== 'current'
+      || summary.file_key !== figma.fileKey || summary.page_id !== current.task.pageId
+      || request?.nodeId !== summary.flow_start_node_id || request?.stateId !== summary.initial_state)
+    throw Error('Carousel readback is stale or outside this prepared task. Run native read again.');
+  const page = await figma.getNodeByIdAsync(summary.page_id);
+  if (page?.type !== 'PAGE') throw Error('The carousel page is no longer available.');
+  await page.loadAsync();
+  if (!workspaceCurrent(current) || figma.fileKey !== summary.file_key) throw Error('The prepared task or active Figma file changed.');
+  if (figma.currentPage.id !== page.id) await figma.setCurrentPageAsync(page);
+  if (!workspaceCurrent(current) || figma.fileKey !== summary.file_key || figma.currentPage.id !== page.id)
+    throw Error('The prepared task or active Figma page changed.');
+  const frame = await figma.getNodeByIdAsync(summary.flow_start_node_id);
+  let owner = frame;
+  while (owner && owner.type !== 'PAGE') owner = owner.parent;
+  const sourceState = summary.states.find(item => item.state_id === summary.initial_state);
+  if (!frame || frame.type !== 'FRAME' || owner?.id !== page.id
+      || frame.getPluginData('figma-flow-web-design-id') !== `${summary.graph_id}/${sourceState.screen_id}`
+      || frame.getPluginData('figma-flow-web-design-sha256') !== summary.graph_sha256)
+    throw Error('The recorded initial frame changed or is unavailable. Run native read again.');
+  if (!(page.flowStartingPoints || []).some(start => start.nodeId === frame.id))
+    throw Error('The recorded frame is no longer a Figma flow start. Run native read again.');
+  figma.currentPage.selection = [frame];
+  figma.viewport.scrollAndZoomIntoView([frame]);
+  if (request.action === 'present') {
+    const url = workspaceCarouselPresentationUrl(summary);
+    if (!url || typeof figma.openExternal !== 'function') throw Error('A verified Figma presentation link is unavailable.');
+    figma.openExternal(url);
+  }
+  figma.ui.postMessage({workspaceSession:current.session, payload:{type:request.action === 'present'
+    ? 'workspace-carousel-presented' : 'workspace-carousel-selected', executionId:request.executionId,
+    stateId:summary.initial_state, nodeId:frame.id}});
+}
+function workspaceCarouselPresentationUrl(summary) {
+  const safeFile = /^[A-Za-z0-9_-]{1,128}$/.test(summary?.file_key || '');
+  const safeId = value => typeof value === 'string' && /^\d+(?:[:-]\d+)$/.test(value);
+  if (!safeFile || !safeId(summary.page_id) || !safeId(summary.flow_start_node_id)) return null;
+  const page = summary.page_id.replaceAll(':', '-'), node = summary.flow_start_node_id.replaceAll(':', '-');
+  return `https://www.figma.com/proto/${summary.file_key}/SaaS?node-id=${node}&starting-point-node-id=${node}&page-id=${page}&scaling=scale-down`;
 }
 function workspacePersist() {
   if (!workspaceStorageKey || !figma.clientStorage) return;
@@ -83,6 +194,7 @@ function workspaceRecord(current, operation, status, journal) {
 }
 function workspaceObserve(current, message) {
   if (!message || !current.operation) return;
+  if (message.readback?.web_design?.carousel) workspaceAttachCarousel(current, message.readback, figma.currentPage.id);
   if (message.busy === true || message.state === 'busy' || (message.type === 'busy' && message.value === true)) {
     if (!current.started) workspaceRecord(current, current.operation, 'running');
     current.started = true;
@@ -357,6 +469,13 @@ async function workspaceOnMessage(message) {
   if (message.type !== 'workspace-task-message' || !current.handler) return;
   if (current.view === 'chat' && message.payload?.type === 'chat:back') {workspaceHome(); return;}
   if (current.task.fileKey && current.task.fileKey !== figma.fileKey) return;
+  if (['workspace-carousel-select','workspace-carousel-present'].includes(message.payload?.type)) {
+    const request = {...message.payload, action:message.payload.type === 'workspace-carousel-present' ? 'present' : 'select'};
+    try { await workspaceSelectCarousel(current, request); }
+    catch (error) { figma.ui.postMessage({workspaceSession:current.session,
+      payload:{type:'workspace-carousel-error', message:String(error.message || error)}}); }
+    return;
+  }
   const operation = message.payload?.type;
   if (workspaceOperations.has(operation) && workspaceBusy(current)) return;
   if (workspaceOperations.has(operation)) {current.executionId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12); current.operation = operation; current.outcome = null; current.started = false; current.verificationRecorded = false; workspaceRecord(current, operation, 'requested');}

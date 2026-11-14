@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { Action, Section, Notice, PreviewStrip } from './components.jsx';
 import { workspaceActivity } from './WorkspaceActivity.mjs';
-import { ActivitySummary, ExecutionFlows } from './WorkspaceActivity.jsx';
+import { ActivitySummary, CarouselOverview, ExecutionFlows } from './WorkspaceActivity.jsx';
 import { dependencyFreshness, dependencyView } from './dependencyView.mjs';
 import { assetInventory } from './assetInventory.mjs';
 
@@ -216,6 +216,7 @@ export default function Workspace({
   const [stage, setStage] = useState('');
   const [activityTask, setActivityTask] = useState('');
   const [control, setControl] = useState(null);
+  const [carouselNotice, setCarouselNotice] = useState(null);
   const [focusTask, setFocusTask] = useState(null);
   const [dependencyKey, setDependencyKey] = useState('');
   const session = useRef(null);
@@ -239,6 +240,12 @@ export default function Workspace({
     function receive(event) {
       const message = event.data?.pluginMessage;
       if (!message) return;
+      if (['workspace-carousel-selected','workspace-carousel-presented','workspace-carousel-error'].includes(message.type)) {
+        if (message.workspaceSession && message.workspaceSession !== session.current) return;
+        setCarouselNotice(message.type === 'workspace-carousel-selected' ? 'selected' :
+          message.type === 'workspace-carousel-presented' ? 'presented' : message.message || 'error');
+        return;
+      }
       if (message.type === 'workspace-control-state') {
         if (message.workspaceSession !== session.current) return;
         setControl({ busy: message.busy === true, outcome: message.outcome });
@@ -302,6 +309,13 @@ export default function Workspace({
   const recommendation = view === 'tasks' ? selectRecommendation(model, scoped) : null;
   const recommended = recommendation?.task;
   const recommendedEvent = recommended ? latestFor(model, recommended) : null;
+  const carouselTasks = projectTasks.filter(task => task.kind === 'native-edit' && task.fileKey === model.fileKey && task.pageId)
+    .map(task => {
+      const event = [...history].reverse().find(item => item.taskKey === task.key && item.revision === task.revision
+        && item.carousel?.schema === 'figma-flow-carousel-summary-v1' && item.carousel.file_key === model.fileKey
+        && item.carousel.page_id === task.pageId);
+      return {task, event, carousel:event?.carousel || null};
+    });
   const busy = control?.busy === true;
   const recent = [...history]
     .reverse()
@@ -446,6 +460,18 @@ export default function Workspace({
       {(view === 'tasks' || view === 'history') && ready && projectTasks.length > 0 && (
         <ActivitySummary activity={activity} tr={tr} />
       )}
+      {view === 'tasks' && ready && carouselTasks.length > 0 && <CarouselOverview items={carouselTasks.slice(0,16)} tr={tr}
+        notice={carouselNotice}
+        onOpenTask={openTask}
+        onSelectCarousel={(event, carousel) => {
+          setCarouselNotice(null);
+          sendMessage('workspace-carousel-select', {executionId:event.executionId,stateId:carousel.initial_state,nodeId:carousel.flow_start_node_id});
+        }}
+        onPresentCarousel={(event, carousel) => {
+          setCarouselNotice(null);
+          sendMessage('workspace-carousel-present', {executionId:event.executionId,stateId:carousel.initial_state,nodeId:carousel.flow_start_node_id});
+        }}
+      />}
       {recommended && (
         <>
           <PreviewStrip items={workspacePreviews(previewSource)} />
@@ -527,6 +553,18 @@ export default function Workspace({
           <ExecutionFlows
             flows={activity.flows.filter(flow => !activityTask || flow.steps[0].event.taskKey === activityTask)}
             tasks={tasks} tr={tr} stateText={stateText} date={date} rememberFocus={rememberFocus}
+            carouselNotice={carouselNotice}
+            onSelectCarousel={(event, carousel) => {
+              setCarouselNotice(null);
+              sendMessage('workspace-carousel-select', {executionId:event.executionId,
+                stateId:carousel.initial_state, nodeId:carousel.flow_start_node_id});
+            }}
+            onPresentCarousel={(event, carousel) => {
+              setCarouselNotice(null);
+              sendMessage('workspace-carousel-present', {executionId:event.executionId,
+                stateId:carousel.initial_state, nodeId:carousel.flow_start_node_id});
+            }}
+            fileKey={model.fileKey}
           />
           {!!activity.legacy.filter(step => !activityTask || step.event.taskKey === activityTask).length && <details className="workspace-flow workspace-unlinked">
             <summary ref={activityTask && !activity.flows.some(flow => flow.steps[0].event.taskKey === activityTask) ? rememberFocus(activityTask) : undefined}><span>{tr('unlinkedHistory')}</span><span>{tr('flowSteps', { count: activity.legacy.filter(step => !activityTask || step.event.taskKey === activityTask).length })}</span></summary>

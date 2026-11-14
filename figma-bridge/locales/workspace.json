@@ -239,6 +239,131 @@
     "en": "Activity in this file",
     "ja": "このファイルの実行履歴"
   },
+  "workspace.carouselTitle": {
+    "ko": "캐러셀 프로토타입",
+    "en": "Carousel prototype",
+    "ja": "カルーセルプロトタイプ"
+  },
+  "workspace.carouselFileTitle": {
+    "ko": "이 파일의 디자인 작업",
+    "en": "Design tasks in this file",
+    "ja": "このファイルのデザイン作業"
+  },
+  "workspace.carouselFileHelp": {
+    "ko": "현재 Figma 파일에 고정된 작업입니다. 작업을 열어 실제 값을 읽거나 계획을 직접 적용할 수 있습니다.",
+    "en": "Prepared tasks pinned to the current Figma file. Open one to read native values or explicitly apply its reviewed plan.",
+    "ja": "現在のFigmaファイルに固定された作業です。作業を開いてネイティブ値を読み取るか、確認済みの計画を明示的に適用できます。"
+  },
+  "workspace.carouselReadApply": {
+    "ko": "준비된 작업에서 읽기 또는 적용",
+    "en": "Read or apply in the prepared task",
+    "ja": "準備済みの作業で読み取りまたは適用"
+  },
+  "workspace.carouselOpenTask": {
+    "ko": "Read / Apply 열기",
+    "en": "Open Read / Apply",
+    "ja": "Read / Applyを開く"
+  },
+  "workspace.carouselPresent": {
+    "ko": "Present",
+    "en": "Present",
+    "ja": "プレゼンテーション"
+  },
+  "workspace.carouselPresentLabel": {
+    "ko": "{title} 캐러셀을 Figma Present에서 열기",
+    "en": "Open {title} carousel in Figma Present",
+    "ja": "{title}のカルーセルをFigmaプレゼンテーションで開く"
+  },
+  "workspace.carouselPresented": {
+    "ko": "검증된 시작 프레임으로 Figma Present를 열었습니다.",
+    "en": "Opened Figma Present at the verified start frame.",
+    "ja": "確認済みの開始フレームでFigmaプレゼンテーションを開きました。"
+  },
+  "workspace.carouselStateCount": {
+    "ko": "상태 {count}개",
+    "en": "{count} states",
+    "ja": "状態{count}件"
+  },
+  "workspace.carouselReadback": {
+    "ko": "실제 Figma 읽기 결과",
+    "en": "Actual Figma readback",
+    "ja": "実際のFigma読み取り結果"
+  },
+  "workspace.carouselPlaybackBoundary": {
+    "ko": "읽기는 프레임과 전환 설정을 확인합니다. Present 재생은 별도 검증입니다.",
+    "en": "Readback checks frames and transition settings. Presentation playback needs separate verification.",
+    "ja": "読み取りではフレームと遷移設定を確認します。プレゼンテーション再生は別途検証が必要です。"
+  },
+  "workspace.carouselCurrent": {
+    "ko": "현재",
+    "en": "Current",
+    "ja": "最新"
+  },
+  "workspace.carouselChanged": {
+    "ko": "변경됨",
+    "en": "Changed",
+    "ja": "変更あり"
+  },
+  "workspace.carouselSelectStart": {
+    "ko": "시작 프레임 선택",
+    "en": "Select start frame",
+    "ja": "開始フレームを選択"
+  },
+  "workspace.carouselStates": {
+    "ko": "캐러셀 상태",
+    "en": "Carousel states",
+    "ja": "カルーセルの状態"
+  },
+  "workspace.carouselTransitions": {
+    "ko": "실제 프로토타입 전환",
+    "en": "Native prototype transitions",
+    "ja": "ネイティブプロトタイプの遷移"
+  },
+  "workspace.carouselUnknownState": {
+    "ko": "대상을 찾을 수 없음",
+    "en": "Target unavailable",
+    "ja": "遷移先なし"
+  },
+  "workspace.carouselStay": {
+    "ko": "현재 카드 유지",
+    "en": "Stay on this card",
+    "ja": "現在のカードを維持"
+  },
+  "workspace.carouselNoNavigation": {
+    "ko": "끝 경계: 이동 반응 없음",
+    "en": "End boundary: no navigation action",
+    "ja": "端の境界: 遷移アクションなし"
+  },
+  "workspace.carouselSelected": {
+    "ko": "시작 프레임을 선택하고 화면에 맞췄습니다. Figma 프레젠테이션 버튼을 눌러 재생할 수 있습니다.",
+    "en": "Selected and focused the start frame. Use Figma’s Present control to play it.",
+    "ja": "開始フレームを選択して画面に合わせました。Figmaのプレゼンテーション操作から再生できます。"
+  },
+  "workspace.carouselTrigger.AFTER_TIMEOUT": {
+    "ko": "시간 경과",
+    "en": "After timeout",
+    "ja": "時間経過後"
+  },
+  "workspace.carouselTrigger.ON_DRAG": {
+    "ko": "드래그",
+    "en": "Drag",
+    "ja": "ドラッグ"
+  },
+  "workspace.carouselTrigger.ON_CLICK": {
+    "ko": "클릭",
+    "en": "Click",
+    "ja": "クリック"
+  },
+  "workspace.carouselTrigger.swipe_left": {
+    "ko": "왼쪽으로 스와이프",
+    "en": "Swipe left",
+    "ja": "左にスワイプ"
+  },
+  "workspace.carouselTrigger.swipe_right": {
+    "ko": "오른쪽으로 스와이프",
+    "en": "Swipe right",
+    "ja": "右にスワイプ"
+  },
   "workspace.historyEmpty": {
     "ko": "아직 실행 이력이 없습니다",
     "en": "No activity yet",

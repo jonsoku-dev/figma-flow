@@ -128,6 +128,7 @@ async function controlExecute(task, cmd, beforeDispatch) {
           data.fileKey !== cmd.file_key || data.pageId !== cmd.page_id || data.native_edit?.operation !== operation ||
           data.native_edit?.applied !== (operation === 'apply'))
         throw Object.assign(Error('Native edit did not return the expected actual getter.'), {nativeReadback:data});
+      if (data.web_design?.carousel) workspaceAttachCarousel(active, data, cmd.page_id);
       return data;
     }
     const match = active.html.match(/<script id="graph-panel-config" type="application\/json">([\s\S]*?)<\/script>/);
