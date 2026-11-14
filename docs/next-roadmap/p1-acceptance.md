@@ -96,7 +96,7 @@
 ### Scope Boundaries & Unobserved Claims
 
 - Legacy `metadata` fields and separate three-family duplicated helper paths outside the NF-01 six-family workbench remain unchanged and out of scope; this receipt claims only the verified NF-01 six-family compiler, importer/workbench, provision CLI, and rollback guarantees.
-- **Prior ENOSPC Failure Preserved & Formal Gate Scope:** An earlier formal improvement gate run failed on host disk exhaustion (`No space left on device`, preserved in local evidence logs); after freeing disk space, the isolated independent formal gate on `tools/figma_bridge.py` (`f88643b` -> `e6f4fd8`, frozen `tests/test_bridge_declared_property_compare.py`) passed cleanly (`rc = 1` with `2` `Lists differ` failures -> `rc = 0` with `3/3` tests passing). Full repository archive runs (`panel-ui` rebuild and full-tree `test_figma_draft.py`) remain deferred to clean isolated runs outside the shared workspace.
+- **Prior ENOSPC Failure Preserved, Isolated Gate Retry & CI Skip Boundaries:** An earlier formal improvement gate run failed on host disk exhaustion (`No space left on device`, preserved in local evidence logs); the subsequent isolated formal gate retry passed cleanly on `tools/figma_bridge.py` (`f88643b` -> `e6f4fd8`, frozen `tests/test_bridge_declared_property_compare.py`, `rc = 1` with `2` `Lists differ` failures -> `rc = 0` with `3/3` tests passing). On `e6f4fd8`, the full CI workflow (run `43599181267`) succeeded cleanly with `3` private/optional fixture skips (`2` in `unittest` for `regression layout not present` and `Optional operator evidence not supplied`, plus `1` in `node --test` for `Saved project evidence not present in isolated plugin checkout`); all P1 focused tests executed without skips.
 - Official Figma MCP was not used, cloud sync is not guaranteed, and separate browser DOM accessibility correspondence for `examples/owned-component-families/` is not claimed as live-observed in this receipt unless separately recorded.
 - Static API coverage baseline counts (`664` `no-static-reference`, `70` `qualified-static-reference`, `648` `unresolved-receiver-name-reference` across `1,382` members) reflect AST source occurrences only and keep all `implementation` and `runtime_acceptance` fields `unverified`.
 
@@ -109,6 +109,10 @@
   - NF-01 & Python readback comparator (`test_component_families`, `test_declared_component_properties`, `test_rd04_component_fields`, `test_bridge_declared_property_compare`): **24/24 OK**.
   - Roadmap, API, design, and NF-03 suites (`test_next_roadmap_backlog`, `test_design_specialization`, `test_graph`, `test_workspace_recipes`, `test_figma_api_inventory`, `test_figma_rest_inventory`, `test_design_system`, `test_nf01_app_mapping`, `test_family_provision`, `test_operation_detail`): **99/99 OK**.
   - `apps/little-hands/design`: **28/28 OK**.
+- **Full CI Verification (`e6f4fd8`, Run `43599181267`, overall `success`):**
+  - `python -B -m unittest discover -v -s tests`: **1,320 run** (`OK`, `skipped=2`: missing private regression layout and missing optional operator native evidence).
+  - `python -B -m unittest discover -s tests -p 'finalize_*.py'`: **75/75 OK**; `apps/little-hands/design`: **28/28 OK**; `examples/native-direction-review`: **2/2 OK**.
+  - `node --test tests/*.cjs`: **418/419 pass** (`0` fail, `1` skipped for missing isolated-checkout saved project packet); `api_audit` verified `1,382` records. All P1 focused suites ran with zero skips.
 
 ---
 

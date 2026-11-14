@@ -282,7 +282,7 @@
             "target_returncode": 0,
             "status": "passed",
             "criterion": "READBACK-KEY",
-            "prior_env_failure_preserved": "Earlier gate run failed with write error (No space left on device) before host space recovery; failure log preserved."
+            "prior_env_failure_preserved": "Earlier gate attempt failed with write error (No space left on device; failure log preserved); subsequent isolated formal gate retry passed on e6f4fd8."
           },
           "final_live_readback_verification_e6f4fd8": {
             "source_sha": "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10",
@@ -293,13 +293,30 @@
             "nf03_probe_negative_http_403_404_409": "all_passed"
           }
         },
-        "legacy_and_unobserved_scope": "Legacy metadata and three-family duplicated helper paths outside NF-01 six-family workbench scope remain untouched; browser accessibility correspondence and static AST coverage counts are not claimed as live NF-01 execution proof; an earlier Python formal gate attempt hit host disk exhaustion (No space left on device; failure log preserved) before the subsequent isolated formal gate passed on e6f4fd8; full-tree archive rebuilds (panel-ui/test_figma_draft.py) remain deferred to clean isolated runs.",
+        "legacy_and_unobserved_scope": "Legacy metadata and three-family duplicated helper paths outside NF-01 six-family workbench scope remain untouched; browser accessibility correspondence and static AST coverage counts are not claimed as live NF-01 execution proof; an earlier Python formal gate attempt hit host disk exhaustion (No space left on device; failure log preserved) before the subsequent isolated formal gate retry passed on e6f4fd8. Full CI run 43599181267 on e6f4fd8 passed with 3 environment-gated skips (missing private regression layout, optional operator native evidence, and isolated-checkout saved project packet absent); all P1 focused tests ran with zero skips.",
         "automated_checks": {
           "node_nf01_and_provision_and_repair_passed": 27,
           "python_nf01_readback_comparator_passed": 24,
           "python_roadmap_api_design_op_passed": 99,
           "little_hands_test_source_passed": 28,
-          "recipe_build_verify_rollback_passed": true
+          "recipe_build_verify_rollback_passed": true,
+          "ci_run_43599181267_e6f4fd8": {
+            "status": "success",
+            "python_unittest_total": 1320,
+            "python_unittest_skipped": 2,
+            "python_finalize_passed": 75,
+            "little_hands_design_passed": 28,
+            "native_direction_demo_passed": 2,
+            "node_total": 419,
+            "node_passed": 418,
+            "node_skipped": 1,
+            "skip_reasons": [
+              "regression layout not present",
+              "Optional operator evidence not supplied",
+              "Saved project evidence not present in isolated plugin checkout"
+            ],
+            "p1_focused_all_executed": true
+          }
         }
       },
       "acceptance": [
