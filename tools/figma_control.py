@@ -20,6 +20,7 @@ import threading
 import time
 
 import figma_workspace as workspace
+import operation_detail as detail_projection
 
 SCHEMA = 'figma-flow-control-v1'
 MAX_BODY = 40 * 1024 * 1024
@@ -32,7 +33,11 @@ MAX_READINESS = 64 * 1024
 READINESS_PROTOCOL = 'figma-flow-control-readiness-v1'
 # Capture the implementation loaded by this process, even if installation files change later.
 LOADED_VERSION = json.loads((Path(__file__).resolve().parents[1] / 'plugin.json').read_bytes())['version']
-LOADED_IMPLEMENTATION = hashlib.sha256(Path(__file__).read_bytes() + b'\0' + Path(workspace.__file__).read_bytes()).hexdigest()
+LOADED_IMPLEMENTATION = hashlib.sha256(
+    Path(__file__).read_bytes()
+    + b'\0' + Path(workspace.__file__).read_bytes()
+    + b'\0' + Path(detail_projection.__file__).read_bytes()
+).hexdigest()
 
 
 NATIVE_CLIENTS = {}
@@ -573,6 +578,20 @@ def history(root, payload):
         return {'journalHistory': list(reversed(rows)), 'inputFreshness': inputs[:80]}
 
 
+def history_detail(root, payload):
+    """Bounded read-only exact-scope operation detail, causal relations, and safe diff."""
+    return detail_projection.build_operation_detail(
+        root,
+        payload,
+        control_schema=SCHEMA,
+        journal_history_fn=journal_history,
+        conflict_detail_fn=conflict_detail,
+    )
+
+
+operation_detail = history_detail
+
+
 def pinned_operation_transitions(root, discovery_revision, mutation_revision, other_revision):
     """Replay the current enqueue, poll, result, timeout, and recovery transitions."""
     original_time = time.time
@@ -794,7 +813,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result', '/control/readiness', '/control/native-started', '/control/history'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
@@ -819,9 +838,17 @@ class Handler(BaseHTTPRequestHandler):
                 value = note_native_started(self.server.workspace, payload)
             elif self.path == '/control/history':
                 value = history(self.server.workspace, payload)
+            elif self.path == '/control/history-detail':
+                value = history_detail(self.server.workspace, payload)
             else:
                 value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
+        except detail_projection.OperationNotFoundError as error:
+            return self.reply(404, {'error': 'Control operation not found in this scope', 'reason': error.reason})
+        except detail_projection.OperationRejectedError as error:
+            return self.reply(409, {'error': 'Control request rejected; inspect private operation status', 'reason': error.reason})
         except (ValueError, KeyError, TypeError, OSError):
+            if self.path == '/control/history-detail':
+                return self.reply(409, {'error': 'Control request rejected; inspect private operation status', 'reason': 'request-rejected'})
             return self.reply(409, {'error': 'Control request rejected; inspect private operation status'})
         self.reply(200, value)
 
