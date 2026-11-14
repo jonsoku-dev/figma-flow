@@ -737,26 +737,32 @@ def compare_declared_component_properties(page, expected):
                        'status': 'match' if passed else 'changed', 'current_value': actual})
     for name, definition in expected['components'].items():
         properties = definition.get('properties', {})
-        display_counts = {}
-        for prop_id, prop in properties.items():
-            disp = prop.get('name', prop_id)
-            display_counts[disp] = display_counts.get(disp, 0) + 1
         for variant in definition['variants']:
             identity = f'component:{name}/{variant}'
             main = find(identity)
             parent = parents.get(main.get('id')) if main else None
             owner = parent if parent and parent.get('type') == 'COMPONENT_SET' else main
-            declared_keys = mapping(mapping((main or {}).get('declared_metadata')).get('declared_property_keys'))
+            declared_meta = mapping((main or {}).get('declared_metadata'))
+            declared_keys = mapping(declared_meta.get('declared_property_keys'))
+            declared_contracts = mapping(declared_meta.get('declared_property_contracts'))
             distinct_keys = len(set(declared_keys.values())) == len(declared_keys)
+            definitions = mapping((owner or {}).get('componentPropertyDefinitions'))
             for prop_id, prop in properties.items():
                 display = prop.get('name', prop_id)
                 key = declared_keys.get(prop_id)
-                definitions = mapping((owner or {}).get('componentPropertyDefinitions'))
                 actual = mapping(definitions.get(key))
-                matching = [candidate for candidate in definitions if candidate.startswith(display + '#')]
+                raw_contract = declared_contracts.get(prop_id)
+                contract_ok = raw_contract is None or (
+                    isinstance(raw_contract, dict)
+                    and raw_contract.get('id', prop_id) == prop_id
+                    and raw_contract.get('name') == display
+                    and raw_contract.get('actual_key') == key
+                    and raw_contract.get('type', prop['type']) == prop['type']
+                )
+                valid_key = isinstance(key, str) and 0 < key.find('#') < len(key) - 1
                 ref = resolve(prop['default_value']) if prop['type'] == 'INSTANCE_SWAP' else None
                 value = prop['default_value'] if prop['type'] in ('BOOLEAN', 'TEXT') else (ref or {}).get('id')
-                key_ok = bool(key and distinct_keys and key in matching and len(matching) == display_counts[display])
+                key_ok = bool(valid_key and distinct_keys and key in definitions and contract_ok)
                 record(identity, prop_id, 'definition', bool(main and main.get('type') == 'COMPONENT' and key_ok and actual.get('type') == prop['type']), actual)
                 record(identity, prop_id, 'default', value is not None and type(actual.get('defaultValue')) is type(value) and actual.get('defaultValue') == value, actual.get('defaultValue'))
                 if prop['type'] == 'INSTANCE_SWAP':
