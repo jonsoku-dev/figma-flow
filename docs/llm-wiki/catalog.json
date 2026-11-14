@@ -11348,6 +11348,607 @@
           "version": "0.35.0"
         }
       ]
+    },
+    {
+      "commit": "9c183e7eec9d6be732529a86a061fd70a378e98a",
+      "diff_sha256": "4aa2d593e59e1ea53ed93a2e9e5b207f63af89f73f2ce8819b15923a7fa73296",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/016a777e0bc582414c2062a122dfae553851eefc.md",
+        "docs/llm-wiki/patches/13c36f870bcca606cde9ba15a5cb238e2c3cc9b6.md",
+        "docs/llm-wiki/patches/22995b1f3658295729ddacb0c55320110a08c999.md",
+        "docs/llm-wiki/patches/3e7b44cc9903b3bfc753b77797e96c2c831dcd5b.md",
+        "docs/llm-wiki/patches/3f0bc4f289ccc055191e57bf20b32df534506371.md",
+        "docs/llm-wiki/patches/452acf1302bdc37269a31977773a7f277e45d212.md",
+        "docs/llm-wiki/patches/4e2539eb137242bff971a8e133a7c9325078c803.md",
+        "docs/llm-wiki/patches/5355e61fb65f3c1a47f9cfbccdd26f71ec6a9979.md",
+        "docs/llm-wiki/patches/578ffc3c51ae6e9664f03c6f71ae3d1c18a922ec.md",
+        "docs/llm-wiki/patches/63b355586fdd2cc9df5c7324980d490d393b543c.md",
+        "docs/llm-wiki/patches/709f11042d3aa621dd47a064168828f6aa4f828d.md",
+        "docs/llm-wiki/patches/8af6db43123e03bdf6b28456944243cf487da3fd.md",
+        "docs/llm-wiki/patches/974b5de74bc99d645926afd5595f21f155356203.md",
+        "docs/llm-wiki/patches/a7378b827b74e34a6a1129f4c172303242ec73ed.md",
+        "docs/llm-wiki/patches/ad26c908c5db034ef58d253e4c125df3e2afe469.md",
+        "docs/llm-wiki/patches/b40278221d8c023249462cd628edbdc51c0b041f.md",
+        "docs/llm-wiki/patches/baac57eb1582698d4cdfef2cbf63b2c34d3ba9fd.md",
+        "docs/llm-wiki/patches/bf65bf084304acebeb59b5d7d8aff8383d2f31e7.md",
+        "docs/llm-wiki/patches/c208a3f3cd8d83266f50b27b7534e9d4274ef900.md",
+        "docs/llm-wiki/patches/cd4789321dafb40a82277fd1185a3462318f7748.md",
+        "docs/llm-wiki/patches/ce1bc7d2988a7247f61cbf8fd827ed0278e0964d.md",
+        "docs/llm-wiki/patches/cfc7fbd1a2867d2665c29e9eaa066b4b18eac254.md",
+        "docs/llm-wiki/patches/e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10.md",
+        "docs/llm-wiki/patches/e7b1efbda8fcbe78bec9aa77d480daa0438c1039.md",
+        "docs/llm-wiki/patches/f88643bcb99f060f1f9af09e618bc3491c5e8f02.md",
+        "docs/llm-wiki/patches/f9ba8978d04dcee8164d9f8f78b4f942fcbadd3d.md",
+        "docs/llm-wiki/patches/fac5f7a4caae31e11223e3bd82e5687b23cea1bd.md",
+        "docs/llm-wiki/patches/fd1a9d28551e9101fa5f5bc1e0d42570b385aa31.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "452acf1302bdc37269a31977773a7f277e45d212"
+      ],
+      "subject": "docs(wiki): record P1 NF-01, NF-03, and acceptance commits through 452acf1",
+      "tree": "edd070a476ff935f959c4b349df19c24e4c3b628",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "9962afa5d201fa1b299340aed813968aa6d07fcf",
+      "diff_sha256": "ecec0114e2ae3c47c1c0ff6e24db7ccd1fa2b45c1179575bf6d522d6fc07cab5",
+      "files": [
+        "docs/llm-wiki/catalog.json"
+      ],
+      "parents": [
+        "9c183e7eec9d6be732529a86a061fd70a378e98a"
+      ],
+      "subject": "docs(wiki): record public origin provenance in patch catalog",
+      "tree": "2ff187c63230a08da69b4989c55475a333a43356",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "b2c998d6f58d8deb59803db42069824d663ceb34",
+      "diff_sha256": "ec9b5a3055c809969462a59f7cbbd643b86cfaf902c966b625a1f35abfd70e24",
+      "files": [
+        "docs/next-roadmap/README.md",
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md",
+        "tests/test_next_roadmap_backlog.py"
+      ],
+      "parents": [
+        "9962afa5d201fa1b299340aed813968aa6d07fcf"
+      ],
+      "subject": "docs(roadmap): start P2 wave 1 with execution contract and in-progress invariant",
+      "tree": "e43e2cbe7af68f2178b72af8538ea3a7f547b56e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "1214f4848619f09cb1f625c5b3486ea71bc54aa1",
+      "diff_sha256": "acb44966d405e7148ddc9f0c8a895baade1044a1462e2dd390413a7fb00a9647",
+      "files": [
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "b2c998d6f58d8deb59803db42069824d663ceb34"
+      ],
+      "subject": "docs(roadmap): align P2 wave 1 contract with independent review",
+      "tree": "a990cf3b02f2610a4b6af50c8056d4c14438a2ed",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "8ab0a18ebdec469177cd0fdf06692f5bc1560edb",
+      "diff_sha256": "92e83b59145e7ac76a99dc3705d2ffac0868a5ef58c9be5540fce59353a0d5e6",
+      "files": [
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "1214f4848619f09cb1f625c5b3486ea71bc54aa1"
+      ],
+      "subject": "docs(roadmap): clarify P2 wave 1 rights basis and measurement boundaries",
+      "tree": "3de48885c63574d413e354ef126ef77800603c53",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "888ea89862783e550d0ff5e772bef1d98ce71858",
+      "diff_sha256": "a71dbe24f983d14cb0c9dc7558edf0f7226ed3c8502b7daa92bbc8c49e347cdb",
+      "files": [
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "8ab0a18ebdec469177cd0fdf06692f5bc1560edb"
+      ],
+      "subject": "docs(roadmap): align P2 baseline ownership with flag-gated instrumentation",
+      "tree": "59c98af9151d0d3e379346399fe2fa03dec1b00d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "8e3bb31a9f77a4dac72124f2556c532345c6188d",
+      "diff_sha256": "6b15615c192a6da636e169d72b670623e624124954cfcc70965ec46013964ecf",
+      "files": [
+        "docs/next-roadmap/NF-02-incremental-native-read.md"
+      ],
+      "parents": [
+        "888ea89862783e550d0ff5e772bef1d98ce71858"
+      ],
+      "subject": "docs(nf02): define fresh-read baseline measurement contract",
+      "tree": "13963210e83da95cdeb8eb65a416bff4b0de9438",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "10e221f8fed97c5d5aa6416539d057b1d4aaebf1",
+      "diff_sha256": "690b575f6a113b4afe5a221712b376101e02c600e0399b716d09050200f0bc2f",
+      "files": [
+        "figma-bridge/native_read_measurement.js",
+        "tests/p2_native_read_measurement.cjs",
+        "tools/figma_workspace.py",
+        "tools/graph_sync.py"
+      ],
+      "parents": [
+        "8e3bb31a9f77a4dac72124f2556c532345c6188d"
+      ],
+      "subject": "feat(discovery): add opt-in fresh-read measurement tasks",
+      "tree": "4845db6eaacf01b142ce486bfc15d6cdb020bba4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "954f1985531a0b73c80db76ecff393b73ca658eb",
+      "diff_sha256": "bdad2c718b4f766fd07a476c311c5b4a5be2755c5191b90d385103eb64fb1c30",
+      "files": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "parents": [
+        "10e221f8fed97c5d5aa6416539d057b1d4aaebf1"
+      ],
+      "subject": "chore(api): refresh static API coverage baseline for P2 read measurement",
+      "tree": "b1430a3faeaa2b74b8cb3c072e1571ff5a83187f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "5d068b010d5fb53147a15913efbd458737eb8281",
+      "diff_sha256": "f473633c82db85084785f113d61f9e88df9659104fab44f7b3ef2d92a7e141f5",
+      "files": [
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "tests/test_native_read_benchmark.py",
+        "tests/test_native_read_benchmark_boundaries.py",
+        "tools/native_read_benchmark.py"
+      ],
+      "parents": [
+        "954f1985531a0b73c80db76ecff393b73ca658eb"
+      ],
+      "subject": "feat(benchmark): record pinned fresh-read baselines with strict evidence boundaries",
+      "tree": "65aab479afec27a11ad3b876c84db8e6074bf73a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "9c4e7872c29fd70716b8f87da30f9f09aef8cd3f",
+      "diff_sha256": "1fbc46c738166c76fb9f248ed81a5806bc0eb31d6b4769df789ab8bb97792eab",
+      "files": [
+        "tests/p2_native_read_measurement_descriptors.cjs",
+        "tests/test_native_read_benchmark_diagnostic.py"
+      ],
+      "parents": [
+        "5d068b010d5fb53147a15913efbd458737eb8281"
+      ],
+      "subject": "test(benchmark): pin native descriptor and diagnostic acceptance requirements",
+      "tree": "5099f65fe9a80325ddf9e07315203988ae2e1c32",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "a5e4a098726872e9953e92da36065f4789f22811",
+      "diff_sha256": "a20bc05cf5f2ab56a8c213403386a37e0f19e504423b462cc637f4998adb43d2",
+      "files": [
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "figma-bridge/native_read_measurement.js",
+        "tools/native_read_benchmark.py"
+      ],
+      "parents": [
+        "9c4e7872c29fd70716b8f87da30f9f09aef8cd3f"
+      ],
+      "subject": "fix(benchmark): count read-only native objects and require a valid diagnostic",
+      "tree": "c7cf5f19852446049af3b81cfc72202c6e247679",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "61b895d79165ea69a191b5e9fa8293cfc0539a93",
+      "diff_sha256": "a1ce9acdf4e816f63ad9b74deba4441b93a2231804ed977adfce9ff2c5066a35",
+      "files": [
+        "examples/owned-production-workspace/README.md",
+        "examples/owned-production-workspace/graph.json",
+        "examples/owned-production-workspace/index.html",
+        "examples/owned-production-workspace/manifest.json",
+        "examples/owned-production-workspace/media/evidence-layout-grid.svg",
+        "examples/owned-production-workspace/media/evidence-state-map.svg",
+        "examples/owned-production-workspace/media/evidence-token-swatches.svg",
+        "examples/owned-production-workspace/media/queue-empty.svg",
+        "examples/owned-production-workspace/renderer.js",
+        "examples/owned-production-workspace/styles.css",
+        "tests/test_owned_production_workspace.py",
+        "tests/test_owned_production_workspace_boundaries.py",
+        "tests/test_owned_production_workspace_hostforms.py",
+        "tools/owned_production_workspace.py"
+      ],
+      "parents": [
+        "a5e4a098726872e9953e92da36065f4789f22811"
+      ],
+      "subject": "feat(examples): add graph-owned production workspace with verified asset boundaries",
+      "tree": "63ecbd7c2d583ee4a5e07be54cd75f0f4b3e655b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "24f34f980703e76398d8c758052adccaed92d845",
+      "diff_sha256": "37ad157556f29a4bcab884a6d3d65757004515ed2c7374e2dbf67f67435a9552",
+      "files": [
+        "tests/p2_native_read_sandbox_globals.cjs"
+      ],
+      "parents": [
+        "61b895d79165ea69a191b5e9fa8293cfc0539a93"
+      ],
+      "subject": "test(native-read): pin Figma-like sandbox diagnostic and UTF-8 byte oracle",
+      "tree": "09a5cecf7c4b4c82e65696b45f4051d4620d4016",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "3b3fa8f0d986ee3d2b8dae1d37b2a7e2f377965e",
+      "diff_sha256": "7f6b1e4694406cca567d2a1083f8a5a2c2ed73ac68fd3e80d4bc01dac17a8064",
+      "files": [
+        "figma-bridge/native_semantic_read.js"
+      ],
+      "parents": [
+        "24f34f980703e76398d8c758052adccaed92d845"
+      ],
+      "subject": "fix(native-read): count UTF-8 JSON bytes without TextEncoder",
+      "tree": "3b82928a092800c510584b779590949eee673fb4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "9669bc53007b544dc7ca49d6760e59786dd52f1a",
+      "diff_sha256": "2e169960700af35c3621f6922fed3d21370d319fd9fe147a641931b8398450f9",
+      "files": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "parents": [
+        "3b3fa8f0d986ee3d2b8dae1d37b2a7e2f377965e"
+      ],
+      "subject": "chore(api): refresh static API coverage baseline for final P2 read sources",
+      "tree": "45edca3bb0847baccfd7f0a4a1d3438ec5e193ab",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "bb443799f1e91b44f68c4dafc430ac27fb685514",
+      "diff_sha256": "c883bc8aba12b0f7f6fa1a8fc104f175f43ec09a382b4b771de4692cc3162ff7",
+      "files": [
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "9669bc53007b544dc7ca49d6760e59786dd52f1a"
+      ],
+      "subject": "docs(roadmap): narrow P2 baseline to the full discovery workload",
+      "tree": "9c604bb4dd2cd6c5356cdebde660dc0697629bac",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "3eab9ee7f5e8399b852c3304ca285ca0b252c73b",
+      "diff_sha256": "a37fc122c866a5cfb0f289192249832612f951192ac656b5754f844f9bc196f0",
+      "files": [
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "bb443799f1e91b44f68c4dafc430ac27fb685514"
+      ],
+      "subject": "docs(roadmap): reject dirty-source and mismatched-scope baseline samples",
+      "tree": "2c13526b6c1d26d57f3ee4275bb030d82b12721a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "629e9852ef3a2921f052b6298f00f72a7b749c21",
+      "diff_sha256": "dc9b43879bbdf724ade0b5645bf875889f8e8d7653573a73032e702fd1d94680",
+      "files": [
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "3eab9ee7f5e8399b852c3304ca285ca0b252c73b"
+      ],
+      "subject": "docs(roadmap): close fixture serve-boundary gaps in P2 acceptance A2",
+      "tree": "b3c2952b1a80bb3fc9b09876dc92d222a3c81d39",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "cc676a77849197f90d6f7a57a9aff5e366fa5658",
+      "diff_sha256": "65f8149d8fa1352b34aaad24d89e0d332ee5e5683df7af2b01b0c3fa8b3a2016",
+      "files": [
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "629e9852ef3a2921f052b6298f00f72a7b749c21"
+      ],
+      "subject": "docs(roadmap): separate reader blob pin from preserved reader body",
+      "tree": "8d62f5714fcadabe8b083a29b2799c5daae14445",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "2c7c2928119a080d84270a3a27c635fc5ded4c99",
+      "diff_sha256": "c9437fca371ee0ab79c037c41403c89b5c80c7a99d31edbbabed1c7fd9e1101d",
+      "files": [
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "parents": [
+        "cc676a77849197f90d6f7a57a9aff5e366fa5658"
+      ],
+      "subject": "docs(roadmap): split P2 ownership into new and existing paths",
+      "tree": "957c1d0023992a33f9ad0265e844cb3f86d99af3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "ac02ac4a7d5b5533cc34263571fad4e35202c7d0",
+      "diff_sha256": "4a6510c6998ef7bba3f5cab2f8924be5c64181976390934e7058e715b52e7c43",
+      "files": [
+        "docs/next-roadmap/README.md",
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md",
+        "tests/test_next_roadmap_backlog.py"
+      ],
+      "parents": [
+        "2c7c2928119a080d84270a3a27c635fc5ded4c99"
+      ],
+      "subject": "docs(roadmap): record verified P2 fresh-read baseline acceptance",
+      "tree": "70677ef7443f021983f0d8ceb34899821878ee29",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "13551acbd622510721c128bcfea14f5be1c78d6c",
+      "diff_sha256": "676c6fe4a39a3120dd16a44adf1923e330ce13ef7e8d8ee07764a32b9826354d",
+      "files": [
+        "examples/owned-production-workspace/README.md",
+        "examples/owned-production-workspace/graph.json",
+        "examples/owned-production-workspace/manifest.json",
+        "examples/owned-production-workspace/renderer.js",
+        "tests/owned_production_workspace_interactions.mjs",
+        "tests/owned_production_workspace_rail_memory.mjs",
+        "tests/test_owned_production_workspace_interactions.py",
+        "tests/test_owned_production_workspace_rail_memory.py"
+      ],
+      "parents": [
+        "ac02ac4a7d5b5533cc34263571fad4e35202c7d0"
+      ],
+      "subject": "feat(examples): govern disclosure and rail behaviour with graph contracts",
+      "tree": "c4fdbab12ba343b64e5ca54627143910912e988d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "8a7ed888276d3bdb885d437e3b019603fe02c5c3",
+      "diff_sha256": "098da98e2cb74bfc78b312692f7a72791fb8e0202cf0de8456ef9332401671d5",
+      "files": [
+        "docs/next-roadmap/README.md",
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md",
+        "tests/test_next_roadmap_backlog.py"
+      ],
+      "parents": [
+        "13551acbd622510721c128bcfea14f5be1c78d6c"
+      ],
+      "subject": "docs(roadmap): record verified P2 rights-cleared fixture acceptance",
+      "tree": "f7f31442c2a92a8d8a76483752c81e16ad019d5f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -11378,7 +11979,10 @@
     "104652403ef26368729086588387e9fae7dfe4ac": "fbf138e0d0c03121c0cdee700c3f9208156c26abb58146300d55d4518867bef1",
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
+    "10e221f8fed97c5d5aa6416539d057b1d4aaebf1": "c240765f4519fb045f3b3d9da0c7fac595a5f82d00854ad9be842e0bfdd1747f",
+    "1214f4848619f09cb1f625c5b3486ea71bc54aa1": "3edf5229395872e55394c0809af42058075aecc1e2625fefe06ff18283d43cdc",
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
+    "13551acbd622510721c128bcfea14f5be1c78d6c": "d0a53a30400b223fa5b465a5ef237c25f32d5d862d796bb5a9021989fc9d3193",
     "13c36f870bcca606cde9ba15a5cb238e2c3cc9b6": "3ffdca7760ca4f88f10a2cf6a370576e55e95837e337d0cc80590ea10d56678e",
     "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
     "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de": "5f2b7a311e12c35569029d1556b3dd2842d65940a30d79ce1aeca5046864c300",
@@ -11404,6 +12008,7 @@
     "22995b1f3658295729ddacb0c55320110a08c999": "429577f84e9d8f782ad31c47052dfdf4585a7a32ce9bec52b019110c3b658020",
     "23b44e3b3004639e088467bd91d808de24df38d7": "f418b64bbd6b831f60e6ba10f75d8ef86b4a94d91d769fbf57596b4902058d90",
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
+    "24f34f980703e76398d8c758052adccaed92d845": "f6ad183b619f7f629378f92fc9aa1b4fb2fedfa1c84e7163edade2814c5d2d05",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "25b6f754a4798119defc65c5146d59e0d3f23467": "873017a08c42fb2979ab2e5b1c40419e71208433616b8658bab50364c3037bda",
     "28128ac57e43e314aade368f3f8c919c0246d22c": "38b10f4da39774e4cd1504426494e7869e7dc64084e8d9970b12daabec065ee3",
@@ -11414,6 +12019,7 @@
     "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de": "cb22f107fba474d02cdc48753d883fd717077a495e91cb73f3ac311986495999",
     "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9": "ec2e99a2fd9f6362e416427808e25928b81c4af151b546f2433956d2084d8a65",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
+    "2c7c2928119a080d84270a3a27c635fc5ded4c99": "48f1c3267adafd12eab27e1c9d8f0a77b66cedbd86d4f2eee08cd7a1909e8c66",
     "2cf4ce74557f9a2e65b8bc817b92eb3486067554": "dc74175fc83549d2feb280ebac7ac93c1697a9dcdf91cdf902d23ce579c2afdf",
     "2db4fdafa3e8e337c68cdb4d4dd53f9d1f30a797": "1238da541f9a7c3aea1a35b65a40f48c2dfc85b65633152e151f7a8bc9ed7ee4",
     "2de5f65d63c76054f04155d90201d96129af4433": "ae7568b1c22bb2f51631b74cbcc787efc45e5fc3522d7515522830ef78f4905f",
@@ -11433,12 +12039,14 @@
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
     "3a3d68e64d178d1ca37c3ff275d97d41bc92274d": "85b28753c1528f28803ccb3ebed0af441de6860221393fc4958c50d7e3fbc7ad",
+    "3b3fa8f0d986ee3d2b8dae1d37b2a7e2f377965e": "aba8b186d087bcf6e875939df85358ca9c5814ee1bd1d14e10f7f6dc96a4502a",
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
     "3c99d8ae62d6943ac5fc266e16e72c5f037ff4a6": "dadbfcef47b6e4d890a5b87c40ca2fb030d14d193a3316671548a588ba227546",
     "3cfe367783a7715917562c11d1a0c27d1701cd4f": "fa9715dc04b18c8beace9aaa605c62d530ddc6ee287495f045d9e5f25a09c30b",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3d72453c628224f3e4d3b1a4a291802e7e759278": "9b035e18525c7fe899c6d23a66e485f0674c81d0032cc4cba084e2d8b1b6bea9",
     "3e7b44cc9903b3bfc753b77797e96c2c831dcd5b": "59f5631613e78b02e966cccb9ae4c4eb626c791b0d718e292028f939c96ac59f",
+    "3eab9ee7f5e8399b852c3304ca285ca0b252c73b": "cf9400af4176791471bb01bb051aaee1d7a7c74b922d1807a2ad344ad571295b",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
     "3f0bc4f289ccc055191e57bf20b32df534506371": "a4c524095f4a22f778efa3a39d740e65ac94b80c9f4d2411fbce57abee3a7321",
     "3f412c18e80c28df04729bc4b914dcfef5df1242": "b7a563c588dfeba233c7820e11a8afa3b9aa50c8d62db4c9c9258a229fb0fc00",
@@ -11486,6 +12094,7 @@
     "59dba566f4982923076ef0ed22cc0da5f60f42c5": "917fd3ff94e55217641f9ce07b69f6ae6017762eb3b6292a8b5588bf76384e06",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
+    "5d068b010d5fb53147a15913efbd458737eb8281": "dc7b7fe997ea3bdf74a44c66eca76111484d6866b44adb9db16eb616f153dbcc",
     "5d3a088c6becc62fef08ecd0fc8fd857ed850957": "cf1b781e084cfc9364e58a7e554e52ee6dd3d411ba3ced3e0cc072a13fa9b713",
     "5d92cd61d7e09a444c5045ddc26911829d92b060": "b3125664aa5026b887cd3647dc65e2790d1569b668781732fb3deb369fb6e98a",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
@@ -11496,7 +12105,9 @@
     "61647d636f23142c76d453f24512566043c40517": "7eead01fb27d1f5a6df3152c9447ed5e452bb79ec23b22f4772a3d6e58085ce8",
     "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
     "61937dc11c4540bc3c5e88412f449389470647d8": "5f8885938a63573aee5223c6e20a4dbad7f39f7d63041004eba81d88d56d5589",
+    "61b895d79165ea69a191b5e9fa8293cfc0539a93": "9c1fb90915b507daab50c273a9e4dad28bfa5e49d809c7fee2e8ec80f12f1a8f",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
+    "629e9852ef3a2921f052b6298f00f72a7b749c21": "531e0c2828be16c34437e198b5ae31e3ec3bbe3dcedbb445084308489b18d777",
     "63b355586fdd2cc9df5c7324980d490d393b543c": "9839d052d3c7b81795c5d5aeb1f1e54f7cd651038a3ea26aa361f436ad458920",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "6459de5ca0711f10629945fe36a2b4a2063fbbae": "6b4766e5ac2243bcb0c81a876ba0c813c23cc095e68109e4fab702e8755d0bd3",
@@ -11538,10 +12149,14 @@
     "86b182e0f579206a65586a8ca34db0131f4d0f3a": "e77228a9b0229e65b2aff467e583074c2200aaaa8990a9ca83b368c3e5714b72",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
+    "888ea89862783e550d0ff5e772bef1d98ce71858": "cbc926a5f10031e7cfb1f7e2d06cad571a51153af2eddb990c083ec6b8e0bb46",
+    "8a7ed888276d3bdb885d437e3b019603fe02c5c3": "d7369bba0a269bc86504f8b8b449f5f8437430773e61b1ffdbb3f21326a1ff0f",
+    "8ab0a18ebdec469177cd0fdf06692f5bc1560edb": "11b4d9d90998365c8251f9c8f4a2d66cb793cb575c73d967ba39eb7e9f28a5df",
     "8af6db43123e03bdf6b28456944243cf487da3fd": "b24356b1fd17cda85dc6ef52a28fa8e266e8abf5f0c3804b0d6f5fabd493d7a2",
     "8b984daa4733739c1c5ce72ab30232504d3fe4a4": "47a0e5bda40761d06ee023093dfe0fad878f1f38c1f0433fb9a9176b7c2c6cb5",
     "8c4bd9bf80aa1f6975b79447ed60b3b48b311fb7": "3c4c58477ada0e1a3e548b52c4c37b8f35b8aae05a59addcf9606ec050fe566f",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
+    "8e3bb31a9f77a4dac72124f2556c532345c6188d": "e12e745df65d6a35e29ea04594751977ef0859b1d7779c82e99f15766bfba43d",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2": "cdfb13022a7047be39eb743d13708beb50fac6e7bd7ea51d429fcb570fa56355",
     "90f9195600dd54131c80a817bebdd88fd63fe52a": "c00c37d72810e54a0b74e50d4fdb5bd29039c756ec0bea59681618d98bb7b958",
@@ -11557,12 +12172,15 @@
     "942d0cf9a5c194b8decd79918062c84767a0d1ec": "51f289feb528da76ec699c6af67bba30f0dd4ff789190fa3a9eaae1f9cf7db06",
     "946717804fcf45d0d4c85c3e624132ed0c48455f": "e9108746702eaf2927bed0c5e4fdbc5c6a826ba206a31562a6ad238515e23544",
     "954a00c7cd0a0d7a61b7cc6cd63bfa66d83e0411": "6722f00532efb06d3845983d02619fe1246959286cee2ebc1921d04ba8aa3b98",
+    "954f1985531a0b73c80db76ecff393b73ca658eb": "938ea5b443bb815742dd24790b2aaebec8ffaa6d5d71829f2b1ba1bafca65675",
     "95c8714f29ec1af8094e88896f14b114c4afa63c": "c1777e94b03394ca596b2cf9b6b13b8a2f16d29bdb5226821213a024b487c010",
     "961f193437e3699a5fed679d14e9c49f7e799a0d": "f10eff9ac50886388a49e416d60fa26f1740aace9d5915d3781e60d5e0b76a00",
     "964e8f3ae07d4fd1a02a9dde777ca2ae6a82f81b": "7f89387eaff41cf48c99bb65484ef1fc592113c01a43e4e67f51a80b9e9ace72",
+    "9669bc53007b544dc7ca49d6760e59786dd52f1a": "d66043867b9cb3804481f2d9f918bd4c6f23dcb631f54f13630f43e78e962933",
     "974b5de74bc99d645926afd5595f21f155356203": "817924295e4f6192e595ccd8b1156c826a9bdefeab8ba188513288b4deb4e965",
     "9768ac3f6f56f08cc52f53be24d9928d3de17a4b": "903ba161d758d71e575db07cc87590ed3e5c5c7f7d87b5ea9e79ace3cfa2c08d",
     "976a966c1b497890aae12dd1a63b1dd6b05ee763": "e2516c2647dbe5d820c720ae68cfb4a70bba50bea9ceb871dba72aac0d4720a6",
+    "9962afa5d201fa1b299340aed813968aa6d07fcf": "a39c07c0018328021e262bfdf72ecacb460b97fce096cf9b9061e708d80d8035",
     "9974579407d29dd6072fcb9f1cf515115c954cb6": "d0a78212bf3184be2d9649789fe45d327c6ea43e4ea7eabe7bf1b19d8e105a68",
     "9983aab6bfca1bb70ddb9dc1573a6efb054845df": "d8e02ee6d2cac0bb33a492e79c6067bfc73b50ad9814717b42e26a1adb1fd23f",
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
@@ -11570,7 +12188,9 @@
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9a8321f9349969e990f1238d2616f21d4e4c6195": "530edbaab862c0263a9af4dc4a3f42f5ec37fda03a5245f3e883854034a95044",
     "9aaad2284fc4163be26995c4c729ea172bacd751": "6ad2112e864059a84d44e08492e41bee12cca2f766743d5bed31ccfeabd569a1",
+    "9c183e7eec9d6be732529a86a061fd70a378e98a": "fd1d657af347fa9fd5bcea25e3a602578448c95dc99f08e4f933f7c89aab7d24",
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
+    "9c4e7872c29fd70716b8f87da30f9f09aef8cd3f": "348a371ece015ae01f982c085182435ad8401122dddcc0c96abfb01dd1eaa714",
     "9c9d5575eea6d883620407e591972c7e92cc244f": "b707929ad2d5c3aa87de7114e5e2b16f41fce5f17c11804acaf109b13f95f1b7",
     "9cc41a0c7ca53a233113fd45b86dc330907094fa": "0564b8353cdc3474fc21e05819915c2b89b9165e71a05c746cf4a3b5e9695353",
     "9cd119198eb7761fbb60fc23fa83b18b93ec0511": "67c7ea8e16ecfb38d8e50bc7ca534b197167589600bef65d34a64bab90cbf0ba",
@@ -11581,6 +12201,7 @@
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
     "a13e89c27c16108e4fb75a446154636124312c4d": "f12e95d0da042f4f9a9a3904b769cd32486c82c2c5f3eacd64c9ab936c3717d6",
     "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
+    "a5e4a098726872e9953e92da36065f4789f22811": "80e2d8e8721bb5f034c7077ee2e006c2bdc7766a7c9684c3664fc708731e138e",
     "a60f977b0093ea35f98d731c197e09f1667dbc75": "042be96fc647eb926e4a73c7b8cd0abab87342c59956acb1ad1d2f3e8e6d250d",
     "a7378b827b74e34a6a1129f4c172303242ec73ed": "80779eb5cc8b9f49377f958bc6c0f91ff6b36ce02cee0826b88dd8453e81f5ed",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
@@ -11593,6 +12214,7 @@
     "ab1c8200cd77e2c24a3e322ddde643d80b179239": "cfe81c94bbe740755a66a14845051416ed74a6f429ea97802ecb7b54b4fe59ff",
     "ab8b1fe594b960fb2b22936dff34e3b7e711ff21": "eeda4fb2ffc63662d4b6bfe478bb32f4b5446a1fd635c3d371bdea59717ace03",
     "abd3af873fa7cf47a02f7c8aeaa1825f46ac7e1c": "e6c6c4b562e0fbf140427409daffde76379770fe8185ef4e5c13c8ca4fc442e3",
+    "ac02ac4a7d5b5533cc34263571fad4e35202c7d0": "92cf396256b520aedd3ccca2dc19fb89c3c5bab36b2a8f938a0d4bf13e1311a5",
     "ad05cd323ec85de8647e81f1a5f07c1c25df50b3": "e3db4f59875d334eac56cab7ba5838779f8911789c83c47e4c64942a25bd2a52",
     "ad26c908c5db034ef58d253e4c125df3e2afe469": "9ea9c5931192270625e371cf4f13747a06bd3965aaa7b3ffc60426ee5be8c12c",
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
@@ -11607,6 +12229,7 @@
     "b1e4a06ca97450c729c134644f4fb99fc0af80e5": "802963b00b2d562dc4e1153ada0aef09fb529b6b40c999f61a33713ec3939417",
     "b275a28ad9b31347b7663485aabc93b19fb00f7b": "13b4ccc01c4842c750272208402b50384ee31f3d064c895a43b0d50cf60d20e5",
     "b27dffc2e923347831d30368faaf8136f2cc3b54": "a7c946ab8627d0bd46d07189436fd7ae49cb767d4eff69f5a69543f8542bf675",
+    "b2c998d6f58d8deb59803db42069824d663ceb34": "3fbcf2b645725e9b1e0cae7be079e14a36b19bf47088a691cc4dd0290fffa02e",
     "b3285c42f1189f69ea52d1f7b65ccf71d594a842": "3f4e12c435623cdc6da2c3b3f65da54f78b4e6f1e095865c08be12bff37628ee",
     "b40278221d8c023249462cd628edbdc51c0b041f": "5615997535ba8209c68b39455603c55b069a57148d9c64181dc8b017b26d0f0f",
     "b40d9db3300bf8d7de01a0d70fef408d16f43b98": "43f141411b1d933290a8e7a0b48e0672135b49ee8e9067316c9b127c30521744",
@@ -11620,6 +12243,7 @@
     "ba390f93a7da8d74a4cd5cd1993c8a9244c91467": "1c088036c784d10dcc779037d6d5aecf9401e6efc9555002e0a127e2eaaecf2f",
     "baac57eb1582698d4cdfef2cbf63b2c34d3ba9fd": "aa2d3a7e17fc25281aa6de9d0ed537a978c6135d503ea2d102f1f92a57f97ca3",
     "bacb81cbe48f1afdad79bcc135778af4ffe1c2b4": "60e3d7b0291406611a381e27097a75a3491203fda742b22894b8ea8436ddbd35",
+    "bb443799f1e91b44f68c4dafc430ac27fb685514": "210fdb8bf826433f4cde1787ad5a8f779ebc26110e821a2c3b810aa627061c8b",
     "bbe11d2a80604207b8efaba5c521834acad779b3": "16f755f39ab221321d683242cb460fec7e8a20eb3be2a564fe3b98480f8374d2",
     "bc70451a51ca30e6e639b133593385650da52097": "d2570b38842fe64466f765da9016eac181b1b98ca05d392045d10bd1b61db887",
     "bcf2dd6434c0650b91f7e5d78e47b04ba6d0e1b3": "cf30cc7f3cd40982a4b29adf4ac5bb7b04d1bca0cec9334bb6fd3ac6a309f544",
@@ -11650,6 +12274,7 @@
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cb392ce18d6c6b0654816641b4158dd6eb1291c0": "f339f9bfba69e83ec4a7dad566ed44d81ac751150588508c1f65c39853224dfd",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
+    "cc676a77849197f90d6f7a57a9aff5e366fa5658": "54f29540d2fe15a1d5807c2cac20ce7455e845f83c84b4eb0534379c90214389",
     "cd4789321dafb40a82277fd1185a3462318f7748": "bf1aaca69565d201eaa42f7315291e7c2eaa0e3026c86097cd1e21fee62e0d0b",
     "cdd7786be9eb7468ed0e5ae3c84d9a50f987d016": "c2cf75832c707c196b382cafb45cc793b9b35849468d2a5ff9840422344bc973",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
@@ -11977,6 +12602,10 @@
     },
     {
       "observed_at_commit": "86b182e0f579206a65586a8ca34db0131f4d0f3a",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "8a7ed888276d3bdb885d437e3b019603fe02c5c3",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -12466,7 +13095,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "452acf1302bdc37269a31977773a7f277e45d212",
+  "source_commit": "8a7ed888276d3bdb885d437e3b019603fe02c5c3",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

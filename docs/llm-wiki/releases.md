@@ -8,6 +8,22 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+<a id="p2-wave1-records"></a>
+
+## 미배포 · P2 1차: 권리 정리 fixture와 fresh-read 성능 기준선
+
+기준 태그 `v0.35.0`과 플러그인 매니페스트 버전은 바꾸지 않았다. 기록 기준은 `8a7ed888276d3bdb885d437e3b019603fe02c5c3`이다. 그래프에서 `p2-rights-cleared-fixture`와 `p2-read-performance-baseline`은 `verified`다. 후속 `p2-faq-mobile-keyboard`, `p2-complex-render-fidelity`, `p2-incremental-native-read`는 `proposed`다. 이 절은 P2 전체 완료를 뜻하지 않는다.
+
+- **실행 계약**: 착수와 `in-progress` 불변식([b2c998d](patches/b2c998d6f58d8deb59803db42069824d663ceb34.md)), 독립 검토 정렬([1214f48](patches/1214f4848619f09cb1f625c5b3486ea71bc54aa1.md)), 권리 근거와 측정 경계([8ab0a18](patches/8ab0a18ebdec469177cd0fdf06692f5bc1560edb.md)), 선택 flag 계측 소유([888ea89](patches/888ea89862783e550d0ff5e772bef1d98ce71858.md)), full discovery 단일 workload([bb44379](patches/bb443799f1e91b44f68c4dafc430ac27fb685514.md)), dirty 소스·범위 불일치 거절([3eab9ee](patches/3eab9ee7f5e8399b852c3304ca285ca0b252c73b.md)), fixture 서빙 경계([629e985](patches/629e9852ef3a2921f052b6298f00f72a7b749c21.md)), reader blob 핀과 본문 동일 범위 분리([cc676a7](patches/cc676a77849197f90d6f7a57a9aff5e366fa5658.md)), 신규·기존 경로 소유 분리([2c7c292](patches/2c7c2928119a080d84270a3a27c635fc5ded4c99.md)). [실행 계약](../next-roadmap/p2-wave1-acceptance.md).
+- **측정 구현**: NF-02 측정 부록([8e3bb31](patches/8e3bb31a9f77a4dac72124f2556c532345c6188d.md)), 선택 측정 task([10e221f](patches/10e221f8fed97c5d5aa6416539d057b1d4aaebf1.md)), 러너와 증거 경계([5d068b0](patches/5d068b010d5fb53147a15913efbd458737eb8281.md)), 진단 요구 검사([9c4e787](patches/9c4e7872c29fd70716b8f87da30f9f09aef8cd3f.md))와 수정([a5e4a09](patches/a5e4a098726872e9953e92da36065f4789f22811.md)), sandbox 전역 부재 검사([24f34f9](patches/24f34f980703e76398d8c758052adccaed92d845.md))와 `utf8JsonBytes` 수정([3b3fa8f](patches/3b3fa8f0d986ee3d2b8dae1d37b2a7e2f377965e.md)). `readNativeSemantics` 본문은 `9962afa`와 같다.
+- **생성물**: static API coverage baseline을 공식 generator로 갱신했다([954f198](patches/954f1985531a0b73c80db76ecff393b73ca658eb.md), [9669bc5](patches/9669bc53007b544dc7ca49d6760e59786dd52f1a.md)). recipe helper와 fixture 변경은 생성물 diff를 만들지 않았다.
+- **기준선 인수** ([ac02ac4](patches/ac02ac4a7d5b5533cc34263571fad4e35202c7d0.md)): root 실기 live-002, 소스 `3b3fa8f`, full discovery 1개 페이지·108개 노드. default 5/5, timed 5/5, 진단 1/1, content hash 1개. 기본 end-to-end median 976.19 ms(512.39–1,129.87), timed reader median 80 ms, queue median 627.55 ms(timed). 독립 검토가 저장 샘플 11건을 다시 계산했다. coverage `null`, unavailable 1,964. 관측 병목은 poll queue라서 `p2-incremental-native-read`는 시작하지 않는다.
+- **fixture**: 자체 저작 MIT production workspace와 허용 목록·digest·loopback 서빙 검사([61b895d](patches/61b895d79165ea69a191b5e9fa8293cfc0539a93.md)), disclosure·rail 규칙의 그래프 계약화([13551ac](patches/13551acbd622510721c128bcfea14f5be1c78d6c.md)).
+- **fixture 인수** ([8a7ed88](patches/8a7ed888276d3bdb885d437e3b019603fe02c5c3.md)): 소스 `13551ac`. 최종 브라우저 렌더 12개, 요청 8건·외부 0건·console 오류 0건. disclosure 캡처 viewport마다 3개 상태·6개 전이·7회 클릭. native 화면 6개와 클릭 연결 12개 `current`, 그래프 review 노드 19개·edge 37개 `current`. 수동 글꼴 편집 18→19→18에서 직렬화된 9개 속성 복원, `relativeTransform`은 미관측. 참고 ZIP·보존 사본·Git bundle·원격 태그 보존, 배포 가드 `clear`.
+- **거절·정정 이력**: live-001은 진단 회차의 `proxy: inconsistent get` 실패를 러너가 막지 못한 거짓 양성이라 거절했다. diagnostic v2는 Figma sandbox의 `TextEncoder` 부재로 실패했다. fixture receipt의 수동 편집 속성 수는 통합 전에 10에서 9로 고쳤다. 원본은 비공개 증거로 보존한다.
+- **보존**: 기존 작업 정의 101개와 P1 native component family 상태, 원본 release asset 백업 50개, release 25개의 metadata·asset이 바뀌지 않았다.
+- **한계**: 로드된 편집기 상태만 관측했고 cloud 동기화는 검증하지 않았다. 속도 향상, summary 성능, 캐시 효과, 대형 문서 동작, pixel 일치, FAQ 전체 키보드, 복합 렌더 fidelity, 법률 검토를 주장하지 않는다. 공식 Figma MCP와 hook은 쓰지 않았다. 앞선 Wiki 기록 [9c183e7](patches/9c183e7eec9d6be732529a86a061fd70a378e98a.md)과 출처 정정 [9962afa](patches/9962afa5d201fa1b299340aed813968aa6d07fcf.md) 페이지도 이번에 작성했다.
+
 <a id="p1-design-acceptance"></a>
 
 ## 미배포 · P1 컴포넌트 계열(NF-01) 및 원인 이력 상세(NF-03)

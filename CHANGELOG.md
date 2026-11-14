@@ -2,6 +2,8 @@
 
 ## 미배포
 
+- P2 읽기 성능 기준선: 개발 플러그인의 fresh full discovery 읽기를 선택 flag로 측정하는 task와 러너를 추가했습니다. 실기에서 108개 노드 한 페이지를 5회씩 측정해 기본 end-to-end median 976 ms, reader median 80 ms를 기록했고, 대기 시간은 대부분 poll queue였습니다. 속도 향상이나 캐시 효과는 주장하지 않습니다. Figma 플러그인 sandbox에 없는 `TextEncoder` 대신 UTF-8 bytes를 직접 셉니다. [P2 1차 기록](docs/llm-wiki/releases.md#p2-wave1-records) · [실행 계약](docs/next-roadmap/p2-wave1-acceptance.md).
+- P2 권리 정리 fixture: 저장소에서 직접 만든 production-like workspace 예제와, 허용 목록·digest를 검사한 파일만 제공하는 도구를 추가했습니다. disclosure와 rail 동작은 그래프 계약을 따릅니다. 데스크톱·모바일 12개 화면을 브라우저에서 확인하고 개발 플러그인으로 편집 가능한 Design 화면 6개와 클릭 연결 12개, 그래프 review board를 만들었습니다. 로드된 편집기 상태 기준이며 FAQ 전체 키보드와 복합 렌더 fidelity는 포함하지 않습니다.
 - NF-01 컴포넌트 계열: 정본 6패밀리를 Figma 컴포넌트 세트·변형·`TEXT`/`BOOLEAN`/`INSTANCE_SWAP` 속성으로 가산 적용하고 다시 읽어 대조합니다. 실기에서 `6`세트·`19`변형·`8`인스턴스를 만들었고, 수동 편집과 이동이 반복 적용 뒤에도 남았으며 기존 컴포넌트는 바뀌지 않았습니다. 첫 적용의 중복 표시명 실패와 롤백, 공개 재현 대응(`578ffc3`→`974b5de`, `node --test tests/test_property_repair_regression.cjs`), Python 비교기 gate checker pin을 기록했습니다. [P1 기록](docs/llm-wiki/releases.md#p1-design-acceptance) · [공개 인수 영수증](docs/next-roadmap/p1-acceptance.md).
 - NF-03 원인 이력 상세: History 패널에서 실행별 읽기 전용 필드 diff, 선행 기록 링크, 뒤로가기와 키보드 포커스 복귀를 제공합니다. 상세 조회는 정본 요청·영수증을 쓰지 않으며 인증 누락은 `403`, 범위 밖은 `404`/`409`로 거절합니다.
 - P1 최종 제품 소스 `e6f4fd8`의 CI Run `43599181267`이 성공했습니다(비공개·선택 fixture 부재로 skip 3건). 자체 예제 브라우저 접근성은 로컬 화면 범위에서 확인했습니다.
