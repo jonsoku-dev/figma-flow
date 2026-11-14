@@ -105,7 +105,7 @@ summary는 control `discover`가 `read`만 허용하므로 이 러너로 실행�
 
 ### getter 정의
 
-`getter-counts` 진단에서 페이지와 `findAll`·`children`·`parent`로 도달한 실제 노드를 Proxy로 감싼다. `node_property_gets`는 그 노드 객체의 문자열 키 [[Get]] 실행 횟수다. 메서드 조회(`getPluginData`, `findAll` 등)도 한 번으로 센다. `then`은 뺀다. 같은 노드·속성을 다시 읽으면 다시 센다. `api_calls`는 reader가 실제 호출한 노드 메서드와 `figma`·`figma.variables` 함수의 호출 횟수와 Promise 대기 합계 ms다. style·variable·collection·image·main component 객체의 속성 읽기는 세지 않는다. 기존 `nativeReadGetterLedger`는 처음 본 `nodeId.property` 목록이라 이 수와 다르다. mock 테스트의 수는 라이브 getter 수가 아니다. 시간 샘플의 getter 수는 null이다.
+`getter-counts` 진단에서 페이지와 `findAll`·`children`·`parent`로 도달한 실제 노드를 Proxy로 감싼다. Proxy 대상은 빈 facade 객체이고 읽기·호출은 원본 객체를 receiver·`this`로 전달한다. 실제 Figma 객체의 non-configurable 읽기 전용 속성에 Proxy를 직접 걸면 get invariant 때문에 `proxy: inconsistent get`으로 실패한다. `node_property_gets`는 그 노드 객체의 문자열 키 [[Get]] 실행 횟수다. 메서드 조회(`getPluginData`, `findAll` 등)도 한 번으로 센다. `then`은 뺀다. 같은 노드·속성을 다시 읽으면 다시 센다. `api_calls`는 reader가 실제 호출한 노드 메서드와 `figma`·`figma.variables` 함수의 호출 횟수와 Promise 대기 합계 ms다. style·variable·collection·image·main component 객체의 속성 읽기는 세지 않는다. 기존 `nativeReadGetterLedger`는 처음 본 `nodeId.property` 목록이라 이 수와 다르다. mock 테스트의 수는 라이브 getter 수가 아니다. 시간 샘플의 getter 수는 null이다.
 
 ### 데이터 형태
 
@@ -133,6 +133,7 @@ summary는 control `discover`가 `read`만 허용하므로 이 러너로 실행�
 7. readback의 file·page가 요청한 `--file-key`·`--page-id`와 다르면 `scope-mismatch` 실패로 센다.
 8. 러너 소스가 dirty이거나 상태를 고정하지 못하면 verdict는 inconclusive이고 native proof가 아니다.
 9. full discovery 성공을 coverage 완전성으로 추정하지 않는다. `unavailable_fields`는 그대로 센다.
+10. 기준선과 native proof에는 진단 1회가 필요하다. 진단이 실행되어 성공하고, 허용된 모든 페이지의 getter 수가 유효하며, 요청 file·page와 성공 샘플의 content가 같아야 한다. 진단 실패·누락·`invalid-counts`·scope 불일치·content 차이는 verdict를 inconclusive로 만든다. 실패한 진단 회차도 samples에 남긴다.
 
 ### 구현 위치
 

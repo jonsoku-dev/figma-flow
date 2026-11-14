@@ -15,8 +15,10 @@ function nativeReadCallCounter(figma, page, clock) {
     if (!value || typeof value.then !== "function") { settle(); return value; }
     return value.then(result => { settle(); return result; }, error => { settle(); throw error; });
   };
-  const api = (object, prefix) => new Proxy(object, {
-    get(target, key) {
+  // Proxy an empty facade: native objects expose read-only, non-configurable members whose get invariant forbids wrapped values.
+  const api = (target, prefix) => new Proxy(Object.create(null), {
+    has(_, key) { return Reflect.has(target, key); },
+    get(_, key) {
       const value = Reflect.get(target, key, target);
       if (typeof key !== "string" || key === "then") return value;
       if (key === "variables" && value && typeof value === "object") return api(value, prefix + ".variables");
@@ -31,12 +33,13 @@ function nativeReadCallCounter(figma, page, clock) {
   const node = raw => {
     if (!raw || typeof raw !== "object") return raw;
     if (nodes.has(raw)) return nodes.get(raw);
-    const proxy = new Proxy(raw, {
-      has(target, key) {
+    const target = raw;
+    const proxy = new Proxy(Object.create(null), {
+      has(_, key) {
         if (typeof key === "string") counts.node_property_has++;
         return Reflect.has(target, key);
       },
-      get(target, key) {
+      get(_, key) {
         if (typeof key !== "string" || key === "then") return Reflect.get(target, key, target);
         counts.node_property_gets++;
         counts.by_property[key] = (counts.by_property[key] || 0) + 1;

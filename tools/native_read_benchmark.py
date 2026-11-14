@@ -34,6 +34,18 @@ def canonical_sha256(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode('utf-8')).hexdigest()
 
 
+def valid_counts(pages, allowed_page_ids):
+    count = lambda value: isinstance(value, int) and not isinstance(value, bool) and value >= 0
+    return bool(pages) and [row.get('pageId') for row in pages] == list(allowed_page_ids or []) and all(
+        count(row.get('node_property_gets')) and row['node_property_gets'] > 0 and count(row.get('node_property_has'))
+        and count(row.get('reader_result_bytes')) and row['reader_result_bytes'] > 0
+        and isinstance(row.get('by_property'), dict) and all(count(value) for value in row['by_property'].values())
+        and isinstance(row.get('api_calls'), dict) and all(
+            isinstance(call, dict) and count(call.get('calls')) and isinstance(call.get('elapsed_ms'), (int, float))
+            for call in row['api_calls'].values())
+        for row in pages)
+
+
 def sample_from(workload, role, index, status, raw, end_to_end_ms, execution, expected_scope=None):
     """One control read. `raw` is the saved readback bytes or None; `expected_scope` is the requested file/page."""
     state = status.get('state', 'cli-error')
@@ -81,6 +93,9 @@ def sample_from(workload, role, index, status, raw, end_to_end_ms, execution, ex
         sample['discovery_elapsed_ms'] = measurement.get('discovery_elapsed_ms')
         sample['clock'] = measurement.get('clock')
         if measurement.get('mode') == 'getter-counts':
+            if not valid_counts(pages, readback.get('allowed_page_ids')):
+                sample.update(state='invalid-counts', error='Diagnostic getter counts are missing or do not cover every allowed page')
+                return sample
             sample['getter_counts'] = [{key: row.get(key) for key in ('pageId', 'node_property_gets', 'node_property_has', 'by_property',
                                                                       'api_calls', 'reader_result_bytes')} for row in pages]
     return sample
@@ -116,7 +131,11 @@ def summarize(samples, diagnostic, pins, readiness_before, readiness_after, mini
     drift = len(hashes) > 1 or len(node_sets) > 1
     if drift:
         reasons.append('content drift across successful samples')
-    if diagnostic and diagnostic['state'] == 'ok' and hashes and diagnostic['content_sha256'] not in hashes:
+    if diagnostic is None:
+        reasons.append('getter-count diagnostic was not run')
+    elif diagnostic['state'] != 'ok':
+        reasons.append(f"getter-count diagnostic {diagnostic['state']}: {diagnostic.get('error')}")
+    elif hashes and diagnostic['content_sha256'] not in hashes:
         reasons.append('diagnostic read saw different content')
     observed = [sample['observed_at'] for sample in sorted(ok, key=lambda item: item['index'])]
     if observed != sorted(observed) or len(set(observed)) != len(observed):
