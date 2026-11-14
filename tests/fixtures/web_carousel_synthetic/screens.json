@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "id": "synthetic-carousel-fixture",
+  "title": "Synthetic carousel fixture screens",
+  "nodes": [
+    {
+      "id": "WEB-synthetic-feature-1",
+      "type": "screen",
+      "title": "Synthetic feature 1",
+      "status": "observed",
+      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
+      "elements": []
+    },
+    {
+      "id": "WEB-synthetic-feature-2",
+      "type": "screen",
+      "title": "Synthetic feature 2",
+      "status": "observed",
+      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
+      "elements": []
+    },
+    {
+      "id": "WEB-synthetic-feature-3",
+      "type": "screen",
+      "title": "Synthetic feature 3",
+      "status": "observed",
+      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
+      "elements": []
+    },
+    {
+      "id": "WEB-synthetic-feature-4",
+      "type": "screen",
+      "title": "Synthetic feature 4",
+      "status": "observed",
+      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
+      "elements": []
+    }
+  ],
+  "edges": []
+}

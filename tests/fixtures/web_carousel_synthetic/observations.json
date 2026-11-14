@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "url": "https://synthetic.example/carousel",
+    "title": "Synthetic carousel example",
+    "browser": "Synthetic fixture generator",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "dpr": 1,
+    "capturedAt": "2026-01-01T00:00:00Z"
+  },
+  "carousel": {
+    "frameKey": "WEB-synthetic-feature-rail",
+    "stateIds": [
+      "WEB-synthetic-feature-1",
+      "WEB-synthetic-feature-2",
+      "WEB-synthetic-feature-3",
+      "WEB-synthetic-feature-4"
+    ],
+    "initialState": "WEB-synthetic-feature-1",
+    "intervalMs": 5000,
+    "wrap": {
+      "manual": false,
+      "autoplay": true
+    },
+    "rail": {
+      "rect": {
+        "x": 0,
+        "y": 200,
+        "width": 390,
+        "height": 420
+      }
+    }
+  },
+  "states": [
+    {
+      "id": "WEB-synthetic-feature-1",
+      "capture": {
+        "path": "capture.png",
+        "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f"
+      },
+      "index": 0
+    },
+    {
+      "id": "WEB-synthetic-feature-2",
+      "capture": {
+        "path": "capture.png",
+        "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f"
+      },
+      "index": 1
+    },
+    {
+      "id": "WEB-synthetic-feature-3",
+      "capture": {
+        "path": "capture.png",
+        "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f"
+      },
+      "index": 2
+    },
+    {
+      "id": "WEB-synthetic-feature-4",
+      "capture": {
+        "path": "capture.png",
+        "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f"
+      },
+      "index": 3
+    }
+  ],
+  "transitions": [
+    {
+      "from": "WEB-synthetic-feature-1",
+      "to": "WEB-synthetic-feature-2",
+      "input": "swipe-left",
+      "observed": true,
+      "evidence": {
+        "path": "transition.png",
+        "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f"
+      }
+    },
+    {
+      "from": "WEB-synthetic-feature-1",
+      "to": "WEB-synthetic-feature-1",
+      "input": "swipe-right",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-1",
+      "to": "WEB-synthetic-feature-2",
+      "input": "autoplay",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-2",
+      "to": "WEB-synthetic-feature-3",
+      "input": "swipe-left",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-2",
+      "to": "WEB-synthetic-feature-1",
+      "input": "swipe-right",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-2",
+      "to": "WEB-synthetic-feature-3",
+      "input": "autoplay",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-3",
+      "to": "WEB-synthetic-feature-4",
+      "input": "swipe-left",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-3",
+      "to": "WEB-synthetic-feature-2",
+      "input": "swipe-right",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-3",
+      "to": "WEB-synthetic-feature-4",
+      "input": "autoplay",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-4",
+      "to": "WEB-synthetic-feature-4",
+      "input": "swipe-left",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-4",
+      "to": "WEB-synthetic-feature-3",
+      "input": "swipe-right",
+      "observed": false
+    },
+    {
+      "from": "WEB-synthetic-feature-4",
+      "to": "WEB-synthetic-feature-1",
+      "input": "autoplay",
+      "observed": true,
+      "evidence": {
+        "path": "transition.png",
+        "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f"
+      }
+    }
+  ]
+}

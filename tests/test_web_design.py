@@ -5,10 +5,21 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+import subprocess
+import shutil
+import struct
+import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 import web_design, native_edit
+
+def png_chunk(kind, payload):
+    return struct.pack('>I', len(payload)) + kind + payload + struct.pack('>I', zlib.crc32(kind + payload) & 0xffffffff)
+
+
+PNG_SAMPLE = (b'\x89PNG\r\n\x1a\n' + png_chunk(b'IHDR', struct.pack('>IIBBBBB', 1, 1, 8, 6, 0, 0, 0))
+              + png_chunk(b'IDAT', zlib.compress(b'\x00\x00\x00\x00\xff')) + png_chunk(b'IEND', b''))
 
 
 def graph():
@@ -42,6 +53,37 @@ def graph():
         ],
         'edges': [],
     }
+
+
+def carousel_graph():
+    value = graph()
+    value['nodes'] = [
+        {'id': f'WEB-saas-feature-{index + 1}', 'type': 'screen', 'title': f'Feature {index + 1}',
+         'status': 'observed', 'layout': {'width': 390, 'height': 844, 'background': '#ffffff'}, 'elements': []}
+        for index in range(4)
+    ]
+    states = [{'id': f'feature-{i + 1}', 'screenId': f'WEB-saas-feature-{i + 1}', 'index': i,
+               'railBounds': {'x': 0, 'y': 200, 'width': 390, 'height': 420},
+               'capture': {'path': f'capture-{i + 1}.png', 'sha256': hashlib.sha256(PNG_SAMPLE).hexdigest()}}
+              for i in range(4)]
+    transitions = []
+    for i, state in enumerate(states):
+        for trigger, delta in (('swipe_left', 1), ('swipe_right', -1), ('autoplay', 1)):
+            transitions.append({'id': f"{state['id']}-{trigger}", 'from': state['id'], 'trigger': trigger,
+                                'to': states[(i + delta) % len(states)]['id'], 'observed': True,
+                                'evidence': {'path': 'transition.png', 'sha256': hashlib.sha256(PNG_SAMPLE).hexdigest()}})
+    value['carousel'] = {
+        'frameKey': 'WEB-saas-features-rail', 'states': states, 'initialState': 'feature-3',
+        'source': {'url': 'https://acme.example/', 'title': 'Acme', 'browser': 'Chromium',
+                   'viewport': {'width': 390, 'height': 844}, 'dpr': 1, 'capturedAt': '2026-11-14T00:00:00Z'},
+        'autoplay': {'enabled': True, 'intervalMs': 5000}, 'wrap': {'manual': True, 'autoplay': True}, 'transitions': transitions,
+    }
+    return value
+
+
+def write_carousel_evidence(directory):
+    for filename in [f'capture-{index}.png' for index in range(1, 5)] + ['transition.png']:
+        (directory / filename).write_bytes(PNG_SAMPLE)
 
 
 def representative_graph(asset_path, asset_hash, count=506):
@@ -156,6 +198,181 @@ class WebDesignTests(unittest.TestCase):
             self.assertEqual(plan['web_design']['screens'][0]['layout']['width'], 390)
             with self.assertRaises(FileExistsError):
                 web_design.build_plan(src, 'file', '1:1', out)
+
+    def test_finite_carousel_compiles_into_exact_pinned_plan(self):
+        with tempfile.TemporaryDirectory() as d:
+            src = Path(d) / 'graph.json'
+            value = carousel_graph()
+            write_carousel_evidence(Path(d))
+            src.write_text(json.dumps(value))
+            out = Path(d) / 'plan.json'
+            web_design.build_plan(src, 'file', '1:1', out)
+            plan = json.loads(out.read_text())
+            native_edit.validate_plan(plan)
+            self.assertEqual(plan['web_design']['carousel']['initialState'], 'feature-3')
+            self.assertEqual(len(plan['web_design']['carousel']['transitions']), 12)
+
+    def test_browser_observations_join_four_captured_screens_into_canonical_graph(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source = carousel_graph()
+            source.pop('carousel')
+            graph_path, observations_path, output_path = root / 'screens.json', root / 'observations.json', root / 'joined.json'
+            graph_path.write_text(json.dumps(source))
+            observed_graph = carousel_graph()
+            transitions = []
+            for edge in observed_graph['carousel']['transitions']:
+                transitions.append({'from': f"WEB-saas-{edge['from'].replace('feature-', 'feature-')}",
+                                'to': f"WEB-saas-{edge['to'].replace('feature-', 'feature-')}",
+                                    'input': edge['trigger'], 'observed': edge['observed'], 'evidence': edge['evidence']})
+            observations = {
+                'schemaVersion': 1,
+                'source': {'url': 'https://acme.example/', 'title': 'Acme', 'browser': 'Chromium',
+                           'viewport': {'width': 390, 'height': 844}, 'dpr': 1, 'capturedAt': '2026-11-14T00:00:00Z'},
+                'carousel': {'frameKey': 'WEB-saas-features-rail', 'stateIds': [f'WEB-saas-feature-{i}' for i in range(1, 5)],
+                             'initialState': 'WEB-saas-feature-1', 'intervalMs': 5000,
+                             'wrap': {'manual': True, 'autoplay': True},
+                             'rail': {'rect': {'x': 0, 'y': 200, 'width': 390, 'height': 420}}},
+                'states': [{'id': f'WEB-saas-feature-{i}', 'index': i - 1,
+                            'capture': {'path': f'capture-{i}.png', 'sha256': hashlib.sha256(PNG_SAMPLE).hexdigest()}}
+                           for i in range(1, 5)],
+                'transitions': transitions,
+            }
+            write_carousel_evidence(root)
+            observations_path.write_text(json.dumps(observations))
+            completed = subprocess.run([sys.executable, '-B', str(ROOT / 'tools/native_edit.py'), 'web-carousel',
+                                         '--graph', str(graph_path), '--observations', str(observations_path),
+                                         '--out', str(output_path)], capture_output=True, text=True, check=True)
+            result = json.loads(completed.stdout)
+            joined = json.loads(output_path.read_text())
+            self.assertEqual(result['state_count'], 4)
+            self.assertEqual(joined['carousel']['initialState'], 'feature-1')
+            self.assertEqual(joined['carousel']['states'][0]['railBounds']['width'], 390)
+            observations['states'][0]['capture']['sha256'] = '0' * 64
+            observations_path.write_text(json.dumps(observations))
+            with self.assertRaisesRegex(ValueError, 'SHA-256 changed'):
+                web_design.join_carousel_observations(graph_path, observations_path, root / 'bad-joined.json')
+
+    def test_checked_in_synthetic_fixture_runs_through_both_public_commands(self):
+        fixture = ROOT / 'tests/fixtures/web_carousel_synthetic'
+        with tempfile.TemporaryDirectory() as d:
+            work = Path(d) / 'synthetic'
+            shutil.copytree(fixture, work)
+            joined, plan_path = work / 'joined.json', work / 'plan.json'
+            result = subprocess.run(
+                [sys.executable, '-B', str(ROOT / 'tools/native_edit.py'), 'web-carousel',
+                 '--graph', str(work / 'screens.json'), '--observations', str(work / 'observations.json'),
+                 '--out', str(joined)], capture_output=True, text=True, check=True)
+            self.assertEqual(json.loads(result.stdout)['state_count'], 4)
+            web_design.build_plan(joined, 'fixture', '1:1', plan_path)
+            plan = json.loads(plan_path.read_text())
+            native_edit.validate_plan(plan)
+            self.assertEqual(plan['web_design']['carousel']['wrap'], {'manual': False, 'autoplay': True})
+
+    def test_observation_join_rejects_bad_types_duplicate_states_and_symlink_evidence(self):
+        fixture = ROOT / 'tests/fixtures/web_carousel_synthetic'
+        with tempfile.TemporaryDirectory() as d:
+            work = Path(d) / 'synthetic'
+            shutil.copytree(fixture, work)
+            graph_path, observation_path = work / 'screens.json', work / 'observations.json'
+            observations = json.loads(observation_path.read_text())
+            observations['states'][0]['id'] = {}
+            observation_path.write_text(json.dumps(observations))
+            with self.assertRaisesRegex(ValueError, 'two to sixteen ordered carousel states'):
+                web_design.join_carousel_observations(graph_path, observation_path, work / 'bad-type.json')
+            observations = json.loads((fixture / 'observations.json').read_text())
+            observations['carousel']['stateIds'][1] = observations['carousel']['stateIds'][0]
+            observation_path.write_text(json.dumps(observations))
+            with self.assertRaisesRegex(ValueError, 'two to sixteen ordered carousel states'):
+                web_design.join_carousel_observations(graph_path, observation_path, work / 'duplicate.json')
+            observations = json.loads((fixture / 'observations.json').read_text())
+            observations['transitions'][0]['input'] = []
+            observation_path.write_text(json.dumps(observations))
+            with self.assertRaisesRegex(ValueError, 'string state and input IDs'):
+                web_design.join_carousel_observations(graph_path, observation_path, work / 'bad-input.json')
+            observation_path.write_text((fixture / 'observations.json').read_text())
+            (work / 'capture.png').unlink()
+            (work / 'capture.png').symlink_to(fixture / 'capture.png')
+            with self.assertRaisesRegex(ValueError, 'symbolic link'):
+                web_design.join_carousel_observations(graph_path, observation_path, work / 'symlink.json')
+            (work / 'capture.png').unlink()
+            shutil.copy2(fixture / 'capture.png', work / 'capture.png')
+            observations = json.loads(observation_path.read_text())
+            observations['states'][0]['capture']['path'] = '../capture.png'
+            observation_path.write_text(json.dumps(observations))
+            with self.assertRaisesRegex(ValueError, 'relative to the canonical graph'):
+                web_design.join_carousel_observations(graph_path, observation_path, work / 'escaped.json')
+
+    def test_carousel_evidence_pin_detects_replacement_and_plan_output_is_immutable(self):
+        fixture = ROOT / 'tests/fixtures/web_carousel_synthetic'
+        with tempfile.TemporaryDirectory() as d:
+            work = Path(d) / 'synthetic'
+            shutil.copytree(fixture, work)
+            graph_path, observation_path = work / 'screens.json', work / 'observations.json'
+            joined = work / 'joined.json'
+            web_design.join_carousel_observations(graph_path, observation_path, joined)
+            plan_path = work / 'plan.json'
+            web_design.build_plan(joined, 'fixture', '1:1', plan_path)
+            native_edit.validate_plan(json.loads(plan_path.read_text()))
+            with self.assertRaises(FileExistsError):
+                web_design.build_plan(joined, 'fixture', '1:1', plan_path)
+            replacement_png = (b'\x89PNG\r\n\x1a\n' + png_chunk(b'IHDR', struct.pack('>IIBBBBB', 1, 1, 8, 6, 0, 0, 0))
+                               + png_chunk(b'IDAT', zlib.compress(b'\x00\xff\x00\x00\xff'))
+                               + png_chunk(b'IEND', b''))
+            (work / 'capture.png').write_bytes(replacement_png)
+            with self.assertRaisesRegex(ValueError, 'SHA-256 changed'):
+                native_edit.validate_plan(json.loads(plan_path.read_text()))
+
+    def test_carousel_rejects_ambiguous_or_inconsistent_transition_graphs(self):
+        bad = carousel_graph()
+        bad['carousel']['transitions'][0]['to'] = 'feature-1'
+        with self.assertRaisesRegex(ValueError, 'destination must match'):
+            web_design.validate_graph(bad)
+        bad = carousel_graph()
+        bad['carousel']['transitions'].pop()
+        with self.assertRaisesRegex(ValueError, 'Every carousel state'):
+            web_design.validate_graph(bad)
+        bad = carousel_graph()
+        bad['carousel']['autoplay']['intervalMs'] = 999
+        with self.assertRaisesRegex(ValueError, 'interval must be bounded'):
+            web_design.validate_graph(bad)
+        bad = carousel_graph()
+        bad['carousel']['states'][1]['index'] = 0
+        with self.assertRaisesRegex(ValueError, 'consecutive ordered indices'):
+            web_design.validate_graph(bad)
+        bad = carousel_graph()
+        bad['carousel']['wrap']['manual'] = False
+        with self.assertRaisesRegex(ValueError, 'destination must match'):
+            web_design.validate_graph(bad)
+        bad = carousel_graph()
+        bad['carousel']['controls'] = {'nextElementId': 'missing-next'}
+        with self.assertRaisesRegex(ValueError, 'matching transition edges'):
+            web_design.validate_graph(bad)
+
+    def test_signed_plan_cannot_change_carousel_edges(self):
+        with tempfile.TemporaryDirectory() as d:
+            src = Path(d) / 'graph.json'
+            value = carousel_graph()
+            write_carousel_evidence(Path(d))
+            src.write_text(json.dumps(value))
+            out = Path(d) / 'plan.json'
+            web_design.build_plan(src, 'file', '1:1', out)
+            plan = json.loads(out.read_text())
+            plan['web_design']['carousel']['transitions'][0]['to'] = 'feature-4'
+            with self.assertRaisesRegex(ValueError, 'exactly match the pinned canonical transition graph'):
+                native_edit.validate_plan(plan)
+
+    def test_signed_plan_cannot_omit_a_carousel_screen(self):
+        with tempfile.TemporaryDirectory() as d:
+            src = Path(d) / 'graph.json'
+            write_carousel_evidence(Path(d))
+            src.write_text(json.dumps(carousel_graph()))
+            plan_path = Path(d) / 'plan.json'
+            web_design.build_plan(src, 'file', '1:1', plan_path)
+            plan = json.loads(plan_path.read_text())
+            plan['web_design']['screens'].pop()
+            with self.assertRaisesRegex(ValueError, 'include every pinned carousel state'):
+                native_edit.validate_plan(plan)
 
     def test_forged_plan_cannot_change_pinned_screen_content_or_graph_edges(self):
         with tempfile.TemporaryDirectory() as d:

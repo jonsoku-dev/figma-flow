@@ -9,12 +9,14 @@ from pathlib import Path
 import re
 import sys
 import xml.etree.ElementTree as ET
+import zlib
 
 SCRIPT_ROOT = Path(__file__).resolve().parents[1] / 'skills/figma-flow/scripts'
 sys.path.insert(0, str(SCRIPT_ROOT))
 from graph import validate_graph as validate_canonical_graph
 
 SCHEMA = 'figma-flow-web-design-v1'
+CAROUSEL_TRIGGERS = {'next', 'previous', 'swipe_left', 'swipe_right', 'autoplay'}
 KINDS = {'frame', 'text', 'component', 'image', 'video', 'vector', 'annotation'}
 COLORS = re.compile(r'#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?\Z')
 
@@ -198,7 +200,8 @@ def validate_graph(graph, require_embedded=False):
         raise ValueError('Invalid canonical graph: ' + '; '.join(errors[:3]))
     if (
         not isinstance(graph, dict)
-        or set(graph) != {'version', 'id', 'title', 'nodes', 'edges'}
+        or set(graph) - {'version', 'id', 'title', 'nodes', 'edges', 'carousel'}
+        or not {'version', 'id', 'title', 'nodes', 'edges'} <= graph.keys()
         or graph.get('version') != 1
         or not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', str(graph.get('id', '')))
         or not isinstance(graph.get('title'), str)
@@ -242,6 +245,7 @@ def validate_graph(graph, require_embedded=False):
             or len(edge['type']) > 120
         ):
             raise ValueError('Canonical graph edges must connect declared node IDs')
+    carousel = graph.get('carousel')
     screens = [
         node for node in nodes if node.get('type') == 'screen' and node.get('id', '').startswith('WEB-')
     ]
@@ -534,7 +538,303 @@ def validate_graph(graph, require_embedded=False):
             path = element.get('path', [])
             if any(frame_id not in frame_ids for frame_id in path) or element['id'] in path:
                 raise ValueError('Element path must name existing ancestor frame IDs')
+    if carousel is not None:
+        validate_carousel(carousel, screens)
     return screens
+
+
+def validate_carousel(carousel, screens):
+    """Validate a finite, ordered carousel and its explicit deterministic edges."""
+    required = {'frameKey', 'states', 'initialState', 'autoplay', 'wrap', 'transitions', 'source'}
+    optional = {'controls'}
+    if (not isinstance(carousel, dict) or not required <= carousel.keys()
+            or carousel.keys() - required - optional
+            or not isinstance(carousel['frameKey'], str)
+            or not re.fullmatch(r'[\w.-]{1,120}', carousel['frameKey'])):
+        raise ValueError('Carousel needs a stable frame key and bounded finite-state contract')
+    source = carousel['source']
+    if (not isinstance(source, dict) or set(source) != {'url', 'title', 'browser', 'viewport', 'dpr', 'capturedAt'}
+            or not isinstance(source['url'], str) or not re.fullmatch(r'https?://[^\s]{1,500}', source['url'])
+            or not isinstance(source['title'], str) or not source['title'].strip() or len(source['title']) > 160
+            or not isinstance(source['browser'], str) or not source['browser'].strip() or len(source['browser']) > 120
+            or not isinstance(source['viewport'], dict) or set(source['viewport']) != {'width', 'height'}
+            or any(type(source['viewport'][key]) is not int or not 1 <= source['viewport'][key] <= 32768 for key in ('width', 'height'))
+            or type(source['dpr']) not in (int, float) or not math.isfinite(source['dpr']) or not 0.1 <= source['dpr'] <= 8
+            or not isinstance(source['capturedAt'], str) or len(source['capturedAt']) > 64):
+        raise ValueError('Carousel source must pin its page, browser, viewport, DPR, and capture time')
+    states = carousel['states']
+    if not isinstance(states, list) or not 2 <= len(states) <= 16:
+        raise ValueError('Carousel requires two to sixteen ordered states')
+    state_ids, screen_ids = set(), set()
+    for index, state in enumerate(states):
+        if (not isinstance(state, dict) or set(state) != {'id', 'screenId', 'index', 'railBounds', 'capture'}
+                or not isinstance(state['id'], str) or not re.fullmatch(r'[\w.-]{1,120}', state['id'])
+                or not isinstance(state['screenId'], str) or not re.fullmatch(r'WEB-[A-Za-z0-9_.:-]{1,120}', state['screenId'])
+                or type(state['index']) is not int or state['index'] != index
+                or state['id'] in state_ids or state['screenId'] in screen_ids):
+            raise ValueError('Carousel states need unique IDs, screens, and consecutive ordered indices')
+        _box(state['railBounds'])
+        state_ids.add(state['id'])
+        screen_ids.add(state['screenId'])
+    wrap = carousel['wrap']
+    if (not isinstance(carousel['initialState'], str) or carousel['initialState'] not in state_ids
+            or not isinstance(wrap, dict) or set(wrap) != {'manual', 'autoplay'}
+            or any(type(value) is not bool for value in wrap.values())):
+        raise ValueError('Carousel initial state and trigger-specific wrap settings must be declared')
+    autoplay = carousel['autoplay']
+    if (not isinstance(autoplay, dict) or set(autoplay) != {'enabled', 'intervalMs'}
+            or type(autoplay['enabled']) is not bool or type(autoplay['intervalMs']) is not int
+            or not 1000 <= autoplay['intervalMs'] <= 60000):
+        raise ValueError('Carousel autoplay interval must be bounded from 1000 to 60000 ms')
+    transitions = carousel['transitions']
+    if not isinstance(transitions, list) or not 1 <= len(transitions) <= 80:
+        raise ValueError('Carousel transitions must be a bounded explicit edge list')
+    seen_ids, pairs, triggers = set(), set(), set()
+    state_order = [state['id'] for state in states]
+    for transition in transitions:
+        if (not isinstance(transition, dict) or set(transition) - {'id', 'from', 'trigger', 'to', 'evidence', 'observed'}
+                or not {'id', 'from', 'trigger', 'to', 'observed'} <= transition.keys()
+                or not isinstance(transition['id'], str) or not re.fullmatch(r'[\w.-]{1,120}', transition['id'])
+                or transition['id'] in seen_ids
+                or not all(isinstance(transition[field], str) for field in ('from', 'to', 'trigger'))
+                or transition['from'] not in state_ids or transition['to'] not in state_ids
+                or transition['trigger'] not in CAROUSEL_TRIGGERS):
+            raise ValueError('Carousel transitions need unique IDs and declared state/trigger endpoints')
+        if type(transition['observed']) is not bool:
+            raise ValueError('Carousel transition observation status must be boolean')
+        if transition['observed'] and 'evidence' not in transition:
+            raise ValueError('Observed carousel transitions need a concrete evidence reference')
+        evidence = transition.get('evidence')
+        if transition['observed'] and (not isinstance(evidence, dict) or set(evidence) != {'path', 'sha256'}
+                or not isinstance(evidence['path'], str) or not evidence['path'] or len(evidence['path']) > 500
+                or not re.fullmatch(r'[a-f0-9]{64}', str(evidence['sha256']))):
+            raise ValueError('Observed carousel transitions need a screenshot path and SHA-256 receipt')
+        if evidence is not None and not transition['observed']:
+            raise ValueError('Inferred carousel transitions cannot claim observed screenshot evidence')
+        seen_ids.add(transition['id'])
+        pair = (transition['from'], transition['trigger'])
+        if pair in pairs:
+            raise ValueError('Carousel must have at most one deterministic edge per state and trigger')
+        pairs.add(pair)
+        triggers.add(transition['trigger'])
+        index = state_order.index(transition['from'])
+        forward = transition['trigger'] in {'next', 'swipe_left', 'autoplay'}
+        target_index = (index + (1 if forward else -1)) % len(states)
+        does_wrap = wrap['autoplay'] if transition['trigger'] == 'autoplay' else wrap['manual']
+        if not does_wrap and ((forward and index == len(states) - 1) or (not forward and index == 0)):
+            target_index = index
+        if transition['to'] != state_order[target_index]:
+            raise ValueError('Carousel transition destination must match its declared order and wrap behavior')
+    if autoplay['enabled'] != ('autoplay' in triggers):
+        raise ValueError('Enabled carousel autoplay requires explicit autoplay edges, and disabled autoplay forbids them')
+    if any((state_id, trigger) not in pairs for state_id in state_ids for trigger in triggers):
+        raise ValueError('Every carousel state requires one edge for every declared trigger')
+    controls = carousel.get('controls', {})
+    if (not isinstance(controls, dict) or set(controls) - {'nextElementId', 'previousElementId'}
+            or any(not isinstance(value, str) or not value for value in controls.values())):
+        raise ValueError('Carousel controls must reference captured next/previous elements')
+    if (('nextElementId' in controls and 'next' not in triggers)
+            or ('previousElementId' in controls and 'previous' not in triggers)):
+        raise ValueError('Each captured carousel control requires its matching transition edges')
+    if (('next' in triggers and not controls.get('nextElementId'))
+            or ('previous' in triggers and not controls.get('previousElementId'))):
+        raise ValueError('Next and previous transitions require their captured controls')
+    if screens is not None:
+        by_screen = {screen['id']: screen for screen in screens}
+        if not screen_ids <= by_screen.keys():
+            raise ValueError('Carousel state screens must exist in the canonical graph')
+        for state in states:
+            bounds = state['railBounds']
+            layout = by_screen[state['screenId']]['layout']
+            if (bounds['x'] < 0 or bounds['y'] < 0 or bounds['width'] <= 0 or bounds['height'] <= 0
+                    or bounds['x'] + bounds['width'] > layout['width'] + 1
+                    or bounds['y'] + bounds['height'] > layout['height'] + 1):
+                raise ValueError('Carousel rail bounds must fit each captured screen viewport')
+            capture = state.get('capture')
+            if (not isinstance(capture, dict) or set(capture) != {'path', 'sha256'}
+                    or not isinstance(capture['path'], str) or not capture['path'] or len(capture['path']) > 500
+                    or not re.fullmatch(r'[a-f0-9]{64}', str(capture['sha256']))):
+                raise ValueError('Each carousel state needs a screenshot path and SHA-256 capture pin')
+        if controls:
+            if any(any(value not in {element['id'] for element in screen['elements']} for screen in screens)
+                   for value in controls.values()):
+                raise ValueError('Carousel controls must reference elements captured in every state screen')
+    return carousel
+
+
+def validate_carousel_evidence(graph_path, graph):
+    carousel = graph.get('carousel')
+    if carousel is None:
+        return
+    root = Path(graph_path).resolve().parent
+    pins = [state['capture'] for state in carousel['states']]
+    pins.extend(edge['evidence'] for edge in carousel['transitions'] if edge['observed'])
+    unique = {}
+    total = 0
+    for pin in pins:
+        relative = Path(pin['path'])
+        if (relative.is_absolute() or '..' in relative.parts or not relative.parts
+                or any(char in pin['path'] for char in ':\\\0\n\r')):
+            raise ValueError('Carousel evidence paths must stay relative to the canonical graph')
+        candidate = root
+        for part in relative.parts:
+            candidate = candidate / part
+            if candidate.is_symlink():
+                raise ValueError('Carousel evidence path cannot cross a symbolic link')
+        if not candidate.is_file() or not candidate.resolve().is_relative_to(root):
+            raise ValueError('Pinned carousel evidence file is missing or outside the graph directory')
+        data = candidate.read_bytes()
+        if len(data) > 8_000_000 or not valid_png(data):
+            raise ValueError('Carousel evidence must be a bounded PNG screenshot')
+        if hashlib.sha256(data).hexdigest() != pin['sha256']:
+            raise ValueError('Pinned carousel evidence SHA-256 changed')
+        if pin['sha256'] not in unique:
+            unique[pin['sha256']] = len(data)
+            total += len(data)
+            if total > 8_000_000:
+                raise ValueError('Unique carousel screenshots exceed the 8 MB evidence limit')
+
+
+def valid_png(data):
+    """Check PNG chunk bounds, CRCs, and viewport dimensions without decoding pixels."""
+    if not isinstance(data, bytes) or not data.startswith(b'\x89PNG\r\n\x1a\n'):
+        return False
+    offset, width, height, saw_idat, saw_iend = 8, None, None, False, False
+    while offset + 12 <= len(data):
+        size = int.from_bytes(data[offset:offset + 4], 'big')
+        chunk_type = data[offset + 4:offset + 8]
+        end = offset + 8 + size
+        if end + 4 > len(data):
+            return False
+        payload = data[offset + 8:end]
+        crc = int.from_bytes(data[end:end + 4], 'big')
+        if zlib.crc32(chunk_type + payload) & 0xffffffff != crc:
+            return False
+        if offset == 8:
+            if chunk_type != b'IHDR' or size != 13:
+                return False
+            width = int.from_bytes(payload[:4], 'big')
+            height = int.from_bytes(payload[4:8], 'big')
+            if not 1 <= width <= 32768 or not 1 <= height <= 32768:
+                return False
+        elif chunk_type == b'IHDR':
+            return False
+        if chunk_type == b'IDAT':
+            saw_idat = True
+        if chunk_type == b'IEND':
+            if size != 0 or end + 4 != len(data):
+                return False
+            saw_iend = True
+            break
+        offset = end + 4
+    return bool(width and height and saw_idat and saw_iend)
+
+
+def join_carousel_observations(graph_path, observation_path, out_path):
+    """Join bounded browser interaction receipts to an existing captured-screen graph."""
+    source = Path(graph_path).expanduser().absolute()
+    observations_file = Path(observation_path).expanduser().absolute()
+    output = Path(out_path).expanduser().absolute()
+    if any(path.is_symlink() or not path.is_file() for path in (source, observations_file)):
+        raise ValueError('Graph and browser observation inputs must be regular local files')
+    graph_bytes, observation_bytes = source.read_bytes(), observations_file.read_bytes()
+    if len(graph_bytes) > 12_000_000 or len(observation_bytes) > 4_000_000:
+        raise ValueError('Bounded canonical graph and browser observation inputs required')
+    graph, observations = json.loads(graph_bytes), json.loads(observation_bytes)
+    if not isinstance(graph, dict) or not isinstance(observations, dict):
+        raise ValueError('Canonical graph and browser observations must be JSON objects')
+    if graph.get('carousel') is not None:
+        raise ValueError('Refusing to replace an existing canonical carousel')
+    if (not isinstance(observations, dict) or observations.get('schemaVersion') != 1
+            or not isinstance(observations.get('carousel'), dict)
+            or not isinstance(observations.get('states'), list)
+            or not isinstance(observations.get('transitions'), list)):
+        raise ValueError('Versioned browser carousel observations are required')
+    captured_screens = validate_graph(graph)
+    measured = observations['carousel']
+    state_ids = measured.get('stateIds')
+    states_by_id = {state.get('id'): state for state in observations['states']
+                    if isinstance(state, dict) and isinstance(state.get('id'), str)}
+    if (not isinstance(state_ids, list) or not 2 <= len(state_ids) <= 16
+            or any(not isinstance(state_id, str) for state_id in state_ids) or len(set(state_ids)) != len(state_ids)
+            or len(observations['states']) != len(state_ids) or set(states_by_id) != set(state_ids)):
+        raise ValueError('Browser evidence must contain two to sixteen ordered carousel states')
+    for index, state in enumerate(observations['states']):
+        if (not isinstance(state, dict) or state.get('id') != state_ids[index]
+                or ('index' in state and (type(state['index']) is not int or state['index'] != index))):
+            raise ValueError('Browser state records must match the declared state order and indices')
+    screen_ids = {screen['id'] for screen in captured_screens}
+    if not set(state_ids) <= screen_ids:
+        raise ValueError('Each observed carousel state must have its captured canonical WEB screen')
+    index_by_id = {screen_id: index for index, screen_id in enumerate(state_ids)}
+    state_keys = {screen_id: f'feature-{index + 1}' for screen_id, index in index_by_id.items()}
+    transitions = []
+    for index, item in enumerate(observations['transitions']):
+        if not isinstance(item, dict):
+            raise ValueError('Browser transition receipt must be an object')
+        source_id = item.get('from')
+        target_id = item.get('to')
+        raw_trigger = item.get('input')
+        if type(item.get('observed')) is not bool:
+            raise ValueError('Browser transition receipt must mark observed status as a boolean')
+        if not all(isinstance(value, str) for value in (source_id, target_id, raw_trigger)):
+            raise ValueError('Browser transition receipt must use string state and input IDs')
+        trigger = {'swipe-left': 'swipe_left', 'swipe_right': 'swipe_right', 'swipe-right': 'swipe_right',
+                   'swipe_left': 'swipe_left', 'next': 'next', 'previous': 'previous', 'autoplay': 'autoplay'}.get(raw_trigger)
+        if source_id not in state_keys or target_id not in state_keys or trigger is None:
+            raise ValueError('Browser transition receipt must name known states and supported input')
+        transition = {'id': f"edge-{index + 1}", 'from': state_keys[source_id], 'to': state_keys[target_id],
+                      'trigger': trigger, 'observed': item['observed']}
+        evidence = item.get('evidence')
+        if evidence is not None:
+            transition['evidence'] = evidence
+        transitions.append(transition)
+    wrap = measured.get('wrap')
+    if isinstance(wrap, dict):
+        manual_wrap, autoplay_wrap = wrap.get('manual'), wrap.get('autoplay')
+    else:
+        manual_wrap, autoplay_wrap = measured.get('manualWrap'), measured.get('wrapAutoplay')
+    if type(manual_wrap) is not bool or type(autoplay_wrap) is not bool:
+        raise ValueError('Browser evidence must explicitly establish manual and autoplay wrap behavior')
+    active_id = measured.get('initialState')
+    if not isinstance(active_id, str) or active_id not in state_keys:
+        raise ValueError('Browser evidence must name its observed initial state')
+    rail = measured.get('rail')
+    rail_bounds = rail.get('rect') if isinstance(rail, dict) else None
+    autoplay_enabled = measured.get('autoplayEnabled', type(measured.get('intervalMs')) is int and measured['intervalMs'] > 0)
+    if type(autoplay_enabled) is not bool:
+        raise ValueError('Browser autoplay enabled state must be boolean')
+    carousel = {
+        'frameKey': measured.get('frameKey'),
+        'source': observations.get('source'),
+        'states': [{'id': state_keys[screen_id], 'screenId': screen_id, 'index': index,
+                    'railBounds': rail_bounds, 'capture': states_by_id[screen_id].get('capture')}
+                   for index, screen_id in enumerate(state_ids)],
+        'initialState': state_keys[active_id],
+        'autoplay': {'enabled': autoplay_enabled,
+                     'intervalMs': measured.get('intervalMs')},
+        'wrap': {'manual': manual_wrap, 'autoplay': autoplay_wrap},
+        'transitions': transitions,
+    }
+    graph['carousel'] = carousel
+    screens = validate_graph(graph)
+    screens_by_id = {screen['id']: screen for screen in screens}
+    for state_id in state_ids:
+        layout = screens_by_id[state_id]['layout']
+        if (layout['width'] != observations['source'].get('viewport', {}).get('width')
+                or layout['height'] != observations['source'].get('viewport', {}).get('height')):
+            raise ValueError('Captured screen dimensions must match the browser observation viewport')
+    if len({screen['id'] for screen in screens} & set(state_ids)) != len(state_ids):
+        raise ValueError('Canonical graph carousel must resolve every captured state screen')
+    if output.parent != observations_file.parent:
+        raise ValueError('Joined graph must stay beside its browser evidence so relative pins remain valid')
+    validate_carousel_evidence(output, graph)
+    if output.exists() or output.is_symlink():
+        raise FileExistsError(f'Refusing to overwrite canonical graph: {output}')
+    output.write_text(json.dumps(graph, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
+    output.chmod(0o600)
+    return {'graph': str(output), 'state_count': len(state_ids), 'transition_count': len(transitions),
+            'graph_sha256': hashlib.sha256(output.read_bytes()).hexdigest(), 'status': 'compiled-not-applied'}
 
 
 def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_width=None, readback_scope='page'):
@@ -563,6 +863,11 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
         'source_graph_path': str(source.resolve()),
         'screens': screens,
     }
+    if graph.get('carousel') is not None:
+        carousel = json.loads(json.dumps(graph['carousel']))
+        if not {state['screenId'] for state in carousel['states']} <= {screen['id'] for screen in screens}:
+            raise ValueError('Selected screens must include every carousel state')
+        web['carousel'] = carousel
     if readback_scope not in ('page', 'screens'):
         raise ValueError('Unknown web design readback scope')
     if readback_scope == 'screens':
