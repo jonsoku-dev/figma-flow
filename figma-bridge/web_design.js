@@ -156,7 +156,9 @@ function webValidate(plan) {
     }
   }
   webValidateImageComponentFamilies(design);
+  if (design.carousel !== undefined && design.tabs !== undefined) throw Error('One observed interaction per web design plan');
   if (design.carousel !== undefined) webCarouselValidate(design);
+  if (design.tabs !== undefined) webTabsValidate(design);
   if (design.preview_width !== undefined && (!Number.isInteger(design.preview_width) || design.preview_width < 360 || design.preview_width > 480)) {
     throw Error('Preview width must be between 360 and 480 pixels');
   }
@@ -251,41 +253,90 @@ function webCarouselValidate(design) {
   }
 }
 
-function webCarouselReaction(destinationId, trigger, intervalMs) {
-  const type = trigger === 'autoplay' ? 'AFTER_TIMEOUT' : trigger.startsWith('swipe_') ? 'ON_DRAG' : 'ON_CLICK';
+function webTabsValidate(design) {
+  const tabs = design.tabs;
+  const fail = () => { throw Error('Invalid graph tabs contract'); };
+  const key = /^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/;
+  if (!tabs || !key.test(tabs.frameKey || '') || !Array.isArray(tabs.states) || tabs.states.length < 2 || tabs.states.length > 16
+      || !Array.isArray(tabs.transitions) || !tabs.transitions.length || tabs.transitions.length > 80) fail();
+  const screens = new Map(design.screens.map(screen => [screen.id, screen]));
+  const states = new Map();
+  for (const [index, state] of tabs.states.entries()) {
+    if (!state || !key.test(state.id || '') || state.index !== index || states.has(state.id) || !screens.has(state.screenId)
+        || [...states.values()].some(other => other.screenId === state.screenId)) fail();
+    states.set(state.id, state);
+  }
+  if (!states.has(tabs.initialState)) fail();
+  const ids = new Set(), controls = new Set();
+  for (const edge of tabs.transitions) {
+    if (!edge || !key.test(edge.id || '') || ids.has(edge.id) || !states.has(edge.from) || !states.has(edge.to) || edge.from === edge.to
+        || edge.trigger !== 'click' || edge.observed !== true || controls.has(edge.from + '/' + edge.controlElementId)
+        || !screens.get(states.get(edge.from).screenId).elements.some(element => element.id === edge.controlElementId && element.kind === 'frame'
+          && element.box.x >= 0 && element.box.y >= 0 && element.box.width > 0 && element.box.height > 0
+          && element.box.x + element.box.width <= screens.get(states.get(edge.from).screenId).layout.width + 1
+          && element.box.y + element.box.height <= screens.get(states.get(edge.from).screenId).layout.height + 1)) fail();
+    ids.add(edge.id);
+    controls.add(edge.from + '/' + edge.controlElementId);
+  }
+}
+
+function webNavigationReaction(destinationId, input, intervalMs) {
+  const type = input === 'autoplay' ? 'AFTER_TIMEOUT' : input.startsWith('swipe_') ? 'ON_DRAG' : 'ON_CLICK';
   return { trigger: type === 'AFTER_TIMEOUT' ? {type, timeout: intervalMs / 1000} : {type},
     actions: [{type: 'NODE', destinationId, navigation: 'NAVIGATE',
-      transition: type === 'ON_DRAG' ? {type: 'PUSH', direction: trigger === 'swipe_left' ? 'LEFT' : 'RIGHT',
+      transition: type === 'ON_DRAG' ? {type: 'PUSH', direction: input === 'swipe_left' ? 'LEFT' : 'RIGHT',
         matchLayers: false, easing: {type: 'EASE_OUT'}, duration: 0.3} : null,
       resetScrollPosition: true}] };
 }
 
-const CAROUSEL_HOTSPOT = 'figma-flow-carousel-hotspot';
-
-function webCarouselFrames(page, design) {
-  const byKey = new Map(page.children.map(node => [node.getPluginData(WEB_DESIGN_KEY), node]));
-  return new Map(design.carousel.states.map(state => [
-    state.id, byKey.get(design.graph_id + '/' + state.screenId),
-  ]));
-}
+// Persisted plugin-data key shared by carousel drag and tab click hotspots.
+const WEB_HOTSPOT = 'figma-flow-carousel-hotspot';
 
 function webCarouselRoutes(carousel, state, frames) {
   const rail = state.railBounds, half = Math.round(rail.width / 2);
   return carousel.transitions.filter(edge => edge.from === state.id).map(edge => {
     const dst = frames.get(edge.to);
-    const reactions = edge.from !== edge.to && dst ? [webCarouselReaction(dst.id, edge.trigger, carousel.autoplay.intervalMs)] : [];
+    const reactions = edge.from !== edge.to && dst ? [webNavigationReaction(dst.id, edge.trigger, carousel.autoplay.intervalMs)] : [];
     if (edge.trigger === 'autoplay') return {kind:'timer', edge, reactions};
     if (edge.trigger === 'next' || edge.trigger === 'previous') {
       return {kind:'control', edge, reactions, elementId:carousel.controls[edge.trigger + 'ElementId']};
     }
     const left = edge.trigger === 'swipe_right', side = left ? 'left' : 'right';
-    return {kind:'swipe', edge, reactions, side, key:carousel.frameKey + '/' + state.id + '/swipe-' + side,
+    return {kind:'hotspot', edge, reactions, side, name:'Drag ' + side + ' · ' + state.id, key:carousel.frameKey + '/' + state.id + '/swipe-' + side,
       x:rail.x + (left ? 0 : half), y:rail.y, width:left ? half : rail.width - half, height:rail.height};
   });
 }
 
+// The browser swaps the panel without an animation, so each observed click navigates instantly. Figma timed out
+// setting a reaction on a tab nested deep in a captured page, so the click lives on a top-level hotspot over its box.
+function webTabsRoutes(tabs, state, frames, design) {
+  const screen = design.screens.find(item => item.id === state.screenId);
+  return tabs.transitions.filter(edge => edge.from === state.id).map(edge => {
+    const dst = frames.get(edge.to), box = screen.elements.find(element => element.id === edge.controlElementId).box;
+    const label = tabs.states.find(item => item.id === edge.to).label;
+    return {kind:'hotspot', edge, name:'Click · ' + label, key:tabs.frameKey + '/' + state.id + '/' + edge.id,
+      x:box.x, y:box.y, width:box.width, height:box.height, reactions:dst ? [webNavigationReaction(dst.id, 'click')] : []};
+  });
+}
+
+// One observed state graph per plan. The plugin-data keys stay per kind so 0.33 carousel frames keep reading as current.
+const WEB_INTERACTIONS = {
+  carousel: {groupKey:'figmaFlowCarouselKey', stateKey:'figmaFlowCarouselState', flowName:'Carousel', routes:webCarouselRoutes},
+  tabs: {groupKey:'figmaFlowTabsKey', stateKey:'figmaFlowTabsState', flowName:'Tabs', routes:webTabsRoutes},
+};
+
+function webInteraction(design) {
+  const kind = Object.keys(WEB_INTERACTIONS).find(name => design[name] !== undefined);
+  return kind ? {kind, contract:design[kind], ...WEB_INTERACTIONS[kind]} : null;
+}
+
+function webInteractionFrames(page, design, contract) {
+  const byKey = new Map(page.children.map(node => [node.getPluginData(WEB_DESIGN_KEY), node]));
+  return new Map(contract.states.map(state => [state.id, byKey.get(design.graph_id + '/' + state.screenId)]));
+}
+
 // Compare the interaction fields we author. The editor also supplies legacy aliases and optional defaults.
-function webCarouselComparable(reactions) {
+function webReactionComparable(reactions) {
   return reactions.map(r => ({type:r.trigger?.type, timeout:r.trigger?.timeout ?? null,
     actions:(r.actions || []).map(a => ({type:a.type, navigation:a.navigation, destination:a.destinationId,
       reset:a.resetScrollPosition ?? true, transition:a.transition ? {type:a.transition.type,
@@ -293,39 +344,40 @@ function webCarouselComparable(reactions) {
         matchLayers:a.transition.matchLayers ?? false} : null}))}));
 }
 
-function webCarouselTarget(frame, route) {
+function webInteractionTarget(frame, route) {
   if (route.kind === 'timer') return frame;
   const nodes = route.kind === 'control'
     ? frame.findAll(n => n.getPluginData(WEB_ELEMENT_ID) === route.elementId)
-    : frame.children.filter(n => n.getPluginData(CAROUSEL_HOTSPOT) === route.key);
+    : frame.children.filter(n => n.getPluginData(WEB_HOTSPOT) === route.key);
   return nodes.length === 1 ? nodes[0] : null;
 }
 
-function webCarouselRead(figma, plan) {
-  const design = plan.web_design, carousel = design.carousel;
-  if (!carousel) return null;
-  const frames = webCarouselFrames(figma.currentPage, design);
-  const states = carousel.states.map(state => {
+function webInteractionRead(figma, plan) {
+  const design = plan.web_design, interaction = webInteraction(design);
+  if (!interaction) return null;
+  const {contract, routes: routesFor} = interaction;
+  const frames = webInteractionFrames(figma.currentPage, design, contract);
+  const states = contract.states.map(state => {
     const frame = frames.get(state.id);
     const result = {state_id:state.id, screen_id:state.screenId, frame_id:frame?.id || null,
-      title:design.screens.find(s => s.id === state.screenId).title, status:frame?'current':'missing',
+      title:state.label || design.screens.find(s => s.id === state.screenId).title, status:frame?'current':'missing',
       reactions:[], hotspots:[], controls:[]};
     if (!frame) return result;
-    const routes = webCarouselRoutes(carousel, state, frames);
-    if (frame.getPluginData('figmaFlowCarouselState') !== state.id
-        || frame.getPluginData('figmaFlowCarouselKey') !== carousel.frameKey
-        || frame.children.filter(n => n.getPluginData(CAROUSEL_HOTSPOT)).length !== routes.filter(r => r.kind==='swipe').length
+    const routes = routesFor(contract, state, frames, design);
+    if (frame.getPluginData(interaction.stateKey) !== state.id
+        || frame.getPluginData(interaction.groupKey) !== contract.frameKey
+        || frame.children.filter(n => n.getPluginData(WEB_HOTSPOT)).length !== routes.filter(r => r.kind==='hotspot').length
         || (!routes.some(r=>r.kind==='timer') && frame.reactions?.length)) result.status='changed';
     for (const route of routes) {
-      const node = webCarouselTarget(frame, route);
+      const node = webInteractionTarget(frame, route);
       const actual = node?.reactions || [];
       const entry = {edge_id:route.edge.id, node_id:node?.id || null, input:route.edge.trigger,
         trigger:actual[0]?.trigger?.type || null, timeout:actual[0]?.trigger?.timeout ?? null,
         destination_id:actual[0]?.actions?.[0]?.destinationId || null, transition:actual[0]?.actions?.[0]?.transition || null,
         boundary:route.edge.from === route.edge.to, status:'current'};
-      if (!node || JSON.stringify(webCarouselComparable(actual)) !== JSON.stringify(webCarouselComparable(route.reactions))) entry.status='changed';
-      if (route.kind === 'swipe') {
-        Object.assign(entry, {side:route.side,x:node?.x,y:node?.y,width:node?.width,height:node?.height});
+      if (!node || JSON.stringify(webReactionComparable(actual)) !== JSON.stringify(webReactionComparable(route.reactions))) entry.status='changed';
+      if (route.kind === 'hotspot') {
+        Object.assign(entry, {...(route.side ? {side:route.side} : {}),x:node?.x,y:node?.y,width:node?.width,height:node?.height});
         if (!node || node.type!=='FRAME' || node.visible===false || node.opacity!==0 || node.children.length
             || ['x','y','width','height'].some(k => Math.abs(entry[k]-route[k])>.01)) entry.status='changed';
         result.hotspots.push(entry);
@@ -336,37 +388,38 @@ function webCarouselRead(figma, plan) {
     }
     return result;
   });
-  const initial = frames.get(carousel.initialState);
+  const initial = frames.get(contract.initialState);
   const start = (figma.currentPage.flowStartingPoints || []).find(point => point.nodeId===initial?.id);
-  return {frame_key:carousel.frameKey,status:states.every(s=>s.status==='current')&&start?'current':states.some(s=>s.status==='missing')?'missing':'changed',
-    initial_state:carousel.initialState,flow_start_node_id:initial?.id || null,
+  return {frame_key:contract.frameKey,status:states.every(s=>s.status==='current')&&start?'current':states.some(s=>s.status==='missing')?'missing':'changed',
+    initial_state:contract.initialState,flow_start_node_id:initial?.id || null,
     flow_start:{node_id:start?.nodeId || null,name:start?.name || null,status:start?'current':'missing'},
-    states,autoplay:webClone(carousel.autoplay),wrap:webClone(carousel.wrap)};
+    states,...(contract.autoplay ? {autoplay:webClone(contract.autoplay),wrap:webClone(contract.wrap)} : {})};
 }
 
-async function webCarouselApply(figma, plan, created) {
-  const page=figma.currentPage, design=plan.web_design, carousel=design.carousel;
-  if (!carousel) return null;
-  const frames=webCarouselFrames(page,design);
-  const before=webCarouselRead(figma,plan);
+async function webInteractionApply(figma, plan, created) {
+  const page=figma.currentPage, design=plan.web_design, interaction=webInteraction(design);
+  if (!interaction) return null;
+  const {contract, routes: routesFor} = interaction;
+  const frames=webInteractionFrames(page,design,contract);
+  const before=webInteractionRead(figma,plan);
   // Only newly authored state frames can receive listeners. Existing edits remain inspectable.
   for (const state of before.states) {
     if (!created.has(state.frame_id) && state.status!=='current')
-      throw Error('Carousel interaction changed on '+state.screen_id+'; preserving the edited frame');
+      throw Error('Prototype interaction changed on '+state.screen_id+'; preserving the edited frame');
   }
-  const initial=frames.get(carousel.initialState);
-  if (!created.has(initial.id) && before.flow_start.status!=='current') throw Error('Carousel flow start changed; preserving its current configuration');
-  for (const state of carousel.states) {
+  const initial=frames.get(contract.initialState);
+  if (!created.has(initial.id) && before.flow_start.status!=='current') throw Error('Prototype flow start changed; preserving its current configuration');
+  for (const state of contract.states) {
     const frame=frames.get(state.id);
     if (!created.has(frame.id)) continue;
-    const routes = webCarouselRoutes(carousel,state,frames);
-    for (const route of routes) {
+    for (const route of routesFor(contract,state,frames,design)) {
       let node;
-      if (route.kind==='swipe') {
-        node=figma.createFrame();frame.appendChild(node);node.name='Drag '+route.side+' · '+state.id;
+      if (route.kind==='hotspot') {
+        node=figma.createFrame();frame.appendChild(node);node.name=route.name;
         node.resize(route.width,route.height);node.x=route.x;node.y=route.y;node.fills=[];node.strokes=[];node.opacity=0;
-        node.setPluginData(CAROUSEL_HOTSPOT,route.key);node.setPluginData('figma-flow-carousel-side',route.side);
-      } else node=webCarouselTarget(frame,route);
+        node.setPluginData(WEB_HOTSPOT,route.key);
+        if (route.side) node.setPluginData('figma-flow-carousel-side',route.side);
+      } else node=webInteractionTarget(frame,route);
       if (!node) throw Error('Missing prototype source for '+route.edge.id);
       // At a physical boundary, staying put is represented by the absence of a navigation reaction.
       if (route.reactions.length) {
@@ -374,13 +427,13 @@ async function webCarouselApply(figma, plan, created) {
         catch (error) { throw Error('Figma rejected '+state.id+'/'+route.edge.trigger+': '+String(error.message||error)); }
       }
     }
-    frame.setPluginData('figmaFlowCarouselKey',carousel.frameKey);frame.setPluginData('figmaFlowCarouselState',state.id);
+    frame.setPluginData(interaction.groupKey,contract.frameKey);frame.setPluginData(interaction.stateKey,state.id);
   }
   if (!(page.flowStartingPoints || []).some(start=>start.nodeId===initial.id)) {
-    page.flowStartingPoints=[...(page.flowStartingPoints || []),{nodeId:initial.id,name:'Carousel · '+carousel.frameKey}];
+    page.flowStartingPoints=[...(page.flowStartingPoints || []),{nodeId:initial.id,name:interaction.flowName+' · '+contract.frameKey}];
   }
-  const observed=webCarouselRead(figma,plan);
-  if (observed.status!=='current') throw Error('Native carousel interactions differ after linking: '+JSON.stringify(observed).slice(0,900));
+  const observed=webInteractionRead(figma,plan);
+  if (observed.status!=='current') throw Error('Native prototype interactions differ after linking: '+JSON.stringify(observed).slice(0,900));
   return observed;
 }
 
@@ -459,7 +512,7 @@ function webSceneValue(node, includeTextStyle = true, includeMaskState = true) {
       }));
     }
   }
-  if ('children' in node) scene.children = node.children.filter(child => child.getPluginData?.('figma-flow-carousel-hotspot') === '')
+  if ('children' in node) scene.children = node.children.filter(child => child.getPluginData?.(WEB_HOTSPOT) === '')
     .map(child => webSceneValue(child, includeTextStyle, includeMaskState));
   return scene;
 }
@@ -1219,7 +1272,12 @@ async function webRead(figma, plan) {
   }));
   nativeEditScope(figma, plan);
   return { schema: 'figma-flow-web-design-receipt-v1', graph_id: plan.web_design.graph_id, graph_sha256: plan.web_design.graph_sha256, screens,
-    ...(plan.web_design.carousel ? {carousel: webCarouselRead(figma, plan)} : {}) };
+    ...webInteractionReceipt(figma, plan) };
+}
+
+function webInteractionReceipt(figma, plan) {
+  const interaction = webInteraction(plan.web_design);
+  return interaction ? {[interaction.kind]: webInteractionRead(figma, plan)} : {};
 }
 
 async function webApply(figma, plan) {
@@ -1232,7 +1290,7 @@ async function webApply(figma, plan) {
   const imageMains = new Map();
   let synchronousFailure = true;
   let totalPreviewBytes = 0;
-  let carouselRollback = null;
+  let interactionReadback = null;
   let stage = "preparing the screen";
   try {
     const existingByScreen = new Map();
@@ -1304,8 +1362,8 @@ async function webApply(figma, plan) {
     synchronousFailure = false;
     const receipt = {schema:'figma-flow-web-design-receipt-v1',graph_id:plan.web_design.graph_id,
       graph_sha256:plan.web_design.graph_sha256,screens:receipts};
-    stage = "linking carousel states";
-    carouselRollback = await webCarouselApply(figma, plan, new Set(receipts.filter(s => !s.reused).map(s => s.frame_id)));
+    stage = "linking prototype states";
+    interactionReadback = await webInteractionApply(figma, plan, new Set(receipts.filter(s => !s.reused).map(s => s.frame_id)));
     stage = "reading native nodes";
     const readback = await webBounded(nativeEditDiscovery(figma, plan), 30_000, 'Timed out during actual native discovery');
     nativeEditScope(figma, plan);
@@ -1348,9 +1406,9 @@ async function webApply(figma, plan) {
       const frame = page.children.find(node => node.id === screen.frame_id);
       if (!frame || !webSceneMatches(frame)) throw Error(`Frame changed during preview export: ${screen.screen_id}`);
     }
-    return { receipt: {...receipt, ...(carouselRollback ? {carousel: webCarouselRead(figma, plan)} : {})}, readback };
+    return { receipt: {...receipt, ...(interactionReadback ? webInteractionReceipt(figma, plan) : {})}, readback };
   } catch (error) {
-    if (plan.web_design.carousel) error = Error(stage + ": " + String(error.message || error));
+    if (webInteraction(plan.web_design)) error = Error(stage + ": " + String(error.message || error));
     error.webDesignRollbackConflicts = webRollback(created, baselines, synchronousFailure);
     error.rollback_conflicts = error.webDesignRollbackConflicts.map(id => ({ node_id: id, reason: 'Changed after creation; preserved during rollback' }));
     throw error;

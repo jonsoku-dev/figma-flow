@@ -680,9 +680,14 @@ def validate_tabs(tabs, screens):
         if control in sources:
             raise ValueError('A tab control can lead to only one observed destination')
         source_screen = by_screen[state_screens[edge['from']]]
+        layout = source_screen['layout']
         if not any(element['id'] == edge['controlElementId'] and element['kind'] == 'frame'
+                   and element['box']['x'] >= 0 and element['box']['y'] >= 0
+                   and element['box']['width'] > 0 and element['box']['height'] > 0
+                   and element['box']['x'] + element['box']['width'] <= layout['width'] + 1
+                   and element['box']['y'] + element['box']['height'] <= layout['height'] + 1
                    for element in source_screen['elements']):
-            raise ValueError('Tab transitions must start at a captured frame in the source state screen')
+            raise ValueError('Tab transitions must start at a captured frame inside the source state screen')
         ids.add(edge['id'])
         sources.add(control)
         reached.add(edge['to'])

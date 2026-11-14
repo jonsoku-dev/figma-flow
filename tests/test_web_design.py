@@ -279,6 +279,13 @@ class WebDesignTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     web_design.join_tab_observations(graph_path, observations_path, Path(d) / 'out.json')
                 self.assertFalse((Path(d) / 'out.json').exists())
+        with tempfile.TemporaryDirectory() as d:
+            graph_path, observations_path = write_tab_inputs(Path(d))
+            screens = tab_screens()
+            screens['nodes'][0]['elements'][1]['box']['y'] = 860
+            graph_path.write_text(json.dumps(screens))
+            with self.assertRaisesRegex(ValueError, 'inside the source state screen'):
+                web_design.join_tab_observations(graph_path, observations_path, Path(d) / 'out.json')
 
     def test_finite_carousel_compiles_into_exact_pinned_plan(self):
         with tempfile.TemporaryDirectory() as d:

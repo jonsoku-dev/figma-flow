@@ -211,6 +211,70 @@ test('graph carousel imports directional editable swipe targets and timeout loop
   assert.equal(repeated.receipt.carousel.status, 'current');
 });
 
+function tabsPlan() {
+  const packet = plan();
+  const base = packet.web_design.screens[0];
+  const tab = (id, y, label) => [
+    { id, kind: 'frame', path: [], box: { x: 20, y, width: 300, height: 98 }, paint: { borderWidth: 1, borderColor: '#333333' } },
+    { id: id + '-label', kind: 'text', path: [id], box: { x: 36, y: y + 16, width: 200, height: 24 },
+      text: { characters: label, fontFamily: 'Inter', fontSize: 16, fontWeight: 500, lineHeight: 24, color: '#ffffff' } },
+  ];
+  packet.web_design.screens = ['queue.execute()', 'stage.sync()'].map((code, index) => ({ ...structuredClone(base),
+    id: `WEB-tabs-${index + 1}`, title: `Tab ${index + 1}`, elements: [...tab('tab-a', 40, 'Simple'), ...tab('tab-b', 146, 'Multi'),
+      { id: 'code', kind: 'text', path: [], box: { x: 400, y: 40, width: 300, height: 24 },
+        text: { characters: code, fontFamily: 'Inter', fontSize: 14, fontWeight: 400, lineHeight: 20, color: '#ffffff' } }] }));
+  packet.web_design.tabs = { frameKey: 'devtool-examples', initialState: 'tab-1',
+    states: packet.web_design.screens.map((screen, index) => ({ id: `tab-${index + 1}`, screenId: screen.id, index,
+      label: index ? 'Multi' : 'Simple', contentSha256: String(index).repeat(64), capture: { path: 'state.png', sha256: 'c'.repeat(64) } })),
+    transitions: [
+      { id: 'edge-1', from: 'tab-1', to: 'tab-2', trigger: 'click', controlElementId: 'tab-b', observed: true, evidence: { path: 'a.png', sha256: 'd'.repeat(64) } },
+      { id: 'edge-2', from: 'tab-2', to: 'tab-1', trigger: 'click', controlElementId: 'tab-a', observed: true, evidence: { path: 'b.png', sha256: 'e'.repeat(64) } },
+    ] };
+  return packet;
+}
+
+test('observed tab clicks become instant click hotspots over the captured tab boxes', async () => {
+  const packet = tabsPlan();
+  const h = harness();
+  const result = await h.apply(packet);
+  assert.equal(result.receipt.tabs.status, 'current', JSON.stringify(result.receipt.tabs));
+  const plain = value => JSON.parse(JSON.stringify(value));
+  const frame = id => h.page.children.find(node => node.getPluginData('figma-flow-web-design-id') === `saas-capture/${id}`);
+  const [first, second] = [frame('WEB-tabs-1'), frame('WEB-tabs-2')];
+  const layer = (root, id) => root.findAll(node => node.getPluginData('figma-flow-web-element-id') === id)[0];
+  const hotspot = root => root.children.filter(node => node.getPluginData('figma-flow-carousel-hotspot'));
+  assert.equal(hotspot(first).length, 1);
+  const [toMulti] = hotspot(first), [toSimple] = hotspot(second);
+  assert.deepEqual(plain([toMulti.name, toMulti.x, toMulti.y, toMulti.width, toMulti.height, toMulti.opacity, toMulti.fills]),
+    ['Click · Multi', 20, 146, 300, 98, 0, []]);
+  assert.equal(first.children.at(-1), toMulti);
+  assert.deepEqual(plain(toMulti.reactions), [{ trigger: { type: 'ON_CLICK' }, actions: [{ type: 'NODE',
+    destinationId: second.id, navigation: 'NAVIGATE', transition: null, resetScrollPosition: true }] }]);
+  assert.equal(toSimple.reactions[0].actions[0].destinationId, first.id);
+  assert.deepEqual(plain([layer(first, 'tab-a').reactions, layer(first, 'tab-b').reactions, first.reactions]), [[], [], []]);
+  assert.equal(toMulti.getPluginData('figma-flow-carousel-side'), '');
+  assert.deepEqual(plain(h.page.flowStartingPoints.filter(start => start.nodeId === first.id).map(start => start.name)), ['Tabs · devtool-examples']);
+  assert.deepEqual(plain(result.receipt.tabs.states.map(state => [state.title, state.hotspots.map(spot => [spot.input, spot.side ?? null])])),
+    [['Simple', [['click', null]]], ['Multi', [['click', null]]]]);
+  assert.equal(result.receipt.carousel, undefined);
+  assert.equal((await h.apply(packet)).receipt.tabs.status, 'current');
+  assert.equal(hotspot(first).length, 1);
+
+  await toMulti.setReactionsAsync([]);
+  assert.equal((await h.read(packet)).tabs.states[0].status, 'changed');
+  await assert.rejects(h.apply(packet), /Prototype interaction changed on WEB-tabs-1/);
+  assert.deepEqual(plain(toMulti.reactions), []);
+});
+
+test('tab plans refuse clicks that start outside a captured frame', async () => {
+  const packet = tabsPlan();
+  packet.web_design.tabs.transitions[0].controlElementId = 'code';
+  await assert.rejects(harness().apply(packet), /Invalid graph tabs contract/);
+  const offscreen = tabsPlan();
+  offscreen.web_design.screens[0].elements[2].box.y = 700;
+  await assert.rejects(harness().apply(offscreen), /Invalid graph tabs contract/);
+});
+
 function legacyImportedFrame(harnessState, sourcePlan, nativeFont = { family: 'Inter', style: 'Medium' }) {
   const screen = sourcePlan.web_design.screens[0];
   const page = harnessState.page;
