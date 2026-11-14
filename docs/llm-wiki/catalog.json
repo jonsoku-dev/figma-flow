@@ -10137,6 +10137,301 @@
           "version": "0.34.0"
         }
       ]
+    },
+    {
+      "commit": "3f412c18e80c28df04729bc4b914dcfef5df1242",
+      "diff_sha256": "c14dce15d71aed84b0b2ff03e1ca7ec030361f4169db06158fe337dc6a3c7ca1",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/2a8e3adde7b0e2bb8d5baddc72ea2a1800e524f9.md",
+        "docs/llm-wiki/patches/a803681008485f85e9e31c01cf40c6c48f0a26ce.md",
+        "docs/llm-wiki/patches/bfb5e8f95af859098921f80da3811047a2a75f4d.md",
+        "docs/llm-wiki/patches/c89403fd4dd5923eb633ff079bf62db4f22861f1.md",
+        "docs/llm-wiki/patches/e86cb81decb3b369f59d4e3799945f996d342eb9.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "bfb5e8f95af859098921f80da3811047a2a75f4d"
+      ],
+      "subject": "docs: record G1 regeneration and orphan retry acceptance",
+      "tree": "8b49b97f303900b58ba583da54d3ce8924de2e05",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "91f7dd2d32b4d750795c7fd631cacd5cb64560fd",
+      "diff_sha256": "29bd8eb68e855006e2af72045b109b4e36786e7694c32cb7768110aeaf3a55d4",
+      "files": [
+        "docs/web-disclosure-input.md",
+        "tests/test_web_design.py",
+        "tools/native_edit.py",
+        "tools/web_design.py"
+      ],
+      "parents": [
+        "dd53eeed027d14fc98d59574bd6927b066079e30"
+      ],
+      "subject": "feat: compile observed single-collapsible disclosure states into web graphs",
+      "tree": "f69ffbd497536c6897237ee51a5006b6de4b62e7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "55267d1eb771e6ee403dc30e5e191b0c3742d9cc",
+      "diff_sha256": "38082f13e8594e0948d90bdb3c95d67ef1e1d3c8b234653e3dfdcb6add428e0a",
+      "files": [
+        "tools/web_design_capture.js",
+        "tools/web_disclosure_capture.mjs"
+      ],
+      "parents": [
+        "91f7dd2d32b4d750795c7fd631cacd5cb64560fd"
+      ],
+      "subject": "feat: capture SaaS FAQ disclosure open, close, and sibling switch clicks",
+      "tree": "06d0667c7ea10cad7c19b37ca1473bde7894b728",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "e92b3ad6e251fc5c2db009036ab8696e45396a38",
+      "diff_sha256": "7ae7bafbe26573da9ded6887c232090452cd2ee190967cd8ae227f14c6604fba",
+      "files": [
+        "figma-bridge/web_design.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design.cjs",
+        "tests/test_workspace_host.cjs"
+      ],
+      "parents": [
+        "55267d1eb771e6ee403dc30e5e191b0c3742d9cc"
+      ],
+      "subject": "feat: link local disclosure trigger hotspots in the Figma web design bridge",
+      "tree": "a65479e187529783d8a88767c3aabcee3f3be2d4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "066830a97f7f053e880cdf2a6418aadb3de781ab",
+      "diff_sha256": "c6604c9934a3dec1df990e9ab5ee70d9f8bbe515abe0c0585f6b753a2ac66460",
+      "files": [
+        "tests/test_web_design.cjs",
+        "tests/test_web_design.py"
+      ],
+      "parents": [
+        "e92b3ad6e251fc5c2db009036ab8696e45396a38"
+      ],
+      "subject": "test: reject disconnected disclosure cycles at public entrypoints",
+      "tree": "4e0bf31c0f64f603e2cea9a74c7317123fe4ddfa",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f",
+      "diff_sha256": "eb040802dfc51c30074a1b0af267ab466dfa8911bc7fe706834ab70616b248d2",
+      "files": [
+        "figma-bridge/web_design.js",
+        "library/figma-api/coverage-baseline.json",
+        "tools/web_design.py"
+      ],
+      "parents": [
+        "066830a97f7f053e880cdf2a6418aadb3de781ab"
+      ],
+      "subject": "fix: require disclosure states to be reachable from initialState",
+      "tree": "388cb21b14a9a4f79496c3aacedc1067b1b28fe7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "9cd119198eb7761fbb60fc23fa83b18b93ec0511",
+      "diff_sha256": "2161f54b732372c747df427d8c13c157058fbc915cad574342476fae1a894232",
+      "files": [
+        "docs/web-disclosure-input.md",
+        "figma-bridge/web_design.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "library/figma-api/coverage-baseline.json",
+        "tests/test_web_design.cjs",
+        "tests/test_web_design.py",
+        "tests/test_workspace_host.cjs",
+        "tools/native_edit.py",
+        "tools/web_design.py",
+        "tools/web_design_capture.js",
+        "tools/web_disclosure_capture.mjs"
+      ],
+      "parents": [
+        "3f412c18e80c28df04729bc4b914dcfef5df1242",
+        "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f"
+      ],
+      "subject": "Merge verified SaaS FAQ disclosure graph and editable prototype",
+      "tree": "8ab328d5a7654165a976542658f678afb136df99",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "8c4bd9bf80aa1f6975b79447ed60b3b48b311fb7",
+      "diff_sha256": "50ab87f948778ee77095a9014b90d12066160a4d3dc0c7ee7a5cb18ece7275b0",
+      "files": [
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md",
+        "docs/web-disclosure-input.md",
+        "specs/README.md",
+        "specs/interactive-web/disclosure.md",
+        "specs/interactive-web/graph.json"
+      ],
+      "parents": [
+        "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f"
+      ],
+      "subject": "docs: record 0.35 SaaS FAQ disclosure path, graph, and G1 release mapping",
+      "tree": "0d8542779294b0582e074a4919017ad77b4b8bd6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "1fae7a5c9b7a0d134c3f3b2f0563993ea56833db",
+      "diff_sha256": "f4f4a9d6b339a2997894a795bcf65fd77857484c9101bfb0f09a3b8865eddd2f",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "docs/guide.md",
+        "plugin.json"
+      ],
+      "parents": [
+        "8c4bd9bf80aa1f6975b79447ed60b3b48b311fb7"
+      ],
+      "subject": "release: update manifests and install guide to 0.35.0",
+      "tree": "a8d00eff24214533c32d9e2918787611a8d127e7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "c01f895fc1c7c894c1a03aeb625f2baa6497147f",
+      "diff_sha256": "c1ae92c3ba99eadb6928759d2ba0aad39af5bc9bdaa51a91326bd427469df0d9",
+      "files": [
+        "docs/guide.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md",
+        "specs/interactive-web/disclosure.md",
+        "specs/interactive-web/graph.json"
+      ],
+      "parents": [
+        "1fae7a5c9b7a0d134c3f3b2f0563993ea56833db"
+      ],
+      "subject": "docs: align FAQ selector, traversal, flow start, and independent gate evidence",
+      "tree": "6c36641dc77d319481492a707bdde35e108c5226",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "494f63f62cea516fb5c626e183a0584b0e00c834",
+      "diff_sha256": "a48f2c08fb32af4ffe145ff6116549c7f8449e5bed7730be0cb9a4dd522ff14f",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "docs/guide.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md",
+        "docs/web-disclosure-input.md",
+        "plugin.json",
+        "specs/README.md",
+        "specs/interactive-web/disclosure.md",
+        "specs/interactive-web/graph.json"
+      ],
+      "parents": [
+        "9cd119198eb7761fbb60fc23fa83b18b93ec0511",
+        "c01f895fc1c7c894c1a03aeb625f2baa6497147f"
+      ],
+      "subject": "Integrate the verified 0.35 FAQ guide and release manifests",
+      "tree": "a5c3765b6d232a9928dd01a96a8d40cfd93a7f81",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -10147,6 +10442,7 @@
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
     "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
+    "066830a97f7f053e880cdf2a6418aadb3de781ab": "550a1650979fd370795a40ad579f23195fee79154c67083518d72a9383a0fbb5",
     "068eb35374c2ec5f6f86efad6cefe7c316fa0740": "5cde070cb9aca85ddd63b513bccc198fdce5f444e227cc139986fa39bc380779",
     "06a40a1b83fac2f94b540d24e081ee87779e79ae": "aa00f0a77fa6212eaab136e81aa427bb4e25bd3148cfef6797ee7e2672943fe6",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
@@ -10182,6 +10478,7 @@
     "1f8d203dff972a1c98b8b2a49d5d0d20a838d80e": "ed19d91f647062309d2c4bccfcdf8d8674d8aeee8ffa91d5414c29fad2f152bb",
     "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f": "d595749585931a4fc1811bd87ef6551e1dde1c22be50c9848ba979fe8835f2b5",
     "1fa5f0dd4386bfd46bd919284b946d39493ae857": "440dcc62a8b1fc9eb88e94da172e2397fc0d6e9c1bf2d7c0dc08fe2f2f2c09f3",
+    "1fae7a5c9b7a0d134c3f3b2f0563993ea56833db": "7a12d9ebdf51aa714454e77b0bcaf3d7baf37352c80cac4e8d5c2afd6d12a60c",
     "2078ea9a94edd1f1c652953f30819c4fae50d20d": "0e461fabc4e32b323eea47e0134ec5139331d8fb35a73e44219b7f3767e5da1d",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
@@ -10220,6 +10517,7 @@
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3d72453c628224f3e4d3b1a4a291802e7e759278": "9b035e18525c7fe899c6d23a66e485f0674c81d0032cc4cba084e2d8b1b6bea9",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
+    "3f412c18e80c28df04729bc4b914dcfef5df1242": "b7a563c588dfeba233c7820e11a8afa3b9aa50c8d62db4c9c9258a229fb0fc00",
     "3f642cea8eaa461f35508b151b448233a0a4272a": "60f8c12cff7c84c233a87cb97fe16f5130644b0befe97e8c448d79adb43a0589",
     "3fc3002553ecd2f8a3c35f89e68789938f1b76e3": "1aad24ff0995c6ed7233321256324ea46399ac1621278dd75219aeb493f0e967",
     "42264f1a145b85b3da13c146cf14a79c83f546f2": "c0333657e8c3a1f94210fab8f1749d58506a707c7abdcba1a0f6f53dc0dcf222",
@@ -10227,11 +10525,13 @@
     "42752d575ebe17ca5b10a176a29d6525719685b0": "86abf1a25289370752187249e5f15d959da958f30c2dfd80b0aa43ace4e8d421",
     "428a358688a50116956006b734b5ad850c88bbf6": "fe6e2939926d72b3d1b95870813b4be17831db8599445ed3fdc3ff1e389a87a6",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
+    "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f": "6a04bf9a05de4f803e55d6b64b9335a059ec38355bacf463607f871de2b8aa00",
     "456cb515719974311b0051ac86e7e3d764aa18d4": "67b78cce4d3b87d16d9403b9ffb0b21a20bea3c9a1305a45d71b790155a12397",
     "45ea99992ade788ed7d25de89982652e863e44c7": "ff680017620f851353098263e029734d60eb1339b3e2c27a9f11ba91966027b3",
     "4621d47b6deb866d913e4430f44fb7f7635827a8": "30e9d78690465a33693207da17e39ce313af2bb36ae2e799c0e1880fe165e433",
     "47bd10f10263a0f7bd2db9bed0511f2532053532": "de6538b6ce1650e2ba88544d4694669b30d85fb9a34b2b6824e31e7df064e691",
     "493ee6f561112181f82e90a45b58fa35482c7219": "1fd28fc76114b59787c226c4b7dd58020843dde5aaa362ffd9c09ecbcdc7c512",
+    "494f63f62cea516fb5c626e183a0584b0e00c834": "16abce4e1a5d643c04ce1162c9a56583ca8ef8c12f54c0953118f9d64177652e",
     "4a6314c0584daf8ae1615ea73d8e3d79b60a73f6": "d760ff1beea172e5f9d98a2ee29c912124e17628e5f04b32b876aaa6f49a6533",
     "4aadf135a82d1bd4a0dde2fbdd525cfffcd93a6a": "2bfa8003fb557d7d884bba577c3bb1e99ebf97b817b3a251ae4d57ced8589d1a",
     "4c3b39218e5b214e0e21b762678a23dc55a3cd1f": "d51b1d7b1c8c10cc870b3792f6ea9db33aecba738ec9dc93ce03ebd2b6793b88",
@@ -10247,6 +10547,7 @@
     "4f75cb4af31947f6d4eda1f270279fa905a7c45c": "a6c8ed3f9a0e00ce494fbfe1db429a236da0fa7afa39d0e1c32cc8312dcf7cf9",
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
     "550da40d10c9520d8e96478455cc6f14982fc322": "7f6cd0ea80f869bc1eccb855009ab51cb290f4a22b605c3791dca5ecdf8d05e7",
+    "55267d1eb771e6ee403dc30e5e191b0c3742d9cc": "6a8661f86cf9dea9b9a8e0af296f8d44dcb8024f25cc7583faab7d667432eb50",
     "56034e24e922a9ff9b5e4b45e3a5cab00001a248": "c020e12f9dd804ea187979f8deeb80308d6b8b6a31b9c536381730f9d4befba9",
     "561d1c9f25516f4e6c44b6e75047e39a7e86afa3": "fc61bbc9fdc4445ee00d679a8852596f4a6b43e15e0affd728fa39b205aa65b1",
     "56839c3af04e0be13fa306bc2f743a4d0bbde87d": "f37f7e9497482db8d1804d6a1dd514c52db2c9347a10f8dddb6e1a23c8e6ebff",
@@ -10306,6 +10607,7 @@
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
     "8b984daa4733739c1c5ce72ab30232504d3fe4a4": "47a0e5bda40761d06ee023093dfe0fad878f1f38c1f0433fb9a9176b7c2c6cb5",
+    "8c4bd9bf80aa1f6975b79447ed60b3b48b311fb7": "3c4c58477ada0e1a3e548b52c4c37b8f35b8aae05a59addcf9606ec050fe566f",
     "8c9414594854f99a2d57d00088383f901e465409": "2595e60d3bd6abad47e96240f294e8fe8f12c052ca74d998071b734434d8a1a0",
     "8f2d51b5a65d01a5e161a6158e4766934fc28ad0": "1799f9fa82fd348367f7c9a1904c36a46fc500e7dda25db4f058869b0db500e0",
     "904175b5b8ed48f6c2a3bd5f8c23ed0066dfb3c2": "cdfb13022a7047be39eb743d13708beb50fac6e7bd7ea51d429fcb570fa56355",
@@ -10314,6 +10616,7 @@
     "91a6408d4ba0029144bc3f08c90ba7dbe59b85cc": "bc73e426f3da5e1ab584f5da3f5372b452b434a05d7ac7af051d76113cd55de0",
     "91e394ca399a987bccff4e785e1c49964e153fdd": "ce84d749c4b86d3b2aefedeaf054caccf97063b8455c9510b5e2d5a1cf604f99",
     "91eb4ce74dc14d3160669bf1e96e329fbae5356c": "dca7c34810ada2e732a3fe8daa3ada53aff22ba7ad768969aa8af29b58612593",
+    "91f7dd2d32b4d750795c7fd631cacd5cb64560fd": "03ff0ba22e19d6070a88f4699ef29c85c120314e212e889a517195bdc3345e7c",
     "925aa87a8b7b16d7f7a7b64671bc3699933b091b": "8ae80f9623c8bbd254de75e1a9b635f1dd3f599f15bb992a68a9002540160079",
     "939f1b997d8cff3bd6efca5c28a9c2a23cd41785": "b9c2ed153924c89dcb8e7bad839fc2716a3bb1db49787092c20c5a372c80cf1b",
     "93ec9aae6ed9e16508b8a9b600ec6a1bedc8e779": "3d85af6e38597e8797057bbb553caf9cb1c630fb673af2143a83b5cf6df77092",
@@ -10335,6 +10638,7 @@
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
     "9c9d5575eea6d883620407e591972c7e92cc244f": "b707929ad2d5c3aa87de7114e5e2b16f41fce5f17c11804acaf109b13f95f1b7",
     "9cc41a0c7ca53a233113fd45b86dc330907094fa": "0564b8353cdc3474fc21e05819915c2b89b9165e71a05c746cf4a3b5e9695353",
+    "9cd119198eb7761fbb60fc23fa83b18b93ec0511": "67c7ea8e16ecfb38d8e50bc7ca534b197167589600bef65d34a64bab90cbf0ba",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9eba48a5015dc991389e0c5aa3b95cd8597b5f2c": "c1b1da598cfb2b69ccfcd4896af4cf1759d9a07b5857f05b9a21296c1f5220db",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
@@ -10385,6 +10689,7 @@
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
     "bfb5e8f95af859098921f80da3811047a2a75f4d": "788a950797847695161906718296513042db2d17e9f1b4141bccb2f972dc4c02",
+    "c01f895fc1c7c894c1a03aeb625f2baa6497147f": "4b48d33bac3194fa5f94a0acf79c6721108b33ad470ac11cf24067300a914a53",
     "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
     "c1541b8129bdf3e175dd905cddfed39acd52bc2e": "8986a6e93a55e9a8ea388260e2d2dfb6cc4b0fbdfa40d33c503e5989edf50d14",
     "c43b4fc6c3958c233ca403769b4ef255bd6708e5": "39a8450f8747becfbdc6c6d80a44fe877ea51041f8f24b14f0d475fa1858169d",
@@ -10448,6 +10753,7 @@
     "e86cb81decb3b369f59d4e3799945f996d342eb9": "8499a65c22ddda33e11e16f65487cc0b74524a2c8f5cde7db46889c0399ffda3",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
+    "e92b3ad6e251fc5c2db009036ab8696e45396a38": "6aabcc73c48ea208cbbb35b77713f052a513cd338646b3ea94ed4f4bb963fe13",
     "ea1b24831175c123553276a804101e824a3267b0": "ea952d31d87be6bc477c4005440e0cb3085a38ae029685249793181f60eaba28",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
     "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb": "2dc3defe4fb53fae84e7d6d875b73e00d0e4f010e1ac236d011c11d4160d12e5",
@@ -10602,6 +10908,10 @@
     },
     {
       "observed_at_commit": "47bd10f10263a0f7bd2db9bed0511f2532053532",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "494f63f62cea516fb5c626e183a0584b0e00c834",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -11185,7 +11495,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "bfb5e8f95af859098921f80da3811047a2a75f4d",
+  "source_commit": "494f63f62cea516fb5c626e183a0584b0e00c834",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

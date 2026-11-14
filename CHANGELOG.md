@@ -1,6 +1,9 @@
 # 변경 기록
 
-## 미배포
+## 0.35.0 · 2026-11-14
+
+- 한 번에 답변 하나만 여는 SaaS FAQ를 Chromium에서 측정해 편집 가능한 Figma Design 프로토타입으로 가져옵니다. 관측한 질문에만 클릭을 연결하며, 시작 상태에서 갈 수 없는 전이는 CLI와 플러그인 양쪽에서 거절합니다. 실제 SaaS 질문 두 개의 열기·닫기·상호 전환을 Figma 프레젠테이션에서 확인했습니다.
+- [FAQ 사용 절차](docs/guide.md#web-disclosure-quickstart) · [인수 범위와 한계](specs/interactive-web/disclosure.md) · [포크용 상세 패치 기록](docs/llm-wiki/releases.md#v0.35.0) · [배포본과 체크섬](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.35.0).
 
 - 작은손 디자인을 재생성할 때 생성 원본에서 빠진 노드·관계의 분류와 검토 메모를 보존합니다. CSS 버전 불일치로 생성을 중단한 뒤 다시 실행해도 같은 삭제 후보와 연결 근거를 확인할 수 있습니다. [G1 패치 기록](docs/llm-wiki/releases.md#g1-source-regeneration).
 
