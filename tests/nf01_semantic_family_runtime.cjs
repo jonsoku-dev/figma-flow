@@ -1,6 +1,5 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
@@ -997,37 +996,71 @@ test('preflight rejects disallowed families, undeclared variants, out-of-range s
   }
 });
 
-test('integrates with compile_graph_component_families and owned-component-families fixture when present in repo', async t => {
+test('compiles real examples/owned-component-families/design.json and preserves live overrides/placement on static repeat apply', async () => {
   const rootDir = path.resolve(__dirname, '..');
-  const fixturePath = path.join(rootDir, 'examples/owned-component-families/design.json');
-  if (!fs.existsSync(fixturePath)) {
-    t.skip('examples/owned-component-families/design.json not merged in this branch yet');
-    return;
-  }
-  const hasCompiler = execFileSync(
-    'python3',
-    ['-B', '-c', 'import sys; sys.path.insert(0, "tools"); import design_system; print("1" if hasattr(design_system, "compile_graph_component_families") else "0")'],
-    { cwd: rootDir, encoding: 'utf8' }
-  ).trim() === '1';
-  if (!hasCompiler) {
-    t.skip('compile_graph_component_families not merged in this branch yet');
-    return;
-  }
-  const compiledContract = JSON.parse(
+  const compiledContracts = JSON.parse(
     execFileSync(
       'python3',
       [
         '-B',
         '-c',
-        'import json, pathlib, sys; sys.path.insert(0, "tools"); from design_system import compile_graph_component_families; print(json.dumps(compile_graph_component_families(json.loads(pathlib.Path("examples/owned-component-families/design.json").read_text()))))'
+        [
+          'import json, pathlib, sys',
+          'sys.path.insert(0, "tools")',
+          'from design_system import compile_graph_component_families',
+          'design = json.loads(pathlib.Path("examples/owned-component-families/design.json").read_text())',
+          'graph = {"nodes": [], "edges": [], "componentFamilies": design["componentFamilies"]}',
+          'print(json.dumps([compile_graph_component_families(design), compile_graph_component_families(graph, owner_key="nf01.graph-families")]))'
+        ].join('; ')
       ],
       { cwd: rootDir, encoding: 'utf8' }
     )
   );
-  const { figma, page } = createMockFigmaWorld();
-  const res1 = await ensureSemanticComponents(figma, page, compiledContract);
+  const [designContract, graphContract] = compiledContracts;
+  const { figma, page, existingHero, snapshotTree } = createMockFigmaWorld();
+  const heroBefore = snapshotTree(existingHero);
+
+  const res1 = await ensureSemanticComponents(figma, page, designContract);
   assert.equal(res1.status, 'created');
   assert.equal(res1.componentSets.length, 6);
-  const res2 = await ensureSemanticComponents(figma, page, compiledContract);
+  assert.equal(res1.instances.length, 8);
+
+  // Simulate user editing participant field on the compiled real design contract
+  const fieldSet = res1.componentSets.find(s => s.family === 'field');
+  const fieldKeyById = Object.fromEntries(fieldSet.propertyMappings.map(p => [p.id, p.actualKey]));
+  const checkboxCheckedId = res1.componentSets
+    .find(s => s.family === 'checkbox')
+    .variants.find(v => v.key.endsWith('/checked')).id;
+  const participantInst = res1.instances.find(i => i.elementId === 'form-participant-field');
+  const participantNode = page.findOne(n => n.id === participantInst.id);
+  participantNode.setProperties({
+    [fieldKeyById.label]: 'Overridden participant label',
+    [fieldKeyById.showHelp]: false,
+    [fieldKeyById.control]: checkboxCheckedId
+  });
+  participantNode.x = 256;
+  participantNode.y = 384;
+  participantNode.relativeTransform = [[1, 0, 256], [0, 1, 384]];
+
+  // Repeat static apply: IDs, overrides, placement, and page siblings preserved
+  const res2 = await ensureSemanticComponents(figma, page, designContract);
   assert.equal(res2.status, 'unchanged');
+  assert.equal(res2.workbenchFrameId, res1.workbenchFrameId);
+  assert.deepEqual(res2.instances.map(i => i.id), res1.instances.map(i => i.id));
+  assert.equal(res2.preservedOverrides.length, 3);
+  assert.equal(res2.preservedPlacements.length, 1);
+
+  const readback = await readSemanticComponentFamilies(figma, page, designContract);
+  assert.equal(readback.status, 'present');
+  const participantAfter = readback.instances.find(i => i.elementId === 'form-participant-field');
+  assert.equal(participantAfter.resolvedProperties.label.characters, 'Overridden participant label');
+  assert.equal(participantAfter.resolvedProperties.showHelp.visible, false);
+  assert.equal(participantAfter.resolvedProperties.control.mainComponentId, checkboxCheckedId);
+  assert.deepEqual(participantAfter.placement, { x: 256, y: 384, relativeTransform: [[1, 0, 256], [0, 1, 384]] });
+
+  // Also provision canonical graph-sourced contract as an independent owned workbench on the same page
+  const graphRes = await ensureSemanticComponents(figma, page, graphContract);
+  assert.equal(graphRes.status, 'created');
+  assert.equal(graphRes.componentSets.length, 6);
+  assert.deepEqual(snapshotTree(existingHero), heroBefore);
 });
