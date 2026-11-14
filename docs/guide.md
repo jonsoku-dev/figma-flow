@@ -100,7 +100,7 @@ python3 -B "$PLUGIN_ROOT/tools/native_edit.py" web-design \
 
 ```sh
 node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
-  --url "http://127.0.0.1:8874/" --accordion '#faq' \
+  --url "http://127.0.0.1:8874/" --accordion '[data-slot="accordion"]' \
   --click 'What is PlanHub?' --click 'What is PlanHub?' \
   --click 'What is PlanHub?' --click 'How do I create my first workspace?' \
   --click 'How do I create my first workspace?' --click 'How do I create my first workspace?' \
@@ -941,7 +941,7 @@ The same workflow imports single-collapsible FAQ/accordion items. This example o
 
 ```sh
 node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
-  --url "http://127.0.0.1:8874/" --accordion '#faq' \
+  --url "http://127.0.0.1:8874/" --accordion '[data-slot="accordion"]' \
   --click 'What is PlanHub?' --click 'What is PlanHub?' \
   --click 'What is PlanHub?' --click 'How do I create my first workspace?' \
   --click 'How do I create my first workspace?' --click 'How do I create my first workspace?' \
@@ -1143,7 +1143,7 @@ node "$PLUGIN_ROOT/tools/web_tabs_capture.mjs" \
 
 ```sh
 node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
-  --url "http://127.0.0.1:8874/" --accordion '#faq' \
+  --url "http://127.0.0.1:8874/" --accordion '[data-slot="accordion"]' \
   --click 'What is PlanHub?' --click 'What is PlanHub?' \
   --click 'What is PlanHub?' --click 'How do I create my first workspace?' \
   --click 'How do I create my first workspace?' --click 'How do I create my first workspace?' \

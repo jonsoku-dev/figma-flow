@@ -4,7 +4,7 @@
 
 실제 Devtool 홈에서 두 번째 탭 카드를 클릭하면 표시 코드가 두 번째 패널 본문으로, 첫 번째 탭 카드를 다시 클릭하면 초기 패널 본문으로 바뀌었다. 0.34.0에서 이 A→B→A를 Figma 프레임과 클릭 hotspot으로 만들고, Chrome과 Figma 프레젠테이션에서 같은 클릭으로 대조했다.
 
-0.35.0 후보에서는 실제 SaaS FAQ의 5개 질문 중 2개 질문에 7번 브라우저 입력을 수행해 `All closed`와 두 열림 상태(3개 상태) 및 6방향 전이를 기록했다. 이전 후보(`e92b3ad`)에서 Figma Desktop 적용·재적용·readback과 프레젠테이션 여섯 방향 도달을 확인했고, 후속 수정(`066830a`·`43a8b1b`)에서 `initialState` directed traversal 도달성 검사와 분리 순환 거부를 반영했다. 수정 후보의 최종 게이트와 설치 검증은 별도로 수행한다.
+0.35.0 후보에서는 실제 SaaS FAQ의 5개 질문 중 2개 질문에 7번 브라우저 입력을 수행해 `All closed`와 두 열림 상태(3개 상태) 및 6방향 전이를 기록했다. 이전 후보(`e92b3ad`)에서 Figma Desktop 적용·재적용·readback과 프레젠테이션 여섯 방향 도달을 확인했고, 후속 수정(`066830a`·`43a8b1b`)에서 `initialState` directed traversal 도달성 검사와 분리 순환 거부를 반영했다. 독립 게이트(`066830a` red → `43a8b1b` green)와 재캡처 10/10 PNG·`graph`/`plan` 바이트 일치를 완료했으며 설치 및 발행은 아직 대기 중이다.
 
 [관찰 상태·이벤트·미검증 인수를 연결한 정본 그래프](../../specs/interactive-web/graph.json)
 

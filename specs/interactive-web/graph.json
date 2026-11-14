@@ -237,7 +237,7 @@
       "type": "figma",
       "status": "observed",
       "source": "disclosure.md",
-      "title": "Editable state frames, FAQ flow start, and six ON_CLICK trigger hotspots (frame IDs reused on reapply)"
+      "title": "Editable state frames, initialState flow start (checked by frame ID since readback flow_start.name may auto-number such as Flow 8), and six ON_CLICK trigger hotspots (frame IDs reused on reapply)"
     },
     {
       "id": "CODE-DISCLOSURE-CAPTURE",
@@ -251,14 +251,14 @@
       "type": "code",
       "status": "verified",
       "source": "../../tools/web_design.py",
-      "title": "Disclosure schema and directed BFS reachability validation from initialState"
+      "title": "Disclosure schema and directed traversal reachability validation from initialState"
     },
     {
       "id": "CODE-DISCLOSURE-BRIDGE",
       "type": "code",
       "status": "verified",
       "source": "../../figma-bridge/web_design.js",
-      "title": "Native state frames, Open/Close/Switch hotspots, directed reachability check, and readback"
+      "title": "Native state frames, Open/Close/Switch hotspots, directed traversal reachability check, and readback"
     },
     {
       "id": "AC-DISCLOSURE",
@@ -279,7 +279,7 @@
       "type": "test",
       "status": "observed",
       "source": "disclosure.md",
-      "title": "7 browser inputs on 2 of 5 FAQ questions; Figma Desktop apply/reapply/readback and 6-direction Presentation playback on prior candidate e92b3ad (final gate pending)"
+      "title": "7 browser inputs on 2 of 5 FAQ questions (re-capture 10/10 PNG and graph/plan bytes identical); Figma Desktop apply/reapply/readback and 6-direction Presentation playback on e92b3ad; independent gate 066830a red -> 43a8b1b green completed; install and publish pending"
     },
     {
       "id": "ROLE-FAQ-DESIGNER",
@@ -307,7 +307,7 @@
       "type": "reference",
       "status": "observed",
       "source": "disclosure.md",
-      "title": "Prior candidate e92b3ad accepted a disconnected cycle and missed the first Presentation click at CSS coordinates before display-pixel retry; fix 066830a/43a8b1b awaits separate final gate"
+      "title": "Prior candidate e92b3ad accepted a disconnected cycle (resolved by independent gate 066830a red -> 43a8b1b green) and missed the first Presentation click at [545, 277] before retrying at the correct coordinates [1090, 553]; install and publish remain pending"
     },
     {
       "id": "LIMIT-DISCLOSURE-SCOPE",
