@@ -291,6 +291,70 @@ class RegenerationTest(unittest.TestCase):
             orphan_ids = {item['id'] for item in status['orphan_candidates'] if item['kind'] == 'node'}
             self.assertEqual(orphan_ids, {'REQ-009', 'AC-009', 'TEST-009'})
 
+    def test_blocked_epoch_and_retry_preserve_orphan_candidates_and_evidence(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root, design = self._copy_design_workspace(temporary)
+            prefix = "import source; source.STATIC_ROOT = source.ROOT/'source_assets'; "
+            omit = (
+                "source.REQS = [row for row in source.REQS if row[0] != 'REQ-006']; "
+                "source.STATES = [(n, t, tpl, [r for r in reqs if r != 'REQ-006'], rt) "
+                "for n, t, tpl, reqs, rt in source.STATES]; "
+            )
+            subprocess.run([sys.executable, '-B', '-c', prefix + 'source.build()'],
+                           cwd=design, check=True, capture_output=True, text=True)
+
+            graph_path = design / 'graph.json'
+            status_path = design / 'source-status.json'
+            cached_path = design / '.figma-flow/last-source-proposal.json'
+            graph = json.loads(graph_path.read_bytes())
+            next(row for row in graph['nodes'] if row['id'] == 'REQ-006')['review_note'] = (
+                'independent audit: approved cancellation evidence'
+            )
+            graph_path.write_text(json.dumps(graph, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+            subprocess.run([sys.executable, '-B', '-c', prefix + omit + 'source.build()'],
+                           cwd=design, check=True, capture_output=True, text=True)
+            status_before = json.loads(status_path.read_bytes())
+            self.assertEqual(len(status_before['orphan_candidates']), 13)
+            graph_sha_before = hashlib.sha256(graph_path.read_bytes()).hexdigest()
+            cached_sha_before = hashlib.sha256(cached_path.read_bytes()).hexdigest()
+
+            bad_static = root / 'conflicting-epoch'
+            bad_static.mkdir()
+            (bad_static / 'staticfiles.json').write_text(
+                json.dumps({'paths': {'littlehands/app.css': 'littlehands/app.different.css'}}),
+                encoding='utf-8',
+            )
+            blocked = subprocess.run(
+                [sys.executable, '-B', '-c',
+                 prefix + omit + f"from pathlib import Path; source.STATIC_ROOT = Path({str(bad_static)!r}); source.build()"],
+                cwd=design, capture_output=True, text=True,
+            )
+            self.assertNotEqual(blocked.returncode, 0)
+            self.assertIn('Final source requires fresh', blocked.stderr)
+            status_blocked = json.loads(status_path.read_bytes())
+            self.assertEqual(status_blocked.get('status'), 'blocked-final-source-epoch')
+            self.assertEqual(hashlib.sha256(graph_path.read_bytes()).hexdigest(), graph_sha_before)
+            self.assertEqual(hashlib.sha256(cached_path.read_bytes()).hexdigest(), cached_sha_before)
+            self.assertEqual(status_blocked.get('orphan_candidates'), status_before['orphan_candidates'])
+
+            retry = subprocess.run([sys.executable, '-B', '-c', prefix + omit + 'source.build()'],
+                                   cwd=design, check=True, capture_output=True, text=True)
+            status_retry = json.loads(status_path.read_bytes())
+            summary_retry = json.loads(retry.stdout)
+            self.assertEqual(status_retry['orphan_candidates'], status_before['orphan_candidates'])
+            self.assertEqual(summary_retry['orphan_candidates'], status_before['orphan_candidates'])
+            self.assertFalse(any(
+                token in item
+                for item in summary_retry['authored_without_source']
+                for token in ('REQ-006', 'AC-006', 'TEST-006')
+            ))
+            retried_graph = json.loads(graph_path.read_bytes())
+            self.assertEqual(
+                next(row for row in retried_graph['nodes'] if row['id'] == 'REQ-006').get('review_note'),
+                'independent audit: approved cancellation evidence',
+            )
+
 
 if __name__ == '__main__':
     unittest.main()
