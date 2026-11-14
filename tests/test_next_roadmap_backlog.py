@@ -21,6 +21,19 @@ EXPECTED_P0_PROOF_REFS = {
     '../../examples/owned-design-baseline/manifest.json',
     '../../tests/test_owned_design_baseline.py',
 }
+EXPECTED_P1_NF03_PROOF_REFS = {
+    'p1-acceptance.md',
+    '../../tools/figma_control.py',
+    '../../tools/operation_detail.py',
+    '../../tests/test_operation_detail.py',
+    '../../figma-bridge/workspace_control.js',
+    '../../figma-bridge/workspace_host.js',
+    '../../figma-bridge/workspace_transport.js',
+    '../../tests/nf03_history_detail.cjs',
+    '../../panel-ui/src/operationDetail.mjs',
+    '../../panel-ui/src/Workspace.jsx',
+    '../../tests/test_nf03_panel_ui.cjs',
+}
 
 
 def _markdown_anchors(text):
@@ -151,6 +164,8 @@ class NextRoadmapBacklogTest(unittest.TestCase):
 
         by_id = {node['id']: node for node in graph['nodes']}
         self.assertTrue(EXPECTED_P0_PROOF_REFS.issubset(set(by_id['p0-reference-safety']['proof_refs'])))
+        self.assertTrue(EXPECTED_P1_NF03_PROOF_REFS.issubset(set(by_id['p1-causal-review-history']['proof_refs'])))
+        self.assertEqual(by_id['p1-causal-review-history']['status'], 'verified')
         ready = next_ready_tasks(graph)
         self.assertTrue(ready or all(n['status'] in SATISFIED_STATUSES for n in graph['nodes'] if n['type'] == 'task'))
         for task_id in ready:
@@ -255,7 +270,7 @@ class NextRoadmapBacklogTest(unittest.TestCase):
             '4237a49c',
         )
         anchor_cache = {}
-        for filename in ('README.md', 'capability-review.md', 'p0-reference-acceptance.md', 'backlog.graph.json'):
+        for filename in ('README.md', 'capability-review.md', 'p0-reference-acceptance.md', 'p1-acceptance.md', 'backlog.graph.json'):
             path = ROADMAP_DIR / filename
             text = path.read_text(encoding='utf-8')
             for marker in forbidden_substrings:

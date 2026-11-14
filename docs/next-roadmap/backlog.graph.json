@@ -206,9 +206,9 @@
     {
       "id": "p1-causal-review-history",
       "type": "task",
-      "status": "proposed",
+      "status": "verified",
       "priority": "P1",
-      "evidence_status": "unstarted",
+      "evidence_status": "verified-with-public-receipt-and-live-panel-acceptance",
       "title": "Show causal review history for exact revisions",
       "doc_ref": "capability-review.md#p1-causal-history",
       "roles": ["planner", "engineer", "designer"],
@@ -223,17 +223,75 @@
         "../../specs/workspace-activity/graph.json",
         "../../specs/readable-specifications/spec.md"
       ],
+      "proof_refs": [
+        "p1-acceptance.md",
+        "../../tools/figma_control.py",
+        "../../tools/operation_detail.py",
+        "../../tests/test_operation_detail.py",
+        "../../figma-bridge/workspace_control.js",
+        "../../figma-bridge/workspace_host.js",
+        "../../figma-bridge/workspace_transport.js",
+        "../../tests/nf03_history_detail.cjs",
+        "../../panel-ui/src/operationDetail.mjs",
+        "../../panel-ui/src/Workspace.jsx",
+        "../../tests/test_nf03_panel_ui.cjs"
+      ],
       "commands": [
         "python3 -B -m unittest discover -s tests -p 'test_rd08_journal_history.py'",
         "python3 -B -m unittest discover -s tests -p 'test_rd08_conflict_detail.py'",
         "python3 -B -m unittest discover -s tests -p 'test_rd03_task_dependencies.py'",
-        "node --test tests/test_workspace_host.cjs tests/test_workspace_activity.cjs",
+        "python3 -B -m unittest discover -s tests -p 'test_operation_detail.py'",
+        "node --test tests/test_workspace_host.cjs tests/test_workspace_activity.cjs tests/nf03_history_detail.cjs tests/test_nf03_panel_ui.cjs",
         "npm --prefix panel-ui run build"
       ],
-      "proposed_checks": [
-        "python3 -B -m unittest discover -s tests -p 'test_operation_detail.py'",
-        "node --test tests/nf03_history_detail.cjs"
-      ],
+      "observed_evidence": {
+        "product_source_pins": {
+          "backend_projection": "3e7b44c",
+          "operation_detail_tests": "e7b1efb",
+          "bridge_relay": "ce1bc7d",
+          "panel_ui": "016a777",
+          "spec_alignment": "4e2539e"
+        },
+        "live_figma_and_panel_acceptance": {
+          "official_mcp_used": false,
+          "runtime_loaded_commit": "cfc7fbd",
+          "final_frozen_main_rerun_pending": true,
+          "initial_vanilla_frame_rejection": "rejected without canvas mutation before MAIN conversion and fresh ID read",
+          "task_key": "p1-nf03-radius-component",
+          "exact_apply_pins": [
+            {
+              "step": "apply-1",
+              "operation_id": "e5815c0cd1ec6b2269d4136ebdecb9e0",
+              "revision": "5f045fd98322d5c4b6995869bfd753e2911c10e1084db465216e2a7f0c1030b7"
+            },
+            {
+              "step": "apply-2",
+              "operation_id": "2a0985ec89ee69e76dff56329bd9b8da",
+              "revision": "5d47eb63edaef932929f8a618610288a5e5b4fea4c52ec8631db235048cf49b1"
+            }
+          ],
+          "observed_diff": {
+            "key": "target:node#1",
+            "field": "borderRadius",
+            "kind": "changed",
+            "before": 8,
+            "after": 16
+          },
+          "predecessor_navigation_and_backstack": "explicit same-page predecessor discover artifact followed and returned to radius detail via backstack",
+          "scope_change_invalidation": "invalidated after async 1-poll on page switch with stale reselect notice",
+          "keyboard_accessibility": "Enter opens detail view and Back restores focus to the invoking row",
+          "read_only_canonical_writes": 0,
+          "canonical_files_checked": 1226,
+          "contracted_negative_http_401_404_409": "all_passed",
+          "raw_text_and_private_ids_redacted": true
+        },
+        "automated_checks": {
+          "test_operation_detail_passed": 6,
+          "rd08_and_rd03_python_passed": 3,
+          "nf03_history_detail_and_workspace_activity_cjs_passed": 9,
+          "esbuild_dependent_panel_checks_note": "tests/test_nf03_panel_ui.cjs, tests/test_workspace_host.cjs, and npm --prefix panel-ui run build require panel-ui/node_modules/esbuild (verified in CI)"
+        }
+      },
       "acceptance": [
         "Only the selected operation and exact scope are read",
         "Missing before evidence remains unavailable",

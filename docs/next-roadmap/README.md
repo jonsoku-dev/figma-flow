@@ -22,6 +22,10 @@
   - 배포 가드·CI·회귀 검사: [tools/reference_distribution_guard.py](../../tools/reference_distribution_guard.py) · [tests/test_reference_distribution_guard.py](../../tests/test_reference_distribution_guard.py) · [.github/workflows/reference-guard.yml](../../.github/workflows/reference-guard.yml)
   - 자체 공개 기준 입력 및 테스트: [examples/owned-design-baseline/README.md](../../examples/owned-design-baseline/README.md) · [tests/test_owned_design_baseline.py](../../tests/test_owned_design_baseline.py)
   - 배포·기여 안내: [CONTRIBUTING.md](../../CONTRIBUTING.md) · [docs/guide.md#private-distribution](../guide.md#private-distribution)
+- **P1 인수 근거 및 검증 위치 (`p1-causal-review-history` verified, `p1-native-component-families` pending):**
+  - 공개 인수 영수증: [p1-acceptance.md](p1-acceptance.md)
+  - `p1-causal-review-history` (`NF-03`) 구현·검증 위치: [tools/operation_detail.py](../../tools/operation_detail.py) · [tools/figma_control.py](../../tools/figma_control.py) · [tests/test_operation_detail.py](../../tests/test_operation_detail.py) · [figma-bridge/workspace_host.js](../../figma-bridge/workspace_host.js) · [tests/nf03_history_detail.cjs](../../tests/nf03_history_detail.cjs) · [panel-ui/src/operationDetail.mjs](../../panel-ui/src/operationDetail.mjs) · [tests/test_nf03_panel_ui.cjs](../../tests/test_nf03_panel_ui.cjs)
+  - `p1-native-component-families` (`NF-01`)는 실기 Figma 편집·readback 인수 대기 중(`proposed`).
 
 > 모든 작업의 현재 상태(`status`·`evidence_status`)와 근거 승격은 [backlog.graph.json](backlog.graph.json)에서 직접 판정하며, `tests/test_next_roadmap_backlog.py`가 그래프 불변식(`verified`/`accepted` 시 공개 근거 실존 및 `depends-on` 선행 충족, `proposed` 시 미검증 유지, `depends-on` 비순환)을 검증한다.
 

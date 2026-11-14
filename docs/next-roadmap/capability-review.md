@@ -102,19 +102,16 @@ node --test tests/test_semantic_component_reuse.cjs tests/test_graph_token_sync.
 
 **선행 조건:** `p0-reference-safety`의 자료 소유권과 exact revision 기준 (및 `accepted-narrow-cta-baseline` 확장). 기존 canonical journal과 operation ID를 재사용한다.
 
-**작업 범위와 명령:** 새 read-only endpoint와 상세 영역만 만든다. 저장 journal schema, telemetry, 재실행·복구 동작은 바꾸지 않는다. 아래 기존 회귀 검사와 패키지 build를 실행하고, 미구현 새 검사 제안은 별도 구현과 함께 추가한다.
+**작업 범위와 명령:** 새 read-only endpoint와 상세 영역만 만든다. 저장 journal schema, telemetry, 재실행·복구 동작은 바꾸지 않는다. 아래 저장소 회귀 검사·신규 NF-03 검사 및 패키지 build로 검증한다([P1 공개 인수 영수증](p1-acceptance.md)).
 
 ```sh
-# 기존 저장소 회귀 검사 및 빌드:
+# 저장소 회귀 검사, NF-03 검사 및 빌드:
 python3 -B -m unittest discover -s tests -p 'test_rd08_journal_history.py'
 python3 -B -m unittest discover -s tests -p 'test_rd08_conflict_detail.py'
 python3 -B -m unittest discover -s tests -p 'test_rd03_task_dependencies.py'
-node --test tests/test_workspace_host.cjs tests/test_workspace_activity.cjs
+python3 -B -m unittest discover -s tests -p 'test_operation_detail.py'
+node --test tests/test_workspace_host.cjs tests/test_workspace_activity.cjs tests/nf03_history_detail.cjs tests/test_nf03_panel_ui.cjs
 npm --prefix panel-ui run build
-
-# 미구현 새 검사 제안 (NF-03):
-# python3 -B -m unittest discover -s tests -p 'test_operation_detail.py'
-# node --test tests/nf03_history_detail.cjs
 ```
 
 **통과 기준:** 같은 범위·operation만 읽고, 다른 file/page/runtime이나 바뀐 scope에서는 이전 상세를 지운다. before artifact가 없는 diff는 `unavailable`로 표시하고 내용을 만들어내지 않는다. UI는 키보드로 탐색할 수 있고 색에만 의존하지 않는다. 실행·복구 버튼을 추가하지 않는다.
