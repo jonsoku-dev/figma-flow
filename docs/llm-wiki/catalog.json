@@ -1,5 +1,7 @@
 {
   "changelog_versions": [
+    "0.34.0",
+    "0.33.0",
     "0.32.2",
     "0.32.1",
     "0.32.0",
@@ -9683,6 +9685,240 @@
           "version": "0.33.0"
         }
       ]
+    },
+    {
+      "commit": "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb",
+      "diff_sha256": "8324c4268aa7756957549c7699566a75593071add9856c1d76ee4487d92f176e",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0fc65bae7c72d818abfb8ec27d6cd309f67e43f2.md",
+        "docs/llm-wiki/patches/104652403ef26368729086588387e9fae7dfe4ac.md",
+        "docs/llm-wiki/patches/2078ea9a94edd1f1c652953f30819c4fae50d20d.md",
+        "docs/llm-wiki/patches/2f58c8c1722a67e15a08180dc97e424a6e2a91a4.md",
+        "docs/llm-wiki/patches/428a358688a50116956006b734b5ad850c88bbf6.md",
+        "docs/llm-wiki/patches/561d1c9f25516f4e6c44b6e75047e39a7e86afa3.md",
+        "docs/llm-wiki/patches/59dba566f4982923076ef0ed22cc0da5f60f42c5.md",
+        "docs/llm-wiki/patches/5e89c53918a01646bd693fcd96cef5502d0e8718.md",
+        "docs/llm-wiki/patches/61647d636f23142c76d453f24512566043c40517.md",
+        "docs/llm-wiki/patches/7aef05e416b625ccab46122d8d0720e45e9471a5.md",
+        "docs/llm-wiki/patches/91e394ca399a987bccff4e785e1c49964e153fdd.md",
+        "docs/llm-wiki/patches/a13e89c27c16108e4fb75a446154636124312c4d.md",
+        "docs/llm-wiki/patches/a46a608d94731afdf0af5f1214d6e7b00dd495af.md",
+        "docs/llm-wiki/patches/bcf2dd6434c0650b91f7e5d78e47b04ba6d0e1b3.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "7aef05e416b625ccab46122d8d0720e45e9471a5"
+      ],
+      "subject": "docs: publish 0.33.0 carousel release notes and fork evidence",
+      "tree": "b0449a3d5a822c915e8a56f2c47f98371e66d000",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "e1e228cc1139f48120d32f04dc01362a98e15854",
+      "diff_sha256": "5017db2061a13628ff95283f0da966ff62f51909697184c7df1384ed5f13291c",
+      "files": [
+        "tests/test_web_design.py",
+        "tools/native_edit.py",
+        "tools/web_design.py"
+      ],
+      "parents": [
+        "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb"
+      ],
+      "subject": "feat: compile observed tab clicks into a pinned Design graph",
+      "tree": "0011a0d13c700da2858fec9160ac7be2fe1e08c1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "ea1b24831175c123553276a804101e824a3267b0",
+      "diff_sha256": "d8e270ce85b6bb3b79e8e19c60ef8abd65c709b18208c65706abc60c7039fa58",
+      "files": [
+        "tools/chromium_pipe.mjs",
+        "tools/web_carousel_capture.mjs",
+        "tools/web_tabs_capture.mjs"
+      ],
+      "parents": [
+        "e1e228cc1139f48120d32f04dc01362a98e15854"
+      ],
+      "subject": "feat: capture clicked tab panels through a local Chromium pipe",
+      "tree": "38fda0d3b592ff9975bde2ac0e2f2c5dcec55599",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "3c99d8ae62d6943ac5fc266e16e72c5f037ff4a6",
+      "diff_sha256": "a6323bf9448cbd558e0ca89c5501089c49f13c5dcda3ce3afc13af8e992e9c35",
+      "files": [
+        "figma-bridge/web_design.js",
+        "tests/test_web_design.cjs",
+        "tests/test_web_design.py",
+        "tools/web_design.py"
+      ],
+      "parents": [
+        "ea1b24831175c123553276a804101e824a3267b0"
+      ],
+      "subject": "feat: realize observed tab clicks as instant Figma click hotspots",
+      "tree": "1fee31bbc70ccaa5d5c6ad6e2cdf1c1b0d794bfc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "42264f1a145b85b3da13c146cf14a79c83f546f2",
+      "diff_sha256": "c7755edc4bef9f41a90d739763a304965046e2805df312159163b641b3427f14",
+      "files": [
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "tests/test_workspace_host.cjs"
+      ],
+      "parents": [
+        "3c99d8ae62d6943ac5fc266e16e72c5f037ff4a6"
+      ],
+      "subject": "fix: summarize tab readback and click controls in the plugin home",
+      "tree": "c04d92e604ea8eaf5d3b849007c3906437a5cccb",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "e218e68b9870dde760cb2d5ae27e05b817ee58d9",
+      "diff_sha256": "67a3f33b5401d419cf5a612bd5948c7d4762526d6ebcbbc8371a4c9fcf8f78c1",
+      "files": [
+        "docs/guide.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md",
+        "docs/web-tabs-input.md",
+        "specs/README.md",
+        "specs/interactive-web/graph.json",
+        "specs/interactive-web/tabs.md"
+      ],
+      "parents": [
+        "42264f1a145b85b3da13c146cf14a79c83f546f2"
+      ],
+      "subject": "docs: record the Devtool tab A→B→A replay in Chrome and Figma Present",
+      "tree": "4bab2bca297117464ed050769eb50bfcc9c71de4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "61937dc11c4540bc3c5e88412f449389470647d8",
+      "diff_sha256": "f3853d32cfefddc095f5ea6dbc060e4b1ebcf1bb0b7a50b843f31418aa6fac21",
+      "files": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "parents": [
+        "e218e68b9870dde760cb2d5ae27e05b817ee58d9"
+      ],
+      "subject": "chore: refresh static API source hashes for the tab interaction",
+      "tree": "d2f18c03fcf962417447cfed4ae318c45940a8c2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.33.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.33.0"
+        }
+      ]
+    },
+    {
+      "commit": "f27863defeab1367eb4e74a9ecf5c2fa553e5b1a",
+      "diff_sha256": "c06d54e37af10fc6182266c3b596dca177446646452b32112d7e539b970a6fc1",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "docs/guide.md",
+        "plugin.json"
+      ],
+      "parents": [
+        "61937dc11c4540bc3c5e88412f449389470647d8"
+      ],
+      "subject": "release: version the observed tab prototype workflow as 0.34.0",
+      "tree": "88fbf69134622c0a6ff574f74eba212f11811bb9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "b08a778410917942eae007572834688bfd60d1cc",
+      "diff_sha256": "c5bb7c5e90ea2bb2830eb6c0469057ff5fd268b5634634ac004de8b36defce24",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "f27863defeab1367eb4e74a9ecf5c2fa553e5b1a"
+      ],
+      "subject": "docs: describe the 0.34.0 tab replay in the changelog and release table",
+      "tree": "1bc4d82a7cf5f3c91a2ac7c53ba73c7f3862a2c0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -9760,12 +9996,14 @@
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
     "3a3d68e64d178d1ca37c3ff275d97d41bc92274d": "85b28753c1528f28803ccb3ebed0af441de6860221393fc4958c50d7e3fbc7ad",
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
+    "3c99d8ae62d6943ac5fc266e16e72c5f037ff4a6": "dadbfcef47b6e4d890a5b87c40ca2fb030d14d193a3316671548a588ba227546",
     "3cfe367783a7715917562c11d1a0c27d1701cd4f": "fa9715dc04b18c8beace9aaa605c62d530ddc6ee287495f045d9e5f25a09c30b",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3d72453c628224f3e4d3b1a4a291802e7e759278": "9b035e18525c7fe899c6d23a66e485f0674c81d0032cc4cba084e2d8b1b6bea9",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
     "3f642cea8eaa461f35508b151b448233a0a4272a": "60f8c12cff7c84c233a87cb97fe16f5130644b0befe97e8c448d79adb43a0589",
     "3fc3002553ecd2f8a3c35f89e68789938f1b76e3": "1aad24ff0995c6ed7233321256324ea46399ac1621278dd75219aeb493f0e967",
+    "42264f1a145b85b3da13c146cf14a79c83f546f2": "c0333657e8c3a1f94210fab8f1749d58506a707c7abdcba1a0f6f53dc0dcf222",
     "42379a56d677ad29296ae3ae6495742a11fbaf43": "e7047ae134b516d5d00518da2becde6c92237c8cc9a427f69bf16d75f79aa76b",
     "42752d575ebe17ca5b10a176a29d6525719685b0": "86abf1a25289370752187249e5f15d959da958f30c2dfd80b0aa43ace4e8d421",
     "428a358688a50116956006b734b5ad850c88bbf6": "fe6e2939926d72b3d1b95870813b4be17831db8599445ed3fdc3ff1e389a87a6",
@@ -9808,6 +10046,7 @@
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
     "61647d636f23142c76d453f24512566043c40517": "7eead01fb27d1f5a6df3152c9447ed5e452bb79ec23b22f4772a3d6e58085ce8",
     "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
+    "61937dc11c4540bc3c5e88412f449389470647d8": "5f8885938a63573aee5223c6e20a4dbad7f39f7d63041004eba81d88d56d5589",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "640ff8c1a0ae1f185a60be5284558d6e7c914deb": "2955241ebf4c3d69b9725b31bf21f5bc95fa7c95fdc969a3be3535d5f419ef30",
     "6459de5ca0711f10629945fe36a2b4a2063fbbae": "6b4766e5ac2243bcb0c81a876ba0c813c23cc095e68109e4fab702e8755d0bd3",
@@ -9897,6 +10136,7 @@
     "ad7f9b8604734a64f843179ed9f4f4a00bbfca9b": "738f1069b27c83ece84ac03dce656a6c191ac7103ec3dd833a0d92e0f08f7944",
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
     "b05f2c444105fa3cf261eabb6f79db5e2ec89675": "55d81975928aaec85692c9952fb6bb53c8e962b8cdbfec212a8b8bd889b84609",
+    "b08a778410917942eae007572834688bfd60d1cc": "90a324ce599816398e41a22ba8a9b01f3bcff329d16b406ec16332be2566a920",
     "b170f11568364a8c1e4494613f717ad87519ec83": "69f9aa3d96e239653e8b7c63deee1d2bed850119e86df545fc426731a6a6eefe",
     "b1a87fc477fe5d8dfea69eaeee996f8cbf1d7e61": "04e19af69d0f55c105a2c995ee53f3744dec4223cd9fb25e6d731c37c26750fe",
     "b1c3824d810a143b6c7eb5e1f6951828e950dfee": "940cfac82c1f43f42d34716af750730c232f4f2a2db4864fd20d313bb0d0da2b",
@@ -9970,6 +10210,8 @@
     "e0aeed2ce67caf6570ba37bcf0beda22165cdc32": "f3a9b960239b65c2d01317f2d1bc8976bcd749462b66da6403a93f37a5a7f657",
     "e0f34c2d2db5673cc17a63bf8bb99489445c2492": "8645b1223ce0695b4bdc76c801660ed704bdf3cfbe05f238a0ba56552c9aeb7a",
     "e179df281a870086582ad25cf649931af5a8eaa2": "de33cc89a9d33c7501cc86e72de532a079cd21535201fd327717cd04a323c63e",
+    "e1e228cc1139f48120d32f04dc01362a98e15854": "aa30b05f1be5ebcb4aaeeb36b3169898cde5edce0fad3829d5224b0e27a9f3de",
+    "e218e68b9870dde760cb2d5ae27e05b817ee58d9": "b0e98d3ec11700be4794eb854a34f014dd56c869dac1d76868ff08b78f133ebd",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
     "e3bb0505b011f77a656e096b821c7d0d01f2990c": "3f706b2efe5791d50864dc484452b0faf592f55a8cb7bf056adbb2e4dd6510e1",
@@ -9979,7 +10221,9 @@
     "e75d60b7b95fc48144368f7d659ad0d0918fddce": "5c47ca4f6f872bbb15e07db8e9f846ecb78e0313de97cd09ef257e8098cd45e2",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
+    "ea1b24831175c123553276a804101e824a3267b0": "ea952d31d87be6bc477c4005440e0cb3085a38ae029685249793181f60eaba28",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
+    "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb": "2dc3defe4fb53fae84e7d6d875b73e00d0e4f010e1ac236d011c11d4160d12e5",
     "ec9eb9ba1610ddad2bf568c8ec528aa44c1fbf43": "b7f9ede927112b6bc2fc91150bb439371a1171bca2f97cedc4a56584fa9decb7",
     "ed846239ebafe20621f61d44517ec0eb8b3737eb": "a648e5f836f0edb32b4244917953ce83478429ace3cc5caab41858f542b8aaa1",
     "ede4614b7cc87ab2ba1bee27d7a180889f022c92": "74c4545b5471ee788fb9d23518d90c7adbd398cea22778ef4c61c69461353bf3",
@@ -9991,6 +10235,7 @@
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
     "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
+    "f27863defeab1367eb4e74a9ecf5c2fa553e5b1a": "7eb372c438b550cab7c8cc820d4e5cce01b6779ca59f39ed6d54dfb13bf32a2a",
     "f290f48aba0bbabe12a8eda3f315d8cf2205457b": "e7f236ee01f526a36361927398d796f430a1f0336b91ebf48d3c2815ac0720f5",
     "f30bd55957a7a9edb294a786e225ada8b3598ceb": "29021fb21efbcd377f4b0983be026a2795c5c0b90a9c55acd5c971e8fe519e9e",
     "f3312c646c92563358c23ffc0ace26c58217b214": "0bc2a0a879d72182af00aca638488437babfd672173ef6223525f76c430bb693",
@@ -10270,6 +10515,10 @@
     },
     {
       "observed_at_commit": "aa8b7191405b160d1119c403510152a12e0ae801",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "b08a778410917942eae007572834688bfd60d1cc",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -10675,13 +10924,31 @@
         "v0.32.2"
       ],
       "version": "0.32.2"
+    },
+    {
+      "source_commits": [
+        "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.33.0"
+      ],
+      "version": "0.33.0"
+    },
+    {
+      "source_commits": [
+        "b08a778410917942eae007572834688bfd60d1cc"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "0.34.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "7aef05e416b625ccab46122d8d0720e45e9471a5",
+  "source_commit": "b08a778410917942eae007572834688bfd60d1cc",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -10792,6 +11059,11 @@
       "commit": "5e89c53918a01646bd693fcd96cef5502d0e8718",
       "tag": "v0.32.2",
       "version": "0.32.2"
+    },
+    {
+      "commit": "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb",
+      "tag": "v0.33.0",
+      "version": "0.33.0"
     }
   ]
 }
