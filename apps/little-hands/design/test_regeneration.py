@@ -312,8 +312,9 @@ class RegenerationTest(unittest.TestCase):
             )
             graph_path.write_text(json.dumps(graph, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
-            subprocess.run([sys.executable, '-B', '-c', prefix + omit + 'source.build()'],
-                           cwd=design, check=True, capture_output=True, text=True)
+            before = subprocess.run([sys.executable, '-B', '-c', prefix + omit + 'source.build()'],
+                                    cwd=design, check=True, capture_output=True, text=True)
+            summary_before = json.loads(before.stdout)
             status_before = json.loads(status_path.read_bytes())
             self.assertEqual(len(status_before['orphan_candidates']), 13)
             graph_sha_before = hashlib.sha256(graph_path.read_bytes()).hexdigest()
@@ -344,11 +345,13 @@ class RegenerationTest(unittest.TestCase):
             summary_retry = json.loads(retry.stdout)
             self.assertEqual(status_retry['orphan_candidates'], status_before['orphan_candidates'])
             self.assertEqual(summary_retry['orphan_candidates'], status_before['orphan_candidates'])
-            self.assertFalse(any(
-                token in item
-                for item in summary_retry['authored_without_source']
-                for token in ('REQ-006', 'AC-006', 'TEST-006')
-            ))
+            self.assertEqual(summary_retry['authored_without_source'], summary_before['authored_without_source'])
+            orphan_identities = {
+                f"nodes/{(item['id'],)}" if item['kind'] == 'node'
+                else f"edges/{(item['from'], item['to'], item['type'])}"
+                for item in status_before['orphan_candidates']
+            }
+            self.assertTrue(orphan_identities.isdisjoint(summary_retry['authored_without_source']))
             retried_graph = json.loads(graph_path.read_bytes())
             self.assertEqual(
                 next(row for row in retried_graph['nodes'] if row['id'] == 'REQ-006').get('review_note'),
