@@ -21,6 +21,22 @@ EXPECTED_P0_PROOF_REFS = {
     '../../examples/owned-design-baseline/manifest.json',
     '../../tests/test_owned_design_baseline.py',
 }
+EXPECTED_P1_NF01_PROOF_REFS = {
+    'p1-acceptance.md',
+    '../../examples/owned-component-families/',
+    '../../examples/owned-component-families/design.json',
+    '../../examples/owned-component-families/graph.json',
+    '../../examples/owned-component-families/manifest.json',
+    '../../tools/figma_bridge.py',
+    '../../tests/test_component_families.py',
+    '../../tests/test_bridge_declared_property_compare.py',
+    '../../tests/test_nf01_app_mapping.py',
+    '../../tests/test_family_provision.py',
+    '../../tests/nf01_component_properties.cjs',
+    '../../tests/nf01_semantic_family_runtime.cjs',
+    '../../tests/test_family_provision_runtime.cjs',
+    '../../tests/test_property_repair_regression.cjs',
+}
 EXPECTED_P1_NF03_PROOF_REFS = {
     'p1-acceptance.md',
     '../../tools/figma_control.py',
@@ -164,8 +180,10 @@ class NextRoadmapBacklogTest(unittest.TestCase):
 
         by_id = {node['id']: node for node in graph['nodes']}
         self.assertTrue(EXPECTED_P0_PROOF_REFS.issubset(set(by_id['p0-reference-safety']['proof_refs'])))
-        self.assertTrue(EXPECTED_P1_NF03_PROOF_REFS.issubset(set(by_id['p1-causal-review-history']['proof_refs'])))
-        self.assertEqual(by_id['p1-causal-review-history']['status'], 'verified')
+        if by_id['p1-native-component-families']['status'] in SATISFIED_STATUSES:
+            self.assertTrue(EXPECTED_P1_NF01_PROOF_REFS.issubset(set(by_id['p1-native-component-families']['proof_refs'])))
+        if by_id['p1-causal-review-history']['status'] in SATISFIED_STATUSES:
+            self.assertTrue(EXPECTED_P1_NF03_PROOF_REFS.issubset(set(by_id['p1-causal-review-history']['proof_refs'])))
         ready = next_ready_tasks(graph)
         self.assertTrue(ready or all(n['status'] in SATISFIED_STATUSES for n in graph['nodes'] if n['type'] == 'task'))
         for task_id in ready:

@@ -75,17 +75,19 @@ python3 -B skills/figma-flow/scripts/graph.py validate examples/owned-design-bas
 
 **선행 조건:** `p0-reference-safety`, `p0-api-queue-validation` (및 `accepted-narrow-cta-baseline` 확장). API queue의 12 후보는 조사 목록으로 사용하고 해당 속성의 Figma runtime 가용성은 명시적 양성·음성 근거로 판정한다.
 
-**작업 범위와 명령:** 기존 `compile_design`, semantic component 생성 및 선택/CAS 경계를 재사용한다. 기존 테스트 기준을 수정하지 않는다. 아래 기존 회귀 검사를 실행하고, 미구현 새 검사 제안은 별도 구현과 함께 추가한다.
+**작업 범위와 명령:** 기존 `compile_design`, semantic component 생성 및 선택/CAS 경계를 재사용한다. 기존 테스트 기준을 수정하지 않고, 기존 `metadata` 및 별도 3계열 경로 범위는 건드리지 않는다([P1 공개 인수 영수증](p1-acceptance.md)).
 
 ```sh
-# 기존 저장소 회귀 검사:
+# 저장소 회귀 검사 및 NF-01 검증:
 python3 -B -m unittest discover -s tests -p 'test_design_system.py'
 python3 -B -m unittest discover -s tests -p 'test_rd04_component_fields.py'
-node --test tests/test_semantic_component_reuse.cjs tests/test_graph_token_sync.cjs
-
-# 미구현 새 검사 제안 (NF-01):
-# python3 -B -m unittest discover -s tests -p 'test_component_families.py'
-# node --test tests/nf01_component_properties.cjs
+python3 -B -m unittest discover -s tests -p 'test_component_families.py'
+python3 -B -m unittest discover -s tests -p 'test_declared_component_properties.py'
+python3 -B -m unittest discover -s tests -p 'test_bridge_declared_property_compare.py'
+python3 -B -m unittest discover -s tests -p 'test_nf01_app_mapping.py'
+python3 -B -m unittest discover -s tests -p 'test_family_provision.py'
+python3 -B -m unittest discover -s apps/little-hands/design -p 'test_*.py'
+node --test tests/test_semantic_component_reuse.cjs tests/test_graph_token_sync.cjs tests/nf01_component_properties.cjs tests/nf01_semantic_family_runtime.cjs tests/test_family_provision_runtime.cjs tests/test_property_repair_regression.cjs
 ```
 
 **통과 기준:** 선언된 TEXT·BOOLEAN·INSTANCE_SWAP 각각의 반환 key가 정확한 semantic target에 연결된다. 선언하지 않은 조합은 거절된다. 실제 Figma getter에서 계열 main/instance를 확인하고, instance override 후 재적용해도 해당 값과 관련 없는 레이어가 보존된다. 부분 실패는 이번 작업이 소유한 node만 복구한다.

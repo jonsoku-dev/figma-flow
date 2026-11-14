@@ -22,10 +22,10 @@
   - 배포 가드·CI·회귀 검사: [tools/reference_distribution_guard.py](../../tools/reference_distribution_guard.py) · [tests/test_reference_distribution_guard.py](../../tests/test_reference_distribution_guard.py) · [.github/workflows/reference-guard.yml](../../.github/workflows/reference-guard.yml)
   - 자체 공개 기준 입력 및 테스트: [examples/owned-design-baseline/README.md](../../examples/owned-design-baseline/README.md) · [tests/test_owned_design_baseline.py](../../tests/test_owned_design_baseline.py)
   - 배포·기여 안내: [CONTRIBUTING.md](../../CONTRIBUTING.md) · [docs/guide.md#private-distribution](../guide.md#private-distribution)
-- **P1 인수 근거 및 검증 위치 (`p1-causal-review-history` verified, `p1-native-component-families` pending):**
+- **P1 인수 근거 및 검증 위치:**
   - 공개 인수 영수증: [p1-acceptance.md](p1-acceptance.md)
+  - `p1-native-component-families` (`NF-01`) 구현·검증 위치: [tools/design_system.py](../../tools/design_system.py) · [tools/figma_bridge.py](../../tools/figma_bridge.py) · [tools/family_provision.py](../../tools/family_provision.py) · [figma-bridge/code.js](../../figma-bridge/code.js) · [figma-bridge/semantic_components.js](../../figma-bridge/semantic_components.js) · [examples/owned-component-families/README.md](../../examples/owned-component-families/README.md) · [tests/test_component_families.py](../../tests/test_component_families.py) · [tests/test_bridge_declared_property_compare.py](../../tests/test_bridge_declared_property_compare.py) · [tests/nf01_semantic_family_runtime.cjs](../../tests/nf01_semantic_family_runtime.cjs) · [tests/test_property_repair_regression.cjs](../../tests/test_property_repair_regression.cjs)
   - `p1-causal-review-history` (`NF-03`) 구현·검증 위치: [tools/operation_detail.py](../../tools/operation_detail.py) · [tools/figma_control.py](../../tools/figma_control.py) · [tests/test_operation_detail.py](../../tests/test_operation_detail.py) · [figma-bridge/workspace_host.js](../../figma-bridge/workspace_host.js) · [tests/nf03_history_detail.cjs](../../tests/nf03_history_detail.cjs) · [panel-ui/src/operationDetail.mjs](../../panel-ui/src/operationDetail.mjs) · [tests/test_nf03_panel_ui.cjs](../../tests/test_nf03_panel_ui.cjs)
-  - `p1-native-component-families` (`NF-01`)는 실기 Figma 편집·readback 인수 대기 중(`proposed`).
 
 > 모든 작업의 현재 상태(`status`·`evidence_status`)와 근거 승격은 [backlog.graph.json](backlog.graph.json)에서 직접 판정하며, `tests/test_next_roadmap_backlog.py`가 그래프 불변식(`verified`/`accepted` 시 공개 근거 실존 및 `depends-on` 선행 충족, `proposed` 시 미검증 유지, `depends-on` 비순환)을 검증한다.
 
@@ -35,7 +35,7 @@
 
 Little Hands의 `apps/little-hands/design/source.py`는 실제 캡처를 그래프와 디자인 파일로 변환한다. `reconcile()`은 graph source와 사람이 편집한 값을 비교한다. baseline이 없는 기존 값은 `retained_legacy_edits`에 보존하고, 양쪽에서 같은 필드를 다르게 바꾸면 충돌로 중단한다. `--expected-sha256`는 오래된 graph 입력을 거절한다. `v0.34.0` 이후 `main`에 통합된 G1 소스 재생성 변경(`0.35.0` 배포 버전 연결)은 `REQS`·`STATES`의 명시적 ID 이관과 채택된 토큰·직접 작성 관계 보존, 차단된 CSS epoch와 재시도에 걸친 `retained_without_source` 고아 후보 유지를 구현했다. G0~G5 전체 직군 인수는 별도로 남아 있다.
 
-`share_control_styles()`는 기존 492개 컨트롤 선언을 12개 profile 계열의 desktop/mobile main 선언 24개로 공유한다. 이는 현재 authored declaration 재사용이다. 입력·선택·표 계열의 완전한 native property 지원은 `p1-native-component-families`([NF-01](NF-01-component-families.md)) 제안이다. main/instance 실제 getter의 결과는 별도 인수 근거로 다룬다.
+`share_control_styles()`는 기존 492개 컨트롤 선언을 12개 profile 계열의 desktop/mobile main 선언 24개로 공유한다. 이는 현재 authored declaration 재사용이다. 입력·선택·표 계열의 6개 family·선언 속성·반복 실행 편집 보존 지원은 `p1-native-component-families`([NF-01](NF-01-component-families.md))에서 구현·검증했으며, main/instance 실제 readback 결과와 범위 경계는 [p1-acceptance.md](p1-acceptance.md)와 [backlog.graph.json](backlog.graph.json)에서 다룬다.
 
 Native 제작의 같은 실행 안에서 반복하던 container·annotation 탐색은 공유 index를 사용하는 경로가 있다. 이는 `p2-read-performance-baseline` / `p2-incremental-native-read`([NF-02](NF-02-incremental-native-read.md))의 세션 browse cache와 다르다. NF-02를 시작할 때 통합 소스에서 동일 작업의 기준을 다시 잰다. Figma event 전달만으로 모든 main·style 파생 변경의 최신성을 증명하지 않는다.
 

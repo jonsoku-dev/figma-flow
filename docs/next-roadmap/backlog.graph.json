@@ -172,9 +172,9 @@
     {
       "id": "p1-native-component-families",
       "type": "task",
-      "status": "proposed",
+      "status": "verified",
       "priority": "P1",
-      "evidence_status": "unstarted",
+      "evidence_status": "verified-with-public-receipt-and-native-readback",
       "title": "Add native component families with override preservation",
       "doc_ref": "capability-review.md#p1-component-families",
       "roles": ["designer", "engineer", "planner"],
@@ -188,15 +188,99 @@
         "../../specs/design-specialization/spec.md",
         "../../specs/graph-review/spec.md"
       ],
+      "proof_refs": [
+        "p1-acceptance.md",
+        "../../examples/owned-component-families/",
+        "../../examples/owned-component-families/design.json",
+        "../../examples/owned-component-families/graph.json",
+        "../../examples/owned-component-families/manifest.json",
+        "../../tools/design_system.py",
+        "../../tools/figma_bridge.py",
+        "../../tools/family_provision.py",
+        "../../figma-bridge/code.js",
+        "../../figma-bridge/semantic_components.js",
+        "../../figma-bridge/native_provision.js",
+        "../../tests/test_component_families.py",
+        "../../tests/test_bridge_declared_property_compare.py",
+        "../../tests/test_nf01_app_mapping.py",
+        "../../tests/test_family_provision.py",
+        "../../tests/nf01_component_properties.cjs",
+        "../../tests/nf01_semantic_family_runtime.cjs",
+        "../../tests/test_family_provision_runtime.cjs",
+        "../../tests/test_property_repair_regression.cjs"
+      ],
       "commands": [
         "python3 -B -m unittest discover -s tests -p 'test_design_system.py'",
         "python3 -B -m unittest discover -s tests -p 'test_rd04_component_fields.py'",
-        "node --test tests/test_semantic_component_reuse.cjs tests/test_graph_token_sync.cjs"
-      ],
-      "proposed_checks": [
         "python3 -B -m unittest discover -s tests -p 'test_component_families.py'",
-        "node --test tests/nf01_component_properties.cjs"
+        "python3 -B -m unittest discover -s tests -p 'test_declared_component_properties.py'",
+        "python3 -B -m unittest discover -s tests -p 'test_bridge_declared_property_compare.py'",
+        "python3 -B -m unittest discover -s tests -p 'test_nf01_app_mapping.py'",
+        "python3 -B -m unittest discover -s tests -p 'test_family_provision.py'",
+        "python3 -B -m unittest discover -s apps/little-hands/design -p 'test_*.py'",
+        "node --test tests/test_semantic_component_reuse.cjs tests/test_graph_token_sync.cjs tests/nf01_component_properties.cjs tests/nf01_semantic_family_runtime.cjs tests/test_family_provision_runtime.cjs tests/test_property_repair_regression.cjs"
       ],
+      "observed_evidence": {
+        "product_source_pins": {
+          "little_hands_family_targets": "13c36f8",
+          "nf01_core_compiler_and_bridge": "ad26c90",
+          "little_hands_contract_alignment": "b402782",
+          "owned_component_families_example": "baac57e",
+          "nf01_native_importer": "cfc7fbd",
+          "nf01_selective_cas_sync": "fd1a9d2",
+          "nf01_semantic_workbench": "709f110",
+          "nf01_provision_cli": "8af6db4",
+          "nf01_unconditional_runtime_tests": "f9ba897",
+          "provision_rollback_fix": "63b3555",
+          "duplicate_property_regression_tests": "578ffc3",
+          "native_key_and_top_level_rollback_fix": "974b5de",
+          "recipe_helpers_and_coverage_baseline_sync": "a7378b8",
+          "frozen_node_to_python_readback_tests": "f88643b",
+          "python_readback_compare_fix": "e6f4fd8"
+        },
+        "live_figma_acceptance": {
+          "real_figma": true,
+          "official_mcp_used": false,
+          "cloud_sync_guaranteed": false,
+          "initial_collision_failure_and_rollback": "first duplicate-display-name run failed closed with full top-level root rollback, zero residual owned nodes, child duplicate remove diagnostic only, and pre-existing radius=16 MAIN component unchanged",
+          "official_repair_gate": {
+            "base": "437aa0485e85dd2e2dcef621f570847317759b63",
+            "target": "3e3f4e42b884cb64cc32c9d9f5d9173ec8bbb550",
+            "status": "passed",
+            "node_repair_rc_passed": 12,
+            "py_repair_rc_passed": 1
+          },
+          "family_count": 6,
+          "variant_count": 19,
+          "top_level_instance_count": 8,
+          "actual_node_count": 108,
+          "edited_instance_properties": {
+            "label": "Reviewed attendee",
+            "showHelp": false,
+            "control_family": "checkbox"
+          },
+          "edited_instance_placement": {
+            "x": 60,
+            "y": 48
+          },
+          "readback_status": "present",
+          "stable_main_and_instance_ids": true,
+          "repeat_preserved_edited_values": true,
+          "main_recompiled_repeat_exactly_matches": true,
+          "full_node_ids_stable_after_manual_swap": true,
+          "ids_changed_only_inside_manually_swapped_instance": 3,
+          "unchanged_other_instances": 7,
+          "own_original_component_unchanged": true
+        },
+        "legacy_and_unobserved_scope": "Legacy metadata and three-family duplicated helper paths outside NF-01 six-family workbench scope remain untouched; browser accessibility correspondence and static AST coverage counts are not claimed as live NF-01 execution proof; separate Python formal improvement gate failed on disk space (No space left on device) and is NOT claimed passed.",
+        "automated_checks": {
+          "node_nf01_and_provision_and_repair_passed": 27,
+          "python_nf01_readback_comparator_passed": 24,
+          "python_roadmap_api_design_op_passed": 99,
+          "little_hands_test_source_passed": 28,
+          "recipe_build_verify_rollback_passed": true
+        }
+      },
       "acceptance": [
         "Declared property keys resolve to exact semantic targets",
         "Undeclared variants are rejected",
