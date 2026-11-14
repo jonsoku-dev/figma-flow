@@ -483,6 +483,56 @@ test('disclosure validation rejects combined interactions, action mismatches, no
   await assert.rejects(harness().apply(unreachable), /Invalid graph disclosure contract/);
 });
 
+test('public webApply entrypoint rejects a 4-state disclosure plan with a disconnected sibling cycle', async () => {
+  const q1 = 'What is PlanHub?';
+  const q2 = 'How do I create my first workspace?';
+  const q3 = 'How does PlanHub sync?';
+  const disconnectedCycle = disclosurePlan();
+  disconnectedCycle.web_design.screens[2].elements.push(
+    { id: 's3-trigger-3', kind: 'frame', path: ['s3-accordion'], box: { x: 321, y: 400, width: 798, height: 52 } },
+  );
+  disconnectedCycle.web_design.screens.push({
+    id: 'WEB-faq-4',
+    title: 'FAQ 4',
+    layout: { width: 1440, height: 900, background: '#ffffff' },
+    elements: [
+      { id: 's4-accordion', kind: 'frame', path: [], box: { x: 320, y: 200, width: 800, height: 260 } },
+      { id: 's4-trigger-1', kind: 'frame', path: ['s4-accordion'], box: { x: 321, y: 201, width: 798, height: 52 } },
+      { id: 's4-trigger-2', kind: 'frame', path: ['s4-accordion'], box: { x: 321, y: 267, width: 798, height: 52 } },
+      { id: 's4-trigger-3', kind: 'frame', path: ['s4-accordion'], box: { x: 321, y: 333, width: 798, height: 52 } },
+    ],
+  });
+  disconnectedCycle.web_design.disclosure = {
+    frameKey: 'faq',
+    mode: 'single-collapsible',
+    items: [q1, q2, q3],
+    initialState: 'disclosure-1',
+    states: [
+      { id: 'disclosure-1', screenId: 'WEB-faq-1', index: 0, label: 'All closed', expandedItem: null,
+        answerSha256: null, contentSha256: '0'.repeat(64), capture: { path: 'state-1.png', sha256: 'a'.repeat(64) } },
+      { id: 'disclosure-2', screenId: 'WEB-faq-2', index: 1, label: q1, expandedItem: q1,
+        answerSha256: '1'.repeat(64), contentSha256: '2'.repeat(64), capture: { path: 'state-2.png', sha256: 'b'.repeat(64) } },
+      { id: 'disclosure-3', screenId: 'WEB-faq-3', index: 2, label: q2, expandedItem: q2,
+        answerSha256: '3'.repeat(64), contentSha256: '4'.repeat(64), capture: { path: 'state-3.png', sha256: 'c'.repeat(64) } },
+      { id: 'disclosure-4', screenId: 'WEB-faq-4', index: 3, label: q3, expandedItem: q3,
+        answerSha256: '5'.repeat(64), contentSha256: '6'.repeat(64), capture: { path: 'state-4.png', sha256: 'd'.repeat(64) } },
+    ],
+    transitions: [
+      { id: 'edge-1', from: 'disclosure-1', to: 'disclosure-2', trigger: 'click', action: 'open',
+        itemLabel: q1, autoClosedItem: null, controlElementId: 's1-trigger-1', observed: true, evidence: { path: 'c1.png', sha256: 'd'.repeat(64) } },
+      { id: 'edge-2', from: 'disclosure-2', to: 'disclosure-1', trigger: 'click', action: 'close',
+        itemLabel: q1, autoClosedItem: null, controlElementId: 's2-trigger-1', observed: true, evidence: { path: 'c2.png', sha256: 'e'.repeat(64) } },
+      { id: 'edge-3', from: 'disclosure-3', to: 'disclosure-4', trigger: 'click', action: 'switch',
+        itemLabel: q3, autoClosedItem: q2, controlElementId: 's3-trigger-3', observed: true, evidence: { path: 'c3.png', sha256: 'f'.repeat(64) } },
+      { id: 'edge-4', from: 'disclosure-4', to: 'disclosure-3', trigger: 'click', action: 'switch',
+        itemLabel: q2, autoClosedItem: q3, controlElementId: 's4-trigger-2', observed: true, evidence: { path: 'c4.png', sha256: '9'.repeat(64) } },
+    ],
+  };
+  const h = harness();
+  await assert.rejects(h.apply(disconnectedCycle), /Invalid graph disclosure contract/);
+  assert.equal(h.page.children.length, 0);
+});
+
 test('disclosure triggers with aria-expanded capture as local frames while normal buttons remain components', () => {
   const triggerRect = { x: 321, y: 201, width: 798, height: 52 };
   const labelRect = { x: 337, y: 215, width: 160, height: 24 };
