@@ -813,5 +813,495 @@
     "ko": "후속 작업",
     "en": "Successor",
     "ja": "後続タスク"
+  },
+  "workspace.journalViewDetail": {
+    "ko": "상세 보기",
+    "en": "View details",
+    "ja": "詳細を見る"
+  },
+  "workspace.journalDetailFor": {
+    "ko": "{title} ({operationId}) 상세 보기",
+    "en": "View details for {title} ({operationId})",
+    "ja": "{title} ({operationId}) の詳細を見る"
+  },
+  "workspace.journalBack": {
+    "ko": "이력 목록으로 뒤로",
+    "en": "Back to history",
+    "ja": "履歴一覧に戻る"
+  },
+  "workspace.journalDetailTitle": {
+    "ko": "실행 상세 · {title}",
+    "en": "Operation detail · {title}",
+    "ja": "実行詳細 · {title}"
+  },
+  "workspace.journalDetailBoundary": {
+    "ko": "이 상세 화면은 읽기 전용입니다. 실행·재실행·복구 쓰기를 수행하지 않습니다.",
+    "en": "This detail view is read-only. It never triggers execution, rerun, or recovery writes.",
+    "ja": "この詳細画面は読み取り専用です。実行・再実行・復旧の書き込みは行いません。"
+  },
+  "workspace.journalDetailLoading": {
+    "ko": "선택한 실행의 상세 정보를 불러오는 중입니다.",
+    "en": "Loading details for the selected operation.",
+    "ja": "選択した実行の詳細を読み込んでいます。"
+  },
+  "workspace.journalDetailScopeChanged": {
+    "ko": "파일·페이지 또는 작업 범위가 바뀌어 이전 실행 상세를 닫았습니다. 현재 범위에서 다시 선택하세요.",
+    "en": "The file, page, or task scope changed, so the previous detail was cleared. Select an operation in the current scope.",
+    "ja": "ファイル・ページまたは作業範囲が変更されたため、以前の詳細を閉じました。現在の範囲から再選択してください。"
+  },
+  "workspace.journalDetailError": {
+    "ko": "실행 상세를 불러오지 못했습니다.",
+    "en": "Could not load operation details.",
+    "ja": "実行詳細を読み込めませんでした。"
+  },
+  "workspace.journalDetailUnavailable": {
+    "ko": "선택한 범위에서 실행 상세를 찾을 수 없습니다.",
+    "en": "Operation details are unavailable in this scope.",
+    "ja": "選択した範囲で実行詳細が見つかりません。"
+  },
+  "workspace.journalUnavailableReason.not-found-in-scope": {
+    "ko": "현재 파일·페이지 범위에서 해당 실행 기록을 찾을 수 없습니다.",
+    "en": "This operation does not belong to the active file and page scope.",
+    "ja": "現在のファイル・ページ範囲に該当する実行記録が見つかりません。"
+  },
+  "workspace.journalUnavailableReason.control-unavailable": {
+    "ko": "제어 서버 상세 조회를 현재 사용할 수 없습니다.",
+    "en": "Control detail lookup is currently unavailable.",
+    "ja": "制御サーバーの詳細照会を現在利用できません。"
+  },
+  "workspace.journalErrorReason.invalid-operation-id": {
+    "ko": "유효한 32자리 실행 ID가 아닙니다.",
+    "en": "Invalid canonical 32-hex operation ID.",
+    "ja": "有効な32桁の実行IDではありません。"
+  },
+  "workspace.journalErrorReason.invalid-task-revision-binding": {
+    "ko": "유효한 작업 키 또는 64자리 개정 해시가 아닙니다.",
+    "en": "Invalid task key or 64-hex revision binding.",
+    "ja": "有効なタスクキーまたは64桁のリビジョンハッシュではありません。"
+  },
+  "workspace.journalErrorReason.task-revision-mismatch": {
+    "ko": "선택한 행의 작업 키 또는 개정이 서버의 실행 기록과 일치하지 않습니다.",
+    "en": "The selected row task key or revision does not match the recorded operation.",
+    "ja": "選択した行のタスクキーまたはリビジョンが記録された実行と一致しません。"
+  },
+  "workspace.journalErrorReason.runtime-mismatch": {
+    "ko": "런타임 검증 세대가 현재 플러그인 세션과 일치하지 않습니다.",
+    "en": "Runtime verification generation does not match the active plugin.",
+    "ja": "ランタイム検証世代が現在のプラグインと一致しません。"
+  },
+  "workspace.journalErrorReason.request-rejected": {
+    "ko": "범위 또는 런타임 검증이 일치하지 않아 상세 요청이 거부되었습니다.",
+    "en": "Detail request was rejected due to scope or runtime verification mismatch.",
+    "ja": "範囲またはランタイム検証が一致せず、詳細リクエストが拒否されました。"
+  },
+  "workspace.journalErrorReason.payload-limit-exceeded": {
+    "ko": "상세 응답이 256 KiB 상한을 초과해 차단되었습니다.",
+    "en": "Detail response exceeded the 256 KiB limit.",
+    "ja": "詳細レスポンスが256 KiBの上限を超えたため拒否されました。"
+  },
+  "workspace.journalErrorReason.request-timeout": {
+    "ko": "상세 조회 요청 시간이 초과되었습니다.",
+    "en": "Operation detail request timed out.",
+    "ja": "詳細照会リクエストがタイムアウトしました。"
+  },
+  "workspace.journalDetailErrorCode": {
+    "ko": "사유 코드: {code}",
+    "en": "Reason code: {code}",
+    "ja": "理由コード: {code}"
+  },
+  "workspace.journalDetailTruncated": {
+    "ko": "응답 크기 또는 항목 상한에 도달해 일부 차이만 표시됩니다(최대 200행 · 256 KiB).",
+    "en": "Showing bounded output because the detail response or diff reached its limit (up to 200 rows · 256 KiB).",
+    "ja": "サイズまたは件数の上限に達したため、一部の差分のみ表示しています（最大200行・256 KiB）。"
+  },
+  "workspace.journalTruncated256KiB": {
+    "ko": "응답 크기가 256 KiB 상한에 도달해 일부 상세 항목이 생략되었습니다.",
+    "en": "Detail response reached the 256 KiB cap; some items were omitted.",
+    "ja": "レスポンスサイズが256 KiB上限に達したため、一部の項目が省略されました。"
+  },
+  "workspace.journalTaskKey": {
+    "ko": "작업 키",
+    "en": "Task key",
+    "ja": "タスクキー"
+  },
+  "workspace.journalRevision": {
+    "ko": "실행 개정",
+    "en": "Operation revision",
+    "ja": "実行リビジョン"
+  },
+  "workspace.journalRevisionCurrent": {
+    "ko": "현재 작업 개정과 일치",
+    "en": "Matches current task revision",
+    "ja": "現在のタスクリビジョンと一致"
+  },
+  "workspace.journalRevisionPast": {
+    "ko": "이전 고정 개정",
+    "en": "Pinned past revision",
+    "ja": "過去の固定リビジョン"
+  },
+  "workspace.journalRevisionRetired": {
+    "ko": "은퇴한 작업 개정",
+    "en": "Retired task revision",
+    "ja": "引退したタスクリビジョン"
+  },
+  "workspace.journalRevisionOrphan": {
+    "ko": "현재 목록에 없는 개정",
+    "en": "Orphaned revision",
+    "ja": "現在の一覧にないリビジョン"
+  },
+  "workspace.journalRevisionUnknown": {
+    "ko": "개정 상태 미확인",
+    "en": "Unknown revision binding",
+    "ja": "リビジョン状態未確認"
+  },
+  "workspace.journalClassification": {
+    "ko": "기록 분류",
+    "en": "Record classification",
+    "ja": "記録分類"
+  },
+  "workspace.journalObservedScope": {
+    "ko": "관측 범위",
+    "en": "Observed scope",
+    "ja": "観測範囲"
+  },
+  "workspace.journalScopeFile": {
+    "ko": "파일",
+    "en": "File",
+    "ja": "ファイル"
+  },
+  "workspace.journalScopePage": {
+    "ko": "페이지",
+    "en": "Page",
+    "ja": "ページ"
+  },
+  "workspace.journalScopeRuntime": {
+    "ko": "런타임",
+    "en": "Runtime",
+    "ja": "ランタイム"
+  },
+  "workspace.journalSectionInputs": {
+    "ko": "입력",
+    "en": "Inputs",
+    "ja": "入力"
+  },
+  "workspace.journalSectionDiff": {
+    "ko": "변경 차이",
+    "en": "Field diff",
+    "ja": "変更差分"
+  },
+  "workspace.journalSectionRelated": {
+    "ko": "연결된 실행",
+    "en": "Linked executions",
+    "ja": "関連する実行"
+  },
+  "workspace.journalInputsEmpty": {
+    "ko": "이 실행에 기록된 입력 출처나 선행 의존성이 없습니다.",
+    "en": "No recorded input sources or declared dependencies for this operation.",
+    "ja": "この実行に記録された入力元や先行依存はありません。"
+  },
+  "workspace.journalRelationType.declared-dependency": {
+    "ko": "선언된 선행 의존성",
+    "en": "Declared dependency",
+    "ja": "宣言された依存関係"
+  },
+  "workspace.journalRelationType.artifact-input": {
+    "ko": "입력 산출물",
+    "en": "Artifact input",
+    "ja": "入力成果物"
+  },
+  "workspace.journalRelationType.recovery-of": {
+    "ko": "복구 연결",
+    "en": "Recovery link",
+    "ja": "復旧関連"
+  },
+  "workspace.journalRelation.declared-dependency.predecessor": {
+    "ko": "선언된 선행 의존성",
+    "en": "Declared predecessor dependency",
+    "ja": "宣言された先行依存関係"
+  },
+  "workspace.journalRelation.declared-dependency.successor": {
+    "ko": "선언된 후행 의존 작업",
+    "en": "Declared downstream dependent",
+    "ja": "宣言された後続依存タスク"
+  },
+  "workspace.journalRelation.recovery-of.recovers": {
+    "ko": "이 실행이 복구한 이전 실행",
+    "en": "This operation recovers",
+    "ja": "この実行が復旧した以前の実行"
+  },
+  "workspace.journalRelation.recovery-of.recovered-by": {
+    "ko": "이 실행을 복구한 이후 실행",
+    "en": "Recovered by later operation",
+    "ja": "この実行を復旧した後の実行"
+  },
+  "workspace.journalRecoveryAria": {
+    "ko": "{label}: {operationId} 상세 보기",
+    "en": "{label}: view operation {operationId}",
+    "ja": "{label}: 実行 {operationId} の詳細を見る"
+  },
+  "workspace.journalRelationCurrentRev": {
+    "ko": "현재 개정",
+    "en": "Current revision",
+    "ja": "現在のリビジョン"
+  },
+  "workspace.journalRelationPinnedRev": {
+    "ko": "고정 개정(현재: {current})",
+    "en": "Pinned past revision (current: {current})",
+    "ja": "固定リビジョン（現在: {current}）"
+  },
+  "workspace.journalRelationRetired": {
+    "ko": "은퇴한 작업 개정",
+    "en": "Retired task revision",
+    "ja": "引退したタスクのリビジョン"
+  },
+  "workspace.journalRelationOrphan": {
+    "ko": "현재 목록에 없는 대상",
+    "en": "Target unavailable in current catalogue",
+    "ja": "現在の一覧にない対象"
+  },
+  "workspace.journalRelationUnknownRev": {
+    "ko": "개정 산출물 미확인",
+    "en": "Artifact unavailable",
+    "ja": "リビジョン成果物未確認"
+  },
+  "workspace.journalDiffCaption": {
+    "ko": "허용된 디자인 필드 변경 차이(읽기 전용)",
+    "en": "Allowed design field changes (read-only)",
+    "ja": "許可されたデザイン項目の変更差分（読み取り専用）"
+  },
+  "workspace.journalDiffBasis": {
+    "ko": "비교 기준: {basis} (전체 {total}건)",
+    "en": "Basis: {basis} ({total} total)",
+    "ja": "比較基準: {basis}（合計 {total}件）"
+  },
+  "workspace.journalDiffColKey": {
+    "ko": "대상 키",
+    "en": "Target key",
+    "ja": "対象キー"
+  },
+  "workspace.journalDiffColField": {
+    "ko": "필드",
+    "en": "Field",
+    "ja": "項目"
+  },
+  "workspace.journalDiffColKind": {
+    "ko": "변경 종류",
+    "en": "Change kind",
+    "ja": "変更種別"
+  },
+  "workspace.journalDiffColBefore": {
+    "ko": "이전 값",
+    "en": "Before",
+    "ja": "変更前"
+  },
+  "workspace.journalDiffColAfter": {
+    "ko": "이후 값",
+    "en": "After",
+    "ja": "変更後"
+  },
+  "workspace.journalDiffKind.changed": {
+    "ko": "변경됨",
+    "en": "Changed",
+    "ja": "変更"
+  },
+  "workspace.journalDiffKind.added": {
+    "ko": "추가됨",
+    "en": "Added",
+    "ja": "追加"
+  },
+  "workspace.journalDiffKind.removed": {
+    "ko": "삭제됨",
+    "en": "Removed",
+    "ja": "削除"
+  },
+  "workspace.journalDiffKind.type-changed": {
+    "ko": "유형 변경",
+    "en": "Type changed",
+    "ja": "型変更"
+  },
+  "workspace.journalDiffKind.unknown": {
+    "ko": "알 수 없음",
+    "en": "Unknown",
+    "ja": "不明"
+  },
+  "workspace.journalDiffKind.conflict": {
+    "ko": "충돌",
+    "en": "Conflict",
+    "ja": "競合"
+  },
+  "workspace.journalDiffUnavailable": {
+    "ko": "변경 차이를 확인할 수 없습니다.",
+    "en": "Field diff is unavailable.",
+    "ja": "変更差分を確認できません。"
+  },
+  "workspace.journalDiffUnchanged": {
+    "ko": "허용된 디자인 필드에 기록된 변경이 없습니다.",
+    "en": "No recorded changes in allowed design fields.",
+    "ja": "許可されたデザイン項目に記録された変更はありません。"
+  },
+  "workspace.journalDiffReason.before-artifact-missing": {
+    "ko": "이전 개정 산출물이 보존되지 않아 전후 비교를 만들 수 없습니다.",
+    "en": "The before-revision artifact is not preserved, so a comparison cannot be produced.",
+    "ja": "変更前のリビジョン成果物が保存されていないため、比較を作成できません。"
+  },
+  "workspace.journalDiffReason.read-only-operation": {
+    "ko": "읽기 전용 작업이므로 적용 전후 변경 차이를 생성하지 않습니다.",
+    "en": "This was a read-only operation, so no before/after field diff applies.",
+    "ja": "読み取り専用操作のため、前後の変更差分はありません。"
+  },
+  "workspace.journalDiffReason.unsupported-task-kind": {
+    "ko": "이 작업 유형에서는 구조화된 필드 차이를 제공하지 않습니다.",
+    "en": "Structured field diff is not supported for this task kind.",
+    "ja": "このタスク種別では構造化フィールド差分に対応していません。"
+  },
+  "workspace.journalDiffReason.legacy-or-unpinned-artifact": {
+    "ko": "이전 형식(legacy) 또는 미고정 산출물이라 전후 비교를 만들 수 없습니다.",
+    "en": "Legacy or unpinned artifact cannot produce a verified field diff.",
+    "ja": "旧形式または未固定の成果物のため、検証済みの差分を作成できません。"
+  },
+  "workspace.journalDiffReason.unverified-artifact": {
+    "ko": "검증된 개정 산출물 무결성을 확인할 수 없어 차이를 표시하지 않습니다.",
+    "en": "Artifact integrity could not be verified, so field diff is withheld.",
+    "ja": "成果物の整合性を検証できなかったため、差分を表示できません。"
+  },
+  "workspace.journalDiffReason.legacy-record": {
+    "ko": "이전 형식(legacy) 기록에는 구조화된 단계나 산출물 차이가 없습니다.",
+    "en": "Legacy records do not include canonical phases or artifact diffs.",
+    "ja": "旧形式（legacy）の記録には標準段階や成果物差分が含まれません。"
+  },
+  "workspace.journalDiffReason.unknown-record": {
+    "ko": "분류할 수 없는 기록입니다. 누락된 단계나 차이를 추측하지 않습니다.",
+    "en": "Unclassified record. Missing phases or diffs are not inferred.",
+    "ja": "分類できない記録です。欠落した段階や差分は推測しません。"
+  },
+  "workspace.journalDiffReason.unavailable": {
+    "ko": "비교에 필요한 정확한 개정 산출물이 없습니다.",
+    "en": "Exact revision artifacts required for comparison are unavailable.",
+    "ja": "比較に必要な正確なリビジョン成果物がありません。"
+  },
+  "workspace.journalFailureTitle": {
+    "ko": "실패 요약(읽기 전용)",
+    "en": "Failure summary (read-only)",
+    "ja": "失敗サマリー（読み取り専用）"
+  },
+  "workspace.journalFailureCode.native-conflict": {
+    "ko": "네이티브 충돌이 감지되었습니다.",
+    "en": "Native conflict detected.",
+    "ja": "ネイティブ競合が検出されました。"
+  },
+  "workspace.journalFailureCode.result-rejected": {
+    "ko": "실행 결과가 검증에서 거부되었습니다.",
+    "en": "Operation result was rejected.",
+    "ja": "実行結果が拒否されました。"
+  },
+  "workspace.journalFailureCode.claim-expired": {
+    "ko": "작업 선점 제한 시간이 만료되었습니다.",
+    "en": "Operation claim expired.",
+    "ja": "操作の予約期限が切れました。"
+  },
+  "workspace.journalFailureCode.operation-uncertain": {
+    "ko": "응답이 확인되지 않아 실행 상태가 불확실합니다.",
+    "en": "Operation outcome is uncertain.",
+    "ja": "応答を確認できず、実行状態が不確定です。"
+  },
+  "workspace.journalFailureCode.execution-failed": {
+    "ko": "작업 실행 중 오류가 보고되었습니다.",
+    "en": "Execution failed.",
+    "ja": "実行中にエラーが報告されました。"
+  },
+  "workspace.journalFailureAction.inspect-conflicts": {
+    "ko": "권장 확인: 아래 충돌 상세를 읽기 전용으로 확인하세요.",
+    "en": "Suggested check: inspect conflict details below (read-only).",
+    "ja": "推奨確認: 下の競合詳細を読み取り専用で確認してください。"
+  },
+  "workspace.journalFailureAction.run-native-read": {
+    "ko": "권장 확인: 작업 화면에서 최신 상태를 다시 읽은 뒤 판단하세요.",
+    "en": "Suggested check: read current document state before deciding next steps.",
+    "ja": "推奨確認: 作業画面で最新状態を読み込んで確認してください。"
+  },
+  "workspace.journalFailureAction.reopen-plugin": {
+    "ko": "권장 확인: 플러그인 홈을 다시 열어 현재 범위와 연결을 확인하세요.",
+    "en": "Suggested check: reopen the plugin to refresh scope and connection.",
+    "ja": "推奨確認: プラグインを開き直して範囲と接続を確認してください。"
+  },
+  "workspace.journalFailureAction.inspect-private-status": {
+    "ko": "권장 확인: 비공개 실행 상태 기록에서 세부 원인을 확인하세요.",
+    "en": "Suggested check: inspect private operation status outside the plugin.",
+    "ja": "推奨確認: 非公開の実行ステータス記録で詳細を確認してください。"
+  },
+  "workspace.journalLegacyNotice": {
+    "ko": "이전 형식의 요청 기록입니다. 없는 실행 단계나 인과관계를 만들어내지 않습니다.",
+    "en": "This is a legacy request record. Missing phases or causal links are not invented.",
+    "ja": "旧形式のリクエスト記録です。存在しない実行段階や因果関係は生成しません。"
+  },
+  "workspace.journalUnknownNotice": {
+    "ko": "기록 형식을 확인할 수 없습니다. 확인된 식별자만 읽기 전용으로 표시합니다.",
+    "en": "Record format could not be verified. Only verified identifiers are shown read-only.",
+    "ja": "記録形式を確認できませんでした。確認済みの識別子のみ読み取り専用で表示します。"
+  },
+  "workspace.journalPhasesTitle": {
+    "ko": "기록된 실행 단계(서버 순서)",
+    "en": "Recorded phases (canonical order)",
+    "ja": "記録された実行段階（サーバー順序）"
+  },
+  "workspace.journalPhasesEmpty": {
+    "ko": "기록된 실행 단계가 없습니다.",
+    "en": "No canonical phases recorded.",
+    "ja": "記録された実行段階はありません。"
+  },
+  "workspace.journalRecoveryLinksTitle": {
+    "ko": "복구 및 선후행 실행 링크",
+    "en": "Recovery and linked operations",
+    "ja": "復旧および関連する実行リンク"
+  },
+  "workspace.journalRecoveryOpen": {
+    "ko": "연결된 실행 상세 보기 ({operationId})",
+    "en": "View linked operation ({operationId})",
+    "ja": "関連実行の詳細を見る ({operationId})"
+  },
+  "workspace.journalRecoveryNoOperationId": {
+    "ko": "같은 페이지 제어 이력 ID가 없는 고정 선행 산출물입니다.",
+    "en": "Pinned predecessor artifact with no same-scope control operation ID.",
+    "ja": "同一スコープの制御履歴IDがない固定先行成果物です。"
+  },
+  "workspace.journalConflictTitle": {
+    "ko": "충돌 상세(읽기 전용)",
+    "en": "Conflict details (read-only)",
+    "ja": "競合詳細（読み取り専用）"
+  },
+  "workspace.journalConflictExpected": {
+    "ko": "이전 기대 값",
+    "en": "Expected before",
+    "ja": "変更前予定値"
+  },
+  "workspace.journalConflictPlannedAfter": {
+    "ko": "계획 이후 값",
+    "en": "Planned after",
+    "ja": "変更後予定値"
+  },
+  "workspace.journalConflictObserved": {
+    "ko": "관측 값",
+    "en": "Observed",
+    "ja": "観測値"
+  },
+  "workspace.journalConflictScope": {
+    "ko": "대상 범위",
+    "en": "Scope",
+    "ja": "対象範囲"
+  },
+  "workspace.journalConflictReason": {
+    "ko": "사유 코드",
+    "en": "Reason code",
+    "ja": "理由コード"
+  },
+  "workspace.journalNoRelated": {
+    "ko": "연결된 복구 실행이나 추가 관계가 없습니다.",
+    "en": "No linked recovery operations or additional relations.",
+    "ja": "関連する復旧実行や追加の関連付けはありません。"
+  },
+  "workspace.journalTextLengthMeta": {
+    "ko": "텍스트 길이(원문 미노출)",
+    "en": "Text length (raw text hidden)",
+    "ja": "テキスト長（原文非表示）"
   }
 }
