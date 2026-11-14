@@ -36,6 +36,7 @@ fixture·baseline writer는 그래프, CHANGELOG, Wiki를 바꾸지 않는다. f
 baseline writer의 기존 파일 변경은 다음 계측 조건을 모두 지킨다.
 
 - 기본 경로는 그대로다. flag 없이 호출하면 `readNativeSemantics`와 discovery 호출부의 시그니처, 반환값, 읽는 getter가 기준 커밋과 같다.
+- 실기에서 드러난 결함은 기존 공유 함수를 최소로 고친다. Figma 플러그인 VM에는 `TextEncoder`가 없으므로 공유 `utf8JsonBytes`를 고칠 수 있다. 새 전역 polyfill이나 중복 helper는 만들지 않는다. 이 경우 `native_semantic_read.js`의 파일 blob은 바뀌지만, `readNativeSemantics` 본문과 full 필드 범위는 기준과 같아야 한다.
 - 계측은 명시적 선택 flag를 줄 때만 동작한다.
 - 동결된 RD-06 검사와 `tests/test_graph_sync.py`가 blob·모드 변경 없이 통과한다.
 
@@ -119,7 +120,9 @@ python3 -B tools/reference_distribution_guard.py --ref HEAD --format text
 
 ### 최소 데이터 형태
 
-라이브 기준선은 고정 범위의 fresh full discovery 읽기 하나다. 기본 discovery 경로가 flag 없이 수행하는 full `readNativeSemantics(figma, page)` 읽기이며, 기준 트리의 reader blob은 `57aa184daa152843fe5954d69586ecaf16c580a4`, 플러그인 버전은 `0.35.0`이다. 기본 호출의 시그니처와 반환값에는 계측을 넣지 않는다.
+라이브 기준선은 고정 범위의 fresh full discovery 읽기 하나다. 기본 discovery 경로가 flag 없이 수행하는 full `readNativeSemantics(figma, page)` 읽기이며, 기본 호출의 시그니처와 반환값에는 계측을 넣지 않는다.
+
+기준 커밋 `9962afa`의 reader blob은 `57aa184daa152843fe5954d69586ecaf16c580a4`, 플러그인 버전은 `0.35.0`이었다. 공유 `utf8JsonBytes` 수정 뒤에는 파일 blob이 달라진다. 그래서 기준선은 측정한 통합 소스의 실제 reader blob을 핀으로 쓰고, 파일 전체가 기준과 byte 단위로 같다고 주장하지 않는다. 같다고 확인한 것은 `readNativeSemantics` 본문과 full 필드 범위다. 이전에 확인한 byte 동일성은 그때 비교한 두 소스 사이에서만 유효하며 최종 코드로 넓히지 않는다. 생성된 API baseline과 recipe helper는 최종 소스를 받은 뒤 공식 generator로만 갱신한다.
 
 | 이름 | 뜻 | 보고 방식 |
 |---|---|---|
@@ -138,7 +141,7 @@ summary profile의 라이브 성능은 이번 범위에서 측정하지 않는�
 | `file_id`, `page_id`, `node_ids` | 범위. ID는 비공개 기록에만 둔다. 공개 요약에는 digest와 노드 수만 쓴다 |
 | `reader_elapsed_ms` | reader await 시간. 계측 회차에만 있다 |
 | `end_to_end_elapsed_ms` | 러너 시계로 잰 host 왕복. 전송·직렬화 포함, 진단 회차 제외 |
-| `bytes` | 기존 `utf8JsonBytes`로 잰 그 읽기 결과 |
+| `bytes` | 공유 `utf8JsonBytes`로 잰 그 읽기 결과. 값은 결과 JSON의 UTF-8 길이와 같다 |
 | `coverage_complete` | discovery 결과에는 coverage 객체가 없으므로 `null`. `true`로 추정하지 않는다 |
 | `content_sha256` | 관측 시각과 계측 필드를 뺀 정규 JSON의 SHA-256 |
 | `getter_count` | 시간 샘플에서는 `null` |
@@ -157,7 +160,7 @@ summary profile의 라이브 성능은 이번 범위에서 측정하지 않는�
 | B2 | 계획한 시도 중 실패가 있거나, 범위가 바뀌거나, 요청한 file·page와 readback의 file·page가 다르거나, `content_sha256`이 갈라지면 통계를 만들지 않고 실패, 비교 불가 또는 판정 불가로 보고한다 | 기록 대조 |
 | B3 | discovery full의 coverage 부재를 `true`로 추정하지 않는다. summary 결과를 full 근거로 적지 않으며 `requireFullNativeRead`가 summary를 거절한다 | 기록 대조, 기존 RD-06 검사 |
 | B4 | 기준 workload의 각 시계는 median, 최소, 최대만 보고한다. 평균을 개선율로 바꾸지 않는다. `discovery-full-timed`와의 차이는 관측 overhead로만 적는다 | 기록 대조 |
-| B5 | 시간 샘플의 `getter_count`는 `null`이다. 진단 counts는 같은 scope 핀과 함께 별도 단위로 표시한다 | 기록 대조 |
+| B5 | 시간 샘플의 `getter_count`는 `null`이다. 진단 counts는 같은 scope 핀과 함께 별도 단위로 표시한다. 진단 회차가 실패하면 getter 수가 기록되지 않았으므로 그 실측은 인수하지 않고, 시간 샘플이 모두 성공해도 성공으로 보고하지 않는다 | 기록 대조 |
 | B6 | 동결된 RD-06 검사와 `test_graph_sync.py`가 blob 변경 없이 통과한다 | 아래 명령, blob 대조 |
 | B7 | `unit-mock` 샘플이나 ledger 길이를 `root-live` 값으로 적지 않는다 | 기록 대조 |
 | B8 | 속도 향상을 주장하지 않는다. NF-02의 과거 실행 수치와 측정하지 않은 summary profile을 이 기준선이나 후속 캐시의 근거로 쓰지 않는다 | 문서 검토 |
@@ -179,6 +182,6 @@ root는 두 작업의 구현이 `main`에 통합된 뒤 다음을 수행하고 �
 
 1. 통합 소스의 SHA를 고정하고, 설치·로드된 개발 플러그인의 runtime generation이 그 소스와 같은지 확인한다. 소스 작업 트리에 커밋되지 않은 변경이 있으면 그 측정은 판정 불가다.
 2. A6. 격리 브라우저에서 새 fixture를 열고 요청 목록을 저장한다. 허용 목록 밖 요청과 외부 요청 수를 센다.
-3. B1–B5. 로드된 reader blob과 플러그인 버전을 샘플에 적는다. 기준 트리와 다르면 이 트리의 측정으로 보고하지 않는다. 등록된 Design 테스트 페이지에서 `discovery-full-default`와 `discovery-full-timed`를 각각 같은 범위로 5회 이상 실행한다. 성공 여부와 관계없이 모든 시도와 별도 진단 ledger를 Git 밖에 저장한다.
+3. B1–B5. 로드된 reader blob과 플러그인 버전을 샘플에 적는다. 측정한 통합 소스의 blob과 다르면 그 소스의 측정으로 보고하지 않는다. 등록된 Design 테스트 페이지에서 `discovery-full-default`와 `discovery-full-timed`를 각각 같은 범위로 5회 이상 실행한다. 성공 여부와 관계없이 모든 시도와 별도 진단 ledger를 Git 밖에 저장한다.
 4. 공개 요약만 이 문서에 쓰고, 노드의 `observed_evidence`·`proof_refs`·`evidence_status`를 갱신한다. 그다음 `python3 -B -m unittest tests.test_next_roadmap_backlog`를 실행한다.
 5. 관측하지 못한 항목은 미관측으로 남긴다. 그 작업은 `verified`로 바꾸지 않는다.
