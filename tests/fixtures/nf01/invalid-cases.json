@@ -1,0 +1,79 @@
+{
+  "cases": [
+    {
+      "name": "unsupported-family-id",
+      "expected_error": "unsupported component family",
+      "patch": {
+        "kind": "replace-family-id",
+        "index": 0,
+        "value": "accordion"
+      }
+    },
+    {
+      "name": "wrong-family-version",
+      "expected_error": "version must be 1",
+      "patch": {
+        "kind": "replace-family-version",
+        "index": 0,
+        "value": 2
+      }
+    },
+    {
+      "name": "field-requires-vertical-layout",
+      "expected_error": "requires VERTICAL layout",
+      "patch": {
+        "kind": "replace-family-layout",
+        "family": "field",
+        "value": "HORIZONTAL"
+      }
+    },
+    {
+      "name": "checkbox-requires-horizontal-layout",
+      "expected_error": "requires HORIZONTAL layout",
+      "patch": {
+        "kind": "replace-family-layout",
+        "family": "checkbox",
+        "value": "VERTICAL"
+      }
+    },
+    {
+      "name": "undeclared-variant-interpolation",
+      "expected_error": "undeclared or missing variant combinations",
+      "patch": {
+        "kind": "add-undeclared-component-variant",
+        "component": "input",
+        "variant": "hover"
+      }
+    },
+    {
+      "name": "swap-override-outside-allowed-family",
+      "expected_error": "outside allowed range",
+      "patch": {
+        "kind": "set-element-override",
+        "element_id": "field-participant",
+        "prop_id": "control",
+        "value": { "component": "table-cell", "variant": "default" }
+      }
+    },
+    {
+      "name": "table-row-swap-to-non-cell-family",
+      "expected_error": "table-row swap slots can only target table-cell",
+      "patch": {
+        "kind": "set-family-allowed-ids",
+        "family": "table-row",
+        "prop_id": "firstCell",
+        "value": ["input"]
+      }
+    },
+    {
+      "name": "secret-token-in-default-value",
+      "expected_error": "Secret, credential, or private path text is forbidden",
+      "patch": {
+        "kind": "set-family-default",
+        "family": "input",
+        "prop_id": "value",
+        "value": "figd_1234567890abcdefXYZ"
+      }
+    }
+  ]
+}

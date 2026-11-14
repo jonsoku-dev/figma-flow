@@ -1,0 +1,295 @@
+{
+  "version": 1,
+  "tokens": {
+    "color": {
+      "ink": { "$type": "color", "$value": "#1f242b" },
+      "muted": { "$type": "color", "$value": "#59616b" },
+      "surface": { "$type": "color", "$value": "#ffffff" },
+      "border": { "$type": "color", "$value": "#c7cdd4" },
+      "accent": { "$type": "color", "$value": "#1849a5" },
+      "danger": { "$type": "color", "$value": "#b42318" }
+    },
+    "space": {
+      "xs": { "$type": "dimension", "$value": "4px" },
+      "sm": { "$type": "dimension", "$value": "8px" },
+      "md": { "$type": "dimension", "$value": "12px" }
+    },
+    "radius": {
+      "sm": { "$type": "dimension", "$value": "4px" }
+    },
+    "font": {
+      "body": { "$type": "fontFamily", "$value": "Arial" },
+      "size": { "$type": "dimension", "$value": "14px" }
+    }
+  },
+  "componentFamilies": [
+    {
+      "id": "input",
+      "version": 1,
+      "component": "input",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["default", "focus", "error", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "value",
+          "name": "Value",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Sample input"
+        }
+      ]
+    },
+    {
+      "id": "checkbox",
+      "version": 1,
+      "component": "checkbox",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["unchecked", "checked", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "optionLabel",
+          "name": "Label",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Agree to workshop guide"
+        }
+      ]
+    },
+    {
+      "id": "radio",
+      "version": 1,
+      "component": "radio",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["unselected", "selected", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "choiceLabel",
+          "name": "Label",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Morning session"
+        }
+      ]
+    },
+    {
+      "id": "field",
+      "version": 1,
+      "component": "field",
+      "layout": "VERTICAL",
+      "axes": {
+        "state": ["default", "error", "disabled"]
+      },
+      "properties": [
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "TEXT",
+          "targetKey": "field-label",
+          "default_value": "Participant name"
+        },
+        {
+          "id": "helpText",
+          "name": "Help",
+          "type": "TEXT",
+          "targetKey": "field-help",
+          "default_value": "Use the name shown on booking confirmation."
+        },
+        {
+          "id": "showHelp",
+          "name": "Show help",
+          "type": "BOOLEAN",
+          "targetKey": "field-help",
+          "default_value": true
+        },
+        {
+          "id": "control",
+          "name": "Control",
+          "type": "INSTANCE_SWAP",
+          "targetKey": "field-control",
+          "allowedFamilyIds": ["input", "checkbox", "radio"],
+          "default_value": { "component": "input", "variant": "default" },
+          "preferred_values": [
+            { "component": "input", "variant": "default" },
+            { "component": "checkbox", "variant": "unchecked" },
+            { "component": "radio", "variant": "unselected" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "table-cell",
+      "version": 1,
+      "component": "table-cell",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["default", "header"]
+      },
+      "properties": [
+        {
+          "id": "cellText",
+          "name": "Cell text",
+          "type": "TEXT",
+          "targetKey": "label",
+          "default_value": "Sample cell"
+        }
+      ]
+    },
+    {
+      "id": "table-row",
+      "version": 1,
+      "component": "table-row",
+      "layout": "HORIZONTAL",
+      "axes": {
+        "state": ["default", "selected"]
+      },
+      "properties": [
+        {
+          "id": "firstCell",
+          "name": "Cell",
+          "type": "INSTANCE_SWAP",
+          "targetKey": "cell-0",
+          "allowedFamilyIds": ["table-cell"],
+          "default_value": { "component": "table-cell", "variant": "default" }
+        },
+        {
+          "id": "secondCell",
+          "name": "Cell",
+          "type": "INSTANCE_SWAP",
+          "targetKey": "cell-1",
+          "allowedFamilyIds": ["table-cell"],
+          "default_value": { "component": "table-cell", "variant": "default" }
+        },
+        {
+          "id": "showSecondCell",
+          "name": "Show optional column",
+          "type": "BOOLEAN",
+          "targetKey": "cell-1",
+          "default_value": true
+        }
+      ]
+    }
+  ],
+  "components": {
+    "input": {
+      "usage": "Single-line form input visual states; focus is visual only.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" },
+        "focus": { "color": "color.ink", "background": "color.surface", "border-color": "color.accent", "padding": "space.xs", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" },
+        "error": { "color": "color.danger", "background": "color.surface", "border-color": "color.danger", "padding": "space.xs", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "border-radius": "radius.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "checkbox": {
+      "usage": "Checkbox indicator and label row.",
+      "variants": {
+        "unchecked": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "checked": { "color": "color.accent", "background": "color.surface", "border-color": "color.accent", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "radio": {
+      "usage": "Radio indicator and label row.",
+      "variants": {
+        "unselected": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "selected": { "color": "color.accent", "background": "color.surface", "border-color": "color.accent", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "gap": "space.sm", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "field": {
+      "usage": "Vertical form field composing label, swappable control, and help/error copy.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "padding": "space.xs", "gap": "space.xs", "font-family": "font.body", "font-size": "font.size" },
+        "error": { "color": "color.danger", "background": "color.surface", "padding": "space.xs", "gap": "space.xs", "font-family": "font.body", "font-size": "font.size" },
+        "disabled": { "color": "color.muted", "background": "color.surface", "padding": "space.xs", "gap": "space.xs", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "table-cell": {
+      "usage": "Reusable table cell carrying TEXT data.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "padding": "space.xs", "font-family": "font.body", "font-size": "font.size" },
+        "header": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "padding": "space.xs", "font-family": "font.body", "font-size": "font.size" }
+      }
+    },
+    "table-row": {
+      "usage": "Horizontal table row composing table-cell swap slots.",
+      "variants": {
+        "default": { "color": "color.ink", "background": "color.surface", "border-color": "color.border", "gap": "space.sm", "padding": "space.xs", "font-family": "font.body", "font-size": "font.size" },
+        "selected": { "color": "color.accent", "background": "color.surface", "border-color": "color.accent", "gap": "space.sm", "padding": "space.xs", "font-family": "font.body", "font-size": "font.size" }
+      }
+    }
+  },
+  "screens": [
+    {
+      "id": "nf01-families-demo",
+      "title": "Canonical Form and Table Families",
+      "trace": ["NF-01"],
+      "elements": [
+        {
+          "id": "field-participant",
+          "kind": "component",
+          "component": "field",
+          "variant": "default",
+          "text": "Participant",
+          "property_values": {
+            "label": "Participant name",
+            "helpText": "Required for workshop check-in.",
+            "showHelp": true,
+            "control": { "component": "input", "variant": "focus" }
+          },
+          "dom_source": {
+            "selector": "form.booking .field-participant",
+            "control_selector": "input#participant_name",
+            "tag": "input",
+            "input_type": "text",
+            "label_for": "participant_name",
+            "required": true,
+            "disabled": false
+          }
+        },
+        {
+          "id": "field-session-choice",
+          "kind": "component",
+          "component": "field",
+          "variant": "disabled",
+          "text": "Session slot",
+          "property_values": {
+            "label": "Session slot",
+            "showHelp": false,
+            "control": { "component": "radio", "variant": "disabled" }
+          },
+          "dom_source": {
+            "selector": "fieldset.session-choice",
+            "tag": "fieldset",
+            "fieldset_legend": "Choose workshop slot",
+            "required": false,
+            "disabled": true
+          }
+        },
+        {
+          "id": "roster-row-sample",
+          "kind": "component",
+          "component": "table-row",
+          "variant": "selected",
+          "text": "Row sample",
+          "property_values": {
+            "firstCell": { "component": "table-cell", "variant": "header" },
+            "secondCell": { "component": "table-cell", "variant": "default" },
+            "showSecondCell": false
+          },
+          "dom_source": {
+            "selector": "table.roster tbody tr:first-child",
+            "tag": "tr",
+            "table_caption": "Workshop roster",
+            "th_scope": "row"
+          }
+        }
+      ]
+    }
+  ]
+}

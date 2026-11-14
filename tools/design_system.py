@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compile a bounded local design system into CSS and inspectable previews."""
 import argparse
+import copy
 from decimal import Decimal, ROUND_HALF_UP
 import html
 import json
@@ -13,7 +14,14 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path:
     sys.path.insert(0, str(TOOLS))
-from figma_bridge import dimension_px, validate_component_properties
+from figma_bridge import (
+    CANONICAL_COMPONENT_FAMILIES,
+    dimension_px,
+    reject_secret_like_text,
+    validate,
+    validate_component_properties,
+    variable_value,
+)
 
 NAME = re.compile(r"^[a-zA-Z][a-zA-Z0-9_-]*$")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
@@ -24,6 +32,253 @@ PROPERTIES = {"background", "color", "border-color", "padding", "padding-inline"
 PROPERTY_TYPES = {"background": "color", "color": "color", "border-color": "color", "padding": "dimension", "padding-inline": "dimension", "padding-block": "dimension", "gap": "dimension", "border-radius": "dimension", "font-family": "fontFamily", "font-size": "dimension"}
 PREVIEW_NODE_LIMIT = 512
 PREVIEW_DEPTH_LIMIT = 32
+DOM_SOURCE_STRING_KEYS = {
+    "selector", "control_selector", "tag", "input_type", "button_type",
+    "name", "placeholder", "label_for", "help_id", "error_id",
+    "aria_describedby", "fieldset_legend", "table_caption", "th_scope",
+}
+DOM_SOURCE_BOOL_KEYS = {"required", "disabled", "checked", "readonly"}
+
+
+def _validate_dom_source(dom_source, context):
+    if not isinstance(dom_source, dict) or not dom_source:
+        raise ValueError(f"dom_source must be a nonempty object in {context}")
+    unknown = set(dom_source) - DOM_SOURCE_STRING_KEYS - DOM_SOURCE_BOOL_KEYS
+    if unknown:
+        raise ValueError(f"unsupported dom_source fields in {context}: {', '.join(sorted(unknown))}")
+    for key in DOM_SOURCE_STRING_KEYS & set(dom_source):
+        val = dom_source[key]
+        if not isinstance(val, str) or not val.strip() or len(val) > 512:
+            raise ValueError(f"invalid dom_source.{key} in {context}")
+        if re.search(r"https?://", val, re.IGNORECASE):
+            raise ValueError(f"external URL forbidden in {context}.dom_source.{key}")
+        reject_secret_like_text(val, f"{context}.dom_source.{key}")
+    for key in DOM_SOURCE_BOOL_KEYS & set(dom_source):
+        if not isinstance(dom_source[key], bool):
+            raise ValueError(f"dom_source.{key} must be boolean in {context}")
+
+
+def _compile_component_families(raw_families, components, screens):
+    if not isinstance(raw_families, list) or not 1 <= len(raw_families) <= 32:
+        raise ValueError("componentFamilies must be a nonempty list of at most 32 declarations")
+    seen_ids = set()
+    seen_components = {}
+    normalized_families = []
+    allowed_family_keys = {"id", "version", "component", "layout", "axes", "properties", "usage"}
+    allowed_prop_keys = {"id", "name", "type", "target", "targetKey", "default_value", "allowedFamilyIds", "preferred_values"}
+
+    for entry in raw_families:
+        if not isinstance(entry, dict) or set(entry) - allowed_family_keys:
+            raise ValueError("invalid componentFamilies entry")
+        fid = entry.get("id")
+        if not isinstance(fid, str) or fid not in CANONICAL_COMPONENT_FAMILIES:
+            raise ValueError(f"unsupported component family: {fid!r}")
+        if fid in seen_ids:
+            raise ValueError(f"duplicate component family: {fid}")
+        if entry.get("version") != 1:
+            raise ValueError(f"component family version must be 1: {fid}")
+        spec = CANONICAL_COMPONENT_FAMILIES[fid]
+        comp_name = entry.get("component", fid)
+        if not isinstance(comp_name, str) or not NAME.fullmatch(comp_name):
+            raise ValueError(f"invalid component name for family {fid}: {comp_name!r}")
+        if comp_name in seen_components:
+            raise ValueError(f"multiple component families cannot target the same component: {comp_name}")
+        seen_ids.add(fid)
+        seen_components[comp_name] = fid
+        layout_mode = entry.get("layout", spec["layout"])
+        if layout_mode not in ("VERTICAL", "HORIZONTAL"):
+            raise ValueError(f"invalid layout for family {fid}: {layout_mode!r}")
+        if spec["required_layout"] and layout_mode != spec["required_layout"]:
+            raise ValueError(f"component family {fid} requires {spec['required_layout']} layout")
+        axes = entry.get("axes")
+        if not isinstance(axes, dict) or not axes:
+            raise ValueError(f"component family axes required: {fid}")
+        cleaned_axes = {}
+        seen_axis_values = set()
+        for axis_name, values in axes.items():
+            if (not isinstance(axis_name, str) or not NAME.fullmatch(axis_name)
+                    or not isinstance(values, list) or not values or len(values) != len(set(values))):
+                raise ValueError(f"invalid family axis: {fid}.{axis_name}")
+            for val in values:
+                if not isinstance(val, str) or not NAME.fullmatch(val) or val in seen_axis_values:
+                    raise ValueError(f"invalid or duplicate family axis value: {fid}.{axis_name}.{val}")
+                if axis_name == "state" and val not in spec["canonical_states"]:
+                    raise ValueError(f"undeclared state value for family {fid}: {val}")
+                seen_axis_values.add(val)
+            cleaned_axes[axis_name] = list(values)
+        raw_props = entry.get("properties", [])
+        if not isinstance(raw_props, list) or len(raw_props) > 32:
+            raise ValueError(f"component family properties must be a list of at most 32 items: {fid}")
+        seen_prop_ids = set()
+        norm_props = []
+        for prop in raw_props:
+            if not isinstance(prop, dict) or set(prop) - allowed_prop_keys:
+                raise ValueError(f"invalid property declaration in family {fid}")
+            pid = prop.get("id")
+            ptype = prop.get("type")
+            if not isinstance(pid, str) or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]*", pid) or pid == "문구":
+                raise ValueError(f"invalid property id in family {fid}: {pid!r}")
+            if pid in seen_prop_ids:
+                raise ValueError(f"duplicate property id in family {fid}: {pid}")
+            seen_prop_ids.add(pid)
+            if ptype not in ("TEXT", "BOOLEAN", "INSTANCE_SWAP"):
+                raise ValueError(f"unsupported property type in family {fid}.{pid}: {ptype!r}")
+            t_key = prop.get("targetKey", prop.get("target"))
+            if ("targetKey" in prop and "target" in prop and prop["targetKey"] != prop["target"]) or not isinstance(t_key, str) or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]*", t_key):
+                raise ValueError(f"invalid targetKey in family {fid}.{pid}")
+            pname = prop.get("name", pid)
+            if not isinstance(pname, str) or not pname.strip() or "#" in pname or pname == "문구":
+                raise ValueError(f"invalid property display name in family {fid}.{pid}")
+            if pid in (set(cleaned_axes) | {"Variant"}) or pname in (set(cleaned_axes) | {"Variant"}):
+                raise ValueError(f"property name collides with variant axis in family {fid}.{pid}")
+            norm_prop = {"id": pid, "name": pname, "type": ptype, "targetKey": t_key}
+            if ptype == "TEXT":
+                if "default_value" in prop:
+                    if not isinstance(prop["default_value"], str):
+                        raise ValueError(f"TEXT default_value must be string in {fid}.{pid}")
+                    reject_secret_like_text(prop["default_value"], f"{fid}.{pid}.default_value")
+                    norm_prop["default_value"] = prop["default_value"]
+            elif ptype == "BOOLEAN":
+                if "default_value" in prop:
+                    if not isinstance(prop["default_value"], bool):
+                        raise ValueError(f"BOOLEAN default_value must be boolean in {fid}.{pid}")
+                    norm_prop["default_value"] = prop["default_value"]
+            else:
+                if t_key == "label":
+                    raise ValueError(f"INSTANCE_SWAP targetKey cannot be label in {fid}.{pid}")
+                allowed_fams = prop.get("allowedFamilyIds")
+                if allowed_fams is None and fid == "table-row":
+                    allowed_fams = ["table-cell"]
+                if allowed_fams is not None:
+                    if (not isinstance(allowed_fams, list) or not allowed_fams or len(allowed_fams) > 16
+                            or any(not isinstance(af, str) or af not in CANONICAL_COMPONENT_FAMILIES for af in allowed_fams)):
+                        raise ValueError(f"allowedFamilyIds must reference canonical families in {fid}.{pid}")
+                    if fid == "table-row" and set(allowed_fams) != {"table-cell"}:
+                        raise ValueError("table-row swap slots can only target table-cell")
+                    norm_prop["allowedFamilyIds"] = list(dict.fromkeys(allowed_fams))
+                if "default_value" in prop:
+                    norm_prop["default_value"] = copy.deepcopy(prop["default_value"])
+                if "preferred_values" in prop:
+                    norm_prop["preferred_values"] = copy.deepcopy(prop["preferred_values"])
+            norm_props.append(norm_prop)
+        norm_entry = {
+            "id": fid,
+            "version": 1,
+            "component": comp_name,
+            "layout": layout_mode,
+            "axes": cleaned_axes,
+            "properties": norm_props,
+        }
+        if "usage" in entry:
+            if not isinstance(entry["usage"], str) or not entry["usage"].strip():
+                raise ValueError(f"usage must be nonempty text in family {fid}")
+            norm_entry["usage"] = entry["usage"]
+        normalized_families.append(norm_entry)
+
+    family_to_comp = {item["id"]: item["component"] for item in normalized_families}
+    preview = []
+    for item in normalized_families:
+        fid = item["id"]
+        comp_name = item["component"]
+        if comp_name not in components:
+            preview.append({
+                "id": fid,
+                "component": comp_name,
+                "status": "unmapped",
+                "layout": item["layout"],
+                "main_count": 0,
+                "instance_count": 0,
+                "swap_targets": [],
+                "preserved_overrides": [],
+            })
+            continue
+        comp = components[comp_name]
+        declared_values = [val for vals in item["axes"].values() for val in vals]
+        if set(comp["variants"]) != set(declared_values):
+            raise ValueError(f"undeclared or missing variant combinations on {comp_name}: expected {declared_values}, got {list(comp['variants'])}")
+        attach_declared_axes(components, {comp_name: item["axes"]})
+        comp["family"] = fid
+        comp["layout"] = item["layout"]
+        if "usage" in item and "usage" not in comp:
+            comp["usage"] = item["usage"]
+        comp_props = dict(comp.get("properties", {}))
+        swap_targets_union = list(comp.get("swap_targets", []))
+        for prop in item["properties"]:
+            pid = prop["id"]
+            ptype = prop["type"]
+            target = prop["targetKey"]
+            compiled_prop = {"type": ptype, "target": target}
+            if prop["name"] != pid:
+                compiled_prop["name"] = prop["name"]
+            if ptype == "TEXT":
+                compiled_prop["default_value"] = prop.get("default_value", comp_name if target == "label" else "")
+            elif ptype == "BOOLEAN":
+                compiled_prop["default_value"] = prop.get("default_value", True)
+            else:
+                allowed_fams = prop.get("allowedFamilyIds", [])
+                allowed_comps = []
+                for af in allowed_fams:
+                    mapped_comp = family_to_comp.get(af, af)
+                    if mapped_comp not in components:
+                        raise ValueError(f"swap target family {af} for {fid}.{pid} is unmapped")
+                    if mapped_comp not in allowed_comps:
+                        allowed_comps.append(mapped_comp)
+                    if mapped_comp not in swap_targets_union:
+                        swap_targets_union.append(mapped_comp)
+                if allowed_comps:
+                    compiled_prop["allowed_components"] = allowed_comps
+                if "default_value" in prop:
+                    compiled_prop["default_value"] = copy.deepcopy(prop["default_value"])
+                elif allowed_comps:
+                    first_c = allowed_comps[0]
+                    first_v = next(iter(components[first_c]["variants"]))
+                    compiled_prop["default_value"] = {"component": first_c, "variant": first_v}
+                else:
+                    raise ValueError(f"INSTANCE_SWAP property {fid}.{pid} requires default_value or mapped allowedFamilyIds")
+                if "preferred_values" in prop:
+                    compiled_prop["preferred_values"] = copy.deepcopy(prop["preferred_values"])
+                elif allowed_comps:
+                    compiled_prop["preferred_values"] = [
+                        {"component": ac, "variant": av}
+                        for ac in allowed_comps
+                        for av in components[ac]["variants"]
+                    ]
+            if pid in comp_props and comp_props[pid] != compiled_prop:
+                raise ValueError(f"conflicting component property definition for {comp_name}.{pid}")
+            comp_props[pid] = compiled_prop
+        if comp_props:
+            comp["properties"] = comp_props
+        if swap_targets_union:
+            comp["swap_targets"] = swap_targets_union
+        direct_instances = [
+            el for screen in screens for el in screen.get("elements", [])
+            if el.get("kind") == "component" and el.get("component") == comp_name
+        ]
+        preserved = sorted({
+            f"{el.get('id', comp_name)}.{pk}"
+            for el in direct_instances
+            for pk in (el.get("property_values") or {})
+        })
+        preview.append({
+            "id": fid,
+            "component": comp_name,
+            "status": "mapped",
+            "layout": item["layout"],
+            "main_count": len(comp["variants"]),
+            "instance_count": len(direct_instances),
+            "swap_targets": list(swap_targets_union),
+            "preserved_overrides": preserved,
+        })
+
+    if any(row["status"] == "unmapped" for row in preview):
+        overall_status = "unmapped"
+    elif sum(row["instance_count"] for row in preview) > 0:
+        overall_status = "ready"
+        for row in preview:
+            row["status"] = "ready"
+    else:
+        overall_status = "mapped"
+    return normalized_families, overall_status, preview
 
 
 def compile_design(data):
@@ -111,13 +366,16 @@ def compile_design(data):
     for path in sorted(raw):
         resolve(path)
     resolved = dict(sorted(resolved.items()))
-    components = data.get("components")
-    screens = data.get("screens")
-    if not isinstance(components, dict) or not components or not isinstance(screens, list) or not screens:
+    raw_components = data.get("components")
+    raw_screens = data.get("screens")
+    if not isinstance(raw_components, dict) or not raw_components or not isinstance(raw_screens, list) or not raw_screens:
         raise ValueError("components and screens are required")
+    components = copy.deepcopy(raw_components)
+    screens = copy.deepcopy(raw_screens)
     classes = set()
+    allowed_component_keys = {"usage", "properties", "family", "layout", "swap_targets", "slots", "variant_axes"}
     for name, component in components.items():
-        if not NAME.fullmatch(name) or not isinstance(component, dict) or set(component) - {"usage", "properties"} != {"variants"} or not isinstance(component.get("variants"), dict) or not component["variants"]:
+        if not NAME.fullmatch(name) or not isinstance(component, dict) or set(component) - allowed_component_keys != {"variants"} or not isinstance(component.get("variants"), dict) or not component["variants"]:
             raise ValueError(f"invalid component: {name}")
         if "usage" in component and (not isinstance(component["usage"], str) or not component["usage"].strip()):
             raise ValueError(f"usage description must be source text: {name}")
@@ -133,6 +391,8 @@ def compile_design(data):
                     raise ValueError(f"unknown property or token: {name}.{variant}.{prop}")
                 if resolved[token]["type"] != PROPERTY_TYPES[prop]:
                     raise ValueError(f"property type mismatch: {name}.{variant}.{prop}")
+        if "variant_axes" in component:
+            attach_declared_axes(components, {name: component["variant_axes"]})
     seen = set()
     screen_ids = {screen.get("id") for screen in screens if isinstance(screen, dict) and isinstance(screen.get("id"), str)}
     element_ids = set()
@@ -151,7 +411,9 @@ def compile_design(data):
                 element_ids.add(element["id"])
             if "target_screen" in element and element["target_screen"] not in screen_ids:
                 raise ValueError(f"unknown target screen: {element['target_screen']}")
-            metadata = {"id", "target_screen", "annotation", "action_id"}
+            if "dom_source" in element:
+                _validate_dom_source(element["dom_source"], f"{screen['id']}.{element.get('id', 'element')}")
+            metadata = {"id", "target_screen", "annotation", "action_id", "dom_source"}
             if element["kind"] == "component":
                 metadata.add("property_values")
                 name, variant = element.get("component"), element.get("variant")
@@ -161,8 +423,17 @@ def compile_design(data):
                 raise ValueError(f"invalid element in {screen['id']}")
     if "variant_axes" in data:
         attach_declared_axes(components, data["variant_axes"])
+    families_out = None
+    if "componentFamilies" in data:
+        families_out = _compile_component_families(data["componentFamilies"], components, screens)
     validate_component_properties(components, screens)
-    return {"version": 1, "tokens": resolved, "components": components, "screens": screens}
+    result = {"version": 1, "tokens": resolved, "components": components, "screens": screens}
+    if families_out is not None:
+        norm_families, status, family_preview = families_out
+        result["componentFamilies"] = norm_families
+        result["status"] = status
+        result["family_preview"] = family_preview
+    return result
 
 
 def attach_declared_axes(components, axes):
@@ -213,18 +484,32 @@ def component_preview(design, name, variant, label, overrides=None, budget=None,
     definition = design["components"][name]
     properties = definition.get("properties", {})
     overrides = overrides or {}
+    resolved_label = label
     label_visible = True
     slot_visibility = {}
+    text_slots = []
     swaps = []
-    for display, prop in properties.items():
-        value = overrides.get(display, prop["default_value"])
-        if prop["type"] == "BOOLEAN":
+    for prop_id, prop in properties.items():
+        has_override = prop_id in overrides
+        value = overrides[prop_id] if has_override else prop["default_value"]
+        if prop["type"] == "TEXT":
+            if prop["target"] == "label":
+                if has_override:
+                    resolved_label = value
+            else:
+                text_slots.append((prop["target"], value))
+        elif prop["type"] == "BOOLEAN":
             if prop["target"] == "label":
                 label_visible = value
             else:
                 slot_visibility[prop["target"]] = value
         else:
             swaps.append((prop["target"], value))
+    visible_texts = [
+        {"slot": slot, "text": text_val}
+        for slot, text_val in text_slots
+        if slot_visibility.get(slot, True)
+    ]
     children = []
     for slot, reference in swaps:
         if not slot_visibility.get(slot, True):
@@ -232,16 +517,28 @@ def component_preview(design, name, variant, label, overrides=None, budget=None,
         child_name, child_variant = reference["component"], reference["variant"]
         children.append({"slot": slot, "node": component_preview(
             design, child_name, child_variant, child_name, budget=budget, depth=depth + 1)})
-    return {"component": name, "variant": variant, "styles": definition["variants"][variant],
-            "label": label if label_visible else None, "children": children}
+    result = {
+        "component": name,
+        "variant": variant,
+        "styles": definition["variants"][variant],
+        "label": resolved_label if label_visible else None,
+        "children": children,
+    }
+    if visible_texts:
+        result["text_slots"] = visible_texts
+    return result
 
 
 def _preview_html(node, root=False):
     esc = html.escape
     identity = esc(node["component"] + "--" + node["variant"], quote=True)
     label = f'<span class="component-label">{esc(node["label"])}</span>' if node["label"] is not None else ""
+    texts = "".join(
+        f'<span class="component-text-slot" data-text-slot="{esc(item["slot"], quote=True)}">{esc(item["text"])}</span>'
+        for item in node.get("text_slots", [])
+    )
     children = "".join(f'<div class="component-slot" data-slot="{esc(child["slot"], quote=True)}">{_preview_html(child["node"])}</div>' for child in node["children"])
-    return f'<div class="component-property-node {identity}"' + (' data-component-root="true"' if root else '') + f'>{label}{children}</div>'
+    return f'<div class="component-property-node {identity}"' + (' data-component-root="true"' if root else '') + f'>{label}{texts}{children}</div>'
 
 
 def render(design, styled):
@@ -287,15 +584,16 @@ def render(design, styled):
 
 def render_svg(design, screen, styled):
     esc = html.escape
-    parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="360" height="640" viewBox="0 0 360 640" role="img">', '<rect width="360" height="640" fill="#ffffff"/>']
+    max_svg_bottom = 2390 if "componentFamilies" in design else 630
+    body_parts = []
     y = 32
     budget = [0]
     for item in screen["elements"]:
         if item["kind"] == "component" and design["components"][item["component"]].get("properties"):
             tree = component_preview(design, item["component"], item["variant"], item["text"],
                                      item.get("property_values"), budget)
-            component_markup, y = _render_component_svg(design, tree, y, styled)
-            parts.extend(component_markup)
+            component_markup, y = _render_component_svg(design, tree, y, styled, max_svg_bottom=max_svg_bottom)
+            body_parts.extend(component_markup)
             continue
         styles = {}
         if styled and item["kind"] == "component":
@@ -321,19 +619,24 @@ def render_svg(design, screen, styled):
         lines = textwrap.wrap(item["text"], width=max(1, int(width / size)), break_long_words=True) or [""]
         line_height = size * 1.5
         height = max(44, line_height * len(lines) + padding_y * 2)
-        if y + height > 630:
+        if y + height > max_svg_bottom:
             raise ValueError(f"screen exceeds SVG bounds: {screen['id']}")
         color = get("color", "#20242a")
         if item["kind"] == "component":
             fill, border = get("background", "#ffffff"), get("border-color", "#999999")
-            parts.append(f'<rect x="24" y="{y:g}" width="312" height="{height:g}" rx="{radius:g}" fill="{esc(str(fill), quote=True)}" stroke="{esc(str(border), quote=True)}"/>')
+            body_parts.append(f'<rect x="24" y="{y:g}" width="312" height="{height:g}" rx="{radius:g}" fill="{esc(str(fill), quote=True)}" stroke="{esc(str(border), quote=True)}"/>')
         for i, line in enumerate(lines):
-            parts.append(f'<text x="{24 + padding_x:g}" y="{y + padding_y + size + i * line_height:g}" fill="{esc(str(color), quote=True)}" font-family="{esc(str(font), quote=True)}" font-size="{size:g}">{esc(line)}</text>')
+            body_parts.append(f'<text x="{24 + padding_x:g}" y="{y + padding_y + size + i * line_height:g}" fill="{esc(str(color), quote=True)}" font-family="{esc(str(font), quote=True)}" font-size="{size:g}">{esc(line)}</text>')
         y += height + 8
+    svg_height = max(640, math.ceil(y + 10)) if "componentFamilies" in design else 640
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="360" height="{svg_height:g}" viewBox="0 0 360 {svg_height:g}" role="img">',
+        f'<rect width="360" height="{svg_height:g}" fill="#ffffff"/>',
+    ] + body_parts
     return "".join(parts) + "</svg>\n"
 
 
-def _render_component_svg(design, root, y, styled):
+def _render_component_svg(design, root, y, styled, *, max_svg_bottom=630):
     esc = html.escape
     parts = []
 
@@ -361,6 +664,8 @@ def _render_component_svg(design, root, y, styled):
         if content_width < size:
             raise ValueError("SVG component content too narrow")
         lines = textwrap.wrap(node["label"] or "", width=max(1, int(content_width / size)), break_long_words=True) if node["label"] is not None else []
+        for slot_item in node.get("text_slots", []):
+            lines.extend(textwrap.wrap(slot_item["text"] or "", width=max(1, int(content_width / size)), break_long_words=True) or [""])
         own_height = size * 1.5 * len(lines)
         child_heights = []
         for child in node["children"]:
@@ -377,12 +682,18 @@ def _render_component_svg(design, root, y, styled):
         font = style_value(node, "font-family", "Inter")
         parts.append(f'<rect x="{x:g}" y="{top:g}" width="{width:g}" height="{height:g}" rx="{radius:g}" fill="{esc(str(fill), quote=True)}" stroke="{esc(str(border), quote=True)}"/>')
         cursor = top + py
+        has_own_copy = node["label"] is not None or bool(node.get("text_slots"))
         if node["label"] is not None:
             lines = textwrap.wrap(node["label"], width=max(1, int((width - 2 * px) / size)), break_long_words=True) or [""]
             for line in lines:
                 parts.append(f'<text x="{x + px:g}" y="{cursor + size:g}" fill="{esc(str(color), quote=True)}" font-family="{esc(str(font), quote=True)}" font-size="{size:g}">{esc(line)}</text>')
                 cursor += size * 1.5
-        if node["children"] and node["label"] is not None:
+        for slot_item in node.get("text_slots", []):
+            lines = textwrap.wrap(slot_item["text"] or "", width=max(1, int((width - 2 * px) / size)), break_long_words=True) or [""]
+            for line in lines:
+                parts.append(f'<text x="{x + px:g}" y="{cursor + size:g}" fill="{esc(str(color), quote=True)}" font-family="{esc(str(font), quote=True)}" font-size="{size:g}">{esc(line)}</text>')
+                cursor += size * 1.5
+        if node["children"] and has_own_copy:
             cursor += 8
         child_width = width - 16
         child_x = x + 8
@@ -395,10 +706,348 @@ def _render_component_svg(design, root, y, styled):
 
     width, x = 312, 24
     height = measure(root, width)
-    if y + height > 630:
+    if y + height > max_svg_bottom:
         raise ValueError("screen exceeds SVG bounds")
     draw(root, x, y, width)
     return parts, y + height + 8
+
+
+def compile_graph_component_families(
+    source,
+    *,
+    owner_key="nf01.component-families",
+    workbench_name="NF-01 · Component families workbench",
+    position=None,
+):
+    """Compile a design or canonical graph with componentFamilies into a SemanticFamilyContract."""
+    if not isinstance(source, dict):
+        raise ValueError("source must be a design or graph object")
+    if not isinstance(owner_key, str) or not re.fullmatch(r"[A-Za-z][A-Za-z0-9._:-]{0,119}", owner_key):
+        raise ValueError("owner_key must be a bounded identifier")
+    if not isinstance(workbench_name, str) or not workbench_name.strip() or len(workbench_name) > 120:
+        raise ValueError("workbench_name must be bounded text")
+    reject_secret_like_text(workbench_name, "workbench_name")
+    pos = {"x": 1680, "y": 0} if position is None else dict(position)
+    if (set(pos) != {"x", "y"}
+            or any(not isinstance(pos[k], (int, float)) or isinstance(pos[k], bool) or not math.isfinite(pos[k]) for k in ("x", "y"))):
+        raise ValueError("position must be finite {x, y}")
+
+    if "nodes" in source and "edges" in source and "screens" not in source:
+        nested_design = source.get("component_families_design") or source.get("design_system", {}).get("family_design")
+        if isinstance(nested_design, dict):
+            design_input = copy.deepcopy(nested_design)
+        else:
+            raw_families = source.get("componentFamilies") or source.get("design_system", {}).get("componentFamilies")
+            if not raw_families:
+                raise ValueError("graph requires componentFamilies declaration")
+            design_input = _graph_to_family_design(source, raw_families)
+    else:
+        design_input = copy.deepcopy(source)
+
+    if "componentFamilies" not in design_input:
+        raise ValueError("componentFamilies declaration required")
+    first_token = next(iter(design_input.get("tokens", {}).values()), None)
+    if isinstance(first_token, dict) and "css_name" in first_token and "value" in first_token:
+        validate(design_input)
+        compiled = copy.deepcopy(design_input)
+        if "family_preview" not in compiled or "status" not in compiled:
+            norm_fams, st, prev = _compile_component_families(
+                compiled["componentFamilies"], compiled["components"], compiled["screens"]
+            )
+            compiled["componentFamilies"] = norm_fams
+            compiled["status"] = st
+            compiled["family_preview"] = prev
+    else:
+        compiled = compile_design(design_input)
+
+    if compiled.get("status") == "unmapped":
+        raise ValueError("All declared componentFamilies must map to concrete components before native provisioning")
+
+    tokens = compiled["tokens"]
+    components = compiled["components"]
+    families = compiled["componentFamilies"]
+    comp_to_family = {item["component"]: item for item in families}
+    comp_to_set_id = {item["component"]: f"{owner_key}/set:{item['id']}" for item in families}
+
+    def variant_key_for(comp_name, variant_name):
+        fid = comp_to_family[comp_name]["id"]
+        return f"{owner_key}/variant:{fid}/{variant_name}"
+
+    def resolve_style(styles_map):
+        out = {
+            "background": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
+            "color": {"r": 0.1255, "g": 0.1412, "b": 0.1647, "a": 1.0},
+            "borderColor": {"r": 0.7804, "g": 0.8039, "b": 0.8314, "a": 1.0},
+            "paddingTop": 8.0,
+            "paddingRight": 12.0,
+            "paddingBottom": 8.0,
+            "paddingLeft": 12.0,
+            "itemSpacing": 8.0,
+            "cornerRadius": 0.0,
+            "fontFamily": "Inter",
+            "fontSize": 14.0,
+        }
+        for prop, token_path in styles_map.items():
+            tok = tokens[token_path]
+            if prop == "background":
+                out["background"] = variable_value(tok)[1]
+            elif prop == "color":
+                out["color"] = variable_value(tok)[1]
+            elif prop == "border-color":
+                out["borderColor"] = variable_value(tok)[1]
+            elif prop == "padding":
+                px = dimension_px(tok["value"])
+                out["paddingTop"] = out["paddingRight"] = out["paddingBottom"] = out["paddingLeft"] = px
+            elif prop == "padding-inline":
+                px = dimension_px(tok["value"])
+                out["paddingLeft"] = out["paddingRight"] = px
+            elif prop == "padding-block":
+                px = dimension_px(tok["value"])
+                out["paddingTop"] = out["paddingBottom"] = px
+            elif prop == "gap":
+                out["itemSpacing"] = dimension_px(tok["value"])
+            elif prop == "border-radius":
+                out["cornerRadius"] = dimension_px(tok["value"])
+            elif prop == "font-family":
+                out["fontFamily"] = tok["value"]
+            elif prop == "font-size":
+                out["fontSize"] = dimension_px(tok["value"])
+        return out
+
+    deps = {item["component"]: set() for item in families}
+    for item in families:
+        cname = item["component"]
+        for prop in components[cname].get("properties", {}).values():
+            if prop["type"] == "INSTANCE_SWAP":
+                for ac in prop.get("allowed_components", [prop["default_value"]["component"]]):
+                    if ac not in comp_to_family:
+                        raise ValueError(f"Swap target {ac} must be a declared component family for workbench provisioning")
+                    deps[cname].add(ac)
+
+    ordered_families = []
+    visited = set()
+    def order_visit(cname):
+        if cname in visited:
+            return
+        visited.add(cname)
+        for dep in deps[cname]:
+            order_visit(dep)
+        ordered_families.append(comp_to_family[cname])
+    for item in families:
+        order_visit(item["component"])
+
+    default_font_family = "Inter"
+    for tok in tokens.values():
+        if tok.get("type") == "fontFamily":
+            default_font_family = tok["value"]
+            break
+
+    component_sets = []
+    for item in ordered_families:
+        fid = item["id"]
+        cname = item["component"]
+        comp = components[cname]
+        spec = CANONICAL_COMPONENT_FAMILIES[fid]
+        axis_for_val = {
+            val: axis_name
+            for axis_name, vals in item["axes"].items()
+            for val in vals
+        }
+        variants_out = []
+        primary_label_default = CANONICAL_COMPONENT_FAMILIES[fid]["name"]
+        for pid, cprop in comp.get("properties", {}).items():
+            if cprop["type"] == "TEXT" and cprop["target"] == "label":
+                primary_label_default = cprop["default_value"]
+                break
+        for vname, vstyles in comp["variants"].items():
+            axis_name = axis_for_val[vname]
+            variants_out.append({
+                "key": variant_key_for(cname, vname),
+                "variant": vname,
+                "props": {axis_name: vname},
+                "style": resolve_style(vstyles),
+                "defaultLabel": primary_label_default,
+            })
+        props_out = []
+        for pid, cprop in comp.get("properties", {}).items():
+            p_entry = {
+                "id": pid,
+                "name": cprop.get("name", pid),
+                "type": cprop["type"],
+                "targetKey": cprop["target"],
+            }
+            if cprop["type"] in ("TEXT", "BOOLEAN"):
+                p_entry["defaultValue"] = cprop["default_value"]
+            else:
+                def_ref = cprop["default_value"]
+                allowed_comps = cprop.get("allowed_components", [def_ref["component"]])
+                p_entry["allowedSetIds"] = [comp_to_set_id[ac] for ac in allowed_comps]
+                p_entry["defaultValue"] = {
+                    "setId": comp_to_set_id[def_ref["component"]],
+                    "variantKey": variant_key_for(def_ref["component"], def_ref["variant"]),
+                }
+                p_entry["preferredValues"] = [
+                    {
+                        "setId": comp_to_set_id[pref["component"]],
+                        "variantKey": variant_key_for(pref["component"], pref["variant"]),
+                    }
+                    for pref in cprop.get("preferred_values", [def_ref])
+                ]
+            props_out.append(p_entry)
+        swap_set_ids = [comp_to_set_id[sc] for sc in comp.get("swap_targets", []) if sc in comp_to_set_id]
+        component_sets.append({
+            "id": comp_to_set_id[cname],
+            "family": fid,
+            "component": cname,
+            "name": spec["name"],
+            "layout": comp.get("layout", spec["layout"]),
+            "axes": copy.deepcopy(item["axes"]),
+            "swapTargets": swap_set_ids,
+            "variants": variants_out,
+            "properties": props_out,
+        })
+
+    instances_out = []
+    for screen in compiled["screens"]:
+        for idx, element in enumerate(screen["elements"]):
+            if element["kind"] != "component" or element["component"] not in comp_to_family:
+                continue
+            cname = element["component"]
+            comp_props = components[cname].get("properties", {})
+            el_id = element.get("id", f"{screen['id']}-el-{idx}")
+            prop_vals = {}
+            for pid, raw_val in (element.get("property_values") or {}).items():
+                cprop = comp_props[pid]
+                if cprop["type"] in ("TEXT", "BOOLEAN"):
+                    prop_vals[pid] = raw_val
+                else:
+                    prop_vals[pid] = {
+                        "setId": comp_to_set_id[raw_val["component"]],
+                        "variantKey": variant_key_for(raw_val["component"], raw_val["variant"]),
+                    }
+            inst_entry = {
+                "key": f"{owner_key}/instance:{el_id}",
+                "elementId": el_id,
+                "setId": comp_to_set_id[cname],
+                "variantKey": variant_key_for(cname, element["variant"]),
+                "name": element["text"][:80] or cname,
+                "text": element["text"],
+                "propertyValues": prop_vals,
+            }
+            if "dom_source" in element:
+                inst_entry["domSource"] = copy.deepcopy(element["dom_source"])
+            instances_out.append(inst_entry)
+
+    return {
+        "schema": "figma-flow-semantic-family-contract-v1",
+        "version": 1,
+        "mode": "additive-family-workbench",
+        "ownerKey": owner_key,
+        "workbench": {
+            "frameKey": f"{owner_key}/workbench",
+            "libraryKey": f"{owner_key}/library",
+            "instancesFrameKey": f"{owner_key}/instances",
+            "name": workbench_name,
+            "position": pos,
+            "font": {"family": default_font_family, "style": "Regular"},
+        },
+        "componentSets": component_sets,
+        "instances": instances_out,
+    }
+
+
+def _graph_to_family_design(graph, raw_families):
+    """Synthesize a validated design dict from a canonical graph carrying componentFamilies."""
+    tokens = {
+        "color": {
+            "ink": {"$type": "color", "$value": "#1f242b"},
+            "muted": {"$type": "color", "$value": "#59616b"},
+            "surface": {"$type": "color", "$value": "#ffffff"},
+            "border": {"$type": "color", "$value": "#c7cdd4"},
+            "accent": {"$type": "color", "$value": "#1849a5"},
+            "danger": {"$type": "color", "$value": "#b42318"},
+        },
+        "space": {
+            "xs": {"$type": "dimension", "$value": "4px"},
+            "sm": {"$type": "dimension", "$value": "8px"},
+            "md": {"$type": "dimension", "$value": "12px"},
+        },
+        "radius": {"sm": {"$type": "dimension", "$value": "4px"}},
+        "font": {
+            "body": {"$type": "fontFamily", "$value": "Inter"},
+            "size": {"$type": "dimension", "$value": "14px"},
+        },
+    }
+    for role in graph.get("design_foundations", {}).get("roles", []):
+        if role.get("kind") == "typography" and (role.get("native") or {}).get("type") == "STRING":
+            val = role.get("value", "")
+            if isinstance(val, str) and FONT.fullmatch(val):
+                tokens["font"]["body"]["$value"] = val
+                break
+    components = {}
+    for entry in raw_families:
+        if not isinstance(entry, dict) or "id" not in entry or "axes" not in entry:
+            raise ValueError("invalid componentFamilies entry in graph")
+        cname = entry.get("component", entry["id"])
+        variants = {}
+        for vals in entry["axes"].values():
+            if not isinstance(vals, list):
+                raise ValueError("invalid axis values in graph componentFamilies")
+            for vname in vals:
+                ink_tok = "color.danger" if vname == "error" else ("color.muted" if vname in ("disabled", "muted") else ("color.accent" if vname in ("checked", "selected") else "color.ink"))
+                border_tok = "color.danger" if vname == "error" else ("color.accent" if vname in ("focus", "checked", "selected") else "color.border")
+                variants[vname] = {
+                    "color": ink_tok,
+                    "background": "color.surface",
+                    "border-color": border_tok,
+                    "padding": "space.sm",
+                    "gap": "space.sm",
+                    "border-radius": "radius.sm",
+                    "font-family": "font.body",
+                    "font-size": "font.size",
+                }
+        components[cname] = {"variants": variants}
+    raw_instances = graph.get("family_instances") or graph.get("design_system", {}).get("family_instances") or []
+    elements = []
+    if raw_instances:
+        for idx, inst in enumerate(raw_instances):
+            if not isinstance(inst, dict):
+                raise ValueError("invalid family_instances entry")
+            el = {
+                "id": inst.get("id", f"family-instance-{idx}"),
+                "kind": "component",
+                "component": inst["component"],
+                "variant": inst["variant"],
+                "text": inst.get("text", inst["component"]),
+            }
+            if "property_values" in inst:
+                el["property_values"] = copy.deepcopy(inst["property_values"])
+            if "dom_source" in inst:
+                el["dom_source"] = copy.deepcopy(inst["dom_source"])
+            elements.append(el)
+    else:
+        for entry in raw_families:
+            cname = entry.get("component", entry["id"])
+            first_v = next(iter(components[cname]["variants"]))
+            elements.append({
+                "id": f"default-{cname}",
+                "kind": "component",
+                "component": cname,
+                "variant": first_v,
+                "text": CANONICAL_COMPONENT_FAMILIES.get(entry["id"], {}).get("name", cname),
+            })
+    return {
+        "version": 1,
+        "tokens": tokens,
+        "componentFamilies": copy.deepcopy(raw_families),
+        "components": components,
+        "screens": [{
+            "id": "graph-family-workbench",
+            "title": "Graph component families",
+            "trace": ["NF-01"],
+            "elements": elements,
+        }],
+    }
 
 
 def main():

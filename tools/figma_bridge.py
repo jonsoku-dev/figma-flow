@@ -17,6 +17,71 @@ ROOT = Path(__file__).resolve().parents[1]
 MAX_BYTES = 2_000_000
 PX_PER_REM = 16
 
+CANONICAL_COMPONENT_FAMILIES = {
+    'field': {
+        'name': 'Field',
+        'layout': 'VERTICAL',
+        'required_layout': 'VERTICAL',
+        'canonical_states': ('default', 'error', 'disabled'),
+        'canonical_text_slots': ('field-label', 'field-help'),
+    },
+    'input': {
+        'name': 'Input',
+        'layout': 'HORIZONTAL',
+        'required_layout': None,
+        'canonical_states': ('default', 'focus', 'error', 'disabled'),
+        'canonical_text_slots': ('input-value',),
+    },
+    'checkbox': {
+        'name': 'Checkbox',
+        'layout': 'HORIZONTAL',
+        'required_layout': 'HORIZONTAL',
+        'canonical_states': ('unchecked', 'checked', 'disabled'),
+        'canonical_text_slots': ('checkbox-label',),
+    },
+    'radio': {
+        'name': 'Radio',
+        'layout': 'HORIZONTAL',
+        'required_layout': 'HORIZONTAL',
+        'canonical_states': ('unselected', 'selected', 'disabled'),
+        'canonical_text_slots': ('radio-label',),
+    },
+    'table-row': {
+        'name': 'TableRow',
+        'layout': 'HORIZONTAL',
+        'required_layout': 'HORIZONTAL',
+        'canonical_states': ('default', 'selected'),
+        'canonical_text_slots': (),
+    },
+    'table-cell': {
+        'name': 'TableCell',
+        'layout': 'HORIZONTAL',
+        'required_layout': None,
+        'canonical_states': ('default', 'header', 'selected', 'muted'),
+        'canonical_text_slots': ('cell-text',),
+    },
+}
+
+_SECRET_TEXT_PATTERNS = (
+    re.compile(r'\bfigd_[A-Za-z0-9_-]{12,}\b'),
+    re.compile(r'\bgh[pousr]_[A-Za-z0-9]{16,}\b'),
+    re.compile(r'\bsk-[A-Za-z0-9_-]{16,}\b'),
+    re.compile(r'\bAKIA[0-9A-Z]{16}\b'),
+    re.compile(r'\bBearer\s+[A-Za-z0-9._-]{16,}'),
+    re.compile(r'-----BEGIN [A-Z ]*PRIVATE KEY-----'),
+    re.compile(r'(?:^|[\s"\'])/Users/[^/\s]+'),
+    re.compile(r'(?i)\b(?:password|passwd|secret|api[_-]?key|access[_-]?token|client[_-]?secret)\s*[:=]\s*\S+'),
+)
+
+
+def reject_secret_like_text(value, context='component property'):
+    if not isinstance(value, str) or len(value) > 2000 or any(ord(ch) < 32 and ch not in ('\n', '\t') for ch in value):
+        raise ValueError(f'Invalid text value in {context}')
+    for pattern in _SECRET_TEXT_PATTERNS:
+        if pattern.search(value):
+            raise ValueError(f'Secret, credential, or private path text is forbidden in {context}')
+    return value
+
 
 def read_json(path):
     path = Path(path)
@@ -66,58 +131,129 @@ def validate_component_properties(components, screens):
         return value['component']
 
     dependencies = {name: set() for name in components}
+    allowed_swap_sets = {}
     for name, component in components.items():
+        if 'family' in component:
+            family_id = component['family']
+            if not isinstance(family_id, str) or family_id not in CANONICAL_COMPONENT_FAMILIES:
+                raise ValueError(f'Unsupported component family on {name}: {family_id!r}')
+        if 'layout' in component:
+            layout_mode = component['layout']
+            if layout_mode not in ('VERTICAL', 'HORIZONTAL'):
+                raise ValueError(f'Component layout must be VERTICAL or HORIZONTAL: {name}')
+            req_layout = CANONICAL_COMPONENT_FAMILIES.get(component.get('family'), {}).get('required_layout')
+            if req_layout and layout_mode != req_layout:
+                raise ValueError(f'Component family {component["family"]} requires {req_layout} layout')
+        component_swap_targets = None
+        if 'swap_targets' in component:
+            raw_targets = component['swap_targets']
+            if (not isinstance(raw_targets, list) or len(raw_targets) > 32
+                    or any(not isinstance(item, str) or item not in components for item in raw_targets)):
+                raise ValueError(f'Component swap_targets must list existing local components: {name}')
+            component_swap_targets = set(raw_targets)
+        explicit_slots = set()
+        if 'slots' in component:
+            raw_slots = component['slots']
+            if (not isinstance(raw_slots, list) or len(raw_slots) > 32
+                    or any(not isinstance(slot, str) or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', slot) for slot in raw_slots)):
+                raise ValueError(f'Component slots must be valid target identifiers: {name}')
+            explicit_slots = set(raw_slots)
         properties = component.get('properties', {})
         if not isinstance(properties, dict) or len(properties) > 32:
             raise ValueError('Component properties must be a mapping of at most 32 declarations')
         swaps = set()
+        text_targets = set()
         targets = set()
-        for display, prop in properties.items():
-            if not isinstance(display, str) or not display.strip() or '#' in display or display == '문구':
-                raise ValueError('Component property names must be nonempty, unique native display names without #')
-            if not isinstance(prop, dict) or prop.get('type') not in ('BOOLEAN', 'INSTANCE_SWAP'):
-                raise ValueError('Declared component properties support BOOLEAN and INSTANCE_SWAP only')
+        axes = component.get('variant_axes', {'Variant': list(component['variants'])})
+        axis_names = set(axes) | {'Variant'}
+        for prop_id, prop in properties.items():
+            if not isinstance(prop_id, str) or not prop_id.strip() or '#' in prop_id or prop_id == '문구':
+                raise ValueError('Component property identifiers must be nonempty names without #')
+            if not isinstance(prop, dict) or prop.get('type') not in ('TEXT', 'BOOLEAN', 'INSTANCE_SWAP'):
+                raise ValueError('Declared component properties support TEXT, BOOLEAN, and INSTANCE_SWAP only')
             required = {'type', 'target', 'default_value'}
-            allowed = required | ({'preferred_values'} if prop['type'] == 'INSTANCE_SWAP' else set())
+            allowed = required | {'name'} | ({'preferred_values', 'allowed_components'} if prop['type'] == 'INSTANCE_SWAP' else set())
             if not required <= set(prop) or set(prop) - allowed or not isinstance(prop['target'], str) or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', prop['target']):
                 raise ValueError('Component properties require type, target and default_value')
+            display = prop.get('name', prop_id)
+            if not isinstance(display, str) or not display.strip() or '#' in display or display == '문구':
+                raise ValueError('Component property names must be nonempty native display names without #')
+            if prop_id in axis_names or display in axis_names:
+                raise ValueError('Component property names must not collide with variant axes')
             identity = (prop['type'], prop['target'])
             if identity in targets:
                 raise ValueError('Only one component property can bind each target field')
             targets.add(identity)
-            if prop['type'] == 'BOOLEAN':
+            if prop['type'] == 'TEXT':
+                if not isinstance(prop['default_value'], str):
+                    raise ValueError('TEXT component property defaults must be strings')
+                reject_secret_like_text(prop['default_value'], f'{name}.{prop_id}.default_value')
+                if prop['target'] != 'label':
+                    text_targets.add(prop['target'])
+            elif prop['type'] == 'BOOLEAN':
                 if not isinstance(prop['default_value'], bool):
                     raise ValueError('BOOLEAN component property defaults must be booleans')
             else:
                 if prop['target'] == 'label':
                     raise ValueError('INSTANCE_SWAP target must be a named slot, not label')
                 swaps.add(prop['target'])
-                dependencies[name].add(reference(prop['default_value']))
+                prop_allowed = None
+                if 'allowed_components' in prop:
+                    raw_allowed = prop['allowed_components']
+                    if (not isinstance(raw_allowed, list) or not raw_allowed or len(raw_allowed) > 32
+                            or any(not isinstance(item, str) or item not in components for item in raw_allowed)):
+                        raise ValueError('Swap allowed_components must be a nonempty list of local components')
+                    prop_allowed = set(raw_allowed)
+                effective_allowed = component_swap_targets if prop_allowed is None else (
+                    prop_allowed if component_swap_targets is None else (component_swap_targets & prop_allowed)
+                )
+                default_comp = reference(prop['default_value'])
+                dependencies[name].add(default_comp)
                 preferred = prop.get('preferred_values', [])
                 if not isinstance(preferred, list) or len(preferred) > 100:
                     raise ValueError('Swap preferred_values must be a bounded list of local variant references')
+                preferred_comps = set()
                 for value in preferred:
-                    dependencies[name].add(reference(value))
+                    comp = reference(value)
+                    dependencies[name].add(comp)
+                    preferred_comps.add(comp)
+                if effective_allowed is None and preferred_comps:
+                    effective_allowed = preferred_comps
+                if effective_allowed is not None:
+                    if default_comp not in effective_allowed or (preferred_comps and not preferred_comps <= effective_allowed):
+                        raise ValueError(f'Swap target outside allowed range on {name}.{prop_id}')
+                allowed_swap_sets[(name, prop_id)] = effective_allowed
+        if swaps & text_targets:
+            raise ValueError('Component property target cannot be both TEXT and INSTANCE_SWAP')
+        family_slots = set(CANONICAL_COMPONENT_FAMILIES.get(component.get('family'), {}).get('canonical_text_slots', ()))
+        valid_boolean_targets = swaps | text_targets | family_slots | explicit_slots | {'label'}
         for prop in properties.values():
-            if prop['type'] == 'BOOLEAN' and prop['target'] not in swaps | {'label'}:
-                raise ValueError('BOOLEAN target must be label or a declared instance-swap slot')
-        axes = component.get('variant_axes', {'Variant': list(component['variants'])})
-        if set(properties) & (set(axes) | {'Variant'}):
-            raise ValueError('Component property names must not collide with variant axes')
+            if prop['type'] == 'BOOLEAN' and prop['target'] not in valid_boolean_targets:
+                raise ValueError('BOOLEAN target must be label or a declared instance-swap/text slot')
     for screen in screens:
         for element in screen.get('elements', []):
             if 'property_values' not in element:
                 continue
             overrides = element['property_values']
-            properties = components.get(element.get('component'), {}).get('properties', {})
+            comp_name = element.get('component')
+            properties = components.get(comp_name, {}).get('properties', {})
             if element.get('kind') != 'component' or not isinstance(overrides, dict) or set(overrides) - set(properties):
                 raise ValueError('Instance property_values must name declared component properties')
-            for name, value in overrides.items():
-                if properties[name]['type'] == 'BOOLEAN':
+            for prop_id, value in overrides.items():
+                prop = properties[prop_id]
+                if prop['type'] == 'TEXT':
+                    if not isinstance(value, str):
+                        raise ValueError('TEXT instance override must be a string')
+                    reject_secret_like_text(value, f'{comp_name}.{prop_id}.property_values')
+                elif prop['type'] == 'BOOLEAN':
                     if not isinstance(value, bool):
                         raise ValueError('BOOLEAN instance override must be a boolean')
                 else:
-                    dependencies[element['component']].add(reference(value))
+                    target_comp = reference(value)
+                    effective_allowed = allowed_swap_sets.get((comp_name, prop_id))
+                    if effective_allowed is not None and target_comp not in effective_allowed:
+                        raise ValueError(f'Instance swap override outside allowed range: {comp_name}.{prop_id} -> {target_comp}')
+                    dependencies[comp_name].add(target_comp)
     visiting, done = set(), set()
     def visit(name):
         if name in visiting:
@@ -200,6 +336,16 @@ def validate(data):
                     raise ValueError('Component elements must reference an existing component variant')
     if count > 1000:
         raise ValueError('At most 1000 screen elements are supported')
+    if 'componentFamilies' in data:
+        families = data['componentFamilies']
+        if not isinstance(families, list) or not 1 <= len(families) <= 32:
+            raise ValueError('componentFamilies must be a nonempty list of at most 32 declarations')
+        seen_families = set()
+        for entry in families:
+            if (not isinstance(entry, dict) or entry.get('version') != 1
+                    or entry.get('id') not in CANONICAL_COMPONENT_FAMILIES or entry['id'] in seen_families):
+                raise ValueError('Invalid or unsupported componentFamilies declaration')
+            seen_families.add(entry['id'])
     validate_component_properties(components, screens)
     return values
 
@@ -573,56 +719,83 @@ def compare_declared_component_properties(page, expected):
         return matches[0] if len(matches) == 1 else None
     def resolve(ref):
         return find(f"component:{ref['component']}/{ref['variant']}")
-    def target(node, prop, identity):
-        child = find(identity + ('/label' if prop['target'] == 'label' else '/slot:' + prop['target']))
+    def target_suffix(definition, prop):
+        if prop['target'] == 'label':
+            return '/label'
+        if prop['type'] == 'TEXT':
+            return '/text:' + prop['target']
+        if prop['type'] == 'INSTANCE_SWAP':
+            return '/slot:' + prop['target']
+        swap_targets = {item['target'] for item in definition.get('properties', {}).values() if item.get('type') == 'INSTANCE_SWAP'}
+        return ('/slot:' if prop['target'] in swap_targets else '/text:') + prop['target']
+    def target(node, definition, prop, identity):
+        child = find(identity + target_suffix(definition, prop))
         return child if child and node and any(item.get('id') == child.get('id') for item in node.get('children', [])) else None
     checks = []
     def record(identity, name, scope, passed, actual=None):
         checks.append({'semantic_id': identity, 'property': name, 'scope': scope,
                        'status': 'match' if passed else 'changed', 'current_value': actual})
     for name, definition in expected['components'].items():
+        properties = definition.get('properties', {})
+        display_counts = {}
+        for prop_id, prop in properties.items():
+            disp = prop.get('name', prop_id)
+            display_counts[disp] = display_counts.get(disp, 0) + 1
         for variant in definition['variants']:
             identity = f'component:{name}/{variant}'
             main = find(identity)
             parent = parents.get(main.get('id')) if main else None
             owner = parent if parent and parent.get('type') == 'COMPONENT_SET' else main
-            for display, prop in definition.get('properties', {}).items():
-                key = mapping(mapping((main or {}).get('declared_metadata')).get('declared_property_keys')).get(display)
+            declared_keys = mapping(mapping((main or {}).get('declared_metadata')).get('declared_property_keys'))
+            distinct_keys = len(set(declared_keys.values())) == len(declared_keys)
+            for prop_id, prop in properties.items():
+                display = prop.get('name', prop_id)
+                key = declared_keys.get(prop_id)
                 definitions = mapping((owner or {}).get('componentPropertyDefinitions'))
                 actual = mapping(definitions.get(key))
                 matching = [candidate for candidate in definitions if candidate.startswith(display + '#')]
                 ref = resolve(prop['default_value']) if prop['type'] == 'INSTANCE_SWAP' else None
-                value = prop['default_value'] if prop['type'] == 'BOOLEAN' else (ref or {}).get('id')
-                record(identity, display, 'definition', bool(main and main.get('type') == 'COMPONENT' and key and matching == [key] and actual.get('type') == prop['type']), actual)
-                record(identity, display, 'default', value is not None and type(actual.get('defaultValue')) is type(value) and actual.get('defaultValue') == value, actual.get('defaultValue'))
+                value = prop['default_value'] if prop['type'] in ('BOOLEAN', 'TEXT') else (ref or {}).get('id')
+                key_ok = bool(key and distinct_keys and key in matching and len(matching) == display_counts[display])
+                record(identity, prop_id, 'definition', bool(main and main.get('type') == 'COMPONENT' and key_ok and actual.get('type') == prop['type']), actual)
+                record(identity, prop_id, 'default', value is not None and type(actual.get('defaultValue')) is type(value) and actual.get('defaultValue') == value, actual.get('defaultValue'))
                 if prop['type'] == 'INSTANCE_SWAP':
                     preferred = [{'type': 'COMPONENT', 'key': (resolve(item) or {}).get('component_key')} for item in prop.get('preferred_values', [])]
-                    record(identity, display, 'preferred-values', all(item['key'] for item in preferred) and actual.get('preferredValues', []) == preferred, actual.get('preferredValues'))
-                child = target(main, prop, identity)
-                field = 'visible' if prop['type'] == 'BOOLEAN' else 'mainComponent'
+                    record(identity, prop_id, 'preferred-values', all(item['key'] for item in preferred) and actual.get('preferredValues', []) == preferred, actual.get('preferredValues'))
+                child = target(main, definition, prop, identity)
+                field = 'characters' if prop['type'] == 'TEXT' else ('visible' if prop['type'] == 'BOOLEAN' else 'mainComponent')
                 reference = mapping((child or {}).get('componentPropertyReferences')).get(field)
-                record(identity, display, 'layer-reference', bool(child and key and reference == key), reference)
-                observed = (child or {}).get('visible' if prop['type'] == 'BOOLEAN' else 'main_component_id')
-                passed = child and value is not None and type(observed) is type(value) and observed == value and (prop['type'] == 'BOOLEAN' or child.get('type') == 'INSTANCE')
-                record(identity, display, 'actual-target', bool(passed), observed)
+                record(identity, prop_id, 'layer-reference', bool(child and key and reference == key), reference)
+                obs_field = 'characters' if prop['type'] == 'TEXT' else ('visible' if prop['type'] == 'BOOLEAN' else 'main_component_id')
+                observed = (child or {}).get(obs_field)
+                expected_child_val = main.get('children', [{}])[0].get('characters') if (prop['type'] == 'TEXT' and prop['target'] == 'label' and value == '' and main) else value
+                type_ok = (child.get('type') == 'TEXT' if prop['type'] == 'TEXT' else (True if prop['type'] == 'BOOLEAN' else child.get('type') == 'INSTANCE')) if child else False
+                passed = child and expected_child_val is not None and type(observed) is type(expected_child_val) and observed == expected_child_val and type_ok
+                record(identity, prop_id, 'actual-target', bool(passed), observed)
     for screen in expected['screens']:
         for index, element in enumerate(screen['elements']):
             if element['kind'] != 'component':
                 continue
             identity = element.get('id', f"{screen['id']}/element:{index}")
             instance = find(identity)
+            definition = expected['components'][element['component']]
             main = resolve({'component': element['component'], 'variant': element['variant']})
-            for display, prop in expected['components'][element['component']].get('properties', {}).items():
-                key = mapping(mapping((main or {}).get('declared_metadata')).get('declared_property_keys')).get(display)
+            for prop_id, prop in definition.get('properties', {}).items():
+                key = mapping(mapping((main or {}).get('declared_metadata')).get('declared_property_keys')).get(prop_id)
                 actual = mapping(mapping((instance or {}).get('componentProperties')).get(key))
-                requested = element.get('property_values', {}).get(display, prop['default_value'])
-                value = requested if prop['type'] == 'BOOLEAN' else (resolve(requested) or {}).get('id')
+                has_override = prop_id in element.get('property_values', {})
+                requested = element.get('property_values', {}).get(prop_id, element['text'] if (prop['type'] == 'TEXT' and prop['target'] == 'label') else prop['default_value'])
+                if has_override and prop['type'] == 'TEXT' and prop['target'] == 'label':
+                    requested = element['property_values'][prop_id]
+                value = requested if prop['type'] in ('BOOLEAN', 'TEXT') else (resolve(requested) or {}).get('id')
                 passed = instance and main and instance.get('type') == 'INSTANCE' and instance.get('main_component_id') == main.get('id') and actual.get('type') == prop['type'] and value is not None and type(actual.get('value')) is type(value) and actual.get('value') == value
-                record(identity, display, 'instance-value', bool(passed), actual.get('value'))
-                child = target(instance, prop, identity)
-                observed = (child or {}).get('visible' if prop['type'] == 'BOOLEAN' else 'main_component_id')
-                passed = child and value is not None and type(observed) is type(value) and observed == value and (prop['type'] == 'BOOLEAN' or child.get('type') == 'INSTANCE')
-                record(identity, display, 'instance-target', bool(passed), observed)
+                record(identity, prop_id, 'instance-value', bool(passed), actual.get('value'))
+                child = target(instance, definition, prop, identity)
+                obs_field = 'characters' if prop['type'] == 'TEXT' else ('visible' if prop['type'] == 'BOOLEAN' else 'main_component_id')
+                observed = (child or {}).get(obs_field)
+                type_ok = (child.get('type') == 'TEXT' if prop['type'] == 'TEXT' else (True if prop['type'] == 'BOOLEAN' else child.get('type') == 'INSTANCE')) if child else False
+                passed = child and value is not None and type(observed) is type(value) and observed == value and type_ok
+                record(identity, prop_id, 'instance-target', bool(passed), observed)
     return checks
 
 
@@ -638,7 +811,9 @@ def compare_import(page, expected, digest, variables, collections, required_anno
         identity = node.get('semantic_id') or node.get('declared_metadata', {}).get('semantic_id')
         # Instances inherit the main component's metadata. Only the explicitly retagged
         # label belongs to the instance and must still be checked for text and bindings.
-        if instance_label is None or identity == instance_label or isinstance(identity, str) and identity.startswith(instance_label.removesuffix('/label') + '/slot:'):
+        if instance_label is None or identity == instance_label or isinstance(identity, str) and (
+                identity.startswith(instance_label.removesuffix('/label') + '/slot:')
+                or identity.startswith(instance_label.removesuffix('/label') + '/text:')):
             semantic.setdefault(identity, []).append(node)
         if node.get('type') == 'INSTANCE' and instance_label is None:
             instance_label = (identity or '') + '/label'
