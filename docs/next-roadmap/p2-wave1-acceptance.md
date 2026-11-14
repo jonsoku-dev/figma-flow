@@ -93,7 +93,7 @@ Native 조작, 패널 UI 조작, 원본 작업 페이지의 실제 실행은 roo
 | ID | 기준 | 근거 |
 |---|---|---|
 | A1 | manifest의 모든 `sha256`이 실제 파일 bytes와 같고, 디렉터리의 모든 공개 파일이 manifest에 있다 | `tests/test_owned_production_workspace.py` |
-| A2 | `tools/owned_production_workspace.py`는 열기 전에 경로 문법 위반, 일반 파일이 아닌 항목(symlink 포함), fixture 밖으로 해석되는 경로, manifest에 없는 경로, 선언과 다른 bytes, 텍스트의 외부 URL(SVG namespace 제외)을 거절한다 | 같은 검사의 거절 사례 |
+| A2 | `tools/owned_production_workspace.py`는 열기 전에 경로 문법 위반, 일반 파일이 아닌 항목(symlink 포함), fixture 밖으로 해석되는 경로, manifest에 없는 경로, 선언과 다른 bytes, 텍스트의 외부 URL(scheme-relative `//` URI 포함, SVG namespace 제외)을 거절한다. 검증한 manifest의 한 번 파싱한 결과로 서빙 목록을 정하고, 검증 뒤 manifest를 다시 파싱해 목록을 바꾸지 않는다 | 같은 검사의 거절 사례 |
 | A3 | 공개 입력과 생성 graph에 실제 계정·세션·개인 문구·외부 전용 이미지가 없다 | `python3 -B tools/reference_distribution_guard.py --ref HEAD --format text` clean, 새 민감도 검사 |
 | A4 | 입력 digest, 출력 graph digest, 화면 범위가 receipt에 기록된다 | 공개 요약에는 digest와 범위만 쓴다 |
 | A5 | 기존 참고 자료와 보존 사본의 bytes·파일 수가 변하지 않는다 | P0 보존 대조 재실행 |
