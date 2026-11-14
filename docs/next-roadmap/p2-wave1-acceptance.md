@@ -28,10 +28,18 @@ p0-reference-safety (verified)
 | 작업 | writer | 소유 경로 |
 |---|---|---|
 | `p2-rights-cleared-fixture` | fixture writer | `examples/owned-production-workspace/**`, `tests/test_owned_production_workspace.py`, `tools/owned_production_workspace.py` |
-| `p2-read-performance-baseline` | baseline writer | `tools/native_read_benchmark.py`와 그 전용 새 검사, [NF-02](NF-02-incremental-native-read.md)의 측정 기록 부록 |
+| `p2-read-performance-baseline` | baseline writer | 새 `figma-bridge/native_read_measurement.js`, `figma-bridge/native_semantic_read.js`, `tools/graph_sync.py`·`tools/figma_workspace.py`의 최소 discovery 호출부, 새 측정 검사, [NF-02](NF-02-incremental-native-read.md)의 측정 기록 부록. 기존 파일은 아래 계측 조건 안에서만 바꾼다 |
 | 두 작업의 기록 | records writer | `docs/next-roadmap/backlog.graph.json`, `capability-review.md`, `README.md`, 이 문서, `tests/test_next_roadmap_backlog.py`, `CHANGELOG.md`, `docs/llm-wiki/` |
 
-fixture·baseline writer는 그래프, CHANGELOG, Wiki를 바꾸지 않는다. 두 writer 모두 코어 캡처·컴파일러·플러그인, 기존 `examples/owned-design-baseline/`·`examples/owned-component-families/`, 패널 UI, `figma-bridge/assets/panels.js`, `docs/development-roadmap/RD-06-native-read/tasks.md`를 바꾸지 않는다. 범위 밖 파일이 필요하면 변경 전에 root에 보고한다.
+fixture·baseline writer는 그래프, CHANGELOG, Wiki를 바꾸지 않는다. fixture writer는 코어 캡처·컴파일러·플러그인을 바꾸지 않는다. 두 writer 모두 기존 `examples/owned-design-baseline/`·`examples/owned-component-families/`, 패널 UI, `figma-bridge/assets/panels.js`, `docs/development-roadmap/RD-06-native-read/tasks.md`를 바꾸지 않는다.
+
+baseline writer의 기존 파일 변경은 다음 계측 조건을 모두 지킨다.
+
+- 기본 경로는 그대로다. flag 없이 호출하면 `readNativeSemantics`와 discovery 호출부의 시그니처, 반환값, 읽는 getter가 기준 커밋과 같다.
+- 계측은 명시적 선택 flag를 줄 때만 동작한다.
+- 동결된 RD-06 검사와 `tests/test_graph_sync.py`가 blob·모드 변경 없이 통과한다.
+
+Native 조작, 패널 UI 조작, 원본 작업 페이지의 실제 실행은 root만 한다. 범위 밖 파일이 필요하면 변경 전에 root에 보고한다.
 
 ## 공통 경계
 
@@ -111,7 +119,7 @@ python3 -B tools/reference_distribution_guard.py --ref HEAD --format text
 
 ### 최소 데이터 형태
 
-측정 대상은 `figma-bridge/native_semantic_read.js`의 `readNativeSemantics`다. 기준 트리의 reader blob은 `57aa184daa152843fe5954d69586ecaf16c580a4`, 플러그인 버전은 `0.35.0`이다. 계측은 함수 시그니처나 반환값에 넣지 않는다. 러너가 호출 밖에서 시간을 잰다.
+측정 대상은 `figma-bridge/native_semantic_read.js`의 `readNativeSemantics`다. 기준 트리의 reader blob은 `57aa184daa152843fe5954d69586ecaf16c580a4`, 플러그인 버전은 `0.35.0`이다. 기본 호출의 시그니처와 반환값에는 계측을 넣지 않는다. 시간 측정은 선택 flag 경로나 호출 밖의 러너에서 한다.
 
 워크로드는 두 개다. 둘의 차이를 개선으로 적지 않는다.
 
@@ -163,7 +171,7 @@ node --test tests/rd06_full_getter_ledger.cjs tests/rd06_read_comparison.cjs
 python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'
 ```
 
-이 명령은 저장소 fixture 기준만 확인한다. 실제 Figma 지연이나 대형 문서의 동작을 보여 주지 않는다. 실제 측정값은 root가 개발 플러그인으로 등록된 테스트 페이지에서 얻는다. 기본은 호출부 수정 없음이다. RD-06 검사는 `code.js`, `native_edit.js`, `tools/graph_sync.py`, 패널 소스의 호출 문자열을 고정하므로 이 파일들을 바꿔야 하면 변경 전에 root에 보고한다.
+이 명령은 저장소 fixture 기준만 확인한다. 실제 Figma 지연이나 대형 문서의 동작을 보여 주지 않는다. 실제 측정값은 root가 개발 플러그인으로 등록된 테스트 페이지에서 얻는다. 호출부 변경은 [파일 소유](#file-ownership)의 선택 flag 범위에 한한다. RD-06 검사는 `code.js`, `native_edit.js`, `tools/graph_sync.py`, 패널 소스의 호출 문자열을 고정하므로 기본 경로의 문자열을 유지한다.
 
 ## Root 실측 절차
 
