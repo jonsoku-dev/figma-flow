@@ -1,6 +1,6 @@
 # NF-09 · 웹 상호작용을 편집 가능한 Figma 프로토타입으로 가져오기
 
-**설계 제안. 웹 가져오기에 자동 상호작용 변환은 아직 없다.** Figma Flow에는 이미 클릭으로 두 네이티브 프레임을 연결하는 [Smart Animate 레시피](../../library/figma-recipes/design-motion.ts)가 있다. 현재 [웹 캡처](../web-design-capture.md)는 측정 시점의 보이는 화면을 읽는다.
+**0.33.0 구현 범위는 모바일 CSS 스크롤 스냅 캐러셀이다.** 2~16개의 카드 상태와 드래그·타이머 전이를 정본 그래프로 묶어 편집 가능한 Figma Design 프레임으로 가져온다. [캐러셀 사용 및 인수 기록](../../specs/interactive-web/carousel.md)에서 실제 SaaS 표본을 확인할 수 있다. 탭·overlay 및 자유 모션에 대한 아래 항목은 후속 설계다. Figma Flow에는 이미 클릭으로 두 네이티브 프레임을 연결하는 [Smart Animate 레시피](../../library/figma-recipes/design-motion.ts)가 있다. 현재 [웹 캡처](../web-design-capture.md)는 측정 시점의 보이는 화면을 읽는다.
 
 실제 Devtool 홈에서 두 번째 탭 카드를 클릭하면 표시 코드가 두 번째 패널 본문으로, 첫 번째 탭 카드를 다시 클릭하면 초기 패널 본문으로 바뀌었다. 이는 브라우저에서 직접 확인한 전환이다. 이 사례의 Figma 전환 생성과 재생 검증은 아직 수행하지 않았다.
 

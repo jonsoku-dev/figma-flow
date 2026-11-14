@@ -4,6 +4,8 @@
 
 [제품 헌법](CONSTITUTION.md)과 [Design 전용 설계서](specs/design-specialization/spec.md)를 먼저 적용한다. 신규 기능·리팩터링·성능 개선에는 실제 Figma Design 편집 또는 검토 시나리오와 정본 graph의 인수 조건을 연결한다. 다른 편집기용 코드·메뉴·SDK 생성기·테스트 앱을 추가하거나 복구하지 않는다. 편집기 범위는 `python3 -B -m unittest tests.test_design_specialization`으로 확인한다.
 
+신규 기능은 [기본 사용 환경](CONSTITUTION.md#기본-사용-환경)에 따라 Computer Use와 hook을 끈 사용자 경로에서 실행하고, 실제 브라우저·Figma 인수 결과와 함께 기록한다.
+
 디자인 제작·리디자인은 `skills/figma-flow/SKILL.md`와 연결된 선택·검토 계약을 따른다. 내장 Unslop 절차는 기존 디자인 시스템과 사용자가 선택한 방향 안에서 적용한다.
 
 외부 디자인 스킬은 [동봉 의존성 계약](skills/figma-flow/references/skill-dependencies.md)에 따라 고정된 원문과 라이선스를 함께 관리한다. 첫 디자인 실행 전에 패키지를 검증하고 필요한 참조만 읽는다. 전역 수정본·미고정 최신본으로 대체하거나 외부 원문의 후크·도구를 자동 실행하지 않는다.

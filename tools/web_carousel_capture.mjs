@@ -10,7 +10,7 @@ import { parseArgs } from 'node:util';
 import { setTimeout as pause } from 'node:timers/promises';
 
 const toolsDir = path.dirname(fileURLToPath(import.meta.url));
-const help = `node tools/web_carousel_capture.mjs --url URL --rail SELECTOR --out NEW_DIRECTORY --interval-ms N [--first-card TITLE] [--chrome EXECUTABLE] [--width 390 --height 844]
+const help = `node tools/web_carousel_capture.mjs --url URL --rail SELECTOR --out NEW_DIRECTORY --interval-ms N [--first-card TITLE] [--id GRAPH_ID] [--chrome EXECUTABLE] [--width 390 --height 844]
 Capture a mobile CSS scroll-snap rail with 2–16 direct child cards and an autoplay timer.
 Writes browser screenshots, measured WEB screens, transition receipts and carousel-graph.json.
 Requires Chromium, Node and Python on PATH. No browser extension or account is required.`;

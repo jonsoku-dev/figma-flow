@@ -1,7 +1,7 @@
 {
   "version": 1,
   "id": "interactive-web-design",
-  "title": "Observed web interactions and proposed Design replay",
+  "title": "Observed web interaction graph and editable carousel playback",
   "nodes": [
     {
       "id": "REQ-INTERACTION",
@@ -72,6 +72,55 @@
       "title": "Compare browser and Figma playback; graph readback alone is insufficient",
       "status": "planned",
       "source": "../../docs/next-roadmap/NF-09-interactive-web-design.md"
+    },
+    {
+      "id": "REQ-CAROUSEL",
+      "type": "requirement",
+      "status": "verified",
+      "source": "carousel.md",
+      "title": "Import measured CSS snap states without Computer Use or hooks"
+    },
+    {
+      "id": "SCR-SAAS-FEATURES",
+      "type": "screen",
+      "status": "observed",
+      "source": "carousel.md",
+      "title": "Four SaaS feature cards in the mobile viewport"
+    },
+    {
+      "id": "FIG-SAAS-PLAYER",
+      "type": "figma",
+      "status": "observed",
+      "source": "carousel.md",
+      "title": "Editable state frames, bounded drag regions and native timers"
+    },
+    {
+      "id": "CODE-CAROUSEL",
+      "type": "code",
+      "status": "verified",
+      "source": "../../tools/web_carousel_capture.mjs",
+      "title": "Chromium measurements compiled into a pinned Design plan"
+    },
+    {
+      "id": "AC-SAAS-PLAYER",
+      "type": "acceptance",
+      "status": "verified",
+      "source": "carousel.md",
+      "title": "Swipe both ways, hold at the manual boundary and wrap on timeout"
+    },
+    {
+      "id": "TEST-SAAS-PLAYER",
+      "type": "test",
+      "status": "observed",
+      "source": "carousel.md",
+      "title": "Actual browser touch and presentation drag and wait"
+    },
+    {
+      "id": "CODE-CAROUSEL-BRIDGE",
+      "type": "code",
+      "status": "verified",
+      "source": "../../figma-bridge/web_design.js",
+      "title": "Native frame realization, reuse and reaction readback"
     }
   ],
   "edges": [
@@ -128,6 +177,36 @@
     {
       "from": "AC-REPLAY",
       "to": "TEST-REPLAY",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-CAROUSEL",
+      "to": "SCR-SAAS-FEATURES",
+      "type": "appears on"
+    },
+    {
+      "from": "SCR-SAAS-FEATURES",
+      "to": "FIG-SAAS-PLAYER",
+      "type": "represented by"
+    },
+    {
+      "from": "SCR-SAAS-FEATURES",
+      "to": "CODE-CAROUSEL",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SAAS-FEATURES",
+      "to": "CODE-CAROUSEL-BRIDGE",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-CAROUSEL",
+      "to": "AC-SAAS-PLAYER",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-SAAS-PLAYER",
+      "to": "TEST-SAAS-PLAYER",
       "type": "checked by"
     }
   ]

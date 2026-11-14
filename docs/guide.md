@@ -1,10 +1,10 @@
-# Figma Flow 0.32.2 통합 가이드
+# Figma Flow 0.33.0 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
 <a id="korean"></a>
 
-이 문서는 0.32.2 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md)에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다.
+이 문서는 0.33.0 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md)에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다.
 
 설치·사용·업데이트 안내의 정본은 이 문서 하나입니다. [설치 프롬프트](#setup-prompt) · [환경 설정](#environment) · [업데이트와 복구](#updates) · [회사 private 배포](#private-distribution)
 
@@ -36,6 +36,44 @@ python3 tools/figma_rest_inventory.py template getFileNodes
 ### 웹 화면을 편집 가능한 Figma Design으로 가져오기
 
 화면 수집기가 만든 graph를 `python3 tools/native_edit.py web-design --graph GRAPH.json --file-key FILE_KEY --page-id PAGE_ID --out PLAN.json`으로 고정합니다. `--screen WEB-ID`를 반복해 가져올 화면만 고를 수 있고, `--preview-width 420`을 주면 private receipt에 제한된 크기의 실제 PNG 미리보기를 포함합니다. 이후 기존 격리 브라우저의 `native-edit` 작업에 `--plan PLAN.json`을 전달해 Figma에서 검토 후 적용합니다. 화면은 기존 요소 오른쪽에 새 소유 frame으로 생성되며 텍스트와 기본 도형은 네이티브 편집 노드가 됩니다. 지원하는 CSS 효과는 box-shadow, inset shadow, `filter: blur(px)`와 `drop-shadow(...)`, 그리고 90°·180° 선형 alpha mask입니다. 다른 filter와 mask, SVG paint server 및 clip reference는 지원하지 않으며 관측 제한으로 남습니다. 같은 graph 재적용은 실제 scene이 원본과 같을 때만 기존 frame을 재사용하고, 다른 frame이나 수동 편집이 감지되면 보존을 위해 중단합니다. raster 이미지는 graph 옆 로컬 파일, SHA-256, 파일 형식 서명을 요구하며 외부 요청은 사용하지 않습니다.
+
+<a id="web-carousel-quickstart"></a>
+
+### 모바일 웹 캐러셀을 캡처해 Figma에서 재생하기
+
+이 절차는 Computer Use, browser extension, startup hook 없이 실행합니다. 수집기는 임시 프로필의 headless Chrome 또는 Chromium을 열며 현재 로그인한 브라우저 프로필을 재사용하지 않습니다. 캡처할 URL은 로그인 없이 열려야 합니다. 기존 전역 플러그인 설치가 있으면 `plugin add --json`이 반환한 실제 `installedPath`와 같은 비공개 workspace를 재사용하세요. 새 플러그인 ID나 marketplace를 추가하지 마세요. [설치 안내](#2-클론하고-codex에-설치)와 [고정 workspace 준비](#5-고정-작업공간-등록과-검토-작업-준비)를 참고하세요.
+
+이 예제는 로컬 `example.test` 페이지에서 네 장짜리 기능 캐러셀을 390×844로 읽습니다. 페이지가 `http://127.0.0.1:8874/`에서 열려 있어야 합니다. `#features` ID가 중복되므로 첫 카드 이름으로 rail을 지정합니다. 실제 페이지의 제목, 카드 라벨, 레이아웃, 이미지 응답을 확인한 뒤 실행하세요.
+
+```sh
+PLUGIN_ROOT="/경로/checkout-or-installedPath"
+PROJECT="/내/프로젝트/경로"
+WORKSPACE="/내/비공개/Figma-Flow-Workspace"
+SOURCE_URL="http://127.0.0.1:8874/"
+CAPTURE="$PROJECT/team-status-390"
+FILE_KEY="실제 Figma 파일 키"
+PAGE_ID="실제 대상 Design 페이지 ID"
+
+node "$PLUGIN_ROOT/tools/web_carousel_capture.mjs" \
+  --url "$SOURCE_URL" --rail '#features ul' \
+  --first-card 'Team Status Overview' --id team-status-mobile --out "$CAPTURE" \
+  --interval-ms 5000 --width 390 --height 844
+python3 -B "$PLUGIN_ROOT/tools/native_edit.py" web-design \
+  --graph "$CAPTURE/carousel-graph.json" --file-key "$FILE_KEY" \
+  --page-id "$PAGE_ID" --readback-scope screens --out "$PROJECT/carousel-plan.json"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare \
+  --workspace "$WORKSPACE" --key team-status \
+  --title "Team status carousel" --project "PlanHub" --kind native-edit -- \
+  --plan "$PROJECT/carousel-plan.json"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" refresh --workspace "$WORKSPACE"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
+```
+
+`--out`에는 새 경로를 지정합니다. Chrome 또는 Chromium, Node, Python이 PATH에 있어야 합니다. 브라우저가 기본 위치에 없으면 `--chrome /path/to/chrome`을 지정하세요. 이 예제 rail은 직접 카드 요소 네 개와 5000ms 자동재생을 사용합니다. 다른 페이지에서는 첫 카드의 정확한 제목을 `--first-card`에 넣고 `--interval-ms`에는 실제 측정한 간격을 지정합니다. 별도로 가져오는 carousel graph마다 다른 `--id`를 지정하세요. rail selector가 하나로 한정되면 `--first-card`를 생략할 수 있습니다. 출력 폴더에는 상태 PNG 네 장, 측정한 `WEB-saas-feature-N.json` 화면, `observations.json`, 전환 영수증, `media.json`, 고정 자산, `carousel-graph.json`이 들어갑니다. Plan을 만들기 전에 PNG 네 장과 `media.json`을 확인하세요.
+
+`refresh`는 준비한 작업을 기존 workspace 플러그인에 게시합니다. Figma Flow가 이미 열려 있으면 닫고 다시 실행해 새 작업을 읽으세요. 별도 로컬 제어 서비스는 사람이 플러그인 화면에서 Apply와 Read를 할 때 필요하지 않습니다. 대상 Design 파일에서 Figma Flow를 수동으로 엽니다. 홈의 **이 파일의 디자인 작업**에서 **Team status carousel**을 선택하고 **Read / Apply 열기**를 누릅니다. 적용 전에 대상 파일, 페이지, 프레임을 확인하세요. 확인 화면에서 **확인한 범위에 적용**을 눌러 준비한 프레임과 prototype 전환을 적용합니다. 작업이 끝나면 **Figma 값 읽고 저장**을 눌러 실제 Figma 프레임과 전환을 읽습니다. Readback JSON을 캡처 폴더와 함께 보관하세요. Readback은 프레임과 전환 설정을 확인하지만 Figma Present 재생은 확인하지 않습니다.
+
+현재 readback 이후 홈 작업 목록과 History에 **Present**와 **시작 프레임 선택**이 표시됩니다. **Present**는 검증된 prototype을 엽니다. **시작 프레임 선택**은 Design 파일에서 시작 프레임을 선택합니다. 이어서 Figma의 Present 제어로 재생하세요. [Codex 제어 서비스가 필요한 경로](#11-작업을-준비한-codex-채팅으로-연결).
 
 현재 관측·미관측 API와 사용 가능한 Design 수신 객체는 `python3 tools/review_api_coverage.py` 및 우선순위 그래프에서 확인합니다. [Design 실측과 기능 범위](design-runtime-verification.md) · [Design 전용 설계](../specs/design-specialization/spec.md)
 
@@ -188,7 +226,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.32.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.33.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -197,7 +235,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.32.2`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.32.2`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.33.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.33.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -565,7 +603,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.32.2을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.33.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -709,7 +747,7 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 
 ## English quick start
 
-This guide targets 0.32.2. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md).
+This guide targets 0.33.0. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md).
 
 At each workflow start, check and safely update both plugin packages/runtime files from the exact registered source. Pins, active work, unknown source, offline/auth failures and forbidden Figma access are explicit exceptions; actual loaded runtime remains separately verified. A concrete direction uses one `direct` draft; `compare` is for requested alternatives. Human specifications come from graph meaning and appear outside artwork, with technical ownership retained separately. [Startup](#automatic-startup) · [Readable specifications](#readable-specifications) · [Direction contract](../skills/figma-flow/references/direction-selection.md).
 
@@ -730,14 +768,14 @@ Codex can retrieve the result while local control is connected. For offline work
 ## Install once
 
 ```sh
-git clone --branch v0.32.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.33.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.32.2`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.33.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -807,6 +845,42 @@ Declared local HTML input evidence follows nested/inline CSS `@import` and image
 
 Explicit `control_styles.fill: null` preserves a transparent button without a fill or color binding. Label contrast uses the original composite background. Do not declare opaque-only graph `backgroundColor` for that button. Distributed icon controls use the measured fixed main width because Figma HUG spacing does not preserve the minimum gap. Existing centered HUG controls remain supported.
 
+## Capture and play a mobile web carousel
+
+This path needs no Computer Use, browser extension or startup hook. The capture tool launches a temporary headless Chrome or Chromium profile and cannot reuse your signed-in browser. Make the source URL available without that profile. If you already installed Figma Flow through a marketplace, reuse the exact `installedPath` from `plugin add --json` and your existing private workspace. Do not register another plugin ID or marketplace. See [install once](#install-once) and [prepare a fixed workspace](#5-고정-작업공간-등록과-검토-작업-준비).
+
+This example captures the four-card example.test feature rail at 390×844. The local source page must respond at `http://127.0.0.1:8874/`. Its `features` ID is duplicated, so `--first-card` selects the rail that starts with `Team Status Overview`.
+
+```sh
+PLUGIN_ROOT="/path/to/repository-or-installedPath"
+PROJECT="/path/to/project"
+WORKSPACE="/private/path/to/Figma-Flow-Workspace"
+CAPTURE="$PROJECT/team-status-390"
+SOURCE_URL="http://127.0.0.1:8874/"
+FILE_KEY="actual Figma file key"
+PAGE_ID="actual Design page ID"
+
+node "$PLUGIN_ROOT/tools/web_carousel_capture.mjs" \
+  --url "$SOURCE_URL" --rail '#features ul' \
+  --first-card 'Team Status Overview' --id team-status-mobile --out "$CAPTURE" \
+  --interval-ms 5000 --width 390 --height 844
+python3 -B "$PLUGIN_ROOT/tools/native_edit.py" web-design \
+  --graph "$CAPTURE/carousel-graph.json" --file-key "$FILE_KEY" \
+  --page-id "$PAGE_ID" --readback-scope screens --out "$PROJECT/carousel-plan.json"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare \
+  --workspace "$WORKSPACE" --key team-status \
+  --title "Team status carousel" --project "PlanHub" --kind native-edit -- \
+  --plan "$PROJECT/carousel-plan.json"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" refresh --workspace "$WORKSPACE"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
+```
+
+Use a new directory for `--out`. The command needs Chrome or Chromium, Node and Python on `PATH`. Pass `--chrome /path/to/chrome` if the browser uses a non-default path. A rail needs 2–16 direct card children with readable labels. Set `--interval-ms` to the measured autoplay interval. Use the exact first card title for `--first-card`; omit it only when the rail selector matches one scrollable rail. Give each independently imported carousel graph a distinct `--id`. The output includes screenshots, measured `WEB-saas-feature-N.json` screens, transition receipts, `media.json`, pinned assets and `carousel-graph.json`. Check all four state PNGs and `media.json` before planning the Figma write. Use [offline asset mapping](html-asset-map.md) when media is unavailable or hosted on another origin.
+
+`refresh` publishes the prepared task to the existing workspace plugin. If Figma Flow is already open, close and reopen it to load the new task. Manual Apply and Read do not need a separate local-control service. Open Figma Flow in the target Design file. On the home screen, open **Design tasks in this file**, select **Team status carousel**, and click **Open Read / Apply**. Review the target file, page and frame list. Click **Apply reviewed changes** and confirm the write. After it finishes, click **Read and save values** to read the native Figma frames and transitions. Keep the readback JSON with the capture output. It checks the saved frames and transition settings; it does not prove that Figma Present plays them correctly.
+
+After a current readback, the home task list and History show **Present** and **Select start frame**. Click **Present** to open the verified prototype. Click **Select start frame** to focus the start frame in the Design file, then use Figma's Present control. The Korean labels are **이 파일의 디자인 작업**, **Read / Apply 열기**, **확인한 범위에 적용**, **Figma 값 읽고 저장**, and **시작 프레임 선택**. The [Korean quickstart](#web-carousel-quickstart) has the same commands.
+
 ## Prepared native edits
 
 `native-edit` is a separate task kind with `read` and `apply` operations. Prepare `figma-flow-native-edit-plan-v1` JSON containing the exact file/page, admitted node or local variable/mode, and before/after values with `prepare --kind native-edit -- --plan PLAN.json`. The plugin executes the plan through the actual Figma API, without arbitrary JavaScript. Stale values/revisions stop the write. Preserve rollback conflicts and read current state before retrying an uncertain write. Import native edits into the graph and verify the real web separately. [Plan example and limits](#prepared-native-edit).
@@ -842,7 +916,7 @@ For updates, preserve the old source and complete workspace, install the chosen 
 
 ## 日本語クイックスタート
 
-このガイドは0.32.2向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)で確認します。
+このガイドは0.33.0向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)で確認します。
 
 各作業の開始時に、登録済みの正確な配布元から Codex パッケージと Figma 実行ファイルを確認し、安全な場合は更新します。バージョン固定・実行中・配布元不明・オフライン・認証失敗・Figma アクセス禁止は例外として記録し、実際に読み込まれた実行版は別途確認します。具体的な方向指定は `direct` 一案、比較の依頼は `compare` を使います。説明は graph の意味から生成して画面の外に表示し、技術情報と所有権は別に保持します。[開始時の確認](#automatic-startup) · [説明の契約](#readable-specifications) · [方向の契約](../skills/figma-flow/references/direction-selection.md)。
 
@@ -869,14 +943,14 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.32.2 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.33.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.32.2` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.33.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 
@@ -943,6 +1017,42 @@ python3 tools/figma_draft.py verify-production --packet ARTIFACTS/packet.json --
 ## 準備済みJSONによるネイティブ編集
 
 `native-edit` は独立したタスク種別で、operation は `read` と `apply` です。正確なファイル・ページ・ノードまたはローカル変数のモード・前後値を `figma-flow-native-edit-plan-v1` に固定し、`prepare --kind native-edit -- --plan PLAN.json` で準備します。実際の Figma API で変更し、任意の JavaScript は評価しません。値や revision が古ければ書き込みを停止します。復元の衝突を保管し、結果不明の書き込みを再試行する前に現在値を読み取ります。グラフへの反映と Web 照合は別途行います。[計画例と制限](#prepared-native-edit)。
+
+## モバイルWebカルーセルをキャプチャしてFigmaで再生する
+
+この手順では Computer Use、ブラウザー拡張、startup hook は不要です。キャプチャツールは一時プロファイルの headless Chrome または Chromium を起動し、ログイン中のブラウザープロファイルを再利用しません。対象ページはそのプロファイルからログインせずに開ける必要があります。すでに marketplace からインストール済みなら `plugin add --json` が返した `installedPath` と既存の非公開 workspace を再利用してください。plugin ID や marketplace を追加登録しません。[インストール手順](#初回だけ登録) · [固定 workspace の準備](#5-고정-작업공간-등록과-검토-작업-준비)。
+
+この例では `http://127.0.0.1:8874/` の example.test から四枚の feature rail を390×844で取得します。`features` ID が重複するため、`--first-card` で最初のカード名が `Team Status Overview` の rail を選びます。
+
+```sh
+PLUGIN_ROOT="/path/to/repository-or-installedPath"
+PROJECT="/path/to/project"
+WORKSPACE="/private/path/to/Figma-Flow-Workspace"
+CAPTURE="$PROJECT/team-status-390"
+SOURCE_URL="http://127.0.0.1:8874/"
+FILE_KEY="actual Figma file key"
+PAGE_ID="actual Design page ID"
+
+node "$PLUGIN_ROOT/tools/web_carousel_capture.mjs" \
+  --url "$SOURCE_URL" --rail '#features ul' \
+  --first-card 'Team Status Overview' --id team-status-mobile --out "$CAPTURE" \
+  --interval-ms 5000 --width 390 --height 844
+python3 -B "$PLUGIN_ROOT/tools/native_edit.py" web-design \
+  --graph "$CAPTURE/carousel-graph.json" --file-key "$FILE_KEY" \
+  --page-id "$PAGE_ID" --readback-scope screens --out "$PROJECT/carousel-plan.json"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare \
+  --workspace "$WORKSPACE" --key team-status \
+  --title "Team status carousel" --project "PlanHub" --kind native-edit -- \
+  --plan "$PROJECT/carousel-plan.json"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" refresh --workspace "$WORKSPACE"
+python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
+```
+
+`--out` は新しいフォルダーを指定します。Chrome または Chromium、Node、Python を PATH に用意してください。ブラウザーの実行ファイルが既定の場所にない場合は `--chrome /path/to/chrome` を指定します。rail には名前付きの直接のカード要素が2〜16件必要です。`--interval-ms` は実際に測定した自動再生間隔です。個別に取り込む carousel graph ごとに異なる `--id` を指定します。別のページでは最初のカードの正確なタイトルに合わせて `--first-card` を変更します。rail selector が一つに絞れる場合は省略できます。出力には各状態の PNG、`WEB-saas-feature-N.json`、遷移記録、`media.json`、固定素材、`carousel-graph.json` が入ります。Plan を作る前に4枚の PNG と `media.json` を確認してください。素材が取得できない場合や別 origin にある場合は[オフライン素材の対応表](html-asset-map.md)を使います。
+
+`refresh` は準備した作業を既存の workspace plugin に公開します。Figma Flow がすでに開いていれば、閉じて再度開き、新しい作業を読み込みます。人が画面から Apply と Read を行うとき、別のローカル制御サービスは不要です。対象 Design ファイルで Figma Flow を開きます。ホームの **このファイルのデザイン作業**から **Team status carousel**を選び、**Read / Applyを開く**をクリックします。適用前に対象ファイル、ページ、フレームを確認します。確認画面で **確認した変更を適用**を押して適用します。完了後は **値を読み取り保存**を押し、Figma の実フレームと遷移を読み取ります。readback JSON をキャプチャ出力と一緒に保管します。readback はフレームと遷移設定を確認します。Figma Present の再生は別途確認してください。
+
+現在の readback 後、ホームの task list と History に **プレゼンテーション**と**開始フレームを選択**が表示されます。**プレゼンテーション**で検証済み prototype を開きます。**開始フレームを選択**で Design ファイル内の開始フレームにフォーカスし、Figma の Present 操作から再生します。[English quickstart](#english-quick-start) · [한국어 quickstart](#web-carousel-quickstart)。
 
 ## 画面の見方
 
