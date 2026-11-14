@@ -30,3 +30,5 @@ Actual source/test scope and remaining native limits: [verification](verificatio
 
 - [웹 캐러셀의 Design 프로토타입 변환](interactive-web/carousel.md) · [정본 그래프](interactive-web/graph.json)
 - [웹 탭 전환의 Design 프로토타입 변환](interactive-web/tabs.md) · [정본 그래프](interactive-web/graph.json)
+- [웹 SaaS FAQ 아코디언의 Design 프로토타입 변환](interactive-web/disclosure.md) · [정본 그래프](interactive-web/graph.json)
+- [G1 소스 재생성 계약](../docs/STARTER_ROLE_FEATURE_SPEC.md#g1--기존-생성기와-id-보존) · [작은손 실제 빌드 경로](../apps/little-hands/design/README.md) (`v0.34.0` 이후 `main` 통합, `0.35.0` 배포 버전 연결; G0~G5 전체 직군 인수는 별도)

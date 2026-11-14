@@ -1,8 +1,10 @@
 # NF-09 · 웹 상호작용을 편집 가능한 Figma 프로토타입으로 가져오기
 
-**0.33.0은 모바일 CSS 스크롤 스냅 캐러셀, 0.34.0은 클릭으로 패널을 바꾸는 탭을 구현했다.** 캐러셀은 2~16개의 카드 상태와 드래그·타이머 전이를, 탭은 관찰한 클릭 전이만 정본 그래프로 묶어 편집 가능한 Figma Design 프레임으로 가져온다. [캐러셀 인수 기록](../../specs/interactive-web/carousel.md) · [탭 인수 기록](../../specs/interactive-web/tabs.md). overlay·아코디언·hover와 자유 모션은 후속 설계다. Figma Flow에는 이미 클릭으로 두 네이티브 프레임을 연결하는 [Smart Animate 레시피](../../library/figma-recipes/design-motion.ts)가 있다. 현재 [웹 캡처](../web-design-capture.md)는 측정 시점의 보이는 화면을 읽는다.
+**0.33.0은 모바일 CSS 스크롤 스냅 캐러셀, 0.34.0은 클릭으로 패널을 바꾸는 탭, 0.35.0 후보는 단일 열림(`single-collapsible`) SaaS FAQ 아코디언을 구현했다.** 캐러셀은 2~16개의 카드 상태와 드래그·타이머 전이를, 탭은 관찰한 클릭 전이만, 아코디언은 `initialState`에서 directed traversal로 도달 가능한 2~16개 열림/닫힘 상태와 `open`·`close`·`switch` 클릭 전이를 정본 그래프로 묶어 편집 가능한 Figma Design 프레임으로 가져온다. [캐러셀 인수 기록](../../specs/interactive-web/carousel.md) · [탭 인수 기록](../../specs/interactive-web/tabs.md) · [SaaS FAQ 아코디언 인수 기록](../../specs/interactive-web/disclosure.md). overlay·다중 열림 아코디언·hover와 자유 모션은 후속 설계다. Figma Flow에는 이미 클릭으로 두 네이티브 프레임을 연결하는 [Smart Animate 레시피](../../library/figma-recipes/design-motion.ts)가 있다. 현재 [웹 캡처](../web-design-capture.md)는 측정 시점의 보이는 화면을 읽는다.
 
 실제 Devtool 홈에서 두 번째 탭 카드를 클릭하면 표시 코드가 두 번째 패널 본문으로, 첫 번째 탭 카드를 다시 클릭하면 초기 패널 본문으로 바뀌었다. 0.34.0에서 이 A→B→A를 Figma 프레임과 클릭 hotspot으로 만들고, Chrome과 Figma 프레젠테이션에서 같은 클릭으로 대조했다.
+
+0.35.0 후보에서는 실제 SaaS FAQ의 5개 질문 중 2개 질문에 7번 브라우저 입력을 수행해 `All closed`와 두 열림 상태(3개 상태) 및 6방향 전이를 기록했다. 이전 후보(`e92b3ad`)에서 Figma Desktop 적용·재적용·readback과 프레젠테이션 여섯 방향 도달을 확인했고, 후속 수정(`066830a`·`43a8b1b`)에서 `initialState` directed traversal 도달성 검사와 분리 순환 거부를 반영했다. 독립 게이트(`066830a` red → `43a8b1b` green)와 재캡처 10/10 PNG·`graph`/`plan` 바이트 일치를 완료했으며 설치 및 발행은 아직 대기 중이다.
 
 [관찰 상태·이벤트·미검증 인수를 연결한 정본 그래프](../../specs/interactive-web/graph.json)
 

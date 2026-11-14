@@ -142,6 +142,179 @@
       "status": "observed",
       "source": "tabs.md",
       "title": "setReactionsAsync on the nested tab layer timed out; a top-level hotspot succeeded"
+    },
+    {
+      "id": "REQ-DISCLOSURE",
+      "type": "requirement",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Compile observed single-collapsible disclosure states reachable from initialState by directed traversal without Computer Use or hooks"
+    },
+    {
+      "id": "SCR-SAAS-FAQ",
+      "type": "screen",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "SaaS FAQ section (5 questions, 2 exercised via 7 browser clicks in 1440x900 desktop viewport)"
+    },
+    {
+      "id": "STATE-FAQ-CLOSED",
+      "type": "state",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "All closed (initialState, 51 elements, expandedItem: null, answerSha256: null)"
+    },
+    {
+      "id": "STATE-FAQ-Q1",
+      "type": "state",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "FAQ item 1 expanded (52 elements, answerSha256 pinned)"
+    },
+    {
+      "id": "STATE-FAQ-Q2",
+      "type": "state",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "FAQ item 2 expanded (52 elements, answerSha256 pinned)"
+    },
+    {
+      "id": "EVENT-FAQ-OPEN-Q1",
+      "type": "action",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Click FAQ item 1 from All closed (open)",
+      "source_screen": "SCR-SAAS-FAQ",
+      "target_ids": ["STATE-FAQ-Q1"]
+    },
+    {
+      "id": "EVENT-FAQ-CLOSE-Q1",
+      "type": "action",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Click FAQ item 1 from FAQ item 1 expanded (close)",
+      "source_screen": "SCR-SAAS-FAQ",
+      "target_ids": ["STATE-FAQ-CLOSED"]
+    },
+    {
+      "id": "EVENT-FAQ-SWITCH-Q1-Q2",
+      "type": "action",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Click FAQ item 2 from FAQ item 1 expanded (switch, autoClosedItem: item 1)",
+      "source_screen": "SCR-SAAS-FAQ",
+      "target_ids": ["STATE-FAQ-Q2"]
+    },
+    {
+      "id": "EVENT-FAQ-CLOSE-Q2",
+      "type": "action",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Click FAQ item 2 from FAQ item 2 expanded (close)",
+      "source_screen": "SCR-SAAS-FAQ",
+      "target_ids": ["STATE-FAQ-CLOSED"]
+    },
+    {
+      "id": "EVENT-FAQ-OPEN-Q2",
+      "type": "action",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Click FAQ item 2 from All closed (open)",
+      "source_screen": "SCR-SAAS-FAQ",
+      "target_ids": ["STATE-FAQ-Q2"]
+    },
+    {
+      "id": "EVENT-FAQ-SWITCH-Q2-Q1",
+      "type": "action",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Click FAQ item 1 from FAQ item 2 expanded (switch, autoClosedItem: item 2)",
+      "source_screen": "SCR-SAAS-FAQ",
+      "target_ids": ["STATE-FAQ-Q1"]
+    },
+    {
+      "id": "FIG-SAAS-FAQ",
+      "type": "figma",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Editable state frames, initialState flow start (checked by frame ID since readback flow_start.name may auto-number such as Flow 8), and six ON_CLICK trigger hotspots (frame IDs reused on reapply)"
+    },
+    {
+      "id": "CODE-DISCLOSURE-CAPTURE",
+      "type": "code",
+      "status": "verified",
+      "source": "../../tools/web_disclosure_capture.mjs",
+      "title": "Chromium disclosure capture compiling 7 clicks into 3 states and 6 directed transitions"
+    },
+    {
+      "id": "CODE-DISCLOSURE-COMPILER",
+      "type": "code",
+      "status": "verified",
+      "source": "../../tools/web_design.py",
+      "title": "Disclosure schema and directed traversal reachability validation from initialState"
+    },
+    {
+      "id": "CODE-DISCLOSURE-BRIDGE",
+      "type": "code",
+      "status": "verified",
+      "source": "../../figma-bridge/web_design.js",
+      "title": "Native state frames, Open/Close/Switch hotspots, directed traversal reachability check, and readback"
+    },
+    {
+      "id": "AC-DISCLOSURE",
+      "type": "acceptance",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "All 3 states reachable by directed traversal from initialState; 6 transitions reach matching frames in browser and Figma Presentation; disconnected cycles rejected"
+    },
+    {
+      "id": "TEST-DISCLOSURE-UNIT",
+      "type": "test",
+      "status": "verified",
+      "source": "../../tests/test_web_design.py",
+      "title": "Python and Node unit tests verify 3-state 6-edge compilation and reject disconnected cycles at public entrypoints"
+    },
+    {
+      "id": "TEST-DISCLOSURE-E2E",
+      "type": "test",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "7 browser inputs on 2 of 5 FAQ questions (re-capture 10/10 PNG and graph/plan bytes identical); Figma Desktop apply/reapply/readback and 6-direction Presentation playback on e92b3ad; independent gate 066830a red -> 43a8b1b green completed; install and publish pending"
+    },
+    {
+      "id": "ROLE-FAQ-DESIGNER",
+      "type": "reference",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Designer edits question text, answer text, and chevron vectors across the 3 state frames without overwriting hotspot routes"
+    },
+    {
+      "id": "ROLE-FAQ-PLANNER",
+      "type": "reference",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Planner replays all 6 open, close, and sibling-switch directions from the All closed flow start"
+    },
+    {
+      "id": "ROLE-FAQ-DEVELOPER",
+      "type": "reference",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Developer checks answerSha256, contentSha256, per-screen controlElementId, and autoClosedItem in the graph"
+    },
+    {
+      "id": "LIMIT-DISCLOSURE-CANDIDATE-47134AC",
+      "type": "reference",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Prior candidate e92b3ad accepted a disconnected cycle (resolved by independent gate 066830a red -> 43a8b1b green) and missed the first Presentation click at [545, 277] before retrying at the correct coordinates [1090, 553]; install and publish remain pending"
+    },
+    {
+      "id": "LIMIT-DISCLOSURE-SCOPE",
+      "type": "reference",
+      "status": "observed",
+      "source": "disclosure.md",
+      "title": "Covers 2 of 5 FAQ questions in single-collapsible mode with instant NAVIGATE; remaining 3 questions, keyboard/screen-reader semantics, and multi-collapsible accordions are out of scope"
     }
   ],
   "edges": [
@@ -243,6 +416,196 @@
     {
       "from": "CODE-TABS-BRIDGE",
       "to": "LIMIT-NESTED-REACTION",
+      "type": "constrained by"
+    },
+    {
+      "from": "REQ-DISCLOSURE",
+      "to": "SCR-SAAS-FAQ",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-DISCLOSURE",
+      "to": "AC-DISCLOSURE",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "STATE-FAQ-CLOSED",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "STATE-FAQ-Q1",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "STATE-FAQ-Q2",
+      "type": "has state"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "EVENT-FAQ-OPEN-Q1",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "EVENT-FAQ-CLOSE-Q1",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "EVENT-FAQ-SWITCH-Q1-Q2",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "EVENT-FAQ-CLOSE-Q2",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "EVENT-FAQ-OPEN-Q2",
+      "type": "triggers"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "EVENT-FAQ-SWITCH-Q2-Q1",
+      "type": "triggers"
+    },
+    {
+      "from": "STATE-FAQ-CLOSED",
+      "to": "EVENT-FAQ-OPEN-Q1",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-FAQ-OPEN-Q1",
+      "to": "STATE-FAQ-Q1",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-FAQ-Q1",
+      "to": "EVENT-FAQ-CLOSE-Q1",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-FAQ-CLOSE-Q1",
+      "to": "STATE-FAQ-CLOSED",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-FAQ-Q1",
+      "to": "EVENT-FAQ-SWITCH-Q1-Q2",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-FAQ-SWITCH-Q1-Q2",
+      "to": "STATE-FAQ-Q2",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-FAQ-Q2",
+      "to": "EVENT-FAQ-CLOSE-Q2",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-FAQ-CLOSE-Q2",
+      "to": "STATE-FAQ-CLOSED",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-FAQ-CLOSED",
+      "to": "EVENT-FAQ-OPEN-Q2",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-FAQ-OPEN-Q2",
+      "to": "STATE-FAQ-Q2",
+      "type": "navigates to"
+    },
+    {
+      "from": "STATE-FAQ-Q2",
+      "to": "EVENT-FAQ-SWITCH-Q2-Q1",
+      "type": "accepts input"
+    },
+    {
+      "from": "EVENT-FAQ-SWITCH-Q2-Q1",
+      "to": "STATE-FAQ-Q1",
+      "type": "navigates to"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "FIG-SAAS-FAQ",
+      "type": "represented by"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "CODE-DISCLOSURE-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "CODE-DISCLOSURE-COMPILER",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "CODE-DISCLOSURE-BRIDGE",
+      "type": "implemented by"
+    },
+    {
+      "from": "AC-DISCLOSURE",
+      "to": "TEST-DISCLOSURE-UNIT",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-DISCLOSURE",
+      "to": "TEST-DISCLOSURE-E2E",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-DISCLOSURE-COMPILER",
+      "to": "TEST-DISCLOSURE-UNIT",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-DISCLOSURE-BRIDGE",
+      "to": "TEST-DISCLOSURE-UNIT",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-DISCLOSURE-BRIDGE",
+      "to": "TEST-DISCLOSURE-E2E",
+      "type": "checked by"
+    },
+    {
+      "from": "ROLE-FAQ-DESIGNER",
+      "to": "FIG-SAAS-FAQ",
+      "type": "reviews"
+    },
+    {
+      "from": "ROLE-FAQ-PLANNER",
+      "to": "AC-DISCLOSURE",
+      "type": "reviews"
+    },
+    {
+      "from": "ROLE-FAQ-DEVELOPER",
+      "to": "CODE-DISCLOSURE-COMPILER",
+      "type": "reviews"
+    },
+    {
+      "from": "CODE-DISCLOSURE-BRIDGE",
+      "to": "LIMIT-DISCLOSURE-CANDIDATE-47134AC",
+      "type": "constrained by"
+    },
+    {
+      "from": "FIG-SAAS-FAQ",
+      "to": "LIMIT-DISCLOSURE-CANDIDATE-47134AC",
+      "type": "constrained by"
+    },
+    {
+      "from": "SCR-SAAS-FAQ",
+      "to": "LIMIT-DISCLOSURE-SCOPE",
       "type": "constrained by"
     }
   ]
