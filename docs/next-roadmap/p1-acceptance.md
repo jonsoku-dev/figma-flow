@@ -21,7 +21,7 @@
 - **Read-only panel UI, accessibility & bundle (`016a777`):**
   - `016a777e0bc582414c2062a122dfae553851eefc`: [panel-ui/src/operationDetail.mjs](../../panel-ui/src/operationDetail.mjs) · [panel-ui/src/Workspace.jsx](../../panel-ui/src/Workspace.jsx) · [panel-ui/src/styles/workspace.css](../../panel-ui/src/styles/workspace.css) · [figma-bridge/locales/workspace.json](../../figma-bridge/locales/workspace.json) · [tests/test_nf03_panel_ui.cjs](../../tests/test_nf03_panel_ui.cjs)
 - **Contract spec alignment (`4e2539e`):** [NF-03-causal-history.md](NF-03-causal-history.md)
-- **Note on source freeze:** Product source commits (`3e7b44c`, `e7b1efb`, `ce1bc7d`, `016a777`) were verified live on the pre-freeze runtime (`cfc7fbd` loaded with matching runtime generation); NF-03 unit and bridge regression suites continued passing through `974b5de`.
+- **Note on source freeze:** Product source commits (`3e7b44c`, `e7b1efb`, `ce1bc7d`, `016a777`) and interactive panel UI accessibility (Gate C) were verified live on the pre-freeze runtime (`cfc7fbd` loaded with matching runtime generation); NF-03 unit and bridge regression suites continued passing through `e6f4fd8`, and live HTTP `/control/history-detail` probing (`history_status = 200`, `16` bounded rows, positive detail `200`, `0` DTO/leak hits, all contracted `403`/`404`/`409` negatives) re-verified clean on `e6f4fd8`.
 
 ### Observed Live Figma & Panel Acceptance Evidence
 
@@ -38,7 +38,7 @@
    - Keyboard `Enter` opened the selected row detail, and `Back` restored focus to the invoking row.
 4. **Read-Only Zero-Write Guarantee, Negative Routes & Sanitization:**
    - Canonical request and receipt files (`1,226` files checked) remained byte-identical across real detail queries (`detail_endpoint_did_not_write_canonical_requests_or_receipts = true`).
-   - All contracted negative HTTP checks (`401`, `404`, `409` on missing scope / mismatched runtime / mismatched task-revision) passed cleanly.
+   - All contracted negative HTTP checks (`403` missing auth, `404` wrong page/file/unknown operation, `409` mismatched runtime / task-revision / invalid envelope) passed cleanly.
    - Diff payload omitted raw user text, private filesystem paths, bearer tokens, and raw internal Figma file/page/node IDs; the full private raw detail response receipt remains excluded from Git.
 
 ### Automated Repository Verification (NF-03)
@@ -78,7 +78,7 @@
 1. **Initial Duplicate-Name Failure & Clean Rollback (Unconcealed):**
    - The first live apply encountered a duplicate display-name native collision where the native prefix was not retained uniquely; execution rolled back cleanly with zero residual owned nodes on the page (emitting only the earlier child duplicate `.remove()` diagnostic) and left the pre-existing `MAIN` component (`radius = 16`) untouched.
    - Repairs landed in `63b3555`, `578ffc3`, and `974b5de` (unique collision-safe native property keys while preserving logical property contracts and top-level-only rollback root removal), passing the independent improvement gate (`base = 437aa0485e85dd2e2dcef621f570847317759b63` -> `target = 3e3f4e42b884cb64cc32c9d9f5d9173ec8bbb550`, `NODE-REPAIR-RC` 12/12 + `PY-REPAIR-RC` 1/1).
-   - Python `compare_declared_component_properties` was subsequently aligned in `e6f4fd8` (with frozen Node-to-Python snapshot tests in `f88643b`) so collision-safe and Figma-normalized `#suffix` keys in `componentPropertyDefinitions` and `declared_property_contracts` verify cleanly.
+   - Python `compare_declared_component_properties` was subsequently aligned in `e6f4fd8` (with frozen Node-to-Python snapshot tests in `f88643b`) so collision-safe and Figma-normalized `#suffix` keys in `componentPropertyDefinitions` and `declared_property_contracts` verify cleanly. While an earlier formal gate attempt failed due to host disk exhaustion (`No space left on device`, preserved in local logs), the subsequent isolated formal improvement gate passed (`base = f88643bcb99f060f1f9af09e618bc3491c5e8f02` -> `target = e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10`, `scope = ["tools/figma_bridge.py"]`, frozen `python3 tests/test_bridge_declared_property_compare.py` matching the checker cleanly: baseline `2` `Lists differ` failures `rc = 1` -> target `3` tests passed `rc = 0`, `criterion = READBACK-KEY`).
 2. **Final Real Figma Apply, Edit, Repeat Apply & Readback (`real_figma = true`, `readback_status = "present"`):**
    - Installed own plugin rendered `6` canonical component sets, `19` variants, and `8` top-level instances (`actual_node_count = 108`) with unique final native `#suffix` property keys and `stable_main_and_instance_ids = true`.
    - Manual edits on one top-level instance:
@@ -88,7 +88,7 @@
      - Position moved to `x = 60`, `y = 48` (`relativeTransform = [[1, 0, 60], [0, 1, 48]]`).
    - `after-edit -> repeat apply -> after-read` confirmed:
      - Selected 3 property actual keys/values and `(x=60, y=48)` placement survived repeat apply (`repeat_preserved_edited_values = true`).
-     - Recompiling from `main` `a7378b8` and running real native repeat/read on a fresh revision of the same task matched staged family metadata identically and preserved user props and placement (`main_recompiled_repeat_exactly_matches = true`; JS runtime files remained unchanged through `e6f4fd8`).
+     - Recompiling from `main` `a7378b8` and running real native repeat/read on a fresh revision of the same task matched staged family metadata identically and preserved user props and placement (`main_recompiled_repeat_exactly_matches = true`); live readback verification on `e6f4fd8` again matched the recompile proof (`native_final_read_equal_to_main_recompile_proof = true`, alongside clean `200`/`403`/`404`/`409` `/control/history-detail` probing).
      - Top-level and main/instance IDs remained stable (`full_node_ids_stable_after_manual_swap = true`); deliberately swapping the nested `INSTANCE_SWAP` control replaced only the `3` inner swapped child IDs inside that manually swapped instance (`ids_changed_only_inside_manually_swapped_instance = 3`, expected swap semantics).
      - The remaining `7` sibling instances (`unchanged_other_instances = 7`) and the pre-existing `MAIN` component (`radius = 16`, `own_original_component_unchanged = true`) stayed unchanged.
    - The private inspector screenshot remains excluded from Git history.
@@ -96,7 +96,7 @@
 ### Scope Boundaries & Unobserved Claims
 
 - Legacy `metadata` fields and separate three-family duplicated helper paths outside the NF-01 six-family workbench remain unchanged and out of scope; this receipt claims only the verified NF-01 six-family compiler, importer/workbench, provision CLI, and rollback guarantees.
-- **Unverified Python Formal Gate & Full-Tree Copy Budget:** While the Python comparator and frozen Node-to-Python tests pass (`24` tests in the NF-01 comparator set below; `23` tests in the earlier coordinator comparator run), the separate Python formal improvement gate failed to execute due to host disk exhaustion (`No space left on device`) and is being resolved separately — it is **not** claimed as passed in this receipt. Full repository archive runs (`panel-ui` rebuild and full-tree `test_figma_draft.py`) are deferred to clean isolated runs outside the shared workspace.
+- **Prior ENOSPC Failure Preserved & Formal Gate Scope:** An earlier formal improvement gate run failed on host disk exhaustion (`No space left on device`, preserved in local evidence logs); after freeing disk space, the isolated independent formal gate on `tools/figma_bridge.py` (`f88643b` -> `e6f4fd8`, frozen `tests/test_bridge_declared_property_compare.py`) passed cleanly (`rc = 1` with `2` `Lists differ` failures -> `rc = 0` with `3/3` tests passing). Full repository archive runs (`panel-ui` rebuild and full-tree `test_figma_draft.py`) remain deferred to clean isolated runs outside the shared workspace.
 - Official Figma MCP was not used, cloud sync is not guaranteed, and separate browser DOM accessibility correspondence for `examples/owned-component-families/` is not claimed as live-observed in this receipt unless separately recorded.
 - Static API coverage baseline counts (`664` `no-static-reference`, `70` `qualified-static-reference`, `648` `unresolved-receiver-name-reference` across `1,382` members) reflect AST source occurrences only and keep all `implementation` and `runtime_acceptance` fields `unverified`.
 

@@ -270,9 +270,30 @@
           "full_node_ids_stable_after_manual_swap": true,
           "ids_changed_only_inside_manually_swapped_instance": 3,
           "unchanged_other_instances": 7,
-          "own_original_component_unchanged": true
+          "own_original_component_unchanged": true,
+          "official_python_readback_gate": {
+            "base": "f88643bcb99f060f1f9af09e618bc3491c5e8f02",
+            "target": "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10",
+            "scope": ["tools/figma_bridge.py"],
+            "frozen_check": "python3 tests/test_bridge_declared_property_compare.py",
+            "baseline_failures": 2,
+            "baseline_returncode": 1,
+            "target_tests_passed": 3,
+            "target_returncode": 0,
+            "status": "passed",
+            "criterion": "READBACK-KEY",
+            "prior_env_failure_preserved": "Earlier gate run failed with write error (No space left on device) before host space recovery; failure log preserved."
+          },
+          "final_live_readback_verification_e6f4fd8": {
+            "source_sha": "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10",
+            "native_final_read_equal_to_main_recompile_proof": true,
+            "nf03_probe_history_status": 200,
+            "nf03_probe_history_row_count": 16,
+            "nf03_probe_detail_status": 200,
+            "nf03_probe_negative_http_403_404_409": "all_passed"
+          }
         },
-        "legacy_and_unobserved_scope": "Legacy metadata and three-family duplicated helper paths outside NF-01 six-family workbench scope remain untouched; browser accessibility correspondence and static AST coverage counts are not claimed as live NF-01 execution proof; separate Python formal improvement gate failed on disk space (No space left on device) and is NOT claimed passed.",
+        "legacy_and_unobserved_scope": "Legacy metadata and three-family duplicated helper paths outside NF-01 six-family workbench scope remain untouched; browser accessibility correspondence and static AST coverage counts are not claimed as live NF-01 execution proof; an earlier Python formal gate attempt hit host disk exhaustion (No space left on device; failure log preserved) before the subsequent isolated formal gate passed on e6f4fd8; full-tree archive rebuilds (panel-ui/test_figma_draft.py) remain deferred to clean isolated runs.",
         "automated_checks": {
           "node_nf01_and_provision_and_repair_passed": 27,
           "python_nf01_readback_comparator_passed": 24,
@@ -339,7 +360,8 @@
         "live_figma_and_panel_acceptance": {
           "official_mcp_used": false,
           "runtime_loaded_commit": "cfc7fbd",
-          "final_frozen_main_rerun_pending": true,
+          "final_e6f4fd8_http_probe_verified": true,
+          "final_e6f4fd8_http_probe_note": "Live HTTP /control/history-detail probe re-verified on e6f4fd8 (200 history bounded 16/80, 200 detail, 0 DTO/leak hits, 403/404/409 negatives pass); interactive panel UI Gate C was verified on cfc7fbd.",
           "initial_vanilla_frame_rejection": "rejected without canvas mutation before MAIN conversion and fresh ID read",
           "task_key": "p1-nf03-radius-component",
           "exact_apply_pins": [
@@ -366,7 +388,7 @@
           "keyboard_accessibility": "Enter opens detail view and Back restores focus to the invoking row",
           "read_only_canonical_writes": 0,
           "canonical_files_checked": 1226,
-          "contracted_negative_http_401_404_409": "all_passed",
+          "contracted_negative_http_403_404_409": "all_passed",
           "raw_text_and_private_ids_redacted": true
         },
         "automated_checks": {
