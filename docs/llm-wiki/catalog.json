@@ -11853,7 +11853,7 @@
     },
     {
       "observed_at_commit": "452acf1302bdc37269a31977773a7f277e45d212",
-      "remote": "[redacted-private-or-local-remote]"
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
       "observed_at_commit": "45ea99992ade788ed7d25de89982652e863e44c7",
@@ -12463,7 +12463,7 @@
     }
   ],
   "remotes": [
-    "[redacted-private-or-local-remote]"
+    "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
   "source_commit": "452acf1302bdc37269a31977773a7f277e45d212",
