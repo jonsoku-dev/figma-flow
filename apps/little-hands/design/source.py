@@ -802,7 +802,7 @@ def generate(output, canonical, baseline, *, prior_orphans=None):
         if name:current_stylesheet='/static/'+name
     stylesheet_current=len(stylesheet_epochs)==1 and (current_stylesheet is None or stylesheet_epochs==[current_stylesheet])
     if len(captures)==len(STATES)*2 and (metadata_pending or not stylesheet_current):
-        write_json(output/'source-status.json',{'schema':'little-hands-design-source-status-v1','status':'blocked-final-source-epoch','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded'})
+        write_json(output/'source-status.json',{'schema':'little-hands-design-source-status-v1','status':'blocked-final-source-epoch','actual_captures':len(captures),'unverified_ua_internals':unverified_ua_internals,'metadata_pending':metadata_pending,'stylesheet_epochs':stylesheet_epochs,'current_manifest_stylesheet':current_stylesheet,'orphan_candidates':list(prior_orphans or []),'native_handoff':'pending','visual_quality':'unverified','approval':'not-recorded'})
         raise ValueError('Final source requires fresh measured content boxes and one actual current stylesheet epoch; preserve old captures as business observations and refresh design captures.')
     stylesheet='../../static/littlehands/app.css'
     for data,path in captures.values():
