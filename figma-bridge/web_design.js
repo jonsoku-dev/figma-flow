@@ -2,6 +2,7 @@ const WEB_DESIGN_KEY = 'figma-flow-web-design-id';
 const WEB_DESIGN_HASH = 'figma-flow-web-design-sha256';
 const WEB_SCENE_HASH = 'figma-flow-web-scene-fingerprint';
 const WEB_COMPONENT_MAIN = 'figma-flow-web-component-main-id';
+const WEB_IMAGE_COMPONENT_KEY = 'figma-flow-web-image-component-key';
 const WEB_ELEMENT_ID = 'figma-flow-web-element-id';
 const WEB_TEXT_STYLE = 'figma-flow-web-text-style-v1';
 const WEB_SCENE_VERSION = 'figma-flow-web-scene-version';
@@ -130,6 +131,11 @@ function webValidate(plan) {
       if (element.kind === 'component' && (typeof element.componentKey !== 'string' || !element.componentKey || element.componentKey.length > 160)) {
         throw Error('Component needs a bounded stable componentKey');
       }
+      if (element.componentKey !== undefined && element.kind !== 'component' &&
+          (element.kind !== 'image' || typeof element.componentKey !== 'string'
+            || !/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/.test(element.componentKey))) {
+        throw Error('Shared image needs a bounded stable componentKey');
+      }
       if (element.kind === 'vector' && (!element.svg || element.svg.length > 200000 || /<!|<\?|javascript:/i.test(element.svg))) {
         throw Error('Unsafe SVG vector');
       }
@@ -149,6 +155,7 @@ function webValidate(plan) {
       }
     }
   }
+  webValidateImageComponentFamilies(design);
   if (design.carousel !== undefined) webCarouselValidate(design);
   if (design.preview_width !== undefined && (!Number.isInteger(design.preview_width) || design.preview_width < 360 || design.preview_width > 480)) {
     throw Error('Preview width must be between 360 and 480 pixels');
@@ -161,6 +168,29 @@ function webValidate(plan) {
     }
     if (element.kind === 'video' && [element.asset.sha256, element.fallbackAsset.sha256].some(hash =>
       !assetHashes.has(hash) || typeof design.assets[hash] !== 'string')) throw Error(`Video ${element.id} has no embedded source or fallback content`);
+  }
+}
+
+function webValidateImageComponentFamilies(design) {
+  const families = new Map();
+  for (const screen of design.screens) {
+    const byId = new Map(screen.elements.map(element => [element.id, element]));
+    for (const element of screen.elements) {
+      if (element.kind !== 'image' || element.componentKey === undefined) continue;
+      const ancestors = (element.path || []).map(id => {
+        const parent = byId.get(id);
+        return [parent.box, parent.clipsContent === true, parent.paint || {}];
+      });
+      const signature = JSON.stringify([element.asset.sha256, element.asset.mimeType, element.objectFit || 'cover',
+        element.box.width, element.box.height, element.paint || {}, ancestors]);
+      const rows = families.get(element.componentKey) || [];
+      rows.push({screenId: screen.id, signature});
+      families.set(element.componentKey, rows);
+    }
+  }
+  for (const [key, rows] of families) {
+    if (rows.length < 2 || new Set(rows.map(row => row.screenId)).size !== rows.length
+        || new Set(rows.map(row => row.signature)).size !== 1) throw Error(`Incompatible shared image family ${key}`);
   }
 }
 
@@ -663,7 +693,7 @@ function webConfigureComponent(node, element) {
   node.itemSpacing = 0;
 }
 
-function webCreateElement(figma, element, fallbackReport, mains, assets, fonts, videos) {
+function webCreateElement(figma, element, fallbackReport, mains, assets, fonts, videos, imageMains = new Map()) {
   if (element.kind === 'frame') return figma.createFrame();
   const family = element.kind === 'component' ? webComponentFamily(element, fonts) : null;
   if (family && mains.has(family)) {
@@ -679,6 +709,20 @@ function webCreateElement(figma, element, fallbackReport, mains, assets, fonts, 
     return node;
   }
   if (element.kind === 'image') {
+    if (element.componentKey) {
+      const main = imageMains.get(element.componentKey);
+      if (main) {
+        const instance = main.createInstance();
+        instance.setPluginData(WEB_COMPONENT_MAIN, main.id);
+        instance.setPluginData(WEB_IMAGE_COMPONENT_KEY, element.componentKey);
+        return instance;
+      }
+      const node = figma.createComponent();
+      node.setPluginData(WEB_IMAGE_COMPONENT_KEY, element.componentKey);
+      node.fills = [{ type: 'IMAGE', imageHash: assets[element.asset.sha256], scaleMode: element.objectFit === 'contain' ? 'FIT' : 'FILL' }];
+      imageMains.set(element.componentKey, node);
+      return node;
+    }
     const node = figma.createRectangle();
     node.fills = [{ type: 'IMAGE', imageHash: assets[element.asset.sha256], scaleMode: element.objectFit === 'contain' ? 'FIT' : 'FILL' }];
     return node;
@@ -932,7 +976,7 @@ function webCreateMaskWrapper(figma, element, created, content) {
   return host;
 }
 
-function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, images, videos) {
+function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, images, videos, imageMains) {
   const fallbackReport = [];
   const layoutDrifts = [];
   const root = figma.createFrame();
@@ -952,7 +996,7 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
   const frameElements = screen.elements.filter(element => element.kind === 'frame');
   const frames = new Map();
   for (const element of frameElements) {
-    const frame = webCreateElement(figma, element, fallbackReport, new Map(), graph.assets);
+    const frame = webCreateElement(figma, element, fallbackReport, new Map(), graph.assets, fonts, videos, imageMains);
     created.add(frame);
     frame.clipsContent = element.clipsContent === true;
     frame.layoutMode = 'NONE';
@@ -972,7 +1016,7 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     const node = element.kind === 'frame' ? frames.get(element.id).frame
       : element.kind === 'text' || element.kind === 'annotation'
       ? webTextNode(figma, element, fonts, fallbackReport, layoutDrifts, created)
-      : webCreateElement(figma, element, fallbackReport, mains, images, fonts, videos);
+      : webCreateElement(figma, element, fallbackReport, mains, images, fonts, videos, imageMains);
     created.add(node);
     node.setPluginData(WEB_ELEMENT_ID, element.id);
     const label = element.name || element.text?.characters || element.label || element.kind;
@@ -986,9 +1030,9 @@ function webCreateScreen(figma, screen, graph, created, baselines, fonts, x, ima
     }
     if (element.kind === 'component' && mains.get(family) === node) webNodePaint(node, element);
     if (element.kind === 'component' && mains.get(family) !== node && node.type === 'INSTANCE') webCreateTextOverride(node, element, fonts, fallbackReport, layoutDrifts);
-    if (element.kind === 'image' || element.kind === 'video') webImagePaint(node, element);
+    if ((element.kind === 'image' && node.type !== 'INSTANCE') || element.kind === 'video') webImagePaint(node, element);
     else if (element.kind === 'vector' && Number.isFinite(element.paint?.opacity)) node.opacity = element.paint.opacity;
-    else if (element.kind !== 'text' && element.kind !== 'vector' && element.kind !== 'frame') webNodePaint(node, element);
+    else if (element.kind !== 'text' && element.kind !== 'vector' && element.kind !== 'frame' && element.kind !== 'image') webNodePaint(node, element);
     webPosition(node, element, parentElement);
     if (element.kind === 'frame') {
       const record = frames.get(element.id);
@@ -1134,7 +1178,12 @@ async function webVerifyInstanceMains(figma, plan, frame) {
     if (!expected || typeof instance.getMainComponentAsync !== 'function') throw Error('Imported instance main identity is not pinned');
     const main = await webBounded(instance.getMainComponentAsync(), 10_000, 'Timed out reading an imported instance main');
     if (!main || main.id !== expected) throw Error(`Imported instance ${instance.id} resolves to a different local main`);
-    return { instance_id: instance.id, main_id: main.id };
+    const imageFamily = instance.getPluginData(WEB_IMAGE_COMPONENT_KEY);
+    const mainFamily = main.getPluginData(WEB_IMAGE_COMPONENT_KEY);
+    if (imageFamily !== mainFamily) {
+      throw Error(`Imported image instance ${instance.id} resolves to a different component family`);
+    }
+    return { instance_id: instance.id, main_id: main.id, ...(imageFamily ? {component_key: imageFamily} : {}) };
   });
   const result = await Promise.all(checks);
   nativeEditScope(figma, plan);
@@ -1180,6 +1229,7 @@ async function webApply(figma, plan) {
   const receipts = [];
   const created = new Set();
   const baselines = new Map();
+  const imageMains = new Map();
   let synchronousFailure = true;
   let totalPreviewBytes = 0;
   let carouselRollback = null;
@@ -1249,7 +1299,7 @@ async function webApply(figma, plan) {
       }, 0);
       const x = rightEdge > 0 ? rightEdge + 160 : 0;
       stage = "creating " + screen.id;
-      receipts.push(webCreateScreen(figma, screen, plan.web_design, created, baselines, fonts, x, images, videos));
+      receipts.push(webCreateScreen(figma, screen, plan.web_design, created, baselines, fonts, x, images, videos, imageMains));
     }
     synchronousFailure = false;
     const receipt = {schema:'figma-flow-web-design-receipt-v1',graph_id:plan.web_design.graph_id,

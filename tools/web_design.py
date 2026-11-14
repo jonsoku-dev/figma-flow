@@ -291,6 +291,12 @@ def validate_graph(graph, require_embedded=False):
             element_ids.add(e['id'])
             if 'name' in e and (not isinstance(e['name'], str) or len(e['name']) > 100):
                 raise ValueError('Layer name must be a bounded string')
+            if 'componentKey' in e and (
+                e['kind'] not in {'component', 'image'}
+                or not isinstance(e['componentKey'], str)
+                or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}', e['componentKey'])
+            ):
+                raise ValueError('Image and component family keys must be bounded stable strings')
             if 'clipsContent' in e and (e['kind'] != 'frame' or type(e['clipsContent']) is not bool):
                 raise ValueError('Only frames can clip their children')
             if 'path' in e and (
@@ -540,7 +546,73 @@ def validate_graph(graph, require_embedded=False):
                 raise ValueError('Element path must name existing ancestor frame IDs')
     if carousel is not None:
         validate_carousel(carousel, screens)
+    validate_image_component_families(screens)
     return screens
+
+
+def image_component_signature(screen, element):
+    by_id = {candidate['id']: candidate for candidate in screen['elements']}
+    ancestors = []
+    for frame_id in element.get('path', []):
+        frame = by_id[frame_id]
+        ancestors.append({
+            'box': frame['box'],
+            'clipsContent': frame.get('clipsContent', False),
+            'paint': frame.get('paint', {}),
+        })
+    visible = {
+        'asset': {'sha256': element['asset']['sha256'], 'mimeType': element['asset']['mimeType']},
+        'objectFit': element.get('objectFit', 'cover'),
+        'size': {'width': element['box']['width'], 'height': element['box']['height']},
+        'paint': element.get('paint', {}),
+        'ancestors': ancestors,
+    }
+    return json.dumps(visible, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(',', ':'))
+
+
+def validate_image_component_families(screens):
+    families = {}
+    for screen in screens:
+        for element in screen['elements']:
+            key = element.get('componentKey')
+            if element['kind'] == 'image' and key:
+                families.setdefault(key, []).append((screen['id'], image_component_signature(screen, element)))
+    for key, occurrences in families.items():
+        screen_ids = [screen_id for screen_id, _ in occurrences]
+        signatures = {signature for _, signature in occurrences}
+        if len(occurrences) < 2 or len(set(screen_ids)) != len(screen_ids) or len(signatures) != 1:
+            raise ValueError(f'Image component family {key} must repeat once per screen with identical appearance')
+
+
+def derive_repeated_carousel_images(graph):
+    """Assign component identity only to identical image occurrences in every carousel state."""
+    carousel = graph.get('carousel')
+    screens = {node['id']: node for node in graph['nodes'] if node.get('type') == 'screen'}
+    selected = [screens[state['screenId']] for state in carousel['states']]
+    grouped = []
+    for screen in selected:
+        per_signature = {}
+        for element in screen['elements']:
+            if element['kind'] == 'image':
+                signature = image_component_signature(screen, element)
+                per_signature.setdefault(signature, []).append(element)
+        grouped.append(per_signature)
+    common = set.intersection(*(set(groups) for groups in grouped)) if grouped else set()
+    assigned = 0
+    for signature in sorted(common):
+        elements = [groups[signature][0] for groups in grouped if len(groups[signature]) == 1]
+        if len(elements) != len(selected) or any('componentKey' in element for element in elements):
+            continue
+        identity = json.dumps({
+            'graphId': graph['id'],
+            'frameKey': carousel['frameKey'],
+            'signature': signature,
+        }, sort_keys=True, separators=(',', ':'))
+        key = 'carousel-image-' + hashlib.sha256(identity.encode('utf-8')).hexdigest()[:32]
+        for element in elements:
+            element['componentKey'] = key
+        assigned += 1
+    return assigned
 
 
 def validate_carousel(carousel, screens):
@@ -817,6 +889,7 @@ def join_carousel_observations(graph_path, observation_path, out_path):
         'transitions': transitions,
     }
     graph['carousel'] = carousel
+    shared_image_main_count = derive_repeated_carousel_images(graph)
     screens = validate_graph(graph)
     screens_by_id = {screen['id']: screen for screen in screens}
     for state_id in state_ids:
@@ -834,6 +907,7 @@ def join_carousel_observations(graph_path, observation_path, out_path):
     output.write_text(json.dumps(graph, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
     output.chmod(0o600)
     return {'graph': str(output), 'state_count': len(state_ids), 'transition_count': len(transitions),
+            'shared_image_main_count': shared_image_main_count,
             'graph_sha256': hashlib.sha256(output.read_bytes()).hexdigest(), 'status': 'compiled-not-applied'}
 
 

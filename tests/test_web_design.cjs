@@ -63,6 +63,9 @@ class MockNode {
     instance.layoutMode = this.layoutMode;
     instance.primaryAxisAlignItems = this.primaryAxisAlignItems;
     instance.counterAxisAlignItems = this.counterAxisAlignItems;
+    for (const key of ['opacity', 'fills', 'strokes', 'strokeWeight', 'cornerRadius', 'visible', 'rotation']) {
+      if (this[key] !== undefined) instance[key] = structuredClone(this[key]);
+    }
     instance.resize(this.width, this.height);
     for (const child of this.children) instance.appendChild(cloneNode(child));
     return instance;
@@ -149,6 +152,25 @@ function plan() {
       ] }],
     },
   };
+}
+
+function sharedCarouselImagePlan(graphId = 'shared-image-carousel') {
+  const value = plan();
+  const hash = 'c'.repeat(64);
+  value.web_design.graph_id = graphId;
+  value.web_design.screens = Array.from({ length: 4 }, (_, index) => ({
+    id: `WEB-feature-${index + 1}`,
+    title: `Feature ${index + 1}`,
+    layout: { width: 390, height: 844, background: '#ffffff' },
+    elements: [{
+      id: 'feature-image', kind: 'image', componentKey: 'carousel-image-shared', path: [],
+      box: { x: 64, y: 200, width: 262, height: 158 }, objectFit: 'cover',
+      paint: { borderWidth: 1, borderColor: '#eeeeee', borderRadius: 10, opacity: 0.9,
+        effects: [{ type: 'DROP_SHADOW', x: 0, y: 4, blur: 8, spread: 0, color: '#00000033' }] },
+      asset: { sha256: hash, mimeType: 'image/png' },
+    }],
+  }));
+  return value;
 }
 
 test('graph carousel imports directional editable swipe targets and timeout loop with actual readback', async () => {
@@ -291,6 +313,52 @@ test('component family separates materially different native line heights', asyn
   assert.equal(root.children.some(node => node.type === 'INSTANCE'), false);
   assert.deepEqual(mains.map(node => node.findAll(child => child.type === 'TEXT')[0].lineHeight.value).sort(), [20, 24]);
   assert.equal(result.receipt.screens[0].editable_node_count > 0, true);
+});
+
+test('identical pinned images share one native main across screen frames and survive a fresh graph identity', async () => {
+  const h = harness();
+  const legacy = plan();
+  const legacyResult = await h.apply(legacy);
+  const legacyFrame = h.page.children.find(node => node.id === legacyResult.receipt.screens[0].frame_id);
+  const oldImage = legacyFrame.findAll(node => node.getPluginData('figma-flow-web-element-id') === 'logo-a')[0];
+  assert.equal(oldImage.type, 'RECTANGLE');
+
+  const imagesBeforeComponentizedGraph = h.images.length;
+  const componentized = sharedCarouselImagePlan('shared-image-carousel-v2');
+  const result = await h.apply(componentized);
+  const frames = result.receipt.screens.map(screen => h.page.children.find(node => node.id === screen.frame_id));
+  const imageNodes = frames.map(frame => frame.findAll(node => node.getPluginData('figma-flow-web-element-id') === 'feature-image')[0]);
+  assert.equal(imageNodes.map(node => node.type).join(','), 'COMPONENT,INSTANCE,INSTANCE,INSTANCE');
+  const main = imageNodes[0];
+  assert.equal(imageNodes.slice(1).map(node => node.getPluginData('figma-flow-web-component-main-id')).join(','),
+    [main.id, main.id, main.id].join(','));
+  for (const instance of imageNodes.slice(1)) {
+    assert.equal((await instance.getMainComponentAsync()).id, main.id);
+    assert.equal(instance.getPluginData('figma-flow-web-image-component-key'), 'carousel-image-shared');
+    assert.equal(JSON.stringify(instance.fills), JSON.stringify(main.fills));
+    assert.equal(instance.cornerRadius, main.cornerRadius);
+    assert.equal(instance.opacity, main.opacity);
+  }
+  assert.equal(h.images.length - imagesBeforeComponentizedGraph, 1);
+  assert.equal(result.receipt.screens[1].component_mains[0].main_id, main.id);
+  assert.equal(h.page.children.includes(legacyFrame), true);
+  assert.equal(legacyFrame.findAll(node => node.getPluginData('figma-flow-web-element-id') === 'logo-a')[0], oldImage);
+  assert.equal((await h.apply(componentized)).receipt.screens.every(screen => screen.reused), true);
+  assert.equal(h.page.children.filter(node => node.getPluginData('figma-flow-web-design-id')?.startsWith('shared-image-carousel-v2/')).length, 4);
+});
+
+test('shared image identity rejects a changed appearance before native writes', async () => {
+  const h = harness();
+  const data = sharedCarouselImagePlan();
+  data.web_design.screens[3].elements[0].paint.opacity = 0.8;
+  await assert.rejects(() => h.apply(data), /Incompatible shared image family/);
+  assert.equal(h.page.children.length, 0);
+});
+
+test('failed shared image import removes its new main and screen instances', async () => {
+  const h = harness(() => { throw Error('readback failed'); });
+  await assert.rejects(() => h.apply(sharedCarouselImagePlan()), /readback failed/);
+  assert.equal(h.page.children.length, 0);
 });
 
 test('reused component instance text style is checked before accepting the screen', async () => {

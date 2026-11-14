@@ -1,6 +1,6 @@
 # Synthetic web carousel fixture
 
-This fixture is generated data for the `web-carousel` compiler. Its screenshots are 1 by 1 pixel placeholders, and its screen geometry and observations are illustrative. It does not represent a real SaaS page or prove browser behavior.
+This fixture is generated data for the `web-carousel` compiler. Its screenshots and repeated image are 1 by 1 pixel placeholders, and its screen geometry and observations are illustrative. It does not represent a real SaaS page or prove browser behavior. The shared image exists to exercise the compiler's automatic image family key.
 
 Copy this directory before running the commands because the compiler writes a new graph and plan next to the inputs:
 

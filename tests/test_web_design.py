@@ -263,11 +263,22 @@ class WebDesignTests(unittest.TestCase):
                 [sys.executable, '-B', str(ROOT / 'tools/native_edit.py'), 'web-carousel',
                  '--graph', str(work / 'screens.json'), '--observations', str(work / 'observations.json'),
                  '--out', str(joined)], capture_output=True, text=True, check=True)
-            self.assertEqual(json.loads(result.stdout)['state_count'], 4)
+            receipt = json.loads(result.stdout)
+            self.assertEqual(receipt['state_count'], 4)
+            self.assertEqual(receipt['shared_image_main_count'], 1)
+            joined_graph = json.loads(joined.read_text())
+            family_keys = {
+                element['componentKey']
+                for screen in joined_graph['nodes'] if screen.get('type') == 'screen'
+                for element in screen['elements'] if element['kind'] == 'image'
+            }
+            self.assertEqual(len(family_keys), 1)
             web_design.build_plan(joined, 'fixture', '1:1', plan_path)
             plan = json.loads(plan_path.read_text())
             native_edit.validate_plan(plan)
             self.assertEqual(plan['web_design']['carousel']['wrap'], {'manual': False, 'autoplay': True})
+            self.assertEqual(sum(element['kind'] == 'image' and 'componentKey' in element
+                                 for screen in plan['web_design']['screens'] for element in screen['elements']), 4)
 
     def test_observation_join_rejects_bad_types_duplicate_states_and_symlink_evidence(self):
         fixture = ROOT / 'tests/fixtures/web_carousel_synthetic'
@@ -322,6 +333,31 @@ class WebDesignTests(unittest.TestCase):
             (work / 'capture.png').write_bytes(replacement_png)
             with self.assertRaisesRegex(ValueError, 'SHA-256 changed'):
                 native_edit.validate_plan(json.loads(plan_path.read_text()))
+
+    def test_carousel_join_shares_only_image_families_with_matching_fitting_and_paint(self):
+        fixture = ROOT / 'tests/fixtures/web_carousel_synthetic'
+        with tempfile.TemporaryDirectory() as d:
+            work = Path(d) / 'synthetic'
+            shutil.copytree(fixture, work)
+            graph_path = work / 'screens.json'
+            graph = json.loads(graph_path.read_text())
+            graph['nodes'][1]['elements'][0]['objectFit'] = 'contain'
+            graph_path.write_text(json.dumps(graph))
+            joined = work / 'unshared.json'
+            receipt = web_design.join_carousel_observations(graph_path, work / 'observations.json', joined)
+            self.assertEqual(receipt['shared_image_main_count'], 0)
+            result = json.loads(joined.read_text())
+            self.assertTrue(all('componentKey' not in element for screen in result['nodes'] if screen.get('type') == 'screen'
+                                for element in screen['elements']))
+
+    def test_graph_rejects_an_explicit_image_family_with_incompatible_rendering(self):
+        value = json.loads((ROOT / 'tests/fixtures/web_carousel_synthetic/screens.json').read_text())
+        for screen in value['nodes']:
+            if screen.get('type') == 'screen':
+                screen['elements'][0]['componentKey'] = 'shared-image'
+        value['nodes'][2]['elements'][0]['paint'] = {'opacity': 0.5}
+        with self.assertRaisesRegex(ValueError, 'identical appearance'):
+            web_design.validate_graph(value)
 
     def test_carousel_rejects_ambiguous_or_inconsistent_transition_graphs(self):
         bad = carousel_graph()

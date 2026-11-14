@@ -8,32 +8,132 @@
       "type": "screen",
       "title": "Synthetic feature 1",
       "status": "observed",
-      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
-      "elements": []
+      "layout": {
+        "width": 390,
+        "height": 844,
+        "background": "#ffffff"
+      },
+      "elements": [
+        {
+          "id": "feature-image",
+          "kind": "image",
+          "path": [],
+          "box": {
+            "x": 64,
+            "y": 247,
+            "width": 262,
+            "height": 158
+          },
+          "asset": {
+            "path": "media.png",
+            "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f",
+            "mimeType": "image/png"
+          },
+          "objectFit": "cover",
+          "paint": {
+            "borderRadius": 10
+          }
+        }
+      ]
     },
     {
       "id": "WEB-synthetic-feature-2",
       "type": "screen",
       "title": "Synthetic feature 2",
       "status": "observed",
-      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
-      "elements": []
+      "layout": {
+        "width": 390,
+        "height": 844,
+        "background": "#ffffff"
+      },
+      "elements": [
+        {
+          "id": "feature-image",
+          "kind": "image",
+          "path": [],
+          "box": {
+            "x": 64,
+            "y": 247,
+            "width": 262,
+            "height": 158
+          },
+          "asset": {
+            "path": "media.png",
+            "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f",
+            "mimeType": "image/png"
+          },
+          "objectFit": "cover",
+          "paint": {
+            "borderRadius": 10
+          }
+        }
+      ]
     },
     {
       "id": "WEB-synthetic-feature-3",
       "type": "screen",
       "title": "Synthetic feature 3",
       "status": "observed",
-      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
-      "elements": []
+      "layout": {
+        "width": 390,
+        "height": 844,
+        "background": "#ffffff"
+      },
+      "elements": [
+        {
+          "id": "feature-image",
+          "kind": "image",
+          "path": [],
+          "box": {
+            "x": 64,
+            "y": 247,
+            "width": 262,
+            "height": 158
+          },
+          "asset": {
+            "path": "media.png",
+            "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f",
+            "mimeType": "image/png"
+          },
+          "objectFit": "cover",
+          "paint": {
+            "borderRadius": 10
+          }
+        }
+      ]
     },
     {
       "id": "WEB-synthetic-feature-4",
       "type": "screen",
       "title": "Synthetic feature 4",
       "status": "observed",
-      "layout": {"width": 390, "height": 844, "background": "#ffffff"},
-      "elements": []
+      "layout": {
+        "width": 390,
+        "height": 844,
+        "background": "#ffffff"
+      },
+      "elements": [
+        {
+          "id": "feature-image",
+          "kind": "image",
+          "path": [],
+          "box": {
+            "x": 64,
+            "y": 247,
+            "width": 262,
+            "height": 158
+          },
+          "asset": {
+            "path": "media.png",
+            "sha256": "abc58d5127d7cdf313beb9ec8ee839860a9c6bfbc48c8b8eb6a3f7d8bb63de6f",
+            "mimeType": "image/png"
+          },
+          "objectFit": "cover",
+          "paint": {
+            "borderRadius": 10
+          }
+        }
+      ]
     }
   ],
   "edges": []
