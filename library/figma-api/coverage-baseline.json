@@ -8356,6 +8356,10 @@
       "sha256": "b685bae57fd3178938c7c7f2b3299aa9632507574cae507207c1d5fe200b99c4"
     },
     {
+      "path": "figma-bridge/native_read_measurement.js",
+      "sha256": "f77a0dc896bfee09f6f87f64d84ca24423ddce90ebe8b8cb9525f35df80d70ca"
+    },
+    {
       "path": "figma-bridge/native_semantic_read.js",
       "sha256": "43ec52cc54e0600c81202954d8c015356f5bb652f4788327296e768b3ebcdee8"
     },
