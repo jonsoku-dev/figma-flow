@@ -10020,6 +10020,123 @@
           "version": "0.34.0"
         }
       ]
+    },
+    {
+      "commit": "c89403fd4dd5923eb633ff079bf62db4f22861f1",
+      "diff_sha256": "8d2c8afabd844a0745569c27a0d9f30f037bf297c10790f70d293514df56ad6e",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/838533671dfc10fad4fa59d75d6685d49d2a8892.md",
+        "docs/llm-wiki/patches/dc05491e35c3fb0aeacd2b0dcded57c0f45c07a4.md",
+        "docs/llm-wiki/patches/dd53eeed027d14fc98d59574bd6927b066079e30.md",
+        "docs/llm-wiki/patches/e4f2da50dbc3224119d70b99cb687c8951764cb8.md"
+      ],
+      "parents": [
+        "dd53eeed027d14fc98d59574bd6927b066079e30"
+      ],
+      "subject": "docs: record the review fixes and live 0.33 carousel readback in the wiki",
+      "tree": "dd461febde7a2998944f7274da8fbc9269ab54a9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "2a8e3adde7b0e2bb8d5baddc72ea2a1800e524f9",
+      "diff_sha256": "5401e5e4ad539ed474e1f24a920e63a4fd90a16e4f69394e4a545d7f345025b4",
+      "files": [
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/source-status.json",
+        "apps/little-hands/design/source.py",
+        "apps/little-hands/design/test_regeneration.py"
+      ],
+      "parents": [
+        "c89403fd4dd5923eb633ff079bf62db4f22861f1"
+      ],
+      "subject": "fix: complete G1 token ownership, state insertion, and orphan candidate reporting",
+      "tree": "06a0fb1c4ff02c7d791ada2f7c346ce2116911f1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "e86cb81decb3b369f59d4e3799945f996d342eb9",
+      "diff_sha256": "e4b6ea32f1d6097b9067dbd302179e6e61e6abcb35bbcfccfb53f8c3c0e90778",
+      "files": [
+        "apps/little-hands/design/test_regeneration.py"
+      ],
+      "parents": [
+        "2a8e3adde7b0e2bb8d5baddc72ea2a1800e524f9"
+      ],
+      "subject": "test: pin orphan candidate preservation across blocked epoch and retry",
+      "tree": "b7a2035a91bfff6e066e93aad6424245b38d0f6f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "a803681008485f85e9e31c01cf40c6c48f0a26ce",
+      "diff_sha256": "040c3a6e21bf2e1674227c26450ef4083b7519c343e5d983258d6d04380bff8e",
+      "files": [
+        "apps/little-hands/design/test_regeneration.py"
+      ],
+      "parents": [
+        "e86cb81decb3b369f59d4e3799945f996d342eb9"
+      ],
+      "subject": "test: compare full orphan and authored classifications on retry",
+      "tree": "31aede6030e612542760f9b6c57974ee07852a6b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
+    },
+    {
+      "commit": "bfb5e8f95af859098921f80da3811047a2a75f4d",
+      "diff_sha256": "07e452be336adcd5fd1624cd8de019fc8c4ecdff8c65f020bc04ed0a3bece5fe",
+      "files": [
+        "apps/little-hands/design/source.py"
+      ],
+      "parents": [
+        "a803681008485f85e9e31c01cf40c6c48f0a26ce"
+      ],
+      "subject": "fix: preserve orphan candidates across blocked source epochs",
+      "tree": "b43b903e3056379e8b955d095d1a010141bf4828",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.34.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.34.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -10076,6 +10193,7 @@
     "28eb39bc286e5728563d0b204928c7e323a6259f": "43cbe4f1a707d200c686c23ce4a9e4522728aee99b3c3749e2c77801b2aa7960",
     "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
     "2a5bec07b6b887e4ef8ee40582484ae2a3d0b0cc": "59bd8761fc1af3202993762f59abf544808f78bb69ebcd35a464eb661b3300a2",
+    "2a8e3adde7b0e2bb8d5baddc72ea2a1800e524f9": "c6bf5b34744a9469343e51e66215c5a1ee40515254288b2748724cdf971f05cf",
     "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de": "cb22f107fba474d02cdc48753d883fd717077a495e91cb73f3ac311986495999",
     "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9": "ec2e99a2fd9f6362e416427808e25928b81c4af151b546f2433956d2084d8a65",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
@@ -10226,6 +10344,7 @@
     "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
     "a60f977b0093ea35f98d731c197e09f1667dbc75": "042be96fc647eb926e4a73c7b8cd0abab87342c59956acb1ad1d2f3e8e6d250d",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
+    "a803681008485f85e9e31c01cf40c6c48f0a26ce": "0ec6d1cbb83a27b8e2763b97516f1355949be5d509a0c9bee223c53b7350388b",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
     "a9abc696ca8d6acc7974dc54076dea5e39d8de48": "7212074526920e097d7ab11da2caf762bf779776361169bf8055a5b68ab0ad58",
     "aa0822c58b548c0b61e33874bada12ce4e2403bf": "22a082b0df42a8d81fc91c274739ac80eb26eb8a9e674082fbfc823fe36222d8",
@@ -10265,6 +10384,7 @@
     "be68110615269481f97b2867e3d12ab3eb1442a6": "cc9a9fbd12e64882bc64eef8112fda41f043f62e08efee939da5bbbd6a8c5ca4",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
+    "bfb5e8f95af859098921f80da3811047a2a75f4d": "788a950797847695161906718296513042db2d17e9f1b4141bccb2f972dc4c02",
     "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
     "c1541b8129bdf3e175dd905cddfed39acd52bc2e": "8986a6e93a55e9a8ea388260e2d2dfb6cc4b0fbdfa40d33c503e5989edf50d14",
     "c43b4fc6c3958c233ca403769b4ef255bd6708e5": "39a8450f8747becfbdc6c6d80a44fe877ea51041f8f24b14f0d475fa1858169d",
@@ -10278,6 +10398,7 @@
     "c7d5587b7384f0bca9b4fb011204bda567031073": "b94b972da3e0c2c937731c4a4efb0e05610ae1af6f4a6e124ada609c738731ff",
     "c80def58a7b0a875961f13c9ae7307bbc910ff8e": "061218675aaa4315a7464452e1bacc9daf5a366b816c1e63e2becfe63ab7a50e",
     "c860a86f146e3302caeffbcfcfdbbe9d832f052d": "74ae820117eceb9c09aab0b7d290230871a3a367998f3d6dab2cf41c3fec0502",
+    "c89403fd4dd5923eb633ff079bf62db4f22861f1": "58686be9fdbbdc36504488cafbcff4710d17e92702d46620ee16ebb6f239bd6a",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cb392ce18d6c6b0654816641b4158dd6eb1291c0": "f339f9bfba69e83ec4a7dad566ed44d81ac751150588508c1f65c39853224dfd",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
@@ -10324,6 +10445,7 @@
     "e4f974ffeed2f9509c948141bce42de13027d157": "0fafc04266ee9445ce0675b04c7523ce0f0888af3d5e182ed0b09dd6399ef0cb",
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
     "e75d60b7b95fc48144368f7d659ad0d0918fddce": "5c47ca4f6f872bbb15e07db8e9f846ecb78e0313de97cd09ef257e8098cd45e2",
+    "e86cb81decb3b369f59d4e3799945f996d342eb9": "8499a65c22ddda33e11e16f65487cc0b74524a2c8f5cde7db46889c0399ffda3",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
     "ea1b24831175c123553276a804101e824a3267b0": "ea952d31d87be6bc477c4005440e0cb3085a38ae029685249793181f60eaba28",
@@ -10660,6 +10782,10 @@
     },
     {
       "observed_at_commit": "bc70451a51ca30e6e639b133593385650da52097",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "bfb5e8f95af859098921f80da3811047a2a75f4d",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -11046,10 +11172,12 @@
     },
     {
       "source_commits": [
-        "dd53eeed027d14fc98d59574bd6927b066079e30"
+        "c89403fd4dd5923eb633ff079bf62db4f22861f1"
       ],
-      "tagged": false,
-      "tags": [],
+      "tagged": true,
+      "tags": [
+        "v0.34.0"
+      ],
       "version": "0.34.0"
     }
   ],
@@ -11057,7 +11185,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "dd53eeed027d14fc98d59574bd6927b066079e30",
+  "source_commit": "bfb5e8f95af859098921f80da3811047a2a75f4d",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -11173,6 +11301,11 @@
       "commit": "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb",
       "tag": "v0.33.0",
       "version": "0.33.0"
+    },
+    {
+      "commit": "c89403fd4dd5923eb633ff079bf62db4f22861f1",
+      "tag": "v0.34.0",
+      "version": "0.34.0"
     }
   ]
 }

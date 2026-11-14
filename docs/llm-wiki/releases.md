@@ -8,6 +8,12 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+<a id="g1-source-regeneration"></a>
+
+## 미배포 · G1 소스 재생성
+
+요구사항·상태의 안정 ID와 디자이너가 채택한 토큰을 보존하고, 생성 원본에서 사라진 노드·관계를 검토할 수 있도록 남긴다. REQ-006 삭제를 재현한 후 오래된 CSS 버전으로 차단하고 유효한 입력으로 재시도했다. 세 단계 모두 노드 3개와 관계 10개 전체가 일치했다. [최초 구현](patches/2a8e3adde7b0e2bb8d5baddc72ea2a1800e524f9.md) · [최종 수정 및 인수](patches/bfb5e8f95af859098921f80da3811047a2a75f4d.md). 이 변경은 v0.34.0 태그 이후의 main에 통합됐다.
+
 ## v0.34.0
 
 [탭 계약과 실제 사용 장면](../../specs/interactive-web/tabs.md) · [정본 그래프](../../specs/interactive-web/graph.json) · [입력 형식](../web-tabs-input.md) · [사용 절차](../guide.md#web-tabs-quickstart).
