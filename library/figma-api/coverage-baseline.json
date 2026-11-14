@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 680,
-    "qualified-static-reference": 62,
-    "unresolved-receiver-name-reference": 640
+    "no-static-reference": 670,
+    "qualified-static-reference": 70,
+    "unresolved-receiver-name-reference": 642
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -257,49 +257,49 @@
       "id": "PluginAPI.on#41",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.on#42",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.on#43",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.on#44",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.on#45",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.on#46",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.on#47",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.on#48",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.once#49",
@@ -1553,7 +1553,7 @@
       "id": "CodegenResult.code#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "CodegenResult.language#2",
@@ -7199,7 +7199,7 @@
       "id": "CodeBlockNode.code#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "CodeBlockNode.codeLanguage#2",
@@ -8313,7 +8313,7 @@
     },
     {
       "path": "figma-bridge/code.js",
-      "sha256": "5ae575b91f96b053d61dd82e68b42ce5aa09e1bf4b6cb0776da78f08ebadfa30"
+      "sha256": "50cca44e54df15e504de3169ac83f42e4d69f1942dee039e47cab422b1663312"
     },
     {
       "path": "figma-bridge/design_note_board.js",
@@ -8389,15 +8389,15 @@
     },
     {
       "path": "figma-bridge/workspace_control.js",
-      "sha256": "c7e9b65037f5313efa5517d5f5c394dd00e5a762aee0e7be1379d43435691cc5"
+      "sha256": "60bff3e589716165b89f57b3f3caa59779a237d59895032d20a6db17c8e2bf68"
     },
     {
       "path": "figma-bridge/workspace_host.js",
-      "sha256": "efad0c80806c240bb3743aeddb55742be6f363b502aae30006ea5ed79d6da7ad"
+      "sha256": "a697659c77337438da9e2d5c2787c78f7f16e0283204b79d2b06efde3c86fa80"
     },
     {
       "path": "figma-bridge/workspace_transport.js",
-      "sha256": "3beecd4f5988b4517748c0297345bb3186baf66fd3e452e27a7344f34a8b3a58"
+      "sha256": "8f19a6dd53024e00799053e520f323e22938966f0869b748c62eb70f2178b093"
     },
     {
       "path": "library/figma-recipes/bundled/design-shapes.js",
