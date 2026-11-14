@@ -122,20 +122,31 @@ function workspaceAttachCarousel(current, data, pageId) {
   workspaceState.history = workspaceState.history.slice(-80);
   workspacePersist();
 }
-async function workspaceSelectCarousel(current, request) {
-  const event = [...workspaceState.history].reverse().find(row => row.taskKey === current.task.key && row.revision === current.task.revision
+async function workspaceSelectCarousel(current, request, home = false) {
+  const task = home ? workspaceTasks.get(request?.taskKey) : current?.task;
+  const event = [...workspaceState.history].reverse().find(row => row.taskKey === task?.key && row.revision === task?.revision
     && row.executionId === request?.executionId);
   const summary = workspaceStoredCarousel(event?.carousel), state = summary?.states.find(item => item.state_id === summary.initial_state);
   if (!summary || summary.status !== 'current' || !state || state.status !== 'current'
-      || summary.file_key !== figma.fileKey || summary.page_id !== current.task.pageId
+      || !task || task.kind !== 'native-edit' || task.key !== request?.taskKey || task.revision !== request?.revision
+      || summary.file_key !== figma.fileKey || task.fileKey !== summary.file_key || summary.page_id !== task.pageId
       || request?.nodeId !== summary.flow_start_node_id || request?.stateId !== summary.initial_state)
     throw Error('Carousel readback is stale or outside this prepared task. Run native read again.');
+  if (home && (request.workspaceSession !== workspaceHomeSession
+      || workspaceActive && (workspaceActive.view !== 'remote' || workspaceBusy(workspaceActive)
+        || workspaceActive.task.key !== task.key || workspaceActive.task.revision !== task.revision)))
+    throw Error('The prepared task session changed. Return to the current file task list.');
+  if (!home && !workspaceCurrent(current)) throw Error('The prepared task session changed. Reopen it and try again.');
   const page = await figma.getNodeByIdAsync(summary.page_id);
   if (page?.type !== 'PAGE') throw Error('The carousel page is no longer available.');
   await page.loadAsync();
-  if (!workspaceCurrent(current) || figma.fileKey !== summary.file_key) throw Error('The prepared task or active Figma file changed.');
+  const scopeCurrent = () => home
+    ? workspaceHomeSession === request.workspaceSession && (!workspaceActive || workspaceActive.view === 'remote'
+      && !workspaceBusy(workspaceActive) && workspaceActive.task.key === task.key && workspaceActive.task.revision === task.revision)
+    : workspaceCurrent(current);
+  if (!scopeCurrent() || figma.fileKey !== summary.file_key) throw Error('The prepared task or active Figma file changed.');
   if (figma.currentPage.id !== page.id) await figma.setCurrentPageAsync(page);
-  if (!workspaceCurrent(current) || figma.fileKey !== summary.file_key || figma.currentPage.id !== page.id)
+  if (!scopeCurrent() || figma.fileKey !== summary.file_key || figma.currentPage.id !== page.id)
     throw Error('The prepared task or active Figma page changed.');
   const frame = await figma.getNodeByIdAsync(summary.flow_start_node_id);
   let owner = frame;
@@ -149,14 +160,16 @@ async function workspaceSelectCarousel(current, request) {
     throw Error('The recorded frame is no longer a Figma flow start. Run native read again.');
   figma.currentPage.selection = [frame];
   figma.viewport.scrollAndZoomIntoView([frame]);
+  const url = request.action === 'present' ? workspaceCarouselPresentationUrl(summary) : null;
   if (request.action === 'present') {
-    const url = workspaceCarouselPresentationUrl(summary);
     if (!url || typeof figma.openExternal !== 'function') throw Error('A verified Figma presentation link is unavailable.');
     figma.openExternal(url);
   }
-  figma.ui.postMessage({workspaceSession:current.session, payload:{type:request.action === 'present'
-    ? 'workspace-carousel-presented' : 'workspace-carousel-selected', executionId:request.executionId,
-    stateId:summary.initial_state, nodeId:frame.id}});
+  // openExternal gives no delivery signal, so the presented reply carries the same verified URL for a user-clicked link.
+  const result = {type:request.action === 'present' ? 'workspace-carousel-presented' : 'workspace-carousel-selected',
+    workspaceSession:home ? workspaceHomeSession : current.session, executionId:request.executionId,
+    stateId:summary.initial_state, nodeId:frame.id, ...(url ? {taskKey:task.key, url} : {})};
+  figma.ui.postMessage(home ? result : {workspaceSession:current.session, payload:result});
 }
 function workspaceCarouselPresentationUrl(summary) {
   const safeFile = /^[A-Za-z0-9_-]{1,128}$/.test(summary?.file_key || '');
@@ -419,6 +432,14 @@ async function workspaceOnMessage(message) {
   if (message.type === 'workspace-control-tick') {
     if (message.workspaceSession === workspaceHomeSession && message.fileKey === figma.fileKey &&
         (!workspaceActive || workspaceActive.view === 'remote') && typeof workspaceControlTick === 'function') await workspaceControlTick();
+    return;
+  }
+  if (['workspace-carousel-select','workspace-carousel-present'].includes(message.type)) {
+    if (message.workspaceSession !== workspaceHomeSession) return;
+    const request = {...message, action:message.type === 'workspace-carousel-present' ? 'present' : 'select'};
+    try { await workspaceSelectCarousel(null, request, true); }
+    catch (error) { figma.ui.postMessage({type:'workspace-carousel-error', workspaceSession:workspaceHomeSession,
+      message:String(error.message || error)}); }
     return;
   }
   if (!workspaceActive) {

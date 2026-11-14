@@ -29,12 +29,30 @@ export function ActivitySummary({ activity, tr }) {
   );
 }
 
+const CAROUSEL_NOTICE_KEYS = new Map([
+  ['selected', 'carouselSelected'],
+  ['presented', 'carouselPresented'],
+]);
+
+/** Translate known carousel action outcomes while preserving host error strings. */
+export function carouselNoticeText(notice, tr) {
+  if (!notice) return '';
+  const key = CAROUSEL_NOTICE_KEYS.get(notice);
+  return key ? tr(key) : notice;
+}
+
+function CarouselNotice({ notice, tr }) {
+  const text = carouselNoticeText(notice, tr);
+  if (!text) return null;
+  return <p className="workspace-carousel-notice" role="status">{text}</p>;
+}
+
 export function CarouselOverview({ items, tr, onOpenTask, onSelectCarousel, onPresentCarousel, notice }) {
   if (!items.length) return null;
   return (
     <Section title={tr('carouselFileTitle')} className="workspace-carousel-overview">
       <p className="workspace-activity-caption">{tr('carouselFileHelp')}</p>
-      {notice && <p className="workspace-carousel-notice" role="status">{notice === 'selected' ? tr('carouselSelected') : notice === 'presented' ? tr('carouselPresented') : notice}</p>}
+      <CarouselNotice notice={notice} tr={tr} />
       <ul className="workspace-carousel-list">
         {items.map(({task, event, carousel}) => {
           const current = event?.revision === task.revision && carousel?.status === 'current';
@@ -108,7 +126,7 @@ export function ExecutionFlows({ flows, tasks, tr, stateText, date, rememberFocu
                     onClick={() => canSelectStart && onSelectCarousel?.(carouselEvent, carousel)}>{tr('carouselSelectStart')}</button>
                 </div>
               </div>
-              {carouselNotice && <p className="workspace-carousel-notice" role="status">{carouselNotice === 'selected' ? tr('carouselSelected') : carouselNotice}</p>}
+              <CarouselNotice notice={carouselNotice} tr={tr} />
               <ol className="workspace-carousel-states" aria-label={tr('carouselStates')}>
                 {carousel.states.map((state, stateIndex) => <li key={state.state_id} data-state={state.status}>
                   <span className="workspace-carousel-index">{stateIndex + 1}</span>

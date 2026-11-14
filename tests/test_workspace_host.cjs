@@ -340,26 +340,129 @@ test('carousel start selection requires the current task readback and exact nati
   const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};
   const frame={id:'1:3',type:'FRAME',parent:page,getPluginData:key=>values[key]||''};
   page.children=[frame];
-  const h=harness(false,{page,nodes:[frame]});const session=await h.open('a');
+  const h=harness(false,{kind:'native-edit',page,nodes:[frame]});const session=await h.open('a');
   const summary=h.context.workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1',graph_sha256:'a'.repeat(64),
     graph_id:'graph',file_key:'file-a',page_id:'1:2',frame_key:'slides',status:'current',initial_state:'one',flow_start_node_id:'1:3',
     states:[{state_id:'one',screen_id:'WEB-one',frame_id:'1:3',status:'current'},
       {state_id:'two',screen_id:'WEB-two',frame_id:'1:4',status:'current'}],edges:[]});
   vm.runInContext(`workspaceState.history.push({taskKey:'a',revision:'r1',operation:'apply',status:'readback',executionId:'exec-a',carousel:${JSON.stringify(summary)}})`,h.context);
   const active=vm.runInContext('workspaceActive',h.context);
-  await h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'one',nodeId:'1:3'});
+  await h.context.workspaceSelectCarousel(active,{taskKey:'a',revision:'r1',executionId:'exec-a',stateId:'one',nodeId:'1:3'});
   assert.equal(page.selection.length,1);assert.equal(page.selection[0].id,'1:3');assert.deepEqual(Array.from(h.probe.scrolled),['1:3']);
   assert.equal(h.probe.messages.at(-1).payload.type,'workspace-carousel-selected');
-  await h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'one',nodeId:'1:3',action:'present'});
+  await h.context.workspaceSelectCarousel(active,{taskKey:'a',revision:'r1',executionId:'exec-a',stateId:'one',nodeId:'1:3',action:'present'});
   assert.equal(h.probe.external.at(-1),'https://www.figma.com/proto/file-a/SaaS?node-id=1-3&starting-point-node-id=1-3&page-id=1-2&scaling=scale-down');
   assert.equal(h.probe.external.length,1);
   assert.equal(h.probe.messages.at(-1).payload.type,'workspace-carousel-presented');
-  await assert.rejects(h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'two',nodeId:'node-2'}),/stale or outside/);
+  await assert.rejects(h.context.workspaceSelectCarousel(active,{taskKey:'a',revision:'r1',executionId:'exec-a',stateId:'two',nodeId:'node-2'}),/stale or outside/);
   assert.equal(h.probe.external.length,1);
   assert.equal(h.probe.messages.at(-1).payload.type,'workspace-carousel-presented');
   page.flowStartingPoints=[];
-  await assert.rejects(h.context.workspaceSelectCarousel(active,{executionId:'exec-a',stateId:'one',nodeId:'1:3'}),/no longer a Figma flow start/);
+  await assert.rejects(h.context.workspaceSelectCarousel(active,{taskKey:'a',revision:'r1',executionId:'exec-a',stateId:'one',nodeId:'1:3'}),/no longer a Figma flow start/);
   assert.equal(h.probe.external.length,1);
+});
+test('workspace home Present routes the top-level message through current file and task pins',async()=>{
+  const page={id:'1:2',type:'PAGE',flowStartingPoints:[{nodeId:'1:3',name:'Carousel'}],async loadAsync(){}};
+  const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};
+  const frame={id:'1:3',type:'FRAME',parent:page,getPluginData:key=>values[key]||''};
+  page.children=[frame];
+  const h=harness(false,{kind:'native-edit',page,nodes:[frame]});
+  const home=await h.listing();
+  const summary=h.context.workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1',graph_sha256:'a'.repeat(64),
+    graph_id:'graph',file_key:'file-a',page_id:'1:2',frame_key:'slides',status:'current',initial_state:'one',flow_start_node_id:'1:3',
+    states:[{state_id:'one',screen_id:'WEB-one',frame_id:'1:3',title:'Team Status Overview',status:'current'},
+      {state_id:'two',screen_id:'WEB-two',frame_id:'1:4',title:'Release Schedule Milestones',status:'current'}],edges:[]});
+  vm.runInContext(`workspaceState.history.push({taskKey:'a',revision:'r1',operation:'apply',status:'readback',executionId:'exec-home',carousel:${JSON.stringify(summary)}})`,h.context);
+  await h.send({type:'workspace-carousel-present',workspaceSession:home.workspaceSession,taskKey:'a',revision:'r1',
+    executionId:'exec-home',stateId:'one',nodeId:'1:3'});
+  assert.equal(h.probe.external.at(-1),'https://www.figma.com/proto/file-a/SaaS?node-id=1-3&starting-point-node-id=1-3&page-id=1-2&scaling=scale-down');
+  assert.equal(h.probe.messages.at(-1).type,'workspace-carousel-presented');
+  assert.equal(h.probe.messages.at(-1).workspaceSession,home.workspaceSession);
+  const count=h.probe.external.length;
+  await h.send({type:'workspace-carousel-present',workspaceSession:home.workspaceSession,taskKey:'a',revision:'stale',
+    executionId:'exec-home',stateId:'one',nodeId:'1:3'});
+  assert.equal(h.probe.external.length,count);
+  assert.equal(h.probe.messages.at(-1).type,'workspace-carousel-error');
+});
+test('workspace home Select switches to the pinned page, selects and scrolls the start frame without opening external URL',async()=>{
+  const startPage={id:'1:1',type:'PAGE',selection:[]};
+  const targetPage={id:'1:2',type:'PAGE',loaded:0,selection:[],flowStartingPoints:[{nodeId:'1:3',name:'Carousel'}],async loadAsync(){this.loaded++;}};
+  const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};
+  const frame={id:'1:3',type:'FRAME',parent:targetPage,getPluginData:key=>values[key]||''};
+  targetPage.children=[frame];
+  const h=harness(false,{kind:'native-edit',page:startPage,nodes:[targetPage,frame]});
+  const home=await h.listing();
+  const summary=h.context.workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1',graph_sha256:'a'.repeat(64),
+    graph_id:'graph',file_key:'file-a',page_id:'1:2',frame_key:'slides',status:'current',initial_state:'one',flow_start_node_id:'1:3',
+    states:[{state_id:'one',screen_id:'WEB-one',frame_id:'1:3',title:'Team Status Overview',status:'current'},
+      {state_id:'two',screen_id:'WEB-two',frame_id:'1:4',title:'Release Schedule Milestones',status:'current'}],edges:[]});
+  vm.runInContext(`workspaceState.history.push({taskKey:'a',revision:'r1',operation:'apply',status:'readback',executionId:'exec-home',carousel:${JSON.stringify(summary)}})`,h.context);
+  await h.send({type:'workspace-carousel-select',workspaceSession:home.workspaceSession,taskKey:'a',revision:'r1',
+    executionId:'exec-home',stateId:'one',nodeId:'1:3'});
+  assert.equal(targetPage.loaded,1);
+  assert.equal(h.figma.currentPage.id,'1:2');
+  assert.equal(startPage.selection.length,0);
+  assert.equal(targetPage.selection.length,1);
+  assert.equal(targetPage.selection[0].id,'1:3');
+  assert.deepEqual(Array.from(h.probe.scrolled),['1:3']);
+  assert.equal(h.probe.external.length,0);
+  assert.deepEqual(JSON.parse(JSON.stringify(h.probe.messages.at(-1))),{type:'workspace-carousel-selected',
+    workspaceSession:home.workspaceSession,executionId:'exec-home',stateId:'one',nodeId:'1:3'});
+});
+test('workspace home carousel actions reject forged, missing, mismatched-execution, non-remote-active, and expired sessions',async()=>{
+  const startPage={id:'1:1',type:'PAGE',selection:[]};
+  const targetPage={id:'1:2',type:'PAGE',selection:[],flowStartingPoints:[{nodeId:'1:3',name:'Carousel'}],async loadAsync(){}};
+  const values={'figma-flow-web-design-id':'graph/WEB-one','figma-flow-web-design-sha256':'a'.repeat(64)};
+  const frame={id:'1:3',type:'FRAME',parent:targetPage,getPluginData:key=>values[key]||''};
+  targetPage.children=[frame];
+  const h=harness(false,{kind:'native-edit',page:startPage,nodes:[targetPage,frame]});
+  const home=await h.listing();
+  const summary=h.context.workspaceStoredCarousel({schema:'figma-flow-carousel-summary-v1',graph_sha256:'a'.repeat(64),
+    graph_id:'graph',file_key:'file-a',page_id:'1:2',frame_key:'slides',status:'current',initial_state:'one',flow_start_node_id:'1:3',
+    states:[{state_id:'one',screen_id:'WEB-one',frame_id:'1:3',title:'Team Status Overview',status:'current'},
+      {state_id:'two',screen_id:'WEB-two',frame_id:'1:4',title:'Release Schedule Milestones',status:'current'}],edges:[]});
+  vm.runInContext(`workspaceState.history.push({taskKey:'a',revision:'r1',operation:'apply',status:'readback',executionId:'exec-home',carousel:${JSON.stringify(summary)}})`,h.context);
+  const messageCountBefore=h.probe.messages.length;
+  for(const badSession of ['forged-session',undefined,null,'']){
+    for(const type of ['workspace-carousel-select','workspace-carousel-present']){
+      await h.send({type,workspaceSession:badSession,taskKey:'a',revision:'r1',executionId:'exec-home',stateId:'one',nodeId:'1:3'});
+    }
+  }
+  assert.equal(h.probe.messages.length,messageCountBefore);
+  assert.equal(h.figma.currentPage.id,'1:1');
+  assert.equal(targetPage.selection.length,0);
+  assert.equal(h.probe.scrolled,undefined);
+  assert.equal(h.probe.external.length,0);
+
+  await h.send({type:'workspace-carousel-select',workspaceSession:home.workspaceSession,taskKey:'a',revision:'r1',
+    executionId:'wrong-exec',stateId:'one',nodeId:'1:3'});
+  assert.equal(h.probe.messages.at(-1).type,'workspace-carousel-error');
+  assert.equal(h.probe.messages.at(-1).workspaceSession,home.workspaceSession);
+  assert.equal(h.figma.currentPage.id,'1:1');
+  assert.equal(targetPage.selection.length,0);
+  assert.equal(h.probe.external.length,0);
+
+  const taskSession=await h.open('a');
+  for(const type of ['workspace-carousel-select','workspace-carousel-present']){
+    await h.send({type,workspaceSession:home.workspaceSession,taskKey:'a',revision:'r1',executionId:'exec-home',stateId:'one',nodeId:'1:3'});
+    assert.equal(h.probe.messages.at(-1).type,'workspace-carousel-error');
+    assert.match(h.probe.messages.at(-1).message,/session changed/);
+  }
+  assert.equal(h.figma.currentPage.id,'1:1');
+  assert.equal(targetPage.selection.length,0);
+  assert.equal(h.probe.external.length,0);
+
+  await h.send({type:'workspace-back',workspaceSession:taskSession});
+  const nextHome=await h.listing();
+  assert.notEqual(nextHome.workspaceSession,home.workspaceSession);
+  const countAfterReturn=h.probe.messages.length;
+  for(const type of ['workspace-carousel-select','workspace-carousel-present']){
+    await h.send({type,workspaceSession:home.workspaceSession,taskKey:'a',revision:'r1',executionId:'exec-home',stateId:'one',nodeId:'1:3'});
+  }
+  assert.equal(h.probe.messages.length,countAfterReturn);
+  assert.equal(h.figma.currentPage.id,'1:1');
+  assert.equal(targetPage.selection.length,0);
+  assert.equal(h.probe.external.length,0);
 });
 test('late storage loading cannot populate an expired home session or admit a forged verification',async()=>{
   let release;const storage={getAsync:()=>new Promise(resolve=>{release=resolve;}),async setAsync(){}};

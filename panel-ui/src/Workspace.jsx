@@ -465,11 +465,13 @@ export default function Workspace({
         onOpenTask={openTask}
         onSelectCarousel={(event, carousel) => {
           setCarouselNotice(null);
-          sendMessage('workspace-carousel-select', {executionId:event.executionId,stateId:carousel.initial_state,nodeId:carousel.flow_start_node_id});
+          sendMessage('workspace-carousel-select', {taskKey:event.taskKey,revision:event.revision,
+            executionId:event.executionId,stateId:carousel.initial_state,nodeId:carousel.flow_start_node_id});
         }}
         onPresentCarousel={(event, carousel) => {
           setCarouselNotice(null);
-          sendMessage('workspace-carousel-present', {executionId:event.executionId,stateId:carousel.initial_state,nodeId:carousel.flow_start_node_id});
+          sendMessage('workspace-carousel-present', {taskKey:event.taskKey,revision:event.revision,
+            executionId:event.executionId,stateId:carousel.initial_state,nodeId:carousel.flow_start_node_id});
         }}
       />}
       {recommended && (
@@ -556,12 +558,12 @@ export default function Workspace({
             carouselNotice={carouselNotice}
             onSelectCarousel={(event, carousel) => {
               setCarouselNotice(null);
-              sendMessage('workspace-carousel-select', {executionId:event.executionId,
+              sendMessage('workspace-carousel-select', {taskKey:event.taskKey,revision:event.revision,executionId:event.executionId,
                 stateId:carousel.initial_state, nodeId:carousel.flow_start_node_id});
             }}
             onPresentCarousel={(event, carousel) => {
               setCarouselNotice(null);
-              sendMessage('workspace-carousel-present', {executionId:event.executionId,
+              sendMessage('workspace-carousel-present', {taskKey:event.taskKey,revision:event.revision,executionId:event.executionId,
                 stateId:carousel.initial_state, nodeId:carousel.flow_start_node_id});
             }}
             fileKey={model.fileKey}
