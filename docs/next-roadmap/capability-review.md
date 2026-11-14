@@ -189,7 +189,7 @@ python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'
 
 **통과 기준:** 먼저 동일 환경에서 반복한 기준 측정과 분산 범위를 기록한다. 성능 개선 코드가 없으면 이 단계만 완료로 표시하고 최적화 효과는 주장하지 않는다.
 
-**실행 계약:** 두 워크로드의 샘플 형태, 파일 소유, 인수 항목 B1–B9, root 실측 절차는 [p2-wave1-acceptance.md#p2-read-performance-baseline](p2-wave1-acceptance.md#p2-read-performance-baseline)에 있다. 이 계약은 측정 결과가 아니다.
+**실행 계약:** full discovery 기준 workload의 샘플 형태, 파일 소유, 인수 항목 B1–B9, root 실측 절차는 [p2-wave1-acceptance.md#p2-read-performance-baseline](p2-wave1-acceptance.md#p2-read-performance-baseline)에 있다. 이 계약은 측정 결과가 아니다.
 
 <a id="p2-incremental-read"></a>
 

@@ -28,7 +28,7 @@ p0-reference-safety (verified)
 | 작업 | writer | 소유 경로 |
 |---|---|---|
 | `p2-rights-cleared-fixture` | fixture writer | `examples/owned-production-workspace/**`, `tests/test_owned_production_workspace.py`, `tools/owned_production_workspace.py` |
-| `p2-read-performance-baseline` | baseline writer | 새 `figma-bridge/native_read_measurement.js`, `figma-bridge/native_semantic_read.js`, `tools/graph_sync.py`·`tools/figma_workspace.py`의 최소 discovery 호출부, 새 측정 검사, [NF-02](NF-02-incremental-native-read.md)의 측정 기록 부록. 기존 파일은 아래 계측 조건 안에서만 바꾼다 |
+| `p2-read-performance-baseline` | baseline writer | 새 `figma-bridge/native_read_measurement.js`, `tools/native_read_benchmark.py`, `tests/p2_native_read_measurement.cjs`, `tests/test_native_read_benchmark.py`, `figma-bridge/native_semantic_read.js`, `tools/graph_sync.py`·`tools/figma_workspace.py`의 최소 discovery 호출부, [NF-02](NF-02-incremental-native-read.md)의 측정 기록 부록. 기존 파일은 아래 계측 조건 안에서만 바꾼다 |
 | 두 작업의 기록 | records writer | `docs/next-roadmap/backlog.graph.json`, `capability-review.md`, `README.md`, 이 문서, `tests/test_next_roadmap_backlog.py`, `CHANGELOG.md`, `docs/llm-wiki/` |
 
 fixture·baseline writer는 그래프, CHANGELOG, Wiki를 바꾸지 않는다. fixture writer는 코어 캡처·컴파일러·플러그인을 바꾸지 않는다. 두 writer 모두 기존 `examples/owned-design-baseline/`·`examples/owned-component-families/`, 패널 UI, `figma-bridge/assets/panels.js`, `docs/development-roadmap/RD-06-native-read/tasks.md`를 바꾸지 않는다.
@@ -119,48 +119,48 @@ python3 -B tools/reference_distribution_guard.py --ref HEAD --format text
 
 ### 최소 데이터 형태
 
-측정 대상은 `figma-bridge/native_semantic_read.js`의 `readNativeSemantics`다. 기준 트리의 reader blob은 `57aa184daa152843fe5954d69586ecaf16c580a4`, 플러그인 버전은 `0.35.0`이다. 기본 호출의 시그니처와 반환값에는 계측을 넣지 않는다. 시간 측정은 선택 flag 경로나 호출 밖의 러너에서 한다.
+라이브 기준선은 고정 범위의 fresh full discovery 읽기 하나다. 기본 discovery 경로가 flag 없이 수행하는 full `readNativeSemantics(figma, page)` 읽기이며, 기준 트리의 reader blob은 `57aa184daa152843fe5954d69586ecaf16c580a4`, 플러그인 버전은 `0.35.0`이다. 기본 호출의 시그니처와 반환값에는 계측을 넣지 않는다.
 
-워크로드는 두 개다. 둘의 차이를 개선으로 적지 않는다.
+| 이름 | 뜻 | 보고 방식 |
+|---|---|---|
+| `discovery-full-default` | 유일한 기준 workload. flag 없는 fresh full discovery | 시간 통계의 기준 |
+| `discovery-full-timed` | 같은 full 읽기에 선택 flag 계측을 붙인 회차. 기본과의 차이는 관측 overhead다 | overhead 판정에만 쓴다. 둘째 profile이나 속도 차이가 아니다 |
+| 진단 counts | median 밖 진단 회차의 getter·API 접근 수 | 시간 통계와 다른 단위로 따로 표시한다 |
 
-- `readNativeSemantics-full`. `readNativeSemantics(figma, page)` 호출 하나다.
-- `readNativeSemantics-summary-default`. 패널 기본 요청과 같은 `profile: "summary"`, 그 페이지의 노드 ID, `fields: ["width", "height"]`다. 반환 schema가 `figma-flow-native-read-summary-v1`이 아니면 summary 샘플이 아니다.
-
-export, sync, discovery 전체 경로는 이 두 워크로드가 아니다. 재야 하면 셋째 이름으로 분리한다. `compareNativeReadProfiles` 한 번은 네 번 읽으므로 샘플 1회로 쓰지 않는다.
+summary profile의 라이브 성능은 이번 범위에서 측정하지 않는다. 단위 mock 결과는 상한일 뿐이다. summary 수치나 reader 시간의 end-to-end 비중을 `p2-incremental-native-read`(browse 캐시)의 성능 근거나 최적화 효과로 쓰지 않는다. `compareNativeReadProfiles` 한 번은 네 번 읽으므로 샘플 1회로 쓰지 않는다.
 
 샘플 한 건의 필드:
 
 | 필드 | 내용 |
 |---|---|
 | `source_commit`, `reader_blob`, `plugin_version` | 측정한 통합 소스와 실제 로드본 |
-| `workload` | 위 두 이름 중 하나 |
-| `file_id`, `page_id`, `node_ids`, `fields` | 범위. ID는 비공개 기록에만 둔다. 공개 요약에는 digest와 노드 수만 쓴다 |
-| `profile_requested`, `schema_returned` | 요청 profile과 반환 schema |
-| `reader_elapsed_ms` | `readNativeSemantics` await 시간만 |
-| `end_to_end_elapsed_ms` | 같은 워크로드의 host 왕복. 전송·직렬화 포함, 진단 ledger 제외 |
+| `workload` | `discovery-full-default` 또는 `discovery-full-timed` |
+| `file_id`, `page_id`, `node_ids` | 범위. ID는 비공개 기록에만 둔다. 공개 요약에는 digest와 노드 수만 쓴다 |
+| `reader_elapsed_ms` | reader await 시간. 계측 회차에만 있다 |
+| `end_to_end_elapsed_ms` | 러너 시계로 잰 host 왕복. 전송·직렬화 포함, 진단 회차 제외 |
 | `bytes` | 기존 `utf8JsonBytes`로 잰 그 읽기 결과 |
-| `coverage_complete` | summary는 `false`. 의도된 범위이며 실패가 아니다. full은 반환에 coverage 객체가 없으므로 `null`로 두고 `true`로 추정하지 않는다 |
-| `content_sha256` | 비교용 정규 JSON의 SHA-256 |
-| `getter_count` | 시간 샘플에서는 `null`. 같은 scope 핀을 가진 독립 진단 회차의 값을 옆에 따로 표시한다 |
+| `coverage_complete` | discovery 결과에는 coverage 객체가 없으므로 `null`. `true`로 추정하지 않는다 |
+| `content_sha256` | 관측 시각과 계측 필드를 뺀 정규 JSON의 SHA-256 |
+| `getter_count` | 시간 샘플에서는 `null` |
 | `attempt`, `outcome` | 계획 순번과 결과(`ok`, `failure`, `timeout`, `retry`, `drift`). 모든 시도를 남긴다 |
 | `execution` | `unit-mock` 또는 `root-live` |
 
-getter 수는 별도 진단 회차에서 `nativeReadGetterLedger`(`figma-flow-native-read-ledger-v1`)로 얻는다. ledger는 노드 속성의 첫 읽기를 `nodeId.property`로 한 번만 기록한 고유 접근 목록이다. 호출 횟수나 API 호출 수가 아니다. 진단 회차는 시간 샘플 밖에 두고, 보고할 때는 시간 샘플과 같은 scope 핀(범위 digest, 요청 필드, reader blob)을 함께 적는다.
+진단 counts는 그 회차가 정한 단위를 따른다. 반복 속성 접근과 API 호출 횟수를 세면, `nativeReadGetterLedger`(`figma-flow-native-read-ledger-v1`)의 고유 `nodeId.property` 접근 수와 다른 단위다. 두 값을 섞지 않는다. reader 안의 counts와 discovery가 reader 뒤에 하는 stroke·글꼴 조회도 구분한다. 진단 회차는 시간 샘플 밖에 두고, 보고할 때는 같은 scope 핀(범위 digest, reader blob)을 함께 적는다.
 
-기록은 네 가지를 구분한다. native getter 접근(진단 ledger), reader 시계(`reader_elapsed_ms`), 전송을 포함한 host 왕복(`end_to_end_elapsed_ms`), 저장소 fixture 파이프라인(`unit-mock`)이다. 한 값을 다른 값으로 바꿔 쓰지 않는다.
+기록은 네 가지를 구분한다. native getter 접근(진단 counts), reader 시계(`reader_elapsed_ms`), 전송을 포함한 host 왕복(`end_to_end_elapsed_ms`), 저장소 fixture 파이프라인(`unit-mock`)이다. 한 값을 다른 값으로 바꿔 쓰지 않는다.
 
 ### 인수 항목
 
 | ID | 기준 | 근거 |
 |---|---|---|
-| B1 | 같은 환경에서 워크로드마다 같은 scope의 `root-live` 시도를 5회 이상 미리 계획하고, 모든 시도를 순번대로 보존한다. 실패, 시간 초과, 재시도, drift를 조용히 빼거나 성공한 5건만 고르지 않는다 | root의 실제 Figma 측정, 시도 기록 |
-| B2 | 계획한 시도 중 범위·요청 필드가 바뀌거나 `content_sha256`이 갈라지면 그 워크로드는 실패 또는 비교 불가로 보고하고 median을 만들지 않는다 | 기록 대조 |
-| B3 | summary의 `coverage.complete: false`는 의도된 범위이며 실패가 아니다. full의 coverage 부재를 `true`로 추정하지 않는다. summary 결과를 full 근거로 적지 않으며 `requireFullNativeRead`가 summary를 거절한다 | 기록 대조, 기존 RD-06 검사 |
-| B4 | 비교 가능한 워크로드의 각 시계는 median, 최소, 최대만 보고한다. 평균을 개선율로 바꾸지 않는다 | 기록 대조 |
-| B5 | 시간 샘플의 `getter_count`는 `null`이다. getter 수는 같은 scope 핀을 가진 독립 진단 회차의 ledger 고유 접근 수로 따로 표시한다 | 기록 대조 |
+| B1 | 같은 환경에서 workload마다 같은 scope의 `root-live` 시도를 5회 이상 미리 계획하고, 모든 시도를 순번대로 보존한다. 실패, 시간 초과, 재시도, drift를 조용히 빼거나 성공한 5건만 고르지 않는다 | root의 실제 Figma 측정, 시도 기록 |
+| B2 | 계획한 시도 중 실패가 있거나, 범위가 바뀌거나, `content_sha256`이 갈라지면 통계를 만들지 않고 실패, 비교 불가 또는 판정 불가로 보고한다 | 기록 대조 |
+| B3 | discovery full의 coverage 부재를 `true`로 추정하지 않는다. summary 결과를 full 근거로 적지 않으며 `requireFullNativeRead`가 summary를 거절한다 | 기록 대조, 기존 RD-06 검사 |
+| B4 | 기준 workload의 각 시계는 median, 최소, 최대만 보고한다. 평균을 개선율로 바꾸지 않는다. `discovery-full-timed`와의 차이는 관측 overhead로만 적는다 | 기록 대조 |
+| B5 | 시간 샘플의 `getter_count`는 `null`이다. 진단 counts는 같은 scope 핀과 함께 별도 단위로 표시한다 | 기록 대조 |
 | B6 | 동결된 RD-06 검사와 `test_graph_sync.py`가 blob 변경 없이 통과한다 | 아래 명령, blob 대조 |
 | B7 | `unit-mock` 샘플이나 ledger 길이를 `root-live` 값으로 적지 않는다 | 기록 대조 |
-| B8 | 속도 향상을 주장하지 않는다. NF-02의 과거 실행 수치는 이 기준선에 쓰지 않는다 | 문서 검토 |
+| B8 | 속도 향상을 주장하지 않는다. NF-02의 과거 실행 수치와 측정하지 않은 summary profile을 이 기준선이나 후속 캐시의 근거로 쓰지 않는다 | 문서 검토 |
 | B9 | 병목을 측정으로 확인하지 못하면 `p2-incremental-native-read`를 시작하지 않는다 | 그래프 상태 |
 
 ### 명령
@@ -171,7 +171,7 @@ node --test tests/rd06_full_getter_ledger.cjs tests/rd06_read_comparison.cjs
 python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'
 ```
 
-이 명령은 저장소 fixture 기준만 확인한다. 실제 Figma 지연이나 대형 문서의 동작을 보여 주지 않는다. 실제 측정값은 root가 개발 플러그인으로 등록된 테스트 페이지에서 얻는다. 호출부 변경은 [파일 소유](#file-ownership)의 선택 flag 범위에 한한다. RD-06 검사는 `code.js`, `native_edit.js`, `tools/graph_sync.py`, 패널 소스의 호출 문자열을 고정하므로 기본 경로의 문자열을 유지한다.
+baseline 구현의 새 검사(측정 단위 검사와 러너 검사)는 통합된 뒤 노드의 `commands`에 추가한다. 이 명령은 저장소 fixture 기준만 확인한다. 실제 Figma 지연이나 대형 문서의 동작을 보여 주지 않는다. 실제 측정값은 root가 개발 플러그인으로 등록된 테스트 페이지에서 얻는다. 호출부 변경은 [파일 소유](#file-ownership)의 선택 flag 범위에 한한다. RD-06 검사는 `code.js`, `native_edit.js`, `tools/graph_sync.py`, 패널 소스의 호출 문자열을 고정하므로 기본 경로의 문자열을 유지한다.
 
 ## Root 실측 절차
 
@@ -179,6 +179,6 @@ root는 두 작업의 구현이 `main`에 통합된 뒤 다음을 수행하고 �
 
 1. 통합 소스의 SHA를 고정하고, 설치·로드된 개발 플러그인의 runtime generation이 그 소스와 같은지 확인한다.
 2. A6. 격리 브라우저에서 새 fixture를 열고 요청 목록을 저장한다. 허용 목록 밖 요청과 외부 요청 수를 센다.
-3. B1–B5. 로드된 reader blob과 플러그인 버전을 샘플에 적는다. 기준 트리와 다르면 이 트리의 측정으로 보고하지 않는다. 등록된 Design 테스트 페이지에서 워크로드마다 같은 범위의 fresh read를 5회 이상 실행한다. 성공 여부와 관계없이 모든 시도와 별도 진단 ledger를 Git 밖에 저장한다.
+3. B1–B5. 로드된 reader blob과 플러그인 버전을 샘플에 적는다. 기준 트리와 다르면 이 트리의 측정으로 보고하지 않는다. 등록된 Design 테스트 페이지에서 `discovery-full-default`와 `discovery-full-timed`를 각각 같은 범위로 5회 이상 실행한다. 성공 여부와 관계없이 모든 시도와 별도 진단 ledger를 Git 밖에 저장한다.
 4. 공개 요약만 이 문서에 쓰고, 노드의 `observed_evidence`·`proof_refs`·`evidence_status`를 갱신한다. 그다음 `python3 -B -m unittest tests.test_next_roadmap_backlog`를 실행한다.
 5. 관측하지 못한 항목은 미관측으로 남긴다. 그 작업은 `verified`로 바꾸지 않는다.
