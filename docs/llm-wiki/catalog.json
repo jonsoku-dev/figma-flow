@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.32.1",
     "0.32.0",
     "0.31.0",
     "0.30.0",
@@ -9120,6 +9121,204 @@
           "version": "0.32.1"
         }
       ]
+    },
+    {
+      "commit": "9a8321f9349969e990f1238d2616f21d4e4c6195",
+      "diff_sha256": "994d72445f2c7bab1673a46dcfce8386a842b5acf3666978762fd139c4b15b68",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1430fdfbed0cc7862ff2bbf9648c2faf468cf3de.md",
+        "docs/llm-wiki/patches/4de75426dcdeeaccb336b227bbade370ae2dffdc.md",
+        "docs/llm-wiki/patches/91eb4ce74dc14d3160669bf1e96e329fbae5356c.md",
+        "docs/llm-wiki/patches/925aa87a8b7b16d7f7a7b64671bc3699933b091b.md",
+        "docs/llm-wiki/patches/abd3af873fa7cf47a02f7c8aeaa1825f46ac7e1c.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "4de75426dcdeeaccb336b227bbade370ae2dffdc"
+      ],
+      "subject": "docs: publish tracking, first preview and component edit evidence",
+      "tree": "f8416b8b2b91413981cd20b7cca04c9e5d7e5989",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.1"
+        }
+      ]
+    },
+    {
+      "commit": "3d72453c628224f3e4d3b1a4a291802e7e759278",
+      "diff_sha256": "60cd2ca6c987ccc3ab807fd085413bb350a73236af546c4b7216231992f83174",
+      "files": [
+        "tests/test_web_design_svg_capture.cjs",
+        "tests/test_web_design_svg_filter.py"
+      ],
+      "parents": [
+        "9a8321f9349969e990f1238d2616f21d4e4c6195"
+      ],
+      "subject": "test: pin filtered SVG logo import",
+      "tree": "502b0b71b19717ebec0efe808fbd406666e73bba",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.1"
+        }
+      ]
+    },
+    {
+      "commit": "6b448d99524804101f37ccf3c4283c5c70e485e4",
+      "diff_sha256": "e9673a5b3311e5f4659af25fc99a01ebfaefa0dd051fb4c903cafe3e178393b9",
+      "files": [
+        "tests/test_web_design_svg_root_opacity.cjs"
+      ],
+      "parents": [
+        "3d72453c628224f3e4d3b1a4a291802e7e759278"
+      ],
+      "subject": "test: pin SVG root opacity import",
+      "tree": "a5e56fd02bd9ab62e1854c1f9c8aed06ec1fda60",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.1"
+        }
+      ]
+    },
+    {
+      "commit": "ec9eb9ba1610ddad2bf568c8ec528aa44c1fbf43",
+      "diff_sha256": "66efeef0c57f26f6805041f49367b60551095825294168596cba760739ea4775",
+      "files": [
+        "figma-bridge/web_design.js"
+      ],
+      "parents": [
+        "6b448d99524804101f37ccf3c4283c5c70e485e4"
+      ],
+      "subject": "fix: apply CSS opacity to SVG vector roots",
+      "tree": "b6485530c3b240f4d645b6baa8207727a8843ef6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.1"
+        }
+      ]
+    },
+    {
+      "commit": "09ea462e817112edc790234f6482cc19e7c7e4a2",
+      "diff_sha256": "9b7affea8fcc57134c241d48ffe9b17ec280b3e9a83561948b7e491dee557b55",
+      "files": [
+        "tests/test_web_design_svg_capture_limits.cjs",
+        "tests/test_web_design_svg_filter_limits.py",
+        "tools/web_design.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py"
+      ],
+      "parents": [
+        "ec9eb9ba1610ddad2bf568c8ec528aa44c1fbf43"
+      ],
+      "subject": "fix: preserve filtered SVG logo silhouettes",
+      "tree": "4a262e8ab569212628bc65b4a2d06384004de2d5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.1"
+        }
+      ]
+    },
+    {
+      "commit": "05422a6e1cecfe76edc96077ac046a9e02ba8b04",
+      "diff_sha256": "a4bd6fc2031a025820e9ae05ce3569877b31041914351372bd49f1bc840599b2",
+      "files": [
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "parents": [
+        "09ea462e817112edc790234f6482cc19e7c7e4a2"
+      ],
+      "subject": "docs: define observed web interactions and prototype acceptance",
+      "tree": "8e19b801dc4085e9c927e976cf18fd9c2f21d1b7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.1"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.1"
+        }
+      ]
+    },
+    {
+      "commit": "ef00dddce6ed5d06701b2c6c870762f9e14f6029",
+      "diff_sha256": "d22585bea968b7fad03839a5367bb829e2a96f2d24d0a63d1e14efa90f21e81b",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "docs/guide.md",
+        "library/figma-api/coverage-baseline.json",
+        "plugin.json"
+      ],
+      "parents": [
+        "05422a6e1cecfe76edc96077ac046a9e02ba8b04"
+      ],
+      "subject": "release: prepare Figma Flow 0.32.2 and pin vector source evidence",
+      "tree": "3b3331dec759d4ed1ad0e4735c9c0fa9725de141",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
+    },
+    {
+      "commit": "1d0b5c0f176dc089f82fd1100cecd13c90996fc8",
+      "diff_sha256": "da5cc5222c26fb80645e8cd02aff94c443b2de7d7d59e69a3e7d7902c1e3d0a9",
+      "files": [
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/web-design-capture.md",
+        "docs/web-svg-fidelity-0322.md",
+        "specs/editable-web/graph.json",
+        "specs/interactive-web/graph.json"
+      ],
+      "parents": [
+        "ef00dddce6ed5d06701b2c6c870762f9e14f6029"
+      ],
+      "subject": "docs: connect native SVG evidence and observed web states to the design graph",
+      "tree": "ce0e2272bf584ae05c55fba8a7d8661034f34f8f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.32.2"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.32.2"
+        }
+      ]
     }
   ],
   "pages": {
@@ -9128,10 +9327,12 @@
     "015f440ee635d817f033dddabb504acaea69895f": "f93c2b26a34b0ef631052e746b4779ecbaed228c48b0ad2e0e374c18fe3bb2d8",
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
+    "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
     "068eb35374c2ec5f6f86efad6cefe7c316fa0740": "5cde070cb9aca85ddd63b513bccc198fdce5f444e227cc139986fa39bc380779",
     "06a40a1b83fac2f94b540d24e081ee87779e79ae": "aa00f0a77fa6212eaab136e81aa427bb4e25bd3148cfef6797ee7e2672943fe6",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
+    "09ea462e817112edc790234f6482cc19e7c7e4a2": "7798a5eae63f252b63c8bb276f0ee6140adc1f40797c883eedf85c8fa8d5a4ac",
     "0ad26187e423973a3895b3ae63e6953c0189761b": "1059832a262f3ce91d6a3dc676a2a44e2253992af6e5254447e861f323d78e26",
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
     "0b46cdbd575cfe17d901d33925fd03c45c643782": "23ac33368336f6c6ead2f7c1ca145be5b6cec148d9c3ce9ab56766e4d5f693be",
@@ -9154,6 +9355,7 @@
     "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1c8427ecab93f02ea709faa09c00666dd27ae7ce": "0f5a2ba74f466b22ff9443df61dade1132da5eee159ca640b0248bedd0d28747",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
+    "1d0b5c0f176dc089f82fd1100cecd13c90996fc8": "2acc241b5f4813c6167dad8cf945dffe4f4d07bd88df9b555b54538a41f161a9",
     "1dc4890d8e294dc30619b76e9aa4ca2e08dd79e5": "fe44998229f49bb280d38a93b2a4f37199eca8c301903c4ec52fd8bc4c5b41b8",
     "1e64ada88f76180ab72d6be01c79841d9714335e": "da7b8149162cbc160558aa483ff49ea08fb7eaf04090aea1bf59521be5a93b82",
     "1f80e5d9896e85afb865919aad7dad3572be932e": "d5733f016fa4579843310595581b3b7b4f7c42991a48861e7d68311d0195e274",
@@ -9192,6 +9394,7 @@
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
     "3cfe367783a7715917562c11d1a0c27d1701cd4f": "fa9715dc04b18c8beace9aaa605c62d530ddc6ee287495f045d9e5f25a09c30b",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
+    "3d72453c628224f3e4d3b1a4a291802e7e759278": "9b035e18525c7fe899c6d23a66e485f0674c81d0032cc4cba084e2d8b1b6bea9",
     "3f01ec317a307f179bacb8b546f3ebeecaab5a0f": "72ebe843cd662c3693c7b0b2d321fe36b02ab246dd2818c1c41caec6598b50b4",
     "3f642cea8eaa461f35508b151b448233a0a4272a": "60f8c12cff7c84c233a87cb97fe16f5130644b0befe97e8c448d79adb43a0589",
     "3fc3002553ecd2f8a3c35f89e68789938f1b76e3": "1aad24ff0995c6ed7233321256324ea46399ac1621278dd75219aeb493f0e967",
@@ -9245,6 +9448,7 @@
     "6a369fd95b67ef72f5674aeebde33b9366d26e54": "a3fe01b35a1c58a0c348016b25a6a28f81003fb6ee8bfb3afac1d74645d7420c",
     "6a50f5c0aea3e8a131e0698151875cd83102ed69": "94339278bcfc64e612b75c71c422551cb3ec074ea7659eec48fe26a09814c43d",
     "6ac040939170368c6d8a9ebc16f200ef31fd667d": "5151cfbe3236dce7eb433ab45833b664445f4ecaf49766bab0e9d19e6e474da1",
+    "6b448d99524804101f37ccf3c4283c5c70e485e4": "ddb4c752a9b18098fef47f03d4c453006631cb2e33c1fe6d3c908d5271c2dafd",
     "6df3d7849b82bd36526022e47a276e49f9e0faeb": "5de4e85f36ca52686ae7655313ac78e326c7dff764261b32834030f500b91ebb",
     "721627bcc9a6eca2e283f879026d942a93a05a20": "6ba953710de7f712d7774c957971f57ee2c54a29c1f9b69b59924ad851c4014d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
@@ -9292,6 +9496,7 @@
     "9a465e535cafbf7e8be7fd4d7a2693b70ada4400": "05396abcccab0bd5744123d44c9eeb036c3baccfb7c488a06d1cb59f0747706a",
     "9a6f8ba694666ef5040a296c14b1af49bddcd722": "bb5817008e1297835a40092bfe6ea26802ccff0490fe7408ce28e4efb1b78b9c",
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
+    "9a8321f9349969e990f1238d2616f21d4e4c6195": "530edbaab862c0263a9af4dc4a3f42f5ec37fda03a5245f3e883854034a95044",
     "9aaad2284fc4163be26995c4c729ea172bacd751": "6ad2112e864059a84d44e08492e41bee12cca2f766743d5bed31ccfeabd569a1",
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
     "9c9d5575eea6d883620407e591972c7e92cc244f": "b707929ad2d5c3aa87de7114e5e2b16f41fce5f17c11804acaf109b13f95f1b7",
@@ -9397,12 +9602,14 @@
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
     "ea574f67f1a2fe1ba75f1ce767829d5b6af591d2": "f3819c88d81a79d44ba359b49fe032922050866e36bfe8da7264ecefe345e2f7",
+    "ec9eb9ba1610ddad2bf568c8ec528aa44c1fbf43": "b7f9ede927112b6bc2fc91150bb439371a1171bca2f97cedc4a56584fa9decb7",
     "ed846239ebafe20621f61d44517ec0eb8b3737eb": "a648e5f836f0edb32b4244917953ce83478429ace3cc5caab41858f542b8aaa1",
     "ede4614b7cc87ab2ba1bee27d7a180889f022c92": "74c4545b5471ee788fb9d23518d90c7adbd398cea22778ef4c61c69461353bf3",
     "ee296599d76993f3a8481edddf08ca9643c9301b": "094a8be5b5da5acb3308330f2dfaf833e7874dd65440742d53f238c1e9c47cf2",
     "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e": "5a9fddcce5e54b7589547706f7bab366777a77d6fc049c145cc25679496b7b33",
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
     "eeeeae315cca7b193a791969123ce09343c165e1": "2efefee67d35baf3de35e3af7ac0428c281a53b8ab96ea62a99f44f5787c5984",
+    "ef00dddce6ed5d06701b2c6c870762f9e14f6029": "8bc84fddc14d567fae61668f0f0cffcd7b9a4172af968361749ab8a885196c8e",
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
     "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
@@ -9465,6 +9672,10 @@
     },
     {
       "observed_at_commit": "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "1d0b5c0f176dc089f82fd1100cecd13c90996fc8",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -10062,13 +10273,23 @@
         "v0.32.0"
       ],
       "version": "0.32.0"
+    },
+    {
+      "source_commits": [
+        "9a8321f9349969e990f1238d2616f21d4e4c6195"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.32.1"
+      ],
+      "version": "0.32.1"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "4de75426dcdeeaccb336b227bbade370ae2dffdc",
+  "source_commit": "1d0b5c0f176dc089f82fd1100cecd13c90996fc8",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -10169,6 +10390,11 @@
       "commit": "91eb4ce74dc14d3160669bf1e96e329fbae5356c",
       "tag": "v0.32.0",
       "version": "0.32.0"
+    },
+    {
+      "commit": "9a8321f9349969e990f1238d2616f21d4e4c6195",
+      "tag": "v0.32.1",
+      "version": "0.32.1"
     }
   ]
 }

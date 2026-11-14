@@ -1,5 +1,11 @@
 # 변경 기록
 
+## 0.32.2 · 2026-11-14
+
+- 웹에서 가져온 외부 SVG의 색이 CSS 필터로 단색이 되는 경우, 내부 경로를 편집 가능한 상태로 유지하고 Figma 루트에 불투명도를 적용합니다. 지원하지 않는 색 처리는 원본 자산을 남기고 차이를 표시합니다.
+- 실제 Magic UI Devtool 로고 6개에서 벡터 경로 26개와 브라우저의 무채색 표현을 확인했습니다. [실측·지원 범위](docs/web-svg-fidelity-0322.md) · [Wiki](docs/llm-wiki/releases.md#v0.32.2) · [설치본](https://github.com/jonsoku-dev/figma-flow/releases/tag/v0.32.2).
+- [스와이퍼·웹 모션·상호작용의 Design 변환 설계](docs/next-roadmap/NF-09-interactive-web-design.md)를 추가했습니다. 실제 브라우저의 탭 왕복과 향후 Figma 재생 인수 조건을 구분합니다.
+
 ## 0.32.1 · 2026-11-14
 
 - 웹에서 가져온 제목과 버튼에 CSS 자간을 편집 가능한 Figma 텍스트 속성으로 유지합니다. Portfolio·CodeForge 제목 세 줄의 너비 오차가 기존 35.45~59.83 px에서 1.45~2.83 px로 줄었습니다.
