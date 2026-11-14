@@ -99,6 +99,9 @@ def validate_plan(plan):
         return plan
     if 'provision' in plan:
         provision = plan['provision']
+        if isinstance(provision, dict) and provision.get('schema') == 'figma-flow-component-families-provision-v1':
+            from family_provision import validate_provision
+            return validate_provision(plan)
         required = {'schema', 'graph_sha256', 'token_source_sha256', 'readback_sha256', 'frame_key', 'main_key',
                     'instance_keys', 'seed_collection_name', 'seed_variable_name', 'canonical_variable_name', 'background_color', 'text_color',
                     'labels', 'page_roots', 'position', 'source_graph_path', 'token_source_path', 'readback_path'}
@@ -191,7 +194,12 @@ def prepare(plan_path, out, plugin_id=None):
     if len(raw) > 12_000_000:
         raise ValueError('Bounded native edit plan required')
     parsed = json.loads(raw)
-    if len(raw) > 128_000 and 'web_design' not in parsed:
+    is_family_provision = (
+        isinstance(parsed, dict)
+        and isinstance(parsed.get('provision'), dict)
+        and parsed['provision'].get('schema') == 'figma-flow-component-families-provision-v1'
+    )
+    if len(raw) > (2_000_000 if is_family_provision else 128_000) and 'web_design' not in parsed:
         raise ValueError('Bounded plan JSON required')
     plan = validate_plan(parsed)
     if plugin_id and not re.fullmatch(r'\d+', plugin_id):
@@ -207,7 +215,7 @@ def prepare(plan_path, out, plugin_id=None):
         asset_pins = embed_local_assets(runtime_plan['web_design'])
     output.mkdir(parents=True, exist_ok=False, mode=0o700 if private_plan else 0o777)
     if 'provision' in runtime_plan:
-        for field in ('source_graph_path', 'token_source_path', 'readback_path', 'label_source_path'):
+        for field in ('source_graph_path', 'design_source_path', 'token_source_path', 'readback_path', 'label_source_path'):
             runtime_plan['provision'].pop(field, None)
     if 'graph_review' in runtime_plan:
         runtime_plan['graph_review'].pop('source_graph_path', None)
@@ -229,9 +237,29 @@ def prepare(plan_path, out, plugin_id=None):
     # Standard graph panel carries the same read/apply consent protocol; all edits remain in the pinned plan.
     for index, row in enumerate(rows):
         if 'provision' in plan:
-            ui_plan['tokens'].append(dict(key=str(index), root_variable_name='Little Hands booking CTA workbench',
-                value='Create or validate one owned frame on the pinned existing page',
-                before='Existing page and siblings preserved; main bookingCTA; instances reserve-preview and reserve-login'))
+            if row.get('schema') == 'figma-flow-component-families-provision-v1':
+                csets = row['contract']['componentSets']
+                insts = row['contract']['instances']
+                fam_summary = ', '.join(cs['family'] for cs in csets)
+                ui_plan['tokens'].append(dict(
+                    key=str(index),
+                    root_variable_name=row['contract']['workbench']['name'],
+                    value=f'Provision or verify {len(csets)} families ({fam_summary}) and {len(insts)} instances on pinned page',
+                    before='Existing page siblings, instance overrides, and manual placement preserved',
+                ))
+                ui_plan['components'] = [
+                    dict(
+                        id=cs['id'],
+                        main_keys=[v['key'] for v in cs['variants']],
+                        instance_keys=[i['key'] for i in insts if i['setId'] == cs['id']],
+                        properties={p['id']: p['type'] for p in cs['properties']},
+                    )
+                    for cs in csets
+                ]
+            else:
+                ui_plan['tokens'].append(dict(key=str(index), root_variable_name='Little Hands booking CTA workbench',
+                    value='Create or validate one owned frame on the pinned existing page',
+                    before='Existing page and siblings preserved; main bookingCTA; instances reserve-preview and reserve-login'))
             continue
         if 'specifications' in plan:
             before = (row['before']['specification'] or {}).get('specification', {}).get('display_text', '')
@@ -247,7 +275,8 @@ def prepare(plan_path, out, plugin_id=None):
     for row in plan.get('edits', []):
         main = row.get('main_id', row['node_id'])
         grouped.setdefault(main, {})[row['field']] = str(len(grouped))
-    ui_plan['components'] = [dict(id=main, main_keys=[main], instance_keys=[], properties=fields) for main, fields in grouped.items()]
+    if not ui_plan['components']:
+        ui_plan['components'] = [dict(id=main, main_keys=[main], instance_keys=[], properties=fields) for main, fields in grouped.items()]
     source = spec_label_prelude() + 'var NATIVE_EDIT_PLAN_SCHEMA = ' + json.dumps(PLAN_SCHEMA) + ';\n' + (ROOT/'figma-bridge/native_semantic_read.js').read_text()
     source += '\nconst NATIVE_EDIT_SESSION = ' + json.dumps(session) + ';\nconst NATIVE_EDIT_SHA256 = ' + json.dumps(digest) + ';\nconst NATIVE_EDIT_PLAN = ' + json.dumps(runtime_plan, ensure_ascii=True, allow_nan=False) + ';\n'
     if 'graph_review' in plan:
@@ -258,6 +287,8 @@ def prepare(plan_path, out, plugin_id=None):
         for helper in ('native_annotations.js', 'design_note_board.js', 'native_specifications.js'):
             source += '\n' + (ROOT/'figma-bridge'/helper).read_text()
     if 'provision' in plan:
+        if plan['provision'].get('schema') == 'figma-flow-component-families-provision-v1':
+            source += '\n' + (ROOT/'figma-bridge/semantic_components.js').read_text()
         source += '\n' + (ROOT/'figma-bridge/native_provision.js').read_text()
     source += '\n' + (ROOT/'figma-bridge/native_edit.js').read_text()
     (output/'code.js').write_text(source)
@@ -269,10 +300,16 @@ def prepare(plan_path, out, plugin_id=None):
             pins.append(plan['specifications']['source_graph'])
         elif 'provision' in plan:
             provision = plan['provision']
-            pins.extend({'path': provision[path_field], 'sha256': provision[digest_field]} for path_field, digest_field in (
-                ('source_graph_path', 'graph_sha256'), ('token_source_path', 'token_source_sha256'), ('readback_path', 'readback_sha256')))
-            if 'label_source_path' in provision:
-                pins.append({'path': provision['label_source_path'], 'sha256': provision['label_source_sha256']})
+            if provision.get('schema') == 'figma-flow-component-families-provision-v1':
+                pins.append({'path': provision['source_graph_path'], 'sha256': provision['graph_sha256']})
+                if 'design_source_path' in provision:
+                    pins.append({'path': provision['design_source_path'], 'sha256': provision['design_source_sha256']})
+                pins.append({'path': provision['readback_path'], 'sha256': provision['readback_sha256']})
+            else:
+                pins.extend({'path': provision[path_field], 'sha256': provision[digest_field]} for path_field, digest_field in (
+                    ('source_graph_path', 'graph_sha256'), ('token_source_path', 'token_source_sha256'), ('readback_path', 'readback_sha256')))
+                if 'label_source_path' in provision:
+                    pins.append({'path': provision['label_source_path'], 'sha256': provision['label_source_sha256']})
         elif 'graph_review' in plan:
             review = plan['graph_review']
             pins.append({'path': review['source_graph_path'], 'sha256': review['source_graph_sha256']})
@@ -359,10 +396,24 @@ def main():
     carousel.add_argument('--graph', required=True, help='Existing canonical graph with captured WEB screens')
     carousel.add_argument('--observations', required=True, help='Bounded browser carousel state and transition receipts')
     carousel.add_argument('--out', required=True, help='New canonical graph path; existing files are preserved')
+    families = sub.add_parser('component-families')
+    families.add_argument('--graph', required=True, help='Canonical graph.json or design.json with componentFamilies')
+    families.add_argument('--readback', required=True, help='Full current-page native discovery JSON')
+    families.add_argument('--file-key', required=True)
+    families.add_argument('--page-id', required=True)
+    families.add_argument('--out', required=True)
+    families.add_argument('--owner-key', default='nf01.component-families')
+    families.add_argument('--workbench-name', default='NF-01 · Component families workbench')
     args = parser.parse_args()
     try:
         if args.command == 'graph-review':
             print(json.dumps(build_graph_review_plan(args.graph, args.node, args.file_key, args.page_id, args.out)))
+        elif args.command == 'component-families':
+            from family_provision import prepare as prepare_families
+            print(json.dumps(prepare_families(
+                args.graph, args.readback, args.file_key, args.page_id, args.out,
+                owner_key=args.owner_key, workbench_name=args.workbench_name,
+            ), ensure_ascii=False))
         elif args.command == 'web-design':
             from web_design import build_plan
             print(json.dumps(build_plan(args.graph, args.file_key, args.page_id, args.out, args.screen, args.preview_width, args.readback_scope)))

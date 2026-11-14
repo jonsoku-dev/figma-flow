@@ -1,10 +1,38 @@
-/* Idempotently provisions one graph-keyed booking CTA under an existing page. */
+/* Idempotently provisions graph-keyed native components under an existing page. */
 const NATIVE_PROVISION_SCHEMA = 'figma-flow-starter-cta-provision-v1';
 const NATIVE_PROVISION_OWNER = 'figmaFlowStarterCtaProvision';
 const NATIVE_PROVISION_FRAME = {width: 420, height: 280};
+const NATIVE_FAMILY_PROVISION_SCHEMA = 'figma-flow-component-families-provision-v1';
+const NATIVE_FAMILY_CONTRACT_SCHEMA = 'figma-flow-semantic-family-contract-v1';
+const NATIVE_ALLOWED_FAMILIES = new Set(['field', 'input', 'checkbox', 'radio', 'table-row', 'table-cell']);
 const nativeProvisionClone = value => JSON.parse(JSON.stringify(value));
 
+function nativeFamilyProvisionValidate(plan) {
+  const p = plan.provision;
+  const c = p?.contract;
+  if (!p || p.schema !== NATIVE_FAMILY_PROVISION_SCHEMA ||
+      'source_graph_path' in p || 'design_source_path' in p || 'readback_path' in p ||
+      !/^[a-f0-9]{64}$/.test(p.graph_sha256 || '') || !/^[a-f0-9]{64}$/.test(p.readback_sha256 || '') ||
+      ('design_source_sha256' in p && !/^[a-f0-9]{64}$/.test(p.design_source_sha256 || '')) ||
+      typeof p.owner_key !== 'string' || !/^[A-Za-z][A-Za-z0-9._:-]{0,119}$/.test(p.owner_key) ||
+      p.frame_key !== p.owner_key + '/workbench' || !Array.isArray(p.page_roots) ||
+      !p.position || !Number.isFinite(p.position.x) || !Number.isFinite(p.position.y) ||
+      !p.workbench_bounds || !Number.isFinite(p.workbench_bounds.width) || p.workbench_bounds.width <= 0 ||
+      !Number.isFinite(p.workbench_bounds.height) || p.workbench_bounds.height <= 0 ||
+      !c || c.schema !== NATIVE_FAMILY_CONTRACT_SCHEMA || c.version !== 1 || c.mode !== 'additive-family-workbench' ||
+      c.ownerKey !== p.owner_key || c.workbench?.frameKey !== p.frame_key ||
+      !Number.isFinite(c.workbench?.position?.x) || !Number.isFinite(c.workbench?.position?.y) ||
+      !Array.isArray(c.componentSets) || c.componentSets.length < 1 || c.componentSets.length > 6 ||
+      c.componentSets.some(cs => !cs || !NATIVE_ALLOWED_FAMILIES.has(cs.family)) ||
+      !Array.isArray(c.instances) || c.instances.length < 1)
+    throw Error('Invalid or stale NF-01 component families provision plan');
+}
+
 function nativeProvisionValidate(plan) {
+  if (plan.provision?.schema === NATIVE_FAMILY_PROVISION_SCHEMA) {
+    nativeFamilyProvisionValidate(plan);
+    return;
+  }
   const p = plan.provision;
   if (!p || p.schema !== NATIVE_PROVISION_SCHEMA || !/^[a-f0-9]{64}$/.test(p.graph_sha256) ||
       p.frame_key !== 'little-hands/booking-cta/starter-frame' || p.main_key !== 'bookingCTA' ||
@@ -111,7 +139,214 @@ async function nativeProvisionMatches(figma, page, plan, frame, labelUpdates) {
   return {frame_id: frame.id, main_id: main.id, instances};
 }
 
+function nativeFamilyPagePreflight(page, plan, existingFrame) {
+  const p = plan.provision;
+  const current = nativeProvisionRows(page);
+  const currentById = new Map(current.map(row => [row.id, row]));
+  for (const expected of p.page_roots) {
+    const actual = currentById.get(expected.id);
+    if (!actual || !nativeEditEqual(actual, expected)) throw Error('An admitted page sibling changed after preparation');
+  }
+  const admitted = new Set(p.page_roots.map(row => row.id));
+  const additions = current.filter(row => row.id !== existingFrame?.id && !admitted.has(row.id));
+  const wbBox = existingFrame
+    ? existingFrame.absoluteBoundingBox
+    : {x: p.position.x, y: p.position.y, width: p.workbench_bounds.width, height: p.workbench_bounds.height};
+  if (additions.some(row => nativeProvisionOverlap(row.absoluteBoundingBox, wbBox)))
+    throw Error('A new page sibling overlaps the admitted component families workbench location');
+  return current;
+}
+
+function nativeFamilyCollisionCheck(page, contract, existingFrame) {
+  const ownedIds = existingFrame
+    ? new Set([existingFrame.id, ...existingFrame.findAll(() => true).map(node => node.id)])
+    : new Set();
+  const reserved = new Set([
+    contract.workbench.frameKey,
+    contract.workbench.libraryKey,
+    contract.workbench.instancesFrameKey,
+  ]);
+  for (const cs of contract.componentSets) {
+    reserved.add(cs.id);
+    reserved.add('component.' + cs.id);
+    for (const v of cs.variants || []) {
+      reserved.add(v.key);
+      reserved.add('component.' + v.key);
+    }
+  }
+  for (const inst of contract.instances) reserved.add(inst.key);
+  const ownerPrefix = contract.ownerKey + '/';
+  const compOwnerPrefix = 'component.' + ownerPrefix;
+  for (const node of page.findAll(() => true)) {
+    if (ownedIds.has(node.id)) continue;
+    const sk = nativeProvisionSemantic(node);
+    if (sk && (reserved.has(sk) || sk.startsWith(ownerPrefix) || sk.startsWith(compOwnerPrefix)))
+      throw Error('Component family key collision outside the owned workbench: ' + sk);
+  }
+}
+
+function nativeFamilyEnrichDiscovery(page, readback, familyPayload) {
+  if (!readback || !Array.isArray(readback.nodes)) return;
+  const nodeById = new Map(page.findAll(() => true).map(node => [node.id, node]));
+  const mappingsByOwner = new Map();
+  for (const cs of familyPayload?.componentSets || []) {
+    if (!cs || !Array.isArray(cs.propertyMappings)) continue;
+    const keyMap = {};
+    for (const m of cs.propertyMappings) {
+      if (m && typeof m.id === 'string' && typeof m.actualKey === 'string') keyMap[m.id] = m.actualKey;
+    }
+    if (Object.keys(keyMap).length) {
+      if (cs.id) mappingsByOwner.set(cs.id, keyMap);
+      if (cs.key) mappingsByOwner.set(cs.key, keyMap);
+      if (cs.key) mappingsByOwner.set('component.' + cs.key, keyMap);
+    }
+  }
+  for (const row of readback.nodes) {
+    if (row.type !== 'COMPONENT_SET' && !(row.type === 'COMPONENT' && !row.componentSetId)) continue;
+    const liveNode = nodeById.get(row.id);
+    let parsedMeta = null;
+    const rawMeta = liveNode?.getPluginData?.('figmaFlow') || '';
+    if (rawMeta) {
+      try { parsedMeta = JSON.parse(rawMeta); } catch (_) { parsedMeta = null; }
+    }
+    const declaredKeys =
+      (parsedMeta && typeof parsedMeta.declared_property_keys === 'object' && parsedMeta.declared_property_keys) ||
+      mappingsByOwner.get(row.id) ||
+      (row.semanticKey ? mappingsByOwner.get(row.semanticKey) : null) ||
+      null;
+    if (declaredKeys && Object.keys(declaredKeys).length) {
+      row.declared_metadata = {
+        ...(parsedMeta && typeof parsedMeta === 'object' ? parsedMeta : {}),
+        declared_property_keys: nativeProvisionClone(declaredKeys),
+      };
+    }
+  }
+}
+
+function nativeFamilySubtreeOwned(wbFrame, ownerKey) {
+  if (!wbFrame || nativeProvisionSemantic(wbFrame) !== ownerKey + '/workbench') return false;
+  const ownerPrefix = ownerKey + '/';
+  const compOwnerPrefix = 'component.' + ownerPrefix;
+  const nodeOwnedDirectly = node => {
+    const sk = nativeProvisionSemantic(node);
+    if (sk && (sk.startsWith(ownerPrefix) || sk.startsWith(compOwnerPrefix))) return true;
+    return Boolean(node.getPluginData?.('figmaFlow') || node.getPluginData?.('figmaFlowFamilyWorkbench'));
+  };
+  for (const node of wbFrame.findAll(() => true)) {
+    if (nodeOwnedDirectly(node)) continue;
+    let cur = node.parent;
+    let insideOwnedContainer = false;
+    while (cur && cur !== wbFrame) {
+      if ((cur.type === 'COMPONENT' || cur.type === 'COMPONENT_SET' || cur.type === 'INSTANCE') && nodeOwnedDirectly(cur)) {
+        insideOwnedContainer = true;
+        break;
+      }
+      cur = cur.parent;
+    }
+    if (!insideOwnedContainer) return false;
+  }
+  return true;
+}
+
+async function nativeFamilyProvisionRun(figma, plan, operation = 'apply') {
+  nativeEditValidatePlan(plan);
+  nativeFamilyProvisionValidate(plan);
+  nativeEditScope(figma, plan);
+  const page = await figma.getNodeByIdAsync(plan.page_id);
+  if (!page || page.type !== 'PAGE') throw Error('Pinned existing Figma page is unavailable');
+  await page.loadAsync();
+  nativeEditScope(figma, plan);
+  const contract = nativeProvisionClone(plan.provision.contract);
+  const foundFrames = page.findAll(node => nativeProvisionSemantic(node) === contract.workbench.frameKey);
+  if (foundFrames.length > 1) throw Error('Duplicate component families workbench ownership key');
+  const existingFrame = foundFrames[0] || null;
+  if (existingFrame && existingFrame.parent !== page)
+    throw Error('Owned component families workbench frame is not on the pinned existing page');
+  nativeFamilyPagePreflight(page, plan, existingFrame);
+  nativeFamilyCollisionCheck(page, contract, existingFrame);
+
+  if (operation === 'read') {
+    if (typeof readSemanticComponentFamilies !== 'function')
+      throw Error('Core readSemanticComponentFamilies helper is unavailable');
+    const familyReadback = await readSemanticComponentFamilies(figma, page, contract);
+    nativeEditScope(figma, plan);
+    const readback = await nativeEditDiscovery(figma, plan);
+    nativeFamilyEnrichDiscovery(page, readback, familyReadback);
+    return {
+      ...readback,
+      component_families: familyReadback,
+      native_edit: {
+        plan_sha256: NATIVE_EDIT_SHA256,
+        applied: false,
+        operation: 'read',
+        provision: familyReadback,
+      },
+    };
+  }
+  if (operation !== 'apply') throw Error('Unsupported native provision operation');
+  if (typeof ensureSemanticComponents !== 'function')
+    throw Error('Core ensureSemanticComponents helper is unavailable');
+
+  const applyResult = await ensureSemanticComponents(figma, page, contract);
+  nativeEditScope(figma, plan);
+  const actualFrames = page.findAll(node => nativeProvisionSemantic(node) === contract.workbench.frameKey);
+  if (actualFrames.length !== 1 || actualFrames[0].parent !== page)
+    throw Error('Component families workbench postcondition failed; created nodes were retained for review');
+  const wbFrame = actualFrames[0];
+
+  try {
+    const familyReadback = typeof readSemanticComponentFamilies === 'function'
+      ? await readSemanticComponentFamilies(figma, page, contract)
+      : null;
+    if (familyReadback && familyReadback.status !== 'present')
+      throw Error('Component families live getter verification reported absent workbench');
+    nativeEditScope(figma, plan);
+    const readback = await nativeEditDiscovery(figma, plan);
+    nativeFamilyEnrichDiscovery(page, readback, familyReadback || applyResult);
+    const idempotent = applyResult?.status === 'unchanged';
+    const changed = idempotent
+      ? 0
+      : (typeof applyResult?.changed === 'number'
+        ? applyResult.changed
+        : (applyResult?.componentSets?.length || 0) + (applyResult?.instances?.length || 0));
+    return {
+      ...readback,
+      component_families: familyReadback || applyResult,
+      native_edit: {
+        plan_sha256: NATIVE_EDIT_SHA256,
+        applied: true,
+        operation: 'apply',
+        changed,
+        idempotent,
+        provision: applyResult,
+      },
+    };
+  } catch (error) {
+    if (!existingFrame) {
+      let safe = false;
+      try {
+        const originalIds = new Set(plan.provision.page_roots.map(row => row.id));
+        const currentRoots = nativeProvisionRows(page);
+        const extras = currentRoots.filter(row => !originalIds.has(row.id));
+        safe = figma.fileKey === plan.file_key && figma.currentPage.id === plan.page_id &&
+          wbFrame.parent === page && extras.length === 1 && extras[0].id === wbFrame.id &&
+          nativeFamilySubtreeOwned(wbFrame, contract.ownerKey);
+      } catch (_) { safe = false; }
+      if (safe) {
+        try { wbFrame.remove(); } catch (_) {}
+        error.native_rollback = 'created component families workbench removed after failed getter';
+      } else {
+        error.rollback_conflicts = ['Created component families workbench retained because exact ownership or unchanged children could not be confirmed'];
+      }
+    }
+    throw error;
+  }
+}
+
 async function nativeProvisionRun(figma, plan, operation = 'apply') {
+  if (plan.provision?.schema === NATIVE_FAMILY_PROVISION_SCHEMA) {
+    return nativeFamilyProvisionRun(figma, plan, operation);
+  }
   nativeEditValidatePlan(plan);
   nativeProvisionValidate(plan);
   nativeEditScope(figma, plan);
