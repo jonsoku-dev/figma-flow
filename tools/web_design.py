@@ -759,7 +759,8 @@ def validate_disclosure(disclosure, screens):
     transitions = disclosure['transitions']
     if not isinstance(transitions, list) or not 1 <= len(transitions) <= 80:
         raise ValueError('Disclosure needs a bounded list of observed transitions')
-    ids, controls, item_clicks, reached = set(), set(), set(), {disclosure['initialState']}
+    ids, controls, item_clicks = set(), set(), set()
+    outgoing = {state_id: [] for state_id in state_screens}
     for edge in transitions:
         if (not isinstance(edge, dict)
                 or set(edge) != {'id', 'from', 'to', 'trigger', 'action', 'itemLabel', 'autoClosedItem', 'controlElementId', 'observed', 'evidence'}
@@ -799,9 +800,17 @@ def validate_disclosure(disclosure, screens):
         ids.add(edge['id'])
         controls.add(control)
         item_clicks.add(item_click)
-        reached.add(edge['to'])
+        outgoing[edge['from']].append(edge['to'])
+    reached = {disclosure['initialState']}
+    queue = [disclosure['initialState']]
+    while queue:
+        current = queue.pop()
+        for nxt in outgoing[current]:
+            if nxt not in reached:
+                reached.add(nxt)
+                queue.append(nxt)
     if reached != set(state_screens):
-        raise ValueError('Every disclosure state must be the initial state or an observed destination')
+        raise ValueError('Every disclosure state must be reachable from the observed initial state')
     for state in states:
         layout = by_screen[state['screenId']]['layout']
         viewport = disclosure['source']['viewport']

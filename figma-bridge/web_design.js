@@ -310,7 +310,8 @@ function webDisclosureValidate(design) {
     expandedItems.add(state.expandedItem);
   }
   if (typeof disclosure.initialState !== 'string' || !states.has(disclosure.initialState)) fail();
-  const ids = new Set(), controls = new Set(), itemClicks = new Set(), reached = new Set([disclosure.initialState]);
+  const ids = new Set(), controls = new Set(), itemClicks = new Set();
+  const outgoing = new Map([...states.keys()].map(id => [id, []]));
   for (const edge of disclosure.transitions) {
     if (!edge || typeof edge !== 'object' || !validKey(edge.id) || ids.has(edge.id)
         || typeof edge.from !== 'string' || typeof edge.to !== 'string'
@@ -334,7 +335,11 @@ function webDisclosureValidate(design) {
     ids.add(edge.id);
     controls.add(controlKey);
     itemClicks.add(clickKey);
-    reached.add(edge.to);
+    outgoing.get(edge.from).push(edge.to);
+  }
+  const reached = new Set([disclosure.initialState]), queue = [disclosure.initialState];
+  while (queue.length) {
+    for (const next of outgoing.get(queue.pop())) if (!reached.has(next)) { reached.add(next); queue.push(next); }
   }
   if (reached.size !== states.size) fail();
 }
