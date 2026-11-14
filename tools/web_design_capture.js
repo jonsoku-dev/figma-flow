@@ -206,12 +206,13 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     return result;
   }
   function colorFilterChain(tokens) {
+    if(!tokens?.length||tokens.length>16)return null;
     const operations=[];
     for(const [name,arg] of tokens||[]){
       const match=/^((?:\d+(?:\.\d*)?|\.\d+))(%)?(deg)?$/.exec(arg);
       if(!match)return null;
       const value=Number(match[1])/(match[2]?100:1),unit=match[3]?'deg':match[2]?'%':'';
-      if(!Number.isFinite(value))return null;
+      if(!Number.isFinite(value)||Math.abs(value)>1_000_000)return null;
       const allowed={brightness:unit!=='deg'&&value>=0,contrast:unit!=='deg'&&value>=0,saturate:unit!=='deg'&&value>=0,
         grayscale:unit!=='deg'&&value>=0&&value<=1,sepia:unit!=='deg'&&value>=0&&value<=1,
         invert:unit!=='deg'&&value>=0&&value<=1,opacity:unit!=='deg'&&value>=0&&value<=1,
@@ -247,7 +248,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
     const out=c.map(n=>Math.round(n*255).toString(16).padStart(2,'0')).join('');
     return '#'+out+(a<1?Math.round(a*255).toString(16).padStart(2,'0'):'');
   }
-  function paint(style, allowColorFilters=false, bounds=null) {
+  function paint(style, allowColorFilters=false, bounds=null, captureSvgFilter=false) {
     const p={},bg=color(style.backgroundColor),border=numeric(style.borderTopWidth);
     if (bg) p.background=bg;
     if (style.backgroundImage !== 'none') {
@@ -296,7 +297,14 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
         else if(fn==='drop-shadow'){const e=shadow(arg,'DROP_SHADOW');if(e)parsed.push(e);else supported=false;}
         else supported=false;
       }
-      if(colorFilters&&allowColorFilters&&style.boxShadow==='none'&&style.backgroundImage==='none'){
+      if(colorFilters&&captureSvgFilter){
+        p.cssFilter=colorFilters;
+        const monochrome=colorFilters.some(operation=>operation.name==='brightness'&&operation.value===0)
+          && !colorFilters.some(operation=>operation.name==='opacity')
+          ? filterColor('#000000',colorFilters) : null;
+        if(monochrome)p.svgSilhouetteColor=monochrome;
+        else limitations.add('unsupported CSS filter chain');
+      }else if(colorFilters&&allowColorFilters&&style.boxShadow==='none'&&style.backgroundImage==='none'){
         if(p.background)p.background=filterColor(p.background,colorFilters);
         const borderColor=color(style.borderTopColor);
         if(borderColor)p.borderColor=filterColor(borderColor,colorFilters);
@@ -401,7 +409,7 @@ function captureWebDesign({screenId, extent = 'viewport', maxLayers = 1500} = {}
           const loaded=!!(el.complete&&el.naturalWidth>0);
           const objectFit=s.objectFit==='contain'?'contain':'cover';
           if(loaded&&Math.abs(el.naturalWidth/el.naturalHeight-b.width/b.height)>.02&&!['contain','cover'].includes(s.objectFit))limitations.add('approximated image fit');
-          mediaCandidate({id,path:[...path],box:b,requestTarget,status:loaded?'loaded':'unloaded',mediaKind:'image',alt:el.alt||'',objectFit,paint:paint(s,false,b),position:elements.length});
+          mediaCandidate({id,path:[...path],box:b,requestTarget,status:loaded?'loaded':'unloaded',mediaKind:'image',alt:el.alt||'',objectFit,paint:paint(s,false,b,true),position:elements.length});
         }else limitations.add('image without a request URL');
         return;
       }

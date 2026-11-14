@@ -404,6 +404,8 @@ def validate_graph(graph, require_embedded=False):
                 'alphaMask',
                 'alphaMasks',
                 'alphaMaskComposite',
+                'cssFilter',
+                'svgSilhouetteColor',
             }:
                 raise ValueError('Unsupported paint fields')
             for key in ('background', 'color', 'borderColor'):
@@ -418,6 +420,28 @@ def validate_graph(graph, require_embedded=False):
                     or paint[key] > maximum
                 ):
                     raise ValueError(f'Finite bounded {key} required')
+            css_filter = paint.get('cssFilter')
+            if css_filter is not None:
+                names = {'brightness', 'contrast', 'saturate', 'grayscale', 'sepia', 'invert', 'opacity', 'hue-rotate'}
+                if e.get('kind') not in {'image', 'vector'} or not isinstance(css_filter, list) or not 1 <= len(css_filter) <= 16:
+                    raise ValueError('Bounded CSS color filter chain required on media')
+                for operation in css_filter:
+                    if not isinstance(operation, dict) or set(operation) != {'name', 'value'} or operation.get('name') not in names:
+                        raise ValueError('CSS color filters need a known operation and numeric value')
+                    value = operation.get('value')
+                    if type(value) not in (int, float) or not math.isfinite(value) or abs(value) > 1_000_000:
+                        raise ValueError('CSS color filter value must be finite and bounded')
+                    if operation['name'] in {'grayscale', 'sepia', 'invert', 'opacity'} and not 0 <= value <= 1:
+                        raise ValueError('CSS amount filter must be between zero and one')
+                    if operation['name'] in {'brightness', 'contrast', 'saturate'} and value < 0:
+                        raise ValueError('CSS color filter amount cannot be negative')
+            silhouette = paint.get('svgSilhouetteColor')
+            if silhouette is not None and (
+                e.get('kind') != 'vector' or css_filter is None or not re.fullmatch(r'#[0-9a-fA-F]{6}', str(silhouette))
+                or not any(item['name'] == 'brightness' and item['value'] == 0 for item in css_filter)
+                or any(item['name'] == 'opacity' for item in css_filter)
+            ):
+                raise ValueError('SVG silhouette color requires a brightness-zero vector filter')
             gradient = paint.get('radialGradient')
             if gradient is not None:
                 if (

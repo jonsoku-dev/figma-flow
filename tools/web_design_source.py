@@ -11,7 +11,7 @@ import sys
 from urllib.parse import urlsplit
 
 from web_design import image_signature, validate_graph, validate_svg
-from web_design_media import normalize_svg
+from web_design_media import apply_svg_silhouette, normalize_svg
 
 
 def sha(raw):
@@ -69,6 +69,7 @@ def bind_screens(captures, graph_id, title, output, asset_index=None, *, respons
         omissions = Counter()
         bound_media = []
         canvas_observations = []
+        limitations = list(capture.get('limitations', []))
         media_candidates = sorted([*capture['images'], *canvases], key=lambda item: item.get('position', -1), reverse=True)
         for item in media_candidates:
             if 'canvas' in item:
@@ -176,6 +177,7 @@ def bind_screens(captures, graph_id, title, output, asset_index=None, *, respons
                 if not source_file.is_file() or sha(source_file.read_bytes()) != asset.get('sourceSha256'):
                     raise ValueError('Original media bytes do not match their source SHA-256')
             layer = {k: item[k] for k in ('id', 'box', 'paint', 'path')}
+            layer['paint'] = dict(layer.get('paint') or {})
             if asset.get('mediaKind') == 'video':
                 if not video_signature(content, asset['mimeType']):
                     omissions['unsupported video signature'] += 1
@@ -228,12 +230,30 @@ def bind_screens(captures, graph_id, title, output, asset_index=None, *, respons
             elif asset['mimeType'] == 'image/svg+xml':
                 try:
                     svg = normalize_svg(content)
+                    silhouette = layer['paint'].get('svgSilhouetteColor')
+                    if layer['paint'].get('cssFilter') and silhouette:
+                        filtered = apply_svg_silhouette(svg, silhouette)
+                        if filtered is None:
+                            layer['paint'].pop('svgSilhouetteColor', None)
+                            message = 'unsupported CSS filter on SVG paint'
+                            if message not in limitations:
+                                limitations.append(message)
+                        else:
+                            svg = filtered
+                    elif layer['paint'].get('cssFilter'):
+                        if 'unsupported CSS filter chain' not in limitations:
+                            limitations.append('unsupported CSS filter chain')
                     validate_svg(svg)
                 except (UnicodeDecodeError, ValueError) as error:
                     omissions['unsupported SVG media'] += 1
                     continue
                 layer.update(kind='vector', svg=svg)
             elif asset['mimeType'] in ('image/png', 'image/jpeg', 'image/webp') and image_signature(content, asset['mimeType']):
+                if layer['paint'].get('cssFilter'):
+                    layer['paint'].pop('svgSilhouetteColor', None)
+                    message = 'unsupported CSS filter on raster media'
+                    if message not in limitations:
+                        limitations.append(message)
                 layer.update(kind='image', objectFit=item.get('objectFit', 'cover'),
                              asset={k: asset[k] for k in ('path', 'sha256', 'mimeType')})
             else:
@@ -267,7 +287,7 @@ def bind_screens(captures, graph_id, title, output, asset_index=None, *, respons
                 'page_path': capture['pathname'],
                 'extent': capture['extent'],
                 'viewport': capture['viewport'],
-                'limitations': capture['limitations'],
+                'limitations': limitations,
                 'omitted_images': dict(omissions),
                 'bound_media': bound_media,
                 'canvas_observations': canvas_observations,

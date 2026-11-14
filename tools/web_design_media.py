@@ -167,6 +167,28 @@ def normalize_svg(data):
     return normalized
 
 
+def apply_svg_silhouette(svg, color):
+    """Apply a brightness-zero SVG filter result to bounded literal vector paints."""
+    if not re.fullmatch(r'#[0-9a-fA-F]{6}', str(color)):
+        return None
+    root = ET.fromstring(svg)
+    solid = color.lower()
+    for node in root.iter():
+        for key in ('fill', 'stroke', 'stop-color'):
+            value = node.get(key)
+            if value is None or value == 'none':
+                continue
+            if value.lower() == 'currentcolor' or value.startswith('url('):
+                return None
+            if not re.fullmatch(r'#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?', value):
+                return None
+            alpha = value[-2:] if len(value) == 9 else ''
+            node.set(key, solid + alpha)
+    if 'fill' not in root.attrib:
+        root.set('fill', solid)
+    return ET.tostring(root, encoding='unicode', short_empty_elements=True)
+
+
 def _no_redirect(self, req, fp, code, msg, headers, newurl):
     raise urllib.error.HTTPError(req.full_url, code, 'redirect refused', headers, fp)
 
