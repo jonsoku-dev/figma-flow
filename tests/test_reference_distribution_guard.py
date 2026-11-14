@@ -52,7 +52,7 @@ class ReferenceDistributionGuardTests(unittest.TestCase):
         self.base = Path(self.tmp.name)
         self.repo = self.base / 'synthetic-repo'
         self.repo.mkdir()
-        run_git(self.repo, 'init', '-q')
+        run_git(self.repo, 'init', '-q', '-b', 'main')
         run_git(self.repo, 'config', 'user.name', 'Synthetic Test')
         run_git(self.repo, 'config', 'user.email', 'synthetic@example.invalid')
         shutil.copy2(ROOT / '.gitignore', self.repo / '.gitignore')
@@ -299,7 +299,7 @@ class ReferenceDistributionGuardTests(unittest.TestCase):
         code, err = run_guard(self.repo, '--ref', 'bad-manifest')
         self.assertEqual(code, 2)
         self.assertEqual(err['status'], 'error')
-        run_git(self.repo, 'checkout', '-q', 'main')
+        run_git(self.repo, 'checkout', '-q', '-')
 
         # Spoofed vendor/acorn/PROVENANCE.txt + replaced acorn.js also fails closed.
         run_git(self.repo, 'checkout', '-qb', 'bad-acorn', 'HEAD')
