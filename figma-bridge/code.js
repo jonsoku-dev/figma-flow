@@ -308,8 +308,13 @@ function componentUsageText(definition) {
 }
 function componentSwapTargets(definition) {
   if (!Object.prototype.hasOwnProperty.call(definition, "swap_targets")) return undefined;
-  if (!Array.isArray(definition.swap_targets)) throw new Error("Swap targets must be declared");
-  return definition.swap_targets;
+  if (!Array.isArray(definition.swap_targets) || !definition.swap_targets.length || definition.swap_targets.some(item => typeof item !== "string" || !item.trim())) throw new Error("Swap targets must be declared");
+  return [...new Set(definition.swap_targets)];
+}
+function componentLayoutMode(definition) {
+  if (!Object.prototype.hasOwnProperty.call(definition, "layout")) return "VERTICAL";
+  if (!["VERTICAL", "HORIZONTAL"].includes(definition.layout)) throw new Error(`Invalid component layout mode: ${definition.layout}`);
+  return definition.layout;
 }
 function bindOwnedLabelProperty(owner, mains, warnings) {
   const labels = mains.map(main => {
@@ -347,43 +352,124 @@ function bindOwnedLabelProperty(owner, mains, warnings) {
 
 function validateDeclaredComponentProperties(payload) {
   const fail = message => { throw new Error("Declared component properties: " + message); };
-  const components = payload.components;
+  const secretPattern = /(?:sk-[A-Za-z0-9_-]{12,}|figd_[A-Za-z0-9_-]{12,}|ghp_[A-Za-z0-9]{20,}|Bearer\s+[A-Za-z0-9._-]{12,}|\/Users\/[^\s/]+|(?:api[_-]?key|secret|password|passwd|access[_-]?token)\s*[:=]\s*\S+)/i;
+  const checkText = (value, label) => {
+    if (typeof value !== "string") fail(label + " must be string");
+    if (secretPattern.test(value)) fail("secret or private path forbidden in " + label);
+  };
+  const familySpecs = {
+    field: { requiredLayout: null, states: ["default", "error", "disabled", "focus"] },
+    input: { requiredLayout: null, states: ["default", "focus", "error", "disabled"] },
+    checkbox: { requiredLayout: null, states: ["unchecked", "checked", "disabled", "focus", "error"] },
+    radio: { requiredLayout: null, states: ["unselected", "selected", "disabled", "focus", "error"] },
+    "table-row": { requiredLayout: "HORIZONTAL", states: ["default", "selected", "disabled", "hover"] },
+    "table-cell": { requiredLayout: null, states: ["default", "header", "selected", "muted"] },
+  };
+  const components = /** @type {Record<string, any>} */ (payload.components);
+  const rawFamilies = /** @type {any} */ (payload).componentFamilies;
+  if (rawFamilies !== undefined) {
+    if (!Array.isArray(rawFamilies) || !rawFamilies.length || rawFamilies.length > 32) fail("componentFamilies must be a bounded nonempty list");
+    const seenFamilies = new Set();
+    for (const fam of rawFamilies) {
+      if (!fam || typeof fam !== "object" || typeof fam.id !== "string" || !Object.prototype.hasOwnProperty.call(familySpecs, fam.id) || fam.version !== 1) fail("unsupported or unversioned component family");
+      if (seenFamilies.has(fam.id)) fail("duplicate component family " + fam.id);
+      seenFamilies.add(fam.id);
+      const spec = familySpecs[/** @type {keyof typeof familySpecs} */ (fam.id)];
+      if (spec.requiredLayout && fam.layout && fam.layout !== spec.requiredLayout) fail("invalid layout for family " + fam.id);
+    }
+  }
   const dependencies = new Map(Object.keys(components).map(name => [name, new Set()]));
   const reference = value => {
     if (!value || typeof value !== "object" || Array.isArray(value) || Object.keys(value).sort().join(",") !== "component,variant" || typeof value.component !== "string" || typeof value.variant !== "string" || !Object.prototype.hasOwnProperty.call(components[value.component]?.variants || {}, value.variant)) fail("swap requires an existing local component variant");
     return value.component;
   };
+  const allowedSwapSetFor = (definition, prop) => {
+    let compAllowed = null;
+    if (Object.prototype.hasOwnProperty.call(definition, "swap_targets")) {
+      if (!Array.isArray(definition.swap_targets) || !definition.swap_targets.length || definition.swap_targets.some((/** @type {any} */ item) => typeof item !== "string" || !Object.prototype.hasOwnProperty.call(components, item))) fail("swap_targets must reference local components");
+      compAllowed = new Set(definition.swap_targets);
+    }
+    let propAllowed = null;
+    if (prop.allowed_components !== undefined) {
+      if (!Array.isArray(prop.allowed_components) || !prop.allowed_components.length || prop.allowed_components.some((/** @type {any} */ item) => typeof item !== "string" || !Object.prototype.hasOwnProperty.call(components, item))) fail("allowed_components must reference local components");
+      propAllowed = new Set(prop.allowed_components);
+    }
+    if (compAllowed && propAllowed) {
+      const intersection = new Set([...propAllowed].filter(item => compAllowed.has(item)));
+      if (!intersection.size) fail("allowed_components conflicts with component swap_targets");
+      return intersection;
+    }
+    return propAllowed || compAllowed;
+  };
   for (const [name, definition] of Object.entries(components)) {
+    if (Object.prototype.hasOwnProperty.call(definition, "family")) {
+      if (typeof definition.family !== "string" || !Object.prototype.hasOwnProperty.call(familySpecs, definition.family)) fail("unsupported component family " + definition.family);
+      const spec = familySpecs[/** @type {keyof typeof familySpecs} */ (definition.family)];
+      if (spec.requiredLayout && (definition.layout || "VERTICAL") !== spec.requiredLayout) fail("invalid layout for family " + definition.family);
+      const stateValues = definition.variant_axes?.state;
+      if (Array.isArray(stateValues) && stateValues.some((/** @type {any} */ st) => !spec.states.includes(st))) fail("undeclared state value on " + name);
+    }
+    if (Object.prototype.hasOwnProperty.call(definition, "swap_targets")) {
+      if (!Array.isArray(definition.swap_targets) || !definition.swap_targets.length || definition.swap_targets.some((/** @type {any} */ item) => typeof item !== "string" || !Object.prototype.hasOwnProperty.call(components, item))) fail("swap_targets must reference local components");
+    }
     const properties = Object.prototype.hasOwnProperty.call(definition, "properties") ? definition.properties : {};
     if (!properties || typeof properties !== "object" || Array.isArray(properties) || Object.keys(properties).length > 32) fail("properties must be a bounded mapping");
-    const swaps = new Set(), targets = new Set();
+    const swaps = new Set(), textTargets = new Set(), targets = new Set();
     const axes = new Set(["Variant", ...Object.keys(definition.variant_axes || {})]);
-    for (const [display, prop] of Object.entries(properties)) {
-      if (!display.trim() || display.includes("#") || display === "문구" || axes.has(display)) fail("property display name conflicts with an owned native property");
-      if (!prop || !["BOOLEAN", "INSTANCE_SWAP"].includes(prop.type) || typeof prop.target !== "string" || !/^[A-Za-z][A-Za-z0-9_-]*$/.test(prop.target) || !Object.prototype.hasOwnProperty.call(prop, "default_value") || Object.keys(prop).some(key => !["type", "target", "default_value", ...(prop.type === "INSTANCE_SWAP" ? ["preferred_values"] : [])].includes(key))) fail("invalid declaration " + display);
+    for (const [propId, prop] of Object.entries(/** @type {Record<string, any>} */ (properties))) {
+      const display = prop?.name === undefined ? propId : prop.name;
+      if (!propId.trim() || propId.includes("#") || propId === "문구" || axes.has(propId) || typeof display !== "string" || !display.trim() || display.includes("#") || display === "문구" || axes.has(display)) fail("property display name conflicts with an owned native property");
+      const allowedKeys = prop?.type === "INSTANCE_SWAP" ? ["type", "target", "default_value", "name", "preferred_values", "allowed_components"] : ["type", "target", "default_value", "name"];
+      if (!prop || !["TEXT", "BOOLEAN", "INSTANCE_SWAP"].includes(prop.type) || typeof prop.target !== "string" || !/^[A-Za-z][A-Za-z0-9_-]*$/.test(prop.target) || !Object.prototype.hasOwnProperty.call(prop, "default_value") || Object.keys(prop).some(key => !allowedKeys.includes(key))) fail("invalid declaration " + propId);
       const target = prop.type + ":" + prop.target;
       if (targets.has(target)) fail("duplicate target field " + prop.target);
       targets.add(target);
-      if (prop.type === "BOOLEAN") { if (typeof prop.default_value !== "boolean") fail("BOOLEAN default must be boolean"); }
-      else {
+      if (prop.type === "TEXT") {
+        checkText(prop.default_value, name + "." + propId);
+        if (prop.target !== "label") textTargets.add(prop.target);
+      } else if (prop.type === "BOOLEAN") {
+        if (typeof prop.default_value !== "boolean") fail("BOOLEAN default must be boolean");
+      } else {
         if (prop.target === "label") fail("swap target must be a named slot");
         swaps.add(prop.target);
-        dependencies.get(name).add(reference(prop.default_value));
+        const allowedSwapSet = allowedSwapSetFor(definition, prop);
+        if (definition.family === "table-row" && allowedSwapSet && [...allowedSwapSet].some(tc => components[tc]?.family && components[tc].family !== "table-cell")) fail("table-row swap targets must belong to table-cell");
+        const defaultComp = reference(prop.default_value);
+        if (allowedSwapSet && !allowedSwapSet.has(defaultComp)) fail("swap default outside allowed swap_targets: " + defaultComp);
+        dependencies.get(name).add(defaultComp);
         if (prop.preferred_values !== undefined && (!Array.isArray(prop.preferred_values) || prop.preferred_values.length > 100)) fail("invalid preferred_values");
-        for (const preferred of prop.preferred_values || []) dependencies.get(name).add(reference(preferred));
+        for (const preferred of prop.preferred_values || []) {
+          const prefComp = reference(preferred);
+          if (allowedSwapSet && !allowedSwapSet.has(prefComp)) fail("preferred_values outside allowed swap_targets: " + prefComp);
+          dependencies.get(name).add(prefComp);
+        }
       }
     }
-    for (const prop of Object.values(properties)) if (prop.type === "BOOLEAN" && prop.target !== "label" && !swaps.has(prop.target)) fail("BOOLEAN target must be label or declared slot");
+    for (const slotName of swaps) if (textTargets.has(slotName)) fail("slot and text target collision " + slotName);
+    for (const prop of Object.values(/** @type {Record<string, any>} */ (properties))) {
+      if (prop.type === "BOOLEAN" && prop.target !== "label" && !swaps.has(prop.target) && !textTargets.has(prop.target) && !(definition.family === "field" && prop.target === "field-help")) {
+        fail("BOOLEAN target must be label or declared slot");
+      }
+    }
   }
-  for (const screen of payload.screens) for (const element of screen.elements) {
+  for (const screen of payload.screens) for (const element of /** @type {any[]} */ (screen.elements)) {
     if (!Object.prototype.hasOwnProperty.call(element, "property_values")) continue;
     const overrides = element.property_values;
     if (element.kind !== "component" || !overrides || typeof overrides !== "object" || Array.isArray(overrides)) fail("invalid instance property_values");
+    const compDef = components[element.component];
     for (const [name, value] of Object.entries(overrides)) {
-      const prop = components[element.component]?.properties?.[name];
+      const prop = compDef?.properties?.[name];
       if (!prop) fail("unknown instance property " + name);
-      if (prop.type === "BOOLEAN") { if (typeof value !== "boolean") fail("BOOLEAN override must be boolean"); }
-      else dependencies.get(element.component).add(reference(value));
+      if (prop.type === "TEXT") {
+        checkText(value, element.component + "." + name);
+      } else if (prop.type === "BOOLEAN") {
+        if (typeof value !== "boolean") fail("BOOLEAN override must be boolean");
+      } else {
+        const swapComp = reference(value);
+        const allowedSwapSet = allowedSwapSetFor(compDef, prop);
+        if (allowedSwapSet && !allowedSwapSet.has(swapComp)) fail("instance swap outside allowed swap_targets: " + swapComp);
+        dependencies.get(element.component).add(swapComp);
+      }
     }
   }
   const visiting = new Set(), done = new Set();
@@ -408,54 +494,81 @@ function verifyDeclaredComponentReadback(payload, page, {preserveInstanceOverrid
   };
   const fail = message => {throw new Error("Declared component property readback differs: " + message);};
   const resolve = ref => find(`component:${ref.component}/${ref.variant}`);
-  const target = (node, prop, identity) => {
-    const key = identity + (prop.target === "label" ? "/label" : "/slot:" + prop.target);
+  const targetSuffix = (definition, prop) => {
+    if (prop.target === "label") return "/label";
+    if (prop.type === "TEXT") return "/text:" + prop.target;
+    if (prop.type === "INSTANCE_SWAP") return "/slot:" + prop.target;
+    const swapNames = new Set(Object.values(definition.properties || {}).filter(item => item.type === "INSTANCE_SWAP").map(item => item.target));
+    return (swapNames.has(prop.target) ? "/slot:" : "/text:") + prop.target;
+  };
+  const target = (node, definition, prop, identity) => {
+    const key = identity + targetSuffix(definition, prop);
     const child = find(key);
     if (!(node.children || []).some(item => item.id === child.id)) fail("target is not a direct owned child: " + key);
     return child;
   };
   for (const [name, definition] of Object.entries(payload.components)) {
-    if (!Object.keys(definition.properties || {}).length) continue;
+    const properties = definition.properties || {};
+    if (!Object.keys(properties).length) continue;
+    const displayCounts = new Map();
+    for (const [propId, prop] of Object.entries(properties)) {
+      const display = prop.name === undefined ? propId : prop.name;
+      displayCounts.set(display, (displayCounts.get(display) || 0) + 1);
+    }
     for (const variant of Object.keys(definition.variants)) {
       const identity = `component:${name}/${variant}`, main = find(identity);
       const parent = parents.get(main.id), owner = parent?.type === "COMPONENT_SET" ? parent : main;
       if (main.type !== "COMPONENT") fail(identity + " is not a main component");
-      for (const [display, prop] of Object.entries(definition.properties)) {
-        const key = main.declared_metadata?.declared_property_keys?.[display];
+      const declaredKeys = main.declared_metadata?.declared_property_keys || {};
+      const allKeyVals = Object.values(declaredKeys);
+      const distinctKeys = new Set(allKeyVals).size === allKeyVals.length;
+      for (const [propId, prop] of Object.entries(properties)) {
+        const display = prop.name === undefined ? propId : prop.name;
+        const key = declaredKeys[propId];
         const matching = Object.keys(owner.componentPropertyDefinitions || {}).filter(candidate => candidate.startsWith(display + "#"));
         const actual = owner.componentPropertyDefinitions?.[key];
-        if (!key || matching.length !== 1 || matching[0] !== key || actual?.type !== prop.type) fail(identity + "." + display + " definition/key");
-        const value = prop.type === "BOOLEAN" ? prop.default_value : resolve(prop.default_value).id;
-        if (actual.defaultValue !== value) fail(identity + "." + display + " default");
+        if (!key || !distinctKeys || !matching.includes(key) || matching.length !== displayCounts.get(display) || actual?.type !== prop.type) fail(identity + "." + propId + " definition/key");
+        const value = prop.type === "INSTANCE_SWAP" ? resolve(prop.default_value).id : prop.default_value;
+        if (actual.defaultValue !== value) fail(identity + "." + propId + " default");
         if (prop.type === "INSTANCE_SWAP") {
           const preferred = (prop.preferred_values || []).map(ref => {
             const component = resolve(ref);
             if (!component.component_key) fail("swap target component key unavailable");
             return {type:"COMPONENT",key:component.component_key};
           });
-          if (JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferred)) fail(identity + "." + display + " preferred values");
+          if (JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferred)) fail(identity + "." + propId + " preferred values");
         }
-        const child = target(main,prop,identity), field = prop.type === "BOOLEAN" ? "visible" : "mainComponent";
-        if (child.componentPropertyReferences?.[field] !== key) fail(identity + "." + display + " layer reference");
-        if (prop.type === "BOOLEAN" ? child.visible !== value : child.type !== "INSTANCE" || child.main_component_id !== value) fail(identity + "." + display + " actual target");
+        const child = target(main,definition,prop,identity);
+        const field = prop.type === "TEXT" ? "characters" : (prop.type === "BOOLEAN" ? "visible" : "mainComponent");
+        if (child.componentPropertyReferences?.[field] !== key) fail(identity + "." + propId + " layer reference");
+        if (prop.type === "TEXT" ? (child.type !== "TEXT" || child.characters !== value) : (prop.type === "BOOLEAN" ? child.visible !== value : (child.type !== "INSTANCE" || child.main_component_id !== value))) fail(identity + "." + propId + " actual target");
       }
     }
   }
   for (const screen of payload.screens) for (const [index, element] of screen.elements.entries()) {
-    const properties = payload.components[element.component]?.properties || {};
+    const definition = payload.components[element.component];
+    const properties = definition?.properties || {};
     if (element.kind !== "component" || !Object.keys(properties).length) continue;
     const identity = element.id || `${screen.id}/element:${index}`, instance = find(identity), main = resolve({component:element.component,variant:element.variant});
     if (instance.type !== "INSTANCE" || instance.main_component_id !== main.id) fail(identity + " instance/main");
-    for (const [display, prop] of Object.entries(properties)) {
-      const key = main.declared_metadata?.declared_property_keys?.[display], actual = instance.componentProperties?.[key];
-      if (actual?.type !== prop.type) fail(identity + "." + display + " instance property");
-      const requested = Object.prototype.hasOwnProperty.call(element.property_values || {},display) ? element.property_values[display] : prop.default_value;
-      const expected = prop.type === "BOOLEAN" ? requested : resolve(requested).id;
-      if (!preserveInstanceOverrides && actual.value !== expected) fail(identity + "." + display + " source override");
-      const child = target(instance,prop,identity);
-      if (prop.type === "BOOLEAN") {
-        if (typeof actual.value !== "boolean" || child.visible !== actual.value) fail(identity + "." + display + " actual visibility");
-      } else if (typeof actual.value !== "string" || !nodes.some(node => node.type === "COMPONENT" && node.id === actual.value) || child.type !== "INSTANCE" || child.main_component_id !== actual.value) fail(identity + "." + display + " actual swap");
+    for (const [propId, prop] of Object.entries(properties)) {
+      const key = main.declared_metadata?.declared_property_keys?.[propId], actual = instance.componentProperties?.[key];
+      if (actual?.type !== prop.type) fail(identity + "." + propId + " instance property");
+      const hasOverride = Object.prototype.hasOwnProperty.call(element.property_values || {}, propId);
+      const requested = hasOverride ? element.property_values[propId] : (prop.type === "TEXT" && prop.target === "label" && typeof element.text === "string" ? element.text : prop.default_value);
+      const expected = prop.type === "INSTANCE_SWAP" ? resolve(requested).id : requested;
+      if (!preserveInstanceOverrides && actual.value !== expected) fail(identity + "." + propId + " source override");
+      const child = target(instance,definition,prop,identity);
+      if (prop.type === "TEXT") {
+        if (typeof actual.value !== "string" || child.type !== "TEXT" || child.characters !== actual.value) fail(identity + "." + propId + " actual text");
+      } else if (prop.type === "BOOLEAN") {
+        if (typeof actual.value !== "boolean" || child.visible !== actual.value) fail(identity + "." + propId + " actual visibility");
+      } else {
+        const swappedMain = nodes.find(node => node.type === "COMPONENT" && node.id === actual.value);
+        const allowedList = prop.allowed_components || definition.swap_targets || null;
+        const swappedCompName = swappedMain?.semantic_id?.startsWith("component:") ? swappedMain.semantic_id.slice(10).split("/")[0] : null;
+        if (typeof actual.value !== "string" || !swappedMain || (allowedList && (!swappedCompName || !allowedList.includes(swappedCompName))) || child.type !== "INSTANCE" || child.main_component_id !== actual.value) fail(identity + "." + propId + " actual swap");
+      }
     }
   }
 }
@@ -466,16 +579,33 @@ function markComponentSlot(node, semanticId, slot) {
 }
 
 function markImportedInstanceSlots(instance, identity) {
-  for (const child of instance.children || []) if (child.name?.startsWith("slot:")) markComponentSlot(child, identity + "/" + child.name, child.name.slice(5));
+  for (const child of instance.children || []) {
+    if (child.name?.startsWith("slot:")) markComponentSlot(child, identity + "/" + child.name, child.name.slice(5));
+    else if (child.name?.startsWith("text:")) metadata(child, identity + "/" + child.name, {kind:"component-text-slot", target:child.name.slice(5)});
+  }
 }
 
 function bindDeclaredComponentProperties(components, definitions) {
   const done = new Set();
   const resolve = ref => components.get(JSON.stringify([ref.component, ref.variant]));
+  const createOwnedTextNode = value => {
+    const helper = /** @type {any} */ (globalThis).text;
+    if (typeof helper === "function") return helper(value);
+    const node = figma.createText();
+    node.characters = value;
+    return node;
+  };
   function bind(name) {
     if (done.has(name)) return;
-    const properties = definitions[name].properties || {};
-    for (const prop of Object.values(properties)) if (prop.type === "INSTANCE_SWAP") bind(prop.default_value.component);
+    const definition = /** @type {any} */ (definitions[name]);
+    const properties = /** @type {Record<string, any>} */ (definition.properties || {});
+    for (const prop of Object.values(properties)) {
+      if (prop.type === "INSTANCE_SWAP") {
+        bind(prop.default_value.component);
+        for (const pref of prop.preferred_values || []) bind(pref.component);
+        for (const ac of prop.allowed_components || definition.swap_targets || []) if (Object.prototype.hasOwnProperty.call(definitions, ac)) bind(ac);
+      }
+    }
     const mains = [...components.entries()].filter(([key]) => JSON.parse(key)[0] === name).map(([, main]) => main);
     const owners = new Map();
     for (const main of mains) {
@@ -485,36 +615,74 @@ function bindDeclaredComponentProperties(components, definitions) {
     }
     for (const [owner, variants] of owners) {
       const keys = Object.create(null);
+      const contracts = Object.create(null);
+      const seenNativeKeys = new Set();
+      let explicitLabelKey = null;
       const slots = new Map(variants.map(main => [main, new Map()]));
-      // Create real nested instances before assigning any references to their fields.
+      const textSlots = new Map(variants.map(main => [main, new Map()]));
+      // Create real nested instances and named text children before assigning references.
       for (const prop of Object.values(properties)) if (prop.type === "INSTANCE_SWAP") for (const main of variants) {
         const slot = resolve(prop.default_value).createInstance();
         main.appendChild(slot); slot.name = "slot:" + prop.target;
         markComponentSlot(slot, info(main).semantic_id + "/slot:" + prop.target, prop.target);
         slots.get(main).set(prop.target, slot);
       }
-      for (const [display, prop] of Object.entries(properties)) {
+      const textTargetsToCreate = new Map();
+      for (const prop of Object.values(properties)) {
+        if (prop.type === "TEXT" && prop.target !== "label") textTargetsToCreate.set(prop.target, prop.default_value);
+      }
+      if (definition.family === "field") {
+        for (const prop of Object.values(properties)) {
+          if (prop.type === "BOOLEAN" && prop.target === "field-help" && !textTargetsToCreate.has("field-help")) textTargetsToCreate.set("field-help", "");
+        }
+      }
+      for (const [targetName, initialText] of textTargetsToCreate) {
+        for (const main of variants) {
+          const childText = createOwnedTextNode(initialText);
+          main.appendChild(childText); childText.name = "text:" + targetName;
+          metadata(childText, info(main).semantic_id + "/text:" + targetName, {kind:"component-text-slot", target:targetName});
+          textSlots.get(main).set(targetName, childText);
+        }
+      }
+      for (const [propId, prop] of Object.entries(properties)) {
+        const display = prop.name === undefined ? propId : prop.name;
         if (typeof owner.addComponentProperty !== "function") throw new Error("Native declared component property API unavailable: " + owner.name);
-        const value = prop.type === "BOOLEAN" ? prop.default_value : resolve(prop.default_value).id;
-        const preferredValues = (prop.preferred_values || []).map(ref => {
+        const value = prop.type === "INSTANCE_SWAP" ? resolve(prop.default_value).id : prop.default_value;
+        const preferredValues = (prop.preferred_values || []).map((/** @type {any} */ ref) => {
           const target = resolve(ref);
           if (!target.key) throw new Error("Native swap target has no component key: " + ref.component);
           return {type:"COMPONENT", key:target.key};
         });
         const key = owner.addComponentProperty(display, prop.type, value, prop.type === "INSTANCE_SWAP" ? {preferredValues} : undefined);
         const actual = owner.componentPropertyDefinitions?.[key];
-        if (!key || key === display || actual?.type !== prop.type || actual.defaultValue !== value || (prop.type === "INSTANCE_SWAP" && JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferredValues))) throw new Error("Native declaration was not retained: " + display);
-        keys[display] = key;
-        const field = prop.type === "BOOLEAN" ? "visible" : "mainComponent";
+        if (!key || key === display || seenNativeKeys.has(key) || actual?.type !== prop.type || actual.defaultValue !== value || (prop.type === "INSTANCE_SWAP" && JSON.stringify(actual.preferredValues || []) !== JSON.stringify(preferredValues))) throw new Error("Native declaration was not retained: " + propId);
+        seenNativeKeys.add(key);
+        keys[propId] = key;
+        const targetSuffix = prop.target === "label" ? "/label" : (slots.get(variants[0])?.has(prop.target) ? "/slot:" + prop.target : "/text:" + prop.target);
+        contracts[propId] = {id:propId, name:display, actual_key:key, type:prop.type, target:prop.target, target_semantic_suffix:targetSuffix};
+        if (prop.type === "TEXT" && prop.target === "label") explicitLabelKey = key;
+        const field = prop.type === "TEXT" ? "characters" : (prop.type === "BOOLEAN" ? "visible" : "mainComponent");
         for (const main of variants) {
-          const node = prop.target === "label" ? (main.children || []).find(child => child.type === "TEXT") : slots.get(main).get(prop.target);
-          if (!node || node.componentPropertyReferences?.[field]) throw new Error("Owned component property target conflict: " + display);
+          const node = prop.target === "label"
+            ? (main.children || []).find(child => child.type === "TEXT" && !child.name?.startsWith("text:"))
+            : (slots.get(main).get(prop.target) || textSlots.get(main).get(prop.target));
+          if (!node || node.componentPropertyReferences?.[field]) throw new Error("Owned component property target conflict: " + propId);
           if (field === "visible") node.visible = value;
+          if (field === "characters") node.characters = value;
           node.componentPropertyReferences = {...(node.componentPropertyReferences || {}), [field]:key};
-          if (node.componentPropertyReferences?.[field] !== key) throw new Error("Native property reference was not retained: " + display);
+          if (node.componentPropertyReferences?.[field] !== key) throw new Error("Native property reference was not retained: " + propId);
         }
       }
-      if (Object.keys(keys).length) for (const node of [owner, ...variants]) node.setPluginData(KEY, JSON.stringify({...info(node), declared_property_keys:keys}));
+      if (Object.keys(keys).length) {
+        for (const node of [owner, ...variants]) {
+          node.setPluginData(KEY, JSON.stringify({
+            ...info(node),
+            ...(explicitLabelKey ? {label_property_key:explicitLabelKey} : {}),
+            declared_property_keys:keys,
+            declared_property_contracts:contracts,
+          }));
+        }
+      }
     }
     done.add(name);
   }
@@ -522,27 +690,199 @@ function bindDeclaredComponentProperties(components, definitions) {
 }
 
 async function applyDeclaredInstanceProperties(instance, main, element, components) {
-  const values = {};
-  for (const [name, value] of Object.entries(element.property_values || {})) {
-    const key = info(main).declared_property_keys?.[name];
-    if (!key) throw new Error("Native declared instance property key unavailable: " + name);
-    values[key] = typeof value === "boolean" ? value : components.get(JSON.stringify([value.component, value.variant])).id;
+  const definition = /** @type {any} */ (PAYLOAD.components)[element.component];
+  const properties = /** @type {Record<string, any>} */ (definition?.properties || {});
+  const declaredKeys = /** @type {Record<string, string>} */ (info(main).declared_property_keys || {});
+  const overrides = /** @type {Record<string, any>} */ (element.property_values || {});
+  const values = /** @type {Record<string, string | boolean>} */ ({});
+  for (const [propId, prop] of Object.entries(properties)) {
+    if (prop.type === "TEXT" && prop.target === "label" && !Object.prototype.hasOwnProperty.call(overrides, propId) && typeof element.text === "string") {
+      const key = declaredKeys[propId];
+      if (!key) throw new Error("Native declared instance property key unavailable: " + propId);
+      values[key] = element.text;
+    }
+  }
+  for (const [name, value] of Object.entries(overrides)) {
+    const prop = properties[name];
+    const key = declaredKeys[name];
+    if (!prop || !key) throw new Error("Native declared instance property key unavailable: " + name);
+    if (prop.type === "INSTANCE_SWAP") {
+      const targetMain = components.get(JSON.stringify([value.component, value.variant]));
+      if (!targetMain) throw new Error("Native declared swap target unavailable: " + name);
+      values[key] = targetMain.id;
+    } else {
+      values[key] = value;
+    }
   }
   if (Object.keys(values).length) instance.setProperties(values);
   for (const [key, value] of Object.entries(values)) if (instance.componentProperties?.[key]?.value !== value) throw new Error("Native instance property override was not retained: " + key);
-  const definition = PAYLOAD.components[element.component];
-  for (const [name, prop] of Object.entries(definition.properties || {})) {
-    const value = Object.prototype.hasOwnProperty.call(element.property_values || {}, name) ? element.property_values[name] : prop.default_value;
-    const target = prop.target === "label" ? (instance.children || []).find(child => child.type === "TEXT") : (instance.children || []).find(child => child.name === "slot:" + prop.target);
+  for (const [name, prop] of Object.entries(properties)) {
+    const hasOverride = Object.prototype.hasOwnProperty.call(overrides, name);
+    const value = hasOverride ? overrides[name] : (prop.type === "TEXT" && prop.target === "label" && typeof element.text === "string" ? element.text : prop.default_value);
+    const target = prop.target === "label"
+      ? (instance.children || []).find(child => child.type === "TEXT" && !child.name?.startsWith("text:"))
+      : (instance.children || []).find(child => child.name === "slot:" + prop.target || child.name === "text:" + prop.target);
     if (!target) throw new Error("Native instance property target missing: " + name);
-    if (prop.type === "BOOLEAN") {
+    if (prop.type === "TEXT") {
+      if (target.type !== "TEXT" || target.characters !== value) throw new Error("Native instance text differs from declared property: " + name);
+    } else if (prop.type === "BOOLEAN") {
       if (target.visible !== value) throw new Error("Native instance visibility differs from declared property: " + name);
     } else {
+      if (target.type !== "INSTANCE") throw new Error("Native instance swap target is not an instance: " + name);
       const actual = await target.getMainComponentAsync();
-      if (actual?.id !== components.get(JSON.stringify([value.component, value.variant])).id) throw new Error("Native instance swap differs from declared property: " + name);
+      if (actual?.id !== components.get(JSON.stringify([value.component, value.variant]))?.id) throw new Error("Native instance swap differs from declared property: " + name);
     }
   }
   markImportedInstanceSlots(instance, element.id || info(main).semantic_id);
+}
+
+async function reapplyDeclaredComponents(page, nextPayload = PAYLOAD, options = {}) {
+  const preserveInstanceOverrides = options.preserveInstanceOverrides !== false;
+  const fail = message => { throw new Error("Declared component reapply: " + message); };
+  if (!page || !Array.isArray(page.children)) fail("target page unavailable");
+  if (options.expectedSourceSha256 !== undefined && info(page).source_sha256 !== options.expectedSourceSha256) fail("stale source_sha256 pin");
+  validateDeclaredComponentProperties(nextPayload);
+  const topNodes = new Map();
+  function collectOwned(node, insideInstance = false) {
+    const id = info(node).semantic_id || (typeof node.getPluginData === "function" ? node.getPluginData("semanticKey") : "") || null;
+    if (id && !insideInstance) {
+      if (!topNodes.has(id)) topNodes.set(id, []);
+      topNodes.get(id).push(node);
+    }
+    const nextInside = insideInstance || node.type === "INSTANCE";
+    for (const child of node.children || []) collectOwned(child, nextInside);
+  }
+  collectOwned(page, false);
+  const uniqueOwned = identity => {
+    const hits = topNodes.get(identity) || [];
+    if (hits.length > 1) fail("ambiguous semantic node " + identity);
+    return hits[0] || null;
+  };
+  const library = uniqueOwned("component-library");
+  if (!library || library.type !== "FRAME") fail("missing owned component-library");
+  for (const screen of nextPayload.screens || []) {
+    const frame = uniqueOwned(screen.id);
+    if (!frame || frame.type !== "FRAME") fail("missing target screen " + screen.id);
+    if (options.strictExistingElements === true) {
+      for (const [idx, element] of (screen.elements || []).entries()) {
+        if (element.kind !== "component") continue;
+        const identity = element.id || `${screen.id}/element:${idx}`;
+        if (!uniqueOwned(identity)) fail("missing declared target instance " + identity);
+      }
+    }
+  }
+  // Preflight existing components and instances before mutating anything.
+  const existingComponents = new Map();
+  for (const [name, definition] of Object.entries(nextPayload.components || {})) {
+    const swapTargets = componentSwapTargets(definition);
+    for (const variant of Object.keys(definition.variants || {})) {
+      const main = uniqueOwned(`component:${name}/${variant}`);
+      if (!main) {
+        if (options.allowNewVariants !== true) fail(`missing main component component:${name}/${variant}`);
+        continue;
+      }
+      if (main.type !== "COMPONENT") fail(`corrupt main component component:${name}/${variant}`);
+      existingComponents.set(JSON.stringify([name, variant]), main);
+    }
+    void swapTargets;
+  }
+  const allMainById = new Map([...existingComponents.entries()].map(([k, node]) => [node.id, JSON.parse(k)[0]]));
+  for (const screen of nextPayload.screens || []) {
+    for (const [idx, element] of (screen.elements || []).entries()) {
+      if (element.kind !== "component") continue;
+      const identity = element.id || `${screen.id}/element:${idx}`;
+      const existing = uniqueOwned(identity);
+      if (!existing) continue;
+      if (existing.type !== "INSTANCE") fail("corrupt target node (not INSTANCE): " + identity);
+      const definition = nextPayload.components[element.component];
+      const main = existingComponents.get(JSON.stringify([element.component, element.variant]));
+      const declaredKeys = info(main).declared_property_keys || {};
+      for (const [propId, prop] of Object.entries(definition.properties || {})) {
+        const key = declaredKeys[propId];
+        const liveProp = existing.componentProperties?.[key];
+        if (!key || !liveProp || liveProp.type !== prop.type) fail("stale or missing native property key on " + identity + "." + propId);
+        if (preserveInstanceOverrides && prop.type === "INSTANCE_SWAP") {
+          const liveCompName = allMainById.get(liveProp.value);
+          const allowedList = prop.allowed_components || componentSwapTargets(definition) || null;
+          if (!liveCompName || (allowedList && !allowedList.includes(liveCompName))) fail("existing swap override outside allowed range on " + identity + "." + propId);
+        }
+      }
+    }
+  }
+  const createdNodes = [];
+  const backups = [];
+  const prevPayload = PAYLOAD;
+  try {
+    PAYLOAD = nextPayload;
+    const reusedIds = { mainComponentIds: [], instanceIds: [], createdInstanceIds: [] };
+    for (const [, main] of existingComponents) reusedIds.mainComponentIds.push(main.id);
+    for (const screen of nextPayload.screens || []) {
+      const frame = uniqueOwned(screen.id);
+      for (const [idx, element] of (screen.elements || []).entries()) {
+        if (element.kind !== "component") continue;
+        const identity = element.id || `${screen.id}/element:${idx}`;
+        const desiredMain = existingComponents.get(JSON.stringify([element.component, element.variant]));
+        const existing = uniqueOwned(identity);
+        if (existing) {
+          const savedProps = Object.fromEntries(Object.entries(existing.componentProperties || {}).map(([k, v]) => [k, v.value]));
+          const savedX = existing.x, savedY = existing.y;
+          const savedTransform = existing.relativeTransform ? JSON.parse(JSON.stringify(existing.relativeTransform)) : undefined;
+          backups.push({
+            node: existing,
+            x: savedX,
+            y: savedY,
+            relativeTransform: savedTransform,
+            figmaFlow: existing.getPluginData(KEY),
+            semanticKey: existing.getPluginData("semanticKey"),
+            props: savedProps,
+          });
+          if (!preserveInstanceOverrides) {
+            const labelKey = info(desiredMain).label_property_key;
+            const hasExplicitLabelOverride = Object.entries(nextPayload.components[element.component]?.properties || {}).some(([pid, p]) => p.type === "TEXT" && p.target === "label" && Object.prototype.hasOwnProperty.call(element.property_values || {}, pid));
+            if (labelKey && !hasExplicitLabelOverride && typeof element.text === "string") existing.setProperties({[labelKey]: element.text});
+            await applyDeclaredInstanceProperties(existing, desiredMain, {...element, id: identity}, existingComponents);
+          } else {
+            markImportedInstanceSlots(existing, identity);
+          }
+          if (savedX !== undefined) existing.x = savedX;
+          if (savedY !== undefined) existing.y = savedY;
+          if (savedTransform !== undefined) existing.relativeTransform = savedTransform;
+          reusedIds.instanceIds.push(existing.id);
+        } else {
+          const created = desiredMain.createInstance();
+          createdNodes.push(created);
+          frame.appendChild(created);
+          created.name = (element.text || "").slice(0, 80) || element.kind;
+          const label = (created.children || []).find(child => child.type === "TEXT" && !child.name?.startsWith("text:"));
+          const labelKey = info(desiredMain).label_property_key;
+          const hasExplicitLabelOverride = Object.entries(nextPayload.components[element.component]?.properties || {}).some(([pid, p]) => p.type === "TEXT" && p.target === "label" && Object.prototype.hasOwnProperty.call(element.property_values || {}, pid));
+          if (labelKey && !hasExplicitLabelOverride && typeof element.text === "string") created.setProperties({[labelKey]: element.text});
+          await applyDeclaredInstanceProperties(created, desiredMain, {...element, id: identity}, existingComponents);
+          if (label) metadata(label, `${identity}/label`);
+          metadata(created, identity, { kind: element.kind, annotation: element.annotation || "", action_id: element.action_id || null, target_screen: element.target_screen || null });
+          reusedIds.createdInstanceIds.push(created.id);
+        }
+      }
+    }
+    if (typeof options.beforeCommitHook === "function") await options.beforeCommitHook({ createdNodes, reusedIds });
+    return reusedIds;
+  } catch (error) {
+    for (const created of [...createdNodes].reverse()) {
+      if (created && !created.removed && typeof created.remove === "function") created.remove();
+      else if (created?.parent?.children) created.parent.children = created.parent.children.filter(item => item !== created);
+    }
+    for (const backup of [...backups].reverse()) {
+      if (backup.x !== undefined) backup.node.x = backup.x;
+      if (backup.y !== undefined) backup.node.y = backup.y;
+      if (backup.relativeTransform !== undefined) backup.node.relativeTransform = backup.relativeTransform;
+      backup.node.setPluginData(KEY, backup.figmaFlow);
+      backup.node.setPluginData("semanticKey", backup.semanticKey);
+      if (Object.keys(backup.props).length && typeof backup.node.setProperties === "function") backup.node.setProperties(backup.props);
+    }
+    throw error;
+  } finally {
+    PAYLOAD = prevPayload;
+  }
 }
 
 async function importDesign(fresh) {
@@ -655,7 +995,9 @@ async function importDesign(fresh) {
       const groups = componentVariantGroups(definition);
       const multiple = groups.length > 1;
       const usage = componentUsageText(definition);
-      componentSwapTargets(definition);
+      const swapTargets = componentSwapTargets(definition);
+      const layoutMode = componentLayoutMode(definition);
+      const hasDeclaredLabelTextProp = Object.values(definition.properties || {}).some(prop => prop?.type === "TEXT" && prop?.target === "label");
       for (const group of groups) {
         const variants = [];
         for (const [variant, props] of group.variants) {
@@ -663,9 +1005,14 @@ async function importDesign(fresh) {
           library.appendChild(node);
           node.name = `${name}/${variant}`;
           layout(node, 320);
+          if (layoutMode === "HORIZONTAL") {
+            node.layoutMode = "HORIZONTAL";
+            node.primaryAxisSizingMode = "AUTO";
+            node.counterAxisSizingMode = "AUTO";
+          }
           const label = text(name);
           node.appendChild(label);
-          metadata(node, `component:${name}/${variant}`, { kind: "component", token_properties: props });
+          metadata(node, `component:${name}/${variant}`, { kind: "component", family: definition.family || null, swap_targets: swapTargets || null, token_properties: props });
           metadata(label, `component:${name}/${variant}/label`);
           applyProps(node, label, props, variables, warnings, fonts);
           await decorate(node);
@@ -681,12 +1028,12 @@ async function importDesign(fresh) {
             if ('cornerRadius' in set) set.cornerRadius = 0;
             layout(set, 360);
             componentSets.push(set);
-            metadata(set, multiple ? `component-set:${name}:${group.axis}` : `component-set:${name}`, { kind: "component-set", variant_property: group.axis });
+            metadata(set, multiple ? `component-set:${name}:${group.axis}` : `component-set:${name}`, { kind: "component-set", family: definition.family || null, swap_targets: swapTargets || null, variant_property: group.axis });
             if (usage) set.description = usage;
-            bindOwnedLabelProperty(set, variants.map(([, node]) => node), warnings);
+            if (!hasDeclaredLabelTextProp) bindOwnedLabelProperty(set, variants.map(([, node]) => node), warnings);
           } else {
             warnings.add(`Native variant sets unavailable for ${name}; individual main components are preserved.`);
-            for (const [, node] of variants) bindOwnedLabelProperty(node, [node], warnings);
+            if (!hasDeclaredLabelTextProp) for (const [, node] of variants) bindOwnedLabelProperty(node, [node], warnings);
           }
         }
       }
@@ -713,15 +1060,17 @@ async function importDesign(fresh) {
         if (element.kind === "component") {
           const main = components.get(JSON.stringify([element.component, element.variant]));
           node = main.createInstance();
-          const label = node.findOne(child => child.type === "TEXT");
+          const label = node.findOne(child => child.type === "TEXT" && !child.name?.startsWith("text:"));
           const labelKey = info(main).label_property_key;
+          const explicitLabelOverrideEntry = Object.entries(PAYLOAD.components[element.component]?.properties || {}).find(([pid, p]) => p?.type === "TEXT" && p?.target === "label" && Object.prototype.hasOwnProperty.call(element.property_values || {}, pid));
+          const initialLabelText = explicitLabelOverrideEntry ? element.property_values[explicitLabelOverrideEntry[0]] : element.text;
           if (labelKey) {
             const owner = main.parent?.type === "COMPONENT_SET" ? main.parent : main;
             const instanceReference = label?.componentPropertyReferences?.characters;
-            if (owner.componentPropertyDefinitions?.[labelKey]?.type !== "TEXT" || (instanceReference !== undefined && instanceReference !== labelKey)) throw new Error(`Instance label is not linked to the owned text property: ${element.text}`);
-            node.setProperties({[labelKey]: element.text});
-            if (!label || label.characters !== element.text || node.componentProperties?.[labelKey]?.type !== "TEXT" || node.componentProperties[labelKey].value !== element.text) throw new Error(`Assigned label differs from the visible text: ${element.text}`);
-          } else if (label) label.characters = element.text;
+            if (owner.componentPropertyDefinitions?.[labelKey]?.type !== "TEXT" || (instanceReference !== undefined && instanceReference !== labelKey)) throw new Error(`Instance label is not linked to the owned text property: ${initialLabelText}`);
+            node.setProperties({[labelKey]: initialLabelText});
+            if (!label || label.characters !== initialLabelText || node.componentProperties?.[labelKey]?.type !== "TEXT" || node.componentProperties[labelKey].value !== initialLabelText) throw new Error(`Assigned label differs from the visible text: ${initialLabelText}`);
+          } else if (label) label.characters = initialLabelText;
           await applyDeclaredInstanceProperties(node, main, {...element, id:element.id || `${screen.id}/element:${elementIndex}`}, components);
           if (label) metadata(label, `${element.id || `${screen.id}/element:${elementIndex}`}/label`);
         } else node = text(element.text, element.kind === "heading");
