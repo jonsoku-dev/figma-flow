@@ -30,6 +30,13 @@ python -B -m unittest discover -s examples/native-direction-review -p test_demo.
 
 검사 명령을 파이프로 연결하면 마지막 명령의 종료 코드만 보일 수 있습니다. 명령별 종료 코드와 skip 사유를 확인하세요. 깨끗한 클론에는 외부 캠페인의 회귀 레이아웃과 운영자가 제공하는 네이티브 읽기 자료가 없습니다. `FIGMA_DRAFT_LIVE_MANIFEST`와 `FIGMA_DRAFT_LIVE_READBACK`에 제공 권한이 있는 실제 시안 자료를 지정해 선택적 검사를 실행할 수 있습니다. 증거·실행 출력은 저장소 바깥에 둡니다.
 
+로컬 참고 ZIP·압축 해제 폴더·임시 증거·비공개 인용 목록은 저장소나 공유 배포에 넣지 마세요. [배포 가드](tools/reference_distribution_guard.py)는 `--reference-zip`과 `--reference-literals` 없이 실행하면 금지 경로와 임시 증거만 확인(`paths-only`, `status: paths_only_clear`)하며, 커밋·배포 전에는 오프라인에서 로컬 참고 ZIP(`--reference-zip`)과 비공개 1줄 인용 목록(`--reference-literals`)을 지정해 원본·이름 변경·CRLF/LF 변환·문서/테스트 내 고유 인용을 대조하세요. 원문이나 개인 경로는 출력하지 않고 경로·SHA-256·규칙 ID·건수만 보고합니다.
+
+```sh
+python -B tools/reference_distribution_guard.py --ref HEAD --format text
+python -B tools/reference_distribution_guard.py --worktree --reference-zip /path/to/reference.zip --reference-literals /path/to/literals.json --format text
+```
+
 ## 버전과 GitHub Release
 
 1. 호환되는 수정·문서는 패치, 호환되는 기능 추가는 마이너 버전을 올립니다. 호환성을 깨는 변경은 릴리스 노트에 영향과 이행 방법을 명시합니다. 코덱스·범용 매니페스트의 `version`, README의 설치 태그, `CHANGELOG.md`의 릴리스 번호를 함께 갱신합니다.
@@ -42,6 +49,7 @@ TAG=v0.18.2
 ASSET="figma-flow-plugin-${TAG#v}.zip"
 git archive --format=zip --prefix=figma-flow-plugin/ --output="../$ASSET" "$TAG"
 (cd .. && shasum -a 256 "$ASSET" > "$ASSET.sha256")
+python -B tools/reference_distribution_guard.py --ref "$TAG" --target-zip "../$ASSET" --reference-zip /path/to/reference.zip --reference-literals /path/to/literals.json
 ```
 
 5. 대상 `main`과 태그만 푸시하고 GitHub Actions 결과를 확인합니다. GitHub Release에 ZIP과 체크섬을 첨부하고 다시 다운로드해 `shasum -a 256 -c 파일명.zip.sha256`으로 확인합니다. Linux에서는 `sha256sum -c`도 사용할 수 있습니다. 받은 ZIP을 풀면 코드와 매니페스트가 `figma-flow-plugin/` 아래에 있습니다.

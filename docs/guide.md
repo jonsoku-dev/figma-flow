@@ -777,7 +777,7 @@ git -C "$SOURCE_DIR" archive --format=tar --output="$PRIVATE_DIR/release.tar" HE
 tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 ```
 
-방금 만든 임시 아카이브를 배포 파일에 포함하지 않습니다. 회사 npm 범위·lockfile 제외를 확인하고 인증값, 실제 Figma 읽기 결과·선택 대화·비공개 workspace가 포함되지 않도록 검사합니다. 이력이 필요하면 별도 클론에서 필요한 브랜치/태그와 과거 비밀값·lockfile·LFS·배포 권리를 검토합니다. 기본 배포에 전체 mirror push는 필요하지 않습니다.
+방금 만든 임시 아카이브를 배포 파일에 포함하지 않습니다. 회사 npm 범위·lockfile 제외를 확인하고 인증값, 실제 Figma 읽기 결과·선택 대화·비공개 workspace·로컬 참고 ZIP이나 추출 파일·비공개 인용 목록이 포함되지 않도록 검사합니다. 배포 전에는 `python3 -B tools/reference_distribution_guard.py --ref HEAD --reference-zip /path/to/reference.zip --reference-literals /path/to/literals.json`으로 오프라인 대조를 실행하세요(선택 입력 생략 시 경로만 확인하는 `paths-only` 모드). 이력이 필요하면 별도 클론에서 필요한 브랜치/태그와 과거 비밀값·lockfile·LFS·배포 권리를 검토합니다. 기본 배포에 전체 mirror push는 필요하지 않습니다.
 
 원격 생성·push는 현재 사용자에게 실제 소유자/저장소와 업로드 권한이 있을 때 수행합니다. `gh repo view OWNER/REPO --json nameWithOwner,visibility,url`의 `PRIVATE`와 `git remote -v`의 정확한 목적지를 확인합니다. 기존 원격을 강제 덮어쓰지 않습니다. 설치 머신에서는 회사 소스를 새 전용 클론에 받아 위 설치 절차의 실제 marketplace 이름으로 설치합니다. 직접 Git 등록을 지원하는 CLI는 `codex plugin marketplace add URL --ref TAG --json`도 사용할 수 있습니다.
 
