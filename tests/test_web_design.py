@@ -359,6 +359,18 @@ class WebDesignTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'identical appearance'):
             web_design.validate_graph(value)
 
+    def test_legacy_component_keys_keep_their_existing_json_identity_format(self):
+        value = graph()
+        element = value['nodes'][0]['elements'][0]
+        element['kind'] = 'component'
+        element['componentKey'] = '["a",21,{},"Geist",16,500,"#101828","left"]'
+        self.assertEqual(len(web_design.validate_graph(value)), 1)
+        with tempfile.TemporaryDirectory() as d:
+            source, output = Path(d) / 'legacy.json', Path(d) / 'plan.json'
+            source.write_text(json.dumps(value))
+            web_design.build_plan(source, 'file', '1:1', output)
+            native_edit.validate_plan(json.loads(output.read_text()))
+
     def test_carousel_rejects_ambiguous_or_inconsistent_transition_graphs(self):
         bad = carousel_graph()
         bad['carousel']['transitions'][0]['to'] = 'feature-1'

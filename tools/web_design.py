@@ -291,12 +291,14 @@ def validate_graph(graph, require_embedded=False):
             element_ids.add(e['id'])
             if 'name' in e and (not isinstance(e['name'], str) or len(e['name']) > 100):
                 raise ValueError('Layer name must be a bounded string')
-            if 'componentKey' in e and (
-                e['kind'] not in {'component', 'image'}
-                or not isinstance(e['componentKey'], str)
-                or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}', e['componentKey'])
-            ):
-                raise ValueError('Image and component family keys must be bounded stable strings')
+            if 'componentKey' in e:
+                key = e['componentKey']
+                valid_component = e['kind'] == 'component' and isinstance(key, str) and 0 < len(key) <= 160
+                valid_image = e['kind'] == 'image' and isinstance(key, str) and re.fullmatch(
+                    r'[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}', key
+                )
+                if not (valid_component or valid_image):
+                    raise ValueError('Image and component family keys must be bounded stable strings')
             if 'clipsContent' in e and (e['kind'] != 'frame' or type(e['clipsContent']) is not bool):
                 raise ValueError('Only frames can clip their children')
             if 'path' in e and (
