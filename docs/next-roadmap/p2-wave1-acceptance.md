@@ -1,9 +1,10 @@
 # P2 1차 실행 계약 (`p2-rights-cleared-fixture` · `p2-read-performance-baseline`)
 
-이 문서는 P2 1차 두 작업의 실행 계약과 인수 경계다. 인수 영수증이 아니다. 두 작업의 현재 상태(`status` · `evidence_status`)와 선행 관계의 정본은 [backlog.graph.json](backlog.graph.json)이며, 범위·역할·통과 기준의 원문은 [capability-review.md](capability-review.md)의 해당 절이다. 이 문서는 구현 완료, 실제 브라우저·Figma 결과 또는 성능 수치를 주장하지 않는다.
+이 문서는 P2 1차 두 작업의 실행 계약과 인수 경계다. `p2-read-performance-baseline`의 인수 결과는 [B 인수 결과](#p2-read-performance-baseline-result)에 있다. `p2-rights-cleared-fixture`는 아직 인수 영수증이 없다. 두 작업의 현재 상태(`status` · `evidence_status`)와 선행 관계의 정본은 [backlog.graph.json](backlog.graph.json)이며, 범위·역할·통과 기준의 원문은 [capability-review.md](capability-review.md)의 해당 절이다. 인수 결과 절 밖의 내용은 구현 완료, 실제 브라우저·Figma 결과 또는 성능 수치를 주장하지 않는다.
 
-- **착수 근거:** 두 작업은 각자의 유일한 `depends-on` 선행 노드 `p0-reference-safety`가 `verified`라서 `next-ready`였다. 착수 후 두 노드는 `in-progress`이고 `evidence_status`는 `pending-root-live-evidence`다.
-- **후속 노드:** `p2-faq-mobile-keyboard`, `p2-complex-render-fidelity`, `p2-incremental-native-read`는 `proposed`로 남는다. 각 선행 작업이 `verified`가 되기 전에는 `next-ready`가 아니다.
+- **착수 근거:** 두 작업은 각자의 유일한 `depends-on` 선행 노드 `p0-reference-safety`가 `verified`라서 `next-ready`였다.
+- **현재 상태:** `p2-read-performance-baseline`은 `verified`다. `p2-rights-cleared-fixture`는 `in-progress`(`pending-root-live-evidence`)다.
+- **후속 노드:** `p2-faq-mobile-keyboard`와 `p2-complex-render-fidelity`는 fixture가 `verified`가 되기 전에는 `next-ready`가 아니다. `p2-incremental-native-read`는 그래프 규칙상 `next-ready`지만 `proposed`로 남는다. 이번 기준선의 관측 병목은 reader가 아니라 poll queue이므로 [착수 조건](capability-review.md#p2-incremental-read)을 충족하지 않는다.
 - **그래프 검사:** `python3 -B -m unittest tests.test_next_roadmap_backlog`. `in-progress` 작업은 모든 `depends-on` 선행이 충족돼야 하고, 충족 상태의 근거 표시(`verified*` 등)를 가질 수 없다.
 
 ## 의존성 그래프
@@ -175,6 +176,30 @@ python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'
 ```
 
 baseline 구현의 새 검사(측정 단위 검사와 러너 검사)는 통합된 뒤 노드의 `commands`에 추가한다. 이 명령은 저장소 fixture 기준만 확인한다. 실제 Figma 지연이나 대형 문서의 동작을 보여 주지 않는다. 실제 측정값은 root가 개발 플러그인으로 등록된 테스트 페이지에서 얻는다. 호출부 변경은 [파일 소유](#file-ownership)의 선택 flag 범위에 한한다. RD-06 검사는 `code.js`, `native_edit.js`, `tools/graph_sync.py`, 패널 소스의 호출 문자열을 고정하므로 기본 경로의 문자열을 유지한다.
+
+<a id="p2-read-performance-baseline-result"></a>
+
+### B 인수 결과
+
+root가 통합 소스 `3b3fa8f`에서 실측했고, 독립 검토가 저장된 샘플 11건 전체를 다시 계산해 보고서·공개 요약과 같음을 확인했다. 작업 트리는 깨끗했고 플러그인 버전은 `0.35.0`이다. `readNativeSemantics` 본문은 기준 `9962afa`와 같다. 범위는 1개 페이지, 108개 노드, profile `full`이다. 원시 file·page·node ID와 샘플은 Git 밖 비공개 증거에 있다.
+
+| ID | 결과 | 판정 |
+|---|---|---|
+| B1 | `discovery-full-default` 5/5, `discovery-full-timed` 5/5, 진단 1/1 성공. 재시도 0, 시간 초과 0 | 충족 |
+| B2 | 11건 모두 요청 file·page와 readback file·page, 노드 108개가 같다. `content_sha256` 1개 | 충족 |
+| B3 | 10건 모두 `coverage.complete` `null`, `reported` false, `unavailable_fields` 1,964. summary는 측정하지 않았다 | 충족 |
+| B4 | 기본 end-to-end median 976.19 ms(512.39–1,129.87, n=5). timed와 범위가 겹치므로 차이는 관측 overhead로만 적는다 | 충족 |
+| B5 | 시간 샘플의 `getter_count`는 `null`. 진단 counts는 속성 get 10,969회, has 6,288회다. 진단 회차는 성공했다 | 충족 |
+| B6 | 동결 검사 5개의 blob·모드가 측정 소스에서 기준과 같다 | 충족 |
+| B7 | 실행은 `root-live`뿐이다 | 충족 |
+| B8 | 속도 향상, summary 성능, 캐시 효과를 주장하지 않는다 | 충족 |
+| B9 | timed reader median 80 ms(77–85, `Date.now` 1 ms 해상도), end-to-end의 약 8%. queue median은 timed 627.55 ms, 기본 605.86 ms다. 이 full 읽기의 사용자 대기에서는 poll queue 비중이 크다. reader 병목이 아니므로 `p2-incremental-native-read`를 시작하지 않는다 | 충족 |
+
+stage가 다른 bytes를 구분한다. reader가 만든 compact JSON은 438,955 bytes이고, 저장된 readback은 263,238 bytes다.
+
+한계. 로드된 편집기 상태만 관측했다. Figma UI에 cloud sync 경고가 보였고 cloud 동기화는 검증하지 않았다. 대형 문서 동작을 대표하지 않는다. 기존 P1 작업 기록 101개와 native component family 상태는 바뀌지 않았다. live-001은 진단 실패로 거절했고, diagnostic v2의 `TextEncoder` 실패도 이력으로 보존한다.
+
+통합 커밋. 측정 계약 `8e3bb31`, 선택 계측 `10e221f`, 러너 `5d068b0`, 진단 요구 `9c4e787`, 진단 수정 `a5e4a09`, sandbox 기준 `24f34f9`, UTF-8 bytes 수정 `3b3fa8f`, coverage baseline `9669bc5`.
 
 ## Root 실측 절차
 

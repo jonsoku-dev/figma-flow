@@ -199,6 +199,8 @@ fresh getter와 complete coverage를 기본으로 유지하면서 measured bottl
 
 **선행 조건:** `p2-read-performance-baseline`이 완료되고 적어도 한 병목이 동일한 범위의 반복 측정으로 확인되어야 한다. 기준선이 개선 판단에 쓰이지 않으면 구현을 시작하지 않는다.
 
+**현재 판정:** 기준선은 [인수됐다](p2-wave1-acceptance.md#p2-read-performance-baseline-result). 관측한 full 읽기에서 reader는 end-to-end의 약 8%이고 poll queue 비중이 컸다. reader 병목이 확인되지 않았으므로 착수 조건을 충족하지 않는다. 그래프 규칙상 `next-ready`여도 `proposed`로 둔다.
+
 **작업 범위와 명령:** 미구현 새 검사 제안은 `node --test tests/nf02_summary_cache.cjs`이며, 구현 시 기준선 테스트(`rd06_fresh_read.cjs`, `rd06_summary_coverage.cjs`, `rd06_reject_partial.cjs`)와 함께 실행한다.
 
 **통과 기준:** 최적화 전후로 동일 ID·필드·완전성 결과를 유지한다. coverage가 부족하거나 event 무효화 근거가 불충분하면 `possiblyStale` 또는 명시적 fresh read가 요구된다. 성능 개선은 고정 범위·동일 환경에서만 보고한다.

@@ -525,9 +525,9 @@
     {
       "id": "p2-read-performance-baseline",
       "type": "task",
-      "status": "in-progress",
+      "status": "verified",
       "priority": "P2",
-      "evidence_status": "pending-root-live-evidence",
+      "evidence_status": "verified-with-root-live-baseline-and-independent-trace-recompute",
       "title": "Measure fresh-read performance baseline",
       "doc_ref": "capability-review.md#p2-performance-baseline",
       "roles": ["engineer", "designer", "planner"],
@@ -544,8 +544,56 @@
       "commands": [
         "node --test tests/rd06_fresh_read.cjs tests/rd06_summary_coverage.cjs tests/rd06_reject_partial.cjs",
         "node --test tests/rd06_full_getter_ledger.cjs tests/rd06_read_comparison.cjs",
-        "python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'"
+        "python3 -B -m unittest discover -s tests -p 'test_graph_sync.py'",
+        "node --test tests/p2_native_read_measurement.cjs tests/p2_native_read_measurement_descriptors.cjs tests/p2_native_read_sandbox_globals.cjs",
+        "python3 -B -m unittest tests.test_native_read_benchmark tests.test_native_read_benchmark_boundaries tests.test_native_read_benchmark_diagnostic"
       ],
+      "proof_refs": [
+        "p2-wave1-acceptance.md",
+        "NF-02-incremental-native-read.md",
+        "../../tools/native_read_benchmark.py",
+        "../../figma-bridge/native_read_measurement.js",
+        "../../figma-bridge/native_semantic_read.js",
+        "../../tests/p2_native_read_measurement.cjs",
+        "../../tests/p2_native_read_measurement_descriptors.cjs",
+        "../../tests/p2_native_read_sandbox_globals.cjs",
+        "../../tests/test_native_read_benchmark.py",
+        "../../tests/test_native_read_benchmark_boundaries.py",
+        "../../tests/test_native_read_benchmark_diagnostic.py"
+      ],
+      "observed_evidence": {
+        "integrated_main_commits": {
+          "measurement_contract": "8e3bb31",
+          "opt_in_measurement": "10e221f",
+          "runner": "5d068b0",
+          "diagnostic_requirements": "9c4e787",
+          "diagnostic_fix": "a5e4a09",
+          "sandbox_oracle": "24f34f9",
+          "utf8_bytes_fix": "3b3fa8f",
+          "coverage_baseline": "9669bc5"
+        },
+        "measured_source": {
+          "commit": "3b3fa8f",
+          "dirty": false,
+          "plugin_version": "0.35.0",
+          "reader_body_unchanged_since_base": true
+        },
+        "scope": {"workload": "discovery-full-default", "profile": "full", "pages": 1, "nodes": 108},
+        "attempts": {"default_ok": "5/5", "timed_ok": "5/5", "diagnostic_ok": "1/1", "retries": 0, "timeouts": 0, "content_hashes": 1},
+        "default_end_to_end_ms": {"median": 976.19, "min": 512.39, "max": 1129.87, "n": 5},
+        "default_queue_ms_median": 605.86,
+        "timed_reader_ms": {"median": 80, "min": 77, "max": 85, "n": 5, "clock": "Date.now, 1 ms"},
+        "timed_queue_ms_median": 627.55,
+        "timed_vs_default": "end-to-end ranges overlap; reported as observer overhead only",
+        "diagnostic_counts": {"node_property_gets": 10969, "node_property_has": 6288, "reader_result_bytes": 438955, "unit": "diagnostic access counts, not ledger unique accesses"},
+        "saved_readback_bytes": 263238,
+        "coverage": {"complete": null, "reported": false, "unavailable_fields": 1964},
+        "observed_bottleneck": "poll queue dominates the user wait for this full read; the reader is about 8 percent of end-to-end time",
+        "independent_review": "stored-trace recomputation of all 11 samples matched the report and public summary",
+        "p1_preservation": {"preserved_task_records": 101, "native_family_state_unchanged": true},
+        "rejected_history": "live-001 rejected for a failed diagnostic; the diagnostic v2 TextEncoder failure is preserved",
+        "not_claimed": ["speedup", "summary profile performance", "browse cache benefit", "cloud sync", "large-document behavior"]
+      },
       "acceptance": [
         "File, page, node, and field scope stay fixed",
         "Getter count, time, bytes, and completeness are recorded",

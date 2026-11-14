@@ -50,6 +50,14 @@ EXPECTED_P1_NF03_PROOF_REFS = {
     '../../panel-ui/src/Workspace.jsx',
     '../../tests/test_nf03_panel_ui.cjs',
 }
+EXPECTED_P2_BASELINE_PROOF_REFS = {
+    'p2-wave1-acceptance.md',
+    '../../tools/native_read_benchmark.py',
+    '../../figma-bridge/native_read_measurement.js',
+    '../../tests/test_native_read_benchmark.py',
+    '../../tests/test_native_read_benchmark_diagnostic.py',
+    '../../tests/p2_native_read_sandbox_globals.cjs',
+}
 
 
 def _markdown_anchors(text):
@@ -192,6 +200,8 @@ class NextRoadmapBacklogTest(unittest.TestCase):
             self.assertTrue(EXPECTED_P1_NF01_PROOF_REFS.issubset(set(by_id['p1-native-component-families']['proof_refs'])))
         if by_id['p1-causal-review-history']['status'] in SATISFIED_STATUSES:
             self.assertTrue(EXPECTED_P1_NF03_PROOF_REFS.issubset(set(by_id['p1-causal-review-history']['proof_refs'])))
+        if by_id['p2-read-performance-baseline']['status'] in SATISFIED_STATUSES:
+            self.assertTrue(EXPECTED_P2_BASELINE_PROOF_REFS.issubset(set(by_id['p2-read-performance-baseline']['proof_refs'])))
         ready = next_ready_tasks(graph)
         in_progress = [n['id'] for n in graph['nodes'] if n['type'] == 'task' and n['status'] == 'in-progress']
         self.assertTrue(
