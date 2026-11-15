@@ -11949,6 +11949,104 @@
           "version": "0.35.0"
         }
       ]
+    },
+    {
+      "commit": "261ad77e4b60527cbdd81ae422f516f184464128",
+      "diff_sha256": "1188d2037bcc78484bb431e0e4beb7e23131dfd58f5943be695be7a36efc4b6b",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/10e221f8fed97c5d5aa6416539d057b1d4aaebf1.md",
+        "docs/llm-wiki/patches/1214f4848619f09cb1f625c5b3486ea71bc54aa1.md",
+        "docs/llm-wiki/patches/13551acbd622510721c128bcfea14f5be1c78d6c.md",
+        "docs/llm-wiki/patches/24f34f980703e76398d8c758052adccaed92d845.md",
+        "docs/llm-wiki/patches/2c7c2928119a080d84270a3a27c635fc5ded4c99.md",
+        "docs/llm-wiki/patches/3b3fa8f0d986ee3d2b8dae1d37b2a7e2f377965e.md",
+        "docs/llm-wiki/patches/3eab9ee7f5e8399b852c3304ca285ca0b252c73b.md",
+        "docs/llm-wiki/patches/5d068b010d5fb53147a15913efbd458737eb8281.md",
+        "docs/llm-wiki/patches/61b895d79165ea69a191b5e9fa8293cfc0539a93.md",
+        "docs/llm-wiki/patches/629e9852ef3a2921f052b6298f00f72a7b749c21.md",
+        "docs/llm-wiki/patches/888ea89862783e550d0ff5e772bef1d98ce71858.md",
+        "docs/llm-wiki/patches/8a7ed888276d3bdb885d437e3b019603fe02c5c3.md",
+        "docs/llm-wiki/patches/8ab0a18ebdec469177cd0fdf06692f5bc1560edb.md",
+        "docs/llm-wiki/patches/8e3bb31a9f77a4dac72124f2556c532345c6188d.md",
+        "docs/llm-wiki/patches/954f1985531a0b73c80db76ecff393b73ca658eb.md",
+        "docs/llm-wiki/patches/9669bc53007b544dc7ca49d6760e59786dd52f1a.md",
+        "docs/llm-wiki/patches/9962afa5d201fa1b299340aed813968aa6d07fcf.md",
+        "docs/llm-wiki/patches/9c183e7eec9d6be732529a86a061fd70a378e98a.md",
+        "docs/llm-wiki/patches/9c4e7872c29fd70716b8f87da30f9f09aef8cd3f.md",
+        "docs/llm-wiki/patches/a5e4a098726872e9953e92da36065f4789f22811.md",
+        "docs/llm-wiki/patches/ac02ac4a7d5b5533cc34263571fad4e35202c7d0.md",
+        "docs/llm-wiki/patches/b2c998d6f58d8deb59803db42069824d663ceb34.md",
+        "docs/llm-wiki/patches/bb443799f1e91b44f68c4dafc430ac27fb685514.md",
+        "docs/llm-wiki/patches/cc676a77849197f90d6f7a57a9aff5e366fa5658.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "8a7ed888276d3bdb885d437e3b019603fe02c5c3"
+      ],
+      "subject": "docs(wiki): record P2 wave 1 through verified fixture and baseline",
+      "tree": "23bb6fe2b490cc8f07ca01c2b22528c979182fab",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.35.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.35.0"
+        }
+      ]
+    },
+    {
+      "commit": "310f6573b4c60a78a4da0099c0f91976430323da",
+      "diff_sha256": "efed17bb84c41383c792dcba26a6cb769f42aac744ad19d3226da99312d1da50",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/guide.md",
+        "plugin.json"
+      ],
+      "parents": [
+        "261ad77e4b60527cbdd81ae422f516f184464128"
+      ],
+      "subject": "chore(release): prepare 0.36.0 manifests and release docs candidate",
+      "tree": "b33c282b666c495149f99a97f54a2a3ed58430c9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c",
+      "diff_sha256": "162e2ff92c184958454cbadc282ae3706c9c303fa64ce86f65c051f74897223d",
+      "files": [
+        "README.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/guide.md"
+      ],
+      "parents": [
+        "310f6573b4c60a78a4da0099c0f91976430323da"
+      ],
+      "subject": "docs(release): clarify Design presentation scope and P2 playback limits",
+      "tree": "54c39d6f3abaab8e9c0789fde831c1b04f3eb6ae",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12002,6 +12100,7 @@
     "1f90f63bfeb1fa30a4dacd311daa9720dc25ae8f": "d595749585931a4fc1811bd87ef6551e1dde1c22be50c9848ba979fe8835f2b5",
     "1fa5f0dd4386bfd46bd919284b946d39493ae857": "440dcc62a8b1fc9eb88e94da172e2397fc0d6e9c1bf2d7c0dc08fe2f2f2c09f3",
     "1fae7a5c9b7a0d134c3f3b2f0563993ea56833db": "7a12d9ebdf51aa714454e77b0bcaf3d7baf37352c80cac4e8d5c2afd6d12a60c",
+    "20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c": "9d5c397250efbf11337c28bbfbfeec256a8a2256942985faf0e63b65863708cf",
     "2078ea9a94edd1f1c652953f30819c4fae50d20d": "0e461fabc4e32b323eea47e0134ec5139331d8fb35a73e44219b7f3767e5da1d",
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
@@ -12011,6 +12110,7 @@
     "24f34f980703e76398d8c758052adccaed92d845": "f6ad183b619f7f629378f92fc9aa1b4fb2fedfa1c84e7163edade2814c5d2d05",
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "25b6f754a4798119defc65c5146d59e0d3f23467": "873017a08c42fb2979ab2e5b1c40419e71208433616b8658bab50364c3037bda",
+    "261ad77e4b60527cbdd81ae422f516f184464128": "2682c37c9047be1fcbe5f217a6d3b2b7f0fc7529b8d97c7bf682191f06eec7e2",
     "28128ac57e43e314aade368f3f8c919c0246d22c": "38b10f4da39774e4cd1504426494e7869e7dc64084e8d9970b12daabec065ee3",
     "28eb39bc286e5728563d0b204928c7e323a6259f": "43cbe4f1a707d200c686c23ce4a9e4522728aee99b3c3749e2c77801b2aa7960",
     "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
@@ -12029,6 +12129,7 @@
     "2fb34775511c631fb60f9889fea86c01f676578c": "d7d78880c138153ebb791a7445187ab3b5b38b3667e19b1495ede43945e4fab2",
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
     "3101237e7e97c6181416780c94888ba134a005d0": "eb8cd406e0591b4fa29b20c75057305ae593587084edf8595a5b40a82eb1c3d5",
+    "310f6573b4c60a78a4da0099c0f91976430323da": "a961d41b7c9d27ba0726201165f95586ef7d7d40cac201ccb3bb40c6bb9ef376",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
     "3491b7d3d2971826f3f4cba89067cceffb91940d": "818031aaaeb16be08c12fdc8c6bd3aa3c0613361d4e428483bdd9bf99c867a68",
@@ -12426,6 +12527,10 @@
     },
     {
       "observed_at_commit": "1fa5f0dd4386bfd46bd919284b946d39493ae857",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -13095,7 +13200,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "8a7ed888276d3bdb885d437e3b019603fe02c5c3",
+  "source_commit": "20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

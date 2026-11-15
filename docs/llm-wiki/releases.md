@@ -8,9 +8,17 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v0.36.0
+
+[사용 안내](../guide.md) · [제품 헌법](../../CONSTITUTION.md) · [최종 인수 대조](../development-roadmap/FINAL_ACCEPTANCE.md) · [P0 인수 영수증](../next-roadmap/p0-reference-acceptance.md) · [P1 인수 영수증](../next-roadmap/p1-acceptance.md) · [P2 1차 실행 계약](../next-roadmap/p2-wave1-acceptance.md).
+
+**통합 소스 커밋과 버전 범위.** 베이스 `261ad77e4b60527cbdd81ae422f516f184464128` 위의 [310f657](patches/310f6573b4c60a78a4da0099c0f91976430323da.md) (`plugin.json`, `.codex-plugin/plugin.json`을 `0.36.0`으로 올리고 `README.md`, `docs/guide.md`, `FINAL_ACCEPTANCE.md` 정렬)과 [20495da](patches/20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c.md) (`README.md`, `docs/guide.md`, `FINAL_ACCEPTANCE.md`의 Design 프레젠테이션 범위 문구 보정)가 `main`에 FF·push됐다. 이 버전은 이미 검증된 P0, P1(NF-01·NF-03), P2 1차 성과를 하나의 `0.36.0` 후보로 묶으며, 기록 시점 `inventory --ref HEAD`의 최신 태그는 아직 `v0.35.0`([2f7e901](patches/2f7e901355faf6a02f4e1b9e3300d608b024ace2.md))이다. `v0.36.0` 태그는 이 기록 게시 커밋 이후 최종 배포 후손 커밋을 가리키므로 존재하지 않는 태그 ref나 릴리스 URL을 미리 적지 않는다.
+
+**검증·미검증 경계와 보존 한계.** 베이스 `261ad77e4b60527cbdd81ae422f516f184464128`에서는 CI 3개 워크플로(`Test Figma Flow` `43635969300`, `Patch knowledge` `43635969439`, `Reference distribution guard` `43635969323`)가 기존 비공개/선택 fixture skip 3건과 함께 통과했다. 소스 `20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c`에서는 대상 Python 136건, Node 버전/패널 16건, `skill_dependencies.py --check`, `reference_distribution_guard.py --ref HEAD` 및 아카이브 ZIP dry-run이 통과했으나, `20495da`에 대한 root의 단계별 native·패키지·최종 CI·설치 검증은 진행/대기 중이다. `docs/next-roadmap/backlog.graph.json`의 `p2-faq-mobile-keyboard`, `p2-complex-render-fidelity`, `p2-incremental-native-read`는 계속 `proposed` 상태로 유지한다. Design-only(`editorType: ["figma"]`) 경계는 FigJam·Slides·Buzz·Make·Weave·Sites를 제외하며 Design Dev Mode 인계와 Design 파일 내 프로토타입 프레젠테이션은 범위 안에 둔다. 기존 `0.35.0` FAQ·P0 프레젠테이션 재생 증명은 유지하되 P2에서 새 재생 주장이나 확장 범위는 추가하지 않으며, 원격 클라우드 자동 동기화·실물 물리 기기·공개 DNS/TLS·사람의 창작 품질/production admission은 계속 범위 밖이다.
+
 <a id="p2-wave1-records"></a>
 
-## 미배포 · P2 1차: 권리 정리 fixture와 fresh-read 성능 기준선
+### P2 1차: 권리 정리 fixture와 fresh-read 성능 기준선
 
 기준 태그 `v0.35.0`과 플러그인 매니페스트 버전은 바꾸지 않았다. 기록 기준은 `8a7ed888276d3bdb885d437e3b019603fe02c5c3`이다. 그래프에서 `p2-rights-cleared-fixture`와 `p2-read-performance-baseline`은 `verified`다. 후속 `p2-faq-mobile-keyboard`, `p2-complex-render-fidelity`, `p2-incremental-native-read`는 `proposed`다. 이 절은 P2 전체 완료를 뜻하지 않는다.
 
@@ -26,7 +34,7 @@
 
 <a id="p1-design-acceptance"></a>
 
-## 미배포 · P1 컴포넌트 계열(NF-01) 및 원인 이력 상세(NF-03)
+### P1 컴포넌트 계열(NF-01) 및 원인 이력 상세(NF-03)
 
 기준 태그 `v0.35.0`과 플러그인 매니페스트 버전은 바꾸지 않았다. 최종 제품 소스는 `e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10`, 그래프·영수증 기준은 `452acf1302bdc37269a31977773a7f277e45d212`이다. 런타임 버전 문자열 대신 이 코드 SHA를 인수 기준으로 쓴다.
 
@@ -41,7 +49,7 @@
 
 <a id="p0-reference-safety"></a>
 
-## 미배포 · P0 기준 자료 보호·자체 입력·로드맵 그래프
+### P0 기준 자료 보호·자체 입력·로드맵 그래프
 
 기준 태그 `v0.35.0`은 변경하지 않으며, 배포 전 미배포 묶음으로 P0 기준 자료 배포 가드, 자체 웹·Design 기준 입력, 로드맵 그래프 및 API 분류, 공개 인수 영수증을 기록했다.
 
