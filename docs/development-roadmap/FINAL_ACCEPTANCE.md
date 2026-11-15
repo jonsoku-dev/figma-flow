@@ -4,6 +4,8 @@
 
 2026-11-13 검증 스냅샷의 기준 checkout은 `7b5ae4091641430d891e0c110c8efdb9a845a6ce` 위의 미커밋 통합 변경이며 제품 소스는 `0.27.0-candidate`다. `06a40a1`은 과거 고정 검사 보정 근거다. 이 갱신은 현재 소스·로컬 실행 로그·시각 검수 색인과 주 세션의 runtime 보고를 대조했다. 문서 작성자가 앱·브라우저·Figma를 다시 조작한 결과로 표시하지 않는다. 아래 실제 native·프로토타입 관찰은 주 세션 보고와 보호된 영수증을 연결한 범위다. Codex 설치 플러그인은 아직 `0.26.3`이며 후보 소스 runtime과 구분한다.
 
+> 후속 대조(0.36.0 후보 기준): 위 `0.26.3` 설치 / `0.27.0-candidate` 표는 2026-11-13 당시 스냅샷을 보존한 과거 기준선이다. 이후 검증된 Design-only(`editorType: ["figma"]`) 후속 결과는 [P0 참조 분리 인수](../next-roadmap/p0-reference-acceptance.md), [P1 인수(NF-01·NF-03)](../next-roadmap/p1-acceptance.md), [P2 1차 읽기 기준선](../next-roadmap/p2-wave1-acceptance.md), [릴리스 기록](../llm-wiki/releases.md)에서 별도로 확인한다. `p2-faq-mobile-keyboard` · `p2-complex-render-fidelity` · `p2-incremental-native-read`와 기존 미검증/보류 항목(원격 클라우드 동기화, 프레젠테이션 재생, 실물 물리 기기, 사람의 창작 품질/production admission 등)은 승격하지 않고 그대로 미완료/범위 외로 유지한다.
+
 ## 판정과 증거
 
 - **코드 연결**: 구현·검사 위치 확인. 실행 통과를 뜻하지 않는다. 관련 검사 파일 하나가 조건 전체를 보장하지 않는다.
@@ -214,4 +216,4 @@ RD-08-AC-04는 독립 검토에서 terminal duplicate gap을 찾고 `1e64ada`에
 
 45 AC는 각 행의 명시 범위에서 통과했다. 이는 45 REQ의 모든 양성 기능이나 전체 제품·출시 인수를 뜻하지 않는다. RD-01 optional BOOLEAN/INSTANCE_SWAP 생성은 NF-01의 후속 제안이며 현재 지원으로 표시하지 않는다. 사람의 창작 품질·production admission, 물리 기기, 공개 DNS/TLS, 61개 legacy 전체 coverage, 실제 chat 첨부 전달은 아직 확인하지 않았다. 원본 앱의 영속 Graph SSOT도 연결하지 않았으며 임시 3색 실험은 복원했다.
 
-이 표는 출시 전 소스의 검증 스냅샷이다. Codex 설치 0.26.3과 실제 native 0.27 후보를 구분한다. 최종 clean package 전체 검사·push 이후 CI·release·설치 검증은 주 세션의 다음 실행이며 미래 성공을 주장하지 않는다. 최종 소스와 실제 설치 영수증의 기준은 [패치 Wiki](../llm-wiki/README.md)와 [통합 절차](../llm-wiki/integration.md)의 해당 full-SHA release 기록이다. 이후 설치 상태를 이 스냅샷의 버전에서 추정하지 않는다.
+이 표는 0.27 출시 전 소스의 검증 스냅샷이다. Codex 설치 0.26.3과 실제 native 0.27 후보를 구분하며, 이후 P0~P2 검증 결과는 [P0 참조 분리 인수](../next-roadmap/p0-reference-acceptance.md) · [P1 인수](../next-roadmap/p1-acceptance.md) · [P2 1차 기준선](../next-roadmap/p2-wave1-acceptance.md)에서 별도로 대조한다. 최종 clean package 전체 검사·push 이후 CI·release·설치 검증은 주 세션의 다음 실행이며 미래 성공을 주장하지 않는다. 최종 소스와 실제 설치 영수증의 기준은 [패치 Wiki](../llm-wiki/README.md)와 [통합 절차](../llm-wiki/integration.md)의 해당 full-SHA release 기록이다. 이후 설치 상태를 이 스냅샷의 버전에서 추정하지 않는다.

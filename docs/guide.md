@@ -1,10 +1,10 @@
-# Figma Flow 0.35.0 통합 가이드
+# Figma Flow 0.36.0 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
 <a id="korean"></a>
 
-이 문서는 0.35.0 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md)에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다.
+이 문서는 0.36.0 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md) 및 후속 검증 기록([P0 참조 분리](next-roadmap/p0-reference-acceptance.md) · [P1 인수](next-roadmap/p1-acceptance.md) · [P2 1차 기준선](next-roadmap/p2-wave1-acceptance.md))에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다. `0.36.0`은 Design-only(`editorType: ["figma"]`) 정본 그래프 경로에서 검증된 P0/P1/P2 1차 범위를 통합하며, FAQ 모바일 키보드·복합 렌더 정밀도·증분 읽기는 `proposed` 후속 과제로 남고 원격 클라우드 동기화·프레젠테이션 재생·실물 기기 검증은 미포함입니다.
 
 설치·사용·업데이트 안내의 정본은 이 문서 하나입니다. [설치 프롬프트](#setup-prompt) · [환경 설정](#environment) · [업데이트와 복구](#updates) · [회사 private 배포](#private-distribution)
 
@@ -266,7 +266,7 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.35.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.36.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -275,7 +275,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.35.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.35.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.36.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.36.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -643,7 +643,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.35.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow v0.36.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -787,7 +787,7 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 
 ## English quick start
 
-This guide targets 0.35.0. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md). Version 0.35.0 also connects G1 source regeneration (`apps/little-hands/design/source.py`, preserving explicit IDs, adopted tokens, authored links, and `retained_without_source` orphan candidates across blocked CSS epochs and retries).
+This guide targets 0.36.0. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md) and post-0.35.0 verification records ([P0 reference acceptance](next-roadmap/p0-reference-acceptance.md), [P1 acceptance](next-roadmap/p1-acceptance.md), [P2 Wave 1 acceptance](next-roadmap/p2-wave1-acceptance.md)). Version 0.36.0 consolidates verified P0 reference separation, P1 Design-only (`editorType: ["figma"]`) NF-01 family/NF-03 history expansion, and P2 Wave 1 fresh-read baselines alongside `0.35.0` G1 source regeneration (`apps/little-hands/design/source.py`, preserving explicit IDs, adopted tokens, authored links, and `retained_without_source` orphan candidates across blocked CSS epochs and retries); FAQ mobile keyboard, complex render fidelity, and incremental native read remain `proposed` future work, and remote cloud sync, presentation playback scope, and physical-device coverage remain out of scope.
 
 At each workflow start, check and safely update both plugin packages/runtime files from the exact registered source. Pins, active work, unknown source, offline/auth failures and forbidden Figma access are explicit exceptions; actual loaded runtime remains separately verified. A concrete direction uses one `direct` draft; `compare` is for requested alternatives. Human specifications come from graph meaning and appear outside artwork, with technical ownership retained separately. [Startup](#automatic-startup) · [Readable specifications](#readable-specifications) · [Direction contract](../skills/figma-flow/references/direction-selection.md).
 
@@ -808,14 +808,14 @@ Codex can retrieve the result while local control is connected. For offline work
 ## Install once
 
 ```sh
-git clone --branch v0.35.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.36.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.35.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.36.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -985,7 +985,7 @@ For updates, preserve the old source and complete workspace, install the chosen 
 
 ## 日本語クイックスタート
 
-このガイドは0.35.0向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)で確認します。0.35.0 には `v0.34.0` 以降の `main` に統合された G1 ソース再生成（`apps/little-hands/design/source.py` における安定 ID 移行、採用トークン・手書き関連の保持、失敗 epoch や再試行をまたぐ `retained_without_source` 孤立候補の維持）も含まれます。
+このガイドは0.36.0向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)と後続の検証記録（[P0 参照分離](next-roadmap/p0-reference-acceptance.md) · [P1 受入](next-roadmap/p1-acceptance.md) · [P2 1次基準線](next-roadmap/p2-wave1-acceptance.md)）で確認します。0.36.0 は Design-only（`editorType: ["figma"]`）の正本グラフ経路で検証された P0/P1/P2 1次成果および `0.35.0` の G1 ソース再生成（`apps/little-hands/design/source.py` における安定 ID 移行、採用トークン・手書き関連の保持、失敗 epoch や再試行をまたぐ `retained_without_source` 孤立候補の維持）を統合し、FAQ モバイルキーボード・複合レンダー精度・増分読み込みは `proposed` のまま、クラウド同期・プレゼン再生範囲・実機検証は対象外のまま維持します。
 
 各作業の開始時に、登録済みの正確な配布元から Codex パッケージと Figma 実行ファイルを確認し、安全な場合は更新します。バージョン固定・実行中・配布元不明・オフライン・認証失敗・Figma アクセス禁止は例外として記録し、実際に読み込まれた実行版は別途確認します。具体的な方向指定は `direct` 一案、比較の依頼は `compare` を使います。説明は graph の意味から生成して画面の外に表示し、技術情報と所有権は別に保持します。[開始時の確認](#automatic-startup) · [説明の契約](#readable-specifications) · [方向の契約](../skills/figma-flow/references/direction-selection.md)。
 
@@ -1012,14 +1012,14 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.35.0 https://github.com/jonsoku-dev/figma-flow.git
+git clone --branch v0.36.0 https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.35.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.36.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 
