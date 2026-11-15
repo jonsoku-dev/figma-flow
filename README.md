@@ -49,6 +49,6 @@ UI 동작의 기준 자료는 [Figma 플러그인 실행 모델](https://develop
 
 ## 개발을 이어가기
 
-[현재 0.27 구현 RD-01~09](docs/development-roadmap/README.md)와 [최종 인수 행렬](docs/development-roadmap/FINAL_ACCEPTANCE.md)에서 구현과 실제 검증 범위를 구분합니다. 0.36.0 대상 통합 범위는 검증된 [P0 참조 분리](docs/next-roadmap/p0-reference-acceptance.md) · [P1 Design-only 확장(NF-01·NF-03)](docs/next-roadmap/p1-acceptance.md) · [P2 1차 읽기 기준선](docs/next-roadmap/p2-wave1-acceptance.md)까지이며, [다음 기능·최적화·구조 개선 제안](docs/next-roadmap/README.md)의 나머지 3개 과제(FAQ 모바일 키보드, 복합 렌더 정밀도, 증분 읽기)는 `proposed` 후속 과제로 유지합니다. 원격 클라우드 자동 동기화, 프레젠테이션 재생 범위, 실물 물리 기기 검증은 미포함입니다. 현재 구현을 미래 약속으로 다시 나열하지 않습니다.
+[현재 0.27 구현 RD-01~09](docs/development-roadmap/README.md)와 [최종 인수 행렬](docs/development-roadmap/FINAL_ACCEPTANCE.md)에서 구현과 실제 검증 범위를 구분합니다. 0.36.0 대상 통합 범위는 검증된 [P0 참조 분리](docs/next-roadmap/p0-reference-acceptance.md) · [P1 Design-only 확장(NF-01·NF-03)](docs/next-roadmap/p1-acceptance.md) · [P2 1차 읽기 기준선](docs/next-roadmap/p2-wave1-acceptance.md)까지이며, [다음 기능·최적화·구조 개선 제안](docs/next-roadmap/README.md)의 나머지 3개 과제(FAQ 모바일 키보드, 복합 렌더 정밀도, 증분 읽기)는 `proposed` 후속 과제로 유지합니다. 기존 `0.35.0` FAQ·P0 프로토타입/프레젠테이션 검증 근거는 유지하되 P2에서 새 재생 주장·확장 범위는 추가하지 않았으며, 원격 클라우드 자동 동기화와 실물 물리 기기 검증은 미포함입니다. 현재 구현을 미래 약속으로 다시 나열하지 않습니다.
 
 [작은손 커피공방](apps/little-hands/README.md)은 Django·PostgreSQL 기반의 독립 운영 앱입니다. 실제 인증·예약 트랜잭션·운영 화면과 Docker 패키지를 다루며 Figma Flow 자체의 런타임 의존성은 아닙니다. 22개 상태의 desktop/mobile 원본 캡처와 Figma의 전체 제작·편집·getter 인수는 구분합니다. 설치·공개 배포·실서비스 인수 상태는 해당 실행 근거를 확인합니다.

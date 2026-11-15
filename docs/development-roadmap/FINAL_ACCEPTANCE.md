@@ -4,7 +4,7 @@
 
 2026-11-13 검증 스냅샷의 기준 checkout은 `7b5ae4091641430d891e0c110c8efdb9a845a6ce` 위의 미커밋 통합 변경이며 제품 소스는 `0.27.0-candidate`다. `06a40a1`은 과거 고정 검사 보정 근거다. 이 갱신은 현재 소스·로컬 실행 로그·시각 검수 색인과 주 세션의 runtime 보고를 대조했다. 문서 작성자가 앱·브라우저·Figma를 다시 조작한 결과로 표시하지 않는다. 아래 실제 native·프로토타입 관찰은 주 세션 보고와 보호된 영수증을 연결한 범위다. Codex 설치 플러그인은 아직 `0.26.3`이며 후보 소스 runtime과 구분한다.
 
-> 후속 대조(0.36.0 후보 기준): 위 `0.26.3` 설치 / `0.27.0-candidate` 표는 2026-11-13 당시 스냅샷을 보존한 과거 기준선이다. 이후 검증된 Design-only(`editorType: ["figma"]`) 후속 결과는 [P0 참조 분리 인수](../next-roadmap/p0-reference-acceptance.md), [P1 인수(NF-01·NF-03)](../next-roadmap/p1-acceptance.md), [P2 1차 읽기 기준선](../next-roadmap/p2-wave1-acceptance.md), [릴리스 기록](../llm-wiki/releases.md)에서 별도로 확인한다. `p2-faq-mobile-keyboard` · `p2-complex-render-fidelity` · `p2-incremental-native-read`와 기존 미검증/보류 항목(원격 클라우드 동기화, 프레젠테이션 재생, 실물 물리 기기, 사람의 창작 품질/production admission 등)은 승격하지 않고 그대로 미완료/범위 외로 유지한다.
+> 후속 대조(0.36.0 후보 기준): 위 `0.26.3` 설치 / `0.27.0-candidate` 표는 2026-11-13 당시 스냅샷을 보존한 과거 기준선이다. 이후 검증된 Design-only(`editorType: ["figma"]`) 후속 결과는 [P0 참조 분리 인수](../next-roadmap/p0-reference-acceptance.md), [P1 인수(NF-01·NF-03)](../next-roadmap/p1-acceptance.md), [P2 1차 읽기 기준선](../next-roadmap/p2-wave1-acceptance.md), [릴리스 기록](../llm-wiki/releases.md)에서 별도로 확인한다. `p2-faq-mobile-keyboard` · `p2-complex-render-fidelity` · `p2-incremental-native-read`, 검증된 `0.35.0` FAQ·P0 프로토타입 외의 새 P2 프레젠테이션 재생 확장 없음, 그리고 기존 미검증/보류 항목(원격 클라우드 동기화, 실물 물리 기기, 사람의 창작 품질/production admission 등)은 승격하지 않고 그대로 유지한다.
 
 ## 판정과 증거
 
