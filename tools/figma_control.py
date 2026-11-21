@@ -25,6 +25,8 @@ import operation_detail as detail_projection
 SCHEMA = 'figma-flow-control-v1'
 MAX_BODY = 40 * 1024 * 1024
 MAX_READBACK = 32 * 1024 * 1024
+MAX_LARGE_READ_BODY = 80 * 1024 * 1024
+MAX_LARGE_READBACK = 64 * 1024 * 1024
 OPERATIONS = {'review': {'create'}, 'import': {'read', 'import', 'sync'},
               'discover': {'read'}, 'sync': {'read', 'apply'}, 'native-edit': {'read', 'apply'}}
 TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
@@ -451,7 +453,7 @@ def poll(root, payload):
         return {**native, 'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}}
 
 
-def result(root, payload):
+def result(root, payload, *, large_body_bytes=None):
     required = {'id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision', 'status'}
     if not required <= set(payload) or set(payload) - required - {'readback_json', 'error'} or payload['status'] not in {'ok', 'error'}:
         raise ValueError('Exact plugin result fields required')
@@ -461,9 +463,17 @@ def result(root, payload):
     identity(payload['session_id'], 'plugin session')
     scope(payload['file_key'], payload['page_id'], payload['revision'])
     raw = payload.get('readback_json')
+    large_read = large_body_bytes is not None
+    if large_read and (payload['status'] != 'ok' or raw is None or not 0 < large_body_bytes <= MAX_LARGE_READ_BODY):
+        raise ValueError('A large result requires a successful bounded read')
     if raw is not None:
-        if not isinstance(raw, str) or len(raw.encode('utf-8')) > MAX_READBACK or not isinstance(json.loads(raw), dict):
+        if not isinstance(raw, str):
             raise ValueError('Readback must be a bounded JSON object string')
+        raw_bytes = len(raw.encode('utf-8'))
+        if raw_bytes > (MAX_LARGE_READBACK if large_read else MAX_READBACK) or not isinstance(json.loads(raw), dict):
+            raise ValueError('Readback must be a bounded JSON object string')
+        if large_read and raw_bytes <= MAX_READBACK and large_body_bytes <= MAX_BODY:
+            raise ValueError('Use the ordinary route for this result')
     if payload.get('error') is not None and (not isinstance(payload['error'], str) or len(payload['error']) > 2000):
         raise ValueError('Invalid plugin error')
     fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()
@@ -472,7 +482,8 @@ def result(root, payload):
         receipt_path = directory / 'receipts' / (payload['id'] + '.json')
         if receipt_path.exists():
             receipt = workspace.read(receipt_path, private=True, limit=32768)
-            if (receipt.get('state') not in {'ok', 'error'} or receipt.get('state') != payload['status'] or
+            if (large_read and receipt.get('operation') != 'read' or
+                    receipt.get('state') not in {'ok', 'error'} or receipt.get('state') != payload['status'] or
                     receipt.get('result_payload_sha256') != fingerprint or
                     any(payload[key] != receipt.get(key) for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision'))):
                 raise ValueError('Terminal result differs from the accepted plugin result')
@@ -486,6 +497,8 @@ def result(root, payload):
             validate_lifecycle(request)
         if any(payload[key] != request[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')):
             raise ValueError('Result claim or scope mismatch')
+        if large_read and request['operation'] != 'read':
+            raise ValueError('A large result requires a claimed read operation')
         try:
             row = task(root, request)
         except ValueError:
@@ -813,7 +826,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/result-large', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
@@ -824,10 +837,15 @@ class Handler(BaseHTTPRequestHandler):
         if not self.allowed() or not hmac.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.server.token):
             return self.reply(403, {'error': 'Control authentication or endpoint rejected'})
         length = self.headers.get('Content-Length', '')
-        if self.headers.get('Transfer-Encoding') or self.headers.get_content_type() != 'application/json' or not re.fullmatch(r'[0-9]{1,9}', length) or not 0 < int(length) <= MAX_BODY:
+        body_limit = MAX_LARGE_READ_BODY if self.path == '/control/result-large' else MAX_BODY
+        if self.headers.get('Transfer-Encoding') or self.headers.get_content_type() != 'application/json' or not re.fullmatch(r'[0-9]{1,9}', length) or not 0 < int(length) <= body_limit:
             return self.reply(413, {'error': 'Invalid control request body'})
         try:
-            payload = json.loads(self.rfile.read(int(length)))
+            body = self.rfile.read(int(length))
+            if len(body) != int(length):
+                raise ValueError('Incomplete control request body')
+            payload = json.loads(body)
+            del body
             if not isinstance(payload, dict):
                 raise ValueError('Object required')
             if self.path == '/control/readiness':
@@ -840,6 +858,8 @@ class Handler(BaseHTTPRequestHandler):
                 value = history(self.server.workspace, payload)
             elif self.path == '/control/history-detail':
                 value = history_detail(self.server.workspace, payload)
+            elif self.path == '/control/result-large':
+                value = result(self.server.workspace, payload, large_body_bytes=int(length))
             else:
                 value = poll(self.server.workspace, payload) if self.path == '/control/poll' else result(self.server.workspace, payload)
         except detail_projection.OperationNotFoundError as error:

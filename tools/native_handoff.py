@@ -608,7 +608,7 @@ def offline_html(pack):
 body{{font:15px/1.55 system-ui,sans-serif;margin:0;background:#f4f2ef;color:#211f1c}}main{{max-width:1000px;margin:0 auto;padding:32px 20px}}
 header,section,article{{background:white;border:1px solid #dedbd6;border-radius:12px;padding:20px;margin:16px 0}}
 h1{{font-size:26px;margin:0 0 8px}}h2{{font-size:19px;margin:0 0 12px}}h3{{font-size:16px;margin:18px 0 8px}}
-.meta{{color:#625e58;font-size:13px;overflow-wrap:anywhere}}.blocked{{color:#8b271b;font-weight:700}}.passed{{color:#17653b;font-weight:700}}
+.meta{{color:#625e58;font-size:13px;overflow-wrap:anywhere}}p{{overflow-wrap:anywhere}}.blocked{{color:#8b271b;font-weight:700}}.passed{{color:#17653b;font-weight:700}}
 dl{{display:grid;grid-template-columns:minmax(130px,220px) 1fr;gap:5px 14px}}dt{{color:#625e58}}dd{{margin:0;overflow-wrap:anywhere}}
 pre{{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f5f3;padding:12px;border-radius:8px}}a{{color:#174d8c}}
 @media(max-width:600px){{main{{padding:18px 12px}}dl{{grid-template-columns:1fr}}}}
@@ -620,7 +620,28 @@ const status=document.getElementById('status');status.append(el('strong',report.
 const selected=pack.provenance.selected_scope,selectedLabel=selected.kind==='component'?`${{selected.component_key}} · frame ${{selected.frame_id}} · main ${{selected.main_id}} · instances ${{selected.instance_ids.join(', ')}}`:`screens ${{(selected.screen_ids||[]).join(', ')}}`;
 const meta=document.getElementById('provenance');meta.textContent=[`관측 시각: ${{pack.provenance.observed_at||'미관측'}}`,`파일: ${{pack.provenance.file_key||'미관측'}}`,`페이지: ${{pack.provenance.page_id||'미관측'}}`,`작업 revision: ${{pack.provenance.revision||'미관측'}} (${{pack.provenance.revision_status}})`,`읽기 범위: ${{pack.provenance.scope}}`,`전달 범위: ${{selectedLabel}}`,`coverage: ${{pack.provenance.coverage}}`,`Graph SHA-256: ${{pack.provenance.graph_sha256||'미제공'}} (${{pack.provenance.graph_sha256_status}})`,`Readback SHA-256: ${{pack.provenance.readback_sha256}}`,`Contract SHA-256: ${{pack.provenance.contract_sha256||'component scope'}}`,`graph sync: ${{pack.provenance.graph_sync?.status||'not paired'}}`,`오프라인 스냅샷입니다. 이후 변경은 새 pairing과 새 팩으로 확인해야 합니다.`].join(' · ');
 const root=document.getElementById('content');if(report.errors.length){{const s=el('section');s.append(el('h2','확인할 항목'));for(const error of report.errors)s.append(el('p',error));root.append(s)}}
-const assetSection=el('section');assetSection.append(el('h2','에셋과 제외 범위'));for(const item of pack.provenance.assets.excluded)assetSection.append(el('p',`${{item.sha256}}: ${{item.reason}}`));if(!pack.provenance.assets.excluded.length)assetSection.append(el('p','포함하거나 관측된 래스터 에셋이 없습니다.'));for(const item of pack.provenance.omissions)assetSection.append(el('p',`제외: ${{item}}`));root.append(assetSection);
+const assetSection = el('section');
+assetSection.className = 'asset-exclusions';
+assetSection.append(el('h2', '에셋과 제외 범위'));
+const excludedAssets = pack.provenance.assets.excluded;
+if (excludedAssets.length) {{
+  let list = assetSection;
+  if (report.component_scope) {{
+    list = el('details');
+    list.append(el('summary', `제외된 래스터 에셋 ${{excludedAssets.length}}개 보기`));
+    assetSection.append(list);
+  }}
+  for (const item of excludedAssets) {{
+    const row = el('p', `${{item.sha256}}: ${{item.reason}}`);
+    row.dataset.assetExclusion = 'true';
+    row.dataset.sha256 = item.sha256;
+    list.append(row);
+  }}
+}} else {{
+  assetSection.append(el('p', '포함하거나 관측된 래스터 에셋이 없습니다.'));
+}}
+for (const item of pack.provenance.omissions) assetSection.append(el('p', `제외: ${{item}}`));
+if (!report.component_scope) root.append(assetSection);
 if(report.component_scope){{const c=report.component_scope,s=el('section');s.append(el('h2',`구성요소 · ${{c.component_id}}`));
 for(const node of [c.frame,c.main,...c.instances]){{const row=el('article'),link=el('a');link.href=node.url;link.rel='noreferrer';link.textContent=`${{node.name||node.key}} · ${{node.id}}`;row.append(link);if(node.label?.characters)row.append(el('p',`실제 문구: ${{node.label.characters}}`));const details=el('details'),summary=el('summary','실제 getter의 크기·스타일·바인딩');details.open=true;details.append(summary,el('pre',JSON.stringify(node.observed,null,2)));row.append(details);s.append(row)}}
 const sync=el('article');sync.append(el('h3','Pairing이 동기화한 디자인 필드'));for(const field of c.sync_fields){{sync.append(el('p',`${{field.field}} · ${{field.token_key}} · ${{field.status}}`));sync.append(el('pre',JSON.stringify({{native:field.native_getter,web:field.browser_computed}},null,2)))}}s.append(sync);
@@ -633,6 +654,7 @@ const facts=el('dl');for(const [label,value] of [['노드 ID',screen.id],['크�
 const layoutFields=['absoluteBoundingBox','constraints','layoutMode','primaryAxisSizingMode','counterAxisSizingMode','layoutSizingHorizontal','layoutSizingVertical','paddingTop','paddingRight','paddingBottom','paddingLeft','itemSpacing','clipsContent','fills','strokes','boundVariables'];
 for(const control of screen.controls){{const a=el('article'), heading=el('h3',control.specification?.specification?.title||control.observed.name||control.id);let controlTitle=heading;if(control.url){{controlTitle=el('a',heading.textContent);controlTitle.href=control.url;controlTitle.rel='noreferrer'}}a.append(controlTitle);const rows=[['노드 ID',control.id],['유형',control.observed.type||'미관측'],['인스턴스 main',control.main_component?.id||'해당 없음'],['크기',`${{control.observed.width??'미관측'}} × ${{control.observed.height??'미관측'}} px`]];for(const [label,value] of rows)a.append(el('p',`${{label}}: ${{value}}`));for(const binding of control.bindings||[])a.append(el('p',`토큰 ${{binding.variable?.name||binding.variable_id||'미관측'}} → ${{binding.property}}`));for(const note of control.native_annotations||[])a.append(el('p',note));const observed=Object.fromEntries(layoutFields.filter(key=>key in control.observed).map(key=>[key,control.observed[key]]));if(Object.keys(observed).length){{const details=el('details'), summary=el('summary','실제 getter의 레이아웃·스타일 제약');details.append(summary,el('pre',JSON.stringify(observed,null,2)));a.append(details)}}s.append(a)}}root.append(s)}}
 if(!report.component_scope&&!report.screens.length)root.append(el('p','읽을 수 있는 화면 근거가 없습니다.'));
+if (report.component_scope) root.append(assetSection);
 </script></main></body></html>\n'''
 
 
@@ -820,6 +842,28 @@ def _pairing_tokens(pairing):
     if isinstance(raw, dict):
         return [{**row, 'resolved': raw.get(row.get('key'))} for row in pairing.get('plan', {}).get('tokens', [])]
     raise ValueError('Graph pairing token evidence has an unsupported shape')
+
+
+def excluded_raster_image_hashes(readback):
+    """Return distinct native raster references whose bytes are not packed."""
+    hashes = set()
+    raster_images = readback.get('rasterImages', {})
+    if isinstance(raster_images, dict):
+        hashes.update(value for value in raster_images if isinstance(value, str) and value)
+    for node in readback.get('nodes', []):
+        if not isinstance(node, dict):
+            continue
+        reference = node.get('rasterImageRef')
+        if isinstance(reference, str) and reference:
+            hashes.add(reference)
+        for field in ('fills', 'strokes'):
+            paints = node.get(field, [])
+            if not isinstance(paints, list):
+                continue
+            hashes.update(paint['imageHash'] for paint in paints
+                          if isinstance(paint, dict) and isinstance(paint.get('imageHash'), str)
+                          and paint['imageHash'])
+    return sorted(hashes)
 
 
 def verify_graph_sync_handoff(readback, report, graph_path, pairing_path, web_module_path):
@@ -1021,9 +1065,7 @@ def main():
             'graph_sync': graph_sync_proof,
             'assets': {'included': [], 'excluded': [
                 {'sha256': image_hash, 'reason': 'Image bytes are not embedded in this offline pack'}
-                for image_hash in sorted(set(readback.get('rasterImages', {})) |
-                    {node.get('rasterImageRef') or (paint.get('imageHash') if isinstance(paint, dict) else None)
-                     for node in readback.get('nodes', []) for paint in node.get('fills', [])}) if image_hash
+                for image_hash in excluded_raster_image_hashes(readback)
             ]},
             'omissions': ['Private plugin data', 'Unsupported or unavailable native fields', 'Raster image bytes'],
         }

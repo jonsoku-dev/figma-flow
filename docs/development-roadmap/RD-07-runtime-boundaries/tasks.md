@@ -12,11 +12,11 @@
 
 아래 순서는 구현 경로와 검증 항목이다. 검사 파일의 존재나 과거 fixture 결과는 현재 실행 성공 또는 실제 Figma 인수를 뜻하지 않는다. 현재 실행 결과와 실제 관찰은 [최종 인수 기록](../FINAL_ACCEPTANCE.md)에 별도로 남긴다.
 
-1은 `load_runtime_boundary_trace`가 현재 전송 경로 poll, native-started, result와 source pin 범위 tools, figma-bridge, library를 고정한다.
+1은 `load_runtime_boundary_trace`가 최초 실행 추적에 사용한 poll, native-started, result와 source pin 범위 tools, figma-bridge, library를 고정한다.
 
 | 모듈 | 책임 |
 | --- | --- |
-| workspace_transport | 현재 controlRequest의 순수 전송이다. poll, result, readiness, native-started, history만 허용한다. |
+| workspace_transport | 현재 controlRequest의 순수 전송이다. [설계서의 허용 경로 및 크기 한도](design.md#현재-데이터와-인터페이스)를 적용한다. |
 | workspace_control | 도메인 검사는 workspace_control에 남긴다. kind와 operation, scope, revision을 검사한다. |
 | figma_workspace.py | 초기 trace 고정 단계의 범위는 "publisher 조립과 trusted_sources는 이 단위에서 옮기지 않는다"였다. 현재 조립은 아래 3의 공유 모듈 목록을 사용한다. |
 
@@ -28,7 +28,7 @@
 
 5는 public_runtime_symbols가 경계의 공개 이름만 반환한다. controlRequest 정의는 workspace_transport.js 하나에 남는다.
 
-현재 전송은 loopback origin, route, 객체 envelope, 32 MiB readback·40 MiB request·16 MiB response 크기와 15초 deadline을 검사한다. readiness의 64 KiB 상한도 유지한다. [실제 용량 경계 검사](../../../tests/finalize_control_capacity.py)와 [클라이언트 UTF-8 검사](../../../tests/finalize_control_capacity.cjs)를 함께 실행한다. timeout을 native 취소나 쓰기 미발생으로 해석하지 않는다.
+일반 결과 전송은 loopback origin, route, 객체 envelope, 32 MiB readback·40 MiB request·16 MiB response 크기와 15초 deadline을 검사한다. 대용량 읽기의 전송·재전달·범위 검사는 [현재 인터페이스](design.md#현재-데이터와-인터페이스)에 따른다. readiness의 64 KiB 상한도 유지한다. [실제 용량 경계 검사](../../../tests/finalize_control_capacity.py)와 [클라이언트 UTF-8 검사](../../../tests/finalize_control_capacity.cjs)를 함께 실행한다. timeout을 native 취소나 쓰기 미발생으로 해석하지 않는다.
 
 ## 기존 검사에서 시작하기
 

@@ -10,16 +10,23 @@ function controlPayloadSize(value, limit) {
     else bytes += 3;
     if (bytes > limit) throw Object.assign(Error('Local command payload exceeds its limit'), {code: 'payload-limit-exceeded'});
   }
+  return bytes;
 }
-async function controlRequest(route, body) {
+async function controlRequest(route, body, readResult = false) {
   const config = WORKSPACE_CONTROL_CONFIG;
   const origin = config && typeof config.url === 'string' && config.url.match(/^http:\/\/(?:localhost|127\.0\.0\.1):([0-9]{1,5})$/);
   if (!origin || Number(origin[1]) < 1 || Number(origin[1]) > 65535 || typeof config.token !== 'string' || !config.token ||
       !['poll', 'result', 'readiness', 'native-started', 'history', 'history-detail'].includes(route) || !body || typeof body !== 'object' || Array.isArray(body))
     throw Error('Invalid local command endpoint or envelope');
-  if (typeof body.readback_json === 'string') controlPayloadSize(body.readback_json, 32 * 1024 * 1024);
+  const MiB = 1024 * 1024;
+  const allowLargeRead = readResult && route === 'result' && body.status === 'ok' && typeof body.readback_json === 'string';
+  let readbackBytes = 0;
+  if (typeof body.readback_json === 'string') {
+    readbackBytes = controlPayloadSize(body.readback_json, (allowLargeRead ? 64 : 32) * MiB);
+  }
   const encoded = JSON.stringify(body);
-  controlPayloadSize(encoded, 40 * 1024 * 1024);
+  const bodyBytes = controlPayloadSize(encoded, (allowLargeRead ? 80 : 40) * MiB);
+  if (allowLargeRead && (readbackBytes > 32 * MiB || bodyBytes > 40 * MiB)) route = 'result-large';
   const responseLimit = route === 'history-detail' ? 262144 : 16 * 1024 * 1024;
   let timer;
   try {

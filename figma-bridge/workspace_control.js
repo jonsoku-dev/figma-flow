@@ -185,7 +185,7 @@ async function workspaceControlTick() {
       receipt.error = String(error.message || error).slice(0,1900);
       if (error.nativeReadback) receipt.readback_json = JSON.stringify(error.nativeReadback);
     }
-    await controlRequest('result', receipt);
+    await controlRequest('result', receipt, cmd.operation === 'read');
     await workspaceRefreshJournal();
     if (typeof workspaceHandleScopeChange === 'function') await workspaceHandleScopeChange();
     if (home === workspaceHomeSession) controlState(receipt.status === 'ok' ? 'finished' : 'failed', false);
