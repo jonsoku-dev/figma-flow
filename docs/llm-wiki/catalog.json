@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "0.36.0",
     "0.35.0",
     "0.34.0",
     "0.33.0",
@@ -12047,6 +12048,130 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "159f3ae64bca897fe04734929bd406744b27932f",
+      "diff_sha256": "0f8cf8aad2f442816f1fe9bc80b4be31c622356bd4b7bd140bc52a609bb4dad3",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c.md",
+        "docs/llm-wiki/patches/261ad77e4b60527cbdd81ae422f516f184464128.md",
+        "docs/llm-wiki/patches/310f6573b4c60a78a4da0099c0f91976430323da.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c"
+      ],
+      "subject": "docs(wiki): record 0.36.0 release candidate through 20495da",
+      "tree": "ace9fef1f664bddd91389119a6717b645511589a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "9d7eb0288d3a60097bf958d8d77692e3e2df3979",
+      "diff_sha256": "e67ce14bd2379ab82d8240c5eed4e0b99f17df27e5c22c477780b9577b0f8ba8",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "159f3ae64bca897fe04734929bd406744b27932f"
+      ],
+      "subject": "docs(wiki): add v0.36.0 anchor and staged runtime proof",
+      "tree": "bed71d0e85ef7d3a2810df1eaf1dcf3d0cf1ee4e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "e69bc58d0ef5e0d7a2e127924d2ce23f6963cae5",
+      "diff_sha256": "b7cf8ce1399de3bce093ee84399cc269293b1e0147bdcb47dd912fdee935e607",
+      "files": [
+        "tests/test_booking_handoff_regressions.py",
+        "tests/test_booking_result_transport.cjs"
+      ],
+      "parents": [
+        "9d7eb0288d3a60097bf958d8d77692e3e2df3979"
+      ],
+      "subject": "test: reproduce booking handoff export and large read transport failures",
+      "tree": "e2e58ce67dc12b859085d65bbe9ed9748a115284",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "5a1c20bd56951111194253efa143f5df5765f396",
+      "diff_sha256": "442ba67df01d86813abcf7bc8fe57f29574e4c3a16a7a065971773432cec9b50",
+      "files": [
+        "tests/test_booking_handoff_regressions.py",
+        "tests/test_booking_relay_regression.py"
+      ],
+      "parents": [
+        "e69bc58d0ef5e0d7a2e127924d2ce23f6963cae5"
+      ],
+      "subject": "test: pin signed relay and browser disclosure acceptance",
+      "tree": "c1eeac4f30b1fdeb2300739e92dd3bc96fd097bc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "58ef89f23123b09470f9e9a1da92cf5a0aadb0e2",
+      "diff_sha256": "0f3064ab5728f8b35b337518d9c29d85f503c59343bb368361fefcf8331de555",
+      "files": [
+        "docs/STARTER_ROLE_FEATURE_SPEC.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_transport.js",
+        "tools/figma_control.py",
+        "tools/native_handoff.py"
+      ],
+      "parents": [
+        "5a1c20bd56951111194253efa143f5df5765f396"
+      ],
+      "subject": "fix: receive large Design reads and render narrow offline handoffs",
+      "tree": "8b0a4828a72fd5e3e3d107eb4adb800e46a8ab69",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12084,6 +12209,7 @@
     "13c36f870bcca606cde9ba15a5cb238e2c3cc9b6": "3ffdca7760ca4f88f10a2cf6a370576e55e95837e337d0cc80590ea10d56678e",
     "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
     "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de": "5f2b7a311e12c35569029d1556b3dd2842d65940a30d79ce1aeca5046864c300",
+    "159f3ae64bca897fe04734929bd406744b27932f": "ac67c67b1a72f2754170de1701582c6dd1c40461f5b96cb58096aa8db24a8a01",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
     "172924ede1f192cd0f8d42839a1c7d95d2854393": "6ecda83d9ad9ad40abd0bb3cda7d7a45a3d226161f2589ea3901de5d9942670d",
@@ -12192,8 +12318,10 @@
     "578ffc3c51ae6e9664f03c6f71ae3d1c18a922ec": "ccd6da928f00e446dbefb035307def5fe8d7be3ae4160467d78d74114f6314ca",
     "58ae88cd43143faf59790ef734aba403ad500aa4": "d87124a8f2176ef7da1e2f79291b691c19f26dba4ad7deca48d4f95d1f2bf6aa",
     "58c2204207bf38eb1ea83bf761ace2d67ed2ed6c": "889431a6006c82016784002149f4da64930556dd79c07f2e405b066e083f4759",
+    "58ef89f23123b09470f9e9a1da92cf5a0aadb0e2": "88fc18b83355a348e1114c6e419becc26ee147653bd01eb78cbb08191c0ef579",
     "59dba566f4982923076ef0ed22cc0da5f60f42c5": "917fd3ff94e55217641f9ce07b69f6ae6017762eb3b6292a8b5588bf76384e06",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
+    "5a1c20bd56951111194253efa143f5df5765f396": "2975c4e4ec26a3feba629fc3a6c43921c159eac9aedbb9d907645ccdcffba26b",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5d068b010d5fb53147a15913efbd458737eb8281": "dc7b7fe997ea3bdf74a44c66eca76111484d6866b44adb9db16eb616f153dbcc",
     "5d3a088c6becc62fef08ecd0fc8fd857ed850957": "cf1b781e084cfc9364e58a7e554e52ee6dd3d411ba3ced3e0cc072a13fa9b713",
@@ -12296,6 +12424,7 @@
     "9cc41a0c7ca53a233113fd45b86dc330907094fa": "0564b8353cdc3474fc21e05819915c2b89b9165e71a05c746cf4a3b5e9695353",
     "9cd119198eb7761fbb60fc23fa83b18b93ec0511": "67c7ea8e16ecfb38d8e50bc7ca534b197167589600bef65d34a64bab90cbf0ba",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
+    "9d7eb0288d3a60097bf958d8d77692e3e2df3979": "7295453001f7dbb037024ec63534f711904aa620263ff03b552ce4aa04d3da6d",
     "9eba48a5015dc991389e0c5aa3b95cd8597b5f2c": "c1b1da598cfb2b69ccfcd4896af4cf1759d9a07b5857f05b9a21296c1f5220db",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
     "a069898acd764f726494c713c2b742cb834fcd0b": "db4ab871a10f73355adb1128293d70cfd30fd1ee4b46556677489292fea2e14e",
@@ -12421,6 +12550,7 @@
     "e4e9d5d866f8805cc52181cae76b7484e4ade3b3": "9d0c632f5a3654f9fe0f4d92cfe463914883748276993f2fd7ad2b24cb8fb43c",
     "e4f2da50dbc3224119d70b99cb687c8951764cb8": "fec51957da5e3bfb168f509c57cc8c0a920d05b6832cf2df0ceb79642564528e",
     "e4f974ffeed2f9509c948141bce42de13027d157": "0fafc04266ee9445ce0675b04c7523ce0f0888af3d5e182ed0b09dd6399ef0cb",
+    "e69bc58d0ef5e0d7a2e127924d2ce23f6963cae5": "58e93d455b241bcafa1892b730ea18be1c3bd194a07050552d3076ac057010ee",
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
     "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10": "8a34bee32fe9ddc41543864e28c8aabf3ad93b9286d249cbd4b69d65c62620fb",
     "e75d60b7b95fc48144368f7d659ad0d0918fddce": "5c47ca4f6f872bbb15e07db8e9f846ecb78e0313de97cd09ef257e8098cd45e2",
@@ -12643,6 +12773,10 @@
     },
     {
       "observed_at_commit": "58ae88cd43143faf59790ef734aba403ad500aa4",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "58ef89f23123b09470f9e9a1da92cf5a0aadb0e2",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -13194,13 +13328,23 @@
         "v0.35.0"
       ],
       "version": "0.35.0"
+    },
+    {
+      "source_commits": [
+        "9d7eb0288d3a60097bf958d8d77692e3e2df3979"
+      ],
+      "tagged": true,
+      "tags": [
+        "v0.36.0"
+      ],
+      "version": "0.36.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c",
+  "source_commit": "58ef89f23123b09470f9e9a1da92cf5a0aadb0e2",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -13326,6 +13470,11 @@
       "commit": "2f7e901355faf6a02f4e1b9e3300d608b024ace2",
       "tag": "v0.35.0",
       "version": "0.35.0"
+    },
+    {
+      "commit": "9d7eb0288d3a60097bf958d8d77692e3e2df3979",
+      "tag": "v0.36.0",
+      "version": "0.36.0"
     }
   ]
 }

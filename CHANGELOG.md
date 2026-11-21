@@ -1,5 +1,9 @@
 # 변경 기록
 
+## 미출시
+
+- 큰 Figma Design 페이지의 읽기 결과를 로컬 릴레이에서 자동 저장합니다. 오프라인 개발자 인계 파일은 빈 이미지 참조가 섞여 있어도 생성되며, 좁은 화면에서 긴 해시를 줄바꿈합니다. 컴포넌트의 문구와 토큰을 먼저 읽고 제외된 에셋 목록을 펼칠 수 있습니다. [수정 범위와 검증](docs/llm-wiki/patches/58ef89f23123b09470f9e9a1da92cf5a0aadb0e2.md)
+
 ## 0.36.0 · 2026-11-15
 
 - 검증된 Design-only(`editorType: ["figma"]`) 범위의 P0 참조 분리·자체 기준 입력, P1 NF-01 6패밀리 컴포넌트 계열·NF-03 원인 이력 상세, P2 1차 권리 정리 fixture·fresh-read 성능 기준선을 `0.36.0` 매니페스트(`plugin.json`, `.codex-plugin/plugin.json`)와 설치·사용 안내(`README.md`, `docs/guide.md`, `docs/development-roadmap/FINAL_ACCEPTANCE.md` 후속 대조)로 통합했습니다. [0.36.0 패치 기록](docs/llm-wiki/releases.md#v0.36.0) · [통합 가이드](docs/guide.md) · [최종 인수 대조](docs/development-roadmap/FINAL_ACCEPTANCE.md).
