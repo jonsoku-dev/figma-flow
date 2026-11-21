@@ -12172,6 +12172,81 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "39b320db82badb54dfe03f8e46205f9816f1bf77",
+      "diff_sha256": "cdc882e80842f7ccf3ab89e3ca5da376859f9a1ee2839565783a8f224f11353c",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/159f3ae64bca897fe04734929bd406744b27932f.md",
+        "docs/llm-wiki/patches/58ef89f23123b09470f9e9a1da92cf5a0aadb0e2.md",
+        "docs/llm-wiki/patches/5a1c20bd56951111194253efa143f5df5765f396.md",
+        "docs/llm-wiki/patches/9d7eb0288d3a60097bf958d8d77692e3e2df3979.md",
+        "docs/llm-wiki/patches/e69bc58d0ef5e0d7a2e127924d2ce23f6963cae5.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "58ef89f23123b09470f9e9a1da92cf5a0aadb0e2"
+      ],
+      "subject": "docs: record verified large Design read and mobile handoff",
+      "tree": "d828116e1d2382689b53f4a4fd48f24abb5daf04",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "97d7bbb661578a32b6cb5b7b77a42771e59eeef5",
+      "diff_sha256": "56b732ec5c778fc190c0f59b0548bf01ca9347eca65b178888dadb2cba5b324a",
+      "files": [
+        "docs/guide.md",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/assets/panels.js.LEGAL.txt",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/profile_policy.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "figma-bridge/workspace_profile.js",
+        "library/figma-profile/policy.json",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceProfile.jsx",
+        "panel-ui/src/components.jsx",
+        "panel-ui/src/styles/workspace.css",
+        "specs/README.md",
+        "specs/local-profile-init/graph.json",
+        "specs/local-profile-init/spec.md",
+        "tests/test_local_profile.cjs",
+        "tests/test_profile_publication.py",
+        "tests/test_workspace_host.cjs",
+        "tools/figma_workspace.py",
+        "tools/workspace_recipes.py"
+      ],
+      "parents": [
+        "39b320db82badb54dfe03f8e46205f9816f1bf77"
+      ],
+      "subject": "feat: initialize local Figma profiles from a shared capability graph",
+      "tree": "8575e81366bd7d62787d03c0d2c5b3dbeb04af95",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12265,6 +12340,7 @@
     "37f3fde2e8ab54ba82e54bbbba81f82f3956b661": "f4a36ee84c1fe8be3378876d6d78c0a198f93d3b1ff289a9de6f9d9a93de818e",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
+    "39b320db82badb54dfe03f8e46205f9816f1bf77": "629d37440e7eaa3e27afb1956c5c9201facdf958f6dca8d91f389b6a71b03ef1",
     "3a3d68e64d178d1ca37c3ff275d97d41bc92274d": "85b28753c1528f28803ccb3ebed0af441de6860221393fc4958c50d7e3fbc7ad",
     "3b3fa8f0d986ee3d2b8dae1d37b2a7e2f377965e": "aba8b186d087bcf6e875939df85358ca9c5814ee1bd1d14e10f7f6dc96a4502a",
     "3c6a0f004ed0a1994a55bc98e59f0efa7647d377": "80478c9ed9713a8cfb011f1f371fe16080b8a8a685ccd3f521b58c1066a716a8",
@@ -12409,6 +12485,7 @@
     "974b5de74bc99d645926afd5595f21f155356203": "817924295e4f6192e595ccd8b1156c826a9bdefeab8ba188513288b4deb4e965",
     "9768ac3f6f56f08cc52f53be24d9928d3de17a4b": "903ba161d758d71e575db07cc87590ed3e5c5c7f7d87b5ea9e79ace3cfa2c08d",
     "976a966c1b497890aae12dd1a63b1dd6b05ee763": "e2516c2647dbe5d820c720ae68cfb4a70bba50bea9ceb871dba72aac0d4720a6",
+    "97d7bbb661578a32b6cb5b7b77a42771e59eeef5": "0bca0b58385d1ac9108fb9fe94f46c566717bc984adfcc36750ced04003efa1a",
     "9962afa5d201fa1b299340aed813968aa6d07fcf": "a39c07c0018328021e262bfdf72ecacb460b97fce096cf9b9061e708d80d8035",
     "9974579407d29dd6072fcb9f1cf515115c954cb6": "d0a78212bf3184be2d9649789fe45d327c6ea43e4ea7eabe7bf1b19d8e105a68",
     "9983aab6bfca1bb70ddb9dc1573a6efb054845df": "d8e02ee6d2cac0bb33a492e79c6067bfc73b50ad9814717b42e26a1adb1fd23f",
@@ -12853,6 +12930,10 @@
     },
     {
       "observed_at_commit": "95c8714f29ec1af8094e88896f14b114c4afa63c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "97d7bbb661578a32b6cb5b7b77a42771e59eeef5",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -13344,7 +13425,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "58ef89f23123b09470f9e9a1da92cf5a0aadb0e2",
+  "source_commit": "97d7bbb661578a32b6cb5b7b77a42771e59eeef5",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
