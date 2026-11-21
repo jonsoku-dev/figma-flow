@@ -187,12 +187,17 @@ def _run_viewports(document: str, proof_root: Path | None) -> list[dict]:
     probe = r'''<script>
 const section=document.querySelector('.asset-exclusions');
 const details=section?.querySelector('details');
+const summary=details?.querySelector('summary');
 const records=details ? Array.from(details.querySelectorAll('[data-asset-exclusion]')) : [];
+const componentHeading=Array.from(document.querySelectorAll('h2')).find(h=>h.textContent.trim()==='구성요소 · button.bookingCTA');
+const componentSection=componentHeading?.closest('section');
 const proof={viewport:innerWidth,scroll:document.documentElement.scrollWidth,
  detailsPresent:!!details,detailsInitiallyOpen:details ? details.open : null,
- summary:details?.querySelector('summary')?.textContent||null,
+ summary:summary?.textContent||null,
+ assetAfterComponent:!!(componentSection&&section&&(componentSection.compareDocumentPosition(section)&Node.DOCUMENT_POSITION_FOLLOWING)),
  hashes:records.map(p=>p.dataset.sha256),reasons:records.map(p=>p.textContent)};
-if(details) details.open=true;
+summary?.click();
+proof.openAfterClick=details ? details.open : false;
 proof.disclosed=details ? Array.from(details.querySelectorAll('[data-asset-exclusion]')).filter(p=>p.getClientRects().length).length : 0;
 proof.scrollAfterOpen=document.documentElement.scrollWidth;
 proof.external=performance.getEntriesByType('resource').map(x=>x.name).filter(x=>/^https?:/i.test(x));
@@ -300,8 +305,10 @@ class BookingHandoffRegressionTest(unittest.TestCase):
                         'offline handoff must not overflow 320px, 390px, or 1365px; '
                         + json.dumps([{k: r[k] for k in ('viewport', 'scroll', 'scrollAfterOpen')} for r in proofs]))
         mobile = next(row for row in proofs if row['viewport'] == 390)
+        self.assertTrue(mobile['assetAfterComponent'], 'main CTA content should precede the optional asset list')
         self.assertTrue(mobile['detailsPresent'], 'excluded raster hashes must use native details disclosure')
         self.assertFalse(mobile['detailsInitiallyOpen'], 'long excluded asset list must begin collapsed')
+        self.assertTrue(mobile['openAfterClick'], 'the native disclosure summary must open the excluded asset list')
         self.assertIn('64', mobile['summary'], 'summary should report excluded asset count')
         expected = [f'{index:064x}' for index in range(1, 65)]
         self.assertEqual(mobile['hashes'], expected, 'details DOM must retain every excluded raster hash')
