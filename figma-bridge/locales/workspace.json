@@ -24,6 +24,244 @@
     "en": "Language",
     "ja": "言語"
   },
+  "workspace.profile.setupTitle": {
+    "ko": "Figma 사용 프로필 설정",
+    "en": "Set up your Figma profile",
+    "ja": "Figma プロフィールを設定"
+  },
+  "workspace.profile.settingsTitle": {
+    "ko": "Figma 사용 프로필",
+    "en": "Figma profile",
+    "ja": "Figma プロフィール"
+  },
+  "workspace.profile.setupDescription": {
+    "ko": "현재 Figma 계정과 파일을 확인하고, 이 파일에서 사용할 플랜과 좌석을 선택하세요.",
+    "en": "Review the current Figma account and file, then choose the plan and seat you want the workflow to use.",
+    "ja": "現在のFigmaアカウントとファイルを確認し、ワークフローで使うプランとシートを選択してください。"
+  },
+  "workspace.profile.settingsDescription": {
+    "ko": "현재 파일에 적용할 프로필 선언을 관리합니다.",
+    "en": "Manage the profile declarations for the current file.",
+    "ja": "現在のファイルに適用するプロフィール宣言を管理します。"
+  },
+  "workspace.profile.observedContext": {
+    "ko": "Figma에서 읽은 정보",
+    "en": "From Figma",
+    "ja": "Figma から取得した情報"
+  },
+  "workspace.profile.context.userName": {
+    "ko": "계정 이름",
+    "en": "Account name",
+    "ja": "アカウント名"
+  },
+  "workspace.profile.context.userId": {
+    "ko": "계정 ID",
+    "en": "Account ID",
+    "ja": "アカウントID"
+  },
+  "workspace.profile.context.fileName": {
+    "ko": "현재 파일",
+    "en": "Current file",
+    "ja": "現在のファイル"
+  },
+  "workspace.profile.context.fileKey": {
+    "ko": "파일 ID",
+    "en": "File ID",
+    "ja": "ファイルID"
+  },
+  "workspace.profile.context.pageName": {
+    "ko": "현재 페이지",
+    "en": "Current page",
+    "ja": "現在のページ"
+  },
+  "workspace.profile.context.pageId": {
+    "ko": "페이지 ID",
+    "en": "Page ID",
+    "ja": "ページID"
+  },
+  "workspace.profile.context.editorMode": {
+    "ko": "Figma 편집기 / 모드",
+    "en": "Figma editor / mode",
+    "ja": "Figma エディター / モード"
+  },
+  "workspace.profile.context.apiVersion": {
+    "ko": "플러그인 API 버전",
+    "en": "Plugin API version",
+    "ja": "プラグインAPIバージョン"
+  },
+  "workspace.profile.context.pluginVersion": {
+    "ko": "플러그인 버전",
+    "en": "Plugin version",
+    "ja": "プラグインバージョン"
+  },
+  "workspace.profile.context.pluginId": {
+    "ko": "플러그인 ID",
+    "en": "Plugin ID",
+    "ja": "プラグインID"
+  },
+  "workspace.profile.context.locale": {
+    "ko": "패널 언어",
+    "en": "Panel language",
+    "ja": "パネルの言語"
+  },
+  "workspace.profile.technicalContext": {
+    "ko": "기술 정보",
+    "en": "Technical details",
+    "ja": "技術情報"
+  },
+  "workspace.profile.notAvailable": {
+    "ko": "확인할 수 없음",
+    "en": "Not available",
+    "ja": "取得できません"
+  },
+  "workspace.profile.declarations": {
+    "ko": "이 파일의 사용 환경",
+    "en": "Settings for this file",
+    "ja": "このファイルの設定"
+  },
+  "workspace.profile.declarationBoundary": {
+    "ko": "선택한 플랜과 좌석으로 작업 메뉴를 구성합니다. 실제 작업에는 Figma 파일 권한이 적용됩니다.",
+    "en": "Your selections determine the available workflow. Figma checks file access when you run a task.",
+    "ja": "選択したプランとシートに合わせてメニューを表示します。実行時には Figma のファイル権限が適用されます。"
+  },
+  "workspace.profile.planLabel": {
+    "ko": "플랜",
+    "en": "Plan",
+    "ja": "プラン"
+  },
+  "workspace.profile.seatLabel": {
+    "ko": "좌석",
+    "en": "Seat",
+    "ja": "シート"
+  },
+  "workspace.profile.plan.unknown": {"ko":"모름 / 선택 안 함","en":"Unknown / not selected","ja":"不明 / 未選択"},
+  "workspace.profile.plan.starter": {"ko":"Starter","en":"Starter","ja":"Starter"},
+  "workspace.profile.plan.professional": {"ko":"Professional","en":"Professional","ja":"Professional"},
+  "workspace.profile.plan.organization": {"ko":"Organization","en":"Organization","ja":"Organization"},
+  "workspace.profile.plan.enterprise": {"ko":"Enterprise","en":"Enterprise","ja":"Enterprise"},
+  "workspace.profile.plan.education": {"ko":"Education","en":"Education","ja":"Education"},
+  "workspace.profile.plan.government": {"ko":"Government","en":"Government","ja":"Government"},
+  "workspace.profile.seat.unknown": {"ko":"모름 / 선택 안 함","en":"Unknown / not selected","ja":"不明 / 未選択"},
+  "workspace.profile.seat.view": {"ko":"View","en":"View","ja":"View"},
+  "workspace.profile.seat.collab": {"ko":"Collab","en":"Collab","ja":"Collab"},
+  "workspace.profile.seat.dev": {"ko":"Dev","en":"Dev","ja":"Dev"},
+  "workspace.profile.seat.full": {"ko":"Full","en":"Full","ja":"Full"},
+  "workspace.profile.workflow.edit": {
+    "ko": "현재 프로필로 편집 흐름을 표시합니다.",
+    "en": "Editing workflows are shown for the current profile.",
+    "ja": "現在のプロフィールでは編集ワークフローを表示します。"
+  },
+  "workspace.profile.workflow.read": {
+    "ko": "현재 프로필로 읽기 흐름을 표시합니다.",
+    "en": "Read workflows are shown for the current profile.",
+    "ja": "現在のプロフィールでは読み取りワークフローを表示します。"
+  },
+  "workspace.profile.workflow.none": {
+    "ko": "현재 편집기 컨텍스트에서 문서 흐름을 확인할 수 없습니다.",
+    "en": "Document workflows are unavailable in the current editor context.",
+    "ja": "現在のエディターコンテキストではドキュメントワークフローを利用できません。"
+  },
+  "workspace.profile.storageLocal": {
+    "ko": "설정은 이 PC의 현재 계정과 파일에 저장됩니다.",
+    "en": "These settings are stored on this client for the current user and file.",
+    "ja": "設定はこの端末のユーザーとファイルごとに保存されます。"
+  },
+  "workspace.profile.storageSession": {
+    "ko": "로컬 저장을 사용할 수 없어 이번 Figma 세션에만 적용됩니다. 다시 열면 다시 선택해야 할 수 있습니다.",
+    "en": "Local storage is unavailable, so this applies only to the current Figma session. You may need to choose again after reopening.",
+    "ja": "ローカル保存を利用できないため、現在のFigmaセッションのみ適用されます。再度開くと選び直しが必要な場合があります。"
+  },
+  "workspace.profile.saveErrorTitle": {
+    "ko": "프로필을 저장하지 못했습니다",
+    "en": "Could not save profile",
+    "ja": "プロフィールを保存できませんでした"
+  },
+  "workspace.profile.saveError.profile-save-failed": {
+    "ko": "현재 사용자와 파일 범위를 확인한 뒤 다시 시도하세요.",
+    "en": "Check the current user and file context, then try again.",
+    "ja": "現在のユーザーとファイルのコンテキストを確認して、もう一度お試しください。"
+  },
+  "workspace.profile.saveError.unknown": {
+    "ko": "프로필을 저장할 수 없습니다. 현재 파일을 새로 고친 뒤 다시 시도하세요.",
+    "en": "The profile could not be saved. Refresh the current file and try again.",
+    "ja": "プロフィールを保存できません。現在のファイルを更新して再試行してください。"
+  },
+  "workspace.profile.saving": {"ko":"저장 중…","en":"Saving…","ja":"保存中…"},
+  "workspace.profile.continueUnknown": {"ko":"모름으로 계속","en":"Continue with unknown","ja":"不明のまま続ける"},
+  "workspace.profile.save": {"ko":"프로필 저장","en":"Save profile","ja":"プロフィールを保存"},
+  "workspace.profile.close": {"ko":"닫기","en":"Close","ja":"閉じる"},
+  "workspace.profile.settingsButton": {"ko":"사용 프로필","en":"Usage profile","ja":"利用プロフィール"},
+  "workspace.profile.saved": {"ko":"프로필 선언을 저장했습니다.","en":"Profile declarations saved.","ja":"プロフィールの申告を保存しました。"},
+  "workspace.profile.hiddenTasks": {
+    "ko": "현재 프로필에서 열 수 없는 작업 {count}개를 숨겼습니다. 실행 권한은 호스트가 다시 확인합니다.",
+    "en": "{count} tasks that cannot be opened with this profile are hidden. The host rechecks access when an operation runs.",
+    "ja": "現在のプロフィールで開けないタスク {count} 件を非表示にしました。実行時の権限はホスト側で再確認されます。"
+  },
+  "workspace.profile.noVisibleTasks": {
+    "ko": "현재 파일과 프로필에서 열 수 있는 작업이 없습니다. 프로필 설정과 Figma 편집기 컨텍스트를 확인하세요.",
+    "en": "No tasks can be opened for this file and profile. Check the profile settings and Figma editor context.",
+    "ja": "このファイルとプロフィールで開けるタスクはありません。プロフィール設定とFigmaエディターのコンテキストを確認してください。"
+  },
+  "workspace.profile.loadErrorTitle": {
+    "ko": "사용 프로필을 불러오지 못했습니다",
+    "en": "Could not load the usage profile",
+    "ja": "利用プロフィールを読み込めませんでした"
+  },
+  "workspace.profile.loadErrorBody": {
+    "ko": "현재 파일과 계정의 프로필을 다시 읽어 보세요. 작업 실행 권한은 호스트가 별도로 확인합니다.",
+    "en": "Retry loading the profile for this account and file. The host checks operation access separately.",
+    "ja": "このアカウントとファイルのプロフィールを再読み込みしてください。操作のアクセスはホスト側で別途確認されます。"
+  },
+  "workspace.profile.retry": {
+    "ko": "프로필 다시 읽기",
+    "en": "Retry profile load",
+    "ja": "プロフィールを再読み込み"
+  },
+  "workspace.profile.refreshContext": {
+    "ko": "계정 정보 다시 읽기",
+    "en": "Re-read account context",
+    "ja": "アカウント情報を再読み込み"
+  },
+  "workspace.profile.refreshingContext": {
+    "ko": "계정 정보를 다시 읽는 중…",
+    "en": "Re-reading account context…",
+    "ja": "アカウント情報を再読み込み中…"
+  },
+  "workspace.profile.operationDeniedTitle": {
+    "ko": "현재 프로필에서 이 작업을 열 수 없습니다",
+    "en": "This operation cannot be opened with the current profile",
+    "ja": "現在のプロフィールではこの操作を開けません"
+  },
+  "workspace.profile.operationDeniedBody": {
+    "ko": "호스트가 작업 {operation}을(를) 실행 전에 거부했습니다. 변경 사항은 적용되지 않았습니다.",
+    "en": "The host denied {operation} before dispatch. No change was applied.",
+    "ja": "ホストが実行前に {operation} を拒否しました。変更は適用されていません。"
+  },
+  "workspace.profile.devHandoffTitle": {
+    "ko": "Dev Mode에서 디자인 인계 확인",
+    "en": "Inspect design handoff in Dev Mode",
+    "ja": "Dev Mode でデザインの引き継ぎを確認"
+  },
+  "workspace.profile.devHandoffInspect": {
+    "ko": "현재 파일이 Dev Mode Inspect입니다. Inspect 패널의 Plugins 영역에서 이 파일에 설치되어 사용할 수 있는 검사 플러그인을 확인하세요.",
+    "en": "This file is already in Dev Mode Inspect. Check the Inspect panel's Plugins area for inspection plugins installed and available in this file.",
+    "ja": "このファイルは Dev Mode Inspect です。Inspect パネルの Plugins から、このファイルにインストールされ利用可能な検査プラグインを確認してください。"
+  },
+  "workspace.profile.devHandoffDesign": {
+    "ko": "현재 파일에서 Dev Mode 전환 버튼을 누르거나 Shift+D를 사용하세요. Inspect 패널의 Plugins 영역에서 설치된 검사 플러그인을 선택할 수 있습니다.",
+    "en": "In the current file, use the Dev Mode toggle or press Shift+D. In the Inspect panel's Plugins area, choose an inspection plugin installed for this file.",
+    "ja": "現在のファイルで Dev Mode の切り替えボタンまたは Shift+D を使います。Inspect パネルの Plugins から、このファイルにインストールされた検査プラグインを選択できます。"
+  },
+  "workspace.profile.devHandoffBoundary": {
+    "ko": "실제 사용 가능 여부는 해당 팀의 좌석과 파일 권한에 따라 결정됩니다.",
+    "en": "Availability depends on your seat on this team and access to the file.",
+    "ja": "利用可否はこのチームのシートとファイルのアクセス権によって決まります。"
+  },
+  "workspace.profile.operationBusy": {
+    "ko": "진행 중인 작업이 끝난 뒤 프로필을 저장할 수 있습니다.",
+    "en": "Save the profile after the current operation finishes.",
+    "ja": "現在の操作が完了してからプロフィールを保存できます。"
+  },
   "workspace.title": {
     "ko": "준비된 작업",
     "en": "Prepared tasks",

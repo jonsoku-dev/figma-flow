@@ -99,6 +99,7 @@ lucide-react/dist/esm/icons/scan-search.mjs:
 lucide-react/dist/esm/icons/scan-text.mjs:
 lucide-react/dist/esm/icons/send.mjs:
 lucide-react/dist/esm/icons/triangle-exclamation-point.mjs:
+lucide-react/dist/esm/icons/user-round.mjs:
 lucide-react/dist/esm/icons/x.mjs:
 lucide-react/dist/esm/lucide-react.mjs:
   /**

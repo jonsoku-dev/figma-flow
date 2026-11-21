@@ -1,0 +1,53 @@
+{
+  "schema": "figma-flow-local-profile-policy-v1",
+  "version": 1,
+  "options": {
+    "plans": ["unknown", "starter", "professional", "organization", "enterprise", "education", "government"],
+    "seats": ["unknown", "view", "collab", "dev", "full"]
+  },
+  "contextFields": {
+    "userId": ["user", "id"],
+    "userName": ["user", "name"],
+    "fileKey": ["plugin", "fileKey"],
+    "fileName": ["document", "name"],
+    "pageId": ["page", "id"],
+    "pageName": ["page", "name"],
+    "editorType": ["plugin", "editorType"],
+    "mode": ["plugin", "mode"],
+    "apiVersion": ["plugin", "apiVersion"],
+    "pluginId": ["plugin", "pluginId"],
+    "pluginVersion": ["runtime", "version"],
+    "runtimeGeneration": ["runtime", "generation"],
+    "implementationHash": ["runtime", "implementation"],
+    "command": ["plugin", "command"],
+    "locale": ["ui", "locale"]
+  },
+  "facts": {
+    "designSurface": {"editorType": ["figma"], "mode": ["default"]},
+    "inspectSurface": {"editorType": ["dev"], "mode": ["inspect"]},
+    "initialized": {"confirmed": [true]},
+    "authoringPreference": {"seat": ["unknown", "full"]},
+    "declaredDevSeat": {"seat": ["full", "dev"]},
+    "declaredDevPlan": {"plan": ["professional", "organization", "enterprise", "education", "government"]}
+  },
+  "capabilities": {
+    "designRead": [["designSurface"], ["inspectSurface"]],
+    "designEdit": [["designSurface", "initialized", "authoringPreference"]],
+    "devInspect": [["inspectSurface"]],
+    "devHandoff": [["inspectSurface"], ["designSurface", "declaredDevPlan", "declaredDevSeat"]]
+  },
+  "refreshBeforeDispatch": ["designEdit"],
+  "passthrough": ["ready", "receipt", "verification", "download", "chat:prepare", "chat:queue", "chat:open", "chat:open-fallback", "chat:back"],
+  "operations": {
+    "read": "designRead",
+    "export": "designRead",
+    "native-summary": "designRead",
+    "create": "designEdit",
+    "draft-review": "designEdit",
+    "import": "designEdit",
+    "apply": "designEdit",
+    "sync": "designEdit",
+    "workspace-recipe-run": "designEdit",
+    "inspect-selection": "devInspect"
+  }
+}

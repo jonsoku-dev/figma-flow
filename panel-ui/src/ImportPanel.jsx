@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { Download, ExternalLink, FilePlus, Files, FolderOpen, RefreshCw, ScanText } from 'lucide-react';
-import { Action, Notice, Section, Disclosure } from './components.jsx';
+import { workspaceAllows, Action, Notice, Section, Disclosure } from './components.jsx';
 import { nativeSummaryView } from './nativeSummary.mjs';
 
 const initialState = {
@@ -227,6 +227,7 @@ export default function ImportPanel({ locale, t, send, Shell }) {
   }, [locale, state.existingOnly, t]);
 
   const run = (operation) => {
+    if (!workspaceAllows(operation)) return;
     if (
       !state.connected ||
       state.busy ||
@@ -319,7 +320,7 @@ export default function ImportPanel({ locale, t, send, Shell }) {
         </Disclosure>
       )}
 
-      {!state.existingOnly && (
+      {!state.existingOnly && workspaceAllows('import') && (
         <Section
           id="import-section"
           title={t('import.importHeading')}
@@ -357,7 +358,7 @@ export default function ImportPanel({ locale, t, send, Shell }) {
         </Section>
       )}
 
-      {state.paired && (
+      {state.paired && workspaceAllows('sync') && (
         <Section id="sync-section" title={t('import.syncHeading')} description={t('import.syncHelp')}>
           <div className="actions">
             <Action

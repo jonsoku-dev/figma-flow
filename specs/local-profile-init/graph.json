@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "id": "local-profile-init",
+  "nodes": [
+    {"id":"REQ-PROFILE","type":"requirement","title":"로컬 사용자 설정과 실행 맥락에 따라 Design 작업을 제공한다","source":"spec.md"},
+    {"id":"SCR-INIT","type":"screen","title":"첫 실행 및 환경 설정","source":"../../panel-ui/src/Workspace.jsx"},
+    {"id":"POLICY","type":"policy","title":"기능과 작업의 유일한 실행 정책","source":"../../library/figma-profile/policy.json"},
+    {"id":"RESOLVE","type":"code","source":"../../figma-bridge/profile_policy.js"},
+    {"id":"LOCAL","type":"code","source":"../../figma-bridge/workspace_profile.js"},
+    {"id":"HOST","type":"code","source":"../../figma-bridge/workspace_host.js"},
+    {"id":"RELAY","type":"code","source":"../../figma-bridge/workspace_control.js"},
+    {"id":"PROFILE-01","type":"acceptance","title":"최초 확인과 이후 변경","source":"spec.md"},
+    {"id":"PROFILE-02","type":"acceptance","title":"계정·파일별 저장 및 세션 복구","source":"spec.md"},
+    {"id":"PROFILE-03","type":"acceptance","title":"UI·실행의 읽기와 작성 구분","source":"spec.md"},
+    {"id":"PROFILE-04","type":"acceptance","title":"좌석 선언과 관측 모드의 구분","source":"spec.md"},
+    {"id":"TEST-PROFILE","type":"test","source":"../../tests/test_local_profile.cjs"},
+    {"id":"TEST-HOST","type":"test","source":"../../tests/test_workspace_host.cjs"},
+    {"id":"TEST-PUBLISH","type":"test","source":"../../tests/test_profile_publication.py"}
+  ],
+  "edges": [
+    {"from":"REQ-PROFILE","type":"renders in","to":"SCR-INIT"},
+    {"from":"REQ-PROFILE","type":"requires","to":"POLICY"},
+    {"from":"POLICY","type":"evaluated by","to":"RESOLVE"},
+    {"from":"LOCAL","type":"uses","to":"RESOLVE"},
+    {"from":"SCR-INIT","type":"uses","to":"HOST"},
+    {"from":"HOST","type":"uses","to":"LOCAL"},
+    {"from":"RELAY","type":"uses","to":"HOST"},
+    {"from":"SCR-INIT","type":"accepted by","to":"PROFILE-01"},
+    {"from":"LOCAL","type":"accepted by","to":"PROFILE-02"},
+    {"from":"HOST","type":"accepted by","to":"PROFILE-03"},
+    {"from":"RESOLVE","type":"accepted by","to":"PROFILE-04"},
+    {"from":"PROFILE-02","type":"verified by","to":"TEST-PROFILE"},
+    {"from":"PROFILE-04","type":"verified by","to":"TEST-PROFILE"},
+    {"from":"PROFILE-01","type":"verified by","to":"TEST-HOST"},
+    {"from":"PROFILE-03","type":"verified by","to":"TEST-HOST"},
+    {"from":"PROFILE-04","type":"verified by","to":"TEST-PUBLISH"}
+  ]
+}

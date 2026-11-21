@@ -15,7 +15,11 @@ const workspaceLocales = new Set(FLOW_LOCALES);
 const workspaceOperations = new Set(['import', 'export', 'sync', 'draft-review', 'read', 'apply', 'verification', 'download', 'chat:queue', 'chat:open']);
 const workspaceStatuses = new Set(['requested', 'running', 'finished', 'failed', 'readback', 'verified', 'baseline']);
 const workspaceStorageKey = figma.fileKey ? 'figma-flow-workspace-v1:' + figma.fileKey : null;
+const workspaceProfileManager = typeof createWorkspaceProfile === 'function' && typeof WORKSPACE_PROFILE_POLICY !== 'undefined'
+  ? createWorkspaceProfile(figma, WORKSPACE_PROFILE_POLICY, typeof WORKSPACE_RUNTIME === 'undefined' ? null : WORKSPACE_RUNTIME)
+  : null;
 let workspaceState = {locale: null, history: []};
+let workspaceProfile = null;
 let workspaceServerHistory = [], workspaceJournalUnavailable = false;
 let workspaceInputFreshness = [];
 let workspaceScope = {session: '', fileKey: null, pageId: null};
@@ -261,13 +265,22 @@ async function workspaceHandleScopeChange() {
       workspaceInputFreshness = [];
       workspaceJournalUnavailable = false;
       await workspaceRefreshJournal();
+      let profile = null;
+      if (workspaceProfileManager) {
+        try { profile = await workspaceProfileManager.load(workspaceState.locale); }
+        catch (_) { profile = null; }
+      }
       if ((workspaceActive && workspaceActive.view !== 'remote') || workspaceHomeSession !== home) return emitted;
       if ((figma.fileKey || null) !== nextFile || ((figma.currentPage && figma.currentPage.id) || null) !== nextPage) continue;
+      workspaceProfile = profile;
       figma.ui.postMessage({
         type: 'workspace-scope-changed',
         workspaceSession: home,
         fileKey: nextFile,
         pageId: nextPage,
+        ...(profile ? {profile} : {}),
+        profileUnavailable: !!workspaceProfileManager && !profile,
+        tasks: workspaceTaskProjection(),
         ...(typeof WORKSPACE_RUNTIME !== 'undefined' && WORKSPACE_RUNTIME && typeof WORKSPACE_RUNTIME.generation === 'string'
           ? {runtimeGeneration: WORKSPACE_RUNTIME.generation} : {}),
         journalHistory: workspaceServerHistory,
@@ -657,6 +670,7 @@ function workspaceTaskFigma() {
     get(_target, key) {
       const target = figma;
       if (key === 'ui') return ui;
+      if (key === 'currentUser') return null;
       const value = Reflect.get(target, key);
       return typeof value === 'function' ? (...args) => {
         assertCurrent();
@@ -673,11 +687,101 @@ function workspaceTaskFigma() {
     set() {throw Error('Task cannot replace workspace host state');}
   });
 }
+function workspaceProfileAllows(operation) {
+  if (!workspaceProfileManager) return true;
+  if (typeof operation !== 'string' || !operation) return false;
+  try { return workspaceProfileManager.allowsOperation(operation) === true; }
+  catch (_) { return false; }
+}
+function workspaceNeedsProfileAdmission(operation) {
+  if (!workspaceProfileManager || typeof profileOperationNeedsAdmission !== 'function') return false;
+  try { return profileOperationNeedsAdmission(WORKSPACE_PROFILE_POLICY, operation) === true; }
+  catch (_) { return false; }
+}
+async function workspaceProfileAdmit(operation) {
+  if (!workspaceProfileManager) return true;
+  try {
+    if (workspaceNeedsProfileAdmission(operation) && typeof workspaceProfileManager.admitOperation === 'function')
+      return await workspaceProfileManager.admitOperation(operation) === true;
+    return workspaceProfileAllows(operation);
+  } catch (_) { return false; }
+}
+function workspaceProfileAllowedSnapshot(profile = workspaceProfile) {
+  if (!workspaceProfileManager) return null;
+  const operationCapabilities = WORKSPACE_PROFILE_POLICY?.operations || {};
+  const capabilities = profile?.capabilities || {};
+  return Object.fromEntries(Object.entries(operationCapabilities).map(([operation, capability]) =>
+    [operation, capabilities[capability] === true]));
+}
+function workspaceProfileCanOpen(task, allowedOperations) {
+  if (!workspaceProfileManager) return true;
+  const operations = typeof controlAllowed !== 'undefined' && controlAllowed[task.kind];
+  return Array.isArray(operations) && operations.some(operation => allowedOperations[operation] === true);
+}
+function workspaceProfileDenyTask(current, operation, request, reason = 'not-allowed') {
+  if (!workspaceCurrent(current)) return;
+  const error = 'Error: The local profile or current Figma context does not allow this operation.';
+  figma.ui.postMessage({workspaceSession: current.session, workspaceControl: true, busy: false, error});
+  const status = {type: 'status', event: 'error', state: 'error', busy: false, message: error, error,
+    operation: typeof operation === 'string' ? operation : ''};
+  const busy = {type: 'busy', value: false, operation: typeof operation === 'string' ? operation : ''};
+  for (const key of ['session', 'session_nonce']) {
+    if (typeof request?.[key] === 'string' && request[key]) {status[key] = request[key]; busy[key] = request[key];}
+  }
+  figma.ui.postMessage({workspaceSession: current.session, payload: busy});
+  figma.ui.postMessage({workspaceSession: current.session, payload: status});
+  figma.ui.postMessage({workspaceSession: current.session, payload: {
+    type: 'workspace-profile-denied', operation: typeof operation === 'string' ? operation.slice(0, 80) : '', reason
+  }});
+}
+function workspaceTaskProjection() {
+  const allowedOperations = workspaceProfileAllowedSnapshot() || {};
+  return [...workspaceTasks.values()].map(task => {
+    const dependsOn = workspaceDependencyEdges(task.depends_on);
+    const assets = workspaceAssetSummary(task.input_summary);
+    return {key: task.key, title: task.title, project: task.project, kind: task.kind,
+      fileKey: task.fileKey || null, pageId: task.pageId || null, threadId: task.threadId || null,
+      revision: task.revision || '', preview: workspacePreview(task), paired: task.paired === true,
+      productionAdmitted: task.productionAdmitted === true, has_input_record: task.has_input_record === true,
+      profileCanOpen: workspaceProfileCanOpen(task, allowedOperations),
+      ...(dependsOn ? {depends_on: dependsOn} : {}), ...(assets ? {input_summary: assets} : {})};
+  });
+}
+function workspaceProfileScopeCurrent(session, fileKey, pageId) {
+  return !workspaceActive && workspaceHomeSession === session && workspaceScope.session === session &&
+    workspaceScope.fileKey === fileKey && workspaceScope.pageId === pageId &&
+    (figma.fileKey || null) === fileKey && ((figma.currentPage && figma.currentPage.id) || null) === pageId;
+}
+async function workspaceSaveProfile(message) {
+  const session = message.workspaceSession;
+  const fileKey = figma.fileKey || null;
+  const pageId = (figma.currentPage && figma.currentPage.id) || null;
+  if (!workspaceProfileManager || message.fileKey !== fileKey || message.pageId !== pageId ||
+      !workspaceProfileScopeCurrent(session, fileKey, pageId)) return;
+  try {
+    const profile = await workspaceProfileManager.save({plan: message.plan, seat: message.seat}, workspaceState.locale,
+      () => workspaceProfileScopeCurrent(session, fileKey, pageId));
+    if (!workspaceProfileScopeCurrent(session, fileKey, pageId)) return;
+    workspaceProfile = profile;
+    figma.ui.postMessage({type: 'workspace-profile-saved', workspaceSession: session, fileKey, pageId, profile,
+      profileUnavailable: !!workspaceProfileManager && !profile, tasks: workspaceTaskProjection()});
+  } catch (_) {
+    if (!workspaceProfileScopeCurrent(session, fileKey, pageId)) return;
+    let profile = null;
+    try { profile = await workspaceProfileManager.load(workspaceState.locale); } catch (_) {}
+    if (!workspaceProfileScopeCurrent(session, fileKey, pageId)) return;
+    workspaceProfile = profile;
+    figma.ui.postMessage({type: 'workspace-profile-saved', workspaceSession: session, fileKey, pageId,
+      profile, profileUnavailable: !!workspaceProfileManager && !profile,
+      tasks: workspaceTaskProjection(), error: 'profile-save-failed'});
+  }
+}
 function workspaceTaskHtml(html) {
   if (!workspaceActive || typeof html !== 'string') throw Error('Task HTML requires an active workspace session');
   html = workspaceLocaleHtml(html).replace(/<html([^>]*)>/i, (_, attributes) =>
     '<html' + attributes.replace(/\sdata-flow-workspace=(?:"[^"]*"|'[^']*')/gi, '') + ' data-flow-workspace="true">');
   const session = JSON.stringify(workspaceActive.session);
+  const allowedOperations = workspaceProfileAllowedSnapshot() || {};
   // The lexical parent wrapper keeps existing approved message schemas intact.
   const relay = `<script>
 const workspaceSession = ${session};
@@ -686,6 +790,7 @@ let workspaceHostBusy = false;
 window.FlowWorkspace = Object.freeze({
   active: workspaceView,
   canChat: ${JSON.stringify(!!workspaceActive.task.threadId)},
+  allowedOperations: Object.freeze(${JSON.stringify(allowedOperations)}),
   get busy() {return workspaceHostBusy;},
   go(name) {
     if (workspaceHostBusy || !['tasks', 'history', 'codex'].includes(name) || (name === 'codex' && workspaceView === 'codex')) return;
@@ -831,6 +936,14 @@ async function workspaceOnMessage(message) {
       }
       const activeFile = figma.fileKey || null, activePage = (figma.currentPage && figma.currentPage.id) || null;
       workspaceScope = {session: workspaceHomeSession, fileKey: activeFile, pageId: activePage};
+      let profile = null;
+      if (workspaceProfileManager) {
+        try { profile = await workspaceProfileManager.load(workspaceState.locale); }
+        catch (_) { profile = null; }
+        if (workspaceActive || workspaceHomeSession !== homeBeforeLoad || (figma.fileKey || null) !== activeFile ||
+            ((figma.currentPage && figma.currentPage.id) || null) !== activePage) return;
+      }
+      workspaceProfile = profile;
       const retired = typeof FLOW_RETIRED === 'undefined' || !Array.isArray(FLOW_RETIRED) ? [] : FLOW_RETIRED.filter(row =>
         row && typeof row.key === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(row.key) && typeof row.revision === 'string' && /^[a-f0-9]{64}$/.test(row.revision))
         .map(({key, revision}) => ({key, revision}));
@@ -838,13 +951,16 @@ async function workspaceOnMessage(message) {
         fileKey: activeFile, pageId: activePage,
         ...(typeof WORKSPACE_RUNTIME !== 'undefined' && WORKSPACE_RUNTIME && typeof WORKSPACE_RUNTIME.generation === 'string'
           ? {runtimeGeneration: WORKSPACE_RUNTIME.generation} : {}),
+        ...(profile ? {profile} : {}),
+        profileUnavailable: !!workspaceProfileManager && !profile,
         controlEnabled: typeof WORKSPACE_CONTROL_CONFIG !== 'undefined' && !!WORKSPACE_CONTROL_CONFIG, locale: workspaceState.locale, history: workspaceState.history,
         journalHistory:workspaceServerHistory, journalUnavailable:workspaceJournalUnavailable, inputFreshness:workspaceInputFreshness, retired,
-        view: workspaceHomeView, project: workspaceProject, focusKey: workspaceFocus, storageError: workspaceStorageError, error: workspaceNotice || null, tasks: [...workspaceTasks.values()].map(task => {
-          const dependsOn = workspaceDependencyEdges(task.depends_on);
-          const assets = workspaceAssetSummary(task.input_summary);
-          return {key: task.key, title: task.title, project: task.project, kind: task.kind, fileKey: task.fileKey || null, pageId: task.pageId || null, threadId: task.threadId || null, revision: task.revision || '', preview: workspacePreview(task), paired: task.paired === true, productionAdmitted: task.productionAdmitted === true, has_input_record:task.has_input_record === true, ...(dependsOn ? {depends_on: dependsOn} : {}), ...(assets ? {input_summary: assets} : {})};
-        })});
+        view: workspaceHomeView, project: workspaceProject, focusKey: workspaceFocus, storageError: workspaceStorageError,
+        error: workspaceNotice || null, tasks: workspaceTaskProjection()});
+      return;
+    }
+    if (message.type === 'workspace-profile-save') {
+      await workspaceSaveProfile(message);
       return;
     }
     if (!['workspace-open', 'workspace-chat-open'].includes(message.type) || message.workspaceSession !== workspaceHomeSession) return;
@@ -882,6 +998,25 @@ async function workspaceOnMessage(message) {
     return;
   }
   const operation = message.payload?.type;
+  const needsAdmission = workspaceNeedsProfileAdmission(operation);
+  if (!needsAdmission && !workspaceProfileAllows(operation)) {
+    workspaceProfileDenyTask(current, operation, message.payload);
+    return;
+  }
+  if (needsAdmission) {
+    const admittedSession = current.session, admittedFile = figma.fileKey || null;
+    const admittedPage = (figma.currentPage && figma.currentPage.id) || null;
+    const admitted = await workspaceProfileAdmit(operation);
+    if (!workspaceCurrent(current) || current.session !== admittedSession) return;
+    if ((figma.fileKey || null) !== admittedFile || ((figma.currentPage && figma.currentPage.id) || null) !== admittedPage) {
+      workspaceProfileDenyTask(current, operation, message.payload, 'scope-changed');
+      return;
+    }
+    if (!admitted) {
+      workspaceProfileDenyTask(current, operation, message.payload);
+      return;
+    }
+  }
   if (workspaceOperations.has(operation) && workspaceBusy(current)) return;
   if (workspaceOperations.has(operation)) {current.executionId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12); current.operation = operation; current.outcome = null; current.started = false; current.verificationRecorded = false; workspaceRecord(current, operation, 'requested');}
   if (!workspaceOperations.has(operation) && operation !== 'receipt') {current.operation = null; current.outcome = null;}
@@ -905,12 +1040,32 @@ async function workspaceOnMessage(message) {
     workspaceControl(current);
   }
 }
-let workspaceLoaded;
-if (typeof workspaceRecipeDispatch !== 'function' || !workspaceRecipeDispatch()) {
-  workspaceLoaded = workspaceLoadState();
+function workspaceInstallHomeListener() {
   figma.ui.onmessage = workspaceOnMessage;
   if (typeof figma !== 'undefined' && typeof figma.on === 'function') {
     try { figma.on('currentpagechange', () => workspaceHandleScopeChange()); } catch (_) {}
   }
+}
+let workspaceLoaded;
+const workspaceRecipeCommand = typeof figma.command === 'string' && figma.command.startsWith('flow-recipe:');
+if (workspaceProfileManager && workspaceRecipeCommand) {
+  workspaceLoaded = workspaceLoadState().then(async () => {
+    try { workspaceProfile = await workspaceProfileManager.load(workspaceState.locale); }
+    catch (_) { workspaceProfile = null; }
+    const canRun = !!workspaceProfile && !workspaceProfile.needsSetup && await workspaceProfileAdmit('workspace-recipe-run');
+    if (!canRun) {
+      workspaceInstallHomeListener();
+      workspaceHome(workspaceProfile?.needsSetup
+        ? 'Complete your local profile before running this Design example.'
+        : 'This example is unavailable in the current Figma context.');
+      return;
+    }
+    workspaceRecipeDispatch();
+  });
+} else if (!workspaceProfileManager && typeof workspaceRecipeDispatch === 'function' && workspaceRecipeDispatch()) {
+  // Legacy mocked hosts retain their synchronous recipe launcher behavior.
+} else {
+  workspaceLoaded = workspaceLoadState();
+  workspaceInstallHomeListener();
   workspaceHome();
 }

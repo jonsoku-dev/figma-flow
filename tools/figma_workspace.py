@@ -776,6 +776,10 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     code += 'const WORKSPACE_CHAT_CONFIG = ' + json.dumps(relay, ensure_ascii=True) + ';\n'
     code += 'const WORKSPACE_CHAT_UI = workspaceAppHtml(' + json.dumps(render_app('chat', chat_context=True, shared=True), ensure_ascii=True) + ');\n'
     code += workspace_recipes.dispatch_source() + '\n'
+    policy = read(ROOT / 'library' / 'figma-profile' / 'policy.json')
+    code += 'const WORKSPACE_PROFILE_POLICY = ' + json.dumps(policy, ensure_ascii=True) + ';\n'
+    for source in ('profile_policy.js', 'workspace_profile.js'):
+        code += (bridge / source).read_text(encoding='utf-8') + '\n'
     code += assemble_shared_runtime(bridge)
     if runtime['implementation'] != trusted_sources():
         raise ValueError('Trusted runtime sources changed during publication; retry')
@@ -786,6 +790,7 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     manifest = {'name': display_name(), 'id': catalogue['plugin_id'], 'api': '1.0.0',
         'main': f'.generations/{generation}/code.js', 'ui': f'.generations/{generation}/ui.html',
         'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'enablePrivatePluginApi': True,
+        'permissions': ['currentuser'],
         'menu': workspace_recipes.menu(),
         'networkAccess': {'allowedDomains': ['none']}}
     if domains:

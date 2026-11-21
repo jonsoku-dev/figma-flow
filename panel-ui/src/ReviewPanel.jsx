@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useRef } from 'react';
 import { Download, Layers } from 'lucide-react';
-import { Action, Disclosure, Notice, PreviewStrip, Section } from './components.jsx';
+import { workspaceAllows, Action, Disclosure, Notice, PreviewStrip, Section } from './components.jsx';
 
 const initialState = {
   result: null,
@@ -224,7 +224,7 @@ export default function ReviewPanel({ model, locale, t, send, Shell }) {
 
   function createDrafts() {
     const current = run.current;
-    if (current.nativeBusy || current.pending) return;
+    if (!workspaceAllows('draft-review') || current.nativeBusy || current.pending) return;
     current.controller?.abort();
     current.id += 1;
     current.nativeBusy = true;
@@ -306,7 +306,7 @@ export default function ReviewPanel({ model, locale, t, send, Shell }) {
             id="make"
             variant={state.result ? 'secondary' : 'primary'}
             icon={Layers}
-            disabled={busy}
+            disabled={busy || !workspaceAllows('draft-review')}
             aria-label={text(busy ? 'makeBusy' : 'make')}
             onClick={createDrafts}
           >

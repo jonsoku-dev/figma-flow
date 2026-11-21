@@ -154,6 +154,8 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 
 ## 기본 흐름: 한 번 실행하고 Codex에 맡기기
 
+등록된 **Figma Flow workspace**를 처음 열면 사용자·파일·페이지와 실행 맥락을 확인하고 플랜과 좌석을 각각 선택합니다. 모르면 **모름**으로 계속할 수 있습니다. 업그레이드하거나 다른 팀에서 작업할 때는 홈의 환경 설정을 다시 여세요. 설정은 현재 PC의 Figma 클라이언트에서 계정과 파일별로 저장됩니다. 좌석을 선택한 뒤에도 실제 Figma 파일의 권한과 실행 모드가 적용됩니다. [자동으로 읽는 정보와 기능 판정](../specs/local-profile-init/spec.md)
+
 소비자에게 Computer Use나 공식 Figma MCP 연결을 요구하지 않습니다. Codex는 이 플러그인의 localhost 명령을 사용합니다. 개발자는 별도로 허용된 환경에서 Computer Use로 검수할 수 있지만 제품 실행 의존성은 아닙니다.
 
 1. Codex가 실제 Figma ID로 고정 작업공간과 필요한 작업을 준비합니다. 최초 등록은 4~5절을 따릅니다.
@@ -830,6 +832,8 @@ Replace placeholders with actual paths and native scope. Register only `PRIVATE_
 
 ## Let Codex run prepared work
 
+On first launch, review the Figma account and file shown in the workspace. Confirm your plan and seat separately, or continue with Unknown. You can change these local settings later from the workspace home. Figma enforces the actual permissions of the file.
+
 ```sh
 python3 tools/figma_control.py enable --workspace PRIVATE_DIR --port 43180
 python3 tools/figma_workspace.py refresh --workspace PRIVATE_DIR
@@ -1033,6 +1037,8 @@ python3 tools/figma_workspace.py prepare --workspace PRIVATE_DIR \
 プレースホルダーは実際のパス・対象に置き換えます。Figma に登録するのは `PRIVATE_DIR/manifest.json` だけです。隠し generation を含むフォルダー全体を保管してください。private plugin data は元のプラグイン ID に属します。ID の書き換えは所有権の移行になりません。[ID と移行の詳細](#5-고정-작업공간-등록과-검토-작업-준비)。
 
 ## Codex に操作を任せる
+
+初回はワークスペースに表示された Figma のユーザーとファイルを確認し、プランとシートを個別に設定します。不明のままでも続行できます。設定はこの端末のユーザー・ファイルごとに保存され、ホームから変更できます。ファイルの操作には実際の Figma 権限が適用されます。
 
 ```sh
 python3 tools/figma_control.py enable --workspace PRIVATE_DIR --port 43180

@@ -15,6 +15,15 @@ function controlState(outcome, busy) {
 }
 
 async function controlExecute(task, cmd, beforeDispatch) {
+  if (typeof workspaceNeedsProfileAdmission === 'function' && workspaceNeedsProfileAdmission(cmd.operation)) {
+    const file = figma.fileKey, page = figma.currentPage.id;
+    if (!await workspaceProfileAdmit(cmd.operation))
+      throw Error('The local profile or current Figma context does not allow this operation.');
+    if (figma.fileKey !== file || figma.currentPage.id !== page || Date.now() >= cmd.deadline * 1000)
+      throw Error('Scope or deadline changed while admitting native dispatch.');
+  } else if (typeof workspaceProfileAllows === 'function' && !workspaceProfileAllows(cmd.operation)) {
+    throw Error('The local profile or current Figma context does not allow this operation.');
+  }
   if (!task || task.revision !== cmd.revision || !controlAllowed[task.kind]?.includes(cmd.operation))
     throw Error('Prepared task changed. Reopen Figma Flow and issue a new command.');
   const checkCommand = () => {
@@ -48,6 +57,15 @@ async function controlExecute(task, cmd, beforeDispatch) {
     if (Date.now() >= cmd.deadline * 1000 || figma.fileKey !== cmd.file_key || figma.currentPage.id !== outputPage || task.revision !== cmd.revision || active.busy)
       throw Error('Scope or deadline changed before native dispatch.');
     if (workspaceActive !== active) throw Error('Workspace task session expired before native dispatch.');
+    const operation = message.type;
+    if (typeof workspaceNeedsProfileAdmission === 'function' && workspaceNeedsProfileAdmission(operation)) {
+      const file = figma.fileKey, page = figma.currentPage.id, session = active.session;
+      if (!await workspaceProfileAdmit(operation))
+        throw Error('The local profile or current Figma context does not allow this operation.');
+      if (workspaceActive !== active || active.session !== session || figma.fileKey !== file ||
+          figma.currentPage.id !== page || Date.now() >= cmd.deadline * 1000 || task.revision !== cmd.revision)
+        throw Error('Scope or deadline changed while admitting native dispatch.');
+    }
     if (!dispatched && beforeDispatch) {
       await beforeDispatch();
       if (workspaceActive !== active || Date.now() >= cmd.deadline * 1000 || figma.fileKey !== cmd.file_key || figma.currentPage.id !== outputPage)

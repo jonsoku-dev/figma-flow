@@ -10,9 +10,11 @@ import {
   Plus,
   RefreshCw,
   ScanSearch,
+  UserRound,
   TriangleAlert,
 } from 'lucide-react';
 import { Action, Section, Notice, PreviewStrip } from './components.jsx';
+import WorkspaceProfile, { WorkspaceHandoffHelp } from './WorkspaceProfile.jsx';
 import { workspaceActivity } from './WorkspaceActivity.mjs';
 import { ActivitySummary, CarouselOverview, ExecutionFlows } from './WorkspaceActivity.jsx';
 import { dependencyFreshness, dependencyView } from './dependencyView.mjs';
@@ -696,7 +698,13 @@ export default function Workspace({
   const [focusTask, setFocusTask] = useState(null);
   const [dependencyKey, setDependencyKey] = useState('');
   const [detailView, setDetailView] = useState(null);
+  const [profilePanelOpen, setProfilePanelOpen] = useState(initialModel.profile?.needsSetup === true);
+  const [profileSaving, setProfileSaving] = useState(false);
+  const [profileRefreshing, setProfileRefreshing] = useState(false);
+  const [profileError, setProfileError] = useState('');
+  const [profileSaved, setProfileSaved] = useState(false);
   const session = useRef(null);
+  const profileSaveRef = useRef(null);
   const modelRef = useRef(initialModel);
   const sendRef = useRef(send);
   const localeRef = useRef(setLocale);
@@ -724,6 +732,43 @@ export default function Workspace({
   const tr = (key, params) => t('workspace.' + key, params);
   const sendMessage = (type, extra = {}) =>
     sendRef.current({ type, workspaceSession: session.current, ...extra });
+
+  const saveProfile = (plan, seat) => {
+    const current = modelRef.current;
+    if (profileSaving || profileRefreshing || busy || !session.current || !current.profile) return;
+    const pending = {
+      workspaceSession: session.current,
+      fileKey: current.fileKey || null,
+      pageId: current.pageId || null,
+      userId: current.profile.context?.userId || null,
+      plan,
+      seat,
+    };
+    profileSaveRef.current = pending;
+    setProfileSaving(true);
+    setProfileError('');
+    setProfileSaved(false);
+    sendMessage('workspace-profile-save', {
+      fileKey: pending.fileKey,
+      pageId: pending.pageId,
+      plan,
+      seat,
+    });
+  };
+
+  const refreshProfileContext = () => {
+    if (profileSaving || profileRefreshing || busy) return;
+    setProfileRefreshing(true);
+    setProfileError('');
+    setProfileSaved(false);
+    sendRef.current({ type: 'workspace-home-ready', locale });
+  };
+
+  const closeProfile = () => {
+    if (profileSaving || profileRefreshing || modelRef.current.profile?.needsSetup === true) return;
+    setProfilePanelOpen(false);
+    setProfileError('');
+  };
 
   useEffect(() => {
     function receive(event) {
@@ -759,9 +804,17 @@ export default function Workspace({
       }
       if (message.type === DETAIL_PROTOCOL.scopeChangedType) {
         if (!session.current || message.workspaceSession !== session.current) return;
+        profileSaveRef.current = null;
+        setProfileSaving(false);
+        setProfileRefreshing(false);
+        setProfileError('');
+        setProfileSaved(false);
         const nextModelPatch = {
           fileKey: typeof message.fileKey === 'string' && message.fileKey ? message.fileKey : null,
           pageId: typeof message.pageId === 'string' && message.pageId ? message.pageId : null,
+          ...(message.profile ? { profile: message.profile } : { profile: null }),
+          profileUnavailable: message.profileUnavailable === true,
+          ...(Array.isArray(message.tasks) ? { tasks: message.tasks } : {}),
           ...(Array.isArray(message.journalHistory) ? { journalHistory: message.journalHistory } : {}),
           ...(typeof message.journalUnavailable === 'boolean'
             ? { journalUnavailable: message.journalUnavailable }
@@ -772,6 +825,7 @@ export default function Workspace({
         const nextScope = buildDetailScope(nextModel, session.current);
         modelRef.current = nextModel;
         setModel(nextModel);
+        setProfilePanelOpen(message.profile?.needsSetup === true);
         pendingDetailRef.current = null;
         detailBackStackRef.current = [];
         if (detailViewRef.current) {
@@ -830,10 +884,77 @@ export default function Workspace({
             scope: nextScope,
           });
         }
+      } else if (message.type === 'workspace-profile-saved') {
+        const pending = profileSaveRef.current;
+        const current = modelRef.current;
+        if (!pending || message.workspaceSession !== session.current ||
+            pending.workspaceSession !== session.current ||
+            message.fileKey !== pending.fileKey || message.pageId !== pending.pageId ||
+            current.fileKey !== pending.fileKey || current.pageId !== pending.pageId) return;
+        profileSaveRef.current = null;
+        setProfileSaving(false);
+        if (message.error) {
+          const errorProfile = message.profile;
+          if (errorProfile?.context?.fileKey === pending.fileKey && errorProfile?.context?.pageId === pending.pageId) {
+            const nextModel = { ...current, profile: errorProfile,
+              ...(Array.isArray(message.tasks) ? { tasks: message.tasks } : {}),
+              profileUnavailable: message.profileUnavailable === true };
+            modelRef.current = nextModel;
+            setModel(nextModel);
+            setProfilePanelOpen(true);
+            if (errorProfile.context?.userId !== pending.userId) {
+              sendRef.current({ type: 'workspace-home-ready', locale });
+            }
+          } else if (message.profileUnavailable === true) {
+            const nextModel = { ...current, profile: null,
+              ...(Array.isArray(message.tasks) ? { tasks: message.tasks } : {}), profileUnavailable: true };
+            modelRef.current = nextModel;
+            setModel(nextModel);
+            setProfilePanelOpen(false);
+          }
+          setProfileError(message.error === 'profile-save-failed' ? message.error : 'unknown');
+          return;
+        }
+        const profile = message.profile;
+        const validProfile = profile && profile.schemaVersion === current.profile?.schemaVersion &&
+          profile.needsSetup === false && profile.context?.userId === pending.userId &&
+          profile.context?.fileKey === pending.fileKey &&
+          profile.context?.pageId === pending.pageId &&
+          profile.declared?.plan === pending.plan && profile.declared?.seat === pending.seat &&
+          Array.isArray(profile.options?.plans) && Array.isArray(profile.options?.seats) &&
+          Array.isArray(message.tasks) &&
+          typeof profile.capabilities?.designRead === 'boolean' &&
+          typeof profile.capabilities?.designEdit === 'boolean';
+        if (!validProfile) {
+          setProfileError('unknown');
+          return;
+        }
+        const nextModel = { ...current, profile, tasks: message.tasks, profileUnavailable: message.profileUnavailable === true, deniedOperation: undefined };
+        modelRef.current = nextModel;
+        setModel(nextModel);
+        setProfileError('');
+        setProfileSaved(true);
+        setProfilePanelOpen(profile.storage === 'session');
+      } else if (message.type === 'workspace-profile-denied') {
+        if (message.workspaceSession && message.workspaceSession !== session.current) return;
+        setModel((previous) => ({ ...previous, deniedOperation: message.operation || 'unknown' }));
       } else if (message.type === 'workspace-error') {
         if (session.current && message.workspaceSession !== session.current) return;
+        setProfileRefreshing(false);
         setModel((previous) => ({ ...previous, error: message.message }));
       } else if (message.type === 'workspace-tasks') {
+        const previousModel = modelRef.current;
+        const changedProfileScope = (session.current && message.workspaceSession !== session.current) ||
+          previousModel.fileKey !== message.fileKey || previousModel.pageId !== message.pageId ||
+          previousModel.profile?.context?.userId !== message.profile?.context?.userId;
+        setProfileRefreshing(false);
+        if (changedProfileScope || message.profile?.needsSetup === true) {
+          profileSaveRef.current = null;
+          setProfileSaving(false);
+          setProfileError('');
+          setProfileSaved(false);
+          setProfilePanelOpen(message.profile?.needsSetup === true);
+        }
         if (message.workspaceSession !== session.current) setCarouselLink(null);
         session.current = message.workspaceSession;
         const nextScope = buildDetailScope(message, message.workspaceSession);
@@ -898,14 +1019,17 @@ export default function Workspace({
   const history = historyOf(model);
   const projects = [...new Set(tasks.map((task) => task.project).filter(Boolean))];
   const projectTasks = tasks.filter((task) => !project || task.project === project);
+  const profileTasks = projectTasks.filter((task) => task.profileCanOpen !== false);
+  const profileHiddenTaskCount = projectTasks.length - profileTasks.length;
+  const profileSetupOnly = model.profile?.needsSetup === true && profilePanelOpen;
   const inputFreshness = task => (Array.isArray(model.inputFreshness) ? model.inputFreshness : []).find(row => row.taskKey === task.key && row.revision === task.revision);
   const activityHistory = history.filter(event => !project || tasks.find(task => task.key === event.taskKey)?.project === project);
   const activity = workspaceActivity(projectTasks, activityHistory);
-  const scoped = projectTasks.filter((task) => !stage || task.kind === stage);
+  const scoped = profileTasks.filter((task) => !stage || task.kind === stage);
   const recommendation = view === 'tasks' ? selectRecommendation(model, scoped) : null;
   const recommended = recommendation?.task;
   const recommendedEvent = recommended ? latestFor(model, recommended) : null;
-  const carouselTasks = projectTasks.filter(task => task.kind === 'native-edit' && task.fileKey === model.fileKey && task.pageId)
+  const carouselTasks = profileTasks.filter(task => task.kind === 'native-edit' && task.fileKey === model.fileKey && task.pageId)
     .map(task => {
       const event = [...history].reverse().find(item => item.taskKey === task.key && item.revision === task.revision
         && item.carousel?.schema === 'figma-flow-carousel-summary-v1' && item.carousel.file_key === model.fileKey
@@ -1098,8 +1222,10 @@ export default function Workspace({
       requestId,
     });
   };
-  const openTask = (task, chat = false) =>
-    sendMessage(chat ? 'workspace-chat-open' : 'workspace-open', { key: task.key });
+  const openTask = (task, chat = false) => {
+    if (!task || task.profileCanOpen === false) return;
+    return sendMessage(chat ? 'workspace-chat-open' : 'workspace-open', { key: task.key });
+  };
   const navigate = (name) => {
     pendingDetailRef.current = null;
     detailBackStackRef.current = [];
@@ -1112,6 +1238,11 @@ export default function Workspace({
   };
   const changeLocale = (code) => {
     if (locales.has(code)) sendMessage('workspace-locale', { locale: code });
+  };
+  const openProfile = () => {
+    setProfileError('');
+    setProfileSaved(false);
+    setProfilePanelOpen(true);
   };
   const jumpToReceipt = (task) => {
     pendingDetailRef.current = null;
@@ -1127,7 +1258,12 @@ export default function Workspace({
   const rowKey = (event, index) => event.eventKey || String(index);
 
   return (
-    <Shell view="workspace" active={view} busy={busy} onNavigate={navigate} onLocale={changeLocale}>
+    <Shell view={profileSetupOnly ? 'profile-setup' : 'workspace'} active={view} busy={profileSetupOnly ? false : busy} onNavigate={navigate} onLocale={changeLocale}>
+      {profileSetupOnly ? (
+        <WorkspaceProfile profile={model.profile} tr={tr} onSave={saveProfile} onRefresh={refreshProfileContext}
+          saving={profileSaving} busy={busy} refreshing={profileRefreshing} error={profileError} />
+      ) : (
+      <>
       <header className="workspace-context">
         <div>
           <h1 ref={heading} tabIndex={-1}>
@@ -1139,6 +1275,12 @@ export default function Workspace({
           </p>
         </div>
         {view === 'tasks' && model.controlEnabled && <Action variant="quiet" icon={RefreshCw} disabled={busy} onClick={() => sendRef.current({type:'workspace-home-ready',locale})}>{tr('refreshInputs')}</Action>}
+        {model.profile && !profilePanelOpen && (
+          <Action variant="quiet" icon={UserRound} disabled={profileSaving || profileRefreshing || busy}
+            aria-label={tr('profile.settingsButton')} onClick={openProfile}>
+            {tr('profile.settingsButton')}
+          </Action>
+        )}
         {projects.length > 1 && (
           <label className="workspace-project">
             <span aria-hidden="true">{tr('switchProject')}</span>
@@ -1167,6 +1309,27 @@ export default function Workspace({
         )}
       </header>
       {model.controlEnabled && <p className="workspace-auto">{t('common.modeAutomatic')}</p>}
+      {!profilePanelOpen && view === 'tasks' && <WorkspaceHandoffHelp capabilities={model.profile?.capabilities} tr={tr} />}
+      {profileSaved && <p className="workspace-profile-saved" role="status">{tr('profile.saved')}</p>}
+      {model.profileUnavailable === true && (
+        <Notice state="error" title={tr('profile.loadErrorTitle')} body={tr('profile.loadErrorBody')}>
+          <Action variant="quiet" icon={RefreshCw} disabled={busy || profileRefreshing}
+            onClick={refreshProfileContext}>
+            {tr('profile.retry')}
+          </Action>
+        </Notice>
+      )}
+      {model.deniedOperation && (
+        <Notice state="error" title={tr('profile.operationDeniedTitle')}
+          body={tr('profile.operationDeniedBody', { operation: model.deniedOperation })} />
+      )}
+      {profilePanelOpen && model.profile && (
+        <WorkspaceProfile
+          key={[session.current, model.profile.context?.fileKey, model.profile.context?.pageId].join(':')}
+          profile={model.profile} tr={tr} onSave={saveProfile} onRefresh={refreshProfileContext} onClose={closeProfile}
+          saving={profileSaving} busy={busy} refreshing={profileRefreshing} error={profileError}
+        />
+      )}
       {(!ready || !tasks.length || model.error || model.storageError) && (
         <Notice
           state={!ready ? 'busy' : model.error ? 'error' : 'ready'}
@@ -1201,14 +1364,19 @@ export default function Workspace({
           </time>
         </div>
       )}
+      {view === 'tasks' && profileHiddenTaskCount > 0 && (
+        <p className="workspace-profile-hidden-tasks" role="status">
+          {tr('profile.hiddenTasks', { count: profileHiddenTaskCount })}
+        </p>
+      )}
       {view === 'tasks' &&
-        projectTasks.length > 4 &&
-        new Set(projectTasks.map((task) => task.kind)).size > 1 && (
+        profileTasks.length > 4 &&
+        new Set(profileTasks.map((task) => task.kind)).size > 1 && (
           <label className="workspace-filter">
             {tr('typeFilter')}
             <select value={stage} disabled={busy} onChange={(event) => setStage(event.target.value)}>
               <option value="">{tr('allStages')}</option>
-              {[...new Set(projectTasks.map((task) => task.kind))].map((kind) => (
+              {[...new Set(profileTasks.map((task) => task.kind))].map((kind) => (
                 <option key={kind} value={kind}>
                   {tr('kind.' + kind)}
                 </option>
@@ -1336,8 +1504,9 @@ export default function Workspace({
           </label>
           {!visibleHistory.length && <p className="workspace-empty">{tr('historyEmpty')}</p>}
           <ExecutionFlows
-            flows={activity.flows.filter(flow => !activityTask || flow.steps[0].event.taskKey === activityTask)}
-            tasks={tasks} tr={tr} stateText={stateText} date={date} rememberFocus={rememberFocus}
+            flows={activity.flows.filter(flow => profileTasks.some(task => task.key === flow.steps[0].event.taskKey)
+              && (!activityTask || flow.steps[0].event.taskKey === activityTask))}
+            tasks={profileTasks} tr={tr} stateText={stateText} date={date} rememberFocus={rememberFocus}
             carouselNotice={carouselNotice} {...carouselActions}
             fileKey={model.fileKey}
           />
@@ -1372,7 +1541,7 @@ export default function Workspace({
                   <p>
                     {event.operation === 'download' ? operation : operation + ' · ' + stateText(event)}
                   </p>
-                  {task && (
+                  {task && task.profileCanOpen !== false && (
                     <Action
                       variant="quiet"
                                             disabled={busy || (!!task.fileKey && task.fileKey !== model.fileKey)}
@@ -1392,8 +1561,8 @@ export default function Workspace({
         )
       ) : (
         <Section>
-          {view === 'tasks' && dependencyKey && tasks.some((task) => task.key === dependencyKey) && (
-            <DependencyText tasks={tasks} selected={dependencyKey} retired={model.retired} onSelect={setDependencyKey} tr={tr} />
+          {view === 'tasks' && dependencyKey && profileTasks.some((task) => task.key === dependencyKey) && (
+            <DependencyText tasks={profileTasks} selected={dependencyKey} retired={model.retired} onSelect={setDependencyKey} tr={tr} />
           )}
           {!!remaining.length && view === 'tasks' && (
             <h2 className="workspace-list-title">{tr(recommended ? 'otherTasks' : 'allStages')}</h2>
@@ -1438,9 +1607,11 @@ export default function Workspace({
             );
           })}
           {!remaining.length && !recommended && tasks.length > 0 && (
-            <p className="workspace-empty">{tr(view === 'codex' ? 'noChat' : 'noMatch')}</p>
+            <p className="workspace-empty">{tr(profileHiddenTaskCount > 0 ? 'profile.noVisibleTasks' : view === 'codex' ? 'noChat' : 'noMatch')}</p>
           )}
         </Section>
+      )}
+      </>
       )}
     </Shell>
   );

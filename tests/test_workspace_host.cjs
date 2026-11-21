@@ -4,15 +4,23 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const host = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_host.js'), 'utf8');
+const control = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_control.js'), 'utf8');
+const profilePolicy = JSON.parse(fs.readFileSync(path.join(__dirname, '../library/figma-profile/policy.json'), 'utf8'));
+const profilePolicySource = fs.readFileSync(path.join(__dirname, '../figma-bridge/profile_policy.js'), 'utf8');
+const profileAdapterSource = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_profile.js'), 'utf8');
 const localeCatalog = JSON.parse(fs.readFileSync(path.join(__dirname, '../figma-bridge/locales/common.json'), 'utf8'));
 const flowLocales = JSON.stringify(Object.keys(Object.values(localeCatalog)[0]));
 const home = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_home.html'), 'utf8');
 function harness(frozen = false, options = {}) {
   const messages = [], shown = [], writes = [], commands = [], proxies = [];
-  const probe = {messages, shown, writes, commands, proxies, pending: null, closeCount: 0, chatCalls: [], external: []};
+  const probe = {messages, shown, writes, commands, proxies, pending: null, closeCount: 0, chatCalls: [], external: [], profileStore: {}};
+  probe.profile = options.profile === true;
+  probe.readCreatesPage = options.readCreatesPage !== false;
   const figma = {
     fileKey: options.fileKey || 'file-a', ui: {postMessage(message) {assert.equal(this, figma.ui); messages.push(message);}},
     currentPage: options.page || {id:'1:1',type:'PAGE'},
+    editorType: options.editorType || 'figma', mode: options.mode || 'default', apiVersion: '1.0.0',
+    currentUser: options.currentUser || null, root: {name: options.fileName || 'Fixture'},
     viewport: {scrollAndZoomIntoView(nodes) {probe.scrolled = nodes.map(node => node.id);}},
     async getNodeByIdAsync(id) {return id === options.page?.id ? options.page : (options.nodes || []).find(node => node.id === id) || null;},
     async setCurrentPageAsync(page) {this.currentPage = page;},
@@ -21,6 +29,10 @@ function harness(frozen = false, options = {}) {
     createPage() {assert.equal(this, figma); writes.push('page');}
   };
   if (options.storage) figma.clientStorage = options.storage;
+  else if (options.profile) figma.clientStorage = {
+    async getAsync(key) {return probe.profileStore[key] || null;},
+    async setAsync(key, value) {probe.profileStore[key] = value;}
+  };
   if (frozen) {
     let handler;
     Object.defineProperty(figma.ui, 'onmessage', {get() {return handler;}, set(value) {handler=value;}, configurable:false});
@@ -28,6 +40,7 @@ function harness(frozen = false, options = {}) {
   }
   const context = vm.createContext({figma, __html__: 'HOME', probe});
   vm.runInContext(`
+${options.profile ? `const WORKSPACE_PROFILE_POLICY = ${JSON.stringify(profilePolicy)};\n${profilePolicySource}\n${profileAdapterSource}\n${control}\n` : ''}
 const FLOW_LOCALES = ${flowLocales};
 const WORKSPACE_CHAT_UI = '<html><head></head><body>CHAT</body></html>';
 const WORKSPACE_CHAT_CONFIG = {url:'http://127.0.0.1:1234',token:'host-only-secret'};
@@ -37,15 +50,27 @@ const WorkspaceChat = {open(figma,task,options) {
 }};
 function runTask() {
   if(probe.failInit)throw Error('synthetic init failure');
-  const figma = workspaceTaskFigma(); probe.proxies.push(figma);
-  figma.showUI(workspaceTaskHtml('<html><head></head><body><script>parent.postMessage({pluginMessage:{type:"ready"}},"*");</script></body></html>'),{width:480,height:640});
+  const figma = workspaceTaskFigma(); probe.proxies.push(figma); probe.taskUser = figma.currentUser;
+  const html = probe.profile
+    ? '<html><head><script type="application/json" id="flow-model">{"session":"native-session"}</script><script id="graph-panel-config" type="application/json">{"session":"native-session"}</script></head><body></body></html>'
+    : '<html><head></head><body><script>parent.postMessage({pluginMessage:{type:"ready"}},"*");</script></body></html>';
+  figma.showUI(workspaceTaskHtml(html),{width:480,height:640});
   figma.ui.onmessage = async message => {
     probe.commands.push(message.type);
     if(probe.errorThenThrow){figma.ui.postMessage({error:'synthetic failure'});throw Error('synthetic failure');}
     if(probe.emitBusyStart)figma.ui.postMessage({type:'busy',value:true});
     if(message.type==='draft-review')figma.ui.postMessage({type:'readback',data:{secret:'PRIVATE CONTENT'}});
-    if(message.type==='apply')figma.ui.postMessage({operation:'apply',readback:{secret:'PRIVATE CONTENT'}});
-    if(message.type==='read') {if(probe.pending)await probe.pending;figma.createPage();}
+    if(message.type==='apply') {
+      const readback=probe.profile && message.session
+        ? {schema:'figma-flow-graph-native-discovery-v1',fileKey:figma.fileKey,pageId:figma.currentPage.id,native_edit:{operation:'apply',applied:true}}
+        : {secret:'PRIVATE CONTENT'};
+      figma.ui.postMessage({session:message.session,operation:'apply',readback});
+    }
+    if(message.type==='read') {
+      if(probe.pending)await probe.pending;
+      if(probe.readCreatesPage)figma.createPage();
+      if(probe.profile && message.session)figma.ui.postMessage({session:message.session,operation:'read',readback:{schema:'figma-flow-graph-native-discovery-v1',fileKey:figma.fileKey,pageId:figma.currentPage.id,native_edit:{operation:'read',applied:false}}});
+    }
     figma.ui.postMessage({type:'result',value:message.type});
     if(probe.emitBusyStart)figma.ui.postMessage({type:'busy',value:false});
   };
@@ -722,4 +747,113 @@ test('an observed failure followed by a thrown error produces one failed executi
   const failed=history.filter(event=>event.status==='failed');
   assert.equal(failed.length,1,'one native failure must be one execution step');
   assert.equal(failed[0].executionId,history.find(event=>event.status==='requested').executionId);
+});
+
+test('profile stays per user and file, publishes observed context, and saves only in the current home scope', async()=>{
+  const h=harness(false,{profile:true,currentUser:{id:'user-1',name:'Ada Example'},page:{id:'1:2',type:'PAGE'},kind:'native-edit'});
+  const listed=await h.listing();
+  assert.equal(listed.profile.context.userId,'user-1');
+  assert.equal(listed.profile.context.userName,'Ada Example');
+  assert.equal(listed.profile.context.fileKey,'file-a');
+  assert.equal(listed.profile.context.pageId,'1:2');
+  assert.equal(listed.profile.context.editorType,'figma');
+  assert.equal(listed.profile.context.mode,'default');
+  assert.equal(listed.profile.needsSetup,true);
+  assert.equal(listed.profile.capabilities.designRead,true);
+  assert.equal(listed.profile.capabilities.designEdit,false);
+  assert.equal(listed.tasks.find(task=>task.kind==='native-edit').profileCanOpen,true,
+    'mixed read/write native edit remains openable through its read operation');
+  assert.equal(listed.tasks.find(task=>task.kind==='review').profileCanOpen,false,
+    'write-only review task remains unavailable before local authoring setup');
+  const tasksBefore=JSON.stringify(listed.tasks), historyBefore=JSON.stringify(listed.history);
+  assert.equal(tasksBefore.includes('user-1'),false);
+  assert.equal(tasksBefore.includes('Ada Example'),false);
+  assert.equal(historyBefore.includes('user-1'),false);
+  assert.equal(historyBefore.includes('Ada Example'),false);
+  await h.send({type:'workspace-profile-save',workspaceSession:listed.workspaceSession,fileKey:'file-a',pageId:'1:2',plan:'professional',seat:'full'});
+  const saved=h.probe.messages.filter(message=>message.type==='workspace-profile-saved').at(-1);
+  assert.equal(saved.profile.needsSetup,false);
+  assert.equal(JSON.stringify(saved.profile.declared),JSON.stringify({plan:'professional',seat:'full'}));
+  assert.equal(saved.profile.source.plan,'user');
+  assert.equal(saved.profile.storage,'local');
+  assert.equal(saved.profile.capabilities.designEdit,true);
+  assert.ok(saved.tasks.every(task=>task.profileCanOpen===true));
+  h.context.controlState('finished',false);
+  assert.equal(JSON.stringify(h.probe.messages.at(-1)).includes('user-1'),false,'control summaries must not carry profile identity');
+  assert.equal(JSON.stringify(h.probe.messages.at(-1)).includes('Ada Example'),false);
+  const storageBefore=JSON.stringify(h.probe.profileStore);
+  await h.send({type:'workspace-profile-save',workspaceSession:'stale-home',fileKey:'file-a',pageId:'1:2',plan:'enterprise',seat:'full'});
+  await h.send({type:'workspace-profile-save',workspaceSession:listed.workspaceSession,fileKey:'other-file',pageId:'1:2',plan:'enterprise',seat:'full'});
+  h.figma.currentPage={id:'other-page',type:'PAGE'};
+  await h.send({type:'workspace-profile-save',workspaceSession:listed.workspaceSession,fileKey:'file-a',pageId:'1:2',plan:'enterprise',seat:'full'});
+  assert.equal(JSON.stringify(h.probe.profileStore),storageBefore,'stale session/file/page claims must not write profile storage');
+
+  const devStore={async getAsync(key){return key.endsWith(':settings')?{version:1,plan:'professional',seat:'full'}:null;},async setAsync(){}};
+  const dev=harness(false,{profile:true,currentUser:{id:'user-2',name:'Dev User'},editorType:'dev',mode:'inspect',storage:devStore});
+  const devList=await dev.listing();
+  assert.equal(devList.profile.capabilities.designEdit,false,'a self-declared full seat cannot turn Dev Inspect into Design authoring');
+  assert.equal(devList.profile.capabilities.devInspect,true);
+
+  const late=harness(false,{profile:true,page:{id:'1:2',type:'PAGE'}});
+  const lateList=await late.listing();
+  assert.equal(lateList.profile.context.userId,null);
+  const saving=late.send({type:'workspace-profile-save',workspaceSession:lateList.workspaceSession,
+    fileKey:'file-a',pageId:'1:2',plan:'professional',seat:'full'});
+  late.figma.currentUser={id:'late-user',name:'Late User'};
+  await saving;
+  const identityChanged=late.probe.messages.filter(message=>message.type==='workspace-profile-saved').at(-1);
+  assert.equal(identityChanged.error,'profile-save-failed');
+  assert.equal(identityChanged.profile.context.userId,'late-user');
+  assert.equal(identityChanged.profile.needsSetup,true,'the new account must not inherit the previous session claim');
+  assert.deepEqual(Object.keys(late.probe.profileStore).filter(key=>key.endsWith(':settings')),[]);
+});
+
+test('profile gates write dispatches, keeps read on mixed tasks, and masks task user identity',async()=>{
+  const h=harness(false,{profile:true,currentUser:{id:'user-1',name:'Ada Example'},page:{id:'1:2',type:'PAGE'},kind:'native-edit',readCreatesPage:false});
+  const session=await h.open('a');
+  assert.equal(h.probe.taskUser,null,'prepared task facade must not expose currentUser');
+  const taskHtml=h.probe.shown.at(-1).html;
+  assert.match(taskHtml,/"read":true/);
+  assert.match(taskHtml,/"apply":false/);
+  await h.send({type:'workspace-task-message',workspaceSession:session,payload:{type:'apply',session:'native-session'}});
+  assert.equal(h.probe.commands.includes('apply'),false,'denied UI writes must not reach task handlers');
+  assert.equal(h.probe.messages.at(-1).payload.type,'workspace-profile-denied');
+  const deniedStatus=h.probe.messages.findLast(message=>message.payload?.type==='status');
+  assert.equal(deniedStatus.payload.busy,false,'denied writes must clear panel busy state');
+  assert.equal(deniedStatus.payload.event,'error');
+  const deniedBusy=h.probe.messages.findLast(message=>message.payload?.type==='busy');
+  assert.equal(deniedBusy.payload.value,false,'import-style panels must clear their local busy state too');
+  await h.send({type:'workspace-task-message',workspaceSession:session,payload:{type:'read',session:'native-session'}});
+  assert.equal(h.probe.commands.includes('read'),true,'read remains available for a mixed native-edit task');
+  assert.deepEqual(h.probe.writes,[],'allowed read must not mutate the synthetic document');
+
+  await h.send({type:'workspace-back',workspaceSession:session});
+  const list=await h.listing();
+  await h.send({type:'workspace-profile-save',workspaceSession:list.workspaceSession,fileKey:'file-a',pageId:'1:2',plan:'professional',seat:'full'});
+  const settingKey=Object.keys(h.probe.profileStore).find(key=>key.endsWith(':settings'));
+  h.probe.profileStore[settingKey]={version:1,plan:'professional',seat:'view'};
+  const task=vm.runInContext('FLOW_TASKS[0]',h.context);
+  let nativeStarted=0;
+  await assert.rejects(h.context.controlExecute(task,{id:'01',revision:'r1',operation:'apply',deadline:Date.now()/1000+60,
+    file_key:'file-a',page_id:'1:2',focus_page:false},async()=>{nativeStarted++;}),/local profile or current Figma context/);
+  assert.equal(nativeStarted,0,'CLI must reload per-file declarations before native-started');
+  assert.equal(h.probe.commands.includes('apply'),false,'a concurrent profile change must be checked before native dispatch');
+  assert.deepEqual(h.probe.writes,[]);
+
+  h.probe.profileStore[settingKey]={version:1,plan:'professional',seat:'full'};
+  const applied=await h.context.controlExecute(task,{id:'03',revision:'r1',operation:'apply',deadline:Date.now()/1000+60,
+    file_key:'file-a',page_id:'1:2',focus_page:false},async()=>{nativeStarted++;});
+  assert.equal(applied.native_edit.applied,true,'a second window enabling authoring must be admitted on the next write');
+  assert.equal(nativeStarted,1);
+
+  const readback=await h.context.controlExecute(task,{id:'02',revision:'r1',operation:'read',deadline:Date.now()/1000+60,
+    file_key:'file-a',page_id:'1:2',focus_page:false},async()=>{nativeStarted++;});
+  assert.equal(readback.schema,'figma-flow-graph-native-discovery-v1');
+  assert.equal(nativeStarted,2,'read on a mixed task stays available after the self-declared seat is downgraded');
+  assert.deepEqual(h.probe.writes,[]);
+  assert.equal(JSON.stringify(vm.runInContext('workspaceState.history',h.context)).includes('user-1'),false,
+    'task history must not persist current-user identity');
+  const operationMessages=h.probe.messages.filter(message=>message.payload && message.payload.type !== 'workspace-profile-denied');
+  assert.equal(JSON.stringify(operationMessages).includes('user-1'),false,'operation readbacks must not acquire profile identity');
+  assert.equal(JSON.stringify(operationMessages).includes('Ada Example'),false);
 });

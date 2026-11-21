@@ -130,7 +130,19 @@ function workspaceRecipeDispatch() {
     if (message.type !== 'workspace-recipe-run' || message.recipe !== key) return;
     used = true;
     if (figma.editorType !== 'figma' || figma.mode !== 'default') {figma.closePlugin('Editor context changed.'); return;}
-    try {actions[key]();} catch (error) {figma.closePlugin(String(error));}
+    const file = figma.fileKey, pageId = figma.currentPage && figma.currentPage.id;
+    const run = allowed => {
+      if (!allowed || figma.fileKey !== file || (figma.currentPage && figma.currentPage.id) !== pageId ||
+          figma.editorType !== 'figma' || figma.mode !== 'default') {
+        figma.closePlugin('Open Figma Flow workspace to review the current file and authoring settings.');
+        return;
+      }
+      try {actions[key]();} catch (error) {figma.closePlugin(String(error));}
+    };
+    if (typeof workspaceProfileAdmit === 'function') {
+      return workspaceProfileAdmit('workspace-recipe-run').then(run, () => run(false));
+    }
+    run(true);
   };
   return true;
 }

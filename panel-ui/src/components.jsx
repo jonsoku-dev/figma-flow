@@ -124,6 +124,11 @@ export function Shell({
   );
 }
 
+export function workspaceAllows(operation) {
+  const operations = window.FlowWorkspace?.allowedOperations;
+  return !operations || operations[operation] === true;
+}
+
 export function Action({ variant = 'secondary', icon: Icon, children, className = '', ...props }) {
   return (
     <button

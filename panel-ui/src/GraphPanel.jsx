@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Download, Eye, RefreshCw, Check, X } from 'lucide-react';
-import { Action, Notice, Section, Disclosure, PreviewStrip } from './components.jsx';
+import { workspaceAllows, Action, Notice, Section, Disclosure, PreviewStrip } from './components.jsx';
 import DiagnosticExport from './DiagnosticExport.jsx';
 import { nativeSummaryView } from './nativeSummary.mjs';
 import { graphSelection } from './graphSelection.mjs';
@@ -170,7 +170,7 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
   const selection = graphSelection(model.changes, chosen);
   const applyBlocked = Array.isArray(model.changes) && model.changes.length > 0 && selection.count === 0;
   function start(type) {
-    if (busyRef.current || (type === 'native-summary' && !discovery) || (type === 'apply' && (discovery || !confirm || applyBlocked))) return;
+    if (!workspaceAllows(type) || busyRef.current || (type === 'native-summary' && !discovery) || (type === 'apply' && (discovery || !confirm || applyBlocked))) return;
     busyRef.current = true;
     setBusy(true);
     operation.current = type;
@@ -246,7 +246,7 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
               {t('graph.summaryRead')}
             </Action>
           )}
-          {!discovery && (
+          {!discovery && workspaceAllows('apply') && (
             <Action
               ref={reviewRef}
               variant="primary"
@@ -263,7 +263,7 @@ export default function GraphPanel({ model, locale, t, send, Shell }) {
           )}
         </div>
         {discovery && <p>{t('graph.summaryBoundary', { page: model.page_id })}</p>}
-        {confirm && (
+        {confirm && workspaceAllows('apply') && (
           <section
             id="graph-confirmation"
             className="graph-confirmation"
