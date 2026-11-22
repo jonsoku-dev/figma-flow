@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "237d53d8aa84a18ca461ea325dda0462efaedea4e0b40d227247067f004b1f2c",
+  "surfaceFingerprint": "0bfbbee4a4886a039b3deb5cdb9a051f25e9940d4a74a90abc918a8d08b6f944",
   "checks": [
     {
       "test": "tests/test_delivery_review.py",
