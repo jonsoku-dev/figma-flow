@@ -237,16 +237,20 @@ def validate_graph(graph, strict_local=False, *, include_figma_warnings=True):
     return errors, warnings
 
 
+# Endpoint authority for the portable strict-local CLI and the archive graph audit.
+LOCAL_TRACE_ENDPOINTS = {
+    "informs": (("reference",), "requirement"),
+    "appears on": (("requirement",), "screen"),
+    "accepted by": (("requirement",), "acceptance"),
+    "implemented by": (("screen", "state", "action"), "code"),
+    "checked by": (("acceptance", "code"), "test"),
+}
+
+
 def _validate_local_coverage(graph, by_id):
     """Check explicit local trace declarations, without inspecting evidence files."""
     errors = []
-    endpoints = {
-        "informs": ("reference", "requirement"),
-        "appears on": ("requirement", "screen"),
-        "accepted by": ("requirement", "acceptance"),
-        "implemented by": (("screen", "state", "action"), "code"),
-        "checked by": (("acceptance", "code"), "test"),
-    }
+    endpoints = LOCAL_TRACE_ENDPOINTS
     links = {label: {} for label in endpoints}
     for edge in graph["edges"]:
         label = edge["type"]

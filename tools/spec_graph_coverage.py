@@ -30,22 +30,23 @@ GRAPH_ID_REFERENCE = re.compile(r"\b(?:REQ|AC|SCR|ACT|CODE|TEST|STATE|FIGMA|ALIG
 # skills/figma-flow/references/graph-contract.md. Unknown legacy labels remain
 # usable as trace edges; they are not interpreted as evidence links.
 TYPED_EDGES = {
-    "informs": ({"reference"}, {"requirement"}),
-    "appears on": ({"requirement"}, {"screen"}),
-    "accepted by": ({"requirement"}, {"acceptance"}),
-    # Existing graph-review uses this explicit legacy equivalent.
-    "has acceptance criterion": ({"requirement"}, {"acceptance"}),
+    label: (set(sources), {target})
+    for label, (sources, target) in _graph_contract.LOCAL_TRACE_ENDPOINTS.items()
+}
+# A feature-level requirement can own implementation directly in a release specification.
+sources, targets = TYPED_EDGES["implemented by"]
+TYPED_EDGES.update({
+    "implemented by": (sources | {"requirement"}, targets),
+    "has acceptance criterion": TYPED_EDGES["accepted by"],
+    "verified by": TYPED_EDGES["checked by"],
     "has state": ({"screen"}, {"state"}),
     "triggers": ({"screen"}, {"action"}),
     "navigates to": ({"action"}, {"screen", "state"}),
     "rendered as": ({"screen"}, {"figma"}),
-    "observed in": ({"screen","figma"}, {"test"}),
+    "observed in": ({"screen", "figma"}, {"test"}),
     "exercised through": ({"acceptance"}, {"code"}),
     "represented by": ({"screen", "state", "action"}, {"figma"}),
-    "implemented by": ({"screen", "state", "action", "requirement"}, {"code"}),
-    "checked by": ({"acceptance", "code"}, {"test"}),
-    "verified by": ({"acceptance", "code"}, {"test"}),
-}
+})
 
 
 def _finding(code: str, path: str, message: str, **extra: Any) -> dict[str, Any]:
