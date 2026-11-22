@@ -1,3 +1,5 @@
+from booking.templatetags.product_copy import PRODUCT
+
 import hashlib
 import json
 from pathlib import Path
@@ -68,6 +70,6 @@ def service_context(request):
     if request.user.is_authenticated:
         from booking.models import Notification
         unread = Notification.objects.filter(member=request.user, read_at__isnull=True).count()
-    return {'service_name':'작은손 커피공방', 'service_environment':settings.ENVIRONMENT,
+    return {'service_name':PRODUCT['serviceName'], 'service_environment':settings.ENVIRONMENT,
             'service_staging':settings.ENVIRONMENT != 'production', 'notifications_unread':unread,
             'design_system_graph_sha':verified_design_system_graph_sha()}

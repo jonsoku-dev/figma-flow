@@ -1,0 +1,538 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "application",
+  "fingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "openFindings": [],
+  "bindings": [
+    {
+      "files": [
+        "apps/little-hands/booking/forms.py",
+        "apps/little-hands/booking/models.py",
+        "apps/little-hands/booking/policy.json",
+        "apps/little-hands/booking/policy.py",
+        "apps/little-hands/booking/services.py"
+      ],
+      "authority": "apps/little-hands/booking/policy.json#/groupSize",
+      "reason": "Public form validation, model validators and constraint state, and transactional admission all read the same quantity bounds.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/1.json",
+          "sha256": "095dd14d45b452426b62ddbaeb0c5fb241dab743e7e95aae858994f21af69bc5"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/ARCHITECTURE.md",
+        "apps/little-hands/booking/__init__.py",
+        "apps/little-hands/booking/admin.py",
+        "apps/little-hands/booking/apps.py",
+        "apps/little-hands/booking/forms.py",
+        "apps/little-hands/booking/management/__init__.py",
+        "apps/little-hands/booking/management/commands/__init__.py",
+        "apps/little-hands/booking/management/commands/seed_staging.py",
+        "apps/little-hands/booking/migrations/0001_initial.py",
+        "apps/little-hands/booking/migrations/0002_immutable_records.py",
+        "apps/little-hands/booking/migrations/0003_session_cancellation_policy.py",
+        "apps/little-hands/booking/migrations/__init__.py",
+        "apps/little-hands/booking/models.py",
+        "apps/little-hands/booking/policy.json",
+        "apps/little-hands/booking/policy.py",
+        "apps/little-hands/booking/product.json",
+        "apps/little-hands/booking/services.py",
+        "apps/little-hands/booking/templatetags/__init__.py",
+        "apps/little-hands/booking/templatetags/audit_display.py",
+        "apps/little-hands/booking/templatetags/product_copy.py",
+        "apps/little-hands/booking/tests/__init__.py",
+        "apps/little-hands/booking/tests/test_audit_display.py",
+        "apps/little-hands/booking/tests/test_booking.py",
+        "apps/little-hands/booking/tests/test_choice_widgets.py",
+        "apps/little-hands/booking/urls.py",
+        "apps/little-hands/booking/views.py",
+        "apps/little-hands/config/__init__.py",
+        "apps/little-hands/config/asgi.py",
+        "apps/little-hands/config/context.py",
+        "apps/little-hands/config/deployment.json",
+        "apps/little-hands/config/middleware.py",
+        "apps/little-hands/config/settings.py",
+        "apps/little-hands/config/tests.py",
+        "apps/little-hands/config/urls.py",
+        "apps/little-hands/config/wsgi.py",
+        "apps/little-hands/manage.py",
+        "apps/little-hands/templates/403.html",
+        "apps/little-hands/templates/404.html",
+        "apps/little-hands/templates/500.html",
+        "apps/little-hands/templates/base.html",
+        "apps/little-hands/templates/booking/booking_detail.html",
+        "apps/little-hands/templates/booking/cancel.html",
+        "apps/little-hands/templates/booking/conflict.html",
+        "apps/little-hands/templates/booking/my_bookings.html",
+        "apps/little-hands/templates/booking/notifications.html",
+        "apps/little-hands/templates/booking/reschedule.html",
+        "apps/little-hands/templates/booking/reserve_review.html",
+        "apps/little-hands/templates/booking/session_detail.html",
+        "apps/little-hands/templates/booking/session_list.html",
+        "apps/little-hands/templates/includes/booking_facts.html",
+        "apps/little-hands/templates/includes/busy.html",
+        "apps/little-hands/templates/includes/form.html",
+        "apps/little-hands/templates/includes/pagination.html",
+        "apps/little-hands/templates/includes/staff_nav.html",
+        "apps/little-hands/templates/includes/status.html",
+        "apps/little-hands/templates/includes/theme_color.html",
+        "apps/little-hands/templates/registration/login.html",
+        "apps/little-hands/templates/registration/signup.html",
+        "apps/little-hands/templates/staff/audit.html",
+        "apps/little-hands/templates/staff/dashboard.html",
+        "apps/little-hands/templates/staff/roster_table.html",
+        "apps/little-hands/templates/staff/session_detail.html",
+        "apps/little-hands/templates/staff/session_form.html",
+        "apps/little-hands/templates/staff/session_list.html",
+        "apps/little-hands/templates/staff/session_table.html",
+        "apps/little-hands/templates/widgets/checkbox.html",
+        "apps/little-hands/templates/widgets/radio_option.html"
+      ],
+      "authority": "apps/little-hands/ARCHITECTURE.md#/sections/뷰·템플릿 계약",
+      "reason": "Django owns application routes, permissions, status and form results; templates render the actual database response and control errors.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/2.json",
+          "sha256": "f03e18b6faf03588ae2c8a6ba53e3e15786a50e7ec287336d1552efe1f573cee"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/Dockerfile",
+        "apps/little-hands/README.md",
+        "apps/little-hands/compose.yaml",
+        "apps/little-hands/config/deployment.json",
+        "apps/little-hands/config/settings.py",
+        "apps/little-hands/deploy/entrypoint.py",
+        "apps/little-hands/deploy/grants.sql",
+        "apps/little-hands/deploy/healthcheck.py",
+        "apps/little-hands/deploy/nginx.conf.example",
+        "apps/little-hands/deploy/publish_config.py",
+        "apps/little-hands/deploy/roles.sql",
+        "apps/little-hands/deploy/templates/Dockerfile.in",
+        "apps/little-hands/deploy/templates/compose.yaml.in",
+        "apps/little-hands/deploy/templates/grants.sql.in",
+        "apps/little-hands/deploy/templates/nginx.conf.example.in",
+        "apps/little-hands/deploy/templates/roles.sql.in",
+        "apps/little-hands/deploy/templates/verify.sql.in",
+        "apps/little-hands/deploy/verify.sql",
+        "apps/little-hands/manage.py",
+        "apps/little-hands/requirements.lock",
+        "apps/little-hands/requirements.txt",
+        "apps/little-hands/tests/test_deployment.py"
+      ],
+      "authority": "apps/little-hands/config/deployment.json#/web",
+      "reason": "Container, proxy and health probe project the deployed listener contract; the app, SQL grants, lockfile and roles implement the operator contract.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/3.json",
+          "sha256": "5f38b1f74b64274a8aa7d92a52f88dd404a4506b3b2dc877cb3e155825697d5c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/UI_CONTRACT.md",
+        "apps/little-hands/design/measure.js",
+        "apps/little-hands/design/publish_styles.py",
+        "apps/little-hands/design/stylesheet.json",
+        "apps/little-hands/design/tokens.json",
+        "apps/little-hands/static/littlehands/app.css",
+        "apps/little-hands/static/littlehands/app.js",
+        "apps/little-hands/templates/base.html",
+        "apps/little-hands/templates/includes/theme_color.html"
+      ],
+      "authority": "apps/little-hands/design/stylesheet.json#/groups",
+      "reason": "Authored rules and token references own the CSS cascade, mobile theme metadata and observable interactive states.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/4.json",
+          "sha256": "f880bc07f970d37b11ccd99c986cef2b1be7dba5359798bee96be8c25e76d9d2"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/capture-plan.json",
+        "apps/little-hands/design/graph.json",
+        "apps/little-hands/design/source-status.json",
+        "apps/little-hands/design/source.py"
+      ],
+      "authority": "apps/little-hands/design/capture-plan.json#/screens",
+      "reason": "Capture states connect the named requirement, page template and verification route to the design graph. SSR and visual acceptance remain separately scoped.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/5.json",
+          "sha256": "8ee45a5ab5f79ff8c9060e9f99a6125297338bd54f96ad08306c08744796ca1e"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/captures/403-desktop.json",
+        "apps/little-hands/design/captures/403-mobile.json",
+        "apps/little-hands/design/captures/404-desktop.json",
+        "apps/little-hands/design/captures/404-mobile.json",
+        "apps/little-hands/design/captures/cancelconfirm-desktop.json",
+        "apps/little-hands/design/captures/cancelconfirm-mobile.json",
+        "apps/little-hands/design/captures/cancelled-desktop.json",
+        "apps/little-hands/design/captures/cancelled-mobile.json",
+        "apps/little-hands/design/captures/confirmed-desktop.json",
+        "apps/little-hands/design/captures/confirmed-mobile.json",
+        "apps/little-hands/design/captures/conflict-desktop.json",
+        "apps/little-hands/design/captures/conflict-mobile.json",
+        "apps/little-hands/design/captures/login-desktop.json",
+        "apps/little-hands/design/captures/login-mobile.json",
+        "apps/little-hands/design/captures/memberhome-desktop.json",
+        "apps/little-hands/design/captures/memberhome-mobile.json",
+        "apps/little-hands/design/captures/mybookings-desktop.json",
+        "apps/little-hands/design/captures/mybookings-mobile.json",
+        "apps/little-hands/design/captures/notifications-desktop.json",
+        "apps/little-hands/design/captures/notifications-mobile.json",
+        "apps/little-hands/design/captures/publichome-desktop.json",
+        "apps/little-hands/design/captures/publichome-mobile.json",
+        "apps/little-hands/design/captures/reschedule-desktop.json",
+        "apps/little-hands/design/captures/reschedule-mobile.json",
+        "apps/little-hands/design/captures/review-desktop.json",
+        "apps/little-hands/design/captures/review-mobile.json",
+        "apps/little-hands/design/captures/sessionavailable-desktop.json",
+        "apps/little-hands/design/captures/sessionavailable-mobile.json",
+        "apps/little-hands/design/captures/signup-desktop.json",
+        "apps/little-hands/design/captures/signup-mobile.json",
+        "apps/little-hands/design/captures/staffaudit-desktop.json",
+        "apps/little-hands/design/captures/staffaudit-mobile.json",
+        "apps/little-hands/design/captures/staffcreate-desktop.json",
+        "apps/little-hands/design/captures/staffcreate-mobile.json",
+        "apps/little-hands/design/captures/staffdashboard-desktop.json",
+        "apps/little-hands/design/captures/staffdashboard-mobile.json",
+        "apps/little-hands/design/captures/staffedit-desktop.json",
+        "apps/little-hands/design/captures/staffedit-mobile.json",
+        "apps/little-hands/design/captures/staffroster-desktop.json",
+        "apps/little-hands/design/captures/staffroster-mobile.json",
+        "apps/little-hands/design/captures/staffsessions-desktop.json",
+        "apps/little-hands/design/captures/staffsessions-mobile.json",
+        "apps/little-hands/design/captures/waitlisted-desktop.json",
+        "apps/little-hands/design/captures/waitlisted-mobile.json",
+        "apps/little-hands/design/input-pins.json",
+        "apps/little-hands/design/snapshot-baseline-r5.json",
+        "apps/little-hands/design/snapshots/403-desktop.html",
+        "apps/little-hands/design/snapshots/403-mobile.html",
+        "apps/little-hands/design/snapshots/404-desktop.html",
+        "apps/little-hands/design/snapshots/404-mobile.html",
+        "apps/little-hands/design/snapshots/cancelconfirm-desktop.html",
+        "apps/little-hands/design/snapshots/cancelconfirm-mobile.html",
+        "apps/little-hands/design/snapshots/cancelled-desktop.html",
+        "apps/little-hands/design/snapshots/cancelled-mobile.html",
+        "apps/little-hands/design/snapshots/confirmed-desktop.html",
+        "apps/little-hands/design/snapshots/confirmed-mobile.html",
+        "apps/little-hands/design/snapshots/conflict-desktop.html",
+        "apps/little-hands/design/snapshots/conflict-mobile.html",
+        "apps/little-hands/design/snapshots/index.json",
+        "apps/little-hands/design/snapshots/login-desktop.html",
+        "apps/little-hands/design/snapshots/login-mobile.html",
+        "apps/little-hands/design/snapshots/memberhome-desktop.html",
+        "apps/little-hands/design/snapshots/memberhome-mobile.html",
+        "apps/little-hands/design/snapshots/mybookings-desktop.html",
+        "apps/little-hands/design/snapshots/mybookings-mobile.html",
+        "apps/little-hands/design/snapshots/notifications-desktop.html",
+        "apps/little-hands/design/snapshots/notifications-mobile.html",
+        "apps/little-hands/design/snapshots/publichome-desktop.html",
+        "apps/little-hands/design/snapshots/publichome-mobile.html",
+        "apps/little-hands/design/snapshots/reschedule-desktop.html",
+        "apps/little-hands/design/snapshots/reschedule-mobile.html",
+        "apps/little-hands/design/snapshots/review-desktop.html",
+        "apps/little-hands/design/snapshots/review-mobile.html",
+        "apps/little-hands/design/snapshots/sessionavailable-desktop.html",
+        "apps/little-hands/design/snapshots/sessionavailable-mobile.html",
+        "apps/little-hands/design/snapshots/signup-desktop.html",
+        "apps/little-hands/design/snapshots/signup-mobile.html",
+        "apps/little-hands/design/snapshots/staffaudit-desktop.html",
+        "apps/little-hands/design/snapshots/staffaudit-mobile.html",
+        "apps/little-hands/design/snapshots/staffcreate-desktop.html",
+        "apps/little-hands/design/snapshots/staffcreate-mobile.html",
+        "apps/little-hands/design/snapshots/staffdashboard-desktop.html",
+        "apps/little-hands/design/snapshots/staffdashboard-mobile.html",
+        "apps/little-hands/design/snapshots/staffedit-desktop.html",
+        "apps/little-hands/design/snapshots/staffedit-mobile.html",
+        "apps/little-hands/design/snapshots/staffroster-desktop.html",
+        "apps/little-hands/design/snapshots/staffroster-mobile.html",
+        "apps/little-hands/design/snapshots/staffsessions-desktop.html",
+        "apps/little-hands/design/snapshots/staffsessions-mobile.html",
+        "apps/little-hands/design/snapshots/waitlisted-desktop.html",
+        "apps/little-hands/design/snapshots/waitlisted-mobile.html",
+        "apps/little-hands/design/source_assets/littlehands/app.3539de012f0c.css",
+        "apps/little-hands/design/visual-review.html"
+      ],
+      "authority": "apps/little-hands/design/snapshot-baseline-r5.json#/snapshots",
+      "reason": "Every state and viewport binds to an exact recorded response, inert HTML, local stylesheet and link in the review gallery.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/6.json",
+          "sha256": "ae9cba3778d9654f718396cf9e4f3acfa32f880d2d51f5be0ef4e1de52c13481"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/previews/booking-confirmed-mobile.jpg",
+        "apps/little-hands/design/previews/littlehands-desktop.jpg",
+        "apps/little-hands/design/previews/littlehands-mobile.jpg",
+        "apps/little-hands/design/previews/staff-dashboard-mobile.jpg",
+        "apps/little-hands/design/previews/stale-request-conflict-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/403-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/403-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/404-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/404-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/cancelconfirm-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/cancelconfirm-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/cancelconfirm-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/cancelled-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/cancelled-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/confirmed-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/confirmed-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/conflict-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/conflict-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/index.json",
+        "apps/little-hands/design/visual-review-images/login-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/login-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/memberhome-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/memberhome-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/mybookings-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/mybookings-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/notifications-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/notifications-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/publichome-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/publichome-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/reschedule-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/reschedule-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/reschedule-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/review-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/review-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/sessionavailable-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/sessionavailable-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/sessionavailable-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/signup-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/signup-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffaudit-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffaudit-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffcreate-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffcreate-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffdashboard-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffdashboard-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffedit-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffedit-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffroster-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffroster-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/staffsessions-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/staffsessions-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/waitlisted-desktop.jpg",
+        "apps/little-hands/design/visual-review-images/waitlisted-mobile.jpg"
+      ],
+      "authority": "apps/little-hands/design/visual-review-images/index.json#/records",
+      "reason": "Review images bind their exact bytes and framing to the corresponding measured desktop/mobile state; supplemental previews preserve their own recorded framing.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/7.json",
+          "sha256": "77286889e3278e65bddaed2ab59d46ed1183e82d2251667a1baa95a021a5647a"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/previews/booking-confirmed-mobile.jpg",
+        "apps/little-hands/design/previews/littlehands-desktop.jpg",
+        "apps/little-hands/design/previews/littlehands-mobile.jpg",
+        "apps/little-hands/design/previews/staff-dashboard-mobile.jpg",
+        "apps/little-hands/design/previews/stale-request-conflict-mobile.jpg",
+        "apps/little-hands/design/visual-review-images/cancelconfirm-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/index.json",
+        "apps/little-hands/design/visual-review-images/reschedule-desktop-bottom.jpg",
+        "apps/little-hands/design/visual-review-images/sessionavailable-desktop-bottom.jpg"
+      ],
+      "authority": "apps/little-hands/design/visual-review-images/index.json#/supplemental/images",
+      "reason": "Supplemental framing identifies the entry or lower detail region and its intended state independently of the full render.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/8.json",
+          "sha256": "55ba7768e132a750ef420a88a8cab88dfeb985aa1f804c4b1db7863bc201e8fe"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/snapshot-baseline-r2.json",
+        "apps/little-hands/design/snapshot-baseline-r3.json",
+        "apps/little-hands/design/snapshot-baseline-r4.json",
+        "apps/little-hands/design/snapshot-comparison-r2-r3.json",
+        "apps/little-hands/design/snapshot-comparison-r3-r4.json"
+      ],
+      "authority": "apps/little-hands/design/VERIFICATION.md#/sections/전체 검사 기록의 기준",
+      "reason": "Historical R2/R3 and R3/R4 comparisons have their own two revision rosters and per-screen change flags.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/9.json",
+          "sha256": "88fbd34e9419ac0b9298d1b2ee1e03a978d3048bbc2048965ddbf4874ec9248a"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/fonts/.gitignore",
+        "apps/little-hands/design/fonts/provenance.json",
+        "apps/little-hands/design/fonts/sources.json",
+        "apps/little-hands/design/prepare_fonts.py",
+        "apps/little-hands/design/source_assets/littlehands/app.3539de012f0c.css",
+        "apps/little-hands/design/source_assets/littlehands/coffee.c6add2ea1eef.jpg",
+        "apps/little-hands/design/source_assets/littlehands/fonts/Hahmlet.95dccd7bd4eb.woff2",
+        "apps/little-hands/design/source_assets/littlehands/fonts/OFL.txt",
+        "apps/little-hands/static/littlehands/coffee.jpg",
+        "apps/little-hands/static/littlehands/fonts/Hahmlet.woff2",
+        "apps/little-hands/static/littlehands/fonts/OFL.txt",
+        "apps/little-hands/static/littlehands/sources.json"
+      ],
+      "authority": "apps/little-hands/static/littlehands/sources.json#/font",
+      "reason": "The shipped photo, licensed variable WOFF2 and collected copies retain source bytes; metric faces use the selected family, styles and weights.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/10.json",
+          "sha256": "b40f47ce79c7d9badced486a52e08a6ea1be512400141b5b46789a0c8de658cc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/VERIFICATION.md",
+        "apps/little-hands/design/control-baseline-r4-graph.json",
+        "apps/little-hands/design/control-baseline-r4-native-layout.json",
+        "apps/little-hands/design/control-line-observation.json",
+        "apps/little-hands/design/control-reuse-regression-r4-r5.json",
+        "apps/little-hands/design/grouping-qa.json",
+        "apps/little-hands/design/native-allocation-baseline-r5.json",
+        "apps/little-hands/design/native-allocation-r6-report.json",
+        "apps/little-hands/design/native-font-calibration-v2.json",
+        "apps/little-hands/design/native-font-calibration.json",
+        "apps/little-hands/design/native-graph-baseline-r5.json",
+        "apps/little-hands/design/native-qa-summary.json",
+        "apps/little-hands/design/observation-provenance.json",
+        "apps/little-hands/design/r6-protected-input-baseline.json"
+      ],
+      "authority": "apps/little-hands/design/r6-protected-input-baseline.json#/files",
+      "reason": "Retained source and native observations remain scoped to the revision and state they describe, including the recorded public identifier redaction.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/11.json",
+          "sha256": "d4f39ed19e45dafdf9f9e7b484cb2c7f366fd47ce6cefd5495c7828561a22699"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/native-font-calibration.json",
+        "apps/little-hands/design/observation-provenance.json"
+      ],
+      "authority": "apps/little-hands/design/observation-provenance.json#/projections",
+      "reason": "The historical identifier redaction retains its pre-redaction digest and pins the entire published observation.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/12.json",
+          "sha256": "916c64fe1a56c6d9fb9e44437a4787333182372f811464c52bab839faf45e7e3"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/app/index.html",
+        "apps/little-hands/design/app/inspect.html",
+        "apps/little-hands/design/control-reuse.json",
+        "apps/little-hands/design/dom-map.json",
+        "apps/little-hands/design/export.py",
+        "apps/little-hands/design/family-targets.json",
+        "apps/little-hands/design/native-layout.json",
+        "apps/little-hands/design/quality.json",
+        "apps/little-hands/design/screen-spec.md",
+        "apps/little-hands/design/source.py",
+        "apps/little-hands/design/specifications.json",
+        "apps/little-hands/design/test_regeneration.py",
+        "apps/little-hands/design/test_source.py"
+      ],
+      "authority": "apps/little-hands/design/input-pins.json#/captures",
+      "reason": "The adapter reads the captured geometry, rebuilds browser/native handoff files, and preserves graph edits and native consumer identities.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/13.json",
+          "sha256": "3c39fabcb406fa727a9d9decf99ccfbe74e04dc79fc5c64a7ef16ff1c21040e5"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/design/graph.json",
+        "apps/little-hands/design/publish_design_system.py",
+        "apps/little-hands/static/littlehands/design-system.css",
+        "apps/little-hands/static/littlehands/design-system.js",
+        "apps/little-hands/static/littlehands/design-system.manifest.json"
+      ],
+      "authority": "apps/little-hands/design/graph.json#/design_system",
+      "reason": "The booking CTA native and SSR consumers use their graph token alias, generation digest and exact scoped selector.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/14.json",
+          "sha256": "f01b4b6d80d3decf401d7ee0f0e39e5008878d662a472fa1e93dcc992f679491"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/.dockerignore",
+        "apps/little-hands/.gitignore",
+        "apps/little-hands/Dockerfile",
+        "apps/little-hands/compose.yaml",
+        "apps/little-hands/config/deployment.json",
+        "apps/little-hands/deploy/nginx.conf.example",
+        "apps/little-hands/deploy/publish_config.py",
+        "apps/little-hands/deploy/templates/Dockerfile.in",
+        "apps/little-hands/deploy/templates/compose.yaml.in",
+        "apps/little-hands/deploy/templates/grants.sql.in",
+        "apps/little-hands/deploy/templates/nginx.conf.example.in",
+        "apps/little-hands/deploy/templates/roles.sql.in",
+        "apps/little-hands/deploy/templates/verify.sql.in"
+      ],
+      "authority": "apps/little-hands/config/deployment.json#/database",
+      "reason": "Compose, nginx, Docker and SQL files project the same private endpoint and actor roles. Local Git excludes transient and secret material.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/15.json",
+          "sha256": "0b38106c54661da333c216f0c594d9dce23f37b5e85fc98009a00fc9a9c7fc3f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/booking/product.json",
+        "apps/little-hands/booking/templatetags/product_copy.py",
+        "apps/little-hands/config/context.py",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/calibration-headlines.json",
+        "apps/little-hands/design/candidate-spec.json",
+        "apps/little-hands/design/content.json",
+        "apps/little-hands/design/input-facts.json",
+        "apps/little-hands/design/material-priority.json",
+        "apps/little-hands/design/research.md"
+      ],
+      "authority": "apps/little-hands/booking/product.json#/serviceName",
+      "reason": "The service identity and payment disclosure are shared by the app; the design candidate stays anchored to its original request, declared sources and measured viewports.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/16.json",
+          "sha256": "80cb92a739e57d5c311648b8ddc8a62fbac4f8d064278e948eb57cfc958c8b37"
+        }
+      ]
+    }
+  ]
+}

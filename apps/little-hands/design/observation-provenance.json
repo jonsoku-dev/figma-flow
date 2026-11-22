@@ -1,0 +1,14 @@
+{
+  "schema": "little-hands-observation-provenance-v1",
+  "projections": [
+    {
+      "path": "native-font-calibration.json",
+      "sourceRecord": "r6-protected-input-baseline.json",
+      "operation": "replace fileKey with SHA-256 of its UTF-8 bytes",
+      "revision": "4db8c67d0f44f8be50b696ae7dc63d4e7f96a02a",
+      "sourceSha256": "2ff3cb5177965628ce7cd4cfdd4eaa8ae3bba46e35471ce866f2a31959fd96fb",
+      "publishedSha256": "478d932ee683ad23dff1e12bea69c003ba2d782bb9c45f42d05395bea9aa4022",
+      "publicDataSha256": "b11a125d9e219535075589bef49702d560a2477e165b6faefae49a3f9b69f49b"
+    }
+  ]
+}

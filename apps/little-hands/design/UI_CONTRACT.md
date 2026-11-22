@@ -4,7 +4,7 @@
 
 회원은 DB의 수업을 고르고 Django 서버 폼으로 신청·대기·취소·변경한다. 운영자는 같은 DB의 실제 정원·예약 명단·변경 기록을 관리한다. 모드는 Operate다. 종이색 바탕, 따뜻한 크림 면, 녹슨 적갈색 행동, 짙은 녹색 확정 상태를 사용한다. 차분한 공방의 인상을 주되 작업을 방해하는 장식은 두지 않는다. 회원 진입 화면의 큰 한국어 제목과 붉은 바탕 위 흰 커피잔 사진이 시각 중심이며, 운영 화면은 표와 수량이 중심이다. 가짜 주소·운영 시간·평판·통계는 만들지 않는다.
 
-색·간격·서체는 `tokens.json`과 `static/littlehands/app.css`가 일치한다. Hahmlet의 본문 Regular 400, 제목 Bold 700을 로컬 WOFF2로 제공한다. 사진·글꼴 출처는 `static/littlehands/sources.json`, 글꼴 라이선스는 `static/littlehands/fonts/OFL.txt`다. 사진은 붉은 바탕 위 흰 잔과 긴 그림자이며 나무·원두·실제 공방 내부로 묘사하지 않는다. 사진 모서리는 0이다.
+공유 색·간격·서체는 [디자인 토큰](tokens.json)이, 화면별 선택자와 속성은 [스타일 그래프](stylesheet.json)가 소유한다. `python3 design/publish_styles.py --write`로 앱 CSS와 테마 색상 템플릿을 생성한다. 같은 명령에서 `--write`를 빼면 배포 파일을 검증한다. Hahmlet의 본문 Regular 400, 제목 Bold 700을 로컬 WOFF2로 제공한다. 사진·글꼴 출처는 `static/littlehands/sources.json`, 글꼴 라이선스는 `static/littlehands/fonts/OFL.txt`다. 사진은 붉은 바탕 위 흰 잔과 긴 그림자이며 나무·원두·실제 공방 내부로 묘사하지 않는다. 사진 모서리는 0이다.
 
 ## 서버와 화면
 

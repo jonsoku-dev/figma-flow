@@ -1,0 +1,46 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/booking/product.json#/serviceName",
+      "covers": [
+        "apps/little-hands/booking/product.json",
+        "apps/little-hands/booking/templatetags/product_copy.py",
+        "apps/little-hands/config/context.py",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/calibration-headlines.json",
+        "apps/little-hands/design/candidate-spec.json",
+        "apps/little-hands/design/content.json",
+        "apps/little-hands/design/input-facts.json",
+        "apps/little-hands/design/material-priority.json",
+        "apps/little-hands/design/research.md"
+      ],
+      "test": "tests/test_booking_design_evidence.py",
+      "case": "BookingDesignEvidenceTests.test_authored_candidate_preserves_brief_assets_and_observation_scope",
+      "testSha256": "e27a0e314e946242b678fcf73f7c572c33036979853084dd3559169e5c7cdc0d",
+      "assertion": "The service identity and payment disclosure are shared by the app; the design candidate stays anchored to its original request, declared sources and measured viewports.",
+      "observed": "The actual seeded export switched to a new brand and disclosure through the shared contract. Preview dimensions, capture text identity, original brief quote and fact-priority sources were checked separately."
+    },
+    {
+      "authority": "apps/little-hands/booking/product.json#/serviceName",
+      "covers": [
+        "apps/little-hands/booking/product.json",
+        "apps/little-hands/booking/templatetags/product_copy.py",
+        "apps/little-hands/config/context.py",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/calibration-headlines.json",
+        "apps/little-hands/design/candidate-spec.json",
+        "apps/little-hands/design/content.json",
+        "apps/little-hands/design/input-facts.json",
+        "apps/little-hands/design/material-priority.json",
+        "apps/little-hands/design/research.md"
+      ],
+      "test": "tests/test_booking_database_release.py",
+      "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
+      "testSha256": "8a08862b2a1f4ad03ac98347310516efb5408236bae4da6f865ca545ce0e9eef",
+      "assertion": "The service identity and payment disclosure are shared by the app; the design candidate stays anchored to its original request, declared sources and measured viewports.",
+      "observed": "The actual seeded export switched to a new brand and disclosure through the shared contract. Preview dimensions, capture text identity, original brief quote and fact-priority sources were checked separately."
+    }
+  ]
+}

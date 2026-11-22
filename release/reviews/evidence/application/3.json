@@ -1,0 +1,38 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/config/deployment.json#/web",
+      "covers": [
+        "apps/little-hands/Dockerfile",
+        "apps/little-hands/README.md",
+        "apps/little-hands/compose.yaml",
+        "apps/little-hands/config/deployment.json",
+        "apps/little-hands/config/settings.py",
+        "apps/little-hands/deploy/entrypoint.py",
+        "apps/little-hands/deploy/grants.sql",
+        "apps/little-hands/deploy/healthcheck.py",
+        "apps/little-hands/deploy/nginx.conf.example",
+        "apps/little-hands/deploy/publish_config.py",
+        "apps/little-hands/deploy/roles.sql",
+        "apps/little-hands/deploy/templates/Dockerfile.in",
+        "apps/little-hands/deploy/templates/compose.yaml.in",
+        "apps/little-hands/deploy/templates/grants.sql.in",
+        "apps/little-hands/deploy/templates/nginx.conf.example.in",
+        "apps/little-hands/deploy/templates/roles.sql.in",
+        "apps/little-hands/deploy/templates/verify.sql.in",
+        "apps/little-hands/deploy/verify.sql",
+        "apps/little-hands/manage.py",
+        "apps/little-hands/requirements.lock",
+        "apps/little-hands/requirements.txt",
+        "apps/little-hands/tests/test_deployment.py"
+      ],
+      "test": "tests/test_booking_database_release.py",
+      "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
+      "testSha256": "8a08862b2a1f4ad03ac98347310516efb5408236bae4da6f865ca545ce0e9eef",
+      "assertion": "Container, proxy and health probe project the deployed listener contract; the app, SQL grants, lockfile and roles implement the operator contract.",
+      "observed": "Fresh roles/migrations/grants/verify.sql passed in PostgreSQL. Gunicorn answered the shipped health probe at a changed internal port and the generated container and Compose projection used that same port. The packaging and secret-loader tests passed."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/design/capture-plan.json#/screens",
+      "covers": [
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/capture-plan.json",
+        "apps/little-hands/design/graph.json",
+        "apps/little-hands/design/source-status.json",
+        "apps/little-hands/design/source.py"
+      ],
+      "test": "tests/test_booking_design_pipeline.py",
+      "case": "BookingDesignPipelineTests.test_capture_plan_requirement_names_resolve_to_actual_app_tests_and_templates",
+      "testSha256": "eca258b78c1f5fded653e0ff42b0cbbfe27f5f3ed34ac3a3c7dcaf07c091c74d",
+      "assertion": "Capture states connect the named requirement, page template and verification route to the design graph. SSR and visual acceptance remain separately scoped.",
+      "observed": "The 22 screen entries resolved to actual templates, source graph IDs, application tests or the explicit manual acceptance contract. Regeneration kept the authored graph byte-identical."
+    },
+    {
+      "authority": "apps/little-hands/design/capture-plan.json#/screens",
+      "covers": [
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/capture-plan.json",
+        "apps/little-hands/design/graph.json",
+        "apps/little-hands/design/source-status.json",
+        "apps/little-hands/design/source.py"
+      ],
+      "test": "tests/test_booking_design_pipeline.py",
+      "case": "BookingDesignPipelineTests.test_rebuilds_handoffs_from_captures_and_retains_authored_graph_identity",
+      "testSha256": "eca258b78c1f5fded653e0ff42b0cbbfe27f5f3ed34ac3a3c7dcaf07c091c74d",
+      "assertion": "Capture states connect the named requirement, page template and verification route to the design graph. SSR and visual acceptance remain separately scoped.",
+      "observed": "The 22 screen entries resolved to actual templates, source graph IDs, application tests or the explicit manual acceptance contract. Regeneration kept the authored graph byte-identical."
+    }
+  ]
+}

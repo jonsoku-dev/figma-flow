@@ -1,0 +1,29 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/config/deployment.json#/database",
+      "covers": [
+        "apps/little-hands/.dockerignore",
+        "apps/little-hands/.gitignore",
+        "apps/little-hands/Dockerfile",
+        "apps/little-hands/compose.yaml",
+        "apps/little-hands/config/deployment.json",
+        "apps/little-hands/deploy/nginx.conf.example",
+        "apps/little-hands/deploy/publish_config.py",
+        "apps/little-hands/deploy/templates/Dockerfile.in",
+        "apps/little-hands/deploy/templates/compose.yaml.in",
+        "apps/little-hands/deploy/templates/grants.sql.in",
+        "apps/little-hands/deploy/templates/nginx.conf.example.in",
+        "apps/little-hands/deploy/templates/roles.sql.in",
+        "apps/little-hands/deploy/templates/verify.sql.in"
+      ],
+      "test": "tests/test_booking_deployment_files.py",
+      "case": "BookingDeploymentFilesTests.test_changed_private_endpoints_reach_compose_proxy_and_built_image",
+      "testSha256": "f107245e3062a50cb529931673f428b0fb35ac8c3cc09c1f7e3e952641ec6b22",
+      "assertion": "Compose, nginx, Docker and SQL files project the same private endpoint and actor roles. Local Git excludes transient and secret material.",
+      "observed": "With both port and role changes Docker Compose resolved the private binding and role pair; the rendered nginx, Dockerfile and SQL changed together. Git accepted public templates and excluded the private probes."
+    }
+  ]
+}

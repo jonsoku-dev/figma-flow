@@ -1,0 +1,25 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/design/stylesheet.json#/groups",
+      "covers": [
+        "apps/little-hands/design/UI_CONTRACT.md",
+        "apps/little-hands/design/measure.js",
+        "apps/little-hands/design/publish_styles.py",
+        "apps/little-hands/design/stylesheet.json",
+        "apps/little-hands/design/tokens.json",
+        "apps/little-hands/static/littlehands/app.css",
+        "apps/little-hands/static/littlehands/app.js",
+        "apps/little-hands/templates/base.html",
+        "apps/little-hands/templates/includes/theme_color.html"
+      ],
+      "test": "tests/test_booking_style_authority.cjs",
+      "case": "a rebuilt booking theme follows graph fields on the captured member home at both widths",
+      "testSha256": "e6d3fbb90cde4191c98e659505aab662cc5f297ad8679544120d0ef5d9e25580",
+      "assertion": "Authored rules and token references own the CSS cascade, mobile theme metadata and observable interactive states.",
+      "observed": "Chromium showed the changed paper color, gutters, breakpoint and image aspect ratio on the actual captured home. The staging reader measured it and refused production; submitted form feedback cleared on page restoration."
+    }
+  ]
+}

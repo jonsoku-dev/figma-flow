@@ -1,0 +1,52 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/design/input-pins.json#/captures",
+      "covers": [
+        "apps/little-hands/design/app/index.html",
+        "apps/little-hands/design/app/inspect.html",
+        "apps/little-hands/design/control-reuse.json",
+        "apps/little-hands/design/dom-map.json",
+        "apps/little-hands/design/export.py",
+        "apps/little-hands/design/family-targets.json",
+        "apps/little-hands/design/native-layout.json",
+        "apps/little-hands/design/quality.json",
+        "apps/little-hands/design/screen-spec.md",
+        "apps/little-hands/design/source.py",
+        "apps/little-hands/design/specifications.json",
+        "apps/little-hands/design/test_regeneration.py",
+        "apps/little-hands/design/test_source.py"
+      ],
+      "test": "tests/test_booking_design_pipeline.py",
+      "case": "BookingDesignPipelineTests.test_rebuilds_handoffs_from_captures_and_retains_authored_graph_identity",
+      "testSha256": "eca258b78c1f5fded653e0ff42b0cbbfe27f5f3ed34ac3a3c7dcaf07c091c74d",
+      "assertion": "The adapter reads the captured geometry, rebuilds browser/native handoff files, and preserves graph edits and native consumer identities.",
+      "observed": "The public adapter regenerated each removed projection byte-for-byte and independently repeated the quality check. All adapter tests, including graph edits, family remapping and conflicting source changes, ran on a private copy."
+    },
+    {
+      "authority": "apps/little-hands/design/input-pins.json#/captures",
+      "covers": [
+        "apps/little-hands/design/app/index.html",
+        "apps/little-hands/design/app/inspect.html",
+        "apps/little-hands/design/control-reuse.json",
+        "apps/little-hands/design/dom-map.json",
+        "apps/little-hands/design/export.py",
+        "apps/little-hands/design/family-targets.json",
+        "apps/little-hands/design/native-layout.json",
+        "apps/little-hands/design/quality.json",
+        "apps/little-hands/design/screen-spec.md",
+        "apps/little-hands/design/source.py",
+        "apps/little-hands/design/specifications.json",
+        "apps/little-hands/design/test_regeneration.py",
+        "apps/little-hands/design/test_source.py"
+      ],
+      "test": "tests/test_booking_database_release.py",
+      "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
+      "testSha256": "8a08862b2a1f4ad03ac98347310516efb5408236bae4da6f865ca545ce0e9eef",
+      "assertion": "The adapter reads the captured geometry, rebuilds browser/native handoff files, and preserves graph edits and native consumer identities.",
+      "observed": "The public adapter regenerated each removed projection byte-for-byte and independently repeated the quality check. All adapter tests, including graph edits, family remapping and conflicting source changes, ran on a private copy."
+    }
+  ]
+}

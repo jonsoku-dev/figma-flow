@@ -9,6 +9,7 @@ from django.db import IntegrityError, connection, transaction
 from django.db.models import Max, Sum
 from django.utils import timezone
 
+from .policy import MAX_GROUP_SIZE, MIN_GROUP_SIZE
 from .models import AuditEvent, Booking, ClassSession, Course, Notification, Operation, Room
 
 
@@ -128,8 +129,8 @@ def reserve(*, actor, session_id, quantity, allow_waitlist, expected_revision, r
         session = _sessions([session_id])[session_id]
         _available(session)
         _revision(session.revision, expected_revision)
-        if not 1 <= quantity <= min(8, session.capacity):
-            raise BookingError('신청 인원은 회차 정원 이내의 1~8명이어야 합니다.', 400)
+        if not MIN_GROUP_SIZE <= quantity <= min(MAX_GROUP_SIZE, session.capacity):
+            raise BookingError(f'신청 인원은 회차 정원 이내의 {MIN_GROUP_SIZE}~{MAX_GROUP_SIZE}명이어야 합니다.', 400)
         if Booking.objects.filter(member=actor, session=session, status__in=['confirmed', 'waitlisted']).exists():
             raise BookingError('이미 이 회차에 신청한 예약이 있습니다.')
         _promote(actor, session)

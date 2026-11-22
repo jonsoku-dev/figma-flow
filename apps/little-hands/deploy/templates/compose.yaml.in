@@ -1,0 +1,78 @@
+name: littlehands-production
+x-app: &app
+  image: littlehands:production
+  build: .
+  read_only: true
+  tmpfs:
+    - /tmp:size=64m,mode=1777
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  environment: &app-env
+    LH_ENV: production
+    LH_ALLOWED_HOSTS: ${LH_ALLOWED_HOSTS:?Set exact allowed hosts}
+    LH_SITE_URL: ${LH_SITE_URL:?Set HTTPS origin}
+    LH_TRUST_PROXY: "1"
+    LH_SECRET_KEY_FILE: {{cfg.secrets.mount}}/{{cfg.secrets.djangoFile}}
+    LH_DB_NAME: {{cfg.database.name}}
+    LH_DB_HOST: db
+    LH_DB_PORT: "{{cfg.database.port}}"
+    LH_DB_USER: {{cfg.database.runtime}}
+    LH_DB_PASSWORD_FILE: {{cfg.secrets.mount}}/{{cfg.secrets.runtimeFile}}
+  secrets: [{{cfg.secrets.djangoFile}}, {{cfg.secrets.runtimeFile}}]
+  depends_on:
+    db:
+      condition: service_healthy
+  networks: [backend]
+services:
+  db:
+    image: {{cfg.database.image}}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: {{cfg.database.name}}
+      POSTGRES_PASSWORD_FILE: {{cfg.secrets.mount}}/{{cfg.secrets.postgresFile}}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    secrets: [{{cfg.secrets.postgresFile}}, {{cfg.secrets.ownerFile}}, {{cfg.secrets.runtimeFile}}]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./deploy/roles.sql:/docker-entrypoint-initdb.d/10-roles.sql:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -h 127.0.0.1 -U postgres -d {{cfg.database.name}}']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks: [backend]
+  web:
+    <<: *app
+    restart: unless-stopped
+    ports: ["127.0.0.1:${LH_HTTP_PORT:-{{cfg.web.hostPort}}}:{{cfg.web.internalPort}}"]
+    networks: [backend, ingress]
+    healthcheck:
+      test: [CMD, python, deploy/healthcheck.py]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+  migrate:
+    <<: *app
+    profiles: [tools]
+    environment:
+      <<: *app-env
+      LH_DB_USER: {{cfg.database.owner}}
+      LH_DB_PASSWORD_FILE: {{cfg.secrets.mount}}/{{cfg.secrets.ownerFile}}
+    secrets: [{{cfg.secrets.djangoFile}}, {{cfg.secrets.ownerFile}}]
+    command: [python, manage.py, migrate, --noinput]
+secrets:
+  {{cfg.secrets.djangoFile}}:
+    file: ${LH_SECRETS_DIR:?Set absolute secret directory outside the checkout}/{{cfg.secrets.djangoFile}}
+  {{cfg.secrets.postgresFile}}:
+    file: ${LH_SECRETS_DIR}/{{cfg.secrets.postgresFile}}
+  {{cfg.secrets.ownerFile}}:
+    file: ${LH_SECRETS_DIR}/{{cfg.secrets.ownerFile}}
+  {{cfg.secrets.runtimeFile}}:
+    file: ${LH_SECRETS_DIR}/{{cfg.secrets.runtimeFile}}
+volumes:
+  pgdata:
+networks:
+  backend:
+    internal: true
+  ingress: {}

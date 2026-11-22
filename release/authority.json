@@ -69,7 +69,26 @@
     {"id":"recipe-bundle","type":"authority","source":"library/figma-recipes/bundle.json"},
     {"id":"recipe-type-review-graph","type":"authority","source":"library/figma-recipes/design-type-review.graph.json"},
     {"id":"recipe-inspection","type":"authority","source":"library/figma-recipes/inspection/values.json"},
-    {"id":"recipe-inspection-members","type":"authority","source":"library/figma-recipes/inspection/members.json"}
+    {"id":"recipe-inspection-members","type":"authority","source":"library/figma-recipes/inspection/members.json"},
+    {"id":"booking-policy","type":"authority","source":"apps/little-hands/booking/policy.json"},
+    {"id":"booking-architecture","type":"authority","source":"apps/little-hands/ARCHITECTURE.md"},
+    {"id":"app-design-tokens","type":"authority","source":"apps/little-hands/design/tokens.json"},
+    {"id":"app-ui-contract","type":"authority","source":"apps/little-hands/design/UI_CONTRACT.md"},
+    {"id":"app-verification","type":"authority","source":"apps/little-hands/design/VERIFICATION.md"},
+    {"id":"app-deployment","type":"authority","source":"apps/little-hands/README.md"},
+    {"id":"app-style-rules","type":"authority","source":"apps/little-hands/design/stylesheet.json"},
+    {"id":"app-capture-plan","type":"authority","source":"apps/little-hands/design/capture-plan.json"},
+    {"id":"app-input-pins","type":"authority","source":"apps/little-hands/design/input-pins.json"},
+    {"id":"app-review-images","type":"authority","source":"apps/little-hands/design/visual-review-images/index.json"},
+    {"id":"app-snapshots-r5","type":"authority","source":"apps/little-hands/design/snapshot-baseline-r5.json"},
+    {"id":"app-source-assets","type":"authority","source":"apps/little-hands/static/littlehands/sources.json"},
+    {"id":"app-protected-inputs","type":"authority","source":"apps/little-hands/design/r6-protected-input-baseline.json"},
+    {"id":"app-native-history","type":"authority","source":"apps/little-hands/design/native-qa-summary.json"},
+    {"id":"app-design-readme","type":"authority","source":"apps/little-hands/design/README.md"},
+    {"id":"app-brief","type":"authority","source":"apps/little-hands/design/brief.md"},
+    {"id":"observation-provenance","type":"authority","source":"apps/little-hands/design/observation-provenance.json"},
+    {"id":"app-deploy-config","type":"authority","source":"apps/little-hands/config/deployment.json"},
+    {"id":"app-product","type":"authority","source":"apps/little-hands/booking/product.json"}
   ],
   "edges": [
     {"from":"manifests","to":"check-metadata","type":"checked-by"},
@@ -133,24 +152,43 @@
     {"from":"skills","to":"feature-guide","type":"owned-by"},
     {"from":"skills","to":"constitution","type":"owned-by"},
     {"from":"delivery","to":"api-toolchain","type":"owned-by"},
-    {"from":"delivery","to":"delivery-policy","type":"owned-by"}
-    ,{"from":"libraries","to":"campaigns","type":"owned-by"}
-    ,{"from":"libraries","to":"campaign-forms","type":"owned-by"}
-    ,{"from":"libraries","to":"design-routes","type":"owned-by"}
-    ,{"from":"libraries","to":"api-toolchain","type":"owned-by"}
-    ,{"from":"libraries","to":"plugin-api-source","type":"owned-by"}
-    ,{"from":"libraries","to":"plugin-api-docs","type":"owned-by"}
-    ,{"from":"libraries","to":"plugin-api-audit","type":"owned-by"}
-    ,{"from":"libraries","to":"plugin-api-static-coverage","type":"owned-by"}
-    ,{"from":"libraries","to":"widget-api-source","type":"owned-by"}
-    ,{"from":"libraries","to":"widget-api-docs","type":"owned-by"}
-    ,{"from":"libraries","to":"rest-api-source","type":"owned-by"}
-    ,{"from":"libraries","to":"rest-api-docs","type":"owned-by"}
-    ,{"from":"libraries","to":"rest-api-toolchain","type":"owned-by"}
-    ,{"from":"libraries","to":"recipe-manifest","type":"owned-by"}
-    ,{"from":"libraries","to":"recipe-bundle","type":"owned-by"}
-    ,{"from":"libraries","to":"recipe-type-review-graph","type":"owned-by"}
-    ,{"from":"libraries","to":"recipe-inspection","type":"owned-by"}
-    ,{"from":"libraries","to":"recipe-inspection-members","type":"owned-by"}
+    {"from":"delivery","to":"delivery-policy","type":"owned-by"},
+    {"from":"libraries","to":"campaigns","type":"owned-by"},
+    {"from":"libraries","to":"campaign-forms","type":"owned-by"},
+    {"from":"libraries","to":"design-routes","type":"owned-by"},
+    {"from":"libraries","to":"api-toolchain","type":"owned-by"},
+    {"from":"libraries","to":"plugin-api-source","type":"owned-by"},
+    {"from":"libraries","to":"plugin-api-docs","type":"owned-by"},
+    {"from":"libraries","to":"plugin-api-audit","type":"owned-by"},
+    {"from":"libraries","to":"plugin-api-static-coverage","type":"owned-by"},
+    {"from":"libraries","to":"widget-api-source","type":"owned-by"},
+    {"from":"libraries","to":"widget-api-docs","type":"owned-by"},
+    {"from":"libraries","to":"rest-api-source","type":"owned-by"},
+    {"from":"libraries","to":"rest-api-docs","type":"owned-by"},
+    {"from":"libraries","to":"rest-api-toolchain","type":"owned-by"},
+    {"from":"libraries","to":"recipe-manifest","type":"owned-by"},
+    {"from":"libraries","to":"recipe-bundle","type":"owned-by"},
+    {"from":"libraries","to":"recipe-type-review-graph","type":"owned-by"},
+    {"from":"libraries","to":"recipe-inspection","type":"owned-by"},
+    {"from":"libraries","to":"recipe-inspection-members","type":"owned-by"},
+    {"from":"application","to":"booking-policy","type":"owned-by"},
+    {"from":"application","to":"booking-architecture","type":"owned-by"},
+    {"from":"application","to":"app-design-tokens","type":"owned-by"},
+    {"from":"application","to":"app-ui-contract","type":"owned-by"},
+    {"from":"application","to":"app-verification","type":"owned-by"},
+    {"from":"application","to":"app-deployment","type":"owned-by"},
+    {"from":"application","to":"app-style-rules","type":"owned-by"},
+    {"from":"application","to":"app-capture-plan","type":"owned-by"},
+    {"from":"application","to":"app-input-pins","type":"owned-by"},
+    {"from":"application","to":"app-review-images","type":"owned-by"},
+    {"from":"application","to":"app-snapshots-r5","type":"owned-by"},
+    {"from":"application","to":"app-source-assets","type":"owned-by"},
+    {"from":"application","to":"app-protected-inputs","type":"owned-by"},
+    {"from":"application","to":"app-native-history","type":"owned-by"},
+    {"from":"application","to":"app-design-readme","type":"owned-by"},
+    {"from":"application","to":"app-brief","type":"owned-by"},
+    {"from":"application","to":"observation-provenance","type":"owned-by"},
+    {"from":"application","to":"app-deploy-config","type":"owned-by"},
+    {"from":"application","to":"app-product","type":"owned-by"}
   ]
 }

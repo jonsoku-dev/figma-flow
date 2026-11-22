@@ -3,7 +3,7 @@
   "source": [
     {
       "path": "../ARCHITECTURE.md",
-      "sha256": "c34bed6b767304b74fa5f15285df3308c8d28abeaa4a8f7de1174693b00e0338"
+      "sha256": "ee2b40e4883bd17e6d82d0a907e89a38e8ed0b58945298fe317a39bd26c4dc1f"
     },
     {
       "path": "../booking/views.py",
@@ -11,7 +11,43 @@
     },
     {
       "path": "../booking/services.py",
-      "sha256": "0d2b4bfd9e137018bd70bfce7b31af4adca4c4dbc4165ef07f60d888be54dec7"
+      "sha256": "6d8964b72d5bf753ec56b445a6d7d61375f943865f465dd9627896973e32282e"
+    },
+    {
+      "path": "../booking/policy.json",
+      "sha256": "aac0c94b927451dce44fb8b5322fc27fc385ce80f4f1aafa1001fe7b14d9d5a7"
+    },
+    {
+      "path": "../booking/policy.py",
+      "sha256": "8b11a2a4bd6c2b88acf09632654c9f4f5b910b84558dcd074e951bd28f014f0c"
+    },
+    {
+      "path": "../booking/product.json",
+      "sha256": "70dbad1d8b9e5ef690c361a2dc76de1d169417ff2aee85d4c1204e141ad85ec5"
+    },
+    {
+      "path": "../booking/templatetags/product_copy.py",
+      "sha256": "3e3a573a52633aeb248d43bc5f65cf76278cb17efd8214f7f2780971b2d04037"
+    },
+    {
+      "path": "../booking/models.py",
+      "sha256": "86d4bc59af39d480545f5d36967776ff30a16654603cd35c5c4a506e9460925c"
+    },
+    {
+      "path": "../booking/forms.py",
+      "sha256": "28c15d45b0ce9280e57ee56d7ee1a1ad605f3f0f0c41dd0e19fd29f87793985d"
+    },
+    {
+      "path": "../design/tokens.json",
+      "sha256": "1936c0fcc15228de2e8fef4e20f8ddb3768c366a05de709c0f17d8aaf2f09520"
+    },
+    {
+      "path": "../design/stylesheet.json",
+      "sha256": "69e6fc20dd7188a42af737327f95ddd2cd30faa799ed9ebdfe2a68e99bbd109f"
+    },
+    {
+      "path": "../design/capture-plan.json",
+      "sha256": "6d6054f8ef0406cc5d23edfa843170593f73312fbb114b12cf9296e21b3cf725"
     },
     {
       "path": "../static/littlehands/app.css",
@@ -23,55 +59,55 @@
     },
     {
       "path": "../templates/403.html",
-      "sha256": "f74910e97c2f659f4825cb4b8383b951a2b4092c5a0f6ca6a1be74ba8770e8df"
+      "sha256": "f43b7ce52379a95e0cc4811d22719c7396773fca5e6e6525ca43ab32bbcd7991"
     },
     {
       "path": "../templates/404.html",
-      "sha256": "0cc5c1b7a99ade2fcbbb15353072df72cfe26a0df10a7a51b4f79a5ac2d18fe8"
+      "sha256": "7254b9e16aaeb9fbb67525c131641ec90cfe5c81d3be5b575b2d281dab09cd55"
     },
     {
       "path": "../templates/500.html",
-      "sha256": "caff365d5380814561322b1cbf38f61d7b5e146af56d7173d0399bb7e1a08b23"
+      "sha256": "b31fd7b56e1d792e94075c496f80a1e4806d0c38dfcc88e9e7dece151cea1cf9"
     },
     {
       "path": "../templates/base.html",
-      "sha256": "c8b454913dc54f5e0cdd50aaa3ad14a0259516f8287d40981007687783c0df66"
+      "sha256": "79f046f2ac9bd6a6ead2d45f69c9bf29dc0df81901ec1d7f721fe15f3bc713d8"
     },
     {
       "path": "../templates/booking/booking_detail.html",
-      "sha256": "8a61ac6ea9a34b32723a0968fe32ab4122cc0f996f107e4fa73b30e18d16c308"
+      "sha256": "2333ddcc06c80d8713016a9b502c322fe499e501faf00fa2e103f92aa70fb3fa"
     },
     {
       "path": "../templates/booking/cancel.html",
-      "sha256": "596aacf4552a5c5699b79491bfec6dfb2b93ca6e0d37de2a9791bab0346e4ab6"
+      "sha256": "7cf1e7036a694f6386e20256dab7f294c59b49a3794aa90d0e35f2348a1024a0"
     },
     {
       "path": "../templates/booking/conflict.html",
-      "sha256": "bfa13b56a328fc1b743aed9f72e9fceb1c2fb0d3f2bcdd1de669b1e8cc8c4709"
+      "sha256": "e08ffbf182f6c325fe94b993355641603dddef27e03407a336602628af5b117d"
     },
     {
       "path": "../templates/booking/my_bookings.html",
-      "sha256": "6ca45bbf79641de6d164cef2f4f68e11b218dbaf5579ddf7cbe50588d3df9b47"
+      "sha256": "7e28ad5df1392f1d0ed5a110c5ed251c379c49fdffa62a42c70183507627fa90"
     },
     {
       "path": "../templates/booking/notifications.html",
-      "sha256": "16761d42bcc6adecf09a0c47c61f36212e338ebaf25433bc8af995f4d96bde1f"
+      "sha256": "19a73d67a559167420b4f2484e2fb1ce8e161b68d6d4c790dfdc8113d535ee2c"
     },
     {
       "path": "../templates/booking/reschedule.html",
-      "sha256": "e1db09ea50e3df0faf1b49992d556f6fe70b7970aea3d7aff246eeb5a1a74f5d"
+      "sha256": "5666ada9699dd1d66075695cf499e681a383f883c950316035ec9bf0da26f1ec"
     },
     {
       "path": "../templates/booking/reserve_review.html",
-      "sha256": "494edd57858655a23e80870c9f9941b87987951b6b54017ae24f685275c3fba7"
+      "sha256": "18782a3bb7fcea2d5e4e242579ebc7d9f58b127dff3be049242914abdc7a0091"
     },
     {
       "path": "../templates/booking/session_detail.html",
-      "sha256": "5dbf33a28c931bec73818a5e1f0fdc49c419618bd0af0858c462801784737703"
+      "sha256": "11c2ff3098d8affb93efc1e7dae6600b724593becdc6b5757cd36cfdee930d0e"
     },
     {
       "path": "../templates/booking/session_list.html",
-      "sha256": "b5eb6fe9cb7ca56ab853a75b91deeea11c8a749fcffc785da080b9b04712e9a6"
+      "sha256": "c35e6021b14e5b5203aaeaf202d70d91d9c335b609b3824352125bf56121f1ea"
     },
     {
       "path": "../templates/includes/booking_facts.html",
@@ -98,20 +134,24 @@
       "sha256": "dfd39e61e01c87baa4de7ad6108ecd778a06c7ffb0b0ae1583b2da52c5c63d84"
     },
     {
+      "path": "../templates/includes/theme_color.html",
+      "sha256": "9f5509998e3a00c4855f0c867d551cf54f2d72da5c20e23105bd4f47823403eb"
+    },
+    {
       "path": "../templates/registration/login.html",
-      "sha256": "2b39ea92f403a3e675e3ddc0a4ba86f61afe204e3c8e091f2aa5e876bcd0f778"
+      "sha256": "666244e7b2debd58cf374c61b992e456e4f6d7cd3fba1b24146e8e10c520b0e7"
     },
     {
       "path": "../templates/registration/signup.html",
-      "sha256": "fece1abe64090cf7f2b30a1c378338da20657c4e098bbb64fcfd21ab212e1589"
+      "sha256": "a6654900e2e3ed707c14239b7f3c0b2d8248875479c140dd4d39f38a113db56b"
     },
     {
       "path": "../templates/staff/audit.html",
-      "sha256": "3ea4f7d2e0cb75d376276a96c659e3a27d506ab724e1b34426c44ba71d637687"
+      "sha256": "5554f485fcf1d1830a3d8b3538be40fa94b1429197a8978527be02977877d13e"
     },
     {
       "path": "../templates/staff/dashboard.html",
-      "sha256": "c247cc483f4701e2060f0d8d52cc333f35c32234739d17ae38a6fcee7ec57912"
+      "sha256": "b7bf2a1bf78a2bfcaa18a58bcf69e6b1cadbb79e3f677a555f872b387d1773ce"
     },
     {
       "path": "../templates/staff/roster_table.html",
@@ -119,15 +159,15 @@
     },
     {
       "path": "../templates/staff/session_detail.html",
-      "sha256": "275566d537d2e6282a6a3dc9878aea64ecacb8bc5dc92d6f1000a577c3109863"
+      "sha256": "19a6f69206ac50e0bfcea3bea6e066fa83267c4bac444876d63f3c4662f67cae"
     },
     {
       "path": "../templates/staff/session_form.html",
-      "sha256": "3a4737003531d0c317cf1879ee0918a3617cce5436760630d33770d51b18bbe0"
+      "sha256": "9e85bd9ed440798d6230c7ce5e18f5d32474e4eaa8e831689cae971322f4089b"
     },
     {
       "path": "../templates/staff/session_list.html",
-      "sha256": "629761f749d5678f87e94de04107507da025c10e306a6205272891347114551e"
+      "sha256": "cfafa02d8c7dc4cee25f92bd1cf8b91924fbcba6c323f2967faa201a5ccd5249"
     },
     {
       "path": "../templates/staff/session_table.html",

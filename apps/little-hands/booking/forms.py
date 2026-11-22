@@ -10,6 +10,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from .models import Course, Room
+from .policy import MAX_GROUP_SIZE, MIN_GROUP_SIZE
 
 
 class RequestForm(forms.Form):
@@ -40,7 +41,7 @@ class PaintedRadioSelect(forms.RadioSelect):
 
 class ReserveForm(ActionForm):
     default_renderer = ChoiceWidgetRenderer
-    quantity = forms.IntegerField(label='참가 인원', min_value=1, max_value=8, initial=1)
+    quantity = forms.IntegerField(label='참가 인원', min_value=MIN_GROUP_SIZE, max_value=MAX_GROUP_SIZE, initial=MIN_GROUP_SIZE)
     allow_waitlist = forms.BooleanField(label='바로 확정되지 않으면 대기 신청에 동의합니다', required=False,
         widget=PaintedCheckboxInput(attrs={'class': 'choice-input choice-checkbox'}))
 

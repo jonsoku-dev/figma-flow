@@ -1,4 +1,5 @@
 """Secure-by-default service settings; secrets and data are owned by the operator."""
+import json
 import os
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -41,16 +42,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 TEMPLATES = [{'BACKEND':'django.template.backends.django.DjangoTemplates',
     'DIRS':[BASE_DIR / 'templates'], 'APP_DIRS':True,
-    'OPTIONS':{'context_processors':[
+    'OPTIONS':{'builtins':['booking.templatetags.product_copy'], 'context_processors':[
         'django.template.context_processors.request', 'django.contrib.auth.context_processors.auth',
         'django.contrib.messages.context_processors.messages', 'config.context.service_context',
     ]}}]
 
+DATABASE_DEFAULTS = json.loads(Path(__file__).with_name('deployment.json').read_bytes())['database']
 DATABASES = {'default':{
     'ENGINE':'django.db.backends.postgresql',
-    'NAME':os.environ.get('LH_DB_NAME', 'littlehands'), 'USER':os.environ.get('LH_DB_USER', 'littlehands_runtime'),
+    'NAME':os.environ.get('LH_DB_NAME', DATABASE_DEFAULTS['name']), 'USER':os.environ.get('LH_DB_USER', DATABASE_DEFAULTS['runtime']),
     'PASSWORD':os.environ.get('LH_DB_PASSWORD', ''), 'HOST':os.environ.get('LH_DB_HOST', '127.0.0.1'),
-    'PORT':os.environ.get('LH_DB_PORT', '55439'), 'CONN_MAX_AGE':60, 'CONN_HEALTH_CHECKS':True,
+    'PORT':os.environ.get('LH_DB_PORT', str(DATABASE_DEFAULTS['developmentPort'])), 'CONN_MAX_AGE':60, 'CONN_HEALTH_CHECKS':True,
     'OPTIONS':{'connect_timeout':5},
 }}
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

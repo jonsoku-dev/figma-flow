@@ -1,0 +1,54 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/design/r6-protected-input-baseline.json#/files",
+      "covers": [
+        "apps/little-hands/design/VERIFICATION.md",
+        "apps/little-hands/design/control-baseline-r4-graph.json",
+        "apps/little-hands/design/control-baseline-r4-native-layout.json",
+        "apps/little-hands/design/control-line-observation.json",
+        "apps/little-hands/design/control-reuse-regression-r4-r5.json",
+        "apps/little-hands/design/grouping-qa.json",
+        "apps/little-hands/design/native-allocation-baseline-r5.json",
+        "apps/little-hands/design/native-allocation-r6-report.json",
+        "apps/little-hands/design/native-font-calibration-v2.json",
+        "apps/little-hands/design/native-font-calibration.json",
+        "apps/little-hands/design/native-graph-baseline-r5.json",
+        "apps/little-hands/design/native-qa-summary.json",
+        "apps/little-hands/design/observation-provenance.json",
+        "apps/little-hands/design/r6-protected-input-baseline.json"
+      ],
+      "test": "tests/test_booking_design_pipeline.py",
+      "case": "BookingDesignPipelineTests.test_preserved_native_allocation_and_reuse_reports_match_their_inputs",
+      "testSha256": "eca258b78c1f5fded653e0ff42b0cbbfe27f5f3ed34ac3a3c7dcaf07c091c74d",
+      "assertion": "Retained source and native observations remain scoped to the revision and state they describe, including the recorded public identifier redaction.",
+      "observed": "Verified stored inputs or the separately verified redaction, compared R4/R5 style counts, unchanged prototype bindings and capture digests, and checked the R6 allocation and grouping records."
+    },
+    {
+      "authority": "apps/little-hands/design/r6-protected-input-baseline.json#/files",
+      "covers": [
+        "apps/little-hands/design/VERIFICATION.md",
+        "apps/little-hands/design/control-baseline-r4-graph.json",
+        "apps/little-hands/design/control-baseline-r4-native-layout.json",
+        "apps/little-hands/design/control-line-observation.json",
+        "apps/little-hands/design/control-reuse-regression-r4-r5.json",
+        "apps/little-hands/design/grouping-qa.json",
+        "apps/little-hands/design/native-allocation-baseline-r5.json",
+        "apps/little-hands/design/native-allocation-r6-report.json",
+        "apps/little-hands/design/native-font-calibration-v2.json",
+        "apps/little-hands/design/native-font-calibration.json",
+        "apps/little-hands/design/native-graph-baseline-r5.json",
+        "apps/little-hands/design/native-qa-summary.json",
+        "apps/little-hands/design/observation-provenance.json",
+        "apps/little-hands/design/r6-protected-input-baseline.json"
+      ],
+      "test": "tests/test_booking_design_pipeline.py",
+      "case": "BookingDesignPipelineTests.test_rebuilds_handoffs_from_captures_and_retains_authored_graph_identity",
+      "testSha256": "eca258b78c1f5fded653e0ff42b0cbbfe27f5f3ed34ac3a3c7dcaf07c091c74d",
+      "assertion": "Retained source and native observations remain scoped to the revision and state they describe, including the recorded public identifier redaction.",
+      "observed": "Verified stored inputs or the separately verified redaction, compared R4/R5 style counts, unchanged prototype bindings and capture digests, and checked the R6 allocation and grouping records."
+    }
+  ]
+}

@@ -1063,5 +1063,106 @@
       ],
       "visually_reviewed_by": "primary-agent"
     }
-  ]
+  ],
+  "supplemental": {
+    "scope": "Reviewed existing images. Framing and bytes identify the artifact; the pictures do not execute a reservation.",
+    "images": [
+      {
+        "path": "previews/littlehands-desktop.jpg",
+        "state": "state-publichome",
+        "viewport": "desktop",
+        "framing": "entry",
+        "witness": "Hero title at left and the red coffee photograph at right.",
+        "pixels": [
+          1185,
+          889
+        ],
+        "sha256": "aaddc23717df8e91d7a6936f582540bd5b2806f0ce618e6bb24b49fcd282c4b5"
+      },
+      {
+        "path": "previews/littlehands-mobile.jpg",
+        "state": "state-publichome",
+        "viewport": "mobile",
+        "framing": "entry",
+        "witness": "Hero title above the red coffee photograph and class list.",
+        "pixels": [
+          375,
+          923
+        ],
+        "sha256": "78d240eabb7fb5ebc1152e2cb7aec72731429899ce65cd8c450b2797f676ae1f"
+      },
+      {
+        "path": "previews/booking-confirmed-mobile.jpg",
+        "state": "state-confirmed",
+        "viewport": "mobile",
+        "framing": "entry",
+        "witness": "Confirmed reservation heading and the saved booking fact list.",
+        "pixels": [
+          375,
+          923
+        ],
+        "sha256": "412309c0e6e61952db10801cada3e182c08c4468b0478d3188d4d0335cee9f8a"
+      },
+      {
+        "path": "previews/staff-dashboard-mobile.jpg",
+        "state": "state-staffdashboard",
+        "viewport": "mobile",
+        "framing": "entry",
+        "witness": "Staff heading above the operational counts and recent sessions.",
+        "pixels": [
+          375,
+          923
+        ],
+        "sha256": "7fef43a7e5c2e61c8bc5bc3e494c63115687c0a88b9c4314713fd7a7f27c8fc8"
+      },
+      {
+        "path": "previews/stale-request-conflict-mobile.jpg",
+        "state": "state-conflict",
+        "viewport": "mobile",
+        "framing": "entry",
+        "witness": "Conflict notice and recovery actions within the short viewport.",
+        "pixels": [
+          390,
+          219
+        ],
+        "sha256": "05a4d947bc3aae5fbaf8e040f89f16ab4f1f2f1f418875cd0cf5875e0a69ece4"
+      },
+      {
+        "path": "visual-review-images/cancelconfirm-desktop-bottom.jpg",
+        "state": "state-cancelconfirm",
+        "viewport": "desktop",
+        "framing": "bottom",
+        "witness": "Cancellation confirmation, booking facts and action above footer.",
+        "pixels": [
+          1185,
+          711
+        ],
+        "sha256": "250b34d40835335ed80c139346b737e4aeb145a6833bb60303bf40afb1da2f82"
+      },
+      {
+        "path": "visual-review-images/reschedule-desktop-bottom.jpg",
+        "state": "state-reschedule",
+        "viewport": "desktop",
+        "framing": "bottom",
+        "witness": "Current reservation beside new session and change controls.",
+        "pixels": [
+          1185,
+          711
+        ],
+        "sha256": "46ec9835fe1b76a9fc507370f4bada7e7fddb92a8c5a8bd3b05f92712830007b"
+      },
+      {
+        "path": "visual-review-images/sessionavailable-desktop-bottom.jpg",
+        "state": "state-sessionavailable",
+        "viewport": "desktop",
+        "framing": "bottom",
+        "witness": "Class details beside the reservation summary and submit control.",
+        "pixels": [
+          1185,
+          711
+        ],
+        "sha256": "19a84d5187037e4c284ae9807feba6df4905bac1610149191ecb7e5f1f1a2614"
+      }
+    ]
+  }
 }

@@ -1,0 +1,24 @@
+{
+  "database": {
+    "name": "littlehands",
+    "owner": "littlehands_owner",
+    "runtime": "littlehands_runtime",
+    "port": 5432,
+    "developmentPort": 55439,
+    "image": "postgres:17-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994"
+  },
+  "web": {
+    "internalPort": 8000,
+    "hostPort": 8870,
+    "pythonImage": "python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72",
+    "uid": 10001,
+    "healthTimeout": 5
+  },
+  "secrets": {
+    "mount": "/run/secrets",
+    "ownerFile": "owner_password",
+    "runtimeFile": "runtime_password",
+    "postgresFile": "postgres_password",
+    "djangoFile": "django_secret"
+  }
+}

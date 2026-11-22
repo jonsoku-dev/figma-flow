@@ -8,6 +8,8 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 
+from .policy import MAX_GROUP_SIZE, MIN_GROUP_SIZE
+
 
 class Course(models.Model):
     title = models.CharField('강좌명', max_length=120)
@@ -84,7 +86,7 @@ class Booking(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='bookings')
     session = models.ForeignKey(ClassSession, on_delete=models.PROTECT, related_name='bookings')
-    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(8)])
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(MIN_GROUP_SIZE), MaxValueValidator(MAX_GROUP_SIZE)])
     unit_price_krw = models.PositiveIntegerField()
     consented_session_revision = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=16, choices=Status.choices)
@@ -96,7 +98,7 @@ class Booking(models.Model):
     class Meta:
         ordering = ['-created_at', '-pk']
         constraints = [
-            models.CheckConstraint(condition=Q(quantity__gte=1, quantity__lte=8), name='booking_quantity_1_to_8'),
+            models.CheckConstraint(condition=Q(quantity__gte=MIN_GROUP_SIZE, quantity__lte=MAX_GROUP_SIZE), name='booking_quantity_1_to_8'),
             models.CheckConstraint(condition=Q(revision__gte=1), name='booking_revision_positive'),
             models.CheckConstraint(condition=Q(status__in=['confirmed', 'waitlisted', 'cancelled']), name='booking_valid_status'),
             models.UniqueConstraint(fields=['member', 'session'], condition=Q(status__in=['confirmed', 'waitlisted']), name='one_active_booking_per_member_session'),

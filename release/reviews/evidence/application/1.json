@@ -1,0 +1,36 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/booking/policy.json#/groupSize",
+      "covers": [
+        "apps/little-hands/booking/forms.py",
+        "apps/little-hands/booking/models.py",
+        "apps/little-hands/booking/policy.json",
+        "apps/little-hands/booking/policy.py",
+        "apps/little-hands/booking/services.py"
+      ],
+      "test": "tests/test_booking_group_authority.py",
+      "case": "GroupPolicyTests.test_form_model_and_service_follow_the_candidate_group_limit",
+      "testSha256": "3f9dcbe97cab98b93db393d94c86f7823a5e55b56463c938bc9381e3304f7b42",
+      "assertion": "Public form validation, model validators and constraint state, and transactional admission all read the same quantity bounds.",
+      "observed": "A cap of two admitted one and two in the form and validators, rejected three at all three layers, and the database declaration followed the cap. The shipped migrations matched the default model."
+    },
+    {
+      "authority": "apps/little-hands/booking/policy.json#/groupSize",
+      "covers": [
+        "apps/little-hands/booking/forms.py",
+        "apps/little-hands/booking/models.py",
+        "apps/little-hands/booking/policy.json",
+        "apps/little-hands/booking/policy.py",
+        "apps/little-hands/booking/services.py"
+      ],
+      "test": "tests/test_booking_database_release.py",
+      "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
+      "testSha256": "8a08862b2a1f4ad03ac98347310516efb5408236bae4da6f865ca545ce0e9eef",
+      "assertion": "Public form validation, model validators and constraint state, and transactional admission all read the same quantity bounds.",
+      "observed": "A cap of two admitted one and two in the form and validators, rejected three at all three layers, and the database declaration followed the cap. The shipped migrations matched the default model."
+    }
+  ]
+}

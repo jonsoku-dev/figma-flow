@@ -1,0 +1,21 @@
+{
+  "surfaceFingerprint": "b134bce5da762bb1d4542c9d7e7681903875c62442b0903f69531daeec07a031",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/design/VERIFICATION.md#/sections/전체 검사 기록의 기준",
+      "covers": [
+        "apps/little-hands/design/snapshot-baseline-r2.json",
+        "apps/little-hands/design/snapshot-baseline-r3.json",
+        "apps/little-hands/design/snapshot-baseline-r4.json",
+        "apps/little-hands/design/snapshot-comparison-r2-r3.json",
+        "apps/little-hands/design/snapshot-comparison-r3-r4.json"
+      ],
+      "test": "tests/test_booking_design_evidence.py",
+      "case": "BookingDesignEvidenceTests.test_archived_revision_comparisons_match_the_two_historical_rosters",
+      "testSha256": "e27a0e314e946242b678fcf73f7c572c33036979853084dd3559169e5c7cdc0d",
+      "assertion": "Historical R2/R3 and R3/R4 comparisons have their own two revision rosters and per-screen change flags.",
+      "observed": "Both comparison reports accounted for every before/after state. Capture and HTML flags and counts were recalculated from the historical digests."
+    }
+  ]
+}

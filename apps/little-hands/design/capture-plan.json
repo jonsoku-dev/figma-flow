@@ -1,0 +1,410 @@
+{
+  "schema": "little-hands-capture-plan-v1",
+  "screens": [
+    {
+      "id": "publichome",
+      "title": "수업 둘러보기",
+      "template": "booking/session_list.html",
+      "requirements": [
+        "REQ-001",
+        "REQ-010"
+      ],
+      "route": "/"
+    },
+    {
+      "id": "login",
+      "title": "로그인",
+      "template": "registration/login.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-010"
+      ],
+      "route": "/accounts/login/"
+    },
+    {
+      "id": "signup",
+      "title": "회원가입",
+      "template": "registration/signup.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-010"
+      ],
+      "route": "/accounts/signup/"
+    },
+    {
+      "id": "memberhome",
+      "title": "회원 수업 둘러보기",
+      "template": "booking/session_list.html",
+      "requirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-010"
+      ],
+      "route": "/"
+    },
+    {
+      "id": "sessionavailable",
+      "title": "수업과 신청 인원",
+      "template": "booking/session_detail.html",
+      "requirements": [
+        "REQ-001",
+        "REQ-003",
+        "REQ-004",
+        "REQ-008",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "review",
+      "title": "신청 내용 확인",
+      "template": "booking/reserve_review.html",
+      "requirements": [
+        "REQ-003",
+        "REQ-004",
+        "REQ-008",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "confirmed",
+      "title": "예약 확정",
+      "template": "booking/booking_detail.html",
+      "requirements": [
+        "REQ-003",
+        "REQ-005",
+        "REQ-006",
+        "REQ-007",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "waitlisted",
+      "title": "대기 등록",
+      "template": "booking/booking_detail.html",
+      "requirements": [
+        "REQ-004",
+        "REQ-005",
+        "REQ-006",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "mybookings",
+      "title": "나의 예약",
+      "template": "booking/my_bookings.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-005",
+        "REQ-010"
+      ],
+      "route": "/bookings/"
+    },
+    {
+      "id": "cancelconfirm",
+      "title": "취소 확인",
+      "template": "booking/cancel.html",
+      "requirements": [
+        "REQ-006",
+        "REQ-008",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "cancelled",
+      "title": "취소된 예약",
+      "template": "booking/booking_detail.html",
+      "requirements": [
+        "REQ-005",
+        "REQ-006",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "reschedule",
+      "title": "회차 변경",
+      "template": "booking/reschedule.html",
+      "requirements": [
+        "REQ-007",
+        "REQ-008",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "conflict",
+      "title": "변경 충돌과 복구",
+      "template": "booking/conflict.html",
+      "requirements": [
+        "REQ-007",
+        "REQ-008",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "notifications",
+      "title": "나의 알림",
+      "template": "booking/notifications.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-009",
+        "REQ-010"
+      ],
+      "route": "/notifications/"
+    },
+    {
+      "id": "staffdashboard",
+      "title": "운영 현황",
+      "template": "staff/dashboard.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-009",
+        "REQ-010"
+      ],
+      "route": "/staff/"
+    },
+    {
+      "id": "staffsessions",
+      "title": "운영 일정",
+      "template": "staff/session_list.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-009",
+        "REQ-010"
+      ],
+      "route": "/staff/sessions/"
+    },
+    {
+      "id": "staffcreate",
+      "title": "회차 등록",
+      "template": "staff/session_form.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-008",
+        "REQ-009",
+        "REQ-010"
+      ],
+      "route": "/staff/sessions/new/"
+    },
+    {
+      "id": "staffroster",
+      "title": "신청 명단",
+      "template": "staff/session_detail.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-004",
+        "REQ-009",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "staffedit",
+      "title": "회차 편집",
+      "template": "staff/session_form.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-008",
+        "REQ-009",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "staffaudit",
+      "title": "변경 기록",
+      "template": "staff/audit.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-009",
+        "REQ-010"
+      ],
+      "route": "/staff/audit/"
+    },
+    {
+      "id": "403",
+      "title": "접근 권한 안내",
+      "template": "403.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-010"
+      ],
+      "route": null
+    },
+    {
+      "id": "404",
+      "title": "찾을 수 없는 화면",
+      "template": "404.html",
+      "requirements": [
+        "REQ-002",
+        "REQ-010"
+      ],
+      "route": null
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "실제 수업·회차·공간·정원·가격 탐색",
+      "test": "test_expired_session_detail_disables_reservation"
+    },
+    {
+      "id": "REQ-002",
+      "title": "Django 인증과 소유자·운영자 권한",
+      "test": "test_owner_and_staff_authorization_and_method_guards"
+    },
+    {
+      "id": "REQ-003",
+      "title": "인원·총액 검토와 원자적 신청",
+      "test": "test_final_seat_concurrent_confirmed_and_waitlisted"
+    },
+    {
+      "id": "REQ-004",
+      "title": "명시적 대기 동의와 엄격한 FIFO 승급",
+      "test": "test_fifo_does_not_skip_larger_group_with_free_seat"
+    },
+    {
+      "id": "REQ-005",
+      "title": "자기 예약 상태와 예약 당시 단가 조회",
+      "test": "test_reschedule_preserves_original_quote_and_discloses_target_policy"
+    },
+    {
+      "id": "REQ-006",
+      "title": "정책 기한과 명시적 원자적 취소",
+      "test": "test_idempotent_cancel_promotes_and_notifies_once"
+    },
+    {
+      "id": "REQ-007",
+      "title": "실패 시 원래 예약을 보존하는 회차 변경",
+      "test": "test_failed_reschedule_preserves_original_queue_audit_notifications"
+    },
+    {
+      "id": "REQ-008",
+      "title": "revision·멱등·DB 제약과 충돌 복구",
+      "test": "test_view_idempotency_reuse_and_stale_target_are_409"
+    },
+    {
+      "id": "REQ-009",
+      "title": "회차·명단·실제 집계·알림·불변 감사",
+      "test": "test_dashboard_uses_database_totals_and_admin_cannot_mutate"
+    },
+    {
+      "id": "REQ-010",
+      "title": "실제 반응형 웹과 편집 가능한 Figma 전달",
+      "test": null
+    }
+  ],
+  "platform": {
+    "web": "Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다.",
+    "figma": "관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다."
+  },
+  "screenMeaning": {
+    "publichome": [
+      "공개 수업의 실제 일정·공간·인원·가격을 찾아 신청할 회차를 고른다.",
+      "수업 목록 → 회차 상세 → 로그인 또는 신청 검토. 빈 일정은 준비 중 안내를 읽는다."
+    ],
+    "login": [
+      "기존 회원이 Django 인증으로 자신의 예약과 알림에 접근한다.",
+      "계정과 암호 입력 → 서버 인증 → 원래 목적지 또는 수업 목록. 오류는 입력과 함께 표시한다."
+    ],
+    "signup": [
+      "권한을 스스로 부여할 수 없는 일반 회원 계정을 만든다.",
+      "회원명과 암호 정책 확인 → 서버 가입 → 회원 수업 목록. 중복·약한 암호는 서버 오류로 복구한다."
+    ],
+    "memberhome": [
+      "로그인한 회원이 현재 예약 가능한 실제 회차를 비교한다.",
+      "수업과 잔여석 확인 → 회차 상세. 나의 예약·알림으로 직접 이동할 수 있다."
+    ],
+    "sessionavailable": [
+      "실제 수업 시간·공간·정책·잔여석을 확인하고 참가 인원과 대기 동의를 정한다.",
+      "회차 정보 → 인원1~8명과 선택적 대기 동의 → 서버 검토. 비활성·지난 회차는 신청할 수 없다."
+    ],
+    "review": [
+      "서버가 검증한 인원과 현장 결제 총액을 최종 신청 전에 확인한다.",
+      "회차·인원·총액 확인 → 명시적 최종 신청 또는 다시 선택. 서버가 확정 또는 대기 상태를 결정한다."
+    ],
+    "confirmed": [
+      "실제 확정 예약의 일정·인원·예약 당시 금액과 관리 가능 여부를 확인한다.",
+      "확정 상세 → 나의 예약, 기한 내 취소 또는 같은 강좌의 다른 회차로 변경."
+    ],
+    "waitlisted": [
+      "좌석 확보와 구분되는 실제 대기 상태를 확인한다.",
+      "대기 상세 → 알림과 상세 재조회. FIFO 첫 그룹이 들어갈 수 있을 때만 서버가 승급한다."
+    ],
+    "mybookings": [
+      "현재 회원이 소유한 예약만 상태와 함께 다시 조회한다.",
+      "자기 예약 목록 → 공개 UUID 상세. 다른 회원의 UUID는404로 보호한다."
+    ],
+    "cancelconfirm": [
+      "예약을 되돌릴 수 없는 취소 전에 일정과 정책을 재확인한다.",
+      "현재 예약 확인 → 예약 유지 또는 명시적 취소. 취소는 좌석·대기열·감사·알림과 함께 기록한다."
+    ],
+    "cancelled": [
+      "취소된 실제 예약의 상태와 과거 금액을 다시 읽는다.",
+      "취소 상태 확인 → 자기 예약 또는 새 수업. 취소된 예약을 다시 활성화하지 않는다."
+    ],
+    "reschedule": [
+      "같은 강좌의 다른 회차와 대상 정책을 비교해 예약을 원자적으로 이동한다.",
+      "현재 예약 → 대상 회차 선택 → 변경. 목적지 확보 실패 시 기존 예약·대기열·감사를 보존한다."
+    ],
+    "conflict": [
+      "서버가 거절한 중복 내용·정원·revision 충돌을 이해하고 최신 상태로 복구한다.",
+      "실제 오류 메시지 확인 → 서버가 생성한 recovery_url로 GET 이동. 같은 POST를 다시 보내는 버튼은 없다."
+    ],
+    "notifications": [
+      "현재 회원의 실제 예약 알림만 읽고 개별 알림을 읽음 처리한다.",
+      "자기 알림 목록 → 관련 예약 또는 개별 읽음 POST. 외부 메일 발송 기능으로 표시하지 않는다."
+    ],
+    "staffdashboard": [
+      "운영자가 같은 DB의 예정 수업·정원·확정 인원·대기 인원을 집계한다.",
+      "실제 집계와 최근7일 신청 생성 건수 → 예정 명단 또는 새 일정. 취소 후에도 생성 건수에 포함한다."
+    ],
+    "staffsessions": [
+      "운영 권한으로 실제 회차의 시간·상태·인원을 관리한다.",
+      "전체 일정 → 회차 명단 또는 새 일정 등록. 표의 정보는 서버 페이지네이션으로 나눈다."
+    ],
+    "staffcreate": [
+      "운영자가 공간 정원과 중복 시간 제약을 지키는 실제 회차를 등록한다.",
+      "서버 SessionForm 입력 → 저장 → 회차 명단. 같은 Room의 겹치는 활성 시간은 DB가 거절한다."
+    ],
+    "staffroster": [
+      "운영자가 확정·대기 명단을 분리해 읽고 사유를 남겨 회차를 취소한다.",
+      "실제 회원명·인원·금액·번호 확인 → 회차 편집 또는 사유 필수 취소. 명단과 대기열은 별도 페이지로 나눈다."
+    ],
+    "staffedit": [
+      "운영자가 예약 이력이 있는 회차의 불변 조건과 새 가격의 적용 범위를 지켜 편집한다.",
+      "현재 조건 확인 → 허용된 필드 수정 → revision 검증 저장. 기존 예약의 단가는 바꾸지 않는다."
+    ],
+    "staffaudit": [
+      "변경 주체와 실제 before/after 기록을 읽기 전용으로 추적한다.",
+      "서버 감사 페이지 → 실제 action·시점·변경 사실. 수정 컨트롤은 제공하지 않는다."
+    ],
+    "403": [
+      "인증된 사용자가 운영 권한이 없음을 이해하고 공개 수업으로 복구한다.",
+      "접근 권한 안내 → 수업 목록. 권한 상승이나 운영 데이터 노출은 하지 않는다."
+    ],
+    "404": [
+      "없는 리소스 또는 소유하지 않은 예약을 노출하지 않고 수업 목록으로 복구한다.",
+      "찾을 수 없는 화면 안내 → 수업 목록. 리소스의 다른 소유자를 알려 주지 않는다."
+    ]
+  },
+  "webBehavior": {
+    "logout": "웹은 CSRF POST로 Django 세션을 종료한다.",
+    "login-submit": "웹은 서버 인증·시도 제한을 적용하고 성공 후 원래 목적지로 이동한다.",
+    "signup-submit": "웹은 회원명·암호 정책을 검증하고 일반 회원만 생성한다.",
+    "reserve-preview": "웹은 인원·회차 revision·이용 가능 여부를 검증한 검토 응답을 표시한다. 좌석은 아직 확보하지 않는다.",
+    "reserve": "웹은 멱등 키와 회차 조건을 검증하고 한 트랜잭션에서 확정 또는 명시적 동의가 있는 대기 등록을 결정한다.",
+    "confirm-cancel": "웹은 소유자·정책 기한·예약 revision을 검증하고 취소·FIFO 승급·감사·알림을 같은 트랜잭션으로 기록한다.",
+    "confirm-reschedule": "웹은 같은 강좌의 대상 revision과 좌석을 검증하고 목적지를 확보한 뒤 원래 좌석을 해제한다. 실패 시 원래 예약을 보존한다.",
+    "notification-read": "웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다.",
+    "session-save": "웹은 운영 권한·폼·revision·공간 시간 중복과 과거 예약 조건을 검증해 회차를 저장한다.",
+    "session-cancel": "웹은 운영 권한·사유·revision을 확인하고 회차 취소와 신청자 알림을 함께 기록한다.",
+    "browse-classes": "웹은 현재 문서의 실제 수업 일정 구역으로 이동한다."
+  }
+}

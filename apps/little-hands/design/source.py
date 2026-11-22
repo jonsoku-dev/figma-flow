@@ -22,81 +22,13 @@ sys.path.insert(0, str(TOOLS))
 from graph_design_system import _atomic_write, _locked_graph, resolve_design_system
 from specification_contract import derive_specifications, render_screen_spec
 
-STATES = [
-    ('publichome', '수업 둘러보기', 'booking/session_list.html', ['REQ-001', 'REQ-010'], '/'),
-    ('login', '로그인', 'registration/login.html', ['REQ-002', 'REQ-010'], '/accounts/login/'),
-    ('signup', '회원가입', 'registration/signup.html', ['REQ-002', 'REQ-010'], '/accounts/signup/'),
-    ('memberhome', '회원 수업 둘러보기', 'booking/session_list.html', ['REQ-001', 'REQ-002', 'REQ-010'], '/'),
-    ('sessionavailable', '수업과 신청 인원', 'booking/session_detail.html', ['REQ-001', 'REQ-003', 'REQ-004', 'REQ-008', 'REQ-010'], None),
-    ('review', '신청 내용 확인', 'booking/reserve_review.html', ['REQ-003', 'REQ-004', 'REQ-008', 'REQ-010'], None),
-    ('confirmed', '예약 확정', 'booking/booking_detail.html', ['REQ-003', 'REQ-005', 'REQ-006', 'REQ-007', 'REQ-010'], None),
-    ('waitlisted', '대기 등록', 'booking/booking_detail.html', ['REQ-004', 'REQ-005', 'REQ-006', 'REQ-010'], None),
-    ('mybookings', '나의 예약', 'booking/my_bookings.html', ['REQ-002', 'REQ-005', 'REQ-010'], '/bookings/'),
-    ('cancelconfirm', '취소 확인', 'booking/cancel.html', ['REQ-006', 'REQ-008', 'REQ-010'], None),
-    ('cancelled', '취소된 예약', 'booking/booking_detail.html', ['REQ-005', 'REQ-006', 'REQ-010'], None),
-    ('reschedule', '회차 변경', 'booking/reschedule.html', ['REQ-007', 'REQ-008', 'REQ-010'], None),
-    ('conflict', '변경 충돌과 복구', 'booking/conflict.html', ['REQ-007', 'REQ-008', 'REQ-010'], None),
-    ('notifications', '나의 알림', 'booking/notifications.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/notifications/'),
-    ('staffdashboard', '운영 현황', 'staff/dashboard.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/staff/'),
-    ('staffsessions', '운영 일정', 'staff/session_list.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/staff/sessions/'),
-    ('staffcreate', '회차 등록', 'staff/session_form.html', ['REQ-002', 'REQ-008', 'REQ-009', 'REQ-010'], '/staff/sessions/new/'),
-    ('staffroster', '신청 명단', 'staff/session_detail.html', ['REQ-002', 'REQ-004', 'REQ-009', 'REQ-010'], None),
-    ('staffedit', '회차 편집', 'staff/session_form.html', ['REQ-002', 'REQ-008', 'REQ-009', 'REQ-010'], None),
-    ('staffaudit', '변경 기록', 'staff/audit.html', ['REQ-002', 'REQ-009', 'REQ-010'], '/staff/audit/'),
-    ('403', '접근 권한 안내', '403.html', ['REQ-002', 'REQ-010'], None),
-    ('404', '찾을 수 없는 화면', '404.html', ['REQ-002', 'REQ-010'], None),
-]
-REQS = [
-    ('REQ-001', '실제 수업·회차·공간·정원·가격 탐색', 'test_expired_session_detail_disables_reservation'),
-    ('REQ-002', 'Django 인증과 소유자·운영자 권한', 'test_owner_and_staff_authorization_and_method_guards'),
-    ('REQ-003', '인원·총액 검토와 원자적 신청', 'test_final_seat_concurrent_confirmed_and_waitlisted'),
-    ('REQ-004', '명시적 대기 동의와 엄격한 FIFO 승급', 'test_fifo_does_not_skip_larger_group_with_free_seat'),
-    ('REQ-005', '자기 예약 상태와 예약 당시 단가 조회', 'test_reschedule_preserves_original_quote_and_discloses_target_policy'),
-    ('REQ-006', '정책 기한과 명시적 원자적 취소', 'test_idempotent_cancel_promotes_and_notifies_once'),
-    ('REQ-007', '실패 시 원래 예약을 보존하는 회차 변경', 'test_failed_reschedule_preserves_original_queue_audit_notifications'),
-    ('REQ-008', 'revision·멱등·DB 제약과 충돌 복구', 'test_view_idempotency_reuse_and_stale_target_are_409'),
-    ('REQ-009', '회차·명단·실제 집계·알림·불변 감사', 'test_dashboard_uses_database_totals_and_admin_cannot_mutate'),
-    ('REQ-010', '실제 반응형 웹과 편집 가능한 Figma 전달', None),
-]
-PLATFORM = {'web':'Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다.', 'figma':'관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.'}
+CAPTURE_PLAN = json.loads((ROOT / 'capture-plan.json').read_bytes())
+STATES = [(s['id'], s['title'], s['template'], s['requirements'], s['route']) for s in CAPTURE_PLAN['screens']]
+REQS = [(r['id'], r['title'], r['test']) for r in CAPTURE_PLAN['requirements']]
+PLATFORM = CAPTURE_PLAN['platform']
 
-SCREEN_MEANING={
- 'publichome':('공개 수업의 실제 일정·공간·인원·가격을 찾아 신청할 회차를 고른다.','수업 목록 → 회차 상세 → 로그인 또는 신청 검토. 빈 일정은 준비 중 안내를 읽는다.'),
- 'login':('기존 회원이 Django 인증으로 자신의 예약과 알림에 접근한다.','계정과 암호 입력 → 서버 인증 → 원래 목적지 또는 수업 목록. 오류는 입력과 함께 표시한다.'),
- 'signup':('권한을 스스로 부여할 수 없는 일반 회원 계정을 만든다.','회원명과 암호 정책 확인 → 서버 가입 → 회원 수업 목록. 중복·약한 암호는 서버 오류로 복구한다.'),
- 'memberhome':('로그인한 회원이 현재 예약 가능한 실제 회차를 비교한다.','수업과 잔여석 확인 → 회차 상세. 나의 예약·알림으로 직접 이동할 수 있다.'),
- 'sessionavailable':('실제 수업 시간·공간·정책·잔여석을 확인하고 참가 인원과 대기 동의를 정한다.','회차 정보 → 인원1~8명과 선택적 대기 동의 → 서버 검토. 비활성·지난 회차는 신청할 수 없다.'),
- 'review':('서버가 검증한 인원과 현장 결제 총액을 최종 신청 전에 확인한다.','회차·인원·총액 확인 → 명시적 최종 신청 또는 다시 선택. 서버가 확정 또는 대기 상태를 결정한다.'),
- 'confirmed':('실제 확정 예약의 일정·인원·예약 당시 금액과 관리 가능 여부를 확인한다.','확정 상세 → 나의 예약, 기한 내 취소 또는 같은 강좌의 다른 회차로 변경.'),
- 'waitlisted':('좌석 확보와 구분되는 실제 대기 상태를 확인한다.','대기 상세 → 알림과 상세 재조회. FIFO 첫 그룹이 들어갈 수 있을 때만 서버가 승급한다.'),
- 'mybookings':('현재 회원이 소유한 예약만 상태와 함께 다시 조회한다.','자기 예약 목록 → 공개 UUID 상세. 다른 회원의 UUID는404로 보호한다.'),
- 'cancelconfirm':('예약을 되돌릴 수 없는 취소 전에 일정과 정책을 재확인한다.','현재 예약 확인 → 예약 유지 또는 명시적 취소. 취소는 좌석·대기열·감사·알림과 함께 기록한다.'),
- 'cancelled':('취소된 실제 예약의 상태와 과거 금액을 다시 읽는다.','취소 상태 확인 → 자기 예약 또는 새 수업. 취소된 예약을 다시 활성화하지 않는다.'),
- 'reschedule':('같은 강좌의 다른 회차와 대상 정책을 비교해 예약을 원자적으로 이동한다.','현재 예약 → 대상 회차 선택 → 변경. 목적지 확보 실패 시 기존 예약·대기열·감사를 보존한다.'),
- 'conflict':('서버가 거절한 중복 내용·정원·revision 충돌을 이해하고 최신 상태로 복구한다.','실제 오류 메시지 확인 → 서버가 생성한 recovery_url로 GET 이동. 같은 POST를 다시 보내는 버튼은 없다.'),
- 'notifications':('현재 회원의 실제 예약 알림만 읽고 개별 알림을 읽음 처리한다.','자기 알림 목록 → 관련 예약 또는 개별 읽음 POST. 외부 메일 발송 기능으로 표시하지 않는다.'),
- 'staffdashboard':('운영자가 같은 DB의 예정 수업·정원·확정 인원·대기 인원을 집계한다.','실제 집계와 최근7일 신청 생성 건수 → 예정 명단 또는 새 일정. 취소 후에도 생성 건수에 포함한다.'),
- 'staffsessions':('운영 권한으로 실제 회차의 시간·상태·인원을 관리한다.','전체 일정 → 회차 명단 또는 새 일정 등록. 표의 정보는 서버 페이지네이션으로 나눈다.'),
- 'staffcreate':('운영자가 공간 정원과 중복 시간 제약을 지키는 실제 회차를 등록한다.','서버 SessionForm 입력 → 저장 → 회차 명단. 같은 Room의 겹치는 활성 시간은 DB가 거절한다.'),
- 'staffroster':('운영자가 확정·대기 명단을 분리해 읽고 사유를 남겨 회차를 취소한다.','실제 회원명·인원·금액·번호 확인 → 회차 편집 또는 사유 필수 취소. 명단과 대기열은 별도 페이지로 나눈다.'),
- 'staffedit':('운영자가 예약 이력이 있는 회차의 불변 조건과 새 가격의 적용 범위를 지켜 편집한다.','현재 조건 확인 → 허용된 필드 수정 → revision 검증 저장. 기존 예약의 단가는 바꾸지 않는다.'),
- 'staffaudit':('변경 주체와 실제 before/after 기록을 읽기 전용으로 추적한다.','서버 감사 페이지 → 실제 action·시점·변경 사실. 수정 컨트롤은 제공하지 않는다.'),
- '403':('인증된 사용자가 운영 권한이 없음을 이해하고 공개 수업으로 복구한다.','접근 권한 안내 → 수업 목록. 권한 상승이나 운영 데이터 노출은 하지 않는다.'),
- '404':('없는 리소스 또는 소유하지 않은 예약을 노출하지 않고 수업 목록으로 복구한다.','찾을 수 없는 화면 안내 → 수업 목록. 리소스의 다른 소유자를 알려 주지 않는다.'),
-}
-WEB_BEHAVIOR={
- 'logout':'웹은 CSRF POST로 Django 세션을 종료한다.',
- 'login-submit':'웹은 서버 인증·시도 제한을 적용하고 성공 후 원래 목적지로 이동한다.',
- 'signup-submit':'웹은 회원명·암호 정책을 검증하고 일반 회원만 생성한다.',
- 'reserve-preview':'웹은 인원·회차 revision·이용 가능 여부를 검증한 검토 응답을 표시한다. 좌석은 아직 확보하지 않는다.',
- 'reserve':'웹은 멱등 키와 회차 조건을 검증하고 한 트랜잭션에서 확정 또는 명시적 동의가 있는 대기 등록을 결정한다.',
- 'confirm-cancel':'웹은 소유자·정책 기한·예약 revision을 검증하고 취소·FIFO 승급·감사·알림을 같은 트랜잭션으로 기록한다.',
- 'confirm-reschedule':'웹은 같은 강좌의 대상 revision과 좌석을 검증하고 목적지를 확보한 뒤 원래 좌석을 해제한다. 실패 시 원래 예약을 보존한다.',
- 'notification-read':'웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다.',
- 'session-save':'웹은 운영 권한·폼·revision·공간 시간 중복과 과거 예약 조건을 검증해 회차를 저장한다.',
- 'session-cancel':'웹은 운영 권한·사유·revision을 확인하고 회차 취소와 신청자 알림을 함께 기록한다.',
- 'browse-classes':'웹은 현재 문서의 실제 수업 일정 구역으로 이동한다.',
-}
+SCREEN_MEANING = CAPTURE_PLAN['screenMeaning']
+WEB_BEHAVIOR = CAPTURE_PLAN['webBehavior']
 
 
 def write_json(path, value):
@@ -352,8 +284,14 @@ def used_line_records(data):
     return records
 
 
-def observed_native_text(text):
-    style=text['style'];value=text.get('raw_value',text['value']);face='Bold' if style['fontWeight']>=600 else 'Regular';matches=[]
+def font_role(weight, tokens):
+    return 'display' if weight >= tokens['typography']['display_min_weight'] else 'body'
+
+
+def observed_native_text(text, tokens=None):
+    if tokens is None:
+        tokens = json.loads((ROOT / 'tokens.json').read_bytes())
+    style=text['style'];value=text.get('raw_value',text['value']);face=tokens['fonts'][font_role(style['fontWeight'],tokens)]['native_style'];matches=[]
     for filename in ('native-font-calibration.json','native-font-calibration-v2.json'):
         path=ROOT/filename
         if not path.is_file():continue
@@ -361,7 +299,7 @@ def observed_native_text(text):
         if calibration.get('schema')!='littlehands-native-font-calibration-v1' or not calibration.get('source_evidence',{}).get('artifact_sha256'):
             raise ValueError('Pinned actual native text calibration required.')
         for row in calibration['texts']:
-            font=row.get('fontName',{});weight=font.get('variationSettings',{}).get('wght',700 if font.get('style')=='Bold' else 400)
+            font=row.get('fontName',{});weight=font.get('variationSettings',{}).get('wght',next((f['weight'] for f in tokens['fonts'].values() if f['native_style']==font.get('style')),None))
             if (row.get('type')=='TEXT' and row.get('characters')==value and font.get('family')==style['fontFamily'] and font.get('style')==face and weight==style['fontWeight'] and row.get('fontSize')==style['fontSize'] and row.get('lineHeight',{}).get('unit')=='PIXELS' and abs(row['lineHeight']['value']-style['leading'])<.001 and row.get('letterSpacing',{}).get('unit')=='PIXELS' and abs(row['letterSpacing']['value']-style['letter_spacing'])<.000001 and row.get('textAutoResize')=='WIDTH_AND_HEIGHT'):
                 matches.append((row,calibration,path))
     if len(matches)>1:raise ValueError('Ambiguous actual text calibration: '+text['id'])
@@ -934,7 +872,9 @@ def build_family_design(root=ROOT, family_targets=None):
     }
 
 
-def layout_for(data, palette, styles, assets, mappings, output=ROOT, family_targets=None):
+def layout_for(data, palette, styles, assets, mappings, output=ROOT, family_targets=None, tokens=None):
+    if tokens is None:
+        tokens = json.loads((ROOT / 'tokens.json').read_bytes())
     layers, products = [], {}
     for surface in data['surfaces']:
         x,y,w,h = surface['box']
@@ -975,13 +915,13 @@ def layout_for(data, palette, styles, assets, mappings, output=ROOT, family_targ
         x,y,w,h = text['box']; s = text['style']
         value=text.get('raw_value',text['value'])
         if text.get('text_context',{}).get('block_content'):w=math.ceil(w)
-        calibration=observed_native_text(text)
+        calibration=observed_native_text(text,tokens)
         if calibration:w=max(w,calibration['width']);h=max(h,calibration['height'])
         if not text['value'].strip() or w <= 0 or h <= 0:
             continue
-        if s['fontFamily'] != 'Hahmlet':
+        if s['fontFamily'] != tokens['fonts'][font_role(s['fontWeight'],tokens)]['family']:
             raise ValueError('Measured fallback font needs review: '+text['id']+' '+s['fontFamily'])
-        layers.append(dict(id=text['id'],kind='text',x=x,y=y,w=w,h=h,value=value,size=s['fontSize'],leading=s['leading'],letter_spacing=s['letter_spacing'],max_lines=1,ink=color(s['ink'],palette),font='display' if s['fontWeight']>=600 else 'body',align=s['align'] if s['align'] in ('left','center','right','justified') else 'left'))
+        layers.append(dict(id=text['id'],kind='text',x=x,y=y,w=w,h=h,value=value,size=s['fontSize'],leading=s['leading'],letter_spacing=s['letter_spacing'],max_lines=1,ink=color(s['ink'],palette),font=font_role(s['fontWeight'],tokens),align=s['align'] if s['align'] in ('left','center','right','justified') else 'left'))
         mappings.append({'key':text['id'],'selector':text['selector'],'kind':'text','literal':value,'allocation':text.get('text_context',{}).get('allocation','legacy observed fragment'),'actual_content_box':text.get('content_box'),'merged_fragments':text.get('merged_fragments',[]),'native_line_metrics':text.get('native_line_metrics'),'native_text_calibration':calibration})
     for control in authored_controls(data):
         if control['tag'] not in ('a','button'):
@@ -995,16 +935,16 @@ def layout_for(data, palette, styles, assets, mappings, output=ROOT, family_targ
             raise ValueError('Mixed-style label needs explicit native component authoring: '+control['id'])
         if not control['label']:
             raise ValueError('Visible action without label: '+control['id'])
-        if s['fontFamily'] != 'Hahmlet':
+        if s['fontFamily'] != tokens['fonts'][font_role(s['fontWeight'],tokens)]['family']:
             raise ValueError('Measured control fallback font needs review: '+control['id'])
-        calibration=observed_native_text({'id':control['id'],'value':control['label'],'style':s})
+        calibration=observed_native_text({'id':control['id'],'value':control['label'],'style':s},tokens)
         native_box=list(control['box'])
         if control.get('native_key')=='brand' and calibration:
             border=s.get('borders',[{'width':s['stroke_width']}] * 4)
             native_box[2]=max(w,calibration['width']+s['padding'][1]+s['padding'][3]+border[1]['width']+border[3]['width'])
         fill = color(s['fill'],palette)
         t,r,b,l = s['padding']
-        style = {'fill':fill,'ink':color(s['ink'],palette),'radius':s['radius'],'fontSize':s['fontSize'],'font':'display' if s['fontWeight']>=600 else 'body','leading':s['leading'],'letter_spacing':s['letter_spacing'],'paddingX':l,'paddingY':t,'minHeight':h,'maxWidth':native_box[2]}
+        style = {'fill':fill,'ink':color(s['ink'],palette),'radius':s['radius'],'fontSize':s['fontSize'],'font':font_role(s['fontWeight'],tokens),'leading':s['leading'],'letter_spacing':s['letter_spacing'],'paddingX':l,'paddingY':t,'minHeight':h,'maxWidth':native_box[2]}
         if s['stroke_width']:
             style.update(stroke=color(s['stroke'],palette),stroke_width=s['stroke_width'])
         shadow=s.get('boxShadow','none')
@@ -1360,7 +1300,14 @@ def generate(output, canonical, baseline, *, prior_orphans=None, family_targets=
     (output/'visual-review.html').write_text('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 실제 화면별 시각 검토</title><link rel="stylesheet" href="'+stylesheet.removeprefix('../')+'"></head><body><main class="page"><div class="wrap"><h1>실제 화면별 시각 검토</h1><p>각 링크는 해당 상태·뷰포트의 실제 캡처 DOM 하나를 엽니다. 폼은 inert이며 데이터 변경을 실행하지 않습니다. 실제 업무 흐름의 실행 증거와 구분합니다.</p><table class="data-table"><thead><tr><th scope="col">상태</th><th scope="col">데스크톱1200×900 CSS</th><th scope="col">모바일390×960 CSS</th></tr></thead><tbody>'+''.join('<tr><th scope="row">'+html.escape(title)+'</th>'+''.join('<td><a href="snapshots/'+name+'-'+vp+'.html">'+vp+'</a></td>' for vp in ('desktop','mobile'))+'</tr>' for name,title,template,requirements,route in STATES)+'</tbody></table></div></main></body></html>')
     overrides_path=ROOT/'prototype-targets.json'
     overrides=json.loads(overrides_path.read_text()) if overrides_path.exists() else {}
-    palette=dict(json.loads((ROOT/'tokens.json').read_text())['colors'])
+    product = json.loads((APP/'booking/product.json').read_bytes())
+    brand = html.escape(product['serviceName'])
+    tokens = json.loads((ROOT / 'tokens.json').read_bytes())
+    palette = dict(tokens['colors'])
+    body_size = tokens['font_sizes_px']['body']
+    body_family = tokens['fonts']['body']['family']
+    control_radius = tokens['controls']['radius']
+    control_padding = tokens['controls']['horizontal_padding']
     nodes=[]; edges=[]
     def node(nid,kind,title,**extra):
         nodes.append(dict(id=nid,type=kind,title=title,status='observed' if kind in ('requirement','screen','code') else 'unverified',**extra))
@@ -1387,7 +1334,7 @@ def generate(output, canonical, baseline, *, prior_orphans=None, family_targets=
             edge(ref,'REQ-010','informs')
     state_layouts={'desktop':{},'mobile':{}}; styles={'desktop':{},'mobile':{}}; assets={}; mappings=[]; bindings=[]; seen_actions={}; palette_options=[]
     prototype_states=[]
-    gallery=['<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 커피공방 실제 화면 소스</title><link rel="stylesheet" href="'+stylesheet+'"></head><body><aside class="wrap"><h1>작은손 커피공방 실제 화면 소스</h1><p>실제 Django 응답의 읽기 전용 디자인 소스입니다. 폼 제출과 업무 처리는 실제 서비스에서만 실행합니다.</p></aside>']
+    gallery=['<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+brand+' 실제 화면 소스</title><link rel="stylesheet" href="'+stylesheet+'"></head><body><aside class="wrap"><h1>'+brand+' 실제 화면 소스</h1><p>실제 Django 응답의 읽기 전용 디자인 소스입니다. 폼 제출과 업무 처리는 실제 서비스에서만 실행합니다.</p></aside>']
     seen_states = set()
     for name,title,template,requirements,route in STATES:
         if name in seen_states:
@@ -1412,7 +1359,7 @@ def generate(output, canonical, baseline, *, prior_orphans=None, family_targets=
             if (sid,vp) not in captures:continue
             data,path=captures[sid,vp]
             local_mappings=[]
-            layout=layout_for(data,palette,styles[vp],assets,local_mappings,output,family_targets=family_targets)
+            layout=layout_for(data,palette,styles[vp],assets,local_mappings,output,family_targets=family_targets,tokens=tokens)
             state_layouts[vp][sid]=layout
             mappings.extend({'state':sid,'viewport':vp,'measurement':path.relative_to(ROOT).as_posix(),**row} for row in local_mappings)
             for control in authored_controls(data):
@@ -1461,19 +1408,28 @@ def generate(output, canonical, baseline, *, prior_orphans=None, family_targets=
     for vp,states in state_layouts.items():
         for sid,layout in states.items():
             for layer in layout['layers']:
-                if layer['kind']=='text' and layer['size']==15:
+                if layer['kind']=='text' and layer['size']==body_size:
                     type_bindings.append({'key':f'littlehands.{vp}.{sid}.'+layer['id'],'field':'fontSize'})
                     family_bindings.append({'key':f'littlehands.{vp}.{sid}.'+layer['id'],'field':'fontFamily'})
             for cid,button in layout['product_buttons'].items():
                 st=styles[vp][button['variant']]
-                if st['radius']==0:radius_bindings.append({'key':f'littlehands.{vp}.{sid}.'+cid,'field':'cornerRadius'})
-                if st['paddingX']==22:padding_bindings.extend({'key':f'littlehands.{vp}.{sid}.'+cid,'field':field} for field in ('paddingLeft','paddingRight'))
+                if st['radius']==control_radius:radius_bindings.append({'key':f'littlehands.{vp}.{sid}.'+cid,'field':'cornerRadius'})
+                if st['paddingX']==control_padding:padding_bindings.extend({'key':f'littlehands.{vp}.{sid}.'+cid,'field':field} for field in ('paddingLeft','paddingRight'))
     for vp,variants in styles.items():
         for variant,style in variants.items():
-            if style['radius']==0:radius_bindings.append({'key':f'littlehands.{vp}.component.'+variant,'field':'cornerRadius'})
-            if style['paddingX']==22:padding_bindings.extend({'key':f'littlehands.{vp}.component.'+variant,'field':field} for field in ('paddingLeft','paddingRight'))
+            if style['radius']==control_radius:radius_bindings.append({'key':f'littlehands.{vp}.component.'+variant,'field':'cornerRadius'})
+            if style['paddingX']==control_padding:padding_bindings.extend({'key':f'littlehands.{vp}.component.'+variant,'field':field} for field in ('paddingLeft','paddingRight'))
     foundations={'version':1,'roles':[{'name':key+' color','kind':'color','token':'color/'+key,'alias':'palette/'+key,'value':value} for key,value in colors.items()],'palette':{'samples':samples}}
-    foundations['roles'].extend([{'name':'Reading size','kind':'typography','token':'type/body','alias':'size/body','value':'15px','source_values':['15px'],'native':{'type':'FLOAT','value':15,'bindings':type_bindings}},{'name':'Reading family','kind':'typography','token':'type/family/body','alias':'font/family/body','value':'Hahmlet','source_values':['Hahmlet'],'native':{'type':'STRING','value':'Hahmlet','bindings':family_bindings}},{'name':'Primary horizontal padding','kind':'spacing','token':'space/control','alias':'padding/control','value':'22px','source_values':['22px'],'native':{'type':'FLOAT','value':22,'bindings':padding_bindings}},{'name':'Control radius','kind':'radius','token':'radius/control','alias':'radius/base','value':'0px','source_values':['0px'],'native':{'type':'FLOAT','value':0,'bindings':radius_bindings}}])
+    for name, kind, token, alias, native_value, native_bindings in (
+        ('Reading size','typography','type/body','size/body',body_size,type_bindings),
+        ('Reading family','typography','type/family/body','font/family/body',body_family,family_bindings),
+        ('Primary horizontal padding','spacing','space/control','padding/control',control_padding,padding_bindings),
+        ('Control radius','radius','radius/control','radius/base',control_radius,radius_bindings),
+    ):
+        is_text = isinstance(native_value, str)
+        value = native_value if is_text else f'{native_value}px'
+        foundations['roles'].append({'name':name,'kind':kind,'token':token,'alias':alias,'value':value,
+            'source_values':[value],'native':{'type':'STRING' if is_text else 'FLOAT','value':native_value,'bindings':native_bindings}})
     primary={'publichome':'browse-classes','memberhome':'browse-classes','login':'login-submit','signup':'signup-submit','sessionavailable':'reserve-preview','review':'reserve','confirmed':'reschedule','waitlisted':'bookings','mybookings':'booking-detail','cancelconfirm':'confirm-cancel','cancelled':'sessions','reschedule':'confirm-reschedule','conflict':'conflict-recover','notifications':'notification-read','staffdashboard':'session-create','staffsessions':'session-create','staffcreate':'session-save','staffroster':'session-edit','staffedit':'session-save','staffaudit':'staff-dashboard','403':'sessions','404':'sessions'}
     for current in nodes:
         if current['type']=='screen':
@@ -1496,11 +1452,11 @@ def generate(output, canonical, baseline, *, prior_orphans=None, family_targets=
     else:
         write_json(output/'graph.json', graph)
     digest = sha(output/'graph.json')
-    candidate={'id':'littlehands','graph':{'path':'graph.json','sha256':digest},'colors':colors,'fonts':{'display':{'family':'Hahmlet','style':'Bold'},'body':{'family':'Hahmlet','style':'Regular'}},'layouts':{vp:states['state-publichome'] for vp,states in state_layouts.items() if 'state-publichome' in states},'state_layouts':state_layouts,'control_styles':styles}
+    candidate={'id':'littlehands','graph':{'path':'graph.json','sha256':digest},'colors':colors,'fonts':{role:{'family':face['family'],'style':face['native_style']} for role,face in tokens['fonts'].items()},'layouts':{vp:states['state-publichome'] for vp,states in state_layouts.items() if 'state-publichome' in states},'state_layouts':state_layouts,'control_styles':styles}
     for vp in ('desktop','mobile'):
         preview=ROOT/'previews'/('littlehands-'+vp+'.jpg')
         if preview.is_file():assets['reference-'+vp]={'path':preview.relative_to(ROOT).as_posix(),'sha256':sha(preview),'reference':True}
-    write_json(output/'input-pins.json',{'schema':'little-hands-design-input-pins-v1','source':[{'path':'../'+path.relative_to(APP).as_posix(),'sha256':sha(path)} for path in [APP/'ARCHITECTURE.md',APP/'booking/views.py',APP/'booking/services.py',APP/'static/littlehands/app.css',APP/'static/littlehands/app.js',*sorted((APP/'templates').rglob('*.html'))]],'captures':[{'path':path.relative_to(ROOT).as_posix(),'sha256':sha(path)} for data,path in captures.values()]})
+    write_json(output/'input-pins.json',{'schema':'little-hands-design-input-pins-v1','source':[{'path':'../'+path.relative_to(APP).as_posix(),'sha256':sha(path)} for path in [APP/'ARCHITECTURE.md',APP/'booking/views.py',APP/'booking/services.py',APP/'booking/policy.json',APP/'booking/policy.py',APP/'booking/product.json',APP/'booking/templatetags/product_copy.py',APP/'booking/models.py',APP/'booking/forms.py',ROOT/'tokens.json',ROOT/'stylesheet.json',ROOT/'capture-plan.json',APP/'static/littlehands/app.css',APP/'static/littlehands/app.js',*sorted((APP/'templates').rglob('*.html'))]],'captures':[{'path':path.relative_to(ROOT).as_posix(),'sha256':sha(path)} for data,path in captures.values()]})
     write_json(output/'native-layout.json',{'schema':'figma-flow-authored-native-layout-v1','scope':'exploratory-only','production_admitted':False,'content':{'path':'content.json','sha256':sha(ROOT/'content.json')},'assets':assets,'candidates':[candidate]})
     write_json(output/'dom-map.json',{'schema':'little-hands-source-dom-map-v1','controls_and_layers':mappings,'transport_alias_resolutions':[row for data,path in captures.values() for row in data.get('_transport_alias_resolutions',[])],'scope':'Original actual DOM selectors map to state-prefixed source/native keys. No runtime/native verification claim.'})
     missing=[{'state':'state-'+row[0],'viewport':vp} for row in STATES for vp in ('desktop','mobile') if ('state-'+row[0],vp) not in captures]
@@ -1513,7 +1469,8 @@ def generate(output, canonical, baseline, *, prior_orphans=None, family_targets=
         meaning=current.get('annotation',{}); target=meaning.get('control_id',current['id'])
         notes_html.append('<article><a href="index.html#'+target+'">'+html.escape(current['title'])+'</a>'+''.join('<p>'+html.escape(field+': '+value)+'</p>' for field,value in meaning.items() if isinstance(value,str))+'</article>')
     foundation_html=''.join('<p>'+html.escape(' · '.join(str(role[key]) for key in ('name','kind','token','value')))+'</p>' for role in foundations['roles'])+''.join('<p>'+html.escape(' · '.join(str(sample[key]) for key in ('label','component','variant','action','state'))+' · '+' · '.join(sample['useCases']))+'</p>' for sample in samples)
-    (output/'app/inspect.html').write_text('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 단일안 검토</title><link rel="stylesheet" href="'+stylesheet+'"></head><body><main class="page"><div class="wrap"><h1>작은손 커피공방</h1><p>실제 Django 화면을 전달하는 단일 제안입니다. 사용자의 아트 선택·실제 시각 비평·네이티브 인수는 아직 기록하지 않았습니다.</p><p><a href="index.html">실제 화면 소스</a> · <a href="../screen-spec.md">화면 명세</a> · <a href="../source-status.json">누락된 실제 근거</a></p><h2>서체와 색상</h2><p>Hahmlet Regular400 · 본문과 조작</p><h2>Hahmlet Bold700 · 제목</h2>'+''.join('<p style="border-left:24px solid '+value+';padding-left:16px">'+html.escape(key+' '+value)+'</p>' for key,value in colors.items())+'<h2>조작 표본</h2>'+''.join('<p>'+html.escape(sample['label'])+' · '+html.escape(sample['variant'])+'</p>' for sample in samples)+'<p>계획된 디자인 소스와 주석이며 네이티브 검증 결과가 아님.</p>'+''.join(notes_html)+foundation_html+'<h2>실제 캡처</h2><img src="../previews/littlehands-desktop.jpg" alt="실제 데스크톱 화면"><img src="../previews/littlehands-mobile.jpg" alt="실제 모바일 화면"><p>사진은 붉은 바탕 위 흰 커피잔과 긴 그림자입니다. 통계·일정·이름·예약 상태는 실제 SSR 데이터에서만 가져옵니다.</p></div></main></body></html>')
+    face_labels = {role: html.escape(f"{f['family']} {f['native_style']}{f['weight']}") for role, f in tokens['fonts'].items()}
+    (output/'app/inspect.html').write_text('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>작은손 단일안 검토</title><link rel="stylesheet" href="'+stylesheet+'"></head><body><main class="page"><div class="wrap"><h1>'+brand+'</h1><p>실제 Django 화면을 전달하는 단일 제안입니다. 사용자의 아트 선택·실제 시각 비평·네이티브 인수는 아직 기록하지 않았습니다.</p><p><a href="index.html">실제 화면 소스</a> · <a href="../screen-spec.md">화면 명세</a> · <a href="../source-status.json">누락된 실제 근거</a></p><h2>서체와 색상</h2><p>'+face_labels['body']+' · 본문과 조작</p><h2>'+face_labels['display']+' · 제목</h2>'+''.join('<p style="border-left:24px solid '+value+';padding-left:16px">'+html.escape(key+' '+value)+'</p>' for key,value in colors.items())+'<h2>조작 표본</h2>'+''.join('<p>'+html.escape(sample['label'])+' · '+html.escape(sample['variant'])+'</p>' for sample in samples)+'<p>계획된 디자인 소스와 주석이며 네이티브 검증 결과가 아님.</p>'+''.join(notes_html)+foundation_html+'<h2>실제 캡처</h2><img src="../previews/littlehands-desktop.jpg" alt="실제 데스크톱 화면"><img src="../previews/littlehands-mobile.jpg" alt="실제 모바일 화면"><p>사진은 붉은 바탕 위 흰 커피잔과 긴 그림자입니다. 통계·일정·이름·예약 상태는 실제 SSR 데이터에서만 가져옵니다.</p></div></main></body></html>')
     return proposal, review, {'actual_captures':len(captures),'pending_measurements':len(missing),'actions':len(seen_actions),'geometry':'actual DOM only','design_completion':'not-claimed'}
 
 

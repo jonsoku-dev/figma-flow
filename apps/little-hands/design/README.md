@@ -1,6 +1,6 @@
 # 실제 Django 화면의 정상 Figma Flow 경로
 
-`graph.json`이 관계 정본이다. `source.py`는 실제 staging 브라우저 측정만 읽어 gallery, 화면 명세, 실제 DOM 대응표와 편집 가능한 native layout을 만든다. 브라우저나 Figma를 실행하거나 승인·성공 영수증을 생성하지 않는다. `tokens.json`과 `UI_CONTRACT.md`는 현재 프론트엔드 정본을 읽기만 한다.
+`graph.json`이 관계 정본이다. `source.py`는 실제 staging 브라우저 측정만 읽어 gallery, 화면 명세, 실제 DOM 대응표와 편집 가능한 native layout을 만든다. 브라우저나 Figma를 실행하거나 승인·성공 영수증을 생성하지 않는다. `source.py`는 [디자인 토큰](tokens.json)과 [UI 계약](UI_CONTRACT.md)을 읽는다. 공유 토큰과 [스타일 그래프](stylesheet.json)를 수정한 뒤 앱 디렉터리에서 `python3 design/publish_styles.py --write`를 실행하면 배포용 CSS와 테마 색상 태그가 갱신된다.
 
 ## 실제 캡처
 
