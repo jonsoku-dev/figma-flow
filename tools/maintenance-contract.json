@@ -25,7 +25,6 @@
     "tools/owned_production_workspace.py": ["_verified_snapshot"],
     "tools/specifications.py": ["compile_graph"],
     "tools/web_design.py": ["_read_join_inputs", "build_plan"],
-    "tools/plugin_panel.py": ["load_view_registry"],
     "tools/audit_project.py": ["audit_project"],
     "tools/check_project.py": ["check_project", "init_project"],
     "tools/figma_draft.py": ["_selected_production_inputs", "make_packet"],
