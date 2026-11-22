@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "274e4deae5a6bb2aaac7aaf2f24e2988a16fc5d2db9a42986a1a615aca3821d8",
+  "surfaceFingerprint": "a0275cd63ac446684078c68540503efb7df5c1b1935d27e04a70f8c3a25b2dc5",
   "checks": [
     {
       "test": "tests/test_booking_database_release.py",
