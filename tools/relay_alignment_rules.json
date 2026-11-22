@@ -1,0 +1,42 @@
+{
+  "readySelector": ".relay-footer details[open] .relay-layers tbody tr:nth-child(2)",
+  "groups": [
+    {
+      "id": "relay-leading-edge",
+      "axis": "x",
+      "edge": "start",
+      "anchor": ".relay-brand-mark",
+      "targets": [
+        ".relay-content h1",
+        ".relay-context-row svg",
+        ".relay-layers thead th:first-child",
+        ".relay-layers tbody td:first-child"
+      ],
+      "tolerance": 0.5
+    },
+    {
+      "id": "relay-table-name-column",
+      "axis": "x",
+      "edge": "start",
+      "anchor": ".relay-layers thead th:nth-child(1)",
+      "targets": [".relay-layers tbody td:nth-child(1)"],
+      "tolerance": 0.5
+    },
+    {
+      "id": "relay-table-type-column",
+      "axis": "x",
+      "edge": "start",
+      "anchor": ".relay-layers thead th:nth-child(2)",
+      "targets": [".relay-layers tbody td:nth-child(2)"],
+      "tolerance": 0.5
+    },
+    {
+      "id": "relay-table-id-column",
+      "axis": "x",
+      "edge": "start",
+      "anchor": ".relay-layers thead th:nth-child(3)",
+      "targets": [".relay-layers tbody td:nth-child(3)"],
+      "tolerance": 0.5
+    }
+  ]
+}

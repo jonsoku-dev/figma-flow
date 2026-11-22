@@ -701,6 +701,54 @@ Codex는 실행 결과의 실제 `readback`을 확인하고 성공·실패·불�
 
 <a id="browser-access"></a>
 
+<a id="alignment-audit"></a>
+
+### Codex에서 화면 정렬 검사하기
+
+**“예약 화면에서 헤더와 행의 시작점이 맞는지 보여줘”**라고 요청하세요. Codex는 같은 줄에 있어야 하는 요소, 화면의 상태와 폭을 먼저 확인합니다. 왼쪽·오른쪽이나 위·아래, 중심 중 어느 기준을 사용할지 정하고 공통 컨테이너의 의도한 여백도 반영합니다.
+
+| 확인할 화면 | Codex가 사용하는 데이터 | 받을 수 있는 결과 |
+|---|---|---|
+| Figma Flow 뷰어 | 실제 배포용 빌드에 같은 두 레이어를 전달하는 로컬 예제 | 폭별 원본, 기준선 이미지, 허용 오차를 벗어난 대상 |
+| 로컬 웹 디자인 | 현재 페이지의 렌더된 CSS 박스 | 규칙별 기준·대상, 픽셀 거리와 편차, 가로 넘침 여부 |
+| 열린 Figma Design 파일 | 현재 파일·페이지에 고정한 작업으로 읽은 노드의 절대 바운딩 박스 | 노드별 좌표와 편차, 측정되지 않은 대상, 읽기 영수증 해시 |
+
+등록 뷰어는 아래 명령으로 재현됩니다. 출력 경로는 새 디렉터리여야 합니다. 임시 브라우저와 예제 서버는 명령 종료 시 닫힙니다.
+
+```sh
+python3 -B tools/relay_alignment.py --out .figma-flow/alignment-viewer
+```
+
+일반 화면의 규칙에서는 `anchor`로 기준 요소 하나를 고르고 `targets`로 비교할 요소를 지정합니다. CSS 선택자가 여러 행을 가리키면 보이는 각 행을 측정합니다. 비동기 화면은 `readySelector`로 해당 상태가 준비됐는지 확인합니다. 저장소의 [검토 워크스페이스 예제](../specs/alignment-audit/owned-workspace.rules.json)를 다른 로컬 화면에도 맞춰 쓸 수 있습니다.
+
+```sh
+node tools/alignment_audit.mjs --url http://127.0.0.1:8893/ \
+  --rules specs/alignment-audit/owned-workspace.rules.json \
+  --widths 390,1280 --height 840 --out .figma-flow/alignment-web
+```
+
+`delta`는 대상 좌표에서 기준 좌표를 뺀 값입니다. 의도한 간격이 8px라면 `expectedOffset`을 8로 지정합니다. 실측 10px의 편차(`deviation`)는 +2px입니다. 허용 오차는 `tolerance`로 정합니다. 정렬 검사의 종료 코드는 통과 0, 측정된 편차 1, 미확인 또는 실행 오류 2입니다. 1이나 2일 때는 해당 보고서와 오류를 먼저 확인합니다.
+
+Figma에서 ID를 아는 두 레이어는 선택을 바꾸지 않고 비교합니다. Codex가 현재 파일·페이지와 일치하는 `discover` 작업을 확인한 뒤 읽습니다.
+
+```sh
+python3 -B tools/figma_control.py run --workspace "$WORKSPACE" --key "$KEY" \
+  --expected-revision "$REV" --file-key "$FILE" --page-id "$PAGE" \
+  --operation selection-info --geometry-node-id "$ANCHOR" --geometry-node-id "$TARGET"
+python3 -B tools/figma_alignment.py check --receipt "$READBACK" --file-key "$FILE" \
+  --page-id "$PAGE" --anchor-id "$ANCHOR" --target-id "$TARGET" \
+  --axis x --anchor-edge start --target-edge start --tolerance 0.5
+```
+
+`READBACK`은 첫 명령이 돌려준 `readback` 파일 경로입니다. 한 번에 최대 20개 ID를 읽습니다. Figma 간격 검사에는 `--expected-offset`을 사용합니다. 회전한 레이어의 절대 바운딩 박스, 드롭섀도, 글자 윤곽의 시각적 차이는 결과 이미지를 함께 봅니다.
+
+수정을 요청하면 Codex는 값을 소유하는 CSS 컨테이너나 graph를 고친 뒤 같은 규칙으로 다시 측정합니다. 전후 보고서는 브라우저, 규칙, 화면 주소와 폭이 같을 때 하나의 HTML로 묶을 수 있습니다. 뷰어 예제 서버의 임시 포트처럼 출처가 달라졌다면 같은 화면임을 확인한 뒤 `--same-screen`을 지정합니다. [기능과 인수 기준](../specs/alignment-audit/spec.md)
+
+```sh
+python3 -B tools/alignment_compare.py --before BEFORE/report.json --after AFTER/report.json \
+  --same-screen --out alignment-review.html
+```
+
 ## Figma Flow 브라우저 접근
 
 Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.1`을 항상 허용하고, Figma Flow 작업에 사용하는 외부 페이지도 자동 승인합니다. 이 범위에서는 URL별 승인 요청 없이 자료 확인·로컬 미리보기 검증을 진행합니다. 다른 브라우저나 전역 Stagehand 설정을 바꾸는 정책은 아닙니다. 현재 작업 프로젝트 루트에서 전용 설정을 생성합니다.

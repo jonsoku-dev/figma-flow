@@ -57,6 +57,13 @@ ROUTES = [
     *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False),
           row.get('workspaceMenu'), row.get('requiresFileKey', False))
       for row in design_recipes()),
+    feature('alignment-audit', 'alignment audit|check alignment|gridlines|정렬 검사|정렬 검수|기준선 검사|整列チェック', 'flow',
+            ['For the registered viewer: python3 tools/relay_alignment.py --out NEW_DIR',
+             'For a local Design source: node tools/alignment_audit.mjs --url LOCAL_URL --rules RULES.json --out NEW_DIR',
+             'For a Figma page: run the signed selection-info with explicit --geometry-node-id IDs, then run python3 tools/figma_alignment.py check --help.',
+             'Compare matched before/after report.json files with python3 tools/alignment_compare.py --before BEFORE --after AFTER --out REVIEW.html.'],
+            ['Choose intended related edges and the owning source. Treat missing geometry as unverified.',
+             'Preserve authoring IDs and optical exceptions. Report the measured deltas and check the same rules after edits.']),
     feature('web-design', 'editable web design|web to figma|웹 화면 변환|편집 가능한 웹 화면', 'flow',
             ['Measure the rendered browser page with tools/web_design_capture.js.',
              'python3 tools/web_design_source.py --capture CAPTURE_JSON --assets ASSET_INDEX --id GRAPH_ID --title TITLE --out NEW_GRAPH_JSON',

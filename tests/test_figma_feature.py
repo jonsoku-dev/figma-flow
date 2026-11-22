@@ -142,6 +142,14 @@ class FeatureRoutesTests(unittest.TestCase):
             self.assertFalse(feature.route(identity)['routes'])
         self.assertIn('credential', ' '.join(feature.route('comments')['routes'][0]['prerequisites']))
 
+    def test_alignment_intent_routes_to_the_observed_surface(self):
+        result = feature.route('이 화면 정렬 검사해 줘')
+        route = result['routes'][0]
+        self.assertEqual(route['id'], 'alignment-audit')
+        self.assertEqual(result['execution'], 'not-executed')
+        self.assertIn('relay_alignment.py', ' '.join(route['next_steps']))
+        self.assertIn('figma_alignment.py', ' '.join(route['next_steps']))
+
     def test_cli_prints_only(self):
         output = io.StringIO()
         with contextlib.redirect_stdout(output), patch.object(feature, 'load', side_effect=AssertionError('No catalog needed')):

@@ -13,12 +13,15 @@ import figma_workspace as workspace
 DRIVER = r"""
 const fs = require('node:fs'), vm = require('node:vm'), assert = require('node:assert/strict');
 const page = {id:'12:1',name:'Design page',type:'PAGE',selection:[]};
-const text = {id:'12:2',name:'Title',type:'TEXT',characters:'Reserve',parent:page,x:0,y:4,width:100,height:24};
+const text = {id:'12:2',name:'Title',type:'TEXT',characters:'Reserve',parent:page,x:0,y:4,width:100,height:24,
+  rotation:0,absoluteBoundingBox:{x:100,y:50,width:100,height:24}};
+const target = {id:'12:3',name:'CTA',type:'INSTANCE',parent:page,x:4,y:30,width:40,height:20,
+  rotation:0,absoluteBoundingBox:{x:104,y:80,width:40,height:20}};
 const foreign = {...text,id:'17:3',parent:{id:'17:1',type:'PAGE'}};
 const stored = new Map();
 const figma = {fileKey:'fixturefile',pluginId:'12345',apiVersion:'1.0.0',editorType:'figma',mode:'default',
   currentPage:page, root:{name:'Fixture'}, currentUser:{id:'fixture-user',name:'User'}, viewport:{scrollAndZoomIntoView(){}},
-  getNodeByIdAsync:async id => id===text.id ? text : foreign, showUI(){}, ui:{postMessage(){}},
+  getNodeByIdAsync:async id => id===text.id ? text : id===target.id ? target : foreign, showUI(){}, ui:{postMessage(){}},
   clientStorage:{getAsync:async k=>stored.get(k),setAsync:async(k,v)=>stored.set(k,v)}};
 const ctx = vm.createContext({figma,__html__:'',console,setTimeout,clearTimeout});
 vm.runInContext(fs.readFileSync(process.argv[1],'utf8'),ctx);
@@ -39,6 +42,17 @@ const execute = vm.runInContext(`async (operation,options) => {
   assert.equal(regular.selection.nodes[0].width,100);
   assert.equal(regular.selection.nodes[0].textExcerpt,undefined);
   assert.equal((await execute('selection-info',{include_text:true})).selection.nodes[0].textExcerpt,'Reserve');
+  page.selection=Array.from({length:21},(_,index)=>({id:`20:${index+1}`,name:'unrelated'}));
+  const crowdedSelection=[...page.selection];
+  const measured=await execute('selection-info',{include_text:false,geometry_node_ids:[text.id,target.id,'12:4']});
+  assert.equal(measured.geometry.coordinate_space,'page-absolute-axis-aligned');
+  assert.equal(measured.geometry.nodes.map(node=>node.id).join(','),[text.id,target.id,'12:4'].join(','),'receipt preserves the explicit frozen ID order');
+  assert.equal(measured.selection_included,false);
+  assert.equal(measured.selection,undefined);
+  assert.equal(measured.geometry.nodes[1].absoluteBoundingBox.x,104);
+  assert.equal(measured.geometry.nodes[2].status,'missing');
+  assert.equal(page.selection.length,crowdedSelection.length,'ID geometry reads must preserve selection count');
+  assert.equal(page.selection[0],crowdedSelection[0],'ID geometry reads must preserve selected node identity');
   const locale=await execute('viewer-language',{language:'ja'});
   assert.equal(locale.storage,'local');
   const history=await execute('viewer-history',{});

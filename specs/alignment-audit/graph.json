@@ -1,0 +1,28 @@
+{
+  "id":"design-alignment-audit","version":1,
+  "nodes":[
+    {"id":"ALIGN-REQ","type":"requirement","source":"spec.md"},
+    {"id":"ALIGN-WEB","type":"code","source":"../../tools/alignment_audit.mjs"},
+    {"id":"ALIGN-COMPARE","type":"code","source":"../../tools/alignment_compare.py"},
+    {"id":"ALIGN-NATIVE","type":"code","source":"../../tools/figma_alignment.py"},
+    {"id":"ALIGN-READ","type":"code","source":"../../figma-bridge/relay_view.js"},
+    {"id":"ALIGN-RELAY","type":"screen","source":"../../panel-ui/src/styles/relay.css"},
+    {"id":"ALIGN-RULES","type":"acceptance","source":"../../tools/relay_alignment_rules.json"},
+    {"id":"ALIGN-WEB-TEST","type":"test","source":"../../tests/test_alignment_audit.py"},
+    {"id":"ALIGN-RELAY-TEST","type":"test","source":"../../tests/test_relay_alignment.py"},
+    {"id":"ALIGN-NATIVE-TEST","type":"test","source":"../../tests/test_figma_alignment.py"},
+    {"id":"ALIGN-COMPARE-TEST","type":"test","source":"../../tests/test_alignment_compare.py"}
+  ],
+  "edges":[
+    {"from":"ALIGN-REQ","type":"implemented by","to":"ALIGN-WEB"},
+    {"from":"ALIGN-REQ","type":"implemented by","to":"ALIGN-NATIVE"},
+    {"from":"ALIGN-REQ","type":"implemented by","to":"ALIGN-COMPARE"},
+    {"from":"ALIGN-NATIVE","type":"uses","to":"ALIGN-READ"},
+    {"from":"ALIGN-RELAY","type":"accepted by","to":"ALIGN-RULES"},
+    {"from":"ALIGN-RULES","type":"evaluated by","to":"ALIGN-WEB"},
+    {"from":"ALIGN-WEB","type":"verified by","to":"ALIGN-WEB-TEST"},
+    {"from":"ALIGN-NATIVE","type":"verified by","to":"ALIGN-NATIVE-TEST"},
+    {"from":"ALIGN-COMPARE","type":"verified by","to":"ALIGN-COMPARE-TEST"},
+    {"from":"ALIGN-RELAY","type":"verified by","to":"ALIGN-RELAY-TEST"}
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "readySelector": "main[data-ready='true'] .data-table",
+  "groups": [
+    {"id":"app-heading-start","axis":"x","edge":"start","anchor":".app-title","targets":[".app-eyebrow",".app-summary"],"tolerance":0.5},
+    {"id":"package-column-start","axis":"x","edge":"start","anchor":".data-table thead th:first-child","targets":[".data-table tbody tr > :first-child"],"tolerance":0.5}
+  ]
+}

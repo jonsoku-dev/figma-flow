@@ -1307,6 +1307,7 @@ def main(argv=None):
             command.add_argument('--node-id')
             command.add_argument('--language')
             command.add_argument('--include-text', action='store_true')
+            command.add_argument('--geometry-node-id', action='append', dest='geometry_node_ids')
             command.add_argument('--execution-id')
             command.add_argument('--state-id')
             command.add_argument('--no-wait', action='store_true', help='Return after queueing on a compatible running server')
@@ -1344,22 +1345,25 @@ def main(argv=None):
             if args.operation not in CAROUSEL_OPERATIONS and (args.execution_id is not None or args.state_id is not None):
                 raise ValueError('Carousel flags do not match the selected operation')
             if args.operation == 'select-node':
-                if args.language is not None or args.include_text: raise ValueError('Viewer flags do not match select-node')
+                if args.language is not None or args.include_text or args.geometry_node_ids: raise ValueError('Viewer flags do not match select-node')
                 viewer_options = {'node_id': args.node_id}
             elif args.operation == 'viewer-language':
-                if args.node_id is not None or args.include_text: raise ValueError('Viewer flags do not match viewer-language')
+                if args.node_id is not None or args.include_text or args.geometry_node_ids: raise ValueError('Viewer flags do not match viewer-language')
                 viewer_options = {'language': args.language}
             elif args.operation == 'selection-info':
                 if args.node_id is not None or args.language is not None: raise ValueError('Viewer flags do not match selection-info')
+                if args.geometry_node_ids is not None and args.include_text:
+                    raise ValueError('Geometry-only selection-info cannot include text')
                 viewer_options = {'include_text': args.include_text}
+                if args.geometry_node_ids is not None: viewer_options['geometry_node_ids'] = args.geometry_node_ids
             elif args.operation == 'viewer-history':
-                if args.node_id is not None or args.language is not None or args.include_text:
+                if args.node_id is not None or args.language is not None or args.include_text or args.geometry_node_ids:
                     raise ValueError('Viewer flags do not match viewer-history')
             elif args.operation in CAROUSEL_OPERATIONS:
-                if args.node_id is not None or args.language is not None or args.include_text:
+                if args.node_id is not None or args.language is not None or args.include_text or args.geometry_node_ids:
                     raise ValueError('Viewer flags do not match carousel operation')
                 viewer_options = {'execution_id': args.execution_id, 'state_id': args.state_id}
-            elif args.node_id is not None or args.language is not None or args.include_text:
+            elif args.node_id is not None or args.language is not None or args.include_text or args.geometry_node_ids:
                 raise ValueError('Viewer flags do not match the selected operation')
             require_ready(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision,
                           focus_page=args.focus_page, viewer_options=viewer_options)

@@ -25,9 +25,43 @@ async function workspaceViewerExecute(task, cmd, checkCurrent) {
     return {...receipt, language:workspaceState.locale, storage:persisted ? 'local' : 'session'};
   }
   if (cmd.operation === 'selection-info') {
-    if (Object.keys(options).some(key => key !== 'include_text') ||
-        (options.include_text !== undefined && typeof options.include_text !== 'boolean')) throw Error('Invalid selection options.');
-    return {...receipt, selection:WorkspaceChat.collect(figma, task, options.include_text === true)};
+    if (Object.keys(options).some(key => !['include_text', 'geometry_node_ids'].includes(key)) ||
+        (options.include_text !== undefined && typeof options.include_text !== 'boolean') ||
+        (options.geometry_node_ids !== undefined && options.include_text === true)) throw Error('Invalid selection options.');
+    const ids = options.geometry_node_ids;
+    const result = ids === undefined ? {...receipt, selection:WorkspaceChat.collect(figma, task, options.include_text === true)} :
+      {...receipt, selection_included:false};
+    if (ids !== undefined) {
+      if (!Array.isArray(ids) || ids.length < 1 || ids.length > 20 ||
+          ids.some(id => typeof id !== 'string' || id.length > 120 || !/^(?:I?[0-9]+:[0-9]+)(?:;[0-9]+:[0-9]+)*$/.test(id)) ||
+          new Set(ids).size !== ids.length) throw Error('Geometry requires 1 to 20 unique exact Design scene node IDs.');
+      const geometry = [];
+      for (const id of ids) {
+        check();
+        const node = await figma.getNodeByIdAsync(id);
+        check();
+        if (!node || node.removed || ['DOCUMENT', 'PAGE'].includes(node.type)) {
+          geometry.push({id, status:'missing'});
+          continue;
+        }
+        let owner = node.parent;
+        while (owner && owner.type !== 'PAGE') owner = owner.parent;
+        if (owner?.id !== page.id) {
+          geometry.push({id, status:'missing'});
+          continue;
+        }
+        const box = node.absoluteBoundingBox;
+        const validBox = box && ['x', 'y', 'width', 'height'].every(key => Number.isFinite(box[key])) &&
+          box.width >= 0 && box.height >= 0 && ['x', 'y', 'width', 'height'].every(key => Math.abs(box[key]) <= 10000000);
+        const rotation = Number.isFinite(node.rotation) ? node.rotation : null;
+        geometry.push({id:node.id, name:String(node.name || '').slice(0, 120), type:node.type,
+          rotation, status:validBox ? 'observed' : 'unmeasurable',
+          absoluteBoundingBox:validBox ? {x:box.x, y:box.y, width:box.width, height:box.height} : null});
+      }
+      check();
+      result.geometry = {coordinate_space:'page-absolute-axis-aligned', nodes:geometry};
+    }
+    return result;
   }
   if (cmd.operation !== 'select-node' || Object.keys(options).length !== 1 ||
       typeof options.node_id !== 'string' || options.node_id.length > 120 ||

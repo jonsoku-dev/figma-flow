@@ -1,5 +1,7 @@
 # Feature specifications
 
+[Codex 화면 정렬 검사와 인수 기준](alignment-audit/spec.md)
+
 [Codex 중심 중계·뷰어](codex-relay/spec.md) · [첫 실행과 로컬 환경 프로필](local-profile-init/spec.md) · [기능 판정 정책 그래프](../library/figma-profile/policy.json)
 
 [제품 헌법](../CONSTITUTION.md) · [Figma Design 전용 설계 및 인수 계약](design-specialization/spec.md)

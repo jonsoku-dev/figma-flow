@@ -13,6 +13,8 @@
 
 **실행 전 기록:** 요청 기능, 제품/편집기, 대상 URL·node ID, 현재 경로, 읽기/쓰기 구분, 사용자가 확인한 권한·비용 제약, 변경 뒤 확인할 실제 값. 프로필의 플랜·좌석은 사용자 선언이며 Figma subscription을 자동 측정한 값이 아니다. 문서에 있는 API가 Flow의 지원 입력 형식에 자동으로 추가되지는 않는다. `design-grid`는 [Figma Flow workspace recipe](../../../docs/figma-recipes.md#run-design-grid-through-figma-flow)로 실행한다.
 
+“정렬 검사”는 `alignment-audit` 경로다. [사용 가이드](../../../docs/guide.md#alignment-audit)의 뷰어 프리셋, 로컬 화면 규칙 또는 명시한 Figma 노드 읽기를 사용한다. 결과는 Codex 대화에서 전달한다.
+
 ## Design: 구조·레이아웃·벡터·미디어
 
 | 기능군 | 구체적인 실행 경로 | 제약과 확인점 |
