@@ -6,7 +6,7 @@
     {
       "test": "tests/test_control_transport_authority.py",
       "case": "TransportAuthorityTests.test_changed_read_budget_reaches_both_ends_of_an_actual_local_result",
-      "testSha256": "35e4b0b2c680b1267be50a868a04ab236c599777c89b29f75b236a2de4857c04",
+      "testSha256": "36816ab852d79a9233a44329734d891c00e4c6ac7262b05b4b0aca16ae47c8de",
       "authority": "library/figma-profile/read-limits.json#/maxNodes",
       "covers": [
         "library/figma-profile/read-limits.json"

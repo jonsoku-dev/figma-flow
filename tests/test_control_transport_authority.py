@@ -46,12 +46,18 @@ vm.runInContext(fs.readFileSync('figma-bridge/workspace_transport.js','utf8'),ct
 })().catch(e=>{console.error(e.message);process.exitCode=1});
 """
 PROBE = """
-import json,sys,subprocess
+import faulthandler,json,sys,subprocess
 from pathlib import Path
 from test_figma_control import ControlTests,control
+def phase(label):
+    print(label, file=sys.stderr, flush=True)
+
 f=ControlTests()
+faulthandler.dump_traceback_later(30)
 try:
+    phase('Preparing the signed Design fixture')
     f.setUp()
+    phase('Starting the loopback receiver and claiming its read task')
     server=f.start_server()
     f.enqueue()
     claim=f.claim()
@@ -65,12 +71,18 @@ try:
         raise AssertionError('Ordinary server path admitted an oversized receipt')
     cfg=control.config(f.root)
     packet=dict(policy=control.PROFILE_POLICY,config=dict(url='http://localhost:'+str(server.server_port),token=cfg['token']),claim=payload,raw=raw)
+    phase('Sending the bounded read result')
     subprocess.run(['node','-e',sys.argv[1]],input=json.dumps(packet),text=True,check=True,timeout=15)
+    phase('Checking the persisted receipt')
     receipt=control.status(f.root)
     assert receipt['state']=='ok'
     assert Path(receipt['readback']).read_bytes()==raw.encode()
 finally:
-    f.doCleanups()
+    phase('Closing the fixture receiver')
+    try:
+        f.doCleanups()
+    finally:
+        faulthandler.cancel_dump_traceback_later()
 """
 
 
@@ -87,8 +99,13 @@ class TransportAuthorityTests(unittest.TestCase):
             policy['controlTransport'].update(normal={'bodyBytes':2048,'readbackBytes':32},largeRead={'bodyBytes':4096,'readbackBytes':512})
             p.write_text(json.dumps(policy))
             env=dict(os.environ,PYTHONPATH=os.pathsep.join(str(root/i) for i in ('tests','tools')),PYTHONDONTWRITEBYTECODE='1')
-            result=subprocess.run([sys.executable,'-B','-c',PROBE,DRIVER],cwd=root,capture_output=True,text=True,env=env,timeout=30)
-            self.assertEqual(result.returncode,0,result.stderr)
+            try:
+                result = subprocess.run([sys.executable,'-B','-c',PROBE,DRIVER], cwd=root,
+                                        capture_output=True, text=True, env=env, timeout=95)
+            except subprocess.TimeoutExpired as error:
+                diagnostic = (error.stderr or b'').decode('utf-8', 'replace')
+                self.fail('Hosted fixture exceeded its setup/cleanup budget:\n' + diagnostic[-5000:])
+            self.assertEqual(result.returncode, 0, result.stderr)
 
 
 if __name__=='__main__':

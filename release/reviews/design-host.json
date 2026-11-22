@@ -459,7 +459,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/24-transport.json",
-          "sha256": "72c7bf6858de207997e9ff81eb7eb98e5f402f1bc55d04b353d0b661ea84a6f2"
+          "sha256": "75c63321103da9c036b5cfa82bcba5cf90b3525a1dc5b23d10115a65695417f7"
         },
         {
           "path": "release/reviews/evidence/design-host/24-control_relay.json",

@@ -315,7 +315,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/libraries/profile-control-policy.json",
-          "sha256": "4441dd6185859798586c50e0df4e535cbfb72320fb745eafd06b06d2bba61b26"
+          "sha256": "5a4ca50b7715b2edc29d9460c6b03a9942f959405eecc4eb8dda9b2563713f64"
         }
       ]
     },
@@ -328,7 +328,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/libraries/profile-read-limits.json",
-          "sha256": "9842eb9b5660f97bc0b5b52eb50772b0c29f50394e10c14b97e251e8d60997fa"
+          "sha256": "2c6b24d64aca110128650bfa5873e2eae98677b47ea4db21664fa96033f9284f"
         }
       ]
     },
