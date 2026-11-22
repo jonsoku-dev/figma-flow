@@ -1,8 +1,18 @@
+/* native appearance: begin chatInput */
+const WORKSPACE_CHAT_INPUT = {
+  "maxCharacters": 4000,
+  "rows": 3
+};
+/* native appearance: end chatInput */
 /* A reviewed handoff contains only the current task and explicitly selected nodes. */
 const WorkspaceChat = (() => {
   const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const NODE_ID = /^(?:I?[0-9]+:[0-9]+)(?:;[0-9]+:[0-9]+)*$/;
-  const failure = (code, message) => Object.assign(new Error(message), {code});
+  const chatErrorContract = WORKSPACE_PANEL_CONTRACTS.nodes.find(node => node.id === 'chat-error-codes');
+  const errorCodes = new Set(chatErrorContract.codes.map(({code}) => code));
+  const failure = (code, message) => Object.assign(new Error(message), {
+    code: errorCodes.has(code) ? code : chatErrorContract.fallbackCode,
+  });
   const clean = (value, length) => String(value || '').slice(0, length + 512).replace(/[\u0000-\u001f\u007f]/g, ' ')
     .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[이메일 생략]').slice(0, length);
   function threadUrl(threadId) {
@@ -46,7 +56,7 @@ const WorkspaceChat = (() => {
       link: fileKey && NODE_ID.test(target) ? 'https://www.figma.com/design/' + fileKey + '?node-id=' + encodeURIComponent(target.replace(/:/g, '-')) : null};
   }
   function preview(task, message, selection) {
-    if (typeof message !== 'string' || message.length > 4000 || (!message.trim() && !selection.nodes.length)) throw failure('input', '요청을 적거나 포함할 노드를 선택해 주세요. 요청은 4000자까지 가능합니다.');
+    if (typeof message !== 'string' || message.length > WORKSPACE_CHAT_INPUT.maxCharacters || (!message.trim() && !selection.nodes.length)) throw failure('input', `요청을 적거나 포함할 노드를 선택해 주세요. 요청은 ${WORKSPACE_CHAT_INPUT.maxCharacters}자까지 가능합니다.`);
     return (message.trim() || '선택한 Figma 노드를 확인해 주세요.') + '\n\n' + JSON.stringify({schema: 'figma-flow-chat-handoff-v1', task: task.key,
       title: clean(task.title, 160), selection}, null, 2);
   }
@@ -63,7 +73,11 @@ const WorkspaceChat = (() => {
       UUID.test(task.threadId || '');
     const context = {title: clean(task.title, 160), threadId: UUID.test(task.threadId || '') ? task.threadId : null, paired};
     const encoded = JSON.stringify(context).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
-    options.showUI(options.uiHtml.replace('/* WORKSPACE_CHAT_CONTEXT */', () => encoded), {width: 520, height: 720, themeColors: true});
+    const errorKeys = JSON.stringify(Object.fromEntries(WORKSPACE_PANEL_CONTRACTS.nodes
+      .find(node => node.id === 'chat-error-codes').codes.map(({code, messageKey}) => [code, messageKey])));
+    const uiHtml = options.uiHtml.replace('/* WORKSPACE_CHAT_CONTEXT */', () => encoded)
+      .replace('/* WORKSPACE_CHAT_ERROR_KEYS */', () => errorKeys);
+    options.showUI(uiHtml, /* flow-window chat */ {width: 520, height: 720, themeColors: true});
     async function relayAction(action, requestId, text) {
       check();
       if (!paired) throw failure('not-paired', '로컬 채팅 연결이 없습니다. 내용을 복사하고 채팅에서 붙여 넣어 주세요.');
@@ -106,7 +120,7 @@ const WorkspaceChat = (() => {
             figma.openExternal(threadUrl(task.threadId));
             post({type: 'chat:result', action: 'open', status: 'link-requested'});
           }
-        } catch (error) {post({type: 'chat:error', code: error.code || 'unknown', message: String(error.message || error)});}
+        } catch (error) {post({type: 'chat:error', code: error.code || chatErrorContract.fallbackCode, message: String(error.message || error)});}
         finally {busy = false;}
       }
     };

@@ -1,0 +1,25 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_example_release_witness.py",
+      "case": "ExampleReleaseWitnessTests.test_idea_notes_snapshot_remains_historical_and_current_app_tests_cover_visual_graph",
+      "testSha256": "7baf4a817c6f1629eb4a9968c3e79487eacf589a04cfa01bf2eea2c2e02354c2",
+      "authority": "examples/idea-notes/app/visual-tokens.json#/nodes",
+      "covers": [
+        "examples/idea-notes/app/app.js",
+        "examples/idea-notes/app/index.html",
+        "examples/idea-notes/app/style.css",
+        "examples/idea-notes/app/visual-tokens.json",
+        "examples/idea-notes/evidence/browser-current-mobile.png",
+        "examples/idea-notes/evidence/browser-current-visual-mutation.png",
+        "examples/idea-notes/evidence/browser-current.json",
+        "examples/idea-notes/tests/app.test.cjs"
+      ],
+      "assertion": "Node witness checks every CSS variable/reference edge, mutates a token to the document root, pins current app/screenshot bytes, and executes the suite.",
+      "observed": "TEST-009 observed the mutated root property; isolated Chromium separately rendered #ff00ff from a mutated copy; current mobile and graph-mutation screenshots are hash-pinned."
+    }
+  ]
+}

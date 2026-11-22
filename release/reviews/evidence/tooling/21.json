@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-widget/source.json#/files",
+      "covers": [
+        "tools/figma_widget_project.py"
+      ],
+      "test": "tests/test_figma_widget_project.py",
+      "case": "WidgetProjectTests.test_separate_widget_manifest_without_fabricated_id_and_pinned_sources",
+      "testSha256": "8d41e753f20fc337bde0552645adb8b506d6acbdea119af7b678d092919208b9",
+      "assertion": "The Design-widget scaffold uses its independently pinned Widget declarations and stated visual sample.",
+      "observed": "Compiled the generated widget, rejected an invalid Widget API use, and propagated a changed counter style."
+    },
+    {
+      "authority": "library/figma-widget/source.json#/files",
+      "covers": [
+        "tools/figma_widget_project.py"
+      ],
+      "test": "tests/test_figma_widget_project.py",
+      "case": "WidgetProjectTests.test_real_compiler_counter_and_invalid_widget_api",
+      "testSha256": "8d41e753f20fc337bde0552645adb8b506d6acbdea119af7b678d092919208b9",
+      "assertion": "The Design-widget scaffold uses its independently pinned Widget declarations and stated visual sample.",
+      "observed": "Compiled the generated widget, rejected an invalid Widget API use, and propagated a changed counter style."
+    },
+    {
+      "authority": "library/figma-widget/source.json#/files",
+      "covers": [
+        "tools/figma_widget_project.py"
+      ],
+      "test": "tests/test_tool_presentation.py",
+      "case": "ReportAppearanceTests.test_changed_palette_and_dimensions_reach_the_published_report_and_widget",
+      "testSha256": "3e812eaee6a2c033b30d732868bc4f3105b56a703216b45c426933b4bd837a68",
+      "assertion": "The Design-widget scaffold uses its independently pinned Widget declarations and stated visual sample.",
+      "observed": "Compiled the generated widget, rejected an invalid Widget API use, and propagated a changed counter style."
+    }
+  ]
+}

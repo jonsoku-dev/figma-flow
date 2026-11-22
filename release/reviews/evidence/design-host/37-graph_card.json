@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_graph_review.cjs",
+      "case": "graph-owned card sizing and paint reach Figma and an old appearance stamp requests refresh",
+      "testSha256": "78f830aa9f5b00c460bec30d0412d27791686e66f262f7c7347684ae31aa9b0f",
+      "authority": "specs/graph-review/graph.json#/nodes",
+      "covers": [
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/native_graph_review.js"
+      ],
+      "assertion": "graph-owned card sizing and paint reach Figma and an old appearance stamp requests refresh",
+      "observed": "A normal VM native read/apply sees the graph-owned board width and paint and requests refresh on a prior appearance stamp."
+    }
+  ]
+}

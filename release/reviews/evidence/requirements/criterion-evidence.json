@@ -1,0 +1,18 @@
+{
+  "surfaceFingerprint": "b6a1d3a3475ab09d284093e81fe6da3be7a8920423eb77345147302d20e487f4",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_spec_graph_coverage.py",
+      "case": "SpecGraphCoverageTests.test_exercised_module_alone_does_not_establish_acceptance",
+      "testSha256": "1d290f96f1c20087c446aff224c5178d86632e243d94045da7f00753aab3cddb",
+      "authority": "specs/codex-relay/graph.json#/edges",
+      "covers": [
+        "specs/codex-relay/graph.json",
+        "specs/local-profile-init/graph.json"
+      ],
+      "assertion": "Implementation ownership and successful verification are separate relationships.",
+      "observed": "An implementation-only criterion stayed unverified until an explicit checked-by test was linked."
+    }
+  ]
+}

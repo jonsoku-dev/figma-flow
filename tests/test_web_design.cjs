@@ -1182,3 +1182,19 @@ test('first export of a new image-backed screen is warmed before returning its p
   assert.equal(result.receipt.screens[0].preview.data, Buffer.from([9, 8, 7]).toString('base64'));
   assert.equal(previewExports.length, 0, 'both bounded exports should be consumed');
 });
+
+test('a measured semantic button can drive a native tab route without admitting decorative components', async () => {
+  const packet=tabsPlan(), component=plan().web_design.screens[0].elements.find(e => e.kind==='component');
+  for (const screen of packet.web_design.screens) {
+    screen.elements=screen.elements.filter(e => !['tab-a-label','tab-b-label'].includes(e.id)).map(e =>
+      ['tab-a','tab-b'].includes(e.id) ? {...structuredClone(component), id:e.id,path:[],box:e.box,componentKey:'control-button'} : e);
+  }
+  const world=harness();
+  const result=await world.apply(packet);
+  assert.equal(result.receipt.tabs.status,'current');
+  const invalid=structuredClone(packet);
+  for (const screen of invalid.web_design.screens) {
+    for (const element of screen.elements) if (element.kind==='component') element.componentKey='decoration';
+  }
+  await assert.rejects(harness().apply(invalid));
+});

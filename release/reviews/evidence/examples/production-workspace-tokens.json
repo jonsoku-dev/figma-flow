@@ -1,0 +1,27 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_owned_production_workspace.py",
+      "case": "SingleSourceTest.test_styles_use_only_graph_tokens",
+      "testSha256": "9c224ef88ab6db0f39e41b4b168d44d0206fa3927d2c4d54df40d1169f151cd0",
+      "authority": "examples/owned-production-workspace/graph.json#/workspace/tokens",
+      "covers": [
+        "examples/owned-production-workspace/README.md",
+        "examples/owned-production-workspace/graph.json",
+        "examples/owned-production-workspace/index.html",
+        "examples/owned-production-workspace/manifest.json",
+        "examples/owned-production-workspace/media/evidence-layout-grid.svg",
+        "examples/owned-production-workspace/media/evidence-state-map.svg",
+        "examples/owned-production-workspace/media/evidence-token-swatches.svg",
+        "examples/owned-production-workspace/media/queue-empty.svg",
+        "examples/owned-production-workspace/renderer.js",
+        "examples/owned-production-workspace/styles.css"
+      ],
+      "assertion": "The stylesheet and inline renderer colors resolve only through canonical graph token keys; shared baseline values still match their graph source.",
+      "observed": "No raw CSS/JS hex literals; every CSS variable resolves to graph token fields, and shared values match the baseline graph."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "graph preview metrics and workspace activity enums are projected from their field owners",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "specs/workspace-activity/graph.json#/nodes/20",
+      "covers": [
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.mjs",
+        "panel-ui/src/workspaceRecommendation.mjs"
+      ],
+      "assertion": "graph preview metrics and workspace activity enums are projected from their field owners",
+      "observed": "Graph preview caps, dependency graph geometry and activity enums are checked against their source graph fields."
+    }
+  ]
+}

@@ -193,26 +193,28 @@ function cssSummary(css: { [key: string]: string }): Record<string, string> {
   return projected;
 }
 
-function fontChoice(available: Font[]): { regular: FontName; strong: FontName } {
+function fontChoice(available: Font[], preference: typeof RECIPE_VISUALS['design-type-review']['font']): { regular: FontName; strong: FontName } {
   if (!available.length) throw new Error('This Figma editor reports no available fonts.');
   const preferred = (family: string): FontName | undefined =>
     available.find(item => item.fontName.family === family)?.fontName;
-  const family = preferred('Inter')?.family ?? preferred('Arial')?.family ?? available[0].fontName.family;
+  const family = preference.preferred.map(preferred).find((font): font is FontName => !!font)?.family ?? available[0].fontName.family;
   const familyFonts = available.filter(item => item.fontName.family === family).map(item => item.fontName);
-  const regular = familyFonts.find(font => /regular|book/i.test(font.style)) ?? familyFonts[0];
-  const strong = familyFonts.find(font => /bold|black|semibold/i.test(font.style)) ?? regular;
+  const regularPattern = new RegExp(preference.regularStylePattern, 'i');
+  const strongPattern = new RegExp(preference.strongStylePattern, 'i');
+  const regular = familyFonts.find(font => regularPattern.test(font.style)) ?? familyFonts[0];
+  const strong = familyFonts.find(font => strongPattern.test(font.style)) ?? regular;
   return { regular, strong };
 }
 
 function setTextRange(text: TextNode, content: string, font: FontName, size: number,
-  lineHeight: number, letterSpacing: number, color: RGB): void {
+  lineHeight: number, letterSpacing: number, paintType: SolidPaint['type'], color: RGB): void {
   text.characters = content;
   const end = text.characters.length;
   text.setRangeFontName(0, end, font);
   text.setRangeFontSize(0, end, size);
   text.setRangeLineHeight(0, end, { unit: 'PIXELS', value: lineHeight });
   text.setRangeLetterSpacing(0, end, { unit: 'PIXELS', value: letterSpacing });
-  text.setRangeFills(0, end, [{ type: 'SOLID', color }]);
+  text.setRangeFills(0, end, [{ type: paintType, color }]);
 }
 
 function expectedRowSummary(members: Map<string, PriorityMember>): string[] {
@@ -222,26 +224,40 @@ function expectedRowSummary(members: Map<string, PriorityMember>): string[] {
   });
 }
 
-function verifyFrameStyles(component: ComponentNode): void {
-  if (component.cornerRadius !== 16 || component.strokeWeight !== 1
-      || component.dashPattern.length !== 2 || component.dashPattern[0] !== 8 || component.dashPattern[1] !== 4) {
+function near(actual: number, expected: number): boolean {
+  return Math.abs(actual - expected) <= 0.001;
+}
+
+function verifyFrameStyles(component: ComponentNode,
+  design: typeof RECIPE_VISUALS['design-type-review']): void {
+  const style = design.component;
+  if (component.cornerRadius !== style.cornerRadius || component.strokeWeight !== style.strokeWeight
+      || JSON.stringify(component.dashPattern) !== JSON.stringify(style.dashPattern)) {
     throw new Error('Typography frame geometry or stroke readback changed.');
   }
   const fills = component.fills;
   const background = Array.isArray(fills) ? fills.find((paint): paint is SolidPaint => paint.type === 'SOLID') : undefined;
-  if (!background || Math.abs(background.color.r - 0.075) > 0.001
-      || Math.abs(background.color.g - 0.09) > 0.001 || Math.abs(background.color.b - 0.13) > 0.001) {
+  if (!background || !near(background.color.r, style.background.r)
+      || !near(background.color.g, style.background.g) || !near(background.color.b, style.background.b)) {
     throw new Error('Typography frame fill readback changed.');
   }
-  const shadow = component.effects.find(effect => effect.type === 'DROP_SHADOW');
-  if (!shadow || shadow.radius !== 16 || component.strokes.length !== 1
-      || component.strokes[0].type !== 'SOLID') {
+  const shadow = component.effects.find(effect => effect.type === style.shadow.type);
+  const stroke = component.strokes.length === 1 && component.strokes[0].type === style.strokeType
+    ? component.strokes[0] : undefined;
+  if (!shadow || shadow.type !== style.shadow.type || shadow.visible !== style.shadow.visible
+      || shadow.blendMode !== style.shadow.blendMode || shadow.radius !== style.shadow.radius || shadow.spread !== style.shadow.spread
+      || shadow.offset.x !== style.shadow.offsetX || shadow.offset.y !== style.shadow.offsetY
+      || !near(shadow.color.r, style.shadow.color.r) || !near(shadow.color.g, style.shadow.color.g)
+      || !near(shadow.color.b, style.shadow.color.b) || !near(shadow.color.a, style.shadow.opacity)
+      || !stroke || stroke.visible !== style.strokeVisible || !near(stroke.color.r, style.stroke.r) || !near(stroke.color.g, style.stroke.g)
+      || !near(stroke.color.b, style.stroke.b) || !near(stroke.opacity ?? 1, style.strokeOpacity)) {
     throw new Error('Typography frame shadow or stroke readback changed.');
   }
 }
 
-function verifyExisting(component: ComponentNode, identity: string): void {
-  verifyFrameStyles(component);
+function verifyExisting(component: ComponentNode, identity: string,
+  design: typeof RECIPE_VISUALS['design-type-review']): void {
+  verifyFrameStyles(component, design);
   const metadata = readMetadata(component);
   if (!metadata.characters.includes(identity)) {
     throw new Error('A same-name component exists with different graph or selection metadata.');
@@ -256,6 +272,7 @@ async function main(): Promise<void> {
   if (figma.editorType !== 'figma' || figma.mode !== 'default') {
     throw new Error('Open this recipe in Figma Design default mode.');
   }
+  const design = RECIPE_VISUALS['design-type-review'];
   const graph = FLOW_REVIEW_GRAPH;
   const scope = readScope(graph);
   const members = readPriorityMembers(graph);
@@ -288,14 +305,14 @@ async function main(): Promise<void> {
   if (matching.length === 1) {
     const existing = matching[0];
     if (existing.type !== 'COMPONENT') throw new Error('A partial typography specimen exists; inspect it before rerunning.');
-    verifyExisting(existing, identity);
+    verifyExisting(existing, identity, design);
     page.selection = [existing];
     figma.viewport.scrollAndZoomIntoView([existing]);
     figma.closePlugin('Verified the existing typography specimen for this graph selection.');
     return;
   }
 
-  const font = fontChoice(await figma.listAvailableFontsAsync());
+  const font = fontChoice(await figma.listAvailableFontsAsync(), design.font);
   const fonts = new Map<string, FontName>();
   for (const selected of [font.regular, font.strong]) fonts.set(`${selected.family}\0${selected.style}`, selected);
   await Promise.all([...fonts.values()].map(selected => figma.loadFontAsync(selected)));
@@ -305,45 +322,52 @@ async function main(): Promise<void> {
   frame.x = page.children.reduce((right, child) => {
     const bounds = child.absoluteBoundingBox;
     return Math.max(right, bounds ? bounds.x + bounds.width : child.x + child.width);
-  }, 0) + 120;
-  frame.y = 80;
-  frame.resize(560, 360);
-  frame.layoutMode = 'VERTICAL';
-  frame.primaryAxisSizingMode = 'AUTO';
-  frame.counterAxisSizingMode = 'FIXED';
-  frame.paddingTop = 28;
-  frame.paddingRight = 32;
-  frame.paddingBottom = 28;
-  frame.paddingLeft = 32;
-  frame.itemSpacing = 16;
-  frame.fills = [{ type: 'SOLID', color: { r: 0.075, g: 0.09, b: 0.13 } }];
-  frame.cornerRadius = 16;
-  frame.effects = [{ type: 'DROP_SHADOW', color: { r: 0, g: 0, b: 0, a: 0.18 },
-    offset: { x: 0, y: 8 }, radius: 16, spread: 0, visible: true, blendMode: 'NORMAL' }];
-  frame.strokes = [{ type: 'SOLID', color: { r: 0.32, g: 0.38, b: 0.5 }, opacity: 1, visible: true }];
-  frame.strokeWeight = 1;
-  frame.dashPattern = [8, 4];
-  if (frame.cornerRadius !== 16 || frame.effects[0]?.type !== 'DROP_SHADOW'
-      || frame.dashPattern[0] !== 8 || frame.strokes.length !== 1) {
+  }, 0) + design.frame.xOffset;
+  frame.y = design.frame.y;
+  frame.resize(design.frame.width, design.frame.height);
+  frame.layoutMode = design.layout.mode;
+  frame.primaryAxisSizingMode = design.layout.primaryAxisSizing;
+  frame.counterAxisSizingMode = design.layout.counterAxisSizing;
+  frame.paddingTop = design.layout.paddingTop;
+  frame.paddingRight = design.layout.paddingRight;
+  frame.paddingBottom = design.layout.paddingBottom;
+  frame.paddingLeft = design.layout.paddingLeft;
+  frame.itemSpacing = design.layout.itemSpacing;
+  frame.fills = [{ type: design.component.backgroundType, color: design.component.background }];
+  frame.cornerRadius = design.component.cornerRadius;
+  frame.effects = [{ type: design.component.shadow.type, color: { ...design.component.shadow.color, a: design.component.shadow.opacity },
+    offset: { x: design.component.shadow.offsetX, y: design.component.shadow.offsetY },
+    radius: design.component.shadow.radius, spread: design.component.shadow.spread,
+    visible: design.component.shadow.visible, blendMode: design.component.shadow.blendMode }];
+  frame.strokes = [{ type: design.component.strokeType, color: design.component.stroke,
+    opacity: design.component.strokeOpacity, visible: design.component.strokeVisible }];
+  frame.strokeWeight = design.component.strokeWeight;
+  frame.dashPattern = [...design.component.dashPattern];
+  if (frame.cornerRadius !== design.component.cornerRadius || frame.effects[0]?.type !== design.component.shadow.type
+      || JSON.stringify(frame.dashPattern) !== JSON.stringify(design.component.dashPattern)
+      || frame.layoutMode !== design.layout.mode || frame.width !== design.frame.width || frame.height !== design.frame.height) {
     throw new Error('Figma did not preserve the requested frame styling.');
   }
 
   const rangeReadbacks: RangeReadback[] = [];
   const addSpecimenText = (label: string, content: string, selectedFont: FontName,
-    size: number, lineHeight: number, spacing: number, color: RGB): TextNode => {
+    size: number, lineHeight: number, spacing: number, paintType: SolidPaint['type'], color: RGB): TextNode => {
     const text = figma.createText();
     text.name = label;
     frame.appendChild(text);
-    setTextRange(text, content, selectedFont, size, lineHeight, spacing, color);
+    setTextRange(text, content, selectedFont, size, lineHeight, spacing, paintType, color);
     readTextRange(text, label, row => rangeReadbacks.push(row));
     return text;
   };
-  addSpecimenText('Display · H1', 'Aa · 24/32', font.strong, 30, 36, -0.4,
-    { r: 0.96, g: 0.97, b: 1 });
-  addSpecimenText('Interface · body', 'Typography that stays clear across products.', font.regular, 17, 25, 0.1,
-    { r: 0.78, g: 0.82, b: 0.9 });
-  addSpecimenText('Caption · label', 'FONT · SCALE · COLOR · GEOMETRY', font.strong, 11, 16, 0.8,
-    { r: 0.45, g: 0.72, b: 1 });
+  const display = design.textStyles.display;
+  addSpecimenText(display.label, display.sample, font.strong, display.fontSize, display.lineHeight,
+    display.letterSpacing, display.paintType, display.fill);
+  const body = design.textStyles.body;
+  addSpecimenText(body.label, body.sample, font.regular, body.fontSize, body.lineHeight,
+    body.letterSpacing, body.paintType, body.fill);
+  const caption = design.textStyles.caption;
+  addSpecimenText(caption.label, caption.sample, font.strong, caption.fontSize, caption.lineHeight,
+    caption.letterSpacing, caption.paintType, caption.fill);
 
   const css = await frame.getCSSAsync();
   const projectedCss = cssSummary(css);
@@ -362,15 +386,15 @@ async function main(): Promise<void> {
   frame.appendChild(metadata);
   metadata.characters = metadataLines.join('\n');
   metadata.fontName = font.regular;
-  metadata.fontSize = 9;
-  metadata.fills = [{ type: 'SOLID', color: { r: 0.63, g: 0.68, b: 0.77 } }];
+  metadata.fontSize = design.metadata.fontSize;
+  metadata.fills = [{ type: design.metadata.fillType, color: design.metadata.fill }];
   if (!metadata.characters.includes(identity) || !metadata.characters.includes('member:b75b36905b99a2481ecf0e6480d88c8c360221a235d6322dd16a5c113d495d94')) {
     throw new Error('Engineer metadata does not include the selected graph identity and component API evidence.');
   }
 
   const component = figma.createComponentFromNode(frame);
   component.name = name;
-  verifyFrameStyles(component);
+  verifyFrameStyles(component, design);
   for (const text of component.children.filter((node): node is TextNode => node.type === 'TEXT'
     && node.name !== 'Engineer metadata')) readTextRange(text, text.name, () => {});
   page.selection = [component];

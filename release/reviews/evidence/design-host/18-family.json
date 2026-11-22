@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_family_authority.py",
+      "case": "FamilyAuthorityTests.test_graph_edits_reach_family_compilation_and_native_layout",
+      "testSha256": "9133baca5af0c1ac9b0cb0cf05bd1597ade7f916113c2603548e4f4fd90ae5db",
+      "authority": "library/component-families.json#/families",
+      "covers": [
+        "figma-bridge/native_provision.js",
+        "figma-bridge/semantic_components.js"
+      ],
+      "assertion": "FamilyAuthorityTests.test_graph_edits_reach_family_compilation_and_native_layout",
+      "observed": "Graph mutations regenerate the family contract; a native VM consumes the changed family dimensions and colors."
+    }
+  ]
+}

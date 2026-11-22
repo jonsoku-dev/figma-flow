@@ -1,0 +1,43 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_release_witness.cjs",
+      "case": "registered routes resolve to concrete panel views with one registered home",
+      "testSha256": "cfeba70b2645ac53d4fcf982e406e3cf9570166e04364d032a0e7361155897e4",
+      "authority": "library/panel-design/views.json#/nodes",
+      "covers": [
+        "panel-ui/README.md",
+        "panel-ui/build.mjs",
+        "panel-ui/package.json",
+        "panel-ui/src/CarouselPresentLink.jsx",
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/DiagnosticExport.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/RelaySelection.jsx",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/WorkspaceActivity.mjs",
+        "panel-ui/src/WorkspaceProfile.jsx",
+        "panel-ui/src/app.jsx",
+        "panel-ui/src/assetInventory.mjs",
+        "panel-ui/src/carouselPresentation.mjs",
+        "panel-ui/src/components.jsx",
+        "panel-ui/src/dependencyView.mjs",
+        "panel-ui/src/graphSelection.mjs",
+        "panel-ui/src/nativeSummary.mjs",
+        "panel-ui/src/operationDetail.mjs",
+        "panel-ui/src/useRelaySnapshot.js",
+        "panel-ui/src/workspaceRecommendation.mjs",
+        "panel-ui/view-registry.mjs"
+      ],
+      "assertion": "registered routes resolve to concrete panel views with one registered home",
+      "observed": "The registered home and task routes resolve to concrete source components."
+    }
+  ]
+}

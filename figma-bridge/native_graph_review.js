@@ -2,16 +2,244 @@ const GRAPH_REVIEW_OWNER = 'figma-flow-graph-review-v1';
 const GRAPH_REVIEW_OWNER_KEY = 'figmaFlow.graphReview.owner';
 const GRAPH_REVIEW_ID_KEY = 'figmaFlow.graphReview.id';
 const GRAPH_REVIEW_DIGEST_KEY = 'figmaFlow.graphReview.digest';
+const GRAPH_REVIEW_APPEARANCE_KEY = 'figmaFlow.graphReview.appearance';
+// Boards published before appearance fingerprints used this exact visual contract.
+const GRAPH_REVIEW_LEGACY_APPEARANCE = '9aa0f5bd162031929d76d5f89865c8cd1f272984c4dabe371471fa8d87570144';
 const GRAPH_REVIEW_SOURCE_KEY = 'figmaFlow.graphReview.sourceSha256';
 const GRAPH_REVIEW_NODE_KEY = 'figmaFlow.graphReview.nodeId';
 const GRAPH_REVIEW_EDGE_KEY = 'figmaFlow.graphReview.edge';
 const GRAPH_REVIEW_SCENE_KEY = 'figmaFlow.graphReview.sceneSignature';
-const GRAPH_REVIEW_COLORS = {
-  requirement: {accent:{r:0.31,g:0.52,b:0.91}, fill:{r:0.93,g:0.96,b:1}},
-  screen: {accent:{r:0.18,g:0.65,b:0.56}, fill:{r:0.9,g:0.98,b:0.96}},
-  component: {accent:{r:0.72,g:0.48,b:0.9}, fill:{r:0.97,g:0.93,b:1}},
-  evidence: {accent:{r:0.9,g:0.57,b:0.2}, fill:{r:1,g:0.96,b:0.89}},
+/* native appearance: begin graphReview */
+const GRAPH_BOARD = {
+  "groups": {
+    "requirement": {
+      "accent": {
+        "r": 0.31,
+        "g": 0.52,
+        "b": 0.91
+      },
+      "fill": {
+        "r": 0.93,
+        "g": 0.96,
+        "b": 1
+      }
+    },
+    "screen": {
+      "accent": {
+        "r": 0.18,
+        "g": 0.65,
+        "b": 0.56
+      },
+      "fill": {
+        "r": 0.9,
+        "g": 0.98,
+        "b": 0.96
+      }
+    },
+    "component": {
+      "accent": {
+        "r": 0.72,
+        "g": 0.48,
+        "b": 0.9
+      },
+      "fill": {
+        "r": 0.97,
+        "g": 0.93,
+        "b": 1
+      }
+    },
+    "evidence": {
+      "accent": {
+        "r": 0.9,
+        "g": 0.57,
+        "b": 0.2
+      },
+      "fill": {
+        "r": 1,
+        "g": 0.96,
+        "b": 0.89
+      }
+    }
+  },
+  "palette": {
+    "paper": {
+      "r": 0.97,
+      "g": 0.98,
+      "b": 0.99
+    },
+    "surface": {
+      "r": 0.93,
+      "g": 0.94,
+      "b": 0.96
+    },
+    "white": {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    "title": {
+      "r": 0.09,
+      "g": 0.11,
+      "b": 0.15
+    },
+    "meta": {
+      "r": 0.34,
+      "g": 0.38,
+      "b": 0.44
+    },
+    "summary": {
+      "r": 0.2,
+      "g": 0.24,
+      "b": 0.3
+    },
+    "cardTitle": {
+      "r": 0.1,
+      "g": 0.12,
+      "b": 0.17
+    },
+    "detail": {
+      "r": 0.32,
+      "g": 0.35,
+      "b": 0.4
+    },
+    "heading": {
+      "r": 0.25,
+      "g": 0.28,
+      "b": 0.33
+    },
+    "link": {
+      "r": 0.13,
+      "g": 0.16,
+      "b": 0.21
+    }
+  },
+  "card": {
+    "width": 236,
+    "height": 106,
+    "radius": 10,
+    "stroke": 1,
+    "marker": 5,
+    "textX": 15,
+    "labels": {
+      "kind": [
+        10,
+        200,
+        9
+      ],
+      "title": [
+        28,
+        205,
+        14
+      ],
+      "status": [
+        51,
+        205,
+        10
+      ],
+      "detail": [
+        70,
+        205,
+        9
+      ]
+    }
+  },
+  "board": {
+    "radius": 12,
+    "centerY": 400,
+    "minOffset": 80,
+    "outerGap": 160,
+    "snap": 20,
+    "columnPitch": 268,
+    "insets": 48,
+    "laneY": 172,
+    "laneMinHeight": 170,
+    "rowPitch": 132,
+    "rowsPadding": 42,
+    "gap": 18,
+    "relationsMinHeight": 92,
+    "relationPitch": 30,
+    "relationsPadding": 54,
+    "bottom": 30,
+    "side": 20,
+    "laneWidth": 252,
+    "cellX": 8,
+    "firstRowY": 32,
+    "templatesY": 110,
+    "templatesHeight": 50,
+    "masterX": 10,
+    "masterPitch": 250,
+    "masterY": 8,
+    "textMinHeight": 18,
+    "lineHeight": 1.5,
+    "labels": {
+      "title": {
+        "x": 24,
+        "y": 20,
+        "size": 22
+      },
+      "identity": {
+        "x": 24,
+        "y": 55,
+        "size": 10
+      },
+      "summary": {
+        "x": 24,
+        "y": 78,
+        "size": 11
+      },
+      "lane": {
+        "x": 12,
+        "y": 10,
+        "width": 228,
+        "size": 11
+      },
+      "relations": {
+        "x": 12,
+        "y": 10,
+        "size": 11
+      },
+      "link": {
+        "x": 8,
+        "y": 4,
+        "size": 9
+      }
+    },
+    "relationRowHeight": 26,
+    "relationRowsY": 34,
+    "relationX": 12,
+    "relationInsets": 64,
+    "linkInsets": 84
+  },
+  "typefaces": {
+    "families": [
+      "Inter",
+      "Arial",
+      "Roboto"
+    ],
+    "style": "Regular"
+  },
+  "limits": {
+    "nodes": 24,
+    "edges": 48
+  },
+  "nodeGroups": {
+    "requirement": "requirement",
+    "acceptance": "requirement",
+    "screen": "screen",
+    "state": "screen",
+    "action": "screen",
+    "component": "component",
+    "design-token": "component",
+    "test": "evidence",
+    "code": "evidence",
+    "reference": "evidence",
+    "figma": "evidence"
+  }
 };
+const GRAPH_BOARD_SHA256 = "9aa0f5bd162031929d76d5f89865c8cd1f272984c4dabe371471fa8d87570144";
+/* native appearance: end graphReview */
+const GRAPH_REVIEW_COLORS = GRAPH_BOARD.groups;
+const GR = GRAPH_BOARD.board;
 
 function graphReviewStable(value) {
   if (Array.isArray(value)) return '[' + value.map(graphReviewStable).join(',') + ']';
@@ -40,7 +268,7 @@ function graphReviewValidate(plan) {
   const review = plan?.graph_review;
   if (!review || typeof review.source_graph_sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(review.source_graph_sha256)) throw Error('Pinned graph review digest required');
   const graph = review.projection;
-  if (!graph || typeof graph.id !== 'string' || typeof graph.title !== 'string' || !Array.isArray(graph.nodes) || !graph.nodes.length || graph.nodes.length > 24 || !Array.isArray(graph.edges) || graph.edges.length > 48) throw Error('Bounded graph review projection required');
+  if (!graph || typeof graph.id !== 'string' || typeof graph.title !== 'string' || !Array.isArray(graph.nodes) || !graph.nodes.length || graph.nodes.length > GRAPH_BOARD.limits.nodes || !Array.isArray(graph.edges) || graph.edges.length > GRAPH_BOARD.limits.edges) throw Error('Bounded graph review projection required');
   const ids = new Set();
   for (const node of graph.nodes) {
     if (!node || typeof node.id !== 'string' || !node.id || ids.has(node.id) || !Object.hasOwn(GRAPH_REVIEW_COLORS, node.kind) || typeof node.title !== 'string' || typeof node.detail !== 'string' || typeof node.status !== 'string') throw Error('Invalid graph review node');
@@ -78,6 +306,11 @@ function graphReviewIntegrity(board) {
       || board.getPluginData(GRAPH_REVIEW_SCENE_KEY) === graphReviewSceneDigest(graphReviewScene(board)));
 }
 
+function graphReviewCurrent(board, digest) {
+  return board.getPluginData(GRAPH_REVIEW_DIGEST_KEY) === digest &&
+    (board.getPluginData(GRAPH_REVIEW_APPEARANCE_KEY) || GRAPH_REVIEW_LEGACY_APPEARANCE) === GRAPH_BOARD_SHA256;
+}
+
 function graphReviewRead(figma, plan) {
   graphReviewScope(figma, plan);
   const graph = graphReviewValidate(plan);
@@ -87,7 +320,7 @@ function graphReviewRead(figma, plan) {
   if (!matches.length) return {schema:'figma-flow-graph-review-v1', status:'absent', graph_id:graph.id, source_graph_sha256:plan.graph_review.source_graph_sha256, projection_digest:digest};
   const board = matches[0];
   const intact = graphReviewIntegrity(board);
-  return {schema:'figma-flow-graph-review-v1', status:!intact ? 'integrity-conflict' : board.getPluginData(GRAPH_REVIEW_DIGEST_KEY) === digest ? 'current' : 'stale', graph_id:graph.id, board_id:board.id,
+  return {schema:'figma-flow-graph-review-v1', status:!intact ? 'integrity-conflict' : graphReviewCurrent(board, digest) ? 'current' : 'stale', graph_id:graph.id, board_id:board.id,
     source_graph_sha256:board.getPluginData(GRAPH_REVIEW_SOURCE_KEY), projection_digest:board.getPluginData(GRAPH_REVIEW_DIGEST_KEY), node_count:Number(board.getPluginData('figmaFlow.graphReview.nodeCount')||0), edge_count:Number(board.getPluginData('figmaFlow.graphReview.edgeCount')||0)};
 }
 
@@ -101,8 +334,8 @@ function graphReviewSetFill(node, color) {
 
 async function graphReviewFont(figma) {
   const fonts = await figma.listAvailableFontsAsync();
-  const preferred = ['Inter', 'Arial', 'Roboto'];
-  const fontName = preferred.map(family => fonts.find(item => item.fontName?.family === family && item.fontName?.style === 'Regular')?.fontName).find(Boolean) || fonts[0]?.fontName;
+  const preferred = GRAPH_BOARD.typefaces.families;
+  const fontName = preferred.map(family => fonts.find(item => item.fontName?.family === family && item.fontName?.style === GRAPH_BOARD.typefaces.style)?.fontName).find(Boolean) || fonts[0]?.fontName;
   if (!fontName) throw Error('No available font for graph review board');
   await figma.loadFontAsync(fontName);
   return fontName;
@@ -115,7 +348,7 @@ function graphReviewText(figma, parent, name, text, fontName, x, y, width, size,
   node.fontSize = size;
   node.characters = String(text).slice(0, 1000);
   node.fills = [{type:'SOLID', color, opacity:1}];
-  node.resize(width, Math.max(18, size * 1.5));
+  node.resize(width, Math.max(GR.textMinHeight, size * GR.lineHeight));
   parent.appendChild(node);
   node.x = x; node.y = y;
   return node;
@@ -124,7 +357,7 @@ function graphReviewText(figma, parent, name, text, fontName, x, y, width, size,
 function graphReviewFrame(figma, name, x, y, width, height, fill) {
   const node = figma.createFrame();
   node.name = name; node.x = x; node.y = y; node.resize(width, height);
-  node.cornerRadius = 12; node.fills = [{type:'SOLID', color:fill, opacity:1}];
+  node.cornerRadius = GR.radius; node.fills = [{type:'SOLID', color:fill, opacity:1}];
   node.clipsContent = true;
   return node;
 }
@@ -133,15 +366,15 @@ function graphReviewCardMaster(figma, board, kind, fontName, x, y) {
   const colors = GRAPH_REVIEW_COLORS[kind];
   const main = figma.createComponent();
   main.name = 'Reusable card · ' + kind;
-  main.resize(236, 106); main.cornerRadius = 10;
+  main.resize(GRAPH_BOARD.card.width, GRAPH_BOARD.card.height); main.cornerRadius = GRAPH_BOARD.card.radius;
   main.fills = [{type:'SOLID', color:colors.fill, opacity:1}];
   main.strokes = [{type:'SOLID', color:colors.accent, opacity:1}];
-  main.strokeWeight = 1;
-  const marker = graphReviewFrame(figma, 'Accent', 0, 0, 5, 106, colors.accent); main.appendChild(marker);
-  graphReviewText(figma, main, 'Kind', kind.toUpperCase(), fontName, 15, 10, 200, 9, colors.accent);
-  graphReviewText(figma, main, 'Title', 'Reusable ' + kind + ' node', fontName, 15, 28, 205, 14, {r:0.1,g:0.12,b:0.17});
-  graphReviewText(figma, main, 'Status', 'status', fontName, 15, 51, 205, 10, colors.accent);
-  graphReviewText(figma, main, 'Detail', 'Source-backed graph node', fontName, 15, 70, 205, 9, {r:0.32,g:0.35,b:0.4});
+  main.strokeWeight = GRAPH_BOARD.card.stroke;
+  const marker = graphReviewFrame(figma, 'Accent', 0, 0, GRAPH_BOARD.card.marker, GRAPH_BOARD.card.height, colors.accent); main.appendChild(marker);
+  graphReviewText(figma, main, 'Kind', kind.toUpperCase(), fontName, GRAPH_BOARD.card.textX, ...GRAPH_BOARD.card.labels.kind, colors.accent);
+  graphReviewText(figma, main, 'Title', 'Reusable ' + kind + ' node', fontName, GRAPH_BOARD.card.textX, ...GRAPH_BOARD.card.labels.title, GRAPH_BOARD.palette.cardTitle);
+  graphReviewText(figma, main, 'Status', 'status', fontName, GRAPH_BOARD.card.textX, ...GRAPH_BOARD.card.labels.status, colors.accent);
+  graphReviewText(figma, main, 'Detail', 'Source-backed graph node', fontName, GRAPH_BOARD.card.textX, ...GRAPH_BOARD.card.labels.detail, GRAPH_BOARD.palette.detail);
   board.appendChild(main);
   main.x = x; main.y = y;
   return main;
@@ -167,8 +400,8 @@ function graphReviewStatusSummary(nodes) {
 
 function graphReviewPosition(figma, page, width, height) {
   const right = page.children.reduce((max, node) => Math.max(max, node.x + node.width), 0);
-  const centerY = Number.isFinite(figma.viewport?.center?.y) ? figma.viewport.center.y : 400;
-  return {x:Math.max(80, right + 160), y:Math.max(80, Math.round((centerY - height / 2) / 20) * 20)};
+  const centerY = Number.isFinite(figma.viewport?.center?.y) ? figma.viewport.center.y : GR.centerY;
+  return {x:Math.max(GR.minOffset, right + GR.outerGap), y:Math.max(GR.minOffset, Math.round((centerY - height / 2) / GR.snap) * GR.snap)};
 }
 
 function graphReviewRemove(node) {
@@ -184,27 +417,28 @@ async function graphReviewApply(figma, plan) {
   const previous = found[0];
   if (found.length > 1) throw Error('Multiple owned graph review boards share this graph ID; manual reconciliation required');
   if (found.length === 1 && !graphReviewIntegrity(found[0])) throw Error('Existing graph review board content changed; manual reconciliation required');
-  if (found.length === 1 && found[0].getPluginData(GRAPH_REVIEW_DIGEST_KEY) === projectionDigest) {
+  if (found.length === 1 && graphReviewCurrent(found[0], projectionDigest)) {
     figma.viewport.scrollAndZoomIntoView([found[0]]);
     return {...graphReviewRead(figma, plan), operation:'apply', unchanged:true};
   }
-  const columns = ['requirement','screen','component','evidence'];
+  const columns = Object.keys(GRAPH_REVIEW_COLORS);
   const laneRows = Object.fromEntries(columns.map(kind => [kind, graph.nodes.filter(node => node.kind === kind)]));
   const maxRows = Math.max(...Object.values(laneRows).map(rows => rows.length), 1);
-  const boardWidth = 4 * 268 + 48;
-  const laneY = 172, laneHeight = Math.max(170, maxRows * 132 + 42);
-  const relationshipY = laneY + laneHeight + 18;
-  const relationHeight = Math.max(92, graph.edges.length * 30 + 54);
-  const boardHeight = relationshipY + relationHeight + 30;
+  const boardWidth = columns.length * GR.columnPitch + GR.insets;
+  const laneY = GR.laneY, laneHeight = Math.max(GR.laneMinHeight, maxRows * GR.rowPitch + GR.rowsPadding);
+  const relationshipY = laneY + laneHeight + GR.gap;
+  const relationHeight = Math.max(GR.relationsMinHeight, graph.edges.length * GR.relationPitch + GR.relationsPadding);
+  const boardHeight = relationshipY + relationHeight + GR.bottom;
   let stage;
   try {
     graphReviewScope(figma, plan);
     const fontName = await graphReviewFont(figma);
     graphReviewScope(figma, plan);
-    stage = graphReviewFrame(figma, 'Figma Flow · Graph Review · ' + graph.id, 0, 0, boardWidth, boardHeight, {r:0.97,g:0.98,b:0.99});
+    stage = graphReviewFrame(figma, 'Figma Flow · Graph Review · ' + graph.id, 0, 0, boardWidth, boardHeight, GRAPH_BOARD.palette.paper);
     stage.setPluginData(GRAPH_REVIEW_OWNER_KEY, GRAPH_REVIEW_OWNER);
     stage.setPluginData(GRAPH_REVIEW_ID_KEY, graph.id);
     stage.setPluginData(GRAPH_REVIEW_DIGEST_KEY, projectionDigest);
+    stage.setPluginData(GRAPH_REVIEW_APPEARANCE_KEY, GRAPH_BOARD_SHA256);
     stage.setPluginData(GRAPH_REVIEW_SOURCE_KEY, plan.graph_review.source_graph_sha256);
     stage.setPluginData('figmaFlow.graphReview.nodeCount', String(graph.nodes.length));
     stage.setPluginData('figmaFlow.graphReview.edgeCount', String(graph.edges.length));
@@ -212,40 +446,40 @@ async function graphReviewApply(figma, plan) {
     stage.setPluginData('figmaFlow.graphReview.edges', graphReviewStable(graph.edges));
     stage.visible = false;
     figma.currentPage.appendChild(stage);
-    graphReviewText(figma, stage, 'Board title', graph.title, fontName, 24, 20, boardWidth - 48, 22, {r:0.09,g:0.11,b:0.15});
-    graphReviewText(figma, stage, 'Graph identity', 'GRAPH ' + graph.id + '   ·   SOURCE ' + plan.graph_review.source_graph_sha256.slice(0, 16), fontName, 24, 55, boardWidth - 48, 10, {r:0.34,g:0.38,b:0.44});
-    graphReviewText(figma, stage, 'Summary', graph.nodes.length + ' nodes   ·   ' + graph.edges.length + ' direct relationships   ·   ' + graphReviewStatusSummary(graph.nodes), fontName, 24, 78, boardWidth - 48, 11, {r:0.2,g:0.24,b:0.3});
+    graphReviewText(figma, stage, 'Board title', graph.title, fontName, GR.labels.title.x, GR.labels.title.y, boardWidth - GR.insets, GR.labels.title.size, GRAPH_BOARD.palette.title);
+    graphReviewText(figma, stage, 'Graph identity', 'GRAPH ' + graph.id + '   ·   SOURCE ' + plan.graph_review.source_graph_sha256.slice(0, 16), fontName, GR.labels.identity.x, GR.labels.identity.y, boardWidth - GR.insets, GR.labels.identity.size, GRAPH_BOARD.palette.meta);
+    graphReviewText(figma, stage, 'Summary', graph.nodes.length + ' nodes   ·   ' + graph.edges.length + ' direct relationships   ·   ' + graphReviewStatusSummary(graph.nodes), fontName, GR.labels.summary.x, GR.labels.summary.y, boardWidth - GR.insets, GR.labels.summary.size, GRAPH_BOARD.palette.summary);
 
-    const templates = graphReviewFrame(figma, 'Reusable graph node components', 20, 110, boardWidth - 40, 50, {r:0.93,g:0.94,b:0.96});
+    const templates = graphReviewFrame(figma, 'Reusable graph node components', GR.side, GR.templatesY, boardWidth - 2 * GR.side, GR.templatesHeight, GRAPH_BOARD.palette.surface);
     stage.appendChild(templates);
     const masters = {};
-    columns.forEach((kind, index) => { masters[kind] = graphReviewCardMaster(figma, templates, kind, fontName, 10 + index * 250, 8); });
+    columns.forEach((kind, index) => { masters[kind] = graphReviewCardMaster(figma, templates, kind, fontName, GR.masterX + index * GR.masterPitch, GR.masterY); });
 
     const locations = new Map();
     columns.forEach((kind, index) => {
-      const laneX = 20 + index * 268;
-      const lane = graphReviewFrame(figma, 'Group · ' + kind + ' (' + laneRows[kind].length + ')', 0, 0, 252, laneHeight, {r:0.93,g:0.94,b:0.96});
+      const laneX = GR.side + index * GR.columnPitch;
+      const lane = graphReviewFrame(figma, 'Group · ' + kind + ' (' + laneRows[kind].length + ')', 0, 0, GR.laneWidth, laneHeight, GRAPH_BOARD.palette.surface);
       stage.appendChild(lane);
       lane.x = laneX; lane.y = laneY;
-      graphReviewText(figma, lane, 'Group label', kind.toUpperCase(), fontName, 12, 10, 228, 11, GRAPH_REVIEW_COLORS[kind].accent);
+      graphReviewText(figma, lane, 'Group label', kind.toUpperCase(), fontName, GR.labels.lane.x, GR.labels.lane.y, GR.labels.lane.width, GR.labels.lane.size, GRAPH_REVIEW_COLORS[kind].accent);
       laneRows[kind].forEach((row, rowIndex) => {
-        const x = 8, y = 32 + rowIndex * 132;
+        const x = GR.cellX, y = GR.firstRowY + rowIndex * GR.rowPitch;
         graphReviewInstance(masters[kind], row, fontName, lane, x, y);
         locations.set(row.id, {kind, row:rowIndex});
       });
     });
 
-    const relations = graphReviewFrame(figma, 'Direct relationships (' + graph.edges.length + ')', 20, relationshipY, boardWidth - 40, relationHeight, {r:0.93,g:0.94,b:0.96});
+    const relations = graphReviewFrame(figma, 'Direct relationships (' + graph.edges.length + ')', GR.side, relationshipY, boardWidth - 2 * GR.side, relationHeight, GRAPH_BOARD.palette.surface);
     stage.appendChild(relations);
-    graphReviewText(figma, relations, 'Relationships heading', 'DIRECT RELATIONSHIPS', fontName, 12, 10, boardWidth - 64, 11, {r:0.25,g:0.28,b:0.33});
+    graphReviewText(figma, relations, 'Relationships heading', 'DIRECT RELATIONSHIPS', fontName, GR.labels.relations.x, GR.labels.relations.y, boardWidth - GR.relationInsets, GR.labels.relations.size, GRAPH_BOARD.palette.heading);
     const byId = new Map(graph.nodes.map(node => [node.id,node]));
     graph.edges.forEach((edge, index) => {
-      const row = graphReviewFrame(figma, 'Link · ' + edge.from + ' → ' + edge.type + ' → ' + edge.to, 0, 0, boardWidth - 64, 26, {r:1,g:1,b:1});
+      const row = graphReviewFrame(figma, 'Link · ' + edge.from + ' → ' + edge.type + ' → ' + edge.to, 0, 0, boardWidth - GR.relationInsets, GR.relationRowHeight, GRAPH_BOARD.palette.white);
       row.setPluginData(GRAPH_REVIEW_EDGE_KEY, JSON.stringify(edge));
       relations.appendChild(row);
-      row.x = 12; row.y = 34 + index * 30;
+      row.x = GR.relationX; row.y = GR.relationRowsY + index * GR.relationPitch;
       const from = byId.get(edge.from), to = byId.get(edge.to);
-      graphReviewText(figma, row, 'Relationship label', from.title.slice(0, 72) + '  →  ' + edge.type + '  →  ' + to.title.slice(0, 72), fontName, 8, 4, boardWidth - 84, 9, {r:0.13,g:0.16,b:0.21});
+      graphReviewText(figma, row, 'Relationship label', from.title.slice(0, 72) + '  →  ' + edge.type + '  →  ' + to.title.slice(0, 72), fontName, GR.labels.link.x, GR.labels.link.y, boardWidth - GR.linkInsets, GR.labels.link.size, GRAPH_BOARD.palette.link);
     });
     graphReviewScope(figma, plan);
     stage.visible = true;

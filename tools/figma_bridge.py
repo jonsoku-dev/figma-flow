@@ -17,50 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 MAX_BYTES = 2_000_000
 PX_PER_REM = 16
 
-CANONICAL_COMPONENT_FAMILIES = {
-    'field': {
-        'name': 'Field',
-        'layout': 'VERTICAL',
-        'required_layout': 'VERTICAL',
-        'canonical_states': ('default', 'error', 'disabled'),
-        'canonical_text_slots': ('field-label', 'field-help'),
-    },
-    'input': {
-        'name': 'Input',
-        'layout': 'HORIZONTAL',
-        'required_layout': None,
-        'canonical_states': ('default', 'focus', 'error', 'disabled'),
-        'canonical_text_slots': ('input-value',),
-    },
-    'checkbox': {
-        'name': 'Checkbox',
-        'layout': 'HORIZONTAL',
-        'required_layout': 'HORIZONTAL',
-        'canonical_states': ('unchecked', 'checked', 'disabled'),
-        'canonical_text_slots': ('checkbox-label',),
-    },
-    'radio': {
-        'name': 'Radio',
-        'layout': 'HORIZONTAL',
-        'required_layout': 'HORIZONTAL',
-        'canonical_states': ('unselected', 'selected', 'disabled'),
-        'canonical_text_slots': ('radio-label',),
-    },
-    'table-row': {
-        'name': 'TableRow',
-        'layout': 'HORIZONTAL',
-        'required_layout': 'HORIZONTAL',
-        'canonical_states': ('default', 'selected'),
-        'canonical_text_slots': (),
-    },
-    'table-cell': {
-        'name': 'TableCell',
-        'layout': 'HORIZONTAL',
-        'required_layout': None,
-        'canonical_states': ('default', 'header', 'selected', 'muted'),
-        'canonical_text_slots': ('cell-text',),
-    },
-}
+FAMILY_CONTRACT = json.loads((ROOT / 'library/component-families.json').read_bytes())
+CANONICAL_COMPONENT_FAMILIES = FAMILY_CONTRACT['families']
 
 _SECRET_TEXT_PATTERNS = (
     re.compile(r'\bfigd_[A-Za-z0-9_-]{12,}\b'),

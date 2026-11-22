@@ -6,7 +6,7 @@ const path = require('node:path');
 const source = fs.readFileSync(path.join(__dirname,'../figma-bridge/workspace_transport.js'),'utf8');
 function transport(url='http://localhost:45000', fetcher=async()=>({ok:true,json:async()=>({ok:true})})) {
   const requests = [], timers = new Map(); let next = 0;
-  const env = {WORKSPACE_CONTROL_CONFIG:{url,token:'private-test-token'},
+  const env = {WORKSPACE_PROFILE_POLICY:require('../library/figma-profile/policy.json'), WORKSPACE_CONTROL_CONFIG:{url,token:'private-test-token'},
     fetch:async(...args)=>{requests.push(args);return fetcher(...args);},
     setTimeout:(callback,delay)=>{assert.ok(delay>0 && delay<=15000,'transport deadline must be bounded');timers.set(++next,callback);return next;},
     clearTimeout:id=>timers.delete(id)};

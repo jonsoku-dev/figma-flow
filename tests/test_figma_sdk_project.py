@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import shutil
 import sys
 import tempfile
 import unittest
@@ -67,18 +68,23 @@ class SDKProjectTest(unittest.TestCase):
     def test_recipe_copies_reviewable_source_and_requires_matching_editor(self):
         recipes = self.parent / 'recipes'
         recipes.mkdir()
-        code = "figma.closePlugin('Reviewed local recipe');\n"
-        (recipes / 'example.ts').write_text(code)
-        (recipes / 'helpers.js').write_text('function reviewedHelper() { return 1; }\n')
+        code = (ROOT / 'library/figma-recipes/design-component-properties.ts').read_text()
+        (recipes / 'design-component-properties.ts').write_text(code)
+        shutil.copyfile(ROOT / 'library/figma-recipes/component-properties.helpers.js', recipes / 'component-properties.helpers.js')
+        shutil.copyfile(ROOT / 'library/figma-recipes/design-examples.graph.json', recipes / 'design-examples.graph.json')
         (recipes / 'manifest.json').write_text(json.dumps({'recipes': [
-            {'id': 'example', 'entry': 'example.ts', 'editorType': 'other', 'mode': 'default', 'runtimeHelpers': 'helpers.js'}]}))
+            {'id': 'design-component-properties', 'entry': 'design-component-properties.ts', 'editorType': 'other',
+             'mode': 'default', 'runtimeHelpers': 'component-properties.helpers.js', 'designGraph': 'design-examples.graph.json'}]}))
         with patch.object(sdk, 'RECIPES', recipes):
             with self.assertRaisesRegex(ValueError, 'editor/mode differs'):
-                sdk.initialize(self.project, 'figma', recipe='example')
+                sdk.initialize(self.project, 'figma', recipe='design-component-properties')
             (recipes / 'manifest.json').write_text(json.dumps({'recipes': [
-                {'id': 'example', 'entry': 'example.ts', 'editorType': 'figma', 'mode': 'default', 'runtimeHelpers': 'helpers.js'}]}))
-            sdk.initialize(self.project, 'figma', recipe='example')
+                {'id': 'design-component-properties', 'entry': 'design-component-properties.ts', 'editorType': 'figma',
+                 'mode': 'default', 'runtimeHelpers': 'component-properties.helpers.js', 'designGraph': 'design-examples.graph.json'}]}))
+            sdk.initialize(self.project, 'figma', recipe='design-component-properties')
         self.assertEqual((self.project / 'src/code.ts').read_text(), code)
+        self.assertTrue((self.project / 'src/recipe-visuals.ts').is_file())
+        self.assertTrue((self.project / 'vendor/design-examples.graph.json').is_file())
         self.assertTrue(json.loads((self.project / 'tsconfig.json').read_text())['compilerOptions']['allowJs'])
         (self.project / 'vendor/recipe-runtime.js').write_text('changed')
         with self.assertRaisesRegex(ValueError, 'Pinned recipe helpers changed'):

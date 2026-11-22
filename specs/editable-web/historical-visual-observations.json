@@ -1,0 +1,290 @@
+{
+  "schema": "figma-flow-historical-visual-observations-v1",
+  "scope": "Historical private browser and Figma observations, reduced to non-identifying metrics for report verification.",
+  "sourceArtifactsIncluded": false,
+  "rawScreenshotsIncluded": false,
+  "sourceScreenshotsNote": "The original browser and Figma screenshots are unavailable in the portable release archive; their hashes, raw pixels, file/page identifiers, node IDs, and page text are not included.",
+  "observations": [
+    {
+      "id": "web-fidelity-0321",
+      "observedAt": "2026-11-13T23:27:04.991Z",
+      "status": "historical",
+      "screens": [
+        {
+          "id": "portfolio-home-desktop",
+          "capturedAt": "2026-11-13T23:24:47.478Z",
+          "browserViewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "browserDocumentLayout": {
+            "width": 1425,
+            "height": 900,
+            "background": "#ffffff"
+          },
+          "browserElementCount": 86,
+          "editableNativeNodeCount": 91,
+          "fontFallbackCount": 0,
+          "applyReusedFrame": true,
+          "applyReuseGraphSha256Matches": true,
+          "textMeasurements": [
+            {
+              "label": "hero line 1",
+              "browserWidthCssPx": 254.55,
+              "browserFontFamily": "Geist",
+              "browserFontSizePx": 48,
+              "browserLineHeightPx": 48,
+              "baselineNativeWidthPx": 290,
+              "measuredNativeWidthPx": 256,
+              "nativeLetterSpacing": {
+                "unit": "PIXELS",
+                "value": -2.4000000953674316
+              }
+            }
+          ],
+          "evidenceDigests": {
+            "graphFileSha256": "0b5e27df75b7ac0795116f0d7efbfe6654e46aaf7d76df62a89f454c3b9e3b88",
+            "captureFileSha256": "ebe7df3d4eca95bb0a04204ceef0a138ae75ce9c75961eef797876006a6275b6",
+            "defaultReadbackSha256": "934fe4494e48bc76cead554d73d227f59e199c2161427b558b721851059866db",
+            "applyReadbackSha256": "8bb5dbb7f78230261d443d52fab221db869df6acb15aba9b0eaf9560c6cca4b0",
+            "reuseReadbackSha256": "81f44f86f4eaeedd77461ae4655a632e774007777100a47ae9d456532f62480e",
+            "graphSha256": "0b5e27df75b7ac0795116f0d7efbfe6654e46aaf7d76df62a89f454c3b9e3b88"
+          }
+        },
+        {
+          "id": "codeforge-desktop",
+          "capturedAt": "2026-11-13T23:25:02.858Z",
+          "browserViewport": {
+            "height": 720,
+            "width": 1280
+          },
+          "browserDocumentLayout": {
+            "background": "#f9fafb",
+            "height": 720,
+            "width": 1265
+          },
+          "browserElementCount": 48,
+          "editableNativeNodeCount": 63,
+          "fontFallbackCount": 0,
+          "applyReusedFrame": true,
+          "applyReuseGraphSha256Matches": true,
+          "textMeasurements": [
+            {
+              "label": "hero line 1",
+              "browserWidthCssPx": 551.17,
+              "browserFontFamily": "Geist",
+              "browserFontSizePx": 60,
+              "browserLineHeightPx": 60,
+              "baselineNativeWidthPx": 611,
+              "measuredNativeWidthPx": 554,
+              "nativeLetterSpacing": {
+                "unit": "PIXELS",
+                "value": -3
+              }
+            },
+            {
+              "label": "hero line 2",
+              "browserWidthCssPx": 449.17,
+              "browserFontFamily": "Geist",
+              "browserFontSizePx": 60,
+              "browserLineHeightPx": 60,
+              "baselineNativeWidthPx": 503,
+              "measuredNativeWidthPx": 452,
+              "nativeLetterSpacing": {
+                "unit": "PIXELS",
+                "value": -3
+              }
+            }
+          ],
+          "evidenceDigests": {
+            "graphFileSha256": "30651d1a256d0698f4e0fb49597a2b6501847a4351c35e1a5be4fdd9d5928eb5",
+            "captureFileSha256": "037071296d0a4b8a34e5a7001d2c150c8844edec2cab72d4cd2f5a0fef00a9f2",
+            "defaultReadbackSha256": "b163f086ee0d7f803c910d5dc65ea607a4f75e68b0f02d29bd38c0b520b63455",
+            "applyReadbackSha256": "b361d156fb21340a21e7367104b46d40af00ce8b6dc1dafe4d3db3920ee2ebb9",
+            "reuseReadbackSha256": "ab6696b7daf2273d7fc228795dd1e976ceed858e1ed6696d51226153635ec659",
+            "graphSha256": "30651d1a256d0698f4e0fb49597a2b6501847a4351c35e1a5be4fdd9d5928eb5"
+          }
+        }
+      ],
+      "reuse": {
+        "sameFrameOnReapply": true,
+        "sameGraphOnReapply": true,
+        "privateControlPairsValidated": 2,
+        "designerTrackingEditDetectedAndRestored": true,
+        "verificationCommand": "python3 -B tests/verify_web_typography.py"
+      },
+      "sourceArtifactsIncluded": false,
+      "sourceScreenshotsIncluded": false
+    },
+    {
+      "id": "web-svg-fidelity-0322",
+      "observedAt": "2026-11-14T00:36:23.441Z",
+      "status": "historical",
+      "graphId": "evidence-0322-devtool-stable-logo",
+      "browserViewport": {
+        "height": 844,
+        "width": 390
+      },
+      "browserDocumentLayout": {
+        "background": "#0d0e12",
+        "height": 844,
+        "width": 385
+      },
+      "browserElementCount": 73,
+      "sourceScreenshotsIncluded": false,
+      "logos": [
+        {
+          "name": "Google",
+          "vectors": 6,
+          "browser": {
+            "chromatic": 0,
+            "peak": 82,
+            "area": 3990
+          },
+          "previous": {
+            "chromatic": 1179,
+            "peak": 255,
+            "area": 4480
+          },
+          "candidate": {
+            "chromatic": 0,
+            "peak": 72,
+            "area": 3990
+          }
+        },
+        {
+          "name": "Microsoft",
+          "vectors": 5,
+          "browser": {
+            "chromatic": 0,
+            "peak": 97,
+            "area": 4440
+          },
+          "previous": {
+            "chromatic": 709,
+            "peak": 255,
+            "area": 4480
+          },
+          "candidate": {
+            "chromatic": 0,
+            "peak": 98,
+            "area": 4440
+          }
+        },
+        {
+          "name": "Amazon",
+          "vectors": 8,
+          "browser": {
+            "chromatic": 0,
+            "peak": 39,
+            "area": 3162
+          },
+          "previous": {
+            "chromatic": 236,
+            "peak": 255,
+            "area": 4480
+          },
+          "candidate": {
+            "chromatic": 0,
+            "peak": 30,
+            "area": 3162
+          }
+        },
+        {
+          "name": "Netflix",
+          "vectors": 2,
+          "browser": {
+            "chromatic": 0,
+            "peak": 31,
+            "area": 2912
+          },
+          "previous": {
+            "chromatic": 1368,
+            "peak": 240,
+            "area": 4480
+          },
+          "candidate": {
+            "chromatic": 0,
+            "peak": 23,
+            "area": 2912
+          }
+        },
+        {
+          "name": "YouTube",
+          "vectors": 4,
+          "browser": {
+            "chromatic": 0,
+            "peak": 99,
+            "area": 4400
+          },
+          "previous": {
+            "chromatic": 816,
+            "peak": 255,
+            "area": 4480
+          },
+          "candidate": {
+            "chromatic": 0,
+            "peak": 95,
+            "area": 4400
+          }
+        },
+        {
+          "name": "Instagram",
+          "vectors": 1,
+          "browser": {
+            "chromatic": 0,
+            "peak": 98,
+            "area": 4400
+          },
+          "previous": {
+            "chromatic": 0,
+            "peak": 41,
+            "area": 4480
+          },
+          "candidate": {
+            "chromatic": 0,
+            "peak": 92,
+            "area": 4400
+          }
+        }
+      ],
+      "totals": {
+        "logoCount": 6,
+        "vectorCount": 26,
+        "browserChromaticPixels": 0,
+        "priorChromaticPixels": 4308,
+        "currentChromaticPixels": 0,
+        "originalSvgBytes": 32140,
+        "normalizedSvgBytes": 31922
+      },
+      "nativeReadback": {
+        "editableNodeCount": 73,
+        "readbackNodeCount": 112,
+        "applyReusedFrame": true,
+        "applyReuseGraphSha256Matches": true,
+        "fontFallbackCount": 15,
+        "layoutDriftCount": 9,
+        "preview": {
+          "mimeType": "image/png",
+          "width": 480,
+          "height": 1052,
+          "bytes": 73070
+        }
+      },
+      "reportedButScreenshotNotIncluded": [
+        {
+          "claim": "Google vector root opacity readback",
+          "valuePercent": 30
+        }
+      ],
+      "evidenceDigests": {
+        "graphFileSha256": "03b77ff8049ae9a3cfa104514396a499098c4db0df3622707c01912bf935d3a8",
+        "captureFileSha256": "d5ba6a12f9673cbc3f46dc3c80b88a9c3d7ee6d8d5ad46403299eaaa8a477248",
+        "metricsFileSha256": "3c1bce9a668f5b891ff45b9a0e75b405b9d1ce5939e99dee5aa21b28b00484f4",
+        "applyReadbackSha256": "03c7de88d81429b74476bee240f1f864503fbca90ce3e3bf8c6df76804451b7d",
+        "reuseReadbackSha256": "49837cf6a75dc254a7452378a0ca9ae8661a848a0fb40634297692728d40dfdd",
+        "graphSha256": "03b77ff8049ae9a3cfa104514396a499098c4db0df3622707c01912bf935d3a8"
+      }
+    }
+  ]
+}

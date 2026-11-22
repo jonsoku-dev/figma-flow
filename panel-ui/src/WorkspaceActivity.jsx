@@ -2,11 +2,12 @@ import React from 'react';
 import { ArrowDown, ChevronDown, CircleCheck, Clock3, FileText, TriangleAlert } from 'lucide-react';
 import { Section } from './components.jsx';
 import { CarouselPresentLink } from './CarouselPresentLink.jsx';
+import { panelDesignMetrics } from './panelContracts.mjs';
 
 function StepIcon({ status }) {
   const Icon = status === 'failed' ? TriangleAlert : status === 'verified' ? CircleCheck :
     ['requested', 'running'].includes(status) ? Clock3 : FileText;
-  return <Icon size={14} strokeWidth={1.5} aria-hidden="true" />;
+  return <Icon size={panelDesignMetrics.iconMedium} strokeWidth={panelDesignMetrics.iconStrokeStandard} aria-hidden="true" />;
 }
 
 export function ActivitySummary({ activity, tr }) {
@@ -100,7 +101,7 @@ export function ExecutionFlows({ flows, tasks, tr, stateText, date, rememberFocu
               <StepIcon status={last.status} />
               <span className="workspace-flow-title">{task?.title || tr('removedTask')}</span>
               <span className="workspace-flow-result">{stateText(last)}</span>
-              <ChevronDown className="workspace-flow-toggle" size={16} aria-hidden="true" />
+              <ChevronDown className="workspace-flow-toggle" size={panelDesignMetrics.iconStandard} aria-hidden="true" />
               <span className="workspace-flow-context">
                 {operation(first.event)} · {tr('flowSteps', { count: steps.length })} · {date(last.time)}
                 {!first.current && ' · ' + tr('stale')}
@@ -110,7 +111,7 @@ export function ExecutionFlows({ flows, tasks, tr, stateText, date, rememberFocu
               {steps.map(({ event, index: eventIndex, current }, stepIndex) => (
                 <li key={eventIndex} data-state={event.status}>
                   <span className="workspace-step-mark"><StepIcon status={event.status} /></span>
-                  {stepIndex < steps.length - 1 && <ArrowDown className="workspace-step-link" size={12} aria-hidden="true" />}
+                  {stepIndex < steps.length - 1 && <ArrowDown className="workspace-step-link" size={panelDesignMetrics.iconSmall} aria-hidden="true" />}
                   <span className="workspace-step-copy">{operation(event)}<strong>{stateText(event)}</strong></span>
                   <time dateTime={event.time}>{date(event.time)}</time>
                   {!current && <span>{tr('stale')}</span>}

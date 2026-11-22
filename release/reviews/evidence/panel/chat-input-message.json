@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "React chat input bounds and row counts derive from the shared host contract graph",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "figma-bridge/chat-input.json#/message",
+      "covers": [
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "assertion": "React chat input bounds and row counts derive from the shared host contract graph",
+      "observed": "The graph mutation contract check ties React request rows and maxLength to message.rows and message.maxCharacters."
+    }
+  ]
+}

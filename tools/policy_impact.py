@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build an evidence-pinned impact review from explicit graph relations only."""
 
+from report_appearance import report_css
 import argparse
 import ast
 from html import escape
@@ -196,7 +197,7 @@ def render_html(report):
     strict_failures = ''.join('<li>' + esc(item) + '</li>' for item in report['strictLocal']['failures'])
     changed_edges = ''.join('<li>' + esc(edge['from'] + ' → ' + edge['to'] + ' · ' + edge['type']) + '</li>' for edge in report['graphDiff']['policyEdgeChanges']['added'])
     return ('<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>정책 영향 검토</title>'
-            '<style>body{font:16px/1.6 system-ui,sans-serif;max-width:900px;margin:3rem auto;padding:0 1rem;color:#292720}code{overflow-wrap:anywhere}li{margin:1rem 0}p{margin:.25rem 0;color:#514a40}</style><body><h1>정책 변경 영향 검토</h1><p>정책: <strong>' + esc(report['policyId']) + '</strong> · 검토 결정: pending</p>'
+            '<style>' + report_css("policy") + '</style><body><h1>정책 변경 영향 검토</h1><p>정책: <strong>' + esc(report['policyId']) + '</strong> · 검토 결정: pending</p>'
             '<p>이전 graph SHA-256: <code>' + esc(report['beforeGraphSha256']) + '</code></p><p>현재 graph SHA-256: <code>' + esc(report['currentGraphSha256']) + '</code></p>'
             '<h2>정책 변경 전</h2><p>' + esc(report['before'].get('detail', report['before'].get('title', ''))) + '</p><h2>정책 변경 후</h2><p>' + esc(report['current'].get('detail', report['current'].get('title', ''))) + '</p>'
             '<h2>그래프 전후 비교</h2><p>변경 노드 ' + esc(report['graphDiff']['counts']['nodes_modified']) + ', 추가 연결 ' + esc(report['graphDiff']['counts']['edges_added']) + ', 삭제 연결 ' + esc(report['graphDiff']['counts']['edges_removed']) + '</p><ul>' + changed_edges + '</ul>'

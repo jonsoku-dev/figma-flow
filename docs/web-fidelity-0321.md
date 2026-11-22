@@ -1,6 +1,6 @@
 # 웹 가져오기 실측 · 0.32.1
 
-Magic UI Portfolio와 CodeForge의 실제 로컬 페이지를 브라우저에서 열고, 같은 뷰포트의 측정값과 PNG를 저장했다. Figma Flow의 자체 개발 플러그인으로 Figma Design 프레임을 만들고 편집 가능한 텍스트의 범위를 다시 읽었다. 인수 조건은 [편집 가능한 웹 그래프](../specs/editable-web/graph.json), 사용 방법은 [캡처 가이드](web-design-capture.md)에 있다. 템플릿 원본·사진·작업 파일의 비공개 식별자는 배포본에 포함하지 않는다.
+Magic UI Portfolio와 CodeForge의 실제 로컬 페이지를 브라우저에서 열고, 같은 뷰포트의 측정값과 PNG를 저장했다. Figma Flow의 자체 개발 플러그인으로 Figma Design 프레임을 만들고 편집 가능한 텍스트의 범위를 다시 읽었다. 인수 조건은 [편집 가능한 웹 그래프](../specs/editable-web/graph.json), 사용 방법은 [캡처 가이드](web-design-capture.md)에 있다. 템플릿 원본·사진·작업 파일의 비공개 식별자와 원본 스크린샷은 배포본에 포함하지 않는다. [비식별 과거 측정과 readback digest](../specs/editable-web/historical-visual-observations.json)는 수치와 reapply 관계만 보존한다.
 
 ## CSS letter spacing
 

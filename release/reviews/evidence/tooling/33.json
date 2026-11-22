@@ -1,0 +1,81 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/workflow.json#/evidence_contracts",
+      "covers": [
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/sync_workflow.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py"
+      ],
+      "test": "tests/test_workflow.py",
+      "case": "WorkflowTests.test_exports_are_derived_from_same_graph",
+      "testSha256": "e12851963cecf2c14ce93176b937dfa599288010ae9ad1f1d24c02edfb4617d8",
+      "assertion": "State transitions and verified local outputs must derive from the same workflow graph and bounded named execution.",
+      "observed": "Rebuilt workflow constants, refused changed projections and mismatched graph IDs. Actual Node assertions passed in the read-only sandbox; empty/skipped and failed work did not count."
+    },
+    {
+      "authority": "library/workflow.json#/evidence_contracts",
+      "covers": [
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/sync_workflow.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py"
+      ],
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "assertion": "State transitions and verified local outputs must derive from the same workflow graph and bounded named execution.",
+      "observed": "Rebuilt workflow constants, refused changed projections and mismatched graph IDs. Actual Node assertions passed in the read-only sandbox; empty/skipped and failed work did not count."
+    },
+    {
+      "authority": "library/workflow.json#/evidence_contracts",
+      "covers": [
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/sync_workflow.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py"
+      ],
+      "test": "tests/test_local_runner.py",
+      "case": "ExampleRunnerTests.test_green_tests_must_match_graph_ids",
+      "testSha256": "7fcc3aca8da04f172490d39bf37e6bec67f3cdff660d571730acf47e48267cb7",
+      "assertion": "State transitions and verified local outputs must derive from the same workflow graph and bounded named execution.",
+      "observed": "Rebuilt workflow constants, refused changed projections and mismatched graph IDs. Actual Node assertions passed in the read-only sandbox; empty/skipped and failed work did not count."
+    },
+    {
+      "authority": "library/workflow.json#/evidence_contracts",
+      "covers": [
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/sync_workflow.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py"
+      ],
+      "test": "tests/test_safe_node_tests.py",
+      "case": "SafeNodeTests.test_real_test_with_tap_in_console",
+      "testSha256": "66f6241cbc1adb0f2af6ea600218a68cf4c8a96d6048e94b04f02c3a17a6f0a9",
+      "assertion": "State transitions and verified local outputs must derive from the same workflow graph and bounded named execution.",
+      "observed": "Rebuilt workflow constants, refused changed projections and mismatched graph IDs. Actual Node assertions passed in the read-only sandbox; empty/skipped and failed work did not count."
+    },
+    {
+      "authority": "library/workflow.json#/evidence_contracts",
+      "covers": [
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/sync_workflow.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py"
+      ],
+      "test": "tests/test_safe_node_tests.py",
+      "case": "SafeNodeTests.test_empty_skipped_todo_and_failure",
+      "testSha256": "66f6241cbc1adb0f2af6ea600218a68cf4c8a96d6048e94b04f02c3a17a6f0a9",
+      "assertion": "State transitions and verified local outputs must derive from the same workflow graph and bounded named execution.",
+      "observed": "Rebuilt workflow constants, refused changed projections and mismatched graph IDs. Actual Node assertions passed in the read-only sandbox; empty/skipped and failed work did not count."
+    }
+  ]
+}

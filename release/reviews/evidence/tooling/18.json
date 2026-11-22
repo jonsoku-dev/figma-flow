@@ -1,0 +1,42 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-api/source.json#/files",
+      "covers": [
+        "tools/figma_api_audit.py",
+        "tools/figma_api_inventory.py"
+      ],
+      "test": "tests/test_tooling_release_integrity.py",
+      "case": "ToolingContractsTests.test_historical_api_report_regenerates_without_changing_evidence_status",
+      "testSha256": "0bd028a4d844e82cbc81cfb9547cb10447af47d265a72dcaac657e3af5077551",
+      "assertion": "Pinned TypeScript declarations own the indexed members; archived support evidence remains scoped to its historical candidate.",
+      "observed": "The API report regenerated exactly from its stored dataset; the pinned compiler rebuilt the current index and static source references without promoting them to native acceptance."
+    },
+    {
+      "authority": "library/figma-api/source.json#/files",
+      "covers": [
+        "tools/figma_api_audit.py",
+        "tools/figma_api_inventory.py"
+      ],
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_plugin_api_index_and_static_status_snapshot_rebuild_from_pinned_typescript",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "assertion": "Pinned TypeScript declarations own the indexed members; archived support evidence remains scoped to its historical candidate.",
+      "observed": "The API report regenerated exactly from its stored dataset; the pinned compiler rebuilt the current index and static source references without promoting them to native acceptance."
+    },
+    {
+      "authority": "library/figma-api/source.json#/files",
+      "covers": [
+        "tools/figma_api_audit.py",
+        "tools/figma_api_inventory.py"
+      ],
+      "test": "tests/test_figma_api_inventory.py",
+      "case": "FigmaAPIInventoryTests.test_inheritance_nodes_aliases_and_source_locations",
+      "testSha256": "942ba96e3780085f69d6cfa307604d989c9b3278ea3e52e674056710dd4013de",
+      "assertion": "Pinned TypeScript declarations own the indexed members; archived support evidence remains scoped to its historical candidate.",
+      "observed": "The API report regenerated exactly from its stored dataset; the pinned compiler rebuilt the current index and static source references without promoting them to native acceptance."
+    }
+  ]
+}

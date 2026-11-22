@@ -7,6 +7,7 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-shapes.ts",
+      "designGraph": "design-examples.graph.json",
       "description": "Boolean union/subtract/intersect/exclude and alpha masks on newly created shapes.",
       "api": [
         "figma.union",
@@ -31,6 +32,7 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-grid.ts",
+      "designGraph": "design-examples.graph.json",
       "description": "Create an auto layout GRID example; layout guide grids are a different API.",
       "api": [
         "figma.createFrame",
@@ -53,6 +55,7 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-motion.ts",
+      "designGraph": "design-examples.graph.json",
       "description": "Smart Animate reactions between two new frames; not Motion timelines/keyframes.",
       "api": [
         "figma.createSection",
@@ -73,6 +76,7 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-component-properties.ts",
+      "designGraph": "design-examples.graph.json",
       "runtimeHelpers": "component-properties.helpers.js",
       "description": "Add a demonstration frame with native BOOLEAN/INSTANCE_SWAP definitions and default/swapped/hidden instances. Use the components source-authoring route for your own declared payload.",
       "api": [
@@ -101,6 +105,7 @@
       "editorType": "figma",
       "mode": "default",
       "entry": "design-type-review.ts",
+      "designGraph": "design-examples.graph.json",
       "description": "Build a graph-scoped, reusable typography component on the existing Design lab page. Use only the pinned priority rows and verify native range and frame style getters.",
       "api": [
         "figma.listAvailableFontsAsync",

@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_standalone_view_authority.cjs",
+      "case": "standalone Design views apply graph-owned CSS and input limits to actual browser elements",
+      "testSha256": "8b9fcc6cfa93d6b604309af331319d1c8af9d08d6ae7f72e126300e3f60acefb",
+      "authority": "library/panel-design/contracts.json#/nodes/3",
+      "covers": [
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "standalone Design views apply graph-owned CSS and input limits to actual browser elements",
+      "observed": "A portable graph mutation changes actual computed CSS and textarea attributes for import, graph, workspace and chat views in installed Chromium."
+    }
+  ]
+}

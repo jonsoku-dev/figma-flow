@@ -1,0 +1,30 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/responsive-web/graph.json#/nodes/1",
+      "covers": [
+        "tools/design_graph.py",
+        "tools/web_route_graph.py"
+      ],
+      "test": "tests/test_design_graph.py",
+      "case": "DesignGraphTests.test_exact_dependencies_and_coverage",
+      "testSha256": "3d0d9039f111d3045f71d903f6f7dec1bc0c50855e5bbd9150ea0eaf2acb46bc",
+      "assertion": "Frame and route plans can only select declared graph screens and their scoped code/evidence dependencies.",
+      "observed": "Selected screens resolved their actual graph dependencies; absent, wrong-typed or out-of-scope inputs were rejected."
+    },
+    {
+      "authority": "specs/responsive-web/graph.json#/nodes/1",
+      "covers": [
+        "tools/design_graph.py",
+        "tools/web_route_graph.py"
+      ],
+      "test": "tests/test_responsive_web_graph.py",
+      "case": "ResponsiveGraphTests.test_scope_and_route_variants",
+      "testSha256": "b2ef599b8b20af7ac7f049f995b8bd7d434c7c26edf9b721f6dc8d602fd1c829",
+      "assertion": "Frame and route plans can only select declared graph screens and their scoped code/evidence dependencies.",
+      "observed": "Selected screens resolved their actual graph dependencies; absent, wrong-typed or out-of-scope inputs were rejected."
+    }
+  ]
+}

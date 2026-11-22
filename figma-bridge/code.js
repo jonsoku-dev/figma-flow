@@ -1,3 +1,16 @@
+/* native appearance: begin importer */
+const IMPORT_LAYOUT = {
+  "initialFrameHeight": 60,
+  "frameGap": 12,
+  "fallbackHeading": 24,
+  "fallbackBody": 16,
+  "textWidth": 300,
+  "readbackWindow": {
+    "width": 820,
+    "height": 720
+  }
+};
+/* native appearance: end importer */
 /* Local Figma Design Plugin API runtime. PAYLOAD is prepended by the compiler. */
 const KEY = "figmaFlow";
 let busy = false;
@@ -174,21 +187,21 @@ function status(message, extra = {}) {
 function layout(node, width, padding = 16) {
   // Figma resize fixes both axes, so enable height auto-sizing after the initial size.
   node.fills = [];
-  node.resize(width, 60);
+  node.resize(width, IMPORT_LAYOUT.initialFrameHeight);
   node.layoutMode = "VERTICAL";
   node.primaryAxisSizingMode = "AUTO";
   node.counterAxisSizingMode = "FIXED";
   node.paddingTop = node.paddingBottom = node.paddingLeft = node.paddingRight = padding;
-  node.itemSpacing = 12;
+  node.itemSpacing = IMPORT_LAYOUT.frameGap;
 }
 function text(value, heading = false) {
   const node = figma.createText();
   node.fontName = authoredFont;
   const typeRole = PAYLOAD.foundations?.auxiliary_type;
-  node.fontSize = typeRole ? typeRole.native_value : heading ? 24 : 16;
+  node.fontSize = typeRole ? typeRole.native_value : heading ? IMPORT_LAYOUT.fallbackHeading : IMPORT_LAYOUT.fallbackBody;
   node.characters = value;
   node.textAutoResize = "HEIGHT";
-  node.resize(300, node.height);
+  node.resize(IMPORT_LAYOUT.textWidth, node.height);
   return node;
 }
 function applyProps(node, label, props, variables, warnings, fonts) {
@@ -1377,7 +1390,7 @@ async function syncToApp() {
   post({ type: "sync-result", result });
   if (!result.preview_error && result.preview_url === LOCAL_SYNC.preview_url && /^http:\/\/localhost:\d+\/$/.test(LOCAL_SYNC.preview_url)) {
     post({ type: "preview", url: LOCAL_SYNC.preview_url });
-    if (typeof figma.ui.resize === "function") figma.ui.resize(820, 720);
+    if (typeof figma.ui.resize === "function") figma.ui.resize(IMPORT_LAYOUT.readbackWindow.width, IMPORT_LAYOUT.readbackWindow.height);
   }
 }
 figma.ui.onmessage = async message => {
@@ -1412,4 +1425,4 @@ figma.ui.onmessage = async message => {
   } catch (error) { status(`Error: ${error.message || String(error)}`, {event: "error", operation: message.type, details: String(error.message || error) + (error.stack ? "\n" + error.stack : "")}); }
   finally { busy = false; post({ type: "busy", value: false }); }
 };
-figma.showUI(__html__, { width: 480, height: 720, themeColors: true });
+figma.showUI(__html__, /* flow-window import */ {width: 480, height: 720, themeColors: true});

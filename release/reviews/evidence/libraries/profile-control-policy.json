@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_control_transport_authority.py",
+      "case": "TransportAuthorityTests.test_changed_read_budget_reaches_both_ends_of_an_actual_local_result",
+      "testSha256": "e4c0a8275f41c6aa5cf3ba45cb9b6c6503c0972f1cf8d3bbe4125ca6fabaa0d6",
+      "authority": "library/figma-profile/policy.json#/controlTransport",
+      "covers": [
+        "library/figma-profile/policy.json"
+      ],
+      "assertion": "Mutates control read budgets and drives a local operation end to end to verify host and consumer limits.",
+      "observed": "A changed budget reaches both ends of a local result; unsigned large reads stay on normal caps."
+    }
+  ]
+}

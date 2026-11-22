@@ -3,6 +3,8 @@
   "id": "interactive-web-design",
   "title": "Observed web interaction graph and editable carousel playback",
   "nodes": [
+    {"id":"TEST-TAB-BUTTON","type":"test","title":"Chromium tab button round trip","status":"verified","source":"../../tests/test_interactive_capture_release.py"},
+    {"id":"TEST-TAB-NATIVE-TARGET","type":"test","title":"Native click target identity and invalid decoration rejection","status":"verified","source":"../../tests/test_web_design.cjs"},
     {
       "id": "REQ-INTERACTION",
       "type": "requirement",
@@ -318,6 +320,8 @@
     }
   ],
   "edges": [
+    {"from":"AC-REPLAY","to":"TEST-TAB-BUTTON","type":"checked by"},
+    {"from":"CODE-TABS-BRIDGE","to":"TEST-TAB-NATIVE-TARGET","type":"checked by"},
     {
       "from": "REQ-INTERACTION",
       "to": "SCR-DEVTOOL",

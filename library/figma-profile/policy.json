@@ -5,6 +5,13 @@
     "plans": ["unknown", "starter", "professional", "organization", "enterprise", "education", "government"],
     "seats": ["unknown", "view", "collab", "dev", "full"]
   },
+  "controlTransport": {
+    "normal": {"bodyBytes": 41943040, "readbackBytes": 33554432},
+    "largeRead": {"bodyBytes": 83886080, "readbackBytes": 67108864},
+    "replyBytes": 16777216,
+    "historyDetailReplyBytes": 262144,
+    "readinessReplyBytes": 65536
+  },
   "contextFields": {
     "userId": ["user", "id"],
     "userName": ["user", "name"],

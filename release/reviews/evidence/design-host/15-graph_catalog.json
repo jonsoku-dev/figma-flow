@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_graph_panel.cjs",
+      "case": "graph catalogue has all three locales and static labels",
+      "testSha256": "63a6dda9bd6a9938d98fb97257816001bc22aa5f3ff917da5d1b25dde6e6c4c1",
+      "authority": "figma-bridge/standalone-views.json#/views/graph/css",
+      "covers": [
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/standalone-views.json"
+      ],
+      "assertion": "graph catalogue has all three locales and static labels",
+      "observed": "Graph-panel locale keys are complete and the standalone template binds to the graph-owned style publisher."
+    }
+  ]
+}

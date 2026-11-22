@@ -13,39 +13,32 @@ import re
 
 import figma_workspace as workspace
 
-DETAIL_SCHEMA = 'figma-flow-operation-detail-v1'
-MAX_DIFF_FIELDS = 200
-MAX_CONFLICTS = 50
-MAX_RELATIONS = 200
-MAX_PHASES = 128
-MAX_RESPONSE_BYTES = 256 * 1024
-
 _PROFILE_POLICY = json.loads((Path(__file__).resolve().parents[1] / 'library' / 'figma-profile' / 'policy.json').read_text(encoding='utf-8'))
+_PANEL_CONTRACT_GRAPH = json.loads((Path(__file__).resolve().parents[1] / 'library' / 'panel-design' / 'contracts.json').read_text(encoding='utf-8'))
+_PANEL_CONTRACT_NODES = {node['id']: node for node in _PANEL_CONTRACT_GRAPH['nodes']}
+_DETAIL_CONTRACT = _PANEL_CONTRACT_NODES['operation-detail-v1']
+_DEPENDENCY_CONTRACT = _PANEL_CONTRACT_NODES['dependency-artifacts']
+SCOPE_NOTICES = _DETAIL_CONTRACT['scopeNotices']
+DETAIL_SCHEMA = _DETAIL_CONTRACT['schema']
 ALLOWED_OPERATIONS = set().union(*map(set, _PROFILE_POLICY['taskOperations'].values()))
-ALLOWED_STATES = {'pending', 'claimed', 'ok', 'error', 'uncertain', 'expired'}
-ALLOWED_RELATION_TYPES = {'declared-dependency', 'recovery-of', 'artifact-input'}
+ALLOWED_STATES = set(_DETAIL_CONTRACT['operationStates'])
+ALLOWED_RELATION_TYPES = set(_DETAIL_CONTRACT['relationTypes'])
 ALLOWED_TASK_KINDS = set(_PROFILE_POLICY['taskOperations'])
 
-ALLOWED_DESIGN_FIELDS = {
-    'value', 'backgroundColor', 'color', 'borderColor', 'fill', 'stroke', 'strokeWeight',
-    'fontSize', 'fontFamily', 'fontWeight', 'lineHeight', 'letterSpacing',
-    'padding', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
-    'gap', 'itemSpacing', 'cornerRadius', 'borderRadius', 'opacity',
-    'width', 'height', 'visible', 'boolean', 'variant', 'instanceSwap',
-    'characters', 'x', 'y',
-}
+ALLOWED_DESIGN_FIELDS = {field['id'] for field in _DETAIL_CONTRACT['fieldPolicies']['designFields'] if field['python']}
 
-TEXT_FIELDS = {
-    'characters', 'text', 'display_text', 'label', 'placeholder',
-    'helperText', 'errorMessage', 'caption', 'title', 'content', 'copy',
-}
+TEXT_FIELDS = {field['id'] for field in _DETAIL_CONTRACT['fieldPolicies']['textFields'] if field['python']}
 
-TASK_ARTIFACTS = {
-    'sync': 'native-plan.json',
-    'native-edit': 'native-edit-plan.json',
-    'import': 'reviewed-payload.json',
-    'review': 'packet.json',
-}
+TASK_ARTIFACTS = _DEPENDENCY_CONTRACT['taskArtifactFiles']
+DEPENDENCY_ARTIFACTS = set(_DEPENDENCY_CONTRACT['values'])
+DEPENDENCY_RELATION = _DEPENDENCY_CONTRACT['relation']
+DIFF_REASONS = _DETAIL_CONTRACT['diffReasonCodes']
+ERROR_REASONS = _DETAIL_CONTRACT['errorReasonCodes']
+MAX_DIFF_FIELDS = _DETAIL_CONTRACT['limits']['diffRows']
+MAX_CONFLICTS = _DETAIL_CONTRACT['limits']['conflictRows']
+MAX_RELATIONS = _DETAIL_CONTRACT['limits']['pythonRelations']
+MAX_PHASES = _DETAIL_CONTRACT['limits']['pythonPhases']
+MAX_RESPONSE_BYTES = _DETAIL_CONTRACT['limits']['responseBytes']
 
 _HEX32 = re.compile(r'^[a-f0-9]{32}$')
 _HEX64 = re.compile(r'^[a-f0-9]{64}$')
@@ -71,7 +64,7 @@ _WINDOWS_PATH = re.compile(r'^[A-Za-z]:[\\/]')
 class OperationNotFoundError(LookupError):
     """Raised when an operation ID does not exist in the exact file/page scope."""
 
-    def __init__(self, reason='not-found-in-scope'):
+    def __init__(self, reason=_DETAIL_CONTRACT['unavailableReasonCodes']['notFoundInScope']):
         super().__init__(reason)
         self.reason = reason
 
@@ -79,7 +72,7 @@ class OperationNotFoundError(LookupError):
 class OperationRejectedError(ValueError):
     """Raised when the detail envelope, runtime, or task/revision binding is rejected."""
 
-    def __init__(self, reason='request-rejected'):
+    def __init__(self, reason=ERROR_REASONS['requestRejected']):
         super().__init__(reason)
         self.reason = reason
 
@@ -205,7 +198,7 @@ def _validate_envelope(payload):
         raise OperationRejectedError('invalid-envelope')
     op_id = payload.get('operation_id')
     if not isinstance(op_id, str) or not _HEX32.fullmatch(op_id):
-        raise OperationRejectedError('invalid-operation-id')
+        raise OperationRejectedError(ERROR_REASONS['invalidOperationId'])
     task_key = payload.get('task_key')
     revision = payload.get('revision')
     if (not isinstance(task_key, str) or not _TASK_KEY.fullmatch(task_key)
@@ -671,19 +664,19 @@ def _compute_diff(root, request, task_row, same_scope_ops, by_key_rev, conflicts
         }
 
     if request['operation'] == 'read' or (task_row and task_row.get('kind') == 'discover'):
-        return unavailable('read-only-operation')
+        return unavailable(DIFF_REASONS['readOnlyOperation'])
     if task_row is None:
-        return unavailable('legacy-or-unpinned-artifact')
+        return unavailable(DIFF_REASONS['legacyOrUnpinnedArtifact'])
     kind = task_row.get('kind')
     if kind not in {'sync', 'native-edit', 'import'}:
-        return unavailable('unsupported-task-kind')
+        return unavailable(DIFF_REASONS['unsupportedTaskKind'])
 
     try:
         _after_name, _after_sha, after_data = _read_verified_task_artifact(root, task_row)
     except FileNotFoundError:
-        return unavailable('before-artifact-missing')
+        return unavailable(DIFF_REASONS['beforeArtifactMissing'])
     except (ValueError, OSError, KeyError, TypeError):
-        return unavailable('unverified-artifact')
+        return unavailable(DIFF_REASONS['unverifiedArtifact'])
 
     # Locate exact preceding canonical revision on the same (file_key, page_id) scope.
     before_rev = None
@@ -710,18 +703,18 @@ def _compute_diff(root, request, task_row, same_scope_ops, by_key_rev, conflicts
                 break
 
     if before_rev is None:
-        return unavailable('before-artifact-missing')
+        return unavailable(DIFF_REASONS['beforeArtifactMissing'])
 
     before_row = by_key_rev.get((request['key'], before_rev))
     if before_row is None or before_row.get('kind') != kind:
-        return unavailable('before-artifact-missing')
+        return unavailable(DIFF_REASONS['beforeArtifactMissing'])
 
     try:
         _before_name, _before_sha, before_data = _read_verified_task_artifact(root, before_row)
     except FileNotFoundError:
-        return unavailable('before-artifact-missing')
+        return unavailable(DIFF_REASONS['beforeArtifactMissing'])
     except (ValueError, OSError, KeyError, TypeError):
-        return unavailable('unverified-artifact')
+        return unavailable(DIFF_REASONS['unverifiedArtifact'])
 
     if kind == 'sync':
         before_map = _extract_sync_map(before_data)
@@ -769,18 +762,18 @@ def _compute_diff(root, request, task_row, same_scope_ops, by_key_rev, conflicts
 
 
 def _failure_summary(state, request, has_conflicts):
-    if state in {'ok', 'pending', 'claimed'}:
+    if state in _DETAIL_CONTRACT['failureSummaryByCase']['noFailureStates']:
         return None
     if state == 'expired':
-        return {'code': 'claim-expired', 'action': 'inspect-private-status'}
+        return dict(_DETAIL_CONTRACT['failureSummaryByCase']['expired'])
     if state == 'uncertain':
-        return {'code': 'operation-uncertain', 'action': 'run-native-read'}
+        return dict(_DETAIL_CONTRACT['failureSummaryByCase']['uncertain'])
     if has_conflicts:
-        return {'code': 'native-conflict', 'action': 'inspect-conflicts'}
+        return dict(_DETAIL_CONTRACT['failureSummaryByCase']['conflict'])
     raw_error = str(request.get('error', '')).lower()
     if 'prepared task' in raw_error or 'stale' in raw_error or 'runtime' in raw_error:
-        return {'code': 'result-rejected', 'action': 'reopen-plugin'}
-    return {'code': 'execution-failed', 'action': 'inspect-private-status'}
+        return dict(_DETAIL_CONTRACT['failureSummaryByCase']['rejected'])
+    return dict(_DETAIL_CONTRACT['failureSummaryByCase']['default'])
 
 
 def _build_relations(root, request, task_row, task_binding, active_by_key, by_key_rev, binding_for, same_scope_ops, journal_history_fn):
@@ -798,7 +791,7 @@ def _build_relations(root, request, task_row, task_binding, active_by_key, by_ke
     # 1. Declared dependencies (predecessors on the exact task revision).
     if task_row and isinstance(task_row.get('depends_on'), list):
         for edge in task_row['depends_on']:
-            if not isinstance(edge, dict) or edge.get('relation') != 'uses-output':
+            if not isinstance(edge, dict) or edge.get('relation') != DEPENDENCY_RELATION:
                 continue
             dep_key = edge.get('task_key')
             dep_rev = edge.get('revision')
@@ -806,7 +799,7 @@ def _build_relations(root, request, task_row, task_binding, active_by_key, by_ke
             art_sha = edge.get('artifact_sha256')
             if (not isinstance(dep_key, str) or not _TASK_KEY.fullmatch(dep_key)
                     or not isinstance(dep_rev, str) or not _HEX64.fullmatch(dep_rev)
-                    or artifact not in {'code.js', 'ui.html', 'manifest.json'}
+                    or artifact not in DEPENDENCY_ARTIFACTS
                     or not isinstance(art_sha, str) or not _HEX64.fullmatch(art_sha)):
                 continue
             dedup = ('declared-dependency', 'predecessor', dep_key, dep_rev, artifact, art_sha)
@@ -844,13 +837,13 @@ def _build_relations(root, request, task_row, task_binding, active_by_key, by_ke
             continue
         for edge in consumer['depends_on']:
             if (not isinstance(edge, dict)
-                    or edge.get('relation') != 'uses-output'
+                    or edge.get('relation') != DEPENDENCY_RELATION
                     or edge.get('task_key') != request['key']
                     or edge.get('revision') != request['revision']):
                 continue
             artifact = edge.get('artifact')
             art_sha = edge.get('artifact_sha256')
-            if artifact not in {'code.js', 'ui.html', 'manifest.json'} or not isinstance(art_sha, str) or not _HEX64.fullmatch(art_sha):
+            if artifact not in DEPENDENCY_ARTIFACTS or not isinstance(art_sha, str) or not _HEX64.fullmatch(art_sha):
                 continue
             dedup = ('declared-dependency', 'successor', c_key, c_rev, artifact, art_sha)
             if dedup in seen:
@@ -956,7 +949,7 @@ def _enforce_size_cap(dto):
     if len(encoded) <= MAX_RESPONSE_BYTES:
         return dto
     dto['truncated'] = True
-    dto['scopeNotice'] = 'read-only-truncated-256kib'
+    dto['scopeNotice'] = SCOPE_NOTICES['truncated']
     while len(workspace.encode(dto)) > MAX_RESPONSE_BYTES and dto['diff']['fields']:
         half = max(1, len(dto['diff']['fields']) // 2)
         dto['diff']['fields'] = dto['diff']['fields'][:len(dto['diff']['fields']) - half]
@@ -969,7 +962,7 @@ def _enforce_size_cap(dto):
     while len(workspace.encode(dto)) > MAX_RESPONSE_BYTES and len(dto['phases']) > 1:
         dto['phases'] = dto['phases'][-max(1, len(dto['phases']) // 2):]
     if len(workspace.encode(dto)) > MAX_RESPONSE_BYTES:
-        raise OperationRejectedError('payload-limit-exceeded')
+        raise OperationRejectedError(ERROR_REASONS['payloadLimitExceeded'])
     return dto
 
 
@@ -1056,7 +1049,7 @@ def build_operation_detail(root, payload, *, control_schema, journal_history_fn,
         state = request.get('state') if request.get('state') in ALLOWED_STATES else 'uncertain'
         failure = _failure_summary(state, request, bool(conflicts))
         is_truncated = bool(diff['truncated'] or relations_truncated or phases_truncated)
-        scope_notice = 'read-only-diff-capped-at-200-fields' if diff['truncated'] else 'read-only-exact-scope'
+        scope_notice = SCOPE_NOTICES['diffFieldsCapped'] if diff['truncated'] else SCOPE_NOTICES['exact']
 
         dto = {
             'schema': DETAIL_SCHEMA,

@@ -1,0 +1,30 @@
+{
+  "surfaceFingerprint": "b6a1d3a3475ab09d284093e81fe6da3be7a8920423eb77345147302d20e487f4",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_guide_source_contract.py",
+      "case": "GuideSourceContractTests.test_web_fidelity_reports_match_the_sanitized_historical_visual_observations",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations",
+      "covers": [
+        "specs/editable-web/historical-visual-observations.json",
+        "specs/editable-web/graph.json"
+      ],
+      "assertion": "The two historical visual summaries own the specific published metric rows and identify unavailable screenshots. They cannot replace current per-screen native observations.",
+      "observed": "Compared the published metrics to the sanitized historical record and verified only source-summary edges were used with the original checks preserved."
+    },
+    {
+      "test": "tests/test_guide_source_contract.py",
+      "case": "GuideSourceContractTests.test_historical_visual_nodes_are_summaries_not_live_render_witnesses",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations",
+      "covers": [
+        "specs/editable-web/historical-visual-observations.json",
+        "specs/editable-web/graph.json"
+      ],
+      "assertion": "The two historical visual summaries own the specific published metric rows and identify unavailable screenshots. They cannot replace current per-screen native observations.",
+      "observed": "Compared the published metrics to the sanitized historical record and verified only source-summary edges were used with the original checks preserved."
+    }
+  ]
+}

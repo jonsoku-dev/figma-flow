@@ -38,6 +38,19 @@ class RegressionAppTests(unittest.TestCase):
             screen_ids.extend(node['id'] for node in actual['nodes'] if node['type'] == 'screen')
         self.assertEqual(len(screen_ids), len(set(screen_ids)))
 
+    def test_serialized_catalog_screen_specs_and_bindings_are_current_projections(self):
+        document = json.loads((FIXTURE / 'catalog.json').read_text(encoding='utf-8'))
+        self.assertEqual(document, self.catalog.catalog_document())
+        for app_id in self.catalog.APPS:
+            with self.subTest(app=app_id):
+                folder = FIXTURE / app_id
+                self.assertEqual(json.loads((folder / 'graph.json').read_text(encoding='utf-8')),
+                                 self.catalog.build_graph(app_id))
+                self.assertEqual((folder / 'screen-spec.md').read_text(encoding='utf-8'),
+                                 self.catalog.screen_spec(app_id))
+                self.assertEqual(json.loads((folder / 'bindings.json').read_text(encoding='utf-8')),
+                                 self.catalog.bindings(app_id))
+
     def test_mock_vectors_match_the_server(self):
         vectors = json.loads((FIXTURE / 'server/vectors.json').read_text())
         for vector in vectors:

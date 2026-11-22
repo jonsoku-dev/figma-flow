@@ -184,6 +184,40 @@ class DeliveryReviewTests(unittest.TestCase):
         self.assertIn('python -m pip install --require-hashes',job)
         self.assertIn('python -B manage.py test booking.tests config.tests',job)
 
+    def test_major_linux_sandbox_cli_is_verified_before_install_and_path_update(self):
+        import hashlib
+        import io
+        import tarfile
+        self.copy_graph()
+        fixture=self.tmp/'cli.tar.gz'
+        record=self.graph['inputs']['sandboxCli']['linuxRelease']
+        executable='codex-'+record['target']
+        data=b'#!/bin/sh\nexit 0\n'
+        with tarfile.open(fixture,'w:gz') as archive:
+            entry=tarfile.TarInfo(executable);entry.size=len(data);entry.mode=0o755
+            archive.addfile(entry,io.BytesIO(data))
+        record['sha256']=hashlib.sha256(fixture.read_bytes()).hexdigest()
+        (self.tmp/delivery.GRAPH).write_text(json.dumps(self.graph))
+        source=delivery.templates(self.tmp)[Path('.github/workflows/reference-guard.yml')]
+        start=source.index('            mkdir -p "$RUNNER_TEMP/figma-flow-codex"')
+        snippet=source[start:source.index('            pg_bin=',start)]
+        bindir=self.tmp/'fixture-bin';bindir.mkdir()
+        fetch=bindir/'curl'
+        fetch.write_text('#!/bin/sh\nwhile [ "$1" != "--output" ]; do shift; done\ncp "$LOCAL_ARCHIVE" "$2"\n')
+        fetch.chmod(0o755)
+        for valid in (True,False):
+            scratch=self.tmp/('allow' if valid else 'reject');scratch.mkdir()
+            env=dict(os.environ,RUNNER_TEMP=str(scratch),GITHUB_PATH=str(scratch/'path.txt'),
+                     LOCAL_ARCHIVE=str(fixture),PATH=str(bindir)+os.pathsep+os.environ['PATH'])
+            if not valid:
+                fixture.write_bytes(b'wrong digest')
+            proc=run(self.tmp,'bash','-e','-o','pipefail','-c',snippet,env=env)
+            installed=scratch/'figma-flow-codex/codex'
+            self.assertEqual(proc.returncode==0,valid,proc.stderr)
+            self.assertEqual(installed.is_file(),valid)
+            self.assertEqual((scratch/'path.txt').exists(),valid)
+            if valid:self.assertEqual(installed.read_bytes(),data)
+
     def test_reference_job_runs_its_actual_packaging_and_stops_before_major_zip(self):
         graph_dir = self.tmp/'repo'
         graph_dir.mkdir()

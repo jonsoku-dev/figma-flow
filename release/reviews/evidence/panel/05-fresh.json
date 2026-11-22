@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "operation detail producer imports in a fresh process with the canonical domain graph",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "library/panel-design/contracts.json#/nodes/2",
+      "covers": [
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/operationDetail.mjs",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "assertion": "operation detail producer imports in a fresh process with the canonical domain graph",
+      "observed": "A fresh Python process imports the operation detail producer against the checked-in shared contract."
+    }
+  ]
+}

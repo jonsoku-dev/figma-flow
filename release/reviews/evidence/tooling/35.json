@@ -1,0 +1,78 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "test": "tests/test_spec_paired_receipts.py",
+      "case": "PairedReceiptTests.test_rejects_mismatched_real_receipts_even_when_both_targets_exist",
+      "testSha256": "3fcbb0b46580674f1a9bfc31a8adbfad35476518913d2f649a081b7da1ec5873",
+      "assertion": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
+      "observed": "Crossed screen/frame receipts, missing evidence and an unregistered or skipped Node case were rejected; actual named behavior and declared graph relationships remained valid."
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "test": "tests/test_spec_graph_coverage.py",
+      "case": "SpecGraphCoverageTests.test_exercised_module_alone_does_not_establish_acceptance",
+      "testSha256": "1d290f96f1c20087c446aff224c5178d86632e243d94045da7f00753aab3cddb",
+      "assertion": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
+      "observed": "Crossed screen/frame receipts, missing evidence and an unregistered or skipped Node case were rejected; actual named behavior and declared graph relationships remained valid."
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "test": "tests/test_runtime_authority.py",
+      "case": "RuntimeAuthorityTests.test_duplicated_fallback_matrix_is_reported",
+      "testSha256": "1eba29f276324e4c98f71b3dead97a20d3ad9f89291f9aeaf01a2ff0306ab8c0",
+      "assertion": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
+      "observed": "Crossed screen/frame receipts, missing evidence and an unregistered or skipped Node case were rejected; actual named behavior and declared graph relationships remained valid."
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "test": "tests/test_tooling_release_integrity.py",
+      "case": "ToolingContractsTests.test_checker_import_graph_includes_new_local_transitive_modules",
+      "testSha256": "0bd028a4d844e82cbc81cfb9547cb10447af47d265a72dcaac657e3af5077551",
+      "assertion": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
+      "observed": "Crossed screen/frame receipts, missing evidence and an unregistered or skipped Node case were rejected; actual named behavior and declared graph relationships remained valid."
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "test": "tests/test_tooling_release_integrity.py",
+      "case": "ToolingContractsTests.test_archive_case_runner_rejects_unregistered_and_skipped_node_names",
+      "testSha256": "0bd028a4d844e82cbc81cfb9547cb10447af47d265a72dcaac657e3af5077551",
+      "assertion": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
+      "observed": "Crossed screen/frame receipts, missing evidence and an unregistered or skipped Node case were rejected; actual named behavior and declared graph relationships remained valid."
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "test": "tests/test_tooling_release_integrity.py",
+      "case": "ToolingContractsTests.test_panel_witness_uses_explicit_external_dependencies_without_changing_candidate",
+      "testSha256": "0bd028a4d844e82cbc81cfb9547cb10447af47d265a72dcaac657e3af5077551",
+      "assertion": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
+      "observed": "Crossed screen/frame receipts, missing evidence and an unregistered or skipped Node case were rejected; actual named behavior and declared graph relationships remained valid."
+    }
+  ]
+}

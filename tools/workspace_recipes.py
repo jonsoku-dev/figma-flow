@@ -1,17 +1,24 @@
 """Source-pinned Design examples for Codex tasks and legacy menu generation."""
+from report_appearance import report_css
 import argparse
 import hashlib
 import html
 import json
 import re
 from pathlib import Path
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 LIBRARY = ROOT / 'library' / 'figma-recipes'
+if str(LIBRARY) not in sys.path:
+    sys.path.insert(0, str(LIBRARY))
+import recipe_design_graph as design_graph
+
 def design_recipes(library=None):
     entries = json.loads(((library or LIBRARY) / 'manifest.json').read_text())['recipes']
-    if any(row.get('editorType') != 'figma' or row.get('mode', 'default') != 'default' for row in entries):
-        raise ValueError('Recipe editor/mode differs from Design/default. See CONSTITUTION.md.')
+    if any(row.get('editorType') != 'figma' or row.get('mode', 'default') != 'default'
+           or row.get('designGraph') != 'design-examples.graph.json' for row in entries):
+        raise ValueError('Recipe editor/mode differs from Design/default or visual values graph source is not canonical. See CONSTITUTION.md.')
     return entries
 
 
@@ -53,12 +60,33 @@ def bundled_actions():
     bundle = json.loads((LIBRARY / 'bundle.json').read_text())
     if bundle.get('schemaVersion') != 1 or bundle.get('typescriptVersion') != '5.9.3':
         raise ValueError('Recipe bundle must use pinned TypeScript 5.9.3')
+    graph_pin = bundle.get('designGraph')
+    graph_source = graph_pin.get('source') if isinstance(graph_pin, dict) else None
+    if graph_source != 'design-examples.graph.json':
+        raise ValueError('Recipe bundle has no canonical visual values graph')
+    graph_path = LIBRARY / graph_source
+    if graph_path.is_symlink():
+        raise ValueError('Recipe visual values graph cannot be a symlink')
+    graph_raw = graph_path.read_bytes()
+    graph_data = design_graph.parse_graph(graph_raw)
+    graph = design_graph.validate_graph(graph_data)
+    projection = design_graph.typescript_projection(graph_data)
+    payload = design_graph.payload_projection(graph_data)
+    if (graph_pin.get('sourceSha256') != hashlib.sha256(graph_raw).hexdigest()
+            or graph_pin.get('projectionSha256') != hashlib.sha256(projection.encode()).hexdigest()
+            or graph_pin.get('componentPayloadSource') != 'tests/fixtures/declared-component-properties.json'
+            or graph_pin.get('componentPayloadSha256') != hashlib.sha256(payload.encode()).hexdigest()
+            or set(graph['visuals']) != {row['id'] for row in design_recipes()}):
+        raise ValueError('Recipe bundle does not match the canonical visual values graph')
     rows = bundle['recipes']
     if {row['id'] for row in rows} != set(ACTIONS) or len(rows) != len(ACTIONS):
         raise ValueError('Recipe bundle differs from the static Design allowlist')
     result = {}
     for row in rows:
         key = row['id']
+        visual_projection = design_graph.typescript_projection(graph_data, {key})
+        if row.get('visualProjectionSha256') != hashlib.sha256(visual_projection.encode()).hexdigest():
+            raise ValueError('Recipe bundle visual values differ from the canonical graph')
         if row['source'] != key + '.ts' or row['entry'] != 'bundled/' + key + '.js':
             raise ValueError('Recipe bundle entry differs from the static path')
         pins = [('source', 'sourceSha256'), ('entry', 'jsSha256')]
@@ -75,6 +103,13 @@ def bundled_actions():
             if hashlib.sha256(path.read_bytes()).hexdigest() != row[sha_field]:
                 raise ValueError('Recipe source or compiled bundle changed; rebuild and review it')
         result[key] = (LIBRARY / row['entry']).read_text()
+    sdk_rows = bundle.get('sdkGraphRecipes')
+    if not isinstance(sdk_rows, list) or {row.get('id') for row in sdk_rows} != set(graph['visuals']) - set(ACTIONS):
+        raise ValueError('Graph-driven SDK recipe set differs from the canonical visual graph')
+    for row in sdk_rows:
+        visual_projection = design_graph.typescript_projection(graph_data, {row['id']})
+        if row.get('visualProjectionSha256') != hashlib.sha256(visual_projection.encode()).hexdigest():
+            raise ValueError('SDK recipe visual values differ from the canonical graph')
     return result
 
 
@@ -130,7 +165,7 @@ def prepare_relay_example(options, output, plugin_id):
 
 def confirmation(key, title):
     return '''<!doctype html><html lang="en"><meta charset="utf-8"><title>Figma Flow example</title>
-<style>body{font:14px system-ui;padding:20px;color:var(--figma-color-text);background:var(--figma-color-bg)}button{font:inherit;padding:10px;margin:8px 8px 0 0}</style>
+<style>''' + report_css("recipeConfirmation") + '''</style>
 <h1 style="font-size:20px">''' + html.escape(title) + '''</h1>
 <p>Add this example in a new named container on the current Design page. Existing nodes are preserved. The new container becomes selected.</p>
 <p>This is a bundled example, separate from your prepared Codex tasks. No chat or local control service is started.</p>
@@ -158,7 +193,7 @@ function workspaceRecipeDispatch() {
     return true;
   }
   let used = false;
-  figma.showUI(confirmations[key], {width: 460, height: 320, themeColors: true});
+  figma.showUI(confirmations[key], /* flow-window recipe */ {width: 460, height: 320, themeColors: true});
   figma.ui.onmessage = message => {
     if (used || !message || typeof message !== 'object') return;
     if (message.type === 'workspace-recipe-cancel') {used = true; figma.closePlugin(); return;}

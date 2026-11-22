@@ -1,4 +1,6 @@
-const terminal = new Set(['finished', 'readback', 'verified', 'baseline']);
+import { workspaceActivityContract } from './panelContracts.mjs';
+
+const terminal = new Set(workspaceActivityContract.recommendationProgressStatuses);
 const historyOf = (model) => (Array.isArray(model.history) ? model.history : []);
 const tasksOf = (model) => (Array.isArray(model.tasks) ? model.tasks : []);
 
@@ -7,20 +9,23 @@ export const latestFor = (model, task) =>
     .reverse()
     .find(
       (event) =>
-        event.taskKey === task.key && event.revision === task.revision && event.operation !== 'download',
+        event.taskKey === task.key && event.revision === task.revision &&
+        !workspaceActivityContract.historyExcludedOperations.includes(event.operation),
     );
 
-const phase = (task) =>
-  task.kind === 'sync' || (task.kind === 'import' && task.paired) ? 3 : task.kind === 'import' ? 2 : 1;
+const phase = (task) => {
+  if (task.kind === 'import' && task.paired) return workspaceActivityContract.recommendationPhaseByKind.pairedImport;
+  return workspaceActivityContract.recommendationPhaseByKind[task.kind] ?? workspaceActivityContract.recommendationPhaseByKind.default;
+};
 const progressed = (model, task) =>
-  task.kind !== 'review' &&
-  (task.productionAdmitted || task.paired) &&
+  !workspaceActivityContract.recommendationExcludedTaskKinds.includes(task.kind) &&
+  workspaceActivityContract.recommendationRequiresOneOf.some(flag => task[flag]) &&
   historyOf(model).some(
     (event) =>
       event.taskKey === task.key &&
       event.revision === task.revision &&
       terminal.has(event.status) &&
-      !event.operation.startsWith('chat:'),
+      !workspaceActivityContract.historyExcludedOperationPrefixes.some(prefix => event.operation.startsWith(prefix)),
   );
 
 export function selectRecommendation(model, tasks) {
@@ -49,7 +54,7 @@ export function selectRecommendation(model, tasks) {
             .map(phase),
         ),
     );
-  const failed = candidates.find((task) => latestFor(model, task)?.status === 'failed');
+  const failed = candidates.find((task) => workspaceActivityContract.recommendationFailureStatuses.includes(latestFor(model, task)?.status));
   if (failed) return { task: failed, inspect: false };
   const pending = candidates.find((task) => !latestFor(model, task));
   if (pending) return { task: pending, inspect: false };

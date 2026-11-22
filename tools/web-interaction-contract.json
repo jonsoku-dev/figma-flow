@@ -1,0 +1,7 @@
+{
+  "schema": "figma-flow-web-interaction-targets-v1",
+  "tabs": {
+    "elementKinds": ["frame"],
+    "componentKeys": ["control-button"]
+  }
+}

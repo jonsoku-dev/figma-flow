@@ -18,16 +18,20 @@ async function controlRequest(route, body, readResult = false) {
   if (!origin || Number(origin[1]) < 1 || Number(origin[1]) > 65535 || typeof config.token !== 'string' || !config.token ||
       !['poll', 'result', 'readiness', 'native-started', 'history', 'history-detail'].includes(route) || !body || typeof body !== 'object' || Array.isArray(body))
     throw Error('Invalid local command endpoint or envelope');
-  const MiB = 1024 * 1024;
+  const limits = WORKSPACE_PROFILE_POLICY.controlTransport;
   const allowLargeRead = readResult && route === 'result' && body.status === 'ok' && typeof body.readback_json === 'string';
+  const budget = allowLargeRead ? limits.largeRead : limits.normal;
+  const responseLimit = route === 'history-detail' ? limits.historyDetailReplyBytes : limits.replyBytes;
+  if (![budget.bodyBytes, budget.readbackBytes, responseLimit].every(n => Number.isSafeInteger(n) && n > 0)) {
+    throw Error('Invalid local transport budget');
+  }
   let readbackBytes = 0;
   if (typeof body.readback_json === 'string') {
-    readbackBytes = controlPayloadSize(body.readback_json, (allowLargeRead ? 64 : 32) * MiB);
+    readbackBytes = controlPayloadSize(body.readback_json, budget.readbackBytes);
   }
   const encoded = JSON.stringify(body);
-  const bodyBytes = controlPayloadSize(encoded, (allowLargeRead ? 80 : 40) * MiB);
-  if (allowLargeRead && (readbackBytes > 32 * MiB || bodyBytes > 40 * MiB)) route = 'result-large';
-  const responseLimit = route === 'history-detail' ? 262144 : 16 * 1024 * 1024;
+  const bodyBytes = controlPayloadSize(encoded, budget.bodyBytes);
+  if (allowLargeRead && (readbackBytes > limits.normal.readbackBytes || bodyBytes > limits.normal.bodyBytes)) route = 'result-large';
   let timer;
   try {
     return await Promise.race([

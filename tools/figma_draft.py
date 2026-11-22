@@ -18,6 +18,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 TOOLS=Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path: sys.path.insert(0,str(TOOLS))
+from report_appearance import report_css
 from embedded_assets import embedded_asset_warnings
 from plugin_panel import render_panel
 import annotation_contract
@@ -1714,16 +1715,7 @@ def ui_html(pair=None, night_demo=False, review=None):
     html = '''<!doctype html><html lang="ko" data-flow-view="review"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>/* FIGMA_FLOW_PANEL_CSS */
-.review-references {display:grid;gap:14px;margin:16px 0 20px}
-.review-reference {min-width:0}
-.review-reference h3 {font-size:13px;font-weight:650;margin-bottom:10px}
-.review-previews {display:flex;align-items:start;gap:10px;flex-wrap:wrap}
-.review-previews figure {margin:0;flex:1 1 180px;min-width:0}
-.review-previews img {display:block;width:100%;height:160px;object-fit:contain;background:var(--surface);border:1px solid var(--line);border-radius:4px}
-.review-previews figcaption {font-size:11px;color:var(--muted);margin-top:5px}
-.review-step {font-size:14px;margin-bottom:10px}
-@media(max-width:360px){.review-previews img{height:140px}}
-</style>
+/* REVIEW_STYLES */</style>
 <body class="panel">
 <!-- FLOW_SHELL -->
 <main class="workspace">
@@ -1878,7 +1870,7 @@ window.onmessage = async event => {
 };
 refreshLocale();
 </script></body></html>'''
-    filled = (html.replace('__PAIR__', pair_json).replace('__REVIEW_SCOPE__', target + ' / ' + page)
+    filled = (html.replace('/* REVIEW_STYLES */', report_css('draft')).replace('__PAIR__', pair_json).replace('__REVIEW_SCOPE__', target + ' / ' + page)
               .replace('__REVIEW_CONTEXT__', context).replace('__REFERENCES__', ''.join(references))
               .replace('__SAVE_BODY__', localized('p', 'saveBodyPaired' if pair else 'saveBodyPortable'))
               .replace('__CREATE_STEP__', text('createStep')).replace('__CREATE_BODY__', text('createBody'))

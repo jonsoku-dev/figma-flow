@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_control_icons.cjs",
+      "case": "before/after controls keep exact pinned image, gap and combined center",
+      "testSha256": "507ef70f8dec40fd40db0a5dcdb6cf94624a2932bdee948beee0ca5cfd241467",
+      "authority": "library/component-families.json#/native",
+      "covers": [
+        "figma-bridge/semantic_components.js"
+      ],
+      "assertion": "before/after controls keep exact pinned image, gap and combined center",
+      "observed": "Native control instances use the pinned image with owned spacing and center geometry."
+    }
+  ]
+}

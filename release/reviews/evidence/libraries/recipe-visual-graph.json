@@ -1,0 +1,39 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_visual_graph_preserves_the_existing_five_recipe_sample_values",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "covers": [
+        "library/figma-recipes/design-component-properties.ts",
+        "library/figma-recipes/design-examples.graph.json",
+        "library/figma-recipes/design-grid.ts",
+        "library/figma-recipes/design-motion.ts",
+        "library/figma-recipes/design-shapes.ts",
+        "library/figma-recipes/design-type-review.ts"
+      ],
+      "assertion": "Checks exact five-recipe values and rejection of duplicates/stale projections.",
+      "observed": "All five sample value sets match the graph and the graph loader accepts no duplicate keys."
+    },
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_graph_visual_mutations_project_to_standalone_build_and_failing_values_are_rejected",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "covers": [
+        "library/figma-recipes/design-component-properties.ts",
+        "library/figma-recipes/design-examples.graph.json",
+        "library/figma-recipes/design-grid.ts",
+        "library/figma-recipes/design-motion.ts",
+        "library/figma-recipes/design-shapes.ts",
+        "library/figma-recipes/design-type-review.ts"
+      ],
+      "assertion": "Mutates canonical graph values in a disposable tree and verifies rebuilt source/standalone outputs; invalid fields fail closed.",
+      "observed": "A graph value change reaches TypeScript and build projections; unsupported values are rejected."
+    }
+  ]
+}

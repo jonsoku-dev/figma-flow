@@ -1,0 +1,586 @@
+{
+  "schema": "figma-flow-panel-contract-graph-v1",
+  "version": 1,
+  "id": "panel-domain-contracts",
+  "nodes": [
+    {
+      "id": "dependency-artifacts",
+      "type": "allowlist",
+      "title": "Workspace task dependency output files",
+      "status": "observed",
+      "relation": "uses-output",
+      "directions": ["predecessor", "successor"],
+      "values": [
+        "code.js",
+        "ui.html",
+        "manifest.json"
+      ],
+      "taskArtifactFiles": {
+        "sync": "native-plan.json",
+        "native-edit": "native-edit-plan.json",
+        "import": "reviewed-payload.json",
+        "review": "packet.json"
+      }
+    },
+    {
+      "id": "asset-inventory-statuses",
+      "type": "allowlist",
+      "title": "Workspace input asset status display",
+      "status": "observed",
+      "statuses": [
+        {
+          "value": "present",
+          "severity": "informational"
+        },
+        {
+          "value": "404",
+          "severity": "problem"
+        },
+        {
+          "value": "rejected",
+          "severity": "problem"
+        },
+        {
+          "value": "external-unverified",
+          "severity": "problem"
+        }
+      ]
+    },
+    {
+      "id": "operation-detail-v1",
+      "type": "protocol",
+      "title": "Read-only operation detail DTO v1",
+      "status": "observed",
+      "schema": "figma-flow-operation-detail-v1",
+      "protocol": {
+        "requestType": "workspace-history-detail",
+        "resultType": "workspace-history-detail-result",
+        "scopeChangedType": "workspace-scope-changed"
+      },
+      "classifications": [
+        "recorded",
+        "legacy",
+        "unknown"
+      ],
+      "resultStatuses": [
+        "ok",
+        "unavailable",
+        "scope-changed",
+        "error"
+      ],
+      "operationStates": [
+        "pending",
+        "claimed",
+        "ok",
+        "error",
+        "uncertain",
+        "expired"
+      ],
+      "nativePhases": [
+        "queued",
+        "claimed",
+        "native-started",
+        "result-received",
+        "reconciled",
+        "uncertain"
+      ],
+      "displayPhaseFallbacks": [
+        "unknown"
+      ],
+      "relationTypes": [
+        "declared-dependency",
+        "recovery-of",
+        "artifact-input"
+      ],
+      "relationDirections": {
+        "declared-dependency": [
+          "predecessor",
+          "successor"
+        ],
+        "recovery-of": [
+          "recovers",
+          "recovered-by"
+        ]
+      },
+      "revisionBindings": [
+        "current",
+        "pinned-historical",
+        "retired",
+        "orphan",
+        "unknown"
+      ],
+      "diffStatuses": [
+        "available",
+        "empty",
+        "unavailable"
+      ],
+      "diffKinds": [
+        "changed",
+        "added",
+        "removed",
+        "type-changed"
+      ],
+      "failureCodes": [
+        "native-conflict",
+        "result-rejected",
+        "claim-expired",
+        "operation-uncertain",
+        "execution-failed"
+      ],
+      "failureActions": [
+        "inspect-conflicts",
+        "run-native-read",
+        "reopen-plugin",
+        "inspect-private-status"
+      ],
+      "failureSummaryByCase": {
+        "noFailureStates": [
+          "ok",
+          "pending",
+          "claimed"
+        ],
+        "expired": {
+          "code": "claim-expired",
+          "action": "inspect-private-status"
+        },
+        "uncertain": {
+          "code": "operation-uncertain",
+          "action": "run-native-read"
+        },
+        "conflict": {
+          "code": "native-conflict",
+          "action": "inspect-conflicts"
+        },
+        "rejected": {
+          "code": "result-rejected",
+          "action": "reopen-plugin"
+        },
+        "default": {
+          "code": "execution-failed",
+          "action": "inspect-private-status"
+        }
+      },
+      "hostOperations": [
+        "read",
+        "import",
+        "sync",
+        "create",
+        "apply"
+      ],
+      "fallbacks": {
+        "unknown": "unknown",
+        "unavailable": "unavailable",
+        "uncertain": "uncertain",
+        "beforeArtifactMissing": "before-artifact-missing"
+      },
+      "scopeNotices": {
+        "exact": "read-only-exact-scope",
+        "truncated": "read-only-truncated-256kib",
+        "diffFieldsCapped": "read-only-diff-capped-at-200-fields"
+      },
+      "fieldPolicies": {
+        "designFields": [
+          {
+            "id": "value",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "backgroundColor",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "color",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "borderColor",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "fill",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "stroke",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "strokeWeight",
+            "python": true,
+            "panel": false,
+            "native": false
+          },
+          {
+            "id": "fontSize",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "fontFamily",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "fontWeight",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "lineHeight",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "letterSpacing",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "padding",
+            "python": true,
+            "panel": false,
+            "native": false
+          },
+          {
+            "id": "paddingTop",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "paddingRight",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "paddingBottom",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "paddingLeft",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "gap",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "itemSpacing",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "cornerRadius",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "borderRadius",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "opacity",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "width",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "height",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "visible",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "boolean",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "variant",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "instanceSwap",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "characters",
+            "python": true,
+            "panel": false,
+            "native": true
+          },
+          {
+            "id": "x",
+            "python": true,
+            "panel": false,
+            "native": false
+          },
+          {
+            "id": "y",
+            "python": true,
+            "panel": false,
+            "native": false
+          }
+        ],
+        "textFields": [
+          {
+            "id": "characters",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "text",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "display_text",
+            "python": true,
+            "panel": false,
+            "native": false
+          },
+          {
+            "id": "rawText",
+            "python": false,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "textContent",
+            "python": false,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "label",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "title",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "name",
+            "python": false,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "placeholder",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "helperText",
+            "python": true,
+            "panel": false,
+            "native": false
+          },
+          {
+            "id": "errorMessage",
+            "python": true,
+            "panel": false,
+            "native": false
+          },
+          {
+            "id": "copy",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "content",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "caption",
+            "python": true,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "description",
+            "python": false,
+            "panel": true,
+            "native": true
+          },
+          {
+            "id": "alt",
+            "python": false,
+            "panel": true,
+            "native": true
+          }
+        ]
+      },
+      "limits": {
+        "diffRows": 200,
+        "conflictRows": 50,
+        "pythonRelations": 200,
+        "pythonPhases": 128,
+        "nativePhases": 32,
+        "responseBytes": 262144
+      },
+      "diffReasonCodes": {
+        "beforeArtifactMissing": "before-artifact-missing",
+        "readOnlyOperation": "read-only-operation",
+        "unsupportedTaskKind": "unsupported-task-kind",
+        "legacyOrUnpinnedArtifact": "legacy-or-unpinned-artifact",
+        "unverifiedArtifact": "unverified-artifact"
+      },
+      "displayDiffReasonCodes": {
+        "legacyRecord": "legacy-record",
+        "unknownRecord": "unknown-record",
+        "unavailable": "unavailable"
+      },
+      "unavailableReasonCodes": {
+        "notFoundInScope": "not-found-in-scope",
+        "controlUnavailable": "control-unavailable"
+      },
+      "errorReasonCodes": {
+        "invalidEnvelope": "invalid-envelope",
+        "invalidOperationId": "invalid-operation-id",
+        "invalidTaskRevisionBinding": "invalid-task-revision-binding",
+        "taskRevisionMismatch": "task-revision-mismatch",
+        "runtimeMismatch": "runtime-mismatch",
+        "requestRejected": "request-rejected",
+        "workspaceUnverified": "workspace-unverified",
+        "payloadLimitExceeded": "payload-limit-exceeded",
+        "requestTimeout": "request-timeout"
+      },
+      "conflictStatusReasonIds": ["invalidOperationId", "invalidTaskRevisionBinding", "taskRevisionMismatch", "runtimeMismatch"]
+    },
+    {
+      "id": "chat-error-codes",
+      "type": "protocol",
+      "title": "Stable workspace chat errors",
+      "status": "observed",
+      "fallbackCode": "unknown",
+      "codes": [
+        {
+          "code": "scope",
+          "messageKey": "scopeError"
+        },
+        {
+          "code": "scope-changed",
+          "messageKey": "scopeError"
+        },
+        {
+          "code": "limit",
+          "messageKey": "limitError"
+        },
+        {
+          "code": "expired",
+          "messageKey": "expired"
+        },
+        {
+          "code": "duplicate",
+          "messageKey": "duplicate"
+        },
+        {
+          "code": "uncertain",
+          "messageKey": "uncertain"
+        },
+        {
+          "code": "input",
+          "messageKey": "inputError"
+        },
+        {
+          "code": "not-paired",
+          "messageKey": "unpairedHelp"
+        },
+        {
+          "code": "invalid-selection",
+          "messageKey": "errorHelp"
+        },
+        {
+          "code": "invalid-geometry",
+          "messageKey": "errorHelp"
+        },
+        {
+          "code": "connection",
+          "messageKey": "errorHelp"
+        },
+        {
+          "code": "unknown",
+          "messageKey": "errorHelp"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "dependency-artifacts",
+      "type": "projected by",
+      "to": "workspace-dependency-view"
+    },
+    {
+      "from": "asset-inventory-statuses",
+      "type": "projected by",
+      "to": "workspace-asset-list"
+    },
+    {
+      "from": "operation-detail-v1",
+      "type": "normalized by",
+      "to": "workspace-operation-detail"
+    },
+    {
+      "from": "chat-error-codes",
+      "type": "localized by",
+      "to": "workspace-chat-view"
+    }
+  ]
+}

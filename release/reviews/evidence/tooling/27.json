@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/native_read_benchmark.py"
+      ],
+      "test": "tests/test_native_read_benchmark.py",
+      "case": "NativeReadBenchmarkTest.test_alternates_workloads_and_keeps_diagnostic_out_of_statistics",
+      "testSha256": "6151aa14895a2ef47955f32d6eeea9836692bb1953b7ff71e92794b9302fb076",
+      "assertion": "Read-time comparisons require like-for-like payloads and retained failures. Diagnostic reads must not enter the sample.",
+      "observed": "Alternating fixture workloads retained failures, rejected payload changes and excluded diagnostics from statistics."
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/native_read_benchmark.py"
+      ],
+      "test": "tests/test_native_read_benchmark.py",
+      "case": "NativeReadBenchmarkTest.test_failures_are_counted_not_retried_or_dropped",
+      "testSha256": "6151aa14895a2ef47955f32d6eeea9836692bb1953b7ff71e92794b9302fb076",
+      "assertion": "Read-time comparisons require like-for-like payloads and retained failures. Diagnostic reads must not enter the sample.",
+      "observed": "Alternating fixture workloads retained failures, rejected payload changes and excluded diagnostics from statistics."
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/native_read_benchmark.py"
+      ],
+      "test": "tests/test_native_read_benchmark.py",
+      "case": "NativeReadBenchmarkTest.test_content_drift_blocks_statistics",
+      "testSha256": "6151aa14895a2ef47955f32d6eeea9836692bb1953b7ff71e92794b9302fb076",
+      "assertion": "Read-time comparisons require like-for-like payloads and retained failures. Diagnostic reads must not enter the sample.",
+      "observed": "Alternating fixture workloads retained failures, rejected payload changes and excluded diagnostics from statistics."
+    }
+  ]
+}

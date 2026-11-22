@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_control_alignment.cjs",
+      "case": "actual Quiet Seat CTA geometry distributes surplus width beyond the CSS minimum gap",
+      "testSha256": "a7fb301595916c3f3660764dad9d2be9d1129c99d9d9a03551404d0f4cf0a309",
+      "authority": "figma-bridge/presentation.json#/modules/foundation/fields",
+      "covers": [
+        "figma-bridge/foundation_palette.js",
+        "figma-bridge/presentation.json"
+      ],
+      "assertion": "actual Quiet Seat CTA geometry distributes surplus width beyond the CSS minimum gap",
+      "observed": "Native control alignment preserves the actual CTA endpoint geometry and minimum gap."
+    }
+  ]
+}

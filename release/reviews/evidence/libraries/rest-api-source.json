@@ -1,0 +1,21 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_upstream_api_pins_and_rest_projection_are_offline_and_deterministic",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-rest/source.json#/files",
+      "covers": [
+        "library/figma-rest/LICENSE",
+        "library/figma-rest/index.json",
+        "library/figma-rest/openapi.yaml.gz",
+        "library/figma-rest/source.json"
+      ],
+      "assertion": "Checks upstream version/ref, compressed YAML equality, license/source hashes and deterministic index generation.",
+      "observed": "REST inventory is regenerated from exact 0.47.0 source; no network is used."
+    }
+  ]
+}

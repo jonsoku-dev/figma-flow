@@ -1,0 +1,84 @@
+{
+  "schema": "figma-flow-native-window-v1",
+  "windows": {
+    "import": {
+      "width": 480,
+      "height": 720,
+      "themeColors": true
+    },
+    "apiFixture": {
+      "width": 680,
+      "height": 560
+    },
+    "nativeEdit": {
+      "width": 520,
+      "height": 640,
+      "themeColors": true
+    },
+    "graph": {
+      "width": 440,
+      "height": 470,
+      "themeColors": true
+    },
+    "review": {
+      "width": 470,
+      "height": 650,
+      "themeColors": true
+    },
+    "chat": {
+      "width": 520,
+      "height": 720,
+      "themeColors": true
+    },
+    "discovery": {
+      "width": 440,
+      "height": 390,
+      "themeColors": true
+    },
+    "recipe": {
+      "width": 460,
+      "height": 320,
+      "themeColors": true
+    },
+    "relay": {
+      "width": 400,
+      "height": 300,
+      "themeColors": true
+    },
+    "workspace": {
+      "width": 560,
+      "height": 680,
+      "themeColors": true
+    }
+  },
+  "bindings": {
+    "figma-bridge/code.js": {
+      "import": 1
+    },
+    "figma-bridge/native_api_fixture.js": {
+      "apiFixture": 1
+    },
+    "figma-bridge/native_edit.js": {
+      "nativeEdit": 1
+    },
+    "figma-bridge/graph_token_sync.js": {
+      "graph": 1
+    },
+    "figma-bridge/direction_review.js": {
+      "review": 1
+    },
+    "figma-bridge/workspace_chat.js": {
+      "chat": 1
+    },
+    "tools/graph_sync.py": {
+      "discovery": 2
+    },
+    "tools/workspace_recipes.py": {
+      "recipe": 1
+    },
+    "figma-bridge/workspace_host.js": {
+      "relay": 1,
+      "workspace": 1
+    }
+  }
+}

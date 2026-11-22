@@ -8,6 +8,7 @@ from workspace_recipes import design_recipes
 import re
 import shutil
 import subprocess
+import sys
 
 from figma_api_inventory import LIBRARY, ROOT, verify_source
 from review_graph import project_graph, typescript_projection
@@ -16,6 +17,9 @@ TYPESCRIPT = '5.9.3'
 EDITORS = ('figma',)
 MODES = ('default',)
 RECIPES = ROOT / 'library' / 'figma-recipes'
+if str(RECIPES) not in sys.path:
+    sys.path.insert(0, str(RECIPES))
+import recipe_design_graph as design_graph
 FLAGS = ['--strict', '--target', 'ES2020', '--lib', 'ES2020', '--module', 'none',
          '--skipLibCheck', 'false', '--typeRoots', 'vendor', '--noEmitOnError', '--outFile', 'dist/code.js']
 INPUTS = ['vendor/plugin-api.d.ts', 'src/globals.d.ts', 'src/code.ts']
@@ -61,6 +65,9 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
     helper = None
     projection = None
     graph_pin = None
+    visual_projection = None
+    visual_graph_pin = None
+    visual_graph_raw = None
     if recipe:
         rows = [row for row in design_recipes(RECIPES) if row['id'] == recipe]
         if len(rows) != 1:
@@ -73,6 +80,17 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
                 or any(part.is_symlink() for part in [(RECIPES / entry), *(RECIPES / entry).parents])):
             raise ValueError('Unsafe recipe entry')
         code = (RECIPES / entry).read_text()
+        visual_graph_name = row.get('designGraph')
+        if not isinstance(visual_graph_name, str) or Path(visual_graph_name).name != visual_graph_name:
+            raise ValueError('Recipe requires a local visual values graph')
+        visual_graph_path = RECIPES / visual_graph_name
+        if visual_graph_path.is_symlink():
+            raise ValueError('Recipe visual graph cannot be a symlink')
+        visual_graph_raw = visual_graph_path.read_bytes()
+        visual_graph = design_graph.parse_graph(visual_graph_raw)
+        design_graph.validate_graph(visual_graph)
+        visual_projection = design_graph.typescript_projection(visual_graph, {recipe})
+        visual_graph_pin = hashlib.sha256(visual_graph_raw).hexdigest()
         if row.get('reviewGraph') is True:
             if review_graph is None:
                 raise ValueError('Graph-driven recipes require --review-graph and the intended node selection')
@@ -93,9 +111,10 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
         manifest['enablePrivatePluginApi'] = True
     if plugin_id:
         manifest['id'] = plugin_id
-    inputs = INPUTS[:-1] + (['vendor/recipe-runtime.js'] if helper is not None else []) + INPUTS[-1:]
-    if projection is not None:
-        inputs.insert(-1, 'src/review-graph.ts')
+    inputs = (INPUTS[:-1] + (['vendor/recipe-runtime.js'] if helper is not None else [])
+              + (['src/review-graph.ts'] if projection is not None else [])
+              + (['src/recipe-visuals.ts'] if visual_projection is not None else [])
+              + INPUTS[-1:])
     files = {
         'manifest.json' if plugin_id else 'manifest.template.json': encoded(manifest),
         'package.json': encoded({'name': 'local-figma-sdk-project', 'version': '0.0.0', 'private': True,
@@ -108,7 +127,12 @@ def initialize(path, editor, mode=None, plugin_id=None, recipe=None, review_grap
         'vendor/source.json': encoded(source),
         'sdk-project.json': encoded({'schemaVersion': 1, 'editor': editor, 'mode': mode, 'typescript': TYPESCRIPT,
                                     'recipe': recipe, 'runtimeHelpers': None if helper is None else {'path': 'vendor/recipe-runtime.js',
-                                        'sha256': hashlib.sha256(helper.encode()).hexdigest()}, 'runtimeAcceptance': 'unverified',
+                                        'sha256': hashlib.sha256(helper.encode()).hexdigest()},
+                                    'recipeDesign': None if visual_projection is None else {
+                                        'graph': 'vendor/design-examples.graph.json', 'graphSha256': visual_graph_pin,
+                                        'projection': 'src/recipe-visuals.ts',
+                                        'projectionSha256': hashlib.sha256(visual_projection.encode()).hexdigest()},
+                                    'runtimeAcceptance': 'unverified',
                                     **({'reviewGraph': {'graphSha256': graph_pin,
                                         'projectionSha256': hashlib.sha256(projection.encode()).hexdigest()}} if projection else {})}),
         '.gitignore': 'node_modules/\ndist/\n',
@@ -129,6 +153,9 @@ https://developers.figma.com/docs/plugins/manifest/
 Typechecking proves declaration compatibility only, not editor support or runtime safety.
 """,
     }
+    if visual_projection is not None and visual_graph_raw is not None:
+        files['src/recipe-visuals.ts'] = visual_projection
+        files['vendor/design-examples.graph.json'] = visual_graph_raw.decode('utf-8')
     if projection is not None:
         files['src/review-graph.ts'] = projection
     if helper is not None:
@@ -147,7 +174,8 @@ Typechecking proves declaration compatibility only, not editor support or runtim
 
 def compile_project(path, build=False, typescript=None):
     path = safe_path(path)
-    for name in [*INPUTS, 'sdk-project.json', 'vendor/source.json', 'package.json', 'dist', 'dist/code.js']:
+    for name in [*INPUTS, 'src/recipe-visuals.ts', 'vendor/design-examples.graph.json',
+                 'sdk-project.json', 'vendor/source.json', 'package.json', 'dist', 'dist/code.js']:
         target = path / name
         if any(part.is_symlink() for part in [target, *target.parents]):
             raise ValueError(f'Symlink not allowed: {name}')
@@ -162,6 +190,25 @@ def compile_project(path, build=False, typescript=None):
     if metadata['typescript'] != TYPESCRIPT:
         raise ValueError('Unexpected TypeScript version in project')
     inputs = list(INPUTS)
+    design_pin = metadata.get('recipeDesign')
+    if metadata.get('recipe'):
+        rows = [row for row in design_recipes(RECIPES) if row['id'] == metadata['recipe']]
+        if len(rows) != 1 or not isinstance(design_pin, dict):
+            raise ValueError('Recipe project must retain its authored visual graph projection')
+        if (design_pin.get('graph') != 'vendor/design-examples.graph.json'
+                or design_pin.get('projection') != 'src/recipe-visuals.ts'):
+            raise ValueError('Unexpected recipe visual graph projection paths')
+        graph_file = path / design_pin['graph']
+        graph_raw = graph_file.read_bytes()
+        graph = design_graph.parse_graph(graph_raw)
+        design_graph.validate_graph(graph)
+        projection = design_graph.typescript_projection(graph, {metadata['recipe']})
+        if (hashlib.sha256(graph_raw).hexdigest() != design_pin.get('graphSha256')
+                or hashlib.sha256(projection.encode()).hexdigest() != design_pin.get('projectionSha256')
+                or (path / design_pin['projection']).read_text(encoding='utf-8') != projection):
+            raise ValueError('Recipe design graph projection changed; regenerate the local project')
+    elif design_pin is not None:
+        raise ValueError('Non-recipe project cannot declare a recipe visual graph')
     helper = metadata.get('runtimeHelpers')
     if helper is not None:
         if not isinstance(helper, dict) or helper.get('path') != 'vendor/recipe-runtime.js':
@@ -169,12 +216,14 @@ def compile_project(path, build=False, typescript=None):
         helper_path = path / helper['path']
         if helper_path.is_symlink() or hashlib.sha256(helper_path.read_bytes()).hexdigest() != helper.get('sha256'):
             raise ValueError('Pinned recipe helpers changed')
-        inputs.insert(-1, helper['path'])
-    if 'reviewGraph' in metadata:
+    review_graph = metadata.get('reviewGraph')
+    if review_graph is not None:
         projection = safe_path(path / 'src/review-graph.ts').read_bytes()
-        if hashlib.sha256(projection).hexdigest() != metadata['reviewGraph']['projectionSha256']:
+        if hashlib.sha256(projection).hexdigest() != review_graph['projectionSha256']:
             raise ValueError('Review graph projection changed. Regenerate it from the canonical graph.')
-        inputs.insert(-1, 'src/review-graph.ts')
+    inputs = (INPUTS[:-1] + (['vendor/recipe-runtime.js'] if helper is not None else [])
+              + (['src/review-graph.ts'] if review_graph is not None else [])
+              + ([design_pin['projection']] if design_pin is not None else []) + INPUTS[-1:])
     compiler = Path(typescript).resolve() if typescript else path / 'node_modules/typescript/lib/tsc.js'
     package = json.loads((compiler.parent.parent / 'package.json').read_text())
     if package.get('name') != 'typescript' or package.get('version') != TYPESCRIPT or compiler.name != 'tsc.js':

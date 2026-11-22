@@ -41,6 +41,9 @@ python -B tools/reference_distribution_guard.py --worktree --reference-zip /path
 
 ## 메이저 배포 전 그래프·하드코딩 검사
 
+메이저 검사는 후보의 테스트를 다시 실행합니다. 프로젝트가 지정한 Node(`.nvmrc`), Chromium, Docker Compose CLI, PostgreSQL 서버 도구, 읽기 전용 OS 샌드박스를 지원하는 Codex CLI를 사용합니다. 격리된 Python 환경에 `requirements-optional.txt`, `library/figma-rest/requirements.txt`와 `apps/little-hands/requirements.lock`의 의존성을 설치합니다. API 검사용 TypeScript 버전은 `library/figma-api/package.json`의 고정값을 사용합니다. CI에서 실행하는 설치·환경 변수 설정은 [배포 워크플로](.github/workflows/reference-guard.yml)에 있습니다.
+
+
 `plugin.json`에서 버전과 공통 메타데이터를 편집한 뒤 `python3 -B tools/plugin_manifest.py --write`로 Codex 매니페스트를 생성합니다. 마켓플레이스 이름과 독립 패키지의 버전은 각 소유자가 관리합니다.
 
 패널 프로젝트 의존성은 위의 로컬 빌드 절차로 설치합니다. 검사는 별도 임시 폴더에서 후보 소스만으로 패널을 재생성해 ZIP의 산출물과 바이트 단위로 대조합니다. 아래 명령은 현재 커밋의 실제 ZIP 구성으로 다음 메이저 후보를 점검합니다. 제품 버전 변경이나 게시를 수행하지 않습니다. 종료 코드 1이면 `findings`의 파일·식별자와 `surfaces`의 파일 목록을 확인합니다.

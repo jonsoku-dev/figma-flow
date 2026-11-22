@@ -2,6 +2,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const vm = require('node:vm');
 const { createRequire } = require('node:module');
@@ -13,6 +14,9 @@ const { buildSync } = panelRequire('esbuild');
 const plugin = JSON.parse(fs.readFileSync(path.join(__dirname, '../plugin.json'), 'utf8'));
 const commonCatalog = JSON.parse(fs.readFileSync(path.join(__dirname, '../figma-bridge/locales/common.json'), 'utf8'));
 const profilePolicy = JSON.parse(fs.readFileSync(path.join(__dirname, '../library/figma-profile/policy.json'), 'utf8'));
+const panelContracts = JSON.parse(fs.readFileSync(path.join(__dirname, '../library/panel-design/contracts.json'), 'utf8'));
+const activityContract = JSON.parse(fs.readFileSync(path.join(__dirname, '../specs/workspace-activity/graph.json'), 'utf8'))
+  .nodes.find(node => node.id === 'CONTRACT-ACTIVITY-01');
 const hostSource = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_host.js'), 'utf8');
 const activitySource = fs.readFileSync(path.join(panelRoot, 'src/WorkspaceActivity.jsx'), 'utf8');
 
@@ -32,14 +36,23 @@ function runPanelTest(entryCode) {
     },
     logLevel: 'silent',
   });
-  const result = spawnSync(process.execPath, ['-e', built.outputFiles[0].text], {
-    cwd: panelRoot,
-    encoding: 'utf8',
-    env: { ...process.env, HOST_SOURCE_PATH: path.join(__dirname, '../figma-bridge/workspace_host.js'),
-      WORKSPACE_PROFILE_POLICY_JSON: JSON.stringify(profilePolicy) },
-  });
-  assert.equal(result.status, 0, result.stdout + result.stderr);
-  return result.stdout;
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'figma-flow-workspace-panel-'));
+  try {
+    const bundle = path.join(temporary, 'panel-test.cjs');
+    fs.writeFileSync(bundle, built.outputFiles[0].text);
+    const result = spawnSync(process.execPath, [bundle], {
+      cwd: panelRoot,
+      encoding: 'utf8',
+      env: { ...process.env, HOST_SOURCE_PATH: path.join(__dirname, '../figma-bridge/workspace_host.js'),
+        WORKSPACE_PROFILE_POLICY_JSON: JSON.stringify(profilePolicy),
+        WORKSPACE_PANEL_CONTRACTS_JSON: JSON.stringify(panelContracts),
+        WORKSPACE_ACTIVITY_CONTRACT_JSON: JSON.stringify(activityContract) },
+    });
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    return result.stdout;
+  } finally {
+    fs.rmSync(temporary, {recursive:true, force:true});
+  }
 }
 
 test('WorkspaceActivity shares one notice helper for home and history and translates selected/presented across all locales', () => {
@@ -327,7 +340,9 @@ const figma = {
   showUI() {},
 };
 const hostCtx = vm.createContext({ figma, __html__: 'HOME', probe: hostProbe,
-  WORKSPACE_PROFILE_POLICY: JSON.parse(process.env.WORKSPACE_PROFILE_POLICY_JSON) });
+  WORKSPACE_PROFILE_POLICY: JSON.parse(process.env.WORKSPACE_PROFILE_POLICY_JSON),
+  WORKSPACE_PANEL_CONTRACTS: JSON.parse(process.env.WORKSPACE_PANEL_CONTRACTS_JSON),
+  WORKSPACE_ACTIVITY_CONTRACT: JSON.parse(process.env.WORKSPACE_ACTIVITY_CONTRACT_JSON) });
 vm.runInContext(\`
 const FLOW_LOCALES = ['ko', 'en', 'ja'];
 const FLOW_TASKS = [

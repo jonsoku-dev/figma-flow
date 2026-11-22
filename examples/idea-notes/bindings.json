@@ -2,7 +2,8 @@
   "version": 1,
   "authorities": {
     "intent": "brief.md",
-    "implementation": "app/app.js"
+    "implementation": "app/app.js",
+    "visual": "app/visual-tokens.json"
   },
   "dependency_edge_types": [
     "depends-on"
@@ -72,8 +73,12 @@
       "app/app.js",
       "app/index.html",
       "app/style.css",
+      "app/visual-tokens.json",
       "evidence/node-tests.tap",
-      "evidence/browser.json"
+      "evidence/browser.json",
+      "evidence/browser-current.json",
+      "evidence/browser-current-mobile.png",
+      "evidence/browser-current-visual-mutation.png"
     ],
     "AC-001": [
       "evidence/node-tests.tap",

@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/campaigns.json#/patterns",
+      "covers": [
+        "tools/campaign_library.py"
+      ],
+      "test": "tests/test_campaign_library.py",
+      "case": "CampaignLibraryTests.test_filters_and_source_joins",
+      "testSha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+      "assertion": "Campaign reference patterns link their declared sources; prep of a campaign records a plan and leaves its acceptance untested.",
+      "observed": "Filtered references retained their source IDs and planned checklists did not claim observed execution."
+    },
+    {
+      "authority": "library/campaigns.json#/patterns",
+      "covers": [
+        "tools/campaign_library.py"
+      ],
+      "test": "tests/test_campaign_library.py",
+      "case": "CampaignLibraryTests.test_plan_keeps_evidence_and_checks_untested",
+      "testSha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+      "assertion": "Campaign reference patterns link their declared sources; prep of a campaign records a plan and leaves its acceptance untested.",
+      "observed": "Filtered references retained their source IDs and planned checklists did not claim observed execution."
+    }
+  ]
+}

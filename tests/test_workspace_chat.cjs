@@ -9,8 +9,11 @@ const html = execFileSync(process.env.PYTHON || 'python3', ['-B', '-c', 'import 
 const components = fs.readFileSync(path.join(root, 'figma-bridge/panel_components.js'), 'utf8');
 const renderedIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g), match => match[1]));
 const translations={...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/workspace.json'))),...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/chat.json')))};
+const panelContracts=JSON.parse(fs.readFileSync(path.join(root,'library/panel-design/contracts.json')));
+const chatErrors=panelContracts.nodes.find(node=>node.id==='chat-error-codes').codes;
+const chatErrorKeys=JSON.stringify(Object.fromEntries(chatErrors.map(({code,messageKey})=>[code,messageKey])));
 const makeFlowUI=(locale='ko')=>({locale,t:(key,params={})=>(translations[key]?.[locale]||key).replace(/\{(\w+)\}/g,(_,name)=>params[name]??'{'+name+'}'),apply(){}});
-const ctx = vm.createContext({setTimeout, clearTimeout, URL});
+const ctx = vm.createContext({setTimeout, clearTimeout, URL, WORKSPACE_PANEL_CONTRACTS:panelContracts});
 ctx.WORKSPACE_READ_LIMITS = require('../library/figma-profile/read-limits.json');
 vm.runInContext('const FLOW_CHAT_DUPLICATE = ' + JSON.stringify(translations['chat.duplicate'].ko) + ';\n' + source + '\nthis.Chat = WorkspaceChat;', ctx);
 const Chat = ctx.Chat;
@@ -117,7 +120,9 @@ async function main() {
   const ui = vm.createContext({FlowUI:makeFlowUI(),document:{documentElement:{dataset:{}},getElementById:element,execCommand:()=>false},
     parent:{postMessage:m=>uiMessages.push(m.pluginMessage)},crypto:{randomUUID:()=>id},
     window:{addEventListener:(type,handler)=>listeners.set(type,handler)}});
-  vm.runInContext(components+'\n'+html.match(/<script>([\s\S]*?)<\/script>/)[1].replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:task.title,threadId:id,paired:true})),ui);
+  vm.runInContext(components+'\n'+html.match(/<script>([\s\S]*?)<\/script>/)[1]
+    .replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:task.title,threadId:id,paired:true}))
+    .replace('/* WORKSPACE_CHAT_ERROR_KEYS */',chatErrorKeys),ui);
   assert.equal(uiMessages.length,0,'Opening chat never collects or sends automatically');
   assert.equal(element('task-title').textContent,task.title);
   assert.equal(element('thread-destination').textContent,id);
@@ -142,7 +147,9 @@ async function main() {
       return nodes.get(key);
     };
     const sandbox = vm.createContext({FlowUI:makeFlowUI(),crypto:cryptoValue,document:{documentElement:{dataset:{}},getElementById:get},parent:{postMessage:m=>sent.push(m.pluginMessage)},window:{addEventListener(){}}});
-    vm.runInContext(components+'\n'+html.match(/<script>([\s\S]*?)<\/script>/)[1].replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:'Task',threadId:id,paired:true})),sandbox);
+    vm.runInContext(components+'\n'+html.match(/<script>([\s\S]*?)<\/script>/)[1]
+      .replace('/* WORKSPACE_CHAT_CONTEXT */',JSON.stringify({title:'Task',threadId:id,paired:true}))
+      .replace('/* WORKSPACE_CHAT_ERROR_KEYS */',chatErrorKeys),sandbox);
     get('request').value='Figma Flow 통합 패널 연결 점검';get('prepare').onclick();
     return {sent,get};
   }

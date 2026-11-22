@@ -1,0 +1,28 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "all authored panel CSS dimensions have graph tokens and an injected literal is detected",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "library/panel-design/tokens.json#/tokens",
+      "covers": [
+        "panel-ui/src/styles/base.css",
+        "panel-ui/src/styles/chat.css",
+        "panel-ui/src/styles/components.css",
+        "panel-ui/src/styles/graph.css",
+        "panel-ui/src/styles/import.css",
+        "panel-ui/src/styles/index.css",
+        "panel-ui/src/styles/panel-shell.css",
+        "panel-ui/src/styles/relay.css",
+        "panel-ui/src/styles/review.css",
+        "panel-ui/src/styles/tokens.css",
+        "panel-ui/src/styles/workspace.css"
+      ],
+      "assertion": "all authored panel CSS dimensions have graph tokens and an injected literal is detected",
+      "observed": "All authored panel CSS declarations use graph values; the test rejects injected numeric literals and unknown token references."
+    }
+  ]
+}

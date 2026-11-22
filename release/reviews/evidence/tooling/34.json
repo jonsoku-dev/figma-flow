@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/codex-relay/parity-inventory.json#/items",
+      "covers": [
+        "tools/workspace_chat.py"
+      ],
+      "test": "tests/test_workspace_chat.py",
+      "case": "WorkspaceChatTest.test_literal_queue_with_real_fake_cli_and_persistent_replay",
+      "testSha256": "4356566bdf05ae97a5cd49686bdc3d75d6599d0184fd879e8f9ecacd58c9ea9e",
+      "assertion": "Conversation queue admission and replay belong to the affirmed scope and current Codex thread.",
+      "observed": "Controlled CLI queue tests preserved exact reviewed text, replayed once, and never resent an uncertain submission."
+    },
+    {
+      "authority": "specs/codex-relay/parity-inventory.json#/items",
+      "covers": [
+        "tools/workspace_chat.py"
+      ],
+      "test": "tests/test_workspace_chat.py",
+      "case": "WorkspaceChatTest.test_authorization_scope_current_registry_and_strict_transport",
+      "testSha256": "4356566bdf05ae97a5cd49686bdc3d75d6599d0184fd879e8f9ecacd58c9ea9e",
+      "assertion": "Conversation queue admission and replay belong to the affirmed scope and current Codex thread.",
+      "observed": "Controlled CLI queue tests preserved exact reviewed text, replayed once, and never resent an uncertain submission."
+    },
+    {
+      "authority": "specs/codex-relay/parity-inventory.json#/items",
+      "covers": [
+        "tools/workspace_chat.py"
+      ],
+      "test": "tests/test_workspace_chat.py",
+      "case": "WorkspaceChatTest.test_uncertain_timeout_is_not_retried",
+      "testSha256": "4356566bdf05ae97a5cd49686bdc3d75d6599d0184fd879e8f9ecacd58c9ea9e",
+      "assertion": "Conversation queue admission and replay belong to the affirmed scope and current Codex thread.",
+      "observed": "Controlled CLI queue tests preserved exact reviewed text, replayed once, and never resent an uncertain submission."
+    }
+  ]
+}

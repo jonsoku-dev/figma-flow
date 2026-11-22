@@ -1,0 +1,692 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "tooling",
+  "fingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "openFindings": [],
+  "bindings": [
+    {
+      "files": [
+        "tools/affected_tests.py",
+        "tools/audit_dependencies.py",
+        "tools/audit_js.cjs"
+      ],
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/5. 기존 기준선에서 영향 계획과 실제 테스트",
+      "reason": "Affected tests depend on changed graph bindings and analyzed source dependencies. Missing or contradictory evidence must prevent narrower execution.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/1.json",
+          "sha256": "c73b14d554e8a6b97e8c855c7b61cb5dd77c06785936c8fe38dfc7a1181aa9a7"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/audit_brief.py",
+        "tools/audit_project.py"
+      ],
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "reason": "Brief conflicts remain independent of code evidence, and the project audit is restricted to the bytes actually analyzed.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/2.json",
+          "sha256": "7cdda7b492378fbc9aff4ad1bd51b74b0d2e90f27d3b77a7b5ff502e666adf8f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/check_project.py"
+      ],
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Local freshness manifests",
+      "reason": "A project baseline binds actual inputs; changed or missing evidence has distinct outcomes.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/3.json",
+          "sha256": "88d0daf1941257edc6221a196c56982b5036665207b96506a8cd21f3033e52b2"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/idea_catalog.py",
+        "tools/promote_idea.py",
+        "tools/serve_ideas.py"
+      ],
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/3. 같은 작업을 CLI로 준비·생성·마무리",
+      "reason": "Catalog registration and the prepared project must use the selected source brief/graph and explicit destination; generation is a distinct step.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/4.json",
+          "sha256": "2d31bc2158d52bc168d29da397f2c3a02c0dcc26c3697ffda98b26f12bf4c202"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/change_journal.py",
+        "tools/figma_alignment.py",
+        "tools/figma_control.py",
+        "tools/figma_follow.py",
+        "tools/relay_limits.py",
+        "tools/relay_view.py"
+      ],
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "reason": "Viewer and alignment reads preserve the exact Figma target and the selection cap enforced across both hosts. The follower reports observed coverage and omitted events.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/5.json",
+          "sha256": "65810209b07bc04e3ce5a619d370c946fdb4e9ff9d5e49c6189ea25bed22da86"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/figma_control.py",
+        "tools/figma_workspace.py",
+        "tools/relay_limits.py"
+      ],
+      "authority": "library/figma-profile/policy.json#/controlTransport",
+      "reason": "Normal and successful large-read envelopes share the byte limits on the server and compiled requester.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/6.json",
+          "sha256": "65f4c3e1d4a98bb9b2a2356c3016cfd4a15bdaf687ffb151ecfac35b032ea9a1"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/apply_figma_change.py",
+        "tools/change_journal.py",
+        "tools/figma_follow.py"
+      ],
+      "authority": "specs/live-change-sync/graph.json#/nodes/13",
+      "reason": "Scoped and fresh readback can supply a graph proposal; uncertain, stale or conflicting input must preserve authored artifacts.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/7.json",
+          "sha256": "01227867ce922ab214b4db14ccb535af76b3df3f60379de46a930037e5985680"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/alignment_pixels.py",
+        "tools/chromium_pipe.mjs",
+        "tools/relay_alignment.py",
+        "tools/relay_alignment_rules.json",
+        "tools/relay_paint_rules.json"
+      ],
+      "authority": "specs/alignment-audit/graph.json#/nodes/12",
+      "reason": "Box and paint observations retain scope, declared alignment rules, actual pixel measurements and viewport identity.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/8.json",
+          "sha256": "1552aa13090a8ff59689f139c1c83b238df4330db4ae0e564216347f5f5898a3"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/design_graph.py",
+        "tools/web_route_graph.py"
+      ],
+      "authority": "specs/responsive-web/graph.json#/nodes/1",
+      "reason": "Frame and route plans can only select declared graph screens and their scoped code/evidence dependencies.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/9.json",
+          "sha256": "a7c199c3a3e3524c01c6b1a06aee1a5af55f055baee1e434697ada0161f84e86"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "reason": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/10.json",
+          "sha256": "9208e17d01cdfdad2b5e4808e4aeedb00e81381d680f8d7d3bb856835e3780cd"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/annotation_contract.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/review_graph.py",
+        "tools/specification_contract.py",
+        "tools/specifications.py"
+      ],
+      "authority": "specs/readable-specifications/graph.json#/nodes/9",
+      "reason": "Scope, graph IDs, source evidence and exact native metadata establish each specification or handoff, and notes preserve canonical function.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/11.json",
+          "sha256": "da33f157e845ed8a5d5adce986c963fadf142cb5dd116ebef56a8c605ac1b7fe"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/component_family_contract.py",
+        "tools/design_system.py",
+        "tools/family_provision.py",
+        "tools/figma_bridge.py"
+      ],
+      "authority": "library/component-families.json#/families",
+      "reason": "The component family vocabulary, fallback token graph, native dimensions and supplied styling resolve from one contract; explicit authored input takes precedence.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/12.json",
+          "sha256": "c15bab69baa717488761165ad8690ba59d7498680f14ed7a835d8a25350ca205"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/app_states.py",
+        "tools/asset_batch.py",
+        "tools/design_actions.py",
+        "tools/design_bundle.py",
+        "tools/design_critique.py",
+        "tools/design_directions.py",
+        "tools/design_foundations.py",
+        "tools/design_intent.py",
+        "tools/design_quality.py",
+        "tools/design_review.py",
+        "tools/direction_review_surface.py",
+        "tools/draft_foundation_audit.py",
+        "tools/draft_token_plan.py",
+        "tools/embedded_assets.py",
+        "tools/figma_draft.py",
+        "tools/prepare_design_review.py"
+      ],
+      "authority": "specs/pre-figma-quality/graph.json#/nodes/10",
+      "reason": "Prepared design directions retain reviewed inputs, measured assets and critique criteria. Rendering a draft and selecting/approving a direction are separate graph states.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/13.json",
+          "sha256": "a21f450512c3cbb1e5241c623ef4d57b4900cea415d153ffed6aa21d94e3e02a"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/apply_figma_change.py",
+        "tools/campaign_library.py",
+        "tools/design-routes.html",
+        "tools/design_bundle.py",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_draft.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_widget_project.py",
+        "tools/idea_catalog.py",
+        "tools/native_handoff.py",
+        "tools/policy_impact.py",
+        "tools/report-presentation.json",
+        "tools/report_appearance.py",
+        "tools/workspace_recipes.py"
+      ],
+      "authority": "tools/report-presentation.json#/surfaces",
+      "reason": "Presentation rules and palette roles are owned by the local report graph, with static pages checked against the projection.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/14.json",
+          "sha256": "af1605c7c46e77f5ec0a03b73ae33c8b5bcde6f02e1f577dfead1182020426f4"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/native_appearance.py",
+        "tools/native_windows.py",
+        "tools/starter_cta.py"
+      ],
+      "authority": "figma-bridge/presentation.json#/modules",
+      "reason": "Only the registered native helper and CTA identity, appearance and window fields may project into a signed page action.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/15.json",
+          "sha256": "d379475069143804cc2fbdce306dc066af76d5d9521da4545294e170ecd7f046"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/delivery_config.py",
+        "tools/major_release.py",
+        "tools/plugin_manifest.py"
+      ],
+      "authority": "library/delivery/graph.json#/workflows",
+      "reason": "Installation metadata and delivery workflows consume the actual product/toolchain inputs; the release archive is gated on its committed bytes and real witnesses.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/16.json",
+          "sha256": "30314d230a608f40b14c8885ed60e063954cd023d924e1bf630d53de44a4ab57"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/api_priority.py",
+        "tools/design_api_inspect.py",
+        "tools/native_api_fixture_project.py",
+        "tools/native_api_probe.py",
+        "tools/native_value_paths.py",
+        "tools/review_api_coverage.py"
+      ],
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "reason": "API routing retains the exact receiver/member identities, verified scope and separate account/editor prerequisites. Generating a fixture does not count as a successful native read.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/17.json",
+          "sha256": "f79ce578939f90785b3f179f186c4148793d213197524691db1cd540a9a38f5c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/figma_api_audit.py",
+        "tools/figma_api_inventory.py"
+      ],
+      "authority": "library/figma-api/source.json#/files",
+      "reason": "Pinned TypeScript declarations own the indexed members; archived support evidence remains scoped to its historical candidate.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/18.json",
+          "sha256": "2402bbd31eff6824be5faafe7ac4ab0246ea8f80490df811d0f2be720d04f0f8"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/figma_rest_inventory.py"
+      ],
+      "authority": "library/figma-rest/source.json#/source_sha256",
+      "reason": "REST catalog entries are an offline projection of the pinned OpenAPI source.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/19.json",
+          "sha256": "d1d74c594b6daac7e48bb8aa7b3eb24c27303d5fa50243f4e4bbabbf9aed0078"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/design_type_review_graph.py",
+        "tools/figma_feature.py",
+        "tools/figma_sdk_project.py",
+        "tools/workspace_recipes.py"
+      ],
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "reason": "Examples, SDK scaffolds and local task routing must project the registered recipe graph and actual generated source pins.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/20.json",
+          "sha256": "fd8ad12d41d4b4bf100cd9c3010a69218516e5b20841e44b5d5829feb0b71dce"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/figma_widget_project.py"
+      ],
+      "authority": "library/figma-widget/source.json#/files",
+      "reason": "The Design-widget scaffold uses its independently pinned Widget declarations and stated visual sample.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/21.json",
+          "sha256": "9fd4756df7548341eade2d922458722fd27ac58086dd96492c570be51912f00f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/browser_access.py"
+      ],
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "reason": "Only the dedicated browser configuration projects the requested origins and project paths; other browser settings are preserved.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/22.json",
+          "sha256": "7f8c7d2d53f52b41e6368031cecd177e51fe6b2f3fc76edd05413a6d9309607b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/browser_probes.js",
+        "tools/content-skin.css",
+        "tools/content_skin.js"
+      ],
+      "authority": "tools/report-presentation.json#/surfaces/contentSkin",
+      "reason": "Explicit image caps and real label content control the skin size. Retired GUI helper entry points remain closed.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/23.json",
+          "sha256": "f3fdd05067a7fee2eda9e612354810c0fc87a2fdcc6c1be8aae0f4349c17bc11"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/campaign_forms.py",
+        "tools/route_design.py",
+        "tools/serve_design_routes.py"
+      ],
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "Design actions, campaign form selection and the local route display consume the same graph lanes and selection protocol.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/24.json",
+          "sha256": "3efb0d91798b9f09141c381edc5a7a21aea330d9d53762c5e6f1548d58333d25"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/campaign_library.py"
+      ],
+      "authority": "library/campaigns.json#/patterns",
+      "reason": "Campaign reference patterns link their declared sources; prep of a campaign records a plan and leaves its acceptance untested.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/25.json",
+          "sha256": "3b5aa08fdbb5df53acff8af1f85db1e93e2c191829c455ab07f55e4ed3afc3dc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/input_effect.py",
+        "tools/token_code_scope.py"
+      ],
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "reason": "Indirect HTML/CSS assets and actual token code consumers affect freshness; comments or unobserved uses cannot authorize code edits.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/26.json",
+          "sha256": "0acb945d2b64922c671de6129ccdd9040c9dae06e072aae66f0e7afdc7b017b3"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/native_read_benchmark.py"
+      ],
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "reason": "Read-time comparisons require like-for-like payloads and retained failures. Diagnostic reads must not enter the sample.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/27.json",
+          "sha256": "00c23630ba28d5c6709175cb43a247a39f5ddd1818c128b7a853f2a678973c4e"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/operation_detail.py",
+        "tools/owned_production_workspace.py",
+        "tools/workspace_report.py"
+      ],
+      "authority": "specs/workspace-activity/graph.json#/nodes/14",
+      "reason": "The viewer reports scoped activity and selections derived from concrete graph status, producer revisions and receipt identities.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/28.json",
+          "sha256": "d93ac86b8481904ee2e77d0afcec0b0cd3c6db80ca8c2ace9e11b660bf26ce65"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/panel_authority.py",
+        "tools/panel_components.py",
+        "tools/plugin_panel.py"
+      ],
+      "authority": "library/panel-design/views.json#/nodes",
+      "reason": "Registered views resolve through the shared route graph and shell. Shipped CSS uses generated roles and the same graph as the renderer.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/29.json",
+          "sha256": "fe1a3906f54bedd3bade16ca418a9d8827dac65a3f96e8d2fb75f595698e01ff"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/plugin_startup.py",
+        "tools/review_destination.py"
+      ],
+      "authority": "specs/startup-freshness/graph.json#/nodes/12",
+      "reason": "Installation and resumption verify the authentic current generation, preserving operator permissions and destination scope.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/30.json",
+          "sha256": "069c9606042d1dda239ebd108e9995b4e8ea97a14b120f024dbf80d128a37bfc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "reason": "History belongs to exact Git commits and fixed test bytes; report the actual private-reference scope checked and preserve the human record.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/31.json",
+          "sha256": "ac4481b80eee89a3e245eec60919d4d7a31c999dcd742dc89697077839a65915"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/replay_optional_tests.py"
+      ],
+      "authority": "docs/optional-evidence-tests.md#/sections/Run the replay",
+      "reason": "The replay can only attribute a pass to a completed check against supplied evidence; unavailable input remains explicitly not run.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/32.json",
+          "sha256": "ac385f6c0d08924bd7ebae4e84a7472700a847fd661afe544fbee4731c98273f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/run_local.py",
+        "tools/safe_node_tests.py",
+        "tools/sync_workflow.py",
+        "tools/workflow-constants.js",
+        "tools/workflow.py"
+      ],
+      "authority": "library/workflow.json#/evidence_contracts",
+      "reason": "State transitions and verified local outputs must derive from the same workflow graph and bounded named execution.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/33.json",
+          "sha256": "56c101057fd24619b196612c20a242770b95295987e24d7c6466421262e37f40"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/workspace_chat.py"
+      ],
+      "authority": "specs/codex-relay/parity-inventory.json#/items",
+      "reason": "Conversation queue admission and replay belong to the affirmed scope and current Codex thread.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/34.json",
+          "sha256": "7296f6b8b1da17a2d2213796ce46379530a0ef95386821a2c2089419f011f590"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/35.json",
+          "sha256": "7629f716ef46f827ce4058ff75a475f25f403372945f3ba6287744618b694d17"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/skill_dependencies.py"
+      ],
+      "authority": "vendor/skills/manifest.json#/skills",
+      "reason": "Shipped design skill sources are fixed at exact package bytes and retain usable relocatable entry points.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/36.json",
+          "sha256": "3a0afa80beed48dcd9e044b7fa70ab204e939cb77ba4c2559a3a0e4c4e6bcb0c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/web_design.py",
+        "tools/web_design_canvas_crop.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py"
+      ],
+      "authority": "specs/editable-web/graph.json#/nodes/9",
+      "reason": "Editable geometry, paint, raster crops and asset intake must come from actual bounded source observations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/37.json",
+          "sha256": "d46e9819c3ba1d08a5cdc13696e633e95d45925f9903afee86c6e3549354bdae"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/web-interaction-contract.json",
+        "tools/web_carousel_capture.mjs",
+        "tools/web_disclosure_capture.mjs",
+        "tools/web_tabs_capture.mjs"
+      ],
+      "authority": "specs/interactive-web/graph.json#/nodes/10",
+      "reason": "Interactive states must be witnessed by actual input and replayable transitions. A visible native button or frame must match the exact observed tab control.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/38.json",
+          "sha256": "21683bce0431df2a6702d6b492016e41e0984bb6e52cd55095807c271641fefb"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/graph_sync.py",
+        "tools/native_windows.py",
+        "tools/workspace_recipes.py"
+      ],
+      "authority": "library/figma-profile/native-windows.json#/windows",
+      "reason": "The native window geometry and each registered publication site follow the approved Design window contract.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/39.json",
+          "sha256": "a8b120ddbf3b4440488f04e99dbcf5f4ba9b37d6b675a6cc97733d113640f5d3"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/owned_production_workspace.py"
+      ],
+      "authority": "examples/owned-production-workspace/graph.json#/workspace",
+      "reason": "Workspace rail and disclosure delivery must use the specific reviewed workspace graph and its source bytes.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/40.json",
+          "sha256": "2940f98e9acccc46794219f3ab6c99a8c7e6802b9f1bf16f80611e134f5d0e63"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/native_appearance.py",
+        "tools/native_edit.py",
+        "tools/starter_cta.py"
+      ],
+      "authority": "figma-bridge/presentation.json#/modules/starterCta",
+      "reason": "The approved starter identity and native variable come from the packaged component graph and its verified manifest; current graph and template bytes also pin each prepared plan.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/41.json",
+          "sha256": "6eb7dae1d320d3ee637a4c1353d576f7a343b7fb7c920fa25b04d36e74a6af1e"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/alignment_audit.mjs",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_widget_project.py"
+      ],
+      "authority": "tools/report-presentation.json#/graphics",
+      "reason": "Presentation defaults for graphics are separate from the measured input and the authored design tokens.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/42.json",
+          "sha256": "87d70d8a597891a379980cd74b035b447182a72deb0df161da2c30a8d7c18c0d"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/input-effect-contract.json",
+        "tools/input_effect.py"
+      ],
+      "authority": "tools/input-effect-contract.json#/assetMap",
+      "reason": "A captured HTML asset map must match the declared schema, source metadata hashes, supported entry fields and exact resolved request targets.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/43.json",
+          "sha256": "1c2b75fa561501eb986c6151915819a195a22ff804c60bc2a827784a02c72cf3"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/plugin_panel.py"
+      ],
+      "authority": "figma-bridge/standalone-views.json#/views",
+      "reason": "The standalone UI compiler projects shared tokens, per-view geometry and the chat input contract into the shipped template.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/tooling/44.json",
+          "sha256": "82b59ba8196b7b933085c087987d1c0c217043f02807456e5bece80944c76c08"
+        }
+      ]
+    }
+  ]
+}

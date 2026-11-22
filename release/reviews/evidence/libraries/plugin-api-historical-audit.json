@@ -1,0 +1,25 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_historical_api_audit_pins_all_stored_evidence_without_claiming_currentness",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-api/audit/members.json#/comparison",
+      "covers": [
+        "library/figma-api/audit/evidence/README.md",
+        "library/figma-api/audit/evidence/curated.json",
+        "library/figma-api/audit/evidence/design-recipes.json",
+        "library/figma-api/audit/evidence/editor-gaps.json",
+        "library/figma-api/audit/evidence/editor-recipes.json",
+        "library/figma-api/audit/evidence/native-read.json",
+        "library/figma-api/audit/members.json",
+        "library/figma-api/audit/report.md"
+      ],
+      "assertion": "Checks audit ref/commit/tree, source pin, all curated evidence digests, and bounded historical wording.",
+      "observed": "All five evidence documents match their recorded digests; reports do not claim current runtime coverage."
+    }
+  ]
+}

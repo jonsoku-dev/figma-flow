@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "covers": [
+        "tools/browser_access.py"
+      ],
+      "test": "tests/test_browser_access.py",
+      "case": "BrowserAccessTests.test_auto_allow_replaces_only_dedicated_policy_and_preserves_other_options",
+      "testSha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+      "assertion": "Only the dedicated browser configuration projects the requested origins and project paths; other browser settings are preserved.",
+      "observed": "Compared dedicated automatic and incremental policies, including existing settings and project-local MCP configuration."
+    },
+    {
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "covers": [
+        "tools/browser_access.py"
+      ],
+      "test": "tests/test_browser_access.py",
+      "case": "BrowserAccessTests.test_incremental_merge_is_exact_and_idempotent",
+      "testSha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+      "assertion": "Only the dedicated browser configuration projects the requested origins and project paths; other browser settings are preserved.",
+      "observed": "Compared dedicated automatic and incremental policies, including existing settings and project-local MCP configuration."
+    },
+    {
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "covers": [
+        "tools/browser_access.py"
+      ],
+      "test": "tests/test_browser_access.py",
+      "case": "BrowserAccessTests.test_cli_generates_mcp_paths_for_each_project_without_plugin_root",
+      "testSha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+      "assertion": "Only the dedicated browser configuration projects the requested origins and project paths; other browser settings are preserved.",
+      "observed": "Compared dedicated automatic and incremental policies, including existing settings and project-local MCP configuration."
+    }
+  ]
+}

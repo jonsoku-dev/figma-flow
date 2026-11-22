@@ -1,0 +1,71 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_regression_program_inputs.py",
+      "case": "InputEffectTests.test_local_reference_queries_and_fragments_track_underlying_files",
+      "testSha256": "673dd447fcee6aaa6713873f6d75af36f26f32b4c6d3d76055e6211fb18d8735",
+      "authority": "examples/regression-program/atlas/graph.json#/nodes",
+      "covers": [
+        "examples/regression-program/html/atlas/js/index.html",
+        "examples/regression-program/html/atlas/js/render.js",
+        "examples/regression-program/html/atlas/linked/index.html",
+        "examples/regression-program/html/atlas/linked/mark.svg",
+        "examples/regression-program/html/atlas/linked/page.css",
+        "examples/regression-program/html/atlas/self-contained.html",
+        "examples/regression-program/html/css-assets/README.md",
+        "examples/regression-program/html/css-assets/entry.css",
+        "examples/regression-program/html/css-assets/index.html",
+        "examples/regression-program/html/css-assets/media/photo.css",
+        "examples/regression-program/html/morrow/js/index.html",
+        "examples/regression-program/html/morrow/js/render.js",
+        "examples/regression-program/html/morrow/linked/index.html",
+        "examples/regression-program/html/morrow/linked/mark.svg",
+        "examples/regression-program/html/morrow/linked/page.css",
+        "examples/regression-program/html/morrow/self-contained.html",
+        "examples/regression-program/html/paper/js/index.html",
+        "examples/regression-program/html/paper/js/render.js",
+        "examples/regression-program/html/paper/linked/index.html",
+        "examples/regression-program/html/paper/linked/mark.svg",
+        "examples/regression-program/html/paper/linked/page.css",
+        "examples/regression-program/html/paper/self-contained.html"
+      ],
+      "assertion": "Every linked local reference resolves to and tracks the source file bytes; encoded escapes are rejected.",
+      "observed": "Local href/src/query/fragment references and their underlying file freshness are checked."
+    },
+    {
+      "test": "tests/test_regression_program_inputs.py",
+      "case": "InputEffectTests.test_js_fixture_html_does_not_contain_the_runtime_phrase",
+      "testSha256": "673dd447fcee6aaa6713873f6d75af36f26f32b4c6d3d76055e6211fb18d8735",
+      "authority": "examples/regression-program/atlas/graph.json#/nodes",
+      "covers": [
+        "examples/regression-program/html/atlas/js/index.html",
+        "examples/regression-program/html/atlas/js/render.js",
+        "examples/regression-program/html/atlas/linked/index.html",
+        "examples/regression-program/html/atlas/linked/mark.svg",
+        "examples/regression-program/html/atlas/linked/page.css",
+        "examples/regression-program/html/atlas/self-contained.html",
+        "examples/regression-program/html/css-assets/README.md",
+        "examples/regression-program/html/css-assets/entry.css",
+        "examples/regression-program/html/css-assets/index.html",
+        "examples/regression-program/html/css-assets/media/photo.css",
+        "examples/regression-program/html/morrow/js/index.html",
+        "examples/regression-program/html/morrow/js/render.js",
+        "examples/regression-program/html/morrow/linked/index.html",
+        "examples/regression-program/html/morrow/linked/mark.svg",
+        "examples/regression-program/html/morrow/linked/page.css",
+        "examples/regression-program/html/morrow/self-contained.html",
+        "examples/regression-program/html/paper/js/index.html",
+        "examples/regression-program/html/paper/js/render.js",
+        "examples/regression-program/html/paper/linked/index.html",
+        "examples/regression-program/html/paper/linked/mark.svg",
+        "examples/regression-program/html/paper/linked/page.css",
+        "examples/regression-program/html/paper/self-contained.html"
+      ],
+      "assertion": "JS-only fixture text is not misreported as rendered output.",
+      "observed": "The script source does not cause a static HTML reader to claim runtime-generated text."
+    }
+  ]
+}

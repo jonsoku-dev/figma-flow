@@ -1,23 +1,23 @@
 <!doctype html><html lang="ko" data-flow-view="chat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>/* FIGMA_FLOW_PANEL_CSS */
-.choice{display:flex;gap:8px;align-items:center}.hint{color:var(--muted);font-size:12px}.selection-card{margin-top:16px}.selection-card h2{font-size:12px;margin:0 0 6px;color:var(--muted)}.selection-card strong{font-size:24px;color:var(--accent)}.selection-card p{margin:6px 0 0}.choice input{flex:none}.choice{align-items:flex-start}.details pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px}.thread-id{display:block;font:11px/1.6 ui-monospace,monospace;overflow-wrap:anywhere}
-</style></head><body class="panel">
+/* FLOW_STANDALONE_VIEW */</style></head><body class="panel">
 <!-- FLOW_SHELL -->
 <main class="workspace"><section class="intro"><h1 data-i18n="chat.title">이 작업의 채팅으로</h1><p id="task-title"></p></section>
 <p class="hint"><span data-i18n="chat.destination">연결된 채팅</span><code id="thread-destination" class="thread-id"></code></p>
 <p class="hint" data-i18n="chat.intro">요청과 선택한 노드만 확인한 뒤 보냅니다.</p>
-<label for="request" data-i18n="chat.request">요청</label><textarea id="request" class="panel-input" rows="3" maxlength="4000" placeholder="이 선택에서 바꾸고 싶은 내용을 적어 주세요." data-i18n-placeholder="chat.placeholder"></textarea>
+<label for="request" data-i18n="chat.request">요청</label><textarea id="request" class="panel-input" rows="__FLOW_REQUEST_ROWS__" maxlength="__FLOW_REQUEST_MAX__" placeholder="이 선택에서 바꾸고 싶은 내용을 적어 주세요." data-i18n-placeholder="chat.placeholder"></textarea>
 <label class="choice"><input id="include-selection" type="checkbox" checked> <span data-i18n="chat.includeSelection">현재 선택한 노드 포함</span></label>
 <label class="choice"><input id="include-text" type="checkbox"> <span data-i18n="chat.includeText">선택한 텍스트 일부 포함 (노드당 200자, 합계 1000자)</span></label>
 <p class="hint" data-i18n="chat.privacy">이름은 120자까지, 이메일 형태의 내용은 생략합니다. 선택이 없으면 요청만 포함합니다.</p>
 <button id="prepare" type="button" class="secondary" data-i18n="chat.prepare">보낼 내용 확인</button>
 <section id="selection-summary" class="selection-card panel-preview" aria-labelledby="selection-title" aria-live="polite" aria-atomic="true" tabindex="-1" hidden><h2 id="selection-title" data-i18n="chat.selectionTitle">포함한 선택</h2><strong id="selection-count"></strong><p id="selection-types"></p></section>
-<label for="preview" data-i18n="chat.preview">실제로 전달할 내용</label><textarea id="preview" class="panel-input panel-code preview" rows="11" readonly aria-describedby="preview-hint"></textarea>
+<label for="preview" data-i18n="chat.preview">실제로 전달할 내용</label><textarea id="preview" class="panel-input panel-code preview" rows="__FLOW_PREVIEW_ROWS__" readonly aria-describedby="preview-hint"></textarea>
 <p id="preview-hint" class="hint" data-i18n="chat.previewHelp">아래 보내기는 이 미리보기와 같은 내용을 현재 연결된 채팅의 대기열에 추가합니다.</p>
 <div class="actions"><button id="send" type="button" disabled data-i18n="chat.send">채팅에 보내기</button><button id="copy" type="button" class="secondary" disabled data-i18n="chat.copy">내용 복사</button></div><details class="details" id="chat-tools"><summary data-i18n="chat.more">채팅 열기</summary><div class="actions"><button id="open" type="button" class="secondary" data-i18n="chat.open">채팅 열기</button><button id="open-link" type="button" class="secondary" data-i18n="chat.openLink">링크로 채팅 열기</button></div></details>
 <!-- FLOW_STATUS -->
 <details id="diagnostics" class="details" hidden><summary data-i18n="chat.diagnostic">원본 진단</summary><pre id="diagnostic"></pre></details></main><script>
 const chatContext = /* WORKSPACE_CHAT_CONTEXT */;
+const chatErrorKeys = /* WORKSPACE_CHAT_ERROR_KEYS */;
 const t = (key, params) => FlowUI.t('chat.' + key, params);
 const el = id => document.getElementById(id);
 let preparedId = null, pendingPreviewId = null, busy = false, submitted = false, lastStatus = ['ready',''], previewCount = 0, previewTypes = [];
@@ -94,7 +94,7 @@ window.addEventListener('message', event => {
     status(message.status==='queued'?'queued':'opened',message.status==='queued'?'queuedHelp':'openedHelp');
   } else if (message.type === 'chat:error') {
     busy = false; const raw=String(message.message||'');
-    const coded={scope:'scopeError','scope-changed':'scopeError',limit:'limitError',expired:'expired',duplicate:'duplicate',uncertain:'uncertain',input:'inputError','not-paired':'unpairedHelp','invalid-selection':'errorHelp','invalid-geometry':'errorHelp',connection:'errorHelp',unknown:'errorHelp'}[message.code];
+    const coded=chatErrorKeys[message.code];
     // Older native chat frames send only Korean diagnostic text and have no code field.
     const key=coded||(/불확실|접수 여부/.test(raw)?'uncertain':/20개/.test(raw)?'limitError':/이전 작업|만료/.test(raw)?'expired':/이미 처리|중복/.test(raw)?'duplicate':/파일|페이지/.test(raw)?'scopeError':/요청을 적거나/.test(raw)?'inputError':'errorHelp');
     status('error',key);diagnostic(raw);el('open-link').hidden=false;el('chat-tools').open=true;

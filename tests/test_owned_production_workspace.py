@@ -336,10 +336,9 @@ class SingleSourceTest(unittest.TestCase):
         self.assertEqual(tones - set(re.findall(r'\[data-tone="([a-z]+)"\]', styles)), set())
 
     def test_tokens_continue_the_owned_baseline(self):
-        baseline = (ROOT / 'examples' / 'owned-design-baseline' / 'styles.css').read_text(encoding='utf-8')
-        declared = dict(re.findall(r'--([a-z-]+):\s*([^;]+);', baseline.split('}', 1)[0]))
+        baseline = json.loads((ROOT / 'examples' / 'owned-design-baseline' / 'graph.json').read_text(encoding='utf-8'))
         tokens = self.graph['workspace']['tokens']
-        self.assertEqual({name: tokens[name] for name in declared}, {name: value.strip() for name, value in declared.items()})
+        self.assertEqual({name: tokens[name] for name in baseline['design_tokens']}, baseline['design_tokens'])
 
     def test_manifest_rights_match_repository_license(self):
         manifest = load(FIXTURE / 'manifest.json')

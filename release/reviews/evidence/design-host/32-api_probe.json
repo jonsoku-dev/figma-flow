@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_api_probe.py",
+      "case": "NativeApiProbeTest.test_documented_read_methods_use_static_calls_and_safe_projection",
+      "testSha256": "c314400048767fca0f5004c1823eeb3f9219756792ee1aa1b1b1c555b586b77c",
+      "authority": "library/figma-api/source.json#/files",
+      "covers": [
+        "figma-bridge/native_api_fixture.js",
+        "figma-bridge/native_api_probe.js"
+      ],
+      "assertion": "NativeApiProbeTest.test_documented_read_methods_use_static_calls_and_safe_projection",
+      "observed": "The native API probe uses only the registered read-method policy and emits a safe data projection."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_example_release_witness.py",
+      "case": "ExampleReleaseWitnessTests.test_component_family_css_has_no_copied_token_fallbacks",
+      "testSha256": "7baf4a817c6f1629eb4a9968c3e79487eacf589a04cfa01bf2eea2c2e02354c2",
+      "authority": "examples/owned-component-families/design.json#/tokens",
+      "covers": [
+        "examples/owned-component-families/README.md",
+        "examples/owned-component-families/design.json",
+        "examples/owned-component-families/graph.json",
+        "examples/owned-component-families/index.html",
+        "examples/owned-component-families/manifest.json",
+        "examples/owned-component-families/prepare.py",
+        "examples/owned-component-families/renderer.js",
+        "examples/owned-component-families/styles.css"
+      ],
+      "assertion": "The witness maps every stylesheet custom property to a DTCG token, rejects literal colors and fallback values, and checks runtime projection.",
+      "observed": "All used CSS variables resolve to the canonical DTCG token groups; no copied color or fallback remains; renderer sets custom properties from design.json."
+    }
+  ]
+}

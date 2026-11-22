@@ -223,7 +223,7 @@
         {
           "path": "tests/test_figma_draft.py",
           "case": "DraftReviewTests.test_default_is_native_pending_without_selection_or_foreign_context",
-          "sha256": "8ebbc6582206850b128bd9b376cfc63483a64d93896b42cd0fda515076faff49",
+          "sha256": "d1ac47369b1c82e7d849bd3352b37bf4cbd3a33f068ed07a90e1b36fc9f33270",
           "result": "passed"
         },
         {
@@ -373,6 +373,12 @@
           "path": "tests/test_trace_report.py",
           "case": "TraceReportTests.test_cli_creates_offline_report_without_changing_inputs",
           "sha256": "ccf7843c930bc2206a178b682f9cf687d1b38b36171771a180e475463f891341",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_spec_graph_coverage.py",
+          "case": "SpecGraphCoverageTests.test_exercised_module_alone_does_not_establish_acceptance",
+          "sha256": "1d290f96f1c20087c446aff224c5178d86632e243d94045da7f00753aab3cddb",
           "result": "passed"
         }
       ],

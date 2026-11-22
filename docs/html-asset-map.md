@@ -66,7 +66,7 @@ Use `mapping: "byte-identical"` only when the response and local file have the s
 
 ## Freshness and limits
 
-The v4 input record pins the HTML file, manifest, page and asset capture metadata, and each mapped local file. `input_effect.freshness(record, root)` reports `stale` if any pinned file changes. Existing v3 records remain readable and keep their existing freshness checks. Regenerate v1 and v2 records as before.
+The `figma-flow-input-effect-result-v4` record pins the HTML file, manifest, page and asset capture metadata, and each mapped local file. `input_effect.freshness(record, root)` reports `stale` if any pinned file changes. Existing `figma-flow-input-effect-result-v3` records remain readable and keep their existing freshness checks. Regenerate v1 and v2 records as before.
 
 An unlisted same-origin request keeps its default status. The projector also rejects maps with unused targets, duplicate targets, mismatched capture data, and cross-origin references. It never performs HTTP requests. The capture metadata is the selected local evidence; the projector does not independently authenticate who produced it.
 

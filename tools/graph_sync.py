@@ -1351,7 +1351,7 @@ def discovery_bundle(file_key, page_id, include_page_ids, out, plugin_id=None, a
         source += '\nconst DISCOVERY_SCOPE = ' + json.dumps({'file_key': file_key, 'page_id': page_id, 'allowed_page_ids': pages}) + ';\n'
     if probe_config:
         source += r"""
-figma.showUI(__html__, {width: 440, height: 390, themeColors: true});
+figma.showUI(__html__, /* flow-window discovery */ {width: 440, height: 390, themeColors: true});
 let discoveryBusy = false;
 figma.ui.onmessage = async message => {
   if (message?.type !== 'read' || message.session !== GRAPH_PANEL_SESSION || discoveryBusy) return;
@@ -1420,7 +1420,7 @@ async function discoverGraphSummary(figma, scope) {
   return {...summary, fileKey: figma.fileKey, pageId: scope.page_id, expected_scope: scope,
     coverage: {...summary.coverage, pageIds: [scope.page_id]}, observed_at: new Date().toISOString()};
 }
-figma.showUI(__html__, {width: 440, height: 390, themeColors: true});
+figma.showUI(__html__, /* flow-window discovery */ {width: 440, height: 390, themeColors: true});
 let discoveryBusy = false;
 figma.ui.onmessage = async message => {
   if (!['read', 'native-summary'].includes(message?.type) || message.session !== GRAPH_PANEL_SESSION || discoveryBusy) return;

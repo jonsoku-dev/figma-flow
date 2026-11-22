@@ -1064,3 +1064,16 @@ test('compiles real examples/owned-component-families/design.json and preserves 
   assert.equal(graphRes.componentSets.length, 6);
   assert.deepEqual(snapshotTree(existingHero), heroBefore);
 });
+
+test('the native family workbench consumes the projected sizing contract', async () => {
+  const geometry = require('../library/component-families.json').native;
+  const {figma, page} = createMockFigmaWorld();
+  const result = await ensureSemanticComponents(figma, page, buildSixFamiliesContract());
+  const workbench = page.findOne(node => node.id === result.workbenchFrameId);
+  assert.equal(workbench.width, geometry.workbench.width);
+  const checkbox = result.componentSets.find(set => set.family === 'checkbox');
+  const variant = page.findOne(node => node.id === checkbox.variants[0].id);
+  assert.equal(variant.width, geometry.component.width);
+  const indicator = variant.findOne(node => node.name === 'indicator');
+  assert.equal(indicator.width, geometry.component.indicatorSize);
+});

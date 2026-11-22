@@ -1,0 +1,35 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_design_service_inspection.py",
+      "case": "ServiceInspectionTest.test_project_is_private_design_only_and_graph_pinned",
+      "testSha256": "882593452d4951ac73109a779cbd31d1ecad79d1511d604b260b6444f6316691",
+      "authority": "library/figma-recipes/inspection/members.json#/PluginAPI",
+      "covers": [
+        "library/figma-recipes/inspection/members.json",
+        "library/figma-recipes/inspection/services.js",
+        "library/figma-recipes/inspection/values.js",
+        "library/figma-recipes/inspection/values.json"
+      ],
+      "assertion": "Creates a disposable graph-pinned inspect project and verifies planned-only Figma scope, manifest permissions, file mode and no claimed runtime.",
+      "observed": "The generated inspection project is private, scoped to Figma Design, pinned to graph data and not executed."
+    },
+    {
+      "test": "tests/test_design_service_inspection.py",
+      "case": "ServiceInspectionTest.test_wrong_page_is_rejected_before_touching_the_document",
+      "testSha256": "882593452d4951ac73109a779cbd31d1ecad79d1511d604b260b6444f6316691",
+      "authority": "library/figma-recipes/inspection/members.json#/PluginAPI",
+      "covers": [
+        "library/figma-recipes/inspection/members.json",
+        "library/figma-recipes/inspection/services.js",
+        "library/figma-recipes/inspection/values.js",
+        "library/figma-recipes/inspection/values.json"
+      ],
+      "assertion": "Wrong page context is rejected before any native operation.",
+      "observed": "A mismatched page is denied before document access."
+    }
+  ]
+}

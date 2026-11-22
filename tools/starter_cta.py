@@ -10,13 +10,15 @@ from graph_design_system import load_graph, resolve_design_system
 from graph_sync import token_native_names
 from native_handoff import little_hands_source_labels, normalize
 from native_edit import PLAN_SCHEMA, validate_plan
+from native_appearance import appearance
 
 
-ROOT_KEY = 'little-hands/booking-cta/starter-frame'
+STARTER = appearance('starterCta')
+ROOT_KEY = STARTER['frameKey']
 PLAN_KIND = 'figma-flow-starter-cta-provision-v1'
-SEED_COLLECTION = 'Little Hands · CTA SSOT seed'
-SEED_VARIABLE = 'starter/little-hands/booking-cta-seed'
-INSTANCE_KEYS = ('reserve-preview', 'reserve-login')
+SEED_COLLECTION = STARTER['seedCollection']
+SEED_VARIABLE = STARTER['seedVariable']
+INSTANCE_KEYS = tuple(STARTER['instanceKeys'])
 
 
 def _color(value, name):
@@ -37,13 +39,13 @@ def prepare(graph_path, readback_path, file_key, page_id, out):
     graph = load_graph(graph_file)
     resolved = resolve_design_system(graph)
     design = graph.get('design_system', {})
-    component = design.get('components', {}).get('button.bookingCTA')
+    component = design.get('components', {}).get(STARTER['componentId'])
     native = component.get('native') if isinstance(component, dict) else None
-    if not isinstance(native, dict) or native.get('mainKeys') != ['bookingCTA'] or native.get('instanceKeys') != list(INSTANCE_KEYS):
+    if not isinstance(native, dict) or native.get('mainKeys') != [STARTER['mainKey']] or native.get('instanceKeys') != list(INSTANCE_KEYS):
         raise ValueError('Little Hands booking CTA native semantic key contract is missing or changed')
-    if component['properties'].get('backgroundColor') != 'color.action.primary' or native.get('semanticToken') != 'color.action.primary':
+    if component['properties'].get('backgroundColor') != STARTER['semanticToken'] or native.get('semanticToken') != STARTER['semanticToken']:
         raise ValueError('Booking CTA component must use the graph semantic primary action color')
-    token_value = resolved['tokens'].get('color.action.primary')
+    token_value = resolved['tokens'].get(STARTER['semanticToken'])
     if not isinstance(token_value, dict) or not all(type(token_value.get(channel)) in (int, float) for channel in 'rgb'):
         raise ValueError('Resolved graph primary action color is unavailable')
     _, native_names = token_native_names(graph, require_namespace=True)
@@ -65,7 +67,7 @@ def prepare(graph_path, readback_path, file_key, page_id, out):
         raise ValueError('Existing CTA workbench key belongs to another parent')
     root_rows = [_root_projection(row) for row in readback['nodes'] if parents.get(row['id']) == page_id and row['id'] != (frame or {}).get('id')]
     root_rows.sort(key=lambda row: row['id'])
-    expected_parents = {key: ROOT_KEY for key in ('bookingCTA', *INSTANCE_KEYS)}
+    expected_parents = {key: ROOT_KEY for key in (STARTER['mainKey'], *INSTANCE_KEYS)}
     for key, parent_key in expected_parents.items():
         matches = [row for row in readback['nodes'] if row.get('semanticKey') == key]
         expected_parent_id = frame['id'] if frame and parent_key == ROOT_KEY else None
@@ -93,7 +95,7 @@ def prepare(graph_path, readback_path, file_key, page_id, out):
     else:
         if not root_rows:
             raise ValueError('Actual page children with bounds are required to place the workbench')
-        position = {'x': max(row['absoluteBoundingBox']['x'] + row['absoluteBoundingBox']['width'] for row in root_rows) + 96,
+        position = {'x': max(row['absoluteBoundingBox']['x'] + row['absoluteBoundingBox']['width'] for row in root_rows) + STARTER['canvasGap'],
                     'y': 0}
     action = next((node for node in graph.get('nodes', []) if node.get('web_action') == INSTANCE_KEYS[0]), None)
     copy_source = little_hands_source_labels(action, INSTANCE_KEYS)
@@ -109,11 +111,11 @@ def prepare(graph_path, readback_path, file_key, page_id, out):
             'readback_sha256': hashlib.sha256(raw).hexdigest(),
             'source_graph_path': str(graph_file), 'token_source_path': str(token_file.resolve()),
             'readback_path': str(Path(readback_path).resolve()),
-            'frame_key': ROOT_KEY, 'main_key': 'bookingCTA', 'instance_keys': list(INSTANCE_KEYS),
+            'frame_key': ROOT_KEY, 'main_key': STARTER['mainKey'], 'instance_keys': list(INSTANCE_KEYS),
             'seed_collection_name': SEED_COLLECTION, 'seed_variable_name': SEED_VARIABLE,
-            'canonical_variable_name': native_names['color.action.primary'],
+            'canonical_variable_name': native_names[STARTER['semanticToken']],
             'background_color': background, 'text_color': text_color,
-            'labels': {'main': '예약하기', **labels},
+            'labels': {'main': STARTER['mainLabel'], **labels},
             'label_source_path': str(template), 'label_source_sha256': copy_source['source_sha256'],
             'page_roots': root_rows, 'position': position,
         },

@@ -11,6 +11,7 @@ const catalog = Object.assign({}, ...fs.readdirSync(path.join(root, 'figma-bridg
   .filter((name) => name.endsWith('.json'))
   .map((name) => JSON.parse(file(`figma-bridge/locales/${name}`))));
 const maxNodes = JSON.parse(file('library/figma-profile/read-limits.json')).maxNodes;
+const chatInput = JSON.parse(file('figma-bridge/chat-input.json'));
 const scriptJson = (value) => JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 
 test('compiled panel runs localized partial read and dependency evidence in installed Chromium', async () => {
@@ -49,6 +50,11 @@ test('compiled panel runs localized partial read and dependency evidence in inst
       assert.ok(state.text.length > 0, `${view} screen rendered visible content`);
       assert.deepEqual(state.errors, [], `${view} screen has no browser runtime error`);
       if (view === 'chat') {
+        assert.deepEqual(await evaluate(`({requestRows:document.querySelector('#chat-request').rows,
+          requestLimit:document.querySelector('#chat-request').maxLength})`), {
+          requestRows:chatInput.message.rows,
+          requestLimit:chatInput.message.maxCharacters,
+        }, 'rendered React chat controls use the shared chat input graph');
         assert.equal(await evaluate(`window.FlowUI.t('chat.includeSelection')`),
           catalog['chat.includeSelection'].ko.replace('{maxNodes}', String(maxNodes)));
         await evaluate(`Array.from(document.querySelectorAll('.view-chat button')).find(button=>button.textContent===window.FlowUI.t('chat.prepare'))?.click()`);
@@ -58,6 +64,8 @@ test('compiled panel runs localized partial read and dependency evidence in inst
         await evaluate(`window.postMessage({pluginMessage:${scriptJson({ type: 'chat:preview', requestId: chatRequest.requestId, text: 'Reviewed handoff', count: 1 })}},'*')`);
         await until(async () => evaluate(`document.querySelector('#chat-preview')?.value==='Reviewed handoff' ? true : null`), Date.now() + 3000,
           'Chat view did not display its exact reviewed preview');
+        assert.equal(await evaluate(`document.querySelector('#chat-preview').rows`), chatInput.preview.reactRows,
+          'rendered React chat preview rows use the shared chat input graph');
         await evaluate(`window.postMessage({pluginMessage:{type:'chat:error',code:'scope',message:'Native diagnostic without locale text.'}},'*')`);
         assert.equal(await evaluate(`document.querySelector('.view-chat .status-body').textContent`), catalog['chat.scopeError'].ko);
         await evaluate(`window.FlowUI.setLocale('en')`);

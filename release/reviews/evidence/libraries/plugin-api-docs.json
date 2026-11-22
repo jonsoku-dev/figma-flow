@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_library_readmes_preserve_upstream_and_example_evidence_limits",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-api/README.md#/sections/Static implementation-gap evidence",
+      "covers": [
+        "library/figma-api/README.md"
+      ],
+      "assertion": "The scoped text retains offline-only CLI and unverified implementation/runtime semantics.",
+      "observed": "The README labels the catalog as declarations only and states no network or execution occurs."
+    }
+  ]
+}

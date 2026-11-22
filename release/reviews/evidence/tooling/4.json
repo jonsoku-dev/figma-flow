@@ -1,0 +1,58 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/3. 같은 작업을 CLI로 준비·생성·마무리",
+      "covers": [
+        "tools/idea_catalog.py",
+        "tools/promote_idea.py",
+        "tools/serve_ideas.py"
+      ],
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_draft_build_commands_use_selected_project_paths",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "assertion": "Catalog registration and the prepared project must use the selected source brief/graph and explicit destination; generation is a distinct step.",
+      "observed": "Prepared a draft from selected locations and reviewed the actual command interfaces of each stage."
+    },
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/3. 같은 작업을 CLI로 준비·생성·마무리",
+      "covers": [
+        "tools/idea_catalog.py",
+        "tools/promote_idea.py",
+        "tools/serve_ideas.py"
+      ],
+      "test": "tests/test_promote_idea.py",
+      "case": "PromoteTests.test_exploratory_preparation_does_not_authorize_later_finish",
+      "testSha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+      "assertion": "Catalog registration and the prepared project must use the selected source brief/graph and explicit destination; generation is a distinct step.",
+      "observed": "Prepared a draft from selected locations and reviewed the actual command interfaces of each stage."
+    },
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/3. 같은 작업을 CLI로 준비·생성·마무리",
+      "covers": [
+        "tools/idea_catalog.py",
+        "tools/promote_idea.py",
+        "tools/serve_ideas.py"
+      ],
+      "test": "tests/test_serve_ideas.py",
+      "case": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+      "testSha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+      "assertion": "Catalog registration and the prepared project must use the selected source brief/graph and explicit destination; generation is a distinct step.",
+      "observed": "Prepared a draft from selected locations and reviewed the actual command interfaces of each stage."
+    },
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/3. 같은 작업을 CLI로 준비·생성·마무리",
+      "covers": [
+        "tools/idea_catalog.py",
+        "tools/promote_idea.py",
+        "tools/serve_ideas.py"
+      ],
+      "test": "tests/test_idea_catalog.py",
+      "case": "CatalogTests.test_independent_colliding_ids_and_relations",
+      "testSha256": "08e3c8b07982e1d2dc092b581f4ef5c6c916a09c83c5565dcd87e5e09c1a57b2",
+      "assertion": "Catalog registration and the prepared project must use the selected source brief/graph and explicit destination; generation is a distinct step.",
+      "observed": "Prepared a draft from selected locations and reviewed the actual command interfaces of each stage."
+    }
+  ]
+}

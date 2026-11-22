@@ -34,6 +34,7 @@ function readTabs(tabsSelector, panelSelector, probe) {
 }
 
 async function capture(options, out, width, height) {
+  const {tabs:targets} = JSON.parse(await readFile(path.join(toolsDir,'web-interaction-contract.json'),'utf8'));
   await withChromiumPage(chromiumBinary(options.chrome), async ({ command, evaluate, product }) => {
     await command('Page.enable');
     await command('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
@@ -93,9 +94,9 @@ async function capture(options, out, width, height) {
       const x = tab.rect.x + tab.rect.width / 2, y = tab.rect.y + tab.rect.height / 2;
       const hit = await read({ x, y, index: before.tabs.indexOf(tab) });
       if (!hit) throw Error('The center of tab ' + JSON.stringify(label) + ' is covered by another element');
-      const controls = screens.get(current.id).elements.filter(element => element.kind === 'frame'
+      const controls = screens.get(current.id).elements.filter(element => (targets.elementKinds.includes(element.kind) || (element.kind === 'component' && targets.componentKeys.includes(element.componentKey)))
         && ['x', 'y', 'width', 'height'].every(key => Math.abs(element.box[key] - tab.rect[key]) <= 1));
-      if (controls.length !== 1) throw Error('Tab ' + JSON.stringify(label) + ' is not one captured frame in ' + current.id);
+      if (controls.length !== 1) throw Error('Tab ' + JSON.stringify(label) + ' is not one captured tab control in ' + current.id);
       for (const type of ['mousePressed', 'mouseReleased']) await command('Input.dispatchMouseEvent', { type, x, y, button: 'left', clickCount: 1 });
       await moveAway();
       const after = await settled();

@@ -1,0 +1,43 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_regression_program_inputs.py",
+      "case": "InputEffectTests.test_real_photo_font_fixture_has_pinned_present_sources",
+      "testSha256": "673dd447fcee6aaa6713873f6d75af36f26f32b4c6d3d76055e6211fb18d8735",
+      "authority": "examples/regression-program/html/positive-assets/sources.json#/photo",
+      "covers": [
+        "examples/regression-program/html/positive-assets/README.md",
+        "examples/regression-program/html/positive-assets/app.js",
+        "examples/regression-program/html/positive-assets/coffee.jpg",
+        "examples/regression-program/html/positive-assets/fonts/Hahmlet.woff2",
+        "examples/regression-program/html/positive-assets/fonts/OFL.txt",
+        "examples/regression-program/html/positive-assets/index.html",
+        "examples/regression-program/html/positive-assets/page.css",
+        "examples/regression-program/html/positive-assets/sources.json"
+      ],
+      "assertion": "The photo and font source manifest is checked against actual bytes, HTML and CSS references.",
+      "observed": "Both locally bundled assets match source hashes; HTML and font license/reference paths are present."
+    },
+    {
+      "test": "tests/test_regression_program_inputs.py",
+      "case": "InputEffectTests.test_linked_css_is_consumed_and_missing_assets_stay_404",
+      "testSha256": "673dd447fcee6aaa6713873f6d75af36f26f32b4c6d3d76055e6211fb18d8735",
+      "authority": "examples/regression-program/html/positive-assets/sources.json#/photo",
+      "covers": [
+        "examples/regression-program/html/positive-assets/README.md",
+        "examples/regression-program/html/positive-assets/app.js",
+        "examples/regression-program/html/positive-assets/coffee.jpg",
+        "examples/regression-program/html/positive-assets/fonts/Hahmlet.woff2",
+        "examples/regression-program/html/positive-assets/fonts/OFL.txt",
+        "examples/regression-program/html/positive-assets/index.html",
+        "examples/regression-program/html/positive-assets/page.css",
+        "examples/regression-program/html/positive-assets/sources.json"
+      ],
+      "assertion": "Linked CSS and missing-asset response are exercised against the local fixture server.",
+      "observed": "Linked stylesheets are consumed; absent assets remain 404; positive assets are served only from declared local paths."
+    }
+  ]
+}

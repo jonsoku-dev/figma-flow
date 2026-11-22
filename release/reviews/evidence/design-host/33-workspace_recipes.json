@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_recipes.py",
+      "case": "WorkspaceRecipeTest.test_native_dispatch_requires_confirmation_and_never_enters_task_host",
+      "testSha256": "23b0e325d6ea130ff0cf4ac7decf8ce49c4311b5544bdf268b00551eb4ba0675",
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "covers": [
+        "figma-bridge/relay_recipe.js"
+      ],
+      "assertion": "WorkspaceRecipesTests.test_native_dispatch_requires_confirmation_and_never_enters_task_host",
+      "observed": "The recipe action requires explicit confirmation and never enters the task host."
+    }
+  ]
+}

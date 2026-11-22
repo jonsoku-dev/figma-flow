@@ -226,7 +226,7 @@ function edgeValue(rect, axis, edge) {
   return start + size * { start: 0, center: 0.5, end: 1 }[edge];
 }
 
-function drawGuides(result) {
+function drawGuides(result, style) {
   const host = document.createElement('div');
   host.setAttribute('aria-hidden', 'true');
   // Shadow DOM keeps the inspected application's SVG styles away from the overlay.
@@ -246,14 +246,14 @@ function drawGuides(result) {
     const endpoints = axis === 'x' ? [at, 0, at, innerHeight] : [0, at, innerWidth, at];
     ['x1','y1','x2','y2'].forEach((attr, i) => line.setAttribute(attr, endpoints[i]));
     line.setAttribute('stroke', color);
-    line.setAttribute('stroke-dasharray', '5 4');
+    line.setAttribute('stroke-dasharray', style.dash);
     svg.append(line);
   }
   for (const group of result.groups) {
     if (group.anchorValue === null || !result.ready) continue;
-    add(group.axis, group.anchorValue, '#255bb5');
-    if (group.expectedOffset) add(group.axis, group.anchorValue + group.expectedOffset, '#8354af');
-    for (const target of group.targets) if (target.status === 'drift') add(group.axis, target.value, '#d21f3c');
+    add(group.axis, group.anchorValue, style.anchor);
+    if (group.expectedOffset) add(group.axis, group.anchorValue + group.expectedOffset, style.expected);
+    for (const target of group.targets) if (target.status === 'drift') add(group.axis, target.value, style.drift);
   }
 }
 
@@ -303,7 +303,8 @@ async function run(values) {
         await writeFile(path.join(out, `width-${width}-${kind}.png`), Buffer.from(shot.data, 'base64'), { flag: 'wx', mode: 0o600 });
       }
       await capture('clean');
-      await evaluate('(' + drawGuides + ')(' + JSON.stringify(result) + ')');
+      const appearance = JSON.parse(await readFile(new URL('./report-presentation.json', import.meta.url), 'utf8'));
+      await evaluate('(' + drawGuides + ')(' + JSON.stringify(result) + ',' + JSON.stringify(appearance.graphics.alignment) + ')');
       await capture('guide-overlay');
       report.viewports.push({ width, height, finalUrl, ...result });
     }

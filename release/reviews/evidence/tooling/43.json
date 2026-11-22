@@ -1,0 +1,30 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "tools/input-effect-contract.json#/assetMap",
+      "covers": [
+        "tools/input-effect-contract.json",
+        "tools/input_effect.py"
+      ],
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "case": "HtmlAssetMapTests.test_capture_and_manifest_metadata_are_both_part_of_freshness",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "assertion": "A captured HTML asset map must match the declared schema, source metadata hashes, supported entry fields and exact resolved request targets.",
+      "observed": "Pinned page, manifest and capture changes independently marked the record stale. Local CSS imports were resolved against the actual captured inputs."
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/assetMap",
+      "covers": [
+        "tools/input-effect-contract.json",
+        "tools/input_effect.py"
+      ],
+      "test": "tests/test_input_effect_css_parser.py",
+      "case": "CssDependencyParserTests.test_html_styles_and_nested_imports_capture_real_urls_and_ignore_fake_markup",
+      "testSha256": "c127b15229c923a5a066642318893a867930d2edb61143feff4b2e83a5f4adfb",
+      "assertion": "A captured HTML asset map must match the declared schema, source metadata hashes, supported entry fields and exact resolved request targets.",
+      "observed": "Pinned page, manifest and capture changes independently marked the record stale. Local CSS imports were resolved against the actual captured inputs."
+    }
+  ]
+}

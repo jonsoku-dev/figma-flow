@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_chat.cjs",
+      "case": "tests/test_workspace_chat.cjs",
+      "testSha256": "4ce4befb4a0a2826f20d481cb62b6fe98dcbe18ea45c01a90059112391d7170d",
+      "authority": "library/panel-design/contracts.json#/nodes/3",
+      "covers": [
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "tests/test_workspace_chat.cjs",
+      "observed": "Local chat behavior preserves selection privacy, request bounds, exact preview, scope/session pins, replay and clipboard safeguards."
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "delivery",
-  "fingerprint": "44df78e3a07606ad89a20a9b10fc197eae94fa23f4e60186ef44c3f1804c0d97",
+  "fingerprint": "941c48c70268e1d6a9eee81ff18233063ad0d4f4de7fe7110f5624db0405e268",
   "openFindings": [],
   "bindings": [
     {
@@ -14,7 +14,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/1.json",
-          "sha256": "c6eb6627e70d433e33b43b0f2df59e3780bcb8729c5691ae9d6d2e1a22ad619a"
+          "sha256": "ed1976351b459fb78bc86e1d11c79766db9343ccaf3b4c95f6045764f38e48f3"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/2.json",
-          "sha256": "0545c88b9595b9dbcb959b269c4e49d6374f2329d18700ebbb85f1a0883f0722"
+          "sha256": "a1ef6638c77ca36eb5bdb9c66670b5a94030fe81efe6384b225e851fa40ddd0d"
         }
       ]
     },
@@ -41,7 +41,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/3.json",
-          "sha256": "e554f8b7e35448d9f8f3c721ebaa07545dc60c5d7987c31762302854a26b1018"
+          "sha256": "9c94b6db489be25b34af17db1dd0a43e38d2a6312b37a0d5fed2e5dd3ecceff3"
         }
       ]
     },
@@ -55,7 +55,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/4.json",
-          "sha256": "11a93689cd1f019e3c11d413ebe621e822d95d186a732f60e62e5b89ecf2f068"
+          "sha256": "4768d160c986b90c1f4bad617dae978e9d6d80602424a3c54accee1d8dbfc531"
         }
       ]
     },
@@ -69,7 +69,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/5.json",
-          "sha256": "eea95c59976e68efa5708f12b3b8efeac7e3f3fe43832da2b8825d7c7c14b83d"
+          "sha256": "3f4825b932f6538a78640750f7d7e81f830e7c9577abfc061b7f1ea0de9ede72"
         }
       ]
     },
@@ -83,7 +83,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/6.json",
-          "sha256": "cad0e0fdfc47623ac0fdc2aeba38575133691c0971de9148c7cfb118256ccbe2"
+          "sha256": "922b8e527167896016f53df4bbba130e70d335db91b0ceb8b95ccf00db1e1e0c"
         }
       ]
     },
@@ -97,7 +97,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/7.json",
-          "sha256": "02e2531fc4f3025f5a1d7d8f3159b58567da9f4949c371cec99eff3d5a02e3b8"
+          "sha256": "2c17983692d3847169510336caebb37543ea29f05cf9a7d526b01a9715ee5035"
         }
       ]
     },
@@ -112,7 +112,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/8.json",
-          "sha256": "c33798cbca27b498fddacd127c7b3f37f6eefac5254ea8b0616bccaf28576c10"
+          "sha256": "a8bb173f977efad0ddc0e5149587eb82ee0fec6d7a9048477ea29acdff4c5146"
         }
       ]
     },
@@ -127,7 +127,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/9.json",
-          "sha256": "9a709cf57422481a993bbd7d8046eb5306ded8fdf2545ec64ae319fe37e51a76"
+          "sha256": "dd4471018b5eea03cb4f8b5496a914b1c46698de193e84b2f96bcefb9dfe3f04"
         }
       ]
     },
@@ -142,7 +142,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/10.json",
-          "sha256": "60406ccf9be049ad9961b85b00a5161fe415196928ed9e59c6517d2f96a38f0d"
+          "sha256": "8d0b893c50dd1fc3d284c8dc0b1b1494fe553ae8184430bcdd31b0aabd2083bc"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/11.json",
-          "sha256": "cdad90de3db2f9415a47e18162642b3996c8f458037ee669817a48c3d69e04cd"
+          "sha256": "e8b420da736fa8339e30f80ff6a41bdd2b0daf3ebd8a16bd5adccd7d56f85ce1"
         }
       ]
     },
@@ -171,7 +171,22 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/12.json",
-          "sha256": "ac1de41a6259c973422497908bbca253adaf8650d4d1460ab5d2d8fc562058e8"
+          "sha256": "8480a1e57231470736d4966ca2e0b41b91410f22913fce0700ec2babd90cfc28"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/workflows/reference-guard.yml",
+        "library/delivery/graph.json",
+        "library/delivery/reference-guard.yml.in"
+      ],
+      "authority": "library/delivery/graph.json#/inputs/sandboxCli/linuxRelease",
+      "reason": "The major archive job installs the specified Linux Codex CLI only after its SHA-256 matches, and only then adds it to the runner PATH.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/13.json",
+          "sha256": "9aa87a85e89c660d7cc304c3f425808d763beda95a86b94b37b8c58e9b811938"
         }
       ]
     }

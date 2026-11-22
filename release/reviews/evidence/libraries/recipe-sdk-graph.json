@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_standalone_sdk_recipe_pins_and_compiles_its_graph_projection",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-recipes/design-type-review.graph.json#/graph/nodes",
+      "covers": [
+        "library/figma-recipes/design-type-review.graph.json",
+        "library/figma-recipes/design-type-review.ts"
+      ],
+      "assertion": "Compiles the selected graph projection with the pinned SDK types and exercises scoped import/readback validation.",
+      "observed": "Graph selection, hash pins and output projection are checked; missing or geometry-only readback is rejected."
+    }
+  ]
+}

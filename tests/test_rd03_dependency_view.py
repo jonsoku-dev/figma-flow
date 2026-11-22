@@ -150,7 +150,7 @@ class DependencyViewTests(unittest.TestCase):
         css = (ROOT / 'panel-ui/src/styles/workspace.css').read_text(encoding='utf-8')
         shipped = (ROOT / 'figma-bridge/assets/panels.css').read_text(encoding='utf-8')
         self.assertIn('.workspace-dependency-graph', css)
-        self.assertIn('max-width: 320px', css)
+        self.assertIn('max-width: __PANEL_TOKEN_breakpoint-320px__', css)
         self.assertIn('workspace-dependency-text', shipped)
         tasks_doc = (ROOT / 'docs/development-roadmap/RD-03-task-dependencies/tasks.md').read_text(encoding='utf-8')
         self.assertIn('dependencyView', tasks_doc)

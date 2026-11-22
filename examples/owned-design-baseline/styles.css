@@ -1,27 +1,3 @@
-:root {
-  --bg-canvas: #f4f6f9;
-  --bg-surface: #ffffff;
-  --bg-subtle: #f8fafc;
-  --bg-accent: #eff6ff;
-  --bg-contract: #f5f3ff;
-  --bg-owned: #ecfdf5;
-  --bg-private: #fffbeb;
-  --ink-primary: #111827;
-  --ink-secondary: #374151;
-  --ink-muted: #4b5563;
-  --ink-accent: #1d4ed8;
-  --ink-contract: #5b21b6;
-  --ink-owned: #065f46;
-  --ink-private: #92400e;
-  --border-subtle: #cbd5e1;
-  --border-control: #64748b;
-  --border-accent: #1d4ed8;
-  --border-contract: #c4b5fd;
-  --border-owned: #6ee7b7;
-  --border-private: #fcd34d;
-  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
 html,
 body,
 main,

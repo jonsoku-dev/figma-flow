@@ -1,0 +1,30 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_example_release_witness.py",
+      "case": "ExampleReleaseWitnessTests.test_review_design_preview_files_are_exact_generated_projections",
+      "testSha256": "7baf4a817c6f1629eb4a9968c3e79487eacf589a04cfa01bf2eea2c2e02354c2",
+      "authority": "examples/review-design/design.json#/screens",
+      "covers": [
+        "examples/review-design/README.md",
+        "examples/review-design/cards.md",
+        "examples/review-design/design.json",
+        "examples/review-design/preview/SCR-CARDS-LIST-styled.svg",
+        "examples/review-design/preview/SCR-CARDS-LIST-wireframe.svg",
+        "examples/review-design/preview/SCR-CARDS-REVIEW-styled.svg",
+        "examples/review-design/preview/SCR-CARDS-REVIEW-wireframe.svg",
+        "examples/review-design/preview/components.css",
+        "examples/review-design/preview/resolved.json",
+        "examples/review-design/preview/styled.html",
+        "examples/review-design/preview/tokens.css",
+        "examples/review-design/preview/wireframe.html",
+        "examples/review-design/product-graph.json"
+      ],
+      "assertion": "A fresh output directory is rendered and byte-compared to every packaged preview. The authored card brief and local product graph are checked, and graph structure is validated without claiming acceptance.",
+      "observed": "All preview files equal fresh generator output; product graph validates structurally; cards remain planning-only and README labels copy/layout as proposals."
+    }
+  ]
+}

@@ -14,6 +14,8 @@ Self-contained, publicly distributable Figma Design review and engineering hando
 
 `index.html`, `styles.css`, and `renderer.js` contain no duplicated semantic node IDs or domain copy; `renderer.js` reads `./graph.json` and `./manifest.json` at runtime to render the two single-collapsible handoff disclosures and live state/route relationships.
 
+`graph.json#/design_tokens` owns the shared visual token values. `styles.css` consumes those token names without embedded palette values, and the renderer projects the graph values onto the document root before rendering.
+
 ## Copyable CLI Guide
 
 Run all commands from the repository root and store runtime outputs in an external private directory outside Git:

@@ -1,0 +1,125 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "covers": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "test": "tests/test_graph_sync.py",
+      "case": "GraphSyncTests.test_native_18_to_24_import_keeps_alias_and_generates_web",
+      "testSha256": "3151bf55af06223d0147325c6a79e75de87977bf598bd75ad0f1c0e53818243e",
+      "assertion": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "observed": "The native-to-web fixture changed a primitive while preserving aliases, bound overrides, prevented stale sessions and exposed no write route in the preview."
+    },
+    {
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "covers": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "test": "tests/test_graph_design_system.py",
+      "case": "GraphDesignSystemTests.test_roundtrip_18_to_24_and_font_alias_updates",
+      "testSha256": "d288f4fcdba7fa271f5967170d52cc908701489ecbddd3cb36146b1eb690e51e",
+      "assertion": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "observed": "The native-to-web fixture changed a primitive while preserving aliases, bound overrides, prevented stale sessions and exposed no write route in the preview."
+    },
+    {
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "covers": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "test": "tests/test_figma_live_preview.py",
+      "case": "LivePreviewTests.test_native_instance_overrides_component_and_alias_scope",
+      "testSha256": "42440209d0f8f66dd1561275e604905f934b967689d44852828e6d55159b1a3d",
+      "assertion": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "observed": "The native-to-web fixture changed a primitive while preserving aliases, bound overrides, prevented stale sessions and exposed no write route in the preview."
+    },
+    {
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "covers": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "test": "tests/test_figma_live_preview.py",
+      "case": "LivePreviewTests.test_revision_pins_all_relative_resources_and_no_write_routes",
+      "testSha256": "42440209d0f8f66dd1561275e604905f934b967689d44852828e6d55159b1a3d",
+      "assertion": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "observed": "The native-to-web fixture changed a primitive while preserving aliases, bound overrides, prevented stale sessions and exposed no write route in the preview."
+    },
+    {
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "covers": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "test": "tests/test_figma_sync_session.py",
+      "case": "SessionTest.test_baseline_apply_restart_noop_and_chain",
+      "testSha256": "718fce4f78c6814c6053f7197cf770845671dbcff1741074c83f0ad5129dda32",
+      "assertion": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "observed": "The native-to-web fixture changed a primitive while preserving aliases, bound overrides, prevented stale sessions and exposed no write route in the preview."
+    },
+    {
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "covers": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "test": "tests/test_serve_figma_sync.py",
+      "case": "SyncHTTPTest.test_only_paired_page_and_capability_can_apply",
+      "testSha256": "5c1d154e795c0b4978b8c757953c0669cbc4d03abc41974a911d3d0376b06355",
+      "assertion": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "observed": "The native-to-web fixture changed a primitive while preserving aliases, bound overrides, prevented stale sessions and exposed no write route in the preview."
+    },
+    {
+      "authority": "skills/graph-ssot/SKILL.md#/sections/Change and reconcile",
+      "covers": [
+        "tools/figma_live_preview.html",
+        "tools/figma_live_preview.py",
+        "tools/figma_sync_session.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/serve_figma_sync.py",
+        "tools/sync_figma_tokens.py"
+      ],
+      "test": "tests/test_sync_figma_tokens.py",
+      "case": "SyncFigmaTokenTests.test_root_edit_keeps_semantic_aliases_and_exact_graph_consumers",
+      "testSha256": "06bec1f3d6fc401cd137f665fdc1beac9998fd490f509166074b97a1a3852551",
+      "assertion": "Only the graph owns the local aliases and scoped component roles; readback and web projection must agree on identity and revision.",
+      "observed": "The native-to-web fixture changed a primitive while preserving aliases, bound overrides, prevented stale sessions and exposed no write route in the preview."
+    }
+  ]
+}

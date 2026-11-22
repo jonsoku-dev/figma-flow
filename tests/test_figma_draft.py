@@ -131,10 +131,9 @@ class DraftReviewTests(unittest.TestCase):
         self.assertIn('class="primary" id="make"', html)
         self.assertIn('class="secondary" id="save" disabled', html)
         self.assertIn('aria-live="polite"', html)
-        self.assertIn('.figma-dark {', html)
-        self.assertIn('color-scheme: dark', html)
-        self.assertIn('background:var(--paper)', html)
-        self.assertIn('themeColors:true', (ROOT/'figma-bridge/direction_review.js').read_text())
+        self.assertRegex(html, r'\.figma-dark\s*\{[^}]*color-scheme:\s*dark')
+        self.assertRegex(html,r'background:\s*var\(--paper\)')
+        self.assertRegex((ROOT/'figma-bridge/direction_review.js').read_text(), r'themeColors:\s*true')
         harness = r"""
 const fs = require('fs'), vm = require('vm'), assert = require('assert');
 const ids = ['make','save','status','status-panel','status-title','status-body','status-details','workspace-locale'];
@@ -405,7 +404,15 @@ class CopiedPackageTests(unittest.TestCase):
     def test_installed_copy_needs_no_sibling_project(self):
         with tempfile.TemporaryDirectory()as folder:
             copied=Path(folder)/'plugin'
-            shutil.copytree(ROOT,copied,ignore=shutil.ignore_patterns('__pycache__','.git'))
+            if (ROOT / '.git').exists():
+                names = subprocess.check_output(['git','-C',str(ROOT),'ls-files','-co','--exclude-standard','-z'])
+                for name in names.decode().split('\0'):
+                    if name and (ROOT/name).is_file():
+                        (copied/name).parent.mkdir(parents=True,exist_ok=True)
+                        shutil.copyfile(ROOT/name,copied/name)
+            else:
+                shutil.copytree(ROOT,copied,ignore=shutil.ignore_patterns('__pycache__','.git','.figma-flow','.venv','node_modules'))
+            self.assertFalse((copied/'.figma-flow').exists(), 'Private workspaces must not be copied into an installed package')
             self.assertEqual([p.name for p in Path(folder).iterdir()],['plugin'])
             result=subprocess.run([sys.executable,str(copied/'tests/test_figma_draft.py'),'DraftReviewTests'],cwd=copied,check=False,capture_output=True,text=True)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)

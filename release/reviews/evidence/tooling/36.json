@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "vendor/skills/manifest.json#/skills",
+      "covers": [
+        "tools/skill_dependencies.py"
+      ],
+      "test": "tests/test_skill_dependencies.py",
+      "case": "SkillDependencyTests.test_plugin_paths_and_cli_work_after_relocation_without_home_or_writes",
+      "testSha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+      "assertion": "Shipped design skill sources are fixed at exact package bytes and retain usable relocatable entry points.",
+      "observed": "A relocated package resolved all declared files and refused a missing or modified source."
+    },
+    {
+      "authority": "vendor/skills/manifest.json#/skills",
+      "covers": [
+        "tools/skill_dependencies.py"
+      ],
+      "test": "tests/test_skill_dependencies.py",
+      "case": "SkillDependencyTests.test_missing_or_tampered_pinned_files_block",
+      "testSha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+      "assertion": "Shipped design skill sources are fixed at exact package bytes and retain usable relocatable entry points.",
+      "observed": "A relocated package resolved all declared files and refused a missing or modified source."
+    }
+  ]
+}

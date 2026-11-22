@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_regression_program_apps.py",
+      "case": "RegressionAppTests.test_mock_vectors_match_the_server",
+      "testSha256": "6c4c72d202f69273ac7261060b735420d42b6d5973241276e03084a7978b915d",
+      "authority": "examples/regression-program/server/vectors.json#/0",
+      "covers": [
+        "examples/regression-program/server/mock_api.py",
+        "examples/regression-program/server/serve.py",
+        "examples/regression-program/server/vectors.json"
+      ],
+      "assertion": "All API functions and the HTTP serving path are checked against the vector inventory.",
+      "observed": "All nine vector cases match handler status/body; live mock save returns the preserved draft."
+    }
+  ]
+}

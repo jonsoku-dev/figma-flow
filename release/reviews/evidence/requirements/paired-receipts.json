@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "b6a1d3a3475ab09d284093e81fe6da3be7a8920423eb77345147302d20e487f4",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_spec_paired_receipts.py",
+      "case": "PairedReceiptTests.test_rejects_mismatched_real_receipts_even_when_both_targets_exist",
+      "testSha256": "3fcbb0b46580674f1a9bfc31a8adbfad35476518913d2f649a081b7da1ec5873",
+      "authority": "specs/responsive-web/graph.json#/edges",
+      "covers": [
+        "specs/responsive-web/graph.json"
+      ],
+      "assertion": "Each verified screen and Figma frame points to one shared observation with the measured frame dimensions and the same native receipt.",
+      "observed": "The archive graph validates. Crossed observations, changed native receipts, mismatched geometry and omitted evidence were rejected."
+    },
+    {
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_registered_source_and_acceptance_declarations_remain_closed",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "authority": "specs/responsive-web/graph.json#/edges",
+      "covers": [
+        "specs/responsive-web/graph.json"
+      ],
+      "assertion": "Each verified screen and Figma frame points to one shared observation with the measured frame dimensions and the same native receipt.",
+      "observed": "The archive graph validates. Crossed observations, changed native receipts, mismatched geometry and omitted evidence were rejected."
+    }
+  ]
+}

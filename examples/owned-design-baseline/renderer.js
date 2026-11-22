@@ -102,6 +102,9 @@ async function mountBaseline() {
     throw new Error('Failed to load canonical graph.json or manifest.json');
   }
   const [graph, manifest] = await Promise.all([graphRes.json(), manifestRes.json()]);
+  for (const [name, value] of Object.entries(graph.design_tokens)) {
+    document.documentElement.style.setProperty(`--${name}`, value);
+  }
   const byId = new Map(graph.nodes.map(node => [node.id, node]));
   const screenNode = graph.nodes.find(node => node.type === 'screen');
   const requirementNodes = graph.nodes.filter(node => node.type === 'requirement');

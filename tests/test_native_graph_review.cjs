@@ -87,3 +87,17 @@ test('a page switch during async font preflight leaves the selected page untouch
   await assert.rejects(()=>h.run(graphPlan(),'apply'),/Wrong native graph review file or page/);
   assert.equal(h.page.children.length,0);
 });
+
+test('graph-owned card sizing and paint reach Figma and an old appearance stamp requests refresh',async()=>{
+  const h=world(), plan=graphPlan(), config=require('../figma-bridge/presentation.json').modules.graphReview.fields;
+  await h.run(plan,'apply');
+  const board=h.page.children.find(node=>node.getPluginData('figmaFlow.graphReview.owner'));
+  const main=board.findAll(node=>node.type==='COMPONENT').find(node=>node.name==='Reusable card · requirement');
+  assert.equal(main.width,config.card.width);
+  assert.deepEqual(JSON.parse(JSON.stringify(main.fills[0].color)),config.groups.requirement.fill);
+  board.setPluginData('figmaFlow.graphReview.appearance','prior-version');
+  assert.equal((await h.run(plan,'read')).graph_review.status,'stale');
+  const renewed=await h.run(plan,'apply');
+  assert.equal(renewed.graph_review.unchanged,false);
+  assert.equal((await h.run(plan,'read')).graph_review.status,'current');
+});

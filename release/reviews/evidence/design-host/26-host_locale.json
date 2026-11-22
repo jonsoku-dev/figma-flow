@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_host.cjs",
+      "case": "home history marks stale revisions, never treats downloads as save acknowledgements, and changes locale instantly",
+      "testSha256": "c9b3e1a65390c780a9da98bf74a78bbad0f9d713e595b34e06657cbcea7a8174",
+      "authority": "specs/workspace-activity/graph.json#/nodes/20",
+      "covers": [
+        "figma-bridge/audit_log.js",
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "home history marks stale revisions, never treats downloads as save acknowledgements, and changes locale instantly",
+      "observed": "The live home view marks stale history accurately and changes catalog locale without replacing the current task state."
+    }
+  ]
+}

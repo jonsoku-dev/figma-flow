@@ -1,0 +1,102 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/api_priority.py",
+        "tools/design_api_inspect.py",
+        "tools/native_api_fixture_project.py",
+        "tools/native_api_probe.py",
+        "tools/native_value_paths.py",
+        "tools/review_api_coverage.py"
+      ],
+      "test": "tests/test_api_priority.py",
+      "case": "ApiPriorityTest.test_receipt_overlays_report_baseline_and_current_exact_key_union",
+      "testSha256": "f616c7c27299ce26bf7f79176de82b641f3e3123e51875b0689904330008f1b8",
+      "assertion": "API routing retains the exact receiver/member identities, verified scope and separate account/editor prerequisites. Generating a fixture does not count as a successful native read.",
+      "observed": "Fresh linked receipts changed only their exact member keys. Unsupported types, wrong pages and unpinned declarations were refused."
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/api_priority.py",
+        "tools/design_api_inspect.py",
+        "tools/native_api_fixture_project.py",
+        "tools/native_api_probe.py",
+        "tools/native_value_paths.py",
+        "tools/review_api_coverage.py"
+      ],
+      "test": "tests/test_api_priority.py",
+      "case": "ApiPriorityTest.test_unlinked_observed_member_node_does_not_count",
+      "testSha256": "f616c7c27299ce26bf7f79176de82b641f3e3123e51875b0689904330008f1b8",
+      "assertion": "API routing retains the exact receiver/member identities, verified scope and separate account/editor prerequisites. Generating a fixture does not count as a successful native read.",
+      "observed": "Fresh linked receipts changed only their exact member keys. Unsupported types, wrong pages and unpinned declarations were refused."
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/api_priority.py",
+        "tools/design_api_inspect.py",
+        "tools/native_api_fixture_project.py",
+        "tools/native_api_probe.py",
+        "tools/native_value_paths.py",
+        "tools/review_api_coverage.py"
+      ],
+      "test": "tests/test_native_api_probe.py",
+      "case": "NativeApiProbeTest.test_audit_candidates_are_bounded_paged_and_receiver_specific",
+      "testSha256": "c314400048767fca0f5004c1823eeb3f9219756792ee1aa1b1b1c555b586b77c",
+      "assertion": "API routing retains the exact receiver/member identities, verified scope and separate account/editor prerequisites. Generating a fixture does not count as a successful native read.",
+      "observed": "Fresh linked receipts changed only their exact member keys. Unsupported types, wrong pages and unpinned declarations were refused."
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/api_priority.py",
+        "tools/design_api_inspect.py",
+        "tools/native_api_fixture_project.py",
+        "tools/native_api_probe.py",
+        "tools/native_value_paths.py",
+        "tools/review_api_coverage.py"
+      ],
+      "test": "tests/test_native_value_paths.py",
+      "case": "NativeValuePathTests.test_catalog_rejects_an_unpinned_member_and_unknown_union_tag",
+      "testSha256": "0cbc57f330c1759f42ad1876bcc40726e7e320dd4ac1d61b10101b6f6131f0cf",
+      "assertion": "API routing retains the exact receiver/member identities, verified scope and separate account/editor prerequisites. Generating a fixture does not count as a successful native read.",
+      "observed": "Fresh linked receipts changed only their exact member keys. Unsupported types, wrong pages and unpinned declarations were refused."
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/api_priority.py",
+        "tools/design_api_inspect.py",
+        "tools/native_api_fixture_project.py",
+        "tools/native_api_probe.py",
+        "tools/native_value_paths.py",
+        "tools/review_api_coverage.py"
+      ],
+      "test": "tests/test_design_service_inspection.py",
+      "case": "ServiceInspectionTest.test_wrong_page_is_rejected_before_touching_the_document",
+      "testSha256": "882593452d4951ac73109a779cbd31d1ecad79d1511d604b260b6444f6316691",
+      "assertion": "API routing retains the exact receiver/member identities, verified scope and separate account/editor prerequisites. Generating a fixture does not count as a successful native read.",
+      "observed": "Fresh linked receipts changed only their exact member keys. Unsupported types, wrong pages and unpinned declarations were refused."
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes/10",
+      "covers": [
+        "tools/api_priority.py",
+        "tools/design_api_inspect.py",
+        "tools/native_api_fixture_project.py",
+        "tools/native_api_probe.py",
+        "tools/native_value_paths.py",
+        "tools/review_api_coverage.py"
+      ],
+      "test": "tests/test_native_api_fixture_project.py",
+      "case": "NativeApiFixtureProjectTest.test_generator_writes_a_design_only_private_offline_plugin",
+      "testSha256": "ba74f3b80f3e27588b6d8d9932cce25c4bf4ce6d14302a27f0172b73effcdb4d",
+      "assertion": "API routing retains the exact receiver/member identities, verified scope and separate account/editor prerequisites. Generating a fixture does not count as a successful native read.",
+      "observed": "Fresh linked receipts changed only their exact member keys. Unsupported types, wrong pages and unpinned declarations were refused."
+    }
+  ]
+}

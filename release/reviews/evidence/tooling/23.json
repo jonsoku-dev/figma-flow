@@ -1,0 +1,19 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "tools/report-presentation.json#/surfaces/contentSkin",
+      "covers": [
+        "tools/browser_probes.js",
+        "tools/content-skin.css",
+        "tools/content_skin.js"
+      ],
+      "test": "tests/test_content_skin_semantics.cjs",
+      "case": "the generated skin follows its label, measured caps and declared heading relationship",
+      "testSha256": "66433a776d1fbd78cf20137ef3fa083998b17aca8e812239db8446499c79ecde",
+      "assertion": "Explicit image caps and real label content control the skin size. Retired GUI helper entry points remain closed.",
+      "observed": "A Chromium button grew with its label; the heading kept its semantic target and a caller override displaced only the default padding. Retired helper calls were refused."
+    }
+  ]
+}

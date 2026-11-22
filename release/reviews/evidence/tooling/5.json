@@ -1,0 +1,54 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "covers": [
+        "tools/change_journal.py",
+        "tools/figma_alignment.py",
+        "tools/figma_control.py",
+        "tools/figma_follow.py",
+        "tools/relay_limits.py",
+        "tools/relay_view.py"
+      ],
+      "test": "tests/test_relay_limit_authority.py",
+      "case": "RelayLimitAuthorityTests.test_mutated_read_budget_reaches_native_codex_follower_and_translations",
+      "testSha256": "e950a9cbf50f1d4f5310cf8c344db9300401ac09535cf0502565e19dd1d68e3f",
+      "assertion": "Viewer and alignment reads preserve the exact Figma target and the selection cap enforced across both hosts. The follower reports observed coverage and omitted events.",
+      "observed": "At a changed cap the host and Python rejected excess IDs, clipped selection and reported omission; the alignment reader preserved missing status and separate page streams."
+    },
+    {
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "covers": [
+        "tools/change_journal.py",
+        "tools/figma_alignment.py",
+        "tools/figma_control.py",
+        "tools/figma_follow.py",
+        "tools/relay_limits.py",
+        "tools/relay_view.py"
+      ],
+      "test": "tests/test_figma_alignment.py",
+      "case": "FigmaAlignmentTests.test_explicit_absolute_edges_and_missing_statuses",
+      "testSha256": "5c442a73e0772733cb4f70e2a4a989f7b2d717dd2b02ed05ef0d58bf45c61708",
+      "assertion": "Viewer and alignment reads preserve the exact Figma target and the selection cap enforced across both hosts. The follower reports observed coverage and omitted events.",
+      "observed": "At a changed cap the host and Python rejected excess IDs, clipped selection and reported omission; the alignment reader preserved missing status and separate page streams."
+    },
+    {
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "covers": [
+        "tools/change_journal.py",
+        "tools/figma_alignment.py",
+        "tools/figma_control.py",
+        "tools/figma_follow.py",
+        "tools/relay_limits.py",
+        "tools/relay_view.py"
+      ],
+      "test": "tests/test_figma_control.py",
+      "case": "ControlTests.test_following_two_open_pages_preserves_both_live_scopes",
+      "testSha256": "166d890d59266b88d3b79749d6cf1ce7101ca3857bb30cf2ef203b67d77bdc34",
+      "assertion": "Viewer and alignment reads preserve the exact Figma target and the selection cap enforced across both hosts. The follower reports observed coverage and omitted events.",
+      "observed": "At a changed cap the host and Python rejected excess IDs, clipped selection and reported omission; the alignment reader preserved missing status and separate page streams."
+    }
+  ]
+}

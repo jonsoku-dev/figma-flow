@@ -1,0 +1,19 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-profile/native-windows.json#/windows",
+      "covers": [
+        "tools/graph_sync.py",
+        "tools/native_windows.py",
+        "tools/workspace_recipes.py"
+      ],
+      "test": "tests/test_native_window_authority.py",
+      "case": "NativeWindowTests.test_all_showui_calls_receive_the_edited_window_dimensions",
+      "testSha256": "048a7de5d87556b1e6507d311965923e994fe7ca483c859a236df4e434ea015d",
+      "assertion": "The native window geometry and each registered publication site follow the approved Design window contract.",
+      "observed": "Changed dimensions for every native presentation site and observed the exact argument passed to showUI, including both registered home branches."
+    }
+  ]
+}

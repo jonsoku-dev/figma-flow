@@ -20,10 +20,26 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
           node-version-file: .nvmrc
-      - name: Prepare panel build dependencies for post-0.x archive verification
+      - name: Prepare dependencies for the post-0.x archive witnesses
         run: |
           if node -e "process.exit(Number(require('./plugin.json').version.split('.')[0]) > 0 ? 0 : 1)"; then
             npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
+            python -m pip install -r requirements-optional.txt -r library/figma-rest/requirements.txt
+            python -m pip install --require-hashes --only-binary=:all: -r apps/little-hands/requirements.lock
+            npm install --prefix "$RUNNER_TEMP/figma-api-tools" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@5.9.3
+            echo "FIGMA_API_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/typescript.js" >> "$GITHUB_ENV"
+            echo "FIGMA_SDK_TEST_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/tsc.js" >> "$GITHUB_ENV"
+            mkdir -p "$RUNNER_TEMP/figma-flow-codex"
+            target=x86_64-unknown-linux-musl
+            archive="$RUNNER_TEMP/figma-flow-codex/codex.tar.gz"
+            curl --fail --location --retry 3 --output "$archive" "https://github.com/openai/codex/releases/download/rust-v0.165.0/codex-${target}.tar.gz"
+            echo "be635d3486a5bd060d0fff582ae6d30160280c31344dd85719707fa920e187f0  $archive" | sha256sum --check -
+            tar -xzf "$archive" -C "$RUNNER_TEMP/figma-flow-codex" "codex-${target}"
+            mv "$RUNNER_TEMP/figma-flow-codex/codex-${target}" "$RUNNER_TEMP/figma-flow-codex/codex"
+            echo "$RUNNER_TEMP/figma-flow-codex" >> "$GITHUB_PATH"
+            pg_bin="$(pg_config --bindir)"
+            test -x "$pg_bin/initdb"
+            echo "FIGMA_FLOW_PG_BIN=$pg_bin" >> "$GITHUB_ENV"
           fi
       - name: Verify manifest projection and release gate behavior
         run: |

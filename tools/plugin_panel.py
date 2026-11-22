@@ -144,16 +144,42 @@ def display_name():
     return name
 
 
+def standalone_view_css(view, bridge):
+    data = json.loads((bridge / 'standalone-views.json').read_bytes())
+    if data['schema'] != 'figma-flow-standalone-style-v1':
+        raise ValueError('Unsupported standalone view style contract')
+    style = data['views'][view]
+    tokens = {t['id']:t for t in json.loads((bridge.parent / 'library/panel-design/tokens.json').read_bytes())['tokens']}
+    def value(match):
+        kind, name = match.groups()
+        if kind == 'local':
+            return style['values'][name]
+        token = tokens[name]
+        if kind == 'media':
+            if token['kind'] != 'breakpoint' or token['light'] != token['dark']:
+                raise ValueError('Standalone view requires one theme-independent breakpoint')
+            return token['light']
+        return 'var(--' + name + ')'
+    return re.sub(r'\{\{(local|token|media):([a-zA-Z0-9_-]+)\}\}',value,''.join(style['css']))
+
+
 def render_panel(html):
     marker = '/* FIGMA_FLOW_PANEL_CSS */'
     if html.count(marker) != 1:
         raise ValueError('Figma panel requires exactly one shared stylesheet marker')
-    html = html.replace(marker, (BRIDGE / 'panel.css').read_text(encoding='utf-8'))
+    html = html.replace(marker, (BRIDGE / 'assets/panel-shell.css').read_text(encoding='utf-8'))
     view = re.search(r'<html\b[^>]*\bdata-flow-view=["\']([^"\']+)["\']', html, re.I)
     if not view:
         return html
     if view[1] not in VIEWS:
         raise ValueError('Unknown Figma panel view')
+    if '/* FLOW_STANDALONE_VIEW */' in html:
+        html = html.replace('/* FLOW_STANDALONE_VIEW */', standalone_view_css(view[1], BRIDGE))
+    if view[1] == 'chat':
+        limits = json.loads((BRIDGE / 'chat-input.json').read_bytes())
+        html = (html.replace('__FLOW_REQUEST_ROWS__',str(limits['message']['rows']))
+                    .replace('__FLOW_REQUEST_MAX__',str(limits['message']['maxCharacters']))
+                    .replace('__FLOW_PREVIEW_ROWS__',str(limits['preview']['legacyRows'])))
     from panel_components import render_components
     html = render_components(html, view[1])
     messages = json.dumps(panel_messages(view[1]), ensure_ascii=True, separators=(',', ':')).replace('<', r'\u003c')

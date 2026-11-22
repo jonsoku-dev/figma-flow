@@ -1,0 +1,62 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/component-families.json#/families",
+      "covers": [
+        "tools/component_family_contract.py",
+        "tools/design_system.py",
+        "tools/family_provision.py",
+        "tools/figma_bridge.py"
+      ],
+      "test": "tests/test_family_authority.py",
+      "case": "FamilyAuthorityTests.test_graph_edits_reach_family_compilation_and_native_layout",
+      "testSha256": "9133baca5af0c1ac9b0cb0cf05bd1597ade7f916113c2603548e4f4fd90ae5db",
+      "assertion": "The component family vocabulary, fallback token graph, native dimensions and supplied styling resolve from one contract; explicit authored input takes precedence.",
+      "observed": "An altered native workbench and component size reached the native mock; the graph supplied the compiled variant accent and authored changes propagated into CSS."
+    },
+    {
+      "authority": "library/component-families.json#/families",
+      "covers": [
+        "tools/component_family_contract.py",
+        "tools/design_system.py",
+        "tools/family_provision.py",
+        "tools/figma_bridge.py"
+      ],
+      "test": "tests/test_component_families.py",
+      "case": "ComponentFamiliesCompileTests.test_compile_graph_component_families_from_design_and_graph",
+      "testSha256": "5693c365782115df08d8a8d3fcceecabb0cbcd7da5c57e1b1812ee9a6ade38e1",
+      "assertion": "The component family vocabulary, fallback token graph, native dimensions and supplied styling resolve from one contract; explicit authored input takes precedence.",
+      "observed": "An altered native workbench and component size reached the native mock; the graph supplied the compiled variant accent and authored changes propagated into CSS."
+    },
+    {
+      "authority": "library/component-families.json#/families",
+      "covers": [
+        "tools/component_family_contract.py",
+        "tools/design_system.py",
+        "tools/family_provision.py",
+        "tools/figma_bridge.py"
+      ],
+      "test": "tests/test_family_provision.py",
+      "case": "FamilyProvisionPlanTests.test_cli_compiles_linked_graph_and_workspace_bundle_with_pinned_inputs",
+      "testSha256": "a371d10c610e026398c9b165d70b9cbcd9f3ecf20490ee3c32239d480852d882",
+      "assertion": "The component family vocabulary, fallback token graph, native dimensions and supplied styling resolve from one contract; explicit authored input takes precedence.",
+      "observed": "An altered native workbench and component size reached the native mock; the graph supplied the compiled variant accent and authored changes propagated into CSS."
+    },
+    {
+      "authority": "library/component-families.json#/families",
+      "covers": [
+        "tools/component_family_contract.py",
+        "tools/design_system.py",
+        "tools/family_provision.py",
+        "tools/figma_bridge.py"
+      ],
+      "test": "tests/test_design_system.py",
+      "case": "DesignSystemTests.test_semantic_change_reaches_css_and_previews",
+      "testSha256": "b6f055468d3bf26b67c9131de782d8a27e181b62c9a9b2f204041ef33e39d98b",
+      "assertion": "The component family vocabulary, fallback token graph, native dimensions and supplied styling resolve from one contract; explicit authored input takes precedence.",
+      "observed": "An altered native workbench and component size reached the native mock; the graph supplied the compiled variant accent and authored changes propagated into CSS."
+    }
+  ]
+}

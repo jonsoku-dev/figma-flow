@@ -1,76 +1,24 @@
-export const OPERATION_DETAIL_SCHEMA = 'figma-flow-operation-detail-v1';
-export const MAX_DIFF_ROWS = 200;
-export const MAX_CONFLICT_ROWS = 50;
+import { operationDetailContract, operationDetailPanelFields } from './panelContracts.mjs';
 
-export const DETAIL_PROTOCOL = Object.freeze({
-  requestType: 'workspace-history-detail',
-  resultType: 'workspace-history-detail-result',
-  scopeChangedType: 'workspace-scope-changed',
-});
+export const OPERATION_DETAIL_SCHEMA = operationDetailContract.schema;
+export const MAX_DIFF_ROWS = operationDetailContract.limits.diffRows;
+export const MAX_CONFLICT_ROWS = operationDetailContract.limits.conflictRows;
 
-const ALLOWED_RESULT_STATUSES = new Set(['ok', 'unavailable', 'scope-changed', 'error']);
-const ALLOWED_CLASSIFICATIONS = new Set(['recorded', 'legacy', 'unknown']);
-const ALLOWED_OPERATION_STATES = new Set(['ok', 'pending', 'claimed', 'error', 'uncertain', 'expired']);
-const ALLOWED_PHASES = new Set([
-  'queued',
-  'claimed',
-  'native-started',
-  'result-received',
-  'reconciled',
-  'uncertain',
-  'unknown',
-]);
-const ALLOWED_RELATION_TYPES = new Set(['declared-dependency', 'recovery-of', 'artifact-input']);
-const ALLOWED_RELATION_DIRECTIONS = Object.freeze({
-  'declared-dependency': new Set(['predecessor', 'successor']),
-  'recovery-of': new Set(['recovers', 'recovered-by']),
-});
-const ALLOWED_REVISION_BINDINGS = new Set(['current', 'pinned-historical', 'retired', 'orphan', 'unknown']);
-const ALLOWED_DIFF_STATUSES = new Set(['available', 'empty', 'unavailable']);
-const ALLOWED_DIFF_KINDS = new Set(['changed', 'added', 'removed', 'type-changed']);
-const ALLOWED_RAW_DESIGN_FIELDS = new Set([
-  'value',
-  'backgroundColor',
-  'color',
-  'borderColor',
-  'fill',
-  'stroke',
-  'fontSize',
-  'fontFamily',
-  'fontWeight',
-  'lineHeight',
-  'letterSpacing',
-  'paddingTop',
-  'paddingRight',
-  'paddingBottom',
-  'paddingLeft',
-  'gap',
-  'itemSpacing',
-  'cornerRadius',
-  'borderRadius',
-  'opacity',
-  'width',
-  'height',
-  'visible',
-  'boolean',
-  'variant',
-  'instanceSwap',
-]);
-const TEXT_CONTENT_FIELDS = new Set([
-  'characters',
-  'text',
-  'rawText',
-  'textContent',
-  'label',
-  'title',
-  'name',
-  'placeholder',
-  'copy',
-  'content',
-  'caption',
-  'description',
-  'alt',
-]);
+export const DETAIL_PROTOCOL = Object.freeze({ ...operationDetailContract.protocol });
+
+const ALLOWED_RESULT_STATUSES = new Set(operationDetailContract.resultStatuses);
+const ALLOWED_CLASSIFICATIONS = new Set(operationDetailContract.classifications);
+const ALLOWED_OPERATION_STATES = new Set(operationDetailContract.operationStates);
+const ALLOWED_PHASES = new Set([...operationDetailContract.nativePhases, ...operationDetailContract.displayPhaseFallbacks]);
+const ALLOWED_RELATION_TYPES = new Set(operationDetailContract.relationTypes);
+const ALLOWED_RELATION_DIRECTIONS = Object.freeze(Object.fromEntries(
+  Object.entries(operationDetailContract.relationDirections).map(([type, directions]) => [type, new Set(directions)]),
+));
+const ALLOWED_REVISION_BINDINGS = new Set(operationDetailContract.revisionBindings);
+const ALLOWED_DIFF_STATUSES = new Set(operationDetailContract.diffStatuses);
+const ALLOWED_DIFF_KINDS = new Set(operationDetailContract.diffKinds);
+const ALLOWED_RAW_DESIGN_FIELDS = new Set(operationDetailPanelFields.design);
+const TEXT_CONTENT_FIELDS = new Set(operationDetailPanelFields.text);
 
 const SECRET_QUERY =
   /([?&](?:access_token|refresh_token|id_token|sync_token|local_sync_token|chat_token|token|api_key|apikey|key|secret|password|capability|bearer|auth)=)[^&#\s"'<>]*/gi;
@@ -446,7 +394,9 @@ export function normalizeDetailDto(rawDetail, currentScope = null, tasks = [], r
   const diff = normalizeDiff(rawDetail?.diff, classification, Boolean(rawDetail?.truncated));
   const truncated = Boolean(rawDetail?.truncated || diff.truncated);
   const scopeNotice =
-    rawDetail?.scopeNotice === 'read-only-truncated-256kib' ? 'read-only-truncated-256kib' : 'read-only-exact-scope';
+    rawDetail?.scopeNotice === operationDetailContract.scopeNotices.truncated
+      ? operationDetailContract.scopeNotices.truncated
+      : operationDetailContract.scopeNotices.exact;
 
   return {
     schema: OPERATION_DETAIL_SCHEMA,

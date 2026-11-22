@@ -1,12 +1,12 @@
 # 외부 SVG 로고 필터 실측 · 0.32.2
 
-[편집 가능한 웹 그래프](../specs/editable-web/graph.json) · [웹 캡처 가이드](web-design-capture.md)
+[편집 가능한 웹 그래프](../specs/editable-web/graph.json) · [웹 캡처 가이드](web-design-capture.md) · [비식별 과거 관측](../specs/editable-web/historical-visual-observations.json)
 
 ## 측정 조건
 
 Devtool 모바일 화면을 390 × 844 CSS px, DPR 1에서 Chromium으로 측정했다. 그래프 `evidence-0322-devtool-stable-logo`의 화면 `WEB-devtool-stable-logo`에는 외부 SVG 로고 6개가 있다. 브라우저의 계산된 스타일은 모두 `brightness(0) grayscale(1) invert(1)`과 `opacity: 0.3`이었다.
 
-각 브라우저 관측 상자에서 RGB 채널 최댓값과 최솟값의 차이가 40을 넘는 픽셀 수를 셌다. 이 값은 강한 색 성분이 남았는지 보여 준다. 전체 화면의 픽셀 일치를 뜻하지는 않는다.
+각 브라우저 관측 상자에서 RGB 채널 최댓값과 최솟값의 차이가 40을 넘는 픽셀 수를 셌다. 이 값은 강한 색 성분이 남았는지 보여 준다. 전체 화면의 픽셀 일치를 뜻하지는 않는다. 원본 browser/Figma 스크린샷은 private ignored evidence에만 남고 portable package에는 포함하지 않는다. 비식별 집계와 readback digest는 연결한 관측 JSON에서 확인할 수 있다.
 
 | 로고 | Figma `VECTOR` 하위 노드 | 브라우저 색 픽셀 | 0.32.1 첫 적용 | 0.32.2 첫 적용 |
 | --- | ---: | ---: | ---: | ---: |
@@ -22,7 +22,7 @@ Devtool 모바일 화면을 390 × 844 CSS px, DPR 1에서 Chromium으로 측정
 
 이 6개 SVG에는 alpha 색 값이 없었다. 별도 회귀 테스트는 alpha를 포함한 색과 SVG 그룹 opacity가 보존되는지 확인한다. 캡처 그래프는 `<img>` opacity `0.3`을 기록하고 native import는 그 값을 벡터 루트에 할당한다. Figma Design 속성 검사에서 Google 로고 `el-38`의 불투명도는 30%로 읽혔다. 나머지 다섯 로고의 값은 그래프와 픽셀 측정으로 확인했다. 필터 캡처, alpha 보존, 벡터 opacity, 제한된 필터 체인은 [`test_web_design_svg_capture.cjs`](../tests/test_web_design_svg_capture.cjs), [`test_web_design_svg_filter.py`](../tests/test_web_design_svg_filter.py), [`test_web_design_svg_root_opacity.cjs`](../tests/test_web_design_svg_root_opacity.cjs), [`test_web_design_svg_filter_limits.py`](../tests/test_web_design_svg_filter_limits.py)에서 확인한다.
 
-Google 로고의 벡터 루트는 별도 Chrome에서 같은 네이티브 노드 ID로 연 뒤 Figma 속성 패널의 불투명도 30%를 직접 확인했다.
+Google 로고의 벡터 루트는 별도 Chrome에서 같은 네이티브 노드 ID로 연 뒤 Figma 속성 패널의 불투명도 30%를 직접 확인했다. 해당 속성 패널 원본 스크린샷은 배포본에 포함하지 않으며, 관측 JSON에서는 이 값을 screenshot-backed public assertion과 구분해 기록한다.
 
 ## 네이티브 구성 및 한도
 

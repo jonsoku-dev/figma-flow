@@ -1,6 +1,6 @@
 # RD-01 설계서 · 재사용 컴포넌트와 편집 속성
 
-상태는 0.27 구현 후보의 검증 스냅샷이다. RD-01 AC 5개는 명시된 fixture/runtime 범위에서 통과했으며 모든 REQ의 양성 경로 완료를 뜻하지 않는다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보의 검증 스냅샷이다. RD-01 AC 5개는 명시된 fixture/runtime 범위에서 통과했으며 모든 REQ의 양성 경로 완료를 뜻하지 않는다. 조건별 인수 결과는 [최종 인수 현황](../FINAL_ACCEPTANCE.md)에서 확인한다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 소유 코드와 호출 경로
 

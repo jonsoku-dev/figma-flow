@@ -1,48 +1,48 @@
 .view-chat .chat-destination {
   display: block;
   font:
-    11px/1.6 ui-monospace,
+    var(--dimension-11px)/var(--number-1p6) ui-monospace,
     monospace;
   overflow-wrap: anywhere;
 }
 .view-chat .choice {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: var(--dimension-8px);
 }
 .view-chat .choice input {
   flex: none;
 }
 .view-chat .selection-card {
-  margin-top: 16px;
-  padding-block: 14px;
-  border-block: 1px solid var(--line);
+  margin-top: var(--dimension-16px);
+  padding-block: var(--dimension-14px);
+  border-block: var(--dimension-1px) solid var(--line);
 }
 .view-chat #chat-selection-title {
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-size: 12px;
+  gap: var(--dimension-7px);
+  font-size: var(--dimension-12px);
   color: var(--muted);
 }
 .view-chat .chat-selection-count {
   display: block;
-  font-size: 24px;
+  font-size: var(--dimension-24px);
   font-variant-numeric: tabular-nums;
 }
 .view-chat .chat-preview,
 .view-chat .chat-diagnostics {
   font:
-    11px/1.6 ui-monospace,
+    var(--dimension-11px)/var(--number-1p6) ui-monospace,
     monospace;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-@media (max-width: 340px) {
+@media (max-width: __PANEL_TOKEN_breakpoint-340px__) {
   .view-chat .actions {
     flex-wrap: wrap;
   }
   .view-chat .actions button {
-    flex: 1 1 100%;
+    flex: var(--number-1) var(--number-1) var(--percentage-100);
   }
 }

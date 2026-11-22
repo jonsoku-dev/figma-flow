@@ -1,0 +1,307 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "panel",
+  "fingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "complete",
+  "openFindings": [],
+  "bindings": [
+    {
+      "authority": "library/panel-design/tokens.json#/tokens",
+      "reason": "Every authored panel stylesheet resolves dimensions and colors through graph-projected CSS tokens.",
+      "files": [
+        "panel-ui/src/styles/base.css",
+        "panel-ui/src/styles/chat.css",
+        "panel-ui/src/styles/components.css",
+        "panel-ui/src/styles/graph.css",
+        "panel-ui/src/styles/import.css",
+        "panel-ui/src/styles/index.css",
+        "panel-ui/src/styles/panel-shell.css",
+        "panel-ui/src/styles/relay.css",
+        "panel-ui/src/styles/review.css",
+        "panel-ui/src/styles/tokens.css",
+        "panel-ui/src/styles/workspace.css"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/01-css.json",
+          "sha256": "92e4546870f63067a295b1dcc8b571fab5bc20e064de6f7ee59a987fb13f8ee3"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/tokens.json#/tokens",
+      "reason": "The token CSS generator and checked projection are coupled to the design token graph.",
+      "files": [
+        "panel-ui/build-tokens.mjs",
+        "panel-ui/src/styles/tokens.css"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/02-mutation.json",
+          "sha256": "adf155fc865a14ae69df9482b55535a5b340e67405382ae56f7e0245109d2af5"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/tokens.json#/surfaces/0/metrics",
+      "reason": "Preview thresholds, dependency SVG geometry, icon dimensions and textarea rows are read from the workbench metric map.",
+      "files": [
+        "panel-ui/src/CarouselPresentLink.jsx",
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/DiagnosticExport.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/components.jsx"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/03-metrics.json",
+          "sha256": "2a6feb79dfeda3a9f92d0f8b2f710a0796ead23c6f11183fb0a47422d557bb27"
+        },
+        {
+          "path": "release/reviews/evidence/panel/03-browser.json",
+          "sha256": "922c6dba098c0bd8f9628da7ece34db6155ab832932b64ffdb5255312e382697"
+        }
+      ]
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes/20",
+      "reason": "Activity counts, exclusions, progress states and recommendation phases come from the workspace activity contract.",
+      "files": [
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.mjs",
+        "panel-ui/src/workspaceRecommendation.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/04-metrics.json",
+          "sha256": "7da179faa4fe1bdeab09b54eda512693bfcb618612294b8a8577bf0576493898"
+        },
+        {
+          "path": "release/reviews/evidence/panel/04-domain.json",
+          "sha256": "aaa27cf11ea8a13742000bffba32b3626d1648833bf1cf60cc8c4373c92d9eb6"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes/2",
+      "reason": "Operation detail protocol, enum sets, field policies, limits and reason codes are projected from the shared contract node.",
+      "files": [
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/operationDetail.mjs",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/05-contracts.json",
+          "sha256": "2b18c8a1e0f681fed2b5ef29686040b3b0e9d4d78380f833d3fb450181cfde00"
+        },
+        {
+          "path": "release/reviews/evidence/panel/05-domain.json",
+          "sha256": "814c41ed83a9941c06ce7a6608f0808cd238357c015baada34533e73bace43aa"
+        },
+        {
+          "path": "release/reviews/evidence/panel/05-fresh.json",
+          "sha256": "e666e8bf24b6085d345d1dc571f5e5f8f45721276a099998e218951bfe053a40"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes/0",
+      "reason": "Dependency artifact names, relation and directions are owned by the shared contract node.",
+      "files": [
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/dependencyView.mjs",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/06-contracts.json",
+          "sha256": "a0c4db3496df7798d9c5124600676a67ffba9877f1469ad56ffda5f095beca61"
+        },
+        {
+          "path": "release/reviews/evidence/panel/06-browser.json",
+          "sha256": "6f78703e27f953d6c62ee3489ffc7945e25fe112d4406a3e7257bdff78670074"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes/1",
+      "reason": "Asset inventory status values and severity groups are owned by the shared contract node.",
+      "files": [
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/assetInventory.mjs",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/07-contracts.json",
+          "sha256": "602009ccf9b7d16f8260f3b3ef4760ea98aaa670b2332f8047cf9afd3a872585"
+        },
+        {
+          "path": "release/reviews/evidence/panel/07-domain.json",
+          "sha256": "651ff52fd5c4e72c71023beca4cac222b2c816b49ff3494e93d70d1daba9469f"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes/3",
+      "reason": "Stable chat error codes map to existing locale catalog keys; old Korean diagnostics are compatibility-only.",
+      "files": [
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/08-contracts.json",
+          "sha256": "2493165881d980b2b811981adb1f8d7af9c0a7b386c775a50a0717a2c4018662"
+        },
+        {
+          "path": "release/reviews/evidence/panel/08-chat.json",
+          "sha256": "3d070d47202af49cb0d11b3f1bedf48faf2951baf29ca21c06ecc3e725fae437"
+        },
+        {
+          "path": "release/reviews/evidence/panel/08-browser.json",
+          "sha256": "bdf3ab77cb04f695c6efbc65f8adb1f1a2a8edcc8f0447ca45ae10e0c55b727c"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "reason": "The route graph owns panel entry points and concrete implementations; its build and runtime are exercised through route and browser witnesses.",
+      "files": [
+        "panel-ui/README.md",
+        "panel-ui/build.mjs",
+        "panel-ui/package.json",
+        "panel-ui/src/CarouselPresentLink.jsx",
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/DiagnosticExport.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/RelaySelection.jsx",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/WorkspaceActivity.mjs",
+        "panel-ui/src/WorkspaceProfile.jsx",
+        "panel-ui/src/app.jsx",
+        "panel-ui/src/assetInventory.mjs",
+        "panel-ui/src/carouselPresentation.mjs",
+        "panel-ui/src/components.jsx",
+        "panel-ui/src/dependencyView.mjs",
+        "panel-ui/src/graphSelection.mjs",
+        "panel-ui/src/nativeSummary.mjs",
+        "panel-ui/src/operationDetail.mjs",
+        "panel-ui/src/useRelaySnapshot.js",
+        "panel-ui/src/workspaceRecommendation.mjs",
+        "panel-ui/view-registry.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/09-routes.json",
+          "sha256": "84c18b3e6b3d81941fc1a0cbddc6f83be4206c329d99979ea3684a5fce1c3bbe"
+        },
+        {
+          "path": "release/reviews/evidence/panel/09-browser.json",
+          "sha256": "c7b7c6d4775b614317237ebfcfe4b71531f794bf4f5088f137ad34e0645b69bd"
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "reason": "Relay state, selection and snapshot behavior are constrained by the Codex relay graph.",
+      "files": [
+        "panel-ui/src/RelaySelection.jsx",
+        "panel-ui/src/graphSelection.mjs",
+        "panel-ui/src/useRelaySnapshot.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/10-relay.json",
+          "sha256": "e5228bbf54ce3dbe4bb253512405a6a4f036255b3d0485587715dc8533a7ff7a"
+        },
+        {
+          "path": "release/reviews/evidence/panel/10-browser.json",
+          "sha256": "41fba680cfa03cf0fd982f4a36f3946a26307fd51ef1e47d6bd0b27d1db7e048"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "reason": "The React selection cap and compiled numeric define read the canonical cross-runtime maximum-node limit.",
+      "files": [
+        "panel-ui/build.mjs",
+        "panel-ui/src/useRelaySnapshot.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/11-relay.json",
+          "sha256": "6fc7e290bf4308edcf66ec2bb137d922b22d31cd59c5415282d7142b86550c16"
+        },
+        {
+          "path": "release/reviews/evidence/panel/11-browser.json",
+          "sha256": "eda1e37f80aee56d0214d78b1f05fc3d873b60f07bbf5ec4eb7d83ba4eda88e8"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/chat-input.json#/message",
+      "reason": "React request textarea row count and accepted character limit derive from the canonical host chat input contract.",
+      "files": [
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/chat-input-message.json",
+          "sha256": "43b467798043e8660eee1ab6586cad236eca6be4c8a7b0c45bdfa9fdb0719757"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/chat-input.json#/preview",
+      "reason": "React preview textarea row count derives from the canonical host chat input contract.",
+      "files": [
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel/chat-input-preview.json",
+          "sha256": "46e7d397f076f519a20f0efeea23172a8d6ae8e800eb6cf646cbcbc4da45e44a"
+        }
+      ]
+    }
+  ],
+  "scopeLimit": "Figma plugin-host runtime was not executed. Installed Chromium used compiled candidate assets and synthetic host messages.",
+  "verification": [
+    {
+      "command": "PATH=<Node 26.13.0>/bin:$PATH node --test tests/test_panel_release_witness.cjs tests/test_panel_contract_ownership.cjs tests/test_panel_browser_witness.cjs tests/test_standalone_view_authority.cjs tests/rd06_summary_coverage.cjs tests/test_workspace_chat.cjs tests/test_review_panel.cjs tests/test_graph_panel.cjs tests/test_nf03_panel_ui.cjs tests/test_panel_view_registry.mjs tests/test_carousel_present_link.cjs tests/test_workspace_carousel_ui.cjs",
+      "result": "39/39 named tests passed on pinned Node 26.13.0; installed Chromium Chrome 157 verified React chat limits/rows and all six panel routes; standalone template mutation/browser witness passed."
+    },
+    {
+      "command": "python3 -B -m unittest tests.test_rd03_dependency_view tests.test_rd03_dependency_freshness tests.test_workspace_report tests.test_panel_design_tokens tests.test_panel_view_registry tests.test_panel_components tests.test_rd07_runtime_assembly tests.test_operation_detail",
+      "result": "34/34 passed."
+    },
+    {
+      "command": "node panel-ui/build.mjs",
+      "result": "Passed; generated panels.js, panels.css, panel-shell.css and license output from current sources."
+    },
+    {
+      "command": "python3 -B tools/panel_authority.py",
+      "result": "Passed."
+    },
+    {
+      "command": "major_release.bundle_check on current candidate archive inputs",
+      "result": "Passed; clean candidate output byte-identical to tracked compiled assets."
+    },
+    {
+      "command": "Archive-like tree without panel-ui/node_modules: node --test tests/test_panel_browser_witness.cjs tests/test_standalone_view_authority.cjs tests/rd06_summary_coverage.cjs tests/test_panel_contract_ownership.cjs; python3 -B tools/panel_authority.py",
+      "result": "9/9 Node tests passed with installed Chrome 157; panel-ui/node_modules absent; panel_authority passed."
+    }
+  ]
+}

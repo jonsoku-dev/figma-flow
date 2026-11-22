@@ -1,0 +1,57 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/alignment-audit/graph.json#/nodes/12",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/alignment_pixels.py",
+        "tools/chromium_pipe.mjs",
+        "tools/relay_alignment.py",
+        "tools/relay_alignment_rules.json",
+        "tools/relay_paint_rules.json"
+      ],
+      "test": "tests/test_alignment_audit.py",
+      "case": "AlignmentAuditTests.test_paint_mode_measures_ink_separately_from_equal_css_boxes",
+      "testSha256": "f236b846b6c9a44f7ccc4b9d47fe1f8a629a9040c7051dd5fd38c5443fa173e3",
+      "assertion": "Box and paint observations retain scope, declared alignment rules, actual pixel measurements and viewport identity.",
+      "observed": "Real Chromium compared ink and bounds and the comparison refused nonmatching dimensions/rules."
+    },
+    {
+      "authority": "specs/alignment-audit/graph.json#/nodes/12",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/alignment_pixels.py",
+        "tools/chromium_pipe.mjs",
+        "tools/relay_alignment.py",
+        "tools/relay_alignment_rules.json",
+        "tools/relay_paint_rules.json"
+      ],
+      "test": "tests/test_alignment_compare.py",
+      "case": "AlignmentCompareTest.test_portable_comparison_requires_matching_rules_page_and_dimensions",
+      "testSha256": "59c8cf99f5423c1aaed9ee363349fa3cf5fa193d150fd25a16547dfa1d46cc11",
+      "assertion": "Box and paint observations retain scope, declared alignment rules, actual pixel measurements and viewport identity.",
+      "observed": "Real Chromium compared ink and bounds and the comparison refused nonmatching dimensions/rules."
+    },
+    {
+      "authority": "specs/alignment-audit/graph.json#/nodes/12",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/alignment_pixels.py",
+        "tools/chromium_pipe.mjs",
+        "tools/relay_alignment.py",
+        "tools/relay_alignment_rules.json",
+        "tools/relay_paint_rules.json"
+      ],
+      "test": "tests/test_relay_alignment.py",
+      "case": "RelayAlignmentTests.test_relay_sections_share_their_leading_edge_at_narrow_and_card_widths",
+      "testSha256": "915f360654a3a568c625aad1575632a9b2963ac726d82a5719da2f3bf9b67175",
+      "assertion": "Box and paint observations retain scope, declared alignment rules, actual pixel measurements and viewport identity.",
+      "observed": "Real Chromium compared ink and bounds and the comparison refused nonmatching dimensions/rules."
+    }
+  ]
+}

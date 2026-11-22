@@ -1,0 +1,21 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_regression_program_inputs.py",
+      "case": "InputEffectTests.test_pinned_expectations_match_html_and_brief_bytes",
+      "testSha256": "673dd447fcee6aaa6713873f6d75af36f26f32b4c6d3d76055e6211fb18d8735",
+      "authority": "examples/regression-program/expectations.json#/apps",
+      "covers": [
+        "examples/regression-program/README.md",
+        "examples/regression-program/catalog.json",
+        "examples/regression-program/catalog.py",
+        "examples/regression-program/expectations.json"
+      ],
+      "assertion": "The original expectation rows remain tied to exact brief and source HTML bytes; catalog test verifies generated routes.",
+      "observed": "Pinned case titles and brief bytes agree; route inventory is derived from the canonical catalog."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_specification_update.cjs",
+      "case": "connected specification writes a two-way linked owned human annotation and verifies its getter snapshot",
+      "testSha256": "8724c5bc83a8e5223e81d7801dcdcc5860df3e20ed588525c6a3f42a5e37d91b",
+      "authority": "figma-bridge/presentation.json#/modules/notes/fields",
+      "covers": [
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_specifications.js",
+        "figma-bridge/presentation.json"
+      ],
+      "assertion": "connected specification writes a two-way linked owned human annotation and verifies its getter snapshot",
+      "observed": "The note board links graph specifications to native annotations and verifies the exact getter snapshot."
+    }
+  ]
+}

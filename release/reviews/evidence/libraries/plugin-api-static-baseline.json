@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_plugin_api_index_and_static_status_snapshot_rebuild_from_pinned_typescript",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-api/coverage-baseline.json#/members",
+      "covers": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "assertion": "Recomputes every static member classification against frozen source bytes and exact parser version.",
+      "observed": "71 qualified, 678 unresolved receiver-name, 633 no-static-reference; implementation/runtime stay unverified."
+    }
+  ]
+}

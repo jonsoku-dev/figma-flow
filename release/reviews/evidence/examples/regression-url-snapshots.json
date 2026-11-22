@@ -1,0 +1,25 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_regression_program_inputs.py",
+      "case": "InputEffectTests.test_failure_snapshots_do_not_invent_a_body",
+      "testSha256": "673dd447fcee6aaa6713873f6d75af36f26f32b4c6d3d76055e6211fb18d8735",
+      "authority": "examples/regression-program/expectations.json#/pinned_before_projection",
+      "covers": [
+        "examples/regression-program/url/atlas.snapshot.json",
+        "examples/regression-program/url/controlled-login-required.snapshot.json",
+        "examples/regression-program/url/controlled-not-found.snapshot.json",
+        "examples/regression-program/url/controlled-rate-limited.snapshot.json",
+        "examples/regression-program/url/controlled-redirect.snapshot.json",
+        "examples/regression-program/url/material.snapshot.json",
+        "examples/regression-program/url/morrow.snapshot.json",
+        "examples/regression-program/url/paper.snapshot.json"
+      ],
+      "assertion": "Failure snapshots preserve only observed fields and show unavailable data rather than synthesizing page content.",
+      "observed": "Known failure records retain empty/unavailable bodies; material text cannot become authority."
+    }
+  ]
+}

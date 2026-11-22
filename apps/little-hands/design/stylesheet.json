@@ -369,7 +369,7 @@
           "align-items": "center",
           "gap": "{{spacing_px.0}}px",
           "min-height": "{{controls.min_height}}px",
-          "padding": "11px {{controls.horizontal_padding}}px",
+          "padding": "{{controls.vertical_padding}}px {{controls.horizontal_padding}}px",
           "border": "1px solid var(--rust)",
           "background": "var(--rust)",
           "color": "var(--cream)",

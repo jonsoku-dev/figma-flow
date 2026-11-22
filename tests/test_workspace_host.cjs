@@ -6,9 +6,13 @@ const path = require('node:path');
 const host = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_host.js'), 'utf8');
 const control = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_control.js'), 'utf8');
 const profilePolicy = JSON.parse(fs.readFileSync(path.join(__dirname, '../library/figma-profile/policy.json'), 'utf8'));
+const panelContracts = JSON.parse(fs.readFileSync(path.join(__dirname, '../library/panel-design/contracts.json'), 'utf8'));
+const activityContract = JSON.parse(fs.readFileSync(path.join(__dirname, '../specs/workspace-activity/graph.json'), 'utf8'))
+  .nodes.find(node => node.id === 'CONTRACT-ACTIVITY-01');
 const profilePolicySource = fs.readFileSync(path.join(__dirname, '../figma-bridge/profile_policy.js'), 'utf8');
 const profileAdapterSource = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_profile.js'), 'utf8');
 const localeCatalog = JSON.parse(fs.readFileSync(path.join(__dirname, '../figma-bridge/locales/common.json'), 'utf8'));
+const standaloneViews = JSON.parse(fs.readFileSync(path.join(__dirname, '../figma-bridge/standalone-views.json'), 'utf8'));
 const flowLocales = JSON.stringify(Object.keys(Object.values(localeCatalog)[0]));
 const home = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_home.html'), 'utf8');
 function harness(frozen = false, options = {}) {
@@ -40,7 +44,8 @@ function harness(frozen = false, options = {}) {
     Object.freeze(figma.ui); Object.freeze(figma);
   }
   const context = vm.createContext({figma, __html__: 'HOME', probe, WORKSPACE_RELAY_VIEWER: options.relayViewer === true,
-    WORKSPACE_PROFILE_POLICY: profilePolicy, WORKSPACE_READ_LIMITS: require('../library/figma-profile/read-limits.json')});
+    WORKSPACE_PROFILE_POLICY: profilePolicy, WORKSPACE_READ_LIMITS: require('../library/figma-profile/read-limits.json'),
+    WORKSPACE_PANEL_CONTRACTS: panelContracts, WORKSPACE_ACTIVITY_CONTRACT: activityContract});
   vm.runInContext(`
 ${options.profile ? `${profilePolicySource}\n${profileAdapterSource}\n${control}\n` : ''}
 const FLOW_LOCALES = ${flowLocales};
@@ -739,7 +744,9 @@ test('completed later phase recommends its actual receipt without reopening comp
   h.receive({type:'workspace-tasks',workspaceSession:'home',fileKey:'f',locale:'ja',tasks,history});
   assert.match(h.text(h.elements['next-action']),/直近の実行結果/);
   assert.equal(h.elements['next-action'].querySelectorAll()[0].textContent,'結果を見る');
-  assert.match(home,/workspace.switchProject/);assert.match(home,/\.scope-filter select\{position:absolute/);
+  assert.match(home,/workspace.switchProject/);
+  assert.match(home,/\/\* FLOW_STANDALONE_VIEW \*\//,'legacy per-view styles are projected from their shared graph');
+  assert.equal(standaloneViews.views.workspace.values.previewImageHeight,'144px');
 });
 
 test('real React workspace compiles with shared components and Lucide and preserves result-first policy',()=>{

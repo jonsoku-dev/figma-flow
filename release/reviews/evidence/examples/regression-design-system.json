@@ -1,0 +1,55 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_design_system.py",
+      "case": "DesignSystemTests.test_semantic_change_reaches_css_and_previews",
+      "testSha256": "b6f055468d3bf26b67c9131de782d8a27e181b62c9a9b2f204041ef33e39d98b",
+      "authority": "examples/regression-program/design-system/design.json#/tokens",
+      "covers": [
+        "examples/regression-program/design-system/axes.json",
+        "examples/regression-program/design-system/build.mjs",
+        "examples/regression-program/design-system/components.json",
+        "examples/regression-program/design-system/components/Button.tsx",
+        "examples/regression-program/design-system/components/Dialog.tsx",
+        "examples/regression-program/design-system/components/Field.tsx",
+        "examples/regression-program/design-system/components/Nav.tsx",
+        "examples/regression-program/design-system/components/Table.tsx",
+        "examples/regression-program/design-system/components/Tabs.tsx",
+        "examples/regression-program/design-system/design.json",
+        "examples/regression-program/design-system/entry.js",
+        "examples/regression-program/design-system/package.json",
+        "examples/regression-program/design-system/runtime.js",
+        "examples/regression-program/design-system/theme.css"
+      ],
+      "assertion": "A semantic graph mutation must reach generated stylesheet and SVG previews; invalid values must fail without output.",
+      "observed": "Color/token semantic mutation reached CSS and previews; CSS token values and axes remain derived from graph data."
+    },
+    {
+      "test": "tests/test_design_bundle.py",
+      "case": "BundleTests.test_selected_graph_builds_import_and_rejects_old_geometry_only_readback",
+      "testSha256": "09ea6d22ee7fa97b0102a8c67ffc1205f56f2c26c454f833569b457005ebe169",
+      "authority": "examples/regression-program/design-system/design.json#/tokens",
+      "covers": [
+        "examples/regression-program/design-system/axes.json",
+        "examples/regression-program/design-system/build.mjs",
+        "examples/regression-program/design-system/components.json",
+        "examples/regression-program/design-system/components/Button.tsx",
+        "examples/regression-program/design-system/components/Dialog.tsx",
+        "examples/regression-program/design-system/components/Field.tsx",
+        "examples/regression-program/design-system/components/Nav.tsx",
+        "examples/regression-program/design-system/components/Table.tsx",
+        "examples/regression-program/design-system/components/Tabs.tsx",
+        "examples/regression-program/design-system/design.json",
+        "examples/regression-program/design-system/entry.js",
+        "examples/regression-program/design-system/package.json",
+        "examples/regression-program/design-system/runtime.js",
+        "examples/regression-program/design-system/theme.css"
+      ],
+      "assertion": "The design bundle import/readback path verifies selected graph values rather than geometry-only output.",
+      "observed": "Selected graph builds and imports; stale geometry-only readback is rejected."
+    }
+  ]
+}

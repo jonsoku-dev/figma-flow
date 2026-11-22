@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_maintained_campaign_catalogs_keep_source_links_and_unverified_plan_status",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "library/design-routes.json"
+      ],
+      "assertion": "Checks the exact supported lane set and route registry loading.",
+      "observed": "Direction, logo, icons, images, typography, motion, Figma and verification lanes resolve."
+    }
+  ]
+}

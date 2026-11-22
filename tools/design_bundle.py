@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Package a local design for browser, SVG and Figma development-plugin use."""
+from report_appearance import report_css
 import argparse
 import json
 from pathlib import Path
@@ -41,9 +42,7 @@ def token_sheet(design):
         cards.append(f'<details><summary>{sample}{escape(path)} · {escape(str(token["value"]))}</summary>'
                      f'<p>{escape(token["type"])}{ref}</p><ul>' + (''.join(rows) or '<li>이 디자인에 연결된 컴포넌트 없음</li>') + '</ul></details>')
     return ('<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-            '<link rel="icon" href="data:,"><title>토큰과 사용처</title><style>body{max-width:54rem;margin:3rem auto;padding:1rem;font:1rem/1.65 system-ui}'
-            'details{padding:.7rem 0;border-bottom:1px solid #ccd0d9;overflow-wrap:anywhere}summary{cursor:pointer}summary:focus-visible{outline:3px solid #425cc7}'
-            'i{display:inline-block;width:1rem;height:1rem;border:1px solid #777;border-radius:3px;margin-right:.5em}</style>'
+            '<link rel="icon" href="data:,"><title>토큰과 사용처</title><style>' + report_css("tokens") + '</style>'
             '<a href="index.html">디자인 전달</a><h1>토큰과 사용처</h1><p>토큰을 열면 해당 값을 사용하는 컴포넌트 속성과 화면을 확인할 수 있습니다.</p>'
             + ''.join(cards) + '</html>')
 
@@ -63,7 +62,7 @@ def landing(links, svgs, *, draft_only=False):
                       f'<textarea id="svg-{i}" aria-label="{escape(svg.stem)} SVG 원문" hidden readonly>'
                       f'{escape(svg.read_text(encoding="utf-8"))}</textarea></li>')
     return """<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" href="data:,"><title>디자인 전달</title><style>body{max-width:48rem;margin:3rem auto;padding:1rem;font:1rem/1.7 system-ui}li{margin:.5em 0;overflow-wrap:anywhere}a{color:#1849a5}button,textarea{font:inherit}textarea{width:100%;box-sizing:border-box}</style>
+<link rel="icon" href="data:,"><title>디자인 전달</title><style>""" + report_css("delivery") + """</style>
 <h1>디자인 전달</h1><ul>""" + items + """</ul><h2>Figma로 가져오기</h2>
 <p>화면별 SVG를 편집 가능한 Figma 캔버스에 끌어 놓거나 복사해 붙여 넣으세요.
 변수와 컴포넌트 인스턴스까지 사용하려면 개발 플러그인 ZIP을 풀고 Figma Desktop에서 발급한 플러그인 ID로 빌드하세요.</p>

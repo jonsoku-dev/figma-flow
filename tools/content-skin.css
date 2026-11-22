@@ -1,5 +1,6 @@
 /* Generated bitmap perimeter; real label determines both dimensions. */
 .ff-content-skin {
+  --ff-skin-padding: 4px;
   display: inline-grid;
   grid-template-areas: "label";
   inline-size: fit-content;

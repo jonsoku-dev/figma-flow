@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_graph_review.cjs",
+      "case": "normal native-edit operations return real discovery contract with a reusable grouped board",
+      "testSha256": "78f830aa9f5b00c460bec30d0412d27791686e66f262f7c7347684ae31aa9b0f",
+      "authority": "figma-bridge/presentation.json#/modules/graphReview/fields",
+      "covers": [
+        "figma-bridge/native_graph_review.js",
+        "figma-bridge/presentation.json"
+      ],
+      "assertion": "normal native-edit operations return real discovery contract with a reusable grouped board",
+      "observed": "Normal native-edit discovery produces a reusable grouped graph board using its typed categories."
+    }
+  ]
+}

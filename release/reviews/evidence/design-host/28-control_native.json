@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_control.cjs",
+      "case": "native graph review uses the signed native-edit read and apply contract",
+      "testSha256": "7cd5b5cb8c5f0d9dc6cbc77c0ad0a0031e6eddbe3580c4502b8e2d6e49e921ac",
+      "authority": "library/panel-design/contracts.json#/nodes/0",
+      "covers": [
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "native graph review uses the signed native-edit read and apply contract",
+      "observed": "The host routes graph-review read/apply through the signed native-edit contract."
+    }
+  ]
+}

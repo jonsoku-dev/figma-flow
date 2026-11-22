@@ -1,0 +1,27 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_components.py",
+      "case": "PanelComponentTests.test_real_runtime_navigation_locale_busy_and_safe_status",
+      "testSha256": "0ebeba88d9e6bb635a386e4a38a01d88b19bbcab721b3817683c419acda0764e",
+      "authority": "library/panel-design/views.json#/nodes",
+      "covers": [
+        "figma-bridge/locales/chat.json",
+        "figma-bridge/locales/common.json",
+        "figma-bridge/locales/graph.json",
+        "figma-bridge/locales/import.json",
+        "figma-bridge/locales/relay.json",
+        "figma-bridge/locales/review.json",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/panel_components.js",
+        "figma-bridge/panel_i18n.js",
+        "figma-bridge/ui.html"
+      ],
+      "assertion": "PanelComponentTests.test_real_runtime_navigation_locale_busy_and_safe_status",
+      "observed": "The shared runtime switches locales and renders safe view states through actual component DOM."
+    }
+  ]
+}

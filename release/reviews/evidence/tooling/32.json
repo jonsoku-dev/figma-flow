@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/optional-evidence-tests.md#/sections/Run the replay",
+      "covers": [
+        "tools/replay_optional_tests.py"
+      ],
+      "test": "tests/test_replay_optional_tests.py",
+      "case": "ReplayOptionalTests.test_only_zero_skip_python_and_node_results_pass",
+      "testSha256": "e945cfd7676166811ebd948c73ea84017a09cb94ad2b4ab5621db11529a975ae",
+      "assertion": "The replay can only attribute a pass to a completed check against supplied evidence; unavailable input remains explicitly not run.",
+      "observed": "Skip, timeout and isolated fixture handling retained their actual status without borrowing another checkout."
+    },
+    {
+      "authority": "docs/optional-evidence-tests.md#/sections/Run the replay",
+      "covers": [
+        "tools/replay_optional_tests.py"
+      ],
+      "test": "tests/test_replay_optional_tests.py",
+      "case": "ReplayOptionalTests.test_parallel_checkouts_are_isolated_and_fixture_links_are_read_only_inputs",
+      "testSha256": "e945cfd7676166811ebd948c73ea84017a09cb94ad2b4ab5621db11529a975ae",
+      "assertion": "The replay can only attribute a pass to a completed check against supplied evidence; unavailable input remains explicitly not run.",
+      "observed": "Skip, timeout and isolated fixture handling retained their actual status without borrowing another checkout."
+    }
+  ]
+}

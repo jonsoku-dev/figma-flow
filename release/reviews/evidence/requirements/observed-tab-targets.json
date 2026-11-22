@@ -1,0 +1,30 @@
+{
+  "surfaceFingerprint": "b6a1d3a3475ab09d284093e81fe6da3be7a8920423eb77345147302d20e487f4",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_interactive_capture_release.py",
+      "case": "InteractiveBrowserTests.test_tabs_roundtrip_compiles_two_actual_states",
+      "testSha256": "1c92e7019c9ba8bc567089774d200996fc5905572ee3673b2299f2fb92868153",
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "covers": [
+        "specs/interactive-web/graph.json",
+        "specs/interactive-web/tabs.md"
+      ],
+      "assertion": "The graph connects observed tab states and their actual bounded clickable control to a native replay witness.",
+      "observed": "On Chromium both real button clicks changed the captured state. Native route validation admitted the registered button and refused a decorative component."
+    },
+    {
+      "test": "tests/test_web_design.cjs",
+      "case": "a measured semantic button can drive a native tab route without admitting decorative components",
+      "testSha256": "3c527d0b0414ccee4018dddeba7a4f84c8ee8c3a4c5cfa2a807a5c6913c2a73c",
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "covers": [
+        "specs/interactive-web/graph.json",
+        "specs/interactive-web/tabs.md"
+      ],
+      "assertion": "The graph connects observed tab states and their actual bounded clickable control to a native replay witness.",
+      "observed": "On Chromium both real button clicks changed the captured state. Native route validation admitted the registered button and refused a decorative component."
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 """Create and compile a separate local Widget API project; never run Figma."""
 import argparse
 import hashlib
+from report_appearance import graphic
 import json
 from pathlib import Path
 import re
@@ -16,24 +17,29 @@ INPUTS = ['vendor/plugin/plugin-api.d.ts', 'vendor/widget/index.d.ts', 'src/glob
 OPTIONS = {'strict': True, 'target': 'ES2020', 'lib': ['ES2020'], 'module': 'none',
            'jsx': 'react', 'jsxFactory': 'figma.widget.h', 'jsxFragmentFactory': 'figma.widget.Fragment',
            'skipLibCheck': False, 'noEmitOnError': True, 'types': [], 'outFile': 'dist/code.js'}
-SAMPLE = '''const { widget } = figma;
+SAMPLE_TEMPLATE = '''const { widget } = figma;
 const { AutoLayout, Text, useSyncedState } = widget;
 
 function Counter() {
   const [count, setCount] = useSyncedState<number>('count', 0);
   return (
-    <AutoLayout direction="horizontal" spacing={16} padding={24}
-      cornerRadius={12} fill="#FFFFFF" stroke="#D8D8D8"
+    <AutoLayout direction="horizontal" spacing={@spacing@} padding={@padding@}
+      cornerRadius={@radius@} fill="@paper@" stroke="@border@"
       onClick={() => setCount(previous => previous + 1)}>
-      <Text fontSize={20}>Shared counter</Text>
-      <Text fontSize={20}>{count}</Text>
-      <Text fontSize={16}>Click to add 1</Text>
+      <Text fontSize={@headline@}>Shared counter</Text>
+      <Text fontSize={@headline@}>{count}</Text>
+      <Text fontSize={@caption@}>Click to add 1</Text>
     </AutoLayout>
   );
 }
 
 widget.register(Counter);
 '''
+
+
+def counter_sample():
+    style = graphic('widgetCounter')
+    return re.sub(r'@(\w+)@', lambda m: str(style[m[1]]), SAMPLE_TEMPLATE)
 
 
 def verify_source():
@@ -80,7 +86,7 @@ def initialize(path, widget_id=None):
         'package.json': encoded({'name': 'local-figma-widget-project', 'version': '0.0.0', 'private': True,
             'scripts': {'check': 'tsc --noEmit', 'build': 'tsc'}, 'devDependencies': {'typescript': TYPESCRIPT}}),
         'tsconfig.json': encoded({'compilerOptions': OPTIONS, 'files': INPUTS}),
-        'src/code.tsx': SAMPLE, 'src/globals.d.ts': 'declare const figma: PluginAPI;\n',
+        'src/code.tsx': counter_sample(), 'src/globals.d.ts': 'declare const figma: PluginAPI;\n',
         'vendor/widget/source.json': encoded(source), 'vendor/plugin/source.json': encoded(plugin_source),
         'widget-project.json': encoded({'schemaVersion': 1, 'typescript': TYPESCRIPT, 'runtimeAcceptance': 'unverified'}),
         '.gitignore': 'node_modules/\ndist/\n',

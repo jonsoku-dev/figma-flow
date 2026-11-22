@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "examples/owned-production-workspace/graph.json#/workspace",
+      "covers": [
+        "tools/owned_production_workspace.py"
+      ],
+      "test": "tests/test_owned_production_workspace.py",
+      "case": "VerifyTest.test_rejects_changed_bytes",
+      "testSha256": "9c224ef88ab6db0f39e41b4b168d44d0206fa3927d2c4d54df40d1169f151cd0",
+      "assertion": "Workspace rail and disclosure delivery must use the specific reviewed workspace graph and its source bytes.",
+      "observed": "A changed source digest was refused and the graph-controlled disclosure and selection rules drove the fixture."
+    },
+    {
+      "authority": "examples/owned-production-workspace/graph.json#/workspace",
+      "covers": [
+        "tools/owned_production_workspace.py"
+      ],
+      "test": "tests/test_owned_production_workspace_interactions.py",
+      "case": "GraphInteractionTest.test_graph_rules_drive_the_disclosure_and_rail",
+      "testSha256": "6115f5c9ae7327aa0f932bbd77bd2756b02503af1f42cdbd971e17a078249a03",
+      "assertion": "Workspace rail and disclosure delivery must use the specific reviewed workspace graph and its source bytes.",
+      "observed": "A changed source digest was refused and the graph-controlled disclosure and selection rules drove the fixture."
+    }
+  ]
+}

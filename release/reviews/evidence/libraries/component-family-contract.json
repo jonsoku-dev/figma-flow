@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_family_authority.py",
+      "case": "FamilyAuthorityTests.test_graph_edits_reach_family_compilation_and_native_layout",
+      "testSha256": "9133baca5af0c1ac9b0cb0cf05bd1597ade7f916113c2603548e4f4fd90ae5db",
+      "authority": "library/component-families.json#/families",
+      "covers": [
+        "library/component-families.json"
+      ],
+      "assertion": "Mutates canonical family fields and verifies compilation and native layout output.",
+      "observed": "A changed accent and native dimensions project through the compiler and workbench runtime."
+    }
+  ]
+}

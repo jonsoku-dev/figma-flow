@@ -1,0 +1,62 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes/10",
+      "covers": [
+        "tools/web-interaction-contract.json",
+        "tools/web_carousel_capture.mjs",
+        "tools/web_disclosure_capture.mjs",
+        "tools/web_tabs_capture.mjs"
+      ],
+      "test": "tests/test_interactive_capture_release.py",
+      "case": "InteractiveBrowserTests.test_tabs_roundtrip_compiles_two_actual_states",
+      "testSha256": "1c92e7019c9ba8bc567089774d200996fc5905572ee3673b2299f2fb92868153",
+      "assertion": "Interactive states must be witnessed by actual input and replayable transitions. A visible native button or frame must match the exact observed tab control.",
+      "observed": "Real Chromium clicks, disclosure switching, autoplay and swipes produced distinct local evidence and editable state graphs. A changed signed transition graph was refused."
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes/10",
+      "covers": [
+        "tools/web-interaction-contract.json",
+        "tools/web_carousel_capture.mjs",
+        "tools/web_disclosure_capture.mjs",
+        "tools/web_tabs_capture.mjs"
+      ],
+      "test": "tests/test_interactive_capture_release.py",
+      "case": "InteractiveBrowserTests.test_disclosure_open_close_switch_compiles_three_observed_states",
+      "testSha256": "1c92e7019c9ba8bc567089774d200996fc5905572ee3673b2299f2fb92868153",
+      "assertion": "Interactive states must be witnessed by actual input and replayable transitions. A visible native button or frame must match the exact observed tab control.",
+      "observed": "Real Chromium clicks, disclosure switching, autoplay and swipes produced distinct local evidence and editable state graphs. A changed signed transition graph was refused."
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes/10",
+      "covers": [
+        "tools/web-interaction-contract.json",
+        "tools/web_carousel_capture.mjs",
+        "tools/web_disclosure_capture.mjs",
+        "tools/web_tabs_capture.mjs"
+      ],
+      "test": "tests/test_interactive_capture_release.py",
+      "case": "InteractiveBrowserTests.test_carousel_autoplay_and_real_gesture_are_recorded",
+      "testSha256": "1c92e7019c9ba8bc567089774d200996fc5905572ee3673b2299f2fb92868153",
+      "assertion": "Interactive states must be witnessed by actual input and replayable transitions. A visible native button or frame must match the exact observed tab control.",
+      "observed": "Real Chromium clicks, disclosure switching, autoplay and swipes produced distinct local evidence and editable state graphs. A changed signed transition graph was refused."
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes/10",
+      "covers": [
+        "tools/web-interaction-contract.json",
+        "tools/web_carousel_capture.mjs",
+        "tools/web_disclosure_capture.mjs",
+        "tools/web_tabs_capture.mjs"
+      ],
+      "test": "tests/test_web_design.py",
+      "case": "WebDesignTests.test_signed_plan_cannot_change_carousel_edges",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "assertion": "Interactive states must be witnessed by actual input and replayable transitions. A visible native button or frame must match the exact observed tab control.",
+      "observed": "Real Chromium clicks, disclosure switching, autoplay and swipes produced distinct local evidence and editable state graphs. A changed signed transition graph was refused."
+    }
+  ]
+}

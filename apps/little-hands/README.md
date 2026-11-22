@@ -4,6 +4,8 @@
 
 `ARCHITECTURE.md`가 데이터·권한 계약을 소유한다. Python과 PostgreSQL 이미지는 다중 플랫폼 digest로 고정했고 `requirements.lock`은 전체 Python 의존성과 PyPI SHA256을 고정한다. 버전 갱신 시 `requirements.txt`와 lock을 함께 검토하고 새 이미지에서 검사한다. 운영 환경은 Docker Compose v2, Linux 컨테이너 및 호스트 nginx를 전제로 한다. Docker 소켓 접근자는 모든 비밀과 DB를 읽을 수 있는 관리자다.
 
+배포용 이미지 지문, 포트, DB 역할과 비밀 파일 이름은 [배포 설정](config/deployment.json)에서 관리합니다. 변경한 뒤 앱 디렉터리에서 `python3 deploy/publish_config.py --write`를 실행합니다. `python3 deploy/publish_config.py`로 Docker, Compose, nginx, SQL 파일이 현재 설정과 일치하는지 확인할 수 있습니다.
+
 ## 1. 비밀과 설정
 
 이 디렉터리에서 실행한다. 운영 비밀은 체크아웃 밖의 전용 디렉터리에 둔다. 비밀값을 CLI 인수나 저장소 파일에 입력하지 않는다. 아래는 최초 설치용이며 기존 비밀을 덮어쓰지 않는다.

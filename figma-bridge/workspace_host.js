@@ -13,8 +13,8 @@ let workspaceActive = null;
 let workspaceHomeSession = '';
 let workspaceNotice = '';
 const workspaceLocales = new Set(FLOW_LOCALES);
-const workspaceOperations = new Set(['import', 'export', 'sync', 'draft-review', 'read', 'apply', 'verification', 'download', 'chat:queue', 'chat:open']);
-const workspaceStatuses = new Set(['requested', 'running', 'finished', 'failed', 'readback', 'verified', 'baseline']);
+const workspaceOperations = new Set();
+const workspaceStatuses = new Set();
 const workspaceStorageKey = figma.fileKey ? 'figma-flow-workspace-v1:' + figma.fileKey : null;
 const workspaceProfileManager = typeof createWorkspaceProfile === 'function' && typeof WORKSPACE_PROFILE_POLICY !== 'undefined'
   ? createWorkspaceProfile(figma, WORKSPACE_PROFILE_POLICY, typeof WORKSPACE_RUNTIME === 'undefined' ? null : WORKSPACE_RUNTIME)
@@ -31,21 +31,43 @@ let workspaceServerHistory = [], workspaceJournalUnavailable = false;
 let workspaceInputFreshness = [];
 let workspaceScope = {session: '', fileKey: null, pageId: null};
 let workspaceScopePromise = null;
-const workspaceDetailAllowedOps = new Set(['read', 'import', 'sync', 'create', 'apply']);
-const workspaceDetailAllowedClasses = new Set(['recorded', 'legacy', 'unknown']);
-const workspaceDetailAllowedStates = new Set(['ok', 'pending', 'claimed', 'error', 'uncertain', 'expired']);
-const workspaceDetailAllowedPhases = new Set(['queued', 'claimed', 'native-started', 'result-received', 'reconciled', 'uncertain']);
-const workspaceDetailAllowedBindings = new Set(['current', 'pinned-historical', 'retired', 'orphan', 'unknown']);
-const workspaceDetailAllowedRelTypes = new Set(['declared-dependency', 'recovery-of', 'artifact-input']);
-const workspaceDetailAllowedDepDirections = new Set(['predecessor', 'successor']);
-const workspaceDetailAllowedRecoveryDirections = new Set(['recovers', 'recovered-by']);
-const workspaceDetailAllowedFailureCodes = new Set(['native-conflict', 'result-rejected', 'claim-expired', 'operation-uncertain', 'execution-failed']);
-const workspaceDetailAllowedFailureActions = new Set(['inspect-conflicts', 'run-native-read', 'reopen-plugin', 'inspect-private-status']);
-const workspaceDetailAllowedDiffStatuses = new Set(['available', 'empty', 'unavailable']);
-const workspaceDetailAllowedDiffReasons = new Set(['before-artifact-missing', 'read-only-operation', 'unsupported-task-kind', 'legacy-or-unpinned-artifact', 'unverified-artifact']);
-const workspaceDetailAllowedDiffKinds = new Set(['changed', 'added', 'removed', 'type-changed']);
-const workspaceDetailAllowedFields = new Set(['value', 'backgroundColor', 'color', 'borderColor', 'fill', 'stroke', 'fontSize', 'fontFamily', 'fontWeight', 'lineHeight', 'letterSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'gap', 'itemSpacing', 'cornerRadius', 'borderRadius', 'opacity', 'width', 'height', 'visible', 'boolean', 'variant', 'instanceSwap', 'characters']);
-const workspaceDetailTextFields = new Set(['characters', 'text', 'rawText', 'textContent', 'label', 'title', 'name', 'placeholder', 'copy', 'content', 'caption', 'description', 'alt']);
+const workspacePanelContractGraph = globalThis.WORKSPACE_PANEL_CONTRACTS;
+const workspaceActivityContract = globalThis.WORKSPACE_ACTIVITY_CONTRACT;
+if (workspacePanelContractGraph?.schema !== 'figma-flow-panel-contract-graph-v1' || !Array.isArray(workspacePanelContractGraph.nodes)) {
+  throw Error('Workspace panel domain contract graph is unavailable');
+}
+if (!workspaceActivityContract || !Array.isArray(workspaceActivityContract.countedStatuses) || !workspaceActivityContract.pendingStatus) {
+  throw Error('Workspace activity contract is unavailable');
+}
+for (const status of workspaceActivityContract.countedStatuses) {
+  if (status !== workspaceActivityContract.pendingStatus) workspaceStatuses.add(status);
+}
+for (const operation of workspaceActivityContract.recordedOperations) workspaceOperations.add(operation);
+const workspacePanelContractNodes = new Map(workspacePanelContractGraph.nodes.map(node => [node.id, node]));
+const workspaceDetailContract = workspacePanelContractNodes.get('operation-detail-v1');
+const workspaceDependencyContract = workspacePanelContractNodes.get('dependency-artifacts');
+const workspaceChatErrorContract = workspacePanelContractNodes.get('chat-error-codes');
+if (!workspaceDetailContract || !workspaceDependencyContract || !workspaceChatErrorContract) {
+  throw Error('Workspace panel domain contracts are unavailable');
+}
+const workspaceDetailAllowedOps = new Set(workspaceDetailContract.hostOperations);
+const workspaceDetailAllowedClasses = new Set(workspaceDetailContract.classifications);
+const workspaceDetailAllowedStates = new Set(workspaceDetailContract.operationStates);
+const workspaceDetailAllowedPhases = new Set(workspaceDetailContract.nativePhases);
+const workspaceDetailAllowedBindings = new Set(workspaceDetailContract.revisionBindings);
+const workspaceDetailAllowedRelTypes = new Set(workspaceDetailContract.relationTypes);
+const workspaceDetailAllowedDepDirections = new Set(workspaceDetailContract.relationDirections['declared-dependency']);
+const workspaceDetailAllowedRecoveryDirections = new Set(workspaceDetailContract.relationDirections['recovery-of']);
+const workspaceDetailAllowedFailureCodes = new Set(workspaceDetailContract.failureCodes);
+const workspaceDetailAllowedFailureActions = new Set(workspaceDetailContract.failureActions);
+const workspaceDetailAllowedDiffStatuses = new Set(workspaceDetailContract.diffStatuses);
+const workspaceDetailAllowedDiffReasons = new Set(Object.values(workspaceDetailContract.diffReasonCodes));
+const workspaceDetailAllowedDiffKinds = new Set(workspaceDetailContract.diffKinds);
+const workspaceDetailErrorReasons = workspaceDetailContract.errorReasonCodes;
+const workspaceDetailConflictReasons = new Set(workspaceDetailContract.conflictStatusReasonIds.map(id => workspaceDetailErrorReasons[id]));
+const workspaceDetailFieldPolicies = workspaceDetailContract.fieldPolicies;
+const workspaceDetailAllowedFields = new Set(workspaceDetailFieldPolicies.designFields.filter(field => field.native).map(field => field.id));
+const workspaceDetailTextFields = new Set(workspaceDetailFieldPolicies.textFields.filter(field => field.native).map(field => field.id));
 function workspaceScrubSecrets(value) {
   if (value === null || value === undefined) return '';
   let text = String(value)
@@ -81,17 +103,17 @@ function workspaceSanitizeDiffValue(value, field) {
 }
 function workspaceSanitizeOperationDetail(raw, expected) {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {ok: false, reason: 'request-rejected'};
-  if (raw.schema !== 'figma-flow-operation-detail-v1' || raw.readOnly !== true || !workspaceDetailAllowedClasses.has(raw.classification)) {
-    return {ok: false, reason: 'request-rejected'};
+  if (raw.schema !== workspaceDetailContract.schema || raw.readOnly !== true || !workspaceDetailAllowedClasses.has(raw.classification)) {
+    return {ok: false, reason: workspaceDetailErrorReasons.requestRejected};
   }
   if (!raw.scope || typeof raw.scope !== 'object' || Array.isArray(raw.scope) ||
       raw.scope.fileKey !== expected.fileKey || raw.scope.pageId !== expected.pageId) {
-    return {ok: false, reason: 'request-rejected'};
+    return {ok: false, reason: workspaceDetailErrorReasons.requestRejected};
   }
-  if (raw.scope.runtimeGeneration !== expected.runtimeGeneration) return {ok: false, reason: 'runtime-mismatch'};
+  if (raw.scope.runtimeGeneration !== expected.runtimeGeneration) return {ok: false, reason: workspaceDetailErrorReasons.runtimeMismatch};
   if (raw.operationId !== expected.operationId || !raw.task || typeof raw.task !== 'object' || Array.isArray(raw.task) ||
       raw.task.key !== expected.taskKey || raw.task.revision !== expected.revision) {
-    return {ok: false, reason: 'task-revision-mismatch'};
+    return {ok: false, reason: workspaceDetailErrorReasons.taskRevisionMismatch};
   }
   const hex32 = v => typeof v === 'string' && /^[a-f0-9]{32}$/.test(v) ? v : null;
   const hex64 = v => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v) ? v : null;
@@ -103,17 +125,17 @@ function workspaceSanitizeOperationDetail(raw, expected) {
         .slice(0, 64).map(item => ({phase: item.phase, time: item.time}))
     : [];
   const phase = recorded
-    ? (workspaceDetailAllowedPhases.has(raw.phase) ? raw.phase : (phases.length ? phases[phases.length - 1].phase : 'unknown'))
-    : 'unknown';
+    ? (workspaceDetailAllowedPhases.has(raw.phase) ? raw.phase : (phases.length ? phases[phases.length - 1].phase : workspaceDetailContract.fallbacks.unknown))
+    : workspaceDetailContract.fallbacks.unknown;
   const operation = classification === 'unknown' && !raw.operation
     ? ''
     : (workspaceDetailAllowedOps.has(raw.operation) ? raw.operation : '');
-  const state = workspaceDetailAllowedStates.has(raw.state) ? raw.state : 'uncertain';
+  const state = workspaceDetailAllowedStates.has(raw.state) ? raw.state : workspaceDetailContract.fallbacks.uncertain;
   const task = {
     key: expected.taskKey,
     revision: expected.revision,
     currentRevision: hex64(raw.task.currentRevision),
-    revisionBinding: workspaceDetailAllowedBindings.has(raw.task.revisionBinding) ? raw.task.revisionBinding : 'unknown',
+    revisionBinding: workspaceDetailAllowedBindings.has(raw.task.revisionBinding) ? raw.task.revisionBinding : workspaceDetailContract.fallbacks.unknown,
     kind: typeof raw.task.kind === 'string' && workspaceKinds.has(raw.task.kind) ? raw.task.kind : '',
   };
   const failure = raw.failure && typeof raw.failure === 'object' && !Array.isArray(raw.failure) &&
@@ -126,7 +148,7 @@ function workspaceSanitizeOperationDetail(raw, expected) {
       const taskKey = typeof rel.taskKey === 'string' && rel.taskKey.length > 0 && rel.taskKey.length <= 200 ? workspaceScrubSecrets(rel.taskKey) : '';
       const revision = hex64(rel.revision) || '';
       const currentRevision = hex64(rel.currentRevision);
-      const revisionBinding = workspaceDetailAllowedBindings.has(rel.revisionBinding) ? rel.revisionBinding : 'unknown';
+      const revisionBinding = workspaceDetailAllowedBindings.has(rel.revisionBinding) ? rel.revisionBinding : workspaceDetailContract.fallbacks.unknown;
       const artifact = typeof rel.artifact === 'string' && rel.artifact.length <= 120 && !/^(?:\/|[A-Za-z]:|~)/.test(rel.artifact) && !rel.artifact.includes('..')
         ? workspaceScrubSecrets(rel.artifact) : '';
       const artifactSha256 = hex64(rel.artifactSha256) || '';
@@ -166,12 +188,12 @@ function workspaceSanitizeOperationDetail(raw, expected) {
     }
   }
   let diff;
-  if (!recorded || !rawDiff || !workspaceDetailAllowedDiffStatuses.has(rawDiff.status) || rawDiff.status === 'unavailable') {
+  if (!recorded || !rawDiff || !workspaceDetailAllowedDiffStatuses.has(rawDiff.status) || rawDiff.status === workspaceDetailContract.fallbacks.unavailable) {
     const reason = !recorded
-      ? (classification === 'legacy' ? 'legacy-or-unpinned-artifact' : 'unverified-artifact')
-      : (rawDiff && workspaceDetailAllowedDiffReasons.has(rawDiff.reason) ? rawDiff.reason : 'before-artifact-missing');
+      ? (classification === 'legacy' ? workspaceDetailContract.diffReasonCodes.legacyOrUnpinnedArtifact : workspaceDetailContract.diffReasonCodes.unverifiedArtifact)
+      : (rawDiff && workspaceDetailAllowedDiffReasons.has(rawDiff.reason) ? rawDiff.reason : workspaceDetailContract.fallbacks.beforeArtifactMissing);
     diff = {
-      status: 'unavailable',
+      status: workspaceDetailContract.fallbacks.unavailable,
       reason,
       basis: null,
       beforeRevision: null,
@@ -207,7 +229,8 @@ function workspaceSanitizeOperationDetail(raw, expected) {
     };
   }
   const truncated = Boolean(raw.truncated || diff.truncated);
-  const scopeNotice = raw.scopeNotice === 'read-only-truncated-256kib' || truncated ? 'read-only-truncated-256kib' : 'read-only-exact-scope';
+  const scopeNotice = raw.scopeNotice === workspaceDetailContract.scopeNotices.truncated || truncated
+    ? workspaceDetailContract.scopeNotices.truncated : workspaceDetailContract.scopeNotices.exact;
   return {
     ok: true,
     detail: {
@@ -588,11 +611,12 @@ function workspacePersist() {
   return workspaceWrites;
 }
 function workspaceJournalHistory(view) {
-  if (!view || typeof view !== 'object' || view.classification === 'legacy') return {classification: 'legacy', phase: 'unknown', phases: []};
-  if (view.classification !== 'recorded' || !Array.isArray(view.phases)) return {classification: 'unknown', phase: 'unknown', phases: []};
-  const phases = view.phases.slice(-32).filter(item => item && ['queued','claimed','native-started','result-received','reconciled','uncertain'].includes(item.phase) &&
+  const unknown = workspaceDetailContract.fallbacks.unknown;
+  if (!view || typeof view !== 'object' || view.classification === 'legacy') return {classification: 'legacy', phase: unknown, phases: []};
+  if (view.classification !== 'recorded' || !Array.isArray(view.phases)) return {classification: unknown, phase: unknown, phases: []};
+  const phases = view.phases.slice(-workspaceDetailContract.limits.nativePhases).filter(item => item && workspaceDetailAllowedPhases.has(item.phase) &&
     typeof item.time === 'string' && item.time.length <= 40 && Number.isFinite(Date.parse(item.time))).map(item => ({phase: item.phase, time: item.time}));
-  return {classification: 'recorded', phase: phases.length ? phases[phases.length - 1].phase : 'unknown', phases};
+  return {classification: 'recorded', phase: phases.length ? phases[phases.length - 1].phase : unknown, phases};
 }
 function workspaceRecord(current, operation, status, journal) {
   if (!workspaceCurrent(current) || !workspaceOperations.has(operation) || !workspaceStatuses.has(status)) return;
@@ -658,7 +682,7 @@ function workspaceHome(notice = '', view = 'tasks', project = null, focus = null
   workspaceHomeSession = workspaceSession();
   workspaceScope = {session: '', fileKey: null, pageId: null};
   workspaceServerHistory = []; workspaceInputFreshness = []; workspaceJournalUnavailable = false;
-  figma.showUI(workspaceLocaleHtml(__html__), {width: workspaceRelayViewer ? 400 : 560, height: workspaceRelayViewer ? 300 : 680, themeColors: true});
+  figma.showUI(workspaceLocaleHtml(__html__), workspaceRelayViewer ? /* flow-window relay */ {width: 400, height: 300, themeColors: true} : /* flow-window workspace */ {width: 560, height: 680, themeColors: true});
   return true;
 }
 function workspaceRelaySelection() {
@@ -959,10 +983,10 @@ function workspaceAssetSummary(value) {
 }
 function workspaceDependencyEdges(value) {
   if (!Array.isArray(value)) return undefined;
-  const names = new Set(['code.js', 'ui.html', 'manifest.json']);
+  const names = new Set(workspaceDependencyContract.values);
   const edges = [];
   for (const edge of value) {
-    if (!edge || edge.relation !== 'uses-output' || !names.has(edge.artifact)) continue;
+    if (!edge || edge.relation !== workspaceDependencyContract.relation || !names.has(edge.artifact)) continue;
     if (typeof edge.task_key !== 'string' || typeof edge.revision !== 'string' || typeof edge.artifact_sha256 !== 'string') continue;
     edges.push({task_key: edge.task_key, revision: edge.revision, relation: edge.relation, artifact: edge.artifact, artifact_sha256: edge.artifact_sha256});
   }

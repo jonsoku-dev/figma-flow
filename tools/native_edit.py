@@ -14,7 +14,8 @@ from specification_contract import spec_label_prelude
 
 ROOT = Path(__file__).resolve().parents[1]
 PLAN_SCHEMA = 'figma-flow-native-edit-plan-v1'
-NODE_FIELDS = {'fontSize', 'fontFamily', 'paddingLeft', 'paddingRight', 'backgroundColor', 'color', 'borderRadius'}
+NODE_EDIT_POLICY = json.loads((ROOT/'figma-bridge/edit-contract.json').read_bytes())['nodeEdits']
+NODE_FIELDS = frozenset(NODE_EDIT_POLICY['fields'])
 ID = re.compile(r'(?:I?\d+:\d+)(?:;\d+:\d+)*\Z')
 
 
@@ -117,12 +118,14 @@ def validate_plan(plan):
             source = provision[field]
             if not isinstance(source, str) or not Path(source).is_absolute() or hashlib.sha256(Path(source).read_bytes()).hexdigest() != provision[digest_field]:
                 raise ValueError(f'Pinned Starter CTA source changed or is unavailable: {field}')
-        if (provision['frame_key'] != 'little-hands/booking-cta/starter-frame' or provision['main_key'] != 'bookingCTA'
-                or provision['instance_keys'] != ['reserve-preview', 'reserve-login']):
+        from native_appearance import appearance
+        starter = appearance('starterCta')
+        if (provision['frame_key'] != starter['frameKey'] or provision['main_key'] != starter['mainKey']
+                or provision['instance_keys'] != starter['instanceKeys']):
             raise ValueError('Stable Little Hands booking CTA semantic keys required')
-        if provision['seed_collection_name'] != 'Little Hands · CTA SSOT seed' or provision['seed_variable_name'] != 'starter/little-hands/booking-cta-seed':
+        if provision['seed_collection_name'] != starter['seedCollection'] or provision['seed_variable_name'] != starter['seedVariable']:
             raise ValueError('Dedicated owned Little Hands CTA seed token mapping required')
-        if not isinstance(provision['canonical_variable_name'], str) or not re.fullmatch(r'ssot/little-hands/color/action/primary', provision['canonical_variable_name']):
+        if provision['canonical_variable_name'] != starter['canonicalVariableName']:
             raise ValueError('Current graph native semantic token name required')
         for field in ('background_color', 'text_color'):
             _validate_value('COLOR', provision[field], field)
@@ -164,8 +167,8 @@ def validate_plan(plan):
             raise ValueError('Variable value type must stay unchanged')
         return plan
     rows = plan['edits']
-    if not isinstance(rows, list) or not 1 <= len(rows) <= 32:
-        raise ValueError('Provide 1–32 explicit node edits')
+    if not isinstance(rows, list) or not 1 <= len(rows) <= NODE_EDIT_POLICY['maxEdits']:
+        raise ValueError(f"Provide 1–{NODE_EDIT_POLICY['maxEdits']} explicit node edits")
     seen, fonts = set(), set()
     for row in rows:
         if not isinstance(row, dict) or set(row) not in ({'node_id', 'field', 'before', 'after'}, {'node_id', 'main_id', 'field', 'before', 'after'}):

@@ -1,5 +1,6 @@
 async function main(): Promise<void> {
   if (figma.editorType !== 'figma') throw new Error('Open this recipe in Figma Design.');
+  const design = RECIPE_VISUALS['design-shapes'];
   const page = figma.currentPage;
   const selection = [...page.selection];
   const owned: SceneNode[] = [];
@@ -8,24 +9,24 @@ async function main(): Promise<void> {
     const x = page.children.reduce((right, node) => {
       const bounds = node.absoluteBoundingBox;
       return Math.max(right, bounds ? bounds.x + bounds.width : node.x + node.width);
-    }, 0) + 160;
+    }, 0) + design.frame.pageXOffset;
     const container = track(figma.createFrame());
     container.name = 'Recipe · Booleans and alpha mask';
     container.x = x;
-    container.resize(880, 380);
-    container.fills = [];
-    container.clipsContent = false;
-    const operations = ['UNION', 'SUBTRACT', 'INTERSECT', 'EXCLUDE'] as const;
+    container.resize(design.frame.width, design.frame.height);
+    container.fills = [...design.frame.fills];
+    container.clipsContent = design.frame.clipsContent;
+    const operations = design.booleans.operations;
     for (const [index, operation] of operations.entries()) {
       const first = track(figma.createRectangle());
       container.appendChild(first);
-      first.resize(100, 100);
-      first.x = index * 180;
+      first.resize(design.booleans.shapeWidth, design.booleans.shapeHeight);
+      first.x = index * design.booleans.stepX;
       const second = track(figma.createEllipse());
       container.appendChild(second);
-      second.resize(100, 100);
-      second.x = first.x + 40;
-      second.y = 40;
+      second.resize(design.booleans.shapeWidth, design.booleans.shapeHeight);
+      second.x = first.x + design.booleans.overlapX;
+      second.y = design.booleans.secondY;
       let result: BooleanOperationNode;
       switch (operation) {
         case 'UNION': result = track(figma.union([first, second], container)); break;
@@ -34,19 +35,19 @@ async function main(): Promise<void> {
         case 'EXCLUDE': result = track(figma.exclude([first, second], container)); break;
       }
       result.name = operation;
-      result.fills = [{ type: 'SOLID', color: { r: 0.24, g: 0.35, b: 0.85 } }];
+      result.fills = [{ type: design.booleans.fillType, color: design.booleans.fill }];
     }
     const mask = track(figma.createEllipse());
     container.appendChild(mask);
-    mask.resize(120, 120);
-    mask.y = 220;
-    mask.isMask = true;
-    mask.maskType = 'ALPHA';
+    mask.resize(design.mask.size, design.mask.size);
+    mask.y = design.mask.y;
+    mask.isMask = design.mask.isMask;
+    mask.maskType = design.mask.maskType;
     const content = track(figma.createRectangle());
     container.appendChild(content);
-    content.resize(180, 80);
-    content.y = 240;
-    content.fills = [{ type: 'SOLID', color: { r: 0.95, g: 0.45, b: 0.2 } }];
+    content.resize(design.content.width, design.content.height);
+    content.y = design.content.y;
+    content.fills = [{ type: design.content.fillType, color: design.content.fill }];
     const masked = track(figma.group([mask, content], container));
     masked.name = 'Alpha mask · ellipse clips rectangle';
     page.selection = [container];

@@ -10,7 +10,7 @@ const MiB = 1024 * 1024;
 function host(response = {accepted: true}) {
   const seen = {calls: 0, deadline: null, cleared: false};
   const context = vm.createContext({
-    WORKSPACE_CONTROL_CONFIG: {url: 'http://localhost:49198', token: 'capacity-test-token'},
+    WORKSPACE_PROFILE_POLICY:require('../library/figma-profile/policy.json'), WORKSPACE_CONTROL_CONFIG: {url: 'http://localhost:49198', token: 'capacity-test-token'},
     setTimeout(fn, delay) {seen.deadline = delay; return setTimeout(fn, delay);},
     clearTimeout(timer) {seen.cleared = true; clearTimeout(timer);},
     async fetch(url, options) {

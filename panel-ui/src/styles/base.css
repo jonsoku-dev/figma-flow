@@ -7,12 +7,12 @@
   display: none !important;
 }
 body.panel {
-  margin: 0;
-  min-width: 0;
+  margin: var(--number-0);
+  min-width: var(--number-0);
   background: var(--paper);
   color: var(--ink);
   font:
-    13px/1.55 Inter,
+    var(--dimension-13px)/var(--number-1p55) Inter,
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
@@ -28,25 +28,25 @@ h2,
 h3,
 p,
 figure {
-  margin: 0;
+  margin: var(--number-0);
 }
 h2 {
-  font-size: 14px;
-  line-height: 1.45;
+  font-size: var(--dimension-14px);
+  line-height: var(--number-1p45);
 }
 .intro {
-  margin: 0 0 20px;
+  margin: var(--number-0) var(--number-0) var(--dimension-20px);
 }
 .intro p,
 .work-section p {
   color: var(--muted);
-  margin-top: 4px;
+  margin-top: var(--dimension-4px);
 }
 .context,
 .metadata,
 .hint {
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--dimension-12px);
 }
 .metadata {
   font-variant-numeric: tabular-nums;
@@ -58,9 +58,9 @@ h2 {
   position: relative;
   display: inline-block;
   flex: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 5px;
+  width: var(--dimension-24px);
+  height: var(--dimension-24px);
+  border-radius: var(--dimension-5px);
   color: var(--on-accent);
   background: var(--accent);
 }
@@ -68,19 +68,19 @@ h2 {
 .brand-mark::after {
   content: '';
   position: absolute;
-  width: 8px;
-  height: 10px;
-  border: 2px solid currentColor;
-  border-radius: 2px;
-  transform: skewY(-12deg);
+  width: var(--dimension-8px);
+  height: var(--dimension-10px);
+  border: var(--dimension-2px) solid currentColor;
+  border-radius: var(--dimension-2px);
+  transform: skewY(var(--angle-neg12deg));
 }
 .brand-mark::before {
-  left: 5px;
-  top: 8px;
+  left: var(--dimension-5px);
+  top: var(--dimension-8px);
 }
 .brand-mark::after {
-  left: 10px;
-  top: 5px;
+  left: var(--dimension-10px);
+  top: var(--dimension-5px);
   background: var(--accent);
 }
 button,
@@ -88,18 +88,18 @@ input,
 select,
 textarea {
   font: inherit;
-  max-width: 100%;
+  max-width: var(--percentage-100);
 }
 button {
   appearance: none;
-  min-height: 36px;
-  padding: 6px 12px;
-  border: 1px solid var(--control-edge);
-  border-radius: 5px;
+  min-height: var(--dimension-36px);
+  padding: var(--dimension-6px) var(--dimension-12px);
+  border: var(--dimension-1px) solid var(--control-edge);
+  border-radius: var(--dimension-5px);
   background: var(--paper);
   color: var(--ink);
-  font-weight: 540;
-  line-height: 1.4;
+  font-weight: var(--number-540);
+  line-height: var(--number-1p4);
   cursor: pointer;
 }
 button:not(:disabled):hover {
@@ -125,26 +125,26 @@ button.primary:disabled {
 }
 a {
   color: var(--accent);
-  text-underline-offset: 3px;
+  text-underline-offset: var(--dimension-3px);
 }
 input[type='checkbox'],
 input[type='radio'] {
   accent-color: var(--accent);
 }
 select {
-  min-height: 32px;
+  min-height: var(--dimension-32px);
   color: var(--ink);
   background: var(--paper);
-  border: 1px solid var(--control-edge);
-  border-radius: 5px;
-  padding: 4px 8px;
+  border: var(--dimension-1px) solid var(--control-edge);
+  border-radius: var(--dimension-5px);
+  padding: var(--dimension-4px) var(--dimension-8px);
 }
 :where(button, input, select, textarea, a, summary):focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline: var(--dimension-2px) solid var(--accent);
+  outline-offset: var(--dimension-3px);
 }
 :where(button, select, a, input, summary) {
-  scroll-margin-block: 12px;
+  scroll-margin-block: var(--dimension-12px);
 }
 .status {
   background: var(--surface);
@@ -153,18 +153,18 @@ select {
 .status-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--dimension-8px);
 }
 .status-title::before {
   content: '';
   flex: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: var(--dimension-7px);
+  height: var(--dimension-7px);
+  border-radius: var(--percentage-50);
   background: currentColor;
 }
 .status-body {
-  margin-top: 4px;
+  margin-top: var(--dimension-4px);
   white-space: pre-wrap;
   color: var(--muted);
 }
@@ -187,19 +187,19 @@ select {
   background: var(--danger-soft);
 }
 .details {
-  margin-top: 12px;
-  font-size: 12px;
+  margin-top: var(--dimension-12px);
+  font-size: var(--dimension-12px);
 }
 summary {
   cursor: pointer;
-  padding: 6px 0;
-  font-weight: 550;
-  min-height: 28px;
+  padding: var(--dimension-6px) var(--number-0);
+  font-weight: var(--number-550);
+  min-height: var(--dimension-28px);
 }
 pre,
 textarea.preview {
   font:
-    12px/1.5 ui-monospace,
+    var(--dimension-12px)/var(--number-1p5) ui-monospace,
     SFMono-Regular,
     Consolas,
     monospace;
@@ -208,10 +208,10 @@ textarea.preview {
 }
 textarea {
   display: block;
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--control-edge);
-  border-radius: 5px;
+  width: var(--percentage-100);
+  padding: var(--dimension-12px);
+  border: var(--dimension-1px) solid var(--control-edge);
+  border-radius: var(--dimension-5px);
   background: var(--paper);
   color: var(--ink);
   resize: vertical;
@@ -220,17 +220,17 @@ textarea {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+    animation-duration: var(--duration-0p01ms) !important;
+    transition-duration: var(--duration-0p01ms) !important;
     scroll-behavior: auto !important;
   }
 }
 @media (forced-colors: active) {
   :where(button, input, select, textarea, summary):focus-visible {
-    outline: 2px solid Highlight;
+    outline: var(--dimension-2px) solid Highlight;
   }
   [aria-selected='true'],
   [aria-current='page'] {
-    border-bottom: 2px solid Highlight;
+    border-bottom: var(--dimension-2px) solid Highlight;
   }
 }

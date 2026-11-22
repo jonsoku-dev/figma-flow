@@ -1,0 +1,387 @@
+{
+  "schema": "figma-flow-native-appearance-v1",
+  "modules": {
+    "graphReview": {
+      "source": "figma-bridge/native_graph_review.js",
+      "symbol": "GRAPH_BOARD",
+      "fields": {
+        "groups": {
+          "requirement": {
+            "accent": {
+              "r": 0.31,
+              "g": 0.52,
+              "b": 0.91
+            },
+            "fill": {
+              "r": 0.93,
+              "g": 0.96,
+              "b": 1
+            }
+          },
+          "screen": {
+            "accent": {
+              "r": 0.18,
+              "g": 0.65,
+              "b": 0.56
+            },
+            "fill": {
+              "r": 0.9,
+              "g": 0.98,
+              "b": 0.96
+            }
+          },
+          "component": {
+            "accent": {
+              "r": 0.72,
+              "g": 0.48,
+              "b": 0.9
+            },
+            "fill": {
+              "r": 0.97,
+              "g": 0.93,
+              "b": 1
+            }
+          },
+          "evidence": {
+            "accent": {
+              "r": 0.9,
+              "g": 0.57,
+              "b": 0.2
+            },
+            "fill": {
+              "r": 1,
+              "g": 0.96,
+              "b": 0.89
+            }
+          }
+        },
+        "palette": {
+          "paper": {
+            "r": 0.97,
+            "g": 0.98,
+            "b": 0.99
+          },
+          "surface": {
+            "r": 0.93,
+            "g": 0.94,
+            "b": 0.96
+          },
+          "white": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "title": {
+            "r": 0.09,
+            "g": 0.11,
+            "b": 0.15
+          },
+          "meta": {
+            "r": 0.34,
+            "g": 0.38,
+            "b": 0.44
+          },
+          "summary": {
+            "r": 0.2,
+            "g": 0.24,
+            "b": 0.3
+          },
+          "cardTitle": {
+            "r": 0.1,
+            "g": 0.12,
+            "b": 0.17
+          },
+          "detail": {
+            "r": 0.32,
+            "g": 0.35,
+            "b": 0.4
+          },
+          "heading": {
+            "r": 0.25,
+            "g": 0.28,
+            "b": 0.33
+          },
+          "link": {
+            "r": 0.13,
+            "g": 0.16,
+            "b": 0.21
+          }
+        },
+        "card": {
+          "width": 236,
+          "height": 106,
+          "radius": 10,
+          "stroke": 1,
+          "marker": 5,
+          "textX": 15,
+          "labels": {
+            "kind": [
+              10,
+              200,
+              9
+            ],
+            "title": [
+              28,
+              205,
+              14
+            ],
+            "status": [
+              51,
+              205,
+              10
+            ],
+            "detail": [
+              70,
+              205,
+              9
+            ]
+          }
+        },
+        "board": {
+          "radius": 12,
+          "centerY": 400,
+          "minOffset": 80,
+          "outerGap": 160,
+          "snap": 20,
+          "columnPitch": 268,
+          "insets": 48,
+          "laneY": 172,
+          "laneMinHeight": 170,
+          "rowPitch": 132,
+          "rowsPadding": 42,
+          "gap": 18,
+          "relationsMinHeight": 92,
+          "relationPitch": 30,
+          "relationsPadding": 54,
+          "bottom": 30,
+          "side": 20,
+          "laneWidth": 252,
+          "cellX": 8,
+          "firstRowY": 32,
+          "templatesY": 110,
+          "templatesHeight": 50,
+          "masterX": 10,
+          "masterPitch": 250,
+          "masterY": 8,
+          "textMinHeight": 18,
+          "lineHeight": 1.5,
+          "labels": {
+            "title": {
+              "x": 24,
+              "y": 20,
+              "size": 22
+            },
+            "identity": {
+              "x": 24,
+              "y": 55,
+              "size": 10
+            },
+            "summary": {
+              "x": 24,
+              "y": 78,
+              "size": 11
+            },
+            "lane": {
+              "x": 12,
+              "y": 10,
+              "width": 228,
+              "size": 11
+            },
+            "relations": {
+              "x": 12,
+              "y": 10,
+              "size": 11
+            },
+            "link": {
+              "x": 8,
+              "y": 4,
+              "size": 9
+            }
+          },
+          "relationRowHeight": 26,
+          "relationRowsY": 34,
+          "relationX": 12,
+          "relationInsets": 64,
+          "linkInsets": 84
+        },
+        "typefaces": {
+          "families": [
+            "Inter",
+            "Arial",
+            "Roboto"
+          ],
+          "style": "Regular"
+        },
+        "limits": {
+          "nodes": 24,
+          "edges": 48
+        },
+        "nodeGroups": {
+          "requirement": "requirement",
+          "acceptance": "requirement",
+          "screen": "screen",
+          "state": "screen",
+          "action": "screen",
+          "component": "component",
+          "design-token": "component",
+          "test": "evidence",
+          "code": "evidence",
+          "reference": "evidence",
+          "figma": "evidence"
+        }
+      },
+      "trackExisting": [
+        "groups",
+        "palette",
+        "card",
+        "board",
+        "typefaces"
+      ]
+    },
+    "notes": {
+      "source": "figma-bridge/design_note_board.js",
+      "symbol": "NOTE_BOARD",
+      "fields": {
+        "width": 760,
+        "fontSize": 17,
+        "minWidth": 360,
+        "minTextSize": 14,
+        "padding": 24,
+        "gap": 24,
+        "minHeight": 100,
+        "canvasGap": 64,
+        "ink": {
+          "r": 0,
+          "g": 0,
+          "b": 0
+        },
+        "paper": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    },
+    "starterCta": {
+      "source": "figma-bridge/native_provision.js",
+      "symbol": "STARTER_CTA",
+      "fields": {
+        "frameKey": "little-hands/booking-cta/starter-frame",
+        "componentId": "button.bookingCTA",
+        "mainKey": {
+          "source": "apps/little-hands/design/graph.json",
+          "pointer": "/design_system/components/button.bookingCTA/native/mainKeys/0"
+        },
+        "instanceKeys": {
+          "source": "apps/little-hands/design/graph.json",
+          "pointer": "/design_system/components/button.bookingCTA/native/instanceKeys"
+        },
+        "semanticToken": {
+          "source": "apps/little-hands/design/graph.json",
+          "pointer": "/design_system/components/button.bookingCTA/native/semanticToken"
+        },
+        "namespace": {
+          "source": "apps/little-hands/design/graph.json",
+          "pointer": "/design_system/id"
+        },
+        "seedCollection": "Little Hands · CTA SSOT seed",
+        "seedVariable": "starter/little-hands/booking-cta-seed",
+        "mainLabel": "예약하기",
+        "canvasGap": 96,
+        "width": 128,
+        "height": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/controls/min_height"
+        },
+        "paddingX": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/controls/horizontal_padding"
+        },
+        "paddingY": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/controls/vertical_padding"
+        },
+        "gap": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/spacing_px/0"
+        },
+        "radius": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/controls/radius"
+        },
+        "labelSize": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/font_sizes_px/control"
+        },
+        "framePadding": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/spacing_px/3"
+        },
+        "frameGap": {
+          "source": "apps/little-hands/design/tokens.json",
+          "pointer": "/spacing_px/2"
+        },
+        "canonicalVariableName": {
+          "source": "apps/little-hands/static/littlehands/design-system.manifest.json",
+          "pointer": "/nativeTokenNames/color.action.primary"
+        },
+        "familyIds": {
+          "source": "library/component-families.json",
+          "pointer": "/families",
+          "select": "keys"
+        }
+      }
+    },
+    "webTabTargets": {
+      "source": "figma-bridge/web_design.js",
+      "symbol": "WEB_TAB_TARGETS",
+      "fields": {
+        "source": "tools/web-interaction-contract.json",
+        "pointer": "/tabs"
+      }
+    },
+    "editPolicy": {
+      "source": "figma-bridge/native_edit.js",
+      "symbol": "EDIT_POLICY",
+      "fields": {
+        "source": "figma-bridge/edit-contract.json",
+        "pointer": "/nodeEdits"
+      }
+    },
+    "foundation": {
+      "source": "figma-bridge/foundation_palette.js",
+      "symbol": "FOUNDATION_LAYOUT",
+      "fields": {
+        "setSpacing": 24,
+        "setPadding": 24,
+        "fallbackFont": {
+          "family": "Inter",
+          "style": "Regular"
+        }
+      }
+    },
+    "importer": {
+      "source": "figma-bridge/code.js",
+      "symbol": "IMPORT_LAYOUT",
+      "fields": {
+        "initialFrameHeight": 60,
+        "frameGap": 12,
+        "fallbackHeading": 24,
+        "fallbackBody": 16,
+        "textWidth": 300,
+        "readbackWindow": {
+          "width": 820,
+          "height": 720
+        }
+      }
+    },
+    "chatInput": {
+      "source": "figma-bridge/workspace_chat.js",
+      "symbol": "WORKSPACE_CHAT_INPUT",
+      "fields": {
+        "source": "figma-bridge/chat-input.json",
+        "pointer": "/message"
+      }
+    }
+  }
+}

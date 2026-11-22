@@ -1,0 +1,81 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/editable-web/graph.json#/nodes/9",
+      "covers": [
+        "tools/web_design.py",
+        "tools/web_design_canvas_crop.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py"
+      ],
+      "test": "tests/test_web_design.py",
+      "case": "WebDesignTests.test_graph_to_pinned_native_plan",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "assertion": "Editable geometry, paint, raster crops and asset intake must come from actual bounded source observations.",
+      "observed": "Chromium measurements compiled to a graph, measured canvas bounds limited raster fallback, and a nonapproved media source was rejected."
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes/9",
+      "covers": [
+        "tools/web_design.py",
+        "tools/web_design_canvas_crop.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py"
+      ],
+      "test": "tests/test_web_design.py",
+      "case": "WebDesignTests.test_intersecting_linear_and_radial_alpha_masks_are_validated_as_layers",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "assertion": "Editable geometry, paint, raster crops and asset intake must come from actual bounded source observations.",
+      "observed": "Chromium measurements compiled to a graph, measured canvas bounds limited raster fallback, and a nonapproved media source was rejected."
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes/9",
+      "covers": [
+        "tools/web_design.py",
+        "tools/web_design_canvas_crop.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py"
+      ],
+      "test": "tests/test_web_design_canvas.py",
+      "case": "CanvasSourceTests.test_screenshot_fallback_crops_only_measured_canvas_bounds",
+      "testSha256": "42d4059f130c380c8992cb34c3f5e6c4f169c4df38bdd054193ff8323767b184",
+      "assertion": "Editable geometry, paint, raster crops and asset intake must come from actual bounded source observations.",
+      "observed": "Chromium measurements compiled to a graph, measured canvas bounds limited raster fallback, and a nonapproved media source was rejected."
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes/9",
+      "covers": [
+        "tools/web_design.py",
+        "tools/web_design_canvas_crop.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py"
+      ],
+      "test": "tests/test_web_design_media.py",
+      "case": "WebDesignMediaTests.test_media_policy_rejects_unreviewed_private_hosts_and_allows_exact_local_origin",
+      "testSha256": "100f0b3eeeff79c683b8d0403c20f693a12b6d0e6789417b25d7b0a67dba7161",
+      "assertion": "Editable geometry, paint, raster crops and asset intake must come from actual bounded source observations.",
+      "observed": "Chromium measurements compiled to a graph, measured canvas bounds limited raster fallback, and a nonapproved media source was rejected."
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes/9",
+      "covers": [
+        "tools/web_design.py",
+        "tools/web_design_canvas_crop.py",
+        "tools/web_design_capture.js",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py"
+      ],
+      "test": "tests/test_interactive_capture_release.py",
+      "case": "InteractiveBrowserTests.test_tabs_roundtrip_compiles_two_actual_states",
+      "testSha256": "1c92e7019c9ba8bc567089774d200996fc5905572ee3673b2299f2fb92868153",
+      "assertion": "Editable geometry, paint, raster crops and asset intake must come from actual bounded source observations.",
+      "observed": "Chromium measurements compiled to a graph, measured canvas bounds limited raster fallback, and a nonapproved media source was rejected."
+    }
+  ]
+}

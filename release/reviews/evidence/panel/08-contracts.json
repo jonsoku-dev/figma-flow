@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "cross-language panel contract graph owns operation detail, dependency artifact and asset status enums",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "library/panel-design/contracts.json#/nodes/3",
+      "covers": [
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "assertion": "cross-language panel contract graph owns operation detail, dependency artifact and asset status enums",
+      "observed": "Shared contract nodes provide the exact dependency, asset, operation detail and chat error domains."
+    }
+  ]
+}

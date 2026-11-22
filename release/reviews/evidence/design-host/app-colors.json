@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_graph_token_sync.cjs",
+      "case": "apply edits only scalar roots, checks direct inherited getters and saves graph baseline",
+      "testSha256": "c859839fed6cc6808a3a90f7347b37e4d2a14ca64625a4905b78e5376ad8e8a5",
+      "authority": "apps/little-hands/design/tokens.json#/colors",
+      "covers": [
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/semantic_tokens.js"
+      ],
+      "assertion": "apply edits only scalar roots, checks direct inherited getters and saves graph baseline",
+      "observed": "Native graph token application preserves actual typed values and emits a readback/baseline for the changed token consumers."
+    }
+  ]
+}

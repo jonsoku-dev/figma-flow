@@ -1,0 +1,74 @@
+{
+  "date": "2026-11-22",
+  "environment": {
+    "tool": "Figma Flow isolated Playwright browser",
+    "browser": "Chromium launched on the Chrome channel; exact build not captured",
+    "origin": "http://127.0.0.1:8767",
+    "server": "temporary isolated Python HTTP server serving a byte-identical copy of app/",
+    "storage": "isolated browser context with fresh localhost IndexedDB",
+    "tokenMutationOrigin": "http://127.0.0.1:8766; temporary copy with one token graph value changed"
+  },
+  "scope": "Current local-only app browser checks. No Figma import, approval, screen-reader, cross-browser, exhaustive keyboard, or external-service behavior is claimed. Write failure was injected locally at the IndexedDB transaction boundary.",
+  "app_sha256": {
+    "app/app.js": "ffdecaea47c1a6e97127c6ae41db25bf8facfedbf2c10c88ff1daaad34087107",
+    "app/index.html": "30fbd1950b9fa9ba7f934bb42f09bbb388a75dec4be033649b9c0ace9acccd91",
+    "app/style.css": "97f0b392cff2082a5ec9b653044c6499f244ccf1a2cea7f6b8d4694b06044031",
+    "app/visual-tokens.json": "fee1aec7daba05b5776f2ddd92594acb1ec6d54e7c63c6915ac96cd07c2b51e7"
+  },
+  "checks": [
+    {
+      "id": "visual-token-mutation",
+      "passed": true,
+      "observed": "In an isolated copy, changed the app-ink token node value to #ff00ff. Chromium computed body color as rgb(255, 0, 255); the token graph remains the source and the CSS variable consumed the new value."
+    },
+    {
+      "id": "desktop",
+      "passed": true,
+      "observed": "1440x900: fresh empty state, opened the form, corrected invalid title, saved an idea and returned focus to Add. Horizontal scroll width equaled viewport width."
+    },
+    {
+      "id": "mobile",
+      "passed": true,
+      "observed": "375x812: the list and form rendered, mobile record saved, document scroll width remained 375, and focus returned to Add."
+    },
+    {
+      "id": "keyboard",
+      "passed": true,
+      "observed": "With title focused, Shift+Tab moved to Back and Tab returned to title. Enter with blank title set aria-invalid, associated hint+error and retained title focus. Corrected title cleared the error and its association."
+    },
+    {
+      "id": "persist",
+      "passed": true,
+      "observed": "Saved a title/body record and navigated to the same local origin again; the record remained in IndexedDB."
+    },
+    {
+      "id": "write-retry",
+      "passed": true,
+      "observed": "Injected one local IndexedDB transaction abort through page DevTools. The error appeared, the form stayed open and title/body draft remained. Restored the native method and retry added the record."
+    },
+    {
+      "id": "two-tabs",
+      "passed": true,
+      "observed": "Opened a second tab in the same browser context and origin; it read prior records. Saving a new item updated the first tab through BroadcastChannel without reload."
+    },
+    {
+      "id": "search",
+      "passed": true,
+      "observed": "Case-insensitive search matched title text; unmatched query showed no-results state; clearing restored results."
+    },
+    {
+      "id": "console",
+      "passed": true,
+      "observed": "Isolated Chromium console recorded 0 errors, warnings, or other console messages during the exercised current-app flow."
+    },
+    {
+      "id": "favicon",
+      "passed": true,
+      "observed": "The app declared an inline SVG data URI favicon; the isolated browser recorded no favicon network request."
+    }
+  ],
+  "screenshots": {
+    "evidence/browser-current-mobile.png": "1a09417f26bda1e3415eef6a5622c06c592efed9912d0a0fc440a91969806443",
+    "evidence/browser-current-visual-mutation.png": "be10ca2acb5fcfd68a8cf276511f9b51e41104b56519efe8ec2b99ec167e4ff5"
+  }
+}

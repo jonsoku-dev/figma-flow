@@ -142,6 +142,64 @@
       "title": "이력 시각화 인수 조건 6",
       "status": "unverified",
       "source": "spec.md"
+    },
+    {
+      "id": "CONTRACT-ACTIVITY-01",
+      "type": "reference",
+      "title": "Current activity and recommendation value contract",
+      "status": "observed",
+      "source": "spec.md#AC-ACTIVITY-01",
+      "pendingStatus": "pending",
+      "countedStatuses": [
+        "pending",
+        "requested",
+        "running",
+        "finished",
+        "readback",
+        "baseline",
+        "verified",
+        "failed"
+      ],
+      "recommendationProgressStatuses": [
+        "finished",
+        "readback",
+        "verified",
+        "baseline"
+      ],
+      "recommendationPhaseByKind": {
+        "default": 1,
+        "import": 2,
+        "pairedImport": 3,
+        "sync": 3
+      },
+      "recommendationFailureStatuses": [
+        "failed"
+      ],
+      "recommendationExcludedTaskKinds": [
+        "review"
+      ],
+      "recommendationRequiresOneOf": [
+        "productionAdmitted",
+        "paired"
+      ],
+      "historyExcludedOperations": [
+        "download"
+      ],
+      "historyExcludedOperationPrefixes": [
+        "chat:"
+      ],
+      "recordedOperations": [
+        "import",
+        "export",
+        "sync",
+        "draft-review",
+        "read",
+        "apply",
+        "verification",
+        "download",
+        "chat:queue",
+        "chat:open"
+      ]
     }
   ],
   "edges": [
@@ -269,6 +327,21 @@
       "from": "AC-ACTIVITY-06",
       "to": "TEST-ACTIVITY-02",
       "type": "checked by"
+    },
+    {
+      "from": "CONTRACT-ACTIVITY-01",
+      "to": "REQ-ACTIVITY-01",
+      "type": "informs"
+    },
+    {
+      "from": "CONTRACT-ACTIVITY-01",
+      "to": "REQ-ACTIVITY-02",
+      "type": "informs"
+    },
+    {
+      "from": "CONTRACT-ACTIVITY-01",
+      "to": "CODE-ACTIVITY-02",
+      "type": "defines values for"
     }
   ]
 }

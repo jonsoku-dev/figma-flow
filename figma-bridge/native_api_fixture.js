@@ -214,7 +214,7 @@ async function createNativeApiLabFixtures(figma, expectedFileKey) {
 
 function showNativeApiLabReceipt(figma, result) {
   const safe = JSON.stringify(result, null, 2).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  figma.showUI(`<meta charset="utf-8"><h2>Figma Flow API lab fixtures</h2><pre style="white-space:pre-wrap">${safe}</pre><button onclick="parent.postMessage({pluginMessage:1},'*')">Close</button>`, {width: 680, height: 560});
+  figma.showUI(`<meta charset="utf-8"><h2>Figma Flow API lab fixtures</h2><pre style="white-space:pre-wrap">${safe}</pre><button onclick="parent.postMessage({pluginMessage:1},'*')">Close</button>`, /* flow-window apiFixture */ {width: 680, height: 560});
   figma.ui.onmessage = () => figma.closePlugin();
 }
 

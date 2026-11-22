@@ -1,33 +1,44 @@
 {
   "schemaVersion": 1,
   "typescriptVersion": "5.9.3",
+  "designGraph": {
+    "source": "design-examples.graph.json",
+    "sourceSha256": "00674f19e754d80fc41b317313da1461cc748b8a685bfb4ef8ee91c53d91f28a",
+    "projectionSha256": "846405bd32496deb5e079683704d13a4d05219afc43af4041ed7698c865dd48c",
+    "componentPayloadSource": "tests/fixtures/declared-component-properties.json",
+    "componentPayloadSha256": "cbd28f6a3f2b7608db60a14ec645a9c4c24cdd33ca54954e59e0572e2cd6bd17"
+  },
   "recipes": [
     {
       "id": "design-shapes",
       "source": "design-shapes.ts",
-      "sourceSha256": "8bf830b0de335f9b59cb00ba69e319f441286a31ebac743f1355b424f8e2ae96",
+      "sourceSha256": "7c4bc84d5d82c94451f11fc751dbdc5826aedea611d740583ea86850f4bba341",
       "entry": "bundled/design-shapes.js",
-      "jsSha256": "3c1dabb0f95d3ee2cf4bf3f0716600f2479697978f52b9f8270e4380e01297b4"
+      "visualProjectionSha256": "9f3e1f28b9f84129d34c76dc8b42705c27479ca1779397c215bac237c7fb9c6c",
+      "jsSha256": "46f910c3409aa940ea8423fe7df4d58b748d86581b4070263d1c6645e08e5729"
     },
     {
       "id": "design-grid",
       "source": "design-grid.ts",
-      "sourceSha256": "849222ea2188115ed0dd03887a59d4bf42e3339fae4301b560862ec5c7bcf923",
+      "sourceSha256": "9b9ebecddc6cc88c1271434771f9c43978c21409c68c2c936ea538fd515c5fb0",
       "entry": "bundled/design-grid.js",
-      "jsSha256": "2aa18cc82dc75bd32e37921f9dfaf6d51b1688fac9fa095cdf138e83886d492b"
+      "visualProjectionSha256": "e2625ca807542fbefc229c96885d04825c390bd9b1bee8a7e00fad9496323501",
+      "jsSha256": "8f249e35cc65b35138ac253447e1965f0968713615058ba53fd20ae19d629b23"
     },
     {
       "id": "design-motion",
       "source": "design-motion.ts",
-      "sourceSha256": "5e879a761d3883fc353f25c6db11b894f71cb70458be2e8de15ee801f739996e",
+      "sourceSha256": "6a3c485590658013bcb742625aaef40033f221c938beedf4c2aaebdafdfdcd44",
       "entry": "bundled/design-motion.js",
-      "jsSha256": "eb3d234c53b46fdaca41bb34c74c460f0c72a9999e384c7c980fd2af358fdf1d"
+      "visualProjectionSha256": "9a1c6e4438f492a0c68b870542c663fd4dcf975c5265773677eca117f4f7ba7a",
+      "jsSha256": "99d2b9eb4e7f92cac179c6e9d5d8de14a6ca11061ee87f4e12c06f71db174a96"
     },
     {
       "id": "design-component-properties",
       "source": "design-component-properties.ts",
-      "sourceSha256": "ffa87adb507e63cb9207cc116038f8ab91da480bad19525a2ea02596b620fd24",
+      "sourceSha256": "fe606a8615dc66d5838f5041c004610b8fa3e94bee9c89371a90fd0d1d86107d",
       "entry": "bundled/design-component-properties.js",
+      "visualProjectionSha256": "8a2204e2b54ec318a5dc5a5c63a0e44cef7c8c3cf6c9153e267285fda8975ccc",
       "helpers": "component-properties.helpers.js",
       "helpersSha256": "4309afcd5ef3c5c8eae359ee670bb8ba9813af041ba0b9b7c7b1b1800bdfcc17",
       "productionFunctions": [
@@ -56,22 +67,23 @@
         "bindDeclaredComponentProperties": "dbef1b9c44b6073e891e689890b8f1ed5ee174aa3ac4c220b2852a75be561ed8",
         "applyDeclaredInstanceProperties": "46e6ecdc3fea128fc2582a8dfb379efe6d9a57381d5945706fcf23e42f9c5822"
       },
-      "productionSourceSha256": "68e298956e9f8ec0978b0e3cc590180274532e5354125287b0015fe946cfdfe6",
-      "jsSha256": "1e675750962f919753a5847975b70a084ee0d7a6c8b0b30fe19383cc44f9e362"
+      "productionSourceSha256": "e99391bd39f409a06317f70c9fe8d0099d51169eaf8910ba6e250b19eb5e4074",
+      "jsSha256": "f8d4f27cf7de87ae400036386bfe055b795d7c47933ecb0581caf2b91c16199c"
     }
   ],
   "sdkGraphRecipes": [
     {
       "id": "design-type-review",
       "source": "design-type-review.ts",
-      "sourceSha256": "eeed1c65371346d4106bd3296510f15d825acf252d7adff7075641a3020022f5",
+      "sourceSha256": "e2ff4227043213757d56b9e02640ad7f71fbfc98c4dd3db82c3f36dc9cc1bc0e",
       "graphTemplate": "design-type-review.graph.json",
       "graphTemplateSha256": "c404112bb757539fa1469824a047d91329d457ab0b7ee6c2787b74494e57f154",
       "graphProjectionSha256": "d37e22d5c9743f1c6528c867e334e474207ff9353dcaea62f694fe77327ab8fd",
       "graphSha256": "48d0f1dfcb989c20f5f335fa360769b68a8736ee73d4b47f6f99c8f7f567174e",
+      "visualProjectionSha256": "1534d2495f644be5905801008188f05dd71198833d3b8c4fffd729df00491fa0",
       "selectionSha256": "edc3fa7013bd2ef64b3403ac01994fc00e971f16897e8c1b299e42fa11573fe6",
       "priorityInventorySha256": "4e5480245bf3779a7d39668698be65fd5d0974bee71b5ce9316eea0918c551a5",
-      "compiledSha256": "470266aa8dbb88b8b6f24390cfaae9e704a9a87308e3fa48a57626b5b1d08e05"
+      "compiledSha256": "601a2e58504c602faab15e83fa7a92d0e530e852b31aff9a642966fe61b44e24"
     }
   ]
 }

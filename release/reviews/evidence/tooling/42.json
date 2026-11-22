@@ -1,0 +1,62 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "tools/report-presentation.json#/graphics",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_widget_project.py"
+      ],
+      "test": "tests/test_tool_presentation.py",
+      "case": "ReportAppearanceTests.test_changed_palette_and_dimensions_reach_the_published_report_and_widget",
+      "testSha256": "3e812eaee6a2c033b30d732868bc4f3105b56a703216b45c426933b4bd837a68",
+      "assertion": "Presentation defaults for graphics are separate from the measured input and the authored design tokens.",
+      "observed": "The sampled widget consumed the projected size/palette, reports carried real screenshot assets, and SVG components honored their supplied dimensions and fonts."
+    },
+    {
+      "authority": "tools/report-presentation.json#/graphics",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_widget_project.py"
+      ],
+      "test": "tests/test_alignment_audit.py",
+      "case": "AlignmentAuditTests.test_signed_drift_and_missing_are_distinct_and_captures_are_written",
+      "testSha256": "f236b846b6c9a44f7ccc4b9d47fe1f8a629a9040c7051dd5fd38c5443fa173e3",
+      "assertion": "Presentation defaults for graphics are separate from the measured input and the authored design tokens.",
+      "observed": "The sampled widget consumed the projected size/palette, reports carried real screenshot assets, and SVG components honored their supplied dimensions and fonts."
+    },
+    {
+      "authority": "tools/report-presentation.json#/graphics",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_widget_project.py"
+      ],
+      "test": "tests/test_direction_review_surface.py",
+      "case": "PortableReviewTests.test_review_carries_visible_images_and_graph_evidence_without_a_server",
+      "testSha256": "d18a820e3137f334a0e67abf8f503806dbcd221eb24ff24a48314a753aa9cdbf",
+      "assertion": "Presentation defaults for graphics are separate from the measured input and the authored design tokens.",
+      "observed": "The sampled widget consumed the projected size/palette, reports carried real screenshot assets, and SVG components honored their supplied dimensions and fonts."
+    },
+    {
+      "authority": "tools/report-presentation.json#/graphics",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_widget_project.py"
+      ],
+      "test": "tests/test_design_system.py",
+      "case": "DesignSystemTests.test_svg_uses_component_dimensions_and_font_tokens",
+      "testSha256": "b6f055468d3bf26b67c9131de782d8a27e181b62c9a9b2f204041ef33e39d98b",
+      "assertion": "Presentation defaults for graphics are separate from the measured input and the authored design tokens.",
+      "observed": "The sampled widget consumed the projected size/palette, reports carried real screenshot assets, and SVG components honored their supplied dimensions and fonts."
+    }
+  ]
+}

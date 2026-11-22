@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Audit the exact Git distribution before its major version is released."""
 import argparse
+import ast
 import hashlib
 import json
 import os
@@ -14,6 +15,8 @@ from zipfile import ZipFile
 
 import panel_authority
 import plugin_manifest
+import report_appearance
+import native_appearance
 import runtime_authority
 import spec_graph_coverage
 
@@ -78,7 +81,7 @@ def scope_digest(root, paths):
     return hasher.hexdigest()
 
 
-def rerun_witness(root, check):
+def rerun_witness(root, check, panel_deps=None):
     """Run one named, pinned test case without evaluating a shell/command from a receipt."""
     test = relative(check['test'])
     case = check['case']
@@ -107,8 +110,17 @@ sys.exit(0 if result.wasSuccessful() and result.testsRun == 1 and not result.ski
         raise ValueError('Unsupported witness test runner.')
     env = {**os.environ, 'PYTHONDONTWRITEBYTECODE':'1',
            'PYTHONPATH':os.pathsep.join(str(p.resolve()) for p in (root, root/'tests', root/'tools'))}
+    deps = Path(panel_deps or os.environ.get('FIGMA_FLOW_PANEL_DEPENDENCIES') or root/'panel-ui/node_modules').resolve()
+    env['NODE_PATH'] = str(deps) if deps.is_dir() else ''
     result = subprocess.run(args,cwd=root,env=env,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=120)
-    if result.returncode or (args[0]=='node' and not re.search(r'^# pass [1-9]\d*$',result.stdout,re.M)):
+    if args[0] == 'node':
+        # A file without registered cases can report one passing file-level subtest.
+        # Only a passing TAP result for the reviewed case is a witness.
+        expected = re.escape(case.replace('#', r'\#'))
+        named = re.search(r'^[ \t]*ok [0-9]+ - '+expected+r'[ \t]*$',result.stdout,re.M)
+        if not named:
+            raise ValueError(f'Named test case did not pass at this revision: {test} {case}')
+    if result.returncode:
         raise ValueError(f'Witness did not pass at this revision: {test} {case}')
 
 
@@ -166,7 +178,7 @@ def authority_field(path, pointer):
     return text
 
 
-def verify_review(root, surface, paths, owners, fingerprint):
+def verify_review(root, surface, paths, owners, fingerprint, panel_deps=None):
     """A review binds every scoped file to an actual JSON authority and a witnessed check."""
     id_ = surface['id']
     note = f'release/reviews/{id_}.json'
@@ -215,13 +227,13 @@ def verify_review(root, surface, paths, owners, fingerprint):
         if covered != set(paths):
             raise ValueError(f'Missing bindings for {len(set(paths)-covered)} distributed files.')
         for c in reruns.values():
-            rerun_witness(root,c)
+            rerun_witness(root,c,panel_deps)
     except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.SubprocessError) as exc:
         return [finding('invalid-surface-review', note, str(exc), surface=id_)]
     return []
 
 
-def inventory(root, files):
+def inventory(root, files, panel_deps=None):
     graph = read_json(root/REGISTRY)
     if graph.get('schema') != 'figma-flow-major-authority-v1':
         raise ValueError('Unknown release graph schema.')
@@ -290,7 +302,7 @@ def inventory(root, files):
             if mode in eligible and not eligible[mode]:
                 issues.append(finding('incorrect-support-role',name,'First-party product file classified outside review.',role=mode))
         if mode == 'review':
-            issues.extend(verify_review(root,surface,paths,owners[id_],fingerprint))
+            issues.extend(verify_review(root,surface,paths,owners[id_],fingerprint,panel_deps))
         elif mode == 'projection' and set(paths) != {'plugin.json','.codex-plugin/plugin.json'}:
             issues.append(finding('unverified-projection',REGISTRY,'Unknown derived metadata in release projection.',surface=id_))
         if mode in {'review','projection'}:
@@ -342,19 +354,47 @@ CONTROLS = {
     'tools/spec_graph_coverage.py': spec_graph_coverage.check,
     'tools/runtime_authority.py': runtime_authority.check,
     'tools/panel_authority.py': panel_authority.check,
+    'tools/report_appearance.py': report_appearance.check,
+    'tools/native_appearance.py': native_appearance.check,
     'tools/major_release.py': bundle_check,
 }
 
 
+def checker_inputs(root):
+    """Pin local imports of every check, including the two file-loaded graph/view modules."""
+    pending = [*CONTROLS,'skills/figma-flow/scripts/graph.py','tools/plugin_panel.py']
+    seen = set()
+    while pending:
+        name = pending.pop()
+        if name in seen:
+            continue
+        seen.add(name)
+        path = root / name
+        if not path.is_file():
+            continue
+        for node in ast.walk(ast.parse(path.read_bytes(), filename=name)):
+            if isinstance(node, ast.Import):
+                names = [a.name for a in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                names = [node.module]
+            else:
+                continue
+            for module in names:
+                local = path.parent.joinpath(*module.split('.')).with_suffix('.py')
+                if local.is_file():
+                    pending.append(local.relative_to(root).as_posix())
+    return seen
+
+
 def audit(root, files, deps=None):
-    issues, surfaces = inventory(root, files)
+    issues, surfaces = inventory(root, files, deps)
     for name, check in CONTROLS.items():
         try:
             if check is bundle_check:
                 issues.extend(check(root,files,deps or root/'panel-ui/node_modules'))
             else:
                 issues.extend(check(root))
-        except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as exc:
+        except (OSError, ValueError, KeyError, TypeError, SyntaxError, subprocess.SubprocessError) as exc:
             issues.append(finding('check-unavailable',name,str(exc)))
     blockers = [i for i in issues if i.get('severity') not in ('advisory','warning','info')]
     return {'status':'blocked' if blockers else 'passed','blockerCount':len(blockers),
@@ -436,8 +476,9 @@ def run(args):
         if report is None:
             tree = tmp/'tree'
             files = inspect_archive(artifact,tree)
-            check_sources = {*CONTROLS,'skills/figma-flow/scripts/graph.py','tools/plugin_panel.py'}
-            mismatch = sorted(n for n in check_sources if n not in files or (tree/n).read_bytes() != (ROOT/n).read_bytes())
+            check_sources = checker_inputs(ROOT) | checker_inputs(tree)
+            mismatch = sorted(n for n in check_sources if n not in files or not (ROOT/n).is_file()
+                              or (tree/n).read_bytes() != (ROOT/n).read_bytes())
             if mismatch:
                 report = {'status':'blocked','blockerCount':len(mismatch),
                           'findings':[finding('checker-version-drift',n,'Use the release checker from this candidate.') for n in mismatch]}
@@ -473,7 +514,7 @@ def main():
     args = parser.parse_args()
     try:
         report = run(args)
-    except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as exc:
+    except (OSError, ValueError, KeyError, TypeError, SyntaxError, subprocess.SubprocessError) as exc:
         report = {'status':'blocked','error':str(exc)}
     print(json.dumps(report,ensure_ascii=False,indent=2))
     return 0 if report['status'] in {'passed','not-applicable'} else 1

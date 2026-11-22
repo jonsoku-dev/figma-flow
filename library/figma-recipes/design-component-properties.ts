@@ -8,32 +8,33 @@ declare function applyDeclaredInstanceProperties(instance: InstanceNode, main: C
 
 async function main(): Promise<void> {
   if (figma.editorType !== 'figma') throw new Error('Open this recipe in Figma Design.');
+  const design = RECIPE_VISUALS['design-component-properties'];
   const page = figma.currentPage;
   const selection = [...page.selection];
   const owned: SceneNode[] = [];
   const track = <T extends SceneNode>(node: T): T => { owned.push(node); return node; };
   try {
     validateDeclaredComponentProperties(PAYLOAD);
-    const font: FontName = {family: 'Inter', style: 'Regular'};
+    const font: FontName = {family: design.label.fontFamily, style: design.label.fontStyle};
     await figma.loadFontAsync(font);
     const x = page.children.reduce((right, node) => {
       const bounds = node.absoluteBoundingBox;
       return Math.max(right, bounds ? bounds.x + bounds.width : node.x + node.width);
-    }, 0) + 160;
+    }, 0) + design.frame.pageXOffset;
     const container = track(figma.createFrame());
     container.name = 'Recipe · Native BOOLEAN and INSTANCE_SWAP';
     container.x = x;
-    container.layoutMode = 'VERTICAL';
-    container.primaryAxisSizingMode = 'AUTO';
-    container.counterAxisSizingMode = 'AUTO';
-    container.paddingTop = container.paddingBottom = container.paddingLeft = container.paddingRight = 32;
-    container.itemSpacing = 20;
+    container.layoutMode = design.frame.layoutMode;
+    container.primaryAxisSizingMode = design.frame.primaryAxisSizing;
+    container.counterAxisSizingMode = design.frame.counterAxisSizing;
+    container.paddingTop = container.paddingBottom = container.paddingLeft = container.paddingRight = design.frame.padding;
+    container.itemSpacing = design.frame.itemSpacing;
     const label = (parent: FrameNode | ComponentNode, value: string): TextNode => {
       const text = track(figma.createText());
       parent.appendChild(text);
       text.fontName = font;
       text.characters = value;
-      text.fontSize = 18;
+      text.fontSize = design.label.fontSize;
       return text;
     };
     label(container, 'Native component properties · BOOLEAN + INSTANCE_SWAP');
@@ -54,17 +55,17 @@ async function main(): Promise<void> {
         const main = track(figma.createComponent());
         container.appendChild(main);
         main.name = 'Variant=' + variant;
-        main.layoutMode = 'HORIZONTAL';
-        main.primaryAxisSizingMode = 'AUTO';
-        main.counterAxisSizingMode = 'AUTO';
-        main.paddingTop = main.paddingBottom = main.paddingLeft = main.paddingRight = 12;
-        main.itemSpacing = 12;
+        main.layoutMode = design.component.layoutMode;
+        main.primaryAxisSizingMode = design.component.primaryAxisSizing;
+        main.counterAxisSizingMode = design.component.counterAxisSizing;
+        main.paddingTop = main.paddingBottom = main.paddingLeft = main.paddingRight = design.component.padding;
+        main.itemSpacing = design.component.itemSpacing;
         label(main, name === 'button' ? 'Button label' : variant);
         if (name === 'symbol') {
           const shape = variant === 'circle' ? figma.createEllipse() : figma.createRectangle();
           main.appendChild(shape);
-          shape.resize(24, 24);
-          shape.fills = [{type: 'SOLID', color: {r: 0.22, g: 0.36, b: 0.85}}];
+          shape.resize(design.symbol.size, design.symbol.size);
+          shape.fills = [{type: design.symbol.fillType, color: design.symbol.fill}];
         }
         metadata(main, 'component:' + name + '/' + variant);
         components.set(JSON.stringify([name, variant]), main);
@@ -72,10 +73,10 @@ async function main(): Promise<void> {
       }
       const set = track(figma.combineAsVariants(mains, container));
       set.name = 'Main family · ' + name;
-      set.layoutMode = 'HORIZONTAL';
-      set.primaryAxisSizingMode = 'AUTO';
-      set.counterAxisSizingMode = 'AUTO';
-      set.itemSpacing = 24;
+      set.layoutMode = design.componentSet.layoutMode;
+      set.primaryAxisSizingMode = design.componentSet.primaryAxisSizing;
+      set.counterAxisSizingMode = design.componentSet.counterAxisSizing;
+      set.itemSpacing = design.componentSet.itemSpacing;
       bindOwnedLabelProperty(set, mains, warnings);
     }
     bindDeclaredComponentProperties(components, PAYLOAD.components);

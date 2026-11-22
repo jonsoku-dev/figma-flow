@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "authenticated poll piggybacks events and retires only the acknowledged cursor",
+      "testSha256": "88eb129b52e24a584a0aee4e462af917de9dafe1891ce80f3e2cd35c6ecbaa59",
+      "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "authenticated poll piggybacks events and retires only the acknowledged cursor",
+      "observed": "Native change events piggyback on authenticated polling and are retired only by a durable matching acknowledgement."
+    }
+  ]
+}

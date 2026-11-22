@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_direction_review_surface.py",
+      "case": "PortableReviewTests.test_review_carries_visible_images_and_graph_evidence_without_a_server",
+      "testSha256": "d18a820e3137f334a0e67abf8f503806dbcd221eb24ff24a48314a753aa9cdbf",
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Evidence graph contract",
+      "covers": [
+        "figma-bridge/README.md",
+        "figma-bridge/direction_review.js"
+      ],
+      "assertion": "DirectionReviewTests.test_review_carries_visible_images_and_graph_evidence_without_a_server",
+      "observed": "Direction review output carries its graph evidence and visible candidate imagery without a running service."
+    }
+  ]
+}

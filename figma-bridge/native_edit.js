@@ -1,5 +1,19 @@
+/* native appearance: begin editPolicy */
+const EDIT_POLICY = {
+  "maxEdits": 32,
+  "fields": [
+    "fontSize",
+    "fontFamily",
+    "paddingLeft",
+    "paddingRight",
+    "backgroundColor",
+    "color",
+    "borderRadius"
+  ]
+};
+/* native appearance: end editPolicy */
 /* Data-only native mutation. The canonical graph is never read or changed here. */
-const nativeEditFields = new Set(['fontSize','fontFamily','paddingLeft','paddingRight','backgroundColor','color','borderRadius']);
+const nativeEditFields = new Set(EDIT_POLICY.fields);
 const nativeEditClone = value => JSON.parse(JSON.stringify(value));
 function nativeEditEqual(a,b) {
   if(a&&b&&['r','g','b'].every(key=>typeof a[key]==='number'&&typeof b[key]==='number')&&[a,b].every(value=>Object.keys(value).every(key=>['r','g','b','a'].includes(key))))return ['r','g','b','a'].every(key=>Math.abs((a[key]??1)-(b[key]??1))<0.000001);
@@ -73,7 +87,7 @@ function nativeEditValidatePlan(plan) {
   const variable=plan.variableedit,edits=plan.edits;
   if(Boolean(variable)===Boolean(edits))throw Error('Choose node edits or one existing variable edit');
   if(variable){if(!variable.variable_id||!variable.mode_id||!('before'in variable)||!('after'in variable))throw Error('Exact existing variable/mode and values required');return;}
-  if(!Array.isArray(edits)||!edits.length||edits.length>32)throw Error('Bounded declared edits required');
+  if(!Array.isArray(edits)||!edits.length||edits.length>EDIT_POLICY.maxEdits)throw Error('Bounded declared edits required');
   const seen=new Set(),fontNodes=new Set();
   for(const edit of edits){
     const key=edit.node_id+'|'+edit.field,text=['fontSize','fontFamily','color'].includes(edit.field);
@@ -313,7 +327,7 @@ async function runNativeEdit(figma,plan,operation='apply') {
   }
 }
 if(typeof NATIVE_EDIT_PLAN!=='undefined'&&typeof figma!=='undefined'){
-  figma.showUI(__html__,{width:520,height:640,themeColors:true});let nativeEditBusy=false;
+  figma.showUI(__html__,/* flow-window nativeEdit */ {width: 520, height: 640, themeColors: true});let nativeEditBusy=false;
   figma.ui.onmessage=async message=>{
     if(nativeEditBusy||!['read','apply'].includes(message?.type)||message.session!==NATIVE_EDIT_SESSION)return;
     nativeEditBusy=true;figma.ui.postMessage({session:NATIVE_EDIT_SESSION,state:'busy',operation:message.type});

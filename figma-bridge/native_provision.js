@@ -1,10 +1,45 @@
+/* native appearance: begin starterCta */
+const STARTER_CTA = {
+  "frameKey": "little-hands/booking-cta/starter-frame",
+  "componentId": "button.bookingCTA",
+  "mainKey": "bookingCTA",
+  "instanceKeys": [
+    "reserve-preview",
+    "reserve-login"
+  ],
+  "semanticToken": "color.action.primary",
+  "namespace": "little-hands",
+  "seedCollection": "Little Hands · CTA SSOT seed",
+  "seedVariable": "starter/little-hands/booking-cta-seed",
+  "mainLabel": "예약하기",
+  "canvasGap": 96,
+  "width": 128,
+  "height": 48,
+  "paddingX": 22,
+  "paddingY": 11,
+  "gap": 8,
+  "radius": 0,
+  "labelSize": 14,
+  "framePadding": 20,
+  "frameGap": 16,
+  "canonicalVariableName": "ssot/little-hands/color/action/primary",
+  "familyIds": [
+    "field",
+    "input",
+    "checkbox",
+    "radio",
+    "table-row",
+    "table-cell"
+  ]
+};
+/* native appearance: end starterCta */
 /* Idempotently provisions graph-keyed native components under an existing page. */
 const NATIVE_PROVISION_SCHEMA = 'figma-flow-starter-cta-provision-v1';
 const NATIVE_PROVISION_OWNER = 'figmaFlowStarterCtaProvision';
 const NATIVE_PROVISION_FRAME = {width: 420, height: 280};
 const NATIVE_FAMILY_PROVISION_SCHEMA = 'figma-flow-component-families-provision-v1';
 const NATIVE_FAMILY_CONTRACT_SCHEMA = 'figma-flow-semantic-family-contract-v1';
-const NATIVE_ALLOWED_FAMILIES = new Set(['field', 'input', 'checkbox', 'radio', 'table-row', 'table-cell']);
+const NATIVE_ALLOWED_FAMILIES = new Set(STARTER_CTA.familyIds);
 const nativeProvisionClone = value => JSON.parse(JSON.stringify(value));
 
 function nativeFamilyProvisionValidate(plan) {
@@ -22,7 +57,7 @@ function nativeFamilyProvisionValidate(plan) {
       !c || c.schema !== NATIVE_FAMILY_CONTRACT_SCHEMA || c.version !== 1 || c.mode !== 'additive-family-workbench' ||
       c.ownerKey !== p.owner_key || c.workbench?.frameKey !== p.frame_key ||
       !Number.isFinite(c.workbench?.position?.x) || !Number.isFinite(c.workbench?.position?.y) ||
-      !Array.isArray(c.componentSets) || c.componentSets.length < 1 || c.componentSets.length > 6 ||
+      !Array.isArray(c.componentSets) || c.componentSets.length < 1 || c.componentSets.length > NATIVE_ALLOWED_FAMILIES.size ||
       c.componentSets.some(cs => !cs || !NATIVE_ALLOWED_FAMILIES.has(cs.family)) ||
       !Array.isArray(c.instances) || c.instances.length < 1)
     throw Error('Invalid or stale NF-01 component families provision plan');
@@ -35,10 +70,10 @@ function nativeProvisionValidate(plan) {
   }
   const p = plan.provision;
   if (!p || p.schema !== NATIVE_PROVISION_SCHEMA || !/^[a-f0-9]{64}$/.test(p.graph_sha256) ||
-      p.frame_key !== 'little-hands/booking-cta/starter-frame' || p.main_key !== 'bookingCTA' ||
-      JSON.stringify(p.instance_keys) !== JSON.stringify(['reserve-preview', 'reserve-login']) ||
-      p.seed_collection_name !== 'Little Hands · CTA SSOT seed' || p.seed_variable_name !== 'starter/little-hands/booking-cta-seed' ||
-      p.canonical_variable_name !== 'ssot/little-hands/color/action/primary' ||
+      p.frame_key !== STARTER_CTA.frameKey || p.main_key !== STARTER_CTA.mainKey ||
+      JSON.stringify(p.instance_keys) !== JSON.stringify(STARTER_CTA.instanceKeys) ||
+      p.seed_collection_name !== STARTER_CTA.seedCollection || p.seed_variable_name !== STARTER_CTA.seedVariable ||
+      p.canonical_variable_name !== STARTER_CTA.canonicalVariableName ||
       !Array.isArray(p.page_roots) || !p.position || !Number.isFinite(p.position.x) || !Number.isFinite(p.position.y))
     throw Error('Invalid or stale Starter CTA provision plan');
 }
@@ -554,8 +589,8 @@ async function nativeProvisionRun(figma, plan, operation = 'apply') {
     createdFrame.x = plan.provision.position.x; createdFrame.y = plan.provision.position.y;
     createdFrame.resize(NATIVE_PROVISION_FRAME.width, NATIVE_PROVISION_FRAME.height);
     createdFrame.layoutMode = 'VERTICAL'; createdFrame.primaryAxisSizingMode = 'FIXED'; createdFrame.counterAxisSizingMode = 'FIXED';
-    createdFrame.primaryAxisAlignItems = 'MIN'; createdFrame.counterAxisAlignItems = 'MIN'; createdFrame.itemSpacing = 16;
-    createdFrame.paddingTop = 20; createdFrame.paddingRight = 20; createdFrame.paddingBottom = 20; createdFrame.paddingLeft = 20;
+    createdFrame.primaryAxisAlignItems = 'MIN'; createdFrame.counterAxisAlignItems = 'MIN'; createdFrame.itemSpacing = STARTER_CTA.frameGap;
+    createdFrame.paddingTop = STARTER_CTA.framePadding; createdFrame.paddingRight = STARTER_CTA.framePadding; createdFrame.paddingBottom = STARTER_CTA.framePadding; createdFrame.paddingLeft = STARTER_CTA.framePadding;
     createdFrame.fills = []; createdFrame.clipsContent = false;
     createdFrame.setPluginData('semanticKey', plan.provision.frame_key);
     createdFrame.setPluginData(NATIVE_PROVISION_OWNER, JSON.stringify({schema: NATIVE_PROVISION_SCHEMA, page_id: plan.page_id,
@@ -564,15 +599,15 @@ async function nativeProvisionRun(figma, plan, operation = 'apply') {
       seed_collection_id: createdCollection.id}));
 
     createdMain = figma.createComponent(); cleanup.push(() => createdMain.remove()); createdFrame.appendChild(createdMain);
-    createdMain.name = 'bookingCTA · local main'; createdMain.resize(128, 48);
+    createdMain.name = STARTER_CTA.mainKey + ' · local main'; createdMain.resize(STARTER_CTA.width, STARTER_CTA.height);
     createdMain.layoutMode = 'HORIZONTAL'; createdMain.primaryAxisSizingMode = 'AUTO'; createdMain.counterAxisSizingMode = 'FIXED';
     createdMain.primaryAxisAlignItems = 'CENTER'; createdMain.counterAxisAlignItems = 'CENTER';
-    createdMain.paddingTop = 11; createdMain.paddingBottom = 11; createdMain.paddingLeft = 22; createdMain.paddingRight = 22; createdMain.itemSpacing = 8;
-    createdMain.cornerRadius = 0;
+    createdMain.paddingTop = STARTER_CTA.paddingY; createdMain.paddingBottom = STARTER_CTA.paddingY; createdMain.paddingLeft = STARTER_CTA.paddingX; createdMain.paddingRight = STARTER_CTA.paddingX; createdMain.itemSpacing = STARTER_CTA.gap;
+    createdMain.cornerRadius = STARTER_CTA.radius;
     createdMain.fills = [figma.variables.setBoundVariableForPaint({type: 'SOLID', color: {...plan.provision.background_color}, opacity: 1}, 'color', createdSeed)];
     createdMain.setPluginData('semanticKey', plan.provision.main_key);
     createdLabel = figma.createText(); cleanup.push(() => createdLabel.remove()); createdMain.appendChild(createdLabel);
-    createdLabel.name = 'bookingCTA label'; createdLabel.fontName = font; createdLabel.fontSize = 14; createdLabel.characters = plan.provision.labels.main;
+    createdLabel.name = STARTER_CTA.mainKey + ' label'; createdLabel.fontName = font; createdLabel.fontSize = STARTER_CTA.labelSize; createdLabel.characters = plan.provision.labels.main;
     createdLabel.fills = [{type: 'SOLID', color: {...plan.provision.text_color}, opacity: 1}];
     for (const key of plan.provision.instance_keys) {
       const instance = createdMain.createInstance(); cleanup.push(() => instance.remove()); createdFrame.appendChild(instance);

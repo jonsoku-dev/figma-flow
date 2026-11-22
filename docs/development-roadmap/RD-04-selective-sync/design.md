@@ -1,6 +1,6 @@
 # RD-04 설계서 · 동기화 변경을 골라 적용하기
 
-상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
+상태는 0.27 구현 후보이며 실제 Figma 인수는 대기다. 조건별 인수 결과는 [최종 인수 현황](../FINAL_ACCEPTANCE.md)에서 확인한다. 우선순위는 높음이다. 기준과 공통 실행 계약은 [계획](../README.md), [현재 상태](../CURRENT_STATE.md), [Cursor 전달서](../CURSOR_HANDOFF.md)에 있다.
 
 ## 소유 코드와 호출 경로
 

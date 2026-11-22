@@ -1,0 +1,21 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_control.cjs",
+      "case": "relay polling carries bounded native selection and profile context only in the authenticated poll envelope",
+      "testSha256": "7cd5b5cb8c5f0d9dc6cbc77c0ad0a0031e6eddbe3580c4502b8e2d6e49e921ac",
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "covers": [
+        "figma-bridge/relay_recipe.js",
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "relay polling carries bounded native selection and profile context only in the authenticated poll envelope",
+      "observed": "Authenticated polling forwards only the bounded selected nodes and scoped profile context."
+    }
+  ]
+}

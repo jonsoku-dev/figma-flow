@@ -29,7 +29,9 @@ async function main() {
 
   const messages = [];
   const figma = {fileKey:'file',ui:{postMessage:message=>messages.push(message)},showUI(){}};
-  const local = vm.createContext({figma,__html__:'HOME',WORKSPACE_PROFILE_POLICY:require('../library/figma-profile/policy.json')});
+  const local = vm.createContext({figma,__html__:'HOME',WORKSPACE_PROFILE_POLICY:require('../library/figma-profile/policy.json'),
+    WORKSPACE_PANEL_CONTRACTS:require('../library/panel-design/contracts.json'),
+    WORKSPACE_ACTIVITY_CONTRACT:require('../specs/workspace-activity/graph.json').nodes.find(node=>node.id==='CONTRACT-ACTIVITY-01')});
   vm.runInContext(`
     const FLOW_LOCALES=['ko'];
     const WORKSPACE_CONTROL_CONFIG=null;

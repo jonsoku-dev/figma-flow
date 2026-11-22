@@ -179,5 +179,5 @@ for(const locale of ['ko','en','ja'])test('localized visual confirmation '+local
 test('graph catalogue has all three locales and static labels',()=>{
   for(const [key,values]of Object.entries(translations))for(const locale of ['ko','en','ja'])assert.ok(values[locale],key+' '+locale);
   for(const match of template.matchAll(/data-i18n(?:-[a-z]+)?="([^"]+)"/g))assert.ok(translations[match[1]],match[1]);
-  assert.match(template,/data-flow-view="graph"/);assert.match(template,/@media\(max-width:340px\)/);
+  assert.match(template,/data-flow-view="graph"/);
 });

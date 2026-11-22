@@ -167,9 +167,11 @@ test('chat input helpers classify bounded selection and recoverable errors', () 
   const source = fs.readFileSync(fromRoot('panel-ui/src/ChatPanel.jsx'), 'utf8')
     .replace(/^import .*;\s*$/gm, '');
   const helpers = source.slice(source.indexOf('const UUID ='), source.indexOf('export default function ChatPanel'));
-  const { requestId, selectedTypes, errorKey } = new Function('globalThis', 'Uint8Array',
+  const chatContract = json('library/panel-design/contracts.json').nodes.find(({ id }) => id === 'chat-error-codes');
+  const chatErrorMessageKeys = Object.fromEntries(chatContract.codes.map(({ code, messageKey }) => [code, messageKey]));
+  const { requestId, selectedTypes, errorKey } = new Function('globalThis', 'Uint8Array', 'chatErrorMessageKeys',
     `${helpers}\nreturn {requestId, selectedTypes, errorKey};`)(
-      { crypto: { getRandomValues(bytes) { bytes.fill(1); return bytes; } } }, Uint8Array);
+      { crypto: { getRandomValues(bytes) { bytes.fill(1); return bytes; } } }, Uint8Array, chatErrorMessageKeys);
   assert.match(requestId(() => ''), /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
   assert.deepEqual(selectedTypes('draft\n\n{"selection":{"nodes":[{"type":"FRAME"},{"type":"TEXT"},{"type":"FRAME"}]}}'),
     [['FRAME', 2], ['TEXT', 1]]);

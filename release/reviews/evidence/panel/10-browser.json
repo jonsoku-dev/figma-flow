@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_browser_witness.cjs",
+      "case": "compiled panel runs localized partial read and dependency evidence in installed Chromium",
+      "testSha256": "c3e36a732f9098ef631b2ea6c1cb31a622b87fbdb8eb43ea4b4e8de93ed4cd74",
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "covers": [
+        "panel-ui/src/RelaySelection.jsx",
+        "panel-ui/src/graphSelection.mjs",
+        "panel-ui/src/useRelaySnapshot.js"
+      ],
+      "assertion": "compiled panel runs localized partial read and dependency evidence in installed Chromium",
+      "observed": "Installed Chrome 157 exercised all six compiled views, partial read, dependency evidence and supported message-driven flows."
+    }
+  ]
+}

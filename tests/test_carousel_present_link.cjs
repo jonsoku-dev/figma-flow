@@ -2,6 +2,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const vm = require('node:vm');
 const { createRequire } = require('node:module');
@@ -13,6 +14,9 @@ const { buildSync } = createRequire(path.join(panelRoot, 'package.json'))('esbui
 const plugin = JSON.parse(fs.readFileSync(path.join(root, 'plugin.json'), 'utf8'));
 const common = JSON.parse(fs.readFileSync(path.join(root, 'figma-bridge/locales/common.json'), 'utf8'));
 const policy = JSON.parse(fs.readFileSync(path.join(root, 'library/figma-profile/policy.json'), 'utf8'));
+const panelContracts = JSON.parse(fs.readFileSync(path.join(root, 'library/panel-design/contracts.json'), 'utf8'));
+const activityContract = JSON.parse(fs.readFileSync(path.join(root, 'specs/workspace-activity/graph.json'), 'utf8'))
+  .nodes.find(node => node.id === 'CONTRACT-ACTIVITY-01');
 const hostSource = fs.readFileSync(path.join(root, 'figma-bridge/workspace_host.js'), 'utf8');
 const locales = Object.keys(Object.values(common)[0]);
 const EXPECTED_URL = 'https://www.figma.com/proto/file-a/SaaS?node-id=1-3&starting-point-node-id=1-3&page-id=1-2&scaling=scale-down';
@@ -34,7 +38,8 @@ function hostHarness() {
   const figma = {fileKey:'file-a', currentPage:startPage, ui:{postMessage(message) {messages.push(message);}},
     viewport:{scrollAndZoomIntoView() {}}, async getNodeByIdAsync(id) {return [startPage, page, frame].find(node => node.id === id) || null;},
     async setCurrentPageAsync(next) {this.currentPage = next;}, openExternal(url) {external.push(url);}, showUI() {}};
-  const context = vm.createContext({figma, __html__:'HOME', WORKSPACE_PROFILE_POLICY:policy});
+  const context = vm.createContext({figma, __html__:'HOME', WORKSPACE_PROFILE_POLICY:policy,
+    WORKSPACE_PANEL_CONTRACTS:panelContracts, WORKSPACE_ACTIVITY_CONTRACT:activityContract});
   vm.runInContext(`const FLOW_LOCALES = ${JSON.stringify(locales)};
 const FLOW_TASKS = [{key:'a',title:'Carousel Task',project:'Studio',kind:'native-edit',revision:'r1',fileKey:'file-a',pageId:'1:2',run() {}}];
 ` + hostSource, context);
@@ -48,10 +53,18 @@ function runPanel(entry, env = {}) {
     write:false, platform:'node', format:'cjs', jsx:'automatic', logLevel:'silent',
     define:{'process.env.NODE_ENV':'"production"', __FLOW_DISPLAY_NAME__:JSON.stringify(plugin.extensions['com.openai'].interface.displayName),
       __FLOW_LOCALES__:JSON.stringify(locales)}});
-  const result = spawnSync(process.execPath, ['-e', built.outputFiles[0].text], {cwd:panelRoot, encoding:'utf8', env:{...process.env,
-    WORKSPACE_PROFILE_POLICY_JSON:JSON.stringify(policy), ...env}});
-  assert.equal(result.status, 0, result.stdout + result.stderr);
-  return result.stdout;
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'figma-flow-carousel-panel-'));
+  try {
+    const bundle = path.join(temporary, 'panel-test.cjs');
+    fs.writeFileSync(bundle, built.outputFiles[0].text);
+    const result = spawnSync(process.execPath, [bundle], {cwd:panelRoot, encoding:'utf8', env:{...process.env,
+      WORKSPACE_PROFILE_POLICY_JSON:JSON.stringify(policy), WORKSPACE_PANEL_CONTRACTS_JSON:JSON.stringify(panelContracts),
+      WORKSPACE_ACTIVITY_CONTRACT_JSON:JSON.stringify(activityContract), ...env}});
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    return result.stdout;
+  } finally {
+    fs.rmSync(temporary, {recursive:true, force:true});
+  }
 }
 
 test('host Present reply carries the exact URL it passed to openExternal, and the panel accepts only that file/page/frame link', async () => {
@@ -226,7 +239,9 @@ const hostMessages = [], external = [];
 const figma = {fileKey:'file-a', currentPage:startPage, ui:{postMessage(message) { hostMessages.push(message); }},
   viewport:{scrollAndZoomIntoView() {}}, async getNodeByIdAsync(id) { return [startPage, page, frame].find(node => node.id === id) || null; },
   async setCurrentPageAsync(next) { this.currentPage = next; }, openExternal(url) { external.push(url); }, showUI() {}};
-const host = vm.createContext({figma, __html__:'HOME', WORKSPACE_PROFILE_POLICY:JSON.parse(process.env.WORKSPACE_PROFILE_POLICY_JSON)});
+const host = vm.createContext({figma, __html__:'HOME', WORKSPACE_PROFILE_POLICY:JSON.parse(process.env.WORKSPACE_PROFILE_POLICY_JSON),
+  WORKSPACE_PANEL_CONTRACTS:JSON.parse(process.env.WORKSPACE_PANEL_CONTRACTS_JSON),
+  WORKSPACE_ACTIVITY_CONTRACT:JSON.parse(process.env.WORKSPACE_ACTIVITY_CONTRACT_JSON)});
 vm.runInContext(\`const FLOW_LOCALES = ${JSON.stringify(locales)};
 const FLOW_TASKS = [{key:'a',title:'Carousel Task',project:'Studio',kind:'native-edit',revision:'r1',fileKey:'file-a',pageId:'1:2',run() {}}];
 \` + fs.readFileSync(process.env.HOST_SOURCE_PATH, 'utf8'), host);
@@ -284,6 +299,8 @@ async function run() {
   console.log('WORKSPACE_OK');
 }
 run().catch(error => { console.error(error); process.exit(1); });
-`, {HOST_SOURCE_PATH:path.join(root, 'figma-bridge/workspace_host.js')});
+`, {HOST_SOURCE_PATH:path.join(root, 'figma-bridge/workspace_host.js'),
+  WORKSPACE_PANEL_CONTRACTS_JSON:JSON.stringify(panelContracts),
+  WORKSPACE_ACTIVITY_CONTRACT_JSON:JSON.stringify(activityContract)});
   assert.match(stdout, /WORKSPACE_OK/);
 });

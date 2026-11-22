@@ -18,14 +18,16 @@ from urllib.parse import parse_qs, unquote, urljoin, urlsplit, urlunsplit
 import design_directions
 import design_system
 
-SCHEMA = 'figma-flow-input-effect-v1'
-RESULT_SCHEMA = 'figma-flow-input-effect-result-v4'
-LEGACY_RESULT_SCHEMAS = {'figma-flow-input-effect-result-v3'}
-URL_SCHEMA = 'figma-flow-url-snapshot-v1'
-HTML_ASSET_MAP_SCHEMA = 'figma-flow-html-asset-map-v1'
-INPUT_NAMES = ('html', 'html-asset-map', 'url', 'design-system')
-RENDER_STATUSES = {'rendered', 'text-only', 'js-required', 'redirect', 'login-required', 'not-found', 'rate-limited'}
-FAILURE_STATUSES = {'redirect', 'login-required', 'not-found', 'rate-limited'}
+INPUT_CONTRACT = json.loads(Path(__file__).with_name('input-effect-contract.json').read_bytes())
+SCHEMA = INPUT_CONTRACT['records']['input']
+RESULT_SCHEMA = INPUT_CONTRACT['records']['output']
+LEGACY_RESULT_SCHEMAS = frozenset(INPUT_CONTRACT['records']['previousReadable'])
+URL_SCHEMA = INPUT_CONTRACT['records']['urlSnapshot']
+ASSET_MAP = INPUT_CONTRACT['assetMap']
+HTML_ASSET_MAP_SCHEMA = ASSET_MAP['schema']
+INPUT_NAMES = tuple(INPUT_CONTRACT['channels'])
+RENDER_STATUSES = frozenset(INPUT_CONTRACT['urlStatuses']['allowed'])
+FAILURE_STATUSES = frozenset(INPUT_CONTRACT['urlStatuses']['failures'])
 INSTRUCTION = re.compile(r'(?i)ignore previous instructions|you are now|overwrite brief\.md|run this command')
 TITLE = re.compile(r'<title[^>]*>(.*?)</title>', re.I | re.S)
 RUNTIME_NAMES = {
@@ -149,10 +151,10 @@ def _capture_json(root, relative, expected_sha256):
 
 def _load_html_asset_map(path, root, html_path):
     manifest = _load_json(path)
-    if manifest.get('schema') != HTML_ASSET_MAP_SCHEMA or set(manifest) != {'schema', 'page_capture', 'local_root', 'assets'}:
+    if manifest.get('schema') != HTML_ASSET_MAP_SCHEMA or set(manifest) != set(ASSET_MAP['manifestFields']):
         raise ValueError('Unknown HTML asset map schema')
     page_capture = manifest['page_capture']
-    if (not isinstance(page_capture, dict) or set(page_capture) != {'metadata_path', 'metadata_sha256'}
+    if (not isinstance(page_capture, dict) or set(page_capture) != set(ASSET_MAP['pageCaptureFields'])
             or not isinstance(page_capture.get('metadata_path'), str)):
         raise ValueError('Asset map must reference captured page response metadata')
     page_meta, page_source = _capture_json(root, page_capture['metadata_path'], page_capture.get('metadata_sha256'))
@@ -169,12 +171,12 @@ def _load_html_asset_map(path, root, html_path):
     if not local_root.is_dir():
         raise ValueError('Asset map local_root must be an existing directory')
     entries = manifest['assets']
-    if not isinstance(entries, list) or len(entries) > 4096:
+    if not isinstance(entries, list) or len(entries) > ASSET_MAP['maxEntries']:
         raise ValueError('Asset map entries must be a bounded list')
     by_target, sources, ids = {}, [page_source], set()
     capture_cache = {}
     for row in entries:
-        fields = {'id', 'capture_path', 'capture_sha256', 'reference', 'request_target', 'local_app_path', 'mapping'}
+        fields = set(ASSET_MAP['entryFields'])
         if isinstance(row, dict) and 'base_target' in row:
             fields.add('base_target')
         if isinstance(row, dict) and row.get('mapping') == 'transformed':

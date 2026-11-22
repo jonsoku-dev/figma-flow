@@ -1,4 +1,6 @@
-const problems = new Set(['404', 'rejected', 'external-unverified']);
+import { assetProblemStatuses } from './panelContracts.mjs';
+
+const problems = new Set(assetProblemStatuses);
 
 export function assetInventory(summary, filter = {}) {
   const rows = (Array.isArray(summary) ? summary : []).filter(

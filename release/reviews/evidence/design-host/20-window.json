@@ -1,0 +1,24 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_window_authority.py",
+      "case": "NativeWindowTests.test_all_showui_calls_receive_the_edited_window_dimensions",
+      "testSha256": "048a7de5d87556b1e6507d311965923e994fe7ca483c859a236df4e434ea015d",
+      "authority": "library/figma-profile/native-windows.json#/windows",
+      "covers": [
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/native_api_fixture.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "NativeWindowTests.test_all_showui_calls_receive_the_edited_window_dimensions",
+      "observed": "The mutation witness edits every declared window and observes those exact values at all registered showUI calls."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_handoff.py",
+      "case": "NativeHandoffTest.test_design_mode_note_board_links_text_and_containment_fail_closed",
+      "testSha256": "f620166f468c1671d21439563fad03ce0ca451057f8053a5c7f606e5dd0a8e6b",
+      "authority": "specs/design-specialization/graph.json#/nodes",
+      "covers": [
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_specifications.js"
+      ],
+      "assertion": "NativeHandoffTest.test_design_mode_note_board_links_text_and_containment_fail_closed",
+      "observed": "Native note-board linkage and annotation containment are verified against actual getter-shaped evidence."
+    }
+  ]
+}

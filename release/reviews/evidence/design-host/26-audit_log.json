@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/rd09_audit_log.cjs",
+      "case": "tests/rd09_audit_log.cjs",
+      "testSha256": "0dcdfce61e8d86022530ab81151ba985d72102dc4091d9904830c17a028e0027",
+      "authority": "specs/workspace-activity/graph.json#/nodes/20",
+      "covers": [
+        "figma-bridge/audit_log.js",
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "tests/rd09_audit_log.cjs",
+      "observed": "Audit export records exact lifecycle data while redacting secrets and omitting active transport."
+    }
+  ]
+}

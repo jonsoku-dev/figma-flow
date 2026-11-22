@@ -8,12 +8,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'skills/figma-flow/
 from graph import validate_graph
 
 # Review surfaces group original node types while preserving their identities and status.
-KINDS = {'requirement': 'requirement', 'acceptance': 'requirement', 'screen': 'screen',
-         'state': 'screen', 'action': 'screen', 'component': 'component', 'design-token': 'component',
-         'test': 'evidence', 'code': 'evidence', 'reference': 'evidence', 'figma': 'evidence'}
+from native_appearance import appearance
 
 
 def project_graph(path, selected_ids):
+    policy = appearance('graphReview')
+    bounds = policy['limits']
     path = Path(path)
     raw = path.read_bytes()
     graph = json.loads(raw)
@@ -24,20 +24,20 @@ def project_graph(path, selected_ids):
     ids = list(selected_ids or [])
     if not ids:
         ids = list(by_id)
-    if not 1 <= len(ids) <= 24 or len(set(ids)) != len(ids) or any(key not in by_id for key in ids):
-        raise ValueError('Select 1–24 distinct existing review node IDs with --node')
+    if not 1 <= len(ids) <= bounds['nodes'] or len(set(ids)) != len(ids) or any(key not in by_id for key in ids):
+        raise ValueError(f"Select 1–{bounds['nodes']} distinct existing review node IDs with --node")
     selected = set(ids)
     edges = [{'from': edge['from'], 'to': edge['to'], 'type': edge['type']}
              for edge in graph['edges'] if edge['from'] in selected and edge['to'] in selected]
-    if len(edges) > 48:
-        raise ValueError('Select a smaller subgraph with at most 48 relationships')
+    if len(edges) > bounds['edges']:
+        raise ValueError(f"Select a smaller subgraph with at most {bounds['edges']} relationships")
     nodes = []
     for key in ids:
         node = by_id[key]
         detail = node.get('detail') or ''
         if not isinstance(detail, str) or len(detail) > 4000 or len(node['title']) > 512 or len(key) > 256:
             raise ValueError(f'Review content exceeds the presentation bounds: {key[:64]}')
-        nodes.append({'id': key, 'kind': KINDS[node['type']], 'type': node['type'],
+        nodes.append({'id': key, 'kind': policy['nodeGroups'][node['type']], 'type': node['type'],
                       'title': node['title'], 'detail': detail, 'status': node['status']})
     # A path or payload hash is not a stable project identity. Older design-system
     # graphs may already have one in the actual design_system declaration.

@@ -1,0 +1,42 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "covers": [
+        "tools/audit_brief.py",
+        "tools/audit_project.py"
+      ],
+      "test": "tests/test_audit_project.py",
+      "case": "ProjectAuditTests.test_analyzed_source_digest_must_match_pinned_bytes",
+      "testSha256": "803eaf5467d2da9ed7f390f6cb3638cdc85131a82159020886b5d88d7a3045ef",
+      "assertion": "Brief conflicts remain independent of code evidence, and the project audit is restricted to the bytes actually analyzed.",
+      "observed": "The project rejected a source digest mismatch; opposed Korean and English persistence claims remained explicit conflicts."
+    },
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "covers": [
+        "tools/audit_brief.py",
+        "tools/audit_project.py"
+      ],
+      "test": "tests/test_audit_project.py",
+      "case": "ProjectAuditTests.test_explicit_spec_contradiction_remains_separate",
+      "testSha256": "803eaf5467d2da9ed7f390f6cb3638cdc85131a82159020886b5d88d7a3045ef",
+      "assertion": "Brief conflicts remain independent of code evidence, and the project audit is restricted to the bytes actually analyzed.",
+      "observed": "The project rejected a source digest mismatch; opposed Korean and English persistence claims remained explicit conflicts."
+    },
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "covers": [
+        "tools/audit_brief.py",
+        "tools/audit_project.py"
+      ],
+      "test": "tests/test_audit_brief.py",
+      "case": "BriefAuditTests.test_reload_persistence_conflict_korean_and_english",
+      "testSha256": "2e34aaeb42bd867a70426723124495db96c4b1b7296f2a0dac8b0072a0c633c6",
+      "assertion": "Brief conflicts remain independent of code evidence, and the project audit is restricted to the bytes actually analyzed.",
+      "observed": "The project rejected a source digest mismatch; opposed Korean and English persistence claims remained explicit conflicts."
+    }
+  ]
+}

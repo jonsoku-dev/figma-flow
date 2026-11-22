@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-rest/source.json#/source_sha256",
+      "covers": [
+        "tools/figma_rest_inventory.py"
+      ],
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_upstream_api_pins_and_rest_projection_are_offline_and_deterministic",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "assertion": "REST catalog entries are an offline projection of the pinned OpenAPI source.",
+      "observed": "Rebuilt the catalog and checked required input templates without sending a network request."
+    },
+    {
+      "authority": "library/figma-rest/source.json#/source_sha256",
+      "covers": [
+        "tools/figma_rest_inventory.py"
+      ],
+      "test": "tests/test_figma_rest_inventory.py",
+      "case": "FigmaRESTInventoryTests.test_templates_cover_required_parameters_and_bodies_without_requests",
+      "testSha256": "ff441af461a5a48dac2d962cb2fc204dc2281f611f23201c2812cd3f3412dfc2",
+      "assertion": "REST catalog entries are an offline projection of the pinned OpenAPI source.",
+      "observed": "Rebuilt the catalog and checked required input templates without sending a network request."
+    }
+  ]
+}

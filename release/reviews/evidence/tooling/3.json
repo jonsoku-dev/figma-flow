@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Local freshness manifests",
+      "covers": [
+        "tools/check_project.py"
+      ],
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_init_then_recheck_and_diff",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "assertion": "A project baseline binds actual inputs; changed or missing evidence has distinct outcomes.",
+      "observed": "The initialized baseline compared fresh then reported actual drift; missing proof and existing outputs were refused."
+    },
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Local freshness manifests",
+      "covers": [
+        "tools/check_project.py"
+      ],
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_init_missing_evidence_and_output_collision",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "assertion": "A project baseline binds actual inputs; changed or missing evidence has distinct outcomes.",
+      "observed": "The initialized baseline compared fresh then reported actual drift; missing proof and existing outputs were refused."
+    }
+  ]
+}

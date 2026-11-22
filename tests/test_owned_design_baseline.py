@@ -155,6 +155,17 @@ class OwnedDesignBaselineTest(unittest.TestCase):
                 self.assertNotIn('/Users/', content, f"Personal path leaked in {path.name}")
                 self.assertNotIn('/home/', content, f"Personal path leaked in {path.name}")
 
+    def test_design_token_values_are_owned_by_graph_and_projected_before_rendering(self):
+        styles = (BASELINE_DIR / 'styles.css').read_text(encoding='utf-8')
+        renderer = (BASELINE_DIR / 'renderer.js').read_text(encoding='utf-8')
+        tokens = self.graph['design_tokens']
+        self.assertTrue(tokens)
+        self.assertFalse(re.search(r'#[0-9a-fA-F]{3,8}\b|:root\s*\{', styles))
+        self.assertIn('Object.entries(graph.design_tokens)', renderer)
+        for name in tokens:
+            self.assertIn(f'var(--{name})', styles)
+            self.assertNotIn(f'--{name}:', styles)
+
 
 if __name__ == '__main__':
     unittest.main()

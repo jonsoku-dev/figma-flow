@@ -1,0 +1,54 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "covers": [
+        "tools/input_effect.py",
+        "tools/token_code_scope.py"
+      ],
+      "test": "tests/test_input_effect_css.py",
+      "case": "CssDependencyFreshnessTests.test_css_import_font_and_image_changes_make_html_projection_stale",
+      "testSha256": "afa79109b7429173e6c6fa708dd2450af46574b8c6a4638eaca3d7f204a80e6f",
+      "assertion": "Indirect HTML/CSS assets and actual token code consumers affect freshness; comments or unobserved uses cannot authorize code edits.",
+      "observed": "Nested stylesheet/font/image changes invalidated projections and absent consumers produced a gap."
+    },
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "covers": [
+        "tools/input_effect.py",
+        "tools/token_code_scope.py"
+      ],
+      "test": "tests/test_input_effect_css_parser.py",
+      "case": "CssDependencyParserTests.test_html_styles_and_nested_imports_capture_real_urls_and_ignore_fake_markup",
+      "testSha256": "c127b15229c923a5a066642318893a867930d2edb61143feff4b2e83a5f4adfb",
+      "assertion": "Indirect HTML/CSS assets and actual token code consumers affect freshness; comments or unobserved uses cannot authorize code edits.",
+      "observed": "Nested stylesheet/font/image changes invalidated projections and absent consumers produced a gap."
+    },
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "covers": [
+        "tools/input_effect.py",
+        "tools/token_code_scope.py"
+      ],
+      "test": "tests/test_token_code_scope.py",
+      "case": "TokenCodeScopeTest.test_consumers_and_guarded_apply",
+      "testSha256": "dd384667cf2d3cff6e8abef114093704cdb35ec318443e4cab90e7a243a9521e",
+      "assertion": "Indirect HTML/CSS assets and actual token code consumers affect freshness; comments or unobserved uses cannot authorize code edits.",
+      "observed": "Nested stylesheet/font/image changes invalidated projections and absent consumers produced a gap."
+    },
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Authority, evidence and conflicts",
+      "covers": [
+        "tools/input_effect.py",
+        "tools/token_code_scope.py"
+      ],
+      "test": "tests/test_token_code_scope.py",
+      "case": "TokenCodeScopeTest.test_missing_runtime_use_is_gap",
+      "testSha256": "dd384667cf2d3cff6e8abef114093704cdb35ec318443e4cab90e7a243a9521e",
+      "assertion": "Indirect HTML/CSS assets and actual token code consumers affect freshness; comments or unobserved uses cannot authorize code edits.",
+      "observed": "Nested stylesheet/font/image changes invalidated projections and absent consumers produced a gap."
+    }
+  ]
+}

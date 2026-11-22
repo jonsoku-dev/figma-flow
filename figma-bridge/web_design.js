@@ -1,3 +1,13 @@
+/* native appearance: begin webTabTargets */
+const WEB_TAB_TARGETS = {
+  "elementKinds": [
+    "frame"
+  ],
+  "componentKeys": [
+    "control-button"
+  ]
+};
+/* native appearance: end webTabTargets */
 const WEB_DESIGN_KEY = 'figma-flow-web-design-id';
 const WEB_DESIGN_HASH = 'figma-flow-web-design-sha256';
 const WEB_SCENE_HASH = 'figma-flow-web-scene-fingerprint';
@@ -272,7 +282,8 @@ function webTabsValidate(design) {
   for (const edge of tabs.transitions) {
     if (!edge || !key.test(edge.id || '') || ids.has(edge.id) || !states.has(edge.from) || !states.has(edge.to) || edge.from === edge.to
         || edge.trigger !== 'click' || edge.observed !== true || controls.has(edge.from + '/' + edge.controlElementId)
-        || !screens.get(states.get(edge.from).screenId).elements.some(element => element.id === edge.controlElementId && element.kind === 'frame'
+        || !screens.get(states.get(edge.from).screenId).elements.some(element => element.id === edge.controlElementId
+          && (WEB_TAB_TARGETS.elementKinds.includes(element.kind) || (element.kind === 'component' && WEB_TAB_TARGETS.componentKeys.includes(element.componentKey)))
           && element.box.x >= 0 && element.box.y >= 0 && element.box.width > 0 && element.box.height > 0
           && element.box.x + element.box.width <= screens.get(states.get(edge.from).screenId).layout.width + 1
           && element.box.y + element.box.height <= screens.get(states.get(edge.from).screenId).layout.height + 1)) fail();

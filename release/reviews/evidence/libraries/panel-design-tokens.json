@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "all authored panel CSS dimensions have graph tokens and an injected literal is detected",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "library/panel-design/tokens.json#/tokens",
+      "covers": [
+        "library/panel-design/tokens.json"
+      ],
+      "assertion": "Checks every authored CSS dimension and graph variable; a deliberately injected numeric literal is detected.",
+      "observed": "All authored panel styles resolve to the token graph and the mutation probe is rejected."
+    }
+  ]
+}

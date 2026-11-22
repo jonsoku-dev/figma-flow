@@ -1,5 +1,6 @@
 async function main(): Promise<void> {
   if (figma.editorType !== 'figma') throw new Error('Open this recipe in Figma Design.');
+  const design = RECIPE_VISUALS['design-grid'];
   const page = figma.currentPage;
   const selection = [...page.selection];
   const owned: SceneNode[] = [];
@@ -8,23 +9,27 @@ async function main(): Promise<void> {
     const x = page.children.reduce((right, node) => {
       const bounds = node.absoluteBoundingBox;
       return Math.max(right, bounds ? bounds.x + bounds.width : node.x + node.width);
-    }, 0) + 160;
+    }, 0) + design.frame.pageXOffset;
     const grid = track(figma.createFrame());
     grid.name = 'Recipe · Two by two auto layout grid';
     grid.x = x;
-    grid.resize(420, 280);
-    grid.layoutMode = 'GRID';
-    grid.gridAutoTracks = 'NONE';
-    grid.gridRowCount = 2;
-    grid.gridColumnCount = 2;
-    grid.gridRowGap = 16;
-    grid.gridColumnGap = 16;
-    for (let index = 0; index < 4; index++) {
+    grid.resize(design.frame.width, design.frame.height);
+    grid.layoutMode = design.grid.mode;
+    grid.gridAutoTracks = design.grid.autoTracks;
+    grid.gridRowCount = design.grid.rows;
+    grid.gridColumnCount = design.grid.columns;
+    grid.gridRowGap = design.grid.rowGap;
+    grid.gridColumnGap = design.grid.columnGap;
+    for (let index = 0; index < design.cells.count; index++) {
       const cell = track(figma.createRectangle());
       grid.appendChild(cell);
       cell.name = `Cell ${index + 1}`;
-      cell.resize(160, 100);
-      cell.fills = [{ type: 'SOLID', color: { r: 0.2 + index * 0.15, g: 0.4, b: 0.8 } }];
+      cell.resize(design.cells.width, design.cells.height);
+      cell.fills = [{ type: design.cells.fillType, color: {
+        r: design.cells.fill.r + index * design.cells.redStep,
+        g: design.cells.fill.g,
+        b: design.cells.fill.b,
+      } }];
     }
     page.selection = [grid];
     figma.viewport.scrollAndZoomIntoView([grid]);

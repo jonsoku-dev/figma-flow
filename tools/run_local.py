@@ -19,19 +19,39 @@ def save_json(path, value):
 
 
 def verify_browser_receipt(root, expected_checks):
-    receipt = json.loads((root / "evidence/browser.json").read_text(encoding="utf-8"))
-    checks = receipt["checks"]
-    if not isinstance(checks, list) or not checks or any(not isinstance(check, dict) or check.get("passed") is not True for check in checks):
-        raise ValueError("The recorded browser checks are missing or include a failure.")
-    ids = [check.get("id") for check in checks]
-    if not expected_checks or len(set(ids)) != len(ids) or set(ids) != expected_checks:
-        raise ValueError("The browser receipt has duplicate IDs or lacks required interaction coverage.")
-    expected = receipt["app_sha256"]
+    historical = json.loads((root / "evidence/browser.json").read_text(encoding="utf-8"))
+    old_checks = historical["checks"]
+    old_ids = [check.get("id") for check in old_checks]
+    if (not isinstance(old_checks, list) or not old_checks
+            or any(not isinstance(check, dict) or check.get("passed") is not True for check in old_checks)):
+        raise ValueError("The historical browser checks are missing or include a failure.")
+    if not expected_checks or len(set(old_ids)) != len(old_ids) or set(old_ids) != expected_checks:
+        raise ValueError("The historical browser receipt has duplicate IDs or lacks declared interaction coverage.")
+    if not historical.get("date", "").startswith("2026-11-07"):
+        raise ValueError("The archived browser record lost its original date.")
+
+    current = json.loads((root / "evidence/browser-current.json").read_text(encoding="utf-8"))
+    checks = current.get("checks")
+    current_ids = {check.get("id") for check in checks} if isinstance(checks, list) else set()
+    required_current = expected_checks | {"visual-token-mutation"}
+    if (current_ids != required_current or
+            any(not isinstance(check, dict) or check.get("passed") is not True or not check.get("observed")
+                for check in checks)):
+        raise ValueError("The current browser proof lacks its scoped local interaction coverage.")
+    expected = current.get("app_sha256")
     actual = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in sorted((root / "app").rglob("*")) if p.is_file()}
     if not actual or actual != expected:
-        raise ValueError("The app differs from the version covered by the recorded browser checks.")
-    return len(checks)
+        raise ValueError("The app differs from the version covered by the current browser proof.")
+    screenshots = current.get("screenshots")
+    required_screenshots = {"evidence/browser-current-mobile.png", "evidence/browser-current-visual-mutation.png"}
+    if not isinstance(screenshots, dict) or set(screenshots) != required_screenshots:
+        raise ValueError("The current browser proof is missing its mobile or graph-mutation screenshot.")
+    for relative, digest in screenshots.items():
+        path = root / relative
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise ValueError("A current browser screenshot differs from the proof.")
+    return {"historical": len(old_checks), "current": len(checks)}
 
 
 def run_example(out):
@@ -70,7 +90,7 @@ def run_example(out):
         results["fresh_node_tests"] = len(passed)
         browser_checks = {check for node in test_nodes if node["source"] == "evidence/browser.json"
                           for check in node["check_ids"]}
-        results["recorded_browser_checks"] = verify_browser_receipt(out, browser_checks)
+        results["browser_evidence"] = verify_browser_receipt(out, browser_checks)
         step("strict-local", graph + ["validate", "graph.json", "--strict-local"], "validate.txt")
         step("render", graph + ["render", "graph.json", "--strict-local", "--out-dir", "rendered"], "render.txt")
         step("snapshot", ssot + ["snapshot", "--scope", "local-only", "--brief", "brief.md",

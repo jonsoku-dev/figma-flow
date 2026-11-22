@@ -1,0 +1,22 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/p2_native_read_measurement.cjs",
+      "case": "getter-counts records every executed native getter and API call without changing the read",
+      "testSha256": "f634fe36c25f837119efbb2e5c08894b97e71ce645946779479d7d440f8933e9",
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "covers": [
+        "figma-bridge/native_read_measurement.js",
+        "figma-bridge/native_semantic_read.js",
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "getter-counts records every executed native getter and API call without changing the read",
+      "observed": "The instrumented diagnostic witness counts executed getters while preserving the unchanged read result."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_owned_design_baseline.py",
+      "case": "OwnedDesignBaselineTest.test_design_token_values_are_owned_by_graph_and_projected_before_rendering",
+      "testSha256": "dfcf14ebbc00ba58863a7f28673a706c15b2d49840ae45b84f038839e1fecc33",
+      "authority": "examples/owned-design-baseline/graph.json#/design_tokens",
+      "covers": [
+        "examples/owned-design-baseline/README.md",
+        "examples/owned-design-baseline/graph.json",
+        "examples/owned-design-baseline/index.html",
+        "examples/owned-design-baseline/manifest.json",
+        "examples/owned-design-baseline/renderer.js",
+        "examples/owned-design-baseline/styles.css"
+      ],
+      "assertion": "The test verifies graph token fields feed CSS variables without embedded palette literals and the renderer projects graph values to the document root.",
+      "observed": "All 21 named tokens remain in graph; CSS contains no hex values or root palette block; renderer projects every token before mount."
+    }
+  ]
+}

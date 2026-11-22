@@ -11,6 +11,9 @@ const ROOT = path.resolve(__dirname, '..');
 const transportSource = fs.readFileSync(path.join(ROOT, 'figma-bridge/workspace_transport.js'), 'utf8');
 const controlSource = fs.readFileSync(path.join(ROOT, 'figma-bridge/workspace_control.js'), 'utf8');
 const hostSource = fs.readFileSync(path.join(ROOT, 'figma-bridge/workspace_host.js'), 'utf8');
+const panelContracts = JSON.parse(fs.readFileSync(path.join(ROOT, 'library/panel-design/contracts.json'), 'utf8'));
+const activityContract = JSON.parse(fs.readFileSync(path.join(ROOT, 'specs/workspace-activity/graph.json'), 'utf8'))
+  .nodes.find(node => node.id === 'CONTRACT-ACTIVITY-01');
 const localeCatalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'figma-bridge/locales/common.json'), 'utf8'));
 const flowLocales = JSON.stringify(Object.keys(Object.values(localeCatalog)[0]));
 
@@ -202,6 +205,8 @@ function createBridgeHarness(options = {}) {
     figma,
     __html__: 'HOME',
     WORKSPACE_PROFILE_POLICY: JSON.parse(fs.readFileSync(path.join(ROOT, 'library/figma-profile/policy.json'), 'utf8')),
+    WORKSPACE_PANEL_CONTRACTS: panelContracts,
+    WORKSPACE_ACTIVITY_CONTRACT: activityContract,
     fetch: async (url, init) => fetchImpl(url, init, requests),
     setTimeout: options.setTimeout || setTimeout,
     clearTimeout: options.clearTimeout || clearTimeout,
@@ -249,6 +254,7 @@ function createBridgeHarness(options = {}) {
 test('transport admits history-detail with exact 262144-byte UTF-8 response cap and redacted error reasons', async () => {
   const calls = [];
   const env = vm.createContext({
+    WORKSPACE_PROFILE_POLICY: require('../library/figma-profile/policy.json'),
     WORKSPACE_CONTROL_CONFIG: { url: 'http://127.0.0.1:49198', token: CONTROL_TOKEN },
     setTimeout,
     clearTimeout,

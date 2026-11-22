@@ -10,6 +10,7 @@ import {
   Info,
   ChevronRight,
 } from 'lucide-react';
+import { panelDesignMetrics } from './panelContracts.mjs';
 
 export const PanelContext = createContext(null);
 const localeNames = { ko: '한국어', en: 'English', ja: '日本語' };
@@ -61,7 +62,7 @@ export function Shell({
       <header className="masthead panel-shell">
         <div className="brand">
           <span className="brand-mark">
-            <PanelsTopLeft size={16} aria-hidden="true" />
+            <PanelsTopLeft size={panelDesignMetrics.iconStandard} aria-hidden="true" />
           </span>
           {__FLOW_DISPLAY_NAME__}
         </div>
@@ -100,7 +101,7 @@ export function Shell({
               aria-controls={home ? 'panel-content' : undefined}
               onClick={() => go(key)}
             >
-              <Icon size={16} strokeWidth={1.7} aria-hidden="true" />
+              <Icon size={panelDesignMetrics.iconStandard} strokeWidth={panelDesignMetrics.iconStrokeNavigation} aria-hidden="true" />
               {t('workspace.nav.' + key)}
             </button>
           ))}
@@ -136,7 +137,7 @@ export function Action({ variant = 'secondary', icon: Icon, children, className 
       {...props}
       className={['panel-action', variant, className].filter(Boolean).join(' ')}
     >
-      {Icon && <Icon size={16} strokeWidth={1.7} aria-hidden="true" />}
+      {Icon && <Icon size={panelDesignMetrics.iconStandard} strokeWidth={panelDesignMetrics.iconStrokeNavigation} aria-hidden="true" />}
       {children}
     </button>
   );
@@ -168,7 +169,7 @@ export function Notice({ state = 'ready', title, body, children, className = '',
     >
       {title && (
         <div className="status-title">
-          <Icon size={16} aria-hidden="true" />
+          <Icon size={panelDesignMetrics.iconStandard} aria-hidden="true" />
           {title}
         </div>
       )}
@@ -181,7 +182,7 @@ export function Disclosure({ title, children, className = '', ...props }) {
   return (
     <details className={'details ' + className} {...props}>
       <summary>
-        <ChevronRight size={14} aria-hidden="true" />
+        <ChevronRight size={panelDesignMetrics.iconMedium} aria-hidden="true" />
         {title}
       </summary>
       {children}

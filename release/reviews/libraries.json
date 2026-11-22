@@ -1,0 +1,388 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "libraries",
+  "fingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "openFindings": [],
+  "bindings": [
+    {
+      "authority": "library/figma-api/source.json#/files",
+      "reason": "Pinned official declaration, package metadata and license bytes are tied to the source manifest and reviewed upstream version.",
+      "files": [
+        "library/figma-api/LICENSE",
+        "library/figma-api/plugin-api.d.ts",
+        "library/figma-api/source.json",
+        "library/figma-api/upstream-package.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/plugin-api-source.json",
+          "sha256": "525c5ad20ea0d410082debc2d786b9ffeecdc3d3d3a5c722d85c76bdddc3e9d7"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-api/source.json#/files",
+      "reason": "The declaration index and AST scanner are regenerated from the pinned official declaration; the JSON catalog is a build output.",
+      "files": [
+        "library/figma-api/generate.cjs",
+        "library/figma-api/index.json",
+        "library/figma-api/scan.cjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/plugin-api-index.json",
+          "sha256": "cb17755f9640e966e48801e762ad6a628d3c18acf7f75df608afc17bef1c0872"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-api/coverage-baseline.json#/members",
+      "reason": "The baseline records AST occurrences only and pins the candidate source set; its statuses are not implementation or runtime claims.",
+      "files": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/plugin-api-static-baseline.json",
+          "sha256": "30349c7f335d6f9d5029b38116cda9929f7d516128d14aaf98214a062a4747b3"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-api/audit/members.json#/comparison",
+      "reason": "The stored API audit and its five sanitized evidence snapshots remain tied to the audit revision and explicitly historical scope.",
+      "files": [
+        "library/figma-api/audit/evidence/README.md",
+        "library/figma-api/audit/evidence/curated.json",
+        "library/figma-api/audit/evidence/design-recipes.json",
+        "library/figma-api/audit/evidence/editor-gaps.json",
+        "library/figma-api/audit/evidence/editor-recipes.json",
+        "library/figma-api/audit/evidence/native-read.json",
+        "library/figma-api/audit/members.json",
+        "library/figma-api/audit/report.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/plugin-api-historical-audit.json",
+          "sha256": "931fbf5ea9fe2d4f58ffe9a3f7b353e693320e475bef2f2998b9b5c39c59bbb3"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-api/README.md#/sections/Static implementation-gap evidence",
+      "reason": "The README declares offline inventory scope and separates declaration presence from support evidence.",
+      "files": [
+        "library/figma-api/README.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/plugin-api-docs.json",
+          "sha256": "8328f95dde0eb69c5a0dc42072e213d6f3aa06f578cb3aa150e94db1113f4ad4"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-api/package.json#/devDependencies",
+      "reason": "The private parser package pins the exact TypeScript dependency needed for reproducible declaration generation.",
+      "files": [
+        "library/figma-api/package.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/plugin-api-toolchain.json",
+          "sha256": "5a209d49f908e6a5fa60aa1d39fa18a79980e2cffe5b916d436df81b96e0ccc2"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-rest/source.json#/files",
+      "reason": "The compressed OpenAPI declaration and license are pinned to the recorded official REST API source; index.json is rebuilt offline from those bytes.",
+      "files": [
+        "library/figma-rest/LICENSE",
+        "library/figma-rest/index.json",
+        "library/figma-rest/openapi.yaml.gz",
+        "library/figma-rest/source.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/rest-api-source.json",
+          "sha256": "b6d06995a6a69a49563814bb7e9259d2b7f828a5352235566cd8cfb937fc2d50"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-rest/README.md#/sections/Pinned Figma REST API inventory",
+      "reason": "The README owns the documented offline generation procedure and the pinned PyYAML requirement.",
+      "files": [
+        "library/figma-rest/README.md",
+        "library/figma-rest/requirements.txt"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/rest-api-toolchain.json",
+          "sha256": "7ca6e6fff07a5a5ae5b200a745ee41c43c3f5e68cfe5bb696c3a1bc72365165b"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-widget/source.json#/files",
+      "reason": "The official Widget declarations, standalone types, package snapshot and MIT license are pinned independently from Plugin API runtime behavior.",
+      "files": [
+        "library/figma-widget/LICENSE",
+        "library/figma-widget/index.d.ts",
+        "library/figma-widget/source.json",
+        "library/figma-widget/upstream-package.json",
+        "library/figma-widget/widget-api-standalone.d.ts",
+        "library/figma-widget/widget-api.d.ts"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/widget-api-source.json",
+          "sha256": "d56430013f2b6db095dea68f10740589452d75fd19276b3f6f67c15eacadd6da"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-widget/README.md#/sections/Official Widget API typings",
+      "reason": "The Widget README states the isolated editor and no-runtime-execution limits.",
+      "files": [
+        "library/figma-widget/README.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/widget-api-docs.json",
+          "sha256": "0046abd8d7bc889459412dc3492dad41c841396c599e535c620e352033e01d2b"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "reason": "The canonical recipe visual graph owns every sample geometry, color, typography and motion field; recipe TypeScript sources consume generated projections.",
+      "files": [
+        "library/figma-recipes/design-component-properties.ts",
+        "library/figma-recipes/design-examples.graph.json",
+        "library/figma-recipes/design-grid.ts",
+        "library/figma-recipes/design-motion.ts",
+        "library/figma-recipes/design-shapes.ts",
+        "library/figma-recipes/design-type-review.ts"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/recipe-visual-graph.json",
+          "sha256": "c4b1410504166028ec423c56a1199ac72dcb60129c4467b97dc2be6bb46c2a3c"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "reason": "Manifest entries, TypeScript sources, shared helper functions, generated JavaScript and bundle hashes close over the reviewed recipe inputs.",
+      "files": [
+        "library/figma-recipes/build.py",
+        "library/figma-recipes/bundle.json",
+        "library/figma-recipes/bundled/design-component-properties.js",
+        "library/figma-recipes/bundled/design-grid.js",
+        "library/figma-recipes/bundled/design-motion.js",
+        "library/figma-recipes/bundled/design-shapes.js",
+        "library/figma-recipes/component-properties.helpers.js",
+        "library/figma-recipes/manifest.json",
+        "library/figma-recipes/recipe_design_graph.py",
+        "library/figma-recipes/test-rollback.cjs"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/recipe-build-output.json",
+          "sha256": "5129faf3b1bd53aabb7d375e72f1b2ecc22573f781a736e04989bad86c28be14"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-recipes/design-type-review.graph.json#/graph/nodes",
+      "reason": "The standalone SDK recipe graph binds its required selected document scope and authored typography values; the project compiler rejects stale graph-only reads.",
+      "files": [
+        "library/figma-recipes/design-type-review.graph.json",
+        "library/figma-recipes/design-type-review.ts"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/recipe-sdk-graph.json",
+          "sha256": "fe13e7ed36a36cfb8ffe40822fca164e4abd6f8800dd88b7877d6f9b41c7113c"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-recipes/inspection/members.json#/PluginAPI",
+      "reason": "The private inspection member inventory and service probe are a narrowly scoped design-only catalog and must reject wrong page/editor scope before native access.",
+      "files": [
+        "library/figma-recipes/inspection/members.json",
+        "library/figma-recipes/inspection/services.js",
+        "library/figma-recipes/inspection/values.js",
+        "library/figma-recipes/inspection/values.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/recipe-inspection-services.json",
+          "sha256": "68d3f202bb0094139560290b612c83b3994c35e0d34dc185435ef9dbb572f417"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-recipes/inspection/values.json#/routes",
+      "reason": "Value observation routes and privacy/size policy are the source for safe path summaries; return values are normalized and original vector path text is never exposed.",
+      "files": [
+        "library/figma-recipes/inspection/members.json",
+        "library/figma-recipes/inspection/services.js",
+        "library/figma-recipes/inspection/values.js",
+        "library/figma-recipes/inspection/values.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/recipe-inspection-values.json",
+          "sha256": "c946d20c5032f431d6b7c4bb1d112645db9554c61a3ed6a8bd87545a4f8a29f0"
+        }
+      ]
+    },
+    {
+      "authority": "library/campaigns.json#/patterns",
+      "reason": "The campaign catalog owns source-linked patterns and date-scoped observations; downstream plans remain manual and untested.",
+      "files": [
+        "library/campaigns.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/campaign-catalog.json",
+          "sha256": "75130b6be30a8124e97f3bec699e4408f847e730b849fbe6744b9174621dd74c"
+        }
+      ]
+    },
+    {
+      "authority": "library/campaign-forms.json#/forms",
+      "reason": "Campaign form templates define planned prompts only and preserve their explicit unverified evidence scope.",
+      "files": [
+        "library/campaign-forms.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/campaign-forms.json",
+          "sha256": "602da139c6ad7aa9e268b1861064116532f2f7abf7cfac48e0e342e8c6cee324"
+        }
+      ]
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "The design route registry owns lane identifiers consumed by campaign and skill routing helpers.",
+      "files": [
+        "library/design-routes.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/design-routes.json",
+          "sha256": "96a371dc73cbc9e37b97ed7953b464e489d68389bfa3c30b09a51d5216459e76"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/states",
+      "reason": "The maintained workflow graph is compared with its public projection and sync validation.",
+      "files": [
+        "library/workflow.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/workflow-graph.json",
+          "sha256": "6fbecc336b5970678202debeb234f8e76a6951f6480da0a73de6a443e6af02ca"
+        }
+      ]
+    },
+    {
+      "authority": "library/component-families.json#/families",
+      "reason": "Shared component family, token and native-workbench contracts are graph fields consumed by compilers and native builders.",
+      "files": [
+        "library/component-families.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/component-family-contract.json",
+          "sha256": "478721ecf62c9d1798da658fc000db1029ab27c5a618e564de83bc74a031837b"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/policy.json#/controlTransport",
+      "reason": "Control permissions and read transport caps derive from the policy graph and are checked at both sides of an actual local result.",
+      "files": [
+        "library/figma-profile/policy.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/profile-control-policy.json",
+          "sha256": "c074704d16c306f1e1dcd2a09d18abc4e6a2c97e9558cc70229cad896b081e6b"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "reason": "The maximum node read is a separately owned read budget consumed by both host and UI transport.",
+      "files": [
+        "library/figma-profile/read-limits.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/profile-read-limits.json",
+          "sha256": "2e514e5cd94736e42b57a3c5ce7465c42d501acd28a79c13756eae53223db447"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/native-windows.json#/windows",
+      "reason": "Native showUI dimensions and window defaults come from the approved graph and are forwarded to every showUI call.",
+      "files": [
+        "library/figma-profile/native-windows.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/profile-native-windows.json",
+          "sha256": "9de0615be8d57bc3d87f15ded95ae1a69d921be5ce0aadc09a0da15f5eb77085"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/tokens.json#/tokens",
+      "reason": "Panel color, dimensions, and responsive breakpoints are graph fields; authored CSS contains no independent numeric declarations or unowned palette values.",
+      "files": [
+        "library/panel-design/tokens.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/panel-design-tokens.json",
+          "sha256": "26697e0da5c3197a5d6ed8d22d621c531b094daa0ac8b04be185d59da5ca6f7f"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes",
+      "reason": "The shared cross-language component graph owns operation states, dependency artifacts, asset inventory statuses, and chat error codes.",
+      "files": [
+        "library/panel-design/contracts.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/panel-domain-contracts.json",
+          "sha256": "530ec9cdcfaca6f007b15bb2a3f46fb9e940bc1133630702149ace1bf63abf15"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "reason": "The panel route registry owns registered views and screen-to-code relationships; bundlers reject missing implementations and multiple homes.",
+      "files": [
+        "library/panel-design/views.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/libraries/panel-view-registry.json",
+          "sha256": "b519569254a2290a944940e84ae7820c0dc32bb71aad5b84efddd1b9903d7860"
+        }
+      ]
+    }
+  ]
+}

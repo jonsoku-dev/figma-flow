@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_example_release_witness.py",
+      "case": "ExampleReleaseWitnessTests.test_regression_program_runtime_and_catalog_cases_match_the_shipped_scenarios",
+      "testSha256": "7baf4a817c6f1629eb4a9968c3e79487eacf589a04cfa01bf2eea2c2e02354c2",
+      "authority": "examples/regression-program/atlas/graph.json#/nodes",
+      "covers": [
+        "examples/regression-program/lib/boot.js",
+        "examples/regression-program/lib/paint.js",
+        "examples/regression-program/lib/router.js"
+      ],
+      "assertion": "The current JavaScript scenario suite executes all shipped app/page flows, including shared route, paint, and startup helpers.",
+      "observed": "14 Node scenario cases pass across Atlas, Morrow, Paper, and the JS fixture."
+    }
+  ]
+}

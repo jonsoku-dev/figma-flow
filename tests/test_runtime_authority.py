@@ -126,7 +126,10 @@ class RuntimeAuthorityTests(unittest.TestCase):
     def test_view_graph_gate_reads_candidate_root_without_git(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
+            windows = json.loads((ROOT / 'library/figma-profile/native-windows.json').read_bytes())
             required = (
+                'library/figma-profile/native-windows.json', *windows['bindings'],
+                'library/component-families.json', 'figma-bridge/semantic_components.js',
                 'figma-bridge/workspace_control.js', 'figma-bridge/workspace_host.js',
                 'tools/figma_workspace.py', 'tools/operation_detail.py', 'tools/plugin_panel.py',
                 'panel-ui/src/app.jsx', 'panel-ui/build.mjs', 'panel-ui/view-registry.mjs',

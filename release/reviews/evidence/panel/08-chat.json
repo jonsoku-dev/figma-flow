@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_release_witness.cjs",
+      "case": "chat input helpers classify bounded selection and recoverable errors",
+      "testSha256": "cfeba70b2645ac53d4fcf982e406e3cf9570166e04364d032a0e7361155897e4",
+      "authority": "library/panel-design/contracts.json#/nodes/3",
+      "covers": [
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/panelContracts.mjs"
+      ],
+      "assertion": "chat input helpers classify bounded selection and recoverable errors",
+      "observed": "Chat helper compatibility parsing and stable coded error mapping preserve user-facing localized responses."
+    }
+  ]
+}

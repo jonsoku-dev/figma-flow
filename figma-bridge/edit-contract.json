@@ -1,0 +1,7 @@
+{
+  "schema": "figma-flow-native-edit-fields-v1",
+  "nodeEdits": {
+    "maxEdits": 32,
+    "fields": ["fontSize", "fontFamily", "paddingLeft", "paddingRight", "backgroundColor", "color", "borderRadius"]
+  }
+}

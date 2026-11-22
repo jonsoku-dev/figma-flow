@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { Download, ExternalLink, FilePlus, Files, FolderOpen, RefreshCw, ScanText } from 'lucide-react';
 import { workspaceAllows, Action, Notice, Section, Disclosure } from './components.jsx';
 import { nativeSummaryView } from './nativeSummary.mjs';
+import { panelDesignMetrics } from './panelContracts.mjs';
 
 const initialState = {
   connected: false,
@@ -293,7 +294,7 @@ export default function ImportPanel({ locale, t, send, Shell }) {
 
       {!state.existingOnly && names.length > 0 && (
         <figure id="import-preview" className="import-preview">
-          <Files className="mini-pages" size={36} strokeWidth={1.5} aria-hidden="true" />
+          <Files className="mini-pages" size={panelDesignMetrics.iconPreview} strokeWidth={panelDesignMetrics.iconStrokeStandard} aria-hidden="true" />
           <figcaption>
             <strong id="preview-source-count">{t('import.previewSource', { count: total })}</strong>
             <ul id="preview-source-names" aria-label={t('import.previewNames')}>
@@ -430,7 +431,7 @@ export default function ImportPanel({ locale, t, send, Shell }) {
       {state.preview && (
         <Section id="preview" className="preview-section" title={t('import.previewHeading')}>
           <a id="preview-link" href={state.preview} target="_blank" rel="noopener noreferrer">
-            {t('import.previewLink')} <ExternalLink size={14} aria-hidden="true" />
+            {t('import.previewLink')} <ExternalLink size={panelDesignMetrics.iconMedium} aria-hidden="true" />
           </a>
           <iframe
             id="preview-frame"

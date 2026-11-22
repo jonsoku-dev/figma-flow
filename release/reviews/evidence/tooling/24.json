@@ -1,0 +1,58 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "tools/campaign_forms.py",
+        "tools/route_design.py",
+        "tools/serve_design_routes.py"
+      ],
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "assertion": "Design actions, campaign form selection and the local route display consume the same graph lanes and selection protocol.",
+      "observed": "Compared the local HTTP plan to its shared router and confirmed a multi-form design request stayed pending selection."
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "tools/campaign_forms.py",
+        "tools/route_design.py",
+        "tools/serve_design_routes.py"
+      ],
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_ui_and_all_campaign_forms_plan_selection_without_claiming_approval",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "assertion": "Design actions, campaign form selection and the local route display consume the same graph lanes and selection protocol.",
+      "observed": "Compared the local HTTP plan to its shared router and confirmed a multi-form design request stayed pending selection."
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "tools/campaign_forms.py",
+        "tools/route_design.py",
+        "tools/serve_design_routes.py"
+      ],
+      "test": "tests/test_serve_design_routes.py",
+      "case": "DesignRoutesServerTests.test_plan_matches_exact_shared_router_and_context",
+      "testSha256": "8a8b69897b0d13ea0ee1d91491c1357ac7cc7f0153d509b3c3481da37fb0a2b0",
+      "assertion": "Design actions, campaign form selection and the local route display consume the same graph lanes and selection protocol.",
+      "observed": "Compared the local HTTP plan to its shared router and confirmed a multi-form design request stayed pending selection."
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "tools/campaign_forms.py",
+        "tools/route_design.py",
+        "tools/serve_design_routes.py"
+      ],
+      "test": "tests/test_serve_design_routes.py",
+      "case": "DesignRoutesServerTests.test_loopback_offline_page_and_paths",
+      "testSha256": "8a8b69897b0d13ea0ee1d91491c1357ac7cc7f0153d509b3c3481da37fb0a2b0",
+      "assertion": "Design actions, campaign form selection and the local route display consume the same graph lanes and selection protocol.",
+      "observed": "Compared the local HTTP plan to its shared router and confirmed a multi-form design request stayed pending selection."
+    }
+  ]
+}

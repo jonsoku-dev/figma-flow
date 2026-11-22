@@ -14,8 +14,9 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path:
     sys.path.insert(0, str(TOOLS))
+from report_appearance import graphic, report_css
 from figma_bridge import (
-    CANONICAL_COMPONENT_FAMILIES,
+    CANONICAL_COMPONENT_FAMILIES, FAMILY_CONTRACT,
     dimension_px,
     reject_secret_like_text,
     validate,
@@ -573,16 +574,17 @@ def render(design, styled):
                 else:
                     elements.append(f'<div class="component {cls}">{content}</div>')
         pages.append(f'<section id="{esc(screen["id"], quote=True)}" aria-label="{esc(screen["title"], quote=True)}"><small>{esc(screen["id"])}</small>{"".join(elements)}</section>')
-    base = "body{margin:0;padding:16px;background:#eef0f2;color:#20242a;font-family:system-ui,sans-serif}main{display:flex;flex-wrap:wrap;gap:24px}section{box-sizing:border-box;width:min(360px,100%);min-height:480px;background:white;padding:24px;border:1px solid #cdd2d8}small{color:#59616b;overflow-wrap:anywhere}h2{margin:20px 0 12px}p{line-height:1.5}.component{overflow-wrap:anywhere;display:block;box-sizing:border-box;width:100%;margin:12px 0;border:1px solid #999;font:inherit;text-align:left}a.component{text-decoration:none}a.component:hover{text-decoration:underline}a.component:focus-visible{outline:3px solid #1849a5}"
-    preview_css = ".component-property-node{display:block;box-sizing:border-box;width:100%;margin:12px 0;padding:16px;border:1px solid #999;border-radius:0;background:#fff;color:#222;font:inherit;text-align:left}.component-slot{margin:8px 0 0 12px}.component-slot .component-property-node{width:auto;margin:0}.component-property-link{text-decoration:none}.component-property-link:hover{text-decoration:underline}.component-property-link:focus-visible{outline:3px solid #1849a5}"
+    base = report_css("previewBase")
+    preview_css = report_css("previewProperties")
     has_property_previews = any(design["components"][item["component"]].get("properties")
                                 for screen in design["screens"] for item in screen["elements"] if item["kind"] == "component")
     extra_styles = ([preview_css] if has_property_previews else [])
-    style = "\n".join(css + [base] + extra_styles + ([components_css(design)] if styled else [".component{padding:16px;background:#fff;color:#222;border-radius:0}"]))
+    style = "\n".join(css + [base] + extra_styles + ([components_css(design)] if styled else [graphic('componentPreview')['plainButtonCss']]))
     return "<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"icon\" href=\"data:,\"><title>디자인 미리보기</title><style>" + style + "</style></head><body><h1>" + ("스타일 시안" if styled else "와이어프레임") + "</h1><main>" + "".join(pages) + "</main></body></html>\n", "\n".join(css) + "\n"
 
 
 def render_svg(design, screen, styled):
+    defaults = graphic("componentPreview")
     esc = html.escape
     max_svg_bottom = 2390 if "componentFamilies" in design else 630
     body_parts = []
@@ -621,9 +623,9 @@ def render_svg(design, screen, styled):
         height = max(44, line_height * len(lines) + padding_y * 2)
         if y + height > max_svg_bottom:
             raise ValueError(f"screen exceeds SVG bounds: {screen['id']}")
-        color = get("color", "#20242a")
+        color = get("color", defaults["ink"])
         if item["kind"] == "component":
-            fill, border = get("background", "#ffffff"), get("border-color", "#999999")
+            fill, border = get("background", defaults["paper"]), get("border-color", defaults["border"])
             body_parts.append(f'<rect x="24" y="{y:g}" width="312" height="{height:g}" rx="{radius:g}" fill="{esc(str(fill), quote=True)}" stroke="{esc(str(border), quote=True)}"/>')
         for i, line in enumerate(lines):
             body_parts.append(f'<text x="{24 + padding_x:g}" y="{y + padding_y + size + i * line_height:g}" fill="{esc(str(color), quote=True)}" font-family="{esc(str(font), quote=True)}" font-size="{size:g}">{esc(line)}</text>')
@@ -631,12 +633,13 @@ def render_svg(design, screen, styled):
     svg_height = max(640, math.ceil(y + 10)) if "componentFamilies" in design else 640
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="360" height="{svg_height:g}" viewBox="0 0 360 {svg_height:g}" role="img">',
-        f'<rect width="360" height="{svg_height:g}" fill="#ffffff"/>',
+        f'<rect width="360" height="{svg_height:g}" fill="{defaults["paper"]}"/>',
     ] + body_parts
     return "".join(parts) + "</svg>\n"
 
 
 def _render_component_svg(design, root, y, styled, *, max_svg_bottom=630):
+    defaults = graphic("componentPreview")
     esc = html.escape
     parts = []
 
@@ -676,10 +679,10 @@ def _render_component_svg(design, root, y, styled, *, max_svg_bottom=630):
     def draw(node, x, top, width):
         px, py, size, radius = dimensions(node)
         height = measure(node, width)
-        fill = style_value(node, "background", "#ffffff")
-        border = style_value(node, "border-color", "#999999")
-        color = style_value(node, "color", "#20242a")
-        font = style_value(node, "font-family", "Inter")
+        fill = style_value(node, "background", defaults["paper"])
+        border = style_value(node, "border-color", defaults["border"])
+        color = style_value(node, "color", defaults["ink"])
+        font = style_value(node, "font-family", defaults["font"])
         parts.append(f'<rect x="{x:g}" y="{top:g}" width="{width:g}" height="{height:g}" rx="{radius:g}" fill="{esc(str(fill), quote=True)}" stroke="{esc(str(border), quote=True)}"/>')
         cursor = top + py
         has_own_copy = node["label"] is not None or bool(node.get("text_slots"))
@@ -727,7 +730,8 @@ def compile_graph_component_families(
     if not isinstance(workbench_name, str) or not workbench_name.strip() or len(workbench_name) > 120:
         raise ValueError("workbench_name must be bounded text")
     reject_secret_like_text(workbench_name, "workbench_name")
-    pos = {"x": 1680, "y": 0} if position is None else dict(position)
+    layout = FAMILY_CONTRACT['native']['workbench']
+    pos = {"x": layout['originX'], "y": layout['originY']} if position is None else dict(position)
     if (set(pos) != {"x", "y"}
             or any(not isinstance(pos[k], (int, float)) or isinstance(pos[k], bool) or not math.isfinite(pos[k]) for k in ("x", "y"))):
         raise ValueError("position must be finite {x, y}")
@@ -836,7 +840,7 @@ def compile_graph_component_families(
     for item in families:
         order_visit(item["component"])
 
-    default_font_family = "Inter"
+    default_font_family = FAMILY_CONTRACT["tokens"]["font"]["body"]["$value"]
     for tok in tokens.values():
         if tok.get("type") == "fontFamily":
             default_font_family = tok["value"]
@@ -958,26 +962,7 @@ def compile_graph_component_families(
 
 def _graph_to_family_design(graph, raw_families):
     """Synthesize a validated design dict from a canonical graph carrying componentFamilies."""
-    tokens = {
-        "color": {
-            "ink": {"$type": "color", "$value": "#1f242b"},
-            "muted": {"$type": "color", "$value": "#59616b"},
-            "surface": {"$type": "color", "$value": "#ffffff"},
-            "border": {"$type": "color", "$value": "#c7cdd4"},
-            "accent": {"$type": "color", "$value": "#1849a5"},
-            "danger": {"$type": "color", "$value": "#b42318"},
-        },
-        "space": {
-            "xs": {"$type": "dimension", "$value": "4px"},
-            "sm": {"$type": "dimension", "$value": "8px"},
-            "md": {"$type": "dimension", "$value": "12px"},
-        },
-        "radius": {"sm": {"$type": "dimension", "$value": "4px"}},
-        "font": {
-            "body": {"$type": "fontFamily", "$value": "Inter"},
-            "size": {"$type": "dimension", "$value": "14px"},
-        },
-    }
+    tokens = copy.deepcopy(FAMILY_CONTRACT['tokens'])
     for role in graph.get("design_foundations", {}).get("roles", []):
         if role.get("kind") == "typography" and (role.get("native") or {}).get("type") == "STRING":
             val = role.get("value", "")
@@ -994,18 +979,8 @@ def _graph_to_family_design(graph, raw_families):
             if not isinstance(vals, list):
                 raise ValueError("invalid axis values in graph componentFamilies")
             for vname in vals:
-                ink_tok = "color.danger" if vname == "error" else ("color.muted" if vname in ("disabled", "muted") else ("color.accent" if vname in ("checked", "selected") else "color.ink"))
-                border_tok = "color.danger" if vname == "error" else ("color.accent" if vname in ("focus", "checked", "selected") else "color.border")
-                variants[vname] = {
-                    "color": ink_tok,
-                    "background": "color.surface",
-                    "border-color": border_tok,
-                    "padding": "space.sm",
-                    "gap": "space.sm",
-                    "border-radius": "radius.sm",
-                    "font-family": "font.body",
-                    "font-size": "font.size",
-                }
+                fallback = FAMILY_CONTRACT['fallbackVariant']
+                variants[vname] = {**fallback['base'], **fallback['states'].get(vname, {})}
         components[cname] = {"variants": variants}
     raw_instances = graph.get("family_instances") or graph.get("design_system", {}).get("family_instances") or []
     elements = []

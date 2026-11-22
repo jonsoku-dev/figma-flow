@@ -2,6 +2,8 @@
 
 Use `tools/replay_optional_tests.py` to run the native readback check against operator supplied evidence and the private Shadow Troupe and Moss Choir regression fixtures. Pass the exact manifest, readback, renderer packet, generated plugin code, renderer source directory, and fixture roots. The command writes a JSON receipt with input hashes, the named test results, and the tampering checks. The receipt omits file paths and Figma identifiers.
 
+Provide at least one original fixture root or the complete native evidence set. With no evidence input the command exits with an error and writes no receipt. A partial native evidence set is rejected. If you supply only one fixture root, the receipt is `incomplete` and records the other checks as `not_run`.
+
 The command creates an isolated temporary test checkout. It copies the three test files and links the `tools` and `figma-bridge` source directories. It links only the fixture roots you pass, then reads the original fixture files through those links. The command removes the temporary checkout after each run. It does not copy or write through the original fixtures.
 
 For the native readback replay, the command copies the manifest and creates `renderer-snapshot.json` beside that copy. The snapshot records local source paths and hashes so `verify_native_review` can reconstruct the renderer that created the packet. The command does not write beside the original manifest.

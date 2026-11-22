@@ -1,0 +1,25 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_family_authority.py",
+      "case": "FamilyAuthorityTests.test_graph_edits_reach_family_compilation_and_native_layout",
+      "testSha256": "9133baca5af0c1ac9b0cb0cf05bd1597ade7f916113c2603548e4f4fd90ae5db",
+      "authority": "examples/owned-component-families/design.json#/componentFamilies",
+      "covers": [
+        "examples/owned-component-families/README.md",
+        "examples/owned-component-families/design.json",
+        "examples/owned-component-families/graph.json",
+        "examples/owned-component-families/index.html",
+        "examples/owned-component-families/manifest.json",
+        "examples/owned-component-families/prepare.py",
+        "examples/owned-component-families/renderer.js",
+        "examples/owned-component-families/styles.css"
+      ],
+      "assertion": "Mutated canonical family values reach generated design and the native workbench layout; production compiler and native runtime tests rerun.",
+      "observed": "Accent mutation #1e8a61 reached compiled DTCG output; changed family and workbench dimensions were retained through native runtime; preparation outputs regenerate from the family source."
+    }
+  ]
+}

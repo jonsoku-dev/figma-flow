@@ -22,6 +22,7 @@ import { ActivitySummary, CarouselOverview, ExecutionFlows } from './WorkspaceAc
 import { dependencyFreshness, dependencyView } from './dependencyView.mjs';
 import { verifiedPresentationLink } from './carouselPresentation.mjs';
 import { assetInventory } from './assetInventory.mjs';
+import { assetStatuses, panelDesignMetrics, workspaceHistoryDisplay } from './panelContracts.mjs';
 import {
   DETAIL_PROTOCOL,
   OPERATION_DETAIL_SCHEMA,
@@ -54,7 +55,7 @@ function AssetDisclosure({ summary, freshness, tr }) {
   const [kind, setKind] = React.useState('');
   const [query, setQuery] = React.useState('');
   const inventory = assetInventory(summary, { status, kind, query });
-  const states = ['present', '404', 'rejected', 'external-unverified'];
+  const states = assetStatuses;
   const current = ['current', 'stale'].includes(freshness?.status) ? freshness.status : 'unverified';
   return (
     <details className="workspace-asset-list">
@@ -102,22 +103,49 @@ function DependencyText({ tasks, selected, retired, onSelect, tr }) {
     .map(row => ({role:'predecessor', key:row.dependency, title:row.dependency, unavailable:true}));
   const rows = [...new Map([...view.predecessors, ...missing, ...view.successors].map(row => [row.role + ':' + row.key, row])).values()];
   const before = rows.filter(row => row.role === 'predecessor'), after = rows.filter(row => row.role === 'successor');
-  const height = Math.max(112, Math.max(before.length, after.length) * 52 + 20);
+  const height = Math.max(panelDesignMetrics.dependencyGraphMinHeight,
+    Math.max(before.length, after.length) * panelDesignMetrics.dependencyGraphRowPitch + panelDesignMetrics.dependencyGraphOuterPadding);
   const title = key => tasks.find(task => task.key === key)?.title || key;
-  const label = value => value.length > 14 ? value.slice(0, 13) + '…' : value;
+  const label = value => value.length > panelDesignMetrics.dependencyGraphLabelLimit
+    ? value.slice(0, panelDesignMetrics.dependencyGraphLabelLimit - 1) + '…' : value;
+  const graphWidth = panelDesignMetrics.dependencyGraphWidth;
+  const sideNodeWidth = panelDesignMetrics.dependencyGraphSideNodeWidth;
+  const centerNodeWidth = panelDesignMetrics.dependencyGraphCenterNodeWidth;
+  const nodeHeight = panelDesignMetrics.dependencyGraphNodeHeight;
+  const nodeTop = panelDesignMetrics.dependencyGraphNodeTop;
+  const textBaseline = panelDesignMetrics.dependencyGraphTextBaseline;
+  const nodeRadius = panelDesignMetrics.dependencyGraphNodeRadius;
+  const arrowSize = panelDesignMetrics.dependencyGraphArrowViewSize;
+  const arrowAnchor = panelDesignMetrics.dependencyGraphArrowAnchor;
+  const arrowCenter = panelDesignMetrics.dependencyGraphArrowCenter;
+  const arrowMarkerSize = panelDesignMetrics.dependencyGraphArrowMarkerSize;
+  const origin = panelDesignMetrics.coordinateOrigin;
+  const centerX = (graphWidth - centerNodeWidth) / 2;
+  const rightX = graphWidth - sideNodeWidth;
+  const rowTop = index => nodeTop + index * panelDesignMetrics.dependencyGraphRowPitch;
+  const rowCenter = index => rowTop(index) + nodeHeight / 2;
+  const rowLabelY = index => rowTop(index) + textBaseline;
+  const centerY = height / 2;
   const marker = React.useId().replace(/:/g, '');
   return (
     <div className="workspace-dependency-view">
       <h3 tabIndex={-1} ref={heading}>{tr('dependencySelected', {title:title(selected)})}</h3>
-      <svg className="workspace-dependency-graph" aria-hidden="true" viewBox={`0 0 600 ${height}`}>
-        <defs><marker id={marker} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
-        {[before, after].map((items, side) => items.map((item, index) => <g key={item.role + item.key}>
-          <line x1={side ? 380 : 180} y1={side ? height / 2 : 30 + index * 52} x2={side ? 420 : 220} y2={side ? 30 + index * 52 : height / 2} markerEnd={`url(#${marker})`} />
-          <rect x={side ? 420 : 0} y={10 + index * 52} width="180" height="40" rx="6" />
-          <text x={side ? 510 : 90} y={34 + index * 52} textAnchor="middle">{label(item.title)}</text>
-        </g>))}
-        <rect className="selected" x="220" y={height / 2 - 20} width="160" height="40" rx="6" />
-        <text x="300" y={height / 2 + 4} textAnchor="middle">{label(title(selected))}</text>
+      <svg className="workspace-dependency-graph" aria-hidden="true" viewBox={`${origin} ${origin} ${graphWidth} ${height}`}>
+        <defs><marker id={marker} viewBox={`${origin} ${origin} ${arrowSize} ${arrowSize}`} refX={arrowAnchor} refY={arrowCenter} markerWidth={arrowMarkerSize} markerHeight={arrowMarkerSize} orient="auto"><path d={`M ${origin} ${origin} L ${arrowSize} ${arrowCenter} L ${origin} ${arrowSize} z`} /></marker></defs>
+        {[before, after].map((items, side) => items.map((item, index) => {
+          const boxX = side ? rightX : origin;
+          const fromX = side ? centerX + centerNodeWidth : sideNodeWidth;
+          const toX = side ? rightX : centerX;
+          const fromY = side ? centerY : rowCenter(index);
+          const toY = side ? rowCenter(index) : centerY;
+          return <g key={item.role + item.key}>
+            <line x1={fromX} y1={fromY} x2={toX} y2={toY} markerEnd={`url(#${marker})`} />
+            <rect x={boxX} y={rowTop(index)} width={sideNodeWidth} height={nodeHeight} rx={nodeRadius} />
+            <text x={boxX + sideNodeWidth / 2} y={rowLabelY(index)} textAnchor="middle">{label(item.title)}</text>
+          </g>;
+        }))}
+        <rect className="selected" x={centerX} y={centerY - nodeHeight / 2} width={centerNodeWidth} height={nodeHeight} rx={nodeRadius} />
+        <text x={centerX + centerNodeWidth / 2} y={centerY + textBaseline - nodeHeight / 2} textAnchor="middle">{label(title(selected))}</text>
       </svg>
       <details><summary>{tr('dependencyEvidence')}</summary><ol className="workspace-dependency-text">
         {view.text.map((line) => (
@@ -151,59 +179,23 @@ function EventIcon({ status, ...props }) {
           : status === 'requested'
             ? Clock3
             : FileText;
-  return <Icon size={16} strokeWidth={1.5} aria-hidden="true" {...props} />;
+  return <Icon size={panelDesignMetrics.iconStandard} strokeWidth={panelDesignMetrics.iconStrokeStandard} aria-hidden="true" {...props} />;
 }
 
-const KNOWN_JOURNAL_PHASES = new Set([
-  'queued',
-  'claimed',
-  'native-started',
-  'result-received',
-  'reconciled',
-  'uncertain',
-  'unknown',
-]);
-const KNOWN_DIFF_REASONS = new Set([
-  'before-artifact-missing',
-  'read-only-operation',
-  'unsupported-task-kind',
-  'legacy-or-unpinned-artifact',
-  'unverified-artifact',
-  'legacy-record',
-  'unknown-record',
-  'unavailable',
-]);
-const KNOWN_UNAVAILABLE_REASONS = new Set(['not-found-in-scope', 'control-unavailable']);
-const KNOWN_ERROR_REASONS = new Set([
-  'invalid-operation-id',
-  'invalid-task-revision-binding',
-  'task-revision-mismatch',
-  'runtime-mismatch',
-  'request-rejected',
-  'payload-limit-exceeded',
-  'request-timeout',
-]);
-const KNOWN_FAILURE_CODES = new Set([
-  'native-conflict',
-  'result-rejected',
-  'claim-expired',
-  'operation-uncertain',
-  'execution-failed',
-]);
-const KNOWN_FAILURE_ACTIONS = new Set([
-  'inspect-conflicts',
-  'run-native-read',
-  'reopen-plugin',
-  'inspect-private-status',
-]);
+const KNOWN_JOURNAL_PHASES = new Set(workspaceHistoryDisplay.phases);
+const KNOWN_DIFF_REASONS = new Set(workspaceHistoryDisplay.diffReasons);
+const KNOWN_UNAVAILABLE_REASONS = new Set(workspaceHistoryDisplay.unavailableReasons);
+const KNOWN_ERROR_REASONS = new Set(workspaceHistoryDisplay.errorReasons);
+const KNOWN_FAILURE_CODES = new Set(workspaceHistoryDisplay.failureCodes);
+const KNOWN_FAILURE_ACTIONS = new Set(workspaceHistoryDisplay.failureActions);
 
 function journalPhaseLabel(phase, tr) {
-  return tr('journalPhase.' + (KNOWN_JOURNAL_PHASES.has(phase) ? phase : 'unknown'));
+  return tr('journalPhase.' + (KNOWN_JOURNAL_PHASES.has(phase) ? phase : workspaceHistoryDisplay.fallbacks.unknown));
 }
 
 function diffReasonText(reason, tr) {
   if (KNOWN_DIFF_REASONS.has(reason)) return tr('journalDiffReason.' + reason);
-  return reason ? tr('journalDetailErrorCode', { code: reason }) : tr('journalDiffReason.unavailable');
+  return reason ? tr('journalDetailErrorCode', { code: reason }) : tr('journalDiffReason.' + workspaceHistoryDisplay.fallbacks.unavailable);
 }
 
 function diffKindSymbol(kind) {
@@ -223,7 +215,7 @@ function DiffKindIcon({ kind }) {
         : kind === 'unknown'
           ? TriangleAlert
           : RefreshCw;
-  return <Icon size={12} strokeWidth={1.75} aria-hidden="true" />;
+  return <Icon size={panelDesignMetrics.iconSmall} strokeWidth={panelDesignMetrics.iconStrokeDense} aria-hidden="true" />;
 }
 
 function revisionBindingText(binding, currentRevision, tr) {
@@ -1521,7 +1513,7 @@ export default function Workspace({
                 })}
                 onClick={() => openTask(task, view === 'codex')}
               >
-                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+                <Icon size={panelDesignMetrics.iconLarge} strokeWidth={panelDesignMetrics.iconStrokeStandard} aria-hidden="true" />
                 <span className="workspace-row-info">
                   <span className="workspace-row-title">{task.title}</span>
                   <span
@@ -1535,7 +1527,7 @@ export default function Workspace({
                     {event ? stateText(event) + ' · ' + tr('op.' + event.operation) : tr('notRun')}
                   </span>
                 </span>
-                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+                <ArrowRight size={panelDesignMetrics.iconStandard} strokeWidth={panelDesignMetrics.iconStrokeStandard} aria-hidden="true" />
               </Action>
               <button type="button" className="workspace-history-link" onClick={() => jumpToReceipt(task)}>{tr('viewTaskFlow')}</button>
               <button type="button" className="workspace-dependency-link" onClick={() => setDependencyKey(task.key)}>{tr('dependencyHeading')}</button>

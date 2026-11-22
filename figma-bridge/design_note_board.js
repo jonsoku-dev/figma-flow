@@ -1,3 +1,25 @@
+/* native appearance: begin notes */
+const NOTE_BOARD = {
+  "width": 760,
+  "fontSize": 17,
+  "minWidth": 360,
+  "minTextSize": 14,
+  "padding": 24,
+  "gap": 24,
+  "minHeight": 100,
+  "canvasGap": 64,
+  "ink": {
+    "r": 0,
+    "g": 0,
+    "b": 0
+  },
+  "paper": {
+    "r": 1,
+    "g": 1,
+    "b": 1
+  }
+};
+/* native appearance: end notes */
 /* Ordinary Design-mode text and NODE hyperlinks; no Dev Mode APIs. */
 async function ensureDesignNoteBoard(figma, page, contract) {
   if (contract?.presentation === "readable-specs") return ensureReadableSpecificationBoard(figma, page, contract);
@@ -7,9 +29,9 @@ async function ensureDesignNoteBoard(figma, page, contract) {
       !contract.font?.family || !contract.font?.style || !Array.isArray(contract.notes) || !contract.notes.length)
     fail("selected page, sourceHash, explicit font and notes required");
   if (contract.notes.length > 1000) fail("at most 1000 linked notes supported");
-  const width = contract.width === undefined ? 760 : contract.width;
-  const fontSize = contract.fontSize === undefined ? 17 : contract.fontSize;
-  if (!Number.isFinite(width) || width < 360 || !Number.isFinite(fontSize) || fontSize < 14) fail("readable width/fontSize required");
+  const width = contract.width === undefined ? NOTE_BOARD.width : contract.width;
+  const fontSize = contract.fontSize === undefined ? NOTE_BOARD.fontSize : contract.fontSize;
+  if (!Number.isFinite(width) || width < NOTE_BOARD.minWidth || !Number.isFinite(fontSize) || fontSize < NOTE_BOARD.minTextSize) fail("readable width/fontSize required");
   await page.loadAsync();
   const all = [page, ...page.findAll(() => true)];
   const seen = new Set();
@@ -33,20 +55,20 @@ async function ensureDesignNoteBoard(figma, page, contract) {
       board = figma.createFrame(); created = true; page.appendChild(board);
       board.name = contract.title || "화면·조작 주석 목차 · Design";
       board.setPluginData("semanticKey", key); board.setPluginData("designNoteBoard", owner);
-      board.layoutMode = "VERTICAL"; board.resize(width, 100);
-      board.primaryAxisSizingMode = "AUTO"; board.counterAxisSizingMode = "FIXED"; board.paddingTop = board.paddingRight = board.paddingBottom = board.paddingLeft = 24;
-      board.itemSpacing = 24; board.clipsContent = false;
-      board.fills = [{type:"SOLID",color:{r:1,g:1,b:1}}];
-      board.x = contract.x === undefined ? Math.max(0,...page.children.filter(node=>node!==board).map(node=>node.x+node.width)) + 64 : contract.x;
+      board.layoutMode = "VERTICAL"; board.resize(width, NOTE_BOARD.minHeight);
+      board.primaryAxisSizingMode = "AUTO"; board.counterAxisSizingMode = "FIXED"; board.paddingTop = board.paddingRight = board.paddingBottom = board.paddingLeft = NOTE_BOARD.padding;
+      board.itemSpacing = NOTE_BOARD.gap; board.clipsContent = false;
+      board.fills = [{type:"SOLID",color:NOTE_BOARD.paper}];
+      board.x = contract.x === undefined ? Math.max(0,...page.children.filter(node=>node!==board).map(node=>node.x+node.width)) + NOTE_BOARD.canvasGap : contract.x;
       board.y = contract.y === undefined ? 0 : contract.y;
       const makeText = async (text, semantic) => {
         const node = figma.createText(); board.appendChild(node);
         node.name = semantic; node.setPluginData("semanticKey", semantic);
         node.fontName = contract.font; node.fontSize = fontSize; node.characters = text;
-        node.resize(width - 48, node.height); node.textAutoResize = "HEIGHT";
-        node.fills = [{type:"SOLID",color:{r:0,g:0,b:0}}];
+        node.resize(width - 2 * NOTE_BOARD.padding, node.height); node.textAutoResize = "HEIGHT";
+        node.fills = [{type:"SOLID",color:NOTE_BOARD.ink}];
         if (contract.styleText) await contract.styleText(node);
-        if (node.fontSize < 14) fail("styled board text is too small");
+        if (node.fontSize < NOTE_BOARD.minTextSize) fail("styled board text is too small");
         return node;
       };
       await makeText(`${board.name}\n일반 Design 모드에서 읽고, 각 주석의 링크로 실제 대상으로 이동합니다.`, key + ":title");
@@ -61,7 +83,7 @@ async function ensureDesignNoteBoard(figma, page, contract) {
     const entries = notes.map(note => {
       const matches = board.children.filter(node => node.getPluginData("semanticKey") === key + ":" + note.key);
       const node = matches[0];
-      if (matches.length !== 1 || node.type !== "TEXT" || node.visible === false || node.characters !== characters(note) || node.fontSize < 14 || typeof node.getRangeHyperlink !== "function") fail(`visible linked text not retained: ${note.key}`);
+      if (matches.length !== 1 || node.type !== "TEXT" || node.visible === false || node.characters !== characters(note) || node.fontSize < NOTE_BOARD.minTextSize || typeof node.getRangeHyperlink !== "function") fail(`visible linked text not retained: ${note.key}`);
       const link = node.getRangeHyperlink(0,node.characters.length);
       if (!link || link.type !== "NODE" || link.value !== note.targetId) fail(`native target hyperlink not retained: ${note.key}`);
       return {key:note.key,textNodeId:node.id,targetId:note.targetId,label:note.label};
@@ -78,8 +100,8 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
   const copy = value => JSON.parse(JSON.stringify(value));
   const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
   if (!page?.id || typeof contract.sourceHash !== "string" || !contract.sourceHash || !contract.font?.family || !contract.font?.style || !Array.isArray(contract.notes) || !contract.notes.length || contract.notes.length > 1000) fail("page, sourceHash, explicit font and notes required");
-  const width = contract.width ?? 760, fontSize = contract.fontSize ?? 17;
-  if (!Number.isFinite(width) || width < 360 || !Number.isFinite(fontSize) || fontSize < 14) fail("readable width/fontSize required");
+  const width = contract.width ?? NOTE_BOARD.width, fontSize = contract.fontSize ?? NOTE_BOARD.fontSize;
+  if (!Number.isFinite(width) || width < NOTE_BOARD.minWidth || !Number.isFinite(fontSize) || fontSize < NOTE_BOARD.minTextSize) fail("readable width/fontSize required");
   await page.loadAsync();
   const all = [page,...page.findAll(() => true)], seen = new Set();
   const owner = JSON.stringify({pageId:page.id,sourceHash:contract.sourceHash});
@@ -109,7 +131,7 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
     const childKeys = new Set();
     for (const node of board.children) {
       const semantic = node.getPluginData("semanticKey");
-      if (node.type !== "TEXT" || node.visible === false || node.fontSize < 14 || !semantic.startsWith(key + ":") || childKeys.has(semantic)) fail("unknown or ambiguous board child");
+      if (node.type !== "TEXT" || node.visible === false || node.fontSize < NOTE_BOARD.minTextSize || !semantic.startsWith(key + ":") || childKeys.has(semantic)) fail("unknown or ambiguous board child");
       childKeys.add(semantic);
       const expected = expectedEntries.find(item => item.textNodeId === node.id);
       if (semantic === key + ":title") {
@@ -169,10 +191,10 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
     const node = figma.createText(); board.appendChild(node); newNodes.push(node); newText.set(node,{text,semantic});
     node.name = semantic; node.setPluginData("semanticKey",semantic); entryNodes.set(semantic,node);
     node.fontName = contract.font; node.fontSize = fontSize; node.characters = text;
-    node.resize(width - 48,node.height); node.textAutoResize = "HEIGHT";
-    node.fills = [{type:"SOLID",color:{r:0,g:0,b:0}}];
+    node.resize(width - 2 * NOTE_BOARD.padding,node.height); node.textAutoResize = "HEIGHT";
+    node.fills = [{type:"SOLID",color:NOTE_BOARD.ink}];
     if (contract.styleText) await contract.styleText(node);
-    if (node.fontSize < 14) fail("styled board text is too small");
+    if (node.fontSize < NOTE_BOARD.minTextSize) fail("styled board text is too small");
     return node;
   };
   try {
@@ -180,12 +202,12 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
       board = figma.createFrame(); created = true; page.appendChild(board);
       board.name = contract.title || "화면 설명";
       board.setPluginData("semanticKey",key); board.setPluginData("designNoteBoard",owner);
-      board.layoutMode = "VERTICAL"; board.resize(width,100);
+      board.layoutMode = "VERTICAL"; board.resize(width,NOTE_BOARD.minHeight);
       board.primaryAxisSizingMode = "AUTO"; board.counterAxisSizingMode = "FIXED";
-      board.paddingTop = board.paddingRight = board.paddingBottom = board.paddingLeft = 24;
-      board.itemSpacing = 24; board.clipsContent = false;
-      board.fills = [{type:"SOLID",color:{r:1,g:1,b:1}}];
-      board.x = Math.max(0,...page.children.filter(node => node !== board).map(node => node.x + node.width)) + 64;
+      board.paddingTop = board.paddingRight = board.paddingBottom = board.paddingLeft = NOTE_BOARD.padding;
+      board.itemSpacing = NOTE_BOARD.gap; board.clipsContent = false;
+      board.fills = [{type:"SOLID",color:NOTE_BOARD.paper}];
+      board.x = Math.max(0,...page.children.filter(node => node !== board).map(node => node.x + node.width)) + NOTE_BOARD.canvasGap;
       board.y = 0;
       await makeText(board.name,key + ":title");
     }
@@ -209,7 +231,7 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
     if (overlaps()) {
       if (!notes.some(note => note.specification.presentation === "connected-spec-v2")) fail("board overlaps artwork after update");
       if (board.x !== beforePosition?.x || board.y !== beforePosition?.y) fail("concurrent board position conflict");
-      const x = Math.max(0,...page.children.filter(node => node !== board).map(node => { const other = box(node); return other.x + other.width; })) + 64;
+      const x = Math.max(0,...page.children.filter(node => node !== board).map(node => { const other = box(node); return other.x + other.width; })) + NOTE_BOARD.canvasGap;
       board.x = x; board.y = 0;
       relocatedTo = {x,y:0};
       if (overlaps()) fail("board overlaps artwork after reflow");
@@ -219,7 +241,7 @@ async function ensureReadableSpecificationBoard(figma, page, contract) {
     const actualEntries = new Map();
     for (const node of board.children) {
       const semantic = node.getPluginData("semanticKey");
-      if (actualEntries.has(semantic) || entryNodes.get(semantic) !== node || node.parent !== board || node.type !== "TEXT" || node.visible === false || node.fontSize < 14) fail("unknown or ambiguous board child after update");
+      if (actualEntries.has(semantic) || entryNodes.get(semantic) !== node || node.parent !== board || node.type !== "TEXT" || node.visible === false || node.fontSize < NOTE_BOARD.minTextSize) fail("unknown or ambiguous board child after update");
       actualEntries.set(semantic,node);
     }
     if (actualEntries.size !== entryNodes.size) fail("concurrent board children conflict");

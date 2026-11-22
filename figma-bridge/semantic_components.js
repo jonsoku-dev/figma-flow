@@ -11,57 +11,160 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
   const IDENT_RE = /^[A-Za-z][A-Za-z0-9_-]*$/;
   const OWNER_RE = /^[A-Za-z][A-Za-z0-9._:-]{0,119}$/;
 
+  /* Generated family contract: begin */
   const CANONICAL_FAMILIES = {
-    field: {
-      name: 'Field',
-      layout: 'VERTICAL',
-      requiredLayout: 'VERTICAL',
-      canonicalStates: ['default', 'error', 'disabled'],
-      canonicalTextSlots: ['field-label', 'field-help'],
-      extraAxes: {}
+    "field": {
+      "name": "Field",
+      "layout": "VERTICAL",
+      "requiredLayout": "VERTICAL",
+      "canonicalStates": [
+        "default",
+        "error",
+        "disabled"
+      ],
+      "canonicalTextSlots": [
+        "field-label",
+        "field-help"
+      ],
+      "extraAxes": {}
     },
-    input: {
-      name: 'Input',
-      layout: 'HORIZONTAL',
-      requiredLayout: null,
-      canonicalStates: ['default', 'focus', 'error', 'disabled'],
-      canonicalTextSlots: ['input-value'],
-      extraAxes: {}
+    "input": {
+      "name": "Input",
+      "layout": "HORIZONTAL",
+      "requiredLayout": null,
+      "canonicalStates": [
+        "default",
+        "focus",
+        "error",
+        "disabled"
+      ],
+      "canonicalTextSlots": [
+        "input-value"
+      ],
+      "extraAxes": {}
     },
-    checkbox: {
-      name: 'Checkbox',
-      layout: 'HORIZONTAL',
-      requiredLayout: 'HORIZONTAL',
-      canonicalStates: ['unchecked', 'checked', 'disabled'],
-      canonicalTextSlots: ['checkbox-label'],
-      extraAxes: {}
+    "checkbox": {
+      "name": "Checkbox",
+      "layout": "HORIZONTAL",
+      "requiredLayout": "HORIZONTAL",
+      "canonicalStates": [
+        "unchecked",
+        "checked",
+        "disabled"
+      ],
+      "canonicalTextSlots": [
+        "checkbox-label"
+      ],
+      "extraAxes": {}
     },
-    radio: {
-      name: 'Radio',
-      layout: 'HORIZONTAL',
-      requiredLayout: 'HORIZONTAL',
-      canonicalStates: ['unselected', 'selected', 'disabled'],
-      canonicalTextSlots: ['radio-label'],
-      extraAxes: {}
+    "radio": {
+      "name": "Radio",
+      "layout": "HORIZONTAL",
+      "requiredLayout": "HORIZONTAL",
+      "canonicalStates": [
+        "unselected",
+        "selected",
+        "disabled"
+      ],
+      "canonicalTextSlots": [
+        "radio-label"
+      ],
+      "extraAxes": {}
     },
-    'table-row': {
-      name: 'TableRow',
-      layout: 'HORIZONTAL',
-      requiredLayout: 'HORIZONTAL',
-      canonicalStates: ['default', 'selected'],
-      canonicalTextSlots: [],
-      extraAxes: {}
+    "table-row": {
+      "name": "TableRow",
+      "layout": "HORIZONTAL",
+      "requiredLayout": "HORIZONTAL",
+      "canonicalStates": [
+        "default",
+        "selected"
+      ],
+      "canonicalTextSlots": [],
+      "extraAxes": {}
     },
-    'table-cell': {
-      name: 'TableCell',
-      layout: 'HORIZONTAL',
-      requiredLayout: null,
-      canonicalStates: ['default', 'header', 'selected', 'muted'],
-      canonicalTextSlots: ['cell-text'],
-      extraAxes: { role: ['header', 'body'] }
+    "table-cell": {
+      "name": "TableCell",
+      "layout": "HORIZONTAL",
+      "requiredLayout": null,
+      "canonicalStates": [
+        "default",
+        "header",
+        "selected",
+        "muted"
+      ],
+      "canonicalTextSlots": [
+        "cell-text"
+      ],
+      "extraAxes": {
+        "role": [
+          "header",
+          "body"
+        ]
+      }
     }
   };
+  const NATIVE_LAYOUT = {
+    "component": {
+      "width": 220,
+      "height": 48,
+      "indicatorSize": 16,
+      "paddingX": 12,
+      "paddingY": 8,
+      "gap": 8,
+      "radius": 0,
+      "radioRadius": 8,
+      "checkRadius": 3,
+      "strokeWeight": 1,
+      "fontSize": 14,
+      "ink": {
+        "r": 0.1255,
+        "g": 0.1412,
+        "b": 0.1647,
+        "a": 1
+      },
+      "paper": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "border": {
+        "r": 0.5,
+        "g": 0.5,
+        "b": 0.5,
+        "a": 1
+      }
+    },
+    "workbench": {
+      "originX": 1680,
+      "originY": 0,
+      "width": 1280,
+      "minHeight": 720,
+      "libraryWidth": 640,
+      "instancesWidth": 568,
+      "instancesX": 688,
+      "sectionMinHeight": 320,
+      "gutter": 24,
+      "setPitch": 220,
+      "instancePitch": 104,
+      "variantPitch": 280,
+      "variantTop": 48,
+      "setMinWidth": 320,
+      "setHeight": 180,
+      "verticalPadding": 96,
+      "instancesBottom": 48
+    },
+    "standalone": {
+      "offset": 400,
+      "width": 1600,
+      "minHeight": 800,
+      "setPitch": 240,
+      "variantPitch": 320
+    }
+  };
+  /* Generated family contract: end */
 
+  const BOARD = NATIVE_LAYOUT.workbench;
   const SECRET_PATTERNS = [
     /\bfigd_[A-Za-z0-9_-]{12,}\b/,
     /\bgh[pousr]_[A-Za-z0-9]{16,}\b/,
@@ -893,25 +996,25 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
     main.counterAxisSizingMode = 'AUTO';
     main.primaryAxisAlignItems = 'MIN';
     main.counterAxisAlignItems = setPlan.layout === 'HORIZONTAL' ? 'CENTER' : 'MIN';
-    main.paddingTop = typeof style.paddingTop === 'number' ? style.paddingTop : 8;
-    main.paddingRight = typeof style.paddingRight === 'number' ? style.paddingRight : 12;
-    main.paddingBottom = typeof style.paddingBottom === 'number' ? style.paddingBottom : 8;
-    main.paddingLeft = typeof style.paddingLeft === 'number' ? style.paddingLeft : 12;
-    main.itemSpacing = typeof style.itemSpacing === 'number' ? style.itemSpacing : 8;
+    main.paddingTop = typeof style.paddingTop === 'number' ? style.paddingTop : NATIVE_LAYOUT.component.paddingY;
+    main.paddingRight = typeof style.paddingRight === 'number' ? style.paddingRight : NATIVE_LAYOUT.component.paddingX;
+    main.paddingBottom = typeof style.paddingBottom === 'number' ? style.paddingBottom : NATIVE_LAYOUT.component.paddingY;
+    main.paddingLeft = typeof style.paddingLeft === 'number' ? style.paddingLeft : NATIVE_LAYOUT.component.paddingX;
+    main.itemSpacing = typeof style.itemSpacing === 'number' ? style.itemSpacing : NATIVE_LAYOUT.component.gap;
     if ('cornerRadius' in main) {
-      main.cornerRadius = typeof style.cornerRadius === 'number' ? style.cornerRadius : 0;
+      main.cornerRadius = typeof style.cornerRadius === 'number' ? style.cornerRadius : NATIVE_LAYOUT.component.radius;
     }
-    main.fills = style.background ? [solidPaint(style.background)] : [solidPaint({ r: 1, g: 1, b: 1, a: 1 })];
+    main.fills = style.background ? [solidPaint(style.background)] : [solidPaint(NATIVE_LAYOUT.component.paper)];
     main.strokes = style.borderColor ? [solidPaint(style.borderColor)] : [];
-    if (main.strokes.length && 'strokeWeight' in main) main.strokeWeight = 1;
+    if (main.strokes.length && 'strokeWeight' in main) main.strokeWeight = NATIVE_LAYOUT.component.strokeWeight;
     main.clipsContent = false;
 
     const fontName = {
       family: typeof style.fontFamily === 'string' && style.fontFamily ? style.fontFamily : defaultFont.family,
       style: defaultFont.style || 'Regular'
     };
-    const fontSize = typeof style.fontSize === 'number' && style.fontSize > 0 ? style.fontSize : 14;
-    const inkPaint = solidPaint(style.color || { r: 0.1255, g: 0.1412, b: 0.1647, a: 1 });
+    const fontSize = typeof style.fontSize === 'number' && style.fontSize > 0 ? style.fontSize : NATIVE_LAYOUT.component.fontSize;
+    const inkPaint = solidPaint(style.color || NATIVE_LAYOUT.component.ink);
 
     for (const child of main.children || []) {
       if (child.type === 'TEXT') {
@@ -920,10 +1023,10 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
         child.fills = [inkPaint];
       } else if (child.name === 'indicator') {
         const active = variantPlan.variant === 'checked' || variantPlan.variant === 'selected';
-        if ('cornerRadius' in child) child.cornerRadius = setPlan.family === 'radio' ? 8 : 3;
-        child.fills = [active ? inkPaint : solidPaint(style.background || { r: 1, g: 1, b: 1, a: 1 })];
-        child.strokes = [solidPaint(style.borderColor || style.color || { r: 0.5, g: 0.5, b: 0.5, a: 1 })];
-        if ('strokeWeight' in child) child.strokeWeight = 1;
+        if ('cornerRadius' in child) child.cornerRadius = setPlan.family === 'radio' ? NATIVE_LAYOUT.component.radioRadius : NATIVE_LAYOUT.component.checkRadius;
+        child.fills = [active ? inkPaint : solidPaint(style.background || NATIVE_LAYOUT.component.paper)];
+        child.strokes = [solidPaint(style.borderColor || style.color || NATIVE_LAYOUT.component.border)];
+        if ('strokeWeight' in child) child.strokeWeight = NATIVE_LAYOUT.component.strokeWeight;
       }
     }
   };
@@ -1568,7 +1671,7 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
       createdNodes.push(main);
       libraryFrame.appendChild(main);
       main.name = Object.entries(variantPlan.props).map(([k, v]) => `${k}=${v}`).join(', ');
-      main.resize(220, 48);
+      main.resize(NATIVE_LAYOUT.component.width, NATIVE_LAYOUT.component.height);
       setFlowMetadata(main, variantPlan.componentKey, {
         kind: 'family-variant',
         family: setPlan.family,
@@ -1588,7 +1691,7 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
           createdNodes.push(ind);
           main.appendChild(ind);
           ind.name = 'indicator';
-          ind.resize(16, 16);
+          ind.resize(NATIVE_LAYOUT.component.indicatorSize, NATIVE_LAYOUT.component.indicatorSize);
           setFlowMetadata(ind, childSemKey, { kind: 'family-indicator', family: setPlan.family });
         } else if (cSpec.kind === 'text') {
           const txt = figma.createText();
@@ -1612,7 +1715,7 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
       }
 
       applyVariantVisualStyle(main, setPlan, variantPlan, defaultFont);
-      setCoordinates(main, 24 + vIndex * 280, 48);
+      setCoordinates(main, BOARD.gutter + vIndex * BOARD.variantPitch, BOARD.variantTop);
       variantStylesRecord[variantPlan.key] = copy(variantPlan.style || {});
       components.push(main);
       setMains.set(variantPlan.key, main);
@@ -1624,9 +1727,9 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
     nativeSet.name = setPlan.name;
     if ('cornerRadius' in nativeSet) nativeSet.cornerRadius = 0;
     nativeSet.clipsContent = false;
-    setCoordinates(nativeSet, 24, 24 + setIndex * 220);
-    nativeSet.resize(Math.max(320, components.length * 280 + 24), 180);
-    components.forEach((main, idx) => setCoordinates(main, 24 + idx * 280, 48));
+    setCoordinates(nativeSet, BOARD.gutter, BOARD.gutter + setIndex * BOARD.setPitch);
+    nativeSet.resize(Math.max(BOARD.setMinWidth, components.length * BOARD.variantPitch + BOARD.gutter), BOARD.setHeight);
+    components.forEach((main, idx) => setCoordinates(main, BOARD.gutter + idx * BOARD.variantPitch, BOARD.variantTop));
 
     for (const variantPlan of setPlan.variants) {
       const main = setMains.get(variantPlan.key);
@@ -1748,7 +1851,7 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
     createdNodes.push(inst);
     instancesFrame.appendChild(inst);
     inst.name = instReq.name;
-    setCoordinates(inst, 24, 24 + index * 104);
+    setCoordinates(inst, BOARD.gutter, BOARD.gutter + index * BOARD.instancePitch);
 
     const patch = {};
     const propsMeta = {};
@@ -1821,7 +1924,7 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
         workbenchFrame.fills = [];
         workbenchFrame.clipsContent = false;
         setCoordinates(workbenchFrame, validated.workbench.position.x, validated.workbench.position.y);
-        workbenchFrame.resize(1280, Math.max(720, validated.orderedSets.length * 220 + validated.instances.length * 104 + 96));
+        workbenchFrame.resize(BOARD.width, Math.max(BOARD.minHeight, validated.orderedSets.length * BOARD.setPitch + validated.instances.length * BOARD.instancePitch + BOARD.verticalPadding));
         workbenchFrame.setPluginData('semanticKey', validated.workbench.frameKey);
 
         const libraryFrame = figma.createFrame();
@@ -1831,8 +1934,8 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
         libraryFrame.layoutMode = 'NONE';
         libraryFrame.fills = [];
         libraryFrame.clipsContent = false;
-        setCoordinates(libraryFrame, 24, 24);
-        libraryFrame.resize(640, Math.max(320, validated.orderedSets.length * 220 + 24));
+        setCoordinates(libraryFrame, BOARD.gutter, BOARD.gutter);
+        libraryFrame.resize(BOARD.libraryWidth, Math.max(BOARD.sectionMinHeight, validated.orderedSets.length * BOARD.setPitch + BOARD.gutter));
         libraryFrame.setPluginData('semanticKey', validated.workbench.libraryKey);
 
         const instancesFrame = figma.createFrame();
@@ -1842,8 +1945,8 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
         instancesFrame.layoutMode = 'NONE';
         instancesFrame.fills = [];
         instancesFrame.clipsContent = false;
-        setCoordinates(instancesFrame, 688, 24);
-        instancesFrame.resize(568, Math.max(320, validated.instances.length * 104 + 48));
+        setCoordinates(instancesFrame, BOARD.instancesX, BOARD.gutter);
+        instancesFrame.resize(BOARD.instancesWidth, Math.max(BOARD.sectionMinHeight, validated.instances.length * BOARD.instancePitch + BOARD.instancesBottom));
         instancesFrame.setPluginData('semanticKey', validated.workbench.instancesFrameKey);
 
         const mainsByVariantKey = new Map();
@@ -2367,9 +2470,9 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
       page.appendChild(library);
       library.name = 'BLOOM · Native component library';
       library.setPluginData('semanticKey', 'component.library');
-      library.x = Math.max(0, ...page.children.filter(n => n !== library).map(n => n.x + n.width)) + 400;
+      library.x = Math.max(0, ...page.children.filter(n => n !== library).map(n => n.x + n.width)) + NATIVE_LAYOUT.standalone.offset;
       library.y = 0;
-      library.resize(1600, Math.max(800, sets.length * 240));
+      library.resize(NATIVE_LAYOUT.standalone.width, Math.max(NATIVE_LAYOUT.standalone.minHeight, sets.length * NATIVE_LAYOUT.standalone.setPitch));
       library.fills = [];
       library.clipsContent = false;
       library.visible = false;
@@ -2401,7 +2504,7 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
         nativeSet.setPluginData('semanticKey', set.id);
         nativeSet.x = 0;
         nativeSet.y = index * 240;
-        components.forEach((main, i) => { main.x = 24 + i * 320; main.y = 48; });
+        components.forEach((main, i) => { main.x = BOARD.gutter + i * NATIVE_LAYOUT.standalone.variantPitch; main.y = BOARD.variantTop; });
         nativeSet.resize(Math.max(360, components.length * 320), 200);
         nativeSet.clipsContent = false;
         for (const variant of set.variants) {
@@ -2430,8 +2533,8 @@ const SEMANTIC_COMPONENTS_RUNTIME = (() => {
             main.setPluginData('semanticKey', `component.${plan.request.variantKey}.layout.${plan.request.key}`);
             const nativeSet = nativeSets.get(plan.variant.set.id);
             nativeSet.appendChild(main);
-            main.x = 24 + (nativeSet.children.length - 1) * 320;
-            main.y = 48;
+            main.x = BOARD.gutter + (nativeSet.children.length - 1) * NATIVE_LAYOUT.standalone.variantPitch;
+            main.y = BOARD.variantTop;
             nativeSet.resize(nativeSet.children.length * 320, 200);
             layoutMains.set(signature, main);
             setSummary.find(set => set.key === plan.variant.set.id).variants.push({ key: keyOf(main), id: main.id, props: { ...plan.variant.props, Layout: plan.request.key } });

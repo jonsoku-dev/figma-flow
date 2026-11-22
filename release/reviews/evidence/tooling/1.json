@@ -1,0 +1,58 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/5. 기존 기준선에서 영향 계획과 실제 테스트",
+      "covers": [
+        "tools/affected_tests.py",
+        "tools/audit_dependencies.py",
+        "tools/audit_js.cjs"
+      ],
+      "test": "tests/test_affected_tests.py",
+      "case": "AffectedTests.test_detects_drift_and_skipped_tests",
+      "testSha256": "cbd97539e1b42be0bc96236c24969017c89b864f527e715239bcdc117a8c65a6",
+      "assertion": "Affected tests depend on changed graph bindings and analyzed source dependencies. Missing or contradictory evidence must prevent narrower execution.",
+      "observed": "Named scenarios exercised missing imports, syntax-dependent JS edges and skipped or stale executions; undeclared dependencies prevented exclusion."
+    },
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/5. 기존 기준선에서 영향 계획과 실제 테스트",
+      "covers": [
+        "tools/affected_tests.py",
+        "tools/audit_dependencies.py",
+        "tools/audit_js.cjs"
+      ],
+      "test": "tests/test_affected_tests.py",
+      "case": "AffectedTests.test_proven_undeclared_source_dependency_prevents_exclusion",
+      "testSha256": "cbd97539e1b42be0bc96236c24969017c89b864f527e715239bcdc117a8c65a6",
+      "assertion": "Affected tests depend on changed graph bindings and analyzed source dependencies. Missing or contradictory evidence must prevent narrower execution.",
+      "observed": "Named scenarios exercised missing imports, syntax-dependent JS edges and skipped or stale executions; undeclared dependencies prevented exclusion."
+    },
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/5. 기존 기준선에서 영향 계획과 실제 테스트",
+      "covers": [
+        "tools/affected_tests.py",
+        "tools/audit_dependencies.py",
+        "tools/audit_js.cjs"
+      ],
+      "test": "tests/test_audit_dependencies.py",
+      "case": "DependencyAuditTests.test_removed_card_module_edges_are_found_from_bundled_sources",
+      "testSha256": "3f2affa21cd6db2991f65554a22735f234b80c76ec4e8483daa83c6d8625f89f",
+      "assertion": "Affected tests depend on changed graph bindings and analyzed source dependencies. Missing or contradictory evidence must prevent narrower execution.",
+      "observed": "Named scenarios exercised missing imports, syntax-dependent JS edges and skipped or stale executions; undeclared dependencies prevented exclusion."
+    },
+    {
+      "authority": "skills/figma-flow/references/draft-build.md#/sections/5. 기존 기준선에서 영향 계획과 실제 테스트",
+      "covers": [
+        "tools/affected_tests.py",
+        "tools/audit_dependencies.py",
+        "tools/audit_js.cjs"
+      ],
+      "test": "tests/test_audit_dependencies.py",
+      "case": "DependencyAuditTests.test_regex_division_template_and_shadowed_require",
+      "testSha256": "3f2affa21cd6db2991f65554a22735f234b80c76ec4e8483daa83c6d8625f89f",
+      "assertion": "Affected tests depend on changed graph bindings and analyzed source dependencies. Missing or contradictory evidence must prevent narrower execution.",
+      "observed": "Named scenarios exercised missing imports, syntax-dependent JS edges and skipped or stale executions; undeclared dependencies prevented exclusion."
+    }
+  ]
+}

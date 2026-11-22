@@ -10,7 +10,7 @@ const source = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_t
 test('only an opted-in successful read uses the large result endpoint when needed', async () => {
   const routes = [];
   const context = vm.createContext({
-    WORKSPACE_CONTROL_CONFIG: {url: 'http://localhost:49198', token: 'local-test'},
+    WORKSPACE_PROFILE_POLICY:require('../library/figma-profile/policy.json'), WORKSPACE_CONTROL_CONFIG: {url: 'http://localhost:49198', token: 'local-test'},
     setTimeout, clearTimeout,
     fetch: async url => {
       routes.push(new URL(url).pathname);

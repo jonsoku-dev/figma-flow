@@ -1,17 +1,17 @@
 .review-references {
   display: grid;
-  gap: 12px;
-  margin: 16px 0 24px;
+  gap: var(--dimension-12px);
+  margin: var(--dimension-16px) var(--number-0) var(--dimension-24px);
 }
 .review-reference {
-  min-width: 0;
+  min-width: var(--number-0);
 }
 .review-reference h2 {
-  font-size: 14px;
-  margin-bottom: 8px;
+  font-size: var(--dimension-14px);
+  margin-bottom: var(--dimension-8px);
 }
 .review-reference .preview-strip {
-  margin: 0;
+  margin: var(--number-0);
 }
 .review-reference .preview-strip figure:last-child:not(:first-child) img {
   object-position: center;

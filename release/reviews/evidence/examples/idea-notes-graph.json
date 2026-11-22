@@ -1,0 +1,32 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_example_release_witness.py",
+      "case": "ExampleReleaseWitnessTests.test_idea_notes_snapshot_remains_historical_and_current_app_tests_cover_visual_graph",
+      "testSha256": "7baf4a817c6f1629eb4a9968c3e79487eacf589a04cfa01bf2eea2c2e02354c2",
+      "authority": "examples/idea-notes/graph.json#/nodes",
+      "covers": [
+        "examples/idea-notes/README.md",
+        "examples/idea-notes/app/app.js",
+        "examples/idea-notes/app/index.html",
+        "examples/idea-notes/app/style.css",
+        "examples/idea-notes/app/visual-tokens.json",
+        "examples/idea-notes/bindings.json",
+        "examples/idea-notes/brief.md",
+        "examples/idea-notes/evidence/browser-current-mobile.png",
+        "examples/idea-notes/evidence/browser-current-visual-mutation.png",
+        "examples/idea-notes/evidence/browser-current.json",
+        "examples/idea-notes/evidence/browser.json",
+        "examples/idea-notes/evidence/node-tests.tap",
+        "examples/idea-notes/graph.json",
+        "examples/idea-notes/screen-spec.md",
+        "examples/idea-notes/tests/app.test.cjs"
+      ],
+      "assertion": "The checked graph, bindings, brief, screen limits, TAP inventory, historical browser record, current browser record, screenshot hashes, and live Node test IDs agree.",
+      "observed": "Current browser checks are pinned to all four app files; the 2026-11-07 record remains historical; all nine graph-declared Node test IDs pass."
+    }
+  ]
+}

@@ -20,7 +20,7 @@ def templates(root):
     inputs['typescript'] = json.loads((root/ts['source']).read_bytes())['devDependencies'][ts['dependency']]
     if not all(re.fullmatch(r'[0-9a-f]{40}', sha) for sha in inputs['actions'].values()):
         raise ValueError('CI actions require exact Git SHAs')
-    if not all(re.fullmatch(r'[0-9a-f]{64}', row['sha256']) for row in inputs['sandboxCli']['artifacts'].values()):
+    if not all(re.fullmatch(r'[0-9a-f]{64}', row['sha256']) for row in [*inputs['sandboxCli']['artifacts'].values(), inputs['sandboxCli']['linuxRelease']]):
         raise ValueError('Sandbox CLI archives require SHA-256')
     entries = {}
     for name, spec in graph['workflows'].items():

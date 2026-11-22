@@ -1,0 +1,472 @@
+{
+  "version": 1,
+  "id": "idea-notes-visual-tokens",
+  "nodes": [
+    {
+      "id": "VIS-APP_INK",
+      "type": "token",
+      "css_variable": "--visual-app-ink",
+      "value": "#263b31",
+      "consumers": [
+        {
+          "selector": ":root",
+          "property": "color"
+        },
+        {
+          "selector": "input",
+          "property": "color"
+        },
+        {
+          "selector": "textarea",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_HOVER",
+      "type": "token",
+      "css_variable": "--visual-brand-hover",
+      "value": "#264c32",
+      "consumers": [
+        {
+          "selector": ".primary:hover",
+          "property": "background"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND",
+      "type": "token",
+      "css_variable": "--visual-brand",
+      "value": "#355e41",
+      "consumers": [
+        {
+          "selector": ".primary",
+          "property": "background"
+        },
+        {
+          "selector": ".secondary",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_INK",
+      "type": "token",
+      "css_variable": "--visual-brand-ink",
+      "value": "#405e46",
+      "consumers": [
+        {
+          "selector": ".empty strong",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-FOCUS",
+      "type": "token",
+      "css_variable": "--visual-focus",
+      "value": "#507c57",
+      "consumers": [
+        {
+          "selector": "button:focus-visible",
+          "property": "outline"
+        },
+        {
+          "selector": "input:focus-visible",
+          "property": "outline"
+        },
+        {
+          "selector": "textarea:focus-visible",
+          "property": "outline"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_MARK",
+      "type": "token",
+      "css_variable": "--visual-brand-mark",
+      "value": "#537c59",
+      "consumers": [
+        {
+          "selector": ".mark",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_MUTED",
+      "type": "token",
+      "css_variable": "--visual-brand-muted",
+      "value": "#628069",
+      "consumers": [
+        {
+          "selector": ".back",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_SOFT_INK",
+      "type": "token",
+      "css_variable": "--visual-brand-soft-ink",
+      "value": "#66886b",
+      "consumers": [
+        {
+          "selector": ".eyebrow",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_EMPHASIS",
+      "type": "token",
+      "css_variable": "--visual-brand-emphasis",
+      "value": "#6c9670",
+      "consumers": [
+        {
+          "selector": "h1 em",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-COPY_MUTED",
+      "type": "token",
+      "css_variable": "--visual-copy-muted",
+      "value": "#718275",
+      "consumers": [
+        {
+          "selector": ".card p",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-COPY_SUBTLE",
+      "type": "token",
+      "css_variable": "--visual-copy-subtle",
+      "value": "#758578",
+      "consumers": [
+        {
+          "selector": ".empty",
+          "property": "color"
+        },
+        {
+          "selector": ".hero>p:last-child",
+          "property": "color"
+        },
+        {
+          "selector": ".intro",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-FIELD_HINT",
+      "type": "token",
+      "css_variable": "--visual-field-hint",
+      "value": "#839688",
+      "consumers": [
+        {
+          "selector": "form label span",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_PALE_INK",
+      "type": "token",
+      "css_variable": "--visual-brand-pale-ink",
+      "value": "#86a58a",
+      "consumers": [
+        {
+          "selector": "h2 span",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_QUIET",
+      "type": "token",
+      "css_variable": "--visual-brand-quiet",
+      "value": "#8a9b8a",
+      "consumers": [
+        {
+          "selector": ".brand small",
+          "property": "color"
+        },
+        {
+          "selector": ".card time",
+          "property": "color"
+        },
+        {
+          "selector": ".hint",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-FOOTER_MUTED",
+      "type": "token",
+      "css_variable": "--visual-footer-muted",
+      "value": "#99a89a",
+      "consumers": [
+        {
+          "selector": "footer",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-DANGER",
+      "type": "token",
+      "css_variable": "--visual-danger",
+      "value": "#ad3434",
+      "consumers": [
+        {
+          "selector": ".error",
+          "property": "color"
+        },
+        {
+          "selector": "input[aria-invalid=\"true\"]",
+          "property": "border-color"
+        },
+        {
+          "selector": "textarea[aria-invalid=\"true\"]",
+          "property": "border-color"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BORDER_DASHED",
+      "type": "token",
+      "css_variable": "--visual-border-dashed",
+      "value": "#d7e3d6",
+      "consumers": [
+        {
+          "selector": ".empty",
+          "property": "border"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BORDER_CONTROL",
+      "type": "token",
+      "css_variable": "--visual-border-control",
+      "value": "#d9e2d8",
+      "consumers": [
+        {
+          "selector": "input",
+          "property": "border"
+        },
+        {
+          "selector": "textarea",
+          "property": "border"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BORDER_SUBTLE",
+      "type": "token",
+      "css_variable": "--visual-border-subtle",
+      "value": "#dde3d8",
+      "consumers": [
+        {
+          "selector": ".brand",
+          "property": "border-bottom"
+        },
+        {
+          "selector": "footer",
+          "property": "border-top"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BORDER_CARD",
+      "type": "token",
+      "css_variable": "--visual-border-card",
+      "value": "#e2e9de",
+      "consumers": [
+        {
+          "selector": ".card",
+          "property": "border"
+        }
+      ]
+    },
+    {
+      "id": "VIS-BRAND_WASH",
+      "type": "token",
+      "css_variable": "--visual-brand-wash",
+      "value": "#edf1e9",
+      "consumers": [
+        {
+          "selector": ".secondary",
+          "property": "background"
+        }
+      ]
+    },
+    {
+      "id": "VIS-CANVAS",
+      "type": "token",
+      "css_variable": "--visual-canvas",
+      "value": "#f7f7f1",
+      "consumers": [
+        {
+          "selector": ":root",
+          "property": "background"
+        }
+      ]
+    },
+    {
+      "id": "VIS-SURFACE",
+      "type": "token",
+      "css_variable": "--visual-surface",
+      "value": "#fff",
+      "consumers": [
+        {
+          "selector": ".card",
+          "property": "background"
+        },
+        {
+          "selector": ".empty",
+          "property": "background"
+        },
+        {
+          "selector": ".primary",
+          "property": "color"
+        },
+        {
+          "selector": "input",
+          "property": "background"
+        },
+        {
+          "selector": "textarea",
+          "property": "background"
+        }
+      ]
+    },
+    {
+      "id": "STYLE-APP-CSS",
+      "type": "stylesheet",
+      "source": "style.css"
+    }
+  ],
+  "edges": [
+    {
+      "from": "VIS-APP_INK",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_HOVER",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_INK",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-FOCUS",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_MARK",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_MUTED",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_SOFT_INK",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_EMPHASIS",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-COPY_MUTED",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-COPY_SUBTLE",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-FIELD_HINT",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_PALE_INK",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_QUIET",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-FOOTER_MUTED",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-DANGER",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BORDER_DASHED",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BORDER_CONTROL",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BORDER_SUBTLE",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BORDER_CARD",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-BRAND_WASH",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-CANVAS",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    },
+    {
+      "from": "VIS-SURFACE",
+      "to": "STYLE-APP-CSS",
+      "type": "styles"
+    }
+  ]
+}

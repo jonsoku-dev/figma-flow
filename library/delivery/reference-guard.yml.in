@@ -19,10 +19,26 @@ jobs:
       - uses: actions/setup-node@{{delivery.actions.setup-node}}
         with:
           node-version-file: {{delivery.nodeVersionFile}}
-      - name: Prepare panel build dependencies for post-0.x archive verification
+      - name: Prepare dependencies for the post-0.x archive witnesses
         run: |
           if node -e "process.exit(Number(require('./plugin.json').version.split('.')[0]) > 0 ? 0 : 1)"; then
             {{delivery.panelInstall}}
+            python -m pip install -r requirements-optional.txt -r library/figma-rest/requirements.txt
+            python -m pip install --require-hashes --only-binary=:all: -r {{delivery.appCi.root}}/requirements.lock
+            npm install --prefix "$RUNNER_TEMP/figma-api-tools" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@{{delivery.typescript}}
+            echo "FIGMA_API_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/typescript.js" >> "$GITHUB_ENV"
+            echo "FIGMA_SDK_TEST_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/tsc.js" >> "$GITHUB_ENV"
+            mkdir -p "$RUNNER_TEMP/figma-flow-codex"
+            target={{delivery.sandboxCli.linuxRelease.target}}
+            archive="$RUNNER_TEMP/figma-flow-codex/codex.tar.gz"
+            curl --fail --location --retry 3 --output "$archive" "https://github.com/openai/codex/releases/download/rust-v{{delivery.sandboxCli.version}}/codex-${target}.tar.gz"
+            echo "{{delivery.sandboxCli.linuxRelease.sha256}}  $archive" | sha256sum --check -
+            tar -xzf "$archive" -C "$RUNNER_TEMP/figma-flow-codex" "codex-${target}"
+            mv "$RUNNER_TEMP/figma-flow-codex/codex-${target}" "$RUNNER_TEMP/figma-flow-codex/codex"
+            echo "$RUNNER_TEMP/figma-flow-codex" >> "$GITHUB_PATH"
+            pg_bin="$(pg_config --bindir)"
+            test -x "$pg_bin/initdb"
+            echo "FIGMA_FLOW_PG_BIN=$pg_bin" >> "$GITHUB_ENV"
           fi
       - name: Verify manifest projection and release gate behavior
         run: |

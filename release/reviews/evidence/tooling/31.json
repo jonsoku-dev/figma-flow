@@ -1,0 +1,90 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "test": "tests/test_reference_distribution_guard.py",
+      "case": "ReferenceDistributionGuardTests.test_paths_only_mode_is_explicit_and_passes_clean_repo",
+      "testSha256": "101a769ef601a80d5ce2d931c47862dce2d67736f3e2587af50d54ed43bd0418",
+      "assertion": "History belongs to exact Git commits and fixed test bytes; report the actual private-reference scope checked and preserve the human record.",
+      "observed": "Independent Git fixtures reproduced failure and success, rejected replaced oracles, sanitized remote metadata and preserved prior archival body text."
+    },
+    {
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "test": "tests/test_reference_distribution_guard.py",
+      "case": "ReferenceDistributionGuardTests.test_gitignore_ignores_reference_zips_extracted_dirs_and_protected_locations",
+      "testSha256": "101a769ef601a80d5ce2d931c47862dce2d67736f3e2587af50d54ed43bd0418",
+      "assertion": "History belongs to exact Git commits and fixed test bytes; report the actual private-reference scope checked and preserve the human record.",
+      "observed": "Independent Git fixtures reproduced failure and success, rejected replaced oracles, sanitized remote metadata and preserved prior archival body text."
+    },
+    {
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "test": "tests/test_patch_knowledge.py",
+      "case": "PatchKnowledgeTest.test_inventory_covers_merge_graph_versions_and_sanitizes_remote",
+      "testSha256": "6bb279ace28d5a96e336fd820dd491ba8e1e2a7cbebd79ce729bd41adedff097",
+      "assertion": "History belongs to exact Git commits and fixed test bytes; report the actual private-reference scope checked and preserve the human record.",
+      "observed": "Independent Git fixtures reproduced failure and success, rejected replaced oracles, sanitized remote metadata and preserved prior archival body text."
+    },
+    {
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "test": "tests/test_patch_knowledge_check.py",
+      "case": "PatchKnowledgeGateTests.test_reproduces_baseline_and_runs_target_again_on_every_gate",
+      "testSha256": "68d53e2dcb3e325adbde9392d2b839ec888ebdc0fc0a4cf598e013a7ef833fc7",
+      "assertion": "History belongs to exact Git commits and fixed test bytes; report the actual private-reference scope checked and preserve the human record.",
+      "observed": "Independent Git fixtures reproduced failure and success, rejected replaced oracles, sanitized remote metadata and preserved prior archival body text."
+    },
+    {
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "test": "tests/test_patch_knowledge_check.py",
+      "case": "PatchKnowledgeGateTests.test_changed_direct_script_oracle_is_rejected",
+      "testSha256": "68d53e2dcb3e325adbde9392d2b839ec888ebdc0fc0a4cf598e013a7ef833fc7",
+      "assertion": "History belongs to exact Git commits and fixed test bytes; report the actual private-reference scope checked and preserve the human record.",
+      "observed": "Independent Git fixtures reproduced failure and success, rejected replaced oracles, sanitized remote metadata and preserved prior archival body text."
+    },
+    {
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/patch_knowledge_legacy.py",
+        "tools/reference_distribution_guard.py"
+      ],
+      "test": "tests/test_patch_knowledge_legacy.py",
+      "case": "LegacyCatalogTests.test_capture_repeat_preserves_authored_body_and_duplicate_version_hashes",
+      "testSha256": "7cdad39959f0a4d46ceffc5540c5a0ec6284046c962ac9810b2001169d951f22",
+      "assertion": "History belongs to exact Git commits and fixed test bytes; report the actual private-reference scope checked and preserve the human record.",
+      "observed": "Independent Git fixtures reproduced failure and success, rejected replaced oracles, sanitized remote metadata and preserved prior archival body text."
+    }
+  ]
+}

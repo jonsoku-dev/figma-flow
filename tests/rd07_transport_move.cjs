@@ -27,7 +27,7 @@ assert.ok(tasks.includes('controlRequest만'));
 (async () => {
   let seen;
   const env = {
-    WORKSPACE_CONTROL_CONFIG: {url: 'http://localhost:9', token: 'private'},
+    WORKSPACE_PROFILE_POLICY:require('../library/figma-profile/policy.json'), WORKSPACE_CONTROL_CONFIG: {url: 'http://localhost:9', token: 'private'},
     setTimeout, clearTimeout,
     fetch: async (url, options) => {
       seen = {url, options};

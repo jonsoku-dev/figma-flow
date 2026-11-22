@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_design_graph.py",
+      "case": "DesignGraphTests.test_exact_dependencies_and_coverage",
+      "testSha256": "3d0d9039f111d3045f71d903f6f7dec1bc0c50855e5bbd9150ea0eaf2acb46bc",
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Evidence graph contract",
+      "covers": [
+        "figma-bridge/README.md",
+        "figma-bridge/direction_review.js"
+      ],
+      "assertion": "DesignGraphTests.test_exact_dependencies_and_coverage",
+      "observed": "The design graph validator enforces exact requirement dependencies and declared screen coverage."
+    }
+  ]
+}

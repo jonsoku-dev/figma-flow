@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Send, Copy, ExternalLink, Eye, MessageSquare, Layers } from 'lucide-react';
 import { Action, Notice, Section, Disclosure, PreviewStrip } from './components.jsx';
+import { chatErrorMessageKeys, chatInputPolicy, panelDesignMetrics } from './panelContracts.mjs';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function requestId(t) {
@@ -32,20 +33,7 @@ function selectedTypes(text) {
   }
 }
 function errorKey(raw, code) {
-  const coded = {
-    scope: 'scopeError',
-    'scope-changed': 'scopeError',
-    limit: 'limitError',
-    expired: 'expired',
-    duplicate: 'duplicate',
-    uncertain: 'uncertain',
-    input: 'inputError',
-    'not-paired': 'unpairedHelp',
-    'invalid-selection': 'errorHelp',
-    'invalid-geometry': 'errorHelp',
-    connection: 'errorHelp',
-    unknown: 'errorHelp',
-  }[code];
+  const coded = chatErrorMessageKeys[code];
   if (coded) return coded;
   // Older native chat frames send only Korean diagnostic text and have no code field.
   return /불확실|접수 여부/.test(raw)
@@ -190,8 +178,8 @@ export default function ChatPanel({ model = {}, locale, t, send, Shell }) {
         <label htmlFor="chat-request">{t('chat.request')}</label>
         <textarea
           id="chat-request"
-          rows={3}
-          maxLength={4000}
+          rows={chatInputPolicy.message.rows}
+          maxLength={chatInputPolicy.message.maxCharacters}
           placeholder={t('chat.placeholder')}
           value={message}
           onChange={(event) => {
@@ -243,7 +231,7 @@ export default function ChatPanel({ model = {}, locale, t, send, Shell }) {
             aria-atomic="true"
           >
             <h2 id="chat-selection-title">
-              <Layers size={16} aria-hidden="true" />
+              <Layers size={panelDesignMetrics.iconStandard} aria-hidden="true" />
               {t('chat.selectionTitle')}
             </h2>
             <strong className="chat-selection-count">
@@ -262,7 +250,7 @@ export default function ChatPanel({ model = {}, locale, t, send, Shell }) {
           <textarea
             id="chat-preview"
             ref={previewRef}
-            rows={9}
+            rows={chatInputPolicy.preview.reactRows}
             readOnly
             value={prepared.text}
             aria-describedby="chat-preview-help"

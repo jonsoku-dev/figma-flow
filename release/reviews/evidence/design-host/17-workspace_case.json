@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_host.cjs",
+      "case": "home exposes workflow, private scope, accessible project filtering, keyboard and empty states",
+      "testSha256": "c9b3e1a65390c780a9da98bf74a78bbad0f9d713e595b34e06657cbcea7a8174",
+      "authority": "figma-bridge/standalone-views.json#/views/workspace/css",
+      "covers": [
+        "figma-bridge/standalone-views.json",
+        "figma-bridge/workspace_home.html"
+      ],
+      "assertion": "home exposes workflow, private scope, accessible project filtering, keyboard and empty states",
+      "observed": "Home task actions preserve private scope, accessible filters, keyboard navigation and empty states."
+    }
+  ]
+}

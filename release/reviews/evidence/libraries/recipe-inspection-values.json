@@ -1,0 +1,35 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_value_paths.cjs",
+      "case": "native values use normalized getter return values, not assigned literals",
+      "testSha256": "9df408cf0895b6d32ca12ca0bbe096fc426ad37810da6b678ce5a4b4654f9005",
+      "authority": "library/figma-recipes/inspection/values.json#/routes",
+      "covers": [
+        "library/figma-recipes/inspection/members.json",
+        "library/figma-recipes/inspection/services.js",
+        "library/figma-recipes/inspection/values.js",
+        "library/figma-recipes/inspection/values.json"
+      ],
+      "assertion": "Runs normalized native value getters through the route/policy table and checks output projections.",
+      "observed": "Normalized observed values are returned; values are not inferred from assigned literals."
+    },
+    {
+      "test": "tests/test_native_value_paths.cjs",
+      "case": "vector path summaries never return the original path string",
+      "testSha256": "9df408cf0895b6d32ca12ca0bbe096fc426ad37810da6b678ce5a4b4654f9005",
+      "authority": "library/figma-recipes/inspection/values.json#/routes",
+      "covers": [
+        "library/figma-recipes/inspection/members.json",
+        "library/figma-recipes/inspection/services.js",
+        "library/figma-recipes/inspection/values.js",
+        "library/figma-recipes/inspection/values.json"
+      ],
+      "assertion": "Checks bounded summaries and ensures raw vector path data is excluded.",
+      "observed": "Path summaries retain bounded metadata and not the original path string."
+    }
+  ]
+}

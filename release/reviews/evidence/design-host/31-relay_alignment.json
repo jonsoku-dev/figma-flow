@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_relay_alignment.py",
+      "case": "RelayAlignmentTests.test_relay_sections_share_their_leading_edge_at_narrow_and_card_widths",
+      "testSha256": "915f360654a3a568c625aad1575632a9b2963ac726d82a5719da2f3bf9b67175",
+      "authority": "specs/codex-relay/parity-inventory.json#/items",
+      "covers": [
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "RelayAlignmentTests.test_relay_sections_share_their_leading_edge_at_narrow_and_card_widths",
+      "observed": "The relay view respects the shared graph-owned leading edge at narrow and card widths."
+    }
+  ]
+}

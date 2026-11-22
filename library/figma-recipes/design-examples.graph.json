@@ -1,0 +1,83 @@
+{
+  "schema": "figma-flow-recipe-design-graph-v1",
+  "version": 1,
+  "nodes": [
+    {"id": "recipe:design-shapes", "type": "recipe", "recipe": "design-shapes", "entry": "design-shapes.ts"},
+    {"id": "visual:design-shapes", "type": "visual", "recipe": "design-shapes", "values": {
+      "frame": {"width": 880, "height": 380, "pageXOffset": 160, "fills": [], "clipsContent": false},
+      "booleans": {"operations": ["UNION", "SUBTRACT", "INTERSECT", "EXCLUDE"], "shapeWidth": 100, "shapeHeight": 100, "stepX": 180, "overlapX": 40, "secondY": 40, "fillType": "SOLID", "fill": {"r": 0.24, "g": 0.35, "b": 0.85}},
+      "mask": {"size": 120, "y": 220, "isMask": true, "maskType": "ALPHA"},
+      "content": {"width": 180, "height": 80, "y": 240, "fillType": "SOLID", "fill": {"r": 0.95, "g": 0.45, "b": 0.2}}
+    }},
+    {"id": "recipe:design-grid", "type": "recipe", "recipe": "design-grid", "entry": "design-grid.ts"},
+    {"id": "visual:design-grid", "type": "visual", "recipe": "design-grid", "values": {
+      "frame": {"width": 420, "height": 280, "pageXOffset": 160},
+      "grid": {"mode": "GRID", "autoTracks": "NONE", "rows": 2, "columns": 2, "rowGap": 16, "columnGap": 16},
+      "cells": {"count": 4, "width": 160, "height": 100, "fillType": "SOLID", "fill": {"r": 0.2, "g": 0.4, "b": 0.8}, "redStep": 0.15}
+    }},
+    {"id": "recipe:design-motion", "type": "recipe", "recipe": "design-motion", "entry": "design-motion.ts"},
+    {"id": "visual:design-motion", "type": "visual", "recipe": "design-motion", "values": {
+      "section": {"width": 840, "height": 300, "pageXOffset": 160},
+      "frame": {"width": 360, "height": 240, "x": 24, "y": 30, "finishX": 420},
+      "dot": {"size": 64, "x": 24, "y": 88, "finishX": 272, "fillType": "SOLID", "fill": {"r": 0.24, "g": 0.35, "b": 0.85}},
+      "transition": {"type": "SMART_ANIMATE", "navigation": "NAVIGATE", "trigger": "ON_CLICK", "duration": 0.6, "easing": "EASE_IN_AND_OUT"}
+    }},
+    {"id": "recipe:design-component-properties", "type": "recipe", "recipe": "design-component-properties", "entry": "design-component-properties.ts"},
+    {"id": "visual:design-component-properties", "type": "visual", "recipe": "design-component-properties", "values": {
+      "frame": {"layoutMode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "AUTO", "pageXOffset": 160, "padding": 32, "itemSpacing": 20},
+      "label": {"fontFamily": "Inter", "fontStyle": "Regular", "fontSize": 18},
+      "component": {"layoutMode": "HORIZONTAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "AUTO", "padding": 12, "itemSpacing": 12},
+      "componentSet": {"layoutMode": "HORIZONTAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "AUTO", "itemSpacing": 24},
+      "symbol": {"size": 24, "fillType": "SOLID", "fill": {"r": 0.22, "g": 0.36, "b": 0.85}}
+    }},
+    {"id": "payload:declared-component-properties", "type": "payload", "recipe": "design-component-properties", "values": {
+      "version": 1,
+      "tokens": {
+        "color": {"ink": {"$type": "color", "$value": "#202020"}, "surface": {"$type": "color", "$value": "#ffffff"}},
+        "space": {"gap": {"$type": "dimension", "$value": "8px"}},
+        "font": {"body": {"$type": "fontFamily", "$value": "Arial"}, "size": {"$type": "dimension", "$value": "16px"}}
+      },
+      "components": {
+        "button": {
+          "usage": "Button with an optional swappable leading symbol.",
+          "variants": {"default": {"color": "color.ink", "background": "color.surface", "padding": "space.gap", "font-family": "font.body", "font-size": "font.size"}},
+          "properties": {
+            "ShowLabel": {"type": "BOOLEAN", "target": "label", "default_value": true},
+            "Symbol": {"type": "INSTANCE_SWAP", "target": "symbol", "default_value": {"component": "symbol", "variant": "circle"}, "preferred_values": [{"component": "symbol", "variant": "circle"}, {"component": "symbol", "variant": "square"}]},
+            "ShowSymbol": {"type": "BOOLEAN", "target": "symbol", "default_value": true}
+          }
+        },
+        "symbol": {
+          "usage": "Two local swap choices.",
+          "variants": {"circle": {"color": "color.ink", "padding": "space.gap", "font-size": "font.size"}, "square": {"color": "color.ink", "padding": "space.gap", "font-size": "font.size"}}
+        }
+      },
+      "screens": [{"id": "properties-demo", "title": "Declared component properties", "trace": ["REQ-DECLARED-PROPERTIES"], "elements": [
+        {"id": "default-button", "kind": "component", "component": "button", "variant": "default", "text": "Default"},
+        {"id": "swapped-button", "kind": "component", "component": "button", "variant": "default", "text": "Swapped", "property_values": {"Symbol": {"component": "symbol", "variant": "square"}, "ShowLabel": false}},
+        {"id": "hidden-symbol-button", "kind": "component", "component": "button", "variant": "default", "text": "Hidden symbol", "property_values": {"ShowSymbol": false}}
+      ]}]
+    }},
+    {"id": "recipe:design-type-review", "type": "recipe", "recipe": "design-type-review", "entry": "design-type-review.ts"},
+    {"id": "visual:design-type-review", "type": "visual", "recipe": "design-type-review", "values": {
+      "frame": {"width": 560, "height": 360, "xOffset": 120, "y": 80},
+      "layout": {"mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "paddingTop": 28, "paddingRight": 32, "paddingBottom": 28, "paddingLeft": 32, "itemSpacing": 16},
+      "font": {"preferred": ["Inter", "Arial"], "regularStylePattern": "regular|book", "strongStylePattern": "bold|black|semibold"},
+      "component": {"cornerRadius": 16, "strokeWeight": 1, "dashPattern": [8, 4], "strokeOpacity": 1, "strokeVisible": true, "strokeType": "SOLID", "backgroundType": "SOLID", "stroke": {"r": 0.32, "g": 0.38, "b": 0.5}, "background": {"r": 0.075, "g": 0.09, "b": 0.13}, "shadow": {"type": "DROP_SHADOW", "color": {"r": 0, "g": 0, "b": 0}, "opacity": 0.18, "offsetX": 0, "offsetY": 8, "radius": 16, "spread": 0, "visible": true, "blendMode": "NORMAL"}},
+      "textStyles": {
+        "display": {"label": "Display · H1", "sample": "Aa · 24/32", "fontSize": 30, "lineHeight": 36, "letterSpacing": -0.4, "paintType": "SOLID", "fill": {"r": 0.96, "g": 0.97, "b": 1}},
+        "body": {"label": "Interface · body", "sample": "Typography that stays clear across products.", "fontSize": 17, "lineHeight": 25, "letterSpacing": 0.1, "paintType": "SOLID", "fill": {"r": 0.78, "g": 0.82, "b": 0.9}},
+        "caption": {"label": "Caption · label", "sample": "FONT · SCALE · COLOR · GEOMETRY", "fontSize": 11, "lineHeight": 16, "letterSpacing": 0.8, "paintType": "SOLID", "fill": {"r": 0.45, "g": 0.72, "b": 1}}
+      },
+      "metadata": {"fontSize": 9, "fillType": "SOLID", "fill": {"r": 0.63, "g": 0.68, "b": 0.77}}
+    }}
+  ],
+  "edges": [
+    {"from": "recipe:design-shapes", "to": "visual:design-shapes", "type": "owns-visual-values"},
+    {"from": "recipe:design-grid", "to": "visual:design-grid", "type": "owns-visual-values"},
+    {"from": "recipe:design-motion", "to": "visual:design-motion", "type": "owns-visual-values"},
+    {"from": "recipe:design-component-properties", "to": "visual:design-component-properties", "type": "owns-visual-values"},
+    {"from": "recipe:design-component-properties", "to": "payload:declared-component-properties", "type": "owns-design-payload"},
+    {"from": "recipe:design-type-review", "to": "visual:design-type-review", "type": "owns-visual-values"}
+  ]
+}

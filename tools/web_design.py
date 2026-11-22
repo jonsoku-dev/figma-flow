@@ -674,6 +674,7 @@ def validate_tabs(tabs, screens):
     if not isinstance(transitions, list) or not 1 <= len(transitions) <= 80:
         raise ValueError('Tabs need a bounded list of observed transitions')
     ids, sources, reached = set(), set(), {tabs['initialState']}
+    targets = json.loads(Path(__file__).with_name('web-interaction-contract.json').read_bytes())['tabs']
     for edge in transitions:
         if (not isinstance(edge, dict)
                 or set(edge) != {'id', 'from', 'to', 'trigger', 'controlElementId', 'observed', 'evidence'}
@@ -687,7 +688,8 @@ def validate_tabs(tabs, screens):
             raise ValueError('A tab control can lead to only one observed destination')
         source_screen = by_screen[state_screens[edge['from']]]
         layout = source_screen['layout']
-        if not any(element['id'] == edge['controlElementId'] and element['kind'] == 'frame'
+        if not any(element['id'] == edge['controlElementId']
+                   and (element['kind'] in targets['elementKinds'] or (element['kind'] == 'component' and element.get('componentKey') in targets['componentKeys']))
                    and element['box']['x'] >= 0 and element['box']['y'] >= 0
                    and element['box']['width'] > 0 and element['box']['height'] > 0
                    and element['box']['x'] + element['box']['width'] <= layout['width'] + 1

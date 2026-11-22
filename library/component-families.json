@@ -1,0 +1,246 @@
+{
+  "schema": "figma-flow-component-family-authority-v1",
+  "families": {
+    "field": {
+      "name": "Field",
+      "layout": "VERTICAL",
+      "required_layout": "VERTICAL",
+      "canonical_states": [
+        "default",
+        "error",
+        "disabled"
+      ],
+      "canonical_text_slots": [
+        "field-label",
+        "field-help"
+      ],
+      "extra_axes": {}
+    },
+    "input": {
+      "name": "Input",
+      "layout": "HORIZONTAL",
+      "required_layout": null,
+      "canonical_states": [
+        "default",
+        "focus",
+        "error",
+        "disabled"
+      ],
+      "canonical_text_slots": [
+        "input-value"
+      ],
+      "extra_axes": {}
+    },
+    "checkbox": {
+      "name": "Checkbox",
+      "layout": "HORIZONTAL",
+      "required_layout": "HORIZONTAL",
+      "canonical_states": [
+        "unchecked",
+        "checked",
+        "disabled"
+      ],
+      "canonical_text_slots": [
+        "checkbox-label"
+      ],
+      "extra_axes": {}
+    },
+    "radio": {
+      "name": "Radio",
+      "layout": "HORIZONTAL",
+      "required_layout": "HORIZONTAL",
+      "canonical_states": [
+        "unselected",
+        "selected",
+        "disabled"
+      ],
+      "canonical_text_slots": [
+        "radio-label"
+      ],
+      "extra_axes": {}
+    },
+    "table-row": {
+      "name": "TableRow",
+      "layout": "HORIZONTAL",
+      "required_layout": "HORIZONTAL",
+      "canonical_states": [
+        "default",
+        "selected"
+      ],
+      "canonical_text_slots": [],
+      "extra_axes": {}
+    },
+    "table-cell": {
+      "name": "TableCell",
+      "layout": "HORIZONTAL",
+      "required_layout": null,
+      "canonical_states": [
+        "default",
+        "header",
+        "selected",
+        "muted"
+      ],
+      "canonical_text_slots": [
+        "cell-text"
+      ],
+      "extra_axes": {
+        "role": [
+          "header",
+          "body"
+        ]
+      }
+    }
+  },
+  "tokens": {
+    "color": {
+      "ink": {
+        "$type": "color",
+        "$value": "#1f242b"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "#59616b"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "#ffffff"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "#c7cdd4"
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "#1849a5"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "#b42318"
+      }
+    },
+    "space": {
+      "xs": {
+        "$type": "dimension",
+        "$value": "4px"
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "8px"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "12px"
+      }
+    },
+    "radius": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "4px"
+      }
+    },
+    "font": {
+      "body": {
+        "$type": "fontFamily",
+        "$value": "Inter"
+      },
+      "size": {
+        "$type": "dimension",
+        "$value": "14px"
+      }
+    }
+  },
+  "native": {
+    "component": {
+      "width": 220,
+      "height": 48,
+      "indicatorSize": 16,
+      "paddingX": 12,
+      "paddingY": 8,
+      "gap": 8,
+      "radius": 0,
+      "radioRadius": 8,
+      "checkRadius": 3,
+      "strokeWeight": 1,
+      "fontSize": 14,
+      "ink": {
+        "r": 0.1255,
+        "g": 0.1412,
+        "b": 0.1647,
+        "a": 1
+      },
+      "paper": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "border": {
+        "r": 0.5,
+        "g": 0.5,
+        "b": 0.5,
+        "a": 1
+      }
+    },
+    "workbench": {
+      "originX": 1680,
+      "originY": 0,
+      "width": 1280,
+      "minHeight": 720,
+      "libraryWidth": 640,
+      "instancesWidth": 568,
+      "instancesX": 688,
+      "sectionMinHeight": 320,
+      "gutter": 24,
+      "setPitch": 220,
+      "instancePitch": 104,
+      "variantPitch": 280,
+      "variantTop": 48,
+      "setMinWidth": 320,
+      "setHeight": 180,
+      "verticalPadding": 96,
+      "instancesBottom": 48
+    },
+    "standalone": {
+      "offset": 400,
+      "width": 1600,
+      "minHeight": 800,
+      "setPitch": 240,
+      "variantPitch": 320
+    }
+  },
+  "fallbackVariant": {
+    "base": {
+      "color": "color.ink",
+      "background": "color.surface",
+      "border-color": "color.border",
+      "padding": "space.sm",
+      "gap": "space.sm",
+      "border-radius": "radius.sm",
+      "font-family": "font.body",
+      "font-size": "font.size"
+    },
+    "states": {
+      "error": {
+        "color": "color.danger",
+        "border-color": "color.danger"
+      },
+      "disabled": {
+        "color": "color.muted"
+      },
+      "muted": {
+        "color": "color.muted"
+      },
+      "checked": {
+        "color": "color.accent",
+        "border-color": "color.accent"
+      },
+      "selected": {
+        "color": "color.accent",
+        "border-color": "color.accent"
+      },
+      "focus": {
+        "border-color": "color.accent"
+      }
+    }
+  }
+}

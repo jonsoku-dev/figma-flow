@@ -1,0 +1,58 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes/14",
+      "covers": [
+        "tools/operation_detail.py",
+        "tools/owned_production_workspace.py",
+        "tools/workspace_report.py"
+      ],
+      "test": "tests/test_operation_detail.py",
+      "case": "OperationDetailTests.test_exact_scope_404_cross_page_cross_file_runtime_and_binding_rejections",
+      "testSha256": "f46698c349bf05b397362ab9ea6930e5179c79aa8c9e264595564fb634fc94d2",
+      "assertion": "The viewer reports scoped activity and selections derived from concrete graph status, producer revisions and receipt identities.",
+      "observed": "Cross-scope detail reads were refused; status grouping, recommendation order and the graph-driven interaction evidence were checked."
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes/14",
+      "covers": [
+        "tools/operation_detail.py",
+        "tools/owned_production_workspace.py",
+        "tools/workspace_report.py"
+      ],
+      "test": "tests/test_workspace_report.py",
+      "case": "WorkspaceReportTests.test_activity_status_distribution_and_recommendation_keep_panel_order",
+      "testSha256": "af3b387f5689dc948c1596d283061054543070718e4dd6aa7965dc2e1c8b11f2",
+      "assertion": "The viewer reports scoped activity and selections derived from concrete graph status, producer revisions and receipt identities.",
+      "observed": "Cross-scope detail reads were refused; status grouping, recommendation order and the graph-driven interaction evidence were checked."
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes/14",
+      "covers": [
+        "tools/operation_detail.py",
+        "tools/owned_production_workspace.py",
+        "tools/workspace_report.py"
+      ],
+      "test": "tests/test_owned_production_workspace.py",
+      "case": "VerifyTest.test_rejects_changed_bytes",
+      "testSha256": "9c224ef88ab6db0f39e41b4b168d44d0206fa3927d2c4d54df40d1169f151cd0",
+      "assertion": "The viewer reports scoped activity and selections derived from concrete graph status, producer revisions and receipt identities.",
+      "observed": "Cross-scope detail reads were refused; status grouping, recommendation order and the graph-driven interaction evidence were checked."
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes/14",
+      "covers": [
+        "tools/operation_detail.py",
+        "tools/owned_production_workspace.py",
+        "tools/workspace_report.py"
+      ],
+      "test": "tests/test_owned_production_workspace_interactions.py",
+      "case": "GraphInteractionTest.test_graph_rules_drive_the_disclosure_and_rail",
+      "testSha256": "6115f5c9ae7327aa0f932bbd77bd2756b02503af1f42cdbd971e17a078249a03",
+      "assertion": "The viewer reports scoped activity and selections derived from concrete graph status, producer revisions and receipt identities.",
+      "observed": "Cross-scope detail reads were refused; status grouping, recommendation order and the graph-driven interaction evidence were checked."
+    }
+  ]
+}

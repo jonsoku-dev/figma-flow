@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_view_registry.mjs",
+      "case": "bundler module derives each React route from the view graph",
+      "testSha256": "515fe4ad28b1e71ba10273084e438b814f1fa048b0875c02ea1de3eae62b4195",
+      "authority": "library/panel-design/views.json#/nodes",
+      "covers": [
+        "library/panel-design/views.json"
+      ],
+      "assertion": "Builds route imports from the graph, then verifies invalid/missing graph implementations fail.",
+      "observed": "Generated route module reflects graph screen/code links and registered home constraints."
+    }
+  ]
+}

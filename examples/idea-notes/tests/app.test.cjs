@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 const source = fs.readFileSync(path.join(__dirname, '../app/app.js'), 'utf8');
+const visualGraph = JSON.parse(fs.readFileSync(path.join(__dirname, '../app/visual-tokens.json'), 'utf8'));
 function database() {
   const records = []; let failure = false;
   return {records, fail(value) { failure = value; }, open() {
@@ -28,8 +29,8 @@ function database() {
     }); return request;
   }};
 }
-async function app(db = database(), channels = []) {
-  let focused; const elements = new Map(); const windowEvents = {};
+async function app(db = database(), channels = [], design = visualGraph) {
+  let focused; const elements = new Map(); const windowEvents = {}; const rootStyle = new Map();
   function element(id = '') {
     return {id, value:'', hidden:false, disabled:false, textContent:'', children:[], attributes:{}, events:{},
       addEventListener(name, handler) { this.events[name] = handler; },
@@ -44,17 +45,43 @@ async function app(db = database(), channels = []) {
     constructor() { channels.push(this); }
     postMessage(data) { for (const other of channels) if (other !== this) other.onmessage?.({data}); }
   }
-  const context = vm.createContext({document:{getElementById:get, createElement:element}, indexedDB:db,
+  const context = vm.createContext({document:{getElementById:get, createElement:element,
+      documentElement:{style:{setProperty(name,value) { rootStyle.set(name,value); }}, dataset:{}}}, indexedDB:db,
+    fetch:async () => ({ok:true,json:async()=>design}),
     window:{addEventListener(name, handler) { windowEvents[name] = handler; }}, BroadcastChannel:Channel, Intl, Date});
   vm.runInContext(source, context);
   const settle = async () => { for(let i=0;i<12;i++) await Promise.resolve(); };
   await settle();
-  return {db, get, context, settle, windowEvents, focused:() => focused,
+  return {db, get, context, settle, windowEvents, rootStyle, focused:() => focused,
     async event(id, name = 'click') { await get(id).events[name]({preventDefault(){}}); await settle(); },
     text() { function flat(node) { return node.textContent + node.children.map(flat).join(' '); } return flat(get('ideas')); },
     async save(title, content = '') { await this.event('add'); get('title').value = title; get('content').value = content; await this.event('idea-form', 'submit'); }
   };
 }
+test('TEST-009 visual token graph binds CSS fields and a graph value mutation reaches the rendered root', async () => {
+  const css = fs.readFileSync(path.join(__dirname, '../app/style.css'), 'utf8');
+  const variables = new Set([...css.matchAll(/var\((--[a-z-]+)\)/g)].map(match => match[1]));
+  const tokens = visualGraph.nodes.filter(node => node.type === 'token');
+  assert.deepEqual(new Set(tokens.map(node => node.css_variable)), variables);
+  const declarations = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].flatMap(([, selectorList, body]) =>
+    body.split(';').flatMap(declaration => {
+      const colon = declaration.indexOf(':');
+      if (colon < 0) return [];
+      return [{selectors:selectorList.split(',').map(selector => selector.trim()),
+        property:declaration.slice(0, colon).trim(), value:declaration.slice(colon + 1).trim()}];
+    }));
+  const first = tokens[0];
+  assert.ok(first.consumers.length);
+  for (const consumer of first.consumers) {
+    assert.ok(declarations.some(declaration => declaration.selectors.includes(consumer.selector)
+      && declaration.property === consumer.property && declaration.value.includes(`var(${first.css_variable})`)),
+    `${consumer.selector} ${consumer.property} does not consume ${first.css_variable}`);
+  }
+  const changed = structuredClone(visualGraph);
+  changed.nodes.find(node => node.id === first.id).value = '#010203';
+  const rendered = await app(database(), [], changed);
+  assert.equal(rendered.rootStyle.get(first.css_variable), '#010203');
+});
 test('TEST-001 fresh store and empty-store search have distinct messages', async () => {
   const a = await app(); assert.match(a.text(), /아직 모아둔/);
   a.get('search').value = 'unknown'; await a.event('search','input'); assert.match(a.text(), /검색 결과가 없어요/);

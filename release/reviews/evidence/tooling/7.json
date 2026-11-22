@@ -1,0 +1,45 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/live-change-sync/graph.json#/nodes/13",
+      "covers": [
+        "tools/apply_figma_change.py",
+        "tools/change_journal.py",
+        "tools/figma_follow.py"
+      ],
+      "test": "tests/test_apply_figma_change.py",
+      "case": "ChangeWorkflowTest.test_plan_apply_and_chain",
+      "testSha256": "83111d22c356c311080fc4c086774acbf77889f5ee94fe9f6fe059f73ac5efe9",
+      "assertion": "Scoped and fresh readback can supply a graph proposal; uncertain, stale or conflicting input must preserve authored artifacts.",
+      "observed": "The live fixture proposed a scoped change and the stale update retained both inputs."
+    },
+    {
+      "authority": "specs/live-change-sync/graph.json#/nodes/13",
+      "covers": [
+        "tools/apply_figma_change.py",
+        "tools/change_journal.py",
+        "tools/figma_follow.py"
+      ],
+      "test": "tests/test_apply_figma_change.py",
+      "case": "ChangeWorkflowTest.test_stale_generated_css_preserves_both_inputs",
+      "testSha256": "83111d22c356c311080fc4c086774acbf77889f5ee94fe9f6fe059f73ac5efe9",
+      "assertion": "Scoped and fresh readback can supply a graph proposal; uncertain, stale or conflicting input must preserve authored artifacts.",
+      "observed": "The live fixture proposed a scoped change and the stale update retained both inputs."
+    },
+    {
+      "authority": "specs/live-change-sync/graph.json#/nodes/13",
+      "covers": [
+        "tools/apply_figma_change.py",
+        "tools/change_journal.py",
+        "tools/figma_follow.py"
+      ],
+      "test": "tests/test_figma_live_projection.py",
+      "case": "FigmaLiveProjectionTests.test_apply_clean_updates_mapped_graph_and_web_but_keeps_pairing_as_original_baseline",
+      "testSha256": "d7dad9280dbf5a589bce60b4957cd97f7b237fb6ff10c76d767fd1d0f78310e6",
+      "assertion": "Scoped and fresh readback can supply a graph proposal; uncertain, stale or conflicting input must preserve authored artifacts.",
+      "observed": "The live fixture proposed a scoped change and the stale update retained both inputs."
+    }
+  ]
+}

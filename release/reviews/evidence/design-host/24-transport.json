@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_control_transport_authority.py",
+      "case": "TransportAuthorityTests.test_changed_read_budget_reaches_both_ends_of_an_actual_local_result",
+      "testSha256": "e4c0a8275f41c6aa5cf3ba45cb9b6c6503c0972f1cf8d3bbe4125ca6fabaa0d6",
+      "authority": "library/figma-profile/policy.json#/controlTransport",
+      "covers": [
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "figma-bridge/workspace_transport.js"
+      ],
+      "assertion": "TransportAuthorityTests.test_changed_read_budget_reaches_both_ends_of_an_actual_local_result",
+      "observed": "An edited control transport budget reaches the native requester and authenticated local receiver in a real loopback exchange."
+    }
+  ]
+}

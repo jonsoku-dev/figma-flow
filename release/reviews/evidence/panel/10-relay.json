@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_release_witness.cjs",
+      "case": "relay snapshot accepts only request and session bound host state",
+      "testSha256": "cfeba70b2645ac53d4fcf982e406e3cf9570166e04364d032a0e7361155897e4",
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "covers": [
+        "panel-ui/src/RelaySelection.jsx",
+        "panel-ui/src/graphSelection.mjs",
+        "panel-ui/src/useRelaySnapshot.js"
+      ],
+      "assertion": "relay snapshot accepts only request and session bound host state",
+      "observed": "Selection state is accepted only for the matching request and relay session."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_appearance_authority.py",
+      "case": "NativeAppearanceTests.test_actual_native_board_and_starter_validator_follow_their_graph_sources",
+      "testSha256": "3346c57d1bd63c64352f68708fa34da745eaf089ec80ebe9fc0bb3e3102b4229",
+      "authority": "figma-bridge/presentation.json#/modules/foundation/fields",
+      "covers": [
+        "figma-bridge/foundation_palette.js",
+        "figma-bridge/presentation.json"
+      ],
+      "assertion": "NativeAppearanceTests.test_actual_native_board_and_starter_validator_follow_their_graph_sources",
+      "observed": "The mutation witness regenerates standalone projections from their graph fields, then executes graph-review and CTA validation against the changed candidate values."
+    }
+  ]
+}

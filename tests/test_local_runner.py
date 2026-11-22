@@ -22,6 +22,7 @@ class ExampleRunnerTests(unittest.TestCase):
             result = json.loads((out / "run.json").read_text())
             self.assertEqual(result["status"], "passed")
             self.assertGreater(result["fresh_node_tests"], 0)
+            self.assertEqual(result["browser_evidence"], {"historical": 9, "current": 10})
             self.assertTrue((out / "trace.html").is_file())
             original = (out / "manifest-001.json").read_bytes()
             with self.assertRaises(FileExistsError):
@@ -52,6 +53,11 @@ class ExampleRunnerTests(unittest.TestCase):
             app = root / "app/app.js"
             app.write_bytes(app.read_bytes() + b"\n")
             with self.assertRaisesRegex(ValueError, "differs"):
+                runner.verify_browser_receipt(root, ids)
+            app.write_bytes(app.read_bytes()[:-1])
+            image = root / "evidence/browser-current-mobile.png"
+            image.write_bytes(image.read_bytes() + b"changed")
+            with self.assertRaisesRegex(ValueError, "screenshot"):
                 runner.verify_browser_receipt(root, ids)
 
 

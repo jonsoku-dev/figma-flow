@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Trace selected native Figma token changes to a local app. Default is plan-only."""
+from report_appearance import report_css
 import argparse
 import hashlib
 from html import escape
@@ -44,9 +45,7 @@ def html_report(impact, scope, receipt):
         )) + '</tr>')
     return ('<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'">'
-            '<title>토큰 변경 영향</title><style>body{max-width:62rem;margin:2rem auto;padding:1rem;font:1rem/1.65 system-ui;color:#182429}'
-            'table{width:100%;border-collapse:collapse}th,td{padding:.6rem;text-align:left;border-bottom:1px solid #ccc;overflow-wrap:anywhere}'
-            '.scroll{overflow:auto}.path{padding:.65rem;background:#eef3f2}a{color:#17556e}h3{font-size:1rem}</style>'
+            '<title>토큰 변경 영향</title><style>' + report_css("tokenImpact") + '</style>'
             '<h1>토큰 변경 영향</h1><p>페이지 '+esc(impact['page_id'])+' · <a href="result.json">실행 결과</a></p><h2>Figma 변수</h2>'+colors+
             '<h2>디자인 그래프 경로</h2>'+(''.join(routes) or '<p>해당 화면 없음</p>')+
             '<h2>실제 코드에 있는 사용처</h2><div class="scroll"><table><thead><tr><th>화면</th><th>사용 위치</th><th>스타일 위치</th><th>클래스 / 속성</th><th>코드 ID</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table></div>'+

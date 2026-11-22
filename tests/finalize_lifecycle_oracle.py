@@ -75,6 +75,11 @@ class FinalizeLifecycle(unittest.TestCase):
 
     def test_published_host_projects_server_history_to_ui(self):
         self.run_runtime('history')
+        from workspace_report import build_report
+        report=build_report(self.root,'fixturefile','12:1','discovery')
+        row=next(r for r in report['canonicalControlActivity']['operations'] if r['operationId']==self.request['id'])
+        self.assertEqual((row['classification'],row['phase']),('recorded','queued'))
+        self.assertFalse(report['evidence']['nativeHistoryAvailable'])
 
     def test_legacy_history_is_explicit_unknown_and_does_not_read_raw_payload(self):
         legacy = workspace.read(self.root / '.control/requests' / (self.request['id'] + '.json'), private=True)

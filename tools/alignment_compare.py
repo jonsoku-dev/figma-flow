@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Build a standalone Korean before/after review from two browser alignment reports."""
+from report_appearance import report_css
 import argparse
 import base64
 import html
@@ -129,12 +130,7 @@ def review(before_file, after_file, output, same_screen=False):
                         f'<table><caption>그룹별 최대 절대 편차</caption><thead><tr><th>기준선</th><th>수정 전</th><th>수정 후</th></tr>'
                         f'</thead><tbody>{"".join(rows)}</tbody></table>{"".join(details)}</section>')
     body = '''<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>화면 정렬 비교</title><style>*{box-sizing:border-box}body{font:15px/1.55 system-ui,sans-serif;color:#222c39;background:#fafbfc;margin:0}
-main{max-width:1080px;margin:auto;padding:clamp(16px,3vw,36px)}h1,h2,figure{margin:0}h1{font-size:28px}h2{font-size:18px}
-section{margin:20px 0 36px;padding-top:16px;border-top:1px solid #ccd1da}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-figcaption,caption,summary{padding:6px 0}img{display:block;max-width:100%;height:auto}table{width:100%;border-collapse:collapse;margin:18px 0 0}
-caption{text-align:left;font-weight:650}th,td{text-align:left;border-bottom:1px solid #d9dfe6;padding:6px 4px;overflow-wrap:anywhere}summary{cursor:pointer}
-@media(max-width:640px){.pair{grid-template-columns:1fr}}</style><main><h1>화면 정렬 비교</h1>''' + ''.join(sections) + '</main></html>'
+<title>화면 정렬 비교</title><style>''' + report_css("alignment") + '''</style><main><h1>화면 정렬 비교</h1>''' + ''.join(sections) + '</main></html>'
     # Publish only the finished report. An existing review is never replaced.
     with tempfile.NamedTemporaryFile(dir=output.parent, mode='w', encoding='utf-8', delete=False) as tmp:
         staged = Path(tmp.name)

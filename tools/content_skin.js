@@ -1,7 +1,7 @@
 /* Load with the shipped content-skin.css; imageUrl must be the verified generated derivative. */
-function createContentSkin({ tag = "button", roleId, label, imageUrl, slice, cap, padding = 4, titleFor }) {
+function createContentSkin({ tag = "button", roleId, label, imageUrl, slice, cap, padding, titleFor }) {
   if (!["button", "h2", "h3"].includes(tag) || !roleId || typeof label !== "string" || !label.trim() || typeof imageUrl !== "string" || !/\.(?:png|jpe?g)(?:[?#].*)?$/i.test(imageUrl) ||
-      ![slice, cap, padding].every(value => Number.isFinite(value) && value >= 0) || slice <= 0 || cap <= 0)
+      ![slice, cap].every(value => Number.isFinite(value) && value >= 0) || (padding !== undefined && (!Number.isFinite(padding) || padding < 0)) || slice <= 0 || cap <= 0)
     throw new Error("Generated skin role/image, measured slice/cap and real label are required");
   if (tag !== "button" && !titleFor) throw new Error("Heading skins require an explicit titleFor content relationship");
   const node = document.createElement(tag);
@@ -13,7 +13,7 @@ function createContentSkin({ tag = "button", roleId, label, imageUrl, slice, cap
   node.style.setProperty("--ff-skin-image", `url(${JSON.stringify(imageUrl)})`);
   node.style.setProperty("--ff-skin-slice", String(slice));
   node.style.setProperty("--ff-skin-cap", `${cap}px`);
-  node.style.setProperty("--ff-skin-padding", `${padding}px`);
+  if (padding !== undefined) node.style.setProperty("--ff-skin-padding", `${padding}px`);
   const text = document.createElement("span");
   text.dataset.skinLabel = "";
   text.textContent = label;

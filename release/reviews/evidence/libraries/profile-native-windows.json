@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_window_authority.py",
+      "case": "NativeWindowTests.test_all_showui_calls_receive_the_edited_window_dimensions",
+      "testSha256": "048a7de5d87556b1e6507d311965923e994fe7ca483c859a236df4e434ea015d",
+      "authority": "library/figma-profile/native-windows.json#/windows",
+      "covers": [
+        "library/figma-profile/native-windows.json"
+      ],
+      "assertion": "Mutates the window graph and asserts every host showUI call receives the resulting dimensions.",
+      "observed": "All registered showUI calls received the edited graph-owned width and height."
+    }
+  ]
+}

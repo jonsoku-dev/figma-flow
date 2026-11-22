@@ -1,7 +1,9 @@
-const artifacts = new Set(['code.js', 'ui.html', 'manifest.json']);
+import { dependencyArtifacts, dependencyRelation, dependencyDirections } from './panelContracts.mjs';
+
+const artifacts = new Set(dependencyArtifacts);
 
 function explicit(edge) {
-  return !!edge && edge.relation === 'uses-output' && artifacts.has(edge.artifact) &&
+  return !!edge && edge.relation === dependencyRelation && artifacts.has(edge.artifact) &&
     typeof edge.task_key === 'string' && typeof edge.revision === 'string' &&
     typeof edge.artifact_sha256 === 'string';
 }
@@ -46,14 +48,14 @@ export function dependencyView(tasks, selected, translate) {
     if (!explicit(edge)) continue;
     const prior = byKey.get(edge.task_key);
     if (!prior || prior.key === selected) continue;
-    predecessors.push(neighbor(prior, edge, 'predecessor', prior.revision));
+    predecessors.push(neighbor(prior, edge, dependencyDirections[0], prior.revision));
   }
   const successors = [];
   for (const task of tasks) {
     if (!task || task.key === selected) continue;
     for (const edge of Array.isArray(task.depends_on) ? task.depends_on : []) {
       if (!explicit(edge) || edge.task_key !== selected) continue;
-      successors.push(neighbor(task, edge, 'successor', current.revision));
+      successors.push(neighbor(task, edge, dependencyDirections[1], current.revision));
     }
   }
   const text = [

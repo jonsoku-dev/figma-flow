@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_api_fixture_project.py",
+      "case": "NativeApiFixtureProjectTest.test_generator_writes_a_design_only_private_offline_plugin",
+      "testSha256": "ba74f3b80f3e27588b6d8d9932cce25c4bf4ce6d14302a27f0172b73effcdb4d",
+      "authority": "library/figma-api/source.json#/files",
+      "covers": [
+        "figma-bridge/native_api_fixture.js",
+        "figma-bridge/native_api_probe.js"
+      ],
+      "assertion": "NativeApiFixtureProjectTest.test_generator_writes_a_design_only_private_offline_plugin",
+      "observed": "The fixture generator builds the pinned design-only offline probe and validates its packaged source."
+    }
+  ]
+}

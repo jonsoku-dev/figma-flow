@@ -39,11 +39,11 @@
     },
     {
       "path": "../design/tokens.json",
-      "sha256": "1936c0fcc15228de2e8fef4e20f8ddb3768c366a05de709c0f17d8aaf2f09520"
+      "sha256": "8119e954ca102020c5e2000699c03ce0706b5925a6a9d3771bdca00027a8148d"
     },
     {
       "path": "../design/stylesheet.json",
-      "sha256": "69e6fc20dd7188a42af737327f95ddd2cd30faa799ed9ebdfe2a68e99bbd109f"
+      "sha256": "d15fc9343d5093bad9488326888f7b240721ccb444dd67c19cbad0f94b3e3619"
     },
     {
       "path": "../design/capture-plan.json",

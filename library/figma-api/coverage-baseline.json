@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 636,
+    "no-static-reference": 633,
     "qualified-static-reference": 71,
-    "unresolved-receiver-name-reference": 675
+    "unresolved-receiver-name-reference": 678
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -3155,7 +3155,7 @@
       "id": "RowsColsLayoutGrid.count#3",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "RowsColsLayoutGrid.sectionSize#4",
@@ -4811,7 +4811,7 @@
       "id": "AutoLayoutMixin.verticalPadding#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "AutoLayoutMixin.primaryAxisSizingMode#7",
@@ -8267,7 +8267,7 @@
       "id": "RepeatModifier.count#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "RepeatModifier.unitType#2",
@@ -8313,23 +8313,23 @@
     },
     {
       "path": "figma-bridge/code.js",
-      "sha256": "68e298956e9f8ec0978b0e3cc590180274532e5354125287b0015fe946cfdfe6"
+      "sha256": "e99391bd39f409a06317f70c9fe8d0099d51169eaf8910ba6e250b19eb5e4074"
     },
     {
       "path": "figma-bridge/design_note_board.js",
-      "sha256": "e1c6c73d802ded9b448bd77896584be62d973a45f432ebe0cb11f3a8d9d14f2f"
+      "sha256": "73ec9ea85be0c2d6ad32a7572e9ff2e8069ca5d45e528e6bd9a229c9426e8f90"
     },
     {
       "path": "figma-bridge/direction_review.js",
-      "sha256": "e86495e9d29e039c33f70355f6031e41818cb5a0a8222a5b5bdb616e5ce16b31"
+      "sha256": "bdc0f120259fc4fd32217a0f68b7146092a90ae62601cdd60d3045cd415ee743"
     },
     {
       "path": "figma-bridge/foundation_palette.js",
-      "sha256": "885abf518bf67be3d101f7be63a2151967c4b1f18ffecf1c843bdca480b040b4"
+      "sha256": "5b633b232375a597db86e8deeb3efa7744f628887411c386ede38978ec66f9b2"
     },
     {
       "path": "figma-bridge/graph_token_sync.js",
-      "sha256": "4b242f1d756c76ac63a83e01ca8ca9d22707a25303b6f7010a87198042ff284e"
+      "sha256": "7ad13483fe8cb71257e3f6fd0223ad89d17e75c1cc1582c4153a48317fb62760"
     },
     {
       "path": "figma-bridge/native_annotations.js",
@@ -8337,7 +8337,7 @@
     },
     {
       "path": "figma-bridge/native_api_fixture.js",
-      "sha256": "4145d01dcc7915356138c3c6108aa719961213074f59615dfdf15a1572b9aac2"
+      "sha256": "b92d85b9e7f6c949a70957905adc20b5730f2dbbcb98763456d5e6dcbfacad99"
     },
     {
       "path": "figma-bridge/native_api_probe.js",
@@ -8345,15 +8345,15 @@
     },
     {
       "path": "figma-bridge/native_edit.js",
-      "sha256": "f73eeeed9f8dd574574023484341fc562a7cbff1cb5f4fe109fe573bbd6e94ca"
+      "sha256": "3b0a268ccfe6cf981ef2a28bf54cebb54d66b81c07a8028774dee13addf448d1"
     },
     {
       "path": "figma-bridge/native_graph_review.js",
-      "sha256": "b4989a4d57885cdd3a4a13eca0eadc375ff0d280c803c5c302a3d01e4a52b12d"
+      "sha256": "c6734a87436516753f68bdf2c114391602b7517dc26f50b9f432ac1622738e96"
     },
     {
       "path": "figma-bridge/native_provision.js",
-      "sha256": "b685bae57fd3178938c7c7f2b3299aa9632507574cae507207c1d5fe200b99c4"
+      "sha256": "9109337416a0e7d433717e2592cc3135decac9d35427a982cd614b4e1875df24"
     },
     {
       "path": "figma-bridge/native_read_measurement.js",
@@ -8389,7 +8389,7 @@
     },
     {
       "path": "figma-bridge/semantic_components.js",
-      "sha256": "171dc4ba236f051c742f3856b1d6bf3f0019d64f84849f072a5c226e9b5d816e"
+      "sha256": "169134a32d6a41150f7b13b4b8656576e4627536c845379f5da5498a31b4e4b4"
     },
     {
       "path": "figma-bridge/semantic_tokens.js",
@@ -8397,7 +8397,7 @@
     },
     {
       "path": "figma-bridge/web_design.js",
-      "sha256": "5b37b6a4e5bfa19e18b6553085f62519119254e0adc4fcc3d60b667b0ec18685"
+      "sha256": "b3cc7975659ad4b35e600be7d2ee88808e23989be5dfb3cc7b574a49fadc77bf"
     },
     {
       "path": "figma-bridge/workspace_changes.js",
@@ -8405,7 +8405,7 @@
     },
     {
       "path": "figma-bridge/workspace_chat.js",
-      "sha256": "d2dc39b8f17def611c8aac0724822f31ab2bc03c34eb018e23126c729c11abca"
+      "sha256": "8d148b99bd5a001a667b98b47b4ea87e5caf18a74bd84b7440b71f63965585e3"
     },
     {
       "path": "figma-bridge/workspace_control.js",
@@ -8413,7 +8413,7 @@
     },
     {
       "path": "figma-bridge/workspace_host.js",
-      "sha256": "6b86242ca5ed00454d76bfc5eab9ac1dcc6a92f4aa059a6783e6529bf7946dd5"
+      "sha256": "136edef77914f024c7f2b8e043a8b3b21434fb05a3f0107c20e0717676889ecd"
     },
     {
       "path": "figma-bridge/workspace_profile.js",
@@ -8421,27 +8421,27 @@
     },
     {
       "path": "figma-bridge/workspace_transport.js",
-      "sha256": "9e9e5fd67fbb96f8a34fba4af63b5fa20f13592599841b35f2a1d413b50fe630"
+      "sha256": "0c2cf2bbc58a1c002331551de5000c1454d1f32bb7fafbb5bad429bdf90e06f9"
     },
     {
       "path": "library/figma-recipes/bundled/design-shapes.js",
-      "sha256": "3c1dabb0f95d3ee2cf4bf3f0716600f2479697978f52b9f8270e4380e01297b4"
+      "sha256": "46f910c3409aa940ea8423fe7df4d58b748d86581b4070263d1c6645e08e5729"
     },
     {
       "path": "library/figma-recipes/bundled/design-grid.js",
-      "sha256": "2aa18cc82dc75bd32e37921f9dfaf6d51b1688fac9fa095cdf138e83886d492b"
+      "sha256": "8f249e35cc65b35138ac253447e1965f0968713615058ba53fd20ae19d629b23"
     },
     {
       "path": "library/figma-recipes/bundled/design-motion.js",
-      "sha256": "eb3d234c53b46fdaca41bb34c74c460f0c72a9999e384c7c980fd2af358fdf1d"
+      "sha256": "99d2b9eb4e7f92cac179c6e9d5d8de14a6ca11061ee87f4e12c06f71db174a96"
     },
     {
       "path": "library/figma-recipes/bundled/design-component-properties.js",
-      "sha256": "1e675750962f919753a5847975b70a084ee0d7a6c8b0b30fe19383cc44f9e362"
+      "sha256": "f8d4f27cf7de87ae400036386bfe055b795d7c47933ecb0581caf2b91c16199c"
     },
     {
       "path": "tools/workspace_recipes.py::dispatch_source",
-      "sha256": "5cac3a0d8ca53bb2dc5cd541e39822d5209bbd45576862919cb0f447d04eedb9"
+      "sha256": "ff38b2eee4a62c285a7144e14dd4b85e07581a059765439ebbb2dbd882172dcd"
     }
   ]
 }

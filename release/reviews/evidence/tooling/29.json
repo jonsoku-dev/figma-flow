@@ -1,0 +1,58 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "covers": [
+        "tools/panel_authority.py",
+        "tools/panel_components.py",
+        "tools/plugin_panel.py"
+      ],
+      "test": "tests/test_panel_view_registry.py",
+      "case": "PanelViewRegistryTests.test_added_view_reaches_python_renderer",
+      "testSha256": "a4330fc6f466dda004ca5889b5c3f156f1f3e8793cde931c936e273654f52146",
+      "assertion": "Registered views resolve through the shared route graph and shell. Shipped CSS uses generated roles and the same graph as the renderer.",
+      "observed": "Rendered every shared shell, validated accessibility landmarks and refused an unknown role or stale stylesheet."
+    },
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "covers": [
+        "tools/panel_authority.py",
+        "tools/panel_components.py",
+        "tools/plugin_panel.py"
+      ],
+      "test": "tests/test_panel_design_tokens.py",
+      "case": "PanelDesignTokenTests.test_runtime_check_fails_closed_for_stale_projection_and_raw_colors",
+      "testSha256": "4b820c1ffc6bd7f5f069db98d7228a9da4e227b5bbf1d22479473d02ecfa263c",
+      "assertion": "Registered views resolve through the shared route graph and shell. Shipped CSS uses generated roles and the same graph as the renderer.",
+      "observed": "Rendered every shared shell, validated accessibility landmarks and refused an unknown role or stale stylesheet."
+    },
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "covers": [
+        "tools/panel_authority.py",
+        "tools/panel_components.py",
+        "tools/plugin_panel.py"
+      ],
+      "test": "tests/test_panel_components.py",
+      "case": "PanelComponentTests.test_every_view_consumes_the_same_shell_and_accessible_status",
+      "testSha256": "0ebeba88d9e6bb635a386e4a38a01d88b19bbcab721b3817683c419acda0764e",
+      "assertion": "Registered views resolve through the shared route graph and shell. Shipped CSS uses generated roles and the same graph as the renderer.",
+      "observed": "Rendered every shared shell, validated accessibility landmarks and refused an unknown role or stale stylesheet."
+    },
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "covers": [
+        "tools/panel_authority.py",
+        "tools/panel_components.py",
+        "tools/plugin_panel.py"
+      ],
+      "test": "tests/test_panel_components.py",
+      "case": "PanelComponentTests.test_standalone_renderer_injects_real_shared_runtime_and_ids",
+      "testSha256": "0ebeba88d9e6bb635a386e4a38a01d88b19bbcab721b3817683c419acda0764e",
+      "assertion": "Registered views resolve through the shared route graph and shell. Shipped CSS uses generated roles and the same graph as the renderer.",
+      "observed": "Rendered every shared shell, validated accessibility landmarks and refused an unknown role or stale stylesheet."
+    }
+  ]
+}

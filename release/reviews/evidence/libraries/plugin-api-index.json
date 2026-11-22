@@ -1,0 +1,20 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_plugin_api_index_and_static_status_snapshot_rebuild_from_pinned_typescript",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-api/source.json#/files",
+      "covers": [
+        "library/figma-api/generate.cjs",
+        "library/figma-api/index.json",
+        "library/figma-api/scan.cjs"
+      ],
+      "assertion": "Rebuilds the declaration index and static source reference table with the pinned TypeScript parser.",
+      "observed": "Index bytes match generator output; every catalog entry remains explicitly unverified for implementation/runtime support."
+    }
+  ]
+}

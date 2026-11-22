@@ -1,0 +1,24 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_workspace_host.cjs",
+      "case": "profile stays per user and file, publishes observed context, and saves only in the current home scope",
+      "testSha256": "c9b3e1a65390c780a9da98bf74a78bbad0f9d713e595b34e06657cbcea7a8174",
+      "authority": "library/figma-profile/native-windows.json#/windows",
+      "covers": [
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/native_api_fixture.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "assertion": "profile stays per user and file, publishes observed context, and saves only in the current home scope",
+      "observed": "Workspace profile context is scoped to current user/file and a stale home cannot persist it."
+    }
+  ]
+}

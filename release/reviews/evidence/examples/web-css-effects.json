@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "34f48513493191ec6c9ebf43ac03a92d7a78a3a88e962b23af9ef179f5a65f6f",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_example_release_witness.py",
+      "case": "ExampleReleaseWitnessTests.test_web_css_effect_fixture_exercises_the_documented_mask_and_filter_scope",
+      "testSha256": "7baf4a817c6f1629eb4a9968c3e79487eacf589a04cfa01bf2eea2c2e02354c2",
+      "authority": "docs/design-runtime-verification.md#/sections/복합 마스크와 필터",
+      "covers": [
+        "examples/web-design-css-effects/index.html"
+      ],
+      "assertion": "The exact mask-composite and filter declarations are checked against the recorded six-sample scope and unsupported-filter limitation.",
+      "observed": "Fixture and historical observation agree on the composite mask and filter fields; no claim of current Figma/browser acceptance is made."
+    }
+  ]
+}

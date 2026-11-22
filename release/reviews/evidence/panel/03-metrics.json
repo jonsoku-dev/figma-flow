@@ -1,0 +1,26 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "210ce0b7bb596b0b21b15b210592d09e2f46c12a9e7205b707eb9783d44b90cf",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "graph preview metrics and workspace activity enums are projected from their field owners",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "library/panel-design/tokens.json#/surfaces/0/metrics",
+      "covers": [
+        "panel-ui/src/CarouselPresentLink.jsx",
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/DiagnosticExport.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/components.jsx"
+      ],
+      "assertion": "graph preview metrics and workspace activity enums are projected from their field owners",
+      "observed": "Graph preview caps, dependency graph geometry and activity enums are checked against their source graph fields."
+    }
+  ]
+}

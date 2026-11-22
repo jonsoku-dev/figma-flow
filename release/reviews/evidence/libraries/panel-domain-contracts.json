@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_panel_contract_ownership.cjs",
+      "case": "cross-language panel contract graph owns operation detail, dependency artifact and asset status enums",
+      "testSha256": "2c20ffe4c88000ca2f2bdbb73861006d528909436286ccb21d818487eda9739b",
+      "authority": "library/panel-design/contracts.json#/nodes",
+      "covers": [
+        "library/panel-design/contracts.json"
+      ],
+      "assertion": "Checks exact enum values and graph edges consumed by panel, tooling, and host adapters.",
+      "observed": "All domain enum sequences, artifact values and asset status severities match their graph nodes."
+    }
+  ]
+}

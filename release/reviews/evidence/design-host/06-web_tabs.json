@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_web_design.cjs",
+      "case": "a measured semantic button can drive a native tab route without admitting decorative components",
+      "testSha256": "3c527d0b0414ccee4018dddeba7a4f84c8ee8c3a4c5cfa2a807a5c6913c2a73c",
+      "authority": "tools/web-interaction-contract.json#/tabs",
+      "covers": [
+        "figma-bridge/presentation.json",
+        "figma-bridge/web_design.js"
+      ],
+      "assertion": "a measured semantic button can drive a native tab route without admitting decorative components",
+      "observed": "A measured semantic button can route a native tab; a decorative component is rejected."
+    }
+  ]
+}

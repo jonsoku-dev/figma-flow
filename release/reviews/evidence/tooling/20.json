@@ -1,0 +1,62 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "covers": [
+        "tools/design_type_review_graph.py",
+        "tools/figma_feature.py",
+        "tools/figma_sdk_project.py",
+        "tools/workspace_recipes.py"
+      ],
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_standalone_sdk_recipe_pins_and_compiles_its_graph_projection",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "assertion": "Examples, SDK scaffolds and local task routing must project the registered recipe graph and actual generated source pins.",
+      "observed": "The standalone compiler and emitted commands used the graph-backed recipe. Existing projects and stale bundle inputs were preserved or rejected."
+    },
+    {
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "covers": [
+        "tools/design_type_review_graph.py",
+        "tools/figma_feature.py",
+        "tools/figma_sdk_project.py",
+        "tools/workspace_recipes.py"
+      ],
+      "test": "tests/test_figma_feature.py",
+      "case": "FeatureRoutesTests.test_sdk_recipe_commands_match_manifest",
+      "testSha256": "3f138b296b156e138160c0cd444d3a664a859f2917a6c6a94e28d193f5ee4e59",
+      "assertion": "Examples, SDK scaffolds and local task routing must project the registered recipe graph and actual generated source pins.",
+      "observed": "The standalone compiler and emitted commands used the graph-backed recipe. Existing projects and stale bundle inputs were preserved or rejected."
+    },
+    {
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "covers": [
+        "tools/design_type_review_graph.py",
+        "tools/figma_feature.py",
+        "tools/figma_sdk_project.py",
+        "tools/workspace_recipes.py"
+      ],
+      "test": "tests/test_figma_sdk_project.py",
+      "case": "SDKProjectTest.test_existing_path_and_symlink_are_preserved",
+      "testSha256": "7210384b299db574ad2ea583c2a6ca1e1a10ae25018e3385b8832aa08cee295d",
+      "assertion": "Examples, SDK scaffolds and local task routing must project the registered recipe graph and actual generated source pins.",
+      "observed": "The standalone compiler and emitted commands used the graph-backed recipe. Existing projects and stale bundle inputs were preserved or rejected."
+    },
+    {
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "covers": [
+        "tools/design_type_review_graph.py",
+        "tools/figma_feature.py",
+        "tools/figma_sdk_project.py",
+        "tools/workspace_recipes.py"
+      ],
+      "test": "tests/test_workspace_recipes.py",
+      "case": "WorkspaceRecipeTest.test_changed_source_or_javascript_blocks_bundle",
+      "testSha256": "23b0e325d6ea130ff0cf4ac7decf8ce49c4311b5544bdf268b00551eb4ba0675",
+      "assertion": "Examples, SDK scaffolds and local task routing must project the registered recipe graph and actual generated source pins.",
+      "observed": "The standalone compiler and emitted commands used the graph-backed recipe. Existing projects and stale bundle inputs were preserved or rejected."
+    }
+  ]
+}

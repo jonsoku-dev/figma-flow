@@ -50,6 +50,8 @@ Use these labels consistently in new graphs. They are authoring conventions; `gr
 
 `depends-on` follows the direction of change propagation, despite the English label: `FIG-001 → CODE-001` means code must be reviewed after that Figma evidence changes. Add it only when justified. Trace and navigation edges do not automatically establish version dependencies. `ssot.py` follows only explicitly selected edge types, whereas `graph.py impact` follows all edges. Neither tool proves that a candidate needs an edit. For an external/back action with no represented destination, retain `target_ids: []` and describe its actual behavior in `detail`.
 
+An acceptance connected to code by `exercised through` is not thereby tested; that implementation relationship alone does not provide verification. For a web screen projected as an actual Figma frame, the frame and document dimensions and the reapply receipt digest must agree in the same recorded check, with `rendered as` and `observed in` evidence. Keep `checked by` as the acceptance-to-test evidence link.
+
 ## Strict local coverage gate
 
 Use `graph.py validate GRAPH --strict-local` for a local delivery gate; ordinary validation keeps its legacy warning behavior. Strict local validation requires at least one requirement and checks canonical direct typed edges:

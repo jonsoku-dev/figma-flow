@@ -64,7 +64,7 @@ class RelayLimitAuthorityTests(unittest.TestCase):
     def test_mutated_read_budget_reaches_native_codex_follower_and_translations(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            for directory in ('tools', 'figma-bridge', 'library', 'skills', 'panel-ui/src', 'tests/fixtures/rd03'):
+            for directory in ('tools', 'figma-bridge', 'library', 'skills', 'specs/workspace-activity', 'panel-ui/src', 'tests/fixtures/rd03'):
                 shutil.copytree(ROOT / directory, root / directory,
                                 ignore=shutil.ignore_patterns('node_modules', '__pycache__', '.DS_Store'))
             shutil.copyfile(ROOT / 'plugin.json', root / 'plugin.json')

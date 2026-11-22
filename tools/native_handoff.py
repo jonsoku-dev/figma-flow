@@ -6,6 +6,7 @@ screens [{id/key, controls [{id/key, action, states, component_id/component_key,
 [{property: 'fills.0.color' or 'cornerRadius', variable_id/variable}]}]}].
 All IDs refer to actual native objects, never declared plugin metadata.
 """
+from report_appearance import report_css
 import argparse
 import hashlib
 import html
@@ -604,15 +605,7 @@ def offline_html(pack):
     title = html.escape('Figma Flow 오프라인 핸드오프')
     return f'''<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{title}</title><style>
-body{{font:15px/1.55 system-ui,sans-serif;margin:0;background:#f4f2ef;color:#211f1c}}main{{max-width:1000px;margin:0 auto;padding:32px 20px}}
-header,section,article{{background:white;border:1px solid #dedbd6;border-radius:12px;padding:20px;margin:16px 0}}
-h1{{font-size:26px;margin:0 0 8px}}h2{{font-size:19px;margin:0 0 12px}}h3{{font-size:16px;margin:18px 0 8px}}
-.meta{{color:#625e58;font-size:13px;overflow-wrap:anywhere}}p{{overflow-wrap:anywhere}}.blocked{{color:#8b271b;font-weight:700}}.passed{{color:#17653b;font-weight:700}}
-dl{{display:grid;grid-template-columns:minmax(130px,220px) 1fr;gap:5px 14px}}dt{{color:#625e58}}dd{{margin:0;overflow-wrap:anywhere}}
-pre{{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f5f3;padding:12px;border-radius:8px}}a{{color:#174d8c}}
-@media(max-width:600px){{main{{padding:18px 12px}}dl{{grid-template-columns:1fr}}}}
-</style></head><body><main><header><h1>{title}</h1><div id="status"></div><div class="meta" id="provenance"></div></header><div id="content"></div>
+<title>{title}</title><style>{report_css("handoff")}</style></head><body><main><header><h1>{title}</h1><div id="status"></div><div class="meta" id="provenance"></div></header><div id="content"></div>
 <script type="application/json" id="handoff-data">{payload}</script><script>
 const pack=JSON.parse(document.getElementById('handoff-data').textContent), report=pack.report;
 const el=(tag,text,cls)=>{{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n}};

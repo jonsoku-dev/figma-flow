@@ -7,6 +7,9 @@ from pathlib import Path
 import re
 import sys
 
+import native_windows
+import component_family_contract
+
 
 def check(root: Path) -> list[dict]:
     """Return actionable policy graph or runtime authority findings."""
@@ -235,6 +238,16 @@ def check(root: Path) -> list[dict]:
         source = loaded.get(relative)
         if source and re.search(expression, source, re.S):
             add(code, relative, message)
+
+    try:
+        findings.extend(native_windows.check(root))
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        add('NATIVE_WINDOWS_UNVERIFIED', str(native_windows.SOURCE), str(error))
+
+    try:
+        findings.extend(component_family_contract.check(root))
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        add('FAMILY_CONTRACT_UNVERIFIED', str(component_family_contract.DATA), str(error))
 
     return findings
 

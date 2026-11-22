@@ -1,0 +1,58 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/delivery/graph.json#/workflows",
+      "covers": [
+        "tools/delivery_config.py",
+        "tools/major_release.py",
+        "tools/plugin_manifest.py"
+      ],
+      "test": "tests/test_delivery_review.py",
+      "case": "DeliveryReviewTests.test_marketplace_uses_local_product_identity_and_preserves_fork_policy",
+      "testSha256": "7154a5e5859944c2f49ba0244ccf85ff30c0cd85e05b019abb6501d5529f2a76",
+      "assertion": "Installation metadata and delivery workflows consume the actual product/toolchain inputs; the release archive is gated on its committed bytes and real witnesses.",
+      "observed": "The generated delivery config followed changed pins and product identity; an isolated tag was withheld when its committed review did not satisfy the gate."
+    },
+    {
+      "authority": "library/delivery/graph.json#/workflows",
+      "covers": [
+        "tools/delivery_config.py",
+        "tools/major_release.py",
+        "tools/plugin_manifest.py"
+      ],
+      "test": "tests/test_delivery_review.py",
+      "case": "DeliveryReviewTests.test_ci_pins_and_node_selection_follow_their_declared_sources",
+      "testSha256": "7154a5e5859944c2f49ba0244ccf85ff30c0cd85e05b019abb6501d5529f2a76",
+      "assertion": "Installation metadata and delivery workflows consume the actual product/toolchain inputs; the release archive is gated on its committed bytes and real witnesses.",
+      "observed": "The generated delivery config followed changed pins and product identity; an isolated tag was withheld when its committed review did not satisfy the gate."
+    },
+    {
+      "authority": "library/delivery/graph.json#/workflows",
+      "covers": [
+        "tools/delivery_config.py",
+        "tools/major_release.py",
+        "tools/plugin_manifest.py"
+      ],
+      "test": "tests/test_major_release.py",
+      "case": "MajorReleaseTests.test_tag_packaging_checks_ref_bytes_not_dirty_checkout_or_supplied_same_major_base",
+      "testSha256": "060b995cbb3a5c4df636ee71b40e97beae29259828ad01ed0030573669064ca3",
+      "assertion": "Installation metadata and delivery workflows consume the actual product/toolchain inputs; the release archive is gated on its committed bytes and real witnesses.",
+      "observed": "The generated delivery config followed changed pins and product identity; an isolated tag was withheld when its committed review did not satisfy the gate."
+    },
+    {
+      "authority": "library/delivery/graph.json#/workflows",
+      "covers": [
+        "tools/delivery_config.py",
+        "tools/major_release.py",
+        "tools/plugin_manifest.py"
+      ],
+      "test": "tests/test_major_document_authority.py",
+      "case": "MarkdownAuthorityTests.test_witness_binds_unique_section_without_promoting_code_fence_text",
+      "testSha256": "d173406fb5db7fc9a3e7236ce54aa7352ac1bac19bc5764ab4b2209a64d8199e",
+      "assertion": "Installation metadata and delivery workflows consume the actual product/toolchain inputs; the release archive is gated on its committed bytes and real witnesses.",
+      "observed": "The generated delivery config followed changed pins and product identity; an isolated tag was withheld when its committed review did not satisfy the gate."
+    }
+  ]
+}

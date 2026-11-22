@@ -4,6 +4,7 @@ import { workspaceAllows, Action, Notice, Section, Disclosure, PreviewStrip } fr
 import DiagnosticExport from './DiagnosticExport.jsx';
 import { nativeSummaryView } from './nativeSummary.mjs';
 import { graphSelection } from './graphSelection.mjs';
+import { panelDesignMetrics } from './panelContracts.mjs';
 
 function parsed(value) {
   try {
@@ -44,7 +45,7 @@ function TokenValue({ name, side, raw, t }) {
         <span
           className="type-sample"
           aria-hidden="true"
-          style={{ '--token-font-size': Math.min(48, value) + 'px' }}
+          style={{ '--token-font-size': Math.min(panelDesignMetrics.graphTypePreviewMax, value) + 'px' }}
         >
           Aa
         </span>
@@ -54,7 +55,7 @@ function TokenValue({ name, side, raw, t }) {
           className="measure"
           role="img"
           aria-label={t('graph.scale')}
-          style={{ '--token-space': Math.min(96, value) + 'px' }}
+          style={{ '--token-space': Math.min(panelDesignMetrics.graphSpacingPreviewMax, value) + 'px' }}
         />
       )}
       <code className="graph-value-code">{raw}</code>

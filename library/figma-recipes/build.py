@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / 'tools'))
 from design_system import compile_design
 from workspace_recipes import design_recipes, registered_actions
 from design_type_review_graph import build_graph as build_type_review_graph
+import recipe_design_graph as design_graph
 from review_graph import project_graph, selection_sha256, typescript_projection
 
 
@@ -28,6 +29,15 @@ def build(compiler):
     if package.get('name') != 'typescript' or package.get('version') != '5.9.3' or compiler.name != 'tsc.js':
         raise ValueError('Use the pinned TypeScript 5.9.3 lib/tsc.js')
     runtime = (ROOT / 'figma-bridge/code.js').read_text()
+    visual_graph_path = design_graph.GRAPH_PATH
+    visual_graph_raw = visual_graph_path.read_bytes()
+    visual_graph = design_graph.parse_graph(visual_graph_raw)
+    design_graph.validate_graph(visual_graph)
+    complete_visual_projection = design_graph.typescript_projection(visual_graph)
+    component_payload = design_graph.payload_projection(visual_graph)
+    payload_path = ROOT / 'tests/fixtures/declared-component-properties.json'
+    payload_path.parent.mkdir(parents=True, exist_ok=True)
+    payload_path.write_text(component_payload, encoding='utf-8')
     names = ['metadata', 'info', 'bindOwnedLabelProperty', 'validateDeclaredComponentProperties',
              'hasValidPropertyKey', 'resolveCollisionSafePropertyName', 'addDeclaredPropertySafely',
              'markComponentSlot', 'markImportedInstanceSlots', 'bindDeclaredComponentProperties', 'applyDeclaredInstanceProperties']
@@ -40,7 +50,7 @@ def build(compiler):
         index = hits[0]
         end = starts[index + 1].start() if index + 1 < len(starts) else len(runtime)
         functions.append(runtime[starts[index].start():end].rstrip())
-    fixture = json.loads((ROOT / 'tests/fixtures/declared-component-properties.json').read_text())
+    fixture = json.loads(component_payload)
     payload = compile_design(fixture)
     helpers = 'const KEY="figmaFlow";\nconst PAYLOAD=' + json.dumps(payload, ensure_ascii=False) + ';\n' + '\n\n'.join(functions) + '\n'
     helpers_path = LIBRARY / 'component-properties.helpers.js'
@@ -70,31 +80,39 @@ def build(compiler):
             graph_types = temp / 'review-graph.ts'
             graph_types.write_text(projection)
             output = temp / 'design-type-review.js'
+            visuals = temp / 'design-type-review-visuals.ts'
+            visual_projection = design_graph.typescript_projection(visual_graph, {recipe['id']})
+            visuals.write_text(visual_projection, encoding='utf-8')
             subprocess.run(['node', str(compiler), '--strict', '--target', 'ES2020', '--lib', 'ES2020',
                 '--module', 'none', '--noEmitOnError', '--outFile', str(output),
                 str(ROOT / 'library/figma-api/plugin-api.d.ts'), str(globals),
-                str(graph_types), str(source)], check=True)
+                str(graph_types), str(visuals), str(source)], check=True)
             code = output.read_bytes()
             scope = json.loads(next(node['detail'] for node in graph['nodes'] if node['id'] == 'scope:lab'))
             sdk_graph_recipes.append({'id': recipe['id'], 'source': source.name,
                 'sourceSha256': digest(source.read_bytes()), 'graphTemplate': 'design-type-review.graph.json',
                 'graphTemplateSha256': digest((LIBRARY / 'design-type-review.graph.json').read_bytes()),
                 'graphProjectionSha256': digest(projection.encode()), 'graphSha256': graph_sha,
+                'visualProjectionSha256': digest(visual_projection.encode()),
                 'selectionSha256': selection_sha256(projected_graph),
                 'priorityInventorySha256': scope['priorityInventorySha256'],
                 'compiledSha256': digest(code)})
         for recipe in ids:
             source = LIBRARY / (recipe + '.ts')
             output = temp / (recipe + '.js')
+            visuals = temp / (recipe + '-visuals.ts')
+            visual_projection = design_graph.typescript_projection(visual_graph, {recipe})
+            visuals.write_text(visual_projection, encoding='utf-8')
             shared = recipe == 'design-component-properties'
             subprocess.run(['node', str(compiler), '--strict', '--target', 'ES2020', '--lib', 'ES2020',
                 '--module', 'none', '--noEmitOnError', '--outFile', str(output),
                 *(['--allowJs'] if shared else []),
                 str(ROOT / 'library/figma-api/plugin-api.d.ts'), str(globals),
-                *([str(helpers_path)] if shared else []), str(source)], check=True)
+                *([str(helpers_path)] if shared else []), str(visuals), str(source)], check=True)
             code = output.read_text()
             row = {'id': recipe, 'source': source.name, 'sourceSha256': digest(source.read_bytes()),
-                   'entry': 'bundled/' + recipe + '.js'}
+                   'entry': 'bundled/' + recipe + '.js',
+                   'visualProjectionSha256': digest(visual_projection.encode())}
             if recipe == 'design-component-properties':
                 row.update(helpers=helpers_path.name, helpersSha256=digest(helpers_path.read_bytes()),
                            productionFunctions=names,
@@ -108,8 +126,13 @@ def build(compiler):
             subprocess.run(['node', '--check', str(target)], check=True)
             row['jsSha256'] = digest(target.read_bytes())
             rows.append(row)
-    (LIBRARY / 'bundle.json').write_text(json.dumps({'schemaVersion': 1,
-        'typescriptVersion': '5.9.3', 'recipes': rows, 'sdkGraphRecipes': sdk_graph_recipes}, indent=2) + '\n')
+    bundle = {'schemaVersion': 1, 'typescriptVersion': '5.9.3',
+        'designGraph': {'source': visual_graph_path.name, 'sourceSha256': digest(visual_graph_raw),
+                        'projectionSha256': digest(complete_visual_projection.encode()),
+                        'componentPayloadSource': 'tests/fixtures/declared-component-properties.json',
+                        'componentPayloadSha256': digest(component_payload.encode())},
+        'recipes': rows, 'sdkGraphRecipes': sdk_graph_recipes}
+    (LIBRARY / 'bundle.json').write_text(json.dumps(bundle, indent=2) + '\n')
     print(f'Compiled {len(rows)} Design menu recipes and {len(sdk_graph_recipes)} scoped SDK graph recipe(s).')
 
 

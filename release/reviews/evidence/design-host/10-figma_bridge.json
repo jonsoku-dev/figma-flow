@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_figma_bridge.py",
+      "case": "FigmaBridgeTests.test_generated_js_and_realistic_api_lifecycle_readback",
+      "testSha256": "8079fe4cc43db1fc804348fa9ca18a1b1cbc69784bad660c962f3a4b8f963c44",
+      "authority": "figma-bridge/presentation.json#/modules/importer/fields",
+      "covers": [
+        "figma-bridge/code.js",
+        "figma-bridge/presentation.json"
+      ],
+      "assertion": "FigmaBridgeTests.test_generated_js_and_realistic_api_lifecycle_readback",
+      "observed": "A generated import bundle runs through a realistic Figma lifecycle and actual readback fixture."
+    }
+  ]
+}

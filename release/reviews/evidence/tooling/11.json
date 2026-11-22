@@ -1,0 +1,86 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes/9",
+      "covers": [
+        "tools/annotation_contract.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/review_graph.py",
+        "tools/specification_contract.py",
+        "tools/specifications.py"
+      ],
+      "test": "tests/test_review_graph_projection.py",
+      "case": "ProjectionTests.test_only_selected_nodes_and_their_direct_edges_are_projected",
+      "testSha256": "4877ee0e338e9940b023839849e2e78feb8f91ae85c6f07fbc41b71ef8a7874e",
+      "assertion": "Scope, graph IDs, source evidence and exact native metadata establish each specification or handoff, and notes preserve canonical function.",
+      "observed": "A signed local plan retained its scope, related edges and getter; the offline handoff checked user-bound components and rejected mismatched note/function fields."
+    },
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes/9",
+      "covers": [
+        "tools/annotation_contract.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/review_graph.py",
+        "tools/specification_contract.py",
+        "tools/specifications.py"
+      ],
+      "test": "tests/test_native_edit.py",
+      "case": "NativeEditPlan.test_prepare_has_exact_data_nonce_scoped_getter_and_network_disabled",
+      "testSha256": "c914d308ae9943f04c8197dc0a10d83f9e6d87b989a0c9be378c0068862543af",
+      "assertion": "Scope, graph IDs, source evidence and exact native metadata establish each specification or handoff, and notes preserve canonical function.",
+      "observed": "A signed local plan retained its scope, related edges and getter; the offline handoff checked user-bound components and rejected mismatched note/function fields."
+    },
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes/9",
+      "covers": [
+        "tools/annotation_contract.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/review_graph.py",
+        "tools/specification_contract.py",
+        "tools/specifications.py"
+      ],
+      "test": "tests/test_native_handoff.py",
+      "case": "NativeHandoffTest.test_offline_pack_pairing_checks_graph_native_getter_web_and_scope",
+      "testSha256": "f620166f468c1671d21439563fad03ce0ca451057f8053a5c7f606e5dd0a8e6b",
+      "assertion": "Scope, graph IDs, source evidence and exact native metadata establish each specification or handoff, and notes preserve canonical function.",
+      "observed": "A signed local plan retained its scope, related edges and getter; the offline handoff checked user-bound components and rejected mismatched note/function fields."
+    },
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes/9",
+      "covers": [
+        "tools/annotation_contract.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/review_graph.py",
+        "tools/specification_contract.py",
+        "tools/specifications.py"
+      ],
+      "test": "tests/test_specification_update.py",
+      "case": "SpecificationUpdate.test_plan_recompiles_and_verifies_exact_actual_fields",
+      "testSha256": "4314b1ddcd3cbb5ffb1a40778ddf0de3274c72d227724af04127d49972da916e",
+      "assertion": "Scope, graph IDs, source evidence and exact native metadata establish each specification or handoff, and notes preserve canonical function.",
+      "observed": "A signed local plan retained its scope, related edges and getter; the offline handoff checked user-bound components and rejected mismatched note/function fields."
+    },
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes/9",
+      "covers": [
+        "tools/annotation_contract.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/review_graph.py",
+        "tools/specification_contract.py",
+        "tools/specifications.py"
+      ],
+      "test": "tests/test_annotation_contract.py",
+      "case": "AnnotationContractTests.test_note_content_must_match_canonical_function_not_component_style",
+      "testSha256": "6b34d59b5777c06cf6da3ea7bafd2534474141bc88f6e07cbea91119d763819d",
+      "assertion": "Scope, graph IDs, source evidence and exact native metadata establish each specification or handoff, and notes preserve canonical function.",
+      "observed": "A signed local plan retained its scope, related edges and getter; the offline handoff checked user-bound components and rejected mismatched note/function fields."
+    }
+  ]
+}

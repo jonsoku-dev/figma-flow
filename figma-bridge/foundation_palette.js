@@ -1,3 +1,13 @@
+/* native appearance: begin foundation */
+const FOUNDATION_LAYOUT = {
+  "setSpacing": 24,
+  "setPadding": 24,
+  "fallbackFont": {
+    "family": "Inter",
+    "style": "Regular"
+  }
+};
+/* native appearance: end foundation */
 /* Shared native authoring helpers. Call only inside the caller's authorized
  * transaction, before creating instances. No live document is edited on import.
  * layoutFoundationSets receives ONLY newly authored, caller-owned sets already
@@ -21,8 +31,8 @@ function layoutFoundationSets(library, sets) {
     node.layoutMode = 'VERTICAL';
     node.primaryAxisSizingMode = 'AUTO';
     node.counterAxisSizingMode = 'AUTO';
-    node.itemSpacing = 24;
-    node.paddingTop = node.paddingBottom = node.paddingLeft = node.paddingRight = 24;
+    node.itemSpacing = FOUNDATION_LAYOUT.setSpacing;
+    node.paddingTop = node.paddingBottom = node.paddingLeft = node.paddingRight = FOUNDATION_LAYOUT.setPadding;
   }
 }
 
@@ -42,7 +52,7 @@ async function createFoundationPalette(figma, page, contract, ensureTokens) {
     if (main?.type !== 'COMPONENT' || main.parent?.type !== 'COMPONENT_SET' || !Object.values(main.variantProperties || {}).includes(sample.variant)) fail('sample must resolve a real main/set/variant');
     mains.push(main);
   }
-  const font = contract.font || {family: 'Inter', style: 'Regular'};
+  const font = contract.font || FOUNDATION_LAYOUT.fallbackFont;
   await figma.loadFontAsync(font);
   let library, tokens;
   const bindings = [], samples = [], created = [];

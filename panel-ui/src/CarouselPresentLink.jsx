@@ -1,7 +1,13 @@
 import React, { useRef, useState } from 'react';
 
-const urlStyle = { display: 'block', maxWidth: '100%', overflowWrap: 'anywhere', userSelect: 'all', fontSize: 11, lineHeight: '16px' };
-const statusStyle = { margin: 0, color: 'var(--muted)', fontSize: 11, lineHeight: '16px' };
+const urlStyle = {
+  display: 'block', maxWidth: 'var(--percentage-100)', overflowWrap: 'anywhere', userSelect: 'all',
+  fontSize: 'var(--dimension-11px)', lineHeight: 'var(--dimension-16px)',
+};
+const statusStyle = {
+  margin: 'var(--number-0)', color: 'var(--muted)',
+  fontSize: 'var(--dimension-11px)', lineHeight: 'var(--dimension-16px)',
+};
 
 /**
  * Host-verified Present link for one carousel run. Opening is a native anchor click so the
@@ -27,7 +33,10 @@ export function CarouselPresentLink({ link, event, tr }) {
   const status = copy.url === link.url ? copy.status : '';
   return (
     <div className="workspace-carousel-link" role="group" aria-label={tr('carouselLinkGroup')}
-      style={{ flexBasis: '100%', display: 'grid', gap: 6, minWidth: 0, marginTop: 8 }}>
+      style={{
+        flexBasis: 'var(--percentage-100)', display: 'grid', gap: 'var(--dimension-6px)',
+        minWidth: 'var(--number-0)', marginTop: 'var(--dimension-8px)',
+      }}>
       <div className="workspace-carousel-actions" style={{ justifyContent: 'flex-start' }}>
         <a className="workspace-carousel-open" href={link.url} target="_blank" rel="noopener noreferrer">{tr('carouselLinkOpen')}</a>
         <button type="button" className="workspace-carousel-select" onClick={copyLink}>{tr('carouselLinkCopy')}</button>

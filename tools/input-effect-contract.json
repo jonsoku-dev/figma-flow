@@ -1,0 +1,57 @@
+{
+  "schema": "figma-flow-input-effect-policy-v1",
+  "records": {
+    "input": "figma-flow-input-effect-v1",
+    "output": "figma-flow-input-effect-result-v4",
+    "previousReadable": [
+      "figma-flow-input-effect-result-v3"
+    ],
+    "urlSnapshot": "figma-flow-url-snapshot-v1"
+  },
+  "assetMap": {
+    "schema": "figma-flow-html-asset-map-v1",
+    "maxEntries": 4096,
+    "manifestFields": [
+      "schema",
+      "page_capture",
+      "local_root",
+      "assets"
+    ],
+    "pageCaptureFields": [
+      "metadata_path",
+      "metadata_sha256"
+    ],
+    "entryFields": [
+      "id",
+      "capture_path",
+      "capture_sha256",
+      "reference",
+      "request_target",
+      "local_app_path",
+      "mapping"
+    ]
+  },
+  "channels": [
+    "html",
+    "html-asset-map",
+    "url",
+    "design-system"
+  ],
+  "urlStatuses": {
+    "allowed": [
+      "js-required",
+      "login-required",
+      "not-found",
+      "rate-limited",
+      "redirect",
+      "rendered",
+      "text-only"
+    ],
+    "failures": [
+      "login-required",
+      "not-found",
+      "rate-limited",
+      "redirect"
+    ]
+  }
+}

@@ -353,76 +353,374 @@
       "status": "verified",
       "source": "../../tests/test_web_design_svg_root_opacity.cjs",
       "detail": "The native vector test applies the captured element opacity to the vector root without changing SVG child paint or the SVG group's own opacity."
+    },
+    {
+      "id": "OBS-HISTORICAL-WEB-FIDELITY-0321",
+      "type": "reference",
+      "status": "observed",
+      "title": "Historical browser/text tracking and native reapply summary",
+      "source": "historical-visual-observations.json#/observations/0",
+      "detail": "Sanitized prior capture and screen-scoped readback digests support the listed browser widths, native tracking values, and same-frame reapply result. Source screenshots, file/page/node IDs, and text contents are not distributed; this is a bounded historical summary, not current installation acceptance."
+    },
+    {
+      "id": "OBS-HISTORICAL-WEB-SVG-FIDELITY-0322",
+      "type": "reference",
+      "status": "observed",
+      "title": "Historical SVG filter and native screen summary",
+      "source": "historical-visual-observations.json#/observations/1",
+      "detail": "Sanitized prior graph/capture/readback digests support the six-logo pixel counts, vector counts, SVG byte totals, and preview bounds. Source screenshots are unavailable in this distribution; the recorded 30% property-panel reading is marked as reported without its screenshot."
     }
   ],
   "edges": [
-    {"from": "REF-WEB-CAPTURE", "to": "REQ-WEB-CAPTURE", "type": "informs"},
-    {"from": "REQ-WEB-CAPTURE", "to": "SCR-PORTFOLIO", "type": "appears on"},
-    {"from": "REQ-WEB-CAPTURE", "to": "SCR-CODEFORGE", "type": "appears on"},
-    {"from": "REQ-WEB-CAPTURE", "to": "SCR-DEVTOOL", "type": "appears on"},
-    {"from": "REQ-WEB-CAPTURE", "to": "SCR-SAAS", "type": "appears on"},
-    {"from": "REQ-WEB-ASSETS", "to": "SCR-PORTFOLIO", "type": "appears on"},
-    {"from": "REQ-WEB-ASSETS", "to": "SCR-CODEFORGE", "type": "appears on"},
-    {"from": "REQ-WEB-ASSETS", "to": "SCR-DEVTOOL", "type": "appears on"},
-    {"from": "REQ-WEB-ASSETS", "to": "SCR-SAAS", "type": "appears on"},
-    {"from": "REQ-WEB-IMPORT", "to": "SCR-PORTFOLIO", "type": "appears on"},
-    {"from": "REQ-WEB-IMPORT", "to": "SCR-CODEFORGE", "type": "appears on"},
-    {"from": "REQ-WEB-IMPORT", "to": "SCR-DEVTOOL", "type": "appears on"},
-    {"from": "REQ-WEB-IMPORT", "to": "SCR-SAAS", "type": "appears on"},
-    {"from": "REQ-WEB-COMPONENT-METRICS", "to": "SCR-SAAS", "type": "appears on"},
-    {"from": "REQ-WEB-CAPTURE", "to": "AC-WEB-CAPTURE", "type": "accepted by"},
-    {"from": "REQ-WEB-ASSETS", "to": "AC-WEB-ASSETS", "type": "accepted by"},
-    {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-IMPORT", "type": "accepted by"},
-    {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-IMPORT-BASELINE", "type": "accepted by"},
-    {"from": "REQ-WEB-IMPORT", "to": "AC-WEB-REAPPLY", "type": "accepted by"},
-    {"from": "REQ-WEB-COMPONENT-METRICS", "to": "AC-WEB-COMPONENT-METRICS", "type": "accepted by"},
-    {"from": "SCR-PORTFOLIO", "to": "FIG-PORTFOLIO", "type": "represented by"},
-    {"from": "SCR-CODEFORGE", "to": "FIG-CODEFORGE", "type": "represented by"},
-    {"from": "SCR-DEVTOOL", "to": "FIG-DEVTOOL", "type": "represented by"},
-    {"from": "SCR-SAAS", "to": "FIG-SAAS", "type": "represented by"},
-    {"from": "SCR-PORTFOLIO", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
-    {"from": "SCR-CODEFORGE", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
-    {"from": "SCR-DEVTOOL", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
-    {"from": "SCR-SAAS", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
-    {"from": "SCR-PORTFOLIO", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "SCR-CODEFORGE", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "SCR-DEVTOOL", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "SCR-SAAS", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "REQ-WEB-CAPTURE", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
-    {"from": "REQ-WEB-ASSETS", "to": "CODE-WEB-SOURCE", "type": "implemented by"},
-    {"from": "REQ-WEB-IMPORT", "to": "CODE-WEB-PLAN", "type": "implemented by"},
-    {"from": "REQ-WEB-IMPORT", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "AC-WEB-CAPTURE", "to": "TEST-WEB-CAPTURE", "type": "checked by"},
-    {"from": "AC-WEB-CAPTURE", "to": "TEST-WEB-UNIT", "type": "checked by"},
-    {"from": "AC-WEB-ASSETS", "to": "TEST-WEB-UNIT", "type": "checked by"},
-    {"from": "AC-WEB-ASSETS", "to": "TEST-WEB-ASSET-COMPOSITION", "type": "checked by"},
-    {"from": "AC-WEB-IMPORT-BASELINE", "to": "TEST-WEB-NATIVE", "type": "checked by"},
-    {"from": "AC-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"},
-    {"from": "AC-WEB-REAPPLY", "to": "TEST-WEB-REAPPLY", "type": "checked by"},
-    {"from": "AC-WEB-COMPONENT-METRICS", "to": "TEST-WEB-COMPONENT-METRICS", "type": "checked by"},
-    {"from": "CODE-WEB-CAPTURE", "to": "TEST-WEB-UNIT", "type": "checked by"},
-    {"from": "CODE-WEB-PLAN", "to": "TEST-WEB-UNIT", "type": "checked by"},
-    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-NATIVE", "type": "checked by"},
-    {"from": "REQ-WEB-COMPONENT-METRICS", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "CODE-WEB-IMPORT", "to": "TEST-WEB-COMPONENT-METRICS", "type": "checked by"},
-    {"from": "REQ-WEB-TRACKING", "to": "SCR-PORTFOLIO", "type": "appears on"},
-    {"from": "REQ-WEB-TRACKING", "to": "AC-WEB-TRACKING-PLAN", "type": "accepted by"},
-    {"from": "REQ-WEB-TRACKING", "to": "AC-WEB-TRACKING-NATIVE", "type": "accepted by"},
-    {"from": "AC-WEB-TRACKING-PLAN", "to": "TEST-WEB-TRACKING-PLAN", "type": "checked by"},
-    {"from": "REQ-WEB-PREVIEW", "to": "SCR-PORTFOLIO", "type": "appears on"},
-    {"from": "REQ-WEB-PREVIEW", "to": "AC-WEB-PREVIEW", "type": "accepted by"},
-    {"from": "AC-WEB-PREVIEW", "to": "TEST-WEB-PREVIEW", "type": "checked by"},
-    {"from": "REQ-WEB-PREVIEW", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "AC-WEB-TRACKING-NATIVE", "to": "TEST-WEB-TRACKING-NATIVE", "type": "checked by"},
-    {"from": "REQ-WEB-SVG-FILTER", "to": "SCR-DEVTOOL", "type": "appears on"},
-    {"from": "REQ-WEB-SVG-FILTER", "to": "AC-WEB-SVG-FILTER", "type": "accepted by"},
-    {"from": "REQ-WEB-SVG-FILTER", "to": "CODE-WEB-CAPTURE", "type": "implemented by"},
-    {"from": "REQ-WEB-SVG-FILTER", "to": "CODE-WEB-SOURCE", "type": "implemented by"},
-    {"from": "REQ-WEB-SVG-FILTER", "to": "CODE-WEB-IMPORT", "type": "implemented by"},
-    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-CAPTURE", "type": "checked by"},
-    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-BIND", "type": "checked by"},
-    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-LIMITS", "type": "checked by"},
-    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-FILTER-BOUNDS", "type": "checked by"},
-    {"from": "AC-WEB-SVG-FILTER", "to": "TEST-WEB-SVG-OPACITY", "type": "checked by"}
+    {
+      "from": "REF-WEB-CAPTURE",
+      "to": "REQ-WEB-CAPTURE",
+      "type": "informs"
+    },
+    {
+      "from": "REQ-WEB-CAPTURE",
+      "to": "SCR-PORTFOLIO",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-CAPTURE",
+      "to": "SCR-CODEFORGE",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-CAPTURE",
+      "to": "SCR-DEVTOOL",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-CAPTURE",
+      "to": "SCR-SAAS",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-ASSETS",
+      "to": "SCR-PORTFOLIO",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-ASSETS",
+      "to": "SCR-CODEFORGE",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-ASSETS",
+      "to": "SCR-DEVTOOL",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-ASSETS",
+      "to": "SCR-SAAS",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "SCR-PORTFOLIO",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "SCR-CODEFORGE",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "SCR-DEVTOOL",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "SCR-SAAS",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-COMPONENT-METRICS",
+      "to": "SCR-SAAS",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-CAPTURE",
+      "to": "AC-WEB-CAPTURE",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-WEB-ASSETS",
+      "to": "AC-WEB-ASSETS",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "AC-WEB-IMPORT",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "AC-WEB-IMPORT-BASELINE",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "AC-WEB-REAPPLY",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-WEB-COMPONENT-METRICS",
+      "to": "AC-WEB-COMPONENT-METRICS",
+      "type": "accepted by"
+    },
+    {
+      "from": "SCR-PORTFOLIO",
+      "to": "FIG-PORTFOLIO",
+      "type": "represented by"
+    },
+    {
+      "from": "SCR-CODEFORGE",
+      "to": "FIG-CODEFORGE",
+      "type": "represented by"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "FIG-DEVTOOL",
+      "type": "represented by"
+    },
+    {
+      "from": "SCR-SAAS",
+      "to": "FIG-SAAS",
+      "type": "represented by"
+    },
+    {
+      "from": "SCR-PORTFOLIO",
+      "to": "CODE-WEB-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-CODEFORGE",
+      "to": "CODE-WEB-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "CODE-WEB-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SAAS",
+      "to": "CODE-WEB-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-PORTFOLIO",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-CODEFORGE",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-DEVTOOL",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "SCR-SAAS",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-WEB-CAPTURE",
+      "to": "CODE-WEB-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-WEB-ASSETS",
+      "to": "CODE-WEB-SOURCE",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "CODE-WEB-PLAN",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-WEB-IMPORT",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "AC-WEB-CAPTURE",
+      "to": "TEST-WEB-CAPTURE",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-CAPTURE",
+      "to": "TEST-WEB-UNIT",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-ASSETS",
+      "to": "TEST-WEB-UNIT",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-ASSETS",
+      "to": "TEST-WEB-ASSET-COMPOSITION",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-IMPORT-BASELINE",
+      "to": "TEST-WEB-NATIVE",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-IMPORT",
+      "to": "TEST-WEB-NATIVE",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-REAPPLY",
+      "to": "TEST-WEB-REAPPLY",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-COMPONENT-METRICS",
+      "to": "TEST-WEB-COMPONENT-METRICS",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-WEB-CAPTURE",
+      "to": "TEST-WEB-UNIT",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-WEB-PLAN",
+      "to": "TEST-WEB-UNIT",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-WEB-IMPORT",
+      "to": "TEST-WEB-NATIVE",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-WEB-COMPONENT-METRICS",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "CODE-WEB-IMPORT",
+      "to": "TEST-WEB-COMPONENT-METRICS",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-WEB-TRACKING",
+      "to": "SCR-PORTFOLIO",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-TRACKING",
+      "to": "AC-WEB-TRACKING-PLAN",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-WEB-TRACKING",
+      "to": "AC-WEB-TRACKING-NATIVE",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-WEB-TRACKING-PLAN",
+      "to": "TEST-WEB-TRACKING-PLAN",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-WEB-PREVIEW",
+      "to": "SCR-PORTFOLIO",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-PREVIEW",
+      "to": "AC-WEB-PREVIEW",
+      "type": "accepted by"
+    },
+    {
+      "from": "AC-WEB-PREVIEW",
+      "to": "TEST-WEB-PREVIEW",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-WEB-PREVIEW",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "AC-WEB-TRACKING-NATIVE",
+      "to": "TEST-WEB-TRACKING-NATIVE",
+      "type": "checked by"
+    },
+    {
+      "from": "REQ-WEB-SVG-FILTER",
+      "to": "SCR-DEVTOOL",
+      "type": "appears on"
+    },
+    {
+      "from": "REQ-WEB-SVG-FILTER",
+      "to": "AC-WEB-SVG-FILTER",
+      "type": "accepted by"
+    },
+    {
+      "from": "REQ-WEB-SVG-FILTER",
+      "to": "CODE-WEB-CAPTURE",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-WEB-SVG-FILTER",
+      "to": "CODE-WEB-SOURCE",
+      "type": "implemented by"
+    },
+    {
+      "from": "REQ-WEB-SVG-FILTER",
+      "to": "CODE-WEB-IMPORT",
+      "type": "implemented by"
+    },
+    {
+      "from": "AC-WEB-SVG-FILTER",
+      "to": "TEST-WEB-SVG-FILTER-CAPTURE",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-SVG-FILTER",
+      "to": "TEST-WEB-SVG-FILTER-BIND",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-SVG-FILTER",
+      "to": "TEST-WEB-SVG-FILTER-LIMITS",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-SVG-FILTER",
+      "to": "TEST-WEB-SVG-FILTER-BOUNDS",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-SVG-FILTER",
+      "to": "TEST-WEB-SVG-OPACITY",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-WEB-TRACKING-NATIVE",
+      "to": "OBS-HISTORICAL-WEB-FIDELITY-0321",
+      "type": "summarized in"
+    },
+    {
+      "from": "AC-WEB-SVG-FILTER",
+      "to": "OBS-HISTORICAL-WEB-SVG-FIDELITY-0322",
+      "type": "summarized in"
+    }
   ]
 }

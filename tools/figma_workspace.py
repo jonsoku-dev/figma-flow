@@ -20,12 +20,18 @@ import sys
 import tempfile
 import uuid
 
-from relay_limits import read_limits
+from relay_limits import control_transport, read_limits
 from plugin_panel import display_name, registered_home_view, render_app, supported_locales
 import input_effect
 import workspace_recipes
 
 ROOT = Path(__file__).resolve().parents[1]
+PANEL_CONTRACT_GRAPH = json.loads((ROOT / 'library' / 'panel-design' / 'contracts.json').read_text(encoding='utf-8'))
+PANEL_CONTRACTS = {node['id']: node for node in PANEL_CONTRACT_GRAPH['nodes']}
+DEPENDENCY_ARTIFACTS = tuple(PANEL_CONTRACTS['dependency-artifacts']['values'])
+DEPENDENCY_RELATION = PANEL_CONTRACTS['dependency-artifacts']['relation']
+WORKSPACE_ACTIVITY_GRAPH = json.loads((ROOT / 'specs' / 'workspace-activity' / 'graph.json').read_text(encoding='utf-8'))
+WORKSPACE_ACTIVITY_CONTRACT = next(node for node in WORKSPACE_ACTIVITY_GRAPH['nodes'] if node['id'] == 'CONTRACT-ACTIVITY-01')
 SCHEMA = 'figma-flow-workspace-v1'
 MAX_BYTES = 256 * 1024 * 1024
 OPTIONS = {
@@ -162,7 +168,11 @@ def public_runtime_symbols():
 
 
 def assemble_shared_runtime(bridge):
-    return '\n'.join((Path(bridge) / name).read_text(encoding='utf-8') for name in runtime_module_names())
+    contract = json.dumps(PANEL_CONTRACT_GRAPH, ensure_ascii=True, allow_nan=False, separators=(',', ':'))
+    activity = json.dumps(WORKSPACE_ACTIVITY_CONTRACT, ensure_ascii=True, allow_nan=False, separators=(',', ':'))
+    prefix = 'globalThis.WORKSPACE_PANEL_CONTRACTS = ' + contract + ';\n'
+    prefix += 'globalThis.WORKSPACE_ACTIVITY_CONTRACT = ' + activity + ';\n'
+    return prefix + '\n'.join((Path(bridge) / name).read_text(encoding='utf-8') for name in runtime_module_names())
 
 
 def trusted_sources():
@@ -497,10 +507,10 @@ def task_artifacts(workspace, task):
     if bundle_relative not in ('.', 'plugin', 'paired-plugin'):
         raise ValueError('Unsupported task bundle entry')
     bundle = child(folder, bundle_relative)
-    if set(task['artifact_hashes']) != {'code.js', 'ui.html', 'manifest.json'}:
+    if set(task['artifact_hashes']) != set(DEPENDENCY_ARTIFACTS):
         raise ValueError('Prepared task artifact coverage is incomplete')
     for name, sha in task['artifact_hashes'].items():
-        if name not in ('code.js', 'ui.html', 'manifest.json') or digest(regular(bundle / name, private=True).read_bytes()) != sha:
+        if name not in DEPENDENCY_ARTIFACTS or digest(regular(bundle / name, private=True).read_bytes()) != sha:
             raise ValueError('Prepared task artifacts changed; prepare a fresh admitted task')
     return bundle
 
@@ -606,14 +616,14 @@ def normalize_task_dependencies(tasks, dependencies=None, *, history=()):
             pinned = historical.get((target, edge['revision']))
             if target not in by_key and pinned is None:
                 raise ValueError(f'missing target: {target}')
-            if edge['relation'] != 'uses-output':
+            if edge['relation'] != DEPENDENCY_RELATION:
                 raise ValueError(f'unsupported dependency relation: {edge["relation"]}')
             if target in by_key and edge['revision'] == by_key[target].get('revision'):
                 pinned = by_key[target]
             if pinned is None:
                 raise ValueError(f'dependency revision is not current: {target}')
             artifact = edge['artifact']
-            if not isinstance(artifact, str) or artifact not in {'code.js', 'ui.html', 'manifest.json'}:
+            if not isinstance(artifact, str) or artifact not in DEPENDENCY_ARTIFACTS:
                 raise ValueError(f'unregistered artifact: {artifact}')
             digest_value = edge['artifact_sha256']
             if pinned.get('artifact_hashes', {}).get(artifact) != digest_value:
@@ -777,6 +787,7 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     code += "function workspaceAppHtml(template){return template.replace('/* FLOW_SHARED_PANEL_STYLES */',()=>packagedCSS).replace('/* FLOW_SHARED_REACT_APPLICATION */',()=>packagedReact);}" + '\n'
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     policy = read(ROOT / 'library' / 'figma-profile' / 'policy.json')
+    control_transport(policy)
     code += 'const WORKSPACE_PROFILE_POLICY = ' + json.dumps(policy, ensure_ascii=True) + ';\n'
     for source in ('profile_policy.js', 'workspace_profile.js', 'relay_view.js', 'workspace_changes.js'):
         code += (bridge / source).read_text(encoding='utf-8') + '\n'
@@ -925,7 +936,7 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
                 'generator_args': args, 'input_pins': pins, 'source_input_pins': nested_pins, 'generator_sha256': before,
                 'threadId': thread_id, 'fileKey': file_key, 'pageId': page_id,
                 'revision': revision, 'request_sha256': request_sha, 'artifact_dir': relative, 'bundle_relative': bundle_relative,
-                'domains': domains, 'artifact_hashes': {name: digest((bundle / name).read_bytes()) for name in ('code.js', 'ui.html', 'manifest.json')}}
+                'domains': domains, 'artifact_hashes': {name: digest((bundle / name).read_bytes()) for name in DEPENDENCY_ARTIFACTS}}
             if depends_on is not None:
                 task['depends_on'] = depends_on
             if pinned is not None:
@@ -1039,8 +1050,8 @@ def replay_batch(workspace, expected_catalogue, expected_implementation):
                     'fileKey': file_key, 'pageId': page_id, 'revision': revision,
                     'request_sha256': request_sha, 'artifact_dir': relative,
                     'bundle_relative': bundle_relative, 'domains': domains,
-                    'artifact_hashes': {name: digest(regular(bundle / name, private=True).read_bytes())
-                        for name in ('code.js', 'ui.html', 'manifest.json')}}
+                        'artifact_hashes': {name: digest(regular(bundle / name, private=True).read_bytes())
+                        for name in DEPENDENCY_ARTIFACTS}}
                 next_tasks.append(replayed)
                 staged.append((task_stage, relative))
 

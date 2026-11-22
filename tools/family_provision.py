@@ -15,7 +15,9 @@ PROVISION_SCHEMA = 'figma-flow-component-families-provision-v1'
 CONTRACT_SCHEMA = 'figma-flow-semantic-family-contract-v1'
 DEFAULT_OWNER_KEY = 'nf01.component-families'
 DEFAULT_WORKBENCH_NAME = 'NF-01 · Component families workbench'
-ALLOWED_FAMILIES = frozenset({'field', 'input', 'checkbox', 'radio', 'table-row', 'table-cell'})
+from figma_bridge import CANONICAL_COMPONENT_FAMILIES
+
+ALLOWED_FAMILIES = frozenset(CANONICAL_COMPONENT_FAMILIES)
 SHA256_RE = re.compile(r'[a-f0-9]{64}\Z')
 OWNER_KEY_RE = re.compile(r'[A-Za-z][A-Za-z0-9._:-]{0,119}\Z')
 GRAPH_ID_RE = re.compile(r'[A-Za-z0-9._:-]{1,120}\Z')

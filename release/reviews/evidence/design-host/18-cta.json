@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_native_provision.cjs",
+      "case": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+      "testSha256": "756fd1ff9bd80e9f09f510047ea3c51dd9b584397289f176a20ddad973fa82a0",
+      "authority": "library/component-families.json#/families",
+      "covers": [
+        "figma-bridge/native_provision.js",
+        "figma-bridge/semantic_components.js"
+      ],
+      "assertion": "creates one owned main and two instances on the existing page, then reuses them idempotently",
+      "observed": "The Figma VM creates the declared CTA component and two instances, then reuses them idempotently."
+    }
+  ]
+}

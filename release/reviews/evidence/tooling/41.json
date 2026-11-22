@@ -1,0 +1,32 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "figma-bridge/presentation.json#/modules/starterCta",
+      "covers": [
+        "tools/native_appearance.py",
+        "tools/native_edit.py",
+        "tools/starter_cta.py"
+      ],
+      "test": "tests/test_tooling_release_integrity.py",
+      "case": "ToolingContractsTests.test_starter_plan_takes_labels_and_component_identity_from_pinned_sources",
+      "testSha256": "0bd028a4d844e82cbc81cfb9547cb10447af47d265a72dcaac657e3af5077551",
+      "assertion": "The approved starter identity and native variable come from the packaged component graph and its verified manifest; current graph and template bytes also pin each prepared plan.",
+      "observed": "A local starter used the real booking template labels and graph instance keys. An altered native variable was rejected, and an authorized component identity followed a changed graph."
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/starterCta",
+      "covers": [
+        "tools/native_appearance.py",
+        "tools/native_edit.py",
+        "tools/starter_cta.py"
+      ],
+      "test": "tests/test_native_appearance_authority.py",
+      "case": "NativeAppearanceTests.test_actual_native_board_and_starter_validator_follow_their_graph_sources",
+      "testSha256": "3346c57d1bd63c64352f68708fa34da745eaf089ec80ebe9fc0bb3e3102b4229",
+      "assertion": "The approved starter identity and native variable come from the packaged component graph and its verified manifest; current graph and template bytes also pin each prepared plan.",
+      "observed": "A local starter used the real booking template labels and graph instance keys. An altered native variable was rejected, and an authorized component identity followed a changed graph."
+    }
+  ]
+}

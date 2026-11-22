@@ -13,7 +13,7 @@ Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design
 설치·폰트·시안 검토·본제작·그래프 왕복·업데이트·복구·회사 배포는 통합 가이드 한 곳에서 확인합니다.
 
 ```text
-Figma Flow v0.36.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+Figma Flow의 현재 검증된 릴리스 태그를 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 기존 작업과 작업공간 ID를 보존해. Figma Flow 최초 등록과 세션별 실행은 내가 할게.
 그 뒤 localhost 제어와 실제 JSON으로 검증해. 구체적인 요청은 한 안으로 진행하고, 비교를 요청하면 내 선택을 기다려.
@@ -53,6 +53,6 @@ UI 동작의 기준 자료는 [Figma 플러그인 실행 모델](https://develop
 
 ## 개발을 이어가기
 
-[현재 0.27 구현 RD-01~09](docs/development-roadmap/README.md)와 [최종 인수 행렬](docs/development-roadmap/FINAL_ACCEPTANCE.md)에서 구현과 실제 검증 범위를 구분합니다. 0.36.0 대상 통합 범위는 검증된 [P0 참조 분리](docs/next-roadmap/p0-reference-acceptance.md) · [P1 Design-only 확장(NF-01·NF-03)](docs/next-roadmap/p1-acceptance.md) · [P2 1차 읽기 기준선](docs/next-roadmap/p2-wave1-acceptance.md)까지이며, [다음 기능·최적화·구조 개선 제안](docs/next-roadmap/README.md)의 나머지 3개 과제(FAQ 모바일 키보드, 복합 렌더 정밀도, 증분 읽기)는 `proposed` 후속 과제로 유지합니다. 기존 `0.35.0` FAQ·P0 프로토타입/프레젠테이션 검증 근거는 유지하되 P2에서 새 재생 주장·확장 범위는 추가하지 않았으며, 원격 클라우드 자동 동기화와 실물 물리 기기 검증은 미포함입니다. 현재 구현을 미래 약속으로 다시 나열하지 않습니다.
+[과거 0.27 구현 계획 RD-01~09](docs/development-roadmap/README.md)와 [해당 인수 행렬](docs/development-roadmap/FINAL_ACCEPTANCE.md)은 당시 구현과 검증 범위를 보존합니다. **Historical 0.36.0 verification snapshot:** recorded P0 reference separation, P1 Design-only expansion (NF-01/NF-03), and the P2 first fresh-read baseline; mobile FAQ keyboard support, complex-render fidelity, and incremental native reads remained proposed. The `0.35.0` FAQ and P0 prototype/presentation observations remain historical evidence. The snapshot did not extend P2 playback claims; cloud sync and physical-device coverage remained out of scope. Current work is defined by the [next feature and improvement backlog](docs/next-roadmap/README.md), not by this past snapshot.
 
 [작은손 커피공방](apps/little-hands/README.md)은 Django·PostgreSQL 기반의 독립 운영 앱입니다. 실제 인증·예약 트랜잭션·운영 화면과 Docker 패키지를 다루며 Figma Flow 자체의 런타임 의존성은 아닙니다. 22개 상태의 desktop/mobile 원본 캡처와 Figma의 전체 제작·편집·getter 인수는 구분합니다. 설치·공개 배포·실서비스 인수 상태는 해당 실행 근거를 확인합니다.

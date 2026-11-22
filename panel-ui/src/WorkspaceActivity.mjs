@@ -1,15 +1,18 @@
-const counted = new Set(['pending', 'requested', 'running', 'finished', 'readback', 'baseline', 'verified', 'failed']);
+import { workspaceActivityContract } from './panelContracts.mjs';
+
+const counted = new Set(workspaceActivityContract.countedStatuses);
 
 export function workspaceActivity(tasks = [], history = []) {
   const events = Array.isArray(history) ? history : [];
   const latest = new Map();
   for (const task of Array.isArray(tasks) ? tasks : []) {
     const event = [...events].reverse().find(item => item.taskKey === task.key && item.revision === task.revision &&
-      item.operation !== 'download' && !item.operation.startsWith('chat:'));
+      !workspaceActivityContract.historyExcludedOperations.includes(item.operation) &&
+      !workspaceActivityContract.historyExcludedOperationPrefixes.some(prefix => item.operation.startsWith(prefix)));
     latest.set(task.key + '\0' + task.revision, {task, event});
   }
   const counts = Object.fromEntries([...counted].map(state => [state, 0]));
-  for (const {event} of latest.values()) counts[counted.has(event?.status) ? event.status : 'pending']++;
+  for (const {event} of latest.values()) counts[counted.has(event?.status) ? event.status : workspaceActivityContract.pendingStatus]++;
   const current = new Set([...latest.keys()]);
   const flows = new Map(), legacy = [];
   events.forEach((event, index) => {

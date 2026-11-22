@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "figma-bridge/standalone-views.json#/views",
+      "covers": [
+        "tools/plugin_panel.py"
+      ],
+      "test": "tests/test_standalone_view_authority.cjs",
+      "case": "standalone Design views apply graph-owned CSS and input limits to actual browser elements",
+      "testSha256": "8b9fcc6cfa93d6b604309af331319d1c8af9d08d6ae7f72e126300e3f60acefb",
+      "assertion": "The standalone UI compiler projects shared tokens, per-view geometry and the chat input contract into the shipped template.",
+      "observed": "The browser rendered changed import, graph and workspace dimensions and the exact chat rows and message limit from a disposable candidate."
+    }
+  ]
+}

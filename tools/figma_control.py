@@ -27,15 +27,10 @@ import change_journal
 
 CAROUSEL_OPERATIONS = frozenset({'carousel-select', 'carousel-present'})
 SCHEMA = 'figma-flow-control-v1'
-MAX_BODY = 40 * 1024 * 1024
-MAX_READBACK = 32 * 1024 * 1024
-MAX_LARGE_READ_BODY = 80 * 1024 * 1024
-MAX_LARGE_READBACK = 64 * 1024 * 1024
 NON_CANVAS_OPERATIONS = {'native-summary', *relay_view.OPERATIONS, *CAROUSEL_OPERATIONS}
 READ_ONLY_OPERATIONS = {'read', *NON_CANVAS_OPERATIONS}
 TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
 ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
-MAX_READINESS = 64 * 1024
 READINESS_PROTOCOL = 'figma-flow-control-readiness-v1'
 
 
@@ -57,6 +52,12 @@ def operation_options(operation, options):
 LOADED_VERSION = json.loads((Path(__file__).resolve().parents[1] / 'plugin.json').read_bytes())['version']
 PROFILE_POLICY_PATH = Path(__file__).resolve().parents[1] / 'library' / 'figma-profile' / 'policy.json'
 PROFILE_POLICY = json.loads(PROFILE_POLICY_PATH.read_bytes())
+TRANSPORT = relay_limits.control_transport(PROFILE_POLICY)
+MAX_BODY = TRANSPORT['normal']['bodyBytes']
+MAX_READBACK = TRANSPORT['normal']['readbackBytes']
+MAX_LARGE_READ_BODY = TRANSPORT['largeRead']['bodyBytes']
+MAX_LARGE_READBACK = TRANSPORT['largeRead']['readbackBytes']
+MAX_READINESS = TRANSPORT['readinessReplyBytes']
 OPERATIONS = {kind: set(actions) for kind, actions in PROFILE_POLICY['taskOperations'].items()}
 LOADED_IMPLEMENTATION = hashlib.sha256(
     Path(__file__).read_bytes()

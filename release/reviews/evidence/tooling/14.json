@@ -1,0 +1,60 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "tools/report-presentation.json#/surfaces",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/apply_figma_change.py",
+        "tools/campaign_library.py",
+        "tools/design-routes.html",
+        "tools/design_bundle.py",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_draft.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_widget_project.py",
+        "tools/idea_catalog.py",
+        "tools/native_handoff.py",
+        "tools/policy_impact.py",
+        "tools/report-presentation.json",
+        "tools/report_appearance.py",
+        "tools/workspace_recipes.py"
+      ],
+      "test": "tests/test_tool_presentation.py",
+      "case": "ReportAppearanceTests.test_changed_palette_and_dimensions_reach_the_published_report_and_widget",
+      "testSha256": "3e812eaee6a2c033b30d732868bc4f3105b56a703216b45c426933b4bd837a68",
+      "assertion": "Presentation rules and palette roles are owned by the local report graph, with static pages checked against the projection.",
+      "observed": "A changed link/route palette and widget size reached actual generated outputs; all registered role references resolved and static report styles matched."
+    },
+    {
+      "authority": "tools/report-presentation.json#/surfaces",
+      "covers": [
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/apply_figma_change.py",
+        "tools/campaign_library.py",
+        "tools/design-routes.html",
+        "tools/design_bundle.py",
+        "tools/design_system.py",
+        "tools/direction_review_surface.py",
+        "tools/figma_draft.py",
+        "tools/figma_live_preview.html",
+        "tools/figma_widget_project.py",
+        "tools/idea_catalog.py",
+        "tools/native_handoff.py",
+        "tools/policy_impact.py",
+        "tools/report-presentation.json",
+        "tools/report_appearance.py",
+        "tools/workspace_recipes.py"
+      ],
+      "test": "tests/test_tool_presentation.py",
+      "case": "ReportAppearanceTests.test_all_offline_report_rules_resolve_their_declared_palette_and_static_pages",
+      "testSha256": "3e812eaee6a2c033b30d732868bc4f3105b56a703216b45c426933b4bd837a68",
+      "assertion": "Presentation rules and palette roles are owned by the local report graph, with static pages checked against the projection.",
+      "observed": "A changed link/route palette and widget size reached actual generated outputs; all registered role references resolved and static report styles matched."
+    }
+  ]
+}

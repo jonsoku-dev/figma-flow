@@ -20,12 +20,22 @@ async function main() {
       return {ok:response.ok,status:response.status,json:async()=>body};
     }});
   vm.runInContext(fs.readFileSync(filename, 'utf8'), context);
-  await figma.ui.onmessage({type:'workspace-home-ready',locale:'ko'});
+  await figma.ui.onmessage({type:'workspace-home-ready',locale:'ko',requestId:'history-oracle'});
   if (mode === 'stale') vm.runInContext("workspaceTasks.get('discovery').revision = 'stale-oracle'", context);
   if (mode === 'history') {
     // A queued request is a canonical fact even before this host polls it.
-    const initial = messages.find(message => message.type === 'workspace-tasks');
-    assert.ok(initial, 'published home must emit a model');
+    let initial = messages.find(message => message.type === 'workspace-tasks');
+    if (!initial) {
+      // The registered home is now a relay. Its signed history is consumed by
+      // Codex and can still render in the standalone compatibility workbench.
+      const viewer = messages.find(m => m.type==='workspace-relay-viewer-state' && m.requestId==='history-oracle');
+      assert.ok(viewer, 'registered home must return its request-bound viewer snapshot');
+      assert.equal(viewer.journalHistory,undefined, 'the registered viewer must not expose the task journal');
+      const canonical = await vm.runInContext("controlRequest('history',{session_id:controlRunSession,file_key:figma.fileKey,page_id:figma.currentPage.id,runtime:WORKSPACE_RUNTIME})",context);
+      initial = {...canonical, history:(await figma.clientStorage.getAsync()).history,
+        tasks:vm.runInContext("Array.from(workspaceTasks.values()).map(({run,...task})=>task)",context)};
+    }
+    assert.ok(initial, 'the canonical workbench projection must be available');
     const rows = initial.journalHistory;
     assert.ok(Array.isArray(rows), 'published host must retrieve canonical server journal, separately from telemetry');
     const row = rows.find(row => row.operationId === operationId);

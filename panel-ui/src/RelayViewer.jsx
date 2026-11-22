@@ -3,6 +3,7 @@ import { useRelaySnapshot } from './useRelaySnapshot.js';
 import RelaySelection from './RelaySelection.jsx';
 import { Circle, FileText, Layers3, Radio } from 'lucide-react';
 import './styles/relay.css';
+import { panelDesignMetrics } from './panelContracts.mjs';
 
 const text = (value) => typeof value === 'string' && value.trim() ? value : '';
 
@@ -21,25 +22,25 @@ export default function RelayViewer({ locale, t, send }) {
     <main className="relay-view" lang={locale}>
       <section className="relay-card" aria-label={t('relay.title')}>
         <header className="relay-header">
-          <span className="relay-brand-mark" aria-hidden="true"><Layers3 size={16} /></span>
+          <span className="relay-brand-mark" aria-hidden="true"><Layers3 size={panelDesignMetrics.iconStandard} /></span>
           <strong>{t('relay.title')}</strong>
           <span className="relay-status" data-state={state.status} role="status">
-            <Circle size={8} fill="currentColor" aria-hidden="true" />{t(`relay.status.${statusKey}`)}
+            <Circle size={panelDesignMetrics.iconTiny} fill="currentColor" aria-hidden="true" />{t(`relay.status.${statusKey}`)}
           </span>
         </header>
         <div className="relay-content">
           <h1>{t(`relay.headline.${statusKey}`)}</h1>
           <p className="relay-caption">{t(`relay.caption.${statusKey}`)}</p>
           <div className="relay-context-row">
-            <span><FileText size={14} aria-hidden="true" />{t('relay.file')}</span>
+            <span><FileText size={panelDesignMetrics.iconMedium} aria-hidden="true" />{t('relay.file')}</span>
             <strong title={state.file?.name || ''}>{text(state.file?.name) || t('relay.unknown')}</strong>
           </div>
           <div className="relay-context-row">
-            <span><Layers3 size={14} aria-hidden="true" />{t('relay.page')}</span>
+            <span><Layers3 size={panelDesignMetrics.iconMedium} aria-hidden="true" />{t('relay.page')}</span>
             <strong title={state.page?.name || ''}>{text(state.page?.name) || t('relay.unknown')}</strong>
           </div>
           <div className="relay-context-row relay-selection">
-            <span><Radio size={14} aria-hidden="true" />{t('relay.selection.title')}</span>
+            <span><Radio size={panelDesignMetrics.iconMedium} aria-hidden="true" />{t('relay.selection.title')}</span>
             <strong title={selectionLabel}>{displayedSelection}</strong>
           </div>
         </div>

@@ -2,6 +2,14 @@
 const $ = id => document.getElementById(id);
 const list = $('list-screen'), formScreen = $('form-screen'), title = $('title'), content = $('content');
 let db;
+fetch('./visual-tokens.json').then(response => {
+  if (!response.ok) throw new Error('Visual token graph could not be loaded');
+  return response.json();
+}).then(graph => {
+  for (const token of graph.nodes.filter(node => node.type === 'token')) {
+    document.documentElement.style.setProperty(token.css_variable, token.value);
+  }
+}).catch(() => { document.documentElement.dataset.visualTokens = 'unavailable'; });
 function openStore() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('moeum-ideas', 1);

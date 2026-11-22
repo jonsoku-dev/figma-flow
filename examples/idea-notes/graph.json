@@ -177,7 +177,7 @@
       "title": "로컬 앱: 동작·저장 경계·HTML·CSS",
       "status": "verified",
       "source": "app/app.js",
-      "detail": "Implementation includes app/app.js, app/index.html and app/style.css, all listed in bindings. Node contract evidence: evidence/node-tests.tap; browser evidence is separate."
+      "detail": "Implementation includes app/app.js, app/index.html, app/style.css and app/visual-tokens.json, listed in bindings. Node evidence is current and uses test doubles. evidence/browser.json remains historical (2026-11-07); evidence/browser-current.json records current local Chromium checks with current app hashes. Neither is Figma acceptance."
     },
     {
       "id": "AC-001",
@@ -297,7 +297,7 @@
       "title": "실제 브라우저 데스크톱·모바일·키보드·다중 탭",
       "status": "verified",
       "source": "evidence/browser.json",
-      "detail": "Recorded Stagehand Chromium observations (9 checks) include desktop/mobile, keyboard validation focus, persistence/search, write failure/retry, two tabs, dynamic hint/error descriptions and no-fetch favicon. See evidence/browser.json limitations. Runner pins hashes but does not rerun browser."
+      "detail": "Historical Stagehand Chromium observation (9 checks) from 2026-11-07: desktop/mobile, keyboard validation focus, persistence/search, write failure/retry, two tabs, dynamic hint/error descriptions and no-fetch favicon. App hashes differ from current app.js/style.css, so this record is not current browser acceptance; see limitations."
     },
     {
       "id": "TEST-008",
@@ -305,7 +305,7 @@
       "title": "실제 브라우저 검증 기록",
       "status": "verified",
       "source": "evidence/browser.json",
-      "detail": "Recorded Stagehand Chromium observations (9 checks) include desktop/mobile, keyboard validation focus, persistence/search, write failure/retry, two tabs, dynamic hint/error descriptions and no-fetch favicon. See evidence/browser.json limitations. Runner pins hashes but does not rerun browser.",
+      "detail": "Historical Stagehand Chromium observation (9 checks) from 2026-11-07: desktop/mobile, keyboard validation focus, persistence/search, write failure/retry, two tabs, dynamic hint/error descriptions and no-fetch favicon. App hashes differ from current app.js/style.css, so this record is not current browser acceptance; see limitations.",
       "check_ids": [
         "desktop",
         "mobile",
@@ -317,6 +317,22 @@
         "console",
         "favicon"
       ]
+    },
+    {
+      "id": "AC-009",
+      "type": "acceptance",
+      "title": "CSS visual fields bind to the token graph and respond to a changed token value",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test verifies CSS custom-property references against token nodes and mutates a graph token into the rendered document root. Browser rendering evidence is separate."
+    },
+    {
+      "id": "TEST-009",
+      "type": "test",
+      "title": "CSS visual fields bind to the token graph and respond to a changed token value",
+      "status": "verified",
+      "source": "evidence/node-tests.tap",
+      "detail": "Node test 9 in tests/app.test.cjs; run with node --test --test-reporter=tap tests/app.test.cjs."
     }
   ],
   "edges": [
@@ -694,6 +710,31 @@
       "from": "CODE-001",
       "to": "TEST-008",
       "type": "depends-on"
+    },
+    {
+      "from": "AC-009",
+      "to": "TEST-009",
+      "type": "checked by"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-009",
+      "type": "checked by"
+    },
+    {
+      "from": "AC-009",
+      "to": "TEST-009",
+      "type": "depends-on"
+    },
+    {
+      "from": "CODE-001",
+      "to": "TEST-009",
+      "type": "depends-on"
+    },
+    {
+      "from": "REQ-005",
+      "to": "AC-009",
+      "type": "accepted by"
     }
   ]
 }

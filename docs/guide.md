@@ -1,10 +1,10 @@
-# Figma Flow 0.36.0 통합 가이드
+# Figma Flow 통합 가이드
 
 [한국어](#korean) · [English](#english) · [日本語](#japanese)
 
 <a id="korean"></a>
 
-이 문서는 0.36.0 대상 사용 안내입니다. 현재 후보의 실제 설치·Figma 인수는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md) 및 후속 검증 기록([P0 참조 분리](next-roadmap/p0-reference-acceptance.md) · [P1 인수](next-roadmap/p1-acceptance.md) · [P2 1차 기준선](next-roadmap/p2-wave1-acceptance.md))에서 확인합니다. 아래 태그 설치는 실제 배포된 태그를 확인한 뒤 진행하며 문서의 버전 문자열이 설치·게시 완료를 뜻하지 않습니다. `0.36.0`은 Design-only(`editorType: ["figma"]`) 정본 그래프 경로에서 검증된 P0/P1/P2 1차 범위를 통합하며, FAQ 모바일 키보드·복합 렌더 정밀도·증분 읽기는 `proposed` 후속 과제로 남습니다. 검증된 `0.35.0` FAQ·P0 프로토타입/프레젠테이션 근거는 유지하되 P2에서 새 재생 주장·확장 범위는 없으며, 원격 클라우드 동기화와 실물 기기 검증은 미포함입니다.
+이 가이드는 선택한 릴리스 태그의 `plugin.json`에 선언된 버전에 적용됩니다. 실제 태그와 반환된 `installedPath`의 두 plugin manifest를 대조하세요. 버전 문자열만으로 배포·설치·Figma 인수를 증명할 수 없습니다. **과거 0.36.0 검증 스냅샷:** Design-only(`editorType: ["figma"]`) 정본 그래프에서 P0 참조 분리, P1 확장, P2 첫 fresh-read 기준선이 기록됐습니다. FAQ 모바일 키보드·복합 렌더 정밀도·증분 읽기는 당시 `proposed`였습니다. `0.35.0` FAQ·G1 소스 재생성·P0 프로토타입/프레젠테이션 관찰은 과거 근거입니다. 이 스냅샷에서 P2 재생 범위는 늘지 않았으며 클라우드 동기화와 실물 기기는 범위 밖이었습니다. 현재 범위는 [최종 인수 행렬](development-roadmap/FINAL_ACCEPTANCE.md)과 후속 기록([P0](next-roadmap/p0-reference-acceptance.md) · [P1](next-roadmap/p1-acceptance.md) · [P2](next-roadmap/p2-wave1-acceptance.md))에서 확인합니다.
 
 설치·사용·업데이트 안내의 정본은 이 문서 하나입니다. [설치 프롬프트](#setup-prompt) · [환경 설정](#environment) · [업데이트와 복구](#updates) · [회사 private 배포](#private-distribution)
 
@@ -197,7 +197,9 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 
 진행 중인 네이티브 `run`이 끝난 뒤 같은 작업공간의 작업 목록을 갱신합니다. 플러그인이 이미 가져간 `claimed` 요청이 있으면 `prepare`·`refresh`의 새 게시를 거절합니다. 생성 도중 Desktop의 자동 재로드가 실행을 끊는 일을 줄이기 위한 검사이며, 게시 후의 모든 재로드를 원자적으로 제어하지는 않습니다. 먼저 `status`에서 완료를 확인하고 다음 작업을 준비하세요. 불확실한 실행은 현재 파일을 다시 읽어 복구한 뒤 검증하며, 중단된 자료를 성공 결과로 사용하지 않습니다.
 
-![실제 Figma에서 연 Figma Flow 작업공간](images/panel-workspace.png)
+![과거 인터랙티브 패널의 실제 Figma 작업공간 기록](images/panel-workspace.png)
+
+이 화면은 실제 Figma 안의 과거 인터랙티브 패널을 기록한 이미지입니다. 현재 패널은 상태 뷰어이며 Codex가 작업을 준비하고 실행합니다.
 
 0.24.1부터 run은 큐를 기록하기 전에 같은 작업공간의 실행 중인 서버 버전·구현 해시·지원 작업을 확인합니다. --no-wait도 준비된 서버에 요청을 넣은 뒤 즉시 반환하는 옵션입니다. 구버전·접속 실패·인증 문제 안내가 나오면 기존 작업공간의 서비스만 정상 종료하고 현재 설치본의 serve로 다시 시작하세요. 서버 확인과 실제 Figma 플러그인 실행·읽기 결과는 각각 검증합니다.
 
@@ -254,6 +256,10 @@ Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을
 
 이력의 canonical 실행 단계는 exact file/page/runtime 범위의 서버 journal에서 읽습니다. 로컬 cache의 UI 관측·실행 ID는 그 단계를 대신하지 않습니다. 읽기 전용 진단 내보내기는 기존 관측을 표시·다운로드하며 native 쓰기를 추가하지 않습니다. URL 자격 정보·토큰·개인 홈 경로를 제거하고 알 수 없는 사실은 unknown/unobserved로 남깁니다. 진단 파일도 공유 전에 내용을 확인합니다.
 
+![Figma Flow 이력 탭의 스크롤 목록과 기록별 상태](images/panel-history.png)
+
+이미지는 목록 위쪽에 보이는 몇 개 항목만 보여 줍니다. 더 오래된 기록은 패널에서 스크롤해 확인합니다.
+
 ### 현재 패널 빠른 찾기
 
 Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을 편집하거나 실행하지 않습니다.
@@ -271,7 +277,8 @@ Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을
 아래 셸 예제는 macOS/Linux의 새 작업 폴더 기준입니다. Windows에서는 [설치 프롬프트](#setup-prompt)가 PowerShell과 실제 경로에 맞는 명령을 실행하도록 할 수 있습니다. Figma를 직접 조작할 때는 Desktop을 실행한 컴퓨터가 생성된 패키지에 접근할 수 있어야 합니다.
 
 ```sh
-git clone --branch v0.36.0 https://github.com/jonsoku-dev/figma-flow.git
+RELEASE_TAG=vX.Y.Z # Set this to the exact published release tag you intend to install.
+git clone --branch "$RELEASE_TAG" https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 git describe --tags --exact-match
 codex plugin marketplace list --json
@@ -280,7 +287,7 @@ codex plugin add figma-flow@figma-flow-local --json
 codex plugin list --marketplace figma-flow-local --json
 ```
 
-마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json`도 대조합니다. 태그는 `v0.36.0`, 목록은 `figma-flow@figma-flow-local`, `installed, enabled`, `0.36.0`이어야 합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
+마켓플레이스 이름은 `.agents/plugins/marketplace.json`에서 읽고 회사 복제본은 실제 이름을 사용합니다. 기존 동명 소스가 다른 경로이면 먼저 비교합니다. `add --json`의 실제 `installedPath`를 기록하고 캐시 경로를 추측하지 않습니다. 설치 복사본의 `.codex-plugin/plugin.json`과 `plugin.json` 버전을 대조하고, 선택한 태그 이름의 버전과 일치하는지 확인합니다. Codex에서 이 폴더를 열고 새 채팅을 시작해 `$figma-flow`를 선택합니다. 같은 이름의 다른 체크아웃이 등록돼 있다면 목록의 SOURCE 경로부터 확인하세요.
 
 ## 3. 첫 비교 예제 준비
 
@@ -350,6 +357,10 @@ Codex는 작업을 요청한 기본 채팅의 `CODEX_THREAD_ID`를 기록하며 
 ## 6. 시안 만들기, 결과 저장, 대조
 
 Codex는 검토 패킷을 준비하고 같은 workspace의 `review` 작업으로 실행합니다. Figma 패널에서 작업을 선택하거나 JSON을 내려받지 않습니다.
+
+![검토 작업에 연결된 두 후보와 검토 시안 생성 단계](images/panel-review.png)
+
+패널은 준비된 후보와 검토 단계를 보여 줍니다. 본제작 방향은 Codex 대화에서 사용자가 선택합니다.
 
 ```sh
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
@@ -815,7 +826,7 @@ Figma Flow가 사용하는 격리 브라우저에서는 `localhost`와 `127.0.0.
 빈 폴더 또는 기존 클론의 새 Codex 채팅에서 복사해 사용합니다. 첫 설치 전에는 스킬이 아직 없으므로 일반 요청으로 시작합니다.
 
 ```text
-Figma Flow v0.36.0을 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
+선택한 공개 릴리스 태그의 Figma Flow를 설치하고 실제 Figma 연결 테스트까지 진행해 줘.
 저장소는 https://github.com/jonsoku-dev/figma-flow.git이고 정본 안내는 docs/guide.md야.
 기존 작업·설치·작업공간 ID를 보존하고, 실제 installedPath와 버전을 확인한 뒤 설치된 figma-plugin-setup 스킬로 이어가.
 CLI·파일 작업은 네가 하고 Figma Flow 최초 등록과 실행은 내가 할게. 실행 세션마다 한 번 연 뒤 localhost 제어로 진행해.
@@ -959,7 +970,7 @@ tar -xf "$PRIVATE_DIR/release.tar" -C "$PRIVATE_DIR"
 
 ## English quick start
 
-This guide targets 0.36.0. Confirm an available release tag before installing; the version in this guide does not prove installation, publication or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md) and post-0.35.0 verification records ([P0 reference acceptance](next-roadmap/p0-reference-acceptance.md), [P1 acceptance](next-roadmap/p1-acceptance.md), [P2 Wave 1 acceptance](next-roadmap/p2-wave1-acceptance.md)). Version 0.36.0 consolidates verified P0 reference separation, P1 Design-only (`editorType: ["figma"]`) NF-01 family/NF-03 history expansion, and P2 Wave 1 fresh-read baselines alongside `0.35.0` G1 source regeneration (`apps/little-hands/design/source.py`, preserving explicit IDs, adopted tokens, authored links, and `retained_without_source` orphan candidates across blocked CSS epochs and retries); FAQ mobile keyboard, complex render fidelity, and incremental native read remain `proposed` future work. Verified `0.35.0` FAQ and P0 presentation proofs remain preserved with no new P2 playback claim or expanded coverage, and remote cloud sync and physical-device coverage remain out of scope.
+This guide follows the exact published release tag selected for installation. Compare the tag with both plugin manifests at the returned `installedPath`; the version string alone does not prove publication, installation or native acceptance. See the [acceptance matrix](development-roadmap/FINAL_ACCEPTANCE.md) and historical verification records ([P0 reference acceptance](next-roadmap/p0-reference-acceptance.md), [P1 acceptance](next-roadmap/p1-acceptance.md), [P2 Wave 1 acceptance](next-roadmap/p2-wave1-acceptance.md)). **Historical 0.36.0 verification snapshot:** recorded P0 reference separation, P1 Design-only (`editorType: ["figma"]`) NF-01 family/NF-03 history expansion, and P2 Wave 1 fresh-read baselines alongside `0.35.0` G1 source regeneration (`apps/little-hands/design/source.py`, preserving explicit IDs, adopted tokens, authored links, and `retained_without_source` orphan candidates across blocked CSS epochs and retries); FAQ mobile keyboard, complex render fidelity, and incremental native read remained `proposed`. Verified `0.35.0` FAQ and P0 presentation proofs remain preserved with no new P2 playback claim or expanded coverage; remote cloud sync and physical-device coverage remain out of scope.
 
 At each workflow start, check and safely update both plugin packages/runtime files from the exact registered source. Pins, active work, unknown source, offline/auth failures and forbidden Figma access are explicit exceptions; actual loaded runtime remains separately verified. A concrete direction uses one `direct` draft; `compare` is for requested alternatives. Human specifications come from graph meaning and appear outside artwork, with technical ownership retained separately. [Startup](#automatic-startup) · [Readable specifications](#readable-specifications) · [Direction contract](../skills/figma-flow/references/direction-selection.md).
 
@@ -980,14 +991,15 @@ Codex retrieves and verifies the actual readback while local control is connecte
 ## Install once
 
 ```sh
-git clone --branch v0.36.0 https://github.com/jonsoku-dev/figma-flow.git
+RELEASE_TAG=vX.Y.Z # Set this to the exact published release tag you intend to install.
+git clone --branch "$RELEASE_TAG" https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-Check the actual `installedPath` returned by `plugin add --json` and both plugin manifests are `0.36.0`. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
+Check the actual `installedPath` returned by `plugin add --json` and compare both plugin manifest versions with the selected tag. Run the following commands from that installed root with the project Python environment containing `requirements-optional.txt`. Workspace preparation currently supports POSIX hosts, including macOS/Linux; retain standalone compatibility on unsupported hosts. Logins and desktop access approvals remain user actions.
 
 Reuse your workspace if it exists. Otherwise obtain your own ID in Figma Desktop through **Plugins → Development → New plugin → Figma Design → Custom UI**, then initialize a private workspace:
 
@@ -1149,11 +1161,11 @@ The task-state chart counts the last observation for each current task revision.
 
 Use **Language** to choose **한국어 / English / 日本語**. Source names, actual values, raw JSON and native diagnostics stay unchanged. **Next action** suggests the next prepared step; **History** distinguishes requests, execution, readback, verification and failures. Older revision records do not prove the current revision. Local history can be unavailable; retain actual result artifacts.
 
-![Figma Flow workspace opened in actual Figma](images/panel-workspace.png)
+![Historical screenshot of the earlier interactive Figma Flow panel](images/panel-workspace.png)
 
 The buttons in this screenshot show the earlier interactive panel. They are retained as historical product evidence and are not current task controls.
 
-![Graph change confirmation](images/panel-graph-diff.png)
+![Historical screenshot of the earlier graph change confirmation panel](images/panel-graph-diff.png)
 
 Keyboard focus, labeled controls, status announcements and Figma light/dark themes are supported. Use Tab/Shift+Tab, arrow keys for tabs, and Enter/Space to activate controls. Check your required assistive-technology and zoom conditions in the actual product.
 
@@ -1171,7 +1183,7 @@ For updates, preserve the old source and complete workspace, install the chosen 
 
 ## 日本語クイックスタート
 
-このガイドは0.36.0向けです。インストール前に実在する配布タグを確認してください。文書のバージョンはインストール・公開・native受入完了の証拠ではありません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)と後続の検証記録（[P0 参照分離](next-roadmap/p0-reference-acceptance.md) · [P1 受入](next-roadmap/p1-acceptance.md) · [P2 1次基準線](next-roadmap/p2-wave1-acceptance.md)）で確認します。0.36.0 は Design-only（`editorType: ["figma"]`）の正本グラフ経路で検証された P0/P1/P2 1次成果および `0.35.0` の G1 ソース再生成（`apps/little-hands/design/source.py` における安定 ID 移行、採用トークン・手書き関連の保持、失敗 epoch や再試行をまたぐ `retained_without_source` 孤立候補の維持）を統合し、FAQ モバイルキーボード・複合レンダー精度・増分読み込みは `proposed` のまま維持します。検証済みの `0.35.0` FAQ・P0 プレゼンテーション再生証明は維持しつつ P2 での新たな再生主張・拡張はなく、クラウド同期と実機検証は対象外のままです。
+このガイドはインストール対象として選んだ公開タグに従います。返された `installedPath` の両方の plugin manifest とタグを照合してください。バージョン文字列だけでは公開・インストール・native受入を証明しません。[受入表](development-roadmap/FINAL_ACCEPTANCE.md)と過去の検証記録（[P0 参照分離](next-roadmap/p0-reference-acceptance.md) · [P1 受入](next-roadmap/p1-acceptance.md) · [P2 1次基準線](next-roadmap/p2-wave1-acceptance.md)）で確認します。**過去の0.36.0検証スナップショット:** Design-only（`editorType: ["figma"]`）の正本グラフ経路における P0/P1/P2 1次成果と `0.35.0` G1 ソース再生成が記録されました。FAQ モバイルキーボード・複合レンダー精度・増分読み込みは当時 `proposed` でした。検証済みの `0.35.0` FAQ・P0 プレゼンテーション再生証明は維持され、P2 での新たな再生主張・拡張はありません。クラウド同期と実機検証は対象外でした。
 
 各作業の開始時に、登録済みの正確な配布元から Codex パッケージと Figma 実行ファイルを確認し、安全な場合は更新します。バージョン固定・実行中・配布元不明・オフライン・認証失敗・Figma アクセス禁止は例外として記録し、実際に読み込まれた実行版は別途確認します。具体的な方向指定は `direct` 一案、比較の依頼は `compare` を使います。説明は graph の意味から生成して画面の外に表示し、技術情報と所有権は別に保持します。[開始時の確認](#automatic-startup) · [説明の契約](#readable-specifications) · [方向の契約](../skills/figma-flow/references/direction-selection.md)。
 
@@ -1198,14 +1210,15 @@ For updates, preserve the old source and complete workspace, install the chosen 
 ## 初回だけ登録
 
 ```sh
-git clone --branch v0.36.0 https://github.com/jonsoku-dev/figma-flow.git
+RELEASE_TAG=vX.Y.Z # インストールする公開タグを指定します。
+git clone --branch "$RELEASE_TAG" https://github.com/jonsoku-dev/figma-flow.git
 cd figma-flow
 codex plugin marketplace add "$PWD"
 codex plugin add figma-flow@figma-flow-local
 codex plugin list --marketplace figma-flow-local
 ```
 
-`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest が `0.36.0` か確認します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
+`plugin add --json` が返した実際の `installedPath` と両方の plugin manifest のバージョンを、選んだタグと照合します。以降はそのインストール先で、`requirements-optional.txt` を入れた専用 Python 環境から実行してください。現在、作業空間の準備は macOS/Linux などの POSIX 環境に対応しています。未対応環境では従来の standalone 互換経路を維持します。ログインやデスクトップのアクセス承認は利用者が行います。
 
 既存の作業空間があれば再利用します。初回は Figma Desktop の **プラグイン → 開発 → 新しいプラグイン → Figma Design → Custom UI** で自分の ID を取得し、非公開の作業空間を作成します。
 
@@ -1361,11 +1374,11 @@ node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
 
 上部の **言語**から **한국어 / English / 日本語**を選びます。元の画面名・実際の値・JSON・ネイティブエラーは翻訳しません。**次の操作**は準備済みタスクから候補を示します。**履歴**では要求・実行・読み取り・検証・失敗を区別します。古い revision の履歴は現在の証拠ではありません。ローカル履歴が保存できない場合もあるため、実際の結果ファイルを保管してください。
 
-![実際の Figma で開いた作業空間](images/panel-workspace.png)
+![過去のインタラクティブパネルのワークスペース記録](images/panel-workspace.png)
 
 制御接続を使えない場合は手動でタスクを開けます。読み込みは **読み込む・既存ページを開く**、続いて **現在のデザインを読み取る → JSON ファイルを保存**です。検討案は作成後に JSON を保存します。文書読み取りは書き込みません。グラフ同期は変更前後を確認してから明示的に適用します。キャンセルは確認画面を閉じる操作で、開始済みの処理を取り消すものではありません。
 
-![グラフの変更前後を確認](images/panel-graph-diff.png)
+![旧パネルのグラフ変更確認の記録](images/panel-graph-diff.png)
 
 キーボードのフォーカス表示、ラベル、状態通知、Figma のライト／ダークテーマに対応します。Tab・Shift+Tab、タブの矢印キー、Enter・Space で操作できます。必要な支援技術や拡大表示の条件は実際の製品で確認してください。
 

@@ -9,7 +9,7 @@ if (graph.schema !== 'figma-flow-panel-design-graph-v1' || graph.id !== 'panel-d
 }
 const surfaceIds = new Set(graph.surfaces.map(({ id }) => id));
 const tokenIds = new Set(graph.tokens.map(({ id }) => id));
-const length = /^-?(?:\d+(?:\.\d+)?|\.\d+)(?:px|em|rem|vw|vh|%)$/;
+const length = /^-?(?:\d+(?:\.\d+)?|\.\d+)(?:px|em|rem|vw|vh|vmin|vmax|ch|%)$/;
 function validValue(token, value) {
   if (typeof value !== 'string' || !value.trim() || /[{};]/.test(value)) return false;
   if (token.kind === 'color') return /^(?:#[0-9a-f]{3,8}|rgb\(29 44 67 \/ 6%\))$/i.test(value);
@@ -19,6 +19,9 @@ function validValue(token, value) {
   if (token.kind === 'percentage') return /^\d+(?:\.\d+)?%$/.test(value);
   if (token.kind === 'weight') return /^\d{3}$/.test(value) && Number(value) >= 100 && Number(value) <= 900;
   if (token.kind === 'number') return /^\d+(?:\.\d+)?$/.test(value);
+  if (token.kind === 'duration') return /^\d+(?:\.\d+)?(?:ms|s)$/.test(value);
+  if (token.kind === 'angle') return /^-?\d+(?:\.\d+)?(?:deg|rad|turn)$/.test(value);
+  if (token.kind === 'grid-track') return /^\d+(?:\.\d+)?fr$/.test(value);
   if (token.kind === 'font-family') return /^[\w\s,'-]+$/.test(value);
   if (token.kind === 'breakpoint') return /^\d+(?:\.\d+)?px$/.test(value);
   return false;

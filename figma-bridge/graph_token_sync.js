@@ -871,7 +871,7 @@ function graphSyncPlanForMessage(plan, message) {
     tokens: plan.tokens.map(token => keys.has(token.key) ? {...token} : {...token, value: token.before})};
 }
 if (typeof GRAPH_SYNC_PLAN !== 'undefined' && typeof figma !== 'undefined') {
-  figma.showUI(__html__, {width: 440, height: 470, themeColors: true});
+  figma.showUI(__html__, /* flow-window graph */ {width: 440, height: 470, themeColors: true});
   let busy = false;
   figma.ui.onmessage = async message => {
     if (busy || !['read', 'apply'].includes(message?.type) || message.session !== GRAPH_PANEL_SESSION) return;

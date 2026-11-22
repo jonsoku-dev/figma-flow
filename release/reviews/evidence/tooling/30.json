@@ -1,0 +1,42 @@
+{
+  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/startup-freshness/graph.json#/nodes/12",
+      "covers": [
+        "tools/plugin_startup.py",
+        "tools/review_destination.py"
+      ],
+      "test": "tests/test_plugin_startup.py",
+      "case": "StartupTests.test_check_never_upgrades_and_exact_same_candidate_is_current",
+      "testSha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+      "assertion": "Installation and resumption verify the authentic current generation, preserving operator permissions and destination scope.",
+      "observed": "A matching generation remained unchanged; a forbidden operation called no native adapter and explicit design destinations survived resolution."
+    },
+    {
+      "authority": "specs/startup-freshness/graph.json#/nodes/12",
+      "covers": [
+        "tools/plugin_startup.py",
+        "tools/review_destination.py"
+      ],
+      "test": "tests/test_plugin_startup.py",
+      "case": "StartupTests.test_default_ensure_applies_and_forbidden_calls_zero_native_adapters",
+      "testSha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+      "assertion": "Installation and resumption verify the authentic current generation, preserving operator permissions and destination scope.",
+      "observed": "A matching generation remained unchanged; a forbidden operation called no native adapter and explicit design destinations survived resolution."
+    },
+    {
+      "authority": "specs/startup-freshness/graph.json#/nodes/12",
+      "covers": [
+        "tools/plugin_startup.py",
+        "tools/review_destination.py"
+      ],
+      "test": "tests/test_first_run_destination.py",
+      "case": "FirstRunDestinationTests.test_resolved_direct_and_compare_keep_actual_figma_destination",
+      "testSha256": "87a000cccd8d39e8982efd216d077126943823f67646e440c84c95baed60e806",
+      "assertion": "Installation and resumption verify the authentic current generation, preserving operator permissions and destination scope.",
+      "observed": "A matching generation remained unchanged; a forbidden operation called no native adapter and explicit design destinations survived resolution."
+    }
+  ]
+}

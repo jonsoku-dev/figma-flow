@@ -1,0 +1,858 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "design-host",
+  "fingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "status": "complete",
+  "openFindings": [],
+  "bindings": [
+    {
+      "authority": "figma-bridge/presentation.json#/modules/graphReview/fields",
+      "reason": "The graph-review board sizing, groups, paints and input/effect rules are projected from the graph-review field module.",
+      "files": [
+        "figma-bridge/native_graph_review.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/01-appearance.json",
+          "sha256": "d59ed07b4358c2585d092daa64dfc1a6d223e2970b02e58a3de3de635cec8507"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/01-graph_card.json",
+          "sha256": "8cda87c770b78098ea7c8be74a98480698b25a9f7c588e99cddd697e0b9f9fd1"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/01-graph_board.json",
+          "sha256": "fe6f1ad9a1dc2d5bf5f6215c754c003bee9762e0a96a4867134858434c81250e"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/01-graph_refresh.json",
+          "sha256": "f7e14f4377ffd96179e9ac318a62ba44bdbfc6a58cf1a0830a52d7eed0412b31"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/notes/fields",
+      "reason": "Native note-board presentation fields project from the graph and the resulting annotations preserve two-way links and exact getter snapshots.",
+      "files": [
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_specifications.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/02-appearance.json",
+          "sha256": "a27f6c3ca51be32d316d05a53428ccb4f58a5619989a7b1d2a7559b9573b17d6"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/02-notes.json",
+          "sha256": "438fde8c449fc1cdbdbedc99af80d87be127c4c3f358f6a108cc273604c969cb"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/02-native_handoff.json",
+          "sha256": "be79444b62aa6c81daa77fcedc37ce157320edaf6e69c7abdfd86ea3e2f7f5af"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/starterCta/fields",
+      "reason": "CTA instance identities, semantic token scope and provision metadata are projected from the starter CTA module.",
+      "files": [
+        "figma-bridge/native_provision.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/03-appearance.json",
+          "sha256": "b71d29e3aae2dc78c463ee1f6c3c2cb6a65671cb15380591eb53cd0b626d90c5"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/03-cta.json",
+          "sha256": "eec8235fbf9662b3d691730654d2d642521f526d7bd5f015f0dba44e794ccb82"
+        }
+      ]
+    },
+    {
+      "authority": "apps/little-hands/design/graph.json#/design_system/components/button.bookingCTA/native",
+      "reason": "The starter CTA main identity and native component semantics follow the approved design-system component graph.",
+      "files": [
+        "figma-bridge/native_provision.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/04-appearance.json",
+          "sha256": "8dd8f2b542fb95f0ebb63513f1681e85f550ba993ffb8bc92b6dad4a27958f68"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/04-cta.json",
+          "sha256": "4718237df118a927c785c6dc4a0bdabe1d06d166b4eb9ac3872d14cce19c6449"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/webTabTargets/fields",
+      "reason": "Measured tab target kinds and semantic component keys are referenced through the presentation graph.",
+      "files": [
+        "figma-bridge/presentation.json",
+        "figma-bridge/web_design.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/05-appearance.json",
+          "sha256": "b6b52030cf482cfcf348ab4dc3929d99985bd53604d02be9921a1e0260ba9ea3"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/05-web_tabs.json",
+          "sha256": "54c510f8d5d6c0cea9609fa28d7071ecdc6c450201639f86c8be946264de845e"
+        }
+      ]
+    },
+    {
+      "authority": "tools/web-interaction-contract.json#/tabs",
+      "reason": "Only graph-declared measured tab targets and component keys can create native navigation routes.",
+      "files": [
+        "figma-bridge/presentation.json",
+        "figma-bridge/web_design.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/06-web_tabs.json",
+          "sha256": "c6ce345a571db13de0f9ce5fd4b7acfa9e6f9020d9df4df92f668726745dd7ff"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/editPolicy/fields",
+      "reason": "The native field allowlist and edit budget are projected through the presentation graph.",
+      "files": [
+        "figma-bridge/native_edit.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/07-appearance.json",
+          "sha256": "4c140cb1254dce9819fed569de277845f5b4489701d5b14f116246533a00b764"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/07-native_edit.json",
+          "sha256": "ea19a830cd01aa355d9ee864266fc7fe8d91ee36c30b7e7cd3e33aa123f948b7"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/07-native_edit_reject.json",
+          "sha256": "82f9391a93b0d3a3d9c4eef2ecc175f376dfd84d8837a208ebd7f4544ed1a3c6"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/edit-contract.json#/nodeEdits",
+      "reason": "Only fields and operation counts declared by the edit contract pass the native mutation boundary.",
+      "files": [
+        "figma-bridge/edit-contract.json",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/08-native_edit.json",
+          "sha256": "ae7bcb016ba32ae9a0fcb724e7205306b33008c56e67ec02a102f5bfbbf9343c"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/08-native_edit_reject.json",
+          "sha256": "0d8b49ba7c74983e881937ae51628f227407321cbff232e7dc4025dce5f1e3ff"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/foundation/fields",
+      "reason": "Foundation spacing, padding and fallback typography are derived from the registered native presentation fields.",
+      "files": [
+        "figma-bridge/foundation_palette.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/09-appearance.json",
+          "sha256": "3845c818966008e464fd32bef9dfb434f10d3811bc992a57ad31e454c01e80f2"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/09-native_controls.json",
+          "sha256": "ea419e63090c6679070c0874c961fc1b874e27b6b4b26122058de66fe11f4567"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/09-control_icon.json",
+          "sha256": "cab521436d1183f0d1921b64b8ceb3ba8f9b93afdd74490683ebe71cd553d966"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/importer/fields",
+      "reason": "Import panel layout defaults are graph-projected into the offline Figma import source.",
+      "files": [
+        "figma-bridge/code.js",
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/10-appearance.json",
+          "sha256": "3a0e455809d047379609398a021f69220761f9bdff773a284df4b8b8d045dfc1"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/10-figma_bridge.json",
+          "sha256": "346b12705c459be85cb9f5b5095b048c819f63ecf12573beda1a1760d20a5ae5"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules/chatInput/fields",
+      "reason": "The native chat host message limits and textarea properties read the explicitly referenced chat input source.",
+      "files": [
+        "figma-bridge/chat-input.json",
+        "figma-bridge/presentation.json",
+        "figma-bridge/workspace_chat.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/11-appearance.json",
+          "sha256": "89615842e5125c77756e4910e438ab9a56422f065f0feece0ee57cd90dd990c3"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/11-chat_host.json",
+          "sha256": "6ee84bbf981d4d19991ec27846cf90c1f964da9be883d42a846477ce53357388"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/11-standalone.json",
+          "sha256": "0acf72f40c4616992744d1a70967134a6c6214013f6a614d4cca605541727c5f"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/chat-input.json#/message",
+      "reason": "Both the native request-length comparator and rendered legacy textarea row/character limits use the message fields.",
+      "files": [
+        "figma-bridge/chat-input.json",
+        "figma-bridge/workspace_chat.html",
+        "figma-bridge/workspace_chat.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/12-chat_host.json",
+          "sha256": "f9e37ddf4eb31cf8315d21f4831189d4b1da5953e94f2590dc2853a8556e8537"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/12-standalone.json",
+          "sha256": "7c0a592dcb294ddcc507a5957eb449b4a8e89fba85485d67352c7f78a3ddfe30"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/chat-input.json#/preview",
+      "reason": "The native preview textarea row count uses the separately declared preview field.",
+      "files": [
+        "figma-bridge/chat-input.json",
+        "figma-bridge/workspace_chat.html"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/13-standalone.json",
+          "sha256": "f7b43e6d7c10a3f47e65ac51db723944caeacd21e327fce6a6f0c1d4307e5f4f"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/standalone-views.json#/views/import/css",
+      "reason": "Import-view CSS values are projected from the import-specific field set and shared panel tokens.",
+      "files": [
+        "figma-bridge/standalone-views.json",
+        "figma-bridge/ui.html"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/14-standalone.json",
+          "sha256": "0b81462e1a212d3c3037d9f067bc880ac6fbececec56f9959cab75c5aed3ee15"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/standalone-views.json#/views/graph/css",
+      "reason": "Graph-view scalar CSS values and its responsive breakpoint are projected from the graph view field set.",
+      "files": [
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/standalone-views.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/15-standalone.json",
+          "sha256": "a94cdf9572e9c3cfd68e0cbaabc20213f0a5bc3d4ec44c23a7c270c7e9fbd166"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/15-graph_catalog.json",
+          "sha256": "868d8800e5825d59bd1dacfc2946359e6b27e9de959b252b3584867644bd0adb"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/standalone-views.json#/views/chat/css",
+      "reason": "Chat-view CSS uses explicit graph tokens while its textarea controls use the shared chat input contract.",
+      "files": [
+        "figma-bridge/standalone-views.json",
+        "figma-bridge/workspace_chat.html"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/16-standalone.json",
+          "sha256": "0be64a98a97acab305cf18f89cf3e922e6ed238e16ee7e99d19cd4ac095610c4"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/standalone-views.json#/views/workspace/css",
+      "reason": "Workspace home dimensions and responsive breakpoints project from the workspace view field set.",
+      "files": [
+        "figma-bridge/standalone-views.json",
+        "figma-bridge/workspace_home.html"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/17-standalone.json",
+          "sha256": "bf701fea1045aba4d95d1e00abfbfd47b19a3b47d459b87a8d8252ef1f5e0c16"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/17-host_locale.json",
+          "sha256": "58f46e314206ec8b4af62de006e81fed6006ee0f2d2c444133b96b33a13af508"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/17-workspace_case.json",
+          "sha256": "afd1bc58a7082758dbbc293b52a9c980ae04084fab2afd90e8777494c0f8f7a5"
+        }
+      ]
+    },
+    {
+      "authority": "library/component-families.json#/families",
+      "reason": "Family IDs and canonical variants compile into the native runtime and are exercised through a mutated family graph.",
+      "files": [
+        "figma-bridge/native_provision.js",
+        "figma-bridge/semantic_components.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/18-family.json",
+          "sha256": "5a51ffc0dfc11ecdf4553dc576bba86fe31be27d631e1167827444bf86eba9f1"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/18-cta.json",
+          "sha256": "15f324b259bbc993d469590bbe42fa476a206e97ed100032f056a90b5b26ae95"
+        }
+      ]
+    },
+    {
+      "authority": "library/component-families.json#/native",
+      "reason": "Native family layout follows the graph-owned native workbench definition.",
+      "files": [
+        "figma-bridge/semantic_components.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/19-family.json",
+          "sha256": "f3239dfc9f3bad17b5c9cf4e3a6bcebb3b0765ad086a3489e440c9d51a336024"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/19-control_icon.json",
+          "sha256": "200b49f2b9416cee65a659f44f20ec89e5c2289745b55dcdb68e134286b9bd32"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/native-windows.json#/windows",
+      "reason": "Every Figma showUI call receives the exact candidate window size/theme options at runtime.",
+      "files": [
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/native_api_fixture.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/20-window.json",
+          "sha256": "0795c40f54c83b8d070fa445bab5d6bc45e8179a2323d2dbc2afda8a046c7345"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/20-host_profile.json",
+          "sha256": "505027af089bbd04b59f4d9789ff48c89e73289fc9d72263120c28cf910efc82"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/native-windows.json#/bindings",
+      "reason": "The native window graph lists every and only registered showUI call site.",
+      "files": [
+        "figma-bridge/code.js",
+        "figma-bridge/direction_review.js",
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/native_api_fixture.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/21-window.json",
+          "sha256": "885efd02e6b647adf540b300ba54966931d509b586257aee83dc18632bba1d33"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/policy.json#/taskOperations",
+      "reason": "Host operations are admitted from the per-task operation matrix and rechecked before write dispatch.",
+      "files": [
+        "figma-bridge/profile_policy.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "figma-bridge/workspace_profile.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/22-host_profile.json",
+          "sha256": "7f65a7cf8d4451298a3a4a77d11a2c2064c472bb8664d16329efc24d9f378b2c"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/22-host_scope.json",
+          "sha256": "1d1c3bb3f237110370af01b530c5af984f862beb06be903ffb2a000ffcd7acea"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/22-control_native.json",
+          "sha256": "6fb0f7cc663597073310581ffcdab7a43fcb72e360d4bbe947684adea8ee41f2"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/policy.json#/contextFields",
+      "reason": "Published profile context is limited to the declared safe fields and remains scoped to user/file.",
+      "files": [
+        "figma-bridge/profile_policy.js",
+        "figma-bridge/workspace_host.js",
+        "figma-bridge/workspace_profile.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/23-host_profile.json",
+          "sha256": "a30ee97ff9b249dc76b7c99065f5195c905341ccd5e3b68bab448d472ca2df7d"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/23-workspace_case.json",
+          "sha256": "5cdd1564bd66865d3ba030a79a06881b6eb79a036903b8227d12d311c203e380"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/policy.json#/controlTransport",
+      "reason": "Request and result size limits and routing come from the single shared transport policy.",
+      "files": [
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "figma-bridge/workspace_transport.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/24-transport.json",
+          "sha256": "7318798dc52cc232618dd881c1f39ddaf679f58aa498dff2d7fccfb1d0353894"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/24-control_relay.json",
+          "sha256": "8ccbdeefa6db81a8b8fab70647681e9839d6b7eab8293ae75fc5e1b04aa3f01b"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/read-limits.json#/maxNodes",
+      "reason": "Native reads, relay selection and measurement instrumentation share the canonical node budget.",
+      "files": [
+        "figma-bridge/native_read_measurement.js",
+        "figma-bridge/native_semantic_read.js",
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/25-host_relay.json",
+          "sha256": "b6cbd51f91f037e25c055aa725cd33df2351e16451753d23274dadc8a4ff4685"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/25-read_measure.json",
+          "sha256": "308ed197eb5ed60415e2cf7e79b4b800c3ec1421c730851fd1ea96aacd31f0b6"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/25-read_getters.json",
+          "sha256": "2634323e0ef7ea706bce4e16627d7e5f6fa31c040e3bd4c333513c03236fb3c2"
+        }
+      ]
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes/20",
+      "reason": "Activity states, exclusions and recorded operations are derived from the workspace activity contract.",
+      "files": [
+        "figma-bridge/audit_log.js",
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/26-host_locale.json",
+          "sha256": "0c8eed099f0cb7881fd19048e8077b8915ac22029681cb49483c5b9a6db6f322"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/26-changes.json",
+          "sha256": "10156ed905918a00103c5c8dfbaccda0f01a84c2a8eb2ac08a8b92eea3871134"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/26-audit_log.json",
+          "sha256": "9ef46bc3510f0b9883a6319094a25ea18c9449348342d84250ccd0ffa2402673"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes/2",
+      "reason": "Read-only operation detail states, relation directions, reason codes and caps derive from one shared contract.",
+      "files": [
+        "figma-bridge/audit_log.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/27-host_scope.json",
+          "sha256": "4f25997127bec2a46a4b5cd9fc936de1706fe0ebc81a13ce9cec4c1aa746ee04"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/27-control_native.json",
+          "sha256": "781e76f2261940d81a9c82028026a778beb87002f13929e659e3c2ec00fe9fa3"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/27-audit_log.json",
+          "sha256": "c96b665d8d51a8cc35ed39849505d08dda982d589e1cdf2ab741ef1a474b76e8"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes/0",
+      "reason": "Native history dependency artifacts and directions use the shared dependency contract.",
+      "files": [
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/28-host_relay.json",
+          "sha256": "b08aeb28cebad72116d7226db165cb5c4e82a6090c9ed142e19bac5dbd4f0858"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/28-control_native.json",
+          "sha256": "2d9814262557699a410fd55523947e4c60bb0d3e82069774affdaade3f8d962a"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/contracts.json#/nodes/3",
+      "reason": "New native chat frames carry stable error codes; existing Korean diagnostics remain backward-compatible.",
+      "files": [
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/29-chat_host.json",
+          "sha256": "7593bf1a1ad5e5547847ae6cb66b6a5297aeceaf16f0fde00b45ea3353edffb7"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/29-standalone.json",
+          "sha256": "57b033e3fbe373e6d0138354e68933fd276b6b7d86d704c1420987324c812ec7"
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "reason": "Relay task scope and current state are interpreted through the Codex relay graph.",
+      "files": [
+        "figma-bridge/relay_recipe.js",
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/30-host_relay.json",
+          "sha256": "b861444f86ae4b5a5af130b642ed7361a2cd448b3be1af01b152b0382bb7be51"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/30-control_relay.json",
+          "sha256": "19f977617339389d97126c938fade703cb0de71caef01784cec393ea2b9b98dc"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/30-workspace_case.json",
+          "sha256": "161bf6068549c10f66dcd98a46bea061e7dc6c81477c86a677eb4a5f0af9eaf8"
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/parity-inventory.json#/items",
+      "reason": "Relay view behavior remains aligned to the selected parity inventory and is checked at narrow/card widths.",
+      "files": [
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/31-relay_alignment.json",
+          "sha256": "74b7bf1472751555c82cf91104dcfd443e24743462ccb24cbcb1bf521cea8b1c"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/31-host_relay.json",
+          "sha256": "bfa6e1ad4c8e01569b8bc82ced6655e769662ea071d7b5d60dcdd584a262e214"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-api/source.json#/files",
+      "reason": "Native API fixture and probe methods stay within the pinned source inventory.",
+      "files": [
+        "figma-bridge/native_api_fixture.js",
+        "figma-bridge/native_api_probe.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/32-api_probe.json",
+          "sha256": "e7b4598f66a22ee5dcf6f22ba7753ee2cb29dc996526e9c496cc6beb6fe0d61d"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/32-api_fixture.json",
+          "sha256": "ed556fff98e5edb2e5c23ad30b8e27d6e4868d4f1b7a860e73180bc7cf2d74b2"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "reason": "Only manifest-declared static recipe actions enter the native menu.",
+      "files": [
+        "figma-bridge/relay_recipe.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/33-workspace_recipes.json",
+          "sha256": "bdfb2d3119be2cdd21b23c28dd30f6ae22361240b5359eda5f00b9c3974c0d62"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "Native token authoring is tied to the registered graph roots and scoped consumer topology.",
+      "files": [
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/semantic_tokens.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/34-token_sync.json",
+          "sha256": "b505bb38f5a10769b0961e5fdb4ddb8609474a28a735cde46d1a538e2a32b350"
+        }
+      ]
+    },
+    {
+      "authority": "apps/little-hands/design/tokens.json#/spacing_px",
+      "reason": "Figma token authoring and native CTA binding use the authored Design token values.",
+      "files": [
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/native_provision.js",
+        "figma-bridge/semantic_tokens.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/35-token_sync.json",
+          "sha256": "9626208cf6828af56664fed892821d82478dc963c9869fb904f748f76acfbe2f"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/35-cta.json",
+          "sha256": "aa7a4903d3ea1490b226c1b4faace4954d96ff6a496a4683bb8833c7671396e9"
+        }
+      ]
+    },
+    {
+      "authority": "specs/design-specialization/graph.json#/nodes",
+      "reason": "Design-specialization requirements and native annotation source identities follow the specification graph.",
+      "files": [
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/native_annotations.js",
+        "figma-bridge/native_specifications.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/36-notes.json",
+          "sha256": "de29d36c907827a17c56cf9d689a9cec76da4d273b33925dc2de98a11b4da4ed"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/36-native_handoff.json",
+          "sha256": "d50195f3d564e1c9acd320c5981fe49453dd6e6d92b3ee04444df7cbd5ef02c6"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes",
+      "reason": "Graph-review board content preserves its requirement, screen and value observations.",
+      "files": [
+        "figma-bridge/design_note_board.js",
+        "figma-bridge/native_graph_review.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/37-graph_board.json",
+          "sha256": "4dd1c90a0ad776fa6c2f771a68d9ab30f59b0507e3e1e7f322ec6e1d71ce5f55"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/37-graph_card.json",
+          "sha256": "3097bd502da63dd70c6304e935f98ab7bc641b1a553852e0535a9f489e67fbb0"
+        }
+      ]
+    },
+    {
+      "authority": "skills/figma-flow/references/graph-contract.md#/sections/Evidence graph contract",
+      "reason": "Bridge usage and native direction review follow the documented evidence graph contract.",
+      "files": [
+        "figma-bridge/README.md",
+        "figma-bridge/direction_review.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/38-design_graph.json",
+          "sha256": "101cbb3eb2b9409a7a0e7c4ef85831b37f23983f961f4c5d8dfe964ac8f6ffc7"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/38-direction.json",
+          "sha256": "1a7ff7fc260c8dfe760aed266fdf50cd20e2ab179ff73ba6e820a031c778d88b"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "reason": "Standalone panel routes and locale codes use the shared view graph; the runtime consumes complete locale catalogs.",
+      "files": [
+        "figma-bridge/locales/chat.json",
+        "figma-bridge/locales/common.json",
+        "figma-bridge/locales/graph.json",
+        "figma-bridge/locales/import.json",
+        "figma-bridge/locales/relay.json",
+        "figma-bridge/locales/review.json",
+        "figma-bridge/locales/workspace.json",
+        "figma-bridge/panel_components.js",
+        "figma-bridge/panel_i18n.js",
+        "figma-bridge/ui.html"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/39-panel_components.json",
+          "sha256": "ef148d90942dce156fc52ba2415a0a20c52b14ba74248cc003f5101be7388052"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/39-panel_locale.json",
+          "sha256": "b74780ce8d330a4fbcddae4fb3b6914919d7c5eb6f55bb7e73b1b5c737c61b6f"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/39-standalone.json",
+          "sha256": "53962ec99bb3f8a86c376863836a34a5b39155266ef697e853245b1876879f4f"
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/tokens.json#/tokens",
+      "reason": "All view templates receive the same graph-generated shell and token palette, while per-view CSS values are separately graph-owned.",
+      "files": [
+        "figma-bridge/graph-panel.html",
+        "figma-bridge/panel_components.js",
+        "figma-bridge/ui.html",
+        "figma-bridge/workspace_chat.html",
+        "figma-bridge/workspace_home.html"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/40-panel_components.json",
+          "sha256": "cd2573664fadb6692bcd19feaddf6f8943cb244684ce38f600b07ce07c2418b9"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/40-standalone.json",
+          "sha256": "9ba42d4a56eb98e028ed4caf36082ff0b99b9f19de35c7d0c6612d6896f243a6"
+        }
+      ]
+    },
+    {
+      "authority": "figma-bridge/presentation.json#/modules",
+      "reason": "The presentation graph registers each standalone helper source, symbol and field reference.",
+      "files": [
+        "figma-bridge/presentation.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/41-appearance.json",
+          "sha256": "0dd2bc825ef20708b43fddbccb97fb5d2b088da6f55d94c9af46f41f145e7648"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/41-standalone.json",
+          "sha256": "9a251860bdd5f1d6bfc29054132e2e19c333d27d8405fd8766c547205fe3857c"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
+      "reason": "Workspace change listeners expose only declared NodeChangeProperty fields and retire events on acknowledgements.",
+      "files": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/42-changes.json",
+          "sha256": "397539130130568ffbb34d7dbe88ac4cfa62d472824bcc0edc234173acda98bf"
+        },
+        {
+          "path": "release/reviews/evidence/design-host/42-workspace_case.json",
+          "sha256": "99a7ad3cedf6c1030fb5874c685ff8d341e730a2d389fc177f3182c3cbec118e"
+        }
+      ]
+    },
+    {
+      "authority": "apps/little-hands/design/tokens.json#/colors",
+      "reason": "Authored color values for native graph token sync are read from the Design token graph.",
+      "files": [
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/semantic_tokens.js"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/design-host/app-colors.json",
+          "sha256": "a22ce8a79ed21e0c73469234a6e65edd7dd6e22174581d61aa28de0f45d0f196"
+        }
+      ]
+    }
+  ],
+  "scopeLimit": "The Figma plugin host itself was not executed. Native edit, graph review, CTA, host dispatch and note-board flows were exercised in VM fixtures; standalone templates were rendered in installed Chromium with synthetic host messages.",
+  "verification": [
+    {
+      "command": "python3 -B -m unittest tests.test_family_authority tests.test_native_window_authority tests.test_control_transport_authority tests.test_native_appearance_authority",
+      "result": "4 graph mutation/authority tests passed on the current source freeze."
+    },
+    {
+      "command": "node --test tests/test_native_graph_review.cjs tests/test_native_specification_update.cjs tests/test_native_provision.cjs tests/test_native_edit.cjs tests/test_web_design.cjs tests/test_workspace_host.cjs tests/test_workspace_control.cjs tests/test_workspace_chat.cjs tests/test_graph_token_sync.cjs tests/test_workspace_changes.cjs tests/test_native_control_alignment.cjs tests/test_native_control_icons.cjs tests/test_native_control_transparency.cjs tests/test_native_value_paths.cjs tests/test_native_runtime_version.cjs tests/test_standalone_view_authority.cjs",
+      "result": "Current source-focused VM/native/browser suites passed on pinned Node 26.13.0; complete output retained in the agent run."
+    },
+    {
+      "command": "python3 -B tools/native_appearance.py; python3 -B tools/native_windows.py; python3 -B tools/component_family_contract.py; python3 -B tools/runtime_authority.py",
+      "result": "All projection and runtime authority checks passed."
+    },
+    {
+      "command": "archive-like tree without node_modules: authority mutation tests + native VM behavior + standalone browser mutation witness",
+      "result": "Pending final run."
+    }
+  ]
+}

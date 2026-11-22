@@ -1,0 +1,19 @@
+{
+  "schema": "figma-flow-major-review-witness-v1",
+  "surfaceFingerprint": "26ded7990bfc60673587c28327cee091c74db7aa140da0bf1fbe70244ec4d781",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_library_release_witness.py",
+      "case": "LibraryReleaseWitnessTests.test_upstream_api_pins_and_rest_projection_are_offline_and_deterministic",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "authority": "library/figma-rest/README.md#/sections/Pinned Figma REST API inventory",
+      "covers": [
+        "library/figma-rest/README.md",
+        "library/figma-rest/requirements.txt"
+      ],
+      "assertion": "Checks the source README commands, exact PyYAML pin, deterministic build and non-execution/credential boundary.",
+      "observed": "PyYAML==6.0.2; REST search/template generation is local and does not send HTTP requests."
+    }
+  ]
+}
