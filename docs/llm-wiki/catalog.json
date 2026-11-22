@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "1.0.0",
     "0.36.0",
     "0.35.0",
     "0.34.0",
@@ -15550,6 +15551,425 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "a0f29043828a479f6d0accc439bf6b27ea033934",
+      "diff_sha256": "c2d0d10491854efe3f7d1703ef38312cd8b7d1bb7246b22755ef37b48fc9e188",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/7842f505eba1676e9151eaf2550086b2fac9175c.md",
+        "docs/llm-wiki/patches/84b0088da504951b07d75fa410fe9e3772fede69.md",
+        "docs/llm-wiki/patches/9c07221d0b2c3f459222a5819c36f5a715b8e6b8.md",
+        "docs/llm-wiki/patches/b9f440fb0fd4d16dce800cd10813e16d39ce4c07.md",
+        "docs/llm-wiki/patches/cab5eae313363aa116816b0afc79673f7ffb54fe.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "b9f440fb0fd4d16dce800cd10813e16d39ce4c07"
+      ],
+      "subject": "docs: record the Little Hands MySQL migration and validation",
+      "tree": "faa5492c951d636e20958276a5e7da1bc30d278a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "a1ede2a37a03f631dbad93047488031f661a29ca",
+      "diff_sha256": "dbed9e563bd374fdb4c19a63a806d5151c943823eaf6b15847fcc713afbc5be7",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/7842f505eba1676e9151eaf2550086b2fac9175c.md",
+        "docs/llm-wiki/patches/9c07221d0b2c3f459222a5819c36f5a715b8e6b8.md"
+      ],
+      "parents": [
+        "a0f29043828a479f6d0accc439bf6b27ea033934"
+      ],
+      "subject": "docs: repair verification cross-links",
+      "tree": "44fa6198a53b2ae4681e88d8ed7efa4d5563b321",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "1c930384e7a8be27a505619c967bcdfd5ea850ba",
+      "diff_sha256": "6da0869fa63aa6293c9d1cc31d56d44cac7bc148b7d260ff884b39da2d2199e0",
+      "files": [
+        "apps/little-hands/README.md",
+        "apps/little-hands/booking/migrations/0002_immutable_records.py",
+        "apps/little-hands/booking/tests/test_booking.py",
+        "apps/little-hands/config/settings.py",
+        "tests/test_booking_database_release.py"
+      ],
+      "parents": [
+        "a1ede2a37a03f631dbad93047488031f661a29ca"
+      ],
+      "subject": "fix: verify concurrent bookings on an existing MySQL server",
+      "tree": "781bcf007db3ea71a190618bdbbce488b26bf863",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "9d0a6350d382e3a3e0e4b947f9196c33accb9d05",
+      "diff_sha256": "7bb3157df386a4f5dc425e96f2393c81945b31a0d55cb1d0405310bcf564b372",
+      "files": [
+        "release/reviews/application.json",
+        "release/reviews/evidence/application/1.json",
+        "release/reviews/evidence/application/10.json",
+        "release/reviews/evidence/application/11.json",
+        "release/reviews/evidence/application/12.json",
+        "release/reviews/evidence/application/13.json",
+        "release/reviews/evidence/application/14.json",
+        "release/reviews/evidence/application/15.json",
+        "release/reviews/evidence/application/16.json",
+        "release/reviews/evidence/application/17.json",
+        "release/reviews/evidence/application/2.json",
+        "release/reviews/evidence/application/3.json",
+        "release/reviews/evidence/application/4.json",
+        "release/reviews/evidence/application/5.json",
+        "release/reviews/evidence/application/6.json",
+        "release/reviews/evidence/application/7.json",
+        "release/reviews/evidence/application/8.json",
+        "release/reviews/evidence/application/9.json",
+        "release/reviews/evidence/mysql-existing/application-1.json"
+      ],
+      "parents": [
+        "1c930384e7a8be27a505619c967bcdfd5ea850ba"
+      ],
+      "subject": "verify: record existing-MySQL application acceptance",
+      "tree": "88966f3e528a407ae989785f386e16dedce1c28b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "68ddd16ec9c5fe7d8655641f4761327c4e5bb664",
+      "diff_sha256": "f2fdcf133324fcd424e3b2d8e92b86572d34b885f002728e7340cabb5fb9fe9f",
+      "files": [
+        "apps/little-hands/README.md"
+      ],
+      "parents": [
+        "9d0a6350d382e3a3e0e4b947f9196c33accb9d05"
+      ],
+      "subject": "docs: document MySQL trigger installer privileges",
+      "tree": "705a244a8c45e47b7df0270539484a2b7028c93e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "80e8cf9ea1c9569f24455ffef3688d90d2d544d2",
+      "diff_sha256": "e09b7f2035dbcb1616bb288bf73dd16854a46d044e0c6c0305d6390fa571010e",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "plugin.json",
+        "release/reviews/delivery.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/guides/001.json",
+        "release/reviews/evidence/guides/002.json",
+        "release/reviews/evidence/guides/003.json",
+        "release/reviews/evidence/guides/004.json",
+        "release/reviews/evidence/guides/005.json",
+        "release/reviews/evidence/guides/006.json",
+        "release/reviews/evidence/guides/007.json",
+        "release/reviews/evidence/guides/008.json",
+        "release/reviews/evidence/guides/009.json",
+        "release/reviews/evidence/guides/010.json",
+        "release/reviews/evidence/guides/011.json",
+        "release/reviews/evidence/guides/012.json",
+        "release/reviews/evidence/guides/013.json",
+        "release/reviews/evidence/guides/014.json",
+        "release/reviews/evidence/guides/015.json",
+        "release/reviews/evidence/guides/016.json",
+        "release/reviews/evidence/guides/017.json",
+        "release/reviews/evidence/guides/018.json",
+        "release/reviews/evidence/guides/019.json",
+        "release/reviews/evidence/guides/020.json",
+        "release/reviews/evidence/guides/021.json",
+        "release/reviews/evidence/guides/022.json",
+        "release/reviews/evidence/guides/023.json",
+        "release/reviews/evidence/guides/024.json",
+        "release/reviews/evidence/guides/025.json",
+        "release/reviews/evidence/guides/026.json",
+        "release/reviews/evidence/guides/027.json",
+        "release/reviews/evidence/guides/028.json",
+        "release/reviews/evidence/guides/029.json",
+        "release/reviews/evidence/guides/030.json",
+        "release/reviews/evidence/guides/031.json",
+        "release/reviews/evidence/guides/032.json",
+        "release/reviews/evidence/guides/033.json",
+        "release/reviews/evidence/guides/034.json",
+        "release/reviews/evidence/guides/035.json",
+        "release/reviews/evidence/guides/036.json",
+        "release/reviews/evidence/guides/037.json",
+        "release/reviews/evidence/guides/038.json",
+        "release/reviews/evidence/guides/039.json",
+        "release/reviews/evidence/guides/040.json",
+        "release/reviews/evidence/guides/041.json",
+        "release/reviews/evidence/guides/042.json",
+        "release/reviews/evidence/guides/043.json",
+        "release/reviews/evidence/guides/044.json",
+        "release/reviews/evidence/guides/045.json",
+        "release/reviews/evidence/guides/046.json",
+        "release/reviews/evidence/guides/047.json",
+        "release/reviews/evidence/guides/048.json",
+        "release/reviews/evidence/guides/049.json",
+        "release/reviews/evidence/guides/050.json",
+        "release/reviews/evidence/guides/051.json",
+        "release/reviews/evidence/guides/052.json",
+        "release/reviews/evidence/guides/053.json",
+        "release/reviews/evidence/guides/054.json",
+        "release/reviews/evidence/guides/055.json",
+        "release/reviews/evidence/guides/056.json",
+        "release/reviews/evidence/guides/057.json",
+        "release/reviews/evidence/guides/058.json",
+        "release/reviews/evidence/guides/059.json",
+        "release/reviews/evidence/guides/060.json",
+        "release/reviews/evidence/guides/061.json",
+        "release/reviews/evidence/guides/062.json",
+        "release/reviews/evidence/guides/063.json",
+        "release/reviews/evidence/guides/064.json",
+        "release/reviews/evidence/guides/065.json",
+        "release/reviews/evidence/guides/066.json",
+        "release/reviews/evidence/guides/067.json",
+        "release/reviews/evidence/guides/068.json",
+        "release/reviews/evidence/guides/069.json",
+        "release/reviews/evidence/guides/070.json",
+        "release/reviews/evidence/guides/071.json",
+        "release/reviews/evidence/guides/072.json",
+        "release/reviews/evidence/guides/073.json",
+        "release/reviews/evidence/guides/074.json",
+        "release/reviews/evidence/guides/075.json",
+        "release/reviews/evidence/guides/076.json",
+        "release/reviews/evidence/guides/077.json",
+        "release/reviews/evidence/guides/078.json",
+        "release/reviews/evidence/guides/079.json",
+        "release/reviews/evidence/guides/080.json",
+        "release/reviews/evidence/guides/081.json",
+        "release/reviews/evidence/guides/082.json",
+        "release/reviews/evidence/guides/083.json",
+        "release/reviews/evidence/guides/084.json",
+        "release/reviews/evidence/guides/085.json",
+        "release/reviews/evidence/guides/086.json",
+        "release/reviews/evidence/guides/087.json",
+        "release/reviews/evidence/guides/088.json",
+        "release/reviews/evidence/guides/089.json",
+        "release/reviews/evidence/guides/090.json",
+        "release/reviews/evidence/guides/091.json",
+        "release/reviews/evidence/guides/092.json",
+        "release/reviews/evidence/guides/093.json",
+        "release/reviews/evidence/guides/094.json",
+        "release/reviews/evidence/guides/095.json",
+        "release/reviews/evidence/guides/096.json",
+        "release/reviews/evidence/guides/097.json",
+        "release/reviews/evidence/guides/098.json",
+        "release/reviews/evidence/guides/099.json",
+        "release/reviews/evidence/guides/100.json",
+        "release/reviews/evidence/guides/101.json",
+        "release/reviews/evidence/guides/102.json",
+        "release/reviews/evidence/guides/103.json",
+        "release/reviews/evidence/guides/104.json",
+        "release/reviews/evidence/guides/105.json",
+        "release/reviews/evidence/guides/106.json",
+        "release/reviews/evidence/guides/107.json",
+        "release/reviews/evidence/guides/108.json",
+        "release/reviews/evidence/guides/109.json",
+        "release/reviews/evidence/guides/110.json",
+        "release/reviews/evidence/guides/111.json",
+        "release/reviews/evidence/guides/112.json",
+        "release/reviews/evidence/guides/113.json",
+        "release/reviews/evidence/guides/114.json",
+        "release/reviews/evidence/guides/115.json",
+        "release/reviews/evidence/guides/116.json",
+        "release/reviews/evidence/guides/117.json",
+        "release/reviews/evidence/guides/118.json",
+        "release/reviews/evidence/guides/119.json",
+        "release/reviews/evidence/guides/120.json",
+        "release/reviews/evidence/guides/121.json",
+        "release/reviews/evidence/guides/122.json",
+        "release/reviews/evidence/guides/123.json",
+        "release/reviews/evidence/guides/124.json",
+        "release/reviews/evidence/guides/125.json",
+        "release/reviews/evidence/guides/126.json",
+        "release/reviews/evidence/guides/127.json",
+        "release/reviews/evidence/guides/128.json",
+        "release/reviews/evidence/guides/129.json",
+        "release/reviews/evidence/guides/130.json",
+        "release/reviews/evidence/guides/131.json",
+        "release/reviews/evidence/guides/132.json",
+        "release/reviews/evidence/guides/133.json",
+        "release/reviews/evidence/guides/134.json",
+        "release/reviews/evidence/guides/135.json",
+        "release/reviews/evidence/guides/136.json",
+        "release/reviews/evidence/guides/137.json",
+        "release/reviews/evidence/guides/138.json",
+        "release/reviews/evidence/guides/139.json",
+        "release/reviews/evidence/guides/140.json",
+        "release/reviews/evidence/guides/141.json",
+        "release/reviews/evidence/guides/142.json",
+        "release/reviews/evidence/guides/143.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance-retention/guides-1.json",
+        "release/reviews/evidence/maintenance-retention/guides-2.json",
+        "release/reviews/evidence/maintenance-retention/tooling-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-2.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/maintenance/guides-1.json",
+        "release/reviews/evidence/maintenance/tooling-1.json",
+        "release/reviews/evidence/maintenance/tooling-2.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json",
+        "release/reviews/evidence/mysql-example/tooling-1.json",
+        "release/reviews/evidence/tooling/1.json",
+        "release/reviews/evidence/tooling/10.json",
+        "release/reviews/evidence/tooling/11.json",
+        "release/reviews/evidence/tooling/12.json",
+        "release/reviews/evidence/tooling/13.json",
+        "release/reviews/evidence/tooling/14.json",
+        "release/reviews/evidence/tooling/15.json",
+        "release/reviews/evidence/tooling/16.json",
+        "release/reviews/evidence/tooling/17.json",
+        "release/reviews/evidence/tooling/18.json",
+        "release/reviews/evidence/tooling/19.json",
+        "release/reviews/evidence/tooling/2.json",
+        "release/reviews/evidence/tooling/20.json",
+        "release/reviews/evidence/tooling/21.json",
+        "release/reviews/evidence/tooling/22.json",
+        "release/reviews/evidence/tooling/23.json",
+        "release/reviews/evidence/tooling/24.json",
+        "release/reviews/evidence/tooling/25.json",
+        "release/reviews/evidence/tooling/26.json",
+        "release/reviews/evidence/tooling/27.json",
+        "release/reviews/evidence/tooling/28.json",
+        "release/reviews/evidence/tooling/29.json",
+        "release/reviews/evidence/tooling/3.json",
+        "release/reviews/evidence/tooling/30.json",
+        "release/reviews/evidence/tooling/31.json",
+        "release/reviews/evidence/tooling/32.json",
+        "release/reviews/evidence/tooling/33.json",
+        "release/reviews/evidence/tooling/34.json",
+        "release/reviews/evidence/tooling/35.json",
+        "release/reviews/evidence/tooling/36.json",
+        "release/reviews/evidence/tooling/37.json",
+        "release/reviews/evidence/tooling/38.json",
+        "release/reviews/evidence/tooling/39.json",
+        "release/reviews/evidence/tooling/4.json",
+        "release/reviews/evidence/tooling/40.json",
+        "release/reviews/evidence/tooling/41.json",
+        "release/reviews/evidence/tooling/42.json",
+        "release/reviews/evidence/tooling/43.json",
+        "release/reviews/evidence/tooling/44.json",
+        "release/reviews/evidence/tooling/5.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/evidence/tooling/7.json",
+        "release/reviews/evidence/tooling/8.json",
+        "release/reviews/evidence/tooling/9.json",
+        "release/reviews/guides.json",
+        "release/reviews/tooling.json"
+      ],
+      "parents": [
+        "68ddd16ec9c5fe7d8655641f4761327c4e5bb664"
+      ],
+      "subject": "release: prepare Figma Flow 1.0.0",
+      "tree": "523fabaf1a2c4accf828c35aff43285a96127c40",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "0f4761e270a554324fbb29831d232e8564ad6ad2",
+      "diff_sha256": "d0968d346ccc54e503b867acc0c97e118dc63bb07344e4fe78041b0c0835349c",
+      "files": [
+        "release/reviews/application.json",
+        "release/reviews/evidence/application/1.json",
+        "release/reviews/evidence/application/10.json",
+        "release/reviews/evidence/application/11.json",
+        "release/reviews/evidence/application/12.json",
+        "release/reviews/evidence/application/13.json",
+        "release/reviews/evidence/application/14.json",
+        "release/reviews/evidence/application/15.json",
+        "release/reviews/evidence/application/16.json",
+        "release/reviews/evidence/application/17.json",
+        "release/reviews/evidence/application/2.json",
+        "release/reviews/evidence/application/3.json",
+        "release/reviews/evidence/application/4.json",
+        "release/reviews/evidence/application/5.json",
+        "release/reviews/evidence/application/6.json",
+        "release/reviews/evidence/application/7.json",
+        "release/reviews/evidence/application/8.json",
+        "release/reviews/evidence/application/9.json",
+        "release/reviews/evidence/mysql-existing/application-1.json"
+      ],
+      "parents": [
+        "80e8cf9ea1c9569f24455ffef3688d90d2d544d2"
+      ],
+      "subject": "verify: attach MySQL installer privilege evidence",
+      "tree": "8728cef3b1d2d13351bda0409f3685aae0ff1522",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -15576,6 +15996,7 @@
     "0cf1823f9225b694b40961f2b6fb5d6eaa79834c": "fa2b919c9277a10c3eb30ed75c61256da3c8c215b241bc189a72082bd3c68e76",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ef8fe7126290ba10bd7ffe511e455d027226f74": "53e97298a0b490e017649b15a7ed501294917b0f4ae9d3bca8b59967456a93ca",
+    "0f4761e270a554324fbb29831d232e8564ad6ad2": "6b639d8232b4cf666e65dcbf222bb5fcf2ab3763fd75ddc4ca4e645b90f02a4b",
     "0fc65bae7c72d818abfb8ec27d6cd309f67e43f2": "d80a327d7a0eb98c16c33bcdf5b333cbffaec1fd505363485d4326470f4e5bb8",
     "0fe5cd7179481a2d93cdefff1b3992ad56944754": "e111b1da18292fceb240e7099aa7680ab94349bfc7e6e32907f58f2fe63b60ca",
     "0ff91654bd6867c816292a9fbac8561d474644d8": "1fcd820b9d88ca33bf28789793fd21b85d52e5dac4b8db4cc0eccd7f478605c3",
@@ -15601,6 +16022,7 @@
     "1c58e3a92b867fdd37dee6c8255a0d90f6a600e6": "cdbfdfd8e2233b0216997e9264a8f11a6aedcd1b8857dab8d894063da2cf203f",
     "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1c8427ecab93f02ea709faa09c00666dd27ae7ce": "0f5a2ba74f466b22ff9443df61dade1132da5eee159ca640b0248bedd0d28747",
+    "1c930384e7a8be27a505619c967bcdfd5ea850ba": "bceb1eed886f882812938e47d30fdd0b01287e363e2339b05cbad29a87b7c362",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
     "1d0b5c0f176dc089f82fd1100cecd13c90996fc8": "2acc241b5f4813c6167dad8cf945dffe4f4d07bd88df9b555b54538a41f161a9",
     "1dc4890d8e294dc30619b76e9aa4ca2e08dd79e5": "fe44998229f49bb280d38a93b2a4f37199eca8c301903c4ec52fd8bc4c5b41b8",
@@ -15741,6 +16163,7 @@
     "66278decfd7f49906bb32d75f71a0be70fafa7ee": "876ceebcc8296420027aee84f6224eb9b3083d92adf779b69b4a9158bfad6020",
     "674335b0a46d426723e32ab3cc98029b8b6e3744": "aafc966ba29b6010b357cca73160d9070fc6d1ecea6f9b012799d4d8ee0f164f",
     "68714bfb9b2b9ee88d3c2b663f4ba64469da23ba": "6c0d2ec9422f39fb562db554d66d4bed563d2b45ce9415bbf70dc269ba439c68",
+    "68ddd16ec9c5fe7d8655641f4761327c4e5bb664": "a6384255dcf71a45123e5476d367cc4a82e9254b3e416333144d7b45d9461326",
     "691080a3b319b9719dadc912c14022a93e2a13a6": "de392fe9563936d5a6f54cf037808ca27a8c1b530d17bd2e3c3abb11e12cc0c4",
     "6969e5dafccef185256c6f02f42b66b9f3636074": "d8dfbb991cd7e871d4c1080af6030e8bf2d65edef42953217912e8b5b433c0eb",
     "6a369fd95b67ef72f5674aeebde33b9366d26e54": "a3fe01b35a1c58a0c348016b25a6a28f81003fb6ee8bfb3afac1d74645d7420c",
@@ -15770,6 +16193,7 @@
     "7f37a138bae2b4c4977405352fab16f658dd03cf": "fb2031c9c4d9fcb775334bf5ef16c5441c6360268c479897dfb989fbd04c736b",
     "7f3dcace11483535593ed7a14bddd98314c4e785": "f7a6aeff19716693fb277d3e55574ca00699b709536b8f6483f30a8bcdfb6715",
     "80742c55590c46e85ca8289298abc0a58371a9a8": "c446cccd82c9fa35acfcd6885b96461f92ee0dd56a6eb3f46d92f7d1c41c8c15",
+    "80e8cf9ea1c9569f24455ffef3688d90d2d544d2": "77c5ecec2f545df888b1783a46dd992ab202912f4258f70b133a934d7e2a9430",
     "81f102ffec9bee7f7af20df9783e883b5b574b63": "eb5deced60add65d630eb2e3c0ba05a53d06fb3280e3e1afd23298593a5dbe4b",
     "838533671dfc10fad4fa59d75d6685d49d2a8892": "a6eca4ed61df3e8040c6e9ba984c4eb7988ef0c8ca595c85726a57f19404ada7",
     "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988": "ba173d8e2ea0d442205d290bc722610342be10bb3507ce1ad8f7a4f2694cd3dc",
@@ -15827,6 +16251,7 @@
     "9c9d5575eea6d883620407e591972c7e92cc244f": "b707929ad2d5c3aa87de7114e5e2b16f41fce5f17c11804acaf109b13f95f1b7",
     "9cc41a0c7ca53a233113fd45b86dc330907094fa": "0564b8353cdc3474fc21e05819915c2b89b9165e71a05c746cf4a3b5e9695353",
     "9cd119198eb7761fbb60fc23fa83b18b93ec0511": "67c7ea8e16ecfb38d8e50bc7ca534b197167589600bef65d34a64bab90cbf0ba",
+    "9d0a6350d382e3a3e0e4b947f9196c33accb9d05": "6e322030f990c9efb4318b1938eb3f3249b921bfa3ef2ddb9a4b729903f47b73",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9d7eb0288d3a60097bf958d8d77692e3e2df3979": "7295453001f7dbb037024ec63534f711904aa620263ff03b552ce4aa04d3da6d",
     "9e3968dfcdfa3bc01e887e64619b6a40094d498e": "a1eaf17821139af9f1d18b74567a3b700bc23e95c932c54e23fe6f4b9e0308f1",
@@ -15835,8 +16260,10 @@
     "9efb50c3e8106e47f2608202b681929512a507ff": "79ec343cdc945ea3da9fc036e4e6fee212722cbeff2face7dd1e9051cd1e8e9a",
     "9f67a2b638697a6a6ccc5a75353b83325bb2c38e": "3a5218c3a31d89fa2ab06fdb695fc6aef3f9bb048de04e4874ce1a0126df4032",
     "a069898acd764f726494c713c2b742cb834fcd0b": "db4ab871a10f73355adb1128293d70cfd30fd1ee4b46556677489292fea2e14e",
+    "a0f29043828a479f6d0accc439bf6b27ea033934": "4689083b8725cccc29dd310bbc9a2ae22dab7054a876cddf7b085e0976c7b926",
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
     "a13e89c27c16108e4fb75a446154636124312c4d": "f12e95d0da042f4f9a9a3904b769cd32486c82c2c5f3eacd64c9ab936c3717d6",
+    "a1ede2a37a03f631dbad93047488031f661a29ca": "f88c676103d3f5b834186eec7e1b1179133e11c3d2877056da20059505bc05f6",
     "a447283ab18da87a078dbacb2b9ea937f820d100": "1c4c1b923809036605a83d8ea4cee8a57dcca82c67c309e4e8baa34865b04288",
     "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
     "a5e4a098726872e9953e92da36065f4789f22811": "80e2d8e8721bb5f034c7077ee2e006c2bdc7766a7c9684c3664fc708731e138e",
@@ -16041,6 +16468,10 @@
     },
     {
       "observed_at_commit": "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "0f4761e270a554324fbb29831d232e8564ad6ad2",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -16818,13 +17249,21 @@
         "v0.36.0"
       ],
       "version": "0.36.0"
+    },
+    {
+      "source_commits": [
+        "0f4761e270a554324fbb29831d232e8564ad6ad2"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "1.0.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "b9f440fb0fd4d16dce800cd10813e16d39ce4c07",
+  "source_commit": "0f4761e270a554324fbb29831d232e8564ad6ad2",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
