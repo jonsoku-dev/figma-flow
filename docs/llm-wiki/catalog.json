@@ -12602,6 +12602,86 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "1a04a5fc1fc9826998682d90a0cc829c952570ca",
+      "diff_sha256": "fe0f2322584a8c92bea51e69c0565957f0fb25a0c3aa56f88c6de9fc61b497b4",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1c58e3a92b867fdd37dee6c8255a0d90f6a600e6.md",
+        "docs/llm-wiki/patches/a88ced28d85ff9a2483efc2db8954d6f75509a8b.md",
+        "docs/llm-wiki/patches/be4e79f2e9a6cdc4495dc0874e60b6261ddbce39.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "a88ced28d85ff9a2483efc2db8954d6f75509a8b"
+      ],
+      "subject": "docs: record verified alignment audits and before-after regression",
+      "tree": "975a2ecc0e1a1d96a05c11c8d513929908a45641",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "35ce92863e8977aa18969133b24b715d145f405a",
+      "diff_sha256": "0a7af35ca8dfd1418222d8738f54d6cfaa7dfc3260f6a23d1edfc0aa07b6888a",
+      "files": [
+        "README.md",
+        "docs/guide.md",
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "library/figma-profile/policy.json",
+        "skills/figma-flow/SKILL.md",
+        "skills/graph-ssot/SKILL.md",
+        "specs/README.md",
+        "specs/alignment-audit/graph.json",
+        "specs/alignment-audit/spec.md",
+        "specs/live-change-sync/graph.json",
+        "specs/live-change-sync/spec.md",
+        "tests/test_alignment_audit.py",
+        "tests/test_figma_control.py",
+        "tests/test_figma_live_projection.py",
+        "tests/test_follow_details.py",
+        "tests/test_workspace_changes.cjs",
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/alignment_pixels.py",
+        "tools/change_journal.py",
+        "tools/figma_control.py",
+        "tools/figma_feature.py",
+        "tools/figma_follow.py",
+        "tools/figma_workspace.py",
+        "tools/graph_design_system.py",
+        "tools/graph_sync.py",
+        "tools/relay_alignment.py",
+        "tools/relay_paint_rules.json",
+        "tools/relay_view.py"
+      ],
+      "parents": [
+        "1a04a5fc1fc9826998682d90a0cc829c952570ca"
+      ],
+      "subject": "feat: follow direct Design edits in Codex and measure visible paint",
+      "tree": "83c0d685bf84d4cd3d466f14a67ee5d596634b66",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12645,6 +12725,7 @@
     "172924ede1f192cd0f8d42839a1c7d95d2854393": "6ecda83d9ad9ad40abd0bb3cda7d7a45a3d226161f2589ea3901de5d9942670d",
     "199683f8c221fcac718991dd91ad96b6a50ab144": "1384f08a99bcf88bec7fc6c4d0912c17f8c2759d827b4da8bd16a8ef4dcf0277",
     "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
+    "1a04a5fc1fc9826998682d90a0cc829c952570ca": "ef2501db40f4569a757c3078fd0b11ba954bc1110768dd6423d5090be554fd81",
     "1c58e3a92b867fdd37dee6c8255a0d90f6a600e6": "cdbfdfd8e2233b0216997e9264a8f11a6aedcd1b8857dab8d894063da2cf203f",
     "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1c8427ecab93f02ea709faa09c00666dd27ae7ce": "0f5a2ba74f466b22ff9443df61dade1132da5eee159ca640b0248bedd0d28747",
@@ -12694,6 +12775,7 @@
     "3491b7d3d2971826f3f4cba89067cceffb91940d": "818031aaaeb16be08c12fdc8c6bd3aa3c0613361d4e428483bdd9bf99c867a68",
     "34d36385c45b4e36a55aeed42fd561dfbba048a5": "aedc55fb360a18c1dbee2c575700507a177cee997552da81f3fd1e25ca133f7b",
     "35c6d3e3e798dee10c51335719d6ef9cd0539fb8": "57e66fd038cc6cfae4611ad95a163464d18dfa3c6e7217c6431a9b34e75a66d8",
+    "35ce92863e8977aa18969133b24b715d145f405a": "62761ed60a1c6c34629424e4d8a5f4c9c6616c3b0066991b84f307e93a05c5b1",
     "368db1a9826de1455fe1d4598671ddd57bb9aa77": "85c68530537fe7fe3677352ac0a3b80c7e3e9c66353e241572d69cf29d57e5c6",
     "37f3fde2e8ab54ba82e54bbbba81f82f3956b661": "f4a36ee84c1fe8be3378876d6d78c0a198f93d3b1ff289a9de6f9d9a93de818e",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
@@ -13144,6 +13226,10 @@
     },
     {
       "observed_at_commit": "3491b7d3d2971826f3f4cba89067cceffb91940d",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "35ce92863e8977aa18969133b24b715d145f405a",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -13807,7 +13893,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "a88ced28d85ff9a2483efc2db8954d6f75509a8b",
+  "source_commit": "35ce92863e8977aa18969133b24b715d145f405a",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
