@@ -60,3 +60,18 @@ canonical 조상43개와 태그10개, 당시 CHANGELOG 버전16개를 대조했�
 - 27개 개발 문서의 상대 링크와 개인 경로 미포함을 확인했다. 독립 정적 검수는 선택 동기화 protocol의 누락/빈 선택 규칙, dependency artifact 이름·hash, 데이터와 UI 통합 순서를 지적해 문서에 명시했다. Figma 공식 자료와 실제 구현을 대조한 Frame/Group/component 설명은 향후 제안이며 현재 컴포넌트 동작 수정은 아니다.
 
 원격 CI·태그·ZIP·Codex 전역 설치의 최종 결과는 이 소스 기록 이후 실제 릴리스에서 확인한다. 현재 계획과 이력 UI는 Python control journal의 권한이나 전체 제품 인수를 대신하지 않는다. 기존61개 회귀 전체·실기기·원본 첨부 UI·실제200%확대·클라우드 저장·글꼴 binary 동일성의 미검증 범위를 유지한다.
+
+## 2026-11-22 · 검증 산출물 수명과 입력 경계
+
+소스 기준은 `9c07221d0b2c3f459222a5819c36f5a715b8e6b8`이다. [검증 가이드](../maintenance-verification.md)에서 프로필과 정리 소유권을 확인할 수 있다.
+
+| 실행 | 관측 결과 |
+| --- | --- |
+| `python3 -B -m unittest discover -s tests` | 1,582건 중 1,579건 통과, 3건 건너뜀 |
+| `node --test tests/*.cjs` | 478건 중 477건 통과, 1건 건너뜀 |
+| `python3 -B -m unittest discover -s tests -p 'finalize_*.py'` | 75건 통과 |
+| `maintenance.py verify`의 `graph`, `cli`, `api`, `ui`, `release` | 다섯 프로필 통과. 릴리스에서 그래프 6,000건과 저널 4,000건 실행. Chromium 화면 전후 SHA-256 일치 |
+| 검증 원본 수명 회귀 | 고정한 동일 테스트가 기준 `df4376c`에서 종료 1, 수정 `e2c05a7`에서 종료 0. 1MB 합성 원본은 정상·실패·시간 초과 뒤 정리되고 인접 파일은 보존됨. SIGINT·SIGTERM에서도 정리 확인 |
+| `FIGMA_FLOW_PG_BIN=/dev/null python3 -B tools/major_release.py --ref 9c07221 --candidate 1.0.0` | 아카이브 2,532개 파일, 16개 영역, 차단 1건. [기존 예약 예제](../../apps/little-hands/README.md)의 PostgreSQL 인수 테스트가 차단 사유 |
+
+첫 독립 패널 실행은 불필요한 입력 모듈 의존 때문에 실패했다. 수정 후 같은 브라우저 검사와 컴포넌트 검사를 통과했다. 클러스터 제외 요청 전 전체 Python 실행에는 기존 예제의 임시 PostgreSQL 검사가 포함됐다. 요청 이후에는 해당 실행을 막고 메이저 후보 게이트를 다시 확인했다. 실행 로그·PNG·작업 파일은 검증 종료 후 정리했다.
