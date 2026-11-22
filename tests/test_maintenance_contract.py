@@ -1,4 +1,5 @@
 """Prove lints detect real violations and verify records reflect actual execution."""
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -46,7 +47,8 @@ class MaintenanceContractTests(unittest.TestCase):
             record=json.loads((out/'evidence.json').read_bytes())
             self.assertEqual(record['status'],'incomplete')
             self.assertEqual(record['steps'][0]['status'],'failed')
-            self.assertIn('observable result',(out/'probe.log').read_text())
+            self.assertEqual({p.name for p in out.iterdir()}, {'evidence.json'})
+            self.assertEqual(record['steps'][0]['output']['sha256'], hashlib.sha256(b'observable result\n').hexdigest())
 
     def test_ci_and_maintainer_handoff_use_the_declared_evidence_profiles(self):
         from tools import delivery_config

@@ -91,7 +91,7 @@ def ingest(path, batch, verified_scope):
         raise ValueError('Invalid native change cursor')
     status = batch['status']
     reason = batch.get('reason')
-    if (status not in {'available', 'unavailable'} or
+    if (status not in ('available', 'unavailable') or
             (status == 'unavailable' and reason != 'page-listener-unavailable') or
             (status == 'available' and reason is not None)):
         raise ValueError('Invalid native listener status')
@@ -106,14 +106,14 @@ def ingest(path, batch, verified_scope):
             raise ValueError('Native change sequence is not ordered')
         unknown = event.get('unknown_properties', [])
         if (not isinstance(event['node_id'], str) or not re.fullmatch(r'[A-Za-z0-9:;_-]{1,160}', event['node_id']) or
-                event['type'] not in CHANGE_TYPES or not isinstance(event['properties'], list) or len(event['properties']) > 32 or
-                any(item not in KNOWN_PROPERTIES for item in event['properties']) or len(set(event['properties'])) != len(event['properties']) or
+                (not isinstance(event['type'], str) or event['type'] not in CHANGE_TYPES) or not isinstance(event['properties'], list) or len(event['properties']) > 32 or
+                any(not isinstance(item, str) or item not in KNOWN_PROPERTIES for item in event['properties']) or len(set(event['properties'])) != len(event['properties']) or
                 not isinstance(unknown, list) or len(unknown) > 32 or
                 any(not isinstance(item, str) or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_]{0,63}', item) or item in KNOWN_PROPERTIES for item in unknown) or
                 len(set(unknown)) != len(unknown) or
                 ('properties_truncated' in event and not isinstance(event['properties_truncated'], bool)) or
                 (len(event['properties']) + len(unknown) > 32 and event.get('properties_truncated') is not True) or
-                event['origin'] not in {'figma-flow-plugin', 'unknown'}):
+                event['origin'] not in ('figma-flow-plugin', 'unknown')):
             raise ValueError('Invalid native change event fields')
         prior_seq = event['seq']
     gap = batch['gap']

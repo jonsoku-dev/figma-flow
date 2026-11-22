@@ -17,6 +17,8 @@ Maintain one canonical JSON graph with stable semantic IDs. The graph owns relat
 
 Figma Flow 자체를 수정할 때는 [패치 기록과 근거 기반 개선](../patch-knowledge/SKILL.md)과 [실행 검증 프로필](../../docs/maintenance-verification.md)을 사용한다. 사용자 프로젝트의 디자인 선택과 Figma 인수는 해당 프로젝트의 워크플로에서 확인한다.
 
+검증이 끝나면 [보존 계약](../../CONSTITUTION.md#검증-산출물의-수명)에 따라 이번 실행이 소유한 임시 파일을 정리하고 재현 근거를 기록한다.
+
 ## 공개 기능 사용
 
 사용자가 기능 실행을 요청하면 `tools/figma_feature.py route`로 경로를 확인하고 실행 결과까지 검증한다. 등록 메뉴나 기존 작업으로 지원되는 경우 그 경로를 쓴다. 추가 Plugin API가 필요한 경우 Codex가 [SDK 프로젝트](../../docs/figma-sdk-project.md)를 생성하고 요청한 동작을 TypeScript로 작성·빌드한다. 대상 편집기에서 실제 노드·속성 또는 해당 기능의 결과를 확인한다. 새 플러그인의 등록에는 Figma가 발급한 ID를 사용한다. 위젯·REST·제품 UI는 [기능별 안내](references/figma-feature-routes.md)의 해당 조건을 확인한다. 검색 결과와 빌드만 확보한 경우 실제 실행 상태는 미검증으로 기록한다.

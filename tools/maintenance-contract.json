@@ -1,5 +1,6 @@
 {
   "schema": "figma-flow-maintenance-v1",
+  "artifactRetention": {"receiptBytes": 65536},
   "graphDecoding": {
     "skills/figma-flow/scripts/graph.py": ["load_graph"],
     "tools/graph_design_system.py": ["load_graph"],
