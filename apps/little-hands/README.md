@@ -55,6 +55,8 @@ docker compose ps
 
 초기화 SQL은 **빈 MySQL 볼륨에서 한 번** 실행한다. 기존 PostgreSQL 예제 데이터는 원본을 보존한 상태에서 별도 스키마에 이관·검수해야 한다. 이번 예제의 마이그레이션은 새 MySQL 스키마를 초기화한다. 이미 적용한 PostgreSQL 마이그레이션 번호를 새 DB에 복사하거나 PostgreSQL 볼륨을 재사용하면 안 된다. 운영 데이터의 이전은 별도 계획에서 행과 시퀀스, 예약 구간, 권한, 사용자 접속을 대조한다. 기존 볼륨에 새 role을 적용하는 방법으로 재시작을 사용하지 않는다. 마이그레이션은 단일 운영자·배포 작업이 실행한다. 웹 시작 시 자동 migrate하지 않는다. `littlehands_owner`만 스키마 DDL을 수행하며 웹은 소유권·역할 멤버십·CREATE·TRUNCATE 없이 실행한다. `grants.sql`은 매번 migrate 다음에 실행한다. 새 테이블에는 기본 runtime 권한을 주지 않으므로 누락 시 서비스가 실패하는 쪽으로 동작한다. 감사·멱등 journal에는 SELECT/INSERT만 부여하고 트리거로 내용 변경을 거절한다. `django_migrations`는 웹에 노출하지 않는다.
 
+이미 운영하는 MySQL 서버에서 바이너리 로깅을 쓰고 일반 계정의 트리거 생성이 제한된 경우, 해당 스키마에 대한 설치 권한이 있는 관리자가 초기 `migrate`에만 `LH_DB_ADMIN_INSTALL_TRIGGERS=1`을 설정한다. 트리거의 실행 계정은 배포 설정에 등록한 스키마 소유자다. 서버 전역 설정은 건드리지 않는다. 설치 후에는 이 환경 변수를 제거하고 웹 계정에 생성된 테이블별 권한을 적용한다.
+
 정적 파일은 이미지 빌드 중 WhiteNoise manifest로 수집하며 앱이 직접 서빙한다. 빌드에 실제 비밀이나 DB가 필요하지 않다. 파일 저장소나 고객 업로드는 이 앱의 현재 범위가 아니다. 컨테이너 파일시스템은 읽기 전용이며 임시 파일만 `/tmp`에 쓴다. Gunicorn access log는 개인정보 URL 기록을 줄이기 위해 켜지 않는다. 호스트 proxy 로그도 보존 기간·접근 권한과 URL 개인정보 처리를 운영자가 정한다.
 
 새 버전은 백업 후 점검 시간에 `docker compose stop web`, build, migrate, grants, deploy check, `up -d web` 순서로 적용한다. 실패 시 새 코드를 시작하지 않는다. migration은 역호환을 보장하지 않으므로 이전 이미지 재시작만으로 DB rollback을 가정하지 않는다. 이 단일 호스트 패키지는 무중단 배포나 고가용성을 제공하지 않는다.

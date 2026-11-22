@@ -1,3 +1,6 @@
+import re
+
+from django.conf import settings
 from django.db import migrations, models
 
 
@@ -72,6 +75,22 @@ TRIGGERS = [
 ]
 
 
+def install_triggers(apps, schema_editor):
+    prefix = 'CREATE TRIGGER'
+    if settings.INSTALL_TRIGGERS_AS_SCHEMA_OWNER:
+        owner = settings.DATABASE_DEFAULTS['owner']
+        if not re.fullmatch(r'[a-z][a-z0-9_]{0,31}', owner):
+            raise ValueError('Invalid MySQL schema owner')
+        prefix = f"CREATE DEFINER = '{owner}'@'%' TRIGGER"
+    for forward, _ in TRIGGERS:
+        schema_editor.execute(forward.replace('CREATE TRIGGER', prefix, 1), params=None)
+
+
+def remove_triggers(apps, schema_editor):
+    for _, reverse in reversed(TRIGGERS):
+        schema_editor.execute(reverse, params=None)
+
+
 class Migration(migrations.Migration):
     dependencies = [('booking', '0001_initial')]
     operations = [
@@ -93,6 +112,5 @@ class Migration(migrations.Migration):
             ],
             options={'indexes': [models.Index(fields=['room_id', 'starts_at'], name='room_schedule_search')]},
         ),
-        *(migrations.RunSQL(sql=[(forward, None)], reverse_sql=[(reverse, None)])
-          for forward, reverse in TRIGGERS),
+            migrations.RunPython(install_triggers, reverse_code=remove_triggers, atomic=False),
     ]

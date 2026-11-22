@@ -1,14 +1,17 @@
+import os
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from threading import Barrier
 
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.core.exceptions import PermissionDenied
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.core.management.sql import emit_post_migrate_signal
 from django.db import DatabaseError, IntegrityError, close_old_connections, connection, connections, transaction
 from django.test import Client, TransactionTestCase, override_settings
 from django.urls import reverse
@@ -33,6 +36,19 @@ class BookingTests(TransactionTestCase):
         self.start = timezone.now() + timedelta(days=3)
         self.session = self.make_session(capacity=2)
         self.target = self.make_session(starts_at=self.start + timedelta(days=1), capacity=2)
+
+    def _fixture_teardown(self):
+        original = os.environ.get('LH_DB_NAME', settings.DATABASE_DEFAULTS['name'])
+        self.assertEqual(connection.settings_dict['NAME'], f'test_{original}')
+        # Django's MySQL flush uses DELETE, which the append-only triggers refuse.
+        with connection.cursor() as cursor:
+            cursor.execute('SET SESSION FOREIGN_KEY_CHECKS = 0')
+            try:
+                for table in connection.introspection.django_table_names(only_existing=True):
+                    cursor.execute(f'TRUNCATE TABLE {connection.ops.quote_name(table)}')
+            finally:
+                cursor.execute('SET SESSION FOREIGN_KEY_CHECKS = 1')
+        emit_post_migrate_signal(0, False, connection.alias)
 
     def make_session(self, **values):
         defaults = {'course': self.course, 'room': self.room, 'starts_at': self.start,

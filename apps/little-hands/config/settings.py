@@ -48,6 +48,7 @@ TEMPLATES = [{'BACKEND':'django.template.backends.django.DjangoTemplates',
     ]}}]
 
 DATABASE_DEFAULTS = json.loads(Path(__file__).with_name('deployment.json').read_bytes())['database']
+INSTALL_TRIGGERS_AS_SCHEMA_OWNER = os.environ.get('LH_DB_ADMIN_INSTALL_TRIGGERS') == '1'
 DATABASES = {'default':{
     'ENGINE':DATABASE_DEFAULTS['engine'],
     'NAME':os.environ.get('LH_DB_NAME', DATABASE_DEFAULTS['name']), 'USER':os.environ.get('LH_DB_USER', DATABASE_DEFAULTS['runtime']),
