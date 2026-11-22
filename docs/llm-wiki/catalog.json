@@ -16514,6 +16514,61 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "9ad486bd30189852cefbe89809ec8bbc343cf92c",
+      "diff_sha256": "e2b98a59fabbc6035f97633e0ac117a4df5a591fbb1528459cffddbf9f00802f",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/03358d54b306cc5bf31bcfb00c4b2fa8003ed80f.md",
+        "docs/llm-wiki/patches/798361b6c9d3c9d1049500eba911b64547d8d435.md",
+        "docs/llm-wiki/patches/e7858484dbe115efb1c744058f46555352349d8c.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "e7858484dbe115efb1c744058f46555352349d8c"
+      ],
+      "subject": "docs: record hosted font shaping verification",
+      "tree": "0d5b11bce8b13aea7b7f9eea3d9495012b0bfab0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "612c67183e532bc4741342d2736b808a05c67ed1",
+      "diff_sha256": "40381344850690290a1f10477c9f2d9532e5a7702eb5bc193a97d563646d9762",
+      "files": [
+        "release/reviews/design-host.json",
+        "release/reviews/evidence/design-host/24-transport.json",
+        "release/reviews/evidence/libraries/profile-control-policy.json",
+        "release/reviews/evidence/libraries/profile-read-limits.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/libraries.json",
+        "release/reviews/tooling.json",
+        "tests/test_control_transport_authority.py"
+      ],
+      "parents": [
+        "9ad486bd30189852cefbe89809ec8bbc343cf92c"
+      ],
+      "subject": "fix: separate hosted fixture setup from the transport deadline",
+      "tree": "ba8cbf6b9338578a1c2e77d9c96fc808577d967e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16696,6 +16751,7 @@
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
     "6065daf3348b10390630e916cf97cdb187a176df": "fff1f9db49c321ea315a717da1c85f7523f0a056ad9b39befb2cf4d29821c163",
+    "612c67183e532bc4741342d2736b808a05c67ed1": "08c25a3f9950cf0bd4c52d71e42948a717e384403ba72f65d63a818339a62401",
     "615ea284259ebe8dd27d99421dba26e08e8d491e": "25a62b488fa3215b28c657c2b9f2822c98c5528bd7b96f5d993cc595facf10b6",
     "61647d636f23142c76d453f24512566043c40517": "7eead01fb27d1f5a6df3152c9447ed5e452bb79ec23b22f4772a3d6e58085ce8",
     "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
@@ -16795,6 +16851,7 @@
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9a8321f9349969e990f1238d2616f21d4e4c6195": "530edbaab862c0263a9af4dc4a3f42f5ec37fda03a5245f3e883854034a95044",
     "9aaad2284fc4163be26995c4c729ea172bacd751": "6ad2112e864059a84d44e08492e41bee12cca2f766743d5bed31ccfeabd569a1",
+    "9ad486bd30189852cefbe89809ec8bbc343cf92c": "19c61a3614f9779f21d16039e25a065e56b3ceafc3395bcb103018d047314f4c",
     "9c07221d0b2c3f459222a5819c36f5a715b8e6b8": "cc441fb5463ef509c55534b3e959cfdbe97576b3500f98c9b6ac5562c744d877",
     "9c183e7eec9d6be732529a86a061fd70a378e98a": "fd1d657af347fa9fd5bcea25e3a602578448c95dc99f08e4f933f7c89aab7d24",
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
@@ -17225,6 +17282,10 @@
     },
     {
       "observed_at_commit": "5fb07911e3a1b1530f34aee2cca47f9df7319910",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "612c67183e532bc4741342d2736b808a05c67ed1",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -17829,7 +17890,7 @@
     },
     {
       "source_commits": [
-        "e7858484dbe115efb1c744058f46555352349d8c"
+        "612c67183e532bc4741342d2736b808a05c67ed1"
       ],
       "tagged": false,
       "tags": [],
@@ -17840,7 +17901,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "e7858484dbe115efb1c744058f46555352349d8c",
+  "source_commit": "612c67183e532bc4741342d2736b808a05c67ed1",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
