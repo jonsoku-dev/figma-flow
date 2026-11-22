@@ -16280,6 +16280,101 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "ddeb3b87249640168bfde3e252de9a575501f213",
+      "diff_sha256": "689c7cd87e61f2768e03bd6b414f12fc660a4521dac200d7590b5386248ef2bc",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/5e9e227fd6f307ba03dfb899c036f939a52b858b.md",
+        "docs/llm-wiki/patches/a789281d54b850d6169fecd961fc5a3490918328.md",
+        "docs/llm-wiki/patches/dce6a9a9329a0182ce60fe8a790739abfc8975a1.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "5e9e227fd6f307ba03dfb899c036f939a52b858b"
+      ],
+      "subject": "docs: record full-suite CI recovery checks",
+      "tree": "7a8ded979d0463b41e9c49573420c99ce2635354",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "0d344a1f55f15a20a9d6057c79cface9c2aae13c",
+      "diff_sha256": "6f860543f960dd55b1b2624b3f74e82f9572954739d9c5ef896a4e7c9c9aade1",
+      "files": [
+        ".github/workflows/reference-guard.yml",
+        "library/delivery/reference-guard.yml.in",
+        "tests/test_control_transport_authority.py"
+      ],
+      "parents": [
+        "ddeb3b87249640168bfde3e252de9a575501f213"
+      ],
+      "subject": "fix: make the hosted loopback witness deterministic",
+      "tree": "6e62c1b6a6d37620993fdbdb1f7d5b4fcc1d2fec",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "9cc80b26063a49324650aaa8c978079a173cd9b3",
+      "diff_sha256": "a60665e8de5077107fd16adf4f43977eb4a16b4716fca240557a0e70d8422829",
+      "files": [
+        "release/reviews/delivery.json",
+        "release/reviews/design-host.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/design-host/24-transport.json",
+        "release/reviews/evidence/libraries/profile-control-policy.json",
+        "release/reviews/evidence/libraries/profile-read-limits.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/libraries.json",
+        "release/reviews/tooling.json"
+      ],
+      "parents": [
+        "0d344a1f55f15a20a9d6057c79cface9c2aae13c"
+      ],
+      "subject": "verify: rebind the real loopback transport witness",
+      "tree": "5fc6b219412f5dd2f2880b1770ec993b21bf3b94",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16304,6 +16399,7 @@
     "0bd817701f3df66673e314007f768a6de404fd78": "9d53150b4ff855df60f4b0df145e74d177e4215637aac93b471a8ed2bf8b008c",
     "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2": "384f7bc05cbe9ff28dde0a705a63a18cb94b89ebb6da20c8abadce3dfc6d8913",
     "0cf1823f9225b694b40961f2b6fb5d6eaa79834c": "fa2b919c9277a10c3eb30ed75c61256da3c8c215b241bc189a72082bd3c68e76",
+    "0d344a1f55f15a20a9d6057c79cface9c2aae13c": "b6f329976a0dea90260c58084abae3307e7072b61153d63780e7b1ac6d8e3867",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ef8fe7126290ba10bd7ffe511e455d027226f74": "53e97298a0b490e017649b15a7ed501294917b0f4ae9d3bca8b59967456a93ca",
     "0f4761e270a554324fbb29831d232e8564ad6ad2": "6b639d8232b4cf666e65dcbf222bb5fcf2ab3763fd75ddc4ca4e645b90f02a4b",
@@ -16564,6 +16660,7 @@
     "9c4e7872c29fd70716b8f87da30f9f09aef8cd3f": "348a371ece015ae01f982c085182435ad8401122dddcc0c96abfb01dd1eaa714",
     "9c9d5575eea6d883620407e591972c7e92cc244f": "b707929ad2d5c3aa87de7114e5e2b16f41fce5f17c11804acaf109b13f95f1b7",
     "9cc41a0c7ca53a233113fd45b86dc330907094fa": "0564b8353cdc3474fc21e05819915c2b89b9165e71a05c746cf4a3b5e9695353",
+    "9cc80b26063a49324650aaa8c978079a173cd9b3": "4eb42885a6c1482493897ebeba0e495c230ad2344441da67bc19f4d48abe8208",
     "9cd119198eb7761fbb60fc23fa83b18b93ec0511": "67c7ea8e16ecfb38d8e50bc7ca534b197167589600bef65d34a64bab90cbf0ba",
     "9d0a6350d382e3a3e0e4b947f9196c33accb9d05": "6e322030f990c9efb4318b1938eb3f3249b921bfa3ef2ddb9a4b729903f47b73",
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
@@ -16703,6 +16800,7 @@
     "dca7dfcb4ec97ee52427a40050e815f53880d47e": "8a43c301e185fe5f3c1a6bbe27b0a3b23886706716b7d8703529bb63ebbab33b",
     "dce6a9a9329a0182ce60fe8a790739abfc8975a1": "75121ba6e095529a8defdee9f99777b5590b513aeda6639b4035bd24a1eb95a3",
     "dd53eeed027d14fc98d59574bd6927b066079e30": "c8b3b23999fff9df7e96ff7554368d611f0a47df75c1bf902488bdb05fd775be",
+    "ddeb3b87249640168bfde3e252de9a575501f213": "834d79cba83a6b4333fdda38d999b1011a1e359db26a81819dcb26c606fbf564",
     "dee7688ffa829298bc794108f057c18dc6e6d766": "267088ddd7fcd717b1c817584fd2b75d3231b101827e3c16f00bc6b244494125",
     "df4376c07eff066be10f157b6b5d5ca39c573042": "d375e72f4e456cad884c507b425dbd89a239fb5f8309e135156f8ded889aa5e6",
     "df65b64205ed85644acf075f0acab8f37f2ac371": "b8a776272c01c8d166432e297cb353abcb97b2e59b42f860b42c6bac2c27b740",
@@ -17097,6 +17195,10 @@
     },
     {
       "observed_at_commit": "9cc41a0c7ca53a233113fd45b86dc330907094fa",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "9cc80b26063a49324650aaa8c978079a173cd9b3",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -17581,7 +17683,7 @@
     },
     {
       "source_commits": [
-        "5e9e227fd6f307ba03dfb899c036f939a52b858b"
+        "9cc80b26063a49324650aaa8c978079a173cd9b3"
       ],
       "tagged": false,
       "tags": [],
@@ -17592,7 +17694,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "5e9e227fd6f307ba03dfb899c036f939a52b858b",
+  "source_commit": "9cc80b26063a49324650aaa8c978079a173cd9b3",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
