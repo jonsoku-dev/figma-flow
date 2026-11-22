@@ -90,7 +90,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/6.json",
-          "sha256": "4f42cc4da80698e401cf3aff2d5c7c26f100a5d26d4715ade471d8be9399285d"
+          "sha256": "15abbf7b01ecd43312d84bb97b7600745fd0f14243cc6e2a323eed7bcbb0f6b2"
         }
       ]
     },

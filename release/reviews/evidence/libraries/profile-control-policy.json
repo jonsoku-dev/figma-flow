@@ -6,7 +6,7 @@
     {
       "test": "tests/test_control_transport_authority.py",
       "case": "TransportAuthorityTests.test_changed_read_budget_reaches_both_ends_of_an_actual_local_result",
-      "testSha256": "e4c0a8275f41c6aa5cf3ba45cb9b6c6503c0972f1cf8d3bbe4125ca6fabaa0d6",
+      "testSha256": "35e4b0b2c680b1267be50a868a04ab236c599777c89b29f75b236a2de4857c04",
       "authority": "library/figma-profile/policy.json#/controlTransport",
       "covers": [
         "library/figma-profile/policy.json"
