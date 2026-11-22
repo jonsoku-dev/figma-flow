@@ -347,6 +347,27 @@ class ControlTests(unittest.TestCase):
         self.assertIsNone(self.claim(session_id='other-session'))
         self.assertEqual(control.status(self.root)['state'], 'claimed')
 
+    def test_native_summary_is_a_scoped_read_and_partial_apply_options_are_forwarded(self):
+        summary = self.enqueue(operation='native-summary')
+        claim = self.claim()
+        self.assertEqual(claim['operation'], 'native-summary')
+        self.result(claim, readback_json='{"schema":"figma-flow-native-read-summary-v1"}')
+        with self.assertRaisesRegex(ValueError, 'Fresh import'):
+            self.enqueue(fresh=True)
+        request = self.mutation(selected_ids=['space / 1'], plan_sha256='a' * 64)
+        claim = self.claim()
+        self.assertEqual(claim['selection'], {'protocol': 2, 'plan_sha256': 'a' * 64, 'selected_ids': ['space / 1']})
+        self.assertEqual(request['selection']['selected_ids'], ['space / 1'])
+        self.assertIsNotNone(summary)
+
+    def test_viewer_options_are_validated_at_enqueue_and_claim(self):
+        request = self.enqueue(operation='viewer-history', viewer_options={})
+        claim = self.claim()
+        self.assertEqual(request['viewer_options'], {})
+        self.assertEqual(claim['viewer_options'], {})
+        with self.assertRaises(ValueError):
+            self.enqueue(operation='select-node', viewer_options={'node_id': 'bad'})
+
     def test_explicit_focus_claims_only_same_file_and_returns_pinned_target(self):
         self.enqueue(focus_page=True)
         self.assertIsNone(self.claim(file_key='otherfile', page_id='12:9'))
@@ -377,6 +398,18 @@ class ControlTests(unittest.TestCase):
             code = control.main(['run', '--workspace', str(self.root), '--key', 'discovery', '--operation', 'read', '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', self.prepared['revision'], '--focus-page', '--no-wait'])
         self.assertEqual(code, 0)
         self.assertTrue(json.loads(output.getvalue())['focus_page'])
+
+    def test_cli_viewer_history_run_preserves_options_through_readiness_and_signed_queue(self):
+        self.start_server()
+        control.NATIVE_CLIENTS[str(self.root.resolve())] = {'runtime': workspace.current(self.root)['runtime'],
+            'session_id': 'plugin-session-1', 'seen_at': time.time()}
+        common = ['run', '--workspace', str(self.root), '--key', 'discovery', '--operation', 'viewer-history',
+                  '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', self.prepared['revision'], '--no-wait']
+        with contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(control.main([*common, '--node-id', '12:1']), 2)
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(control.main(common), 0)
+        self.assertEqual(json.loads(output.getvalue())['viewer_options'], {})
 
     def test_result_exact_claim_and_scope_and_preserves_large_bytes(self):
         self.enqueue()
@@ -718,6 +751,9 @@ class ControlTests(unittest.TestCase):
             'file_key': 'fixturefile', 'page_id': '12:1',
             'edits': [{'node_id': '3:4', 'field': 'paddingLeft', 'before': 12, 'after': 20}]}))
         prepared = workspace.prepare(self.root, 'native-edit', 'Edit scoped values', 'native-edit', ['--plan', str(plan)])
+        with self.assertRaisesRegex(ValueError, 'Partial apply selection'):
+            control.enqueue(self.root, 'native-edit', 'apply', 'fixturefile', '12:1', prepared['revision'], 120,
+                            selected_ids=['any'], plan_sha256='a' * 64)
         self.start_server()
         self.claim()
         with contextlib.redirect_stdout(io.StringIO()) as output:
@@ -725,7 +761,17 @@ class ControlTests(unittest.TestCase):
                 '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', prepared['revision'], '--no-wait'])
         self.assertEqual(code, 0)
         self.assertEqual(json.loads(output.getvalue())['state'], 'pending')
-        self.assertEqual(self.claim()['key'], 'native-edit')
+        claimed = self.claim()
+        self.assertEqual(claimed['key'], 'native-edit')
+        self.result(claimed)
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            code = control.main(['run', '--workspace', str(self.root), '--key', 'native-edit', '--operation', 'carousel-present',
+                '--file-key', 'fixturefile', '--page-id', '12:1', '--expected-revision', prepared['revision'],
+                '--execution-id', 'run-1', '--state-id', 'start', '--no-wait'])
+        self.assertEqual(code, 0)
+        command = self.claim()
+        self.assertEqual(command['operation'], 'carousel-present')
+        self.assertEqual(command['viewer_options'], {'execution_id': 'run-1', 'state_id': 'start'})
 
     def test_missing_server_rejects_before_queue_mutation(self):
         server = ThreadingHTTPServer(('127.0.0.1', 0), control.Handler)

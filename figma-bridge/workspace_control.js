@@ -5,7 +5,8 @@ let controlRelayProfileResult = null;
 let controlRelayProfileBinding = null;
 let controlRelayIdentity;
 const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
-const controlAllowed = {review: ['create'], import: ['read', 'import', 'sync'], discover: ['read'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply']};
+// Registered workspaces load their task vocabulary from the same policy as Codex.
+const controlAllowed = typeof WORKSPACE_PROFILE_POLICY !== 'undefined' ? WORKSPACE_PROFILE_POLICY.taskOperations : {review: ['create'], import: ['read', 'import', 'sync', 'native-summary'], discover: ['read', 'native-summary', 'select-node', 'selection-info', 'viewer-history', 'viewer-language'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply', 'carousel-select', 'carousel-present']};
 
 function controlState(outcome, busy) {
   if (typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer) {
@@ -22,6 +23,7 @@ function controlState(outcome, busy) {
 }
 
 async function controlExecute(task, cmd, beforeDispatch) {
+  const homeSession = workspaceHomeSession;
   if (typeof workspaceNeedsProfileAdmission === 'function' && workspaceNeedsProfileAdmission(cmd.operation)) {
     const file = figma.fileKey, page = figma.currentPage.id;
     if (!await workspaceProfileAdmit(cmd.operation))
@@ -39,6 +41,32 @@ async function controlExecute(task, cmd, beforeDispatch) {
         (task.pageId && task.pageId !== cmd.page_id)) throw Error('Command differs from the prepared file or page.');
   };
   checkCommand();
+  if (['select-node', 'selection-info', 'viewer-history', 'viewer-language'].includes(cmd.operation)) {
+    if (figma.currentPage.id !== cmd.page_id) throw Error('Viewer command requires the prepared active page.');
+    if (beforeDispatch) await beforeDispatch();
+    checkCommand();
+    if (workspaceActive || workspaceHomeSession !== homeSession) throw Error('The viewer session changed before native navigation.');
+    return workspaceViewerExecute(task, cmd, checkCommand);
+  }
+  if (['carousel-select', 'carousel-present'].includes(cmd.operation)) {
+    if (task.kind !== 'native-edit' || figma.currentPage.id !== cmd.page_id)
+      throw Error('Carousel action requires its prepared active Design task.');
+    if (beforeDispatch) await beforeDispatch();
+    checkCommand();
+    if (workspaceActive || workspaceHomeSession !== homeSession) throw Error('The carousel session changed before native navigation.');
+    const options = cmd.viewer_options || {};
+    const event = [...workspaceState.history].reverse().find(row => row.taskKey === task.key &&
+      row.revision === task.revision && row.executionId === options.execution_id);
+    const summary = workspaceStoredCarousel(event?.carousel);
+    const state = summary?.states.find(item => item.state_id === options.state_id);
+    if (!summary || summary.status !== 'current' || !state || state.status !== 'current' ||
+        state.state_id !== summary.initial_state || summary.file_key !== cmd.file_key || summary.page_id !== cmd.page_id)
+      throw Error('Carousel readback is stale or outside this prepared task. Run native read again.');
+    return workspaceSelectCarousel(null, {taskKey:task.key, revision:task.revision,
+      executionId:options.execution_id, stateId:options.state_id, nodeId:summary.flow_start_node_id,
+      action:cmd.operation === 'carousel-present' ? 'present' : 'select', workspaceSession:workspaceHomeSession,
+      deadline:cmd.deadline}, true);
+  }
   if (figma.currentPage.id !== cmd.page_id) {
     if (!cmd.focus_page || task.fileKey !== cmd.file_key || task.pageId !== cmd.page_id)
       throw Error('Command differs from the active page.');
@@ -101,20 +129,40 @@ async function controlExecute(task, cmd, beforeDispatch) {
       if (!ready || (ready.existing_only && operation === 'import') || (!ready.paired && operation === 'sync'))
         throw Error('The current import package does not admit this operation.');
       if (operation === 'import') {
-        const messages = await invoke({...envelope,type:'import',fresh:false});
+        const messages = await invoke({...envelope,type:'import',fresh:cmd.fresh === true});
         if (!messages.some(m=>m.type==='busy' && m.value && m.operation==='import') ||
             !messages.some(m=>m.type==='status' && !m.ready) || !messages.some(m=>m.type==='busy' && m.value===false))
           throw Error('No native import completion was observed.');
         const completed = messages.find(m => ['imported','reused'].includes(m.event));
         if (!completed?.page_id || !task.sourceSha256 || completed.source_sha256 !== task.sourceSha256)
           throw Error('No matching native import page receipt. Refresh the prepared import task.');
+        if (cmd.fresh === true && completed.event !== 'imported') throw Error('Fresh import did not create a new page.');
+        if (cmd.fresh !== true && completed.event === 'imported' && messages.some(m => m.event === 'reused'))
+          throw Error('Import completion was ambiguous.');
         outputPage = completed.page_id;
         workspaceRecord(active,'import','finished');
       }
       if (operation === 'sync') {
-        const result = (await invoke({...envelope,type:'sync'})).find(m=>m.type==='sync-result')?.result;
+        const messages = await invoke({...envelope,type:'sync'});
+        const result = messages.find(m=>m.type==='sync-result')?.result;
         if (!result || !['baseline','applied','unchanged'].includes(result.status)) throw Error('The local app did not confirm synchronization.');
+        if (Object.prototype.hasOwnProperty.call(result, 'preview_url')) {
+          const preview = messages.find(m=>m.type==='preview')?.url;
+          if (typeof result.preview_url !== 'string' || !/^http:\/\/localhost:\d+\/$/.test(result.preview_url) || preview !== result.preview_url) {
+            const {preview_url, ...safeResult} = result;
+            return safeResult;
+          }
+        }
         return result;
+      }
+      if (operation === 'native-summary') {
+        const summary = (await invoke({...envelope,type:'native-summary',fields:['width','height']})).find(m=>m.type==='native-summary')?.summary;
+        if (summary?.schema !== 'figma-flow-native-read-summary-v1' || summary.coverage?.profile !== 'summary' ||
+            summary.coverage?.complete !== false || !summary.coverage.nodeIds?.includes(cmd.page_id) ||
+            JSON.stringify(summary.coverage.fields) !== JSON.stringify(['width','height']) ||
+            figma.fileKey !== cmd.file_key || figma.currentPage.id !== cmd.page_id)
+          throw Error('Native summary did not return the requested scoped getter.');
+        return summary;
       }
       const data = (await invoke({...envelope,type:'export'})).find(m=>m.type==='readback')?.data;
       if (data?.format !== 'figma-flow-readback-v1' || data.pages?.length !== 1 || data.pages[0].id !== outputPage || figma.fileKey !== cmd.file_key ||
@@ -142,6 +190,7 @@ async function controlExecute(task, cmd, beforeDispatch) {
       return data;
     }
     if (task.kind === 'native-edit') {
+      if (operation === 'apply' && cmd.selection) throw Error('Partial selection applies only to a signed graph token task.');
       const session = model?.session;
       if (!session) throw Error('Missing prepared native edit session.');
       const messages = await invoke({type:operation,session});
@@ -167,19 +216,38 @@ async function controlExecute(task, cmd, beforeDispatch) {
           data.fileKey !== cmd.file_key || data.pageId !== cmd.page_id || data.native_edit?.operation !== operation ||
           data.native_edit?.applied !== (operation === 'apply'))
         throw Object.assign(Error('Native edit did not return the expected actual getter.'), {nativeReadback:data});
-      if (data.web_design?.carousel || data.web_design?.tabs || data.web_design?.disclosure) workspaceAttachCarousel(active, data, cmd.page_id);
+      if (data.web_design?.carousel || data.web_design?.tabs || data.web_design?.disclosure) workspaceAttachCarousel(active, data, cmd.page_id, operation);
       return data;
     }
     const match = active.html.match(/<script id="graph-panel-config" type="application\/json">([\s\S]*?)<\/script>/);
     if (!model && !match) throw Error('Missing prepared graph panel configuration.');
-    const session = (model || JSON.parse(match[1])).session;
-    const messages = await invoke({type:operation,session});
+    const panelConfig = model || JSON.parse(match[1]);
+    const session = panelConfig.session;
+    let command = {type:operation,session};
+    if (operation === 'apply' && cmd.selection) {
+      const manifest = panelConfig.selection_manifest;
+      const allowed = new Set((manifest?.changes || []).map((change, index) => String(change.identity || change.name || change.key || index)));
+      const selected = cmd.selection.selected_ids;
+      if (cmd.selection.protocol !== 2 || !manifest || manifest.plan_sha256 !== cmd.selection.plan_sha256 ||
+          !Array.isArray(selected) || !selected.length || selected.length > 500 ||
+          new Set(selected).size !== selected.length || selected.some(id => !allowed.has(id)))
+        throw Error('Partial selection differs from the prepared graph plan.');
+      command = {...command, protocol:2, plan_sha256:cmd.selection.plan_sha256, selected_ids:selected};
+    }
+    const messages = await invoke(command);
     const reply = messages.find(m => m.session === session && m.operation === operation && m.readback);
     const data = reply?.readback;
     const discovery = task.kind === 'discover';
-    if (!data || data.schema !== (discovery?'figma-flow-graph-native-discovery-v1':'figma-flow-graph-token-readback-v1') ||
+    const expectedSchema = operation === 'native-summary' ? 'figma-flow-native-read-summary-v1' :
+      discovery ? 'figma-flow-graph-native-discovery-v1' : 'figma-flow-graph-token-readback-v1';
+    const scopedSummary = operation === 'native-summary' && data?.coverage?.profile === 'summary'
+      && data.coverage.complete === false && Array.isArray(data.coverage.nodeIds) && data.coverage.nodeIds.includes(cmd.page_id)
+      && JSON.stringify(data.coverage.fields) === JSON.stringify(['width','height'])
+      && figma.fileKey === cmd.file_key && figma.currentPage.id === cmd.page_id;
+    if (!data || data.schema !== expectedSchema ||
         data.error || (data.status && data.status !== 'success') ||
-        (data.file_key || data.fileKey) !== cmd.file_key || (data.page_id || data.pageId) !== cmd.page_id)
+        (operation === 'native-summary' ? !scopedSummary : (data.file_key || data.fileKey) !== cmd.file_key ||
+          (data.page_id || data.pageId) !== cmd.page_id))
       throw Object.assign(Error('Graph operation did not return the expected native evidence.'), {nativeReadback:data});
     return data;
   } catch (error) {

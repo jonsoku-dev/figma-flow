@@ -4,6 +4,11 @@
   "nodes": [
     {"id":"REQ-CODEX","type":"requirement","source":"spec.md"},
     {"id":"VIEWER","type":"screen","source":"../../panel-ui/src/RelayViewer.jsx"},
+    {"id":"PARITY","type":"acceptance","source":"parity-inventory.json"},
+    {"id":"NATIVE-VIEW","type":"code","source":"../../figma-bridge/relay_view.js"},
+    {"id":"QUERY","type":"code","source":"../../panel-ui/src/useRelaySnapshot.js"},
+    {"id":"SELECTION-TABLE","type":"screen","source":"../../panel-ui/src/RelaySelection.jsx"},
+    {"id":"TEST-PARITY","type":"test","source":"../../tests/test_codex_viewer_parity.py"},
     {"id":"NATIVE","type":"code","source":"../../figma-bridge/workspace_host.js"},
     {"id":"CODEX","type":"code","source":"../../tools/figma_control.py"},
     {"id":"POLICY","type":"policy","source":"../../library/figma-profile/policy.json"},
@@ -12,6 +17,12 @@
     {"id":"TEST-CODEX","type":"test","source":"../../tests/test_figma_control.py"}
   ],
   "edges": [
+    {"from":"REQ-CODEX","type":"accepted by","to":"PARITY"},
+    {"from":"PARITY","type":"implemented by","to":"NATIVE-VIEW"},
+    {"from":"NATIVE-VIEW","type":"verified by","to":"TEST-PARITY"},
+    {"from":"VIEWER","type":"uses","to":"QUERY"},
+    {"from":"VIEWER","type":"renders","to":"SELECTION-TABLE"},
+    {"from":"SELECTION-TABLE","type":"verified by","to":"TEST-VIEWER"},
     {"from":"REQ-CODEX","type":"renders in","to":"VIEWER"},
     {"from":"REQ-CODEX","type":"implemented by","to":"CODEX"},
     {"from":"VIEWER","type":"uses","to":"NATIVE"},

@@ -26,10 +26,10 @@ try {
     await command('Page.navigate', { url: 'http://127.0.0.1:' + server.address().port });
     const waitFor = expression => until(() => evaluate(expression), Date.now() + 8000, expression);
     const requestId = await waitFor('window.readyId');
-    const post = (id, session, status) => {
+    const post = (id, session, status, extra = {}) => {
       const message = {type: 'workspace-relay-viewer-state', requestId: id, workspaceSession: session, status,
         file: {key:'testfile',name:'Design source'}, page:{id:'2:3',name:'Booking'},
-        selection:[{id:'4:5',name:'Reserve',type:'INSTANCE'}]};
+        selection:[{id:'4:5',name:'Reserve',type:'INSTANCE'}], ...extra};
       return evaluate("window.dispatchEvent(new MessageEvent('message', {data:{pluginMessage:" + JSON.stringify(message) + '}}))');
     };
     const status = "document.querySelector('[role=status]').dataset.state";
@@ -41,6 +41,17 @@ try {
     assert.equal(await evaluate("document.querySelectorAll('button,input,textarea,select').length"), 0);
     const tick = await waitFor('window.tick');
     assert.deepEqual(tick,{type:'workspace-control-tick',workspaceSession:'test-session',fileKey:'testfile'});
+    await evaluate("document.querySelector('details').open = true");
+    await waitFor("document.querySelector('tbody')?.innerText.includes('4:5')");
+    const rows = Array.from({length:20}, (_, i) => ({id:'5:' + i, name:'Layer ' + i, type:'FRAME'}));
+    await post(requestId, 'test-session', 'live', {locale:'ja', selection:rows, selectionTotal:23, selectionTruncated:true});
+    await waitFor("document.documentElement.lang==='ja' && document.querySelectorAll('tbody tr').length===20");
+    assert.match(await evaluate("document.querySelector('tbody').innerText"), /Layer 19/);
+    assert.equal(await evaluate("document.querySelector('tbody').innerText.includes('Reserve')"), false);
+    await command('Emulation.setDeviceMetricsOverride', {width:320,height:300,deviceScaleFactor:1,mobile:false});
+    assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true);
+    await post(requestId, 'test-session', 'live', {selection:[]});
+    await waitFor("!document.querySelector('table')");
     await post(requestId, 'other-session', 'busy');
     assert.equal(await evaluate(status), 'live');
   });

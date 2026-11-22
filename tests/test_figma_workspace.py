@@ -143,6 +143,42 @@ class WorkspaceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'UUID'):
             self.prepare(key='bad-thread', thread_id='not-a-uuid')
 
+    def test_activity_cli_reports_exact_scope_counts_navigation_and_native_history_boundary(self):
+        self.prepare()
+        command = [sys.executable, str(ROOT / 'tools/figma_workspace.py'), 'activity',
+            '--workspace', str(self.path), '--file-key', 'fixturefile', '--page-id', '12:1']
+        completed = subprocess.run(command, check=True, capture_output=True, text=True)
+        result = json.loads(completed.stdout)
+        self.assertEqual(result['scope']['fileKey'], 'fixturefile')
+        self.assertEqual(result['scope']['pageId'], '12:1')
+        self.assertEqual(result['taskCounts'], {'total': 1})
+        self.assertEqual(result['operationCounts'], {'state': {}, 'phase': {}, 'classification': {}})
+        self.assertEqual(result['nextAction'], 'open-matching-task')
+        self.assertFalse(result['clientStorageHistory']['available'])
+        self.assertIn('viewer-history', result['clientStorageHistory']['reason'])
+
+    def test_activity_cli_rejects_non_exact_scope(self):
+        self.prepare()
+        with self.assertRaises(ValueError):
+            workspace.activity(self.path, 'fixturefile', 'not-a-page')
+
+    def test_history_detail_cli_projects_exact_operation_and_rejects_foreign_scope(self):
+        task = self.prepare()
+        import figma_control
+        workspace.atomic(self.path / 'control.json', workspace.encode({'schema':figma_control.SCHEMA,
+            'port':49183,'token':'a' * 64}))
+        request = figma_control.enqueue(self.path, 'read-test', 'read', 'fixturefile', '12:1', task['revision'], 30)
+        command = [sys.executable, str(ROOT / 'tools/figma_workspace.py'), 'history-detail',
+            '--workspace', str(self.path), '--file-key', 'fixturefile', '--page-id', '12:1',
+            '--operation-id', request['id'], '--task-key', 'read-test', '--revision', task['revision']]
+        completed = subprocess.run(command, check=True, capture_output=True, text=True)
+        detail = json.loads(completed.stdout)
+        self.assertTrue(detail['readOnly'])
+        self.assertEqual(detail['operationId'], request['id'])
+        command[command.index('--page-id') + 1] = '12:2'
+        rejected = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(rejected.returncode, 2)
+
     def test_exact_flags_own_output_identity_and_reject_abbreviations_and_code_inputs(self):
         for args in (['--out=/tmp/other'], ['--plugin-id', '999'], ['--plugin=999'], ['--file-k', 'file'], ['--code', 'evil.js'], ['--ui.html', 'evil'], ['python', 'tools/graph_sync.py'], ['--adopt=true']):
             with self.subTest(args=args), self.assertRaises(ValueError):

@@ -12,13 +12,15 @@ npm --prefix panel-ui run build
 git diff -- figma-bridge/assets
 ```
 
-Commit the generated assets with their source change. CI rebuilds and compares them. License notices for the bundled React, React DOM, Scheduler and Lucide React code are included in `figma-bridge/assets`.
+Commit the generated assets with their source change. CI rebuilds and compares them. The build writes third-party license notices for React, React DOM, Scheduler, Lucide, TanStack and their bundled runtime dependencies to `figma-bridge/assets/LICENSES.txt`.
 
 ## Components and state
 
 The entry point is [app.jsx](src/app.jsx). It chooses the view for the prepared task and owns locale changes. [components.jsx](src/components.jsx) provides the shell, navigation, language selection, actions, sections, notices, disclosures and thumbnail strip. Use these components in each view. Use a named import from `lucide-react` for an icon and pair it with visible text or an accessible name.
 
 A view subscribes to native messages and renders their observed state. Keep user content and identifiers as data. A queued action, an actual readback and a verified receipt have different meanings. The host writes bounded operation metadata into file-scoped history. The local control relay saves private readback files for Codex.
+
+The registered relay uses TanStack Query for the Figma message subscription and heartbeat, and TanStack Table for the bounded selection in its details disclosure. The query cache belongs to the running iframe. Its local transport continues to poll when the user is in Codex. The table renders live layer names, types and IDs in the native selection order. Both libraries and their license notices are bundled for offline use.
 
 ## Styles and languages
 

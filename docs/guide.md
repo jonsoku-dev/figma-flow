@@ -610,6 +610,39 @@ python3 tools/graph_sync.py combine-web --graph PROJECT/graph.json \
 
 요청과 방향 선택은 Codex 대화에서 합니다. Codex는 읽기 전용 Figma 문맥을 조회하고, 사용자가 확인한 프로필 값과 작업 범위를 기록한 뒤 준비된 명령을 실행합니다. Figma 패널은 파일·페이지·선택·연결 상태·마지막 결과를 보여 주며 대화, 승인, 프로필 편집, 작업 실행 기능은 제공하지 않습니다.
 
+### 어느 작업을 어디서 하나요?
+
+| 사용자가 하려는 일 | 실제 사용 방법 |
+|---|---|
+| 레이어 찾기·확대, 치수·문구 확인 | Codex에 이름·노드 ID 또는 링크를 전달합니다. 현재 파일·페이지에 준비한 읽기 작업으로 노드를 선택하고 실제 선택·위치·크기를 읽습니다. 선택한 텍스트 본문은 요청한 경우에만 포함합니다. |
+| 적용할 항목·새 복사본 선택, 결과 저장, 이력·의존성 확인, 표시 언어 변경 | Codex 대화에서 범위를 정합니다. 실제 적용은 열린 플러그인이 실행하고 Codex가 결과를 읽습니다. |
+| 플러그인을 처음 등록하거나 닫힌 세션 연결 | 대상 Design 파일에서 등록된 개발 플러그인을 엽니다. 새 작업을 준비해 실행본이 바뀌면 같은 플러그인을 다시 엽니다. |
+| 프로토타입을 직접 눌러 체감 동작 확인, 유료 Inspect 화면 관찰 | 실제 Figma Present 또는 Dev Mode에서 확인합니다. 전이 설정의 읽기 결과와 실제 재생 관찰은 따로 기록합니다. |
+
+예를 들어 **“예약 버튼을 찾아 크기를 알려줘. 선택한 레이어 표는 일본어로 보여줘”**라고 요청할 수 있습니다. Figma에서 연결 정보를 펼치면 현재 선택을 레이어 이름·유형·ID로 볼 수 있습니다. 아래는 Codex가 대신 실행하는 예시입니다. `KEY`와 `REV`는 해당 파일·페이지에 준비한 `discover` 작업에서 가져옵니다.
+
+```sh
+ctl() { "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" --key "$KEY" --expected-revision "$REV" --file-key "$FILE" --page-id "$PAGE" "$@"; }
+ctl --operation select-node --node-id "$NODE"
+ctl --operation selection-info
+ctl --operation viewer-language --language ja
+ctl --operation viewer-history
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" activity --workspace "$WORKSPACE" --file-key "$FILE" --page-id "$PAGE"
+```
+
+`selection-info --include-text`는 선택한 텍스트 일부를 개인 읽기 결과 파일에 포함합니다. `viewer-history`는 지금 연결된 기기의 파일별 과거 이벤트를 반환합니다. 서버가 기록한 작업 단계와 검증 결과는 별도로 조회합니다. [패널 기능 대조표](../specs/codex-relay/parity-inventory.json)
+
+#### 작업별 Codex 실행 옵션
+
+| 요청 | 준비된 작업 | Codex가 전달하는 옵션과 확인할 결과 |
+|---|---|---|
+| 현재 페이지의 속성 요약 | `discover` 또는 해당 요약을 지원하는 `import` | `--operation native-summary`. 반환된 `coverage`로 포함된 노드와 속성을 확인합니다. |
+| 가져온 페이지 재사용 또는 별도 복사 | `import` | 기본 `--operation import`는 기존 페이지를 재사용할 수 있습니다. 별도 복사를 요청하면 `--fresh`를 추가하고 새로 생성된 페이지 ID와 원본 해시를 확인합니다. |
+| 그래프 변경 일부 적용 | 부분 선택이 포함된 `sync` | 로컬 보고서의 `changes`에서 해시, 행 식별자와 그룹을 먼저 보여 줍니다. 승인된 작업에 `--operation apply --plan-sha256 HASH --selected-id ROW`를 쓰고 추가 행마다 `--selected-id`를 반복합니다. |
+| 프로토타입 시작 프레임 보기 | 캐러셀·탭·FAQ 읽기 결과가 있는 `native-edit` | `--operation carousel-select`에 읽기 이력의 `--execution-id`와 `--state-id`를 전달합니다. `carousel-present`는 검증된 Figma 재생 링크를 열도록 요청하고 URL을 돌려줍니다. |
+| 앱 동기화 결과 미리보기 | 페어링된 `import` | `--operation sync` 후 호스트가 확인한 `preview_url`을 Codex에서 엽니다. 미리보기를 생성하지 못하면 동기화 영수증과 오류를 따로 알려 줍니다. |
+| 에셋, 작업 의존성, 진단 기록 조회 | 해당 파일·페이지의 작업 | `workspace_report.py --workspace DIR --file-key FILE --page-id PAGE --task-key KEY`로 조회합니다. 기기 이력까지 대조하려면 `viewer-history` 결과 파일을 `--history-export`로 지정합니다. 공유용 진단 파일은 `--format audit-json` 또는 `--format audit-markdown`으로 출력합니다. |
+
 Codex에서 현재 Figma 문맥과 저장된 프로필을 확인합니다.
 
 ```sh

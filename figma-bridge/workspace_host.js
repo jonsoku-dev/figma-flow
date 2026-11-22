@@ -500,13 +500,13 @@ function workspaceCarouselSummary(data, task, pageId) {
     status:carousel.status, initial_state:carousel.initial_state, flow_start_node_id:carousel.flow_start_node_id,
     states:carousel.states.slice(0,16), edges:edges.slice(0,80)});
 }
-function workspaceAttachCarousel(current, data, pageId) {
+function workspaceAttachCarousel(current, data, pageId, operation = 'apply') {
   const summary = workspaceCarouselSummary(data, current.task, pageId);
   if (!summary) return;
   let event = [...workspaceState.history].reverse().find(row => row.taskKey === current.task.key && row.revision === current.task.revision
     && row.executionId === current.executionId);
   if (!event) {
-    event = {taskKey:current.task.key, revision:current.task.revision || '', time:new Date().toISOString(), operation:'apply', status:'readback', executionId:current.executionId};
+    event = {taskKey:current.task.key, revision:current.task.revision || '', time:new Date().toISOString(), operation, status:'readback', executionId:current.executionId};
     workspaceState.history.push(event);
   }
   event.carousel = summary;
@@ -514,6 +514,7 @@ function workspaceAttachCarousel(current, data, pageId) {
   workspacePersist();
 }
 async function workspaceSelectCarousel(current, request, home = false) {
+  const deadline = Number.isFinite(request?.deadline) ? request.deadline * 1000 : Infinity;
   const task = home ? workspaceTasks.get(request?.taskKey) : current?.task;
   const event = [...workspaceState.history].reverse().find(row => row.taskKey === task?.key && row.revision === task?.revision
     && row.executionId === request?.executionId);
@@ -528,6 +529,9 @@ async function workspaceSelectCarousel(current, request, home = false) {
         || workspaceActive.task.key !== task.key || workspaceActive.task.revision !== task.revision)))
     throw Error('The prepared task session changed. Return to the current file task list.');
   if (!home && !workspaceCurrent(current)) throw Error('The prepared task session changed. Reopen it and try again.');
+  const initialPageId = figma.currentPage.id;
+  if (Number.isFinite(request?.deadline) && initialPageId !== summary.page_id)
+    throw Error('The active Figma page changed before carousel navigation.');
   const page = await figma.getNodeByIdAsync(summary.page_id);
   if (page?.type !== 'PAGE') throw Error('The carousel page is no longer available.');
   await page.loadAsync();
@@ -535,10 +539,12 @@ async function workspaceSelectCarousel(current, request, home = false) {
     ? workspaceHomeSession === request.workspaceSession && (!workspaceActive || workspaceActive.view === 'remote'
       && !workspaceBusy(workspaceActive) && workspaceActive.task.key === task.key && workspaceActive.task.revision === task.revision)
     : workspaceCurrent(current);
-  if (!scopeCurrent() || figma.fileKey !== summary.file_key) throw Error('The prepared task or active Figma file changed.');
+  if (!scopeCurrent() || figma.fileKey !== summary.file_key || Date.now() >= deadline ||
+      (Number.isFinite(request?.deadline) && figma.currentPage.id !== initialPageId))
+    throw Error('The prepared task, deadline or active Figma file/page changed.');
   if (figma.currentPage.id !== page.id) await figma.setCurrentPageAsync(page);
-  if (!scopeCurrent() || figma.fileKey !== summary.file_key || figma.currentPage.id !== page.id)
-    throw Error('The prepared task or active Figma page changed.');
+  if (!scopeCurrent() || figma.fileKey !== summary.file_key || figma.currentPage.id !== page.id || Date.now() >= deadline)
+    throw Error('The prepared task, deadline or active Figma page changed.');
   const frame = await figma.getNodeByIdAsync(summary.flow_start_node_id);
   let owner = frame;
   while (owner && owner.type !== 'PAGE') owner = owner.parent;
@@ -561,6 +567,10 @@ async function workspaceSelectCarousel(current, request, home = false) {
     workspaceSession:home ? workspaceHomeSession : current.session, executionId:request.executionId,
     stateId:summary.initial_state, nodeId:frame.id, ...(url ? {taskKey:task.key, url} : {})};
   figma.ui.postMessage(home ? result : {workspaceSession:current.session, payload:result});
+  return {schema:'figma-flow-carousel-action-v1', operation:request.action === 'present' ? 'carousel-present' : 'carousel-select',
+    taskKey:task.key, revision:task.revision, fileKey:summary.file_key, pageId:summary.page_id,
+    nodeId:frame.id, executionId:request.executionId, stateId:summary.initial_state,
+    ...(url ? {url, presentation:'openExternal-requested'} : {})};
 }
 function workspaceCarouselPresentationUrl(summary) {
   const safeFile = /^[A-Za-z0-9_-]{1,128}$/.test(summary?.file_key || '');
@@ -570,10 +580,11 @@ function workspaceCarouselPresentationUrl(summary) {
   return `https://www.figma.com/proto/${summary.file_key}/SaaS?node-id=${node}&starting-point-node-id=${node}&page-id=${page}&scaling=scale-down`;
 }
 function workspacePersist() {
-  if (!workspaceStorageKey || !figma.clientStorage) return;
+  if (!workspaceStorageKey || !figma.clientStorage) return Promise.resolve(false);
   const snapshot = JSON.parse(JSON.stringify(workspaceState));
   workspaceWrites = workspaceWrites.catch(() => {}).then(() => figma.clientStorage.setAsync(workspaceStorageKey, snapshot))
-    .catch(() => {workspaceStorageError = true;});
+    .then(() => true, () => {workspaceStorageError = true; return false;});
+  return workspaceWrites;
 }
 function workspaceJournalHistory(view) {
   if (!view || typeof view !== 'object' || view.classification === 'legacy') return {classification: 'legacy', phase: 'unknown', phases: []};
@@ -687,7 +698,7 @@ function workspaceRelayViewerState(status = workspaceRelayStatus, error = worksp
   const page = figma.currentPage || null;
   const selection = workspaceRelaySelection();
   const selectionTotal = workspaceRelaySelectionTotal();
-  figma.ui.postMessage({type:'workspace-relay-viewer-state', workspaceSession:workspaceHomeSession,
+  figma.ui.postMessage({type:'workspace-relay-viewer-state', workspaceSession:workspaceHomeSession, locale:workspaceState.locale,
     ...(workspaceRelayRequestId ? {requestId:workspaceRelayRequestId} : {}), status,
     file:{key:figma.fileKey || null, name:typeof figma.root?.name === 'string' ? figma.root.name.slice(0, 200) : ''},
     page:{id:page?.id || null, name:typeof page?.name === 'string' ? page.name.slice(0, 200) : ''},

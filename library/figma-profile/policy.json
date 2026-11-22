@@ -38,10 +38,24 @@
   },
   "refreshBeforeDispatch": ["designEdit"],
   "passthrough": ["ready", "receipt", "verification", "download", "chat:prepare", "chat:queue", "chat:open", "chat:open-fallback", "chat:back"],
+  "taskOperations": {
+    "review": ["create"],
+    "import": ["read", "import", "sync", "native-summary"],
+    "discover": ["read", "native-summary", "select-node", "selection-info", "viewer-history", "viewer-language"],
+    "sync": ["read", "apply"],
+    "native-edit": ["read", "apply", "carousel-select", "carousel-present"]
+  },
   "operations": {
     "read": "designRead",
     "export": "designRead",
     "native-summary": "designRead",
+    "carousel-select": "designRead",
+    "carousel-present": "designRead",
+    "select-node": "designRead",
+    "selection-info": "designRead",
+    "viewer-history": "designRead",
+    "viewer-language": "designRead",
+
     "create": "designEdit",
     "draft-review": "designEdit",
     "import": "designEdit",

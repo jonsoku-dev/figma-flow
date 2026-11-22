@@ -25,7 +25,8 @@ await build({
   logLevel: 'info',
 });
 const licenses = await Promise.all(
-  ['react', 'react-dom', 'scheduler', 'lucide-react'].map(
+  ['react', 'react-dom', 'scheduler', 'lucide-react', 'use-sync-external-store', '@tanstack/react-query',
+    '@tanstack/query-core', '@tanstack/react-table', '@tanstack/table-core', '@tanstack/react-store', '@tanstack/store'].map(
     async (name) =>
       name +
       '\n' +

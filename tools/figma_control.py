@@ -21,26 +21,46 @@ import time
 
 import figma_workspace as workspace
 import operation_detail as detail_projection
+import relay_view
 
+CAROUSEL_OPERATIONS = frozenset({'carousel-select', 'carousel-present'})
 SCHEMA = 'figma-flow-control-v1'
 MAX_BODY = 40 * 1024 * 1024
 MAX_READBACK = 32 * 1024 * 1024
 MAX_LARGE_READ_BODY = 80 * 1024 * 1024
 MAX_LARGE_READBACK = 64 * 1024 * 1024
-OPERATIONS = {'review': {'create'}, 'import': {'read', 'import', 'sync'},
-              'discover': {'read'}, 'sync': {'read', 'apply'}, 'native-edit': {'read', 'apply'}}
+NON_CANVAS_OPERATIONS = {'native-summary', *relay_view.OPERATIONS, *CAROUSEL_OPERATIONS}
+READ_ONLY_OPERATIONS = {'read', *NON_CANVAS_OPERATIONS}
 TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
 ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
 MAX_READINESS = 64 * 1024
 READINESS_PROTOCOL = 'figma-flow-control-readiness-v1'
+
+
+def operation_options(operation, options):
+    if operation in relay_view.OPERATIONS:
+        return relay_view.validate_options(operation, options)
+    if operation in CAROUSEL_OPERATIONS:
+        if not isinstance(options, dict) or set(options) != {'execution_id', 'state_id'}:
+            raise ValueError('Carousel operation requires its readback execution and state IDs')
+        if not isinstance(options['execution_id'], str) or not re.fullmatch(r'[a-z0-9-]{1,80}', options['execution_id']):
+            raise ValueError('Invalid carousel readback execution ID')
+        if not isinstance(options['state_id'], str) or not re.fullmatch(r'[^\x00-\x1f]{1,128}', options['state_id']):
+            raise ValueError('Invalid carousel state ID')
+        return dict(options)
+    if options is not None:
+        raise ValueError('Operation options are not admitted for this operation')
+    return None
 # Capture the implementation loaded by this process, even if installation files change later.
 LOADED_VERSION = json.loads((Path(__file__).resolve().parents[1] / 'plugin.json').read_bytes())['version']
 PROFILE_POLICY_PATH = Path(__file__).resolve().parents[1] / 'library' / 'figma-profile' / 'policy.json'
 PROFILE_POLICY = json.loads(PROFILE_POLICY_PATH.read_bytes())
+OPERATIONS = {kind: set(actions) for kind, actions in PROFILE_POLICY['taskOperations'].items()}
 LOADED_IMPLEMENTATION = hashlib.sha256(
     Path(__file__).read_bytes()
     + b'\0' + Path(workspace.__file__).read_bytes()
     + b'\0' + Path(detail_projection.__file__).read_bytes()
+    + b'\0' + Path(relay_view.__file__).read_bytes()
     + b'\0' + PROFILE_POLICY_PATH.read_bytes()
 ).hexdigest()
 
@@ -366,11 +386,14 @@ class ReadinessError(ValueError):
     pass
 
 
-def require_ready(root, key, operation, file_key, page_id, revision, *, focus_page=False):
+def require_ready(root, key, operation, file_key, page_id, revision, *, focus_page=False, viewer_options=None):
     root = workspace.private_dir(root)
     settings = config(root)
-    row = task(root, {'key': key, 'operation': operation, 'file_key': file_key,
-                      'page_id': page_id, 'revision': revision, 'focus_page': focus_page})
+    task_request = {'key': key, 'operation': operation, 'file_key': file_key,
+                    'page_id': page_id, 'revision': revision, 'focus_page': focus_page}
+    if operation in relay_view.OPERATIONS | CAROUSEL_OPERATIONS:
+        task_request['viewer_options'] = operation_options(operation, viewer_options or {})
+    row = task(root, task_request)
     repair = '; restart only this workspace\'s existing serve command using the current installed plugin root'
     connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=3)
     try:
@@ -453,6 +476,22 @@ def task(root, request):
     row = matches[0]
     if request['operation'] not in OPERATIONS.get(row['kind'], set()):
         raise ValueError('Operation is not admitted for this task kind')
+    if 'fresh' in request and (not isinstance(request['fresh'], bool) or request['fresh'] and request['operation'] != 'import'):
+        raise ValueError('Fresh import flag is invalid for this operation')
+    selection = request.get('selection')
+    if selection is not None and (request['operation'] != 'apply' or not isinstance(selection, dict)
+            or row['kind'] != 'sync'
+            or set(selection) != {'protocol', 'plan_sha256', 'selected_ids'} or selection.get('protocol') != 2
+            or not isinstance(selection.get('plan_sha256'), str) or not re.fullmatch(r'[a-f0-9]{64}', selection['plan_sha256'])
+            or not isinstance(selection.get('selected_ids'), list) or not 0 < len(selection['selected_ids']) <= 500
+            or len(set(selection['selected_ids'])) != len(selection['selected_ids'])
+            or any(not isinstance(item, str) or not re.fullmatch(r'[^\x00-\x1f]{1,240}', item) for item in selection['selected_ids'])):
+        raise ValueError('Partial apply selection is malformed')
+    if request['operation'] in relay_view.OPERATIONS | CAROUSEL_OPERATIONS:
+        if request.get('viewer_options') != operation_options(request['operation'], request.get('viewer_options', {})):
+            raise ValueError('Viewer options are malformed')
+    elif request.get('viewer_options') is not None:
+        raise ValueError('Viewer options are not admitted for this operation')
     for field, argument in (('fileKey', 'file_key'), ('pageId', 'page_id')):
         if row.get(field) is not None and row[field] != request[argument]:
             raise ValueError('Prepared task scope differs from command scope')
@@ -469,7 +508,7 @@ def task(root, request):
 
 
 def save(directory, request):
-    if request['state'] == 'uncertain' and request['operation'] != 'read':
+    if request['state'] == 'uncertain' and request['operation'] not in READ_ONLY_OPERATIONS:
         pending = uncertainties(directory)
         pending['operations'][request['id']] = request.copy()
         workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
@@ -489,7 +528,7 @@ def uncertainties(directory):
     operations = {}
     for path in (directory / 'requests').glob('*.json'):
         request = workspace.read(path, private=True, limit=32768)
-        if request.get('state') == 'uncertain' and request.get('operation') != 'read':
+        if request.get('state') == 'uncertain' and request.get('operation') not in READ_ONLY_OPERATIONS:
             operations[request['id']] = request
     pending = {'schema': SCHEMA, 'operations': operations}
     workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
@@ -686,7 +725,7 @@ def enable(root, port):
     return {'enabled': True, 'port': port, 'refresh_required': True}
 
 
-def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus_page=False):
+def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus_page=False, fresh=False, selected_ids=None, plan_sha256=None, viewer_options=None):
     scope(file_key, page_id, revision)
     if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not 1 <= timeout <= 3600:
         raise ValueError('Timeout must be between 1 and 3600 seconds')
@@ -696,12 +735,28 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
         previous = active(directory)
         if previous and previous['state'] not in TERMINAL:
             raise ValueError('An operation is already active; inspect its status')
-        if uncertainties(directory)['operations'] and operation != 'read':
+        if uncertainties(directory)['operations'] and operation not in READ_ONLY_OPERATIONS:
             raise ValueError('Previous claimed operation is uncertain; re-read the native state before starting another command')
+        if not isinstance(fresh, bool) or (fresh and operation != 'import'):
+            raise ValueError('Fresh import is available only for import operations')
+        selection = None
+        if selected_ids is not None or plan_sha256 is not None:
+            if operation != 'apply' or not isinstance(plan_sha256, str) or not re.fullmatch(r'[a-f0-9]{64}', plan_sha256):
+                raise ValueError('Partial apply requires an exact selection plan hash')
+            if not isinstance(selected_ids, list) or not selected_ids or len(selected_ids) > 500 or any(
+                    not isinstance(item, str) or not re.fullmatch(r'[^\x00-\x1f]{1,240}', item) for item in selected_ids) or len(set(selected_ids)) != len(selected_ids):
+                raise ValueError('Partial apply requires unique bounded selected IDs')
+            selection = {'protocol': 2, 'plan_sha256': plan_sha256, 'selected_ids': selected_ids}
         request = {'schema': SCHEMA, 'id': secrets.token_hex(16), 'key': key, 'operation': operation,
                    'file_key': file_key, 'page_id': page_id, 'revision': revision,
                    'focus_page': focus_page,
                    'created_at': time.time(), 'deadline': time.time() + timeout, 'state': 'pending'}
+        if fresh: request['fresh'] = True
+        if selection: request['selection'] = selection
+        if operation in relay_view.OPERATIONS | CAROUSEL_OPERATIONS:
+            request['viewer_options'] = operation_options(operation, viewer_options or {})
+        elif viewer_options is not None:
+            raise ValueError('Viewer options are available only for viewer operations')
         task(root, request)
         record_phase(request, 'queued')
         save(directory, request)
@@ -759,7 +814,7 @@ def poll(root, payload):
             return poll_reply({'operation': None, **native})
         if request['operation'] != 'read' and native['native_status'] != 'current-self-reported':
             return poll_reply({'operation': None, **native})
-        if request['operation'] != 'read' and uncertainties(directory)['operations']:
+        if request['operation'] not in READ_ONLY_OPERATIONS and uncertainties(directory)['operations']:
             request.update(state='error', error='Previous mutation remains uncertain', completed_at=time.time())
             save(directory, request)
             return poll_reply({'operation': None, **native})
@@ -777,7 +832,12 @@ def poll(root, payload):
         if lifecycle_present(request):
             record_phase(request, 'claimed')
         save(directory, request)
-        return poll_reply({**native, 'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}})
+        command_fields = ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')
+        command = {**{key: request[key] for key in command_fields}, 'focus_page': request.get('focus_page', False)}
+        if request.get('fresh'): command['fresh'] = True
+        if request.get('selection'): command['selection'] = request['selection']
+        if request.get('viewer_options') is not None: command['viewer_options'] = request['viewer_options']
+        return poll_reply({**native, 'operation': command})
 
 
 def result(root, payload, *, large_body_bytes=None):
@@ -907,7 +967,7 @@ def history(root, payload):
             if request.get('id') != path.stem or not isinstance(request.get('key'), str) or len(request['key']) > 200:
                 continue
             revision = request.get('revision')
-            if not isinstance(revision, str) or not re.fullmatch(r'[a-f0-9]{64}', revision) or request.get('operation') not in {'read', 'import', 'sync', 'create', 'apply'}:
+            if not isinstance(revision, str) or not re.fullmatch(r'[a-f0-9]{64}', revision) or request.get('operation') not in set.union(*OPERATIONS.values()):
                 continue
             rows.append({'taskKey': request['key'], 'revision': revision, 'operation': request['operation'],
                          'operationId': request['id'], **{key: journal[key] for key in ('classification', 'phase', 'phases')}})
@@ -1241,6 +1301,14 @@ def main(argv=None):
                 command.add_argument('--' + field, required=True)
             command.add_argument('--operation', choices=sorted(set.union(*OPERATIONS.values())), required=True)
             command.add_argument('--timeout', type=float, default=120)
+            command.add_argument('--fresh', action='store_true', help='Import the source as a new page')
+            command.add_argument('--plan-sha256')
+            command.add_argument('--selected-id', action='append', dest='selected_ids')
+            command.add_argument('--node-id')
+            command.add_argument('--language')
+            command.add_argument('--include-text', action='store_true')
+            command.add_argument('--execution-id')
+            command.add_argument('--state-id')
             command.add_argument('--no-wait', action='store_true', help='Return after queueing on a compatible running server')
             command.add_argument('--focus-page', action='store_true', help='Focus the exact signed task page within the current file')
     args = parser.parse_args(argv)
@@ -1272,8 +1340,32 @@ def main(argv=None):
                         time.sleep(.25)
                         value = relay_request(args.workspace, 'profile-status', request_id=value['request_id'])
         else:
-            require_ready(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, focus_page=args.focus_page)
-            value = enqueue(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, args.timeout, focus_page=args.focus_page)
+            viewer_options = {}
+            if args.operation not in CAROUSEL_OPERATIONS and (args.execution_id is not None or args.state_id is not None):
+                raise ValueError('Carousel flags do not match the selected operation')
+            if args.operation == 'select-node':
+                if args.language is not None or args.include_text: raise ValueError('Viewer flags do not match select-node')
+                viewer_options = {'node_id': args.node_id}
+            elif args.operation == 'viewer-language':
+                if args.node_id is not None or args.include_text: raise ValueError('Viewer flags do not match viewer-language')
+                viewer_options = {'language': args.language}
+            elif args.operation == 'selection-info':
+                if args.node_id is not None or args.language is not None: raise ValueError('Viewer flags do not match selection-info')
+                viewer_options = {'include_text': args.include_text}
+            elif args.operation == 'viewer-history':
+                if args.node_id is not None or args.language is not None or args.include_text:
+                    raise ValueError('Viewer flags do not match viewer-history')
+            elif args.operation in CAROUSEL_OPERATIONS:
+                if args.node_id is not None or args.language is not None or args.include_text:
+                    raise ValueError('Viewer flags do not match carousel operation')
+                viewer_options = {'execution_id': args.execution_id, 'state_id': args.state_id}
+            elif args.node_id is not None or args.language is not None or args.include_text:
+                raise ValueError('Viewer flags do not match the selected operation')
+            require_ready(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision,
+                          focus_page=args.focus_page, viewer_options=viewer_options)
+            value = enqueue(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, args.timeout,
+                            focus_page=args.focus_page, fresh=args.fresh, selected_ids=args.selected_ids, plan_sha256=args.plan_sha256,
+                            viewer_options=viewer_options if args.operation in relay_view.OPERATIONS | CAROUSEL_OPERATIONS else None)
             if not args.no_wait:
                 while value['state'] not in TERMINAL:
                     time.sleep(min(.2, max(.01, value['deadline'] - time.time())))

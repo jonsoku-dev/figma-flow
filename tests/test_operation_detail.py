@@ -131,6 +131,12 @@ class OperationDetailTests(unittest.TestCase):
         kwargs.setdefault('thread_id', THREAD)
         return workspace.prepare(self.root, key, title, kind, args, **kwargs)
 
+    def test_operation_detail_allowlist_matches_local_profile_policy(self):
+        policy = json.loads((ROOT / 'library/figma-profile/policy.json').read_text(encoding='utf-8'))
+        expected = set().union(*map(set, policy['taskOperations'].values()))
+        self.assertEqual(detail_mod.ALLOWED_OPERATIONS, expected)
+        self.assertEqual(set().union(*control.OPERATIONS.values()), expected)
+
     def make_pairing(self, graph_path, native, out_name='pairing.json'):
         loaded = load_graph(graph_path)
         plan = build_plan(loaded, native)
@@ -285,6 +291,19 @@ class OperationDetailTests(unittest.TestCase):
         self.assertEqual(detail['diff']['status'], 'unavailable')
         self.assertEqual(detail['diff']['reason'], 'read-only-operation')
         self.assertEqual(self.snapshot(), before_snapshot)
+
+    def test_viewer_history_operation_is_in_canonical_journal_and_detail(self):
+        task = self.prepare_task('viewer-history', 'Viewer history', 'discover',
+            ['--file-key', 'fixturefile', '--page-id', '12:1'])
+        request = control.enqueue(self.root, 'viewer-history', 'viewer-history', 'fixturefile', '12:1',
+            task['revision'], 120, viewer_options={})
+        rows = control.history(self.root, {'session_id':'plugin-session-1', 'file_key':'fixturefile',
+            'page_id':'12:1', 'runtime':self.current_runtime()})['journalHistory']
+        self.assertEqual(rows[-1]['operation'], 'viewer-history')
+        detail = control.history_detail(self.root, self.detail_payload(request['id'], 'viewer-history', task['revision']))
+        self.assertTrue(detail['readOnly'])
+        self.assertEqual(detail['operation'], 'viewer-history')
+        self.assertEqual(detail['task']['key'], 'viewer-history')
 
     def test_two_scoped_runs_unavailable_then_positive_diff_and_redaction(self):
         # Prepare native-edit revision 1 and execute scoped Run 1.

@@ -20,7 +20,8 @@ MAX_RELATIONS = 200
 MAX_PHASES = 128
 MAX_RESPONSE_BYTES = 256 * 1024
 
-ALLOWED_OPERATIONS = {'read', 'import', 'sync', 'create', 'apply'}
+_PROFILE_POLICY = json.loads((Path(__file__).resolve().parents[1] / 'library' / 'figma-profile' / 'policy.json').read_text(encoding='utf-8'))
+ALLOWED_OPERATIONS = set().union(*map(set, _PROFILE_POLICY['taskOperations'].values()))
 ALLOWED_STATES = {'pending', 'claimed', 'ok', 'error', 'uncertain', 'expired'}
 ALLOWED_RELATION_TYPES = {'declared-dependency', 'recovery-of', 'artifact-input'}
 ALLOWED_TASK_KINDS = {'discover', 'import', 'native-edit', 'review', 'sync'}

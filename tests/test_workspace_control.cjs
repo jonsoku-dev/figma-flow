@@ -8,11 +8,11 @@ const source = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_c
 function driver(kind, callback) {
   const task = {key:'sample', revision:'r', kind, fileKey:'file',sourceSha256:'abc'};
   const history = [];
-  const env = {figma:{fileKey:'file',currentPage:{id:'0:1'}}, workspaceActive:null, task, history,
+  const env = {figma:{fileKey:'file',currentPage:{id:'0:1'}}, workspaceActive:null, workspaceHomeSession:'home', task, history,
     workspaceRecord:(active, op, state)=>history.push([op,state,active.executionId]),
     async workspaceOpen() {
       const active = {inFlight:0, html:'<script id="graph-panel-config" type="application/json">{"session":"s"}</script>\nconst PAIR = null;\n'};
-      active.handler = msg => callback(msg, event=>active.onOutput(event));
+      active.handler = msg => callback(msg, event=>active.onOutput(event), env);
       env.workspaceActive = active;
       return active;
     }
@@ -67,13 +67,98 @@ test('readback is required after a successful import',async()=>{
   });
   assert.equal((await run('import')).pages[0].id,'0:1');assert.equal(env.workspaceActive,null);
 });
+test('fresh import forwards the signed option and reads back the newly created page',async()=>{
+  let fresh;
+  const {run}=driver('import',(m,post,env)=>{
+    if(m.type==='ready')post({ready:true,session_nonce:m.session_nonce});
+    if(m.type==='import'){fresh=m.fresh;post({type:'busy',value:true,operation:'import'});post({type:'status',event:'imported',page_id:'8:4',source_sha256:'abc'});env.figma.currentPage={id:'8:4'};post({type:'busy',value:false});}
+    if(m.type==='export')post({type:'readback',data:{format:'figma-flow-readback-v1',pages:[{id:'8:4',declared_metadata:{complete:true},source_sha256:'abc'}]}});
+  });
+  const value=await run('import',{fresh:true});
+  assert.equal(fresh,true);assert.equal(value.pages[0].id,'8:4');
+});
+test('import native summary returns its summary field without exporting a full readback',async()=>{
+  const {run}=driver('import',(m,post)=>{
+    if(m.type==='ready')post({ready:true,session_nonce:m.session_nonce});
+    if(m.type==='native-summary')post({type:'native-summary',summary:{schema:'figma-flow-native-read-summary-v1',coverage:{profile:'summary',complete:false,nodeIds:['0:1'],fields:['width','height']}}});
+  });
+  assert.equal((await run('native-summary')).coverage.complete,false);
+});
+test('sync preview survives only when the local app emits the same safe localhost URL',async()=>{
+  const run=preview=>{
+    const {run}=driver('import',(m,post)=>{
+      if(m.type==='ready')post({ready:true,paired:true,session_nonce:m.session_nonce});
+      if(m.type==='sync'){
+        post({type:'sync-result',result:{status:'applied',preview_url:'http://localhost:4310/'}});
+        if(preview)post({type:'preview',url:preview});
+      }
+    });
+    return run('sync');
+  };
+  assert.equal((await run('http://localhost:4310/')).preview_url,'http://localhost:4310/');
+  assert.equal(Object.hasOwn(await run('http://localhost:9999/'),'preview_url'),false);
+  assert.equal(Object.hasOwn(await run(undefined),'preview_url'),false);
+});
 test('graph errors return diagnostic readback instead of an apparent success',async()=>{
   const {run}=driver('sync',(m,post)=>post({session:m.session,operation:m.type,error:'collision',readback:{status:'rolled-back'}}));
   await assert.rejects(run('apply'),e=>e.message==='collision' && e.nativeReadback.status==='rolled-back');
 });
+test('partial apply forwards only unique selections pinned by the graph plan',async()=>{
+  let received;
+  const {run,env}=driver('sync',(m,post)=>{
+    received=m;
+    post({session:m.session,operation:m.type,readback:{schema:'figma-flow-graph-token-readback-v1',file_key:'file',page_id:'0:1',status:'success'}});
+  });
+  env.workspaceOpen=async()=>{
+    const config={session:'s',selection_manifest:{plan_sha256:'a'.repeat(64),changes:[{identity:'space / 1'},{identity:'color'}]}};
+    const active={inFlight:0,html:`<script type="application/json" id="flow-model">${JSON.stringify(config)}</script>`};
+    active.handler=msg=>{received=msg;receivedHandler(msg,event=>active.onOutput(event));};env.workspaceActive=active;return active;
+  };
+  await run('apply',{selection:{protocol:2,plan_sha256:'a'.repeat(64),selected_ids:['space / 1']}});
+  assert.deepEqual(Array.from(received.selected_ids),['space / 1']);
+  assert.equal(received.plan_sha256,'a'.repeat(64));
+  async function receivedHandler(message,post){post({session:message.session,operation:message.type,readback:{schema:'figma-flow-graph-token-readback-v1',file_key:'file',page_id:'0:1',status:'success'}});}
+});
+test('selected IDs cannot turn a native-edit apply into a full unfiltered apply',async()=>{
+  let calls=0;
+  const {run,env}=driver('native-edit',()=>calls++);
+  env.workspaceOpen=async()=>{const active={inFlight:0,model:{session:'s'},html:'<script type="application/json" id="flow-model">{"session":"s"}</script>'};active.handler=()=>calls++;env.workspaceActive=active;return active;};
+  await assert.rejects(run('apply',{selection:{protocol:2,plan_sha256:'a'.repeat(64),selected_ids:['one']}}),/only to a signed graph token task/);
+  assert.equal(calls,0);
+});
 test('discovery returns the actual scoped getter and never calls apply',async()=>{
   const {run}=driver('discover',(m,post)=>{assert.equal(m.type,'read');post({session:m.session,operation:m.type,readback:{schema:'figma-flow-graph-native-discovery-v1',fileKey:'file',pageId:'0:1',nodes:[{id:'n'}]}});});
   assert.equal((await run('read')).nodes[0].id,'n');
+});
+test('discovery native summary preserves the panel readback contract',async()=>{
+  const {run}=driver('discover',(m,post)=>post({session:m.session,operation:m.type,readback:{schema:'figma-flow-native-read-summary-v1',coverage:{profile:'summary',complete:false,nodeIds:['0:1'],fields:['width','height']}}}));
+  assert.equal((await run('native-summary')).coverage.profile,'summary');
+});
+test('signed carousel commands reuse the current task readback and return the presentation request',async()=>{
+  const {run,env}=driver('native-edit',()=>{});
+  const carousel={schema:'figma-flow-carousel-summary-v1',status:'current',file_key:'file',page_id:'0:1',initial_state:'s0',flow_start_node_id:'0:9',states:[{state_id:'s0',status:'current'}],edges:[]};
+  let request;
+  env.workspaceHomeSession='home';env.workspaceState={history:[{taskKey:'sample',revision:'r',executionId:'run-1',carousel}]};
+  env.workspaceStoredCarousel=value=>value;
+  env.workspaceSelectCarousel=async(_current,value,home)=>{request={...value,home};return {type:'workspace-carousel-presented',presentation:'openExternal-requested',url:'https://www.figma.com/proto/file/SaaS?node-id=0-9'}};
+  const result=await run('carousel-present',{viewer_options:{execution_id:'run-1',state_id:'s0'}});
+  assert.equal(request.action,'present');assert.equal(request.taskKey,'sample');assert.equal(request.workspaceSession,'home');assert.equal(request.home,true);
+  assert.equal(result.presentation,'openExternal-requested');
+});
+test('a signed native read stores its carousel receipt under read rather than apply',async()=>{
+  const {run,env}=driver('native-edit',()=>{});
+  const digest='a'.repeat(64), config={session:'s',web_screen_receipt:{graph_sha256:digest,screen_ids:['screen']}};
+  let attached;
+  env.workspaceAttachCarousel=(_active,_data,_page,operation)=>{attached=operation;};
+  env.workspaceOpen=async()=>{
+    const active={inFlight:0,html:`<script type="application/json" id="flow-model">${JSON.stringify(config)}</script>`};
+    active.handler=message=>active.onOutput({session:'s',operation:'read',readback:{schema:'figma-flow-web-screen-discovery-v1',readback_scope:'screens',
+      graph_sha256:digest,fileKey:'file',pageId:'0:1',nodes:[{}],native_edit:{operation:'read',applied:false},
+      web_design:{graph_sha256:digest,screens:[{screen_id:'screen'}],carousel:{}}}});
+    env.workspaceActive=active;return active;
+  };
+  await run('read');
+  assert.equal(attached,'read');
 });
 test('native graph review uses the signed native-edit read and apply contract',async()=>{
   const {run,env}=driver('native-edit',()=>{});

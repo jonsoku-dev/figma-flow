@@ -1,0 +1,323 @@
+{
+  "schema": "figma-flow-panel-codex-parity-v1",
+  "scope": {
+    "productVersion": "0.36.0",
+    "authority": "Current checked-out source and guide; historical panel screenshots are not runtime evidence.",
+    "rule": "A Codex route is an equivalent only when its operation and resulting user outcome are evidenced. A hidden, disabled, retired, or unsupported panel control is not an equivalent.",
+    "runtimeBoundary": "This inventory is a source and CLI-surface audit. It does not claim that each listed operation was executed against a live Figma document."
+  },
+  "categories": [
+    "codex_route",
+    "figma_runtime_or_direct_interaction",
+    "retained_panel_control",
+    "no_equivalent"
+  ],
+  "items": [
+    {
+      "id": "nav.tasks",
+      "legacySurface": "Workspace task list",
+      "action": "Browse/filter prepared work and open a task",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_workspace.py list; tools/figma_control.py run --workspace ... --key ... --operation ...",
+      "limits": "The registered idle view is the status RelayViewer. Codex list/run provides the task data and operation outcome, but not the old task-list interaction.",
+      "evidence": ["panel-ui/src/Workspace.jsx:taskList", "figma-bridge/workspace_host.js:workspaceOpen", "docs/guide.md:Codex run/list workflow"]
+    },
+    {
+      "id": "nav.history",
+      "legacySurface": "Workspace history tab",
+      "action": "Browse run receipts and reopen a task",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_workspace.py activity --workspace ... --file-key ... --page-id ...; tools/figma_control.py run --operation viewer-history (discover task); tools/figma_workspace.py history-detail --workspace ... --file-key ... --page-id ... --operation-id ... --task-key ... --revision ...",
+      "limits": "Activity returns bounded canonical server request history; viewer-history separately returns the last 80 native clientStorage entries. They are separate sources and do not recreate interactive filtering. history-detail is scoped to supported operation records.",
+      "evidence": ["panel-ui/src/Workspace.jsx:historyList", "figma-bridge/relay_view.js:viewer-history", "tools/figma_workspace.py:activity", "tools/figma_workspace.py:history_detail"]
+    },
+    {
+      "id": "workspace.history-task-filter",
+      "legacySurface": "Workspace activity/history task selector",
+      "action": "Show history and activity for one selected task",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_workspace.py activity returns taskKey for each operation; filter the returned rows in Codex",
+      "limits": "The result set can be narrowed by task key without the UI selector. Native clientStorage history is a separate viewer-history response.",
+      "evidence": ["panel-ui/src/Workspace.jsx:activityTask", "tools/figma_workspace.py:activity", "figma-bridge/relay_view.js:viewer-history"]
+    },
+    {
+      "id": "nav.codex",
+      "legacySurface": "Workspace Codex tab / handoff",
+      "action": "Open or continue the linked Codex conversation",
+      "currentStatus": "codex_route",
+      "codexPath": "The Codex conversation itself",
+      "limits": "Use the active Codex conversation directly; task-specific thread handoff still depends on thread metadata.",
+      "evidence": ["panel-ui/src/Workspace.jsx:open", "figma-bridge/workspace_host.js:workspace-chat", "figma-bridge/workspace_host.js:workspace-chat-open"]
+    },
+    {
+      "id": "workspace.task-filters",
+      "legacySurface": "Workspace project and task-kind filters",
+      "action": "Filter visible prepared tasks by project and task kind",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_workspace.py list; filter returned rows by project/kind in Codex",
+      "limits": "The panel only offers project selection for more than one project and kind selection when there are more than four tasks and multiple kinds. The CLI has no widget or filter flags, but returns the project/kind data needed to produce the same set.",
+      "evidence": ["panel-ui/src/Workspace.jsx:project-filter", "panel-ui/src/Workspace.jsx:stage-filter", "tools/figma_workspace.py:list_tasks"]
+    },
+    {
+      "id": "profile.declare-plan-seat",
+      "legacySurface": "Workspace profile setup/settings (not present in the registered idle RelayViewer)",
+      "action": "Read or declare plan/seat and inspect save status",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py profile get|set|status",
+      "limits": "Values are user declarations, not entitlement proof. Use the scope-bound profile CLI path; the registered idle RelayViewer displays a profile summary but has no profile editor.",
+      "evidence": ["panel-ui/src/WorkspaceProfile.jsx", "figma-bridge/workspace_host.js:workspace-profile-save", "tools/figma_control.py:profile command", "docs/guide.md:profile CLI workflow"]
+    },
+    {
+      "id": "workspace.locale",
+      "legacySurface": "Workspace language selector",
+      "action": "Change the panel locale and persist it for the active workspace",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --workspace ... --key DISCOVER_TASK --operation viewer-language --language ko|en|ja --file-key ... --page-id ... --expected-revision ...",
+      "limits": "The command changes the actual viewer locale and persists it where clientStorage is available; locale options are those compiled into this installation. The 400x300 relay viewer has no in-panel language selector.",
+      "evidence": ["panel-ui/src/components.jsx:workspace language selector", "figma-bridge/relay_view.js:viewer-language", "panel-ui/src/useRelaySnapshot.js:locale update", "tools/relay_view.py:validate_options"]
+    },
+    {
+      "id": "import.import",
+      "legacySurface": "Import panel",
+      "action": "Import prepared structured content into Figma",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation import",
+      "limits": "Only a signed prepared import task for the exact file/page/revision; the old panel's interactive source/freshness choices are not implied by the CLI route.",
+      "evidence": ["figma-bridge/ui.html:import button", "figma-bridge/workspace_host.js:workspaceOperations", "tools/figma_control.py:OPERATIONS", "docs/guide.md:allowed operations"]
+    },
+    {
+      "id": "import.fresh-existing-choice",
+      "legacySurface": "Import panel",
+      "action": "Choose fresh creation versus reusing existing imported structures",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation import [--fresh]",
+      "limits": "The signed run and Figma host dispatch carry the fresh flag. Without `--fresh`, normal reuse behavior remains the default; the CLI has no matching checkbox UI.",
+      "evidence": ["figma-bridge/ui.html:fresh checkbox", "figma-bridge/ui.html:import click handler", "tools/figma_control.py:enqueue", "figma-bridge/workspace_control.js:import dispatch"]
+    },
+    {
+      "id": "import.read-export",
+      "legacySurface": "Import panel",
+      "action": "Read native content and display/download readback JSON",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation read; validate returned readback",
+      "limits": "Signed `read` is the native readback route, not the legacy `export` command or its panel JSON display/download controls.",
+      "evidence": ["figma-bridge/ui.html:export and save buttons", "tools/figma_control.py:OPERATIONS", "docs/guide.md:readback verification"]
+    },
+    {
+      "id": "import.sync",
+      "legacySurface": "Import panel paired sync section",
+      "action": "Synchronize a supported paired app state",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation sync",
+      "limits": "Only when the prepared import task has a supported paired-app state; CLI acceptance does not mean every old sync UI state is available.",
+      "evidence": ["figma-bridge/ui.html:sync button", "tools/figma_control.py:OPERATIONS", "docs/guide.md:import operation matrix"]
+    },
+    {
+      "id": "import.open-source-preview",
+      "legacySurface": "Import panel preview area",
+      "action": "Open or inspect the actual paired source application preview",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation sync; open the returned preview_url from the Codex result",
+      "limits": "The paired sync server generates the preview only after update_preview succeeds. The Figma handler accepts it only when preview_url equals the configured localhost preview URL, and the signed host strips the URL unless the matching native preview event arrives. Available only for a supported paired import task; preview is not playback or Figma visual acceptance.",
+      "evidence": ["panel-ui/src/ImportPanel.jsx:preview-link/preview-frame", "tools/serve_figma_sync.py:preview generation", "figma-bridge/code.js:sync-result/preview validation", "figma-bridge/workspace_control.js:sync result preview guard"]
+    },
+    {
+      "id": "review.create",
+      "legacySurface": "Review panel",
+      "action": "Create a native review board/draft",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation create (review task)",
+      "limits": "The panel's candidate-direction selection is a separate human decision in Codex; creating the review is not selecting a direction.",
+      "evidence": ["panel-ui/src/ReviewPanel.jsx", "tools/figma_control.py:OPERATIONS", "docs/guide.md:review and WAIT_SELECTION workflow"]
+    },
+    {
+      "id": "review.save-readback",
+      "legacySurface": "Review panel result section",
+      "action": "Save the actual native review readback as JSON",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation create; retain the returned JSON or inspect it with status --id OPERATION_ID",
+      "limits": "Codex receives the same readback payload but the panel's one-click file download is not reproduced by the CLI.",
+      "evidence": ["panel-ui/src/ReviewPanel.jsx:save", "tools/figma_control.py:status", "docs/guide.md:readback verification"]
+    },
+    {
+      "id": "review.select-direction",
+      "legacySurface": "Review panel",
+      "action": "Select a candidate design direction",
+      "currentStatus": "codex_route",
+      "codexPath": "Codex conversation after presenting current candidate materials",
+      "limits": "Requires the user's explicit choice after the current review; no Figma panel selection is an equivalent approval.",
+      "evidence": ["panel-ui/src/ReviewPanel.jsx", "docs/guide.md:WAIT_SELECTION", "specs/design-specialization/spec.md"]
+    },
+    {
+      "id": "graph.read",
+      "legacySurface": "Graph panel",
+      "action": "Read native Design values",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation read (discover, sync, or native-edit task)",
+      "limits": "The selected task kind and signed scope constrain the read; summary read is partial evidence and is not full sync evidence.",
+      "evidence": ["figma-bridge/graph-panel.html:read and summary-read", "tools/figma_control.py:OPERATIONS", "docs/guide.md:partial summary boundary"]
+    },
+    {
+      "id": "graph.readback-download",
+      "legacySurface": "Graph panel evidence section",
+      "action": "Download the full or summary native readback JSON",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation read|native-summary; retain returned JSON",
+      "limits": "The Codex route returns the same operation evidence, but does not provide the panel's one-click download or display controls.",
+      "evidence": ["figma-bridge/graph-panel.html:download", "panel-ui/src/GraphPanel.jsx:downloadAgain", "tools/figma_control.py:run"]
+    },
+    {
+      "id": "graph.summary-read",
+      "legacySurface": "Graph panel discovery view",
+      "action": "Read only width/height summary fields",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation native-summary (discover or import task)",
+      "limits": "This is a bounded width/height summary, not a full native read. The signed task must be a discover or import task with matching exact scope.",
+      "evidence": ["figma-bridge/graph-panel.html:summary-read", "figma-bridge/workspace_control.js:native-summary dispatch", "tools/figma_control.py:OPERATIONS"]
+    },
+    {
+      "id": "graph.apply",
+      "legacySurface": "Graph panel",
+      "action": "Review impact, select changes, and apply graph values",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation apply (sync or native-edit task)",
+      "limits": "Codex prepares and validates the scoped plan. The old panel's per-row confirmation interaction has no UI-equivalent claim.",
+      "evidence": ["figma-bridge/graph-panel.html:review/apply/selection controls", "tools/figma_control.py:OPERATIONS", "docs/guide.md:run and readback workflow"]
+    },
+    {
+      "id": "graph.apply-subset",
+      "legacySurface": "Graph panel confirmation",
+      "action": "Apply only the user-selected change rows from the impact list",
+      "currentStatus": "codex_route",
+      "codexPath": "Read tools/workspace_report.py --workspace DIR --file-key FILE --page-id PAGE --task-key SYNC_KEY; choose IDs from changes.selected_ids and pass changes.plan_sha256 to tools/figma_control.py run --operation apply --plan-sha256 HASH --selected-id ID (repeat per selected row)",
+      "limits": "Protocol-2 partial apply is admitted only for a signed `sync` task with the pinned selection manifest. Use `changes.partialApplyAvailable`; include every identity in each selected group. Python rejects selection fields for other task kinds, the native-edit host branch rejects `cmd.selection`, and the native bridge rejects stale plans, unknown IDs, partial groups, and partial migrations.",
+      "evidence": ["panel-ui/src/graphSelection.mjs:graphSelection", "figma-bridge/workspace_control.js:partial apply validation", "figma-bridge/workspace_control.js:native-edit subset rejection", "tools/figma_control.py:task selection admission", "tools/workspace_report.py:_change_manifest", "tests/test_workspace_control.cjs:selected IDs cannot turn a native-edit apply into a full unfiltered apply"]
+    },
+    {
+      "id": "graph.diagnostics-download",
+      "legacySurface": "Graph panel task operation view",
+      "action": "Copy or save diagnostic report",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/workspace_report.py --workspace DIR --file-key FILE --page-id PAGE --task-key KEY --format audit-json|audit-markdown",
+      "limits": "Both formats use the same bundled audit_log renderer and public task input summary. Supply --history-export from the exact-scope viewer-history result to include device-local events; absent history is explicitly marked unobserved. Local report output does not prove current live Figma state.",
+      "evidence": ["figma-bridge/graph-panel.html:audit-copy/audit-download-md/audit-download-json", "panel-ui/src/DiagnosticExport.jsx", "figma-bridge/audit_log.js:renderAuditExport", "tools/workspace_report.py:_node_projections", "tools/workspace_report.py:build_report"]
+    },
+    {
+      "id": "workspace.asset-inventory",
+      "legacySurface": "Workspace task input evidence disclosure (not present in the registered idle RelayViewer)",
+      "action": "Filter and inspect all pinned input asset rows, per-asset status/source, and freshness",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/workspace_report.py --workspace DIR --file-key FILE --page-id PAGE --task-key KEY [--asset-status STATUS] [--asset-kind KIND] [--asset-query TEXT]",
+      "limits": "The report returns the same task-scoped sanitized input_summary rows and uses the panel's assetInventory projection for counts, problem ordering, and search/kind/status filtering. It is per-task, so query each task that has an input record; freshness is reported separately.",
+      "evidence": ["panel-ui/src/Workspace.jsx:AssetDisclosure", "panel-ui/src/assetInventory.mjs", "figma-bridge/workspace_host.js:workspaceAssetSummary", "tools/figma_workspace.py:public_task_metadata", "tools/workspace_report.py:build_report", "tools/workspace_report.py:_node_projections"]
+    },
+    {
+      "id": "workspace.carousel-select",
+      "legacySurface": "Workspace carousel task controls",
+      "action": "Select the current carousel state/frame in Figma",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation carousel-select --execution-id EXECUTION_ID --state-id INITIAL_STATE_ID (native-edit task)",
+      "limits": "The operation is signed to a native-edit task and requires the exact current readback execution and initial state IDs from viewer-history; it selects the verified start frame, not an arbitrary state.",
+      "evidence": ["panel-ui/src/Workspace.jsx:carouselRequest", "figma-bridge/workspace_control.js:carousel-select dispatch", "tools/figma_control.py:CAROUSEL_OPERATIONS", "figma-bridge/relay_view.js:viewer-history"]
+    },
+    {
+      "id": "workspace.carousel-open-present",
+      "legacySurface": "Workspace carousel task controls",
+      "action": "Open the verified prototype URL for the current carousel readback",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation carousel-present --execution-id EXECUTION_ID --state-id INITIAL_STATE_ID (native-edit task)",
+      "limits": "The host invokes openExternal and returns the verified link context. This does not prove that the external prototype played or that its visual flow passed review.",
+      "evidence": ["panel-ui/src/Workspace.jsx:carouselRequest", "figma-bridge/workspace_control.js:carousel-present dispatch", "figma-bridge/workspace_host.js:workspaceCarouselPresentationUrl", "tools/figma_control.py:CAROUSEL_OPERATIONS"]
+    },
+    {
+      "id": "chat.prepare-send",
+      "legacySurface": "Chat panel",
+      "action": "Compose a request, preview selected-node context, and queue it to Codex",
+      "currentStatus": "codex_route",
+      "codexPath": "Write the request directly in the active Codex conversation; attach context with the separate selection-info command when needed",
+      "limits": "This fulfills the request-to-Codex outcome, but does not reproduce the old panel composer, preview-before-send gate, or automatic local queue. The user sends the request in Codex.",
+      "evidence": ["panel-ui/src/ChatPanel.jsx", "figma-bridge/workspace_chat.js:chat:prepare/chat:queue", "specs/codex-relay/spec.md"]
+    },
+    {
+      "id": "chat.selection-info",
+      "legacySurface": "Chat panel selection attachment preview",
+      "action": "Collect current selected nodes with geometry, optional text excerpts, and a Figma deep link for Codex context",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --workspace ... --key DISCOVER_TASK --operation selection-info [--include-text] --file-key ... --page-id ... --expected-revision ...",
+      "limits": "The native collector returns node IDs/names/types, x/y/width/height, a deep link, and optional text excerpts (bounded and explicit opt-in). It returns JSON to Codex; it does not itself queue a prompt into a Codex conversation or recreate the old preview UI. The old includeSelection=false choice has no CLI flag. RelayViewer's rendered table displays only ID/name/type.",
+      "evidence": ["panel-ui/src/ChatPanel.jsx:includeSelection/includeText", "figma-bridge/workspace_chat.js:collect", "figma-bridge/relay_view.js:selection-info", "tools/relay_view.py:selection-info options", "panel-ui/src/RelaySelection.jsx"]
+    },
+    {
+      "id": "chat.copy-open",
+      "legacySurface": "Chat panel",
+      "action": "Copy a generated handoff or open the linked Codex thread",
+      "currentStatus": "codex_route",
+      "codexPath": "Codex conversation / workspace Codex handoff; return copyable handoff text in a Markdown code block or save it to a local file",
+      "limits": "The user gets the same handoff contents and conversation outcome through Codex output/thread use; the registered idle RelayViewer has no copy/open buttons.",
+      "evidence": ["panel-ui/src/ChatPanel.jsx:copy/open", "figma-bridge/workspace_chat.js:chat:open", "figma-bridge/workspace_host.js:workspace-chat-open"]
+    },
+    {
+      "id": "figma.open-file-select-target",
+      "legacySurface": "Figma Design editor",
+      "action": "Open the target Figma file and launch the Figma Flow session",
+      "currentStatus": "figma_runtime_or_direct_interaction",
+      "codexPath": null,
+      "limits": "Codex reads the authenticated active context and checks the signed file/page. It does not open a different file or start a closed Figma plugin session.",
+      "evidence": ["tools/figma_control.py:_validate_relay_context", "docs/guide.md:manual Figma session setup", "specs/codex-relay/spec.md"]
+    },
+    {
+      "id": "figma.login-authorize",
+      "legacySurface": "Figma account and file access",
+      "action": "Sign in or grant required access to the Figma file",
+      "currentStatus": "figma_runtime_or_direct_interaction",
+      "codexPath": null,
+      "limits": "The user handles Figma account authentication and access grants; Codex may read the resulting authenticated context but cannot perform those account actions on the user's behalf.",
+      "evidence": ["docs/guide.md:account login is user performed", "specs/codex-relay/spec.md:authenticated session scope", "tools/figma_control.py:context validation"]
+    },
+    {
+      "id": "figma.select-known-node",
+      "legacySurface": "Figma Design canvas selection",
+      "action": "Select and scroll to an exact known scene node ID on the pinned page",
+      "currentStatus": "codex_route",
+      "codexPath": "tools/figma_control.py run --operation select-node --node-id NODE_ID",
+      "limits": "The command requires an exact node ID from the active prepared scope; visually choosing an unknown target remains a direct Figma interaction.",
+      "evidence": ["figma-bridge/relay_view.js:select-node", "tools/relay_view.py:validate_options", "figma-bridge/workspace_control.js:viewer command dispatch"]
+    },
+    {
+      "id": "figma.launch-plugin-session",
+      "legacySurface": "Figma plugin runtime",
+      "action": "User starts Figma Flow and leaves the session available to the localhost relay",
+      "currentStatus": "figma_runtime_or_direct_interaction",
+      "codexPath": "Codex starts/uses the local relay, but the Figma plugin must be opened by the user",
+      "limits": "A closed plugin is not secretly run or remotely evaluated; host readiness and actual Figma execution are separate checks.",
+      "evidence": ["figma-bridge/workspace_host.js:figma.showUI", "docs/guide.md:manual session and no hidden execution", "specs/codex-relay/spec.md"]
+    },
+    {
+      "id": "figma.present-prototype",
+      "legacySurface": "Figma Present mode",
+      "action": "Play the prototype as a user in Figma Present",
+      "currentStatus": "figma_runtime_or_direct_interaction",
+      "codexPath": "A Workspace carousel action may open a verified prototype URL; actual playback remains a user interaction in the Figma prototype viewer.",
+      "limits": "Codex readback and the verified link do not prove the prototype played correctly.",
+      "evidence": ["docs/guide.md:prototype Present limitation", "figma-bridge/workspace_host.js:workspaceCarouselPresentationUrl", "panel-ui/src/CarouselPresentLink.jsx", "specs/interactive-web/carousel.md", "specs/interactive-web/tabs.md"]
+    },
+    {
+      "id": "figma.visual-canvas-review",
+      "legacySurface": "Figma Design canvas",
+      "action": "Visually inspect actual rendered layout, typography, clipping, and authored result",
+      "currentStatus": "figma_runtime_or_direct_interaction",
+      "codexPath": null,
+      "limits": "Native readback proves structured properties only; it does not replace visual inspection or user acceptance. Computer Use may observe the real Figma scene when the task requires visual proof.",
+      "evidence": ["docs/guide.md:actual Figma review procedures", "specs/codex-relay/spec.md:readback boundary"]
+    },
+    {
+      "id": "figma.manual-target-choice",
+      "legacySurface": "Figma Design canvas",
+      "action": "Choose an unknown target visually from the canvas",
+      "currentStatus": "figma_runtime_or_direct_interaction",
+      "codexPath": null,
+      "limits": "`select-node` can focus an exact known ID; it cannot infer which visually similar or unnamed target the user intends.",
+      "evidence": ["figma-bridge/relay_view.js:select-node", "docs/guide.md:manual Figma selection procedures"]
+    }
+  ]
+}

@@ -775,7 +775,7 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     policy = read(ROOT / 'library' / 'figma-profile' / 'policy.json')
     code += 'const WORKSPACE_PROFILE_POLICY = ' + json.dumps(policy, ensure_ascii=True) + ';\n'
-    for source in ('profile_policy.js', 'workspace_profile.js'):
+    for source in ('profile_policy.js', 'workspace_profile.js', 'relay_view.js'):
         code += (bridge / source).read_text(encoding='utf-8') + '\n'
     code += assemble_shared_runtime(bridge)
     if runtime['implementation'] != trusted_sources():
@@ -1121,6 +1121,97 @@ def list_tasks(workspace):
             'tasks': [{key: task.get(key) for key in ('key', 'title', 'project', 'kind', 'threadId', 'fileKey', 'pageId', 'revision')} for task in catalogue['tasks']]}
 
 
+def activity(workspace, file_key, page_id):
+    """Read bounded task and canonical operation activity for one exact Figma scope."""
+    import figma_control
+
+    root = private_dir(workspace)
+    if not re.fullmatch(r'[A-Za-z0-9]{1,128}', str(file_key)) or not re.fullmatch(r'[0-9]+:[0-9]+', str(page_id)):
+        raise ValueError('Exact Figma file key and numeric page ID required')
+    with locked(root):
+        catalogue = current(root, repair=False)
+        tasks = [row for row in catalogue['tasks']
+                 if row.get('fileKey') in (None, file_key) and row.get('pageId') in (None, page_id)]
+        freshness = [task_input_freshness(root, row) for row in tasks if row.get('input_record')]
+        requests_dir = child(root, '.control/requests')
+        rows = []
+        if requests_dir.exists():
+            requests_dir = private_dir(requests_dir)
+            for path in sorted(requests_dir.glob('*.json'), key=lambda item: item.stat().st_mtime_ns, reverse=True):
+                if not re.fullmatch(r'[a-f0-9]{32}\.json', path.name):
+                    continue
+                request = read(path, private=True, limit=32768)
+                if (request.get('schema') != figma_control.SCHEMA or request.get('id') != path.stem
+                        or request.get('file_key') != file_key or request.get('page_id') != page_id
+                        or request.get('operation') not in set().union(*figma_control.OPERATIONS.values())):
+                    continue
+                journal = figma_control.journal_history(request)
+                rows.append({'taskKey': request['key'], 'revision': request['revision'],
+                    'operation': request['operation'], 'operationId': request['id'],
+                    'state': request.get('state', 'unknown'), 'classification': journal['classification'],
+                    'phase': journal['phase'], 'phases': journal['phases']})
+                if len(rows) >= 80:
+                    break
+        states, phases, classifications = {}, {}, {}
+        for row in rows:
+            for counts, value in ((states, row['state']), (phases, row['phase']), (classifications, row['classification'])):
+                counts[value] = counts.get(value, 0) + 1
+        active = next((row for row in rows if row['state'] in {'claimed', 'pending', 'uncertain'}), None)
+        stale = next((row for row in freshness if row['status'] == 'stale'), None)
+        next_action = ('resolve-uncertain-operation' if active and active['state'] == 'uncertain' else
+                       'wait-for-native-operation' if active else
+                       'refresh-stale-task-inputs' if stale else
+                       'open-matching-task' if tasks else 'prepare-task-for-scope')
+        related = []
+        by_key = {row['key']: row for row in tasks}
+        for row in tasks:
+            for edge in row.get('depends_on', []):
+                target = by_key.get(edge.get('task_key'))
+                related.append({'taskKey': row['key'], 'relatedTaskKey': edge['task_key'],
+                    'revision': edge['revision'], 'relation': edge['relation'], 'artifact': edge['artifact'],
+                    'artifactSha256': edge['artifact_sha256'], 'available': target is not None or
+                    any(item.get('key') == edge['task_key'] and item.get('revision') == edge['revision']
+                        for item in dependency_history(root)[0])})
+        result = {'scope': {'fileKey': file_key, 'pageId': page_id, 'runtime': catalogue.get('runtime')},
+            'taskCounts': {'total': len(tasks)},
+            'tasks': [{'key': row['key'], 'title': row['title'], 'kind': row['kind'], 'revision': row['revision'],
+                'project': row.get('project'), 'fileKey': row.get('fileKey'), 'pageId': row.get('pageId'),
+                'dependsOn': row.get('depends_on', [])} for row in tasks],
+            'operationCounts': {'state': states, 'phase': phases, 'classification': classifications},
+            'operations': list(reversed(rows)), 'inputFreshness': freshness,
+            'relatedTasks': related, 'nextAction': next_action,
+            'clientStorageHistory': {'available': False, 'reason': 'Run the signed discover viewer-history operation to retrieve native file-scoped clientStorage records.'}}
+        return result
+
+
+def history_detail(workspace, file_key, page_id, operation_id, task_key, revision):
+    """Return existing exact-scope, read-only operation detail and safe evidence projection."""
+    import figma_control
+    import operation_detail
+
+    root = private_dir(workspace)
+    if not re.fullmatch(r'[A-Za-z0-9]{1,128}', str(file_key)) or not re.fullmatch(r'[0-9]+:[0-9]+', str(page_id)):
+        raise ValueError('Exact Figma file key and numeric page ID required')
+    if not re.fullmatch(r'[a-f0-9]{32}', str(operation_id)):
+        raise ValueError('Exact control operation ID required')
+    with locked(root):
+        catalogue = current(root, repair=False)
+        request_path = child(root, '.control/requests/' + operation_id + '.json')
+        request = read(request_path, private=True, limit=32768)
+        session_id = request.get('session_id')
+        runtime = catalogue['runtime']
+    if not isinstance(session_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,128}', session_id):
+        session_id = 'codex-query'
+    try:
+        return operation_detail.build_operation_detail(root, {'session_id': session_id,
+            'file_key': file_key, 'page_id': page_id, 'runtime': runtime,
+            'operation_id': operation_id, 'task_key': task_key, 'revision': revision},
+            control_schema=figma_control.SCHEMA, journal_history_fn=figma_control.journal_history,
+            conflict_detail_fn=figma_control.conflict_detail)
+    except (operation_detail.OperationNotFoundError, operation_detail.OperationRejectedError) as error:
+        raise ValueError('Operation detail rejected: ' + error.reason) from error
+
+
 def refresh(workspace):
     with locked(workspace) as root:
         updated = publish(root, current(root))
@@ -1208,6 +1299,13 @@ def main(argv=None):
         replaying.add_argument('--' + option, required=True)
     listing = commands.add_parser('list', allow_abbrev=False)
     listing.add_argument('--workspace', required=True)
+    reporting = commands.add_parser('activity', allow_abbrev=False)
+    reporting.add_argument('--workspace', required=True)
+    reporting.add_argument('--file-key', required=True)
+    reporting.add_argument('--page-id', required=True)
+    detail = commands.add_parser('history-detail', allow_abbrev=False)
+    for option in ('workspace', 'file-key', 'page-id', 'operation-id', 'task-key', 'revision'):
+        detail.add_argument('--' + option, required=True)
     retiring = commands.add_parser('retire', allow_abbrev=False)
     retiring.add_argument('--workspace', required=True)
     retiring.add_argument('--tasks', required=True)
@@ -1234,6 +1332,15 @@ def main(argv=None):
             if separator != len(values):
                 raise ValueError('retire does not accept generator arguments')
             result = retire(args.workspace, args.tasks)
+        elif args.command == 'activity':
+            if separator != len(values):
+                raise ValueError('activity does not accept generator arguments')
+            result = activity(args.workspace, args.file_key, args.page_id)
+        elif args.command == 'history-detail':
+            if separator != len(values):
+                raise ValueError('history-detail does not accept generator arguments')
+            result = history_detail(args.workspace, args.file_key, args.page_id,
+                args.operation_id, args.task_key, args.revision)
         elif args.command == 'prepare':
             if separator == len(values):
                 raise ValueError('prepare requires literal -- before trusted generator flags')

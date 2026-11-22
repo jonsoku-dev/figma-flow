@@ -132,3 +132,11 @@
   .relay-context-row > span { flex-basis: 92px; }
   .relay-footer { padding-inline: 13px; }
 }
+
+.relay-footer details { width: 100%; }
+.relay-layers { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 0 0 8px; }
+.relay-layers caption { text-align: left; font-weight: 600; padding-block: 4px; }
+.relay-layers th, .relay-layers td { text-align: left; vertical-align: top; padding: 4px 5px 4px 0; overflow-wrap: anywhere; }
+.relay-layers th { border-bottom: 1px solid currentColor; font-weight: 500; }
+.relay-layers th:first-child { width: 46%; }
+.relay-layers td:last-child { font-variant-numeric: tabular-nums; }

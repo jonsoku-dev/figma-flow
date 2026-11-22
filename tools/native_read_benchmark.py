@@ -24,7 +24,7 @@ WORKLOADS = {'discovery-full-default': None, 'discovery-full-timed': 'timing', '
 VOLATILE = ('observed_at', 'read_measurement')
 TIMEOUT_STATES = {'expired', 'uncertain', 'runner-timeout'}
 MINIMUM_SAMPLES = 5
-SUMMARY_UNMEASURED = {'measured': False, 'reason': 'control discover admits only read; the panel native-summary action is not driven by this runner'}
+SUMMARY_UNMEASURED = {'measured': False, 'reason': 'this benchmark measures full discovery reads; the native-summary operation is outside its workload'}
 MAX_READBACK_FILE = 64 * 1024 * 1024
 PINNED_SOURCES = ('figma-bridge/native_semantic_read.js', 'figma-bridge/native_read_measurement.js',
                   'tools/graph_sync.py', 'tools/figma_control.py', 'tools/native_read_benchmark.py')
