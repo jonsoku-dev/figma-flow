@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "545e530a92f4a536965de3bb1a2e9b746a65bca255ae4b450540f5e9c349e936",
+  "checks": [
+    {
+      "test": "tests/test_delivery_review.py",
+      "case": "DeliveryReviewTests.test_app_workflow_projects_service_credentials_into_actual_staging_settings",
+      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
+      "covers": [
+        ".github/workflows/little-hands.yml",
+        "library/delivery/little-hands.yml.in",
+        "library/delivery/graph.json"
+      ],
+      "authority": "apps/little-hands/config/deployment.json#/database",
+      "assertion": "The example database image, schema and port are projected from the deployment authority into CI.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

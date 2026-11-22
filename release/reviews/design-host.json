@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "design-host",
-  "fingerprint": "20785423ac245ed57aaa02dcaa79a3cda39cb81cbf6d05b047990b44b6323cb2",
+  "fingerprint": "105c6bd746fc77484ec7d69ee4375a59643b543f0a5f1b0b8015e6231d4c7efe",
   "status": "complete",
   "openFindings": [],
   "bindings": [
@@ -15,19 +15,19 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/01-appearance.json",
-          "sha256": "d59ed07b4358c2585d092daa64dfc1a6d223e2970b02e58a3de3de635cec8507"
+          "sha256": "4db771464f53cc10465ae345b409c0d0f5edf42e11ce7c5b267bd3f4cc1eeb9c"
         },
         {
           "path": "release/reviews/evidence/design-host/01-graph_card.json",
-          "sha256": "8cda87c770b78098ea7c8be74a98480698b25a9f7c588e99cddd697e0b9f9fd1"
+          "sha256": "acffaddef85a95da6781a51dc4f236be5b1ea038f80135b0cf1dbbda9138b8b7"
         },
         {
           "path": "release/reviews/evidence/design-host/01-graph_board.json",
-          "sha256": "fe6f1ad9a1dc2d5bf5f6215c754c003bee9762e0a96a4867134858434c81250e"
+          "sha256": "7876b97be485b457106a2627d9ec17c672d79e71d17d1c8269ef97a464f1d716"
         },
         {
           "path": "release/reviews/evidence/design-host/01-graph_refresh.json",
-          "sha256": "f7e14f4377ffd96179e9ac318a62ba44bdbfc6a58cf1a0830a52d7eed0412b31"
+          "sha256": "307fa311b23f08d3b8b36f01b9311961fb86bbddda71b3d72388e2a54b16ee70"
         }
       ]
     },
@@ -43,15 +43,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/02-appearance.json",
-          "sha256": "a27f6c3ca51be32d316d05a53428ccb4f58a5619989a7b1d2a7559b9573b17d6"
+          "sha256": "f268b2fecf32a6bd67e8967940c344f40cab810d53b6a597094f0d66c66ab4f5"
         },
         {
           "path": "release/reviews/evidence/design-host/02-notes.json",
-          "sha256": "438fde8c449fc1cdbdbedc99af80d87be127c4c3f358f6a108cc273604c969cb"
+          "sha256": "8ffaa611c6797f4d273fb9f85d520240c0741963e3564895b607e8b8c87a0bf8"
         },
         {
           "path": "release/reviews/evidence/design-host/02-native_handoff.json",
-          "sha256": "be79444b62aa6c81daa77fcedc37ce157320edaf6e69c7abdfd86ea3e2f7f5af"
+          "sha256": "fb7b28ed1b3f3542d8b8b3b836d2375ef1320d798184e629cd37bcf803418fbe"
         }
       ]
     },
@@ -65,11 +65,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/03-appearance.json",
-          "sha256": "b71d29e3aae2dc78c463ee1f6c3c2cb6a65671cb15380591eb53cd0b626d90c5"
+          "sha256": "b2db031a7e4fe336e0cb9e9764766891388841fb3eb9b3e11d2d688e65659980"
         },
         {
           "path": "release/reviews/evidence/design-host/03-cta.json",
-          "sha256": "eec8235fbf9662b3d691730654d2d642521f526d7bd5f015f0dba44e794ccb82"
+          "sha256": "3726798c20a818d5d480babdb191a0e6a212260c704fc40047433247f2ea337f"
         }
       ]
     },
@@ -83,11 +83,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/04-appearance.json",
-          "sha256": "8dd8f2b542fb95f0ebb63513f1681e85f550ba993ffb8bc92b6dad4a27958f68"
+          "sha256": "ed42d1fd988cb8ab9eeb946682531d7f846a110d9192641b1decfca3ef080091"
         },
         {
           "path": "release/reviews/evidence/design-host/04-cta.json",
-          "sha256": "4718237df118a927c785c6dc4a0bdabe1d06d166b4eb9ac3872d14cce19c6449"
+          "sha256": "0bdf1db73b38a026ba255467a58c232eafbc59c39f6b730c4ce4db0c793c31dc"
         }
       ]
     },
@@ -101,11 +101,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/05-appearance.json",
-          "sha256": "b6b52030cf482cfcf348ab4dc3929d99985bd53604d02be9921a1e0260ba9ea3"
+          "sha256": "3e6c1f2386fc1d30b23d537b7818b31bc68f08ef8061362cdfef1dd8c3523a65"
         },
         {
           "path": "release/reviews/evidence/design-host/05-web_tabs.json",
-          "sha256": "54c510f8d5d6c0cea9609fa28d7071ecdc6c450201639f86c8be946264de845e"
+          "sha256": "cd2cd5949b65eed3bcc6a12c92c2aac712f1c780b96a5ffa00b2db57c3580ac5"
         }
       ]
     },
@@ -119,7 +119,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/06-web_tabs.json",
-          "sha256": "c6ce345a571db13de0f9ce5fd4b7acfa9e6f9020d9df4df92f668726745dd7ff"
+          "sha256": "fdb9d2743bb37e1d270bbd93d3c772aa09fee3c7677729dfe79e2106d8cce792"
         }
       ]
     },
@@ -133,15 +133,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/07-appearance.json",
-          "sha256": "4c140cb1254dce9819fed569de277845f5b4489701d5b14f116246533a00b764"
+          "sha256": "569ae66f551c74efc1f4db36b7b8a395cd22661cfb8e5adb42b0b2dcc2b82d31"
         },
         {
           "path": "release/reviews/evidence/design-host/07-native_edit.json",
-          "sha256": "ea19a830cd01aa355d9ee864266fc7fe8d91ee36c30b7e7cd3e33aa123f948b7"
+          "sha256": "4dc3a1e47d193143ea34493a5f34ab308484aaffa703d826eef1c38413de20e0"
         },
         {
           "path": "release/reviews/evidence/design-host/07-native_edit_reject.json",
-          "sha256": "82f9391a93b0d3a3d9c4eef2ecc175f376dfd84d8837a208ebd7f4544ed1a3c6"
+          "sha256": "ff9e2bfb5a05a0819cde3a1b54ebf0f6650f44c26a0475c569e99f5676852e57"
         }
       ]
     },
@@ -156,11 +156,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/08-native_edit.json",
-          "sha256": "ae7bcb016ba32ae9a0fcb724e7205306b33008c56e67ec02a102f5bfbbf9343c"
+          "sha256": "90d1ffd98a110a3c47862973f59f4eec805fa8d66a582e78e7b5c521a781fb8f"
         },
         {
           "path": "release/reviews/evidence/design-host/08-native_edit_reject.json",
-          "sha256": "0d8b49ba7c74983e881937ae51628f227407321cbff232e7dc4025dce5f1e3ff"
+          "sha256": "3716e161f91e553cdd602f9cfb9d2b578a52489da46e712e0ef0a46b76617d39"
         }
       ]
     },
@@ -174,15 +174,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/09-appearance.json",
-          "sha256": "3845c818966008e464fd32bef9dfb434f10d3811bc992a57ad31e454c01e80f2"
+          "sha256": "b1ae2e8dae9fe9cd34450e42bb152c78977b2701361233f99b200ca04865a7bc"
         },
         {
           "path": "release/reviews/evidence/design-host/09-native_controls.json",
-          "sha256": "ea419e63090c6679070c0874c961fc1b874e27b6b4b26122058de66fe11f4567"
+          "sha256": "6fc011f7965d33c1ad25dbf724e32b366d248042c8a181c2c301a959fa69dcd2"
         },
         {
           "path": "release/reviews/evidence/design-host/09-control_icon.json",
-          "sha256": "cab521436d1183f0d1921b64b8ceb3ba8f9b93afdd74490683ebe71cd553d966"
+          "sha256": "2896bedff8586bf53c1c30ec8282bb9b8d176d6267812bba081f9f7230e783b7"
         }
       ]
     },
@@ -196,11 +196,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/10-appearance.json",
-          "sha256": "3a0e455809d047379609398a021f69220761f9bdff773a284df4b8b8d045dfc1"
+          "sha256": "8346183375c625dae83c30454b2e8289fefc15e490680f10ce65f30fa389beb6"
         },
         {
           "path": "release/reviews/evidence/design-host/10-figma_bridge.json",
-          "sha256": "346b12705c459be85cb9f5b5095b048c819f63ecf12573beda1a1760d20a5ae5"
+          "sha256": "db259ed0bde7bcef06ceee9b32359b51fcfd733daefd346058c52f4464ed46f8"
         }
       ]
     },
@@ -215,15 +215,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/11-appearance.json",
-          "sha256": "89615842e5125c77756e4910e438ab9a56422f065f0feece0ee57cd90dd990c3"
+          "sha256": "5d946fc25af0b6ed419fd0b8459f93d54e136726c985bb905abe7a08b3ca2f9f"
         },
         {
           "path": "release/reviews/evidence/design-host/11-chat_host.json",
-          "sha256": "6ee84bbf981d4d19991ec27846cf90c1f964da9be883d42a846477ce53357388"
+          "sha256": "1265e38107f3ed3f8ff2ed6601edbd1e5dddfba07fdb8ef6852dec53719e8138"
         },
         {
           "path": "release/reviews/evidence/design-host/11-standalone.json",
-          "sha256": "0acf72f40c4616992744d1a70967134a6c6214013f6a614d4cca605541727c5f"
+          "sha256": "6d8d603e30ce45534d0e23064d56012411890e1279545b72e585318a7d452540"
         }
       ]
     },
@@ -238,11 +238,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/12-chat_host.json",
-          "sha256": "f9e37ddf4eb31cf8315d21f4831189d4b1da5953e94f2590dc2853a8556e8537"
+          "sha256": "7eb650776335a415f0cfc742107abd0999ebb2e1bd36fcfd77ee43d19db6839c"
         },
         {
           "path": "release/reviews/evidence/design-host/12-standalone.json",
-          "sha256": "7c0a592dcb294ddcc507a5957eb449b4a8e89fba85485d67352c7f78a3ddfe30"
+          "sha256": "63d31a53d8cb630636a5bc6899775600dabcfb858bc425851758358e2d4bad27"
         }
       ]
     },
@@ -256,7 +256,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/13-standalone.json",
-          "sha256": "f7b43e6d7c10a3f47e65ac51db723944caeacd21e327fce6a6f0c1d4307e5f4f"
+          "sha256": "d5b608fddddaa4cc719b724c2cc9aea7206a2b42dcf74374cfb1da51c88f6d26"
         }
       ]
     },
@@ -270,7 +270,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/14-standalone.json",
-          "sha256": "0b81462e1a212d3c3037d9f067bc880ac6fbececec56f9959cab75c5aed3ee15"
+          "sha256": "96eddacb015758a1d7c6052f6790eb44414078069e1fe8c13736c4379773b4a7"
         }
       ]
     },
@@ -284,11 +284,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/15-standalone.json",
-          "sha256": "a94cdf9572e9c3cfd68e0cbaabc20213f0a5bc3d4ec44c23a7c270c7e9fbd166"
+          "sha256": "3493034737756b7c35fe808ac0d629c4a3696a67bcdff1161eb1e94d39c1cf33"
         },
         {
           "path": "release/reviews/evidence/design-host/15-graph_catalog.json",
-          "sha256": "868d8800e5825d59bd1dacfc2946359e6b27e9de959b252b3584867644bd0adb"
+          "sha256": "43317ede920aba0d001785022c5851ddb4c1007aca76a8c9b40f833780c71b15"
         }
       ]
     },
@@ -302,7 +302,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/16-standalone.json",
-          "sha256": "0be64a98a97acab305cf18f89cf3e922e6ed238e16ee7e99d19cd4ac095610c4"
+          "sha256": "1f55b8db5bf7b41b3bfaa0e387d8d2f481e65145a6a061effb3603938595f5cb"
         }
       ]
     },
@@ -316,15 +316,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/17-standalone.json",
-          "sha256": "bf701fea1045aba4d95d1e00abfbfd47b19a3b47d459b87a8d8252ef1f5e0c16"
+          "sha256": "1350d5938b117a42bb4220040e1aff37007887a0d9db7a83b17325b779a5eeb4"
         },
         {
           "path": "release/reviews/evidence/design-host/17-host_locale.json",
-          "sha256": "58f46e314206ec8b4af62de006e81fed6006ee0f2d2c444133b96b33a13af508"
+          "sha256": "904972955e461258398c656209aa7196dd8a03ef5cc0c3434beb7f0f7b6f61f3"
         },
         {
           "path": "release/reviews/evidence/design-host/17-workspace_case.json",
-          "sha256": "afd1bc58a7082758dbbc293b52a9c980ae04084fab2afd90e8777494c0f8f7a5"
+          "sha256": "2b90fd2235de555a09cb1707f35a27a6a42fc0595861c6c76b1ef4e553f91ca2"
         }
       ]
     },
@@ -338,11 +338,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/18-family.json",
-          "sha256": "5a51ffc0dfc11ecdf4553dc576bba86fe31be27d631e1167827444bf86eba9f1"
+          "sha256": "62a3049c700f3b39e777d135d8ae45c60a5dfe97dd4d7ee93e6e37f538b1513b"
         },
         {
           "path": "release/reviews/evidence/design-host/18-cta.json",
-          "sha256": "15f324b259bbc993d469590bbe42fa476a206e97ed100032f056a90b5b26ae95"
+          "sha256": "260bc64fb8b39491f8f3beffcd5e6ee87b3c6083961443eac87116456ee1416a"
         }
       ]
     },
@@ -355,11 +355,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/19-family.json",
-          "sha256": "f3239dfc9f3bad17b5c9cf4e3a6bcebb3b0765ad086a3489e440c9d51a336024"
+          "sha256": "4a4093bc4dffdef2e6809da15e7e3545329d7070fef30df62cdd12e2ce7dea1f"
         },
         {
           "path": "release/reviews/evidence/design-host/19-control_icon.json",
-          "sha256": "200b49f2b9416cee65a659f44f20ec89e5c2289745b55dcdb68e134286b9bd32"
+          "sha256": "320e02cee0ea2b4398edfe5e9d19490e74df18b87f9b5a7e7621efab0b15e0c7"
         }
       ]
     },
@@ -378,11 +378,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/20-window.json",
-          "sha256": "0795c40f54c83b8d070fa445bab5d6bc45e8179a2323d2dbc2afda8a046c7345"
+          "sha256": "90b54eefff1ca84a3352742be50236300d2a63cfeea2b4ef8cd1a889b3d27725"
         },
         {
           "path": "release/reviews/evidence/design-host/20-host_profile.json",
-          "sha256": "505027af089bbd04b59f4d9789ff48c89e73289fc9d72263120c28cf910efc82"
+          "sha256": "138621f70cd4b9e0febed605aabeadb360873077d2f86c315b4cf8b353ed216f"
         }
       ]
     },
@@ -401,7 +401,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/21-window.json",
-          "sha256": "885efd02e6b647adf540b300ba54966931d509b586257aee83dc18632bba1d33"
+          "sha256": "5dff4135eb462063ed9581308efbbf451cbbe194eb82e49695cfb41260fc4910"
         }
       ]
     },
@@ -417,15 +417,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/22-host_profile.json",
-          "sha256": "7f65a7cf8d4451298a3a4a77d11a2c2064c472bb8664d16329efc24d9f378b2c"
+          "sha256": "c326ac4112b82cefd9cf97fc3f6ec0c173e93d3a1e7492221918c3d31be56fee"
         },
         {
           "path": "release/reviews/evidence/design-host/22-host_scope.json",
-          "sha256": "1d1c3bb3f237110370af01b530c5af984f862beb06be903ffb2a000ffcd7acea"
+          "sha256": "32abff92eb5e9bfb9d4ab07171f0abce3670696442f6d87d96b831af0a3a9c1e"
         },
         {
           "path": "release/reviews/evidence/design-host/22-control_native.json",
-          "sha256": "6fb0f7cc663597073310581ffcdab7a43fcb72e360d4bbe947684adea8ee41f2"
+          "sha256": "673d331f7f5655a5ac4c588c569959d52f5278fa647bb39db76f377be331a67e"
         }
       ]
     },
@@ -440,11 +440,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/23-host_profile.json",
-          "sha256": "a30ee97ff9b249dc76b7c99065f5195c905341ccd5e3b68bab448d472ca2df7d"
+          "sha256": "c61895476cbdee83c5affe695fa4d609bd1734fb4d357b70819119a53b0aa302"
         },
         {
           "path": "release/reviews/evidence/design-host/23-workspace_case.json",
-          "sha256": "5cdd1564bd66865d3ba030a79a06881b6eb79a036903b8227d12d311c203e380"
+          "sha256": "d990b481fd41e0d22f2bce435d2675106e392aece30e11c7e69a903c30726c82"
         }
       ]
     },
@@ -459,11 +459,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/24-transport.json",
-          "sha256": "7318798dc52cc232618dd881c1f39ddaf679f58aa498dff2d7fccfb1d0353894"
+          "sha256": "55d20ff73529249c03d1394760af252b347795450b54a473bd1f0a570021fc9d"
         },
         {
           "path": "release/reviews/evidence/design-host/24-control_relay.json",
-          "sha256": "8ccbdeefa6db81a8b8fab70647681e9839d6b7eab8293ae75fc5e1b04aa3f01b"
+          "sha256": "e0c3ef20c80fa9777ef247910681ddf7a1e6b98f795b6e87486c936663d93236"
         }
       ]
     },
@@ -480,15 +480,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/25-host_relay.json",
-          "sha256": "b6cbd51f91f037e25c055aa725cd33df2351e16451753d23274dadc8a4ff4685"
+          "sha256": "38fe0fcac4c1995b66b781efd4629b7fdd50ba4c11ed3623deb44d8d0814d28f"
         },
         {
           "path": "release/reviews/evidence/design-host/25-read_measure.json",
-          "sha256": "308ed197eb5ed60415e2cf7e79b4b800c3ec1421c730851fd1ea96aacd31f0b6"
+          "sha256": "3b97e9f428ddd2549183a2750d833babc421fcad77fca1a43bd48d44dd9fe4b1"
         },
         {
           "path": "release/reviews/evidence/design-host/25-read_getters.json",
-          "sha256": "2634323e0ef7ea706bce4e16627d7e5f6fa31c040e3bd4c333513c03236fb3c2"
+          "sha256": "87e5ac7cd7b73ee8316cb17a9cd72937ffdb6f75f64baa5f41acd1e217108ec0"
         }
       ]
     },
@@ -503,15 +503,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/26-host_locale.json",
-          "sha256": "0c8eed099f0cb7881fd19048e8077b8915ac22029681cb49483c5b9a6db6f322"
+          "sha256": "cc9aa7ae6b9148d07ae3e6b5f4302037fa0954b925a0b2f0b83cde5c430fe750"
         },
         {
           "path": "release/reviews/evidence/design-host/26-changes.json",
-          "sha256": "10156ed905918a00103c5c8dfbaccda0f01a84c2a8eb2ac08a8b92eea3871134"
+          "sha256": "d3cb19d62348d6c69772b91e11d8d6222a681e19e571c987ce94dbf2ff48b477"
         },
         {
           "path": "release/reviews/evidence/design-host/26-audit_log.json",
-          "sha256": "9ef46bc3510f0b9883a6319094a25ea18c9449348342d84250ccd0ffa2402673"
+          "sha256": "dcab7b4e78449556e4af6546cd50c1a637e7695f07d71e1f47a4ffa6169276fc"
         }
       ]
     },
@@ -526,15 +526,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/27-host_scope.json",
-          "sha256": "4f25997127bec2a46a4b5cd9fc936de1706fe0ebc81a13ce9cec4c1aa746ee04"
+          "sha256": "6b5a277a4077eac0e5fb3682348d236b33dbbba526513c66960383a19e57976f"
         },
         {
           "path": "release/reviews/evidence/design-host/27-control_native.json",
-          "sha256": "781e76f2261940d81a9c82028026a778beb87002f13929e659e3c2ec00fe9fa3"
+          "sha256": "069425c5e5bd687e6d0765871c2c9521234b5d7239ef768bddb58640b481940f"
         },
         {
           "path": "release/reviews/evidence/design-host/27-audit_log.json",
-          "sha256": "c96b665d8d51a8cc35ed39849505d08dda982d589e1cdf2ab741ef1a474b76e8"
+          "sha256": "afd0be60f462a3fb3a1a4e10e805dae32cb01f1d6620d3cc0e65afde021d60eb"
         }
       ]
     },
@@ -548,11 +548,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/28-host_relay.json",
-          "sha256": "b08aeb28cebad72116d7226db165cb5c4e82a6090c9ed142e19bac5dbd4f0858"
+          "sha256": "d8d02f5786e8d40016868e5d0407df142c111e141cc3dc9f11b8e8dd6965ffca"
         },
         {
           "path": "release/reviews/evidence/design-host/28-control_native.json",
-          "sha256": "2d9814262557699a410fd55523947e4c60bb0d3e82069774affdaade3f8d962a"
+          "sha256": "c29210013477fe326380ea033421b501223187f5a334b31efaa439b8c2e0a10c"
         }
       ]
     },
@@ -566,11 +566,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/29-chat_host.json",
-          "sha256": "7593bf1a1ad5e5547847ae6cb66b6a5297aeceaf16f0fde00b45ea3353edffb7"
+          "sha256": "8a87ef5110ebabaf19cdca146dda55f5944be6602454a04b9c0b04d7da920811"
         },
         {
           "path": "release/reviews/evidence/design-host/29-standalone.json",
-          "sha256": "57b033e3fbe373e6d0138354e68933fd276b6b7d86d704c1420987324c812ec7"
+          "sha256": "fbe629543ebd4094b5a59ff4a26b880f527e7eabbf9444c9abbd41b2ff89248e"
         }
       ]
     },
@@ -586,15 +586,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/30-host_relay.json",
-          "sha256": "b861444f86ae4b5a5af130b642ed7361a2cd448b3be1af01b152b0382bb7be51"
+          "sha256": "95fa58dfebae20171f6b3f634db64f8aac311a67b57b6975bdbd51bdefc045e1"
         },
         {
           "path": "release/reviews/evidence/design-host/30-control_relay.json",
-          "sha256": "19f977617339389d97126c938fade703cb0de71caef01784cec393ea2b9b98dc"
+          "sha256": "8c17e221a23a2ba5f3b885a8cc077f21a493a00038a03685169269ac2378b32e"
         },
         {
           "path": "release/reviews/evidence/design-host/30-workspace_case.json",
-          "sha256": "161bf6068549c10f66dcd98a46bea061e7dc6c81477c86a677eb4a5f0af9eaf8"
+          "sha256": "fbb64cb25305225b39305d1bc584a430eafdb7bff08129ae01bd4e5e8aafa0d4"
         }
       ]
     },
@@ -608,11 +608,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/31-relay_alignment.json",
-          "sha256": "74b7bf1472751555c82cf91104dcfd443e24743462ccb24cbcb1bf521cea8b1c"
+          "sha256": "6ff9794651fb45876292bc752f142224352f9097fcc5299de4386f32a2ee24c3"
         },
         {
           "path": "release/reviews/evidence/design-host/31-host_relay.json",
-          "sha256": "bfa6e1ad4c8e01569b8bc82ced6655e769662ea071d7b5d60dcdd584a262e214"
+          "sha256": "64f738a731e42bb86eb80f6990d64c660cf19eb03a230e49d3bcb882a41c53a2"
         }
       ]
     },
@@ -626,11 +626,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/32-api_probe.json",
-          "sha256": "e7b4598f66a22ee5dcf6f22ba7753ee2cb29dc996526e9c496cc6beb6fe0d61d"
+          "sha256": "9903ec5712513bcebb104fccadaf662c1de1db589a6852459b6f87ce7c909f84"
         },
         {
           "path": "release/reviews/evidence/design-host/32-api_fixture.json",
-          "sha256": "ed556fff98e5edb2e5c23ad30b8e27d6e4868d4f1b7a860e73180bc7cf2d74b2"
+          "sha256": "b6804ba9370e6274d0c9703a574c945a9c79855d4171f5584368cc04a3e4d980"
         }
       ]
     },
@@ -643,7 +643,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/33-workspace_recipes.json",
-          "sha256": "bdfb2d3119be2cdd21b23c28dd30f6ae22361240b5359eda5f00b9c3974c0d62"
+          "sha256": "44ebf2c2bc9ae3c7833d8f0c361808d119b92a58c275a77cf036fba12e1ec93e"
         }
       ]
     },
@@ -657,7 +657,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/34-token_sync.json",
-          "sha256": "b505bb38f5a10769b0961e5fdb4ddb8609474a28a735cde46d1a538e2a32b350"
+          "sha256": "c797fd14ca9e01c48d77ba2550b4d81623e768fc07645034b5d80a600902dab7"
         }
       ]
     },
@@ -672,11 +672,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/35-token_sync.json",
-          "sha256": "9626208cf6828af56664fed892821d82478dc963c9869fb904f748f76acfbe2f"
+          "sha256": "24071741e08622dec9ee9578eb65fc22cb852abd02560e067f45791ea0565e0e"
         },
         {
           "path": "release/reviews/evidence/design-host/35-cta.json",
-          "sha256": "aa7a4903d3ea1490b226c1b4faace4954d96ff6a496a4683bb8833c7671396e9"
+          "sha256": "b05ce1c83bed06d0b2cf9f60d04f96192aa48dcbab6ca039bbdbe53bec96502b"
         }
       ]
     },
@@ -691,11 +691,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/36-notes.json",
-          "sha256": "de29d36c907827a17c56cf9d689a9cec76da4d273b33925dc2de98a11b4da4ed"
+          "sha256": "4b48102d7c24a9b71060d1bed1e3377444120d5a88e079a4a680229b0d815017"
         },
         {
           "path": "release/reviews/evidence/design-host/36-native_handoff.json",
-          "sha256": "d50195f3d564e1c9acd320c5981fe49453dd6e6d92b3ee04444df7cbd5ef02c6"
+          "sha256": "c0349bcfebe860b0d87fc45a93e9a5f18470c2f1ebdd63f41835dd91f055622c"
         }
       ]
     },
@@ -709,11 +709,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/37-graph_board.json",
-          "sha256": "4dd1c90a0ad776fa6c2f771a68d9ab30f59b0507e3e1e7f322ec6e1d71ce5f55"
+          "sha256": "d8b84d2fec0369fd72e1415a1836bdb852f049a49f5cb9ee9a4e2a29243cd44e"
         },
         {
           "path": "release/reviews/evidence/design-host/37-graph_card.json",
-          "sha256": "3097bd502da63dd70c6304e935f98ab7bc641b1a553852e0535a9f489e67fbb0"
+          "sha256": "b04bcd47538cb1e4a41370f2fb3357c0cf79a04ef95b1c2485d5825aa2094fed"
         }
       ]
     },
@@ -727,11 +727,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/38-design_graph.json",
-          "sha256": "101cbb3eb2b9409a7a0e7c4ef85831b37f23983f961f4c5d8dfe964ac8f6ffc7"
+          "sha256": "6c1e64c04d2d0604711fc35517cc2bac0f4a533386740252f40c32940c4acec6"
         },
         {
           "path": "release/reviews/evidence/design-host/38-direction.json",
-          "sha256": "1a7ff7fc260c8dfe760aed266fdf50cd20e2ab179ff73ba6e820a031c778d88b"
+          "sha256": "4af18860a6a3172a06f5291591923d10be9e5c13ab6d450bf5df290385ea8b43"
         }
       ]
     },
@@ -753,15 +753,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/39-panel_components.json",
-          "sha256": "ef148d90942dce156fc52ba2415a0a20c52b14ba74248cc003f5101be7388052"
+          "sha256": "1602de4644d10f31f9b17900b9484fb351ae41922fdb8f5d4df8217064966fa1"
         },
         {
           "path": "release/reviews/evidence/design-host/39-panel_locale.json",
-          "sha256": "b74780ce8d330a4fbcddae4fb3b6914919d7c5eb6f55bb7e73b1b5c737c61b6f"
+          "sha256": "407f29e383bbeb386d49c40f9dff03135c6895510295b182e9bb38bc8a3e8a71"
         },
         {
           "path": "release/reviews/evidence/design-host/39-standalone.json",
-          "sha256": "53962ec99bb3f8a86c376863836a34a5b39155266ef697e853245b1876879f4f"
+          "sha256": "0d336d38406f2acbdb67cda91860e87273e6bcd38923091534ae18a31e086958"
         }
       ]
     },
@@ -778,11 +778,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/40-panel_components.json",
-          "sha256": "cd2573664fadb6692bcd19feaddf6f8943cb244684ce38f600b07ce07c2418b9"
+          "sha256": "808157559686d8fcfdcdacaca43bee73b3ac0c7f1998caaa31e28dcafef00920"
         },
         {
           "path": "release/reviews/evidence/design-host/40-standalone.json",
-          "sha256": "9ba42d4a56eb98e028ed4caf36082ff0b99b9f19de35c7d0c6612d6896f243a6"
+          "sha256": "e8bd63358fd80f1cad2d0e1991eafc5e4d9697d169de17f38e5f0d8fc45b4e3e"
         }
       ]
     },
@@ -795,11 +795,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/41-appearance.json",
-          "sha256": "0dd2bc825ef20708b43fddbccb97fb5d2b088da6f55d94c9af46f41f145e7648"
+          "sha256": "4e46d517c149e319f3d6ec31a7bd6b832014e7e6c723990bffc499ace0bdd3e4"
         },
         {
           "path": "release/reviews/evidence/design-host/41-standalone.json",
-          "sha256": "9a251860bdd5f1d6bfc29054132e2e19c333d27d8405fd8766c547205fe3857c"
+          "sha256": "dfe59c93d883aed317d8feae11d8ece23464ea089d835a2d1d04a00a2ec52c36"
         }
       ]
     },
@@ -813,11 +813,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/42-changes.json",
-          "sha256": "397539130130568ffbb34d7dbe88ac4cfa62d472824bcc0edc234173acda98bf"
+          "sha256": "18132c584a16de2593d1a39485340a6a993593c42a99e2336f9b493bcf40132e"
         },
         {
           "path": "release/reviews/evidence/design-host/42-workspace_case.json",
-          "sha256": "99a7ad3cedf6c1030fb5874c685ff8d341e730a2d389fc177f3182c3cbec118e"
+          "sha256": "307f0f63db72cf8a52de88b8cb12e8d841c0f7f2551c31c5d0b39ea7f9857299"
         }
       ]
     },
@@ -831,7 +831,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/app-colors.json",
-          "sha256": "a22ce8a79ed21e0c73469234a6e65edd7dd6e22174581d61aa28de0f45d0f196"
+          "sha256": "4c164df66a37fa39f6ea11ed314db1317fa92381f7ebfdfc34710270ad20f778"
         }
       ]
     }

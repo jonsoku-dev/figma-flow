@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "49e48608a8c7602d400c5e968e731becac6c8bd8947a536f66f52eda8ae0f9e5",
+  "surfaceFingerprint": "545e530a92f4a536965de3bb1a2e9b746a65bca255ae4b450540f5e9c349e936",
   "status": "passed",
   "checks": [
     {
@@ -10,7 +10,7 @@
         "library/delivery/reference-guard.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "7154a5e5859944c2f49ba0244ccf85ff30c0cd85e05b019abb6501d5529f2a76",
+      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
       "case": "DeliveryReviewTests.test_major_linux_sandbox_cli_is_verified_before_install_and_path_update",
       "assertion": "The major archive job installs the specified Linux Codex CLI only after its SHA-256 matches, and only then adds it to the runner PATH.",
       "observed": "The generated shell verified and installed the executable from a matching local archive and rejected a corrupt archive before installing or extending PATH."

@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "49e48608a8c7602d400c5e968e731becac6c8bd8947a536f66f52eda8ae0f9e5",
+  "surfaceFingerprint": "545e530a92f4a536965de3bb1a2e9b746a65bca255ae4b450540f5e9c349e936",
   "status": "passed",
   "checks": [
     {
@@ -10,7 +10,7 @@
         "library/delivery/little-hands.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "7154a5e5859944c2f49ba0244ccf85ff30c0cd85e05b019abb6501d5529f2a76",
+      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
       "case": "DeliveryReviewTests.test_ci_pins_and_node_selection_follow_their_declared_sources",
       "assertion": "Disposable service and app settings agree on the fixture database and preserve staging-only behavior.",
       "observed": "A changed checkout SHA and Python version reached all four workflows. Both compiler installs followed the changed npm pin and Node steps used the configured version file."
@@ -23,7 +23,7 @@
         "library/delivery/little-hands.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "7154a5e5859944c2f49ba0244ccf85ff30c0cd85e05b019abb6501d5529f2a76",
+      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
       "case": "DeliveryReviewTests.test_app_workflow_projects_service_credentials_into_actual_staging_settings",
       "assertion": "Disposable service and app settings agree on the fixture database and preserve staging-only behavior.",
       "observed": "Mutating disposable credentials/database/port changed both the service and real application settings, which remained staging."

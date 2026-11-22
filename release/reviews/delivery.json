@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "delivery",
-  "fingerprint": "49e48608a8c7602d400c5e968e731becac6c8bd8947a536f66f52eda8ae0f9e5",
+  "fingerprint": "545e530a92f4a536965de3bb1a2e9b746a65bca255ae4b450540f5e9c349e936",
   "openFindings": [],
   "bindings": [
     {
@@ -14,7 +14,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/1.json",
-          "sha256": "6d3056bdfc72f25fa8b5daae59c00f81ef10c0cd9358287de15709385d7ea7fc"
+          "sha256": "b000ccfc3951693bf5f54240e781faf9d5faba036c6df268c82bc19ec07d23ac"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/2.json",
-          "sha256": "dab631d9cd392ee42b116a9e3aab5e99345b45c5eef17d7b21fc8dcd2164ae25"
+          "sha256": "f86d32f85ba47885cd225f7569404226174e24cb7e38cab114dcf2a09004046b"
         }
       ]
     },
@@ -41,7 +41,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/3.json",
-          "sha256": "74be7bbcfe46d2a81848f2ba76f483a8bd7286c6aa10c97bc175d1a08661d1b9"
+          "sha256": "c5fbb065a983360e29b96136325467b4049876337cc94378b0d7c6618f072796"
         }
       ]
     },
@@ -55,7 +55,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/4.json",
-          "sha256": "794d4aaf7c7044b990bfc4a9fa885b947e292868d8d9d613f4e0ab54f87f8c56"
+          "sha256": "332183cb582842fff496579086417636af9db97993b8164d879108269a395b8c"
         }
       ]
     },
@@ -69,7 +69,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/5.json",
-          "sha256": "047e8ff82e4d3492b5809471694d7b424bebea440203b8584d921f4063929521"
+          "sha256": "04c24457184a5b406b0fd23bd02407b19ca56879a49670c7ba20c465e1bc7fc5"
         }
       ]
     },
@@ -83,7 +83,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/6.json",
-          "sha256": "64175b0a5f0de2b061bb482120abc3cc44a1f02138960bee3458b08f92866ddd"
+          "sha256": "adcd536b9927e4e22dd618e1ca22666ef00d2ce77f028e8e8093168206a3a894"
         }
       ]
     },
@@ -97,7 +97,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/7.json",
-          "sha256": "13622930b0525c3b454ae1f2fbbbd3b11dda8a4293c0b90f6b717cadd206d8fe"
+          "sha256": "61f786a557bcbc2ee919214b4a2b9ac9f77107ea772bcc1319be6378cb7ee9a1"
         }
       ]
     },
@@ -112,7 +112,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/8.json",
-          "sha256": "a0c6d6d210dee4d28f7812d9316f04c0099be799ee9f2d90ee7b091c05f6194f"
+          "sha256": "fc2a577e48d225d4ef720637d417a56cce8f52fe09fd9e72b11706fc2226417a"
         }
       ]
     },
@@ -127,7 +127,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/9.json",
-          "sha256": "514cfe4f18a0000c4b6bf8cb94f9d2ad4f892910d20176f7522e3d039204ffd9"
+          "sha256": "3f77f5c710c98f144f5dcdabb1cfbc4914424d48792a370db741c9545d1f3839"
         }
       ]
     },
@@ -142,7 +142,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/10.json",
-          "sha256": "fa8168c748326a8ecbe59c3669bd373fc7bcb515c625debe0b7fae3a6018bf82"
+          "sha256": "f3061adb78f38059f98e571b280f5f7a1d6aea4a47dd1984d9b5ab8ecadf2283"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/11.json",
-          "sha256": "f581185b27b7bb13d5707b83c9909d9e63b227b870081d6e22512fe367fac104"
+          "sha256": "b6f1da3a191602619c51baa958165be2656b7c24501603e11e8a98cf0a7d2d20"
         }
       ]
     },
@@ -171,7 +171,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/12.json",
-          "sha256": "8d043a466826d7792206f07d91dfa182b27a409c9acb400565f0f044ac77b8bb"
+          "sha256": "740d39ba6dbbcf6f05063190e66bcba4e0fe0da9ddd678357a8b88544afd5504"
         }
       ]
     },
@@ -186,7 +186,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/13.json",
-          "sha256": "9983a28aaae79b571d14a89ea8f5880c81093b98052b3666fb7a8852bbef2f1a"
+          "sha256": "02498c2635f779c21276abeddb2e24db73a342c0fa3c92eee4dafa45ff2d5c1a"
         }
       ]
     },
@@ -203,7 +203,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance/delivery-1.json",
-          "sha256": "f9d15573f1fba8160504d52b6fc1275a0015996f3e933980ef8b5eeea41591e3"
+          "sha256": "d3ee894069d4a9d36ee391beff472785d3e98d41bb70bc215a2a699ca967260f"
         }
       ]
     },
@@ -218,7 +218,22 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance-retention/delivery-1.json",
-          "sha256": "cf5345114aad3dc9944f08bda994af3d9aab6df7946c44aa8de33348a41d990b"
+          "sha256": "9efe03ac716edfbdbd98d066f3de39ff92ad7a7b054f508db3d140aaccb699a6"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/workflows/little-hands.yml",
+        "library/delivery/little-hands.yml.in",
+        "library/delivery/graph.json"
+      ],
+      "authority": "apps/little-hands/config/deployment.json#/database",
+      "reason": "The example database image, schema and port are projected from the deployment authority into CI.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/mysql-example/delivery-1.json",
+          "sha256": "a7b6d181be614e546bb1c8b60071ffb769f8925245bea9be684a7463add15f91"
         }
       ]
     }

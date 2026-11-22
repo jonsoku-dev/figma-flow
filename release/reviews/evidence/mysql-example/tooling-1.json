@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "90f9638671a61a035a96b521c6906045825573a857da9077172dd97a32a57c60",
+  "checks": [
+    {
+      "test": "tests/test_delivery_review.py",
+      "case": "DeliveryReviewTests.test_app_workflow_projects_service_credentials_into_actual_staging_settings",
+      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
+      "covers": [
+        "tools/delivery_config.py"
+      ],
+      "authority": "apps/little-hands/config/deployment.json#/database",
+      "assertion": "Changing the example deployment input changes staging and database service configuration together.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}
