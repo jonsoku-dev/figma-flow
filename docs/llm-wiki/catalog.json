@@ -12247,6 +12247,112 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "7d1249ed100f0cbd1ee13c0edf121d9f57e6821c",
+      "diff_sha256": "8698d50e78e5bdbd294bf5b8ea78bb9b3d79ac0168c7cc98331f02388c165ef7",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/39b320db82badb54dfe03f8e46205f9816f1bf77.md",
+        "docs/llm-wiki/patches/97d7bbb661578a32b6cb5b7b77a42771e59eeef5.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "97d7bbb661578a32b6cb5b7b77a42771e59eeef5"
+      ],
+      "subject": "docs: record local profile initialization and eligibility verification",
+      "tree": "4340c0afb5fcd1fe2479dc91f3ffd073996b1783",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "33287d5e331c454f1d8c0be7363de9edb848df4b",
+      "diff_sha256": "448b972748d428e9d7e9ed5341ffcaae1ebb4588621ddb4b48ce54b7a6355840",
+      "files": [
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "7d1249ed100f0cbd1ee13c0edf121d9f57e6821c"
+      ],
+      "subject": "docs: capture native profile persistence and browser acceptance",
+      "tree": "a953c37a66ab5a7f6a47d7f2eaf99f51eb29be8f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "c4b09947d122d1a7fc17db168812835bb857ec52",
+      "diff_sha256": "5aab6bdc9adc5dd5d6d70e4f4d57dc2b03df59df4f0b10a46bae2e9f94850226",
+      "files": [
+        "AGENTS.md",
+        "CONSTITUTION.md",
+        "README.md",
+        "docs/figma-recipes.md",
+        "docs/guide.md",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/assets/panels.js.LEGAL.txt",
+        "figma-bridge/locales/relay.json",
+        "figma-bridge/relay_recipe.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/app.jsx",
+        "panel-ui/src/styles/relay.css",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/figma-feature-routes.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "specs/README.md",
+        "specs/codex-relay/graph.json",
+        "specs/codex-relay/spec.md",
+        "specs/local-profile-init/graph.json",
+        "specs/local-profile-init/spec.md",
+        "specs/workspace-activity/spec.md",
+        "tests/helpers/relay_example.cjs",
+        "tests/helpers/relay_viewer.mjs",
+        "tests/test_figma_control.py",
+        "tests/test_figma_feature.py",
+        "tests/test_figma_workspace.py",
+        "tests/test_relay_publication.py",
+        "tests/test_workspace_control.cjs",
+        "tests/test_workspace_host.cjs",
+        "tools/figma_control.py",
+        "tools/figma_feature.py",
+        "tools/figma_workspace.py",
+        "tools/plugin_panel.py",
+        "tools/workspace_recipes.py"
+      ],
+      "parents": [
+        "33287d5e331c454f1d8c0be7363de9edb848df4b"
+      ],
+      "subject": "feat: run Design workflows from Codex through a passive Figma relay",
+      "tree": "991cbe05fc817d96f708396575195604390d8b63",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12332,6 +12438,7 @@
     "3101237e7e97c6181416780c94888ba134a005d0": "eb8cd406e0591b4fa29b20c75057305ae593587084edf8595a5b40a82eb1c3d5",
     "310f6573b4c60a78a4da0099c0f91976430323da": "a961d41b7c9d27ba0726201165f95586ef7d7d40cac201ccb3bb40c6bb9ef376",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
+    "33287d5e331c454f1d8c0be7363de9edb848df4b": "4373d9e16b08df782a03ea453221eede69cac20bda656a9751bd546072e193eb",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
     "3491b7d3d2971826f3f4cba89067cceffb91940d": "818031aaaeb16be08c12fdc8c6bd3aa3c0613361d4e428483bdd9bf99c867a68",
     "34d36385c45b4e36a55aeed42fd561dfbba048a5": "aedc55fb360a18c1dbee2c575700507a177cee997552da81f3fd1e25ca133f7b",
@@ -12441,6 +12548,7 @@
     "7b5ae4091641430d891e0c110c8efdb9a845a6ce": "063e8f7c15bd7989ed403013c467c8da048f725858a1473274172f3a6ca8492f",
     "7ba864310c66d6f972cb4b9e15cacc04c3761ccd": "6b8b7e52db476fbb4ddfb6330a32b0747fb0548cd21b6fdb94c91c245843e109",
     "7bff2100bccf6db00203cc5351c8773026783d72": "4bf77332ec7b7f05f26b5da425a0f61bee71c346e6e1e8eb8fd28d12681d9f1d",
+    "7d1249ed100f0cbd1ee13c0edf121d9f57e6821c": "0efd9598550ce33bf51a32bc74c3b9d451208ef499d1a13412dfc9d7458459e7",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "7da6848179efdf6ec9e91de8339c1e9ca8163a47": "edae9b67102c6fcc3f1ede490129787aff655ff68fc836746ef06171d6ad0c86",
     "7db78d6f3cd8205222288a5e445d06a9c64a8216": "2b77c75395617714d054f885bedd97b313226ed332a4e61944c87e56b7a9a1da",
@@ -12567,6 +12675,7 @@
     "c1541b8129bdf3e175dd905cddfed39acd52bc2e": "8986a6e93a55e9a8ea388260e2d2dfb6cc4b0fbdfa40d33c503e5989edf50d14",
     "c208a3f3cd8d83266f50b27b7534e9d4274ef900": "c79fa8cf123bbbe1214ecab594ba381a868f9dd317d42bb517c03e4ebbbc54ed",
     "c43b4fc6c3958c233ca403769b4ef255bd6708e5": "39a8450f8747becfbdc6c6d80a44fe877ea51041f8f24b14f0d475fa1858169d",
+    "c4b09947d122d1a7fc17db168812835bb857ec52": "635000360be38c4c4330e29e978fc22976a8d41b14aca66cc6620528843a1de6",
     "c4f8338c4803f88807fab96f58607d8e9f2652df": "66354fee2f0e1f98052d7437da64b97dc03f51c545452e4533f9cc6c0423ae69",
     "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
@@ -13017,6 +13126,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "c4b09947d122d1a7fc17db168812835bb857ec52",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "c4f8338c4803f88807fab96f58607d8e9f2652df",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -13425,7 +13538,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "97d7bbb661578a32b6cb5b7b77a42771e59eeef5",
+  "source_commit": "c4b09947d122d1a7fc17db168812835bb857ec52",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
