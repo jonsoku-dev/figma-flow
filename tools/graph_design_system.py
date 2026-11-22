@@ -11,6 +11,8 @@ import re
 from pathlib import Path
 import tempfile
 
+from graph_document import decode_json
+
 
 class LoadedGraph(dict):
     """Graph data carrying the hash of the exact source bytes, outside its schema."""
@@ -22,7 +24,7 @@ def _encode(value):
 
 def load_graph(path):
     raw = Path(path).read_bytes()
-    graph = LoadedGraph(json.loads(raw))
+    graph = LoadedGraph(decode_json(raw))
     graph.source_sha256 = hashlib.sha256(raw).hexdigest()
     return graph
 

@@ -16,8 +16,8 @@ class GraphVocabularyTests(unittest.TestCase):
             root=Path(temp)
             canonical=Path('skills/figma-flow/scripts/graph.py')
             audit=Path('tools/spec_graph_coverage.py')
-            for source in (canonical,audit):
-                (root/source).parent.mkdir(parents=True)
+            for source in (canonical,audit,Path('tools/graph_document.py')):
+                (root/source).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT/source,root/source)
             with (root/canonical).open('a',encoding='utf8') as stream:
                 stream.write("\nLOCAL_TRACE_ENDPOINTS['checked by'] = (('acceptance','code','screen'), 'test')\n")

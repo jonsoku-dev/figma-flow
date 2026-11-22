@@ -15,6 +15,10 @@ description: Record a Figma Flow patch, audit missing patch history, or use obse
 4. CHANGELOG에는 짧은 사용자 변화를 쓰고 버전 대조표와 연결한다. 태그가 없는 버전과 아직 정하지 않은 버전을 구별한다.
 5. 기록 도구의 `verify --ref HEAD`와 `python3 -B -m unittest discover -s tests -p 'test_patch_knowledge*.py'`를 실행한다. 누락·오래된 출처·깨진 링크·실패가 남으면 완료로 보고하지 않는다. 실제 diff를 읽은 독립 검수 결과를 함께 보고한다.
 
+## 반복 교정
+
+[유지보수 검증 절차](../../docs/maintenance-verification.md)에서 변경에 맞는 프로필을 실행한다. 기존 검사에서 실제로 빠져나간 입력을 하나 재현하고, API나 정적 검사로 막을 수 있는 경우 해당 경계를 고친다. 고정한 독립 검사는 구현 전 예상 실패와 구현 후 결과를 확인한다. PR에는 실행 결과와 근거 링크, 건너뛴 검사를 먼저 기록한다.
+
 ## 실패를 이용한 개선
 
 1. [개선 제안 형식](../../docs/llm-wiki/improvements.md)에 고정한 개선 전 실패와 범위, 인수 조건을 사용한다. 실행하는 검사 파일의 Git blob과 모드를 base/target 사이에 고정한다. 기준 변경이 필요하면 권한 소유자가 새 기준 커밋을 먼저 만들고 별도 구현 diff를 검증한다. 검증기 자체 수정도 안정된 독립 검사를 사용한다. 사용자가 허용한 범위 안에서 구현하며 외부 게시나 계정 변경 권한을 Wiki에서 추정하지 않는다.

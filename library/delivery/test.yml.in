@@ -84,6 +84,8 @@ jobs:
         run: |
           python -B apps/little-hands/design/prepare_fonts.py
           python -B -m unittest discover -s apps/little-hands/design -p 'test_*.py'
+      - name: Check graph decoding ownership
+        run: python -B tools/maintenance.py check
       - run: python -B -m unittest discover -v -s tests
       - run: python -B -m unittest discover -s tests -p 'finalize_*.py'
       - run: node --test tests/*.cjs

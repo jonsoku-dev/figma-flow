@@ -4,8 +4,7 @@ import json
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'skills/figma-flow/scripts'))
-from graph import validate_graph
+from graph_document import contract, decode_json
 
 # Review surfaces group original node types while preserving their identities and status.
 from native_appearance import appearance
@@ -16,8 +15,8 @@ def project_graph(path, selected_ids):
     bounds = policy['limits']
     path = Path(path)
     raw = path.read_bytes()
-    graph = json.loads(raw)
-    errors, _ = validate_graph(graph)
+    graph = decode_json(raw)
+    errors, _ = contract.validate_graph(graph)
     if errors:
         raise ValueError('Invalid canonical graph: ' + '; '.join(errors[:3]))
     by_id = {node['id']: node for node in graph['nodes']}

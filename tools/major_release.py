@@ -13,6 +13,8 @@ import sys
 import tempfile
 from zipfile import ZipFile
 
+from graph_document import decode_json, read_json
+
 import panel_authority
 import plugin_manifest
 import report_appearance
@@ -43,7 +45,7 @@ def version(value):
 
 
 def package_version(repo, commit):
-    return json.loads(git(repo, 'show', commit + ':plugin.json'))['version']
+    return decode_json(git(repo, 'show', commit + ':plugin.json'))['version']
 
 
 def requires_major(candidate, base):
@@ -52,17 +54,6 @@ def requires_major(candidate, base):
 
 def finding(code, path, message, **detail):
     return dict(code=code, path=path, message=message, **detail)
-
-
-def read_json(path):
-    def unique(pairs):
-        result = {}
-        for key, value in pairs:
-            if key in result:
-                raise ValueError('Duplicate JSON key: ' + key)
-            result[key] = value
-        return result
-    return json.loads(path.read_bytes(), object_pairs_hook=unique)
 
 
 def relative(name):
@@ -434,7 +425,7 @@ def run(args):
     candidate = args.candidate or declared
     parts = version(candidate)
     version(declared)
-    codex_manifest = json.loads(git(repo,'show',target+':.codex-plugin/plugin.json'))
+    codex_manifest = decode_json(git(repo,'show',target+':.codex-plugin/plugin.json'))
     if codex_manifest['version'] != declared:
         raise ValueError('Manifest versions differ at the candidate commit.')
     named_ref = git(repo,'rev-parse','--symbolic-full-name',args.ref)

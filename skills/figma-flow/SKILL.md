@@ -13,6 +13,10 @@ Maintain one canonical JSON graph with stable semantic IDs. The graph owns relat
 
 업데이트 원본은 현재 등록된 Git 소스나 기존의 신뢰한 출처 기록을 따른다. 로컬 스냅샷의 출처가 없으면 임의 upstream을 추정하지 않는다. `--source`와 `--authority`는 실제 설치 요청·검증된 출처가 있을 때만 지정한다. 같은 이름의 사내 복제본을 공개 저장소로 교체하지 않는다. 업데이트가 성공하면 반환된 실제 설치 경로에서 다음 명령을 실행한다. 버전 고정·개발 변경·오프라인·실행 중 작업·입력 변경·접근 금지 등의 예외는 이유를 기록하고 독립적인 허용 작업을 계속한다. 파일 최신화와 실제 로드된 Figma 버전은 구분하며, 필요한 같은 플러그인의 재실행을 숨겨서 자동화하지 않는다. [업데이트 계약](../../docs/guide.md#automatic-startup).
 
+## 저장소 유지보수 경로
+
+Figma Flow 자체를 수정할 때는 [패치 기록과 근거 기반 개선](../patch-knowledge/SKILL.md)과 [실행 검증 프로필](../../docs/maintenance-verification.md)을 사용한다. 사용자 프로젝트의 디자인 선택과 Figma 인수는 해당 프로젝트의 워크플로에서 확인한다.
+
 ## 공개 기능 사용
 
 사용자가 기능 실행을 요청하면 `tools/figma_feature.py route`로 경로를 확인하고 실행 결과까지 검증한다. 등록 메뉴나 기존 작업으로 지원되는 경우 그 경로를 쓴다. 추가 Plugin API가 필요한 경우 Codex가 [SDK 프로젝트](../../docs/figma-sdk-project.md)를 생성하고 요청한 동작을 TypeScript로 작성·빌드한다. 대상 편집기에서 실제 노드·속성 또는 해당 기능의 결과를 확인한다. 새 플러그인의 등록에는 Figma가 발급한 ID를 사용한다. 위젯·REST·제품 UI는 [기능별 안내](references/figma-feature-routes.md)의 해당 조건을 확인한다. 검색 결과와 빌드만 확보한 경우 실제 실행 상태는 미검증으로 기록한다.

@@ -159,7 +159,9 @@
     {"id":"design-runtime-verification","type":"authority","source":"docs/design-runtime-verification.md"},
     {"id":"chat-input-bounds","type":"authority","source":"figma-bridge/chat-input.json"},
     {"id":"standalone-view-styles","type":"authority","source":"figma-bridge/standalone-views.json"},
-    {"id":"historical-visual-observations","type":"authority","source":"specs/editable-web/historical-visual-observations.json"}
+    {"id":"historical-visual-observations","type":"authority","source":"specs/editable-web/historical-visual-observations.json"},
+    {"id":"maintenance-contract","type":"authority","source":"tools/maintenance-contract.json"},
+    {"id":"maintenance-verification","type":"authority","source":"docs/maintenance-verification.md"}
   ],
   "edges": [
     {"from":"manifests","to":"check-metadata","type":"checked-by"},
@@ -408,6 +410,12 @@
     {"from":"design-host","to":"standalone-view-styles","type":"owned-by"},
     {"from":"tooling","to":"standalone-view-styles","type":"owned-by"},
     {"from":"guides","to":"historical-visual-observations","type":"owned-by"},
-    {"from":"requirements","to":"historical-visual-observations","type":"owned-by"}
+    {"from":"requirements","to":"historical-visual-observations","type":"owned-by"},
+    {"from":"tooling","to":"maintenance-contract","type":"owned-by"},
+    {"from":"delivery","to":"maintenance-contract","type":"owned-by"},
+    {"from":"skills","to":"maintenance-verification","type":"owned-by"},
+    {"from":"guides","to":"maintenance-verification","type":"owned-by"},
+    {"from":"guides","to":"maintenance-contract","type":"owned-by"},
+    {"from":"requirements","to":"maintenance-contract","type":"owned-by"}
   ]
 }

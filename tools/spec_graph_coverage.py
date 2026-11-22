@@ -5,21 +5,15 @@ declared evidence to runtime acceptance.
 """
 from __future__ import annotations
 
-import json
-import importlib.util
 from pathlib import Path
 import re
 from typing import Any
 from urllib.parse import unquote, urlparse
 
+from graph_document import contract as _graph_contract, read_json as _load
+
 
 ROOT_REGISTRY = Path("specs/graph-roots.json")
-GRAPH_CONTRACT_PATH = Path(__file__).resolve().parents[1] / "skills/figma-flow/scripts/graph.py"
-_graph_spec = importlib.util.spec_from_file_location("figma_flow_graph_contract", GRAPH_CONTRACT_PATH)
-if _graph_spec is None or _graph_spec.loader is None:
-    raise ImportError(f"Cannot load graph contract constants from {GRAPH_CONTRACT_PATH}")
-_graph_contract = importlib.util.module_from_spec(_graph_spec)
-_graph_spec.loader.exec_module(_graph_contract)
 NODE_TYPES = _graph_contract.NODE_TYPES
 STATUSES = _graph_contract.STATUSES
 REQUIRED_NODE_FIELDS = _graph_contract.REQUIRED_NODE_FIELDS
@@ -51,10 +45,6 @@ TYPED_EDGES.update({
 
 def _finding(code: str, path: str, message: str, **extra: Any) -> dict[str, Any]:
     return {"code": code, "path": path, "message": message, **extra}
-
-
-def _load(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _source_target(root: Path, graph_dir: Path, source: str) -> tuple[str, Path | None]:
@@ -150,7 +140,7 @@ def check(root: str | Path) -> list[dict[str, Any]]:
         return [_finding("missing-specs-root", "specs", "Registered specs directory is missing")]
     try:
         registry = _load(registry_path)
-    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    except (OSError, ValueError) as exc:
         return [_finding("invalid-root-registry", ROOT_REGISTRY.as_posix(), str(exc))]
     if not isinstance(registry, dict) or registry.get("version") != 1 or not isinstance(registry.get("roots"), list):
         return [_finding("unsupported-root-registry", ROOT_REGISTRY.as_posix(), "Expected version 1 object with roots array")]
@@ -196,7 +186,7 @@ def check(root: str | Path) -> list[dict[str, Any]]:
             continue
         try:
             graph = _load(graph_path)
-        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        except (OSError, ValueError) as exc:
             findings.append(_finding("invalid-graph", key, str(exc))); continue
         if not isinstance(graph, dict) or not isinstance(graph.get("nodes"), list) or not isinstance(graph.get("edges"), list):
             findings.append(_finding("unsupported-schema", key, "Expected object with nodes and edges arrays")); continue

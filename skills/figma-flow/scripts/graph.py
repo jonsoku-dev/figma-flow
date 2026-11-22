@@ -4,6 +4,7 @@
 import argparse
 import importlib
 import json
+import math
 import os
 import re
 import sys
@@ -34,11 +35,32 @@ def _has_unpaired_surrogate(value):
     return False
 
 
+def decode_json(raw):
+    """Reject ambiguous mapping keys and JSON numbers outside the finite domain."""
+    def unique_pairs(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"Duplicate JSON key: {key!r}. Use one value per field.")
+            result[key] = value
+        return result
+
+    def reject_nonfinite(token):
+        raise ValueError(f"Non-finite JSON number: {token}. Use a finite number.")
+
+    def finite_float(token):
+        value = float(token)
+        return value if math.isfinite(value) else reject_nonfinite(token)
+
+    return json.loads(raw, object_pairs_hook=unique_pairs,
+                      parse_constant=reject_nonfinite, parse_float=finite_float)
+
+
 def load_graph(path):
     try:
         with Path(path).open(encoding="utf-8") as source:
-            graph = json.load(source)
-    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            graph = decode_json(source.read())
+    except (OSError, ValueError) as exc:
         return None, [f"Cannot read graph JSON: {exc}"]
     return graph, []
 

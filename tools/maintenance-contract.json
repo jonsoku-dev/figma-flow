@@ -1,0 +1,30 @@
+{
+  "schema": "figma-flow-maintenance-v1",
+  "graphDecoding": {
+    "skills/figma-flow/scripts/graph.py": ["load_graph"],
+    "tools/graph_design_system.py": ["load_graph"],
+    "tools/spec_graph_coverage.py": ["check"],
+    "tools/review_graph.py": ["project_graph"],
+    "tools/design_graph.py": ["main", "augment"],
+    "tools/major_release.py": ["package_version", "run"]
+  },
+  "profiles": {
+    "graph": [
+      {"id": "guard", "argv": ["python3", "-B", "tools/maintenance.py", "check"]},
+      {"id": "graph-tests", "argv": ["python3", "-B", "-m", "unittest", "tests.test_graph", "tests.test_graph_input_boundary", "tests.test_graph_vocabulary_owner", "tests.test_spec_graph_coverage", "tests.test_graph_design_system", "tests.test_review_graph_projection", "tests.test_major_release"]},
+      {"id": "graph-properties", "argv": ["python3", "-B", "tests/test_graph_properties.py", "--seed", "4107", "--trials", "1000"]}
+    ],
+    "cli": [
+      {"id": "startup", "argv": ["python3", "-B", "tools/plugin_startup.py", "--help"]},
+      {"id": "standalone-graph", "argv": ["python3", "-B", "skills/figma-flow/scripts/graph.py", "validate", "specs/codex-relay/graph.json"]}
+    ],
+    "ui": [
+      {"id": "panel-before", "argv": ["node", "--test", "tests/test_panel_browser_witness.cjs"]},
+      {"id": "panel-after", "argv": ["node", "--test", "tests/test_panel_browser_witness.cjs"]}
+    ],
+    "release": [
+      {"id": "guard", "argv": ["python3", "-B", "tools/maintenance.py", "check"]},
+      {"id": "graph-properties", "argv": ["python3", "-B", "tests/test_graph_properties.py", "--seed", "92821", "--trials", "6000"]}
+    ]
+  }
+}

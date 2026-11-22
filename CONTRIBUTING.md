@@ -37,6 +37,10 @@ python -B tools/reference_distribution_guard.py --ref HEAD --format text
 python -B tools/reference_distribution_guard.py --worktree --reference-zip /path/to/reference.zip --reference-literals /path/to/literals.json --format text
 ```
 
+## 검증 근거
+
+[유지보수 검증 절차](docs/maintenance-verification.md)의 프로필에서 변경을 직접 실행하고 기록을 남깁니다. PR 설명은 실행 결과와 근거 링크부터 작성합니다. 릴리스 워크플로는 그래프 변이 검사를 자동으로 실행합니다.
+
 <a id="major-ssot"></a>
 
 ## 메이저 배포 전 그래프·하드코딩 검사

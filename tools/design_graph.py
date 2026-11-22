@@ -9,8 +9,7 @@ import sys
 from pathlib import Path
 from urllib.parse import urlsplit
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'skills/figma-flow/scripts'))
-import graph
+from graph_document import contract as graph, read_json
 from design_system import compile_design
 
 
@@ -44,7 +43,7 @@ def augment(product, design_data, graph_path, design_path, output_path):
     graph_path, design_path, output_path = map(lambda p: Path(os.path.abspath(p)), (graph_path, design_path, output_path))
     if output_path.resolve() in {graph_path.resolve(), design_path.resolve()}:
         raise ValueError('output must not overwrite an input')
-    if json.loads(graph_path.read_text(encoding='utf-8')) != product or json.loads(design_path.read_text(encoding='utf-8')) != design_data:
+    if read_json(graph_path) != product or read_json(design_path) != design_data:
         raise ValueError('source inputs changed before pinning')
     if 'design_system' in product:
         raise ValueError('use the unaugmented source graph when regenerating design dependencies')
@@ -244,8 +243,8 @@ def main():
     if args.audit and args.out or not args.audit and not args.out:
         parser.error('creation requires --out; --audit does not accept --out')
     try:
-        product = json.loads(args.graph.read_text(encoding='utf-8'))
-        design = json.loads(args.design.read_text(encoding='utf-8'))
+        product = read_json(args.graph)
+        design = read_json(args.design)
         if args.audit:
             report = audit(product, design, args.graph, args.design)
             print(json.dumps(report, ensure_ascii=False, indent=2))
