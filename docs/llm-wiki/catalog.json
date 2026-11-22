@@ -16001,6 +16001,144 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "615ea284259ebe8dd27d99421dba26e08e8d491e",
+      "diff_sha256": "6466b8b9b40a73bd4bc10770d07d881e2760ac1d83a1bc2b9910e99786a39a73",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/233cc2a408e8e1d7699354ad684e8f08bd7109cc.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "233cc2a408e8e1d7699354ad684e8f08bd7109cc"
+      ],
+      "subject": "docs: record the tagged 1.0.0 distribution",
+      "tree": "4ed9b448fd362e3e9a510ef6ff0dfb9098fae8a8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "9e4c2d2342a9465b2d94dc857a12f9b3a667d322",
+      "diff_sha256": "d153f5c70cc12fc698c744247cd268220354fbabae6d1d830a4cf571664a080e",
+      "files": [
+        ".github/workflows/reference-guard.yml",
+        "library/delivery/graph.json",
+        "library/delivery/reference-guard.yml.in",
+        "tests/test_delivery_review.py",
+        "tools/delivery_config.py"
+      ],
+      "parents": [
+        "615ea284259ebe8dd27d99421dba26e08e8d491e"
+      ],
+      "subject": "fix: verify the major archive on a native sandbox runner",
+      "tree": "3b273b86ef6c9f86574afca5af824c7a13445b8f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "8a3fbe4f6f85704a79c4acebbe4284613055b837",
+      "diff_sha256": "97562590626eb1e15b11dc8e51f5ad96c6a4d6a57e963fa54bbf2d7b6c0d85ba",
+      "files": [
+        "release/reviews/delivery.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-2.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/maintenance/tooling-1.json",
+        "release/reviews/evidence/maintenance/tooling-2.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json",
+        "release/reviews/evidence/mysql-example/tooling-1.json",
+        "release/reviews/evidence/tooling/1.json",
+        "release/reviews/evidence/tooling/10.json",
+        "release/reviews/evidence/tooling/11.json",
+        "release/reviews/evidence/tooling/12.json",
+        "release/reviews/evidence/tooling/13.json",
+        "release/reviews/evidence/tooling/14.json",
+        "release/reviews/evidence/tooling/15.json",
+        "release/reviews/evidence/tooling/16.json",
+        "release/reviews/evidence/tooling/17.json",
+        "release/reviews/evidence/tooling/18.json",
+        "release/reviews/evidence/tooling/19.json",
+        "release/reviews/evidence/tooling/2.json",
+        "release/reviews/evidence/tooling/20.json",
+        "release/reviews/evidence/tooling/21.json",
+        "release/reviews/evidence/tooling/22.json",
+        "release/reviews/evidence/tooling/23.json",
+        "release/reviews/evidence/tooling/24.json",
+        "release/reviews/evidence/tooling/25.json",
+        "release/reviews/evidence/tooling/26.json",
+        "release/reviews/evidence/tooling/27.json",
+        "release/reviews/evidence/tooling/28.json",
+        "release/reviews/evidence/tooling/29.json",
+        "release/reviews/evidence/tooling/3.json",
+        "release/reviews/evidence/tooling/30.json",
+        "release/reviews/evidence/tooling/31.json",
+        "release/reviews/evidence/tooling/32.json",
+        "release/reviews/evidence/tooling/33.json",
+        "release/reviews/evidence/tooling/34.json",
+        "release/reviews/evidence/tooling/35.json",
+        "release/reviews/evidence/tooling/36.json",
+        "release/reviews/evidence/tooling/37.json",
+        "release/reviews/evidence/tooling/38.json",
+        "release/reviews/evidence/tooling/39.json",
+        "release/reviews/evidence/tooling/4.json",
+        "release/reviews/evidence/tooling/40.json",
+        "release/reviews/evidence/tooling/41.json",
+        "release/reviews/evidence/tooling/42.json",
+        "release/reviews/evidence/tooling/43.json",
+        "release/reviews/evidence/tooling/44.json",
+        "release/reviews/evidence/tooling/5.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/evidence/tooling/7.json",
+        "release/reviews/evidence/tooling/8.json",
+        "release/reviews/evidence/tooling/9.json",
+        "release/reviews/tooling.json"
+      ],
+      "parents": [
+        "9e4c2d2342a9465b2d94dc857a12f9b3a667d322"
+      ],
+      "subject": "verify: rebind native release CI configuration",
+      "tree": "9bfc4d36dd25bfdf075b2f4ead50a58fa6636ca6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16180,6 +16318,7 @@
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
     "6065daf3348b10390630e916cf97cdb187a176df": "fff1f9db49c321ea315a717da1c85f7523f0a056ad9b39befb2cf4d29821c163",
+    "615ea284259ebe8dd27d99421dba26e08e8d491e": "25a62b488fa3215b28c657c2b9f2822c98c5528bd7b96f5d993cc595facf10b6",
     "61647d636f23142c76d453f24512566043c40517": "7eead01fb27d1f5a6df3152c9447ed5e452bb79ec23b22f4772a3d6e58085ce8",
     "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
     "61937dc11c4540bc3c5e88412f449389470647d8": "5f8885938a63573aee5223c6e20a4dbad7f39f7d63041004eba81d88d56d5589",
@@ -16236,6 +16375,7 @@
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
     "88398e9b2186fb6dac1512eecda2c9e8d8e74af3": "b0516cb66c61bf8c002ae8fbc007086c22b9bb0331449d0045507e1e5a580a50",
     "888ea89862783e550d0ff5e772bef1d98ce71858": "cbc926a5f10031e7cfb1f7e2d06cad571a51153af2eddb990c083ec6b8e0bb46",
+    "8a3fbe4f6f85704a79c4acebbe4284613055b837": "6f19b53950b378b6fa840c3d27e8cfad4cc8a1e9a6addbc77b5ec3073a4421c5",
     "8a7ed888276d3bdb885d437e3b019603fe02c5c3": "d7369bba0a269bc86504f8b8b449f5f8437430773e61b1ffdbb3f21326a1ff0f",
     "8ab0a18ebdec469177cd0fdf06692f5bc1560edb": "11b4d9d90998365c8251f9c8f4a2d66cb793cb575c73d967ba39eb7e9f28a5df",
     "8af6db43123e03bdf6b28456944243cf487da3fd": "b24356b1fd17cda85dc6ef52a28fa8e266e8abf5f0c3804b0d6f5fabd493d7a2",
@@ -16287,6 +16427,7 @@
     "9d10cff7bc1b7287e8eb24e8ad56ff915302cf89": "cdfa799a1587a2132f53925c18b671d95b4277e90488ce0282ce80e451717138",
     "9d7eb0288d3a60097bf958d8d77692e3e2df3979": "7295453001f7dbb037024ec63534f711904aa620263ff03b552ce4aa04d3da6d",
     "9e3968dfcdfa3bc01e887e64619b6a40094d498e": "a1eaf17821139af9f1d18b74567a3b700bc23e95c932c54e23fe6f4b9e0308f1",
+    "9e4c2d2342a9465b2d94dc857a12f9b3a667d322": "19170cae0d92a18248c1611bd8f51425d9fb34777d27e702ea2a56f271cdebc4",
     "9e6f1df55b28c6a89de19e1c28c2f52b835ebe14": "b6b97f262885d333bdf3b8889febb384dc678a2f42c57ffe0f332f88b4410683",
     "9eba48a5015dc991389e0c5aa3b95cd8597b5f2c": "c1b1da598cfb2b69ccfcd4896af4cf1759d9a07b5857f05b9a21296c1f5220db",
     "9efb50c3e8106e47f2608202b681929512a507ff": "79ec343cdc945ea3da9fc036e4e6fee212722cbeff2face7dd1e9051cd1e8e9a",
@@ -16764,6 +16905,10 @@
     },
     {
       "observed_at_commit": "86b182e0f579206a65586a8ca34db0131f4d0f3a",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "8a3fbe4f6f85704a79c4acebbe4284613055b837",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -17288,12 +17433,10 @@
     },
     {
       "source_commits": [
-        "233cc2a408e8e1d7699354ad684e8f08bd7109cc"
+        "8a3fbe4f6f85704a79c4acebbe4284613055b837"
       ],
-      "tagged": true,
-      "tags": [
-        "v1.0.0"
-      ],
+      "tagged": false,
+      "tags": [],
       "version": "1.0.0"
     }
   ],
@@ -17301,7 +17444,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "233cc2a408e8e1d7699354ad684e8f08bd7109cc",
+  "source_commit": "8a3fbe4f6f85704a79c4acebbe4284613055b837",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -17432,11 +17575,6 @@
       "commit": "9d7eb0288d3a60097bf958d8d77692e3e2df3979",
       "tag": "v0.36.0",
       "version": "0.36.0"
-    },
-    {
-      "commit": "233cc2a408e8e1d7699354ad684e8f08bd7109cc",
-      "tag": "v1.0.0",
-      "version": "1.0.0"
     }
   ]
 }
