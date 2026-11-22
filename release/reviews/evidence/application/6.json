@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "3b708ff96b58afbd9d5e0fed7efed55065ca8a9c119bbe6b9fd9113dbf203866",
+  "surfaceFingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
   "status": "passed",
   "checks": [
     {
@@ -101,7 +101,7 @@
       ],
       "test": "tests/test_booking_design_evidence.py",
       "case": "BookingDesignEvidenceTests.test_every_capture_has_a_reproducible_inert_snapshot_and_review_link",
-      "testSha256": "e27a0e314e946242b678fcf73f7c572c33036979853084dd3559169e5c7cdc0d",
+      "testSha256": "761acbdd270728a7a25a450b07eacacd1b13b68a0488ec7ec39f00cb4fc43132",
       "assertion": "Every state and viewport binds to an exact recorded response, inert HTML, local stylesheet and link in the review gallery.",
       "observed": "All 44 source/snapshot hash pairs matched; regenerated markup and local stylesheet links matched and forms had no active action."
     }

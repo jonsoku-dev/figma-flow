@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "3b708ff96b58afbd9d5e0fed7efed55065ca8a9c119bbe6b9fd9113dbf203866",
+  "surfaceFingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
   "status": "passed",
   "checks": [
     {
@@ -61,7 +61,7 @@
       ],
       "test": "tests/test_booking_design_evidence.py",
       "case": "BookingDesignEvidenceTests.test_review_images_pair_to_the_recorded_screen_viewport_and_capture",
-      "testSha256": "e27a0e314e946242b678fcf73f7c572c33036979853084dd3559169e5c7cdc0d",
+      "testSha256": "761acbdd270728a7a25a450b07eacacd1b13b68a0488ec7ec39f00cb4fc43132",
       "assertion": "Review images bind their exact bytes and framing to the corresponding measured desktop/mobile state; supplemental previews preserve their own recorded framing.",
       "observed": "All distributed JPEGs decoded at their registered sizes, with exact digests and a real paired capture state. Primary images bound to the capture and HTML digests."
     }

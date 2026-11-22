@@ -52,12 +52,18 @@ class BookingDatabaseReleaseTests(unittest.TestCase):
                 for directory in ('booking','config','static','templates','deploy'):
                     shutil.copytree(APP/directory,app/directory,ignore=shutil.ignore_patterns('__pycache__'))
                 (app/'design').mkdir()
-                shutil.copyfile(APP/'design/export.py',app/'design/export.py')
+                for name in ('export.py','publish_copy.py','session-detail.html.in'):
+                    shutil.copyfile(APP/'design'/name,app/'design'/name)
                 shutil.copyfile(APP/'manage.py',app/'manage.py')
+                run([python,'-B','design/publish_copy.py'], cwd=app)
                 product_path=app/'booking/product.json'
                 product=json.loads(product_path.read_bytes())
                 product.update(serviceName='Fixture Workshop', paymentDisclosure='Fixture on-site payment.')
                 product_path.write_text(json.dumps(product))
+                stale=subprocess.run([python,'-B','design/publish_copy.py'],cwd=app,capture_output=True)
+                self.assertNotEqual(stale.returncode,0)
+                run([python,'-B','design/publish_copy.py','--write'],cwd=app)
+                run([python,'-B','design/publish_copy.py'],cwd=app)
                 policy_path=app/'config/deployment.json'
                 policy=json.loads(policy_path.read_bytes())
                 db=policy['database']

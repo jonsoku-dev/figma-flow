@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "3b708ff96b58afbd9d5e0fed7efed55065ca8a9c119bbe6b9fd9113dbf203866",
+  "surfaceFingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
   "status": "passed",
   "checks": [
     {
@@ -44,7 +44,7 @@
       ],
       "test": "tests/test_booking_database_release.py",
       "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
-      "testSha256": "8a08862b2a1f4ad03ac98347310516efb5408236bae4da6f865ca545ce0e9eef",
+      "testSha256": "33a1a6cc29fbd95bab0eabf4ce187ed599ad9623106d4aac4cc07d0a245de987",
       "assertion": "The adapter reads the captured geometry, rebuilds browser/native handoff files, and preserves graph edits and native consumer identities.",
       "observed": "The public adapter regenerated each removed projection byte-for-byte and independently repeated the quality check. All adapter tests, including graph edits, family remapping and conflicting source changes, ran on a private copy."
     }

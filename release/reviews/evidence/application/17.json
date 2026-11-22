@@ -1,0 +1,34 @@
+{
+  "surfaceFingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "apps/little-hands/booking/product.json#/paymentDisclosure",
+      "covers": [
+        "apps/little-hands/booking/product.json",
+        "apps/little-hands/design/publish_copy.py",
+        "apps/little-hands/design/session-detail.html.in",
+        "apps/little-hands/templates/booking/session_detail.html"
+      ],
+      "test": "tests/test_booking_design_evidence.py",
+      "case": "BookingDesignEvidenceTests.test_authored_candidate_preserves_brief_assets_and_observation_scope",
+      "testSha256": "761acbdd270728a7a25a450b07eacacd1b13b68a0488ec7ec39f00cb4fc43132",
+      "assertion": "The signed booking template is a reproducible projection of the editable source and product copy; unchanged values preserve the original task admission bytes.",
+      "observed": "Default generation matched the shipped template. A changed disclosure made the checker fail and regenerated exactly the new value in the actual staging GET. The original registered source pin was separately compared byte-for-byte."
+    },
+    {
+      "authority": "apps/little-hands/booking/product.json#/paymentDisclosure",
+      "covers": [
+        "apps/little-hands/booking/product.json",
+        "apps/little-hands/design/publish_copy.py",
+        "apps/little-hands/design/session-detail.html.in",
+        "apps/little-hands/templates/booking/session_detail.html"
+      ],
+      "test": "tests/test_booking_database_release.py",
+      "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
+      "testSha256": "33a1a6cc29fbd95bab0eabf4ce187ed599ad9623106d4aac4cc07d0a245de987",
+      "assertion": "The signed booking template is a reproducible projection of the editable source and product copy; unchanged values preserve the original task admission bytes.",
+      "observed": "Default generation matched the shipped template. A changed disclosure made the checker fail and regenerated exactly the new value in the actual staging GET. The original registered source pin was separately compared byte-for-byte."
+    }
+  ]
+}

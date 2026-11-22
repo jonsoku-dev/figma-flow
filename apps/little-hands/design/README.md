@@ -2,6 +2,8 @@
 
 `graph.json`이 관계 정본이다. `source.py`는 실제 staging 브라우저 측정만 읽어 gallery, 화면 명세, 실제 DOM 대응표와 편집 가능한 native layout을 만든다. 브라우저나 Figma를 실행하거나 승인·성공 영수증을 생성하지 않는다. `source.py`는 [디자인 토큰](tokens.json)과 [UI 계약](UI_CONTRACT.md)을 읽는다. 공유 토큰과 [스타일 그래프](stylesheet.json)를 수정한 뒤 앱 디렉터리에서 `python3 design/publish_styles.py --write`를 실행하면 배포용 CSS와 테마 색상 태그가 갱신된다.
 
+예약 상세 템플릿의 원본 바이트는 이미 준비한 Figma 작업의 입력 지문에 포함됩니다. 서비스 이름·결제 안내 또는 [원본 템플릿](session-detail.html.in)을 바꾸면 앱 디렉터리에서 `python3 design/publish_copy.py --write`를 실행하세요. `python3 design/publish_copy.py`는 현재 출력만 검사합니다. 실제로 바뀐 서명 입력은 그 변경을 검토한 뒤 다시 준비합니다.
+
 ## 실제 캡처
 
 부모의 허용된 브라우저 평가 문맥에서 `measure.js`의 함수 본문을 읽고 `littleHandsMeasure('state-memberhome')`을 실행한다. 이 함수는 렌더 DOM과 스타일을 읽고 문자열을 직렬화한다. DOM을 변경하지 않는다. 실제 body의 `data-environment` 또는 보이는 footer 환경 표시에 staging이 있어야 한다. hidden input·CSRF·password value·개인 JS 상태를 읽거나 내보내지 않는다. 일반 visible input/select 값은 시각 원본에 포함한다. Figma에 전달 가능한 격리 staging 계정으로만 캡처한다.

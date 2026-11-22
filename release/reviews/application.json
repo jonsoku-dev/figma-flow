@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "application",
-  "fingerprint": "3b708ff96b58afbd9d5e0fed7efed55065ca8a9c119bbe6b9fd9113dbf203866",
+  "fingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
   "openFindings": [],
   "bindings": [
     {
@@ -17,7 +17,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/1.json",
-          "sha256": "8d09c6db31af37c22fce7069d50d4a0043b4af62aacec18be60c898f3de089a5"
+          "sha256": "c328bde5d58ee548d88c30312a53f1293d9018bf11990fc7b9458e077797d104"
         }
       ]
     },
@@ -96,7 +96,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/2.json",
-          "sha256": "d5291dde422e336618e3ec367be641ef59e4e1861b62d356567c352c3aa4d84f"
+          "sha256": "7a0eda91f934490cd1ccdbaeb51821103eee9e63e5bbf7c8354b9ffb8344754b"
         }
       ]
     },
@@ -130,7 +130,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/3.json",
-          "sha256": "930ce0f4730406fa9f09baf7969be918d8b286934e42bbc58f67a7dd755df02e"
+          "sha256": "cb6894bbddc80556ea92e71f406297abe8edb3c677c6b528bcf7379b6d93ae49"
         }
       ]
     },
@@ -151,7 +151,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/4.json",
-          "sha256": "053885f96c2b6efefa8fa5eb9b2befa9632a380b779a4b22b95654ca5b012f6e"
+          "sha256": "f5124f7ed2eded43d2b5b426f5fe913396c3715c01d57f512b578ba471260e68"
         }
       ]
     },
@@ -169,7 +169,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/5.json",
-          "sha256": "4af728c60ab30a2eac8a22adee9669261d4c995a0537c69e88e3c36a52bcc406"
+          "sha256": "2f24627af359b62976f8bf9b934f6523d4425f28010f954e3959027163edde73"
         }
       ]
     },
@@ -274,7 +274,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/6.json",
-          "sha256": "d19354e3c64853a3574b1c0a2ad53e0e8566a25d4129da6e90160bf0e9e13e40"
+          "sha256": "167f698817c82577398d846ec15c5e523b2c36abbc6d087db6f647fa1b45ede1"
         }
       ]
     },
@@ -339,7 +339,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/7.json",
-          "sha256": "a633d4ec4e866b0d3b5c3c044c0a3f603655f43f90d73079801a53a9d3e8357d"
+          "sha256": "c1cb959d1ef375387b6977d7f61af4c14fe136154de1ed901945f744db7d9883"
         }
       ]
     },
@@ -360,7 +360,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/8.json",
-          "sha256": "fc2b5a40da5e172594e47a23c75ab17b45d8e0f77d60301fb10ed89bc5a8b64b"
+          "sha256": "ead5a7b6141376fefdf0c893240213940df7a7d368107832bf0e8c99003e1bf0"
         }
       ]
     },
@@ -377,7 +377,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/9.json",
-          "sha256": "ea1753dd8d3fc50d9a9ef0091a8c39d5983c46a800f24f7eafa56137a3f13db7"
+          "sha256": "7b6c4d27cc5a5c539af0ba923a037b4095824fe99302eb78ccd41a07d39ec4df"
         }
       ]
     },
@@ -401,7 +401,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/10.json",
-          "sha256": "b7a717398fac79e875d3fa77e5fa2a240b572341d3c09fd95556de4c7bde3e31"
+          "sha256": "d0e6a589a38cdbd774871a79d944591409ac8d03383c6f525028f7e1da6d16b5"
         }
       ]
     },
@@ -427,7 +427,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/11.json",
-          "sha256": "650321db219dd38cad672d4b6e129d79601e0c1f78c9b2b57ff2dced4ea4dc3e"
+          "sha256": "ba25634153b6eeadfb015c9f5dcb76b8f12cf9d2b5dd17cc886c805db49737a8"
         }
       ]
     },
@@ -441,7 +441,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/12.json",
-          "sha256": "132fbf81f545b29770a3bb49856d9e354b7ea3b5b329647f1bf83bbf1882bbbf"
+          "sha256": "21891960d09d0ef74ae6e7f2a406487263c3d6a54048085589c929ff9d2b9456"
         }
       ]
     },
@@ -466,7 +466,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/13.json",
-          "sha256": "fd453874a10b9db9d8ade7ff5227186218cf8e4635d89c203ff3de3853d53c73"
+          "sha256": "476669afd9b2266c3f434f02ebe29530d25f3c1e15a96b0a2f9fae3cd8e6ba96"
         }
       ]
     },
@@ -483,7 +483,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/14.json",
-          "sha256": "ec37b6db3c1c3e031e3742a76991c3c3507456da6fa4a88d21b1087b1bd34b48"
+          "sha256": "e15dc715e4ed6f0c6f7a6ed3a8b3a5ec9b43ce2dc1ac57858036ac0cf2231fec"
         }
       ]
     },
@@ -508,7 +508,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/15.json",
-          "sha256": "771ada3a2a33f3751a1555aefe62cfd58f8d7cbe92635e9abdf1946b3febb441"
+          "sha256": "1403945e42c2698a09205d223278666e0acb845d2cdcc37565834a009ff522e6"
         }
       ]
     },
@@ -530,7 +530,23 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/16.json",
-          "sha256": "3818ce846728bb32e181beae73283a589683b1c34181ab81cc922aa512bbcb79"
+          "sha256": "c3ad30d625f3295c0e22f309c2fa1cbb1b0990c74b5edcfe8ca752bf65b11339"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/booking/product.json",
+        "apps/little-hands/design/publish_copy.py",
+        "apps/little-hands/design/session-detail.html.in",
+        "apps/little-hands/templates/booking/session_detail.html"
+      ],
+      "authority": "apps/little-hands/booking/product.json#/paymentDisclosure",
+      "reason": "The signed booking template is a reproducible projection of the editable source and product copy; unchanged values preserve the original task admission bytes.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/application/17.json",
+          "sha256": "e881aaf250e7f7e91e48b009bd90a27520e8f18d8396532d0addbe58f208991d"
         }
       ]
     }

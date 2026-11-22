@@ -46,6 +46,14 @@
       "sha256": "d15fc9343d5093bad9488326888f7b240721ccb444dd67c19cbad0f94b3e3619"
     },
     {
+      "path": "../design/session-detail.html.in",
+      "sha256": "5288c1a8afda60987520b8fb049f654bc09b85b98b65f9b1e2c68a69f889eacb"
+    },
+    {
+      "path": "../design/publish_copy.py",
+      "sha256": "d8b3f36418297fd336dfdfdf5525adab56762ca1749f5af37094973d8436603a"
+    },
+    {
       "path": "../design/capture-plan.json",
       "sha256": "6d6054f8ef0406cc5d23edfa843170593f73312fbb114b12cf9296e21b3cf725"
     },
@@ -103,7 +111,7 @@
     },
     {
       "path": "../templates/booking/session_detail.html",
-      "sha256": "11c2ff3098d8affb93efc1e7dae6600b724593becdc6b5757cd36cfdee930d0e"
+      "sha256": "5dbf33a28c931bec73818a5e1f0fdc49c419618bd0af0858c462801784737703"
     },
     {
       "path": "../templates/booking/session_list.html",
