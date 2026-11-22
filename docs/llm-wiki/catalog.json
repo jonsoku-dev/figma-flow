@@ -15222,6 +15222,334 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "9c07221d0b2c3f459222a5819c36f5a715b8e6b8",
+      "diff_sha256": "0d448df782e7c793aa37492c465acc81c10ede0330933b6f64c5220660252d1b",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/074fbba12678a336817d2337f07d3a3dbc0a5e8a.md",
+        "docs/llm-wiki/patches/3e51f8ab5e458371b91832d728eb9c4400232965.md",
+        "docs/llm-wiki/patches/6065daf3348b10390630e916cf97cdb187a176df.md",
+        "docs/llm-wiki/patches/df4376c07eff066be10f157b6b5d5ca39c573042.md",
+        "docs/llm-wiki/patches/e2c05a76e035b0964d3b38ea8d07a8451e1bd79d.md",
+        "docs/llm-wiki/patches/e3634ad2c9254c101b1db93a8ff50aea1ec0598d.md",
+        "docs/llm-wiki/patches/ea0255ca9a21c6dade98fded44a712f5af1d9100.md",
+        "docs/llm-wiki/patches/ea5f87b5c52b19b82522866335f2bc4e46de5e53.md"
+      ],
+      "parents": [
+        "ea5f87b5c52b19b82522866335f2bc4e46de5e53"
+      ],
+      "subject": "docs: record verification retention policy and executed evidence",
+      "tree": "c916a28f3c09dad3440924f9745776df6638857a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "7842f505eba1676e9151eaf2550086b2fac9175c",
+      "diff_sha256": "97e12e90bde048460b2da810db975e6399edd612bcd16d0d786083ee28538ace",
+      "files": [
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "9c07221d0b2c3f459222a5819c36f5a715b8e6b8"
+      ],
+      "subject": "docs: retain compact release verification outcomes",
+      "tree": "f89157fe4df3bc0325848747dba643184562488c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "84b0088da504951b07d75fa410fe9e3772fede69",
+      "diff_sha256": "b1f128711299d5afcb0159e1b4c363672b7f6aca6a9b0f6d2bbde89bf453270c",
+      "files": [
+        ".github/workflows/little-hands.yml",
+        ".github/workflows/reference-guard.yml",
+        "apps/little-hands/ARCHITECTURE.md",
+        "apps/little-hands/Dockerfile",
+        "apps/little-hands/README.md",
+        "apps/little-hands/booking/migrations/0001_initial.py",
+        "apps/little-hands/booking/migrations/0002_immutable_records.py",
+        "apps/little-hands/booking/models.py",
+        "apps/little-hands/booking/services.py",
+        "apps/little-hands/booking/tests/test_booking.py",
+        "apps/little-hands/compose.yaml",
+        "apps/little-hands/config/deployment.json",
+        "apps/little-hands/config/settings.py",
+        "apps/little-hands/deploy/bootstrap.sh",
+        "apps/little-hands/deploy/grants.sql",
+        "apps/little-hands/deploy/healthcheck.py",
+        "apps/little-hands/deploy/publish_config.py",
+        "apps/little-hands/deploy/roles.sql",
+        "apps/little-hands/deploy/templates/Dockerfile.in",
+        "apps/little-hands/deploy/templates/bootstrap.sh.in",
+        "apps/little-hands/deploy/templates/compose.yaml.in",
+        "apps/little-hands/deploy/templates/grants.sql.in",
+        "apps/little-hands/deploy/templates/roles.sql.in",
+        "apps/little-hands/deploy/templates/verify.sql.in",
+        "apps/little-hands/deploy/verify.sql",
+        "apps/little-hands/design/README.md",
+        "apps/little-hands/design/app/inspect.html",
+        "apps/little-hands/design/brief.md",
+        "apps/little-hands/design/candidate-spec.json",
+        "apps/little-hands/design/capture-plan.json",
+        "apps/little-hands/design/graph.json",
+        "apps/little-hands/design/input-pins.json",
+        "apps/little-hands/design/native-layout.json",
+        "apps/little-hands/design/screen-spec.md",
+        "apps/little-hands/design/specifications.json",
+        "apps/little-hands/requirements.lock",
+        "apps/little-hands/requirements.txt",
+        "apps/little-hands/static/littlehands/design-system.css",
+        "apps/little-hands/static/littlehands/design-system.js",
+        "apps/little-hands/static/littlehands/design-system.manifest.json",
+        "apps/little-hands/tests/test_deployment.py",
+        "library/delivery/graph.json",
+        "library/delivery/little-hands.yml.in",
+        "library/delivery/reference-guard.yml.in",
+        "release/authority.json",
+        "tests/test_booking_database_release.py",
+        "tests/test_booking_deployment_files.py",
+        "tests/test_delivery_review.py",
+        "tools/delivery_config.py"
+      ],
+      "parents": [
+        "7842f505eba1676e9151eaf2550086b2fac9175c"
+      ],
+      "subject": "feat: move the Little Hands example to MySQL 8.4",
+      "tree": "f599abc345f369d72e784056babc8915c3ba4ad6",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "cab5eae313363aa116816b0afc79673f7ffb54fe",
+      "diff_sha256": "69be4a89449cc215996dedb34bb63c91323154914c6739cfed7a5d57d7c863c8",
+      "files": [
+        "apps/little-hands/config/deployment.json",
+        "apps/little-hands/deploy/grants.sql",
+        "apps/little-hands/tests/test_deployment.py",
+        "tests/test_booking_database_release.py"
+      ],
+      "parents": [
+        "84b0088da504951b07d75fa410fe9e3772fede69"
+      ],
+      "subject": "fix: preserve Little Hands administration under MySQL grants",
+      "tree": "0d3179a67d77ee26b34008d929250097b7a89133",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "b9f440fb0fd4d16dce800cd10813e16d39ce4c07",
+      "diff_sha256": "459297b1eabc44751fb064a232b39a1c516a3cf21b0f16d33f95bd0592d053ce",
+      "files": [
+        "release/reviews/delivery.json",
+        "release/reviews/design-host.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/design-host/01-appearance.json",
+        "release/reviews/evidence/design-host/01-graph_board.json",
+        "release/reviews/evidence/design-host/01-graph_card.json",
+        "release/reviews/evidence/design-host/01-graph_refresh.json",
+        "release/reviews/evidence/design-host/02-appearance.json",
+        "release/reviews/evidence/design-host/02-native_handoff.json",
+        "release/reviews/evidence/design-host/02-notes.json",
+        "release/reviews/evidence/design-host/03-appearance.json",
+        "release/reviews/evidence/design-host/03-cta.json",
+        "release/reviews/evidence/design-host/04-appearance.json",
+        "release/reviews/evidence/design-host/04-cta.json",
+        "release/reviews/evidence/design-host/05-appearance.json",
+        "release/reviews/evidence/design-host/05-web_tabs.json",
+        "release/reviews/evidence/design-host/06-web_tabs.json",
+        "release/reviews/evidence/design-host/07-appearance.json",
+        "release/reviews/evidence/design-host/07-native_edit.json",
+        "release/reviews/evidence/design-host/07-native_edit_reject.json",
+        "release/reviews/evidence/design-host/08-native_edit.json",
+        "release/reviews/evidence/design-host/08-native_edit_reject.json",
+        "release/reviews/evidence/design-host/09-appearance.json",
+        "release/reviews/evidence/design-host/09-control_icon.json",
+        "release/reviews/evidence/design-host/09-native_controls.json",
+        "release/reviews/evidence/design-host/10-appearance.json",
+        "release/reviews/evidence/design-host/10-figma_bridge.json",
+        "release/reviews/evidence/design-host/11-appearance.json",
+        "release/reviews/evidence/design-host/11-chat_host.json",
+        "release/reviews/evidence/design-host/11-standalone.json",
+        "release/reviews/evidence/design-host/12-chat_host.json",
+        "release/reviews/evidence/design-host/12-standalone.json",
+        "release/reviews/evidence/design-host/13-standalone.json",
+        "release/reviews/evidence/design-host/14-standalone.json",
+        "release/reviews/evidence/design-host/15-graph_catalog.json",
+        "release/reviews/evidence/design-host/15-standalone.json",
+        "release/reviews/evidence/design-host/16-standalone.json",
+        "release/reviews/evidence/design-host/17-host_locale.json",
+        "release/reviews/evidence/design-host/17-standalone.json",
+        "release/reviews/evidence/design-host/17-workspace_case.json",
+        "release/reviews/evidence/design-host/18-cta.json",
+        "release/reviews/evidence/design-host/18-family.json",
+        "release/reviews/evidence/design-host/19-control_icon.json",
+        "release/reviews/evidence/design-host/19-family.json",
+        "release/reviews/evidence/design-host/20-host_profile.json",
+        "release/reviews/evidence/design-host/20-window.json",
+        "release/reviews/evidence/design-host/21-window.json",
+        "release/reviews/evidence/design-host/22-control_native.json",
+        "release/reviews/evidence/design-host/22-host_profile.json",
+        "release/reviews/evidence/design-host/22-host_scope.json",
+        "release/reviews/evidence/design-host/23-host_profile.json",
+        "release/reviews/evidence/design-host/23-workspace_case.json",
+        "release/reviews/evidence/design-host/24-control_relay.json",
+        "release/reviews/evidence/design-host/24-transport.json",
+        "release/reviews/evidence/design-host/25-host_relay.json",
+        "release/reviews/evidence/design-host/25-read_getters.json",
+        "release/reviews/evidence/design-host/25-read_measure.json",
+        "release/reviews/evidence/design-host/26-audit_log.json",
+        "release/reviews/evidence/design-host/26-changes.json",
+        "release/reviews/evidence/design-host/26-host_locale.json",
+        "release/reviews/evidence/design-host/27-audit_log.json",
+        "release/reviews/evidence/design-host/27-control_native.json",
+        "release/reviews/evidence/design-host/27-host_scope.json",
+        "release/reviews/evidence/design-host/28-control_native.json",
+        "release/reviews/evidence/design-host/28-host_relay.json",
+        "release/reviews/evidence/design-host/29-chat_host.json",
+        "release/reviews/evidence/design-host/29-standalone.json",
+        "release/reviews/evidence/design-host/30-control_relay.json",
+        "release/reviews/evidence/design-host/30-host_relay.json",
+        "release/reviews/evidence/design-host/30-workspace_case.json",
+        "release/reviews/evidence/design-host/31-host_relay.json",
+        "release/reviews/evidence/design-host/31-relay_alignment.json",
+        "release/reviews/evidence/design-host/32-api_fixture.json",
+        "release/reviews/evidence/design-host/32-api_probe.json",
+        "release/reviews/evidence/design-host/33-workspace_recipes.json",
+        "release/reviews/evidence/design-host/34-token_sync.json",
+        "release/reviews/evidence/design-host/35-cta.json",
+        "release/reviews/evidence/design-host/35-token_sync.json",
+        "release/reviews/evidence/design-host/36-native_handoff.json",
+        "release/reviews/evidence/design-host/36-notes.json",
+        "release/reviews/evidence/design-host/37-graph_board.json",
+        "release/reviews/evidence/design-host/37-graph_card.json",
+        "release/reviews/evidence/design-host/38-design_graph.json",
+        "release/reviews/evidence/design-host/38-direction.json",
+        "release/reviews/evidence/design-host/39-panel_components.json",
+        "release/reviews/evidence/design-host/39-panel_locale.json",
+        "release/reviews/evidence/design-host/39-standalone.json",
+        "release/reviews/evidence/design-host/40-panel_components.json",
+        "release/reviews/evidence/design-host/40-standalone.json",
+        "release/reviews/evidence/design-host/41-appearance.json",
+        "release/reviews/evidence/design-host/41-standalone.json",
+        "release/reviews/evidence/design-host/42-changes.json",
+        "release/reviews/evidence/design-host/42-workspace_case.json",
+        "release/reviews/evidence/design-host/app-colors.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-2.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/maintenance/tooling-1.json",
+        "release/reviews/evidence/maintenance/tooling-2.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json",
+        "release/reviews/evidence/mysql-example/tooling-1.json",
+        "release/reviews/evidence/tooling/1.json",
+        "release/reviews/evidence/tooling/10.json",
+        "release/reviews/evidence/tooling/11.json",
+        "release/reviews/evidence/tooling/12.json",
+        "release/reviews/evidence/tooling/13.json",
+        "release/reviews/evidence/tooling/14.json",
+        "release/reviews/evidence/tooling/15.json",
+        "release/reviews/evidence/tooling/16.json",
+        "release/reviews/evidence/tooling/17.json",
+        "release/reviews/evidence/tooling/18.json",
+        "release/reviews/evidence/tooling/19.json",
+        "release/reviews/evidence/tooling/2.json",
+        "release/reviews/evidence/tooling/20.json",
+        "release/reviews/evidence/tooling/21.json",
+        "release/reviews/evidence/tooling/22.json",
+        "release/reviews/evidence/tooling/23.json",
+        "release/reviews/evidence/tooling/24.json",
+        "release/reviews/evidence/tooling/25.json",
+        "release/reviews/evidence/tooling/26.json",
+        "release/reviews/evidence/tooling/27.json",
+        "release/reviews/evidence/tooling/28.json",
+        "release/reviews/evidence/tooling/29.json",
+        "release/reviews/evidence/tooling/3.json",
+        "release/reviews/evidence/tooling/30.json",
+        "release/reviews/evidence/tooling/31.json",
+        "release/reviews/evidence/tooling/32.json",
+        "release/reviews/evidence/tooling/33.json",
+        "release/reviews/evidence/tooling/34.json",
+        "release/reviews/evidence/tooling/35.json",
+        "release/reviews/evidence/tooling/36.json",
+        "release/reviews/evidence/tooling/37.json",
+        "release/reviews/evidence/tooling/38.json",
+        "release/reviews/evidence/tooling/39.json",
+        "release/reviews/evidence/tooling/4.json",
+        "release/reviews/evidence/tooling/40.json",
+        "release/reviews/evidence/tooling/41.json",
+        "release/reviews/evidence/tooling/42.json",
+        "release/reviews/evidence/tooling/43.json",
+        "release/reviews/evidence/tooling/44.json",
+        "release/reviews/evidence/tooling/5.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/evidence/tooling/7.json",
+        "release/reviews/evidence/tooling/8.json",
+        "release/reviews/evidence/tooling/9.json",
+        "release/reviews/tooling.json"
+      ],
+      "parents": [
+        "cab5eae313363aa116816b0afc79673f7ffb54fe"
+      ],
+      "subject": "verify: bind MySQL projections to rerun release witnesses",
+      "tree": "012e9c1f5e5461ec9d1078517361653e9424edc1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -15427,6 +15755,7 @@
     "733784f12d4baf9ac34a416b107e00f98ba33a8e": "55f3dde3c93382d878bab6979b0034ece280456a15bc86b4c4edcfbe8f89de40",
     "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2": "503787be10ba57d0d51bb7b06cae6390ccdcfe19dc5b573d040f61e382b12676",
     "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
+    "7842f505eba1676e9151eaf2550086b2fac9175c": "f1aa0f12cc23ab92561ebab9be70f0f98c120628ca86101e6a1b45aae10ae6f7",
     "78fd03a27d4d81d1e024d8874d5467a568b8418e": "9677b5f96bb30d1dabec45446d4fb77172f3afa51576c24dce111622c7a74e4e",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
@@ -15445,6 +15774,7 @@
     "838533671dfc10fad4fa59d75d6685d49d2a8892": "a6eca4ed61df3e8040c6e9ba984c4eb7988ef0c8ca595c85726a57f19404ada7",
     "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988": "ba173d8e2ea0d442205d290bc722610342be10bb3507ce1ad8f7a4f2694cd3dc",
     "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
+    "84b0088da504951b07d75fa410fe9e3772fede69": "4d54573570bddfff3f08580f506ea2bc003985f1ae150928c716c5a2e0353bf8",
     "862912e9862e930409896a528eff20e926f8f4be": "b30fa3d39d6ce0e61be8e8c96995b7b9a759dbd6c9838a1ee964a7f836d33621",
     "86b182e0f579206a65586a8ca34db0131f4d0f3a": "e77228a9b0229e65b2aff467e583074c2200aaaa8990a9ca83b368c3e5714b72",
     "86e30fb66bb998158034c3c887782f131e269b0f": "eeeb7fd88f0cd9740d492ee5f20b6cb0fff2c0cf5ae074319a51db419c56eaf4",
@@ -15490,6 +15820,7 @@
     "9a7a37ff3578f0e429e23ba9549f60d40bf71042": "0bc2a52832b188c6fa1334e4a6cbe38f1a9a4181420ab16235dd325364988c42",
     "9a8321f9349969e990f1238d2616f21d4e4c6195": "530edbaab862c0263a9af4dc4a3f42f5ec37fda03a5245f3e883854034a95044",
     "9aaad2284fc4163be26995c4c729ea172bacd751": "6ad2112e864059a84d44e08492e41bee12cca2f766743d5bed31ccfeabd569a1",
+    "9c07221d0b2c3f459222a5819c36f5a715b8e6b8": "1069f691cea34919396adadbaee08c68bb495716d5412523a38e4c855018719c",
     "9c183e7eec9d6be732529a86a061fd70a378e98a": "fd1d657af347fa9fd5bcea25e3a602578448c95dc99f08e4f933f7c89aab7d24",
     "9c2cec203451ff81f6a0e3f83787d28c2154efca": "8dcefed36e978a21bd7209fac1979413a7e108af195fe248c3746320ceb4aed4",
     "9c4e7872c29fd70716b8f87da30f9f09aef8cd3f": "348a371ece015ae01f982c085182435ad8401122dddcc0c96abfb01dd1eaa714",
@@ -15552,6 +15883,7 @@
     "b89ee860423de1716456931197d1adffac0dba89": "bb0d5493febe7552de1d29dd9a52e222da2b7637898e328097e796579728c283",
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
     "b9495234cdbc4547f083f5ee21cbd623c67a381f": "75028b56cfb85ace6ecd2576189d8cc27fb19b62522f6dfb181818c4670470e7",
+    "b9f440fb0fd4d16dce800cd10813e16d39ce4c07": "846f7b9fe4defbfd90cf5a95feccb9a512b903b9b4a99663e19f3370eb87718b",
     "ba390f93a7da8d74a4cd5cd1993c8a9244c91467": "1c088036c784d10dcc779037d6d5aecf9401e6efc9555002e0a127e2eaaecf2f",
     "baac57eb1582698d4cdfef2cbf63b2c34d3ba9fd": "aa2d3a7e17fc25281aa6de9d0ed537a978c6135d503ea2d102f1f92a57f97ca3",
     "bacb81cbe48f1afdad79bcc135778af4ffe1c2b4": "60e3d7b0291406611a381e27097a75a3491203fda742b22894b8ea8436ddbd35",
@@ -15587,6 +15919,7 @@
     "c80def58a7b0a875961f13c9ae7307bbc910ff8e": "061218675aaa4315a7464452e1bacc9daf5a366b816c1e63e2becfe63ab7a50e",
     "c860a86f146e3302caeffbcfcfdbbe9d832f052d": "74ae820117eceb9c09aab0b7d290230871a3a367998f3d6dab2cf41c3fec0502",
     "c89403fd4dd5923eb633ff079bf62db4f22861f1": "58686be9fdbbdc36504488cafbcff4710d17e92702d46620ee16ebb6f239bd6a",
+    "cab5eae313363aa116816b0afc79673f7ffb54fe": "0b80eb0eb5cd7508a140f027a43251f4cd74f26a4b79ddfb7ea4bf7284625d1f",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cb392ce18d6c6b0654816641b4158dd6eb1291c0": "f339f9bfba69e83ec4a7dad566ed44d81ac751150588508c1f65c39853224dfd",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
@@ -16043,6 +16376,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "b9f440fb0fd4d16dce800cd10813e16d39ce4c07",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "ba390f93a7da8d74a4cd5cd1993c8a9244c91467",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -16487,7 +16824,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "ea5f87b5c52b19b82522866335f2bc4e46de5e53",
+  "source_commit": "b9f440fb0fd4d16dce800cd10813e16d39ce4c07",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
