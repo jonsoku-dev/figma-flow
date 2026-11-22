@@ -12353,6 +12353,159 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "ff83572d63c6e1897069d36061b46d9b7e440f3b",
+      "diff_sha256": "50c42784c484039b64db473dffaf379223637e6033ecb67d12c8ca6a8da20d35",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/33287d5e331c454f1d8c0be7363de9edb848df4b.md",
+        "docs/llm-wiki/patches/7d1249ed100f0cbd1ee13c0edf121d9f57e6821c.md",
+        "docs/llm-wiki/patches/c4b09947d122d1a7fc17db168812835bb857ec52.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "c4b09947d122d1a7fc17db168812835bb857ec52"
+      ],
+      "subject": "docs: record Codex relay and verified native selection round trip",
+      "tree": "1705ba342a1e5020cdfe278640db05effe9138a3",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "edf83777ae28b6cf771e895073d5d0b6f11bf3f6",
+      "diff_sha256": "3adde79a3c12644d1f0cac69be3a80258454e564bf26aa15d69f734751a9eb2f",
+      "files": [
+        "tests/test_codex_viewer_parity.py"
+      ],
+      "parents": [
+        "ff83572d63c6e1897069d36061b46d9b7e440f3b"
+      ],
+      "subject": "test: pin the signed viewer command parity check",
+      "tree": "39c2a1b7d29b626c1f1b9230c1ce8996998bdddf",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "5c7fd51084bb5115ff99d81763272b4a6ea90a60",
+      "diff_sha256": "ea7f63f610def4f5ea0937ff6c20477f737ca974c3100d1b1772f29803b075c1",
+      "files": [
+        "tests/fixtures/rd07/protocol-trace.json",
+        "tests/test_rd07_runtime_boundary.py"
+      ],
+      "parents": [
+        "edf83777ae28b6cf771e895073d5d0b6f11bf3f6"
+      ],
+      "subject": "test: pin the expanded native operation boundary",
+      "tree": "c27e679b047026afc78c3af0a4448119f2b5d291",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "33aff6692660a7c212e576a719dff3709cd9ae01",
+      "diff_sha256": "b5f817e3f9d8c505dfbe820f8712302edde980b3cb777e33dd4df732edfe639b",
+      "files": [
+        "docs/guide.md",
+        "figma-bridge/assets/LICENSES.txt",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/assets/panels.js.LEGAL.txt",
+        "figma-bridge/locales/relay.json",
+        "figma-bridge/relay_view.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "library/figma-profile/policy.json",
+        "panel-ui/README.md",
+        "panel-ui/build.mjs",
+        "panel-ui/package.json",
+        "panel-ui/src/RelaySelection.jsx",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/styles/relay.css",
+        "panel-ui/src/useRelaySnapshot.js",
+        "panel-ui/src/workspaceRecommendation.mjs",
+        "skills/figma-flow/SKILL.md",
+        "specs/codex-relay/graph.json",
+        "specs/codex-relay/parity-inventory.json",
+        "specs/codex-relay/parity.md",
+        "specs/codex-relay/spec.md",
+        "tests/helpers/relay_viewer.mjs",
+        "tests/test_figma_control.py",
+        "tests/test_figma_workspace.py",
+        "tests/test_operation_detail.py",
+        "tests/test_workspace_control.cjs",
+        "tests/test_workspace_host.cjs",
+        "tests/test_workspace_report.py",
+        "tools/figma_control.py",
+        "tools/figma_workspace.py",
+        "tools/native_read_benchmark.py",
+        "tools/operation_detail.py",
+        "tools/relay_view.py",
+        "tools/workspace_report.py"
+      ],
+      "parents": [
+        "5c7fd51084bb5115ff99d81763272b4a6ea90a60"
+      ],
+      "subject": "feat: preserve panel workflows in Codex and render live layers with TanStack",
+      "tree": "e08fc56f238550f8b289951ffe9d3535b861a333",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "42d1c1893bc3325c029ff36dedbe399b04b69bbe",
+      "diff_sha256": "eeb52d23f151d4a98a62903c6fadcb38a7b3fcb13309208011bf53d4c8fa0b90",
+      "files": [
+        "tests/test_workspace_report.py",
+        "tools/workspace_report.py"
+      ],
+      "parents": [
+        "33aff6692660a7c212e576a719dff3709cd9ae01"
+      ],
+      "subject": "fix: display the pinned values of native edit targets",
+      "tree": "30492dac4c4bb7a4137ca65ddcfd50aa24d6882e",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12439,6 +12592,7 @@
     "310f6573b4c60a78a4da0099c0f91976430323da": "a961d41b7c9d27ba0726201165f95586ef7d7d40cac201ccb3bb40c6bb9ef376",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
     "33287d5e331c454f1d8c0be7363de9edb848df4b": "4373d9e16b08df782a03ea453221eede69cac20bda656a9751bd546072e193eb",
+    "33aff6692660a7c212e576a719dff3709cd9ae01": "d42d82de42015a798fce9f036445b88b9786b549096d5eb1fce66c21b3d930fa",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
     "3491b7d3d2971826f3f4cba89067cceffb91940d": "818031aaaeb16be08c12fdc8c6bd3aa3c0613361d4e428483bdd9bf99c867a68",
     "34d36385c45b4e36a55aeed42fd561dfbba048a5": "aedc55fb360a18c1dbee2c575700507a177cee997552da81f3fd1e25ca133f7b",
@@ -12467,6 +12621,7 @@
     "42752d575ebe17ca5b10a176a29d6525719685b0": "86abf1a25289370752187249e5f15d959da958f30c2dfd80b0aa43ace4e8d421",
     "428a358688a50116956006b734b5ad850c88bbf6": "fe6e2939926d72b3d1b95870813b4be17831db8599445ed3fdc3ff1e389a87a6",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
+    "42d1c1893bc3325c029ff36dedbe399b04b69bbe": "c9aba5583a679c40c9cb96c775783fb8062204ee58d423008f6daf51303363db",
     "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f": "6a04bf9a05de4f803e55d6b64b9335a059ec38355bacf463607f871de2b8aa00",
     "452acf1302bdc37269a31977773a7f277e45d212": "ecda0b5be8b327f47912fb86ffcf62fabc846aa27d23703d7c14cf7a0868c266",
     "456cb515719974311b0051ac86e7e3d764aa18d4": "67b78cce4d3b87d16d9403b9ffb0b21a20bea3c9a1305a45d71b790155a12397",
@@ -12505,6 +12660,7 @@
     "59dba566f4982923076ef0ed22cc0da5f60f42c5": "917fd3ff94e55217641f9ce07b69f6ae6017762eb3b6292a8b5588bf76384e06",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5a1c20bd56951111194253efa143f5df5765f396": "2975c4e4ec26a3feba629fc3a6c43921c159eac9aedbb9d907645ccdcffba26b",
+    "5c7fd51084bb5115ff99d81763272b4a6ea90a60": "3ffa367dc00f3986850130c31c44c1853005ce2d6f3fc200bac6ad745c080a79",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5d068b010d5fb53147a15913efbd458737eb8281": "dc7b7fe997ea3bdf74a44c66eca76111484d6866b44adb9db16eb616f153dbcc",
     "5d3a088c6becc62fef08ecd0fc8fd857ed850957": "cf1b781e084cfc9364e58a7e554e52ee6dd3d411ba3ced3e0cc072a13fa9b713",
@@ -12751,6 +12907,7 @@
     "ec9eb9ba1610ddad2bf568c8ec528aa44c1fbf43": "b7f9ede927112b6bc2fc91150bb439371a1171bca2f97cedc4a56584fa9decb7",
     "ed846239ebafe20621f61d44517ec0eb8b3737eb": "a648e5f836f0edb32b4244917953ce83478429ace3cc5caab41858f542b8aaa1",
     "ede4614b7cc87ab2ba1bee27d7a180889f022c92": "74c4545b5471ee788fb9d23518d90c7adbd398cea22778ef4c61c69461353bf3",
+    "edf83777ae28b6cf771e895073d5d0b6f11bf3f6": "57c9dff95f15adeff5289ca2536ac427c0b296fcdb05a81d50647510fa26a0a7",
     "ee296599d76993f3a8481edddf08ca9643c9301b": "094a8be5b5da5acb3308330f2dfaf833e7874dd65440742d53f238c1e9c47cf2",
     "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e": "5a9fddcce5e54b7589547706f7bab366777a77d6fc049c145cc25679496b7b33",
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
@@ -12782,6 +12939,7 @@
     "fcace533169f7f37116ec1048857e7010790390e": "289990fc043adec635cfb7ad88bb40ecc2f9919aefd835a4ff2ef181a0a69fc8",
     "fce49dadaf9600e3c9855046ba48411ee5e581c1": "9084079489f2e2cd1df689f79c946d157cb775b080d01ec0ed49e8189c70b89f",
     "fd1a9d28551e9101fa5f5bc1e0d42570b385aa31": "1b8c47ec84413c8118619b7f82c945b80f8fc773767c9e2546ba98049c169ec5",
+    "ff83572d63c6e1897069d36061b46d9b7e440f3b": "fb9fc3d80ec637dcd27646f6befc7abf7d4620bbe5c45d71f31dbff688a23d28",
     "ffcde43350120941afad855b159ee3785f45619c": "0694d4315c2136e4f54c46e55bffd538a46dcb95b7af6bfcd311b3873bfa1603"
   },
   "provenance_remotes": [
@@ -12882,6 +13040,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "33aff6692660a7c212e576a719dff3709cd9ae01",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "3491b7d3d2971826f3f4cba89067cceffb91940d",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -12895,6 +13057,10 @@
     },
     {
       "observed_at_commit": "42752d575ebe17ca5b10a176a29d6525719685b0",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "42d1c1893bc3325c029ff36dedbe399b04b69bbe",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -13538,7 +13704,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "c4b09947d122d1a7fc17db168812835bb857ec52",
+  "source_commit": "42d1c1893bc3325c029ff36dedbe399b04b69bbe",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
