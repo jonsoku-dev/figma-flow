@@ -301,7 +301,7 @@
     }
   ],
   "platform": {
-    "web": "Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다.",
+    "web": "Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다.",
     "figma": "관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다."
   },
   "screenMeaning": {

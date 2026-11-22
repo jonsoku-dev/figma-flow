@@ -1,8 +1,15 @@
+FROM python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72 AS python-dependencies
+COPY requirements.lock /tmp/requirements.lock
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential pkg-config default-libmysqlclient-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir --prefix /opt/littlehands-python --require-hashes --only-binary=:all: --no-binary=mysqlclient -r /tmp/requirements.lock
+
 FROM python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
 WORKDIR /app
-COPY requirements.lock ./
-RUN pip install --require-hashes --only-binary=:all: -r requirements.lock \
+COPY --from=python-dependencies /opt/littlehands-python/ /usr/local/
+RUN apt-get update && apt-get install -y --no-install-recommends libmariadb3 \
+    && rm -rf /var/lib/apt/lists/* \
     && groupadd --gid 10001 littlehands \
     && useradd --uid 10001 --gid 10001 --no-create-home littlehands
 COPY manage.py ./

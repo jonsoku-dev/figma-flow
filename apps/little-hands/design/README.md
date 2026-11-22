@@ -55,7 +55,7 @@ python3 apps/little-hands/design/export.py --out apps/little-hands/design/export
 
 ## 실제 검증
 
-부모가 실제 PostgreSQL 테스트·브라우저 행동·화면 비평·Figma 직접 조작/읽기를 각각 수행하고 범위에 맞는 실제 근거를 graph와 bindings에 연결한다. 기술 검사가 시각 품질이나 실서비스 운영 인수를 대신하지 않는다.
+부모가 실제 앱 데이터베이스 테스트·브라우저 행동·화면 비평·Figma 직접 조작/읽기를 각각 수행하고 범위에 맞는 실제 근거를 graph와 bindings에 연결한다. 기술 검사가 시각 품질이나 실서비스 운영 인수를 대신하지 않는다.
 
 ## 실제 앱의 Group 회귀 재현
 

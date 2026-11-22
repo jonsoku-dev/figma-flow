@@ -27,16 +27,18 @@ services:
   db:
     image: {{cfg.database.image}}
     restart: unless-stopped
+    command: [--log-bin-trust-function-creators=ON, --character-set-server=utf8mb4, --collation-server=utf8mb4_0900_as_cs]
     environment:
-      POSTGRES_DB: {{cfg.database.name}}
-      POSTGRES_PASSWORD_FILE: {{cfg.secrets.mount}}/{{cfg.secrets.postgresFile}}
-      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
-    secrets: [{{cfg.secrets.postgresFile}}, {{cfg.secrets.ownerFile}}, {{cfg.secrets.runtimeFile}}]
+      MYSQL_ROOT_HOST: localhost
+      MYSQL_DATABASE: {{cfg.database.name}}
+      MYSQL_ROOT_PASSWORD_FILE: {{cfg.secrets.mount}}/{{cfg.secrets.rootFile}}
+    secrets: [{{cfg.secrets.rootFile}}, {{cfg.secrets.ownerFile}}, {{cfg.secrets.runtimeFile}}]
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./deploy/roles.sql:/docker-entrypoint-initdb.d/10-roles.sql:ro
+      - mysqldata:/var/lib/mysql
+      - ./deploy/bootstrap.sh:/docker-entrypoint-initdb.d/10-littlehands.sh:ro
+      - ./deploy/roles.sql:/opt/littlehands/roles.sql:ro
     healthcheck:
-      test: [CMD-SHELL, 'pg_isready -h 127.0.0.1 -U postgres -d {{cfg.database.name}}']
+      test: [CMD, mysqladmin, ping, --protocol=tcp, --host=127.0.0.1, --silent]
       interval: 5s
       timeout: 5s
       retries: 12
@@ -64,14 +66,14 @@ services:
 secrets:
   {{cfg.secrets.djangoFile}}:
     file: ${LH_SECRETS_DIR:?Set absolute secret directory outside the checkout}/{{cfg.secrets.djangoFile}}
-  {{cfg.secrets.postgresFile}}:
-    file: ${LH_SECRETS_DIR}/{{cfg.secrets.postgresFile}}
+  {{cfg.secrets.rootFile}}:
+    file: ${LH_SECRETS_DIR}/{{cfg.secrets.rootFile}}
   {{cfg.secrets.ownerFile}}:
     file: ${LH_SECRETS_DIR}/{{cfg.secrets.ownerFile}}
   {{cfg.secrets.runtimeFile}}:
     file: ${LH_SECRETS_DIR}/{{cfg.secrets.runtimeFile}}
 volumes:
-  pgdata:
+  mysqldata:
 networks:
   backend:
     internal: true

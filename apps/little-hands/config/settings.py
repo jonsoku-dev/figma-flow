@@ -28,7 +28,7 @@ CSRF_TRUSTED_ORIGINS = [SITE_URL.rstrip('/')]
 INSTALLED_APPS = [
     'django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes',
     'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles',
-    'django.contrib.humanize', 'django.contrib.postgres', 'axes', 'booking.apps.BookingConfig',
+    'django.contrib.humanize', 'axes', 'booking.apps.BookingConfig',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware', 'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -49,11 +49,13 @@ TEMPLATES = [{'BACKEND':'django.template.backends.django.DjangoTemplates',
 
 DATABASE_DEFAULTS = json.loads(Path(__file__).with_name('deployment.json').read_bytes())['database']
 DATABASES = {'default':{
-    'ENGINE':'django.db.backends.postgresql',
+    'ENGINE':DATABASE_DEFAULTS['engine'],
     'NAME':os.environ.get('LH_DB_NAME', DATABASE_DEFAULTS['name']), 'USER':os.environ.get('LH_DB_USER', DATABASE_DEFAULTS['runtime']),
     'PASSWORD':os.environ.get('LH_DB_PASSWORD', ''), 'HOST':os.environ.get('LH_DB_HOST', '127.0.0.1'),
     'PORT':os.environ.get('LH_DB_PORT', str(DATABASE_DEFAULTS['developmentPort'])), 'CONN_MAX_AGE':60, 'CONN_HEALTH_CHECKS':True,
-    'OPTIONS':{'connect_timeout':5},
+    'OPTIONS':{'connect_timeout':5, 'charset':'utf8mb4', 'isolation_level':'read committed',
+               'init_command':"SET SESSION sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'"},
+    'TEST':{'CHARSET':'utf8mb4', 'COLLATION':'utf8mb4_0900_as_cs'},
 }}
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = ['axes.backends.AxesStandaloneBackend', 'django.contrib.auth.backends.ModelBackend']

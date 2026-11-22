@@ -25,7 +25,9 @@ jobs:
           if node -e "process.exit(Number(require('./plugin.json').version.split('.')[0]) > 0 ? 0 : 1)"; then
             npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
             python -m pip install -r requirements-optional.txt -r library/figma-rest/requirements.txt
-            python -m pip install --require-hashes --only-binary=:all: -r apps/little-hands/requirements.lock
+            sudo apt-get update
+            sudo apt-get install -y pkg-config default-libmysqlclient-dev
+            python -m pip install --require-hashes --only-binary=:all: --no-binary=mysqlclient -r apps/little-hands/requirements.lock
             npm install --prefix "$RUNNER_TEMP/figma-api-tools" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@5.9.3
             echo "FIGMA_API_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/typescript.js" >> "$GITHUB_ENV"
             echo "FIGMA_SDK_TEST_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/tsc.js" >> "$GITHUB_ENV"
@@ -37,9 +39,21 @@ jobs:
             tar -xzf "$archive" -C "$RUNNER_TEMP/figma-flow-codex" "codex-${target}"
             mv "$RUNNER_TEMP/figma-flow-codex/codex-${target}" "$RUNNER_TEMP/figma-flow-codex/codex"
             echo "$RUNNER_TEMP/figma-flow-codex" >> "$GITHUB_PATH"
-            pg_bin="$(pg_config --bindir)"
-            test -x "$pg_bin/initdb"
-            echo "FIGMA_FLOW_PG_BIN=$pg_bin" >> "$GITHUB_ENV"
+            mysql_id=$(docker run --detach --rm --publish '127.0.0.1::3306' \
+              -e MYSQL_ROOT_HOST=% -e MYSQL_ROOT_PASSWORD=disposable-ci-only \
+              mysql:8.4.11@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70 --log-bin-trust-function-creators=ON)
+            echo "LH_CI_MYSQL_ID=$mysql_id" >> "$GITHUB_ENV"
+            echo "FIGMA_FLOW_MYSQL_TEST_HOST=127.0.0.1" >> "$GITHUB_ENV"
+            mysql_port=$(docker port "$mysql_id" '3306/tcp')
+            echo "FIGMA_FLOW_MYSQL_TEST_PORT=${mysql_port##*:}" >> "$GITHUB_ENV"
+            echo "FIGMA_FLOW_MYSQL_TEST_PASSWORD=disposable-ci-only" >> "$GITHUB_ENV"
+            for attempt in {1..40}; do
+              if docker exec "$mysql_id" mysqladmin ping --protocol=tcp --host=127.0.0.1 --silent; then
+                break
+              fi
+              sleep 2
+            done
+            docker exec "$mysql_id" mysqladmin ping --protocol=tcp --host=127.0.0.1 --silent
           fi
       - name: Verify manifest projection and release gate behavior
         run: |
@@ -66,3 +80,6 @@ jobs:
           fi
           python -B tools/major_release.py --if-major --ref "$RELEASE_REF" "${base_args[@]}" --archive "$RUNNER_TEMP/dist-check.zip"
           python -B tools/reference_distribution_guard.py --target-zip "$RUNNER_TEMP/dist-check.zip" --format text
+      - name: Remove the run-owned archive test database container
+        if: always() && env.LH_CI_MYSQL_ID != ''
+        run: docker stop "$LH_CI_MYSQL_ID"

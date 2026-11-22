@@ -1,8 +1,8 @@
 # 작은손 커피공방 운영 배포
 
-이 디렉터리의 기존 Django 5.2 서비스와 PostgreSQL 17을 위한 단일 호스트 패키지다. Gunicorn은 호스트 loopback에서만 받으며 호스트의 nginx가 HTTPS를 종료한다. 사용자 계정, 예약, 결제, 외부 메시지를 자동 생성하거나 발송하지 않는다. Compose 실행은 공개 배포 승인을 대신하지 않는다.
+이 디렉터리의 기존 Django 5.2 서비스와 MySQL 8.4 LTS을 위한 단일 호스트 패키지다. Gunicorn은 호스트 loopback에서만 받으며 호스트의 nginx가 HTTPS를 종료한다. 사용자 계정, 예약, 결제, 외부 메시지를 자동 생성하거나 발송하지 않는다. Compose 실행은 공개 배포 승인을 대신하지 않는다.
 
-`ARCHITECTURE.md`가 데이터·권한 계약을 소유한다. Python과 PostgreSQL 이미지는 다중 플랫폼 digest로 고정했고 `requirements.lock`은 전체 Python 의존성과 PyPI SHA256을 고정한다. 버전 갱신 시 `requirements.txt`와 lock을 함께 검토하고 새 이미지에서 검사한다. 운영 환경은 Docker Compose v2, Linux 컨테이너 및 호스트 nginx를 전제로 한다. Docker 소켓 접근자는 모든 비밀과 DB를 읽을 수 있는 관리자다.
+`ARCHITECTURE.md`가 데이터·권한 계약을 소유한다. Python과 MySQL 이미지는 다중 플랫폼 digest로 고정했고 `requirements.lock`은 전체 Python 의존성과 PyPI SHA256을 고정한다. 버전 갱신 시 `requirements.txt`와 lock을 함께 검토하고 새 이미지에서 검사한다. 운영 환경은 Docker Compose v2, Linux 컨테이너 및 호스트 nginx를 전제로 한다. Docker 소켓 접근자는 모든 비밀과 DB를 읽을 수 있는 관리자다.
 
 배포용 이미지 지문, 포트, DB 역할과 비밀 파일 이름은 [배포 설정](config/deployment.json)에서 관리합니다. 변경한 뒤 앱 디렉터리에서 `python3 deploy/publish_config.py --write`를 실행합니다. `python3 deploy/publish_config.py`로 Docker, Compose, nginx, SQL 파일이 현재 설정과 일치하는지 확인할 수 있습니다.
 
@@ -17,19 +17,16 @@ import os, secrets
 from pathlib import Path
 root = Path(os.environ['LH_SECRETS_DIR'])
 root.mkdir(parents=True, exist_ok=True, mode=0o700)
-for name in ('django_secret', 'postgres_password', 'owner_password', 'runtime_password'):
+import json
+files = json.loads(Path('config/deployment.json').read_text())['secrets']
+for name in (value for key, value in files.items() if key.endswith('File')):
     with (root / name).open('x') as f:
         os.chmod(f.name, 0o600)
         f.write(secrets.token_urlsafe(64) + '\n')
 PY
 ```
 
-파일 비밀은 Compose가 bind mount한다. Linux에서 앱 UID 10001은 Django/runtime 비밀과 migration owner 비밀을 읽어야 하며, 고정한 PostgreSQL 이미지의 UID 999는 DB 초기화 비밀을 읽어야 한다. ACL을 지원하는 전용 호스트의 예시는 다음과 같다. 호스트의 같은 UID도 비밀을 읽을 수 있으므로 신뢰하는 전용 서비스 계정에만 해당 UID를 할당한다.
-
-```sh
-setfacl -m u:10001:r-- "$LH_SECRETS_DIR/django_secret" "$LH_SECRETS_DIR/runtime_password" "$LH_SECRETS_DIR/owner_password"
-setfacl -m u:999:r-- "$LH_SECRETS_DIR/postgres_password" "$LH_SECRETS_DIR/runtime_password" "$LH_SECRETS_DIR/owner_password"
-```
+Compose는 비밀 파일을 마운트한다. 앱 UID 10001에는 Django 비밀 및 해당 DB 계정의 비밀 파일 읽기만 부여한다. 초기화 이미지는 시작 시 root·스키마·웹 비밀을 읽는다. 고정된 이미지의 `mysql` UID와 대상 호스트에서 적용되는 파일 ACL을 대조한 뒤 읽기 권한을 준다. 스키마·웹 암호는 초기화 스크립트가 URL-safe 문자와 최소 32자 길이를 확인한다.
 
 비밀을 world-readable로 바꾸지 않는다. Docker Desktop과 실제 Linux의 파일 권한 동작은 다르므로 대상 호스트에서 확인한다. 암호 파일 변경은 기존 DB role 암호를 변경하지 않는다. DB 암호 회전은 점검 시간에 역할 암호와 파일을 함께 교체하고 앱을 재생성한다.
 
@@ -50,13 +47,13 @@ docker compose config --quiet
 docker compose build web
 docker compose up -d db
 docker compose run --rm migrate
-docker compose exec -T db psql -U postgres -d littlehands -v ON_ERROR_STOP=1 < deploy/grants.sql
+docker compose exec -T db sh -ec 'MYSQL_PWD="$(cat "$MYSQL_ROOT_PASSWORD_FILE")"; export MYSQL_PWD; exec mysql --protocol=socket --user=root' < deploy/grants.sql
 docker compose run --rm web python manage.py check --deploy --fail-level WARNING
 docker compose up -d web
 docker compose ps
 ```
 
-초기화 SQL은 **빈 DB 볼륨에서 한 번** 실행한다. 기존 볼륨에 새 role을 적용하는 방법으로 재시작을 사용하지 않는다. 마이그레이션은 단일 운영자·배포 작업이 실행한다. 웹 시작 시 자동 migrate하지 않는다. `littlehands_owner`만 스키마 DDL을 수행하며 웹은 소유권·역할 멤버십·CREATE·TRUNCATE 없이 실행한다. `grants.sql`은 매번 migrate 다음에 실행한다. 새 테이블에는 기본 runtime 권한을 주지 않으므로 누락 시 서비스가 실패하는 쪽으로 동작한다. 감사·멱등 journal에는 SELECT/INSERT만 남기고 UPDATE/DELETE/TRUNCATE를 회수하며 기존 DB trigger도 유지한다. `django_migrations`는 웹에 노출하지 않는다.
+초기화 SQL은 **빈 MySQL 볼륨에서 한 번** 실행한다. 기존 PostgreSQL 예제 데이터는 원본을 보존한 상태에서 별도 스키마에 이관·검수해야 한다. 이번 예제의 마이그레이션은 새 MySQL 스키마를 초기화한다. 이미 적용한 PostgreSQL 마이그레이션 번호를 새 DB에 복사하거나 PostgreSQL 볼륨을 재사용하면 안 된다. 운영 데이터의 이전은 별도 계획에서 행과 시퀀스, 예약 구간, 권한, 사용자 접속을 대조한다. 기존 볼륨에 새 role을 적용하는 방법으로 재시작을 사용하지 않는다. 마이그레이션은 단일 운영자·배포 작업이 실행한다. 웹 시작 시 자동 migrate하지 않는다. `littlehands_owner`만 스키마 DDL을 수행하며 웹은 소유권·역할 멤버십·CREATE·TRUNCATE 없이 실행한다. `grants.sql`은 매번 migrate 다음에 실행한다. 새 테이블에는 기본 runtime 권한을 주지 않으므로 누락 시 서비스가 실패하는 쪽으로 동작한다. 감사·멱등 journal에는 SELECT/INSERT만 부여하고 트리거로 내용 변경을 거절한다. `django_migrations`는 웹에 노출하지 않는다.
 
 정적 파일은 이미지 빌드 중 WhiteNoise manifest로 수집하며 앱이 직접 서빙한다. 빌드에 실제 비밀이나 DB가 필요하지 않다. 파일 저장소나 고객 업로드는 이 앱의 현재 범위가 아니다. 컨테이너 파일시스템은 읽기 전용이며 임시 파일만 `/tmp`에 쓴다. Gunicorn access log는 개인정보 URL 기록을 줄이기 위해 켜지 않는다. 호스트 proxy 로그도 보존 기간·접근 권한과 URL 개인정보 처리를 운영자가 정한다.
 
@@ -102,14 +99,14 @@ nginx는 Host와 X-Forwarded-Proto/IP를 덮어쓴다. loopback 앱 포트를 �
 
 ## 5. 백업과 복구
 
-백업은 회원·예약 개인정보를 포함한다. 체크아웃 밖의 접근 제한·암호화 저장소를 준비하고 운영 보존 기간/RPO/RTO에 맞춰 예약·관측한다. 실행 예시는 외부 저장소 업로드를 수행하지 않는다. `pg_dump`의 custom 형식은 DB 전체의 일관된 snapshot을 남긴다. 비밀 파일·이미지 digest·코드 버전은 별도로 암호화 보관한다.
+백업은 회원·예약 개인정보를 포함한다. 체크아웃 밖의 접근 제한·암호화 저장소를 준비하고 운영 보존 기간/RPO/RTO에 맞춰 예약·관측한다. 실행 예시는 외부 저장소 업로드를 수행하지 않는다.  `mysqldump`로 InnoDB 스냅샷을 받는다. 비밀 파일·이미지 digest·코드 버전은 따로 암호화해 보관한다.
 
 ```sh
 umask 077
 export LH_BACKUP_DIR="$HOME/.local/share/littlehands-backups"
 mkdir -p "$LH_BACKUP_DIR"
-backup_file="$LH_BACKUP_DIR/$(date -u +%Y%m%dT%H%M%SZ).dump"
-if docker compose exec -T db pg_dump -U postgres -d littlehands --format=custom > "$backup_file.partial"; then
+backup_file="$LH_BACKUP_DIR/$(date -u +%Y%m%dT%H%M%SZ).sql"
+if docker compose exec -T db sh -ec 'MYSQL_PWD="$(cat "$MYSQL_ROOT_PASSWORD_FILE")"; export MYSQL_PWD; exec mysqldump --protocol=socket --user=root --single-transaction --set-gtid-purged=OFF --no-tablespaces "$MYSQL_DATABASE"' > "$backup_file.partial"; then
   mv "$backup_file.partial" "$backup_file"
 else
   rm -f "$backup_file.partial"
@@ -117,17 +114,7 @@ else
 fi
 ```
 
-정기 복구 리허설은 운영 DB를 덮어쓰지 않는 별도 DB로 한다. 아래 `littlehands_restore_check`가 이미 존재하면 중단하고 원인을 확인한다. 복구는 실패 즉시 종료한다. 스키마 소유자는 기존 role을 재사용하고 권한은 재적용한다.
-
-```sh
-docker compose exec -T db createdb -U postgres -O littlehands_owner littlehands_restore_check
-docker compose exec -T db pg_restore -U postgres -d littlehands_restore_check --exit-on-error < "$backup_file"
-docker compose exec -T db psql -U postgres -d littlehands_restore_check -v ON_ERROR_STOP=1 < deploy/grants.sql
-docker compose run --rm -e LH_DB_NAME=littlehands_restore_check web python manage.py check --database default
-docker compose exec -T db psql -U postgres -d littlehands_restore_check -v ON_ERROR_STOP=1 < deploy/verify.sql
-```
-
-이 검사는 복구 DB에서만 수행한다. 복구본의 실제 예약·감사 건수와 시점을 백업 기록에 대조하고, 격리된 앱에서 읽기 화면과 예약 불변식을 확인한다. `check`만으로 데이터 복구 인수가 끝나지 않는다. 실제 장애 복구는 웹을 중단하고 기존 DB를 보존한 채 별도 DB에 복원·검증한 뒤 승인된 전환을 수행한다. `down -v`, DB 삭제, 원본 덮어쓰기는 이 절차에 포함하지 않는다.
+복구 리허설은 운영과 분리해 승인한 MySQL 8.4 환경에서 수행한다. 빈 스키마와 트리거 definer 계정을 먼저 준비하고, 해당 스키마를 지정해 덤프를 복원한다. 복원 뒤 해당 환경의 배포 설정에서 생성한 `grants.sql`을 적용한다. 관리자 계정으로 `verify.sql`을 실행해 각 위반 건수가 0인지 확인하고, 복구본의 예약·감사 건수를 백업 기록과 대조한다. 운영 전환은 검증된 복구본을 대상으로 별도로 수행한다.
 
 ## 패키지 검증
 

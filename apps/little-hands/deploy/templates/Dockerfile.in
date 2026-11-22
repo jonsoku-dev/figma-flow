@@ -1,8 +1,15 @@
+FROM {{cfg.web.pythonImage}} AS python-dependencies
+COPY requirements.lock /tmp/requirements.lock
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential pkg-config default-libmysqlclient-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir --prefix /opt/littlehands-python --require-hashes --only-binary=:all: --no-binary=mysqlclient -r /tmp/requirements.lock
+
 FROM {{cfg.web.pythonImage}}
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
 WORKDIR /app
-COPY requirements.lock ./
-RUN pip install --require-hashes --only-binary=:all: -r requirements.lock \
+COPY --from=python-dependencies /opt/littlehands-python/ /usr/local/
+RUN apt-get update && apt-get install -y --no-install-recommends libmariadb3 \
+    && rm -rf /var/lib/apt/lists/* \
     && groupadd --gid {{cfg.web.uid}} littlehands \
     && useradd --uid {{cfg.web.uid}} --gid {{cfg.web.uid}} --no-create-home littlehands
 COPY manage.py ./

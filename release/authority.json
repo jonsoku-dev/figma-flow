@@ -276,6 +276,8 @@
     {"from":"guides","to":"recipe-visual-graph","type":"owned-by"},
     {"from":"application","to":"observation-provenance","type":"owned-by"},
     {"from":"application","to":"app-deploy-config","type":"owned-by"},
+    {"from":"delivery","to":"app-deploy-config","type":"owned-by"},
+    {"from":"tooling","to":"app-deploy-config","type":"owned-by"},
     {"from":"tooling","to":"recipe-visual-graph","type":"owned-by"},
     {"from":"application","to":"app-product","type":"owned-by"},
     {"from":"guides","to":"design-inspection-scene-observations","type":"owned-by"},

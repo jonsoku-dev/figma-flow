@@ -1,25 +1,54 @@
-\set ON_ERROR_STOP on
-SELECT count(*) AS bookings FROM booking_booking;
-SELECT count(*) AS audit_events FROM booking_auditevent;
-DO $$
-BEGIN
-    IF has_table_privilege('{{cfg.database.runtime}}', 'booking_auditevent', 'UPDATE')
-       OR has_table_privilege('{{cfg.database.runtime}}', 'booking_auditevent', 'DELETE')
-       OR has_table_privilege('{{cfg.database.runtime}}', 'booking_auditevent', 'TRUNCATE')
-       OR has_table_privilege('{{cfg.database.runtime}}', 'booking_operation', 'UPDATE')
-       OR has_table_privilege('{{cfg.database.runtime}}', 'booking_operation', 'DELETE')
-       OR has_table_privilege('{{cfg.database.runtime}}', 'booking_operation', 'TRUNCATE')
-       OR has_schema_privilege('{{cfg.database.runtime}}', 'public', 'CREATE') THEN
-        RAISE EXCEPTION 'runtime role is overprivileged';
-    END IF;
-    IF (SELECT count(*) FROM pg_trigger WHERE tgname IN ('audit_event_immutable', 'operation_immutable') AND tgenabled = 'O') <> 2 THEN
-        RAISE EXCEPTION 'immutable journal triggers missing';
-    END IF;
-    IF EXISTS (
-        SELECT 1 FROM booking_classsession s
-        LEFT JOIN booking_booking b ON b.session_id = s.id AND b.status = 'confirmed'
-        GROUP BY s.id, s.capacity HAVING COALESCE(sum(b.quantity), 0) > s.capacity
-    ) THEN
-        RAISE EXCEPTION 'confirmed bookings exceed capacity';
-    END IF;
-END $$;
+SELECT 'booking_capacity' AS invariant, COUNT(*) AS violations
+FROM (
+    SELECT s.id
+    FROM `{{cfg.database.name}}`.booking_classsession s
+    LEFT JOIN `{{cfg.database.name}}`.booking_booking b ON b.session_id = s.id AND b.status = 'confirmed'
+    GROUP BY s.id, s.capacity HAVING COALESCE(SUM(b.quantity), 0) > s.capacity
+) over_capacity
+UNION ALL
+SELECT 'immutable_triggers', 5 - COUNT(*)
+FROM information_schema.TRIGGERS
+WHERE TRIGGER_SCHEMA = '{{cfg.database.name}}'
+  AND TRIGGER_NAME IN ('audit_event_immutable_update', 'audit_event_immutable_delete',
+      'operation_immutable_update', 'operation_immutable_delete', 'room_capacity_immutable')
+UNION ALL
+SELECT 'schedule_triggers', 3 - COUNT(*)
+FROM information_schema.TRIGGERS
+WHERE TRIGGER_SCHEMA = '{{cfg.database.name}}'
+  AND TRIGGER_NAME IN ('room_schedule_insert', 'room_schedule_update', 'room_schedule_delete')
+UNION ALL
+SELECT 'schedule_missing_or_changed', COUNT(*)
+FROM `{{cfg.database.name}}`.booking_classsession s
+LEFT JOIN `{{cfg.database.name}}`.booking_roomscheduleentry e ON e.session_id = s.id
+WHERE s.status = 'scheduled'
+  AND (e.session_id IS NULL OR s.room_id <> e.room_id OR s.starts_at <> e.starts_at OR s.ends_at <> e.ends_at)
+UNION ALL
+SELECT 'schedule_inactive_or_orphaned', COUNT(*)
+FROM `{{cfg.database.name}}`.booking_roomscheduleentry e
+LEFT JOIN `{{cfg.database.name}}`.booking_classsession s ON s.id = e.session_id
+WHERE s.id IS NULL OR s.status <> 'scheduled'
+UNION ALL
+SELECT 'schedule_overlaps', COUNT(*)
+FROM `{{cfg.database.name}}`.booking_roomscheduleentry a
+JOIN `{{cfg.database.name}}`.booking_roomscheduleentry b
+  ON a.room_id = b.room_id AND a.session_id < b.session_id
+  AND a.starts_at < b.ends_at AND b.starts_at < a.ends_at
+UNION ALL
+SELECT 'runtime_broad_grants', COUNT(*)
+FROM (
+    SELECT PRIVILEGE_TYPE
+    FROM information_schema.USER_PRIVILEGES
+    WHERE GRANTEE = CONCAT(QUOTE('{{cfg.database.runtime}}'), '@', QUOTE('%')) AND PRIVILEGE_TYPE <> 'USAGE'
+    UNION ALL
+    SELECT PRIVILEGE_TYPE
+    FROM information_schema.SCHEMA_PRIVILEGES
+    WHERE GRANTEE = CONCAT(QUOTE('{{cfg.database.runtime}}'), '@', QUOTE('%'))
+) broad_grants
+UNION ALL
+SELECT 'runtime_dangerous_grants', COUNT(*)
+FROM information_schema.TABLE_PRIVILEGES
+WHERE GRANTEE = CONCAT(QUOTE('{{cfg.database.runtime}}'), '@', QUOTE('%'))
+  AND TABLE_SCHEMA = '{{cfg.database.name}}'
+  AND (PRIVILEGE_TYPE NOT IN ('SELECT', 'INSERT', 'UPDATE', 'DELETE')
+    OR TABLE_NAME IN ('django_migrations', 'booking_roomscheduleentry', 'booking_roomschedulelock')
+    OR (TABLE_NAME IN ('booking_auditevent', 'booking_operation') AND PRIVILEGE_TYPE NOT IN ('SELECT', 'INSERT')));

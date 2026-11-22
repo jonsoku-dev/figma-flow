@@ -18,6 +18,9 @@ def templates(root):
     inputs = dict(graph['inputs'])
     ts = inputs['typescript']
     inputs['typescript'] = json.loads((root/ts['source']).read_bytes())['devDependencies'][ts['dependency']]
+    ci = inputs['appCi']
+    database = json.loads((root / ci['deploymentSource']).read_bytes())['database']
+    inputs['appCi'] = {**ci, 'database':database['name'], 'port':str(database['port']), 'image':database['image']}
     if not all(re.fullmatch(r'[0-9a-f]{40}', sha) for sha in inputs['actions'].values()):
         raise ValueError('CI actions require exact Git SHAs')
     if not all(re.fullmatch(r'[0-9a-f]{64}', row['sha256']) for row in [*inputs['sandboxCli']['artifacts'].values(), inputs['sandboxCli']['linuxRelease']]):

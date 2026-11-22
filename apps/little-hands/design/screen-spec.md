@@ -15,7 +15,7 @@ External source references are retained, not claims that their contents were rea
 수업 목록 → 회차 상세 → 로그인 또는 신청 검토. 빈 일정은 준비 중 안내를 읽는다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -23,7 +23,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 화면의 목적과 동작",
-  "display_text": "목적\n공개 수업의 실제 일정·공간·인원·가격을 찾아 신청할 회차를 고른다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n수업 목록 → 회차 상세 → 로그인 또는 신청 검토. 빈 일정은 준비 중 안내를 읽는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n공개 수업의 실제 일정·공간·인원·가격을 찾아 신청할 회차를 고른다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n수업 목록 → 회차 상세 → 로그인 또는 신청 검토. 빈 일정은 준비 중 안내를 읽는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-publichome",
   "kind": "screen",
   "locale": "ko",
@@ -31,11 +31,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-publichome-hero-browse",
     "journey": "수업 목록 → 회차 상세 → 로그인 또는 신청 검토. 빈 일정은 준비 중 안내를 읽는다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "공개 수업의 실제 일정·공간·인원·가격을 찾아 신청할 회차를 고른다.",
     "summary": "수업 둘러보기 화면의 목적과 동작"
   },
-  "meaning_sha256": "39e77ad0ae848b1ec319df8b7021f9df9738eacd015a1be6a917fd2280aae548",
+  "meaning_sha256": "cfad99fbb22099a71627a52d3d8f23251072f0d56841986f5503c4c1fd8886ef",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -56,13 +56,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-publichome",
   "title": "수업 둘러보기",
   "trace": {
@@ -172,7 +172,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -180,7 +180,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-brand",
   "kind": "action",
   "locale": "ko",
@@ -192,13 +192,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "104477fcd2b09e0e7181416d1c3062fc27bcfb24f08177433012d928c5a6eba9",
+  "meaning_sha256": "00b382aa5e99785e27cff05cb70becb445eb4bd43390d961416b2e70501291ea",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -224,13 +224,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -340,7 +340,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -348,7 +348,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -360,13 +360,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "e1d90f360bab77741d88155a80c308814f4b3bcaaa42c5d573ed111efa5c9eb0",
+  "meaning_sha256": "2e7e050d90d0dfff5e6a0f70fa860f4b2a87e5dd7063763d8697fa9eb369e286",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -392,13 +392,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -508,7 +508,7 @@ Figma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응�
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -516,7 +516,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-nav-login",
   "kind": "action",
   "locale": "ko",
@@ -529,13 +529,13 @@ Figma·웹 범위
       "state-publichome",
       "state-login"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그인 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "470c42524b94c0fee2fcd8fb8101edcdaba477686dd9f889c188aad830802a82",
+  "meaning_sha256": "20e44abe793ca0d9af43b5c7fea3fe6c1fcf00cc8d1ef4c4b7c889c9409d27f3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -561,13 +561,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-nav-login",
   "title": "로그인",
   "trace": {
@@ -677,7 +677,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -685,7 +685,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 보기 ↓ 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 현재 문서의 실제 수업 일정 구역으로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 현재 문서의 실제 수업 일정 구역으로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-hero-browse",
   "kind": "action",
   "locale": "ko",
@@ -697,13 +697,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "수업 일정 보기 ↓ 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "f7987947cce35a47cf4adc48701c0adf286c8d85dfebd82742e846a346c1f500",
+  "meaning_sha256": "0e25d597c6e26741e9f0812b0b3d2062297da5d7a59df1de930bee94612ef138",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -729,13 +729,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-hero-browse",
   "title": "수업 일정 보기 ↓",
   "trace": {
@@ -845,7 +845,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -853,7 +853,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-booking-session_list-a-2-1",
   "kind": "action",
   "locale": "ko",
@@ -865,13 +865,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "2718c56919356d808bf95aebcc897aab63d4b54c882969b6324291d6daf1bebf",
+  "meaning_sha256": "c03bf2e12fbd795db2aa467bde4424ff1dfc39e5c99071243a4800a002c49d84",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -897,13 +897,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-booking-session_list-a-2-1",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -1013,7 +1013,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -1021,7 +1021,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-session-1-open",
   "kind": "action",
   "locale": "ko",
@@ -1033,13 +1033,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "a3ccf9257c72b187f23ee875e7e673ea55c4df7e9f6ee9c5b8bcad30aa597f9e",
+  "meaning_sha256": "fe5d6e3eb7dfd03e1ed4a2180e8176b6816406cfb6bfbf4a961ca7a352f44720",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -1065,13 +1065,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-session-1-open",
   "title": "일정 확인",
   "trace": {
@@ -1181,7 +1181,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -1189,7 +1189,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "우유 위 작은 그림 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-booking-session_list-a-2-2",
   "kind": "action",
   "locale": "ko",
@@ -1201,13 +1201,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "우유 위 작은 그림 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "0e2c0d7b40d012593f541e6ed67a780b1a12d001e9b21e5bcd567931bc5627d4",
+  "meaning_sha256": "21690d8d8a948004f6370bbe2341c2fb8e605191f9a82775206309a564d4a131",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -1233,13 +1233,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-booking-session_list-a-2-2",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -1349,7 +1349,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -1357,7 +1357,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-session-2-open",
   "kind": "action",
   "locale": "ko",
@@ -1369,13 +1369,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "bb5e5ca19d0ec888592cce8ee407b5ced13c6a31eeb48a56e92783776b3fb7e2",
+  "meaning_sha256": "1beb3509101c8388e80c2692450405312b9dd2d18ba045ad9bbc9ea781dedd57",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -1401,13 +1401,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-session-2-open",
   "title": "일정 확인",
   "trace": {
@@ -1517,7 +1517,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -1525,7 +1525,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-booking-session_list-a-2-3",
   "kind": "action",
   "locale": "ko",
@@ -1537,13 +1537,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "ab3b9ff22273d5eefb1ca15acb1affd7d1e2d9314c18c0079566b85ebead798a",
+  "meaning_sha256": "f68ad1446548a0877f674c3e492a07bd375b3225c1db5c14cfb85f9161bd86a3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -1569,13 +1569,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-booking-session_list-a-2-3",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -1685,7 +1685,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -1693,7 +1693,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-session-3-open",
   "kind": "action",
   "locale": "ko",
@@ -1705,13 +1705,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "84dd6d5eecc98b5c1a0bf2472468e16767f5d30aefb7b5d317cb94aa76446bad",
+  "meaning_sha256": "2228deec9fce77f048f21e578bb4c0a3e1bc9d8148fb9a96b756287d481b4df2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -1737,13 +1737,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-session-3-open",
   "title": "일정 확인",
   "trace": {
@@ -1853,7 +1853,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -1861,7 +1861,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "우유 위 작은 그림 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-booking-session_list-a-2-4",
   "kind": "action",
   "locale": "ko",
@@ -1873,13 +1873,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "우유 위 작은 그림 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "630ca766512eba363140a79043f6eae212e2b5326eeb955c9d514748e59507aa",
+  "meaning_sha256": "081aa160f90a2f36322101e49e379aa73088e7d1c2a15430eb2ee67bea76344c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -1905,13 +1905,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-booking-session_list-a-2-4",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -2021,7 +2021,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -2029,7 +2029,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-session-4-open",
   "kind": "action",
   "locale": "ko",
@@ -2041,13 +2041,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "28981caa99ed6ddfacee705aed7fe283f6ebf86841a82e85880eda8e19bd12fe",
+  "meaning_sha256": "13a9c373e547472fc3e2013975934da1d707999587610ddc132fc4b4b0ebac41",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -2073,13 +2073,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-session-4-open",
   "title": "일정 확인",
   "trace": {
@@ -2189,7 +2189,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -2197,7 +2197,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-booking-session_list-a-2-5",
   "kind": "action",
   "locale": "ko",
@@ -2209,13 +2209,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "b80fb683a4dacb2a74d57fb0281e08a4c77e709673bd91daf6a7ec095c7bb1ff",
+  "meaning_sha256": "0b530ff9d44cc6abd52d54b03762edf7471d0b1dc7ff312ee5068a872c6e99b1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -2241,13 +2241,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-booking-session_list-a-2-5",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -2357,7 +2357,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -2365,7 +2365,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-session-5-open",
   "kind": "action",
   "locale": "ko",
@@ -2377,13 +2377,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "d8f9dd02d6b82284f900dd708e04f084e7624ac1eab0fb71a01bf8aa24310a2d",
+  "meaning_sha256": "f4b856de95f480ef4eb81398b4a27a57287dff8123c1e038ed4be878041d62d1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -2409,13 +2409,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-session-5-open",
   "title": "일정 확인",
   "trace": {
@@ -2525,7 +2525,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -2533,7 +2533,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "우유 위 작은 그림 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-booking-session_list-a-2-6",
   "kind": "action",
   "locale": "ko",
@@ -2545,13 +2545,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "우유 위 작은 그림 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "4c38f643950db97ef4b5f391e4a073ae63803c097ab882c4f09f28f3aaa24a53",
+  "meaning_sha256": "df29d1c71f193a00375fee68f792f8a6afa417680718c0d30bfcc7d230399340",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -2577,13 +2577,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-booking-session_list-a-2-6",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -2693,7 +2693,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -2701,7 +2701,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-session-6-open",
   "kind": "action",
   "locale": "ko",
@@ -2713,13 +2713,13 @@ Figma·웹 범위
     "functional_states": [
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "85bd4e8adafa82e194cb8823755a1b2fa9902bb0c6208eb241e9533776634855",
+  "meaning_sha256": "07ad3e443466c191441f1f89271f6684b9061201fa16383aaad4b871256162c2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -2745,13 +2745,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-session-6-open",
   "title": "일정 확인",
   "trace": {
@@ -2861,7 +2861,7 @@ Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -2869,7 +2869,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-booking-session_list-a-2-7",
   "kind": "action",
   "locale": "ko",
@@ -2882,13 +2882,13 @@ Figma·웹 범위
       "state-publichome",
       "state-sessionavailable"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "ae21313d6e42a5e4ded9856c8eeeaaff11dbbcc59eeff2da18811c009b197583",
+  "meaning_sha256": "90dd2efb6f4c6789b535d8b24a816fc9d89b5b13105dc84d9aa9040171f0964c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -2914,13 +2914,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-booking-session_list-a-2-7",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -3030,7 +3030,7 @@ Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -3038,7 +3038,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-publichome-session-10-open",
   "kind": "action",
   "locale": "ko",
@@ -3051,13 +3051,13 @@ Figma·웹 범위
       "state-publichome",
       "state-sessionavailable"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "6349dbd3b692074e58ecd465ea943f85c37f3e22b10d8e4596cf3c307215bd6b",
+  "meaning_sha256": "300230bdcf19d3debd9a67b2a0e232ab099a2992d60e586f05d88855727339d2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-publichome",
@@ -3083,13 +3083,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-publichome-session-10-open",
   "title": "일정 확인",
   "trace": {
@@ -3196,7 +3196,7 @@ Figma·웹 범위
 계정과 암호 입력 → 서버 인증 → 원래 목적지 또는 수업 목록. 오류는 입력과 함께 표시한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -3204,7 +3204,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그인 화면의 목적과 동작",
-  "display_text": "목적\n기존 회원이 Django 인증으로 자신의 예약과 알림에 접근한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n계정과 암호 입력 → 서버 인증 → 원래 목적지 또는 수업 목록. 오류는 입력과 함께 표시한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n기존 회원이 Django 인증으로 자신의 예약과 알림에 접근한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n계정과 암호 입력 → 서버 인증 → 원래 목적지 또는 수업 목록. 오류는 입력과 함께 표시한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-login",
   "kind": "screen",
   "locale": "ko",
@@ -3212,11 +3212,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-login-login-submit",
     "journey": "계정과 암호 입력 → 서버 인증 → 원래 목적지 또는 수업 목록. 오류는 입력과 함께 표시한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "기존 회원이 Django 인증으로 자신의 예약과 알림에 접근한다.",
     "summary": "로그인 화면의 목적과 동작"
   },
-  "meaning_sha256": "9f44f8ac0bad928c51aea8531cfc5b9b08e4231e0b350fea7e548fe872bc0b3e",
+  "meaning_sha256": "8c6cf9dea8ea5936b9b2e13835131ac41e81a76ea3c339118124bf795a813464",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-login",
@@ -3237,13 +3237,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-login",
   "title": "로그인",
   "trace": {
@@ -3353,7 +3353,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -3361,7 +3361,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-login-brand",
   "kind": "action",
   "locale": "ko",
@@ -3374,13 +3374,13 @@ Figma·웹 범위
       "state-login",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "로그인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "1b4dea667e89cef99609ee7aee6d549dde4e9c781b855948aa2db5592c6f4246",
+  "meaning_sha256": "d7af1267dc6ce3d21db63d9ac1b489fa0828dcd017d7224f05c6487a459c7b1b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-login",
@@ -3406,13 +3406,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-login-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -3522,7 +3522,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -3530,7 +3530,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-login-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -3543,13 +3543,13 @@ Figma·웹 범위
       "state-login",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "로그인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "6672e3a8297977a7c5c5f5d7bb517f04fe7d09041a6cdc90cba550e0ae02b040",
+  "meaning_sha256": "c166508d89257f5c54c1d69cf4bd79a3ad4d591bea2e52f8f79ba26fd0e7a5ba",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-login",
@@ -3575,13 +3575,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-login-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -3691,7 +3691,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -3699,7 +3699,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그인 조작과 결과",
-  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-login-nav-login",
   "kind": "action",
   "locale": "ko",
@@ -3711,13 +3711,13 @@ Figma·웹 범위
     "functional_states": [
       "state-login"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "로그인에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "로그인 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "4dfc641055d4d38870592b56ea97e206f94ad0688f7b9fce8889043f70c30e4a",
+  "meaning_sha256": "ef57b70e540e7ec1a90886c0734c79f75be93afbdd546c64372195926e74b649",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-login",
@@ -3743,13 +3743,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-login-nav-login",
   "title": "로그인",
   "trace": {
@@ -3859,7 +3859,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -3867,7 +3867,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그인 조작과 결과",
-  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 서버 인증·시도 제한을 적용하고 성공 후 원래 목적지로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 서버 인증·시도 제한을 적용하고 성공 후 원래 목적지로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-login-login-submit",
   "kind": "action",
   "locale": "ko",
@@ -3880,13 +3880,13 @@ Figma·웹 범위
       "state-login",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "로그인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그인 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "ff6b90566cac02c9c99aecd434310f3641c2e2e18dae5b5ef5b19b17535189eb",
+  "meaning_sha256": "4d6b10f2962357880b65154981de5488796a0dd5c73a1c25ea51140732718fc5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-login",
@@ -3912,13 +3912,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-login-login-submit",
   "title": "로그인",
   "trace": {
@@ -4028,7 +4028,7 @@ Figma에서는 signup 화면 예시를 표시한다. 실제 결과는 서버 응
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -4036,7 +4036,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "회원 가입 조작과 결과",
-  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 signup 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n로그인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 signup 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-login-login-signup",
   "kind": "action",
   "locale": "ko",
@@ -4049,13 +4049,13 @@ Figma·웹 범위
       "state-login",
       "state-signup"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "로그인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 signup 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "회원 가입 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "de2218a01fd38ef0347bcb0b8ce4cd969c8c6998260bf884c54f1d14a39bd50b",
+  "meaning_sha256": "25919acfa26e6c6d52ff1459aaa6ce8f6f8cac0ea2a82ff45fad362d3c4621c4",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-login",
@@ -4081,13 +4081,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-login-login-signup",
   "title": "회원 가입",
   "trace": {
@@ -4194,7 +4194,7 @@ Figma·웹 범위
 회원명과 암호 정책 확인 → 서버 가입 → 회원 수업 목록. 중복·약한 암호는 서버 오류로 복구한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -4202,7 +4202,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "회원가입 화면의 목적과 동작",
-  "display_text": "목적\n권한을 스스로 부여할 수 없는 일반 회원 계정을 만든다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n회원명과 암호 정책 확인 → 서버 가입 → 회원 수업 목록. 중복·약한 암호는 서버 오류로 복구한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n권한을 스스로 부여할 수 없는 일반 회원 계정을 만든다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n회원명과 암호 정책 확인 → 서버 가입 → 회원 수업 목록. 중복·약한 암호는 서버 오류로 복구한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-signup",
   "kind": "screen",
   "locale": "ko",
@@ -4210,11 +4210,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-signup-signup-submit",
     "journey": "회원명과 암호 정책 확인 → 서버 가입 → 회원 수업 목록. 중복·약한 암호는 서버 오류로 복구한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "권한을 스스로 부여할 수 없는 일반 회원 계정을 만든다.",
     "summary": "회원가입 화면의 목적과 동작"
   },
-  "meaning_sha256": "607658ebba56f860a6a771c1d57a0059662f0978fc76d57e16b2c1958fb55327",
+  "meaning_sha256": "77f9e0204eb33564674ed50fcdf70a0a093e24432fdcf4c6c1e2897b87872d36",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-signup",
@@ -4235,13 +4235,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-signup",
   "title": "회원가입",
   "trace": {
@@ -4351,7 +4351,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -4359,7 +4359,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-signup-brand",
   "kind": "action",
   "locale": "ko",
@@ -4372,13 +4372,13 @@ Figma·웹 범위
       "state-signup",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원가입에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "c2ad3c6e41466411ad7bd5fecaa3f48b10bc83b733e99c43e431485ed33f5622",
+  "meaning_sha256": "db82cf9850250af3ef505aa01a600a6de0e20df47c61cd9e9a62a2ccfc1e1786",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-signup",
@@ -4404,13 +4404,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-signup-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -4520,7 +4520,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -4528,7 +4528,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-signup-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -4541,13 +4541,13 @@ Figma·웹 범위
       "state-signup",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원가입에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "9cce2d09a361560c753e10bd2411755e43a5e4de090d79a9462f00bf196ba58d",
+  "meaning_sha256": "e22a80fdd1785b94194c5ff4db0d4531c4128e7dd3c54048d0a337edbd5fb135",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-signup",
@@ -4573,13 +4573,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-signup-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -4689,7 +4689,7 @@ Figma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응�
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -4697,7 +4697,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그인 조작과 결과",
-  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-signup-nav-login",
   "kind": "action",
   "locale": "ko",
@@ -4710,13 +4710,13 @@ Figma·웹 범위
       "state-signup",
       "state-login"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원가입에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그인 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "89d59b054d0e2fb58fab85aea6b67bcf0904a12c98dd6731a5742a72e7bcaaff",
+  "meaning_sha256": "19be017ea2581eac89cb0718a788a67f8cd7cd00fa3eea9bb2670ef9a3ca079c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-signup",
@@ -4742,13 +4742,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-signup-nav-login",
   "title": "로그인",
   "trace": {
@@ -4858,7 +4858,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -4866,7 +4866,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "회원 가입 조작과 결과",
-  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 회원명·암호 정책을 검증하고 일반 회원만 생성한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 회원명·암호 정책을 검증하고 일반 회원만 생성한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-signup-signup-submit",
   "kind": "action",
   "locale": "ko",
@@ -4879,13 +4879,13 @@ Figma·웹 범위
       "state-signup",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원가입에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "회원 가입 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "f4bfd61a13c59e7b20fb6d4b2254b56e4c427e3de41372f77e6b7bbae4a5c2c4",
+  "meaning_sha256": "ee733d46e4de207a3abd24a825f21c64c7b166242abad1a7e3b1ce004d5c2566",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-signup",
@@ -4911,13 +4911,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-signup-signup-submit",
   "title": "회원 가입",
   "trace": {
@@ -5027,7 +5027,7 @@ Figma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응�
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -5035,7 +5035,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그인 조작과 결과",
-  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원가입에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-signup-registration-signup-a-4-0",
   "kind": "action",
   "locale": "ko",
@@ -5048,13 +5048,13 @@ Figma·웹 범위
       "state-signup",
       "state-login"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원가입에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 login 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그인 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "6bd5c72e0327dc8aaea5e45a36c6c2b35a2f09591210160df0881023a0f3dfd4",
+  "meaning_sha256": "d5b6b7fbf0524433aac68f3dd3daed20d86ed407dd542f6334fd1b786f614e1b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-signup",
@@ -5080,13 +5080,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-signup-registration-signup-a-4-0",
   "title": "로그인",
   "trace": {
@@ -5193,7 +5193,7 @@ Figma·웹 범위
 수업과 잔여석 확인 → 회차 상세. 나의 예약·알림으로 직접 이동할 수 있다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -5201,7 +5201,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "회원 수업 둘러보기 화면의 목적과 동작",
-  "display_text": "목적\n로그인한 회원이 현재 예약 가능한 실제 회차를 비교한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n수업과 잔여석 확인 → 회차 상세. 나의 예약·알림으로 직접 이동할 수 있다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n로그인한 회원이 현재 예약 가능한 실제 회차를 비교한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n수업과 잔여석 확인 → 회차 상세. 나의 예약·알림으로 직접 이동할 수 있다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-memberhome",
   "kind": "screen",
   "locale": "ko",
@@ -5209,11 +5209,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-memberhome-hero-browse",
     "journey": "수업과 잔여석 확인 → 회차 상세. 나의 예약·알림으로 직접 이동할 수 있다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "로그인한 회원이 현재 예약 가능한 실제 회차를 비교한다.",
     "summary": "회원 수업 둘러보기 화면의 목적과 동작"
   },
-  "meaning_sha256": "cb5ca107bf2da609678775a9f48df7422692608c63e023041ddd994cea724640",
+  "meaning_sha256": "8f8fd3678c03e6167b4bef2193215838744f37a8c2720e605d5bd83d083feac5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -5234,13 +5234,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-memberhome",
   "title": "회원 수업 둘러보기",
   "trace": {
@@ -5386,7 +5386,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -5394,7 +5394,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-brand",
   "kind": "action",
   "locale": "ko",
@@ -5406,13 +5406,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "b9b9d20643ed8b25b98489a7df3985ee66e031858c20ae8972352f780d2cfe5a",
+  "meaning_sha256": "8f0bb6da4e5c360e1a80272ef1d4c82da23e9ed007f85d10754a1a6077e68a69",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -5438,13 +5438,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -5590,7 +5590,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -5598,7 +5598,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -5610,13 +5610,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "c9d497c94720ddfd888eabee11b5a7bd820639a577d1c00af08fb6c55bfbe274",
+  "meaning_sha256": "29be982df27c8384566b8beaadc20b1749d6043de4a31d5b66062a248fba6a1f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -5642,13 +5642,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -5794,7 +5794,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -5802,7 +5802,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -5815,13 +5815,13 @@ Figma·웹 범위
       "state-memberhome",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "79dc5297a3afd568966c2d81cf88792c3faa0cf8bbd710fb21d25d08d4696911",
+  "meaning_sha256": "6ebd916523add4e45511106797b90bd53c7d145f6b453b310e56d97b4c9bf2ed",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -5847,13 +5847,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -5999,7 +5999,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -6007,7 +6007,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 12 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -6020,13 +6020,13 @@ Figma·웹 범위
       "state-memberhome",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 12 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "ce446ccca6f95b8549704a1febb45de68001846dff4d80c78df53d1e7cf27f81",
+  "meaning_sha256": "7d7f983d4dd581421568a23ebeb20c3fa4e42924f7e0799a9b2724d67ce4df99",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -6052,13 +6052,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -6204,7 +6204,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -6212,7 +6212,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -6225,13 +6225,13 @@ Figma·웹 범위
       "state-memberhome",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "dc951458e0b8a59e497dc23937af50efd39cb53010718cea87ff6c75cfd43515",
+  "meaning_sha256": "40ba23cc65e1af0f05935e6e6b71800bd33d881c58c889602a6c207a742f8e30",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -6257,13 +6257,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -6409,7 +6409,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -6417,7 +6417,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 보기 ↓ 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 현재 문서의 실제 수업 일정 구역으로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 현재 문서의 실제 수업 일정 구역으로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-hero-browse",
   "kind": "action",
   "locale": "ko",
@@ -6429,13 +6429,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "수업 일정 보기 ↓ 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "f84d397c0cf72d8cdb19e0c83accc7f1a6be0cc3b3ffa066feea9f6ed836eb54",
+  "meaning_sha256": "b53a04b35a07c8b92352044ce8d61e15a2c650b600cc2aca906e6df11c3e8f7a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -6461,13 +6461,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-hero-browse",
   "title": "수업 일정 보기 ↓",
   "trace": {
@@ -6613,7 +6613,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -6621,7 +6621,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-booking-session_list-a-2-1",
   "kind": "action",
   "locale": "ko",
@@ -6633,13 +6633,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "9db3353ef4843ffa0cc68eacbf38c001e9134adc28381d1601357bfcd282be88",
+  "meaning_sha256": "adf14b24fde52008017346be77460b0d648f028124d9d9ad316249ef568f60d9",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -6665,13 +6665,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-booking-session_list-a-2-1",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -6817,7 +6817,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -6825,7 +6825,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-session-1-open",
   "kind": "action",
   "locale": "ko",
@@ -6837,13 +6837,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "76f873b39840a2a395bad4481b71a6af37edda46396c7b7d6f140fd371baaee2",
+  "meaning_sha256": "213ee0cf72840f8cc7b8a4da2c73216ba1fa6a45ab23c0483746829177dd24c8",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -6869,13 +6869,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-session-1-open",
   "title": "일정 확인",
   "trace": {
@@ -7021,7 +7021,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -7029,7 +7029,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "우유 위 작은 그림 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-booking-session_list-a-2-2",
   "kind": "action",
   "locale": "ko",
@@ -7041,13 +7041,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "우유 위 작은 그림 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "7b56eacb35e3a62e88cd7862ba824db244fcb0c06710f9f4c3d04515fea9231c",
+  "meaning_sha256": "12318fd29eef76a73caf2d8ce53114a6ca716dd9360e636c1b94c52ecfbfc91d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -7073,13 +7073,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-booking-session_list-a-2-2",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -7225,7 +7225,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -7233,7 +7233,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-session-2-open",
   "kind": "action",
   "locale": "ko",
@@ -7245,13 +7245,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "b4772734f3ee33165bba279a3ccf4c0cc70ba52db37b20affaaf22fafa2c59f7",
+  "meaning_sha256": "c1684b2726a7b33dbf575688b02e088e8f03dfddeea085e622c192bc4a8a9fd3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -7277,13 +7277,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-session-2-open",
   "title": "일정 확인",
   "trace": {
@@ -7429,7 +7429,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -7437,7 +7437,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-booking-session_list-a-2-3",
   "kind": "action",
   "locale": "ko",
@@ -7449,13 +7449,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "bcf8f2439d515f10eaf28c46189374825d45a015d2abf76e1a6d4294195aa2fb",
+  "meaning_sha256": "1b8caa1c22154ae11eec476c7af420ccd41702bd63be86a028019f2fb08c2aa4",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -7481,13 +7481,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-booking-session_list-a-2-3",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -7633,7 +7633,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -7641,7 +7641,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-session-3-open",
   "kind": "action",
   "locale": "ko",
@@ -7653,13 +7653,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "23613060cca8d8348a9e1d28a1e73e8cddb5d5b809e56a6543e9ada77d8adaae",
+  "meaning_sha256": "9f9dfff144206e83da8ed86c335ae80cdc7e8aef8d159a07e4da533775ffb3d3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -7685,13 +7685,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-session-3-open",
   "title": "일정 확인",
   "trace": {
@@ -7837,7 +7837,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -7845,7 +7845,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "우유 위 작은 그림 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-booking-session_list-a-2-4",
   "kind": "action",
   "locale": "ko",
@@ -7857,13 +7857,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "우유 위 작은 그림 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "e307c848df27bcde903d48263802aa0daa980a4f8a0ea892b34b386c0be389b1",
+  "meaning_sha256": "f0ee2029c7964abf55cf2c84f222c7bf03cfcb7bff8d390b7538ed1114e25593",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -7889,13 +7889,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-booking-session_list-a-2-4",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -8041,7 +8041,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -8049,7 +8049,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-session-4-open",
   "kind": "action",
   "locale": "ko",
@@ -8061,13 +8061,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "9ec08a225a934eef67cecb212515587d0d5794c9c30efc6751b7b98384b8c315",
+  "meaning_sha256": "9a20946d2d9a1e94a09650b86090b18ad227b0fab71709b20cc1fd4323558374",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -8093,13 +8093,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-session-4-open",
   "title": "일정 확인",
   "trace": {
@@ -8245,7 +8245,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -8253,7 +8253,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-booking-session_list-a-2-5",
   "kind": "action",
   "locale": "ko",
@@ -8265,13 +8265,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "af8f89e55a7d74d404ac24e9fc69d0e335b6f2003611ab37e5d8029d03bace15",
+  "meaning_sha256": "36f77dc9da9c4a93dc16852f7dac90e061742d3b5af50aee373f85b5b9af4a13",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -8297,13 +8297,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-booking-session_list-a-2-5",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -8449,7 +8449,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -8457,7 +8457,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-session-5-open",
   "kind": "action",
   "locale": "ko",
@@ -8469,13 +8469,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "32544621817ab6ef098ae39c19a5b9bc245865b0e082a3cb55e2058599899662",
+  "meaning_sha256": "a45ade69e135208b9c02702fc17cf1f34b73f042e5a238409d313d428f4adb5c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -8501,13 +8501,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-session-5-open",
   "title": "일정 확인",
   "trace": {
@@ -8653,7 +8653,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -8661,7 +8661,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "우유 위 작은 그림 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-booking-session_list-a-2-6",
   "kind": "action",
   "locale": "ko",
@@ -8673,13 +8673,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "우유 위 작은 그림 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "95a4571072d8d34d6bae3b87e0056b893729f7b7fc0e2859cf2bce420deb188d",
+  "meaning_sha256": "70a662d73c244df826d99d81b79d069b73ea05c1cb1a8b4badfccb4aa15197b8",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -8705,13 +8705,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-booking-session_list-a-2-6",
   "title": "우유 위 작은 그림",
   "trace": {
@@ -8857,7 +8857,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -8865,7 +8865,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-session-6-open",
   "kind": "action",
   "locale": "ko",
@@ -8877,13 +8877,13 @@ Figma·웹 범위
     "functional_states": [
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "2c593dcda939a8d53a35839e8291faa1cea9e6a2bb3edb264f8c75244d3bdeed",
+  "meaning_sha256": "01d8a09886e8682152c0fd93b263c28958d867291d3564c085a631c77e56a801",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -8909,13 +8909,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-session-6-open",
   "title": "일정 확인",
   "trace": {
@@ -9061,7 +9061,7 @@ Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -9069,7 +9069,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-booking-session_list-a-2-7",
   "kind": "action",
   "locale": "ko",
@@ -9082,13 +9082,13 @@ Figma·웹 범위
       "state-memberhome",
       "state-sessionavailable"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "45464644d00cf91a418a48d497bb0a6bf6d6b82def29ebd96616cbcc71f968a2",
+  "meaning_sha256": "959b67e4fd52317b4fa6a1c5124c90b3ab93d66bce1880ee2f0921dee1bf1026",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -9114,13 +9114,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-booking-session_list-a-2-7",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -9266,7 +9266,7 @@ Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -9274,7 +9274,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 확인 조작과 결과",
-  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회원 수업 둘러보기에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-memberhome-session-10-open",
   "kind": "action",
   "locale": "ko",
@@ -9287,13 +9287,13 @@ Figma·웹 범위
       "state-memberhome",
       "state-sessionavailable"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회원 수업 둘러보기에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "일정 확인 조작과 결과",
     "visual_variant": "Outline-0bbe598bac3f"
   },
-  "meaning_sha256": "ed45e43b87bf4d865a3163f15c8a5535ced8ca85fadd51336c8c1e1b2fd3d873",
+  "meaning_sha256": "71dcfd5a893c9ef9855b55c39e84066a33795d1b847dd1f6c11654b200f5edfe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-memberhome",
@@ -9319,13 +9319,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-memberhome-session-10-open",
   "title": "일정 확인",
   "trace": {
@@ -9468,7 +9468,7 @@ Figma·웹 범위
 회차 정보 → 인원1~8명과 선택적 대기 동의 → 서버 검토. 비활성·지난 회차는 신청할 수 없다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -9476,7 +9476,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업과 신청 인원 화면의 목적과 동작",
-  "display_text": "목적\n실제 수업 시간·공간·정책·잔여석을 확인하고 참가 인원과 대기 동의를 정한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n회차 정보 → 인원1~8명과 선택적 대기 동의 → 서버 검토. 비활성·지난 회차는 신청할 수 없다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n실제 수업 시간·공간·정책·잔여석을 확인하고 참가 인원과 대기 동의를 정한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n회차 정보 → 인원1~8명과 선택적 대기 동의 → 서버 검토. 비활성·지난 회차는 신청할 수 없다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-sessionavailable",
   "kind": "screen",
   "locale": "ko",
@@ -9484,11 +9484,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-sessionavailable-reserve-preview",
     "journey": "회차 정보 → 인원1~8명과 선택적 대기 동의 → 서버 검토. 비활성·지난 회차는 신청할 수 없다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "실제 수업 시간·공간·정책·잔여석을 확인하고 참가 인원과 대기 동의를 정한다.",
     "summary": "수업과 신청 인원 화면의 목적과 동작"
   },
-  "meaning_sha256": "d52a110a386baa2c6cb2b8accaed8ee70c1df8d705f8af1c57e1a219a6d10d8e",
+  "meaning_sha256": "1ca83f9a6eef28e4ad3a15ae29eea4ef13a777714b1181cc420705cf80316e3a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -9509,13 +9509,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-sessionavailable",
   "title": "수업과 신청 인원",
   "trace": {
@@ -9733,7 +9733,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -9741,7 +9741,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-sessionavailable-brand",
   "kind": "action",
   "locale": "ko",
@@ -9754,13 +9754,13 @@ Figma·웹 범위
       "state-sessionavailable",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업과 신청 인원에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "7ed848de76861b460d619a926ca048fac8fbb3d5a77d77a338106bf4abf6bd20",
+  "meaning_sha256": "59173f7212ed33f57d0129922384d5982275850366ce4073b9e9351680cdc716",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -9786,13 +9786,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-sessionavailable-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -10010,7 +10010,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -10018,7 +10018,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-sessionavailable-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -10031,13 +10031,13 @@ Figma·웹 범위
       "state-sessionavailable",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업과 신청 인원에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "3f123ae57573465ed42063c7e9e21844b50d5b640eb9c1c6168f8f4b33e65956",
+  "meaning_sha256": "aeb08bcb14b5110cd88132b18699bebd949afc04b6dd31732b9ecb364e382812",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -10063,13 +10063,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-sessionavailable-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -10287,7 +10287,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -10295,7 +10295,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-sessionavailable-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -10308,13 +10308,13 @@ Figma·웹 범위
       "state-sessionavailable",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업과 신청 인원에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "ffe9720a8b88e6767b870a51442cb794b90fd1f06cdeab2b2f5cfa9989fd1e7a",
+  "meaning_sha256": "ed1e0513d95a468b6e8cea9ecfdc425a384a6b6de139a31da40795429a8cbcd0",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -10340,13 +10340,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-sessionavailable-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -10564,7 +10564,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -10572,7 +10572,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 10 조작과 결과",
-  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-sessionavailable-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -10585,13 +10585,13 @@ Figma·웹 범위
       "state-sessionavailable",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업과 신청 인원에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 10 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "dd37c56fe1dc32fbcf99f43df304a5587a9f9f5cb4436942ce883bd253bd3508",
+  "meaning_sha256": "20524de41b05e839ced151421e5946a385c7b9eed0a88e2776265ee2da90c688",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -10617,13 +10617,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-sessionavailable-nav-notifications",
   "title": "알림 10",
   "trace": {
@@ -10841,7 +10841,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -10849,7 +10849,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-sessionavailable-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -10862,13 +10862,13 @@ Figma·웹 범위
       "state-sessionavailable",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업과 신청 인원에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "3983d749409d733f8698f1f8ae03b0be5f24d9a8d1ed04d6bd8dd563460e99f5",
+  "meaning_sha256": "9c25c48b02ec51c05b08de2ef44c4649bf17c09ffb8fe437eced8ca519f5dd1d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -10894,13 +10894,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-sessionavailable-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -11118,7 +11118,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -11126,7 +11126,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 수업 목록 조작과 결과",
-  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-sessionavailable-detail-back",
   "kind": "action",
   "locale": "ko",
@@ -11139,13 +11139,13 @@ Figma·웹 범위
       "state-sessionavailable",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업과 신청 인원에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 수업 목록 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "3f40bc3d94be11d1f3d3043cf5fb2e6a6091c615ff50aa9cb022cc89da92f8c3",
+  "meaning_sha256": "98865667f0e826a5dd83621ef809e531530494bfa22bfd75a456be81005eea51",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -11171,13 +11171,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-sessionavailable-detail-back",
   "title": "← 수업 목록",
   "trace": {
@@ -11395,7 +11395,7 @@ Figma에서는 review 화면 예시를 표시한다. 실제 결과는 서버 응
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -11403,7 +11403,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 내용 확인 조작과 결과",
-  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 인원·회차 revision·이용 가능 여부를 검증한 검토 응답을 표시한다. 좌석은 아직 확보하지 않는다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 review 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n수업과 신청 인원에서 다음 행동을 선택하는 조작\n\n동작\n웹은 인원·회차 revision·이용 가능 여부를 검증한 검토 응답을 표시한다. 좌석은 아직 확보하지 않는다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 review 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-sessionavailable-reserve-preview",
   "kind": "action",
   "locale": "ko",
@@ -11416,13 +11416,13 @@ Figma·웹 범위
       "state-sessionavailable",
       "state-review"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "수업과 신청 인원에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 review 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "예약 내용 확인 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "e5e18f2b75fc1fcbbae7ef68ea8e237646c758056d68b17cf8bd7e068fdd687f",
+  "meaning_sha256": "013f34c124ee068b0369979e88a35932772187094cfd9285dcc0aff456e6fb4c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-sessionavailable",
@@ -11448,13 +11448,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-sessionavailable-reserve-preview",
   "title": "예약 내용 확인",
   "trace": {
@@ -11669,7 +11669,7 @@ Figma·웹 범위
 회차·인원·총액 확인 → 명시적 최종 신청 또는 다시 선택. 서버가 확정 또는 대기 상태를 결정한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -11677,7 +11677,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "신청 내용 확인 화면의 목적과 동작",
-  "display_text": "목적\n서버가 검증한 인원과 현장 결제 총액을 최종 신청 전에 확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n회차·인원·총액 확인 → 명시적 최종 신청 또는 다시 선택. 서버가 확정 또는 대기 상태를 결정한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n서버가 검증한 인원과 현장 결제 총액을 최종 신청 전에 확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n회차·인원·총액 확인 → 명시적 최종 신청 또는 다시 선택. 서버가 확정 또는 대기 상태를 결정한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-review",
   "kind": "screen",
   "locale": "ko",
@@ -11685,11 +11685,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-review-review-submit",
     "journey": "회차·인원·총액 확인 → 명시적 최종 신청 또는 다시 선택. 서버가 확정 또는 대기 상태를 결정한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "서버가 검증한 인원과 현장 결제 총액을 최종 신청 전에 확인한다.",
     "summary": "신청 내용 확인 화면의 목적과 동작"
   },
-  "meaning_sha256": "ba33b0f2d4e770080403b93ea5dda44925b066ae3f70936c4f685709dd0fb5dc",
+  "meaning_sha256": "97dfdc236a8d74bd3cbc75f8cc84d8839b891cc741d4ea1a3a9be9b5be76eb50",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -11710,13 +11710,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-review",
   "title": "신청 내용 확인",
   "trace": {
@@ -11898,7 +11898,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -11906,7 +11906,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-brand",
   "kind": "action",
   "locale": "ko",
@@ -11919,13 +11919,13 @@ Figma·웹 범위
       "state-review",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "7a2db04005c3d6e3e83f3c5a6e77b9f4cc93cc3156276ab6b72fe7a19c21a0b6",
+  "meaning_sha256": "1198791a52e80fd309cbcfdab2e4491a73a941e66603d3f70e72f81bafde28aa",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -11951,13 +11951,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -12139,7 +12139,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -12147,7 +12147,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -12160,13 +12160,13 @@ Figma·웹 범위
       "state-review",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "27adec8ac1e0dbd6c0d91d973307dfafe1346e3070a336250eaef7b54335aa2e",
+  "meaning_sha256": "9171925f6d7dbd1e95cd3d907be9da1c4c8ffdbea174d84c56cbdaf45bedd5ac",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -12192,13 +12192,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -12380,7 +12380,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -12388,7 +12388,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -12401,13 +12401,13 @@ Figma·웹 범위
       "state-review",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "48e5488bcd884febe9ebc61d5dfb0fecb48b18887d033b4eb6001e1c66a06855",
+  "meaning_sha256": "1c5e04bbaad121ddeb671bc7dd62940e8524f6487b878bb424cca59e95fc9cb5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -12433,13 +12433,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -12621,7 +12621,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -12629,7 +12629,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 10 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -12642,13 +12642,13 @@ Figma·웹 범위
       "state-review",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 10 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "08611791e602da22c351c7b4672baf982a67964954c0d24f9ebb88e6883f03a3",
+  "meaning_sha256": "3d6afe6d9eca1777f462947fdba5e61d8337056682b7eed7724a66d4f5365527",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -12674,13 +12674,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-nav-notifications",
   "title": "알림 10",
   "trace": {
@@ -12862,7 +12862,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -12870,7 +12870,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -12883,13 +12883,13 @@ Figma·웹 범위
       "state-review",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "26f9905862f3a0456b01813691c583662cd5795bbb7c672a532b7da0f41c12f7",
+  "meaning_sha256": "5781320a00de259fbc5a03304212bbc1a657de870a3d5d0c68ba3a46d741838d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -12915,13 +12915,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -13103,7 +13103,7 @@ Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -13111,7 +13111,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 인원 다시 선택 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-booking-reserve_review-a-1-0",
   "kind": "action",
   "locale": "ko",
@@ -13124,13 +13124,13 @@ Figma·웹 범위
       "state-review",
       "state-sessionavailable"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 인원 다시 선택 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "0cf4c5de288deed3d08a2dc14a782b776ae381b689c52a23826f8a7cd8734c1e",
+  "meaning_sha256": "b384d59e6edd114962514cad01865687dc8190e7dc13f06cfd5fb050e9f47973",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -13156,13 +13156,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-booking-reserve_review-a-1-0",
   "title": "← 인원 다시 선택",
   "trace": {
@@ -13344,7 +13344,7 @@ Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -13352,7 +13352,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 신청 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 멱등 키와 회차 조건을 검증하고 한 트랜잭션에서 확정 또는 명시적 동의가 있는 대기 등록을 결정한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 멱등 키와 회차 조건을 검증하고 한 트랜잭션에서 확정 또는 명시적 동의가 있는 대기 등록을 결정한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-review-submit",
   "kind": "action",
   "locale": "ko",
@@ -13365,13 +13365,13 @@ Figma·웹 범위
       "state-review",
       "state-confirmed"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "예약 신청 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "e644cd41ba3c577c9234eca99d2f3ffd75e7aba710a5945fc9b95122586b5588",
+  "meaning_sha256": "eb2a4d6c459e960216f8d787ea683f880befb4cb023f3e7bd412c13339212ecd",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -13397,13 +13397,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-review-submit",
   "title": "예약 신청",
   "trace": {
@@ -13585,7 +13585,7 @@ Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -13593,7 +13593,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "다시 선택 조작과 결과",
-  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 내용 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-review-review-back",
   "kind": "action",
   "locale": "ko",
@@ -13606,13 +13606,13 @@ Figma·웹 범위
       "state-review",
       "state-sessionavailable"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 내용 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 sessionavailable 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "다시 선택 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "78a2cd77e43380f134aae240ca7ff4e58d5b36ac8d4a589b04c0cc853a3fc4d3",
+  "meaning_sha256": "d748542d9331428a8f847d40aba5cc218bcc6bd613aafa53d06645411fcaacea",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-review",
@@ -13638,13 +13638,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-review-review-back",
   "title": "다시 선택",
   "trace": {
@@ -13823,7 +13823,7 @@ Figma·웹 범위
 확정 상세 → 나의 예약, 기한 내 취소 또는 같은 강좌의 다른 회차로 변경.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -13831,7 +13831,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 확정 화면의 목적과 동작",
-  "display_text": "목적\n실제 확정 예약의 일정·인원·예약 당시 금액과 관리 가능 여부를 확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n확정 상세 → 나의 예약, 기한 내 취소 또는 같은 강좌의 다른 회차로 변경.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n실제 확정 예약의 일정·인원·예약 당시 금액과 관리 가능 여부를 확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n확정 상세 → 나의 예약, 기한 내 취소 또는 같은 강좌의 다른 회차로 변경.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-confirmed",
   "kind": "screen",
   "locale": "ko",
@@ -13839,11 +13839,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-confirmed-booking-reschedule",
     "journey": "확정 상세 → 나의 예약, 기한 내 취소 또는 같은 강좌의 다른 회차로 변경.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "실제 확정 예약의 일정·인원·예약 당시 금액과 관리 가능 여부를 확인한다.",
     "summary": "예약 확정 화면의 목적과 동작"
   },
-  "meaning_sha256": "e6f2a0b0a8f86e012a216c43ab1c6da4cb057128811d8f35742e62dcd972c3a9",
+  "meaning_sha256": "50a8e61cccc09baf40b360478878aa0522ed1b5c85064073cc1a3d48c0356df4",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -13864,13 +13864,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-confirmed",
   "title": "예약 확정",
   "trace": {
@@ -14100,7 +14100,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -14108,7 +14108,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-brand",
   "kind": "action",
   "locale": "ko",
@@ -14121,13 +14121,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "f2033a2f499442b90845c27acf6a828e7338bc02839595d1c2083f86a09c4711",
+  "meaning_sha256": "fb9db5cd0f3e07c934155695a7e0424d8b97655d64aefcfd0638f529224049dd",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -14153,13 +14153,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -14389,7 +14389,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -14397,7 +14397,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -14410,13 +14410,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "2b058d1d6cde14c9283bb09c6ff70b7663202a27ad4f13b13d5c7bb023353f78",
+  "meaning_sha256": "30f9fcc9dfc659d43ca033e238623bd27d210c201afd855489cda15b8d1e1f05",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -14442,13 +14442,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -14678,7 +14678,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -14686,7 +14686,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -14699,13 +14699,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "9158cae78fa7e3709b7b9a2f0796dfff542314bbca076ca19339af9d8ffb0fbc",
+  "meaning_sha256": "a51f024adeb7750dccd6963dce7fbba8da3657b4950222fd2eb268b7a0572d02",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -14731,13 +14731,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -14967,7 +14967,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -14975,7 +14975,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 11 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -14988,13 +14988,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 11 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "e9d0ad634cc698793646dc79e92ec8122752d24f4ca25f5944239e6f362c8c38",
+  "meaning_sha256": "0e7cbfa4090704f9cef7c7304bb8d1b0db71a5ab2a249b91cfe0932270f5aac0",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -15020,13 +15020,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-nav-notifications",
   "title": "알림 11",
   "trace": {
@@ -15256,7 +15256,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -15264,7 +15264,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -15277,13 +15277,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "222809ed5b3dd2dbbef2bb55f9a882f225c61c6f23822e1b139f7864ffefd093",
+  "meaning_sha256": "c00616eafec2cbfb98fa5a71e23cb34e8af2eb339a03e265c424f2cb0ac7e3a6",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -15309,13 +15309,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -15545,7 +15545,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -15553,7 +15553,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 나의 예약 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-booking-back",
   "kind": "action",
   "locale": "ko",
@@ -15566,13 +15566,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 나의 예약 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "9c53d1cd654dd581f4bb2b05281bfe462c2210428db048c4dc0658a0a5280841",
+  "meaning_sha256": "54d0d6b8ef514d660bdaa5609244f74f5796365295b0cfb73bc8622071d7892f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -15598,13 +15598,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-booking-back",
   "title": "← 나의 예약",
   "trace": {
@@ -15834,7 +15834,7 @@ Figma에서는 reschedule 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -15842,7 +15842,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 변경 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 reschedule 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 reschedule 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-booking-reschedule",
   "kind": "action",
   "locale": "ko",
@@ -15855,13 +15855,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-reschedule"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 reschedule 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "일정 변경 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "add4331510d70b1043f6874f9141f69125342c0005be6c4d114e0e2e791a6539",
+  "meaning_sha256": "42e38eba7306012f4115ade78d22ec91b79581985d9340a41b2e45b67e6bbdea",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -15887,13 +15887,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-booking-reschedule",
   "title": "일정 변경",
   "trace": {
@@ -16123,7 +16123,7 @@ Figma에서는 cancelconfirm 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -16131,7 +16131,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 취소 조작과 결과",
-  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 cancelconfirm 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약 확정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 cancelconfirm 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-confirmed-booking-cancel",
   "kind": "action",
   "locale": "ko",
@@ -16144,13 +16144,13 @@ Figma·웹 범위
       "state-confirmed",
       "state-cancelconfirm"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약 확정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 cancelconfirm 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "예약 취소 조작과 결과",
     "visual_variant": "Outline-c81b83abe73a"
   },
-  "meaning_sha256": "fd4d874286ea177ea1067ee92df053a45c6268689feadebd5d06217f0f4b1d5a",
+  "meaning_sha256": "7062b5b3540ac500f5b5b4394d18d26a419f8f9b66cdf381713892df51321272",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-confirmed",
@@ -16176,13 +16176,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-confirmed-booking-cancel",
   "title": "예약 취소",
   "trace": {
@@ -16409,7 +16409,7 @@ Figma·웹 범위
 대기 상세 → 알림과 상세 재조회. FIFO 첫 그룹이 들어갈 수 있을 때만 서버가 승급한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -16417,7 +16417,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "대기 등록 화면의 목적과 동작",
-  "display_text": "목적\n좌석 확보와 구분되는 실제 대기 상태를 확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n대기 상세 → 알림과 상세 재조회. FIFO 첫 그룹이 들어갈 수 있을 때만 서버가 승급한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n좌석 확보와 구분되는 실제 대기 상태를 확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n대기 상세 → 알림과 상세 재조회. FIFO 첫 그룹이 들어갈 수 있을 때만 서버가 승급한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-waitlisted",
   "kind": "screen",
   "locale": "ko",
@@ -16425,11 +16425,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-waitlisted-nav-bookings",
     "journey": "대기 상세 → 알림과 상세 재조회. FIFO 첫 그룹이 들어갈 수 있을 때만 서버가 승급한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "좌석 확보와 구분되는 실제 대기 상태를 확인한다.",
     "summary": "대기 등록 화면의 목적과 동작"
   },
-  "meaning_sha256": "ad8015c5e78826b3624071712f0a69d0a2544ff2dbd77f0d9d2b31438c38e365",
+  "meaning_sha256": "0eeabb172126ef36ee649c598c50fbda236a5ab94760749ece254d54ebe75f0f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -16450,13 +16450,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-waitlisted",
   "title": "대기 등록",
   "trace": {
@@ -16650,7 +16650,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -16658,7 +16658,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-brand",
   "kind": "action",
   "locale": "ko",
@@ -16671,13 +16671,13 @@ Figma·웹 범위
       "state-waitlisted",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "4a3fa4b11e95eb4d43377c17b5b90bb00f2b78a3a505eb6326f0ba06b09f73fd",
+  "meaning_sha256": "555573eed0e3630edc8729e1959bdb34dec295403d3efab420a49040c41da9c6",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -16703,13 +16703,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -16903,7 +16903,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -16911,7 +16911,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -16924,13 +16924,13 @@ Figma·웹 범위
       "state-waitlisted",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "6a95b5947a464c50c7e55d147df79df9f9aed18a240247cc21faf73241e04c86",
+  "meaning_sha256": "fec7d76feea676a57876dcfe213fcbca414ae3cc79514a60c7b1b7c7c4886ece",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -16956,13 +16956,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -17156,7 +17156,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -17164,7 +17164,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -17177,13 +17177,13 @@ Figma·웹 범위
       "state-waitlisted",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "650ad83aa602eb157b3d4a85a7f5b990de8e7d3889275b817543cee370fcea28",
+  "meaning_sha256": "4524cab6486885213ca8ff48f78ad188562b559c3abf983c6050c361c69c5c88",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17209,13 +17209,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -17409,7 +17409,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -17417,7 +17417,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 1 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -17430,13 +17430,13 @@ Figma·웹 범위
       "state-waitlisted",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "ace41ce20f2e94964c7cbe3f5948c6e6d06d799898816ed184bb584f8ff42417",
+  "meaning_sha256": "3d88ee777f805373db1a929b674049b0afd2d30d7b9cdd58916227d4256acf47",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17462,13 +17462,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -17662,7 +17662,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -17670,7 +17670,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-nav-staff",
   "kind": "action",
   "locale": "ko",
@@ -17683,13 +17683,13 @@ Figma·웹 범위
       "state-waitlisted",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "265e38ab47e599bcedf917f877f8f3b73dc06756efaed5dc06a95e13e936fd03",
+  "meaning_sha256": "93366762120969d1c91bdabc7809a46fc300a87ca9a8130887d3e14609c83d97",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17715,13 +17715,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-nav-staff",
   "title": "운영",
   "trace": {
@@ -17915,7 +17915,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -17923,7 +17923,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -17936,13 +17936,13 @@ Figma·웹 범위
       "state-waitlisted",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "caf0ca010f6f558cb28cf272bc0371adc48f12bd0e105ba5805bdbb06a6c552f",
+  "meaning_sha256": "3656c296d2275dfc02cd22c04084c6b30213183935db0fb4f540e1decb5f477d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -17968,13 +17968,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -18168,7 +18168,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -18176,7 +18176,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 나의 예약 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-booking-back",
   "kind": "action",
   "locale": "ko",
@@ -18189,13 +18189,13 @@ Figma·웹 범위
       "state-waitlisted",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 나의 예약 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "83d0d70f0159c9d7742e0cc68092310ceaa4e5725b04f2625c5e049ba0b57947",
+  "meaning_sha256": "c51c8ff5aaca8dff14e0f0ca9d986f805378e6b822d768469ed5a6fb2710bc3c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -18221,13 +18221,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-booking-back",
   "title": "← 나의 예약",
   "trace": {
@@ -18421,7 +18421,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -18429,7 +18429,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 변경 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-booking-reschedule",
   "kind": "action",
   "locale": "ko",
@@ -18441,13 +18441,13 @@ Figma·웹 범위
     "functional_states": [
       "state-waitlisted"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 변경 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "6b72344f9bc08ec3481858421278d4aab35fdecd37767ebc275f156dea13d292",
+  "meaning_sha256": "8caa6be27d57ccab580f4a0ad35c4d6ba3e1807c4d38c4ebeb5645b75fede6a2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -18473,13 +18473,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-booking-reschedule",
   "title": "일정 변경",
   "trace": {
@@ -18673,7 +18673,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -18681,7 +18681,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 취소 조작과 결과",
-  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n대기 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-waitlisted-booking-cancel",
   "kind": "action",
   "locale": "ko",
@@ -18693,13 +18693,13 @@ Figma·웹 범위
     "functional_states": [
       "state-waitlisted"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "대기 등록에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 취소 조작과 결과",
     "visual_variant": "Outline-c81b83abe73a"
   },
-  "meaning_sha256": "445d8daa59f499dad08d7bcd95ad6226b519e9a57d842b60902418f20fe25fc5",
+  "meaning_sha256": "9249234a6775340514f01894b4eb45c160eed0fcea0756ece1e86961172eb615",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-waitlisted",
@@ -18725,13 +18725,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-waitlisted-booking-cancel",
   "title": "예약 취소",
   "trace": {
@@ -18922,7 +18922,7 @@ Figma·웹 범위
 자기 예약 목록 → 공개 UUID 상세. 다른 회원의 UUID는404로 보호한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -18930,7 +18930,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 화면의 목적과 동작",
-  "display_text": "목적\n현재 회원이 소유한 예약만 상태와 함께 다시 조회한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n자기 예약 목록 → 공개 UUID 상세. 다른 회원의 UUID는404로 보호한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n현재 회원이 소유한 예약만 상태와 함께 다시 조회한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n자기 예약 목록 → 공개 UUID 상세. 다른 회원의 UUID는404로 보호한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-mybookings",
   "kind": "screen",
   "locale": "ko",
@@ -18938,11 +18938,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
     "journey": "자기 예약 목록 → 공개 UUID 상세. 다른 회원의 UUID는404로 보호한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "현재 회원이 소유한 예약만 상태와 함께 다시 조회한다.",
     "summary": "나의 예약 화면의 목적과 동작"
   },
-  "meaning_sha256": "7810eb65e9764e1aab5eb1e39a32fc24079e87bf1835ab71ec19df9b54cbc07a",
+  "meaning_sha256": "028aad88da55f58a90eea12472b2f6b9e9f5562153edfdc48f4cc46e777377e1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -18963,13 +18963,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-mybookings",
   "title": "나의 예약",
   "trace": {
@@ -19115,7 +19115,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -19123,7 +19123,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-brand",
   "kind": "action",
   "locale": "ko",
@@ -19136,13 +19136,13 @@ Figma·웹 범위
       "state-mybookings",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "b8199e8da05a3b9ffa7754dc40a6af90d4bdcbf2d94fe8ddfa0e51463a4f22e3",
+  "meaning_sha256": "3b6a55e6acf22476730dd7c89c8b777c96969d6ada37742f37e564b72fe4a231",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -19168,13 +19168,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -19320,7 +19320,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -19328,7 +19328,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -19341,13 +19341,13 @@ Figma·웹 범위
       "state-mybookings",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "30d37e14d537f81a80e31f5f6873cb82aa34a38f6da8311b8c5730308426268b",
+  "meaning_sha256": "ef986176eeafa7172bcf3d46caae7575801065858f579963e90606fce1476bef",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -19373,13 +19373,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -19525,7 +19525,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -19533,7 +19533,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -19545,13 +19545,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "f9a098040cfddb9e571d9f4bd913dbc62f1646803c860dd71f7e7ea6d2fd92e5",
+  "meaning_sha256": "5769207a083e3ac03e96dc94335975f8b0d51f1f1f718bc8fb4ae020985c5a0f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -19577,13 +19577,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -19729,7 +19729,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -19737,7 +19737,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 12 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -19750,13 +19750,13 @@ Figma·웹 범위
       "state-mybookings",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 12 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "efe687f40b39341c270e081be38721c7666d400262acd1a49fe8c3947a45437a",
+  "meaning_sha256": "e560463dbe4b4d8ed2996cc5512808a5bf87d45f127eb9e40d86bc718a823262",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -19782,13 +19782,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -19934,7 +19934,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -19942,7 +19942,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -19955,13 +19955,13 @@ Figma·웹 범위
       "state-mybookings",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "2cdb0f0210ed83bfda1fa8312ccc73bf1cbfad2d25c4ecac98f0c902ad493a5a",
+  "meaning_sha256": "2690d3c6ab4db76b51786bd7f053cfeda0876e963bf0a3c7942e32cb5d4032fa",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -19987,13 +19987,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -20139,7 +20139,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -20147,7 +20147,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-bookings-browse",
   "kind": "action",
   "locale": "ko",
@@ -20160,13 +20160,13 @@ Figma·웹 범위
       "state-mybookings",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "491e634c82449eaaa9f9a2f68841325198715c01cb41fce617b4368e199fa7e7",
+  "meaning_sha256": "152a2e1ba6b0b2b80f1a5eb266c24c7b10d74152a5efcd7a141f87c51f6ab160",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -20192,13 +20192,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-bookings-browse",
   "title": "수업 둘러보기",
   "trace": {
@@ -20344,7 +20344,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -20352,7 +20352,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-my_bookings-a-2-1",
   "kind": "action",
   "locale": "ko",
@@ -20364,13 +20364,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "bf73c5f0cc252be2295285924687fba41ac4064b2965c2e77087796c636d5dc9",
+  "meaning_sha256": "b3572a7a4f9c5ca872831c03bf7659bd31407afb1922c4b1d9a316a504e19aab",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -20396,13 +20396,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-my_bookings-a-2-1",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -20548,7 +20548,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -20556,7 +20556,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
   "kind": "action",
   "locale": "ko",
@@ -20568,13 +20568,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "da46b2e8a965bd7f07cd5b23ec917c0941c39fedcd73d2332d201fae4e4a5d7c",
+  "meaning_sha256": "267653b23d2b385cdb9db8f9be3237b79a183434575bf5a9e08dd8e1e29070de",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -20600,13 +20600,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-20a1fb73-757b-464d-b9fb-98057fedf35d-open",
   "title": "예약 상세",
   "trace": {
@@ -20752,7 +20752,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -20760,7 +20760,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-my_bookings-a-2-2",
   "kind": "action",
   "locale": "ko",
@@ -20772,13 +20772,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "0e9205822c7e9bc5d73358973119aa31e17cc93fb48d4d98d7f5adbd069c020a",
+  "meaning_sha256": "89d99163c37c966cee56306ce7a7a1e1bb3e1f273df6df41675498091d09e514",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -20804,13 +20804,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-my_bookings-a-2-2",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -20956,7 +20956,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -20964,7 +20964,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
   "kind": "action",
   "locale": "ko",
@@ -20976,13 +20976,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "965bdfa8d0414905f680a3244cfc67eb8a87f88ca90df88a91c730972fef6d2c",
+  "meaning_sha256": "6978a16e0419ed9365e0055c2a35948666a8145790ecf17c1707a04c3d7ccafe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -21008,13 +21008,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-34f803be-11f4-4cd7-a3f1-37a4ba79aee5-open",
   "title": "예약 상세",
   "trace": {
@@ -21160,7 +21160,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -21168,7 +21168,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-my_bookings-a-2-3",
   "kind": "action",
   "locale": "ko",
@@ -21180,13 +21180,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "ab465c72cf8462502dc455fbe1b2f0fe4fe733b37e7f55ba7cb0d559525b72a7",
+  "meaning_sha256": "e1015fbbe47a8bfd161c29436828e0f97374d384a0968900a9f8cc2ba8fed571",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -21212,13 +21212,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-my_bookings-a-2-3",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -21364,7 +21364,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -21372,7 +21372,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
   "kind": "action",
   "locale": "ko",
@@ -21384,13 +21384,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "4c7c9b364b4a26ad8b865757d425a4ddd2c13df37dee6b56d05a94658ed58873",
+  "meaning_sha256": "eaa749198470ea6f5975c7e46f282fd42e243a3d37714b3f5e62e3bc1e094eff",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -21416,13 +21416,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-0297033d-6bec-43b2-88f4-7a57208fe13f-open",
   "title": "예약 상세",
   "trace": {
@@ -21568,7 +21568,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -21576,7 +21576,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 첫 핸드드립 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-my_bookings-a-2-4",
   "kind": "action",
   "locale": "ko",
@@ -21588,13 +21588,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "나의 첫 핸드드립 조작과 결과",
     "visual_variant": "Text-a51a1c0dd5b2"
   },
-  "meaning_sha256": "941eca74baa6f5c0b5a01476255714bdc5989fd62963f51631c6cf14ae78e5d7",
+  "meaning_sha256": "00d2d9062915aa36dd20f8b0d18384d5d32d14b6c72741920aea789e06376544",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -21620,13 +21620,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-my_bookings-a-2-4",
   "title": "나의 첫 핸드드립",
   "trace": {
@@ -21772,7 +21772,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -21780,7 +21780,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 조작과 결과",
-  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
   "kind": "action",
   "locale": "ko",
@@ -21792,13 +21792,13 @@ Figma·웹 범위
     "functional_states": [
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 예약에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "85cc9c32786084365e4c794cebd6a46b34185e7da36942bc8ffa4534b0b856cd",
+  "meaning_sha256": "61fca246e801b85546949e7955b3c3369d7c93ab12e4d463dc250c832b037955",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-mybookings",
@@ -21824,13 +21824,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-mybookings-booking-e7da31f1-7773-4bb7-90c3-3e088455663a-open",
   "title": "예약 상세",
   "trace": {
@@ -21973,7 +21973,7 @@ Figma·웹 범위
 현재 예약 확인 → 예약 유지 또는 명시적 취소. 취소는 좌석·대기열·감사·알림과 함께 기록한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -21981,7 +21981,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "취소 확인 화면의 목적과 동작",
-  "display_text": "목적\n예약을 되돌릴 수 없는 취소 전에 일정과 정책을 재확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n현재 예약 확인 → 예약 유지 또는 명시적 취소. 취소는 좌석·대기열·감사·알림과 함께 기록한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n예약을 되돌릴 수 없는 취소 전에 일정과 정책을 재확인한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n현재 예약 확인 → 예약 유지 또는 명시적 취소. 취소는 좌석·대기열·감사·알림과 함께 기록한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-cancelconfirm",
   "kind": "screen",
   "locale": "ko",
@@ -21989,11 +21989,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-cancelconfirm-cancel-confirm",
     "journey": "현재 예약 확인 → 예약 유지 또는 명시적 취소. 취소는 좌석·대기열·감사·알림과 함께 기록한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "예약을 되돌릴 수 없는 취소 전에 일정과 정책을 재확인한다.",
     "summary": "취소 확인 화면의 목적과 동작"
   },
-  "meaning_sha256": "f43db24b4c064e438ba2cb868a36af040b36488d3da7be25d3f362ff514c98d7",
+  "meaning_sha256": "897b1796a6a20b3547c03fae62f4c4d3dae14b4faa27694b56e4d438950e8f32",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22014,13 +22014,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-cancelconfirm",
   "title": "취소 확인",
   "trace": {
@@ -22178,7 +22178,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -22186,7 +22186,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-brand",
   "kind": "action",
   "locale": "ko",
@@ -22199,13 +22199,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "99d7805aa8726f9c0538bbd43e77974613684e22c85910ad3d13d18b1cd19b0e",
+  "meaning_sha256": "b534b7e404b50f82ba7be45d8d44379d29eacf68ee713b3abdc2d326e1be3a31",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22231,13 +22231,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -22395,7 +22395,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -22403,7 +22403,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -22416,13 +22416,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "9dc7378baf8b5043f639dcfd41db96f3ea2bc3a9d37185d0254c4c49d85d609c",
+  "meaning_sha256": "a689acbdb663341d602507d2cdc66bf6aaa6a7e4902ffca942c6dc4966c6b07d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22448,13 +22448,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -22612,7 +22612,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -22620,7 +22620,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -22633,13 +22633,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "552a443347c6ce4395521bcd51cf670058d8b4e80d8978e6352560978803c4e0",
+  "meaning_sha256": "07e7018096477ca36ca1eff0fbeb04b2920f02cba550038e41af0c4efd6a1b5b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22665,13 +22665,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -22829,7 +22829,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -22837,7 +22837,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 11 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -22850,13 +22850,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 11 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "6f3406c61cd7cb0d8b2c4e012aaeeda323ae799b5a47f4dfa0ae3749e3011045",
+  "meaning_sha256": "713e34c1f37897927de2dc00ed5a4e1729bac123f07efc4cd556940fd381ecd1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -22882,13 +22882,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-nav-notifications",
   "title": "알림 11",
   "trace": {
@@ -23046,7 +23046,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -23054,7 +23054,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -23067,13 +23067,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "b3674ca9a9d7a83898e825b9feb249b0654b2d9e127905c564bea38c7483810d",
+  "meaning_sha256": "30cf65f7edffb0ef6eccac177bcf4a7a7c148b6ef100658f367a0f9868addaab",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -23099,13 +23099,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -23263,7 +23263,7 @@ Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -23271,7 +23271,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 예약 상세 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-booking-cancel-a-1-0",
   "kind": "action",
   "locale": "ko",
@@ -23284,13 +23284,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-confirmed"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 예약 상세 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "d74f0c3e1da405241d26242bfc7154c6c7fdd232086f7e21cda205e1044b2833",
+  "meaning_sha256": "52b1255f92f6cc4c514b1a932256310a707888b45a3d766ee6613a0e93bc54e4",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -23316,13 +23316,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-booking-cancel-a-1-0",
   "title": "← 예약 상세",
   "trace": {
@@ -23480,7 +23480,7 @@ Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -23488,7 +23488,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 유지 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-cancel-keep",
   "kind": "action",
   "locale": "ko",
@@ -23501,13 +23501,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-confirmed"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "예약 유지 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "0c7ccc66665b91d710b7650463498237dfade4dc178b9a408ffa1a96ced84576",
+  "meaning_sha256": "22227e29200aad6d00e21dfe457955809166affb1ff8e2a91417fbc2a9ec813b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -23533,13 +23533,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-cancel-keep",
   "title": "예약 유지",
   "trace": {
@@ -23697,7 +23697,7 @@ Figma에서는 cancelled 화면 예시를 표시한다. 실제 결과는 서버 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -23705,7 +23705,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 취소 확정 조작과 결과",
-  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 소유자·정책 기한·예약 revision을 검증하고 취소·FIFO 승급·감사·알림을 같은 트랜잭션으로 기록한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 cancelled 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소 확인에서 다음 행동을 선택하는 조작\n\n동작\n웹은 소유자·정책 기한·예약 revision을 검증하고 취소·FIFO 승급·감사·알림을 같은 트랜잭션으로 기록한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 cancelled 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelconfirm-cancel-confirm",
   "kind": "action",
   "locale": "ko",
@@ -23718,13 +23718,13 @@ Figma·웹 범위
       "state-cancelconfirm",
       "state-cancelled"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소 확인에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 cancelled 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "예약 취소 확정 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "1ec7d27327179ecc4866dc55f5d2aae49442a07d27866a81bbd01085d3342a96",
+  "meaning_sha256": "0ba2383f5c9267131e75aa84e886d8aeeedeb30882bffc349f65c1e1a854b4ed",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelconfirm",
@@ -23750,13 +23750,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelconfirm-cancel-confirm",
   "title": "예약 취소 확정",
   "trace": {
@@ -23911,7 +23911,7 @@ Figma·웹 범위
 취소 상태 확인 → 자기 예약 또는 새 수업. 취소된 예약을 다시 활성화하지 않는다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -23919,7 +23919,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "취소된 예약 화면의 목적과 동작",
-  "display_text": "목적\n취소된 실제 예약의 상태와 과거 금액을 다시 읽는다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n취소 상태 확인 → 자기 예약 또는 새 수업. 취소된 예약을 다시 활성화하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소된 실제 예약의 상태와 과거 금액을 다시 읽는다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n취소 상태 확인 → 자기 예약 또는 새 수업. 취소된 예약을 다시 활성화하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-cancelled",
   "kind": "screen",
   "locale": "ko",
@@ -23927,11 +23927,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-cancelled-nav-sessions",
     "journey": "취소 상태 확인 → 자기 예약 또는 새 수업. 취소된 예약을 다시 활성화하지 않는다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소된 실제 예약의 상태와 과거 금액을 다시 읽는다.",
     "summary": "취소된 예약 화면의 목적과 동작"
   },
-  "meaning_sha256": "b0e7e93cfe663b6134e92984645c000717857b0226e4b22dde3617e971541388",
+  "meaning_sha256": "396678c50b14ac05458818354e0ac7184b30a38cd23bfe05135eba0638814026",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -23952,13 +23952,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-cancelled",
   "title": "취소된 예약",
   "trace": {
@@ -24116,7 +24116,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -24124,7 +24124,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelled-brand",
   "kind": "action",
   "locale": "ko",
@@ -24137,13 +24137,13 @@ Figma·웹 범위
       "state-cancelled",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소된 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "224e7f43854ed9aae72b4a2375b1e72e95426f1257b1686cd2c5158a56ba4034",
+  "meaning_sha256": "7226cc805a2edd43584de8fb1aa285fd757fdd0e8a2cf1d963af8c40d4f84192",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24169,13 +24169,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelled-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -24333,7 +24333,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -24341,7 +24341,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelled-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -24354,13 +24354,13 @@ Figma·웹 범위
       "state-cancelled",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소된 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "a5efc1cd1c19f3481015d4fc2e749d0b16cd196eb5abdd67ae9cf6f707ba87ac",
+  "meaning_sha256": "8761362bd42610ee2b1a07a8d8155765e0b596c8eb6ddd3a24578679705cdc76",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24386,13 +24386,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelled-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -24550,7 +24550,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -24558,7 +24558,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelled-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -24571,13 +24571,13 @@ Figma·웹 범위
       "state-cancelled",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소된 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "dde8360af5a4589c03bf43776fc005c5c606a14281a6f1a646414ecdfc1cb985",
+  "meaning_sha256": "6b8b4ac983eed8f38f35ccc961abe8b3bddd25fdb13ee02f9add1faa7e1d589b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24603,13 +24603,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelled-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -24767,7 +24767,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -24775,7 +24775,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 12 조작과 결과",
-  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelled-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -24788,13 +24788,13 @@ Figma·웹 범위
       "state-cancelled",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소된 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 12 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "c3d6a33f8c4688981086c17eeefd7a7c670dcf6f0a827beb69d6e32378b1f034",
+  "meaning_sha256": "298f35842321ce2af0bbdd526435a3787989044b6b6b9ef08a94426c319351d0",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -24820,13 +24820,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelled-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -24984,7 +24984,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -24992,7 +24992,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelled-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -25005,13 +25005,13 @@ Figma·웹 범위
       "state-cancelled",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소된 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "31150c6dc382c5a2f382d8e233a6dd675ba04e200ddff640e58b567eea0f4a6b",
+  "meaning_sha256": "81c654f480364ee58546e7d1298335e10e43a93a639dfc90977fbca0a7d4177f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -25037,13 +25037,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelled-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -25201,7 +25201,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -25209,7 +25209,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 나의 예약 조작과 결과",
-  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n취소된 예약에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-cancelled-booking-back",
   "kind": "action",
   "locale": "ko",
@@ -25222,13 +25222,13 @@ Figma·웹 범위
       "state-cancelled",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "취소된 예약에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 나의 예약 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "1f63ba82820933c5cd6b67b4de9854695cfa57dd2647dcda5fd23ddc151a50dd",
+  "meaning_sha256": "e52b740be429f2901dd2f7fe10a27ed46cf3a4e8830f8187ac49d28887c30e8e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-cancelled",
@@ -25254,13 +25254,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-cancelled-booking-back",
   "title": "← 나의 예약",
   "trace": {
@@ -25415,7 +25415,7 @@ Figma·웹 범위
 현재 예약 → 대상 회차 선택 → 변경. 목적지 확보 실패 시 기존 예약·대기열·감사를 보존한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -25423,7 +25423,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "회차 변경 화면의 목적과 동작",
-  "display_text": "목적\n같은 강좌의 다른 회차와 대상 정책을 비교해 예약을 원자적으로 이동한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n현재 예약 → 대상 회차 선택 → 변경. 목적지 확보 실패 시 기존 예약·대기열·감사를 보존한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n같은 강좌의 다른 회차와 대상 정책을 비교해 예약을 원자적으로 이동한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n현재 예약 → 대상 회차 선택 → 변경. 목적지 확보 실패 시 기존 예약·대기열·감사를 보존한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-reschedule",
   "kind": "screen",
   "locale": "ko",
@@ -25431,11 +25431,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-reschedule-reschedule-confirm",
     "journey": "현재 예약 → 대상 회차 선택 → 변경. 목적지 확보 실패 시 기존 예약·대기열·감사를 보존한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "같은 강좌의 다른 회차와 대상 정책을 비교해 예약을 원자적으로 이동한다.",
     "summary": "회차 변경 화면의 목적과 동작"
   },
-  "meaning_sha256": "dcd271a55afad9ddb661ad26e98005cd0e4829d125d8966532a150beaebbd4e4",
+  "meaning_sha256": "ff8e7ac3df51fb1da748f7cc89f8d17d291e2ea5cd6b6ae4e2985c6203612361",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -25456,13 +25456,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-reschedule",
   "title": "회차 변경",
   "trace": {
@@ -25608,7 +25608,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -25616,7 +25616,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-brand",
   "kind": "action",
   "locale": "ko",
@@ -25629,13 +25629,13 @@ Figma·웹 범위
       "state-reschedule",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "17b5f7a4afc409b8fe91153d83d20d2bc89c261eb55e10b52bbbe29b3a6185bd",
+  "meaning_sha256": "1923f8e8707727e767920f4ccd491eb6db003aa9179d68e380869262c5b1456f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -25661,13 +25661,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -25813,7 +25813,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -25821,7 +25821,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -25834,13 +25834,13 @@ Figma·웹 범위
       "state-reschedule",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "3272ba6b3613036207a5883671369cc8c1886eeff9069e254835198bc33a5d3b",
+  "meaning_sha256": "5c785a525caa23a184441f5111c134a6c27c096cc03c710a03d3ece762ba38aa",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -25866,13 +25866,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -26018,7 +26018,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -26026,7 +26026,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -26039,13 +26039,13 @@ Figma·웹 범위
       "state-reschedule",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "a136bae7ed34f08a8747a29c3c0a00b8b5eaaee7522695116772fb1fbc2a01be",
+  "meaning_sha256": "0c1e54498d3e19e756b8f43356814271856ca913a2cc320a90e4a00754729ebe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -26071,13 +26071,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -26223,7 +26223,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -26231,7 +26231,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 11 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -26244,13 +26244,13 @@ Figma·웹 범위
       "state-reschedule",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 11 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "90de8b8981d597913ac1265fc1dbe85878824ca2d0f7b9f2401774ad6580a0d0",
+  "meaning_sha256": "058e1e7887fe3798f0bb6f830231e3935585f5d9d143c27dc06e706bcd59e82e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -26276,13 +26276,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-nav-notifications",
   "title": "알림 11",
   "trace": {
@@ -26428,7 +26428,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -26436,7 +26436,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -26449,13 +26449,13 @@ Figma·웹 범위
       "state-reschedule",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "ae091a93714da65c99a7746365c8339e52491cd35c20ae63b4d2597ae868f0a5",
+  "meaning_sha256": "a6ceb2155a67138993e5ef9e3c07904201edb947fcf93c9d7d397fc85d9b782a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -26481,13 +26481,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -26633,7 +26633,7 @@ Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -26641,7 +26641,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 예약 상세 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-booking-reschedule-a-1-0",
   "kind": "action",
   "locale": "ko",
@@ -26654,13 +26654,13 @@ Figma·웹 범위
       "state-reschedule",
       "state-confirmed"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 예약 상세 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "b905843c43dcb28c11147b96e4de385d22807466f06fbefb8b0049edfd1d7033",
+  "meaning_sha256": "1ab8e46b2354030448dbbd7dc04e719b40fe2e975d351793905d28a6cec07aba",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -26686,13 +26686,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-booking-reschedule-a-1-0",
   "title": "← 예약 상세",
   "trace": {
@@ -26838,7 +26838,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -26846,7 +26846,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "선택한 일정으로 변경 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 같은 강좌의 대상 revision과 좌석을 검증하고 목적지를 확보한 뒤 원래 좌석을 해제한다. 실패 시 원래 예약을 보존한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 같은 강좌의 대상 revision과 좌석을 검증하고 목적지를 확보한 뒤 원래 좌석을 해제한다. 실패 시 원래 예약을 보존한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-reschedule-confirm",
   "kind": "action",
   "locale": "ko",
@@ -26858,13 +26858,13 @@ Figma·웹 범위
     "functional_states": [
       "state-reschedule"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "선택한 일정으로 변경 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "fe021a40dcbe6a39c037edcea22f53efa0126157acd52d542759c76b7762dc08",
+  "meaning_sha256": "7f67d148cc90a11b9f433c31a76b9e5af645005a01a6a555946758d0128add1c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -26890,13 +26890,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-reschedule-confirm",
   "title": "선택한 일정으로 변경",
   "trace": {
@@ -27042,7 +27042,7 @@ Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -27050,7 +27050,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "현재 예약 유지 조작과 결과",
-  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 변경에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-reschedule-booking-reschedule-a-6-0",
   "kind": "action",
   "locale": "ko",
@@ -27063,13 +27063,13 @@ Figma·웹 범위
       "state-reschedule",
       "state-confirmed"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 변경에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 confirmed 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "현재 예약 유지 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "837a2b3f9254033ceae51ced4ce54102506459502375e9329ef95956f2a7d15f",
+  "meaning_sha256": "50c535c492acb86fd06a00423d7a816090cc0d8907dbd43a9fd62739db4ffbfe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-reschedule",
@@ -27095,13 +27095,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-reschedule-booking-reschedule-a-6-0",
   "title": "현재 예약 유지",
   "trace": {
@@ -27244,7 +27244,7 @@ Figma·웹 범위
 실제 오류 메시지 확인 → 서버가 생성한 recovery_url로 GET 이동. 같은 POST를 다시 보내는 버튼은 없다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -27252,7 +27252,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 충돌과 복구 화면의 목적과 동작",
-  "display_text": "목적\n서버가 거절한 중복 내용·정원·revision 충돌을 이해하고 최신 상태로 복구한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n실제 오류 메시지 확인 → 서버가 생성한 recovery_url로 GET 이동. 같은 POST를 다시 보내는 버튼은 없다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n서버가 거절한 중복 내용·정원·revision 충돌을 이해하고 최신 상태로 복구한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n실제 오류 메시지 확인 → 서버가 생성한 recovery_url로 GET 이동. 같은 POST를 다시 보내는 버튼은 없다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-conflict",
   "kind": "screen",
   "locale": "ko",
@@ -27260,11 +27260,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-conflict-conflict-recover",
     "journey": "실제 오류 메시지 확인 → 서버가 생성한 recovery_url로 GET 이동. 같은 POST를 다시 보내는 버튼은 없다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "서버가 거절한 중복 내용·정원·revision 충돌을 이해하고 최신 상태로 복구한다.",
     "summary": "변경 충돌과 복구 화면의 목적과 동작"
   },
-  "meaning_sha256": "c325793f86bb40b40829989a2cbb1a05a6f5831f1d2006dc44b94bfa0e428e2a",
+  "meaning_sha256": "495e911a77ff27ecd401062018c77c9a87eef197b89d40547f7b1527120f253f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -27285,13 +27285,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-conflict",
   "title": "변경 충돌과 복구",
   "trace": {
@@ -27437,7 +27437,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -27445,7 +27445,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-conflict-brand",
   "kind": "action",
   "locale": "ko",
@@ -27458,13 +27458,13 @@ Figma·웹 범위
       "state-conflict",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 충돌과 복구에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "53a2fdbd22cc7d5fab9e94b74c090a5b324e8e098185682786596f570c9a04ec",
+  "meaning_sha256": "54d532c5e08c73a997feed5a627adb5064d90b7e33606f2f2cf7326438c0c0a8",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -27490,13 +27490,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-conflict-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -27642,7 +27642,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -27650,7 +27650,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-conflict-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -27663,13 +27663,13 @@ Figma·웹 범위
       "state-conflict",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 충돌과 복구에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "36600746f3ef9580cbe8541b3afde9be4298e5797d16ffdb4859cf9f172a4499",
+  "meaning_sha256": "b55d3f76c01b94554e28723177f27884fe55868610aadb01faddc71fd7b0bb01",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -27695,13 +27695,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-conflict-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -27847,7 +27847,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -27855,7 +27855,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-conflict-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -27868,13 +27868,13 @@ Figma·웹 범위
       "state-conflict",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 충돌과 복구에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "07aaa24a1141ade506a71807e9888142636ac831892dcfcdacfc959dcabeec6b",
+  "meaning_sha256": "ba98d22ca32b6c1626c097c6bd9511f8f348e36acb78e0d64d0b1500fb4c56c7",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -27900,13 +27900,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-conflict-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -28052,7 +28052,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -28060,7 +28060,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 12 조작과 결과",
-  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-conflict-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -28073,13 +28073,13 @@ Figma·웹 범위
       "state-conflict",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 충돌과 복구에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 12 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "32ad79b46a02b45b61ec133b74d6c10e1b138de2da22a6f484c67f05a4fdca65",
+  "meaning_sha256": "5bb9a7bfa8d1f6285e65aef4054ab86922e56fbfc8a3596e5f866a6e8ed08f7b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -28105,13 +28105,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-conflict-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -28257,7 +28257,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -28265,7 +28265,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-conflict-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -28278,13 +28278,13 @@ Figma·웹 범위
       "state-conflict",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 충돌과 복구에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "1cc318f9cfad1422627bd0db487fb899bc3013c1bbb4fa7263a96f8d69efd2d4",
+  "meaning_sha256": "ef7581d5c95ee8749c596e74682f35cdb971a798e5bab4caecb49002bc86b8ec",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -28310,13 +28310,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-conflict-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -28462,7 +28462,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -28470,7 +28470,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "최신 내용 확인 조작과 결과",
-  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-conflict-conflict-recover",
   "kind": "action",
   "locale": "ko",
@@ -28482,13 +28482,13 @@ Figma·웹 범위
     "functional_states": [
       "state-conflict"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 충돌과 복구에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "최신 내용 확인 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "d9519abaf98990ebbba0b296c5964cea356af28060b1a87a3ef6d1b928ef5b12",
+  "meaning_sha256": "74d8271e58902b173f475db73486854237063b434e6caf87febe5d26a345d773",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -28514,13 +28514,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-conflict-conflict-recover",
   "title": "최신 내용 확인",
   "trace": {
@@ -28666,7 +28666,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -28674,7 +28674,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 목록 조작과 결과",
-  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 충돌과 복구에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-conflict-booking-conflict-a-8-0",
   "kind": "action",
   "locale": "ko",
@@ -28687,13 +28687,13 @@ Figma·웹 범위
       "state-conflict",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 충돌과 복구에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 목록 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "98da9b8779d67bb81b36fafbc44606f596df52f61e905bd1db1a70c00378618f",
+  "meaning_sha256": "60ab032c8f777ce5de73c9578ed8696f5296592bf49c320c76287e1ff2c6864f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-conflict",
@@ -28719,13 +28719,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-conflict-booking-conflict-a-8-0",
   "title": "수업 목록",
   "trace": {
@@ -28868,7 +28868,7 @@ Figma·웹 범위
 자기 알림 목록 → 관련 예약 또는 개별 읽음 POST. 외부 메일 발송 기능으로 표시하지 않는다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -28876,7 +28876,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 알림 화면의 목적과 동작",
-  "display_text": "목적\n현재 회원의 실제 예약 알림만 읽고 개별 알림을 읽음 처리한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n자기 알림 목록 → 관련 예약 또는 개별 읽음 POST. 외부 메일 발송 기능으로 표시하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n현재 회원의 실제 예약 알림만 읽고 개별 알림을 읽음 처리한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n자기 알림 목록 → 관련 예약 또는 개별 읽음 POST. 외부 메일 발송 기능으로 표시하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-notifications",
   "kind": "screen",
   "locale": "ko",
@@ -28884,11 +28884,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-notifications-notification-22-read",
     "journey": "자기 알림 목록 → 관련 예약 또는 개별 읽음 POST. 외부 메일 발송 기능으로 표시하지 않는다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "현재 회원의 실제 예약 알림만 읽고 개별 알림을 읽음 처리한다.",
     "summary": "나의 알림 화면의 목적과 동작"
   },
-  "meaning_sha256": "e609f725644a89e28f5675653c513aaa8f313c8b3326edd3ca114d0da0918c9b",
+  "meaning_sha256": "f67ef50d9507d802bb38bec809cfadd4a1e84ef5a30c3126b10808b4cbd2043b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -28909,13 +28909,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-notifications",
   "title": "나의 알림",
   "trace": {
@@ -29061,7 +29061,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -29069,7 +29069,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-brand",
   "kind": "action",
   "locale": "ko",
@@ -29082,13 +29082,13 @@ Figma·웹 범위
       "state-notifications",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "2b7c6b2c26b26783db4dcab3baeee2f1b7efa16348da243ee1374e74e13d57e7",
+  "meaning_sha256": "d1bc0f580e87cf83088129546b4a05c7b926fd05e8b6b4dafb6b5ad0745c3712",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -29114,13 +29114,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -29266,7 +29266,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -29274,7 +29274,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -29287,13 +29287,13 @@ Figma·웹 범위
       "state-notifications",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "596e6292302b80b1485f5b17fdde033894f2173f99f0539e898f46339e50b7a1",
+  "meaning_sha256": "77db5c4c16fea22af422a5f5f7f09f1df65d8777baa3e75e71d5ef8aaa21dc88",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -29319,13 +29319,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -29471,7 +29471,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -29479,7 +29479,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -29492,13 +29492,13 @@ Figma·웹 범위
       "state-notifications",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "b8c51e30b312b5f139e7a4b1ee0641efb875bdb81f0a3d6fc78c48ac262e32d0",
+  "meaning_sha256": "fd36ca10723532dbca31f04e0cde0307d4ce82eeafe49b4ba3ec0e1a5ac00008",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -29524,13 +29524,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -29676,7 +29676,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -29684,7 +29684,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 12 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -29696,13 +29696,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "알림 12 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "0f0110ba8173ca46774e1f1c9b0490b65335a85b1075bcbb89f1633417424926",
+  "meaning_sha256": "1e3f61f926f2ad8711f12398818976e67ea780d56fe807d65aa540cb2fb6a7bb",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -29728,13 +29728,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-nav-notifications",
   "title": "알림 12",
   "trace": {
@@ -29880,7 +29880,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -29888,7 +29888,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -29901,13 +29901,13 @@ Figma·웹 범위
       "state-notifications",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "61757ec9f3081b0ef538e4949de678fe6146f04395ceae3cffb9377871617f3c",
+  "meaning_sha256": "f1bf30a72c29172f0e62345fd9134a09fbe06a11071f0fc7854895cb5f02683f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -29933,13 +29933,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -30085,7 +30085,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -30093,7 +30093,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-1",
   "kind": "action",
   "locale": "ko",
@@ -30105,13 +30105,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "6505e8ee483ac25833ff559dc12617d0120ad849c9a66feaea2dfb839646f812",
+  "meaning_sha256": "356982e7210c88739bfab055f2fe85a4dd4b4af4c6d2362de38535adb80d9022",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -30137,13 +30137,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-1",
   "title": "예약 상세 보기",
   "trace": {
@@ -30289,7 +30289,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -30297,7 +30297,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-22-read",
   "kind": "action",
   "locale": "ko",
@@ -30309,13 +30309,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "f6cf427048b0d2a081039e30363063fca32a5d110f10cad910c2dd5622beadc9",
+  "meaning_sha256": "ba13ef3c9f12255ab9925f8fa532a93016a57363a37945233134774c7e8fc5b5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -30341,13 +30341,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-22-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -30493,7 +30493,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -30501,7 +30501,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-2",
   "kind": "action",
   "locale": "ko",
@@ -30513,13 +30513,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "12e8b4cc7e5a6d74ab9536dfe3fb2a6b0b56b8f9d191ea4899e5d9db9dde7817",
+  "meaning_sha256": "970dc8f4b6d7e17ea7c69c62b0677046b1ec302ad18473248e2cbe96ab1104b5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -30545,13 +30545,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-2",
   "title": "예약 상세 보기",
   "trace": {
@@ -30697,7 +30697,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -30705,7 +30705,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-21-read",
   "kind": "action",
   "locale": "ko",
@@ -30717,13 +30717,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "c57c999bb71484e8afc6c75ea7a007f06abe0a2b16ab7d6a5a9c01a79c6cae7b",
+  "meaning_sha256": "468e81c93335e8f7968567c40eb5e90b34796917f8186134ddd0fe16d69998c5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -30749,13 +30749,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-21-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -30901,7 +30901,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -30909,7 +30909,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-3",
   "kind": "action",
   "locale": "ko",
@@ -30921,13 +30921,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "f07747db87ec322cf36fd896d30886358879807c4eb834522c5cdd8cf6ad612d",
+  "meaning_sha256": "b6b2752656b8718829229a76831ab596b32b99df81e6c36d742c410b56f1da0f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -30953,13 +30953,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-3",
   "title": "예약 상세 보기",
   "trace": {
@@ -31105,7 +31105,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -31113,7 +31113,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-20-read",
   "kind": "action",
   "locale": "ko",
@@ -31125,13 +31125,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "04692920b7e93110b72ed5b6707be25040dedfb74084bfde60d92f00de36fbc3",
+  "meaning_sha256": "777a8164f2c67ec7e761fafb9611fff6ebeae74a35a0dd0aad5841151f980619",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -31157,13 +31157,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-20-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -31309,7 +31309,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -31317,7 +31317,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-4",
   "kind": "action",
   "locale": "ko",
@@ -31329,13 +31329,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "ba47ae6ba6ea7d3f95fdace6956a020ccc17496d520e5799125b6364ec014fb0",
+  "meaning_sha256": "682fdf90e2b846974a14120d23f52c30c1e908fc58d7e55086e4e4b92e3bf1de",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -31361,13 +31361,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-4",
   "title": "예약 상세 보기",
   "trace": {
@@ -31513,7 +31513,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -31521,7 +31521,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-19-read",
   "kind": "action",
   "locale": "ko",
@@ -31533,13 +31533,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "4d901956fc2812547e972c7c270eb20038404c682c89ad6a8f3b236a3114674e",
+  "meaning_sha256": "e2e9f92855c042a11d0f1dc29690f702678494326b1abf493363787a52a59d0d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -31565,13 +31565,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-19-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -31717,7 +31717,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -31725,7 +31725,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-5",
   "kind": "action",
   "locale": "ko",
@@ -31737,13 +31737,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "385564a1cd092b49069b05afa28f28c7ab6b0362e50c2ea8ec2ae74d94163e92",
+  "meaning_sha256": "f001c47b142e5a3bb3ce4115bd55a52e6d9503bd3445d6db1a3ef952f67a3499",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -31769,13 +31769,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-5",
   "title": "예약 상세 보기",
   "trace": {
@@ -31921,7 +31921,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -31929,7 +31929,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-18-read",
   "kind": "action",
   "locale": "ko",
@@ -31941,13 +31941,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "b7c510306edc3211b490f8c70b70ee35c58c6221d64800336e4ffe1a03fda6d3",
+  "meaning_sha256": "87bc147c6663c838057a03f5359033cc2e65296095687800bb49ddb179e6c73f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -31973,13 +31973,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-18-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -32125,7 +32125,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -32133,7 +32133,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-6",
   "kind": "action",
   "locale": "ko",
@@ -32145,13 +32145,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "9c5fdf2ffdfbef3f25202840ef31f1a5e6c6239cb2dbf54dbaa96f9a9c8ea14a",
+  "meaning_sha256": "1b9acfa165fbd3c1522608385ced072f7ffb2ca7265039c3915a318df00c6a3b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -32177,13 +32177,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-6",
   "title": "예약 상세 보기",
   "trace": {
@@ -32329,7 +32329,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -32337,7 +32337,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-17-read",
   "kind": "action",
   "locale": "ko",
@@ -32349,13 +32349,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "ead3392ccd5c8cabd2bd270d161ebac30bac7f2ef8f0d6cd060c0fb66201080b",
+  "meaning_sha256": "181e83115dc3df5c3bfe837fc24592aa9048c68c6ebe43df7e22fb3830025dd5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -32381,13 +32381,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-17-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -32533,7 +32533,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -32541,7 +32541,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-7",
   "kind": "action",
   "locale": "ko",
@@ -32553,13 +32553,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "e9f06c1b71bd47e56043ea010b31d586d05d3627446aedd54559137cec67cc71",
+  "meaning_sha256": "4ca968617244adcca6a44dbbddcbb2c31d06334236311a23f5bed48861b26aa8",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -32585,13 +32585,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-7",
   "title": "예약 상세 보기",
   "trace": {
@@ -32737,7 +32737,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -32745,7 +32745,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-12-read",
   "kind": "action",
   "locale": "ko",
@@ -32757,13 +32757,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "b47c53b55654ab83255f6ccfe03a32a249e7bba9bac1924e71ad94ae92f636a1",
+  "meaning_sha256": "c6aeb20df6d88232dbafdb39ba0513e301573823de578e6e31b0ff06bd015c58",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -32789,13 +32789,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-12-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -32941,7 +32941,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -32949,7 +32949,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-8",
   "kind": "action",
   "locale": "ko",
@@ -32961,13 +32961,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "0222acd52572d16513a9caf761b1425403c9985919e824b058f867a3f5c1d615",
+  "meaning_sha256": "ee609ad6638497c28b5bdcbd05248504a4a5f0ad3ccf4cce347e86ec1c75a373",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -32993,13 +32993,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-8",
   "title": "예약 상세 보기",
   "trace": {
@@ -33145,7 +33145,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -33153,7 +33153,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-9",
   "kind": "action",
   "locale": "ko",
@@ -33165,13 +33165,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "e38e1422b73643373902651cdc07a63f2319f6ea55055715e02dc8c90dbc660f",
+  "meaning_sha256": "eab6821a914022f0b4ab3ea811a8738feaa2b09bd81071f528f5d8afc1fb72ae",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -33197,13 +33197,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-9",
   "title": "예약 상세 보기",
   "trace": {
@@ -33349,7 +33349,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -33357,7 +33357,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-8-read",
   "kind": "action",
   "locale": "ko",
@@ -33369,13 +33369,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "0f2f974ea11b5756f330fc2d48627f4ad6ec1c27e1d77b280def00330f3a9a57",
+  "meaning_sha256": "e7285cc1daeb9b6f8040e9ee24d807f9a280b97e55cf9b9c04197f09e9d970fe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -33401,13 +33401,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-8-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -33553,7 +33553,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -33561,7 +33561,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-10",
   "kind": "action",
   "locale": "ko",
@@ -33573,13 +33573,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "3159c02b09d90898482f490264727034f702f5fdd8208e40359646f210d58277",
+  "meaning_sha256": "0a6e6a146faacc26f6c212ed43f409df798b44d61075c44cd6c216d63f236ac9",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -33605,13 +33605,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-10",
   "title": "예약 상세 보기",
   "trace": {
@@ -33757,7 +33757,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -33765,7 +33765,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-7-read",
   "kind": "action",
   "locale": "ko",
@@ -33777,13 +33777,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "6a0944622ca922d2c31bd67cdf74644be852221e05c75f64d69dba5ba0dda777",
+  "meaning_sha256": "318268abd85d188245d9db180ace11a8a2b31ea1e1d1f630f91e7aedb51a0c9f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -33809,13 +33809,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-7-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -33961,7 +33961,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -33969,7 +33969,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-11",
   "kind": "action",
   "locale": "ko",
@@ -33981,13 +33981,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "b07d28b2de0bf6c096a8e72b4fcd9bc20f9944a767c0e7750f2a4386d12f2bb7",
+  "meaning_sha256": "c0eb95be90614d0b5c1bedaa91a7fa66a41ec050abe37cd9dff25997fe9b7c09",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -34013,13 +34013,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-11",
   "title": "예약 상세 보기",
   "trace": {
@@ -34165,7 +34165,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -34173,7 +34173,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-6-read",
   "kind": "action",
   "locale": "ko",
@@ -34185,13 +34185,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "3dd7802ba588371116a28ce6e8ecdb01ee515ecc3f3eec3d7fc255cae72a8438",
+  "meaning_sha256": "bab58805660b957bb837622cc3938e89cec290413e08b44b78f8e47d7739b94e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -34217,13 +34217,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-6-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -34369,7 +34369,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -34377,7 +34377,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-12",
   "kind": "action",
   "locale": "ko",
@@ -34389,13 +34389,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "48719befdd359dde0104a9d3d54a701a071117d837a58deaba9a295d80de5f89",
+  "meaning_sha256": "5149eb62f135faa23ac09bd61cdd02cd807f9f2054eab1b92d852ce744b2930a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -34421,13 +34421,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-12",
   "title": "예약 상세 보기",
   "trace": {
@@ -34573,7 +34573,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -34581,7 +34581,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-5-read",
   "kind": "action",
   "locale": "ko",
@@ -34593,13 +34593,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "87518e4911bf4964e6a6acbeea39aac17d529d3f97e5de809a77c1e7945be547",
+  "meaning_sha256": "6f19a3291178495d5009bfa79c47296e8484262bececfc5cafa6d863754e0b94",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -34625,13 +34625,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-5-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -34777,7 +34777,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -34785,7 +34785,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-13",
   "kind": "action",
   "locale": "ko",
@@ -34797,13 +34797,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "0a2481220dfeb3d11e82571be9ef82c2e0a7d27205ab0d37917e0974fef587ba",
+  "meaning_sha256": "422594d0ee9e666418ba9537147cac76dec9d391c96431ae85938d94563e7292",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -34829,13 +34829,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-13",
   "title": "예약 상세 보기",
   "trace": {
@@ -34981,7 +34981,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -34989,7 +34989,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "읽음으로 표시 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 자신의 알림만 개별 멱등 키로 읽음 처리한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-notification-4-read",
   "kind": "action",
   "locale": "ko",
@@ -35001,13 +35001,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "읽음으로 표시 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "4e42c236119e1ff63a67cb6191ecfb21788cad65cac038f72e7a9b9584c99b2f",
+  "meaning_sha256": "fee4ca4dbb3e7910a38d3baba218205eb41b7b8b2852d26be3331706ef213ba3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -35033,13 +35033,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-notification-4-read",
   "title": "읽음으로 표시",
   "trace": {
@@ -35185,7 +35185,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -35193,7 +35193,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "예약 상세 보기 조작과 결과",
-  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n나의 알림에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-notifications-booking-notifications-a-3-14",
   "kind": "action",
   "locale": "ko",
@@ -35205,13 +35205,13 @@ Figma·웹 범위
     "functional_states": [
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "나의 알림에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "예약 상세 보기 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "e3090a414328cecee9aeb78a3b9f5235f54f95697c6775dcebc6f2212c8ce291",
+  "meaning_sha256": "b49e4d9594a7753ddc3c53faad2498fc81a5ff7739d857c6da3bf6e39cfe8958",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-notifications",
@@ -35237,13 +35237,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-notifications-booking-notifications-a-3-14",
   "title": "예약 상세 보기",
   "trace": {
@@ -35386,7 +35386,7 @@ Figma·웹 범위
 실제 집계와 최근7일 신청 생성 건수 → 예정 명단 또는 새 일정. 취소 후에도 생성 건수에 포함한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -35394,7 +35394,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 현황 화면의 목적과 동작",
-  "display_text": "목적\n운영자가 같은 DB의 예정 수업·정원·확정 인원·대기 인원을 집계한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n실제 집계와 최근7일 신청 생성 건수 → 예정 명단 또는 새 일정. 취소 후에도 생성 건수에 포함한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영자가 같은 DB의 예정 수업·정원·확정 인원·대기 인원을 집계한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n실제 집계와 최근7일 신청 생성 건수 → 예정 명단 또는 새 일정. 취소 후에도 생성 건수에 포함한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-staffdashboard",
   "kind": "screen",
   "locale": "ko",
@@ -35402,11 +35402,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-staffdashboard-dashboard-create",
     "journey": "실제 집계와 최근7일 신청 생성 건수 → 예정 명단 또는 새 일정. 취소 후에도 생성 건수에 포함한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영자가 같은 DB의 예정 수업·정원·확정 인원·대기 인원을 집계한다.",
     "summary": "운영 현황 화면의 목적과 동작"
   },
-  "meaning_sha256": "64e2bc726f2e2771e0afd8be5840d72ff10c1b48eb192389037721466fe38255",
+  "meaning_sha256": "aeb2effd086610599ae52d47d9d1e47b16d440b724f2611606d37e1fc62ac3e6",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -35427,13 +35427,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-staffdashboard",
   "title": "운영 현황",
   "trace": {
@@ -35579,7 +35579,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -35587,7 +35587,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-brand",
   "kind": "action",
   "locale": "ko",
@@ -35600,13 +35600,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "278ccad98de1bd2e9ab6fbf27fe70f75c998ab330c92c24be099b36abe2771eb",
+  "meaning_sha256": "bac6b2894bac36bc2327d217644dee182daf9f7d50b96a67a1d925923a1f0d3e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -35632,13 +35632,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -35784,7 +35784,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -35792,7 +35792,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -35805,13 +35805,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "edfab83dcb58052cee9650cab8f5611e97410f2afb3b5fab3b24ca0a376b1d27",
+  "meaning_sha256": "61503423686011bfab3c2d3fef1191949bd6bb60399e5457340f14e649d7002f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -35837,13 +35837,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -35989,7 +35989,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -35997,7 +35997,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -36010,13 +36010,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "95c09c7996f3b544551c0466b4e268ffb0f9ab8810cdf5a99f8cc5b2bd4d0fe6",
+  "meaning_sha256": "651ef6685752ec5a0a385c2de6feb5a43146da260f9df4ba9e4c6a16ba31d42e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -36042,13 +36042,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -36194,7 +36194,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -36202,7 +36202,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 1 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -36215,13 +36215,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "f0bf94af61ac51f826d67122475a0093f2e9414af0f761c0e59eccfd1553970d",
+  "meaning_sha256": "b1bd92766e69c2b8ac2c9e5403afb7f279d97428a71ffe15e53e2e1454737683",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -36247,13 +36247,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -36399,7 +36399,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -36407,7 +36407,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-nav-staff",
   "kind": "action",
   "locale": "ko",
@@ -36419,13 +36419,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "e600b35af6c3aa044dd5c68e3888d9a3662dde78ab2cdf58930f647c26d98486",
+  "meaning_sha256": "aa248b74d9d4b24c1518ede6c16d7ddf35c791e6ef3c7e98ca07995d7bd8daab",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -36451,13 +36451,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-nav-staff",
   "title": "운영",
   "trace": {
@@ -36603,7 +36603,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -36611,7 +36611,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -36624,13 +36624,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "3206cd80fc904060ea53785cbebfb8270a23dc7772af47c933b0c31b5e384f69",
+  "meaning_sha256": "30fa6b3537a347574418b4fc518826992ca4bafb6137b1d841a0e5fd7fb0268a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -36656,13 +36656,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -36808,7 +36808,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -36816,7 +36816,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 현황 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-nav-dashboard",
   "kind": "action",
   "locale": "ko",
@@ -36828,13 +36828,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "운영 현황 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "3d9d44c5e350e4d8a0a0a433dcc34de52da17c571c3d7d174966811e79dacc98",
+  "meaning_sha256": "557a19a32b76de5404cf7df7281d2ce2f9fde637c68d6a8a31d2eb7a275556f7",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -36860,13 +36860,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -37012,7 +37012,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -37020,7 +37020,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -37033,13 +37033,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 일정 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "0cfa0ab7ff26d470e8eac8bfa8c026a6894d55876965be8caf67b6bea8fbe3f5",
+  "meaning_sha256": "d0c29c2d81e832bd1fce063df2585caf39f0e1b1e9019084e9d85ad4c959ff71",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -37065,13 +37065,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -37217,7 +37217,7 @@ Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -37225,7 +37225,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 기록 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-nav-audit",
   "kind": "action",
   "locale": "ko",
@@ -37238,13 +37238,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-staffaudit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "변경 기록 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "3d6bee9e1ad413a7a0b3ef11f1653a9828df36024fc1b40af2aaf7f52905f684",
+  "meaning_sha256": "0ac23ddee24bc92f9930af662857d8db9b8571cb392843b2d0e352590c83cc03",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -37270,13 +37270,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -37422,7 +37422,7 @@ Figma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서�
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -37430,7 +37430,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 등록 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-dashboard-create",
   "kind": "action",
   "locale": "ko",
@@ -37443,13 +37443,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-staffcreate"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 일정 등록 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "896ea6b2f0548a3ba6976c2c5a291cc860bb3b4b2a126dc1ade38f20757d98dd",
+  "meaning_sha256": "87dccd6b370c0df5ec7e996224fecb59b7d262cab66b49053135e9246bf586fe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -37475,13 +37475,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-dashboard-create",
   "title": "수업 일정 등록",
   "trace": {
@@ -37627,7 +37627,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -37635,7 +37635,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "전체 일정 보기 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-dashboard-all",
   "kind": "action",
   "locale": "ko",
@@ -37648,13 +37648,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "전체 일정 보기 → 조작과 결과",
     "visual_variant": "Text-4c944566fbdb"
   },
-  "meaning_sha256": "5bb40ca62cc2dac0a37484e7f8d1518b7a4f5a16c91cacd9cb6d1a91d968cb96",
+  "meaning_sha256": "0cbd9142ae1ad9ea796540eb33f407580f30d8cd578d2143eca41f54075e6e26",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -37680,13 +37680,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-dashboard-all",
   "title": "전체 일정 보기 →",
   "trace": {
@@ -37832,7 +37832,7 @@ Figma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서�
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -37840,7 +37840,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-session-1-open",
   "kind": "action",
   "locale": "ko",
@@ -37853,13 +37853,13 @@ Figma·웹 범위
       "state-staffdashboard",
       "state-staffroster"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "297acd0dad0730192d64f8e8d598ccc6bc4b15c929be02f572507fc7d63f300f",
+  "meaning_sha256": "ecf634a308d963877009675d93e761733a6af940d45650c9456658f90a273195",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -37885,13 +37885,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-session-1-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38037,7 +38037,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -38045,7 +38045,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-session-2-open",
   "kind": "action",
   "locale": "ko",
@@ -38057,13 +38057,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "c75e7428d66ac0a7876a23b044b5e59fddb788473e3f1183208809cfb0b04dd2",
+  "meaning_sha256": "c5477b740c9949e5fbc5350d073f6b72cff45115b240925eeba6fbbc740159de",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -38089,13 +38089,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-session-2-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38241,7 +38241,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -38249,7 +38249,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-session-3-open",
   "kind": "action",
   "locale": "ko",
@@ -38261,13 +38261,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "0176c08da66f34094a51c1d19d9b3315a9b6c23d3afb94362aaa624288b8b195",
+  "meaning_sha256": "7f892ec4943a4563394eebe8b2ce2456efc700cb1a0d372b9a1c9cff38b1489d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -38293,13 +38293,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-session-3-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38445,7 +38445,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -38453,7 +38453,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-session-4-open",
   "kind": "action",
   "locale": "ko",
@@ -38465,13 +38465,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "2400885ec6b8d48c0b801c86ae2e07a082b63e15fdde01be81f1bdb7fe68c697",
+  "meaning_sha256": "5d1f8e1aa6df74f45a8fdb49d4d52c8a6397e14390b86287f664c536a4d2c09e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -38497,13 +38497,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-session-4-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38649,7 +38649,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -38657,7 +38657,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-session-5-open",
   "kind": "action",
   "locale": "ko",
@@ -38669,13 +38669,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "4d93b909c21329e08c1a6d92ffad0113b3603f0bdfa2cd7f986d86a03f225bbf",
+  "meaning_sha256": "f7b5bbfb582a18b0d58a6b18498a7403b2dfebca96af4ccdb017047eeef01de6",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -38701,13 +38701,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-session-5-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -38853,7 +38853,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -38861,7 +38861,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-session-6-open",
   "kind": "action",
   "locale": "ko",
@@ -38873,13 +38873,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "7dc21b51d0ef884060cac9e3e7b6501f82c0842f1a734138e43c224dbb9a5d08",
+  "meaning_sha256": "a29338088594a396dcfc5d40763aa3efeed92ae6fab19c16fa0386da96c0fa4d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -38905,13 +38905,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-session-6-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -39057,7 +39057,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -39065,7 +39065,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 현황에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffdashboard-staff-session-10-open",
   "kind": "action",
   "locale": "ko",
@@ -39077,13 +39077,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 현황에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "a879a964be77dc93a7153f1e71e90f5f953d6fca0e2b5454ad9ab90ebfd8569b",
+  "meaning_sha256": "daa89f8612a367392c5dc57a60d895f85a396abc0b4987f075320047748914f8",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffdashboard",
@@ -39109,13 +39109,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffdashboard-staff-session-10-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -39258,7 +39258,7 @@ Figma·웹 범위
 전체 일정 → 회차 명단 또는 새 일정 등록. 표의 정보는 서버 페이지네이션으로 나눈다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -39266,7 +39266,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 일정 화면의 목적과 동작",
-  "display_text": "목적\n운영 권한으로 실제 회차의 시간·상태·인원을 관리한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n전체 일정 → 회차 명단 또는 새 일정 등록. 표의 정보는 서버 페이지네이션으로 나눈다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 권한으로 실제 회차의 시간·상태·인원을 관리한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n전체 일정 → 회차 명단 또는 새 일정 등록. 표의 정보는 서버 페이지네이션으로 나눈다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-staffsessions",
   "kind": "screen",
   "locale": "ko",
@@ -39274,11 +39274,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-staffsessions-staff-session-create",
     "journey": "전체 일정 → 회차 명단 또는 새 일정 등록. 표의 정보는 서버 페이지네이션으로 나눈다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 권한으로 실제 회차의 시간·상태·인원을 관리한다.",
     "summary": "운영 일정 화면의 목적과 동작"
   },
-  "meaning_sha256": "8d570be1567f13a08d197903351b7fdec33452e319858f89129269c6eabdc6ea",
+  "meaning_sha256": "dcaae169338dca5db62391e04123a65344224c70108e18ddcb0795bf95eeca46",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -39299,13 +39299,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-staffsessions",
   "title": "운영 일정",
   "trace": {
@@ -39451,7 +39451,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -39459,7 +39459,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-brand",
   "kind": "action",
   "locale": "ko",
@@ -39472,13 +39472,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "01d2090a46b73e04d769295a1b74f1be7af4fee97e47c543a89d94122f3027fe",
+  "meaning_sha256": "c84bf36a9b79608b3101a5acdd960cfecf648ad2f0f76e1fba3559073332b0cb",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -39504,13 +39504,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -39656,7 +39656,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -39664,7 +39664,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -39677,13 +39677,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "d56808b8e016027c93d0b69147246fc3ccbbc984b47814eb114acd2221ebbc47",
+  "meaning_sha256": "a286b3a5742dc6b5c0629350ed276ea31f2786807a2ce9bea46592c16533b3f2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -39709,13 +39709,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -39861,7 +39861,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -39869,7 +39869,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -39882,13 +39882,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "8bb26bc500068f5d7670828cd72712569b37b9b629c7e954b186cbe832fcf5cf",
+  "meaning_sha256": "faac09ad2068bf68ddcaec27511d555b1d8becca08821ee13a638c76e5831484",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -39914,13 +39914,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -40066,7 +40066,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -40074,7 +40074,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 1 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -40087,13 +40087,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "6074128077230f5237e007924dd0dee6bebedd0d85e51b5668251c7410cae976",
+  "meaning_sha256": "2d43fc78236d739d50fe04b97f8a64206028eb9c4374c5d83da1cfd6639900fa",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -40119,13 +40119,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -40271,7 +40271,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -40279,7 +40279,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-nav-staff",
   "kind": "action",
   "locale": "ko",
@@ -40292,13 +40292,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "6017665392f03944503562a2af20231eda852f40baf31762c461b62807946d62",
+  "meaning_sha256": "1b1aa0c91f455f2b291b0678d09cdc038089769e4637fc912850216d2caaffab",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -40324,13 +40324,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-nav-staff",
   "title": "운영",
   "trace": {
@@ -40476,7 +40476,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -40484,7 +40484,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -40497,13 +40497,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "1958e77f2faae3e5a23764f1860ebda0d8a974cbc099538812a76c33fc5a72f7",
+  "meaning_sha256": "88c74fdf1aaf8b10a7a29e4dc6c6fef77348c51023aac584fa30ee0975a98f13",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -40529,13 +40529,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -40681,7 +40681,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -40689,7 +40689,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 현황 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-nav-dashboard",
   "kind": "action",
   "locale": "ko",
@@ -40702,13 +40702,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 현황 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "b59a8a71083adfcbf4c045257c34efc3abab5dfeb1be8917c7793fe485d161b9",
+  "meaning_sha256": "ce0fdc7ecc375914bfedeea34c63ab86c53f41dcfa264b45f212cbb8c6ac6f38",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -40734,13 +40734,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -40886,7 +40886,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -40894,7 +40894,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -40906,13 +40906,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "수업 일정 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "1d818bf5ec813e447170272315ae393507579aa28e914261282c7942669266fd",
+  "meaning_sha256": "4b9f56ab6fa667ba613c4e6c1fd2bf669137f409a47f7f7425fe43d7094f0fb2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -40938,13 +40938,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -41090,7 +41090,7 @@ Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -41098,7 +41098,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 기록 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-nav-audit",
   "kind": "action",
   "locale": "ko",
@@ -41111,13 +41111,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-staffaudit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "변경 기록 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "1cdb75c6688aeab5be46dffe7206052dee0ae21c1252b47ea17c626e6d94be95",
+  "meaning_sha256": "90f049c8b27d633b2d9be446656bd719807ea1f02ef8cd88661d4ce9b7aebe55",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -41143,13 +41143,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -41295,7 +41295,7 @@ Figma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서�
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -41303,7 +41303,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 등록 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-create",
   "kind": "action",
   "locale": "ko",
@@ -41316,13 +41316,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-staffcreate"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffcreate 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 일정 등록 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "e8a053ec18d40ed69c1c292e018ec5b5d437f598f9b9c7f67c2c6baba52af941",
+  "meaning_sha256": "4141e6a5b73397aa75305e5daf381c04970f2418a63b3e12cdea1ed5b5b803a0",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -41348,13 +41348,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-create",
   "title": "수업 일정 등록",
   "trace": {
@@ -41500,7 +41500,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -41508,7 +41508,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-9-open",
   "kind": "action",
   "locale": "ko",
@@ -41520,13 +41520,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "a286c21edadf28ee0fcb314e8eea2c1bbf5a065d209e9e2db39aaa1f80eb5d8e",
+  "meaning_sha256": "9a0a625c271dc5a1da240be8fa9d9b2c8a4e76cb719a9b94766856c7db4016bd",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -41552,13 +41552,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-9-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -41704,7 +41704,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -41712,7 +41712,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-6-open",
   "kind": "action",
   "locale": "ko",
@@ -41724,13 +41724,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "8996717a5494adc4e22f57a2f0bc1a7de806a49eb1d87999c87d90acd1bc89f7",
+  "meaning_sha256": "8e79366e49d25ceb2522066f9b5b067f4c1fd6b332a7bfce4fe862161c856517",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -41756,13 +41756,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-6-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -41908,7 +41908,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -41916,7 +41916,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-5-open",
   "kind": "action",
   "locale": "ko",
@@ -41928,13 +41928,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "6683a5f11a45ffd4154312d18af42728767e9115c3ff09e900bd793c6966a0de",
+  "meaning_sha256": "a3756a42c85176d02285a16ba122e96cc4a8814121baeba46e572931ff8a993b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -41960,13 +41960,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-5-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42112,7 +42112,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -42120,7 +42120,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-4-open",
   "kind": "action",
   "locale": "ko",
@@ -42132,13 +42132,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "c239986a16cf1ccf2fc357831077d47d2c599c19bafd2e938b331c2a55e6ae15",
+  "meaning_sha256": "02a90001bc2821f27b09143483a2135c89624a5063c13da6ea99ab23fd05b0b3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -42164,13 +42164,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-4-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42316,7 +42316,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -42324,7 +42324,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-3-open",
   "kind": "action",
   "locale": "ko",
@@ -42336,13 +42336,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "faa675d44166e0a9a37c94c7761c3172b4b697d998f881db87ddcebd7d61701e",
+  "meaning_sha256": "1f817f523b4d3fe401533be4932eb28d0f3a677a7b4c8052b67d5ea9a7b4caff",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -42368,13 +42368,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-3-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42520,7 +42520,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -42528,7 +42528,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-2-open",
   "kind": "action",
   "locale": "ko",
@@ -42540,13 +42540,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "26ccfead291a49e5bcc0505ba0cd046deb2a7167bd9e560b52b2fb245bec3352",
+  "meaning_sha256": "05f6a69c9ecb2b88452213fc7f3189d12c2f22ca3ef6395ba63a2ae482e61068",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -42572,13 +42572,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-2-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42724,7 +42724,7 @@ Figma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서�
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -42732,7 +42732,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "명단 / 관리 → 조작과 결과",
-  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영 일정에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffsessions-staff-session-1-open",
   "kind": "action",
   "locale": "ko",
@@ -42745,13 +42745,13 @@ Figma·웹 범위
       "state-staffsessions",
       "state-staffroster"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영 일정에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffroster 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "명단 / 관리 → 조작과 결과",
     "visual_variant": "Text-46ef0492ba3c"
   },
-  "meaning_sha256": "9b19f431ca9d634d78d97a9dc1b1c1c1a12e4be0529d5caef524de3345d9e4b8",
+  "meaning_sha256": "523f022a9a86bf8d1dea39082c76e3ccc219271c90f130f90b319b12a49514cd",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffsessions",
@@ -42777,13 +42777,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffsessions-staff-session-1-open",
   "title": "명단 / 관리 →",
   "trace": {
@@ -42926,7 +42926,7 @@ Figma·웹 범위
 서버 SessionForm 입력 → 저장 → 회차 명단. 같은 Room의 겹치는 활성 시간은 DB가 거절한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -42934,7 +42934,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "회차 등록 화면의 목적과 동작",
-  "display_text": "목적\n운영자가 공간 정원과 중복 시간 제약을 지키는 실제 회차를 등록한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n서버 SessionForm 입력 → 저장 → 회차 명단. 같은 Room의 겹치는 활성 시간은 DB가 거절한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영자가 공간 정원과 중복 시간 제약을 지키는 실제 회차를 등록한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n서버 SessionForm 입력 → 저장 → 회차 명단. 같은 Room의 겹치는 활성 시간은 DB가 거절한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-staffcreate",
   "kind": "screen",
   "locale": "ko",
@@ -42942,11 +42942,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-staffcreate-staff-session-save",
     "journey": "서버 SessionForm 입력 → 저장 → 회차 명단. 같은 Room의 겹치는 활성 시간은 DB가 거절한다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영자가 공간 정원과 중복 시간 제약을 지키는 실제 회차를 등록한다.",
     "summary": "회차 등록 화면의 목적과 동작"
   },
-  "meaning_sha256": "0f15ae13abea1c853a649f0ce7f305dd7ee9208a920a402a643b8a34a80dbe93",
+  "meaning_sha256": "ff104603caa38914df11d7762e5b2df2b206f7282a672738cd00ad4ddf14fcd9",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -42967,13 +42967,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-staffcreate",
   "title": "회차 등록",
   "trace": {
@@ -43155,7 +43155,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -43163,7 +43163,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-brand",
   "kind": "action",
   "locale": "ko",
@@ -43176,13 +43176,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "cf04fcebc7e0316534aaa0c2468befb212cb95f11f8192faf91bdb06ab2f419d",
+  "meaning_sha256": "4149980f2ac0374a738f50f93a9106e1b38c3c7d94a49713b5690724a5e4a7ee",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -43208,13 +43208,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -43396,7 +43396,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -43404,7 +43404,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -43417,13 +43417,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "948c7bd769d15423ffae96f898391446cb772482a68e0ca5a680998ab5b6fa63",
+  "meaning_sha256": "a9043cfd647b8c2f1c55824cfb04083a7a955cd1eb146a4029c8312ef48828f1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -43449,13 +43449,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -43637,7 +43637,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -43645,7 +43645,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -43658,13 +43658,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "d643aa9307a548ea74decfa713ffa221d794accda6f7889cf829d054a2abb916",
+  "meaning_sha256": "337f10b444bccb75a19644ab730e76be28d17363fcc8cea4220b85f68889afba",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -43690,13 +43690,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -43878,7 +43878,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -43886,7 +43886,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 1 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -43899,13 +43899,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "83e6d3b99a2f40bd665a407366f36ff7a99bbb25ea786d74e35565d71e4c4d9a",
+  "meaning_sha256": "68a314b96090e3c3cd01be268d3ad04f6df9bee5bd322a701bf038274ad195ac",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -43931,13 +43931,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -44119,7 +44119,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -44127,7 +44127,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-nav-staff",
   "kind": "action",
   "locale": "ko",
@@ -44140,13 +44140,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "e5816fdf900699a2a3396eb0ccf5a2d10502ebd89282dd6f4d56f7f798815cfd",
+  "meaning_sha256": "edea84a1a47d2bdedc2e68708b8e96cb18a6697cb5e07da9627d9047206595b3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -44172,13 +44172,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-nav-staff",
   "title": "운영",
   "trace": {
@@ -44360,7 +44360,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -44368,7 +44368,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -44381,13 +44381,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "cfecec3670c8b40570ec689b46c6a937491bdc295ad99860d37ee3902a7c6657",
+  "meaning_sha256": "d1a2962a720c15bbd8ff75261621cf9dfa4c76837d757f3274ed624150c4e602",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -44413,13 +44413,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -44601,7 +44601,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -44609,7 +44609,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 현황 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-staff-nav-dashboard",
   "kind": "action",
   "locale": "ko",
@@ -44622,13 +44622,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 현황 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "7088ae19393f3008b406ac17015c10a79e036c19c7c19f2879fcf17777b4dd46",
+  "meaning_sha256": "c9774cf914e608145a9329849edbe6d14e9e17da28f51522154387e678eab993",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -44654,13 +44654,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -44842,7 +44842,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -44850,7 +44850,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-staff-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -44863,13 +44863,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 일정 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "2a9b3a7c4ed0ba091f3b47a904cf4492a8e117fc32dbdeda15b6b064b4b71e03",
+  "meaning_sha256": "767abbecc9b5384a3d9b273b9e128613e1cad25da62e83ff70acde8286dd13a4",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -44895,13 +44895,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -45083,7 +45083,7 @@ Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -45091,7 +45091,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 기록 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-staff-nav-audit",
   "kind": "action",
   "locale": "ko",
@@ -45104,13 +45104,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-staffaudit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "변경 기록 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "8ac81795b40fb1210784089d93e85cd316a3155036391a25e1042b2500ba6043",
+  "meaning_sha256": "f71f71c4fa71a2663838bea1c98b398a444ad6cd056c93977e604e25558acd5d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -45136,13 +45136,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -45324,7 +45324,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -45332,7 +45332,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 수업 일정 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-staff-session_form-a-1-0",
   "kind": "action",
   "locale": "ko",
@@ -45345,13 +45345,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 수업 일정 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "75c98adfe12bfe657e28264497db8e84f22665aad1fd1d7bf9f313a8f02f9a90",
+  "meaning_sha256": "2ec925a0d9d7510635ddb5d16e246f22cd527495b8938d97863a2df1a398918a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -45377,13 +45377,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-staff-session_form-a-1-0",
   "title": "← 수업 일정",
   "trace": {
@@ -45565,7 +45565,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -45573,7 +45573,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 등록 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 운영 권한·폼·revision·공간 시간 중복과 과거 예약 조건을 검증해 회차를 저장한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 운영 권한·폼·revision·공간 시간 중복과 과거 예약 조건을 검증해 회차를 저장한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-staff-session-save",
   "kind": "action",
   "locale": "ko",
@@ -45585,13 +45585,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffcreate"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "일정 등록 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "d5d253a97b330021aaca4a00d3686102e62ee77d9da38d9c155f544058d99aa3",
+  "meaning_sha256": "805d8f5fd6beeba6af87df070d3d695d73e540ee0055a79de36ebcaa618ab7a2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -45617,13 +45617,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-staff-session-save",
   "title": "일정 등록",
   "trace": {
@@ -45805,7 +45805,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -45813,7 +45813,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "돌아가기 조작과 결과",
-  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 등록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffcreate-staff-session_form-a-3-0",
   "kind": "action",
   "locale": "ko",
@@ -45826,13 +45826,13 @@ Figma·웹 범위
       "state-staffcreate",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 등록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "돌아가기 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "2e8de0cc597b00ba8f19b20000896e3cae9a6ce9c535170744e3f46086150448",
+  "meaning_sha256": "284b362c3eea86fc5b8bb63004e17ac6663319d495f77568b1fa9ae0c1e97057",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffcreate",
@@ -45858,13 +45858,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffcreate-staff-session_form-a-3-0",
   "title": "돌아가기",
   "trace": {
@@ -46043,7 +46043,7 @@ Figma·웹 범위
 실제 회원명·인원·금액·번호 확인 → 회차 편집 또는 사유 필수 취소. 명단과 대기열은 별도 페이지로 나눈다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -46051,7 +46051,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "신청 명단 화면의 목적과 동작",
-  "display_text": "목적\n운영자가 확정·대기 명단을 분리해 읽고 사유를 남겨 회차를 취소한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n실제 회원명·인원·금액·번호 확인 → 회차 편집 또는 사유 필수 취소. 명단과 대기열은 별도 페이지로 나눈다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영자가 확정·대기 명단을 분리해 읽고 사유를 남겨 회차를 취소한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n실제 회원명·인원·금액·번호 확인 → 회차 편집 또는 사유 필수 취소. 명단과 대기열은 별도 페이지로 나눈다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-staffroster",
   "kind": "screen",
   "locale": "ko",
@@ -46059,11 +46059,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-staffroster-roster-edit",
     "journey": "실제 회원명·인원·금액·번호 확인 → 회차 편집 또는 사유 필수 취소. 명단과 대기열은 별도 페이지로 나눈다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영자가 확정·대기 명단을 분리해 읽고 사유를 남겨 회차를 취소한다.",
     "summary": "신청 명단 화면의 목적과 동작"
   },
-  "meaning_sha256": "87125ef55b6cfbfc47c937a98cb0511f344c05f19060183b978be967abadf88d",
+  "meaning_sha256": "51fdc4a92e8bd03062815cbddd7367330121fca31fb835d8f3192286dfc8903c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -46084,13 +46084,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-staffroster",
   "title": "신청 명단",
   "trace": {
@@ -46272,7 +46272,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -46280,7 +46280,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-brand",
   "kind": "action",
   "locale": "ko",
@@ -46293,13 +46293,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "624c3d014ac32591068491c8e3866d79e90c0b81f6ef19c2f931bba75ffd7ee6",
+  "meaning_sha256": "524a2275888615d47ce93812e823ac5d97b46d811d663b6398f2737c00e2ddff",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -46325,13 +46325,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -46513,7 +46513,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -46521,7 +46521,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -46534,13 +46534,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "c769125671ec13096bd23537fab56d30ef78513fdfdb0b7f5184d2bb45a8983f",
+  "meaning_sha256": "33614e52d49c1c4fdbb10b9c71d0effc5ec15fbcac77b87f8370d472113c8afe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -46566,13 +46566,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -46754,7 +46754,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -46762,7 +46762,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -46775,13 +46775,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "5ef7c341699b749bd58993dc99a64250e146c258b103063b011b1584fd6a68f1",
+  "meaning_sha256": "da328cf65cfa9be9405dbbd599a5eacb1405c386d4f7b6e2b638e522b70fce36",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -46807,13 +46807,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -46995,7 +46995,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -47003,7 +47003,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 1 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -47016,13 +47016,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "d433058f168326b52bd664058f16d29cdbed73511b86ba660c77643bc2c341b5",
+  "meaning_sha256": "e6d28f5234c126a663a5c04c185d825e9f532b77694a7cc6051847e736bdbb1c",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -47048,13 +47048,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -47236,7 +47236,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -47244,7 +47244,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-nav-staff",
   "kind": "action",
   "locale": "ko",
@@ -47257,13 +47257,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "7d46577cf473739ce9ed3ea34506a5be2b3c033a0f6913c2ba6f2415a5318ae5",
+  "meaning_sha256": "766378e83f207d60cc080f85fa45c9d6d5af16476b99ad929367fc9c988eedd6",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -47289,13 +47289,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-nav-staff",
   "title": "운영",
   "trace": {
@@ -47477,7 +47477,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -47485,7 +47485,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -47498,13 +47498,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "2ddf80314fbdaac473723c85ff61b5586f12a5d545c49614e13f7fe65b326f71",
+  "meaning_sha256": "b56a2ee2ee87295e74229065993b43070856115b8b1753c00767254838506a6f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -47530,13 +47530,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -47718,7 +47718,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -47726,7 +47726,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 현황 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-staff-nav-dashboard",
   "kind": "action",
   "locale": "ko",
@@ -47739,13 +47739,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 현황 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "b9d3040078cd0bf5da0bb6fd41d8a153013ba4fafa02a6ad06c1b3860acbb519",
+  "meaning_sha256": "1ef2ea5bb6ef7793477c8f93df347634651ed9e44d664c69032ea3f1cf55322f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -47771,13 +47771,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -47959,7 +47959,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -47967,7 +47967,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-staff-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -47980,13 +47980,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 일정 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "379ff7d97ebe17fb2a5394858c6a93f44d9b5f1f5505fd2773288a5fd323d8b4",
+  "meaning_sha256": "2f74dbf35d129991efc57ffe651fef58691a74985a92aacca5258a0b33713c6b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -48012,13 +48012,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -48200,7 +48200,7 @@ Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -48208,7 +48208,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 기록 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-staff-nav-audit",
   "kind": "action",
   "locale": "ko",
@@ -48221,13 +48221,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-staffaudit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "변경 기록 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "7a09a6d93a086c0982126dceab96f0ced230e8f97a2248f9d72dceb1e401c4e8",
+  "meaning_sha256": "66b07215c2df4086eccf140e8b73f6b858e0925e4ab66906b023cc21fce21498",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -48253,13 +48253,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -48441,7 +48441,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -48449,7 +48449,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 수업 일정 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-staff-session_detail-a-1-0",
   "kind": "action",
   "locale": "ko",
@@ -48462,13 +48462,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 수업 일정 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "1bdc667d077892c3ddbce0d882069dffa1ea2b057005b86ae6b23662f9b85f0f",
+  "meaning_sha256": "3c35c2741e8e4ad1b012f75af3f930060aaf5da97f2dde39a47b49b855b4e108",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -48494,13 +48494,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-staff-session_detail-a-1-0",
   "title": "← 수업 일정",
   "trace": {
@@ -48682,7 +48682,7 @@ Figma에서는 staffedit 화면 예시를 표시한다. 실제 결과는 서버 
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -48690,7 +48690,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "일정 수정 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffedit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffedit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-roster-edit",
   "kind": "action",
   "locale": "ko",
@@ -48703,13 +48703,13 @@ Figma·웹 범위
       "state-staffroster",
       "state-staffedit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffedit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "일정 수정 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "7b7937b97d24848a350be15506558f089b5dc271f2292c8d119d7758eb9a2b5f",
+  "meaning_sha256": "da022553aecb35ecd3450d0db644a0c0b556b748b5a117fa42130f8e3be55c08",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -48735,13 +48735,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-roster-edit",
   "title": "일정 수정",
   "trace": {
@@ -48923,7 +48923,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -48931,7 +48931,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 취소 확정 조작과 결과",
-  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 운영 권한·사유·revision을 확인하고 회차 취소와 신청자 알림을 함께 기록한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n신청 명단에서 다음 행동을 선택하는 조작\n\n동작\n웹은 운영 권한·사유·revision을 확인하고 회차 취소와 신청자 알림을 함께 기록한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffroster-staff-session-cancel-submit",
   "kind": "action",
   "locale": "ko",
@@ -48943,13 +48943,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffroster"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "신청 명단에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "수업 취소 확정 조작과 결과",
     "visual_variant": "Outline-c81b83abe73a"
   },
-  "meaning_sha256": "852dc068949a8816c420f8f181f790ac872f8b54e53e0763ede5d6e55b985c41",
+  "meaning_sha256": "3ef96991513e24caaca32d6b1557a56ff6f22e329b009d57b07fe6cf1af97100",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffroster",
@@ -48975,13 +48975,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffroster-staff-session-cancel-submit",
   "title": "수업 취소 확정",
   "trace": {
@@ -49160,7 +49160,7 @@ Figma·웹 범위
 현재 조건 확인 → 허용된 필드 수정 → revision 검증 저장. 기존 예약의 단가는 바꾸지 않는다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -49168,7 +49168,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "회차 편집 화면의 목적과 동작",
-  "display_text": "목적\n운영자가 예약 이력이 있는 회차의 불변 조건과 새 가격의 적용 범위를 지켜 편집한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n현재 조건 확인 → 허용된 필드 수정 → revision 검증 저장. 기존 예약의 단가는 바꾸지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n운영자가 예약 이력이 있는 회차의 불변 조건과 새 가격의 적용 범위를 지켜 편집한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n현재 조건 확인 → 허용된 필드 수정 → revision 검증 저장. 기존 예약의 단가는 바꾸지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-staffedit",
   "kind": "screen",
   "locale": "ko",
@@ -49176,11 +49176,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-staffedit-staff-session-save",
     "journey": "현재 조건 확인 → 허용된 필드 수정 → revision 검증 저장. 기존 예약의 단가는 바꾸지 않는다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "운영자가 예약 이력이 있는 회차의 불변 조건과 새 가격의 적용 범위를 지켜 편집한다.",
     "summary": "회차 편집 화면의 목적과 동작"
   },
-  "meaning_sha256": "ca7b75f94f693618cc892297a8f72253d42a452eddf0c3900594521e639ab6b4",
+  "meaning_sha256": "cda93d0828fd3b0eaa7c88bb3ca9c9e108323fe369facef9cf0fb88787880d4d",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -49201,13 +49201,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-staffedit",
   "title": "회차 편집",
   "trace": {
@@ -49389,7 +49389,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -49397,7 +49397,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-brand",
   "kind": "action",
   "locale": "ko",
@@ -49410,13 +49410,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "454ab6d3f807627bba8bcd17df758c81ada7b5d4df589d457066a4f0373fa005",
+  "meaning_sha256": "d0ecf15e3de2ba26e81a03556b70b8982fd449b850928e106464e7995d8a054e",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -49442,13 +49442,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -49630,7 +49630,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -49638,7 +49638,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -49651,13 +49651,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "ff387ee580e6f86e694cd2e8ed703f761852c5b294aee0b5d2654f8be1ff8669",
+  "meaning_sha256": "9a33e8eeae6aa7920961fcc58a25ea0091587bc0c4bfe3bf77e75a7728b3784f",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -49683,13 +49683,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -49871,7 +49871,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -49879,7 +49879,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -49892,13 +49892,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "81be5a295598526ddda1f1535a369be651ac7cf0a0b31897aecd38bb1a548eea",
+  "meaning_sha256": "f3913a8b632b95cc1bbabf302892500435ce1c140c91a8f66cc93be26c18037b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -49924,13 +49924,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -50112,7 +50112,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -50120,7 +50120,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 1 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -50133,13 +50133,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "c1cd4d8e4cc444d222e2adde85937d29f60037216c1b75dbe1dbc830fd32772c",
+  "meaning_sha256": "ba5a92dcdee7effcab790faaab2aab1e3d2e3cd628f6da453fc86be6907c7ec0",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -50165,13 +50165,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -50353,7 +50353,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -50361,7 +50361,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-nav-staff",
   "kind": "action",
   "locale": "ko",
@@ -50374,13 +50374,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "7bbe05e499f61f0b1f5aa8c468b0137417f23839d38bae31496224a259273964",
+  "meaning_sha256": "a99ea0b0ec469dbe69bb3f276d15acbf1de7cef1305eaab0355968b251d08fe7",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -50406,13 +50406,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-nav-staff",
   "title": "운영",
   "trace": {
@@ -50594,7 +50594,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -50602,7 +50602,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -50615,13 +50615,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "f1df5ea6bfc3e5160208a58b467d00be0ea07f30153c1f876dd6137e1b16a06c",
+  "meaning_sha256": "119ca21f9702bf606d135a85517893f03b8e9d242d89d7ae41ba9408a2c367c5",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -50647,13 +50647,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -50835,7 +50835,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -50843,7 +50843,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 현황 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-staff-nav-dashboard",
   "kind": "action",
   "locale": "ko",
@@ -50856,13 +50856,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 현황 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "333af799844c27f4e489da9b4b50ec1ab80a37c2961609130e9e98fc07ceef36",
+  "meaning_sha256": "ba1274c839ddfdd60b1e2a786b7211f705108469562d4dc203ce7b22db0636f9",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -50888,13 +50888,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -51076,7 +51076,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -51084,7 +51084,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-staff-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -51097,13 +51097,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 일정 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "0c0f963043b96e6e2bbb0581384648ffe2d4e939e63d8a8d3f5fe4a4cb823f2d",
+  "meaning_sha256": "f893d78006fd08c52d5e1ec8baaf75643e714e92403b206591de6d1190b30f49",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -51129,13 +51129,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -51317,7 +51317,7 @@ Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -51325,7 +51325,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 기록 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-staff-nav-audit",
   "kind": "action",
   "locale": "ko",
@@ -51338,13 +51338,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-staffaudit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffaudit 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "변경 기록 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "26ba59cbda1993cf2d92ed328b5548dca3bce00ddf3bc614d87c8b73ff9074e0",
+  "meaning_sha256": "e3ac9cc9c56e617535990975b9f4ec8fd63b8f94d6e35078c9fb0df13cbf2bf3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -51370,13 +51370,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -51558,7 +51558,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -51566,7 +51566,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "← 수업 일정 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-staff-session_form-a-1-0",
   "kind": "action",
   "locale": "ko",
@@ -51579,13 +51579,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "← 수업 일정 조작과 결과",
     "visual_variant": "Text-d34e10dfa957"
   },
-  "meaning_sha256": "ae7795d1e1d421f9217ba30d6272e28d8821f19cffa536c89e58e263ab56bc68",
+  "meaning_sha256": "418f2d02565c779973f437463ba9bbc390268f41f92405de9438d1f6b8dedcb3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -51611,13 +51611,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-staff-session_form-a-1-0",
   "title": "← 수업 일정",
   "trace": {
@@ -51799,7 +51799,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -51807,7 +51807,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 저장 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 운영 권한·폼·revision·공간 시간 중복과 과거 예약 조건을 검증해 회차를 저장한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 운영 권한·폼·revision·공간 시간 중복과 과거 예약 조건을 검증해 회차를 저장한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-staff-session-save",
   "kind": "action",
   "locale": "ko",
@@ -51819,13 +51819,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffedit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "변경 저장 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "9cc58be23de0a8af7eebe3a3b4e5a958559bb87bb73c818cfb3167f1e7c47519",
+  "meaning_sha256": "ba0d5442722912be98df297497e014cd6486808fbc5f919b0a6af38eb7c05137",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -51851,13 +51851,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-staff-session-save",
   "title": "변경 저장",
   "trace": {
@@ -52039,7 +52039,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -52047,7 +52047,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "돌아가기 조작과 결과",
-  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n회차 편집에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffedit-staff-session_form-a-3-0",
   "kind": "action",
   "locale": "ko",
@@ -52060,13 +52060,13 @@ Figma·웹 범위
       "state-staffedit",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "회차 편집에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "돌아가기 조작과 결과",
     "visual_variant": "Outline-8ac26a8bbd9c"
   },
-  "meaning_sha256": "94bb3ea6deccb2013fcc66115b7dccbb7f7cca8bc357ddb178fee19ee3afa523",
+  "meaning_sha256": "f428f1912ceec8d789c709c0c22832352d833bb986f85a7fe1ad6e7c8ebd8bfa",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffedit",
@@ -52092,13 +52092,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffedit-staff-session_form-a-3-0",
   "title": "돌아가기",
   "trace": {
@@ -52277,7 +52277,7 @@ Figma·웹 범위
 서버 감사 페이지 → 실제 action·시점·변경 사실. 수정 컨트롤은 제공하지 않는다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -52285,7 +52285,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 기록 화면의 목적과 동작",
-  "display_text": "목적\n변경 주체와 실제 before/after 기록을 읽기 전용으로 추적한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n서버 감사 페이지 → 실제 action·시점·변경 사실. 수정 컨트롤은 제공하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 주체와 실제 before/after 기록을 읽기 전용으로 추적한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n서버 감사 페이지 → 실제 action·시점·변경 사실. 수정 컨트롤은 제공하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-staffaudit",
   "kind": "screen",
   "locale": "ko",
@@ -52293,11 +52293,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-staffaudit-staff-nav-dashboard",
     "journey": "서버 감사 페이지 → 실제 action·시점·변경 사실. 수정 컨트롤은 제공하지 않는다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 주체와 실제 before/after 기록을 읽기 전용으로 추적한다.",
     "summary": "변경 기록 화면의 목적과 동작"
   },
-  "meaning_sha256": "853d9fdd266760c9ebbe35383de79e03bdfd361c3fd10e39d1389373b158caa7",
+  "meaning_sha256": "2748d074aa1a4d123a0c70140dab3a51c4839c86cb255d603d695abc0e912435",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -52318,13 +52318,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-staffaudit",
   "title": "변경 기록",
   "trace": {
@@ -52470,7 +52470,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -52478,7 +52478,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-brand",
   "kind": "action",
   "locale": "ko",
@@ -52491,13 +52491,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "7eb2ed3732d016acea1574199edcf869e9c6e085f22f04d4b763bd5d9dca0db4",
+  "meaning_sha256": "dafffd06d407a5fb58aa5d92e0856a3a98f91488712eff9becc09ff5c5259c17",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -52523,13 +52523,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -52675,7 +52675,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -52683,7 +52683,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -52696,13 +52696,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "c9f389fde599e382f4989352e11ad0e550ab053c2401a298d62dfb6df7e89ba3",
+  "meaning_sha256": "eedbe9bec26bc3f047e958ad678666ab58d56662cf5d200ebee51e6189f91df1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -52728,13 +52728,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -52880,7 +52880,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -52888,7 +52888,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -52901,13 +52901,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "09744185e88f8e9934208d683c4d804a6700f7cc7f3be5fc002042a3b7f34c6e",
+  "meaning_sha256": "ce2479b031c41a4aa38bc89759c99c69f3ae3c00ec4b908b24c77c0722888edc",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -52933,13 +52933,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -53085,7 +53085,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -53093,7 +53093,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 1 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -53106,13 +53106,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 1 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "9be73941c905902d2e562bd1799828727c34e60c898c53da5a06c534440c9320",
+  "meaning_sha256": "ae7cb73f30d4ed6ed82f8a160ae79e571b27be1d5ae78d1d0ae713350619dfc7",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -53138,13 +53138,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-nav-notifications",
   "title": "알림 1",
   "trace": {
@@ -53290,7 +53290,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -53298,7 +53298,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-nav-staff",
   "kind": "action",
   "locale": "ko",
@@ -53311,13 +53311,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "402b031caef31fdfe681d6c168e56f6838ff8d5fdccc1153d3e19469a7b88fce",
+  "meaning_sha256": "f75bf98ce605213b58a6c956655e73cadbd3c9c30d7d678b6a21de57e261f7da",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -53343,13 +53343,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-nav-staff",
   "title": "운영",
   "trace": {
@@ -53495,7 +53495,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -53503,7 +53503,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -53516,13 +53516,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "5bf2399b03f0b72b0ce7646ab208b88f95f4560cf5615c865723098dd66cec0d",
+  "meaning_sha256": "1b4a0dbcff2bc10b6c54096d8c19a7a49a91e253fe4b1bf430456206d77476aa",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -53548,13 +53548,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -53700,7 +53700,7 @@ Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 �
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -53708,7 +53708,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "운영 현황 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-staff-nav-dashboard",
   "kind": "action",
   "locale": "ko",
@@ -53721,13 +53721,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-staffdashboard"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffdashboard 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "운영 현황 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "e3a05d3705aa5739f29fd107647e950b2df3ed0b20ead39cca29a28835acedfd",
+  "meaning_sha256": "5954610307dba4f946eeac41568b562bdf2f84216ff927ca261f27e46b9fe789",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -53753,13 +53753,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-staff-nav-dashboard",
   "title": "운영 현황",
   "trace": {
@@ -53905,7 +53905,7 @@ Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -53913,7 +53913,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 일정 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-staff-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -53926,13 +53926,13 @@ Figma·웹 범위
       "state-staffaudit",
       "state-staffsessions"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 staffsessions 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 일정 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "ccc0d557ced37d1c9b42857bdfd6e9e2acca88be6f8f1f969cce7dc47add2b6e",
+  "meaning_sha256": "e6b86075af0168607afbe2aa60023a02106aabd2554c0db0f464c5ae1feade0a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -53958,13 +53958,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-staff-nav-sessions",
   "title": "수업 일정",
   "trace": {
@@ -54110,7 +54110,7 @@ Figma·웹 범위
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -54118,7 +54118,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "변경 기록 조작과 결과",
-  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n변경 기록에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma에서는 실제 컴포넌트와 설명을 유지하고 reaction은 없다.\n\n결과\n웹에서만 해당 동작을 실행한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-staffaudit-staff-nav-audit",
   "kind": "action",
   "locale": "ko",
@@ -54130,13 +54130,13 @@ Figma·웹 범위
     "functional_states": [
       "state-staffaudit"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "변경 기록에서 다음 행동을 선택하는 조작",
     "result": "웹에서만 해당 동작을 실행한다.",
     "summary": "변경 기록 조작과 결과",
     "visual_variant": "Text-753c62b5701c"
   },
-  "meaning_sha256": "0865faa19068dff265c1d3c874405e9ac430f68445949c161e2b27d0bf5e887d",
+  "meaning_sha256": "cce652305612743ee12e3b7e97a764d2d1146762946f5e572c2faadb3f6151a4",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-staffaudit",
@@ -54162,13 +54162,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-staffaudit-staff-nav-audit",
   "title": "변경 기록",
   "trace": {
@@ -54311,7 +54311,7 @@ Figma·웹 범위
 접근 권한 안내 → 수업 목록. 권한 상승이나 운영 데이터 노출은 하지 않는다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -54319,7 +54319,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "접근 권한 안내 화면의 목적과 동작",
-  "display_text": "목적\n인증된 사용자가 운영 권한이 없음을 이해하고 공개 수업으로 복구한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n접근 권한 안내 → 수업 목록. 권한 상승이나 운영 데이터 노출은 하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n인증된 사용자가 운영 권한이 없음을 이해하고 공개 수업으로 복구한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n접근 권한 안내 → 수업 목록. 권한 상승이나 운영 데이터 노출은 하지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-403",
   "kind": "screen",
   "locale": "ko",
@@ -54327,11 +54327,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-403-nav-sessions",
     "journey": "접근 권한 안내 → 수업 목록. 권한 상승이나 운영 데이터 노출은 하지 않는다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "인증된 사용자가 운영 권한이 없음을 이해하고 공개 수업으로 복구한다.",
     "summary": "접근 권한 안내 화면의 목적과 동작"
   },
-  "meaning_sha256": "123bd7d44eea357e129e838912e1e82056edfed941b27ed38d3b2b3251e19364",
+  "meaning_sha256": "8b5579017a5f5c6fa8faadef0ec5720d403dfa5eed499344e0df7a7403c1c8a3",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-403",
@@ -54352,13 +54352,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-403",
   "title": "접근 권한 안내",
   "trace": {
@@ -54468,7 +54468,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -54476,7 +54476,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-403-brand",
   "kind": "action",
   "locale": "ko",
@@ -54489,13 +54489,13 @@ Figma·웹 범위
       "state-403",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "접근 권한 안내에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "b247593c942352359d866246bc461de63459c0f4921854733385d0628939483a",
+  "meaning_sha256": "ea50d8da599828967119dd3e3dac1013c92cedb52b001d6fb88b5dabba29d79b",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-403",
@@ -54521,13 +54521,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-403-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -54637,7 +54637,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -54645,7 +54645,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-403-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -54658,13 +54658,13 @@ Figma·웹 범위
       "state-403",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "접근 권한 안내에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "af36b2e0865df0090d9b6179e68381fc66328c50838801ab9e2f6a8b6ab84c77",
+  "meaning_sha256": "72faedfa0d81570852ee99e044693d61321bbc731052ab1fe6350e02da51be02",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-403",
@@ -54690,13 +54690,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-403-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -54806,7 +54806,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -54814,7 +54814,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-403-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -54827,13 +54827,13 @@ Figma·웹 범위
       "state-403",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "접근 권한 안내에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "259ae9ae9375fb1418edd20bd833ed5d51d47d5e088c818011b16e7a3263bc10",
+  "meaning_sha256": "a764075d3bee1a4fa67f57464877d1b370691f0f32bd130f443e93f83193e842",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-403",
@@ -54859,13 +54859,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-403-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -54975,7 +54975,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -54983,7 +54983,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 5 조작과 결과",
-  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-403-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -54996,13 +54996,13 @@ Figma·웹 범위
       "state-403",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "접근 권한 안내에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 5 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "765c60253996913e44073bd5650fa17412f361f939df47b03809c5aed213cd7b",
+  "meaning_sha256": "a6b910db44d0228499f989314c7a099f4c56ac5819a15001fde65a2e866dcae2",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-403",
@@ -55028,13 +55028,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-403-nav-notifications",
   "title": "알림 5",
   "trace": {
@@ -55144,7 +55144,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -55152,7 +55152,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-403-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -55165,13 +55165,13 @@ Figma·웹 범위
       "state-403",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "접근 권한 안내에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "b216c823b6f7926298d86f4b8ec2348b55eb4681edec7076a0ec56668839816f",
+  "meaning_sha256": "f151dc74b7ed6a1faa684b91026ede1fae04e3622e433c8b095e640048e7b533",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-403",
@@ -55197,13 +55197,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-403-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -55313,7 +55313,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -55321,7 +55321,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 목록으로 조작과 결과",
-  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n접근 권한 안내에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-403-error-home",
   "kind": "action",
   "locale": "ko",
@@ -55334,13 +55334,13 @@ Figma·웹 범위
       "state-403",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "접근 권한 안내에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 목록으로 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "ace562b2dc1bb59fcde7273ce04cd9f2118eeba6a0cf98769c52771853827da6",
+  "meaning_sha256": "c98503ef6683616d660840d4303de43dbcafd152ddf04845a20718989991fae1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-403",
@@ -55366,13 +55366,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-403-error-home",
   "title": "수업 목록으로",
   "trace": {
@@ -55479,7 +55479,7 @@ Figma·웹 범위
 찾을 수 없는 화면 안내 → 수업 목록. 리소스의 다른 소유자를 알려 주지 않는다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -55487,7 +55487,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "찾을 수 없는 화면 화면의 목적과 동작",
-  "display_text": "목적\n없는 리소스 또는 소유하지 않은 예약을 노출하지 않고 수업 목록으로 복구한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n찾을 수 없는 화면 안내 → 수업 목록. 리소스의 다른 소유자를 알려 주지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n없는 리소스 또는 소유하지 않은 예약을 노출하지 않고 수업 목록으로 복구한다.\n\n예외와 복구\n폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.\n\n사용 순서\n찾을 수 없는 화면 안내 → 수업 목록. 리소스의 다른 소유자를 알려 주지 않는다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "screen-404",
   "kind": "screen",
   "locale": "ko",
@@ -55495,11 +55495,11 @@ Figma·웹 범위
     "failure": "폼 오류·권한·409는 서버가 결정한다. Figma는 관측한 상태만 보여 준다.",
     "first_action": "action-state-404-nav-sessions",
     "journey": "찾을 수 없는 화면 안내 → 수업 목록. 리소스의 다른 소유자를 알려 주지 않는다.",
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "없는 리소스 또는 소유하지 않은 예약을 노출하지 않고 수업 목록으로 복구한다.",
     "summary": "찾을 수 없는 화면 화면의 목적과 동작"
   },
-  "meaning_sha256": "67ad524b6e665573471ab15f076203b40c8f1d7816c1f27b4698f1d12783ccf3",
+  "meaning_sha256": "821afcbd17c25fd901640428750c8cc7426b03cddc93b3979e0ba68c54084674",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-404",
@@ -55520,13 +55520,13 @@ Figma·웹 범위
       "title": "사용 순서"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "screen-404",
   "title": "찾을 수 없는 화면",
   "trace": {
@@ -55636,7 +55636,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -55644,7 +55644,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "작은손 커피공방 조작과 결과",
-  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-404-brand",
   "kind": "action",
   "locale": "ko",
@@ -55657,13 +55657,13 @@ Figma·웹 범위
       "state-404",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "찾을 수 없는 화면에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "작은손 커피공방 조작과 결과",
     "visual_variant": "Text-e264aaedfa7b"
   },
-  "meaning_sha256": "1676a0ae1d7609c723f56b294788988e1ef4744cbee4a248e6042587994d1c6b",
+  "meaning_sha256": "72fdb4d623ed40fb43bbb67e21760bea8256dc1462ccebccfb019affd043620a",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-404",
@@ -55689,13 +55689,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-404-brand",
   "title": "작은손 커피공방",
   "trace": {
@@ -55805,7 +55805,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -55813,7 +55813,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 둘러보기 조작과 결과",
-  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-404-nav-sessions",
   "kind": "action",
   "locale": "ko",
@@ -55826,13 +55826,13 @@ Figma·웹 범위
       "state-404",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "찾을 수 없는 화면에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 둘러보기 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "c205e4f7cdddbabf823b64456d60431bd100b6ecb96244066c2798b796f02f96",
+  "meaning_sha256": "095f54493c9aaa14de600e0b148e38ed6cad2caf4a836f93993dfb431bad6531",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-404",
@@ -55858,13 +55858,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-404-nav-sessions",
   "title": "수업 둘러보기",
   "trace": {
@@ -55974,7 +55974,7 @@ Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -55982,7 +55982,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "나의 예약 조작과 결과",
-  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-404-nav-bookings",
   "kind": "action",
   "locale": "ko",
@@ -55995,13 +55995,13 @@ Figma·웹 범위
       "state-404",
       "state-mybookings"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "찾을 수 없는 화면에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 mybookings 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "나의 예약 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "4e3584e3d2443dd68d3aa2a4c9df4b9c0ca1f4037365a1eff566925fec739398",
+  "meaning_sha256": "ef637139e75ae1099228ef27a5829963b35436bd3718b84b496455f67cc944a4",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-404",
@@ -56027,13 +56027,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-404-nav-bookings",
   "title": "나의 예약",
   "trace": {
@@ -56143,7 +56143,7 @@ Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -56151,7 +56151,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "알림 5 조작과 결과",
-  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-404-nav-notifications",
   "kind": "action",
   "locale": "ko",
@@ -56164,13 +56164,13 @@ Figma·웹 범위
       "state-404",
       "state-notifications"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "찾을 수 없는 화면에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 notifications 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "알림 5 조작과 결과",
     "visual_variant": "Text-5eb6c0ac56b9"
   },
-  "meaning_sha256": "1ca3b9f3e9dd2f3472bdd542b1c4f197640b1012429058374de16373ef2f2c53",
+  "meaning_sha256": "d2db30919f83cdb67ca81cad35ce38a0d9977c2a4ea428c17d89650e4893cce1",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-404",
@@ -56196,13 +56196,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-404-nav-notifications",
   "title": "알림 5",
   "trace": {
@@ -56312,7 +56312,7 @@ Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -56320,7 +56320,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "로그아웃 조작과 결과",
-  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 CSRF POST로 Django 세션을 종료한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-404-nav-logout",
   "kind": "action",
   "locale": "ko",
@@ -56333,13 +56333,13 @@ Figma·웹 범위
       "state-404",
       "state-publichome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "찾을 수 없는 화면에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 publichome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "로그아웃 조작과 결과",
     "visual_variant": "Text-aac79d48bee0"
   },
-  "meaning_sha256": "2231dc197e41337b4ed59895447a348ff0cb2d7a330d9f895b6ab1a9fd1ababb",
+  "meaning_sha256": "8b841bf4f03c2d1de0e3ea0472a5771aabc4148a12287b6110be2ad9abe403fe",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-404",
@@ -56365,13 +56365,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-404-nav-logout",
   "title": "로그아웃",
   "trace": {
@@ -56481,7 +56481,7 @@ Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버
 권한·입력·정원·revision 검증은 웹 서버가 담당한다.
 
 Figma·웹 범위
-웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
+웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.
 
 <details>
 <summary>Technical references</summary>
@@ -56489,7 +56489,7 @@ Figma·웹 범위
 ```json
 {
   "annotation_text": "수업 목록으로 조작과 결과",
-  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+  "display_text": "목적\n찾을 수 없는 화면에서 다음 행동을 선택하는 조작\n\n동작\n웹은 표시된 실제 링크의 GET 경로 또는 문서 앵커로 이동한다. Figma는 관측된 다음 시각 상태로만 이동한다.\n\n결과\nFigma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.\n\n예외와 복구\n권한·입력·정원·revision 검증은 웹 서버가 담당한다.\n\nFigma·웹 범위\n웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
   "id": "action-state-404-error-home",
   "kind": "action",
   "locale": "ko",
@@ -56502,13 +56502,13 @@ Figma·웹 범위
       "state-404",
       "state-memberhome"
     ],
-    "platform_scope": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+    "platform_scope": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
     "purpose": "찾을 수 없는 화면에서 다음 행동을 선택하는 조작",
     "result": "Figma에서는 memberhome 화면 예시를 표시한다. 실제 결과는 서버 응답으로 결정한다.",
     "summary": "수업 목록으로 조작과 결과",
     "visual_variant": "Solid-bac98d1be3a2"
   },
-  "meaning_sha256": "274f22d061e1dbda0c2e14194cdd61332cf76a46f5ce66ab37b28e2c759467dd",
+  "meaning_sha256": "58617f2cd7ec7885d469a47e02cef696be647438392cd669d62c7a0f612473eb",
   "presentation": "connected-spec-v2",
   "schema": "figma-flow-readable-spec-v1",
   "screen_id": "screen-404",
@@ -56534,13 +56534,13 @@ Figma·웹 범위
       "title": "예외와 복구"
     },
     {
-      "body": "웹: Django 세션·CSRF·폼과 PostgreSQL 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
+      "body": "웹: Django 세션·CSRF·폼과 데이터베이스 트랜잭션을 실제 실행한다. Figma: 관측한 시각 상태와 연결만 표시한다. 인증·비밀번호·폼 검증·SQL·좌석 확보·발송을 실행하지 않는다.",
       "key": "platform_scope",
       "title": "Figma·웹 범위"
     }
   ],
   "source_graph_encoding": "file-bytes-sha256",
-  "source_graph_sha256": "0ad13ff5eb6b6363712694f37f8d61fd0ec42d564f334aafc6fc75f56b059830",
+  "source_graph_sha256": "ae8b4e7683799f3e4c34d842f2ef50d694e5365c06cba2f85fc218517e834f0c",
   "target_id": "state-404-error-home",
   "title": "수업 목록으로",
   "trace": {

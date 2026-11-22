@@ -33,10 +33,9 @@
     "panelInstall": "npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund",
     "appCi": {
       "root": "apps/little-hands",
-      "database": "littlehands",
-      "user": "postgres",
-      "port": "5432",
-      "disposablePassword": "disposable-ci-only"
+      "user": "root",
+      "disposablePassword": "disposable-ci-only",
+      "deploymentSource": "apps/little-hands/config/deployment.json"
     }
   },
   "workflows": {

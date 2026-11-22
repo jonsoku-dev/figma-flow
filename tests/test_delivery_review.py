@@ -44,7 +44,8 @@ class DeliveryReviewTests(unittest.TestCase):
     def copy_graph(self):
         for name in ('library/delivery', '.github/workflows', '.agents/plugins'):
             shutil.copytree(ROOT/name, self.tmp/name)
-        for name in ('plugin.json', self.graph['inputs']['typescript']['source']):
+        for name in ('plugin.json', self.graph['inputs']['typescript']['source'],
+                     self.graph['inputs']['appCi']['deploymentSource']):
             target = self.tmp/name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT/name,target)
@@ -168,17 +169,22 @@ class DeliveryReviewTests(unittest.TestCase):
 
     def test_app_workflow_projects_service_credentials_into_actual_staging_settings(self):
         self.copy_graph()
-        self.graph['inputs']['appCi'].update(user='probe_admin',database='probe_db',port='15432',disposablePassword='test-fixture')
+        self.graph['inputs']['appCi'].update(disposablePassword='test-fixture')
+        contract_path = self.tmp/self.graph['inputs']['appCi']['deploymentSource']
+        contract = json.loads(contract_path.read_bytes())
+        contract['database'].update(name='probe_db', port=15432)
+        contract_path.write_text(json.dumps(contract))
         (self.tmp/delivery.GRAPH).write_text(json.dumps(self.graph))
         job=delivery.templates(self.tmp)[Path('.github/workflows/little-hands.yml')]
         settings_env=dict(re.findall(r"^      (LH_\w+): ['\"]?([^'\"\n]+)['\"]?$",job,re.M))
         with patch.dict(os.environ,settings_env,clear=True):
             settings=runpy.run_path(str(ROOT/'apps/little-hands/config/settings.py'))
         db=settings['DATABASES']['default']
-        self.assertEqual((db['NAME'],db['USER'],str(db['PORT']),db['PASSWORD']),('probe_db','probe_admin','15432','test-fixture'))
-        self.assertIn('POSTGRES_USER: '+db['USER'],job)
-        self.assertIn('POSTGRES_DB: '+db['NAME'],job)
-        self.assertIn('POSTGRES_PASSWORD: '+db['PASSWORD'],job)
+        self.assertEqual((db['NAME'],db['USER'],str(db['PORT']),db['PASSWORD']),('probe_db','root','15432','test-fixture'))
+        self.assertEqual(db['ENGINE'],'django.db.backends.mysql')
+        self.assertIn('image: '+contract['database']['image'],job)
+        self.assertIn('MYSQL_DATABASE: '+db['NAME'],job)
+        self.assertIn('MYSQL_ROOT_PASSWORD: '+db['PASSWORD'],job)
         self.assertIn('15432:15432',job)
         self.assertFalse(settings['PRODUCTION'])
         self.assertIn('python -m pip install --require-hashes',job)
@@ -200,7 +206,7 @@ class DeliveryReviewTests(unittest.TestCase):
         (self.tmp/delivery.GRAPH).write_text(json.dumps(self.graph))
         source=delivery.templates(self.tmp)[Path('.github/workflows/reference-guard.yml')]
         start=source.index('            mkdir -p "$RUNNER_TEMP/figma-flow-codex"')
-        snippet=source[start:source.index('            pg_bin=',start)]
+        snippet=source[start:source.index('            mysql_id=',start)]
         bindir=self.tmp/'fixture-bin';bindir.mkdir()
         fetch=bindir/'curl'
         fetch.write_text('#!/bin/sh\nwhile [ "$1" != "--output" ]; do shift; done\ncp "$LOCAL_ARCHIVE" "$2"\n')

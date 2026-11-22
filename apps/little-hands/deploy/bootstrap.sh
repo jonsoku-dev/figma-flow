@@ -1,0 +1,22 @@
+# Sourced by the MySQL image's initialization entrypoint.
+littlehands_create_accounts() {
+    local owner_password runtime_password password line
+    owner_password=$(cat '/run/secrets/owner_password')
+    runtime_password=$(cat '/run/secrets/runtime_password')
+    for password in "$owner_password" "$runtime_password"; do
+        case "$password" in
+            *[!a-zA-Z0-9_-]*|'') echo 'Use URL-safe Little Hands database passwords.' >&2; return 1 ;;
+        esac
+        if [ "${#password}" -lt 32 ]; then
+            echo 'Use Little Hands database passwords of at least 32 characters.' >&2
+            return 1
+        fi
+    done
+    while IFS= read -r line; do
+        line=${line//__LH_OWNER_PASSWORD__/$owner_password}
+        line=${line//__LH_RUNTIME_PASSWORD__/$runtime_password}
+        printf '%s\n' "$line"
+    done < /opt/littlehands/roles.sql | docker_process_sql --database=mysql
+}
+littlehands_create_accounts
+unset -f littlehands_create_accounts

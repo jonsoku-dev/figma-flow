@@ -15,7 +15,7 @@ x-app: &app
     LH_SECRET_KEY_FILE: /run/secrets/django_secret
     LH_DB_NAME: littlehands
     LH_DB_HOST: db
-    LH_DB_PORT: "5432"
+    LH_DB_PORT: "3306"
     LH_DB_USER: littlehands_runtime
     LH_DB_PASSWORD_FILE: /run/secrets/runtime_password
   secrets: [django_secret, runtime_password]
@@ -25,18 +25,20 @@ x-app: &app
   networks: [backend]
 services:
   db:
-    image: postgres:17-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+    image: mysql:8.4.11@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70
     restart: unless-stopped
+    command: [--log-bin-trust-function-creators=ON, --character-set-server=utf8mb4, --collation-server=utf8mb4_0900_as_cs]
     environment:
-      POSTGRES_DB: littlehands
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
-      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
-    secrets: [postgres_password, owner_password, runtime_password]
+      MYSQL_ROOT_HOST: localhost
+      MYSQL_DATABASE: littlehands
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+    secrets: [mysql_root_password, owner_password, runtime_password]
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./deploy/roles.sql:/docker-entrypoint-initdb.d/10-roles.sql:ro
+      - mysqldata:/var/lib/mysql
+      - ./deploy/bootstrap.sh:/docker-entrypoint-initdb.d/10-littlehands.sh:ro
+      - ./deploy/roles.sql:/opt/littlehands/roles.sql:ro
     healthcheck:
-      test: [CMD-SHELL, 'pg_isready -h 127.0.0.1 -U postgres -d littlehands']
+      test: [CMD, mysqladmin, ping, --protocol=tcp, --host=127.0.0.1, --silent]
       interval: 5s
       timeout: 5s
       retries: 12
@@ -64,14 +66,14 @@ services:
 secrets:
   django_secret:
     file: ${LH_SECRETS_DIR:?Set absolute secret directory outside the checkout}/django_secret
-  postgres_password:
-    file: ${LH_SECRETS_DIR}/postgres_password
+  mysql_root_password:
+    file: ${LH_SECRETS_DIR}/mysql_root_password
   owner_password:
     file: ${LH_SECRETS_DIR}/owner_password
   runtime_password:
     file: ${LH_SECRETS_DIR}/runtime_password
 volumes:
-  pgdata:
+  mysqldata:
 networks:
   backend:
     internal: true

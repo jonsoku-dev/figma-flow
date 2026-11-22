@@ -1,8 +1,20 @@
-\set ON_ERROR_STOP on
-BEGIN;
-REVOKE ALL ON ALL TABLES IN SCHEMA public FROM littlehands_runtime;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO littlehands_runtime;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO littlehands_runtime;
-REVOKE UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON booking_auditevent, booking_operation FROM littlehands_runtime;
-REVOKE ALL ON django_migrations FROM littlehands_runtime;
-COMMIT;
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'littlehands_runtime'@'%';
+GRANT SELECT ON `littlehands`.`auth_group` TO 'littlehands_runtime'@'%';
+GRANT SELECT ON `littlehands`.`auth_group_permissions` TO 'littlehands_runtime'@'%';
+GRANT SELECT ON `littlehands`.`auth_permission` TO 'littlehands_runtime'@'%';
+GRANT SELECT ON `littlehands`.`auth_user_groups` TO 'littlehands_runtime'@'%';
+GRANT SELECT ON `littlehands`.`auth_user_user_permissions` TO 'littlehands_runtime'@'%';
+GRANT SELECT ON `littlehands`.`django_content_type` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT ON `littlehands`.`booking_auditevent` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT ON `littlehands`.`booking_operation` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`auth_user` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`axes_accessattempt` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`axes_accessfailurelog` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`axes_accesslog` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`booking_booking` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`booking_classsession` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`booking_course` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`booking_notification` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`booking_operationlock` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`booking_room` TO 'littlehands_runtime'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`django_session` TO 'littlehands_runtime'@'%';

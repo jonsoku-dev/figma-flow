@@ -1,4 +1,4 @@
-"""Probe Django and PostgreSQL through the private HTTP listener."""
+"""Probe Django and MySQL through the private HTTP listener."""
 import http.client
 import json
 from pathlib import Path

@@ -1,11 +1,3 @@
-\set ON_ERROR_STOP on
-\set {{cfg.secrets.ownerFile}} `cat "${LH_DB_SECRET_DIRECTORY:-{{cfg.secrets.mount}}}/{{cfg.secrets.ownerFile}}"`
-\set {{cfg.secrets.runtimeFile}} `cat "${LH_DB_SECRET_DIRECTORY:-{{cfg.secrets.mount}}}/{{cfg.secrets.runtimeFile}}"`
-CREATE ROLE {{cfg.database.owner}} LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD :'{{cfg.secrets.ownerFile}}';
-CREATE ROLE {{cfg.database.runtime}} LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD :'{{cfg.secrets.runtimeFile}}';
-REVOKE ALL ON DATABASE {{cfg.database.name}} FROM PUBLIC;
-GRANT CONNECT ON DATABASE {{cfg.database.name}} TO {{cfg.database.owner}}, {{cfg.database.runtime}};
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-ALTER SCHEMA public OWNER TO {{cfg.database.owner}};
-GRANT USAGE ON SCHEMA public TO {{cfg.database.runtime}};
-CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
+CREATE USER '{{cfg.database.owner}}'@'%' IDENTIFIED BY '__LH_OWNER_PASSWORD__';
+CREATE USER '{{cfg.database.runtime}}'@'%' IDENTIFIED BY '__LH_RUNTIME_PASSWORD__';
+GRANT ALL PRIVILEGES ON `{{cfg.database.grantPattern}}`.* TO '{{cfg.database.owner}}'@'%';

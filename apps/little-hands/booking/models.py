@@ -1,8 +1,6 @@
 import uuid
 
 from django.conf import settings
-from django.contrib.postgres.constraints import ExclusionConstraint
-from django.contrib.postgres.fields import DateTimeRangeField, RangeOperators
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Q
@@ -62,10 +60,6 @@ class ClassSession(models.Model):
             models.CheckConstraint(condition=Q(capacity__gte=1), name='session_capacity_positive'),
             models.CheckConstraint(condition=Q(revision__gte=1), name='session_revision_positive'),
             models.CheckConstraint(condition=Q(status__in=['scheduled', 'cancelled']), name='session_valid_status'),
-            ExclusionConstraint(name='scheduled_room_no_overlap', expressions=[
-                ('room', RangeOperators.EQUAL),
-                (models.Func('starts_at', 'ends_at', models.Value('[)'), function='TSTZRANGE', output_field=DateTimeRangeField()), RangeOperators.OVERLAPS),
-            ], condition=Q(status='scheduled')),
         ]
         indexes = [models.Index(fields=['status', 'starts_at'])]
 
@@ -91,6 +85,10 @@ class Booking(models.Model):
     consented_session_revision = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=16, choices=Status.choices)
     revision = models.PositiveIntegerField(default=1)
+    active_booking = models.GeneratedField(
+        expression=models.Case(models.When(status__in=['confirmed', 'waitlisted'], then=models.Value(1))),
+        output_field=models.PositiveSmallIntegerField(), db_persist=True, null=True,
+    )
     queued_at = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -101,13 +99,31 @@ class Booking(models.Model):
             models.CheckConstraint(condition=Q(quantity__gte=MIN_GROUP_SIZE, quantity__lte=MAX_GROUP_SIZE), name='booking_quantity_1_to_8'),
             models.CheckConstraint(condition=Q(revision__gte=1), name='booking_revision_positive'),
             models.CheckConstraint(condition=Q(status__in=['confirmed', 'waitlisted', 'cancelled']), name='booking_valid_status'),
-            models.UniqueConstraint(fields=['member', 'session'], condition=Q(status__in=['confirmed', 'waitlisted']), name='one_active_booking_per_member_session'),
+            models.UniqueConstraint(fields=['member', 'session', 'active_booking'], name='one_active_booking_per_member_session'),
         ]
         indexes = [models.Index(fields=['session', 'status', 'queued_at', 'id'])]
 
     @property
     def total_price(self):
         return self.quantity * self.unit_price_krw
+
+
+class RoomScheduleLock(models.Model):
+    room_id = models.BigIntegerField(primary_key=True)
+
+
+class RoomScheduleEntry(models.Model):
+    session_id = models.BigIntegerField(primary_key=True)
+    room_id = models.BigIntegerField()
+    starts_at = models.DateTimeField()
+    ends_at = models.DateTimeField()
+
+    class Meta:
+        indexes = [models.Index(fields=['room_id', 'starts_at'], name='room_schedule_search')]
+
+
+class OperationLock(models.Model):
+    actor_id = models.BigIntegerField(primary_key=True)
 
 
 class Operation(models.Model):

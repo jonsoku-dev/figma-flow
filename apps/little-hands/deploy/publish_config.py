@@ -1,11 +1,12 @@
-"""Project the app's deployment contract into the native container and PostgreSQL formats."""
+"""Project the app's deployment contract into the container and MySQL formats."""
 import argparse
 import json
 from pathlib import Path
 import re
 
 APP = Path(__file__).resolve().parents[1]
-FILES = ('Dockerfile','compose.yaml','deploy/nginx.conf.example','deploy/roles.sql','deploy/grants.sql','deploy/verify.sql')
+FILES = ('Dockerfile','compose.yaml','deploy/nginx.conf.example','deploy/roles.sql','deploy/bootstrap.sh','deploy/grants.sql','deploy/verify.sql')
+PERMISSIONS = {'readOnly': 'SELECT', 'appendOnly': 'SELECT, INSERT', 'crud': 'SELECT, INSERT, UPDATE, DELETE'}
 FIELD = re.compile(r'\{\{cfg\.([A-Za-z]+)\.([A-Za-z]+)\}\}')
 
 
@@ -16,12 +17,27 @@ def outputs(app):
             raise ValueError('Expected a TCP port number')
     for role in ('name','owner','runtime'):
         if not re.fullmatch(r'[a-z][a-z0-9_]*',settings['database'][role]):
-            raise ValueError('Expected a lower-case PostgreSQL identifier')
+            raise ValueError('Expected a lower-case MySQL identifier')
     if settings['database']['owner']==settings['database']['runtime']:
         raise ValueError('Owner and application roles must differ')
     for image in (settings['web']['pythonImage'],settings['database']['image']):
         if not re.fullmatch(r'[a-z0-9./:-]+@sha256:[0-9a-f]{64}',image):
             raise ValueError('Deployment images must be digest pinned')
+    db = settings['database']
+    if not re.fullmatch(r'mysql:8\.4\.\d+@sha256:[0-9a-f]{64}', db['image']):
+        raise ValueError('Expected a pinned MySQL 8.4 image')
+    tables = db['runtimeTables']
+    names = [table for group in tables.values() for table in group]
+    if set(tables) != set(PERMISSIONS) or len(names) != len(set(names)) or any(
+        not re.fullmatch(r'[a-z][a-z0-9_]*', table) for table in names
+    ):
+        raise ValueError('Runtime tables must have exactly one valid permission group')
+    db['grantPattern'] = db['name'].replace('_', r'\_')
+    runtime = f"'{db['runtime']}'@'%'"
+    settings['database']['grants'] = '\n'.join(
+        f"GRANT {permissions} ON `{db['name']}`.`{table}` TO {runtime};"
+        for group, permissions in PERMISSIONS.items() for table in tables[group]
+    )
     for path in FILES:
         template = app/'deploy/templates'/(Path(path).name+'.in')
         text = FIELD.sub(lambda m:str(settings[m[1]][m[2]]),template.read_text(encoding='utf-8'))

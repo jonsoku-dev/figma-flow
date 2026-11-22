@@ -5,12 +5,12 @@ import uuid
 from datetime import timedelta
 
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import IntegrityError, connection, transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Max, Sum
 from django.utils import timezone
 
 from .policy import MAX_GROUP_SIZE, MIN_GROUP_SIZE
-from .models import AuditEvent, Booking, ClassSession, Course, Notification, Operation, Room
+from .models import AuditEvent, Booking, ClassSession, Course, Notification, Operation, OperationLock, Room
 
 
 class BookingError(Exception):
@@ -30,10 +30,9 @@ def _operate(actor, request_id, action, payload, perform):
         raise PermissionDenied
     request_id = uuid.UUID(str(request_id))
     fingerprint = hashlib.sha256(json.dumps({'action': action, **payload}, sort_keys=True, default=str).encode()).hexdigest()
-    lock_key = int.from_bytes(hashlib.sha256(f'{actor.pk}:{request_id}'.encode()).digest()[:8], 'big', signed=True)
     with transaction.atomic():
-        with connection.cursor() as cursor:
-            cursor.execute('SELECT pg_advisory_xact_lock(%s)', [lock_key])
+        OperationLock.objects.get_or_create(actor_id=actor.pk)
+        OperationLock.objects.select_for_update().get(actor_id=actor.pk)
         previous = Operation.objects.filter(actor=actor, request_id=request_id).first()
         if previous:
             if previous.fingerprint != fingerprint:
@@ -244,8 +243,10 @@ def save_session(*, actor, values, request_id, session_id=None, expected_revisio
             with transaction.atomic():
                 session.full_clean(validate_constraints=False)
                 session.save()
-        except IntegrityError:
-            raise BookingError('해당 공간의 다른 회차와 시간이 겹칩니다.')
+        except IntegrityError as error:
+            if 'scheduled_room_no_overlap' not in str(error):
+                raise
+            raise BookingError('해당 공간의 다른 회차와 시간이 겹칩니다.') from error
         except ValidationError:
             raise BookingError('회차 입력값을 확인해 주세요.', 400)
         AuditEvent.objects.create(actor=actor, action='session_edit' if session_id else 'session_create', session=session,

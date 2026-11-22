@@ -22,7 +22,8 @@ from booking.models import AuditEvent, Booking, ClassSession, Course, Notificati
 @override_settings(STORAGES={'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'}, 'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'}})
 class BookingTests(TransactionTestCase):
     def setUp(self):
-        self.assertEqual(connection.vendor, 'postgresql', 'These proofs require PostgreSQL, never SQLite.')
+        self.assertEqual(connection.vendor, 'mysql')
+        self.assertEqual(connection.mysql_version[:2], (8, 4))
         User = get_user_model()
         self.users = [User.objects.create_user(username=f'member-{i}') for i in range(6)]
         self.operator = User.objects.create_user(username='operator', is_staff=True)
@@ -205,6 +206,28 @@ class BookingTests(TransactionTestCase):
         self.assertIsNotNone(adjacent.pk)
         other_room = Room.objects.create(name='공간 B', capacity=8)
         self.assertIsNotNone(self.make_session(room=other_room).pk)
+
+    def test_concurrent_direct_session_inserts_cannot_overlap(self):
+        def create():
+            try:
+                return self.make_session(starts_at=self.target.ends_at).pk
+            except IntegrityError as error:
+                if 'scheduled_room_no_overlap' not in str(error):
+                    raise
+                return None
+
+        results = self.race(create, create)
+        self.assertEqual(sum(pk is not None for pk in results), 1)
+        self.assertEqual(ClassSession.objects.filter(starts_at=self.target.ends_at).count(), 1)
+
+    def test_cancelled_or_deleted_session_releases_interval(self):
+        start = self.session.starts_at
+        ClassSession.objects.filter(pk=self.session.pk).update(status=ClassSession.Status.CANCELLED)
+        replacement = self.make_session(starts_at=start)
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            ClassSession.objects.filter(pk=self.session.pk).update(status=ClassSession.Status.SCHEDULED)
+        replacement.delete()
+        self.assertEqual(ClassSession.objects.filter(pk=self.session.pk).update(status=ClassSession.Status.SCHEDULED), 1)
 
     def test_database_quantity_times_status_and_duplicates_constraints(self):
         booking = self.reserve()

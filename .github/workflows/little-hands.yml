@@ -12,15 +12,15 @@ jobs:
   app:
     runs-on: ubuntu-24.04
     services:
-      postgres:
-        image: postgres:17@sha256:ff87138949ad9a46f32ff23bd6852b52ce024a13dffe9b4087be98292cdd3b4f
+      mysql:
+        image: mysql:8.4.11@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70
         env:
-          POSTGRES_DB: littlehands
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: disposable-ci-only
-        ports: ['5432:5432']
+          MYSQL_DATABASE: littlehands
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_ROOT_PASSWORD: disposable-ci-only
+        ports: ['3306:3306']
         options: >-
-          --health-cmd "pg_isready -U postgres -d littlehands"
+          --health-cmd "mysqladmin ping --protocol=tcp --host=127.0.0.1 --silent"
           --health-interval 5s --health-timeout 5s --health-retries 12
     defaults:
       run:
@@ -31,9 +31,9 @@ jobs:
       LH_ALLOWED_HOSTS: localhost,127.0.0.1,testserver
       LH_SITE_URL: http://localhost:8000
       LH_DB_HOST: 127.0.0.1
-      LH_DB_PORT: '5432'
+      LH_DB_PORT: '3306'
       LH_DB_NAME: littlehands
-      LH_DB_USER: postgres
+      LH_DB_USER: root
       LH_DB_PASSWORD: disposable-ci-only
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -41,7 +41,9 @@ jobs:
         with:
           python-version: '3.13'
       - run: |
-          python -m pip install --require-hashes --only-binary=:all: -r requirements.lock
+          sudo apt-get update
+          sudo apt-get install -y pkg-config default-libmysqlclient-dev
+          python -m pip install --require-hashes --only-binary=:all: --no-binary=mysqlclient -r requirements.lock
       - run: python -B manage.py check
       - run: python -B manage.py makemigrations --check --dry-run
       - run: python -B manage.py test booking.tests config.tests --verbosity 1
