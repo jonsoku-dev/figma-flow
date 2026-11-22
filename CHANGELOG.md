@@ -2,6 +2,11 @@
 
 ## 미출시
 
+## 1.0.0 · 2026-11-23
+
+- 작업 요청·승인·프로필·결과를 Codex에서 관리하고 Figma Design 플러그인에서 페이지와 실행 상태를 확인합니다. 등록 플러그인과 작업공간을 업그레이드할 때는 기존 ID·작업 버전을 대조하세요. [1.0.0 배포 기록](docs/llm-wiki/releases.md#v1.0.0) · [업그레이드 절차](skills/figma-plugin-setup/SKILL.md)
+- 기존 MySQL 8.4 서버의 검증 스키마에서 예약 앱 테스트 61건이 통과했습니다. 웹 계정의 마지막 좌석 동시 요청은 한 건 확정·한 건 대기였고, 보호 접근 네 건은 거절됐습니다. [예약 예제 운영 안내](apps/little-hands/README.md)
+
 - 동봉한 Little Hands 예약 예제가 MySQL 8.4 LTS를 사용합니다. 배포·CI는 같은 DB 계약을 사용하고 새 MySQL 스키마에서 예약 제약을 적용합니다. [변경 및 검증 범위](docs/llm-wiki/patches/84b0088da504951b07d75fa410fe9e3772fede69.md)
 
 - 검증이 끝나면 검증기가 만든 로그·캡처·임시 자료를 즉시 정리합니다. 실행 재현에 필요한 명령과 결과·지문을 저장소에 기록합니다. [검증 산출물 기록](docs/llm-wiki/patches/e2c05a76e035b0964d3b38ea8d07a8451e1bd79d.md)
