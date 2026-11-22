@@ -6,12 +6,12 @@
 
 | 경로 | 적합한 작업 | 시작 조건과 완료 증거 |
 | --- | --- | --- |
-| **Flow 로컬 bridge** | 이 저장소가 정의한 Design 가져오기, 검토, discover, 제한된 수정·토큰 동기화 | 고정 workspace에 준비된 작업, 실행 중인 플러그인, 정확한 file/page/revision. 실제 readback과 해당 검사 결과가 필요하다. [로컬 bridge 계약](../../../figma-bridge/README.md) |
-| **로컬 개발 플러그인 SDK** | 등록된 Flow의 지원 범위를 넘는 문서 노드·속성·변수·반응을 별도 플러그인에서 조작 | manifest의 editorType·permissions·documentAccess와 실제 API 존재 여부. 쓰기 뒤 getter로 결과를 다시 읽는다. [Plugin API](https://developers.figma.com/docs/plugins/api/figma/) |
+| **Figma Flow 로컬 제어** | 이 저장소가 정의한 Design 가져오기, 검토, discover, 제한된 수정·토큰 동기화와 등록된 recipe 실행 | 고정 workspace에 준비된 작업, 실행 중인 플러그인, 정확한 file/page/revision. Codex가 `context`, `profile`, `prepare`, `run`과 readback 검증을 관리한다. 패널은 현재 문맥과 상태만 표시한다. [로컬 bridge 계약](../../../figma-bridge/README.md) |
+| **별도 로컬 개발 플러그인 SDK** | Flow에 등록되지 않은 공개 Plugin API를 별도 플러그인에서 구현 | 독립 manifest와 Figma ID, 필요한 permission, 대상 편집기에서 실제 실행이 필요하다. 이 플러그인은 Figma Flow viewer가 아니며 요청·승인·task 대화 경로로 안내하지 않는다. [Plugin API](https://developers.figma.com/docs/plugins/api/figma/) |
 | **REST** | 파일 JSON·렌더·댓글·버전·이벤트·관리 데이터, 허용된 변수 변경 | 토큰 scope·파일 접근·플랜·rate limit. 일반적인 캔버스 노드 CRUD 경로로 취급하지 않는다. [REST 시작점](https://developers.figma.com/docs/rest-api/) |
 | **제품 UI** | 라이브러리 활성화·발행, 브랜치 병합, 발표, 사이트 발행, 계정 관리 | 해당 제품과 권한으로 직접 연다. 저장소의 브라우저/Computer Use 규칙 및 현재 사용자 작업 범위를 따른다. |
 
-**실행 전 기록:** 요청 기능, 제품/편집기, 대상 URL·node ID, 현재 경로, 읽기/쓰기 구분, 권한·비용 제약, 변경 뒤 확인할 실제 값. 문서에 있는 API가 Flow의 지원 입력 형식에 자동으로 추가되지는 않는다.
+**실행 전 기록:** 요청 기능, 제품/편집기, 대상 URL·node ID, 현재 경로, 읽기/쓰기 구분, 사용자가 확인한 권한·비용 제약, 변경 뒤 확인할 실제 값. 프로필의 플랜·좌석은 사용자 선언이며 Figma subscription을 자동 측정한 값이 아니다. 문서에 있는 API가 Flow의 지원 입력 형식에 자동으로 추가되지는 않는다. `design-grid`는 [Figma Flow workspace recipe](../../../docs/figma-recipes.md#run-design-grid-through-figma-flow)로 실행한다.
 
 ## Design: 구조·레이아웃·벡터·미디어
 

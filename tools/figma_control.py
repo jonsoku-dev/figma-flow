@@ -35,14 +35,314 @@ MAX_READINESS = 64 * 1024
 READINESS_PROTOCOL = 'figma-flow-control-readiness-v1'
 # Capture the implementation loaded by this process, even if installation files change later.
 LOADED_VERSION = json.loads((Path(__file__).resolve().parents[1] / 'plugin.json').read_bytes())['version']
+PROFILE_POLICY_PATH = Path(__file__).resolve().parents[1] / 'library' / 'figma-profile' / 'policy.json'
+PROFILE_POLICY = json.loads(PROFILE_POLICY_PATH.read_bytes())
 LOADED_IMPLEMENTATION = hashlib.sha256(
     Path(__file__).read_bytes()
     + b'\0' + Path(workspace.__file__).read_bytes()
     + b'\0' + Path(detail_projection.__file__).read_bytes()
+    + b'\0' + PROFILE_POLICY_PATH.read_bytes()
 ).hexdigest()
 
 
 NATIVE_CLIENTS = {}
+RELAY_STATES = {}
+RELAY_LOCK = threading.RLock()
+RELAY_TTL = 15
+RELAY_REQUEST_TTL = 120
+PROFILE_PLANS = set(PROFILE_POLICY['options']['plans'])
+PROFILE_SEATS = set(PROFILE_POLICY['options']['seats'])
+PROFILE_ERROR_CODES = {'profile-save-failed', 'profile-storage-unavailable'}
+
+
+def context_fingerprint(context):
+    scope_value = {key: context.get(key) for key in ('session_id', 'file_key', 'page_id', 'user_id',
+                                                        'native_status', 'native_session_matches',
+                                                        'native_generation', 'expected_generation')}
+    return hashlib.sha256(workspace.encode(scope_value)).hexdigest()
+
+
+def _cli_context(root, context):
+    status = native_state(root)
+    client = NATIVE_CLIENTS.get(_relay_key(root))
+    session_matches = bool(client and client.get('session_id') == context.get('session_id') and
+                           time.time() - client.get('seen_at', 0) <= RELAY_TTL)
+    observed = status.get('observed_native') or {}
+    expected = status.get('expected_native') or {}
+    native_status_value = status['native_status'] if session_matches else 'unverified'
+    return {**context, 'native_status': native_status_value, 'native_session_matches': session_matches,
+            'native_generation': observed.get('generation'), 'expected_generation': expected.get('generation')}
+
+
+def _validate_profile_projection(profile):
+    if profile is None:
+        return
+    required = {'declared', 'needsSetup', 'storage'}
+    allowed = required | {'capabilities'}
+    if (not isinstance(profile, dict) or set(profile) - allowed or not required <= set(profile) or
+            not isinstance(profile.get('declared'), dict) or set(profile['declared']) != {'plan', 'seat'} or
+            profile['declared'].get('plan') not in PROFILE_PLANS or profile['declared'].get('seat') not in PROFILE_SEATS or
+            not isinstance(profile['needsSetup'], bool) or profile['storage'] not in {'local', 'session'}):
+        raise ValueError('Invalid profile projection')
+    capabilities = profile.get('capabilities')
+    if capabilities is not None and (not isinstance(capabilities, dict) or
+            set(capabilities) != set(PROFILE_POLICY['capabilities']) or
+            any(not isinstance(value, bool) for value in capabilities.values())):
+        raise ValueError('Invalid profile capabilities')
+
+
+def _relay_key(root):
+    return str(Path(root).resolve())
+
+
+def _relay_state(root):
+    key = _relay_key(root)
+    now = time.time()
+    state = RELAY_STATES.get(key)
+    if state is None:
+        if len(RELAY_STATES) >= 128:
+            oldest = min(RELAY_STATES, key=lambda item: RELAY_STATES[item].get('touched_at', 0))
+            RELAY_STATES.pop(oldest, None)
+        state = {'context': None, 'requests': {}, 'active': None}
+        RELAY_STATES[key] = state
+    state['touched_at'] = now
+    requests = state['requests']
+    for request_id, request in list(requests.items()):
+        if request['state'] != 'pending' and now - request.get('completed_at', now) > RELAY_REQUEST_TTL:
+            requests.pop(request_id, None)
+    if len(requests) > 64:
+        for request_id, request in sorted(requests.items(), key=lambda item: item[1].get('created_at', 0)):
+            if request_id != state.get('active') and request['state'] != 'pending':
+                requests.pop(request_id, None)
+                if len(requests) <= 64:
+                    break
+    return state
+
+
+def _validate_relay_context(value):
+    if not isinstance(value, dict) or set(value) - {'session_id', 'file_key', 'page_id', 'user_id', 'selection', 'selection_total', 'selection_truncated', 'profile'} or not {'session_id', 'file_key', 'page_id', 'user_id', 'selection'} <= set(value):
+        raise ValueError('Invalid relay context')
+    identity(value['session_id'], 'plugin session')
+    scope(value['file_key'], value['page_id'], '0' * 64)
+    if value['user_id'] is not None and (not isinstance(value['user_id'], str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,256}', value['user_id'])):
+        raise ValueError('Invalid local account identifier')
+    rows = value['selection']
+    if not isinstance(rows, list) or len(rows) > 20:
+        raise ValueError('Invalid bounded selection')
+    total = value.get('selection_total', len(rows))
+    truncated = value.get('selection_truncated', total > len(rows))
+    if not isinstance(total, int) or isinstance(total, bool) or total < len(rows) or not isinstance(truncated, bool) or truncated != (total > len(rows)):
+        raise ValueError('Invalid selection coverage')
+    selection = []
+    for row in rows:
+        if not isinstance(row, dict) or set(row) != {'id', 'name', 'type'}:
+            raise ValueError('Invalid selection metadata')
+        if any(not isinstance(row[key], str) or len(row[key]) > limit or (key != 'name' and not row[key])
+               for key, limit in (('id', 200), ('name', 200), ('type', 80))):
+            raise ValueError('Invalid selection metadata')
+        selection.append(dict(row))
+    _validate_profile_projection(value.get('profile'))
+    return {**value, 'selection': selection, 'selection_total': total, 'selection_truncated': truncated}
+
+
+def _relay_poll_unlocked(root, payload):
+    if not isinstance(payload, dict) or set(payload) - {'context', 'profile_result'}:
+        raise ValueError('Invalid relay poll')
+    now = time.time()
+    state = _relay_state(root)
+    context = _validate_relay_context(payload['context']) if 'context' in payload else None
+    if context:
+        state['context'] = {**context, 'seen_at': now}
+    result = payload.get('profile_result')
+    if result is not None:
+        if not isinstance(result, dict) or set(result) - {'request_id', 'status', 'profile', 'error_code'} or not {'request_id', 'status'} <= set(result):
+            raise ValueError('Invalid profile result')
+        request_id = result.get('request_id')
+        request = state['requests'].get(request_id) if isinstance(request_id, str) else None
+        if request_id and (not isinstance(request_id, str) or not re.fullmatch(r'[a-f0-9]{32}', request_id)):
+            raise ValueError('Invalid profile request ID')
+        if result['status'] in {'ok', 'error', 'uncertain'}:
+            error_code = result.get('error_code')
+            if error_code is None or error_code in PROFILE_ERROR_CODES:
+                profile = result.get('profile')
+                try:
+                    _validate_profile_projection(profile)
+                except ValueError:
+                    profile = None
+                    error_code = None
+                ack = {'status': result['status']}
+                if profile is not None:
+                    ack['profile'] = profile
+                if error_code is not None:
+                    ack['error_code'] = error_code
+                if request is None and request_id:
+                    # A server restart lost the mailbox. Consume the late result as uncertain;
+                    # never issue a new save based on an orphaned acknowledgement.
+                    request = {'request_id': request_id, 'session_id': context.get('session_id') if context else None,
+                               'file_key': context.get('file_key') if context else None,
+                               'page_id': context.get('page_id') if context else None,
+                               'user_id': context.get('user_id') if context else None,
+                               'requested_profile': None, 'state': 'uncertain', 'observed_profile': profile,
+                               'error_code': error_code, 'ack': ack, 'created_at': now, 'completed_at': now}
+                    state['requests'][request_id] = request
+                elif request:
+                    if request.get('ack') == ack:
+                        pass
+                    elif request['state'] == 'pending':
+                        same_scope = context and all(context[field] == request[field] for field in ('session_id', 'file_key', 'page_id', 'user_id'))
+                        if now > request['deadline'] or not same_scope:
+                            terminal = 'uncertain' if request.get('dispatched_at') else 'expired'
+                            request.update(state=terminal, observed_profile=profile, error_code=error_code,
+                                           ack=ack, completed_at=now)
+                        else:
+                            status = result['status']
+                            if status == 'ok' and (not profile or profile.get('declared') != request['requested_profile'] or
+                                    profile.get('storage') != 'local' or profile.get('needsSetup') is not False):
+                                status = 'uncertain'
+                            request.update(state=status, observed_profile=profile, error_code=error_code,
+                                           ack=ack, completed_at=now)
+                    elif request['state'] in {'expired', 'uncertain'} and request.get('dispatched_at'):
+                        request.update(state='uncertain', observed_profile=profile, error_code=error_code,
+                                       ack=ack, completed_at=now)
+                    else:
+                        # Conflicting or late ACKs for terminal requests are consumed, not retried forever.
+                        request['ignored_ack'] = ack
+    active = state.get('active')
+    if active:
+        request = state['requests'].get(active)
+        if not request or request['state'] != 'pending' or now > request['deadline']:
+            if request and request['state'] == 'pending':
+                terminal = 'uncertain' if request.get('dispatched_at') else 'expired'
+                request.update(state=terminal, completed_at=now)
+            state['active'] = None
+    request = state['requests'].get(state.get('active')) if state.get('active') else None
+    if request and request['state'] == 'pending' and context and all(context[field] == request[field] for field in ('session_id', 'file_key', 'page_id', 'user_id')):
+        command = {key: request[key] for key in ('request_id', 'session_id', 'file_key', 'page_id', 'user_id')}
+        command['profile'] = request['requested_profile']
+    else:
+        command = None
+    return _relay_reply(state, now, command)
+
+
+def _relay_reply(state, now, command=None):
+    return {'profile_request': command,
+            'context': ({key: value for key, value in state['context'].items() if key != 'seen_at'}
+                        if state['context'] and now - state['context']['seen_at'] <= RELAY_TTL else None)}
+
+
+def relay_poll(root, payload):
+    with RELAY_LOCK:
+        return _relay_poll_unlocked(root, payload)
+
+
+def relay_mark_dispatched(root, request_id):
+    with RELAY_LOCK:
+        state = _relay_state(root)
+        request = state['requests'].get(request_id)
+        if request and request['state'] == 'pending' and time.time() <= request['deadline']:
+            request.setdefault('dispatched_at', time.time())
+
+
+def _relay_command_unlocked(root, payload):
+    if not isinstance(payload, dict) or payload.get('action') not in {'context', 'profile-get', 'profile-set', 'profile-status'}:
+        raise ValueError('Invalid relay command')
+    state = _relay_state(root)
+    now = time.time()
+    action = payload['action']
+    fields = {'context': {'action'}, 'profile-get': {'action'},
+              'profile-status': {'action', 'request_id'},
+              'profile-set': {'action', 'profile', 'expected_context'}}
+    if set(payload) != fields[action]:
+        raise ValueError('Relay command fields do not match its action')
+    active_id = state.get('active')
+    active_request = state['requests'].get(active_id) if active_id else None
+    if active_request and active_request['state'] == 'pending' and now > active_request['deadline']:
+        active_request.update(state='uncertain' if active_request.get('dispatched_at') else 'expired', completed_at=now)
+        state['active'] = None
+    if action == 'profile-status':
+        request = state['requests'].get(payload.get('request_id'))
+        if request and request['state'] == 'pending' and now > request['deadline']:
+            request.update(state='uncertain' if request.get('dispatched_at') else 'expired', completed_at=now)
+            if state.get('active') == request['request_id']:
+                state['active'] = None
+        return dict(request) if request else {'state': 'expired', 'request_id': payload.get('request_id')}
+    current = state.get('context')
+    if not current or now - current['seen_at'] > RELAY_TTL:
+        return {'state': 'offline', 'context': None}
+    context = _cli_context(root, {key: value for key, value in current.items() if key != 'seen_at'})
+    if action == 'context':
+        return {'state': 'ok', 'context': context, 'context_fingerprint': context_fingerprint(context)}
+    if action == 'profile-get':
+        return {'state': 'ok' if context.get('profile') else 'unknown', 'context': context,
+                'profile': context.get('profile'), 'context_fingerprint': context_fingerprint(context)}
+    profile = payload.get('profile')
+    if (not isinstance(profile, dict) or set(profile) != {'plan', 'seat'} or
+            profile['plan'] not in PROFILE_PLANS or profile['seat'] not in PROFILE_SEATS):
+        raise ValueError('Invalid profile declaration')
+    expected_context = payload.get('expected_context')
+    fingerprint = context_fingerprint(context)
+    if not isinstance(expected_context, str) or not hmac.compare_digest(expected_context, fingerprint):
+        return {'state': 'scope-changed', 'context_fingerprint': fingerprint}
+    if context.get('native_status') != 'current-self-reported' or context.get('native_generation') != context.get('expected_generation'):
+        return {'state': 'stale-native', 'context': context, 'context_fingerprint': fingerprint}
+    if context.get('user_id') is None:
+        return {'state': 'unconfirmed', 'context': context, 'profile': context.get('profile')}
+    active_id = state.get('active')
+    existing = state['requests'].get(active_id) if active_id else None
+    if existing and existing['state'] == 'pending':
+        if all(existing[field] == context[field] for field in ('session_id', 'file_key', 'page_id', 'user_id')) and existing['requested_profile'] == profile:
+            return {key: value for key, value in existing.items() if key != 'deadline'}
+        return {'state': 'busy', 'context_fingerprint': fingerprint}
+    current_profile = context.get('profile')
+    if (current_profile and current_profile['storage'] == 'local' and not current_profile['needsSetup'] and
+            current_profile['declared'] == profile):
+        return {'state': 'ok', 'profile': current_profile,
+                **{key: context[key] for key in ('session_id', 'file_key', 'page_id')}}
+    directory = state_dir(root)
+    active_request = active(directory)
+    if ((active_request and active_request['state'] in {'pending', 'claimed', 'uncertain'}) or
+            uncertainties(directory)['operations']):
+        return {'state': 'busy', 'context_fingerprint': fingerprint}
+    request_id = secrets.token_hex(16)
+    request = {'request_id': request_id, **{key: context[key] for key in ('session_id', 'file_key', 'page_id', 'user_id')},
+               'requested_profile': profile, 'state': 'pending', 'created_at': now, 'deadline': now + RELAY_REQUEST_TTL}
+    state['requests'][request_id] = request
+    state['active'] = request_id
+    return {key: value for key, value in request.items() if key != 'deadline'}
+
+
+def relay_command(root, payload):
+    with workspace.locked(root):
+        with RELAY_LOCK:
+            return _relay_command_unlocked(root, payload)
+
+
+def relay_request(root, action, *, profile=None, request_id=None, expected_context=None):
+    settings = config(workspace.private_dir(root))
+    payload = {'action': action}
+    if profile is not None:
+        payload['profile'] = profile
+    if request_id is not None:
+        payload['request_id'] = request_id
+    if expected_context is not None:
+        payload['expected_context'] = expected_context
+    connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=3)
+    try:
+        connection.request('POST', '/control/relay', workspace.encode(payload),
+                           {'Host': f'localhost:{settings["port"]}', 'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + settings['token']})
+        response = connection.getresponse()
+        raw = response.read(65537)
+        if response.status != 200 or len(raw) > 65536:
+            raise ReadinessError('Relay request rejected or oversized; reopen the same Figma Flow plugin')
+        value = json.loads(raw)
+        if not isinstance(value, dict):
+            raise ReadinessError('Malformed relay response')
+        return value
+    except (ConnectionRefusedError, TimeoutError, OSError, http.client.HTTPException):
+        raise ReadinessError('Control server unavailable; reopen the same Figma Flow plugin') from None
+    finally:
+        connection.close()
 
 
 def native_state(root):
@@ -410,7 +710,8 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
 
 
 def poll(root, payload):
-    if set(payload) not in ({'session_id', 'file_key', 'page_id'}, {'session_id', 'file_key', 'page_id', 'runtime'}):
+    poll_fields = {'session_id', 'file_key', 'page_id'}
+    if not isinstance(payload, dict) or set(payload) - (poll_fields | {'runtime', 'relay'}) or not poll_fields <= set(payload):
         raise ValueError('Exact plugin poll fields required')
     runtime = payload.get('runtime')
     if runtime is not None and (not isinstance(runtime, dict) or set(runtime) != {'version', 'implementation', 'generation'} or
@@ -420,6 +721,16 @@ def poll(root, payload):
         raise ValueError('Invalid native runtime identity')
     session = identity(payload['session_id'], 'plugin session')
     scope(payload['file_key'], payload['page_id'], '0' * 64)
+    relay = None
+    if 'relay' in payload:
+        relay_payload = payload['relay']
+        if not isinstance(relay_payload, dict) or set(relay_payload) - {'context', 'profile_result'}:
+            raise ValueError('Invalid relay poll')
+        if 'context' in relay_payload:
+            context = _validate_relay_context(relay_payload['context'])
+            if (context['session_id'], context['file_key'], context['page_id']) != (session, payload['file_key'], payload['page_id']):
+                raise ValueError('Relay context differs from authenticated plugin poll')
+        relay = relay_poll(root, relay_payload)
     with workspace.locked(root) as root:
         client_key = str(root.resolve())
         if len(NATIVE_CLIENTS) >= 256 and client_key not in NATIVE_CLIENTS:
@@ -428,29 +739,45 @@ def poll(root, payload):
         native = native_state(root)
         directory = state_dir(root)
         request = active(directory)
+        if relay is not None and relay.get('profile_request'):
+            unresolved = request and request['state'] in {'pending', 'claimed', 'uncertain'}
+            if not unresolved:
+                unresolved = bool(uncertainties(directory)['operations'])
+            relay_context = relay.get('context')
+            current_native = (native['native_status'] == 'current-self-reported' and
+                              isinstance(relay_context, dict) and relay_context.get('session_id') == session and
+                              relay_context.get('file_key') == payload['file_key'] and relay_context.get('page_id') == payload['page_id'])
+            if unresolved or not current_native:
+                relay = {**relay, 'profile_request': None}
+
+        def poll_reply(value):
+            profile_command = relay.get('profile_request') if relay is not None else None
+            if profile_command:
+                relay_mark_dispatched(root, profile_command['request_id'])
+            return {**value, **({'relay': relay} if relay is not None else {})}
         if not request or request['state'] != 'pending':
-            return {'operation': None, **native}
+            return poll_reply({'operation': None, **native})
         if request['operation'] != 'read' and native['native_status'] != 'current-self-reported':
-            return {'operation': None, **native}
+            return poll_reply({'operation': None, **native})
         if request['operation'] != 'read' and uncertainties(directory)['operations']:
             request.update(state='error', error='Previous mutation remains uncertain', completed_at=time.time())
             save(directory, request)
-            return {'operation': None, **native}
+            return poll_reply({'operation': None, **native})
         if request['file_key'] != payload['file_key'] or request['page_id'] != payload['page_id'] and not request.get('focus_page', False):
-            return {'operation': None, **native}
+            return poll_reply({'operation': None, **native})
         try:
             task(root, request)
         except ValueError:
             request.update(state='error', error='Prepared task changed before claim', completed_at=time.time())
             save(directory, request)
-            return {'operation': None, **native}
+            return poll_reply({'operation': None, **native})
         if lifecycle_present(request):
             validate_lifecycle(request)
         request.update(state='claimed', session_id=session, claim_id=secrets.token_hex(16), claimed_at=time.time())
         if lifecycle_present(request):
             record_phase(request, 'claimed')
         save(directory, request)
-        return {**native, 'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}}
+        return poll_reply({**native, 'operation': {**{key: request[key] for key in ('id', 'claim_id', 'session_id', 'key', 'operation', 'file_key', 'page_id', 'revision', 'deadline')}, 'focus_page': request.get('focus_page', False)}})
 
 
 def result(root, payload, *, large_body_bytes=None):
@@ -826,7 +1153,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result', '/control/result-large', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/result-large', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail', '/control/relay'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
@@ -858,6 +1185,8 @@ class Handler(BaseHTTPRequestHandler):
                 value = history(self.server.workspace, payload)
             elif self.path == '/control/history-detail':
                 value = history_detail(self.server.workspace, payload)
+            elif self.path == '/control/relay':
+                value = relay_command(self.server.workspace, payload)
             elif self.path == '/control/result-large':
                 value = result(self.server.workspace, payload, large_body_bytes=int(length))
             else:
@@ -893,13 +1222,20 @@ def serve(root):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    for name in ('enable', 'serve', 'run', 'status'):
+    for name in ('enable', 'serve', 'run', 'status', 'context', 'profile'):
         command = commands.add_parser(name)
         command.add_argument('--workspace', type=Path, required=True)
         if name == 'enable':
             command.add_argument('--port', type=int, required=True)
         elif name == 'status':
             command.add_argument('--id')
+        elif name == 'profile':
+            command.add_argument('action', choices=('get', 'set', 'status'))
+            command.add_argument('--plan', choices=sorted(PROFILE_PLANS))
+            command.add_argument('--seat', choices=sorted(PROFILE_SEATS))
+            command.add_argument('--request-id')
+            command.add_argument('--expected-context')
+            command.add_argument('--timeout', type=float, default=30)
         elif name == 'run':
             for field in ('key', 'file-key', 'page-id', 'expected-revision'):
                 command.add_argument('--' + field, required=True)
@@ -916,6 +1252,25 @@ def main(argv=None):
             return 0
         elif args.command == 'status':
             value = status(args.workspace, args.id)
+        elif args.command == 'context':
+            value = relay_request(args.workspace, 'context')
+        elif args.command == 'profile':
+            if args.action == 'get':
+                value = relay_request(args.workspace, 'profile-get')
+            elif args.action == 'status':
+                if not args.request_id:
+                    raise ValueError('Profile status requires --request-id')
+                value = relay_request(args.workspace, 'profile-status', request_id=args.request_id)
+            else:
+                if not args.plan or not args.seat or not args.expected_context or not 1 <= args.timeout <= 3600:
+                    raise ValueError('Profile set requires --plan, --seat, --expected-context and a valid timeout')
+                value = relay_request(args.workspace, 'profile-set', profile={'plan': args.plan, 'seat': args.seat},
+                                      expected_context=args.expected_context)
+                if value.get('state') == 'pending':
+                    deadline = time.time() + args.timeout
+                    while value.get('state') == 'pending' and time.time() < deadline:
+                        time.sleep(.25)
+                        value = relay_request(args.workspace, 'profile-status', request_id=value['request_id'])
         else:
             require_ready(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, focus_page=args.focus_page)
             value = enqueue(args.workspace, args.key, args.operation, args.file_key, args.page_id, args.expected_revision, args.timeout, focus_page=args.focus_page)
@@ -924,7 +1279,7 @@ def main(argv=None):
                     time.sleep(min(.2, max(.01, value['deadline'] - time.time())))
                     value = status(args.workspace, value['id'])
         print(json.dumps(value, ensure_ascii=True, allow_nan=False))
-        return 2 if value.get('state') in {'error', 'uncertain', 'expired'} else 0
+        return 2 if value.get('state') in {'error', 'uncertain', 'expired', 'scope-changed', 'unconfirmed', 'offline', 'stale-native', 'busy'} else 0
     except ReadinessError as error:
         print('figma-control: ' + str(error), file=sys.stderr)
         return 2

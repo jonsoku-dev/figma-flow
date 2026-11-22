@@ -1,4 +1,4 @@
-"""Static, source-pinned Design examples for the native plugin menu only."""
+"""Source-pinned Design examples for Codex tasks and legacy menu generation."""
 import argparse
 import hashlib
 import html
@@ -91,6 +91,41 @@ def verify_production_helpers():
     if production.is_symlink() or helper_sources(production.read_text(), names) != helper_sources((LIBRARY / row['helpers']).read_text(), names):
         raise ValueError('Required production helpers changed; rebuild and review the recipe bundle')
     return {'status': 'verified', 'productionFunctions': names}
+
+
+def prepare_relay_example(options, output, plugin_id):
+    """Wrap a fixed, hash-checked example in the existing signed native-edit lifecycle."""
+    if set(options) != {'--recipe', '--file-key', '--page-id'}:
+        raise ValueError('Example preparation requires exactly --recipe, --file-key and --page-id')
+    key, file_key, page_id = (options[n] for n in ('--recipe', '--file-key', '--page-id'))
+    if not re.fullmatch(r'[A-Za-z0-9]{1,128}', file_key) or not re.fullmatch(r'[0-9]+:[0-9]+', page_id):
+        raise ValueError('A real Design file key and page ID are required')
+    source = bundled_actions().get(key)
+    if source is None:
+        raise ValueError('Unknown bundled example')
+    entry = 'main().catch((error) => figma.closePlugin(String(error)));'
+    if not source.rstrip().endswith(entry):
+        raise ValueError('Unrecognized pinned example entry')
+    plan = {'schema':'figma-flow-example-plan-v1','file_key':file_key,'page_id':page_id,'recipe':key,
+            'source_sha256':hashlib.sha256(source.encode()).hexdigest()}
+    plan['pin'] = hashlib.sha256(json.dumps(plan, sort_keys=True).encode()).hexdigest()
+    model = {'session': plan['pin'], 'mode':'example', 'recipe_receipt':{'recipe':key, 'pin':plan['pin']}}
+    # Existing SDK examples close their standalone plugin after success. Here
+    # the workspace owns the lifetime, and main() must finish before readback.
+    runner = ('async function runPinnedExample(host) {\n'
+              'const figma = new Proxy({}, {get(_, key) { if (key === "closePlugin") return () => {}; '
+              'const value = host[key]; return typeof value === "function" ? value.bind(host) : value; }});\n'
+              + source.rstrip().removesuffix(entry) + '\nawait main();\n}\n')
+    code = ('const RECIPE_PLAN = ' + json.dumps(plan) + ';\nconst RECIPE_SESSION = ' + json.dumps(plan['pin']) +
+            ';\n' + runner + (ROOT/'figma-bridge/relay_recipe.js').read_text())
+    manifest = {'name':'Flow scoped example','id':plugin_id,'api':'1.0.0','main':'code.js','ui':'ui.html',
+                'editorType':['figma'],'documentAccess':'dynamic-page','networkAccess':{'allowedDomains':['none']}}
+    output.mkdir()
+    (output/'code.js').write_text(code)
+    (output/'ui.html').write_text('<script id="graph-panel-config" type="application/json">'+json.dumps(model)+'</script>')
+    (output/'manifest.json').write_text(json.dumps(manifest))
+    (output/'native-edit-plan.json').write_text(json.dumps(plan))
+    return output
 
 
 def confirmation(key, title):

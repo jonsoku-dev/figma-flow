@@ -8,13 +8,13 @@
 
 설치·사용·업데이트 안내의 정본은 이 문서 하나입니다. [설치 프롬프트](#setup-prompt) · [환경 설정](#environment) · [업데이트와 복구](#updates) · [회사 private 배포](#private-distribution)
 
-이 가이드의 워크숍 예제는 두 시안을 비교합니다. 실제 작업은 구체적인 방향·참조가 있으면 한 안으로 진행하고, 비교를 요청했거나 방향 선택이 필요할 때만 여러 안을 만듭니다. 실제 프로젝트로 옮길 때는 8단계에서 내 브리프와 디자인 시스템을 연결하세요. 사용자가 Figma Flow를 실행 세션마다 한 번 직접 열면 Codex가 localhost 명령으로 작업합니다. 수동 패널도 같은 결과 JSON으로 검증합니다. [복사해서 쓰는 설치 프롬프트](#setup-prompt)
+이 가이드의 워크숍 예제는 두 시안을 비교합니다. 실제 작업은 구체적인 방향·참조가 있으면 한 안으로 진행하고, 비교를 요청했거나 방향 선택이 필요할 때만 여러 안을 만듭니다. 실제 프로젝트로 옮길 때는 8단계에서 내 브리프와 디자인 시스템을 연결하세요. 사용자가 대상 파일에서 Figma Flow를 실행 세션마다 한 번 열면 Codex가 localhost 명령으로 작업합니다. 대화·승인·프로필·작업 준비·결과 검증은 Codex에서 진행합니다. Figma 패널은 현재 문맥과 연결·실행 상태를 표시합니다. [복사해서 쓰는 설치 프롬프트](#setup-prompt)
 
 <a id="local-figma-features"></a>
 
 ## Figma 기능 찾기와 데스크톱 실행
 
-Figma Flow는 등록한 개발 플러그인과 로컬 도구에서 기능을 찾고 실행합니다. 대상 Design 파일을 연 뒤 **플러그인 → 개발 → Figma Flow → Examples · add to current page**에서 예제를 선택하고 확인 버튼을 누르세요. 현재 페이지에 불리언·마스크, 그리드, Smart Animate, 컴포넌트 속성 중 선택한 컨테이너가 생깁니다. **Figma Flow workspace**는 기존 작업 목록을 엽니다. 새 메뉴가 보이지 않으면 등록한 작업공간의 manifest를 현재 버전으로 갱신하고 같은 플러그인을 다시 여세요.
+기능 경로를 확인하고 요청한 작업을 Codex가 준비한 뒤 실행합니다. 패널 메뉴에서 예제를 골라 직접 적용하는 흐름은 제공하지 않습니다. 현재 저장소의 `design-grid` 예제를 실행하려면 [작업 준비와 실행](#6-시안-만들기-결과-저장-대조)을 따릅니다. Flow에 없는 공개 Plugin API는 별도 SDK 프로젝트에서 개발하고 그 경로의 실제 검증 범위를 기록합니다.
 
 ```sh
 python3 tools/figma_feature.py route "마스크"
@@ -71,9 +71,9 @@ python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
 
 `--out`에는 새 경로를 지정합니다. Chrome 또는 Chromium, Node, Python이 PATH에 있어야 합니다. 브라우저가 기본 위치에 없으면 `--chrome /path/to/chrome`을 지정하세요. 이 예제 rail은 직접 카드 요소 네 개와 5000ms 자동재생을 사용합니다. 다른 페이지에서는 첫 카드의 정확한 제목을 `--first-card`에 넣고 `--interval-ms`에는 실제 측정한 간격을 지정합니다. 별도로 가져오는 carousel graph마다 다른 `--id`를 지정하세요. rail selector가 하나로 한정되면 `--first-card`를 생략할 수 있습니다. 출력 폴더에는 상태 PNG 네 장, 측정한 `WEB-saas-feature-N.json` 화면, `observations.json`, 전환 영수증, `media.json`, 고정 자산, `carousel-graph.json`이 들어갑니다. Plan을 만들기 전에 PNG 네 장과 `media.json`을 확인하세요.
 
-`refresh`는 준비한 작업을 기존 workspace 플러그인에 게시합니다. Figma Flow가 이미 열려 있으면 닫고 다시 실행해 새 작업을 읽으세요. 별도 로컬 제어 서비스는 사람이 플러그인 화면에서 Apply와 Read를 할 때 필요하지 않습니다. 대상 Design 파일에서 Figma Flow를 수동으로 엽니다. 홈의 **이 파일의 디자인 작업**에서 **Team status carousel**을 선택하고 **Read / Apply 열기**를 누릅니다. 적용 전에 대상 파일, 페이지, 프레임을 확인하세요. 확인 화면에서 **확인한 범위에 적용**을 눌러 준비한 프레임과 prototype 전환을 적용합니다. 작업이 끝나면 **Figma 값 읽고 저장**을 눌러 실제 Figma 프레임과 전환을 읽습니다. Readback JSON을 캡처 폴더와 함께 보관하세요. Readback은 프레임과 전환 설정을 확인하지만 Figma Present 재생은 확인하지 않습니다.
+`refresh`는 준비한 작업을 기존 workspace 플러그인에 게시합니다. 새 revision이 필요하면 같은 Figma Flow를 다시 실행합니다. Codex가 정확한 file/page/revision으로 `apply`와 `read`를 실행하고 실제 readback을 보관합니다. Readback은 프레임과 전환 설정을 확인하지만 Figma Present 재생은 확인하지 않습니다. [Codex 명령](#11-codex에서-대화-프로필-승인-결과-관리).
 
-현재 readback 이후 홈 작업 목록과 History에 **Present**와 **시작 프레임 선택**이 표시됩니다. **Present**는 검증된 prototype을 엽니다. **시작 프레임 선택**은 Design 파일에서 시작 프레임을 선택합니다. 이어서 Figma의 Present 제어로 재생하세요. [Codex 제어 서비스가 필요한 경로](#11-작업을-준비한-codex-채팅으로-연결).
+Codex에서 검증한 뒤 Figma의 Present 제어로 prototype을 재생할 수 있습니다. 이 단계는 실제 Figma prototype의 사용자 흐름을 확인하며 Figma Flow 패널에서 실행하지 않습니다. [작업 실행 명령](#11-codex에서-대화-프로필-승인-결과-관리).
 
 <a id="web-tabs-quickstart"></a>
 ### 웹 탭 전환을 캡처해 Figma에서 재생하기
@@ -154,14 +154,14 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 
 ## 기본 흐름: 한 번 실행하고 Codex에 맡기기
 
-등록된 **Figma Flow workspace**를 처음 열면 사용자·파일·페이지와 실행 맥락을 확인하고 플랜과 좌석을 각각 선택합니다. 모르면 **모름**으로 계속할 수 있습니다. 업그레이드하거나 다른 팀에서 작업할 때는 홈의 환경 설정을 다시 여세요. 설정은 현재 PC의 Figma 클라이언트에서 계정과 파일별로 저장됩니다. 좌석을 선택한 뒤에도 실제 Figma 파일의 권한과 실행 모드가 적용됩니다. [자동으로 읽는 정보와 기능 판정](../specs/local-profile-init/spec.md)
+Codex는 플러그인의 읽기 전용 문맥을 확인하고 프로필 선언을 관리합니다. 플랜이나 좌석을 Figma에서 추론하지 않습니다. 모르면 `unknown`을 선언합니다. Figma 권한은 실제 파일과 실행 모드에 따라 적용됩니다. [자동으로 읽는 정보와 기능 판정](../specs/local-profile-init/spec.md)
 
 소비자에게 Computer Use나 공식 Figma MCP 연결을 요구하지 않습니다. Codex는 이 플러그인의 localhost 명령을 사용합니다. 개발자는 별도로 허용된 환경에서 Computer Use로 검수할 수 있지만 제품 실행 의존성은 아닙니다.
 
-1. Codex가 실제 Figma ID로 고정 작업공간과 필요한 작업을 준비합니다. 최초 등록은 4~5절을 따릅니다.
-2. 사용자가 대상 Figma Design 파일에서 **Figma Flow**를 직접 한 번 실행하고 열린 상태로 둡니다. 이 실행 세션이 유지되는 동안 Codex가 아래 로컬 제어 명령을 사용할 수 있습니다.
-3. Codex가 작업 키·operation·파일·페이지·현재 revision을 고정해 실행하고, 반환된 실제 JSON을 기존 검증기로 대조합니다. 비교 경로의 후보 선택은 실제 사용자 답변을 사용하며, 단일안 경로는 해당 작업을 요청한 실제 지시를 검증합니다.
-4. 홈의 **다음 작업**과 **이력**에서 진행·실패·읽기·검증 상태를 확인합니다. 제어 연결이 없으면 **준비된 작업 → 열기**와 아래 패널 버튼이 수동 대체 경로입니다.
+1. Codex가 실제 Figma ID로 고정 작업공간과 요청한 작업을 준비합니다. 최초 등록은 4~5절을 따릅니다.
+2. 사용자가 대상 Figma Design 파일에서 **Figma Flow**를 실행 세션마다 한 번 직접 열어 둡니다. 패널은 현재 파일·페이지·선택과 연결·실행 상태만 표시합니다.
+3. Codex가 요청, 필요한 승인, 작업 준비, 실행 및 반환된 실제 JSON 검증을 관리합니다. 비교를 요청하면 Codex가 후보를 제시하고 사용자의 답을 기다립니다.
+4. 연결이나 실행에 문제가 있으면 Codex가 상태와 진단을 확인합니다. Figma 패널에 대화 입력·승인·작업 실행 버튼은 없습니다.
 
 ```sh
 # Codex가 기존 private 작업공간에서 한 번 구성합니다. 포트는 예시입니다.
@@ -170,7 +170,7 @@ Mac 또는 Windows용 Figma Desktop에서 편집할 수 있는 **Figma Design** 
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" serve --workspace "$WORKSPACE"
 ```
 
-`enable`만으로 열린 플러그인 코드가 바뀌지는 않습니다. `refresh` 후 Figma Flow를 실행하세요. `serve`는 보이는 로컬 실행 세션에서 유지하고, 아래 `run`은 Codex의 다른 CLI 실행에서 사용합니다. relay와 Figma Desktop은 같은 Mac 안의 localhost(루프백) 연결을 사용합니다. 이 제어 트래픽은 Mac 밖의 네트워크로 보내지 않습니다. 현재 환경에서 연결이 차단됐다고 가정하지 말고 실제 연결 결과를 확인합니다. 원격 Codex라면 Desktop이 있는 머신에서 서비스와 명령을 실행할 경로가 필요합니다.
+`enable`만으로 열린 플러그인 코드가 바뀌지는 않습니다. `refresh` 후 Figma Flow를 다시 실행합니다. `serve`는 Figma Desktop과 같은 컴퓨터에서 유지합니다. `run`과 `status`는 Codex가 사용합니다. relay와 Figma Desktop은 localhost 연결을 사용합니다. 현재 연결 결과를 확인하고 원격 Codex에서는 Desktop 머신에 명령을 전달할 경로를 준비합니다.
 
 ```sh
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
@@ -206,23 +206,23 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 1. Codex가 시안 원본에 글꼴 패밀리와 스타일을 함께 지정합니다. 예를 들어 제목은 `Hahmlet Bold`, 본문은 `Noto Sans KR Regular`로 준비합니다.
 2. 대상 Design 파일에서 Figma Flow를 엽니다. 시안을 생성하면 플러그인이 Figma가 제공하는 패밀리·스타일 목록을 확인하고 필요한 글꼴을 로드합니다. 글꼴 메뉴를 클릭할 필요가 없습니다.
 3. 필요한 스타일이 없으면 시안 생성 전 진단에 나온 이름을 확인합니다. 조직에서 제공하는 글꼴을 사용하거나 원본에 사용 가능한 스타일을 지정해 다시 준비합니다. 웹에 포함한 폰트 파일은 Figma에서 별도로 사용할 수 있어야 합니다.
-4. Codex가 로컬 제어 연결로 결과를 회수합니다. 오프라인 작업이나 연결 장애 때는 사용자가 **검토 시안 만들기 → 결과 JSON 저장**을 실행하고 파일을 전달합니다. Codex가 실제 텍스트의 `fontName.family`와 `fontName.style`을 원본과 대조합니다.
+4. Codex가 실제 readback에서 `fontName.family`와 `fontName.style`을 읽어 원본과 대조합니다. 연결이 끊기면 viewer 상태를 확인하고 같은 Figma Flow 세션을 복구한 뒤 읽기를 다시 요청합니다. 패널에서 결과를 수동 저장하는 경로는 없습니다.
 
 ### 사진 입력 준비
 
 사진 입력은 PNG·JPEG·GIF를 사용하고 가로·세로가 각각 4,096px 이하여야 합니다. 준비 단계에서 이미지 디코딩과 크기를 확인하며 원본을 자동으로 축소하지 않습니다. 큰 원본은 보존하고 제한 안의 사본을 제공하세요. [정상 사진·글꼴 연결 예제](../examples/regression-program/html/positive-assets/README.md)에서 실제 파일과 출처를 확인할 수 있습니다.
 
-### 이력, 다음 작업, 언어와 접근성
+### 현재 패널 빠른 찾기
 
-현재 작업 상태 차트는 각 task revision의 마지막 관측을 집계합니다. 전체 제품 인수 완료율은 아닙니다. 실행 흐름을 펼치면 같은 실행의 요청·진행·결과를 볼 수 있고 **작업별 이력**으로 좁힐 수 있습니다. 실행 ID가 없는 옛 기록은 연결하지 않습니다. 짧은 펼침 feedback은 reduced-motion 설정에서 제거됩니다.
+Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을 편집하거나 실행하지 않습니다.
 
-**다음 작업**은 현재 작업 revision과 최근 실행 자료를 바탕으로 제안합니다. **이력**에서 요청·실행 완료·실제 읽기·검증·실패를 구분하고, 이전 revision의 기록을 현재 결과로 사용하지 않습니다. 최근 기록은 이 기기에 보관되며 로컬 저장소가 없으면 세션 기록만 보일 수 있습니다. 최종 근거는 실제 JSON·검증 명령·웹 관찰 자료입니다.
+| 표시 | 의미 |
+|---|---|
+| 파일·페이지·선택 | 실제 활성 Figma 문맥에서 읽은 값. 선택은 최대 20개이며 더 있으면 전체 수와 잘림 상태를 표시합니다. |
+| 연결 상태 | 연결됨·연결 중·오프라인 또는 실행 중. 초기 상태는 오프라인입니다. |
+| 연결 정보 | 선언한 플랜·좌석과 저장 범위, 마지막 실행 결과와 진단. 선언은 Figma 구독을 측정한 값이 아닙니다. |
 
-![작업별 실행·읽기·실패를 구분하는 이력 패널](images/panel-history.png)
-
-상단 **언어 / Language / 言語**에서 한국어·English·日本語를 선택합니다. 화면명·프로젝트명·사용자 문구와 원본 오류는 번역하지 않습니다. 키보드 Tab·Shift+Tab으로 이동하고, 탭은 방향키와 Enter/Space, 펼침 영역은 Enter/Space로 조작합니다. 초점 표시, 상태 알림, Figma 밝은/어두운 테마를 지원하지만 모든 보조기기 조합의 접근성 인증을 뜻하지는 않습니다.
-
-아래 4~11절은 최초 설치, 작업 준비와 **수동 대체 경로**의 자세한 설명입니다.
+요청·승인·선택·작업 준비·실행·JSON 검증은 Codex에서 진행합니다. 연결이 끊기면 [Codex의 문맥 확인과 작업 실행](#11-codex에서-대화-프로필-승인-결과-관리)을 사용합니다. 아래 4~11절은 등록, 준비, 실행과 복구 절차입니다.
 
 ### 0.27에서 준비하고 확인할 범위
 
@@ -256,12 +256,15 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 
 ### 현재 패널 빠른 찾기
 
-| 패널 | 실제 조작과 결과 |
+Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을 편집하거나 실행하지 않습니다.
+
+| 표시 | 의미 |
 |---|---|
-| 디자인 가져오기 | **가져오기 · 기존 페이지 열기** 또는 별도 페이지 선택 → **현재 디자인 읽기** → **JSON 파일 저장**. 연결된 앱 전용 패키지는 **앱 동기화 / 앱에 반영**을 표시합니다. |
-| 디자인 방향 검토 | **검토 시안 만들기** → 완료 확인 → **결과 JSON 저장**. 오류는 **상세 진단 보기**, 배치 실패는 **실패 진단 JSON 저장**에서 확인합니다. |
-| Figma 값 읽기 | **Figma 값 읽고 저장**으로 지정 페이지를 읽고 JSON을 다운로드합니다. Figma 파일을 변경하지 않습니다. |
-| 컴포넌트 동기화 | 읽기 또는 **적용 범위 확인** → **확인한 범위에 적용**. **취소**는 확인창만 닫습니다. 완료 후 **JSON 다시 저장**으로 결과를 보관합니다. |
+| 파일·페이지·선택 | 활성 Figma 문맥에서 읽습니다. 선택은 최대 20개이며, 더 있으면 전체 수와 잘림 상태를 표시합니다. |
+| 연결 상태 | 연결됨·연결 중·오프라인 또는 실행 중입니다. 초기 상태는 오프라인입니다. |
+| 연결 정보 | 사용자 선언 플랜·좌석, 저장 범위, 마지막 실행 결과와 진단을 표시합니다. 선언은 Figma subscription을 측정한 값이 아닙니다. |
+
+요청·승인·선택·작업 준비·실행·JSON 검증은 Codex에서 진행합니다. 연결이 끊기면 [Codex의 문맥 확인과 작업 실행](#11-codex에서-대화-프로필-승인-결과-관리)을 사용합니다. 아래 4~11절은 등록, 준비, 실행과 복구 절차입니다.
 
 ## 2. 클론하고 Codex에 설치
 
@@ -334,7 +337,7 @@ Codex는 작업을 요청한 기본 채팅의 `CODEX_THREAD_ID`를 기록하며 
 
 1. Figma Desktop에서 **플러그인 → 개발 → 매니페스트에서 플러그인 가져오기…**를 선택하고 고정 경로의 **`WORKSPACE/manifest.json`**을 한 번 등록합니다. 내부 `.generations`의 파일이나 개별 작업 manifest를 대신 등록하지 않습니다.
 2. 같은 ID의 템플릿이 이미 등록돼 있으면 실제 등록 경로와 ID를 먼저 대조하고 템플릿을 보존한 뒤 이 고정 manifest로 등록 경로를 맞춥니다. 다른 플러그인 폴더를 덮어쓰지 않습니다.
-3. 개발 메뉴에서 **Figma Flow**를 열고 **준비된 작업 → 워크숍 시안 검토 → 열기**를 누릅니다. 목록이 비어 있으면 Codex가 작업을 준비했는지 확인한 뒤 플러그인을 다시 엽니다.
+3. 개발 메뉴에서 **Figma Flow**를 열고 열린 상태로 둡니다. Codex가 작업을 준비·실행합니다. 패널에서 작업을 선택하거나 열지 않습니다.
 
 ![Figma 파일 선택 창에서 manifest를 등록하는 위치](images/manifest-picker.png)
 
@@ -346,24 +349,24 @@ Codex는 작업을 요청한 기본 채팅의 `CODEX_THREAD_ID`를 기록하며 
 
 ## 6. 시안 만들기, 결과 저장, 대조
 
-1. 수동 경로에서는 홈에서 검토 작업을 열고 패널에 표시된 프로젝트·후보와 대상 파일·페이지를 대조한 뒤 **검토 시안 만들기**를 누릅니다. 생성 중에는 다시 누르지 않고 완료 또는 오류 상태를 확인합니다.
-2. 생성된 검토 페이지에서 후보별 데스크톱·모바일 화면, 팔레트, **주석 읽기** 보드를 확인합니다. 주석의 링크가 해당 화면·버튼으로 이동하는지, 프로토타입의 주요 버튼과 복귀 경로가 각 후보 안에서 연결되는지 봅니다.
-3. 같은 창에서 **결과 JSON 저장**을 누릅니다. 예를 들어 프로젝트 안에 `review-readback.json`으로 저장합니다. 로컬 제어 연결도 사용할 수 없을 때는 사용자가 패널에서 생성·저장하고 파일 위치를 Codex에 알려 줍니다.
-4. 실제로 저장된 파일 경로로 아래 명령을 실행합니다.
+Codex는 검토 패킷을 준비하고 같은 workspace의 `review` 작업으로 실행합니다. Figma 패널에서 작업을 선택하거나 JSON을 내려받지 않습니다.
 
-![0.23.0 검토 패널: 시안 생성, 상태, 결과 저장](images/panel-review.png)
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
+  --key workshop-review --operation create --file-key "$FILE_KEY" --page-id "$PAGE_ID" \
+  --expected-revision "$REVISION" --timeout 120
+```
 
-위 이미지는 생성 패키지의 HTML 미리보기입니다. 실제 Figma 생성·검증의 증거는 실행 후 저장한 JSON과 해당 파일의 화면으로 확인합니다.
+Codex는 `run` 결과의 실제 readback으로 검토 명령을 실행합니다.
 
 ```sh
 "$PY" -B "$PLUGIN_ROOT/tools/design_actions.py" verify-native-review \
-  --manifest "$PROJECT/review/directions.json" \
-  --readback "$PROJECT/review-readback.json"
+  --manifest "$PROJECT/review/directions.json" --readback "$READBACK"
 "$PY" -B "$PLUGIN_ROOT/tools/design_actions.py" status \
   --manifest "$PROJECT/review/directions.json"
 ```
 
-검증 성공 시 `WAIT_SELECTION`입니다. 0.18.2부터는 네이티브 글자 높이·겹침·버튼 정렬도 확인합니다. 생성이 차단되면 **실패 진단 JSON 저장**으로 문제 레이어의 배정값과 실측값을 읽고, 해당 위치를 원본 레이아웃에서 수정합니다. 최종 시안은 Figma에서 내보낸 PNG를 실제 화면 크기로 열어 데스크톱과 모바일의 문구·입력 오류·로딩·완료 상태를 비교하세요. 원본과 다른 Figma 파일·패킷·후보의 결과를 썼다는 오류가 나오면, 사용한 검토 플러그인과 대상 페이지를 확인하고 다시 내보냅니다. JSON을 손으로 수정하면 재검증 근거가 사라집니다.
+검증 성공은 `WAIT_SELECTION`입니다. Codex가 후보별 화면·팔레트·주석·프로토타입 경로를 검토하고 결과를 대화에 제시합니다. 본제작 방향은 사용자가 Codex 대화에서 직접 선택합니다. 실패하면 진단을 보존하고 원본 레이아웃을 고친 뒤 같은 작업 키를 새 revision으로 준비합니다. 실제 Figma 화면과 PNG 검토가 필요한 경우에는 Codex가 현재 작업 범위에 맞는 관찰 자료를 준비합니다. 과거 HTML 미리보기는 실행 증거가 아닙니다.
 
 ## 7. 비교와 실제 선택 기록
 
@@ -424,7 +427,7 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 
 경로·파일·페이지·revision은 실제 프로젝트와 `prepare`/`list` 출력에서 가져옵니다. `PAGE_ID`는 실행 시 열린 대상 페이지이며, 생성된 PRODUCTION 페이지 ID는 실제 읽기 결과에서 확인합니다. `PRODUCTION_ARTIFACTS`는 작업 준비가 반환한 `artifacts` 경로입니다. 독립 패키지가 필요하면 같은 입력을 `figma_draft.py prepare --out … --plugin-id …`에 전달할 수 있으나, 새 작업의 기본 등록은 고정 작업공간 하나입니다.
 
-실행 패킷은 `figma-flow-native-selected-production-v1`, 반환 자료는 `figma-flow-native-selected-production-readback-v1`입니다. `verify-production`은 `sourceSelection`, 그래프·변경 요청 핀, 실제 화면·주석·컴포넌트·변수·이동과 복귀를 대조합니다. 탐색 검토용 `verify-native-review`나 탐색용 로컬 수신기로 본제작을 검증하지 않습니다. 패널의 **본제작 화면 만들기**와 JSON 저장은 로컬 명령을 쓸 수 없는 경우의 수동 경로입니다. 준비·생성·읽기·검증 완료와 새로운 선택·승인은 각각 다른 사실입니다.
+실행 패킷은 `figma-flow-native-selected-production-v1`, 반환 자료는 `figma-flow-native-selected-production-readback-v1`입니다. `verify-production`은 `sourceSelection`, 그래프·변경 요청 핀, 실제 화면·주석·컴포넌트·변수·이동과 복귀를 대조합니다. 탐색 검토용 `verify-native-review`나 탐색용 로컬 수신기로 본제작을 검증하지 않습니다. Codex가 작업을 준비·실행하고 readback을 검증합니다. 준비·생성·읽기·검증 완료와 새로운 선택·승인은 각각 다른 사실입니다.
 
 <a id="contrast-evidence"></a>
 
@@ -456,12 +459,22 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
   --selection reviews/r1/selection.json --product-graph selected/graph.json
 ```
 
-2. 고정 플러그인을 다시 실행하고 **준비된 작업 → 팀 초대 본제작 → 열기**를 선택합니다. 제목 근처의 입력 디자인과 현재 페이지를 확인하고 **가져오기 · 기존 페이지 열기**를 누릅니다. 같은 원본은 편집을 유지한 채 기존 페이지를 엽니다. 별도 복사본이 필요할 때만 **별도 페이지로 새로 가져오기**를 선택한 뒤 **새 페이지로 가져오기**를 누릅니다.
-3. 화면과 컴포넌트를 확인합니다. 반복 컴포넌트의 화면 문구는 인스턴스 속성 **문구**에 있으며, 같은 정의를 쓰는 화면마다 다른 문구를 넣을 수 있습니다. 같은 원본을 다시 가져오면 이미 고친 문구는 유지됩니다. 이어서 **현재 디자인 읽기**를 누릅니다. 완료 후 나타나는 **JSON 파일 저장**으로 읽기 결과를 보관합니다. **JSON 원문 확인**은 선택 사항이며 파일 저장을 위해 열 필요가 없습니다. **앱에 반영**은 연결된 앱이 있는 패키지에만 나타납니다.
+2. Codex runs the prepared `import` task with the exact current file, page and revision. The operation reuses an owned page when the same source was already imported. It does not replace authored edits. A distinct copy requires a reviewed task that pins that destination.
 
-![0.23.0 가져오기 패널: 기존 페이지 열기와 별도 복사본 선택](images/panel-import.png)
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
+  --key invite-production --operation import --file-key "$FILE_KEY" --page-id "$PAGE_ID" \
+  --expected-revision CURRENT_REVISION --timeout 120
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
+  --key invite-production --operation read --file-key "$FILE_KEY" --page-id "$PAGE_ID" \
+  --expected-revision CURRENT_REVISION --timeout 120
+```
 
-위 이미지는 생성 패키지의 HTML 미리보기입니다. 본제작의 실제 Figma 실행 결과를 대신하지 않습니다.
+3. Codex checks the actual readback and reports the imported screens and components. Reused pages retain authored changes. Repeated component text can use instance properties and differ across screen instances.
+
+![이전 버전의 가져오기 패널: 기존 페이지 열기와 별도 복사본 선택](images/panel-import.png)
+
+위 이미지는 이전 interactive panel의 HTML 미리보기입니다. 현재 Figma viewer나 본제작의 실제 실행 결과를 보여 주지 않습니다.
 
 ![과거 캠페인의 실제 Figma 결과 예시: 별씨 정원의 데스크톱과 모바일 화면](images/finished-preview.jpg)
 
@@ -485,22 +498,22 @@ Codex는 실제 적용 버전·테마·컴포넌트 경로와 상태를 확인�
 
 컴포넌트의 디자인 값을 그래프 정본으로 관리하고 실제 Figma·웹과 왕복하려면 [Graph SSOT 명령 가이드](../examples/graph-ssot/README.md)를 사용합니다. 본제작의 사용자 선택과 실제 화면 검증은 계속 별도입니다.
 
-1. 아래 [Graph SSOT 가이드](../examples/graph-ssot/README.md)의 `figma_workspace.py prepare --kind discover` 예제로 읽기 작업을 준비하고 홈에서 엽니다. **Figma 값 읽기** 패널의 페이지 범위를 확인한 뒤 **Figma 값 읽고 저장**을 누릅니다. `graph-native-discovery.json`이 다운로드됩니다. 생성·이관·값 변경은 실행하지 않습니다.
+1. 아래 [Graph SSOT 가이드](../examples/graph-ssot/README.md)의 `figma_workspace.py prepare --kind discover` 예제로 읽기 작업을 준비하고 `figma_control.py run --operation read`로 실행합니다. Codex는 반환된 `readback`의 페이지 범위와 실제 값을 검토합니다. 이 작업은 생성·이관·값 변경을 하지 않습니다.
 
 ![읽기 전용 Figma 값 읽기 패널](images/panel-discovery.png)
 
 위 이미지는 생성된 읽기 전용 패키지의 HTML 미리보기입니다.
 
-2. 실제 읽기 결과로 `prepare --kind sync --` 뒤에 `--adopt` 또는 기존 `--pairing` 옵션을 전달합니다. 홈에서 그 **그래프 동기화** 작업을 열어 **컴포넌트 동기화**로 들어갑니다. **Figma 값 읽고 저장**은 현재 상태만 읽습니다. **적용 범위 확인**도 쓰기 전 확인 단계이며, 토큰 변경·새 토큰·연결 조정과 영향을 받는 메인·인스턴스를 표시합니다.
-3. 범위가 맞으면 **확인한 범위에 적용**을 누릅니다. **취소**는 확인창만 닫으며 적용하지 않습니다. 이미 시작한 적용을 되돌리는 버튼은 아닙니다. 실제 쓰기 이후에는 완료 또는 복구 상태를 기다립니다.
-4. 완료 시 `graph-token-readback.json`이 자동 다운로드됩니다. 다운로드를 놓쳤으면 **JSON 다시 저장**을 누릅니다. 오류에서도 마지막 자료와 **실행 기록과 복구 정보**를 보관하세요. 이전 성공 자료를 현재 실행의 성공으로 사용하지 않습니다. 충돌은 실제 상태를 다시 읽고 새 계획으로 해결하며, 복구 충돌이 있으면 자동 재적용하지 않습니다.
+2. 실제 읽기 자료로 `prepare --kind sync --` 뒤에 `--adopt` 또는 기존 `--pairing` 옵션을 전달합니다. 요청한 변경 범위와 영향을 받는 main·instance를 Codex에서 검토합니다.
+3. 사용자가 Codex 대화에서 적용을 승인한 뒤, Codex가 현재 revision으로 `figma_control.py run --operation apply`를 실행합니다. 이어서 `read`를 실행해 실제 값을 확인합니다.
+4. 보존된 readback과 실패·복구 정보를 사용합니다. 이전 성공 자료를 현재 실행 성공으로 사용하지 않습니다. 충돌은 현재 값을 다시 읽고 새 계획으로 해결합니다. 불확실한 쓰기를 자동으로 다시 적용하지 않습니다.
 5. 실제 웹 화면의 값을 읽고 `graph_sync.py pair`로 현재 네이티브·웹 결과를 대조합니다. Figma 완료 메시지만으로 웹 반영이나 디자인 승인을 판단하지 않습니다.
 
-![실제 Figma에서 연 컴포넌트 동기화 패널의 범위 확인과 적용](images/panel-graph-sync.png)
+![이전 버전의 Figma graph sync panel](images/panel-graph-sync.png)
 
-![그래프 값의 적용 전·후와 색·길이 차이를 보여 주는 확인 패널](images/panel-graph-diff.png)
+![이전 버전의 graph diff confirmation panel](images/panel-graph-diff.png)
 
-위 이미지는 실제 Figma에서 연 동기화 패널입니다. 파일 키 등 비공개 정보는 가렸습니다. 특정 프로젝트의 실행 장면이며 다른 프로젝트의 적용 성공을 보증하지 않습니다.
+위 이미지는 이전 interactive panel의 기록입니다. 현재 작업은 Codex 명령으로 준비·승인·실행하며, 현재 Figma viewer는 상태만 표시합니다.
 
 작업이 갱신되지 않으면 Codex 설치 버전만 확인하지 말고, 같은 작업 키의 revision과 고정 등록 경로를 대조하고 [작업을 재생성한 뒤 플러그인을 다시 실행](#updates)했는지 확인하세요.
 
@@ -588,26 +601,53 @@ python3 tools/graph_sync.py combine-web --graph PROJECT/graph.json \
 
 정확한 파일·페이지·노드/변수·모드·현재 revision과 실제 `before` 값이 일치해야 적용합니다. 반환 자료의 `native_edit.plan_sha256`, `applied`, 실제 전후 값을 확인하고, 실패 시 복구 자료와 충돌을 보존합니다. 결과가 `uncertain`이면 쓰기를 자동 재시도하지 않고 현재 범위를 다시 읽어 복구합니다. `native-edit`는 Figma 값을 먼저 편집하므로 그래프 정본 반영은 아래 [직접 편집 역수입 절차](../examples/graph-ssot/README.md#designer-edits-to-graph)로 별도 수행합니다. 새 리비전 준비·재시작·수동 JSON 대체 경로는 다른 작업과 같습니다.
 
-## 11. 작업을 준비한 Codex 채팅으로 연결
+<a id="11-작업을-준비한-codex-채팅으로-연결"></a>
+<a id="11-codex에서-대화-프로필-승인-결과-관리"></a>
+<a id="11-manage-conversation-profile-approvals-and-results-in-codex"></a>
+<a id="11-codexで-対話-プロフィール-承認-結果を管理"></a>
 
-홈의 작업 옆 또는 실행이 끝난 작업 상단의 **Codex 연결**을 누릅니다. 대상은 그 작업에 기록된 원래 thread ID입니다. 화면 전환 시 입력은 초기화되므로 저장할 결과는 먼저 보관하세요. 현재 데스크톱에서 앞에 떠 있는 채팅을 추정해 전송하지 않습니다. 오프라인 작업에 thread가 없으면 연결 버튼은 비활성입니다.
+## 11. 대화, 프로필, 승인과 결과는 Codex에서 관리
 
-1. 선택한 Figma 노드에 대한 요청을 적고 **보낼 내용 확인**을 누릅니다. 노드를 포함하면 요청 문장은 생략할 수 있고, 선택이 없으면 요청이 필요합니다. **현재 선택한 노드 포함**은 ID·이름·종류·위치·크기와 파일/페이지 링크를 미리보기에 담습니다. 전체 페이지를 순회하거나 이미지·전체 문서를 자동 첨부하지 않습니다.
-2. 선택 노드는 최대 20개입니다. 텍스트는 기본 제외되며 **선택한 텍스트 일부 포함**을 직접 선택할 때만 노드당 200자·합계 1000자 이내를 넣습니다. 이름·문구·링크도 공개해도 되는지 **실제로 전달할 내용**을 확인합니다.
-3. 기본 경로는 **내용 복사 → 링크로 채팅 열기 → 직접 붙여 넣기·전송**입니다. 복사가 차단되면 선택된 미리보기 내용을 복사 단축키로 보관합니다. 링크는 원래 채팅을 여는 요청이며 메시지를 자동 전송하지 않습니다.
-4. 로컬 relay를 설정했다면 **채팅 열기**와 **채팅에 보내기**도 사용할 수 있습니다. 보내기는 확인한 미리보기와 같은 텍스트를 해당 채팅의 대기열에 넣습니다. **채팅 대기열에 추가했습니다**는 에이전트가 읽거나 실행했다는 뜻이 아닙니다. Codex에서 실제 접수와 다음 작업을 확인하세요.
+요청과 방향 선택은 Codex 대화에서 합니다. Codex는 읽기 전용 Figma 문맥을 조회하고, 사용자가 확인한 프로필 값과 작업 범위를 기록한 뒤 준비된 명령을 실행합니다. Figma 패널은 파일·페이지·선택·연결 상태·마지막 결과를 보여 주며 대화, 승인, 프로필 편집, 작업 실행 기능은 제공하지 않습니다.
 
-선택적 relay는 작업공간을 준비·갱신하는 지원 POSIX 환경에서 다음과 같이 설정합니다. `43179`는 예시 포트이며 기존 작업공간에 다른 포트가 있으면 그 설정을 확인해 사용합니다. 고정 manifest를 다시 실행해야 추가된 연결 설정을 읽습니다.
+Codex에서 현재 Figma 문맥과 저장된 프로필을 확인합니다.
 
 ```sh
-"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" init \
-  --workspace "$WORKSPACE" --id-from "$WORKSPACE/manifest.json" --chat-port 43179
-"$PY" -B "$PLUGIN_ROOT/tools/workspace_chat.py" --workspace "$WORKSPACE"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" context --workspace "$WORKSPACE"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" profile get --workspace "$WORKSPACE"
 ```
 
-relay를 실행하지 않아도 복사·명시적 링크 열기는 가능합니다. relay는 비공개 작업공간의 작업·thread·revision과 인증을 대조합니다. 직접 큐 전송에는 `PATH`의 공식 Codex CLI가 필요하며, Windows에서 relay를 별도로 사용하는 경우 native `codex.exe`가 필요합니다. 비밀값이 든 작업공간을 공개 ZIP·Git·지원 로그로 공유하지 않습니다. 접수 여부가 불확실하면 원래 채팅을 먼저 확인하고 같은 요청을 자동 재전송하지 않습니다.
+`context`는 활성 plugin session, 파일, 페이지, 사용자, 현재 선택과 불투명한 `context_fingerprint`를 반환합니다. 결과의 `native_status`와 generation을 확인합니다. fingerprint는 현재 session·파일·페이지·계정과 예상 runtime generation에 선언을 고정합니다. fingerprint를 그대로 복사합니다. 파일·페이지·사용자·runtime generation이 바뀌면 다시 조회합니다. 선택 정보는 20개까지 반환하며 전체 선택 수와 생략 여부도 함께 표시합니다. 플랜·좌석을 알 수 없으면 `unknown`으로 둡니다. Figma 구독이나 권한을 자동 판정하지 않습니다.
 
-공식 동작은 [Codex 앱 명령과 채팅 링크](https://learn.chatgpt.com/docs/app/commands), [Codex CLI `queue`](https://learn.chatgpt.com/docs/cli/reference#codex-queue)를 참고하세요. 이 연결이 Figma 적용·디자인 선택·후속 실행의 승인을 대신하지 않습니다.
+사용자가 Codex 대화에서 플랜과 좌석을 확인해 주면 정확한 문맥 지문으로 선언을 저장합니다.
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" profile set --workspace "$WORKSPACE" \
+  --plan PLAN --seat SEAT --expected-context CONTEXT_FINGERPRINT
+```
+
+`PLAN`은 `unknown`, `starter`, `professional`, `organization`, `enterprise`, `education`, `government` 중 하나입니다. `SEAT`은 `unknown`, `view`, `collab`, `dev`, `full` 중 하나입니다. 출력이 `pending`이면 반환된 요청 ID로 상태를 확인합니다.
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" profile status \
+  --workspace "$WORKSPACE" --request-id REQUEST_ID
+```
+
+`context_fingerprint`는 같은 plugin session·파일·페이지·계정·runtime generation에 선언을 고정합니다. `native_status: unverified` 또는 `stale-native`이면 Figma Flow의 현재 실행 상태를 확인하고 문맥을 다시 읽습니다. 선택은 지문 범위에 포함되지 않으므로 쓰기 직전에 현재 선택을 다시 확인합니다. `scope-changed`, `stale-native`, `unconfirmed`, `uncertain`, `offline`, `error`, `expired`는 완료로 보고하지 않습니다. 필요한 경우 문맥을 새로 읽고 원인을 확인합니다.
+
+Codex는 승인된 요청을 고정된 작업 키와 현재 revision으로 준비하고 실행합니다. 예를 들어 `design-grid` 레시피를 현재 파일·페이지에 적용합니다.
+
+```sh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare --workspace "$WORKSPACE" \
+  --key design-grid --title 'Grid' --kind native-edit -- \
+  --recipe design-grid --file-key "$FILE_KEY" --page-id "$PAGE_ID"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
+  --key design-grid --operation apply --file-key "$FILE_KEY" --page-id "$PAGE_ID" \
+  --expected-revision CURRENT_REVISION --timeout 120
+```
+
+Codex는 실행 결과의 실제 `readback`을 확인하고 성공·실패·불확실한 결과를 대화에 보고합니다. 쓰기 결과가 불확실하면 같은 적용을 재시도하지 않습니다. 현재 Figma 값을 다시 읽은 뒤 복구 여부를 판단합니다. 이 절의 채팅 thread 연결·메시지 복사·대기열 전송은 이전 UI에 관한 역사적 설명이며 현재 작업 경로가 아닙니다.
 
 디자인 비평의 출처와 각색 범위는 [Unslop attribution](../README.md#라이선스와-참고)을 참고하세요.
 
@@ -616,7 +656,7 @@ relay를 실행하지 않아도 복사·명시적 링크 열기는 가능합니�
 | 보이는 현상 | 확인할 위치와 다음 행동 |
 |---|---|
 | Codex에서 플러그인이 보이지 않음 | `codex plugin list --marketplace figma-flow-local`에서 설치 경로·버전·활성 여부를 확인하고 새 Codex 채팅을 엽니다. |
-| Figma에서 manifest 오류, 다른 작업이 열림 | 고정 `WORKSPACE/manifest.json`의 실제 등록 경로·ID와 홈의 프로젝트·작업 키를 확인합니다. 개별 작업 manifest 등록은 standalone 호환용입니다. |
+| Figma에서 manifest 오류, 다른 파일 문맥 표시 | 고정 `WORKSPACE/manifest.json`의 등록 경로·ID를 확인합니다. Codex에서 `context`와 `figma_workspace.py list`를 다시 실행합니다. 패널은 작업을 선택하지 않습니다. |
 | 품질 검사에서 패키지 생성 중단 | `design-quality.json`의 오류가 지목한 레이어·버튼·폰트를 고친 다음 원본과 검토 패킷을 다시 생성합니다. |
 | 임베드 에셋 용량 경고 | base64 합계가 4 MB를 넘었다는 뜻입니다. 생성된 ZIP은 사용할 수 있습니다. 줄일 경우 원본이 달라지므로 다시 패키징·검증합니다. |
 | 저장 버튼이 없거나 비활성 | 가져오기는 읽기가 끝나면 **JSON 파일 저장**이 나타납니다. 검토는 시안 생성 또는 진단 자료가 필요합니다. 그래프 패널은 읽기·적용 후 **JSON 다시 저장**을 사용합니다. |
@@ -744,9 +784,9 @@ codex plugin list --marketplace "$MARKETPLACE" --json
 
 진행 중인 동기화 서버의 PID·프로젝트·상태 폴더를 확인한 뒤 그 서버만 종료합니다. 새 코드가 상태 폴더 안의 기존 플러그인 변경을 거부하면 **새 private 상태 디렉터리**로 새 컴패니언을 만들고 기존 체인을 보존합니다. `--prior-sync`는 아무 읽기 파일을 받는 일반 업그레이드 옵션이 아니며, 도구가 명시적으로 지원하는 이전 성공 apply wrapper에만 사용합니다. 예전 pairing 키로 다른 파일·페이지를 연결하지 않습니다.
 
-같은 ID의 기존 paired state가 있으면 작업공간에 `prepare --kind import -- --input ORIGINAL_RESOLVED --reviewed-sha256 ACTUAL_SHA --paired-state PRIVATE_STATE`로 준비할 수 있습니다. 해당 서버는 실행 중이어야 하며 파일·페이지·원본 해시·ID가 정확히 같아야 합니다. 다른 ID의 상태는 거부하며 ID만 바꾸지 않습니다. 사용자는 홈에서 작업을 열어 **앱에 반영**을 수행하고 실제 결과를 전달합니다. 기존 standalone 컴패니언 등록은 호환 경로로 유지합니다. Codex는 같은 파일/page/원본·인증·저널 검증을 수행합니다. 일반 검토 플러그인 업데이트만을 위해 로컬 서버나 네트워크 권한을 추가하지 않습니다.
+같은 ID의 기존 paired state가 있으면 작업공간에 `prepare --kind import -- --input ORIGINAL_RESOLVED --reviewed-sha256 ACTUAL_SHA --paired-state PRIVATE_STATE`로 준비할 수 있습니다. 해당 서버는 실행 중이어야 하며 파일·페이지·원본 해시·ID가 정확히 같아야 합니다. 다른 ID의 상태는 거부하며 ID만 바꾸지 않습니다. 사용자가 Codex 대화에서 sync를 승인하면 Codex가 현재 revision으로 `figma_control.py run --operation sync`를 실행하고 실제 결과를 검증합니다. 기존 standalone 컴패니언 등록은 호환 경로로 유지합니다. Codex는 같은 파일/page/원본·인증·저널 검증을 수행합니다. 일반 검토 플러그인 업데이트만을 위해 로컬 서버나 네트워크 권한을 추가하지 않습니다.
 
-검토 시안의 인증된 `/draft-readback` 수신기를 쓰던 프로젝트도 별도 분기입니다. 일반 검토 작업은 JSON 저장만으로 검증할 수 있으며 수신기가 필수는 아닙니다. 자동 전달을 유지하려면 사용자 소유 0700 `REVIEW_PAIR` 폴더를 먼저 준비하고 다음처럼 명시합니다. 포트는 양쪽이 같아야 하며 실제 대상 파일을 고정합니다.
+**Historical receiver workflow:** existing projects that use the signed `/draft-readback` receiver can keep that isolated compatibility path. It is not the current Figma Flow viewer workflow. The current panel cannot run a review or save JSON manually. For the legacy receiver, prepare a user-owned 0700 `REVIEW_PAIR` directory and pin the same port and actual target file:
 
 ```sh
 REVIEW_PAIR="/내/비공개/검토수신기"
@@ -763,7 +803,7 @@ mkdir -m 700 "$REVIEW_PAIR"
   --pair-dir "$REVIEW_PAIR" --port 49185
 ```
 
-capability는 비공개 폴더에서 생성·재사용되며 공개하지 않습니다. 수신기의 성공·거부 영수증과 수신기 중단 시 **결과 JSON 저장** 수동 경로를 각각 확인하세요. 거부 영수증은 **상세 진단 보기**에서 사유를 확인합니다. 이 전달은 앱 반영 `/sync` 또는 원래 채팅 relay와 다른 동작이며, 기존 등록을 없애기 전에 필요한 경로를 실제로 대조합니다.
+capability는 비공개 폴더에서 생성·재사용되며 공개하지 않습니다. 이 과거 UI 수신기 경로의 성공·거부 영수증을 각각 검토합니다. 수신기가 중단되면 기존 프로젝트가 제공하던 결과 파일을 사용하고 그 파일의 출처를 확인합니다. 현재 Figma Flow viewer에는 수동 저장이나 상세 진단 버튼이 없습니다. 이 전달은 앱 반영 `/sync`와 다른 동작입니다. 기존 등록을 없애기 전에 실제 호환 경로를 대조합니다.
 
 <a id="private-distribution"></a>
 
@@ -799,13 +839,13 @@ Wait for native runs to finish before preparing or refreshing that workspace. A 
 
 [한국어](#korean) · [日本語](#japanese)
 
-Computer Use and official Figma MCP are not required for consumer operation. Developers may use separately authorized Computer Use for verification. Register **one Figma Flow development plugin**. Launch it manually in the target Figma Design file once per plugin session. Codex can then run prepared operations through private localhost control without repeated button clicks. A closed plugin must be reopened; updates may also require reopening. There is no hidden background launcher or arbitrary remote code evaluation.
+Computer Use and official Figma MCP are not required for consumer operation. Register **one Figma Flow development plugin**. Launch it manually in the target Figma Design file once per plugin session. Codex then prepares and runs work through private localhost control. The panel shows status only. A closed plugin must be reopened; updates may also require reopening. There is no hidden background launcher or arbitrary remote code evaluation.
 
 ## Fonts without Computer Use
 
 Set the family and style in the design source, for example **Hahmlet Bold** for a title and **Noto Sans KR Regular** for body copy. Open Figma Flow in the target file. During draft creation the plugin checks Figma’s available fonts and loads each required style. A missing style stops draft creation before a page is created. Use an organization-approved font or update the design source and prepare it again. A font bundled with the website needs to be available separately in Figma.
 
-Codex can retrieve the result while local control is connected. For offline work or a connection failure, use **Create drafts** and the JSON download in the review panel, then give Codex that file to compare the actual font families and styles.
+Codex retrieves and verifies the actual readback while local control is connected. If the connection is offline, check the viewer state and restore the same plugin session before continuing. The panel has no manual result export.
 
 ## Install once
 
@@ -832,37 +872,47 @@ Replace placeholders with actual paths and native scope. Register only `PRIVATE_
 
 ## Let Codex run prepared work
 
-On first launch, review the Figma account and file shown in the workspace. Confirm your plan and seat separately, or continue with Unknown. You can change these local settings later from the workspace home. Figma enforces the actual permissions of the file.
+Figma Flow’s panel is a passive viewer. It shows the active file, page, selection, connection state and last result. Keep requests, approvals, profile declarations, task preparation and verification in Codex. Launch Figma Flow manually in the target file once per plugin session. Keep `serve` running on the same computer as Figma Desktop.
+
+Configure the existing private workspace once. Start `serve` on the computer that runs Figma Desktop.
 
 ```sh
-python3 tools/figma_control.py enable --workspace PRIVATE_DIR --port 43180
-python3 tools/figma_workspace.py refresh --workspace PRIVATE_DIR
-python3 tools/figma_control.py serve --workspace PRIVATE_DIR
+python3 -B tools/figma_control.py enable --workspace PRIVATE_DIR --port 43180
+python3 -B tools/figma_workspace.py refresh --workspace PRIVATE_DIR
+python3 -B tools/figma_control.py serve --workspace PRIVATE_DIR
 ```
 
-Keep the service running, then manually launch **Figma Flow** in the correct file. From a separate Codex CLI execution:
+Launch Figma Flow in the target file. Keep the viewer open while Codex runs commands.
+
+Read the current context and profile from Codex:
 
 ```sh
-python3 tools/figma_control.py run --workspace PRIVATE_DIR --key invite-discovery \
-  --operation read --file-key FILE --page-id PAGE --expected-revision REVISION --timeout 120
-python3 tools/figma_control.py status --workspace PRIVATE_DIR --id OPERATION_ID
+python3 -B tools/figma_control.py context --workspace PRIVATE_DIR
+python3 -B tools/figma_control.py profile get --workspace PRIVATE_DIR
 ```
 
-Use the actual current revision from `figma_workspace.py list`. The service and Figma Desktop use the same computer's localhost. `--focus-page` can focus only the exact signed task page in the current file. `--no-wait` acknowledges a request, so inspect its status afterward.
+If the user confirms a plan and seat in Codex, set those declarations with the returned opaque fingerprint. Use `unknown` when either value is not known. Allowed plans are `unknown`, `starter`, `professional`, `organization`, `enterprise`, `education` and `government`. Allowed seats are `unknown`, `view`, `collab`, `dev` and `full`.
 
-| Prepared kind | Operation |
-|---|---|
-| `review` | `create` |
-| `import` | `import`, `read`; `sync` only with admitted paired app state |
-| `discover` | `read` |
-| `sync` | `read`, `apply` |
-| `native-edit` | `read`, `apply` |
+```sh
+python3 -B tools/figma_control.py profile set --workspace PRIVATE_DIR \
+  --plan PLAN --seat SEAT --expected-context CONTEXT_FINGERPRINT
+```
 
-Verify the returned `readback` artifact with the normal checker. Direction review uses `verify-native-review`; selected rich production uses `verify-production`; structured imports use `--require-match` and `native_handoff.py`; graph sync also needs actual web proof and `pair`. An `ok` receipt does not approve a design or prove browser parity. Preserve failed/expired/uncertain receipts. Re-read native state before retrying an uncertain write. Human direction selection remains separate.
+The fingerprint binds the request to the active plugin session, file, page, account and expected runtime generation. Check `native_status` and generation in the context result. If native status is unverified or `profile set` returns `stale-native`, confirm the current Figma Flow session and read context again. The fingerprint does not include selection. Re-read context if the file, page, account or runtime generation changes. A pending profile request returns an ID; inspect it with `profile status --workspace PRIVATE_DIR --request-id REQUEST_ID`.
 
-An interrupted same-packet review reservation or owned board blocks a new duplicate page and identifies the existing page. Read its actual state and preserve node IDs and user edits. The bounded specification-edit path can repair missing specs, annotations and board links; it does not rewrite an old receipt as success or restore creation-completion metadata.
+Prepare and apply a registered recipe from Codex. This example creates a 2×2 auto layout grid on the active Design page:
 
-Changed tasks use `prepare --replace-expected CURRENT_REVISION`. `prepare` or `refresh` publishes updated metadata. Desktop auto-reload behavior varies: if the running revision is old, reopen the same plugin rather than re-registering another manifest.
+```sh
+python3 -B tools/figma_workspace.py prepare --workspace PRIVATE_DIR \
+  --key design-grid --title 'Grid' --kind native-edit -- \
+  --recipe design-grid --file-key FILE --page-id PAGE
+python3 -B tools/figma_workspace.py list --workspace PRIVATE_DIR
+python3 -B tools/figma_control.py run --workspace PRIVATE_DIR --key design-grid \
+  --operation apply --file-key FILE --page-id PAGE \
+  --expected-revision CURRENT_REVISION --timeout 120
+```
+
+Check the actual `readback` returned by `run`. Keep failed or uncertain results. Read the current Figma values before retrying an uncertain write. The viewer does not offer a manual task or chat fallback.
 
 ## Selected rich production and contrast
 
@@ -921,9 +971,9 @@ python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
 
 Use a new directory for `--out`. The command needs Chrome or Chromium, Node and Python on `PATH`. Pass `--chrome /path/to/chrome` if the browser uses a non-default path. A rail needs 2–16 direct card children with readable labels. Set `--interval-ms` to the measured autoplay interval. Use the exact first card title for `--first-card`; omit it only when the rail selector matches one scrollable rail. Give each independently imported carousel graph a distinct `--id`. The output includes screenshots, measured `WEB-saas-feature-N.json` screens, transition receipts, `media.json`, pinned assets and `carousel-graph.json`. Check all four state PNGs and `media.json` before planning the Figma write. Use [offline asset mapping](html-asset-map.md) when media is unavailable or hosted on another origin.
 
-`refresh` publishes the prepared task to the existing workspace plugin. If Figma Flow is already open, close and reopen it to load the new task. Manual Apply and Read do not need a separate local-control service. Open Figma Flow in the target Design file. On the home screen, open **Design tasks in this file**, select **Team status carousel**, and click **Open Read / Apply**. Review the target file, page and frame list. Click **Apply reviewed changes** and confirm the write. After it finishes, click **Read and save values** to read the native Figma frames and transitions. Keep the readback JSON with the capture output. It checks the saved frames and transition settings; it does not prove that Figma Present plays them correctly.
+`refresh` publishes the prepared task to the existing workspace plugin. If a new revision is needed, reopen the same Figma Flow plugin. Codex runs `apply` and `read` with the exact file, page and revision, then retains the actual readback. The readback checks the saved frames and transition settings. It does not prove that Figma Present plays them correctly. Use the [Codex commands](#11-manage-conversation-profile-approvals-and-results-in-codex).
 
-After a current readback, the home task list and History show **Present** and **Select start frame**. Click **Present** to open the verified prototype. Click **Select start frame** to focus the start frame in the Design file, then use Figma's Present control. The Korean labels are **이 파일의 디자인 작업**, **Read / Apply 열기**, **확인한 범위에 적용**, **Figma 값 읽고 저장**, and **시작 프레임 선택**. The [Korean quickstart](#web-carousel-quickstart) has the same commands.
+After Codex verifies the readback, use Figma's Present control to check the prototype's actual interaction. This checks the Figma prototype, not a Figma Flow panel action. See the [Codex commands](#11-manage-conversation-profile-approvals-and-results-in-codex).
 
 
 ## Capture and play web tab switching
@@ -960,6 +1010,8 @@ Both the compiler and the Figma bridge require every state to be reachable from 
 
 ## Read the UI
 
+**Historical UI reference:** the task navigation and action controls described below belong to the earlier panel. The current Figma Flow panel is a passive viewer. Use [Codex context, profile and task commands](#11-codex에서-대화-프로필-승인-결과-관리) for current work.
+
 Version 0.27 supports pinned `prepare --depends-on FILE --input-record FILE --input-root ROOT` before `--`. Dependency JSON uses `task_key`, exact `revision`, `relation: uses-output`, registered `artifact` and `artifact_sha256`; copy actual 64-hex values from prepared artifacts. See the [complete example](#027에서-준비하고-확인할-범위). Asset kind/status, every CSS source and freshness describe inventory, not rendering. Unrequested ambiguous CSS gaps remain unresolved. TEXT labels/shared mains and explicit Group/Frame/Auto Layout preserve declared structure; scrolling requires an explicit clipped Frame. Selection pins keep alias bundles atomic and preserve partial markers; full pairing needs fresh full coverage. Discovery also offers a primary-page width/height summary with explicit omissions; full reads replace that evidence. Diagnostics use the build manifest version. Summary is partial. Scoped server journal phases differ from local UI history. Redacted diagnostic export is read-only and adds no native write. [Acceptance](development-roadmap/FINAL_ACCEPTANCE.md) · [Standalone Django/PostgreSQL app](../apps/little-hands/README.md) · [Proposed next work](next-roadmap/README.md).
 
 
@@ -969,13 +1021,13 @@ Use **Language** to choose **한국어 / English / 日本語**. Source names, ac
 
 ![Figma Flow workspace opened in actual Figma](images/panel-workspace.png)
 
-If control is unavailable, open the task manually. Import offers **Import or reopen**, then **Read current design → Save JSON file**. Review offers generation and JSON download. Discovery is read-only. Graph sync shows before/after changes and requires its explicit confirmation to apply; canceling closes confirmation, not an operation already started.
+The buttons in this screenshot show the earlier interactive panel. They are retained as historical product evidence and are not current task controls.
 
 ![Graph change confirmation](images/panel-graph-diff.png)
 
 Keyboard focus, labeled controls, status announcements and Figma light/dark themes are supported. Use Tab/Shift+Tab, arrow keys for tabs, and Enter/Space to activate controls. Check your required assistive-technology and zoom conditions in the actual product.
 
-For an originating chat, review selection/request content before copying or explicitly queuing it. Opening a chat does not send a message; a queued message is not proof that an agent consumed or executed it. [Chat setup](#11-작업을-준비한-codex-채팅으로-연결).
+Requests, approvals and user choices stay in the current Codex conversation. The Figma viewer does not open or message another chat.
 
 Design critique adapts Damir Sokolovsky's [unslop](https://github.com/heydamir/unslop), CC BY 4.0. [Credit, license and authoritative UI references](../README.md#라이선스와-참고).
 
@@ -1036,39 +1088,49 @@ python3 tools/figma_workspace.py prepare --workspace PRIVATE_DIR \
 
 プレースホルダーは実際のパス・対象に置き換えます。Figma に登録するのは `PRIVATE_DIR/manifest.json` だけです。隠し generation を含むフォルダー全体を保管してください。private plugin data は元のプラグイン ID に属します。ID の書き換えは所有権の移行になりません。[ID と移行の詳細](#5-고정-작업공간-등록과-검토-작업-준비)。
 
-## Codex に操作を任せる
+## Codex から実行する
 
-初回はワークスペースに表示された Figma のユーザーとファイルを確認し、プランとシートを個別に設定します。不明のままでも続行できます。設定はこの端末のユーザー・ファイルごとに保存され、ホームから変更できます。ファイルの操作には実際の Figma 権限が適用されます。
+Figma Flow のパネルは受動的なビューアです。現在のファイル・ページ・選択・接続状態・最後の結果を表示します。依頼、承認、プロファイル宣言、作業準備、実行、検証は Codex で行います。Figma Flow は対象ファイルで実行セッションごとに一度手動で起動し、Figma Desktop と同じコンピューターで `serve` を維持します。
 
-```sh
-python3 tools/figma_control.py enable --workspace PRIVATE_DIR --port 43180
-python3 tools/figma_workspace.py refresh --workspace PRIVATE_DIR
-python3 tools/figma_control.py serve --workspace PRIVATE_DIR
-```
-
-サービスを実行したまま、正しいファイルで **Figma Flow** を手動起動します。別の Codex CLI 実行から次を使います。
+既存の private workspace を一度だけ設定します。Figma Desktop と同じコンピューターで `serve` を実行します。
 
 ```sh
-python3 tools/figma_control.py run --workspace PRIVATE_DIR --key invite-discovery \
-  --operation read --file-key FILE --page-id PAGE --expected-revision REVISION --timeout 120
-python3 tools/figma_control.py status --workspace PRIVATE_DIR --id OPERATION_ID
+python3 -B tools/figma_control.py enable --workspace PRIVATE_DIR --port 43180
+python3 -B tools/figma_workspace.py refresh --workspace PRIVATE_DIR
+python3 -B tools/figma_control.py serve --workspace PRIVATE_DIR
 ```
 
-`figma_workspace.py list` が示す現在の revision を使います。サービスと Figma Desktop は同じコンピューターの localhost で接続します。`--focus-page` は、現在のファイル内の署名済み対象ページにだけ移動できます。`--no-wait` は要求の受付だけなので、後で status を確認します。
+対象ファイルで Figma Flow を起動し、Codex がコマンドを実行する間はビューアを開いたままにします。
 
-| 準備した kind | operation |
-|---|---|
-| `review` | `create` |
-| `import` | `import`, `read`。許可済みの paired app 状態がある場合のみ `sync` |
-| `discover` | `read` |
-| `sync` | `read`, `apply` |
-| `native-edit` | `read`, `apply` |
+Codex から現在の文脈とプロファイルを読み取ります。
 
-返された `readback` ファイルを通常の検証ツールに渡します。方向検討は `verify-native-review`、選択済みの豊かな案の本制作は `verify-production`、構造化取り込みは `--require-match` と `native_handoff.py`、グラフ同期は実際の Web 計測と `pair` も必要です。`ok` はデザイン承認やブラウザーとの一致を保証しません。失敗・期限切れ・結果不明の記録を保管し、不明な書き込みを再試行する前に実際の状態を読み直します。候補の選択は利用者の明示的な回答で行います。
+```sh
+python3 -B tools/figma_control.py context --workspace PRIVATE_DIR
+python3 -B tools/figma_control.py profile get --workspace PRIVATE_DIR
+```
 
-同じパケットの準備予約や所有ボードが残る部分生成ページは、新たな重複作成を停止し既存ページ ID を示します。実際の状態を読み、ノード ID と利用者の編集を保管します。範囲を固定した明細編集で不足する明細・注釈・ボードリンクを修復できますが、過去の受領記録を成功に変えたり生成完了メタデータを復元したりはしません。
+ユーザーが Codex でプランとシートを確認したら、返された不透明な fingerprint で宣言を保存します。不明な値は `unknown` にします。プランは `unknown`、`starter`、`professional`、`organization`、`enterprise`、`education`、`government`、シートは `unknown`、`view`、`collab`、`dev`、`full` を使います。
 
-変更したタスクは `prepare --replace-expected CURRENT_REVISION` で更新します。`prepare` / `refresh` はメタデータを公開しますが、Desktop の自動再読み込みは環境次第です。古い revision のままなら同じプラグインを開き直し、別の manifest を追加登録しないでください。
+```sh
+python3 -B tools/figma_control.py profile set --workspace PRIVATE_DIR \
+  --plan PLAN --seat SEAT --expected-context CONTEXT_FINGERPRINT
+```
+
+fingerprint は現在の plugin session・ファイル・ページ・アカウント・想定 runtime generation に宣言を固定します。context の `native_status` と generation を確認します。native status が未確認、または `profile set` が `stale-native` を返したら、実際の Figma Flow session を確認して context を再取得します。選択は含みません。ファイル・ページ・アカウント・runtime generation を変えた場合も文脈を再取得します。状態が `pending` なら返された ID を `profile status --workspace PRIVATE_DIR --request-id REQUEST_ID` に渡して確認します。
+
+Codex から登録済みレシピを準備して適用します。次の例は現在の Design ページに 2×2 の auto layout grid を作ります。
+
+```sh
+python3 -B tools/figma_workspace.py prepare --workspace PRIVATE_DIR \
+  --key design-grid --title 'Grid' --kind native-edit -- \
+  --recipe design-grid --file-key FILE --page-id PAGE
+python3 -B tools/figma_workspace.py list --workspace PRIVATE_DIR
+python3 -B tools/figma_control.py run --workspace PRIVATE_DIR --key design-grid \
+  --operation apply --file-key FILE --page-id PAGE \
+  --expected-revision CURRENT_REVISION --timeout 120
+```
+
+`run` が返す実際の `readback` を確認します。失敗または結果不明の資料を保管します。結果が不確実な場合は、再適用の前に現在値を読み取ります。ビューアには作業・会話の手動代替機能がありません。
 
 ## 選択した案の本制作とコントラスト
 
@@ -1125,9 +1187,9 @@ python3 -B "$PLUGIN_ROOT/tools/figma_workspace.py" list --workspace "$WORKSPACE"
 
 `--out` は新しいフォルダーを指定します。Chrome または Chromium、Node、Python を PATH に用意してください。ブラウザーの実行ファイルが既定の場所にない場合は `--chrome /path/to/chrome` を指定します。rail には名前付きの直接のカード要素が2〜16件必要です。`--interval-ms` は実際に測定した自動再生間隔です。個別に取り込む carousel graph ごとに異なる `--id` を指定します。別のページでは最初のカードの正確なタイトルに合わせて `--first-card` を変更します。rail selector が一つに絞れる場合は省略できます。出力には各状態の PNG、`WEB-saas-feature-N.json`、遷移記録、`media.json`、固定素材、`carousel-graph.json` が入ります。Plan を作る前に4枚の PNG と `media.json` を確認してください。素材が取得できない場合や別 origin にある場合は[オフライン素材の対応表](html-asset-map.md)を使います。
 
-`refresh` は準備した作業を既存の workspace plugin に公開します。Figma Flow がすでに開いていれば、閉じて再度開き、新しい作業を読み込みます。人が画面から Apply と Read を行うとき、別のローカル制御サービスは不要です。対象 Design ファイルで Figma Flow を開きます。ホームの **このファイルのデザイン作業**から **Team status carousel**を選び、**Read / Applyを開く**をクリックします。適用前に対象ファイル、ページ、フレームを確認します。確認画面で **確認した変更を適用**を押して適用します。完了後は **値を読み取り保存**を押し、Figma の実フレームと遷移を読み取ります。readback JSON をキャプチャ出力と一緒に保管します。readback はフレームと遷移設定を確認します。Figma Present の再生は別途確認してください。
+`refresh` は準備した作業を既存の workspace plugin に公開します。新しい revision が必要なら同じ Figma Flow を再実行します。Codex が正確な file/page/revision を指定して `apply` と `read` を実行し、実際の readback を保管します。readback はフレームと遷移設定を確認しますが、Figma Present の再生は証明しません。[Codex コマンド](#11-codexで-対話-プロフィール-承認-結果を管理)を参照してください。
 
-現在の readback 後、ホームの task list と History に **プレゼンテーション**と**開始フレームを選択**が表示されます。**プレゼンテーション**で検証済み prototype を開きます。**開始フレームを選択**で Design ファイル内の開始フレームにフォーカスし、Figma の Present 操作から再生します。[English quickstart](#english-quick-start) · [한국어 quickstart](#web-carousel-quickstart)。
+Codex が readback を検証した後、Figma の Present 操作で prototype の実際の動作を確認できます。これは Figma Flow パネルで行う操作ではありません。[Codex コマンド](#11-codexで-対話-プロフィール-承認-結果を管理)を参照してください。
 
 
 ## Webのタブ切り替えをキャプチャしてFigmaで再生する
@@ -1159,6 +1221,8 @@ node "$PLUGIN_ROOT/tools/web_disclosure_capture.mjs" \
 
 コンパイラと Figma ブリッジは `initialState` から有向グラフ探索（directed traversal）で全状態へ到達できることを要求し、孤立した循環は拒否します。Figma では各開始フレームのトリガー上に透明な `Open · 質問`、`Close · 質問`、`Switch · 質問` のホットスポット（`ON_CLICK` → `NAVIGATE`）を配置し、質問文・回答文・シェブロンベクターは編集可能なまま保ちます。Plan、準備、Apply、Read、**プレゼンテーション**は上記と同じです。[入力形式](web-disclosure-input.md) · [SaaS FAQ 受入記録](../specs/interactive-web/disclosure.md)
 ## 画面の見方
+
+**過去の UI の記録:** 以下のタスク一覧・操作ボタン・チャット接続は旧パネルの資料です。現在の Figma Flow パネルは状態ビューアです。現在の操作は [Codex の文脈・プロファイル・作業コマンド](#11-codexで-対話-プロフィール-承認-結果を管理)を参照してください。
 
 0.27では `prepare` の `--` 前に `--depends-on FILE --input-record FILE --input-root ROOT` を指定できます。依存 JSON は `task_key`、正確な `revision`、`relation: uses-output`、登録済み `artifact`、`artifact_sha256` を使います。64桁の実値は準備した成果物から取得します。[例と契約](#027에서-준비하고-확인할-범위)を参照してください。資産の種類・状態・全CSS出典・freshnessは一覧情報であり、描画成功ではありません。要求していない曖昧なgapは未解決のまま残します。TEXTラベルと共有main、明示したGroup/Frame/Auto Layoutを使い、scrollはclip付きFrameの宣言を検証します。選択pinはaliasの分割適用を防ぎ、部分markerを保持します。全体pairingには最新full読み取りが必要です。summaryは部分観測です。scopeを固定したserver journalとローカルUI履歴を区別し、秘密を除去した診断exportはnative書き込みを追加しません。[受入状況](development-roadmap/FINAL_ACCEPTANCE.md)・[独立Django/PostgreSQLアプリ](../apps/little-hands/README.md)・[次の提案](next-roadmap/README.md)。
 

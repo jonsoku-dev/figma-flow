@@ -3,7 +3,7 @@
   "id": "local-profile-init",
   "nodes": [
     {"id":"REQ-PROFILE","type":"requirement","title":"로컬 사용자 설정과 실행 맥락에 따라 Design 작업을 제공한다","source":"spec.md"},
-    {"id":"SCR-INIT","type":"screen","title":"첫 실행 및 환경 설정","source":"../../panel-ui/src/Workspace.jsx"},
+    {"id":"SCR-INIT","type":"code","title":"Codex에서 첫 실행 선언 조회와 저장","source":"../../tools/figma_control.py"},
     {"id":"POLICY","type":"policy","title":"기능과 작업의 유일한 실행 정책","source":"../../library/figma-profile/policy.json"},
     {"id":"RESOLVE","type":"code","source":"../../figma-bridge/profile_policy.js"},
     {"id":"LOCAL","type":"code","source":"../../figma-bridge/workspace_profile.js"},
@@ -15,14 +15,15 @@
     {"id":"PROFILE-04","type":"acceptance","title":"좌석 선언과 관측 모드의 구분","source":"spec.md"},
     {"id":"TEST-PROFILE","type":"test","source":"../../tests/test_local_profile.cjs"},
     {"id":"TEST-HOST","type":"test","source":"../../tests/test_workspace_host.cjs"},
+    {"id":"TEST-CODEX","type":"test","source":"../../tests/test_figma_control.py"},
     {"id":"TEST-PUBLISH","type":"test","source":"../../tests/test_profile_publication.py"}
   ],
   "edges": [
-    {"from":"REQ-PROFILE","type":"renders in","to":"SCR-INIT"},
+    {"from":"REQ-PROFILE","type":"implemented by","to":"SCR-INIT"},
     {"from":"REQ-PROFILE","type":"requires","to":"POLICY"},
     {"from":"POLICY","type":"evaluated by","to":"RESOLVE"},
     {"from":"LOCAL","type":"uses","to":"RESOLVE"},
-    {"from":"SCR-INIT","type":"uses","to":"HOST"},
+    {"from":"SCR-INIT","type":"uses","to":"RELAY"},
     {"from":"HOST","type":"uses","to":"LOCAL"},
     {"from":"RELAY","type":"uses","to":"HOST"},
     {"from":"SCR-INIT","type":"accepted by","to":"PROFILE-01"},
@@ -31,7 +32,7 @@
     {"from":"RESOLVE","type":"accepted by","to":"PROFILE-04"},
     {"from":"PROFILE-02","type":"verified by","to":"TEST-PROFILE"},
     {"from":"PROFILE-04","type":"verified by","to":"TEST-PROFILE"},
-    {"from":"PROFILE-01","type":"verified by","to":"TEST-HOST"},
+    {"from":"PROFILE-01","type":"verified by","to":"TEST-CODEX"},
     {"from":"PROFILE-03","type":"verified by","to":"TEST-HOST"},
     {"from":"PROFILE-04","type":"verified by","to":"TEST-PUBLISH"}
   ]

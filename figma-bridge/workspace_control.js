@@ -1,10 +1,17 @@
 /* A running home panel can execute only the signed, prepared tasks it loaded. */
 let controlPolling = false;
 let controlRetryAt = 0;
+let controlRelayProfileResult = null;
+let controlRelayProfileBinding = null;
+let controlRelayIdentity;
 const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
 const controlAllowed = {review: ['create'], import: ['read', 'import', 'sync'], discover: ['read'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply']};
 
 function controlState(outcome, busy) {
+  if (typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer) {
+    if (typeof workspaceRelayViewerState === 'function') workspaceRelayViewerState(busy ? 'busy' : undefined);
+    return;
+  }
   figma.ui.postMessage({type:'workspace-control-state', workspaceSession:workspaceHomeSession,
     fileKey:(typeof figma !== 'undefined' && figma.fileKey) || null,
     pageId:(typeof figma !== 'undefined' && figma.currentPage && figma.currentPage.id) || null,
@@ -139,6 +146,15 @@ async function controlExecute(task, cmd, beforeDispatch) {
       if (!session) throw Error('Missing prepared native edit session.');
       const messages = await invoke({type:operation,session});
       const data = messages.find(m => m.session === session && m.operation === operation && m.readback)?.readback;
+      if (model.recipe_receipt) {
+        const recipe = model.recipe_receipt;
+        if (data?.schema !== 'figma-flow-example-readback-v1' || data.fileKey !== cmd.file_key ||
+            data.pageId !== cmd.page_id || data.recipe !== recipe.recipe || data.pin !== recipe.pin ||
+            data.native_edit?.operation !== operation || data.native_edit?.applied !== (operation === 'apply') ||
+            (operation === 'apply' && !data.container?.id))
+          throw Error('Example result differs from the prepared scope.');
+        return data;
+      }
       const expected = model.web_screen_receipt;
       const screens = data?.web_design?.screens;
       const valid = expected
@@ -184,12 +200,73 @@ async function workspaceControlTick() {
   controlPolling = true;
   let cmd = null;
   try {
+    const relayMode = typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer;
+    if (relayMode && typeof workspaceRelayIdentity === 'function') {
+      const identity = workspaceRelayIdentity();
+      if (identity !== controlRelayIdentity) {
+        controlRelayIdentity = identity;
+        if (identity && workspaceProfileManager) {
+          try {workspaceProfile = await workspaceProfileManager.load(workspaceState.locale);} catch (_) {workspaceProfile = null;}
+          workspaceRelayViewerState(workspaceRelayStatus);
+        }
+      }
+    }
+    const relayContext = relayMode && typeof workspaceRelayContext === 'function' ? workspaceRelayContext() : null;
+    if (controlRelayProfileBinding && (controlRelayProfileBinding.session_id !== relayContext?.session_id ||
+        controlRelayProfileBinding.file_key !== relayContext?.file_key || controlRelayProfileBinding.page_id !== relayContext?.page_id ||
+        controlRelayProfileBinding.user_id !== relayContext?.user_id)) {
+      controlRelayProfileResult = null; controlRelayProfileBinding = null;
+    }
+    const relay = relayMode && relayContext
+      ? {context:relayContext, ...(controlRelayProfileResult ? {profile_result:controlRelayProfileResult} : {})}
+      : undefined;
     const reply = await controlRequest('poll', {session_id:controlRunSession,file_key:figma.fileKey,page_id:figma.currentPage.id,
+      ...(relay ? {relay} : {}),
       ...(typeof WORKSPACE_RUNTIME === 'undefined' ? {} : {runtime:WORKSPACE_RUNTIME})});
+    if (relayMode) {
+      if (controlRelayProfileResult && relay?.profile_result === controlRelayProfileResult) {
+        controlRelayProfileResult = null; controlRelayProfileBinding = null;
+      }
+      const remote = reply?.relay;
+      const context = remote?.context;
+      const matches = value => value && value.session_id === controlRunSession && value.file_key === figma.fileKey &&
+        value.page_id === figma.currentPage.id && value.user_id === (typeof workspaceRelayIdentity === 'function' ? workspaceRelayIdentity() : null);
+      if (context && matches(context)) {
+        workspaceRelayStatus = 'live'; workspaceRelayError = null;
+      } else if (!context) {
+        workspaceRelayStatus = 'offline'; workspaceRelayError = 'Relay context is unavailable';
+      }
+      const request = remote?.profile_request;
+      if (request && matches(request) && workspaceProfileManager && !controlRelayProfileResult) {
+        workspaceRelayStatus = 'busy'; workspaceRelayError = null; workspaceRelayViewerState('busy');
+        try {
+          const saved = await workspaceProfileManager.save(request.profile, workspaceState.locale, () => matches(request));
+          if (matches(request) && figma.fileKey === request.file_key && figma.currentPage.id === request.page_id) {
+            workspaceProfile = saved;
+            const persisted = saved?.storage === 'local' && saved?.needsSetup === false;
+            controlRelayProfileResult = {request_id:request.request_id, status:persisted?'ok':'uncertain',
+              profile:workspaceRelayProfile(), ...(!persisted ? {error_code:'profile-storage-unavailable'} : {})};
+            controlRelayProfileBinding = {session_id:request.session_id,file_key:request.file_key,page_id:request.page_id,user_id:request.user_id};
+            workspaceRelayLastResult = persisted ? 'ok' : 'uncertain';
+            workspaceRelayError = persisted ? null : 'Profile is available for this session only';
+          }
+        } catch (_) {
+          if (matches(request)) {
+            controlRelayProfileResult = {request_id:request.request_id,status:'error',error_code:'profile-save-failed'};
+            controlRelayProfileBinding = {session_id:request.session_id,file_key:request.file_key,page_id:request.page_id,user_id:request.user_id};
+            workspaceRelayLastResult = 'error'; workspaceRelayError = 'Profile could not be saved';
+          }
+        }
+        workspaceRelayStatus = 'live';
+      }
+      if (context && !matches(context)) { workspaceRelayStatus = 'uncertain'; workspaceRelayError = 'Figma context changed during relay'; }
+      workspaceRelayViewerState(workspaceRelayStatus);
+    }
     cmd = reply.operation;
     if (!cmd) return;
     const receipt = Object.fromEntries(['id','claim_id','session_id','revision','file_key','page_id'].map(k=>[k,cmd[k]]));
     if (home === workspaceHomeSession) controlState('running', true);
+    if (relayMode) {workspaceRelayStatus = 'busy'; workspaceRelayError = null; workspaceRelayViewerState('busy');}
     try {
       if (workspaceActive || home !== workspaceHomeSession || cmd.session_id !== controlRunSession) throw Error('The open workspace session changed.');
       const data = await controlExecute(workspaceTasks.get(cmd.key), cmd, async () => {
@@ -204,12 +281,25 @@ async function workspaceControlTick() {
       if (error.nativeReadback) receipt.readback_json = JSON.stringify(error.nativeReadback);
     }
     await controlRequest('result', receipt, cmd.operation === 'read');
-    await workspaceRefreshJournal();
+    if (relayMode) {
+      workspaceRelayStatus = 'live';
+      workspaceRelayLastResult = receipt.status === 'ok' ? 'ok' : 'error';
+      workspaceRelayError = receipt.status === 'ok' ? null : (receipt.error || 'Native task failed');
+      if (receipt.status === 'ok') workspaceRelayLastOkAt = new Date().toISOString();
+      workspaceRelayViewerState(workspaceRelayStatus, workspaceRelayError);
+    }
+    if (!relayMode) await workspaceRefreshJournal();
     if (typeof workspaceHandleScopeChange === 'function') await workspaceHandleScopeChange();
     if (home === workspaceHomeSession) controlState(receipt.status === 'ok' ? 'finished' : 'failed', false);
   } catch (_error) {
     controlRetryAt = Date.now() + 8000;
-    await workspaceRefreshJournal();
+    if (typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer) {
+      workspaceRelayStatus = cmd ? 'uncertain' : 'offline';
+      if (cmd) workspaceRelayLastResult = 'uncertain';
+      workspaceRelayError = 'Local relay is unavailable';
+      workspaceRelayViewerState(workspaceRelayStatus, workspaceRelayError);
+    }
+    if (!(typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer)) await workspaceRefreshJournal();
     if (typeof workspaceHandleScopeChange === 'function') await workspaceHandleScopeChange();
     if (cmd && home === workspaceHomeSession) controlState('uncertain', false);
   } finally {controlPolling = false;}

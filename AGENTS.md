@@ -2,6 +2,8 @@
 
 ## 제품 범위
 
+현재 등록 작업공간은 Codex 중심 릴레이·뷰어다. 요청·선택 확인·승인·프로필 설정·이력과 결과 전달은 Codex에서 수행한다. Figma 패널에 별도 대화 입력, 작업 관리, 프로필 작성 또는 중복 승인을 추가하지 않는다. [중계 계약](specs/codex-relay/spec.md)의 현재 맥락과 서명된 작업 범위를 확인한다.
+
 [제품 헌법](CONSTITUTION.md)과 [Design 전용 설계서](specs/design-specialization/spec.md)를 먼저 적용한다. 신규 기능·리팩터링·성능 개선에는 실제 Figma Design 편집 또는 검토 시나리오와 정본 graph의 인수 조건을 연결한다. 다른 편집기용 코드·메뉴·SDK 생성기·테스트 앱을 추가하거나 복구하지 않는다. 편집기 범위는 `python3 -B -m unittest tests.test_design_specialization`으로 확인한다.
 
 신규 기능은 [기본 사용 환경](CONSTITUTION.md#기본-사용-환경)에 따라 Computer Use와 hook을 끈 사용자 경로에서 실행하고, 실제 브라우저·Figma 인수 결과와 함께 기록한다.

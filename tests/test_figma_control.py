@@ -9,6 +9,7 @@ from pathlib import Path
 import sys
 import tempfile
 import threading
+import time
 import unittest
 from unittest.mock import patch
 
@@ -45,6 +46,18 @@ class ControlTests(unittest.TestCase):
         self.addCleanup(server.server_close)
         self.addCleanup(server.shutdown)
         return server
+
+    def post_control(self, server, path, payload):
+        settings = control.config(self.root)
+        connection = http.client.HTTPConnection('127.0.0.1', server.server_port, timeout=5)
+        connection.request('POST', path, workspace.encode(payload),
+                           {'Host': f'localhost:{server.server_port}',
+                            'Authorization': 'Bearer ' + settings['token'],
+                            'Content-Type': 'application/json'})
+        response = connection.getresponse()
+        code, value = response.status, json.loads(response.read())
+        connection.close()
+        return code, value
 
     def run_args(self, *extra):
         return ['run', '--workspace', str(self.root), '--key', 'discovery', '--operation', 'read',
@@ -91,6 +104,144 @@ class ControlTests(unittest.TestCase):
                  'allowed_page_ids': ['12:1'], 'nodes': [], 'variables': [], 'collections': [], 'observed_at': 'synthetic-test-only'}
         value.update(changes)
         return json.dumps(value)
+
+    def test_cli_reads_fresh_native_context_and_round_trips_profile_declaration(self):
+        self.start_server()
+        context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': 'local-account-id', 'selection': [{'id': '13:4', 'name': 'Button', 'type': 'COMPONENT'}],
+                   'profile': {'declared': {'plan': 'unknown', 'seat': 'unknown'}, 'needsSetup': True, 'storage': 'local'}}
+        payload = {'session_id': context['session_id'], 'file_key': context['file_key'], 'page_id': context['page_id'],
+                   'runtime': workspace.current(self.root)['runtime'], 'relay': {'context': context}}
+        poll = control.poll(self.root, payload)
+        self.assertEqual(poll['relay']['context']['selection'], context['selection'])
+        observed = control.relay_request(self.root, 'context')
+        self.assertEqual(observed['context']['page_id'], '12:1')
+        self.assertEqual(control.relay_request(self.root, 'profile-get')['profile']['declared']['plan'], 'unknown')
+
+        changed = {**context, 'page_id': '12:2'}
+        changed_payload = {**payload, 'page_id': '12:2', 'relay': {'context': changed}}
+        control.poll(self.root, changed_payload)
+        stale = control.relay_request(self.root, 'profile-set', profile={'plan': 'professional', 'seat': 'full'},
+                                      expected_context=observed['context_fingerprint'])
+        self.assertEqual(stale['state'], 'scope-changed')
+        payload, context = changed_payload, changed
+        observed = control.relay_request(self.root, 'context')
+
+        result = {}
+        def set_profile():
+            args = ['profile', '--workspace', str(self.root), 'set', '--plan', 'professional', '--seat', 'full',
+                    '--expected-context', observed['context_fingerprint'], '--timeout', '3']
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                result['code'] = control.main(args)
+            result['value'] = json.loads(output.getvalue())
+        worker = threading.Thread(target=set_profile)
+        worker.start()
+        deadline = time.time() + 2
+        command = None
+        while time.time() < deadline and command is None:
+            command = control.poll(self.root, payload)['relay']['profile_request']
+            if command is None:
+                time.sleep(.02)
+        self.assertIsNotNone(command)
+        self.assertEqual(command['profile'], {'plan': 'professional', 'seat': 'full'})
+        saved = {'declared': command['profile'], 'needsSetup': False, 'storage': 'local'}
+        response = {**payload, 'relay': {'context': {**context, 'profile': saved}, 'profile_result': {
+            'request_id': command['request_id'], 'status': 'ok', 'profile': saved}}}
+        self.assertIsNone(control.poll(self.root, response)['relay']['profile_request'])
+        self.assertIsNone(control.poll(self.root, response)['relay']['profile_request'])  # lost HTTP response replay
+        conflicting = json.loads(json.dumps(response))
+        conflicting['relay']['profile_result']['status'] = 'error'
+        self.assertIsNone(control.poll(self.root, conflicting)['relay']['profile_request'])
+        self.assertEqual(control.relay_request(self.root, 'profile-status', request_id=command['request_id'])['state'], 'ok')
+        worker.join(timeout=4)
+        self.assertFalse(worker.is_alive())
+        self.assertEqual(result['code'], 0)
+        self.assertEqual(result['value']['state'], 'ok')
+        self.assertEqual(control.relay_request(self.root, 'profile-get')['profile']['declared'], command['profile'])
+
+    def test_profile_relay_fields_are_disjoint_and_cannot_overwrite_during_active_task(self):
+        self.start_server()
+        context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': 'local-account-id', 'selection': []}
+        payload = {'session_id': context['session_id'], 'file_key': context['file_key'], 'page_id': context['page_id'],
+                   'runtime': workspace.current(self.root)['runtime'], 'relay': {'context': context}}
+        control.poll(self.root, payload)
+        observed = control.relay_request(self.root, 'context')
+        self.enqueue()  # Leaves a prepared native task active and pending.
+        busy = control.relay_request(self.root, 'profile-set', profile={'plan': 'professional', 'seat': 'full'},
+                                     expected_context=observed['context_fingerprint'])
+        self.assertEqual(busy['state'], 'busy')
+        with self.assertRaises(ValueError):
+            control.relay_command(self.root, {'action': 'profile-set', 'operation': 'apply',
+                'profile': {'plan': 'professional', 'seat': 'full'},
+                'expected_context': observed['context_fingerprint']})
+
+    def test_profile_set_rejects_stale_native_generation(self):
+        self.start_server()
+        context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': 'local-account-id', 'selection': []}
+        payload = {'session_id': context['session_id'], 'file_key': context['file_key'], 'page_id': context['page_id'],
+                   'runtime': workspace.current(self.root)['runtime'], 'relay': {'context': context}}
+        control.poll(self.root, payload)
+        expected = workspace.current(self.root)['runtime']
+        stale = {**expected, 'generation': '0' * 32}
+        control.NATIVE_CLIENTS[str(self.root.resolve())] = {'runtime': stale, 'session_id': context['session_id'], 'seen_at': time.time()}
+        current = control.relay_request(self.root, 'context')
+        self.assertEqual(current['context']['native_status'], 'unverified')
+        rejected = control.relay_request(self.root, 'profile-set', profile={'plan': 'professional', 'seat': 'full'},
+                                         expected_context=current['context_fingerprint'])
+        self.assertEqual(rejected['state'], 'stale-native')
+
+    def test_orphaned_ack_after_server_restart_is_consumed_and_poll_recovers(self):
+        server = self.start_server()
+        context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': 'local-account-id', 'selection': []}
+        payload = {'session_id': context['session_id'], 'file_key': context['file_key'], 'page_id': context['page_id'],
+                   'runtime': workspace.current(self.root)['runtime'],
+                   'relay': {'context': context, 'profile_result': {
+                       'request_id': 'f' * 32, 'status': 'ok',
+                       'profile': {'declared': {'plan': 'professional', 'seat': 'full'},
+                                   'needsSetup': False, 'storage': 'local'}}}}
+        control.RELAY_STATES.pop(str(self.root.resolve()), None)  # Model the server losing its in-memory mailbox.
+        code, response = self.post_control(server, '/control/poll', payload)
+        self.assertEqual(code, 200)
+        self.assertIsNone(response['relay']['profile_request'])
+        status = control.relay_command(self.root, {'action': 'profile-status', 'request_id': 'f' * 32})
+        self.assertEqual(status['state'], 'uncertain')
+        next_poll = {key: value for key, value in payload.items() if key != 'relay'}
+        next_poll['relay'] = {'context': context}
+        self.assertEqual(self.post_control(server, '/control/poll', next_poll)[0], 200)
+
+    def test_ack_after_dispatched_request_expires_is_uncertain_and_poll_recovers(self):
+        server = self.start_server()
+        context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': 'local-account-id', 'selection': []}
+        base = {'session_id': context['session_id'], 'file_key': context['file_key'], 'page_id': context['page_id'],
+                'runtime': workspace.current(self.root)['runtime']}
+        code, initial = self.post_control(server, '/control/poll', {**base, 'relay': {'context': context}})
+        self.assertEqual(code, 200)
+        observed = control.relay_request(self.root, 'context')
+        queued = control.relay_request(self.root, 'profile-set', profile={'plan': 'professional', 'seat': 'full'},
+                                       expected_context=observed['context_fingerprint'])
+        code, delivered = self.post_control(server, '/control/poll', {**base, 'relay': {'context': context}})
+        self.assertEqual(code, 200)
+        command = delivered['relay']['profile_request']
+        self.assertEqual(command['request_id'], queued['request_id'])
+        request = control._relay_state(self.root)['requests'][queued['request_id']]
+        self.assertIn('dispatched_at', request)
+        late = {**base, 'relay': {'context': context, 'profile_result': {
+            'request_id': queued['request_id'], 'status': 'ok',
+            'profile': {'declared': {'plan': 'professional', 'seat': 'full'},
+                        'needsSetup': False, 'storage': 'local'}}}}
+        with patch.object(control.time, 'time', return_value=request['deadline'] + 1):
+            code, received = self.post_control(server, '/control/poll', late)
+            self.assertEqual(code, 200)
+        self.assertIsNone(received['relay']['profile_request'])
+        self.assertEqual(control.relay_request(self.root, 'profile-status', request_id=queued['request_id'])['state'], 'uncertain')
+        code, recovered = self.post_control(server, '/control/poll', {**base, 'relay': {'context': context}})
+        self.assertEqual(code, 200)
+        self.assertIsNone(recovered['relay']['profile_request'])
 
     def test_native_runtime_must_be_current_before_mutation_claim(self):
         self.mutation()

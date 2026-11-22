@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'figma-flow-workspace-v1'
 MAX_BYTES = 256 * 1024 * 1024
 OPTIONS = {
-    'native-edit': {'--plan'},
+    'native-edit': {'--plan', '--recipe', '--file-key', '--page-id'},
     'import': {'--input', '--reviewed-sha256', '--selection', '--product-graph', '--batch', '--asset-receipts', '--paired-state'},
     'review': {'--manifest', '--layout', '--file-key', '--pair-dir', '--receiver-port', '--selection', '--product-graph', '--change-request', '--plan'},
     'discover': {'--file-key', '--page-id', '--include-page-id', '--api-probe', '--read-measure'},
@@ -285,7 +285,11 @@ def paired_compile(options, output, plugin_id):
 
 def generate(kind, args, options, output, plugin_id):
     file_key = page_id = None
-    if kind == 'import' and '--paired-state' in options:
+    if kind == 'native-edit' and '--recipe' in options:
+        bundle = workspace_recipes.prepare_relay_example(options, output, plugin_id)
+    elif kind == 'native-edit' and set(options) != {'--plan'}:
+        raise ValueError('Native edit requires --plan or a scoped bundled example')
+    elif kind == 'import' and '--paired-state' in options:
         file_key, page_id = paired_compile(options, output, plugin_id)
         bundle = output
     else:
@@ -755,16 +759,12 @@ def publish(workspace, catalogue, *, expected_implementation=None):
         private = config(workspace)
         control = {'url': f'http://localhost:{private["port"]}', 'token': private['token']}
         domains.add(control['url'])
-    relay = chat_config(workspace)
-    if relay:
-        domains.add(relay['url'])
     if len(domains) > 8:
         raise ValueError('Workspace exceeds its exact localhost origin limit')
     bridge = ROOT / 'figma-bridge'
     code = 'const WORKSPACE_RUNTIME = ' + json.dumps(runtime) + ';\n'
-    chat_catalog = json.loads((bridge / 'locales/chat.json').read_text(encoding='utf-8'))
+    code += 'const WORKSPACE_RELAY_VIEWER = true;\n'
     code += 'const FLOW_LOCALES = ' + json.dumps(list(supported_locales()), ensure_ascii=True) + ';\n'
-    code += 'const FLOW_CHAT_DUPLICATE = ' + json.dumps(chat_catalog['chat.duplicate']['ko'], ensure_ascii=False) + ';\n'
     code += 'const FLOW_TASKS = [' + ',\n'.join(tasks) + '];\n'
     code += 'const FLOW_RETIRED = ' + json.dumps(tombstones, ensure_ascii=True) + ';\n'
     assets = bridge / 'assets'
@@ -773,9 +773,6 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     code += 'const packagedCSS = ' + json.dumps((assets / 'panels.css').read_text()) + ';\n'
     code += "function workspaceAppHtml(template){return template.replace('/* FLOW_SHARED_PANEL_STYLES */',()=>packagedCSS).replace('/* FLOW_SHARED_REACT_APPLICATION */',()=>packagedReact);}" + '\n'
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
-    code += 'const WORKSPACE_CHAT_CONFIG = ' + json.dumps(relay, ensure_ascii=True) + ';\n'
-    code += 'const WORKSPACE_CHAT_UI = workspaceAppHtml(' + json.dumps(render_app('chat', chat_context=True, shared=True), ensure_ascii=True) + ');\n'
-    code += workspace_recipes.dispatch_source() + '\n'
     policy = read(ROOT / 'library' / 'figma-profile' / 'policy.json')
     code += 'const WORKSPACE_PROFILE_POLICY = ' + json.dumps(policy, ensure_ascii=True) + ';\n'
     for source in ('profile_policy.js', 'workspace_profile.js'):
@@ -784,14 +781,13 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     if runtime['implementation'] != trusted_sources():
         raise ValueError('Trusted runtime sources changed during publication; retry')
     atomic(folder / 'code.js', code.encode())
-    atomic(folder / 'ui.html', render_app('workspace').encode())
+    atomic(folder / 'ui.html', render_app('relay').encode())
     result = sign_catalogue(workspace, {**catalogue, 'generation': generation, 'runtime': runtime})
     atomic(folder / 'catalogue.json', encode(result))
     manifest = {'name': display_name(), 'id': catalogue['plugin_id'], 'api': '1.0.0',
         'main': f'.generations/{generation}/code.js', 'ui': f'.generations/{generation}/ui.html',
         'editorType': ['figma'], 'documentAccess': 'dynamic-page', 'enablePrivatePluginApi': True,
         'permissions': ['currentuser'],
-        'menu': workspace_recipes.menu(),
         'networkAccess': {'allowedDomains': ['none']}}
     if domains:
         manifest['networkAccess']['devAllowedDomains'] = sorted(domains)

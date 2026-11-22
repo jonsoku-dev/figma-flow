@@ -2,6 +2,8 @@
 
 원본 요청은 [request.md](request.md), 관계 inventory는 [graph.json](graph.json), 화면 설명은 [screen-spec.md](screen-spec.md)다.
 
+현재 등록된 뷰어에서 실행 이력과 검증 결과는 Codex가 전달한다. 아래 차트와 작업별 화면은 이전 패널의 인수 기록이다. 실행 ID와 작업 버전에 따른 이력 연결은 현재 경로에서도 사용한다. [현재 중계 계약](../codex-relay/spec.md)
+
 ## 요구사항
 
 - `REQ-ACTIVITY-01` — 현재 task revision별 마지막 관측 상태를 차트와 정확한 수로 보여준다.

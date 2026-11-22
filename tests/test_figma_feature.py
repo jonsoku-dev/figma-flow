@@ -34,7 +34,7 @@ class FeatureRoutesTests(unittest.TestCase):
             recipe_command = next(step for step in steps if '--recipe ' + row['recipe'] in step)
             if recipe.get('workspaceMenu'):
                 self.assertEqual(row['kind'], 'flow-recipe')
-                self.assertIn('flow-recipe:' + row['recipe'], ' '.join(row['next_steps']))
+                self.assertIn('--recipe ' + row['recipe'], ' '.join(row['next_steps']))
             else:
                 self.assertEqual(row['kind'], 'sdk-recipe')
                 if recipe.get('reviewGraph'):
@@ -53,15 +53,15 @@ class FeatureRoutesTests(unittest.TestCase):
         self.assertTrue(all(row['editorType'] == 'figma' and row.get('mode', 'default') == 'default'
                             for row in recipes.values()))
 
-    def test_registered_design_menu_and_component_demo_are_explicit(self):
+    def test_scoped_example_tasks_and_component_demo_are_explicit(self):
         rows = [row for row in feature.ROUTES if row['kind'] == 'flow-recipe']
         self.assertEqual({row['id'] for row in rows},
                          {'design-shapes', 'design-grid', 'design-motion', 'design-component-properties'})
         for row in rows:
-            self.assertEqual(row['next_steps'][0], 'python3 tools/figma_workspace.py refresh --workspace WORKSPACE')
-            self.assertIn('Examples · add to current page', row['next_steps'][1])
+            self.assertIn('--kind native-edit -- --recipe ' + row['recipe'], row['next_steps'][0])
+            self.assertIn('--operation apply --file-key FILE_KEY --page-id PAGE_ID --expected-revision', row['next_steps'][1])
             self.assertNotIn('new page', ' '.join(row['next_steps']))
-            self.assertIn('current page', ' '.join(row['prerequisites']))
+            self.assertIn('current file and page', ' '.join(row['prerequisites']))
         for query in ('속성', '불리언', '인스턴스 교체', 'visibility', 'component property demo'):
             result = feature.route(query)
             self.assertEqual(result['status'], 'routed')

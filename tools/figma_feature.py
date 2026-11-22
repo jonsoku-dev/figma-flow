@@ -41,12 +41,12 @@ def sdk(identity, aliases, editor, scope, review_graph=False, workspace_menu=Non
         prerequisites.insert(1, 'The recipe requires the explicitly selected file key and existing page ID; its generated graph binds both before compilation.')
     if workspace_menu:
         result = feature(identity, aliases, 'flow-recipe', [
-            'python3 tools/figma_workspace.py refresh --workspace WORKSPACE',
-            f"In Figma Design, open Figma Flow > Examples · add to current page and choose the {identity} example (command flow-recipe:{identity}).",
-            'Review the explicit confirmation, add the example to the current page, and inspect the actual result.',
-        ], ['Use the existing registered Flow plugin in an authorized Design file.',
+            f'python3 tools/figma_workspace.py prepare --workspace WORKSPACE --key {identity} --title "{identity}" --kind native-edit -- --recipe {identity} --file-key FILE_KEY --page-id PAGE_ID',
+            f'python3 tools/figma_control.py run --workspace WORKSPACE --key {identity} --operation apply --file-key FILE_KEY --page-id PAGE_ID --expected-revision PREPARED_REVISION',
+            'Inspect the saved example receipt in Codex.',
+        ], ['Open the registered relay in the authorized Design file and start the local control service.',
             'Scope: ' + scope,
-            'Reload the same registered plugin after refresh. The menu adds an isolated FRAME (Motion: SECTION) to the current page, outside signed task/chat/control flows; it does not create pages or execute arbitrary JavaScript.'],
+            'Use the current file and page returned by context. Reopen the same plugin if the prepared generation changed.'],
             recipe=identity, editor=editor)
         result['sdk_fallback'] = {'next_steps': steps, 'prerequisites': prerequisites}
         return result

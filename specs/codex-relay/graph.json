@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "id": "codex-relay",
+  "nodes": [
+    {"id":"REQ-CODEX","type":"requirement","source":"spec.md"},
+    {"id":"VIEWER","type":"screen","source":"../../panel-ui/src/RelayViewer.jsx"},
+    {"id":"NATIVE","type":"code","source":"../../figma-bridge/workspace_host.js"},
+    {"id":"CODEX","type":"code","source":"../../tools/figma_control.py"},
+    {"id":"POLICY","type":"policy","source":"../../library/figma-profile/policy.json"},
+    {"id":"TEST-VIEWER","type":"test","source":"../../tests/test_relay_publication.py"},
+    {"id":"TEST-NATIVE","type":"test","source":"../../tests/test_workspace_host.cjs"},
+    {"id":"TEST-CODEX","type":"test","source":"../../tests/test_figma_control.py"}
+  ],
+  "edges": [
+    {"from":"REQ-CODEX","type":"renders in","to":"VIEWER"},
+    {"from":"REQ-CODEX","type":"implemented by","to":"CODEX"},
+    {"from":"VIEWER","type":"uses","to":"NATIVE"},
+    {"from":"CODEX","type":"coordinates","to":"NATIVE"},
+    {"from":"NATIVE","type":"uses","to":"POLICY"},
+    {"from":"VIEWER","type":"verified by","to":"TEST-VIEWER"},
+    {"from":"NATIVE","type":"verified by","to":"TEST-NATIVE"},
+    {"from":"CODEX","type":"verified by","to":"TEST-CODEX"}
+  ]
+}

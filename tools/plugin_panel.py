@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 BRIDGE = Path(__file__).resolve().parents[1] / 'figma-bridge'
-VIEWS = {'workspace', 'import', 'review', 'graph', 'chat'}
+VIEWS = {'relay', 'workspace', 'import', 'review', 'graph', 'chat'}
 
 
 def supported_locales():

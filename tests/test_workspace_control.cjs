@@ -29,6 +29,29 @@ test('a stale revision or page is rejected before native execution', async()=>{
   await assert.rejects(d.run('apply',{page_id:'2:0'}),/differs/);
   assert.equal(calls,0);
 });
+
+test('relay polling carries bounded native selection and profile context only in the authenticated poll envelope',async()=>{
+  const calls=[]; const selection=Array.from({length:21},(_,index)=>({id:`n${index}`,name:'Node',type:'RECTANGLE'}));
+  const env={figma:{fileKey:'file',currentPage:{id:'0:1'}},workspaceActive:null,workspaceHomeSession:'home',
+    workspaceRelayViewer:true,workspaceRelayContext:()=>({session_id:'s',file_key:'file',page_id:'0:1',user_id:null,
+      selection:selection.slice(0,20),selection_total:21,selection_truncated:true,
+      profile:{declared:{plan:'unknown',seat:'unknown'},needsSetup:true,storage:'session'}}),
+    workspaceRelayIdentity:()=>null,workspaceRelayViewerState:()=>{},workspaceState:{history:[]},workspaceServerHistory:[],
+    workspaceJournalUnavailable:false,workspaceInputFreshness:[],WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'local'},
+    async controlRequest(route,body){calls.push({route,body});return {relay:{context:null},operation:null};}};
+  vm.runInNewContext(source,env);
+  await env.workspaceControlTick();
+  assert.equal(calls.length,1);
+  assert.equal(calls[0].route,'poll');
+  const context=calls[0].body.relay.context;
+  assert.equal(context.selection.length,20);
+  assert.equal(context.selection_total,21);
+  assert.equal(context.selection_truncated,true);
+  assert.equal(context.user_id,null);
+  assert.deepEqual(JSON.parse(JSON.stringify(context.profile)),{declared:{plan:'unknown',seat:'unknown'},needsSetup:true,storage:'session'});
+  assert.equal(JSON.stringify(calls[0].body).includes('Node'),true);
+  assert.equal(JSON.stringify(calls[0].body).includes('PRIVATE TEXT'),false);
+});
 test('silent import cannot become successful even when handler returns',async()=>{
   const {run,env}=driver('import',(m,post)=>{if(m.type==='ready')post({ready:true,session_nonce:m.session_nonce});});
   await assert.rejects(run('import'),/completion/);assert.equal(env.workspaceActive,null);

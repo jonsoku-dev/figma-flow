@@ -2,7 +2,7 @@
 
 [제품 헌법](CONSTITUTION.md) · [Design 전용 설계서](specs/design-specialization/spec.md)
 
-Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design 파일에서 플러그인을 실행 세션마다 한 번 직접 열면, Codex가 이 플러그인의 localhost 명령으로 준비된 작업을 실행하고 실제 JSON을 검증합니다. Figma 기능 검색·실행·검증은 공식 Figma MCP 없이 동작합니다.
+Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design 파일에서 플러그인을 실행 세션마다 한 번 직접 열면, Codex가 localhost 명령으로 문맥을 읽고 작업을 준비·실행·검증합니다. 대화·승인·프로필 선언·결과 해석은 Codex에서 합니다. Figma 패널은 현재 파일·페이지·선택과 연결·실행·마지막 결과를 보여 주는 수동 뷰어입니다. 공식 Figma MCP는 필요하지 않습니다.
 
 **[통합 사용 가이드](docs/guide.md)** · [English](docs/guide.md#english) · [日本語](docs/guide.md#japanese)
 
@@ -18,9 +18,9 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 | 필요한 작업 | 가이드 위치 |
 |---|---|
 | API별 실행 경로·지원 근거·확인된 미구현 항목 | [공개 Plugin API 1,382개 멤버 대조](library/figma-api/audit/report.md) |
-| Figma 기능 찾기·로컬 예제 실행 | [공개 API와 데스크톱 메뉴](docs/guide.md#local-figma-features) |
+| Figma 기능 찾기·로컬 예제 실행 | [기능별 경로](docs/guide.md#local-figma-features) · [`design-grid` 준비·실행](docs/figma-recipes.md#run-design-grid-through-figma-flow) |
 | 처음 설치·고정 manifest 등록·첫 예제 | [설치부터 검토까지](docs/guide.md#2-클론하고-codex에-설치) |
-| 한 번 실행한 뒤 Codex에 맡기기 | [로컬 제어](docs/guide.md#기본-흐름-한-번-실행하고-codex에-맡기기) |
+| 한 번 실행한 뒤 Codex에서 관리 | [로컬 제어](docs/guide.md#기본-흐름-한-번-실행하고-codex에-맡기기) · [문맥·프로필·승인·결과](docs/guide.md#11-codex에서-대화-프로필-승인-결과-관리) |
 | 선택한 원화·배치를 유지한 0.25.0 본제작 | [입력 핀과 verify-production](docs/guide.md#selected-rich-production) |
 | 실제 Figma 값을 준비된 JSON으로 편집 | [native-edit 범위](docs/guide.md#prepared-native-edit) |
 | 이미지·그라디언트 위 글자 대비 | [전체 배경 픽셀의 최소값과 판정 불가](docs/guide.md#contrast-evidence) |
@@ -31,7 +31,7 @@ https://github.com/jonsoku-dev/figma-flow.git의 docs/guide.md를 따라.
 | 새 릴리스·서비스 교체·복구 | [업데이트](docs/guide.md#updates) |
 | 회사 Node/npm·private 배포 | [환경](docs/guide.md#environment) · [배포](docs/guide.md#private-distribution) |
 
-홈의 **다음 작업**, **이력**, **한국어 / English / 日本語**로 상태와 언어를 확인합니다. 제어 연결을 사용할 수 없으면 패널 실행과 JSON 저장을 사용합니다. 실제 관찰·읽기·검증과 사용자 선택은 각각 별도 근거이며, 과거 화면이나 오프라인 테스트가 현재 Figma 실행 성공을 보증하지 않습니다.
+`figma_control.py context`와 `profile get`으로 실제 세션 문맥과 사용자 선언을 확인합니다. 요청·승인·작업·읽기·검증 결과는 Codex에서 관리합니다. 실제 Figma 관찰·읽기·검증과 사용자 선택은 각각 별도 근거이며, 과거 화면이나 오프라인 테스트는 현재 실행 성공을 증명하지 않습니다.
 
 개발·계약·전문 예제는 각각의 목적에 맞게 유지합니다.
 

@@ -1,6 +1,6 @@
 # Figma Design Plugin API 예제
 
-Figma Flow bridge에 없는 공개 API를 독립 개발 플러그인으로 검토하고 실행할 때 사용하는 소스 예제다. 카탈로그는 [`manifest.json`](../library/figma-recipes/manifest.json)에 있다. 이 저장소가 작성한 예제이며, Figma가 배포한 공식 샘플은 아니다. 공식 `plugin-typings` 1.142.0 선언과 TypeScript 5.9.3의 strict 검사로 각각 컴파일했다. 선언의 출처·커밋·해시는 [`source.json`](../library/figma-api/source.json)에 고정되어 있다.
+이 문서는 Figma Plugin API 예제의 소스·검증 범위를 설명한다. 예제는 Figma 공식 샘플이 아니다. 현재 `design-grid` 예제는 고정 workspace의 `native-edit` 작업으로 Codex에서 준비·실행한다. 나머지 소스를 별도 SDK 프로젝트로 빌드할 수 있지만, 해당 플러그인은 Figma Flow 패널과 별개다. 카탈로그는 [`manifest.json`](../library/figma-recipes/manifest.json)에 있다. 공식 `plugin-typings` 1.142.0 선언과 TypeScript 5.9.3의 strict 검사로 각각 컴파일했다. 선언의 출처·커밋·해시는 [`source.json`](../library/figma-api/source.json)에 고정되어 있다.
 
 | Recipe ID | `--editor` | 생성하거나 반환하는 결과 |
 | --- | --- | --- |
@@ -9,7 +9,24 @@ Figma Flow bridge에 없는 공개 API를 독립 개발 플러그인으로 검�
 | `design-motion` | `figma` | 현재 페이지의 새 section에 두 프레임과 클릭 이동·복귀 Smart Animate 반응 |
 | `design-component-properties` | `figma` | 새 프레임에 실제 BOOLEAN·INSTANCE_SWAP 속성과 기본·교체·숨김 인스턴스, getter 검증 결과 |
 
-Design 예제는 현재 페이지에서 실행한다. 글자·도형·컴포넌트는 작업이 소유한 컨테이너에 생성한다.
+Design 예제는 현재 페이지에서 실행한다. 글자·도형·컴포넌트는 작업이 소유한 컨테이너에 생성한다. `design-grid`는 Codex가 등록된 Figma Flow workspace에서 준비하고 실행한다.
+
+## Run design-grid through Figma Flow
+
+Codex에서 현재 파일·페이지와 선택을 읽고 사용자의 요청과 적용 범위를 확인한다. 패널은 문맥과 상태만 표시한다. 대상 파일에서 Figma Flow를 실행 세션마다 한 번 열고, 같은 컴퓨터에서 control `serve`가 실행 중인지 확인한다.
+
+```sh
+python3 -B tools/figma_control.py context --workspace WORKSPACE
+python3 -B tools/figma_workspace.py prepare --workspace WORKSPACE \\
+  --key design-grid --title 'Grid' --kind native-edit -- \\
+  --recipe design-grid --file-key FILE --page-id PAGE
+python3 -B tools/figma_workspace.py list --workspace WORKSPACE
+python3 -B tools/figma_control.py run --workspace WORKSPACE --key design-grid \\
+  --operation apply --file-key FILE --page-id PAGE \\
+  --expected-revision CURRENT_REVISION --timeout 120
+```
+
+`FILE`, `PAGE`와 revision은 현재 `context`와 `list` 출력에서 가져온다. Codex는 실제 `readback`을 확인해 적용 결과를 보고한다. 결과가 불확실하면 적용을 재시도하기 전에 현재 Figma 값을 읽는다. 이 recipe는 기존 페이지에 2행 × 2열 auto layout `GRID` 프레임을 추가한다.
 
 ## 검토 가능한 프로젝트 생성
 
@@ -41,7 +58,7 @@ Figma에서 발급한 새 플러그인 ID로 manifest를 완성하고 해당 에
 `design-motion`은 `setReactionsAsync`의 `SMART_ANIMATE`를 사용하는 Design 프로토타입 예제다. 실행 후 선택된 Start 프레임을 Present에서 열고 점을 클릭하면 이동하며, 도착한 점을 클릭하면 복귀한다. 이름을 유지한 clone 자식이 두 프레임 사이의 매칭 대상이다. 타임라인·키프레임·Motion 에디터 제작 예제가 아니다.
 
 
-작은손 파일의 기존 컴포넌트 페이지에서 등록된 Figma Flow 개발 플러그인으로 네 Design 예제를 실행했다. 레이어 목록에서 GRID의 셀 네 개, 네 Boolean 결과와 타원 마스크를 확인했다. 컴포넌트 예제는 실제 속성 및 참조 검사에서 PASS를 표시했다. 모션 예제를 프레젠테이션에서 열고 양쪽 점을 클릭해 도착 프레임에서 시작 프레임으로 복귀하고 다시 도착하는 것을 확인했다. 모션의 프레임별 시간은 측정하지 않았다.
+**Historical execution record:** an earlier Figma Flow build ran these four Design recipes in a small business file. The layer list showed the GRID cells, Boolean results and ellipse mask. The component recipe passed its property and reference checks. Figma Present played the motion example in both directions. Frame timing was not measured. This record does not describe the current passive viewer.
 
 ## 네이티브 속성 예제와 정적 번들
 

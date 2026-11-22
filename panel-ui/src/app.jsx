@@ -6,6 +6,7 @@ import ImportPanel from './ImportPanel.jsx';
 import ReviewPanel from './ReviewPanel.jsx';
 import GraphPanel from './GraphPanel.jsx';
 import ChatPanel from './ChatPanel.jsx';
+import RelayViewer from './RelayViewer.jsx';
 import './styles/index.css';
 
 const views = {
@@ -14,6 +15,7 @@ const views = {
   review: ReviewPanel,
   graph: GraphPanel,
   chat: ChatPanel,
+  relay: RelayViewer,
 };
 const view = document.documentElement.dataset.flowView;
 const model = JSON.parse(document.getElementById('flow-model').textContent);

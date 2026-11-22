@@ -13,12 +13,13 @@ const flowLocales = JSON.stringify(Object.keys(Object.values(localeCatalog)[0]))
 const home = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_home.html'), 'utf8');
 function harness(frozen = false, options = {}) {
   const messages = [], shown = [], writes = [], commands = [], proxies = [];
-  const probe = {messages, shown, writes, commands, proxies, pending: null, closeCount: 0, chatCalls: [], external: [], profileStore: {}};
+  const probe = {messages, shown, writes, commands, proxies, pending: null, closeCount: 0, chatCalls: [], external: [], profileStore: {}, events:{}};
   probe.profile = options.profile === true;
   probe.readCreatesPage = options.readCreatesPage !== false;
   const figma = {
     fileKey: options.fileKey || 'file-a', ui: {postMessage(message) {assert.equal(this, figma.ui); messages.push(message);}},
     currentPage: options.page || {id:'1:1',type:'PAGE'},
+    on(name, handler) {(probe.events[name] ||= []).push(handler);},
     editorType: options.editorType || 'figma', mode: options.mode || 'default', apiVersion: '1.0.0',
     currentUser: options.currentUser || null, root: {name: options.fileName || 'Fixture'},
     viewport: {scrollAndZoomIntoView(nodes) {probe.scrolled = nodes.map(node => node.id);}},
@@ -38,7 +39,7 @@ function harness(frozen = false, options = {}) {
     Object.defineProperty(figma.ui, 'onmessage', {get() {return handler;}, set(value) {handler=value;}, configurable:false});
     Object.freeze(figma.ui); Object.freeze(figma);
   }
-  const context = vm.createContext({figma, __html__: 'HOME', probe});
+  const context = vm.createContext({figma, __html__: 'HOME', probe, WORKSPACE_RELAY_VIEWER: options.relayViewer === true});
   vm.runInContext(`
 ${options.profile ? `const WORKSPACE_PROFILE_POLICY = ${JSON.stringify(profilePolicy)};\n${profilePolicySource}\n${profileAdapterSource}\n${control}\n` : ''}
 const FLOW_LOCALES = ${flowLocales};
@@ -114,6 +115,44 @@ test('home lists registered metadata, exact-key and file guards prevent executio
   assert.equal(h.probe.proxies.length, 1);
   assert.deepEqual(h.probe.writes, []);
   assert.deepEqual(h.probe.commands, []);
+});
+
+test('relay viewer exposes only bounded native selection context and rejects manual task/chat entry', async () => {
+  const selected = Array.from({length:105}, (_, index) => ({id:`node-${index}`,name:'Visible label',type:'RECTANGLE',characters:'PRIVATE TEXT'}));
+  Object.defineProperty(selected[0],'name',{get(){throw Error('removed while reading selection');}});
+  const h = harness(false, {relayViewer:true, page:{id:'1:1',name:'Canvas',type:'PAGE',selection:selected}, fileName:'Relay file'});
+  assert.deepEqual(JSON.parse(JSON.stringify(h.probe.shown[0].options)),{width:400,height:300,themeColors:true});
+  await h.send({type:'workspace-home-ready',locale:'ko',requestId:'ui-request-1'});
+  const state = h.probe.messages.filter(message=>message.type==='workspace-relay-viewer-state').at(-1);
+  assert.equal(state.requestId,'ui-request-1');
+  assert.equal(state.status, 'offline');
+  assert.deepEqual(JSON.parse(JSON.stringify(state.file)), {key:'file-a',name:'Relay file'});
+  assert.deepEqual(JSON.parse(JSON.stringify(state.page)), {id:'1:1',name:'Canvas'});
+  assert.equal(state.selection.length,19);
+  assert.equal(state.selectionTotal,105);
+  assert.equal(state.selectionTruncated,true);
+  assert.deepEqual(JSON.parse(JSON.stringify(state.selection[0])),{id:'node-1',name:'Visible label',type:'RECTANGLE'});
+  assert.equal(JSON.stringify(state).includes('PRIVATE TEXT'),false);
+  assert.equal(h.probe.events.selectionchange.length,1);
+  assert.equal(h.probe.events.currentpagechange.length,2);
+  const before = h.probe.shown.length;
+  await h.send({type:'workspace-open',key:'a',workspaceSession:h.probe.messages.filter(m=>m.type==='workspace-tasks').at(-1)?.workspaceSession});
+  await h.send({type:'workspace-chat-open',key:'b'});
+  await h.send({type:'workspace-carousel-select'});
+  await h.send({type:'workspace-profile-save'});
+  assert.equal(h.probe.shown.length,before);
+  assert.equal(h.probe.messages.some(message=>message.type==='workspace-tasks'),false);
+});
+
+test('relay viewer rejects legacy task and menu messages even while a remote task host is active', async()=>{
+  const h=harness(false,{relayViewer:true});
+  vm.runInContext("workspaceActive={view:'remote',session:'remote-session',task:{kind:'sync',fileKey:'file-a'},handler:async message=>probe.commands.push(message.type),inFlight:0,busy:false}",h.context);
+  await h.send({type:'workspace-task-message',workspaceSession:'remote-session',payload:{type:'apply'}});
+  await h.send({type:'workspace-chat',workspaceSession:'remote-session'});
+  await h.send({type:'workspace-download',workspaceSession:'remote-session'});
+  await h.send({type:'workspace-navigation-ready',workspaceSession:'remote-session'});
+  assert.deepEqual(h.probe.commands,[]);
+  assert.equal(h.probe.chatCalls.length,0);
 });
 
 test('frozen Figma API and UI properties permit task open and bound native calls', async () => {
