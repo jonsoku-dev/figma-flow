@@ -41,6 +41,15 @@ class SpecGraphCoverageTests(unittest.TestCase):
     def codes(self):
         return {item["code"] for item in check(self.root)}
 
+    def test_exercised_module_alone_does_not_establish_acceptance(self):
+        self.graph['edges'] = [e for e in self.graph['edges'] if e['from'] != 'AC-X']
+        self.graph['edges'].append({'from':'AC-X','to':'CODE-X','type':'exercised through'})
+        self.write_graph()
+        self.assertIn('acceptance-no-test', self.codes())
+        self.graph['edges'].append({'from':'AC-X','to':'TEST-X','type':'checked by'})
+        self.write_graph()
+        self.assertNotIn('acceptance-no-test', self.codes())
+
     def test_accepts_connected_graph_without_requiring_id_duplication_in_prose(self):
         self.assertEqual([], check(self.root))
 
