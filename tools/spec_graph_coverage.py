@@ -10,7 +10,10 @@ import re
 from typing import Any
 from urllib.parse import unquote, urlparse
 
-from graph_document import contract as _graph_contract, read_json as _load
+if __package__:
+    from .graph_document import contract as _graph_contract, read_json as _load
+else:
+    from graph_document import contract as _graph_contract, read_json as _load
 
 
 ROOT_REGISTRY = Path("specs/graph-roots.json")
