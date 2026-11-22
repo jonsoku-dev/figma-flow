@@ -23,7 +23,7 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/figma-audit" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@{{delivery.typescript}}
           python -B tools/figma_api_audit.py verify --typescript "$RUNNER_TEMP/figma-audit/node_modules/typescript/lib/typescript.js"
   test:
-    runs-on: macos-15-intel
+    runs-on: {{delivery.nativeValidationRunner}}
     steps:
       - uses: actions/checkout@{{delivery.actions.checkout}}
       - uses: actions/setup-python@{{delivery.actions.setup-python}}

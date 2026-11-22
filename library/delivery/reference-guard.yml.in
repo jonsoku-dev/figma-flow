@@ -8,7 +8,7 @@ permissions:
   contents: read
 jobs:
   guard:
-    runs-on: macos-15
+    runs-on: {{delivery.nativeValidationRunner}}
     steps:
       - uses: actions/checkout@{{delivery.actions.checkout}}
         with:

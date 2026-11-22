@@ -150,6 +150,7 @@ class DeliveryReviewTests(unittest.TestCase):
         config_path=self.tmp/delivery.GRAPH
         self.graph['inputs']['actions']['checkout']='1'*40
         self.graph['inputs']['python']='3.99'
+        self.graph['inputs']['nativeValidationRunner']='fixture-native-runner'
         config_path.write_text(json.dumps(self.graph))
         ts=self.tmp/self.graph['inputs']['typescript']['source']
         package=json.loads(ts.read_bytes())
@@ -162,6 +163,8 @@ class DeliveryReviewTests(unittest.TestCase):
             self.assertIn("python-version: '3.99'",content)
             if 'actions/setup-node@' in content:
                 self.assertEqual(content.count('node-version-file: '+node_file),content.count('actions/setup-node@'))
+        for name in ('test', 'reference-guard'):
+            self.assertIn('runs-on: fixture-native-runner',rendered[Path(f'.github/workflows/{name}.yml')])
         ci=rendered[Path('.github/workflows/test.yml')]
         self.assertEqual(ci.count('typescript@99.9.9'),2)
         for artifact in self.graph['inputs']['sandboxCli']['artifacts'].values():

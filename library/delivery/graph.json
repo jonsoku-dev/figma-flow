@@ -33,7 +33,8 @@
       "disposablePassword": "disposable-ci-only",
       "deploymentSource": "apps/little-hands/config/deployment.json",
       "mysqlFormula": "mysql@8.4"
-    }
+    },
+    "nativeValidationRunner": "macos-15"
   },
   "workflows": {
     "little-hands": {

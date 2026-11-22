@@ -22,12 +22,15 @@ try {
       window.addEventListener('message', event => {
         const message = event.data?.pluginMessage;
         if (message?.type === 'workspace-home-ready') window.relayReady = message.requestId;
+        if (message?.type === 'workspace-control-tick' && window.relayFixture) {
+          window.dispatchEvent(new MessageEvent('message', { data: { pluginMessage: window.relayFixture } }));
+        }
       });
     `});
     await command('Page.navigate', { url: 'http://127.0.0.1:' + server.address().port });
     const requestId = await until(() => evaluate('window.relayReady'), Date.now() + 8000,
       'relay viewer did not request its initial state');
-    await evaluate(`window.dispatchEvent(new MessageEvent('message', {data:{pluginMessage:${JSON.stringify({
+    const snapshot = {
       type: 'workspace-relay-viewer-state', requestId, workspaceSession: 'alignment-fixture', status: 'live',
       locale: 'ko', file: { key: 'fixture-file', name: '예약 흐름 설계' },
       page: { id: '2:3', name: '모바일 화면' },
@@ -35,15 +38,27 @@ try {
         { id: '4:5', name: '예약 카드', type: 'FRAME' },
         { id: '4:6', name: '확인 버튼', type: 'INSTANCE' },
       ],
-    })}}}))`);
+    };
+    await evaluate(`(() => {
+      window.relayFixture = ${JSON.stringify(snapshot)};
+      window.dispatchEvent(new MessageEvent('message', { data: { pluginMessage: window.relayFixture } }));
+    })()`);
     await until(() => evaluate("document.querySelectorAll('.relay-layers tbody tr').length === 2"),
       Date.now() + 8000, 'bounded selection fixture did not render');
     await evaluate("document.querySelector('.relay-footer details').open = true");
     await evaluate(`(() => {
-      document.querySelector('.relay-status').dataset.state = 'error';
+      const panel = document.querySelector('.relay-view');
+      const status = document.createElement('span');
+      status.className = 'relay-status';
+      status.dataset.state = 'error';
+      status.dataset.paletteProbe = 'status-error';
       const error = document.createElement('div');
       error.className = 'relay-error';
-      document.querySelector('.relay-content').append(error);
+      for (const element of [status, error]) {
+        element.style.position = 'absolute';
+        element.style.visibility = 'hidden';
+        panel.append(element);
+      }
     })()`);
     await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'light' }] });
     const results = [];
@@ -68,7 +83,7 @@ try {
             canvas: getComputedStyle(document.querySelector('.relay-view')).backgroundColor,
             card: getComputedStyle(document.querySelector('.relay-card')).backgroundColor,
             cardBorder: getComputedStyle(document.querySelector('.relay-card')).borderTopColor,
-            statusError: getComputedStyle(document.querySelector('.relay-status[data-state=error]')).color,
+            statusError: getComputedStyle(document.querySelector('.relay-status[data-palette-probe=status-error]')).color,
             errorText: getComputedStyle(document.querySelector('.relay-error')).color,
             errorSurface: getComputedStyle(document.querySelector('.relay-error')).backgroundColor,
           },
@@ -120,7 +135,7 @@ try {
       canvas: getComputedStyle(document.querySelector('.relay-view')).backgroundColor,
       card: getComputedStyle(document.querySelector('.relay-card')).backgroundColor,
       cardBorder: getComputedStyle(document.querySelector('.relay-card')).borderTopColor,
-      statusError: getComputedStyle(document.querySelector('.relay-status[data-state=error]')).color,
+      statusError: getComputedStyle(document.querySelector('.relay-status[data-palette-probe=status-error]')).color,
       errorText: getComputedStyle(document.querySelector('.relay-error')).color,
       errorSurface: getComputedStyle(document.querySelector('.relay-error')).backgroundColor,
     }))()`);
