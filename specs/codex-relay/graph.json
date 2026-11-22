@@ -2,34 +2,180 @@
   "version": 1,
   "id": "codex-relay",
   "nodes": [
-    {"id":"REQ-CODEX","type":"requirement","source":"spec.md"},
-    {"id":"VIEWER","type":"screen","source":"../../panel-ui/src/RelayViewer.jsx"},
-    {"id":"PARITY","type":"acceptance","source":"parity-inventory.json"},
-    {"id":"NATIVE-VIEW","type":"code","source":"../../figma-bridge/relay_view.js"},
-    {"id":"QUERY","type":"code","source":"../../panel-ui/src/useRelaySnapshot.js"},
-    {"id":"SELECTION-TABLE","type":"screen","source":"../../panel-ui/src/RelaySelection.jsx"},
-    {"id":"TEST-PARITY","type":"test","source":"../../tests/test_codex_viewer_parity.py"},
-    {"id":"NATIVE","type":"code","source":"../../figma-bridge/workspace_host.js"},
-    {"id":"CODEX","type":"code","source":"../../tools/figma_control.py"},
-    {"id":"POLICY","type":"policy","source":"../../library/figma-profile/policy.json"},
-    {"id":"TEST-VIEWER","type":"test","source":"../../tests/test_relay_publication.py"},
-    {"id":"TEST-NATIVE","type":"test","source":"../../tests/test_workspace_host.cjs"},
-    {"id":"TEST-CODEX","type":"test","source":"../../tests/test_figma_control.py"}
+    {
+      "id": "REQ-CODEX",
+      "type": "requirement",
+      "source": "spec.md",
+      "title": "REQ-CODEX — spec.md",
+      "status": "unverified"
+    },
+    {
+      "id": "VIEWER",
+      "type": "screen",
+      "source": "../../panel-ui/src/RelayViewer.jsx",
+      "title": "VIEWER — RelayViewer.jsx",
+      "status": "unverified"
+    },
+    {
+      "id": "VIEW-ROUTES",
+      "type": "reference",
+      "source": "../../library/panel-design/views.json",
+      "title": "Panel view routes, roles and React implementations",
+      "status": "observed"
+    },
+    {
+      "id": "PARITY",
+      "type": "acceptance",
+      "source": "parity-inventory.json",
+      "title": "PARITY — parity-inventory.json",
+      "status": "unverified"
+    },
+    {
+      "id": "NATIVE-VIEW",
+      "type": "code",
+      "source": "../../figma-bridge/relay_view.js",
+      "title": "NATIVE-VIEW — relay_view.js",
+      "status": "unverified"
+    },
+    {
+      "id": "QUERY",
+      "type": "code",
+      "source": "../../panel-ui/src/useRelaySnapshot.js",
+      "title": "QUERY — useRelaySnapshot.js",
+      "status": "unverified"
+    },
+    {
+      "id": "SELECTION-TABLE",
+      "type": "screen",
+      "source": "../../panel-ui/src/RelaySelection.jsx",
+      "title": "SELECTION-TABLE — RelaySelection.jsx",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-PARITY",
+      "type": "test",
+      "source": "../../tests/test_codex_viewer_parity.py",
+      "title": "TEST-PARITY — test_codex_viewer_parity.py",
+      "status": "unverified"
+    },
+    {
+      "id": "NATIVE",
+      "type": "code",
+      "source": "../../figma-bridge/workspace_host.js",
+      "title": "NATIVE — workspace_host.js",
+      "status": "unverified"
+    },
+    {
+      "id": "CODEX",
+      "type": "code",
+      "source": "../../tools/figma_control.py",
+      "title": "CODEX — figma_control.py",
+      "status": "unverified"
+    },
+    {
+      "id": "POLICY",
+      "type": "reference",
+      "source": "../../library/figma-profile/policy.json",
+      "title": "Policy reference",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-VIEWER",
+      "type": "test",
+      "source": "../../tests/test_relay_publication.py",
+      "title": "TEST-VIEWER — test_relay_publication.py",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-NATIVE",
+      "type": "test",
+      "source": "../../tests/test_workspace_host.cjs",
+      "title": "TEST-NATIVE — test_workspace_host.cjs",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-CODEX",
+      "type": "test",
+      "source": "../../tests/test_figma_control.py",
+      "title": "TEST-CODEX — test_figma_control.py",
+      "status": "unverified"
+    }
   ],
   "edges": [
-    {"from":"REQ-CODEX","type":"accepted by","to":"PARITY"},
-    {"from":"PARITY","type":"implemented by","to":"NATIVE-VIEW"},
-    {"from":"NATIVE-VIEW","type":"verified by","to":"TEST-PARITY"},
-    {"from":"VIEWER","type":"uses","to":"QUERY"},
-    {"from":"VIEWER","type":"renders","to":"SELECTION-TABLE"},
-    {"from":"SELECTION-TABLE","type":"verified by","to":"TEST-VIEWER"},
-    {"from":"REQ-CODEX","type":"renders in","to":"VIEWER"},
-    {"from":"REQ-CODEX","type":"implemented by","to":"CODEX"},
-    {"from":"VIEWER","type":"uses","to":"NATIVE"},
-    {"from":"CODEX","type":"coordinates","to":"NATIVE"},
-    {"from":"NATIVE","type":"uses","to":"POLICY"},
-    {"from":"VIEWER","type":"verified by","to":"TEST-VIEWER"},
-    {"from":"NATIVE","type":"verified by","to":"TEST-NATIVE"},
-    {"from":"CODEX","type":"verified by","to":"TEST-CODEX"}
+    {
+      "from": "REQ-CODEX",
+      "type": "accepted by",
+      "to": "PARITY"
+    },
+    {
+      "from": "PARITY",
+      "type": "implemented by",
+      "to": "NATIVE-VIEW"
+    },
+    {
+      "from": "NATIVE-VIEW",
+      "type": "verified by",
+      "to": "TEST-PARITY"
+    },
+    {
+      "from": "VIEWER",
+      "type": "uses",
+      "to": "QUERY"
+    },
+    {
+      "from": "VIEWER",
+      "type": "renders",
+      "to": "SELECTION-TABLE"
+    },
+    {
+      "from": "SELECTION-TABLE",
+      "type": "verified by",
+      "to": "TEST-VIEWER"
+    },
+    {
+      "from": "REQ-CODEX",
+      "type": "renders in",
+      "to": "VIEWER"
+    },
+    {
+      "from": "VIEWER",
+      "type": "uses",
+      "to": "VIEW-ROUTES"
+    },
+    {
+      "from": "REQ-CODEX",
+      "type": "implemented by",
+      "to": "CODEX"
+    },
+    {
+      "from": "VIEWER",
+      "type": "uses",
+      "to": "NATIVE"
+    },
+    {
+      "from": "CODEX",
+      "type": "coordinates",
+      "to": "NATIVE"
+    },
+    {
+      "from": "NATIVE",
+      "type": "uses",
+      "to": "POLICY"
+    },
+    {
+      "from": "VIEWER",
+      "type": "verified by",
+      "to": "TEST-VIEWER"
+    },
+    {
+      "from": "NATIVE",
+      "type": "verified by",
+      "to": "TEST-NATIVE"
+    },
+    {
+      "from": "CODEX",
+      "type": "verified by",
+      "to": "TEST-CODEX"
+    }
   ]
 }

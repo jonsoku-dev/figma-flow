@@ -3,11 +3,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const source = [fs.readFileSync(require('node:path').join(__dirname, '../figma-bridge/workspace_transport.js'), 'utf8'), fs.readFileSync(require('node:path').join(__dirname, '../figma-bridge/workspace_control.js'), 'utf8')].join('\n');
+const policy = require('../library/figma-profile/policy.json');
 
 test('authenticated native poll reports the compiled runtime and generation', async () => {
   const runtime = {version:'1.2.3',implementation:'a'.repeat(64),generation:'b'.repeat(32)};
   let request;
-  const env = {WORKSPACE_RUNTIME:runtime, WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'private'},
+  const env = {WORKSPACE_PROFILE_POLICY:policy, WORKSPACE_RUNTIME:runtime, WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'private'},
     workspaceActive:null, workspaceHomeSession:'home', figma:{fileKey:'file',currentPage:{id:'1:2'}},
     setTimeout, clearTimeout, workspaceRefreshJournal:async()=>{},
     fetch:async (url, options) => {request={url,...options};return {ok:true,json:async()=>({operation:null})};}};
@@ -19,7 +20,7 @@ test('authenticated native poll reports the compiled runtime and generation', as
 
 test('legacy native poll stays versionless without inventing current identity', async () => {
   let payload;
-  const env = {WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'private'},
+  const env = {WORKSPACE_PROFILE_POLICY:policy, WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'private'},
     workspaceActive:null, workspaceHomeSession:'home', figma:{fileKey:'file',currentPage:{id:'1:2'}},
     setTimeout, clearTimeout, workspaceRefreshJournal:async()=>{},
     fetch:async (_url, options) => {payload=JSON.parse(options.body);return {ok:true,json:async()=>({operation:null})};}};

@@ -1,0 +1,27 @@
+{
+  "schema": "figma-flow-panel-view-graph-v1",
+  "version": 1,
+  "id": "panel-view-routes",
+  "nodes": [
+    {"id": "relay", "type": "screen", "title": "Registered Codex relay home", "status": "observed", "role": "registered-home", "lifecycle": "active", "locale": "relay"},
+    {"id": "react-relay", "type": "code", "title": "RelayViewer React view", "status": "observed", "source": "../../panel-ui/src/RelayViewer.jsx"},
+    {"id": "workspace", "type": "screen", "title": "Legacy standalone workspace", "status": "observed", "role": "standalone", "lifecycle": "legacy", "locale": "workspace"},
+    {"id": "react-workspace", "type": "code", "title": "Workspace React view", "status": "observed", "source": "../../panel-ui/src/Workspace.jsx"},
+    {"id": "import", "type": "screen", "title": "Standalone import task surface", "status": "observed", "role": "task", "lifecycle": "active", "locale": "import"},
+    {"id": "react-import", "type": "code", "title": "Import React view", "status": "observed", "source": "../../panel-ui/src/ImportPanel.jsx"},
+    {"id": "review", "type": "screen", "title": "Standalone review task surface", "status": "observed", "role": "task", "lifecycle": "active", "locale": "review"},
+    {"id": "react-review", "type": "code", "title": "Review React view", "status": "observed", "source": "../../panel-ui/src/ReviewPanel.jsx"},
+    {"id": "graph", "type": "screen", "title": "Standalone graph task surface", "status": "observed", "role": "task", "lifecycle": "active", "locale": "graph"},
+    {"id": "react-graph", "type": "code", "title": "Graph React view", "status": "observed", "source": "../../panel-ui/src/GraphPanel.jsx"},
+    {"id": "chat", "type": "screen", "title": "Legacy standalone Codex chat", "status": "observed", "role": "standalone", "lifecycle": "legacy", "locale": "chat"},
+    {"id": "react-chat", "type": "code", "title": "Chat React view", "status": "observed", "source": "../../panel-ui/src/ChatPanel.jsx"}
+  ],
+  "edges": [
+    {"from": "relay", "type": "implemented by", "to": "react-relay"},
+    {"from": "workspace", "type": "implemented by", "to": "react-workspace"},
+    {"from": "import", "type": "implemented by", "to": "react-import"},
+    {"from": "review", "type": "implemented by", "to": "react-review"},
+    {"from": "graph", "type": "implemented by", "to": "react-graph"},
+    {"from": "chat", "type": "implemented by", "to": "react-chat"}
+  ]
+}

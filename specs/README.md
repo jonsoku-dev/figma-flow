@@ -8,7 +8,7 @@
 
 [제품 헌법](../CONSTITUTION.md) · [Figma Design 전용 설계 및 인수 계약](design-specialization/spec.md)
 
-These feature folders register versioned requirements and acceptance relationships in the repository’s existing evidence graph format. Each folder contains human-readable requirements and a canonical `graph.json`; source excerpts and screen/action prose projections are included when the feature needs them. The graph is per feature/run and remains the only relationship inventory.
+Canonical feature graph roots are listed in [graph-roots.json](graph-roots.json). That registry, rather than every directory beneath `specs/`, defines which graph roots are required and lets the checker detect a deleted registered graph. Evidence collections such as `design-inspection/` and the case inventory in `regression-program/` have different roles and do not require fictional duplicate graphs. Each registered graph remains the relationship inventory; prose and screens refer to its stable IDs where applicable.
 
 | Feature | Requirements | Acceptance criteria | Status boundary |
 | --- | --- | --- | --- |

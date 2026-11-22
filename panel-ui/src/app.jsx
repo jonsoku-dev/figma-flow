@@ -1,22 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Shell, PanelContext } from './components.jsx';
-import Workspace from './Workspace.jsx';
-import ImportPanel from './ImportPanel.jsx';
-import ReviewPanel from './ReviewPanel.jsx';
-import GraphPanel from './GraphPanel.jsx';
-import ChatPanel from './ChatPanel.jsx';
-import RelayViewer from './RelayViewer.jsx';
+import { views } from './view-registry.generated.js';
 import './styles/index.css';
-
-const views = {
-  workspace: Workspace,
-  import: ImportPanel,
-  review: ReviewPanel,
-  graph: GraphPanel,
-  chat: ChatPanel,
-  relay: RelayViewer,
-};
 const view = document.documentElement.dataset.flowView;
 const model = JSON.parse(document.getElementById('flow-model').textContent);
 const send = (payload) => parent.postMessage({ pluginMessage: payload }, '*');
@@ -38,6 +24,7 @@ function App() {
   }, []);
   const t = useCallback((key, params) => window.FlowUI.t(key, params), [locale]);
   const View = views[view];
+  if (!View) throw new Error(`Unknown Figma Flow panel view: ${view}`);
   return (
     <PanelContext.Provider value={{ locale, t, setLocale, hostBusy }}>
       <View {...{ model, locale, t, setLocale, send, Shell }} />

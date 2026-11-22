@@ -20,7 +20,7 @@ import sys
 import tempfile
 import uuid
 
-from plugin_panel import display_name, render_app, supported_locales
+from plugin_panel import display_name, registered_home_view, render_app, supported_locales
 import input_effect
 import workspace_recipes
 
@@ -143,7 +143,8 @@ def runtime_module_names():
 
 
 def bundle_task_kinds():
-    return ('discover', 'import', 'native-edit', 'review', 'sync')
+    policy = read(ROOT / 'library' / 'figma-profile' / 'policy.json')
+    return tuple(sorted(policy['taskOperations']))
 
 
 def public_runtime_symbols():
@@ -781,7 +782,7 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     if runtime['implementation'] != trusted_sources():
         raise ValueError('Trusted runtime sources changed during publication; retry')
     atomic(folder / 'code.js', code.encode())
-    atomic(folder / 'ui.html', render_app('relay').encode())
+    atomic(folder / 'ui.html', render_app(registered_home_view()).encode())
     result = sign_catalogue(workspace, {**catalogue, 'generation': generation, 'runtime': runtime})
     atomic(folder / 'catalogue.json', encode(result))
     manifest = {'name': display_name(), 'id': catalogue['plugin_id'], 'api': '1.0.0',

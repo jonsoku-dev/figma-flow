@@ -1,5 +1,6 @@
 /* One local plugin entry. Registered task hosts retain their native scope guards. */
-const workspaceKinds = new Set(['import', 'review', 'discover', 'sync', 'native-edit']);
+const workspaceKinds = new Set(typeof WORKSPACE_PROFILE_POLICY !== 'undefined'
+  ? Object.keys(WORKSPACE_PROFILE_POLICY?.taskOperations || {}) : []);
 const workspaceTasks = new Map();
 for (const task of FLOW_TASKS) {
   if (!task || typeof task.key !== 'string' || !task.key || workspaceTasks.has(task.key) ||

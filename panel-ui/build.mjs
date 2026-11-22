@@ -1,7 +1,14 @@
 import { build } from 'esbuild';
+import { execFileSync } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { panelViewRegistryModule } from './view-registry.mjs';
 const plugin = JSON.parse(await readFile(new URL('../plugin.json', import.meta.url), 'utf8'));
+const viewRegistrySource = await panelViewRegistryModule();
+execFileSync(process.execPath, [fileURLToPath(new URL('build-tokens.mjs', import.meta.url))], { stdio: 'inherit' });
+const paletteGraph = JSON.parse(await readFile(new URL('../library/panel-design/tokens.json', import.meta.url), 'utf8'));
+const relayBreakpoint = paletteGraph.tokens.find(({ id }) => id === 'relay-mobile-breakpoint')?.light;
+const relayStylePath = fileURLToPath(new URL('src/styles/relay.css', import.meta.url));
 const common = JSON.parse(await readFile(new URL('../figma-bridge/locales/common.json', import.meta.url), 'utf8'));
 const displayName = plugin.extensions['com.openai'].interface.displayName;
 const localeCodes = Object.keys(Object.values(common)[0]);
@@ -16,6 +23,30 @@ await build({
   target: 'chrome109',
   charset: 'utf8',
   jsx: 'automatic',
+  plugins: [{
+    name: 'panel-view-graph',
+    setup(build) {
+      build.onResolve({ filter: /^\.\/view-registry\.generated\.js$/ }, () => ({
+        path: 'panel-view-registry', namespace: 'panel-view-graph',
+      }));
+      build.onLoad({ filter: /.*/, namespace: 'panel-view-graph' }, () => ({
+        contents: viewRegistrySource, loader: 'js', resolveDir: fileURLToPath(new URL('src/', import.meta.url)),
+      }));
+    },
+  }, {
+    name: 'resolve-panel-media-token',
+    setup(build) {
+      build.onLoad({ filter: /relay\.css$/ }, async (args) => {
+        if (args.path !== relayStylePath) return null;
+        const source = await readFile(args.path, 'utf8');
+        const marker = '__PANEL_TOKEN_relay-mobile-breakpoint__';
+        if (!relayBreakpoint || source.split(marker).length !== 2) {
+          throw new Error('Relay breakpoint token marker must occur exactly once');
+        }
+        return { contents: source.replace(marker, relayBreakpoint), loader: 'css' };
+      });
+    },
+  }],
   define: {
     'process.env.NODE_ENV': '"production"',
     __FLOW_DISPLAY_NAME__: JSON.stringify(displayName),

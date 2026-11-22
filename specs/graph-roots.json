@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "roots": [
+    { "path": "specs/alignment-audit/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/codex-relay/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/design-specialization/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/editable-web/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/graph-review/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/interactive-web/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/live-change-sync/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/local-profile-init/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/pre-figma-quality/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/readable-specifications/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/responsive-web/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/startup-freshness/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/workspace-activity/graph.json", "role": "canonical-feature-graph" }
+  ]
+}

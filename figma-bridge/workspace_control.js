@@ -6,7 +6,8 @@ let controlRelayProfileBinding = null;
 let controlRelayIdentity;
 const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
 // Registered workspaces load their task vocabulary from the same policy as Codex.
-const controlAllowed = typeof WORKSPACE_PROFILE_POLICY !== 'undefined' ? WORKSPACE_PROFILE_POLICY.taskOperations : {review: ['create'], import: ['read', 'import', 'sync', 'native-summary'], discover: ['read', 'native-summary', 'select-node', 'selection-info', 'viewer-history', 'viewer-language'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply', 'carousel-select', 'carousel-present']};
+const controlAllowed = typeof WORKSPACE_PROFILE_POLICY !== 'undefined' && WORKSPACE_PROFILE_POLICY?.taskOperations
+  ? WORKSPACE_PROFILE_POLICY.taskOperations : Object.freeze({});
 
 function controlState(outcome, busy) {
   if (typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer) {

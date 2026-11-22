@@ -2,6 +2,7 @@ name: Reference distribution guard
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
 permissions:
   contents: read
@@ -10,16 +11,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.13'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Prepare panel build dependencies for post-0.x archive verification
+        run: |
+          if node -e "process.exit(Number(require('./plugin.json').version.split('.')[0]) > 0 ? 0 : 1)"; then
+            npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
+          fi
+      - name: Verify manifest projection and release gate behavior
+        run: |
+          python -B tools/plugin_manifest.py
+          python -B -m unittest tests.test_major_release tests.test_major_policy_boundary tests.test_spec_graph_coverage
       - name: Run synthetic guard behavior tests
         run: python -B -m unittest -v tests.test_reference_distribution_guard
       - name: Verify pinned external skill dependencies
         run: python -B tools/skill_dependencies.py --check
       - name: Check tracked ref paths and ephemeral evidence (paths-only; no local reference lists)
         run: python -B tools/reference_distribution_guard.py --ref HEAD --format text
-      - name: Check distribution archive packaging (paths-only; no local reference lists)
+      - name: Check version and SSOT before packaging this Git tree
+        env:
+          RELEASE_REF: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
+          PREVIOUS_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
+        shell: bash
         run: |
-          git archive --format=zip --prefix=figma-flow-plugin/ --output="$RUNNER_TEMP/dist-check.zip" HEAD
+          base_args=()
+          if [[ -n "$PREVIOUS_REF" && ! "$PREVIOUS_REF" =~ ^0+$ ]]; then
+            base_args=(--base-ref "$PREVIOUS_REF")
+          fi
+          python -B tools/major_release.py --if-major --ref "$RELEASE_REF" "${base_args[@]}" --archive "$RUNNER_TEMP/dist-check.zip"
           python -B tools/reference_distribution_guard.py --target-zip "$RUNNER_TEMP/dist-check.zip" --format text

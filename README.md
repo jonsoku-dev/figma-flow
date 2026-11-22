@@ -6,6 +6,8 @@ Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design
 
 “이 페이지를 지켜보고 내가 Figma에서 고치면 이 대화로 알려 줘”라고 요청할 수 있습니다. Codex는 변경된 노드의 현재 값을 다시 읽고, 연결된 그래프의 반영 후보와 충돌을 구분합니다. [실시간 역방향 동기화](docs/guide.md#live-change-sync)
 
+메이저 버전은 배포할 Git 트리에서 기능 그래프, 정책·화면 파생본과 영역별 하드코딩 검토 근거가 모두 확인된 경우에만 패키징합니다. [메이저 통과 조건](CONTRIBUTING.md#major-ssot)
+
 **[통합 사용 가이드](docs/guide.md)** · [English](docs/guide.md#english) · [日本語](docs/guide.md#japanese)
 
 설치·폰트·시안 검토·본제작·그래프 왕복·업데이트·복구·회사 배포는 통합 가이드 한 곳에서 확인합니다.

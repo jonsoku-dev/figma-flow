@@ -8,7 +8,8 @@ async function main() {
   const events = [];
   const task = {key:'sample',revision:'r',kind:'discover',fileKey:'file'};
   const remote = {
-    figma:{fileKey:'file',currentPage:{id:'0:1'}}, workspaceActive:null,
+    WORKSPACE_PROFILE_POLICY: require('../library/figma-profile/policy.json'),
+    figma:{fileKey:'file',currentPage:{id:'0:1'}}, workspaceActive:null, workspaceHomeSession:'home',
     workspaceRecord:(active, operation, status) => events.push({operation,status,executionId:active.executionId}),
     async workspaceOpen() {
       const active = {inFlight:0,html:'<script id="graph-panel-config" type="application/json">{"session":"s"}</script>',handler:async()=>{}};
@@ -28,7 +29,7 @@ async function main() {
 
   const messages = [];
   const figma = {fileKey:'file',ui:{postMessage:message=>messages.push(message)},showUI(){}};
-  const local = vm.createContext({figma,__html__:'HOME'});
+  const local = vm.createContext({figma,__html__:'HOME',WORKSPACE_PROFILE_POLICY:require('../library/figma-profile/policy.json')});
   vm.runInContext(`
     const FLOW_LOCALES=['ko'];
     const WORKSPACE_CONTROL_CONFIG=null;

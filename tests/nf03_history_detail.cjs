@@ -201,6 +201,7 @@ function createBridgeHarness(options = {}) {
   const context = vm.createContext({
     figma,
     __html__: 'HOME',
+    WORKSPACE_PROFILE_POLICY: JSON.parse(fs.readFileSync(path.join(ROOT, 'library/figma-profile/policy.json'), 'utf8')),
     fetch: async (url, init) => fetchImpl(url, init, requests),
     setTimeout: options.setTimeout || setTimeout,
     clearTimeout: options.clearTimeout || clearTimeout,
@@ -646,6 +647,11 @@ test('host maps HTTP 404/409/403/timeout/unavailable accurately and handles dela
 
   // currentpagechange event triggers proactive workspace-scope-changed
   await h.emitPageChange('1:3');
+  const scopeUpdateDeadline = Date.now() + 1000;
+  while (!h.messages.some((message) => message.type === 'workspace-scope-changed' && message.pageId === '1:3') &&
+         Date.now() < scopeUpdateDeadline) {
+    await new Promise((resolve) => setImmediate(resolve));
+  }
   const afterEvent = h.messages.filter((m) => m.type === 'workspace-scope-changed').at(-1);
   assert.equal(afterEvent.pageId, '1:3');
 

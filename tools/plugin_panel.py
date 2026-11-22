@@ -5,7 +5,89 @@ import re
 from pathlib import Path
 
 BRIDGE = Path(__file__).resolve().parents[1] / 'figma-bridge'
-VIEWS = {'relay', 'workspace', 'import', 'review', 'graph', 'chat'}
+ROOT = BRIDGE.parent
+VIEW_GRAPH = ROOT / 'library' / 'panel-design' / 'views.json'
+_VIEW_SIGNAL = re.compile(r'data-flow-view=["\']([a-z][a-z0-9-]*)["\']|render_app\(["\']([a-z][a-z0-9-]*)["\']')
+
+
+def load_view_registry(*, root=ROOT, graph_path=None):
+    """Load and validate the route-to-React-source graph used by the panel."""
+    root = Path(root).resolve()
+    graph_path = Path(graph_path) if graph_path is not None else root / 'library/panel-design/views.json'
+    graph_path = graph_path.resolve()
+    try:
+        graph = json.loads(graph_path.read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ValueError(f'Panel view graph unavailable: {error}') from error
+    if not isinstance(graph, dict) or graph.get('schema') != 'figma-flow-panel-view-graph-v1' or graph.get('version') != 1:
+        raise ValueError('Unsupported panel view graph')
+    nodes = graph.get('nodes')
+    edges = graph.get('edges')
+    if not isinstance(nodes, list) or not isinstance(edges, list):
+        raise ValueError('Panel view graph requires nodes and edges arrays')
+    by_id = {}
+    for node in nodes:
+        if not isinstance(node, dict) or not isinstance(node.get('id'), str) or not node['id'] or node['id'] in by_id:
+            raise ValueError('Panel view graph contains an invalid or duplicate node ID')
+        by_id[node['id']] = node
+    routes = {}
+    for view in (node for node in nodes if node.get('type') == 'screen'):
+        view_id = view['id']
+        roles = {'registered-home': 'active', 'task': 'active', 'standalone': 'legacy'}
+        if (not re.fullmatch(r'[a-z][a-z0-9-]*', view_id) or view.get('role') not in roles or
+                view.get('lifecycle') != roles[view.get('role')]):
+            raise ValueError(f'Invalid panel view ID or role: {view_id}')
+        locale = view.get('locale')
+        if not isinstance(locale, str) or not locale:
+            raise ValueError(f'Panel view locale required: {view_id}')
+        implementations = [edge for edge in edges if isinstance(edge, dict) and
+                            edge.get('from') == view_id and edge.get('type') == 'implemented by']
+        if len(implementations) != 1:
+            raise ValueError(f'Panel view requires exactly one React implementation edge: {view_id}')
+        implementation = by_id.get(implementations[0].get('to'))
+        if not implementation or implementation.get('type') != 'code' or not isinstance(implementation.get('source'), str):
+            raise ValueError(f'Panel view React implementation is missing: {view_id}')
+        source = (graph_path.parent / implementation['source']).resolve()
+        try:
+            source.relative_to(root / 'panel-ui/src')
+        except ValueError as error:
+            raise ValueError(f'Panel view source must stay under panel-ui/src: {view_id}') from error
+        if source.suffix != '.jsx' or not source.is_file():
+            raise ValueError(f'Panel view React source is missing: {implementation["source"]}')
+        routes[view_id] = {'role': view['role'], 'locale': locale, 'source': source}
+    if not routes:
+        raise ValueError('Panel view graph has no screen routes')
+    homes = [view_id for view_id, route in routes.items() if route['role'] == 'registered-home']
+    if len(homes) != 1:
+        raise ValueError('Panel view graph must define exactly one registered-home route')
+
+    signals = {}
+    for source_path in [*sorted((root / 'figma-bridge').glob('*.html')),
+                        *sorted((root / 'tools').glob('*.py'))]:
+        try:
+            source = source_path.read_text(encoding='utf-8')
+        except OSError:
+            continue
+        for match in _VIEW_SIGNAL.finditer(source):
+            view_id = match.group(1) or match.group(2)
+            signals.setdefault(view_id, source_path.relative_to(root).as_posix())
+    missing = sorted(set(signals) - set(routes))
+    if missing:
+        raise ValueError(f'Panel entrypoint references unregistered view {missing[0]} in {signals[missing[0]]}')
+    return routes
+
+
+VIEW_REGISTRY = load_view_registry()
+VIEWS = frozenset(VIEW_REGISTRY)
+
+
+def registered_home_view(view_registry=None):
+    """Return the single route designated as the registered plugin home."""
+    registry = VIEW_REGISTRY if view_registry is None else view_registry
+    homes = [view_id for view_id, route in registry.items() if route['role'] == 'registered-home']
+    if len(homes) != 1:
+        raise ValueError('Panel view graph must define exactly one registered-home route')
+    return homes[0]
 
 
 def supported_locales():
@@ -78,13 +160,14 @@ def render_panel(html):
     return html.replace('<script>', '<script>\n' + runtime + '\n', 1)
 
 
-def render_app(view, model=None, *, chat_context=False, shared=False):
+def render_app(view, model=None, *, chat_context=False, shared=False, view_registry=None):
     """Render the interactive workspace with a locally bundled React application."""
-    if view not in VIEWS or (chat_context and view != 'chat'):
+    registry = VIEW_REGISTRY if view_registry is None else view_registry
+    if view not in registry or (chat_context and view != 'chat'):
         raise ValueError('Unknown Figma app view')
     def inline_data(value):
         return json.dumps(value, ensure_ascii=True, allow_nan=False, separators=(',', ':')).replace('<', r'\u003c')
-    messages = panel_messages(view)
+    messages = panel_messages(registry[view]['locale'])
     runtime = (BRIDGE / 'panel_i18n.js').read_text(encoding='utf-8').replace('__FLOW_MESSAGES__', inline_data(messages))
     script = (BRIDGE / 'assets/panels.js').read_text(encoding='utf-8')
     script = re.sub(r'</script', lambda _match: r'<\/script', script, flags=re.I)

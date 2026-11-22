@@ -12,6 +12,7 @@ const panelRequire = createRequire(path.join(panelRoot, 'package.json'));
 const { buildSync } = panelRequire('esbuild');
 const plugin = JSON.parse(fs.readFileSync(path.join(__dirname, '../plugin.json'), 'utf8'));
 const commonCatalog = JSON.parse(fs.readFileSync(path.join(__dirname, '../figma-bridge/locales/common.json'), 'utf8'));
+const profilePolicy = JSON.parse(fs.readFileSync(path.join(__dirname, '../library/figma-profile/policy.json'), 'utf8'));
 const hostSource = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_host.js'), 'utf8');
 const activitySource = fs.readFileSync(path.join(panelRoot, 'src/WorkspaceActivity.jsx'), 'utf8');
 
@@ -34,7 +35,8 @@ function runPanelTest(entryCode) {
   const result = spawnSync(process.execPath, ['-e', built.outputFiles[0].text], {
     cwd: panelRoot,
     encoding: 'utf8',
-    env: { ...process.env, HOST_SOURCE_PATH: path.join(__dirname, '../figma-bridge/workspace_host.js') },
+    env: { ...process.env, HOST_SOURCE_PATH: path.join(__dirname, '../figma-bridge/workspace_host.js'),
+      WORKSPACE_PROFILE_POLICY_JSON: JSON.stringify(profilePolicy) },
   });
   assert.equal(result.status, 0, result.stdout + result.stderr);
   return result.stdout;
@@ -324,7 +326,8 @@ const figma = {
   openExternal(url) { hostProbe.external.push(url); },
   showUI() {},
 };
-const hostCtx = vm.createContext({ figma, __html__: 'HOME', probe: hostProbe });
+const hostCtx = vm.createContext({ figma, __html__: 'HOME', probe: hostProbe,
+  WORKSPACE_PROFILE_POLICY: JSON.parse(process.env.WORKSPACE_PROFILE_POLICY_JSON) });
 vm.runInContext(\`
 const FLOW_LOCALES = ['ko', 'en', 'ja'];
 const FLOW_TASKS = [

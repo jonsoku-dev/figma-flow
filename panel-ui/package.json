@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "check:tokens": "node build-tokens.mjs --check"
   },
   "dependencies": {
     "@tanstack/react-query": "5.108.2",

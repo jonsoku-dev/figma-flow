@@ -4,11 +4,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_control.js'), 'utf8');
+const policy = JSON.parse(fs.readFileSync(path.join(__dirname, '../library/figma-profile/policy.json'), 'utf8'));
 
 function driver(kind, callback) {
   const task = {key:'sample', revision:'r', kind, fileKey:'file',sourceSha256:'abc'};
   const history = [];
-  const env = {figma:{fileKey:'file',currentPage:{id:'0:1'}}, workspaceActive:null, workspaceHomeSession:'home', task, history,
+  const env = {WORKSPACE_PROFILE_POLICY:policy, figma:{fileKey:'file',currentPage:{id:'0:1'}}, workspaceActive:null, workspaceHomeSession:'home', task, history,
     workspaceRecord:(active, op, state)=>history.push([op,state,active.executionId]),
     async workspaceOpen() {
       const active = {inFlight:0, html:'<script id="graph-panel-config" type="application/json">{"session":"s"}</script>\nconst PAIR = null;\n'};

@@ -24,7 +24,7 @@ _PROFILE_POLICY = json.loads((Path(__file__).resolve().parents[1] / 'library' / 
 ALLOWED_OPERATIONS = set().union(*map(set, _PROFILE_POLICY['taskOperations'].values()))
 ALLOWED_STATES = {'pending', 'claimed', 'ok', 'error', 'uncertain', 'expired'}
 ALLOWED_RELATION_TYPES = {'declared-dependency', 'recovery-of', 'artifact-input'}
-ALLOWED_TASK_KINDS = {'discover', 'import', 'native-edit', 'review', 'sync'}
+ALLOWED_TASK_KINDS = set(_PROFILE_POLICY['taskOperations'])
 
 ALLOWED_DESIGN_FIELDS = {
     'value', 'backgroundColor', 'color', 'borderColor', 'fill', 'stroke', 'strokeWeight',

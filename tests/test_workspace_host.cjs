@@ -39,9 +39,10 @@ function harness(frozen = false, options = {}) {
     Object.defineProperty(figma.ui, 'onmessage', {get() {return handler;}, set(value) {handler=value;}, configurable:false});
     Object.freeze(figma.ui); Object.freeze(figma);
   }
-  const context = vm.createContext({figma, __html__: 'HOME', probe, WORKSPACE_RELAY_VIEWER: options.relayViewer === true});
+  const context = vm.createContext({figma, __html__: 'HOME', probe, WORKSPACE_RELAY_VIEWER: options.relayViewer === true,
+    WORKSPACE_PROFILE_POLICY: profilePolicy});
   vm.runInContext(`
-${options.profile ? `const WORKSPACE_PROFILE_POLICY = ${JSON.stringify(profilePolicy)};\n${profilePolicySource}\n${profileAdapterSource}\n${control}\n` : ''}
+${options.profile ? `${profilePolicySource}\n${profileAdapterSource}\n${control}\n` : ''}
 const FLOW_LOCALES = ${flowLocales};
 const WORKSPACE_CHAT_UI = '<html><head></head><body>CHAT</body></html>';
 const WORKSPACE_CHAT_CONFIG = {url:'http://127.0.0.1:1234',token:'host-only-secret'};

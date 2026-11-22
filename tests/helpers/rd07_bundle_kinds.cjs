@@ -49,6 +49,8 @@ const tasks = [
 const messages = [];
 const env = {
   setTimeout, clearTimeout,
+  WORKSPACE_PROFILE_POLICY: JSON.parse(fs.readFileSync(
+    require('node:path').join(__dirname, '../../library/figma-profile/policy.json'), 'utf8')),
   FLOW_TASKS: tasks,
   FLOW_LOCALES: ['ko'],
   WORKSPACE_CHAT_DUPLICATE: 'duplicate',

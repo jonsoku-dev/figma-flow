@@ -37,9 +37,25 @@ python -B tools/reference_distribution_guard.py --ref HEAD --format text
 python -B tools/reference_distribution_guard.py --worktree --reference-zip /path/to/reference.zip --reference-literals /path/to/literals.json --format text
 ```
 
+<a id="major-ssot"></a>
+
+## 메이저 배포 전 그래프·하드코딩 검사
+
+`plugin.json`에서 버전과 공통 메타데이터를 편집한 뒤 `python3 -B tools/plugin_manifest.py --write`로 Codex 매니페스트를 생성합니다. 마켓플레이스 이름과 독립 패키지의 버전은 각 소유자가 관리합니다.
+
+패널 프로젝트 의존성은 위의 로컬 빌드 절차로 설치합니다. 검사는 별도 임시 폴더에서 후보 소스만으로 패널을 재생성해 ZIP의 산출물과 바이트 단위로 대조합니다. 아래 명령은 현재 커밋의 실제 ZIP 구성으로 다음 메이저 후보를 점검합니다. 제품 버전 변경이나 게시를 수행하지 않습니다. 종료 코드 1이면 `findings`의 파일·식별자와 `surfaces`의 파일 목록을 확인합니다.
+
+```sh
+python3 -B tools/major_release.py --ref HEAD --candidate 1.0.0 > major-readiness.json
+```
+
+[소유권 그래프](release/authority.json)는 Git 아카이브 파일을 가장 구체적인 경로로 한 번씩 분류합니다. `owned-by`는 영역의 출발점입니다. `review` 영역을 닫으려면 현 소스·소유 원본의 fingerprint에 묶인 `release/reviews/<영역 ID>.json`에 모든 파일의 구체적인 필드 소유자와 행동 검증을 연결합니다. 예를 들어 특정 색·역할을 바꿨을 때 실제 파생 결과가 함께 바뀌는지 검증합니다. 동일 색을 검색한 횟수로는 이 조건을 충족하지 못합니다.
+
+검토 파일 스키마는 `figma-flow-major-review-v1`입니다. `surface`, `fingerprint`, `openFindings`, `bindings`를 기록합니다. 각 binding의 `files`는 해당 영역의 실제 파일, `authority`는 소유권 그래프가 가리키는 JSON 문서와 JSON Pointer, `reason`은 소유 범위, `witnesses`는 검증 결과 JSON의 저장소 상대 `path`와 `sha256`입니다. 검증 결과에는 같은 `surfaceFingerprint`, `status: passed`, 각 binding의 필드(`authority`)·파일(`covers`)·구체적 단언(`assertion`)·관측값(`observed`)을 담은 `checks`가 필요합니다. 각 check에 저장소 안의 `test` 파일, `testSha256`과 `case`를 지정합니다. 검사기는 후보 소스에서 해당 unittest 메서드 또는 Node 테스트 이름을 재실행합니다. 검토자가 작성한 JSON만으로는 통과할 수 없습니다. 빈 보고서, 빠진 파일, 변경된 원본, 독립적으로 관리되는 중복 선언은 차단 사유입니다. 실제 제품 시나리오와 관측의 의미는 패치 검수에서 대조합니다. 고정된 프로토콜 키·외부 SDK 원문과 독립 테스트의 기대값은 역할을 별도로 기록합니다.
+
 ## 버전과 GitHub Release
 
-1. 호환되는 수정·문서는 패치, 호환되는 기능 추가는 마이너 버전을 올립니다. 호환성을 깨는 변경은 릴리스 노트에 영향과 이행 방법을 명시합니다. 코덱스·범용 매니페스트의 `version`, README의 설치 태그, `CHANGELOG.md`의 릴리스 번호를 함께 갱신합니다.
+1. 호환되는 수정·문서는 패치, 호환되는 기능 추가는 마이너 버전을 올립니다. 호환성을 깨는 변경은 릴리스 노트에 영향과 이행 방법을 명시합니다. 범용 매니페스트와 Codex 파생본, README 설치 태그, CHANGELOG 릴리스 번호를 함께 확인합니다.
 2. 변경을 커밋하고 최종 트리에서 위 검사를 실행합니다. 처음 설치하는 경로는 깨끗한 클론에서 워크숍 예제를 만들어 Figma용 `manifest.json`까지 검증합니다. 원격의 대상 브랜치와 공개할 Git 사용자 이메일을 확인합니다.
 3. 통과한 `main` 커밋에 `vX.Y.Z`로 주석 태그를 만듭니다. `CHANGELOG.md`의 해당 항목을 Release 본문에 쓰고 테스트 범위와 남은 제한을 덧붙입니다. 기존 공개 태그와 파일은 보존하고 변경본에는 새 버전을 부여합니다.
 4. 릴리스 ZIP과 체크섬은 저장소 밖에서 만듭니다. 다음은 태그가 `v0.18.2`인 예입니다.
@@ -47,7 +63,7 @@ python -B tools/reference_distribution_guard.py --worktree --reference-zip /path
 ```sh
 TAG=v0.18.2
 ASSET="figma-flow-plugin-${TAG#v}.zip"
-git archive --format=zip --prefix=figma-flow-plugin/ --output="../$ASSET" "$TAG"
+python3 -B tools/major_release.py --if-major --ref "$TAG" --archive "../$ASSET"
 (cd .. && shasum -a 256 "$ASSET" > "$ASSET.sha256")
 python -B tools/reference_distribution_guard.py --ref "$TAG" --target-zip "../$ASSET" --reference-zip /path/to/reference.zip --reference-literals /path/to/literals.json
 ```

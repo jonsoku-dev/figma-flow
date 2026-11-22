@@ -12,6 +12,7 @@ const panelRoot = path.join(root, 'panel-ui');
 const { buildSync } = createRequire(path.join(panelRoot, 'package.json'))('esbuild');
 const plugin = JSON.parse(fs.readFileSync(path.join(root, 'plugin.json'), 'utf8'));
 const common = JSON.parse(fs.readFileSync(path.join(root, 'figma-bridge/locales/common.json'), 'utf8'));
+const policy = JSON.parse(fs.readFileSync(path.join(root, 'library/figma-profile/policy.json'), 'utf8'));
 const hostSource = fs.readFileSync(path.join(root, 'figma-bridge/workspace_host.js'), 'utf8');
 const locales = Object.keys(Object.values(common)[0]);
 const EXPECTED_URL = 'https://www.figma.com/proto/file-a/SaaS?node-id=1-3&starting-point-node-id=1-3&page-id=1-2&scaling=scale-down';
@@ -33,7 +34,7 @@ function hostHarness() {
   const figma = {fileKey:'file-a', currentPage:startPage, ui:{postMessage(message) {messages.push(message);}},
     viewport:{scrollAndZoomIntoView() {}}, async getNodeByIdAsync(id) {return [startPage, page, frame].find(node => node.id === id) || null;},
     async setCurrentPageAsync(next) {this.currentPage = next;}, openExternal(url) {external.push(url);}, showUI() {}};
-  const context = vm.createContext({figma, __html__:'HOME'});
+  const context = vm.createContext({figma, __html__:'HOME', WORKSPACE_PROFILE_POLICY:policy});
   vm.runInContext(`const FLOW_LOCALES = ${JSON.stringify(locales)};
 const FLOW_TASKS = [{key:'a',title:'Carousel Task',project:'Studio',kind:'native-edit',revision:'r1',fileKey:'file-a',pageId:'1:2',run() {}}];
 ` + hostSource, context);
@@ -47,7 +48,8 @@ function runPanel(entry, env = {}) {
     write:false, platform:'node', format:'cjs', jsx:'automatic', logLevel:'silent',
     define:{'process.env.NODE_ENV':'"production"', __FLOW_DISPLAY_NAME__:JSON.stringify(plugin.extensions['com.openai'].interface.displayName),
       __FLOW_LOCALES__:JSON.stringify(locales)}});
-  const result = spawnSync(process.execPath, ['-e', built.outputFiles[0].text], {cwd:panelRoot, encoding:'utf8', env:{...process.env, ...env}});
+  const result = spawnSync(process.execPath, ['-e', built.outputFiles[0].text], {cwd:panelRoot, encoding:'utf8', env:{...process.env,
+    WORKSPACE_PROFILE_POLICY_JSON:JSON.stringify(policy), ...env}});
   assert.equal(result.status, 0, result.stdout + result.stderr);
   return result.stdout;
 }
@@ -224,7 +226,7 @@ const hostMessages = [], external = [];
 const figma = {fileKey:'file-a', currentPage:startPage, ui:{postMessage(message) { hostMessages.push(message); }},
   viewport:{scrollAndZoomIntoView() {}}, async getNodeByIdAsync(id) { return [startPage, page, frame].find(node => node.id === id) || null; },
   async setCurrentPageAsync(next) { this.currentPage = next; }, openExternal(url) { external.push(url); }, showUI() {}};
-const host = vm.createContext({figma, __html__:'HOME'});
+const host = vm.createContext({figma, __html__:'HOME', WORKSPACE_PROFILE_POLICY:JSON.parse(process.env.WORKSPACE_PROFILE_POLICY_JSON)});
 vm.runInContext(\`const FLOW_LOCALES = ${JSON.stringify(locales)};
 const FLOW_TASKS = [{key:'a',title:'Carousel Task',project:'Studio',kind:'native-edit',revision:'r1',fileKey:'file-a',pageId:'1:2',run() {}}];
 \` + fs.readFileSync(process.env.HOST_SOURCE_PATH, 'utf8'), host);
