@@ -38,6 +38,9 @@ TYPED_EDGES = {
     "has state": ({"screen"}, {"state"}),
     "triggers": ({"screen"}, {"action"}),
     "navigates to": ({"action"}, {"screen", "state"}),
+    "rendered as": ({"screen"}, {"figma"}),
+    "observed in": ({"screen","figma"}, {"test"}),
+    "exercised through": ({"acceptance"}, {"code"}),
     "represented by": ({"screen", "state", "action"}, {"figma"}),
     "implemented by": ({"screen", "state", "action", "requirement"}, {"code"}),
     "checked by": ({"acceptance", "code"}, {"test"}),
@@ -96,6 +99,45 @@ def _index_links(root: Path, readme: Path) -> tuple[list[tuple[str, Path]], list
                 continue
             links.append((raw, target))
     return links, findings
+
+
+def _render_receipts(key, nodes, edges):
+    observations = {}
+    for source, target, label in edges:
+        if label == 'observed in':
+            observations.setdefault(source, []).append(target)
+    findings = []
+    paired_subjects = set()
+    receipt_owners = {}
+    for source, target, label in edges:
+        if label != 'rendered as':
+            continue
+        screen, frame = nodes[source], nodes[target]
+        if (frame.get('status') != 'verified' and screen.get('status') != 'verified'
+                and not observations.get(source) and not observations.get(target)):
+            continue
+        seen = observations.get(source, [])
+        paired_subjects.update((source, target))
+        same = len(seen) == 1 and seen == observations.get(target, [])
+        if same and seen[0] in receipt_owners:
+            same = False
+        elif same:
+            receipt_owners[seen[0]] = (source,target)
+        record = nodes[seen[0]] if same else {}
+        dimensions = {'width':frame.get('frame_width'),'height':frame.get('frame_height')}
+        valid = (same and record.get('type') == 'test' and record.get('status') == 'verified'
+                 and all(type(v) in (int,float) and v > 0 for v in dimensions.values())
+                 and screen.get('document') == dimensions
+                 and record.get('reapply_sha256') == frame.get('receipt_sha256')
+                 and all(isinstance(record.get(field), str) and re.fullmatch(r'[0-9a-f]{64}',record[field])
+                         for field in ('capture_sha256','reapply_sha256','browser_png_sha256','figma_png_sha256')))
+        if not valid:
+            findings.append(_finding('unpaired-render-observation', key,
+                f'{source} and {target} require matching dimensions and the same browser/native receipt.', identity=target))
+    for subject in sorted(set(observations) - paired_subjects):
+        findings.append(_finding('unpaired-render-observation', key,
+            f'{subject} names a render observation without its screen and native frame.', identity=subject))
+    return findings
 
 
 def check(root: str | Path) -> list[dict[str, Any]]:
@@ -205,7 +247,7 @@ def check(root: str | Path) -> list[dict[str, Any]]:
                 from_types, to_types = TYPED_EDGES[label]
                 actual_types = (node_map[src].get("type"), node_map[dst].get("type"))
                 if actual_types[0] not in from_types or actual_types[1] not in to_types:
-                    severity = "blocker" if label == "accepted by" else "advisory"
+                    severity = "blocker" if label in {"accepted by","rendered as","observed in","exercised through"} else "advisory"
                     findings.append(_finding("typed-edge-mismatch", key, f"{label!r} is a canonical authoring convention ({sorted(from_types)} -> {sorted(to_types)}); inspect this existing trace: {actual_types}", severity=severity, edge=i))
         for node_id, count in degree.items():
             if count == 0:
@@ -221,6 +263,7 @@ def check(root: str | Path) -> list[dict[str, Any]]:
                     findings.append(_finding("declared-spec-id-unmapped", key, f"Declared ID {match.group(1)} has no graph node", identity=match.group(1), source=f"{prose_path.relative_to(root).as_posix()}:{line_number}"))
                 for identity in sorted(set(GRAPH_ID_REFERENCE.findall(line)) - set(node_map)):
                     findings.append(_finding("referenced-spec-id-unmapped", key, f"Referenced ID {identity} has no graph node", identity=identity, source=f"{prose_path.relative_to(root).as_posix()}:{line_number}"))
+        findings.extend(_render_receipts(key, node_map, edges))
         for req in sorted(reqs):
             if not any(a == req and label in {"accepted by", "has acceptance criterion"} and b in acs for a, b, label in edges):
                 findings.append(_finding("requirement-unaccepted", key, f"Requirement {req} has no direct accepted-by criterion", identity=req))

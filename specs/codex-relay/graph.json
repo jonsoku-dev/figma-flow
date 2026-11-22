@@ -99,6 +99,20 @@
       "source": "../../tests/test_figma_control.py",
       "title": "TEST-CODEX — test_figma_control.py",
       "status": "unverified"
+    },
+    {
+      "id": "CODE-VIEWER-SCREEN",
+      "type": "code",
+      "title": "RelayViewer.jsx",
+      "status": "unverified",
+      "source": "../../panel-ui/src/RelayViewer.jsx"
+    },
+    {
+      "id": "CODE-SELECTION-TABLE",
+      "type": "code",
+      "title": "RelaySelection.jsx",
+      "status": "unverified",
+      "source": "../../panel-ui/src/RelaySelection.jsx"
     }
   ],
   "edges": [
@@ -109,7 +123,7 @@
     },
     {
       "from": "PARITY",
-      "type": "implemented by",
+      "type": "exercised through",
       "to": "NATIVE-VIEW"
     },
     {
@@ -128,8 +142,8 @@
       "to": "SELECTION-TABLE"
     },
     {
-      "from": "SELECTION-TABLE",
-      "type": "verified by",
+      "from": "CODE-SELECTION-TABLE",
+      "type": "checked by",
       "to": "TEST-VIEWER"
     },
     {
@@ -163,8 +177,8 @@
       "to": "POLICY"
     },
     {
-      "from": "VIEWER",
-      "type": "verified by",
+      "from": "CODE-VIEWER-SCREEN",
+      "type": "checked by",
       "to": "TEST-VIEWER"
     },
     {
@@ -176,6 +190,21 @@
       "from": "CODEX",
       "type": "verified by",
       "to": "TEST-CODEX"
+    },
+    {
+      "from": "VIEWER",
+      "type": "implemented by",
+      "to": "CODE-VIEWER-SCREEN"
+    },
+    {
+      "from": "SELECTION-TABLE",
+      "type": "implemented by",
+      "to": "CODE-SELECTION-TABLE"
+    },
+    {
+      "from": "PARITY",
+      "type": "checked by",
+      "to": "TEST-PARITY"
     }
   ]
 }

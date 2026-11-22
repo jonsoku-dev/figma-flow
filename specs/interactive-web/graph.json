@@ -19,14 +19,14 @@
     },
     {
       "id": "STATE-SIMPLE",
-      "type": "reference",
+      "type": "state",
       "title": "Tab state A displays first panel snippet",
       "status": "observed",
       "source": "tabs.md"
     },
     {
       "id": "STATE-MULTI",
-      "type": "reference",
+      "type": "state",
       "title": "Tab state B displays second panel snippet",
       "status": "observed",
       "source": "tabs.md"

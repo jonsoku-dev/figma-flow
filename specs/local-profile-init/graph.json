@@ -146,22 +146,22 @@
     },
     {
       "from": "PROFILE-01",
-      "type": "implemented by",
+      "type": "exercised through",
       "to": "SCR-INIT"
     },
     {
       "from": "PROFILE-02",
-      "type": "implemented by",
+      "type": "exercised through",
       "to": "LOCAL"
     },
     {
       "from": "PROFILE-03",
-      "type": "implemented by",
+      "type": "exercised through",
       "to": "HOST"
     },
     {
       "from": "PROFILE-04",
-      "type": "implemented by",
+      "type": "exercised through",
       "to": "RESOLVE"
     },
     {
