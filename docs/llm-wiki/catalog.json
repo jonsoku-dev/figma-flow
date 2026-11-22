@@ -16139,6 +16139,147 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "dce6a9a9329a0182ce60fe8a790739abfc8975a1",
+      "diff_sha256": "7090d9a75047a7aaba4cbdc0e4aa6ea60f28029fff5f4c456d8ced8444d78906",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/615ea284259ebe8dd27d99421dba26e08e8d491e.md",
+        "docs/llm-wiki/patches/8a3fbe4f6f85704a79c4acebbe4284613055b837.md",
+        "docs/llm-wiki/patches/9e4c2d2342a9465b2d94dc857a12f9b3a667d322.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "8a3fbe4f6f85704a79c4acebbe4284613055b837"
+      ],
+      "subject": "docs: record the hosted release gate correction",
+      "tree": "5b12641d0a3f50c78150679798f6690fac65dabb",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "a789281d54b850d6169fecd961fc5a3490918328",
+      "diff_sha256": "0a0b00d8af5a037e471b3c62324178f55e5c8465fa6974463fdac76aac907ee2",
+      "files": [
+        ".github/workflows/test.yml",
+        "library/delivery/graph.json",
+        "library/delivery/reference-guard.yml.in",
+        "library/delivery/test.yml.in",
+        "tests/helpers/relay_palette.mjs",
+        "tests/test_delivery_review.py"
+      ],
+      "parents": [
+        "dce6a9a9329a0182ce60fe8a790739abfc8975a1"
+      ],
+      "subject": "fix: stabilize full hosted validation and relay palette sampling",
+      "tree": "dc783843efee260d0a7048343121a628bd9f8701",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "5e9e227fd6f307ba03dfb899c036f939a52b858b",
+      "diff_sha256": "1e09fea3084517f9a8194d46cf2fb5749b4ba52bb2fbe97fdea71b084b543499",
+      "files": [
+        "release/reviews/delivery.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-2.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/maintenance/tooling-1.json",
+        "release/reviews/evidence/maintenance/tooling-2.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json",
+        "release/reviews/evidence/mysql-example/tooling-1.json",
+        "release/reviews/evidence/tooling/1.json",
+        "release/reviews/evidence/tooling/10.json",
+        "release/reviews/evidence/tooling/11.json",
+        "release/reviews/evidence/tooling/12.json",
+        "release/reviews/evidence/tooling/13.json",
+        "release/reviews/evidence/tooling/14.json",
+        "release/reviews/evidence/tooling/15.json",
+        "release/reviews/evidence/tooling/16.json",
+        "release/reviews/evidence/tooling/17.json",
+        "release/reviews/evidence/tooling/18.json",
+        "release/reviews/evidence/tooling/19.json",
+        "release/reviews/evidence/tooling/2.json",
+        "release/reviews/evidence/tooling/20.json",
+        "release/reviews/evidence/tooling/21.json",
+        "release/reviews/evidence/tooling/22.json",
+        "release/reviews/evidence/tooling/23.json",
+        "release/reviews/evidence/tooling/24.json",
+        "release/reviews/evidence/tooling/25.json",
+        "release/reviews/evidence/tooling/26.json",
+        "release/reviews/evidence/tooling/27.json",
+        "release/reviews/evidence/tooling/28.json",
+        "release/reviews/evidence/tooling/29.json",
+        "release/reviews/evidence/tooling/3.json",
+        "release/reviews/evidence/tooling/30.json",
+        "release/reviews/evidence/tooling/31.json",
+        "release/reviews/evidence/tooling/32.json",
+        "release/reviews/evidence/tooling/33.json",
+        "release/reviews/evidence/tooling/34.json",
+        "release/reviews/evidence/tooling/35.json",
+        "release/reviews/evidence/tooling/36.json",
+        "release/reviews/evidence/tooling/37.json",
+        "release/reviews/evidence/tooling/38.json",
+        "release/reviews/evidence/tooling/39.json",
+        "release/reviews/evidence/tooling/4.json",
+        "release/reviews/evidence/tooling/40.json",
+        "release/reviews/evidence/tooling/41.json",
+        "release/reviews/evidence/tooling/42.json",
+        "release/reviews/evidence/tooling/43.json",
+        "release/reviews/evidence/tooling/44.json",
+        "release/reviews/evidence/tooling/5.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/evidence/tooling/7.json",
+        "release/reviews/evidence/tooling/8.json",
+        "release/reviews/evidence/tooling/9.json",
+        "release/reviews/tooling.json"
+      ],
+      "parents": [
+        "a789281d54b850d6169fecd961fc5a3490918328"
+      ],
+      "subject": "verify: bind both hosted validation jobs to the shared runner",
+      "tree": "9e89542746910f8bc4d8aa700e213087176d3d14",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16314,6 +16455,7 @@
     "5d92cd61d7e09a444c5045ddc26911829d92b060": "b3125664aa5026b887cd3647dc65e2790d1569b668781732fb3deb369fb6e98a",
     "5dfc365a6ab9b7e27fed8a8b9d03e2cce9990225": "ea5d5862d55abc48a4eecb298248d2aab86855d38f10378095ddebd0d23f3874",
     "5e89c53918a01646bd693fcd96cef5502d0e8718": "98baad18661cf604bd082520c2ce546c1c9a3e94e556051fac9801b1659d5e49",
+    "5e9e227fd6f307ba03dfb899c036f939a52b858b": "ec13c55358cc2714460acb716b2f113721efcd3bec12584b6b9a8c02394729e4",
     "5f1842e2a904583813db63dc3adc402a5cb31318": "fe86a34f14d6c5d9fc535e33368b22110d5756f91f2b98a971ccdd609e6af66b",
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
@@ -16443,6 +16585,7 @@
     "a60f977b0093ea35f98d731c197e09f1667dbc75": "042be96fc647eb926e4a73c7b8cd0abab87342c59956acb1ad1d2f3e8e6d250d",
     "a7378b827b74e34a6a1129f4c172303242ec73ed": "80779eb5cc8b9f49377f958bc6c0f91ff6b36ce02cee0826b88dd8453e81f5ed",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
+    "a789281d54b850d6169fecd961fc5a3490918328": "6626048e4c76d3be3d76315917a74b2fbeda03f87bf88dee61bd3e6b28b162f2",
     "a7c6d59b76929d375d7f11c0a88b716cb352adf1": "3a5994d8a8da2e17faa0f6efc710a9ab8de18b3900994e8aafcc3accaddae896",
     "a803681008485f85e9e31c01cf40c6c48f0a26ce": "0ec6d1cbb83a27b8e2763b97516f1355949be5d509a0c9bee223c53b7350388b",
     "a88ced28d85ff9a2483efc2db8954d6f75509a8b": "e817068c1e10f8f8ea90b8bc875d51b0548fc1b30009d23e9b1b52cbc6224e08",
@@ -16558,6 +16701,7 @@
     "dc72dd8e23461164e24f7a11e5863a91bdf00332": "7cf31b79a187589c546efbdb3f047ac23b27dbdaadec657f7fe5d09fea468991",
     "dc8c23c4357aba18dc6a074b00107d52c8a1d7a9": "6f4607829630dba84d53d48275d4b818cdd93f57c754156ce9188dfc6f3fdea3",
     "dca7dfcb4ec97ee52427a40050e815f53880d47e": "8a43c301e185fe5f3c1a6bbe27b0a3b23886706716b7d8703529bb63ebbab33b",
+    "dce6a9a9329a0182ce60fe8a790739abfc8975a1": "75121ba6e095529a8defdee9f99777b5590b513aeda6639b4035bd24a1eb95a3",
     "dd53eeed027d14fc98d59574bd6927b066079e30": "c8b3b23999fff9df7e96ff7554368d611f0a47df75c1bf902488bdb05fd775be",
     "dee7688ffa829298bc794108f057c18dc6e6d766": "267088ddd7fcd717b1c817584fd2b75d3231b101827e3c16f00bc6b244494125",
     "df4376c07eff066be10f157b6b5d5ca39c573042": "d375e72f4e456cad884c507b425dbd89a239fb5f8309e135156f8ded889aa5e6",
@@ -16833,6 +16977,10 @@
     },
     {
       "observed_at_commit": "58ef89f23123b09470f9e9a1da92cf5a0aadb0e2",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "5e9e227fd6f307ba03dfb899c036f939a52b858b",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -17433,7 +17581,7 @@
     },
     {
       "source_commits": [
-        "8a3fbe4f6f85704a79c4acebbe4284613055b837"
+        "5e9e227fd6f307ba03dfb899c036f939a52b858b"
       ],
       "tagged": false,
       "tags": [],
@@ -17444,7 +17592,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "8a3fbe4f6f85704a79c4acebbe4284613055b837",
+  "source_commit": "5e9e227fd6f307ba03dfb899c036f939a52b858b",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
