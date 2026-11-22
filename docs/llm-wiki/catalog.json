@@ -16375,6 +16375,145 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "03358d54b306cc5bf31bcfb00c4b2fa8003ed80f",
+      "diff_sha256": "b3685690470fca0052f820199549ff8664f9acb7de10bfc7eb7eba9c056d2696",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0d344a1f55f15a20a9d6057c79cface9c2aae13c.md",
+        "docs/llm-wiki/patches/9cc80b26063a49324650aaa8c978079a173cd9b3.md",
+        "docs/llm-wiki/patches/ddeb3b87249640168bfde3e252de9a575501f213.md"
+      ],
+      "parents": [
+        "9cc80b26063a49324650aaa8c978079a173cd9b3"
+      ],
+      "subject": "docs: record the hosted witness corrections",
+      "tree": "e67fe724d0000ffe7376bcc43aa13df6a0a540d0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "798361b6c9d3c9d1049500eba911b64547d8d435",
+      "diff_sha256": "6794f777d01e4f9f4d501e03a3b4f2036dcf115cc2cd9919bf640cdeac0d6345",
+      "files": [
+        ".github/workflows/reference-guard.yml",
+        ".github/workflows/test.yml",
+        "library/delivery/graph.json",
+        "library/delivery/reference-guard.yml.in",
+        "library/delivery/test.yml.in"
+      ],
+      "parents": [
+        "03358d54b306cc5bf31bcfb00c4b2fa8003ed80f"
+      ],
+      "subject": "fix: provision native font shaping in hosted release checks",
+      "tree": "13aeedfc61f63f7639e64f34c067ee91a98ff86d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "e7858484dbe115efb1c744058f46555352349d8c",
+      "diff_sha256": "c51b253a9533b7567f7f8cc168966ecd7069c346ada05323fe72d7bc61b367e7",
+      "files": [
+        "release/reviews/delivery.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-2.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/maintenance/tooling-1.json",
+        "release/reviews/evidence/maintenance/tooling-2.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json",
+        "release/reviews/evidence/mysql-example/tooling-1.json",
+        "release/reviews/evidence/tooling/1.json",
+        "release/reviews/evidence/tooling/10.json",
+        "release/reviews/evidence/tooling/11.json",
+        "release/reviews/evidence/tooling/12.json",
+        "release/reviews/evidence/tooling/13.json",
+        "release/reviews/evidence/tooling/14.json",
+        "release/reviews/evidence/tooling/15.json",
+        "release/reviews/evidence/tooling/16.json",
+        "release/reviews/evidence/tooling/17.json",
+        "release/reviews/evidence/tooling/18.json",
+        "release/reviews/evidence/tooling/19.json",
+        "release/reviews/evidence/tooling/2.json",
+        "release/reviews/evidence/tooling/20.json",
+        "release/reviews/evidence/tooling/21.json",
+        "release/reviews/evidence/tooling/22.json",
+        "release/reviews/evidence/tooling/23.json",
+        "release/reviews/evidence/tooling/24.json",
+        "release/reviews/evidence/tooling/25.json",
+        "release/reviews/evidence/tooling/26.json",
+        "release/reviews/evidence/tooling/27.json",
+        "release/reviews/evidence/tooling/28.json",
+        "release/reviews/evidence/tooling/29.json",
+        "release/reviews/evidence/tooling/3.json",
+        "release/reviews/evidence/tooling/30.json",
+        "release/reviews/evidence/tooling/31.json",
+        "release/reviews/evidence/tooling/32.json",
+        "release/reviews/evidence/tooling/33.json",
+        "release/reviews/evidence/tooling/34.json",
+        "release/reviews/evidence/tooling/35.json",
+        "release/reviews/evidence/tooling/36.json",
+        "release/reviews/evidence/tooling/37.json",
+        "release/reviews/evidence/tooling/38.json",
+        "release/reviews/evidence/tooling/39.json",
+        "release/reviews/evidence/tooling/4.json",
+        "release/reviews/evidence/tooling/40.json",
+        "release/reviews/evidence/tooling/41.json",
+        "release/reviews/evidence/tooling/42.json",
+        "release/reviews/evidence/tooling/43.json",
+        "release/reviews/evidence/tooling/44.json",
+        "release/reviews/evidence/tooling/5.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/evidence/tooling/7.json",
+        "release/reviews/evidence/tooling/8.json",
+        "release/reviews/evidence/tooling/9.json",
+        "release/reviews/tooling.json"
+      ],
+      "parents": [
+        "798361b6c9d3c9d1049500eba911b64547d8d435"
+      ],
+      "subject": "verify: bind font shaping to hosted release evidence",
+      "tree": "efe9ccb4dbd569fa91da509eb1c6c73621d3b455",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16383,6 +16522,7 @@
     "015f440ee635d817f033dddabb504acaea69895f": "f93c2b26a34b0ef631052e746b4779ecbaed228c48b0ad2e0e374c18fe3bb2d8",
     "016a777e0bc582414c2062a122dfae553851eefc": "92b634f5f68391e92944c1dbfb2ebd8b155c94a3397d56fb8a08fc6443c0f4f9",
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
+    "03358d54b306cc5bf31bcfb00c4b2fa8003ed80f": "d243f5d136f8084dcd41e7047e85b4372ae82c10597c64604ef539d7a6140589",
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
     "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
     "057f949078e2af85f8c911e4045a4977a3bd7f0b": "27ab48b75f989f49c4a712f9079ef27d3cc0616875ae6ee8070931ea80d4824a",
@@ -16590,6 +16730,7 @@
     "7842f505eba1676e9151eaf2550086b2fac9175c": "523e0c591618e2920c800f8965956d82cae6d33fcc853840c0161452af24fe67",
     "78fd03a27d4d81d1e024d8874d5467a568b8418e": "9677b5f96bb30d1dabec45446d4fb77172f3afa51576c24dce111622c7a74e4e",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
+    "798361b6c9d3c9d1049500eba911b64547d8d435": "65274712d789b463547dc6308139bbd3d14117bb28e67d3acd47fcc75ad4c38d",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
     "7aef05e416b625ccab46122d8d0720e45e9471a5": "a58774684a8c8dd7c1fb3d3226d068c52a3f401c9b7444ddd3cd6732b38b1ad3",
     "7b5ae4091641430d891e0c110c8efdb9a845a6ce": "063e8f7c15bd7989ed403013c467c8da048f725858a1473274172f3a6ca8492f",
@@ -16823,6 +16964,7 @@
     "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10": "8a34bee32fe9ddc41543864e28c8aabf3ad93b9286d249cbd4b69d65c62620fb",
     "e70d94b4cf7be62536c74157a52aa6ec0c3c9a09": "ab7888f55aab9338d682d4bb23ca65ec862c99a534bc31de1f1fcc881080a7f6",
     "e75d60b7b95fc48144368f7d659ad0d0918fddce": "5c47ca4f6f872bbb15e07db8e9f846ecb78e0313de97cd09ef257e8098cd45e2",
+    "e7858484dbe115efb1c744058f46555352349d8c": "f9ea50c16732ea9541a3de9a140fa0007c5667f8cfa91853a595618391da118b",
     "e7b1efbda8fcbe78bec9aa77d480daa0438c1039": "09a8d0ea3bd101bacb9d6bcb8f421dbd22c0931738ca0e771c2e459462631b7e",
     "e86cb81decb3b369f59d4e3799945f996d342eb9": "8499a65c22ddda33e11e16f65487cc0b74524a2c8f5cde7db46889c0399ffda3",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
@@ -17326,6 +17468,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "e7858484dbe115efb1c744058f46555352349d8c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "e8ada75f03b253aed9ab4d9528872575f7cc8051",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -17683,7 +17829,7 @@
     },
     {
       "source_commits": [
-        "9cc80b26063a49324650aaa8c978079a173cd9b3"
+        "e7858484dbe115efb1c744058f46555352349d8c"
       ],
       "tagged": false,
       "tags": [],
@@ -17694,7 +17840,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "9cc80b26063a49324650aaa8c978079a173cd9b3",
+  "source_commit": "e7858484dbe115efb1c744058f46555352349d8c",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
