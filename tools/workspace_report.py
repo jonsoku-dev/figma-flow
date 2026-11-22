@@ -128,14 +128,21 @@ def _change_manifest(task, bundle):
         plan_sha = _embedded_json(source, 'NATIVE_EDIT_SHA256')
         if not isinstance(plan, dict) or not re.fullmatch(r'[a-f0-9]{64}', str(plan_sha or '')):
             return {'available': False, 'reason': 'No pinned native-edit plan is embedded in this task bundle'}
+        rows = plan.get('edits')
+        if not isinstance(rows, list) and isinstance(plan.get('specifications'), dict):
+            rows = plan['specifications'].get('targets', [])
+        if not isinstance(rows, list) and isinstance(plan.get('variableedit'), dict):
+            rows = [plan['variableedit']]
+        if not isinstance(rows, list):
+            rows = []
         changes = []
-        for index, edit in enumerate(plan.get('edits', [])):
+        for index, edit in enumerate(rows):
             if not isinstance(edit, dict):
                 continue
             target = edit.get('node_id') or edit.get('variable_id')
-            field = edit.get('field') or edit.get('mode_id') or 'value'
+            field = edit.get('field') or edit.get('mode_id') or edit.get('property') or 'value'
             changes.append({'identity': f'{target}.{field}' if isinstance(target, str) else f'edit#{index + 1}',
-                'group': edit.get('group'), 'kind': 'native-edit', 'field': field,
+                'group': edit.get('group') or edit.get('group_id'), 'kind': 'native-edit', 'field': field,
                 'targets': [target] if isinstance(target, str) else [],
                 'before': edit.get('before'), 'after': edit.get('after')})
         return {'available': True, 'schema': 'figma-flow-native-edit-plan-v1', 'protocol': None,

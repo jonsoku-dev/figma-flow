@@ -133,6 +133,9 @@ const fs = require('fs');
         self.assertEqual(report_value['activity']['recommendation']['action'], 'inspect-latest-result')
         self.assertEqual(report_value['assets']['rows'], [])
         self.assertEqual(report_value['localTaskBundle']['status'], 'available')
+        self.assertFalse(report_value['changes']['partialApplyAvailable'])
+        self.assertEqual(report_value['changes']['changes'][0]['before'], 12)
+        self.assertEqual(report_value['changes']['changes'][0]['after'], 20)
         self.assertEqual(report_value['deepLinks'][0]['url'],
             'https://www.figma.com/proto/fixturefile/SaaS?node-id=3-4&starting-point-node-id=3-4&page-id=12-1&scaling=scale-down')
         self.assertEqual(report_value['verification']['nativeCurrentState'], 'not-verified')
