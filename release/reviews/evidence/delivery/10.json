@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "f3393b084f667f3335c8f300427acab3f81238711381ff973e976af173858942",
+  "surfaceFingerprint": "db36733185646f0a98f24c075a7d02dfb6658b2b6194cde88527f88abfbf5c67",
   "status": "passed",
   "checks": [
     {
@@ -10,7 +10,7 @@
         "library/delivery/reference-guard.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "testSha256": "44e6c303eb3133263d7be5cb32b4c14e73a5f446ce4cbec871dde0e814653472",
       "case": "DeliveryReviewTests.test_ci_pins_and_node_selection_follow_their_declared_sources",
       "assertion": "Tag selection, previous-ref handling and major gating produce the existing package or withhold a blocked ZIP.",
       "observed": "A changed checkout SHA and Python version reached all four workflows. Both compiler installs followed the changed npm pin and Node steps used the configured version file."
@@ -23,7 +23,7 @@
         "library/delivery/reference-guard.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "testSha256": "44e6c303eb3133263d7be5cb32b4c14e73a5f446ce4cbec871dde0e814653472",
       "case": "DeliveryReviewTests.test_reference_job_runs_its_actual_packaging_and_stops_before_major_zip",
       "assertion": "Tag selection, previous-ref handling and major gating produce the existing package or withhold a blocked ZIP.",
       "observed": "The generated shell step archived the tagged 0.36.0 fixture and emitted no ZIP for the blocked 1.0.0 fixture."

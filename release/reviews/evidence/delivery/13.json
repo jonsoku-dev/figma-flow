@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "f3393b084f667f3335c8f300427acab3f81238711381ff973e976af173858942",
+  "surfaceFingerprint": "db36733185646f0a98f24c075a7d02dfb6658b2b6194cde88527f88abfbf5c67",
   "status": "passed",
   "checks": [
     {
@@ -10,7 +10,7 @@
         "library/delivery/reference-guard.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "testSha256": "44e6c303eb3133263d7be5cb32b4c14e73a5f446ce4cbec871dde0e814653472",
       "case": "DeliveryReviewTests.test_major_native_sandbox_cli_is_verified_before_install_and_path_update",
       "assertion": "The major archive job installs the specified macOS Codex CLI only after its SHA-256 matches, and only then adds it to the runner PATH.",
       "observed": "The generated shell verified and installed the executable from a matching local archive and rejected a corrupt archive before installing or extending PATH."

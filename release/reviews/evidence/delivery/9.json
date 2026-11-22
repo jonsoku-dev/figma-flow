@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "f3393b084f667f3335c8f300427acab3f81238711381ff973e976af173858942",
+  "surfaceFingerprint": "db36733185646f0a98f24c075a7d02dfb6658b2b6194cde88527f88abfbf5c67",
   "status": "passed",
   "checks": [
     {
@@ -10,7 +10,7 @@
         "library/delivery/patch-knowledge.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "testSha256": "44e6c303eb3133263d7be5cb32b4c14e73a5f446ce4cbec871dde0e814653472",
       "case": "DeliveryReviewTests.test_ci_pins_and_node_selection_follow_their_declared_sources",
       "assertion": "Full and preserved-history verification must fail on missing evidence.",
       "observed": "A changed checkout SHA and Python version reached all four workflows. Both compiler installs followed the changed npm pin and Node steps used the configured version file."
@@ -23,7 +23,7 @@
         "library/delivery/patch-knowledge.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "testSha256": "44e6c303eb3133263d7be5cb32b4c14e73a5f446ce4cbec871dde0e814653472",
       "case": "DeliveryReviewTests.test_history_job_refuses_missing_candidate_catalog_and_unverified_legacy_data",
       "assertion": "Full and preserved-history verification must fail on missing evidence.",
       "observed": "Both emitted verification invocations rejected missing history from an isolated Git repo."

@@ -1,11 +1,11 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "cbbd47709b54021119bbc2720cfdf197560cc353765a449ffb87eab282e28c8d",
+  "surfaceFingerprint": "b425b7cac47f63e8c51d4afc499051981d776dfeffbc4508359e55e9f9326aa0",
   "checks": [
     {
       "test": "tests/test_delivery_review.py",
       "case": "DeliveryReviewTests.test_app_workflow_projects_service_credentials_into_actual_staging_settings",
-      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "testSha256": "44e6c303eb3133263d7be5cb32b4c14e73a5f446ce4cbec871dde0e814653472",
       "covers": [
         "tools/delivery_config.py"
       ],

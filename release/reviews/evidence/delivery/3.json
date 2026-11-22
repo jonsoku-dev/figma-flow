@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "f3393b084f667f3335c8f300427acab3f81238711381ff973e976af173858942",
+  "surfaceFingerprint": "db36733185646f0a98f24c075a7d02dfb6658b2b6194cde88527f88abfbf5c67",
   "status": "passed",
   "checks": [
     {
@@ -9,7 +9,7 @@
         "library/delivery/graph.json"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "testSha256": "44e6c303eb3133263d7be5cb32b4c14e73a5f446ce4cbec871dde0e814653472",
       "case": "DeliveryReviewTests.test_git_checkout_preserves_upstream_bytes_and_normalizes_ordinary_text",
       "assertion": "Native Git checkout attributes own which upstream inputs preserve original bytes and whitespace.",
       "observed": "Git stored CRLF for the protected inputs and LF for the ordinary control; upstream attributes resolved as unset."
