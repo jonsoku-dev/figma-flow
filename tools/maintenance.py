@@ -3,6 +3,7 @@
 import argparse
 import ast
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -11,6 +12,7 @@ import signal
 import subprocess
 import sys
 import tempfile
+import tokenize
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = Path('tools/maintenance-contract.json')
@@ -45,6 +47,51 @@ def graph_decode_findings(root):
                     findings.append({'path':name, 'line':n.lineno,
                         'message':'Raw JSON decoding can silently select a duplicate graph field. Use graph_document.read_json/decode_json or the portable graph decoder.'})
     return findings
+
+
+def audit(root):
+    """Inventory tracked rules, decoder candidates and comments without copying their text."""
+    raw = subprocess.check_output(['git','ls-files','-z'],cwd=root)
+    tracked = sorted(Path(entry.decode()) for entry in raw.split(b'\0') if entry)
+    graph_ingress = policy(root)['graphDecoding']
+    rules, comments, decoders, unclassified = [], [], [], []
+    for relative in tracked:
+        parts = relative.parts
+        if parts[0]=='vendor' or parts[:2]==('figma-bridge','assets'):
+            continue
+        file = root / relative
+        if not file.is_file() or file.is_symlink():
+            continue
+        name = relative.as_posix()
+        if relative.suffix == '.md' and (
+                name in ('AGENTS.md','CONSTITUTION.md','CONTRIBUTING.md') or parts[0]=='skills'):
+            lines = file.read_text(encoding='utf-8').splitlines()
+            for number, line in enumerate(lines, 1):
+                if re.match(r'^#{1,6} ',line):
+                    rules.append({'path':name,'line':number,'heading':line.lstrip('# ')})
+        elif relative.suffix == '.py' and parts[0] in {'tools','skills','apps','tests'}:
+            try:
+                with tokenize.open(file) as stream:
+                    source = stream.read()
+                for token in tokenize.generate_tokens(io.StringIO(source).readline):
+                    if token.type != tokenize.COMMENT:
+                        continue
+                    hint = 'external-constraint' if re.search(r'license|copyright|SPDX|shebang|coding:',token.string,re.I) or token.string.startswith('#!') else 'review'
+                    if re.search(r'workaround|임시|우회|땜질|FIXME|TODO',token.string,re.I):
+                        hint = 'review-possible-workaround'
+                    comments.append({'path':name,'line':token.start[0],'hint':hint})
+                tree = ast.parse(source)
+                for node in ast.walk(tree):
+                    if (isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute)
+                            and isinstance(node.func.value,ast.Name) and node.func.value.id=='json'
+                            and node.func.attr in ('load','loads')):
+                        decoders.append({'path':name,'line':node.lineno,
+                                         'graphFunctions':graph_ingress.get(name,[])})
+            except (OSError, SyntaxError, tokenize.TokenError, UnicodeError) as exc:
+                unclassified.append({'path':name,'reason':type(exc).__name__})
+    return {'schema':'figma-flow-maintenance-audit-v1','rules':rules,
+            'pythonComments':comments,'rawDecoderCandidates':decoders,'unclassified':unclassified,
+            'violations':graph_decode_findings(root)}
 
 
 def fingerprint(root):
@@ -108,7 +155,8 @@ def run_step(step, root, scratch, capture_screen):
                 if isinstance(exc, KeyboardInterrupt):
                     raise
                 reason = 'timeout'
-    if capture_screen and status == 'passed' and not screenshot.is_file():
+    captured = capture_screen and screenshot.is_file() and not screenshot.is_symlink()
+    if capture_screen and status == 'passed' and not captured:
         status, reason = 'unavailable', 'screenshot-missing'
     output = artifact_digest(log)
     with log.open('rb') as stream:
@@ -120,7 +168,7 @@ def run_step(step, root, scratch, capture_screen):
            'skipped':sum(map(int, skipped)), 'output':output}
     if reason:
         row['reason'] = reason
-    if capture_screen and screenshot.is_file() and not screenshot.is_symlink():
+    if captured:
         row['screenshot'] = artifact_digest(screenshot)
     return row
 
@@ -166,11 +214,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('check', help='Reject known graph ownership bypasses')
+    commands.add_parser('audit', help='List tracked rule and code candidates without editing source')
     evidence = commands.add_parser('verify', help='Execute a declared verification profile and write evidence')
     evidence.add_argument('--profile', required=True, choices=tuple(policy(ROOT)['profiles']))
     evidence.add_argument('--out', type=Path, required=True)
     evidence.add_argument('--base', type=Path, help='Baseline checkout for UI before/after screenshots')
     args = parser.parse_args()
+    if args.command == 'audit':
+        print(json.dumps(audit(ROOT),ensure_ascii=False,indent=2))
+        return 0
     if args.command == 'check':
         findings = graph_decode_findings(ROOT)
         for item in findings:

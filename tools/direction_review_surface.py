@@ -4,6 +4,11 @@ import base64
 import hashlib
 from html import escape
 from io import BytesIO
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 import os
 from pathlib import Path
@@ -65,7 +70,7 @@ def _render(data, out):
             x = index * card_width + (card_width - thumb.width) // 2
             sheet.paste(thumb, (x, layout[viewport]['top']))
         drawing.text((index * card_width + layout['labelX'], layout['labelY']), card['id'], fill=layout['ink'], font_size=layout['labelSize'])
-        graph = json.loads(_read(card['product_graph']))
+        graph = decode_json(_read(card['product_graph']))
         notes = derive_notes(graph)
         foundations = derive_foundations(graph)
         note_rows = []

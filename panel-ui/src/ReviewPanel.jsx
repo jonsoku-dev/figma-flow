@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer, useRef } from 'react';
 import { Download, Layers } from 'lucide-react';
+import { postDraftReceipt } from './reviewTransport.mjs';
 import { workspaceAllows, Action, Disclosure, Notice, PreviewStrip, Section } from './components.jsx';
 
 const initialState = {
@@ -179,21 +180,8 @@ export default function ReviewPanel({ model, locale, t, send, Shell }) {
       const controller = new AbortController();
       current.controller = controller;
       try {
-        const response = await fetch(model.pair.url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + model.pair.capability,
-          },
-          body: JSON.stringify(message.data),
-          signal: controller.signal,
-        });
-        const receipt = await response.json();
+        const { passed, receipt } = await postDraftReceipt(model.pair, message.data, controller.signal);
         if (!mounted || current.id !== id) return;
-        if (typeof receipt.passed !== 'boolean' || (!response.ok && receipt.passed !== false)) {
-          throw Error(receipt.errors?.join('; ') || receipt.error || response.status);
-        }
-        const passed = response.ok && receipt.passed;
         current.pending = false;
         dispatch({ type: 'receipt', passed, details: passed ? '' : JSON.stringify(receipt, null, 2) });
         sendRef.current({ type: 'receipt', passed });

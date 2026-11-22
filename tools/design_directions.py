@@ -8,6 +8,11 @@ import hashlib
 from datetime import datetime
 from html import escape
 from html.parser import HTMLParser
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 import math
 import os
@@ -1000,7 +1005,7 @@ def require_implementation_selection(selection_path, product_graph):
     selected = require_selected(selection_path)
     if pin(product_graph)['sha256'] == selected['product_graph']['sha256']:
         return selected
-    errors = implementation_fidelity_errors(read(selected['product_graph']), json.loads(Path(product_graph).read_text()))
+    errors = implementation_fidelity_errors(read(selected['product_graph']), decode_json(Path(product_graph).read_text()))
     if errors:
         raise SelectionRequired('Implementation graph differs from exact user-selected candidate: ' + '; '.join(errors[:6]))
     return selected

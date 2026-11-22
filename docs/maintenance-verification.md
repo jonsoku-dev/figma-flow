@@ -13,12 +13,15 @@
 | 설명을 옮기는 과정에서 외부 라이선스, 검사 이유, 과거 기록이 유실될 수 있음 | 문서와 사람 리뷰 | 실제 소비 경로에서 삭제한 중복 설명만 정리. 라이선스·외부 제약·과거 기록은 원 출처에 유지 | 계속 |
 | 좌석 권한, 시각적 적합성, 실제 사용자의 선택 | 일부 자동 검증과 실제 환경의 인수 | 실제 Figma 확인과 사람 판단은 해당 요구사항의 인수 근거로 확인 | 상황별 |
 
+기여 규칙과 모든 등록 스킬의 제목, Git 추적 Python 주석 및 원시 JSON 디코더 후보는 `python3 -B tools/maintenance.py audit`에서 경로와 행으로 확인한다. 전체 검색 결과는 후보 목록으로 사용한다. 실제로 자동화할 조건, 사람에게 남겨야 하는 판단, 이번에 정리한 우회 경로는 [저장소 유지보수 감사](maintenance-audit.md)에 기록한다.
+
 ## 직접 실행
 
 ```sh
 python3 -B tools/maintenance.py check
 python3 -B tools/maintenance.py verify --profile graph --out .figma-flow/evidence/local-graph
 python3 -B tools/maintenance.py verify --profile cli --out .figma-flow/evidence/local-cli
+python3 -B tools/maintenance.py verify --profile api --out .figma-flow/evidence/local-api
 ```
 
 UI 전후 캡처는 같은 Chromium과 폰트로 실행하며 두 체크아웃에 해당 화면 검사가 있어야 한다.
@@ -42,10 +45,12 @@ python3 -B tools/maintenance.py verify --profile ui --base "$BASE_CHECKOUT" --ou
 
 ## 입력 변이 재현
 
-릴리스 워크플로는 `release` 프로필을 실행한다. 실패 로그에는 시드, 사례 번호, 재실행할 JSON을 남긴다. 변이 사례 하나는 생성한 정상 입력에서 구조적 필드 하나를 변경한다.
+릴리스 워크플로는 `release` 프로필로 그래프 6,000건과 저널 입력 4,000건을 실행한다. 저널 검사는 입력 거절 시 파일 바이트 보존, 중복 제출의 멱등성, 커서 관측 순서와 페이지 격리를 확인한다. 실패 시 증거에는 선언된 실행 명령의 시드를 보존한다. 해당 명령을 직접 재실행하면 실패한 JSON 변이와 사례 번호를 확인할 수 있다.
 
 ```sh
 python3 -B tests/test_graph_properties.py --seed 92821 --trials 6000
+python3 -B tests/test_journal_properties.py --seed 562 --count 4000
+python3 -B tests/test_journal_properties.py --seed 562 --count 4000 --case 0
 ```
 
 정상 입력의 순서가 바뀌어도 유효성 검사가 통과하고, 중복 노드와 사라진 대상 및 형식 오류는 거절해야 한다. 기존 예시 테스트는 그대로 실행한다.

@@ -62,5 +62,25 @@ class MaintenanceContractTests(unittest.TestCase):
             self.assertIn('maintenance-verification.md', (root/page).read_text(), page)
 
 
+    def test_audit_is_read_only_and_reports_rule_and_comment_locations(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'tools').mkdir()
+            (root/maintenance.CONTRACT).write_text(json.dumps({
+                'schema':'figma-flow-maintenance-v1','graphDecoding':{},
+            }))
+            (root/'AGENTS.md').write_text('# Project\n\n## Cleanup\n')
+            (root/'tools/probe.py').write_text('# TODO: confirm ownership\nimport json\njson.loads("{}")\n')
+            subprocess.run(['git','init','-q',root],check=True)
+            subprocess.run(['git','-C',root,'add','AGENTS.md','tools'],check=True)
+            before = maintenance.fingerprint(root)
+            result=maintenance.audit(root)
+            self.assertEqual(maintenance.fingerprint(root),before)
+            self.assertIn({'path':'AGENTS.md','line':3,'heading':'Cleanup'},result['rules'])
+            self.assertIn({'path':'tools/probe.py','line':1,'hint':'review-possible-workaround'},result['pythonComments'])
+            self.assertIn({'path':'tools/probe.py','line':3,'graphFunctions':[]},result['rawDecoderCandidates'])
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -5,6 +5,11 @@ Mapping: {"version":1,"tests":{"TEST-001":["tests/example.test.js"]}}.
 Output directory must not exist. A plan is content evidence, not semantic proof.
 """
 import argparse
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 from collections import deque
 from pathlib import Path
@@ -50,12 +55,12 @@ def main(argv=None):
         if not mapping_path.is_relative_to(root):
             raise ValueError("Mapping must be inside the project")
         manifest_sha, manifest_bytes = ssot.read_local(manifest_path, capture=True)
-        baseline = json.loads(manifest_bytes)
+        baseline = decode_json(manifest_bytes)
         ssot.validate_manifest(baseline)
         check = subprocess.run([sys.executable, str(Path(ssot.__file__)), "check", str(manifest_path)], capture_output=True, text=True)
         if check.returncode not in (0, 2):
             raise ValueError("SSOT check failed: " + check.stderr.strip())
-        report = json.loads(check.stdout)
+        report = decode_json(check.stdout)
         if report["unavailable_authorities"] or report["changed_review_pins"]:
             raise ValueError("Required authority or review proof unavailable or changed")
         for node in report["nodes"].values():
@@ -63,7 +68,7 @@ def main(argv=None):
                 raise ValueError("Node evidence missing or unavailable")
         graph_path = (manifest_path.parent / baseline["inputs"]["graph"]["path"]).resolve(strict=True)
         graph_sha, graph_bytes = ssot.read_local(graph_path, capture=True)
-        graph = json.loads(graph_bytes)
+        graph = decode_json(graph_bytes)
         if sha(manifest_path) != manifest_sha or graph_sha != report['inputs']['graph']['sha256']:
             raise ValueError("Manifest or graph drifted during SSOT check")
         audit = audit_project.audit_project(root, graph_path,
@@ -75,7 +80,7 @@ def main(argv=None):
         source_fallback = bool(source_audit['missing'] or source_audit['candidates'] or source_audit['unknown'])
         acceptance_blocked = audit['acceptance_claim'] == 'blocked-by-active-contradiction'
         mapping_sha, mapping_bytes = ssot.read_local(mapping_path, capture=True)
-        mapping = json.loads(mapping_bytes)
+        mapping = decode_json(mapping_bytes)
         if not isinstance(mapping, dict) or not {"version", "tests"} <= set(mapping) or set(mapping) - {"version", "tests", "inputs"} or type(mapping["version"]) is not int or mapping["version"] != 1 or not isinstance(mapping["tests"], dict):
             raise ValueError("Invalid mapping schema")
         types = {n["id"]: n["type"] for n in graph["nodes"]}
@@ -114,7 +119,7 @@ def main(argv=None):
         if any(sha(root / name) != digest for name, digest in audit['inputs'].items()):
             raise ValueError('Audit inputs drifted during planning')
         recheck = subprocess.run([sys.executable, str(Path(ssot.__file__)), "check", str(manifest_path)], capture_output=True, text=True)
-        if recheck.returncode not in (0, 2) or json.loads(recheck.stdout) != report or sha(mapping_path) != mapping_sha or sha(manifest_path) != manifest_sha:
+        if recheck.returncode not in (0, 2) or decode_json(recheck.stdout) != report or sha(mapping_path) != mapping_sha or sha(manifest_path) != manifest_sha:
             raise ValueError("Inputs drifted during planning")
         out.mkdir(parents=False, exist_ok=False)
         created = True
@@ -220,7 +225,7 @@ def main(argv=None):
             result = subprocess.run([sys.executable, str(Path(ssot.__file__)), "check", str(manifest_path)], capture_output=True, text=True)
             if result.returncode not in (0, 2):
                 raise ValueError("SSOT check failed during execution")
-            return json.loads(result.stdout)
+            return decode_json(result.stdout)
         if current_check() != report:
             raise ValueError("Inputs drifted during planning")
         run_result = {"tests": [], "sandbox": {}}

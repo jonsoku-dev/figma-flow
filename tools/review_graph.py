@@ -6,7 +6,6 @@ import sys
 
 from graph_document import contract, decode_json
 
-# Review surfaces group original node types while preserving their identities and status.
 from native_appearance import appearance
 
 

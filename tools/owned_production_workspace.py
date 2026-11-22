@@ -16,6 +16,7 @@ from urllib.parse import unquote, urlsplit
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / 'skills/figma-flow/scripts'))
 sys.path.insert(0, str(REPO / 'tools'))
+from graph_document import decode_json
 from graph import validate_graph  # noqa: E402
 import review_graph  # noqa: E402
 
@@ -354,7 +355,7 @@ def _verified_snapshot(root):
         problems.append(f'canonical graph {graph_rel!r} is not an approved readable file')
         raise WorkspaceError(problems)
     try:
-        graph = json.loads(contents[graph_rel])
+        graph = decode_json(contents[graph_rel])
     except json.JSONDecodeError as error:
         raise WorkspaceError(problems + [f'canonical graph is not JSON: {error}']) from None
     if graph.get('id') != manifest.get('id'):

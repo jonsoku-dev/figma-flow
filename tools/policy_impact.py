@@ -6,6 +6,11 @@ import argparse
 import ast
 from html import escape
 import hashlib
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 from pathlib import Path
 import sys
@@ -19,7 +24,7 @@ import graph_diff
 
 def read_graph(path):
     raw = Path(path).read_bytes()
-    graph = json.loads(raw)
+    graph = decode_json(raw)
     nodes = graph.get('nodes')
     edges = graph.get('edges')
     if not isinstance(nodes, list) or not isinstance(edges, list):

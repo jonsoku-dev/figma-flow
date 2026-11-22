@@ -6,6 +6,11 @@ Exit 1 means a finding, 2 means limited/unknown coverage, 0 means checked scope 
 """
 import argparse
 import re
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 from pathlib import Path
 import sys
@@ -39,7 +44,7 @@ def audit_project(root, graph_path, bindings_path, brief_path, specs=(), *, proj
     bindings_hash, bindings_bytes = ssot.read_local(bindings_path, capture=True)
     if graph_hash != pinned['inputs']['graph']['sha256'] or bindings_hash != pinned['inputs']['bindings']['sha256']:
         raise ValueError('Audit inputs changed while reading')
-    data, bindings = json.loads(graph_bytes), json.loads(bindings_bytes)
+    data, bindings = decode_json(graph_bytes), decode_json(bindings_bytes)
     normalized = {**bindings, 'evidence': {}}
     unavailable = []
     input_hashes = {}

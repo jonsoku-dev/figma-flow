@@ -1,6 +1,11 @@
 """Build an offline Figma panel with only its own messages and shared navigation."""
 from html import escape
 from relay_limits import read_limits
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 import re
 from pathlib import Path
@@ -17,7 +22,7 @@ def load_view_registry(*, root=ROOT, graph_path=None):
     graph_path = Path(graph_path) if graph_path is not None else root / 'library/panel-design/views.json'
     graph_path = graph_path.resolve()
     try:
-        graph = json.loads(graph_path.read_text(encoding='utf-8'))
+        graph = decode_json(graph_path.read_text(encoding='utf-8'))
     except (OSError, json.JSONDecodeError) as error:
         raise ValueError(f'Panel view graph unavailable: {error}') from error
     if not isinstance(graph, dict) or graph.get('schema') != 'figma-flow-panel-view-graph-v1' or graph.get('version') != 1:

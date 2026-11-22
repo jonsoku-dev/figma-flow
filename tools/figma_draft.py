@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare and verify exploratory Figma directions. Never selects or approves one."""
 import argparse
+import copy
 import base64
 from datetime import datetime, timezone
 import hashlib
@@ -18,6 +19,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 TOOLS=Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path: sys.path.insert(0,str(TOOLS))
+from graph_document import decode_json
 from report_appearance import report_css
 from embedded_assets import embedded_asset_warnings
 from plugin_panel import render_panel
@@ -340,9 +342,9 @@ def _observed_production_geometry(request, path, expected):
 def _selected_production_inputs(selected, reviewed, authored, layout_path, graph_path, request_path):
     if not request_path or not graph_path:
         raise ValueError('Selected production requires pinned --change-request and --product-graph')
-    request = json.loads(Path(request_path).read_text())
+    request = decode_json(Path(request_path).read_text())
     original_layout = design_directions.current(reviewed.get('native_layout') or reviewed['native_target']['layout'], Path(reviewed['project_root']))
-    original = json.loads(original_layout.read_text())
+    original = decode_json(original_layout.read_text())
     old = next(row for row in original['candidates'] if row['id'] == selected['candidate_id'])
     if authored.get('schema') != 'figma-flow-authored-native-production-v1' or authored.get('scope') != 'selected-production' or len(authored.get('candidates', [])) != 1:
         raise ValueError('Distinct single-candidate selected-production authored layout required')
@@ -377,8 +379,8 @@ def _selected_production_inputs(selected, reviewed, authored, layout_path, graph
            for category in request['categories']):
         raise ValueError('Managed directive must explicitly authorize each production change category')
 
-    graph = json.loads(Path(graph_path).read_text())
-    previous_graph = json.loads(design_directions.current(selected['product_graph']).read_text())
+    graph = decode_json(Path(graph_path).read_text())
+    previous_graph = decode_json(design_directions.current(selected['product_graph']).read_text())
     if {k:v for k,v in graph.items() if k not in ('design_foundations','design_system')} != {k:v for k,v in previous_graph.items() if k not in ('design_foundations','design_system')}:
         raise ValueError('Selected graph nodes, edges, actions and prototype semantics must stay unchanged')
     if 'design_system' in graph:
@@ -476,7 +478,7 @@ def _selected_production_inputs(selected, reviewed, authored, layout_path, graph
     if {k:v for k,v in old_foundations.items() if k != 'roles'} != {k:v for k,v in new_foundations.items() if k != 'roles'} or len(old_foundations['roles']) != len(new_foundations['roles']):
         raise ValueError('Only new actual color consumers may extend selected foundations')
     for before, after in zip(old_foundations['roles'], new_foundations['roles']):
-        b, a = json.loads(json.dumps(before)), json.loads(json.dumps(after))
+        b, a = copy.deepcopy(before), copy.deepcopy(after)
         old_bindings = b.get('native', {}).pop('bindings', []); new_bindings = a.get('native', {}).pop('bindings', [])
         if b != a or new_bindings[:len(old_bindings)] != old_bindings:
             raise ValueError('Selected foundation values and original consumers must be preserved')
@@ -509,16 +511,16 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
     data=checked_review(manifest)
     reviewed = data
     if selected:
-        data = json.loads(json.dumps(data)); data['candidates'] = [row for row in data['candidates'] if row['id'] == selected['candidate_id']]
+        data = copy.deepcopy(data); data['candidates'] = [row for row in data['candidates'] if row['id'] == selected['candidate_id']]
     packet_hash=design_directions.review_packet_sha256(reviewed)
-    content=json.loads(design_directions.current(data['content']).read_text())
+    content=decode_json(design_directions.current(data['content']).read_text())
     root=Path(data['project_root']).resolve();layout_record=data.get('native_layout')or data.get('native_target',{}).get('layout')
     if not layout_record:raise ValueError('Checked review must pin its owned authored native layout before packaging')
     pinned_layout=design_directions.current(layout_record,root).resolve()
     layout_path=Path(layout_path or pinned_layout).resolve()
     if not selected and layout_path!=pinned_layout:raise ValueError('Explicit layout differs from immutable reviewed layout pin')
     if root not in layout_path.parents: raise ValueError('Authored layout must belong to the reviewed project')
-    authored=json.loads(layout_path.read_text());layout_hash=sha(layout_path.read_bytes())
+    authored=decode_json(layout_path.read_text());layout_hash=sha(layout_path.read_bytes())
     if not selected and (authored.get('schema')!=design_quality.LAYOUT_SCHEMA or authored.get('scope')!='exploratory-only'):raise ValueError('Explicit exploratory native layout required')
     provenance = graph_pin = request_pin = None
     if selected:
@@ -546,7 +548,7 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
     if set(native_candidates)!={c['id']for c in data['candidates']}:raise ValueError('Layout candidate identities must match reviewed candidates')
     candidates=[];assets={};pins=[]
     for candidate in data['candidates']:
-        graph=json.loads(design_directions.current(candidate['product_graph']).read_text());prototype=graph.get('draft_prototype')
+        graph=decode_json(design_directions.current(candidate['product_graph']).read_text());prototype=graph.get('draft_prototype')
         if not prototype or not prototype.get('states') or not prototype.get('bindings'): raise ValueError('Canonical native draft prototype states/returns required: '+candidate['id'])
         notes=annotation_contract.derive_notes(graph);by_node={n['id']:n for n in graph['nodes']};by_note={n['id']:n for n in notes}
         states={state['id']:state for state in prototype['states']}

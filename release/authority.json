@@ -416,6 +416,7 @@
     {"from":"skills","to":"maintenance-verification","type":"owned-by"},
     {"from":"guides","to":"maintenance-verification","type":"owned-by"},
     {"from":"guides","to":"maintenance-contract","type":"owned-by"},
+    {"from":"panel","to":"maintenance-contract","type":"owned-by"},
     {"from":"requirements","to":"maintenance-contract","type":"owned-by"}
   ]
 }

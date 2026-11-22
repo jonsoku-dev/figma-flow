@@ -2,6 +2,11 @@
 """Derive product state constants from its canonical requirement/state graph, never a second enum."""
 import argparse
 import hashlib
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 import os
 from pathlib import Path
@@ -11,7 +16,7 @@ import re
 def render(graph_path, format='esm'):
     path = Path(graph_path).resolve()
     raw = path.read_bytes()
-    graph = json.loads(raw)
+    graph = decode_json(raw)
     if not isinstance(graph, dict) or not isinstance(graph.get('nodes'), list) or any(not isinstance(n, dict) for n in graph['nodes']):
         raise ValueError('Canonical product graph nodes required')
     rows = [n for n in graph['nodes'] if n.get('type') == 'state']
@@ -39,7 +44,7 @@ def validate(graph_path, declaration, base):
     base = Path(base).resolve()
     report = {'passed': False, 'errors': [], 'exports': [], 'consumers': [],
               'boundary': 'Checks canonical state/export/import drift, not that runtime transitions or behavior executed.'}
-    graph = json.loads(Path(graph_path).read_text())
+    graph = decode_json(Path(graph_path).read_text())
     states = [n for n in graph.get('nodes', []) if n.get('type') == 'state']
     if not states:
         report.update(passed=True, scope='no-product-states-declared')

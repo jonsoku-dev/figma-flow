@@ -3,6 +3,10 @@ import { execFileSync } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { panelViewRegistryModule } from './view-registry.mjs';
+import { checkPanel } from './architecture.cjs';
+const boundaryFailures = checkPanel();
+if (boundaryFailures.length) throw new Error(boundaryFailures.join('\n'));
+
 const plugin = JSON.parse(await readFile(new URL('../plugin.json', import.meta.url), 'utf8'));
 const viewRegistrySource = await panelViewRegistryModule();
 execFileSync(process.execPath, [fileURLToPath(new URL('build-tokens.mjs', import.meta.url))], { stdio: 'inherit' });

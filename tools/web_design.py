@@ -3,6 +3,12 @@
 import argparse
 import base64
 import hashlib
+import copy
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 import math
 from pathlib import Path
@@ -1008,7 +1014,7 @@ def _read_join_inputs(graph_path, observation_path, out_path):
     graph_bytes, observation_bytes = source.read_bytes(), observations_file.read_bytes()
     if len(graph_bytes) > 12_000_000 or len(observation_bytes) > 4_000_000:
         raise ValueError('Bounded canonical graph and browser observation inputs required')
-    graph, observations = json.loads(graph_bytes), json.loads(observation_bytes)
+    graph, observations = decode_json(graph_bytes), decode_json(observation_bytes)
     if not isinstance(graph, dict) or not isinstance(observations, dict):
         raise ValueError('Canonical graph and browser observations must be JSON objects')
     if any(graph.get(key) is not None or key in graph for key in ('carousel', 'tabs', 'disclosure')):
@@ -1229,7 +1235,7 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
     raw = source.read_bytes()
     if len(raw) > 12_000_000:
         raise ValueError('Bounded source graph required')
-    graph = json.loads(raw)
+    graph = decode_json(raw)
     screens = validate_graph(graph)
     if screen_ids:
         unknown = set(screen_ids) - {screen['id'] for screen in screens}
@@ -1240,7 +1246,7 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
         raise ValueError('Select at most sixteen screens per native edit with --screen')
     if preview_width is not None and (type(preview_width) is not int or not 360 <= preview_width <= 480):
         raise ValueError('Preview width must be between 360 and 480 pixels')
-    screens = json.loads(json.dumps(screens))
+    screens = copy.deepcopy(screens)
     web = {
         'schema': SCHEMA,
         'graph_id': graph['id'],
@@ -1249,18 +1255,18 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
         'screens': screens,
     }
     if graph.get('carousel') is not None:
-        carousel = json.loads(json.dumps(graph['carousel']))
+        carousel = copy.deepcopy(graph['carousel'])
         if not {state['screenId'] for state in carousel['states']} <= {screen['id'] for screen in screens}:
             raise ValueError('Selected screens must include every carousel state')
         web['carousel'] = carousel
     if graph.get('tabs') is not None:
         if not {state['screenId'] for state in graph['tabs']['states']} <= {screen['id'] for screen in screens}:
             raise ValueError('Selected screens must include every tab state')
-        web['tabs'] = json.loads(json.dumps(graph['tabs']))
+        web['tabs'] = copy.deepcopy(graph['tabs'])
     if graph.get('disclosure') is not None:
         if not {state['screenId'] for state in graph['disclosure']['states']} <= {screen['id'] for screen in screens}:
             raise ValueError('Selected screens must include every disclosure state')
-        web['disclosure'] = json.loads(json.dumps(graph['disclosure']))
+        web['disclosure'] = copy.deepcopy(graph['disclosure'])
     if readback_scope not in ('page', 'screens'):
         raise ValueError('Unknown web design readback scope')
     if readback_scope == 'screens':

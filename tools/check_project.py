@@ -12,6 +12,7 @@ from urllib.parse import urlsplit
 SCRIPTS = Path(__file__).resolve().parents[1] / "skills/figma-flow/scripts"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(SCRIPTS))
+from graph_document import decode_json
 import graph
 import graph_diff
 import ssot
@@ -206,14 +207,14 @@ def check_project(manifest_path, out, *, own_output=False, previous_graph=None, 
     manifest_path = Path(manifest_path).absolute()
     out = Path(out).absolute()
     manifest_bytes_hash, manifest_bytes = ssot.read_local(manifest_path, capture=True)
-    manifest = json.loads(manifest_bytes.decode("utf-8"))
+    manifest = decode_json(manifest_bytes.decode("utf-8"))
     ssot.validate_manifest(manifest)
     base = manifest_path.parent
     inputs = {key: base / manifest["inputs"][key]["path"] for key in ("brief", "graph", "bindings")}
     graph_hash, graph_bytes = ssot.read_local(inputs["graph"], capture=True)
-    data = json.loads(graph_bytes.decode("utf-8"))
+    data = decode_json(graph_bytes.decode("utf-8"))
     bindings_hash, bindings_bytes = ssot.read_local(inputs["bindings"], capture=True)
-    bindings = json.loads(bindings_bytes.decode("utf-8"))
+    bindings = decode_json(bindings_bytes.decode("utf-8"))
     if not isinstance(data, dict) or not isinstance(bindings, dict):
         raise ValueError("Graph and bindings must be objects.")
     active_intent, direction = selected_creation(data, bindings, inputs['bindings'], inputs['graph'], intent, manifest, brief_path=inputs['brief'])
@@ -225,7 +226,7 @@ def check_project(manifest_path, out, *, own_output=False, previous_graph=None, 
         ssot_exit = ssot.main(["check", str(manifest_path)])
     if ssot_exit == 1:
         raise ValueError(stderr.getvalue().strip() or "SSOT check failed.")
-    check = json.loads(stdout.getvalue())
+    check = decode_json(stdout.getvalue())
     if (check.get("change_explanation", {}).get("baseline_manifest_sha256") != manifest["manifest_sha256"]
             or ssot.read_local(manifest_path)[0] != manifest_bytes_hash
             or check["inputs"]["graph"]["sha256"] != graph_hash
@@ -340,9 +341,9 @@ def init_project(brief, graph_path, bindings_path, out, *, audit=False, project=
     out = Path(out).absolute()
     graph_path, bindings_path, brief = (Path(p).absolute() for p in (graph_path, bindings_path, brief))
     graph_hash, graph_bytes = ssot.read_local(graph_path, capture=True)
-    data = json.loads(graph_bytes.decode("utf-8"))
+    data = decode_json(graph_bytes.decode("utf-8"))
     bindings_hash, bindings_bytes = ssot.read_local(bindings_path, capture=True)
-    bindings = json.loads(bindings_bytes.decode("utf-8"))
+    bindings = decode_json(bindings_bytes.decode("utf-8"))
     if not isinstance(data, dict) or not isinstance(bindings, dict):
         raise ValueError("Graph and bindings must be objects.")
     selected_creation(data, bindings, bindings_path, graph_path, intent, brief_path=brief)

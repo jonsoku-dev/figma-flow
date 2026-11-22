@@ -2,6 +2,11 @@
 """Compile and plan bounded updates from canonical graph and supplied cached evidence."""
 import argparse
 import hashlib
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 import math
 from pathlib import Path
@@ -19,7 +24,7 @@ def compile_graph(path):
     path = Path(path).resolve()
     raw = path.read_bytes()
     sha = hashlib.sha256(raw).hexdigest()
-    graph = json.loads(raw)
+    graph = decode_json(raw)
     return graph, {'path': str(path), 'sha256': sha}, derive_specifications(graph, source_graph_sha256=sha)
 
 

@@ -2,6 +2,11 @@
 """Run the bundled idea-notes example in a fresh directory."""
 import argparse
 import hashlib
+if __package__:
+    from .graph_document import decode_json
+else:
+    from graph_document import decode_json
+
 import json
 import re
 from pathlib import Path
@@ -79,7 +84,7 @@ def run_example(out):
         step("node-tests", ["node", "--test", "--test-reporter=tap", "tests/app.test.cjs"], "evidence/node-tests.tap")
         tap = (out / "evidence/node-tests.tap").read_text(encoding="utf-8")
         counts = {name: int(count) for name, count in re.findall(r"^# (tests|pass|skipped|todo) (\d+)\s*$", tap, re.M)}
-        graph_data = json.loads((out / "graph.json").read_text(encoding="utf-8"))
+        graph_data = decode_json((out / "graph.json").read_text(encoding="utf-8"))
         test_nodes = [node for node in graph_data["nodes"] if node["type"] == "test"]
         declared = {node["id"] for node in test_nodes if node["source"] == "evidence/node-tests.tap"}
         passed = re.findall(r"^ok \d+ - (TEST-\d+) ", tap, re.M)
