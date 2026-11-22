@@ -1,4 +1,6 @@
 """Pin the current control transport trace and trusted source range."""
+import json
+import subprocess
 import unittest
 from pathlib import Path
 import sys
@@ -6,6 +8,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 import figma_workspace as workspace
+import figma_control as control_server
 
 
 class RuntimeBoundaryTraceTests(unittest.TestCase):
@@ -18,15 +21,21 @@ class RuntimeBoundaryTraceTests(unittest.TestCase):
         self.assertEqual(trace['transport']['routes'], ['poll', 'native-started', 'result'])
         self.assertEqual(trace['transport']['method'], 'POST')
         self.assertEqual(trace['transport']['authorization'], 'Bearer')
-        self.assertEqual(trace['allowed'], {
+        expected = trace['allowed']
+        self.assertEqual(expected, {
             'review': ['create'],
-            'import': ['read', 'import', 'sync'],
-            'discover': ['read'],
+            'import': ['read', 'import', 'sync', 'native-summary'],
+            'discover': ['read', 'native-summary', 'select-node', 'selection-info', 'viewer-history', 'viewer-language'],
             'sync': ['read', 'apply'],
-            'native-edit': ['read', 'apply'],
+            'native-edit': ['read', 'apply', 'carousel-select', 'carousel-present'],
         })
+        policy = json.loads((ROOT / 'library/figma-profile/policy.json').read_bytes())
+        self.assertEqual(policy['taskOperations'], expected)
+        self.assertEqual(control_server.OPERATIONS, {kind: set(ops) for kind, ops in expected.items()})
         control = (ROOT / 'figma-bridge/workspace_control.js').read_text(encoding='utf-8')
-        self.assertIn("const controlAllowed = {review: ['create'], import: ['read', 'import', 'sync'], discover: ['read'], sync: ['read', 'apply'], 'native-edit': ['read', 'apply']};", control)
+        program = 'const WORKSPACE_PROFILE_POLICY = ' + json.dumps(policy) + ';\n' + control
+        actual = subprocess.check_output(['node'], input=program + '\nconsole.log(JSON.stringify(controlAllowed))', text=True)
+        self.assertEqual(json.loads(actual), expected)
         self.assertIn("controlRequest('poll'", control)
         self.assertIn("controlRequest('native-started'", control)
         self.assertIn("controlRequest('result'", control)

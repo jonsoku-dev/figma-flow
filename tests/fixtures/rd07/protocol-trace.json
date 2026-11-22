@@ -7,10 +7,10 @@
   },
   "allowed": {
     "review": ["create"],
-    "import": ["read", "import", "sync"],
-    "discover": ["read"],
+    "import": ["read", "import", "sync", "native-summary"],
+    "discover": ["read", "native-summary", "select-node", "selection-info", "viewer-history", "viewer-language"],
     "sync": ["read", "apply"],
-    "native-edit": ["read", "apply"]
+    "native-edit": ["read", "apply", "carousel-select", "carousel-present"]
   },
   "source_pins": {
     "folders": ["figma-bridge", "library", "tools"],
