@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "8ea93ed4afeada12b077d694e7a3f05517d232a54b21ec604a08357aa8a2c89c",
+  "surfaceFingerprint": "cbbd47709b54021119bbc2720cfdf197560cc353765a449ffb87eab282e28c8d",
   "checks": [
     {
       "test": "tests/test_maintenance_journal_boundary.py",

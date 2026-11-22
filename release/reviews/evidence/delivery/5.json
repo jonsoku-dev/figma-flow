@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "e3524708db8aa02d06d76e3a1ac9a186fc4a03749a24107b492c4352058ac9a3",
+  "surfaceFingerprint": "f3393b084f667f3335c8f300427acab3f81238711381ff973e976af173858942",
   "status": "passed",
   "checks": [
     {
@@ -9,7 +9,7 @@
         "library/delivery/graph.json"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
+      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
       "case": "DeliveryReviewTests.test_git_and_npm_keep_local_state_and_lock_files_out_of_distribution",
       "assertion": "Project-local npm reads its tracked lock-file policy.",
       "observed": "Git excluded the private/lockfile probes and admitted the public controls; an offline npm install produced no lockfile."

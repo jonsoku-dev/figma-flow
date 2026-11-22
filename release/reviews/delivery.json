@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "delivery",
-  "fingerprint": "e3524708db8aa02d06d76e3a1ac9a186fc4a03749a24107b492c4352058ac9a3",
+  "fingerprint": "f3393b084f667f3335c8f300427acab3f81238711381ff973e976af173858942",
   "openFindings": [],
   "bindings": [
     {
@@ -14,7 +14,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/1.json",
-          "sha256": "f458dc222b8ece5bba0ea8ad68a15acdb98ac3e92ea62b804e9d4a965122f13e"
+          "sha256": "b80330bf21b61fb39a358e49e7a5b0f640a7e80b0e4dc04880b2c9b897a10f4d"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/2.json",
-          "sha256": "3b5389368b2634eebffd2741e2490d12dee802fc9883883d036e09921b4226c8"
+          "sha256": "2c41b7c43cbf0ee2c2eaaaf59cd74b8c8348510744405bb6d3c34983f01dc8e2"
         }
       ]
     },
@@ -41,7 +41,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/3.json",
-          "sha256": "f99dcf5918b321affb9c803f155af1d5a0dc283c953797f007aa9ff0fbf3623b"
+          "sha256": "0619cb51e6897a2ea30afff7f926a1cc509d3151bab2e8831efb592a7a0e700e"
         }
       ]
     },
@@ -55,7 +55,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/4.json",
-          "sha256": "fc8490b9b508b23f090896873c8b2186bc51043a867036a6e93a3e77c4938f97"
+          "sha256": "ed312ee6ec60542c855f2585a87fbf2c6ba8af1518b7dce0a7b71cdb95c7acfe"
         }
       ]
     },
@@ -69,7 +69,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/5.json",
-          "sha256": "c2ea2782df5330175e00973d41684ee33fba75aa7b1288d30482374afb23d0d2"
+          "sha256": "b9a47f432142e4e93029308258d67616534d5f220f28645d599efc692c79092a"
         }
       ]
     },
@@ -83,7 +83,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/6.json",
-          "sha256": "1f32b5f24896582e0178d058de4ac47564b90ad0cb06854b574798fd60168569"
+          "sha256": "dfd6be666199a19105fc89759dccadcfd0bf00bfe5261e6c820fd93ba954bced"
         }
       ]
     },
@@ -97,7 +97,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/7.json",
-          "sha256": "1ecfabcdb4bf7fd2d77b0fd8e04ddbd982e6274a86dee94a1980911d16d96391"
+          "sha256": "6eeb0adde9c173307fec4276df4f5e2476b860576a5534c6a549a5f6f2569f5c"
         }
       ]
     },
@@ -112,7 +112,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/8.json",
-          "sha256": "09a52b31553e21b4cd8a1a8daa777e9fe0f7b5a0989e69f410a9f8888901c03c"
+          "sha256": "f339a1993d89ad133df669c4be284331c0dcd9a46ae2752ef1f7dc0500e044d9"
         }
       ]
     },
@@ -127,7 +127,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/9.json",
-          "sha256": "fcea9121bc98213dbc1627779b73ba7bdb47b51d7c8d2559cf50652de62dfa59"
+          "sha256": "2840c33ad04db09ae3a99b77909c2c6a4a7901b2a6cf0a46da2e041ec99c75f0"
         }
       ]
     },
@@ -142,7 +142,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/10.json",
-          "sha256": "0625c32073e7e8cf3829e59a05d15bfd18da617a6213a9d5164709b8dc4c09e4"
+          "sha256": "b44d01a2044c456fe51d80012e5eb2342beec204ed34a6b4da88ed2922b94302"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/11.json",
-          "sha256": "2f52709080a6b147cfa992855de98d4b18c8b3ea4d1c5ac2e06591f5ba2f67e0"
+          "sha256": "51ee4ba6ff05b56aec61b19f3cd15cd5d26ae7e2dad1eddfac8765e69b0ceb79"
         }
       ]
     },
@@ -171,7 +171,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/12.json",
-          "sha256": "14ef3a88c3f65170b80e94b9eac57542785937dd454a205680723a04cd6f5088"
+          "sha256": "06e9c7722d401777c832b5b2c8982542f0682a605c6d5c0c6397de38fded4f53"
         }
       ]
     },
@@ -181,12 +181,12 @@
         "library/delivery/graph.json",
         "library/delivery/reference-guard.yml.in"
       ],
-      "authority": "library/delivery/graph.json#/inputs/sandboxCli/linuxRelease",
-      "reason": "The major archive job installs the specified Linux Codex CLI only after its SHA-256 matches, and only then adds it to the runner PATH.",
+      "authority": "library/delivery/graph.json#/inputs/sandboxCli/artifacts/arm64",
+      "reason": "The major archive job installs the specified macOS Codex CLI only after its SHA-256 matches, and only then adds it to the runner PATH.",
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/13.json",
-          "sha256": "a29e953368466e406101a7d14908a381960e59814e12a32d4498dca30008a6b8"
+          "sha256": "c2b4b4aea9b0a5cba039d6f1586e71226887b21da17946e14d9da04e8dc99b72"
         }
       ]
     },
@@ -203,7 +203,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance/delivery-1.json",
-          "sha256": "fa7f1cc8bb2820b4db7d6166edb0f46e3d5e20b5cdfc2f45d2949d77924958d2"
+          "sha256": "ed65e22637eaca6697c3318bb14f45a714859bf62aaa4439be9109d0a739cfa6"
         }
       ]
     },
@@ -218,7 +218,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance-retention/delivery-1.json",
-          "sha256": "c03e365bcd72e272b72a62a8dfdaadde9a35e53c8c50de9c19078aa7e1026b81"
+          "sha256": "50c4453117c9d67fb59bad35d85c4ddd926ff6bb8ffcd5850417863dd1cb582d"
         }
       ]
     },
@@ -233,7 +233,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/mysql-example/delivery-1.json",
-          "sha256": "e3196bd0647eef0b70231122f716628fb2522c7761da4269b0086916c619fa5f"
+          "sha256": "70aee9baf6d5dd5d3e37e0b394f854ee895f6ad45b398d5002af418593a1576e"
         }
       ]
     }

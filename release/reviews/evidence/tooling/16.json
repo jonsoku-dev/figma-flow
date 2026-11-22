@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "8ea93ed4afeada12b077d694e7a3f05517d232a54b21ec604a08357aa8a2c89c",
+  "surfaceFingerprint": "cbbd47709b54021119bbc2720cfdf197560cc353765a449ffb87eab282e28c8d",
   "status": "passed",
   "checks": [
     {
@@ -11,7 +11,7 @@
       ],
       "test": "tests/test_delivery_review.py",
       "case": "DeliveryReviewTests.test_marketplace_uses_local_product_identity_and_preserves_fork_policy",
-      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
+      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
       "assertion": "Installation metadata and delivery workflows consume the actual product/toolchain inputs; the release archive is gated on its committed bytes and real witnesses.",
       "observed": "The generated delivery config followed changed pins and product identity; an isolated tag was withheld when its committed review did not satisfy the gate."
     },
@@ -24,7 +24,7 @@
       ],
       "test": "tests/test_delivery_review.py",
       "case": "DeliveryReviewTests.test_ci_pins_and_node_selection_follow_their_declared_sources",
-      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
+      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
       "assertion": "Installation metadata and delivery workflows consume the actual product/toolchain inputs; the release archive is gated on its committed bytes and real witnesses.",
       "observed": "The generated delivery config followed changed pins and product identity; an isolated tag was withheld when its committed review did not satisfy the gate."
     },

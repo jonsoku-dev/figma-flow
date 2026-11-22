@@ -1,18 +1,18 @@
 {
-  "surfaceFingerprint": "e3524708db8aa02d06d76e3a1ac9a186fc4a03749a24107b492c4352058ac9a3",
+  "surfaceFingerprint": "f3393b084f667f3335c8f300427acab3f81238711381ff973e976af173858942",
   "status": "passed",
   "checks": [
     {
-      "authority": "library/delivery/graph.json#/inputs/sandboxCli/linuxRelease",
+      "authority": "library/delivery/graph.json#/inputs/sandboxCli/artifacts/arm64",
       "covers": [
         ".github/workflows/reference-guard.yml",
         "library/delivery/graph.json",
         "library/delivery/reference-guard.yml.in"
       ],
       "test": "tests/test_delivery_review.py",
-      "testSha256": "0c6111b834beb4fd56c2af244c795828422453c35fac82741a18ff1af4c2f978",
-      "case": "DeliveryReviewTests.test_major_linux_sandbox_cli_is_verified_before_install_and_path_update",
-      "assertion": "The major archive job installs the specified Linux Codex CLI only after its SHA-256 matches, and only then adds it to the runner PATH.",
+      "testSha256": "c8ba453cada844eebf8f6e7a44cc8f5d1066dd846bbea41636f8291afe7c5631",
+      "case": "DeliveryReviewTests.test_major_native_sandbox_cli_is_verified_before_install_and_path_update",
+      "assertion": "The major archive job installs the specified macOS Codex CLI only after its SHA-256 matches, and only then adds it to the runner PATH.",
       "observed": "The generated shell verified and installed the executable from a matching local archive and rejected a corrupt archive before installing or extending PATH."
     }
   ]
