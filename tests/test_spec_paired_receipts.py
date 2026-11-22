@@ -21,7 +21,7 @@ class PairedReceiptTests(unittest.TestCase):
             (feature/'record.md').write_text('Recorded viewport and native readback.\n')
             index='specs/paired/graph.json'
             (root/'specs/README.md').write_text('[graph-roots.json](graph-roots.json)\n[Paired](paired/graph.json)\n')
-            (root/'specs/graph-roots.json').write_text(json.dumps({'version':1,'roots':[{'path':index,'scope':'paired fixture'}]}))
+            (root/'specs/graph-roots.json').write_text(json.dumps({'version':1,'roots':[{'path':index,'role':'paired fixture'}]}))
             nodes=[];edges=[]
             sha=lambda s:hashlib.sha256(s.encode()).hexdigest()
             for n in ('one','two'):
@@ -36,7 +36,9 @@ class PairedReceiptTests(unittest.TestCase):
                     edges.append({'from':src+'-'+n,'to':dst+'-'+n,'type':relation})
             def findings(nn,ee):
                 (root/index).write_text(json.dumps({'version':1,'nodes':nn,'edges':ee}))
-                return [x for x in check(root) if x['code']=='unpaired-render-observation']
+                result=check(root)
+                self.assertFalse(any(x['code'] in ('invalid-root-entry','unregistered-graph') for x in result))
+                return [x for x in result if x['code']=='unpaired-render-observation']
             self.assertFalse(findings(nodes,edges))
             wrong=copy.deepcopy(edges);wrong[1]['to']='observation-two'
             self.assertTrue(findings(nodes,wrong),'A screen must not borrow another frame observation')
