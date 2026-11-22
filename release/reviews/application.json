@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "application",
-  "fingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
+  "fingerprint": "274e4deae5a6bb2aaac7aaf2f24e2988a16fc5d2db9a42986a1a615aca3821d8",
   "openFindings": [],
   "bindings": [
     {
@@ -17,7 +17,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/1.json",
-          "sha256": "c328bde5d58ee548d88c30312a53f1293d9018bf11990fc7b9458e077797d104"
+          "sha256": "823bc7843b3def761809af5ea27d4641935a9d04cfb1d427ff0918da2d44be0b"
         }
       ]
     },
@@ -96,7 +96,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/2.json",
-          "sha256": "7a0eda91f934490cd1ccdbaeb51821103eee9e63e5bbf7c8354b9ffb8344754b"
+          "sha256": "ee8cdf118c7c142eb76c86176351f5bcf1aa9302789fc049f979c1e805e5ab64"
         }
       ]
     },
@@ -130,7 +130,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/3.json",
-          "sha256": "cb6894bbddc80556ea92e71f406297abe8edb3c677c6b528bcf7379b6d93ae49"
+          "sha256": "9cc1a7f02145e6f754f84c8c4d2cae447b819c1cba2e948dd5b20cb70bc7fcd0"
         }
       ]
     },
@@ -151,7 +151,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/4.json",
-          "sha256": "f5124f7ed2eded43d2b5b426f5fe913396c3715c01d57f512b578ba471260e68"
+          "sha256": "bc766cfa2754d60681336dd08787929da59086e8d4c36cf512be34326793d096"
         }
       ]
     },
@@ -169,7 +169,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/5.json",
-          "sha256": "2f24627af359b62976f8bf9b934f6523d4425f28010f954e3959027163edde73"
+          "sha256": "5aa2b0c303e07ba7aeb3e8071e570eb22717024257299097b7e026975fc7d219"
         }
       ]
     },
@@ -274,7 +274,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/6.json",
-          "sha256": "167f698817c82577398d846ec15c5e523b2c36abbc6d087db6f647fa1b45ede1"
+          "sha256": "50dc335985451ff4c95956ecb53b8dcc783e061c875d42650b1ee56475dd4e0a"
         }
       ]
     },
@@ -339,7 +339,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/7.json",
-          "sha256": "c1cb959d1ef375387b6977d7f61af4c14fe136154de1ed901945f744db7d9883"
+          "sha256": "3f18788a8122b47c51e059169bb6181b444393f6f8d7b44a3ba761c81145e202"
         }
       ]
     },
@@ -360,7 +360,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/8.json",
-          "sha256": "ead5a7b6141376fefdf0c893240213940df7a7d368107832bf0e8c99003e1bf0"
+          "sha256": "ac405337ffc1588a88722bdcf5283ce863647d32f83c84917ad4c759233ecabb"
         }
       ]
     },
@@ -377,7 +377,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/9.json",
-          "sha256": "7b6c4d27cc5a5c539af0ba923a037b4095824fe99302eb78ccd41a07d39ec4df"
+          "sha256": "75b07900dfd5bfc7e4876f41c879d55530f7a9432273b50dc4a56961f5f90484"
         }
       ]
     },
@@ -401,7 +401,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/10.json",
-          "sha256": "d0e6a589a38cdbd774871a79d944591409ac8d03383c6f525028f7e1da6d16b5"
+          "sha256": "4a828314276c3c59c5eb625c6addbbee3dd976a814c13917f367c8ae33ef25b2"
         }
       ]
     },
@@ -427,7 +427,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/11.json",
-          "sha256": "ba25634153b6eeadfb015c9f5dcb76b8f12cf9d2b5dd17cc886c805db49737a8"
+          "sha256": "93a233680ae744f3e0338638219f216fec11f138657ce7ef0e8c2670af735b1f"
         }
       ]
     },
@@ -441,7 +441,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/12.json",
-          "sha256": "21891960d09d0ef74ae6e7f2a406487263c3d6a54048085589c929ff9d2b9456"
+          "sha256": "dfd07f13627731a5876f8cb5c61b25fa0cf750ee187f810560808b85c1acadb4"
         }
       ]
     },
@@ -466,7 +466,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/13.json",
-          "sha256": "476669afd9b2266c3f434f02ebe29530d25f3c1e15a96b0a2f9fae3cd8e6ba96"
+          "sha256": "0435d4acaa9e0b09f7fa3cb5180723cd5395914485e0776d5665e8b7e1178755"
         }
       ]
     },
@@ -483,7 +483,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/14.json",
-          "sha256": "e15dc715e4ed6f0c6f7a6ed3a8b3a5ec9b43ce2dc1ac57858036ac0cf2231fec"
+          "sha256": "a34db4a1d1ff018eb8b5e9fa9bf95569d9b92dc20cfcd77695a19d16efb8dc4f"
         }
       ]
     },
@@ -508,7 +508,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/15.json",
-          "sha256": "1403945e42c2698a09205d223278666e0acb845d2cdcc37565834a009ff522e6"
+          "sha256": "bf86b523759f486f8257b869f602a371459c2fcba1cf0b492cb20b0c7966d4a9"
         }
       ]
     },
@@ -530,7 +530,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/16.json",
-          "sha256": "c3ad30d625f3295c0e22f309c2fa1cbb1b0990c74b5edcfe8ca752bf65b11339"
+          "sha256": "a92d5abaa9b6004c458917268b34dd5cbc3b35a0e6b53ec5202a0807ce9b9756"
         }
       ]
     },
@@ -546,7 +546,22 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/application/17.json",
-          "sha256": "e881aaf250e7f7e91e48b009bd90a27520e8f18d8396532d0addbe58f208991d"
+          "sha256": "e6387a113801c97edb33a6435e3acfc0c37c4b5511bd94efd59b178d58a5fd58"
+        }
+      ]
+    },
+    {
+      "files": [
+        "apps/little-hands/deploy/bootstrap.sh",
+        "apps/little-hands/deploy/templates/bootstrap.sh.in",
+        "apps/little-hands/booking/migrations/0002_immutable_records.py"
+      ],
+      "authority": "apps/little-hands/config/deployment.json#/database",
+      "reason": "An existing MySQL 8.4 server admitted migrations and all eight schema-owner triggers in an isolated schema without changing binary logging settings.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/mysql-existing/application-1.json",
+          "sha256": "5a10a5fe4268faed661827db89d0b8cb8d2126dea72b79292a0f9f326ad9e1b8"
         }
       ]
     }

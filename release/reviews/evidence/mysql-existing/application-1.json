@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "274e4deae5a6bb2aaac7aaf2f24e2988a16fc5d2db9a42986a1a615aca3821d8",
+  "checks": [
+    {
+      "test": "tests/test_booking_database_release.py",
+      "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
+      "testSha256": "d448e589f34b4b498d4fd5b0e71aadce761c8ce9ca574c4c6bd90fd2cf57082c",
+      "covers": [
+        "apps/little-hands/deploy/bootstrap.sh",
+        "apps/little-hands/deploy/templates/bootstrap.sh.in",
+        "apps/little-hands/booking/migrations/0002_immutable_records.py"
+      ],
+      "authority": "apps/little-hands/config/deployment.json#/database",
+      "assertion": "An existing MySQL 8.4 server admitted migrations and all eight schema-owner triggers in an isolated schema without changing binary logging settings.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

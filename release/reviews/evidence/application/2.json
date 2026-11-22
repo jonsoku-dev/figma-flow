@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
+  "surfaceFingerprint": "274e4deae5a6bb2aaac7aaf2f24e2988a16fc5d2db9a42986a1a615aca3821d8",
   "status": "passed",
   "checks": [
     {
@@ -75,9 +75,9 @@
       ],
       "test": "tests/test_booking_database_release.py",
       "case": "BookingDatabaseReleaseTests.test_application_transactions_permissions_and_deployment_checks",
-      "testSha256": "33a1a6cc29fbd95bab0eabf4ce187ed599ad9623106d4aac4cc07d0a245de987",
+      "testSha256": "d448e589f34b4b498d4fd5b0e71aadce761c8ce9ca574c4c6bd90fd2cf57082c",
       "assertion": "Django owns application routes, permissions, status and form results; templates render the actual database response and control errors.",
-      "observed": "The booking and configuration suites ran against a fresh PostgreSQL instance, including concurrency, waitlist changes, ownership, stale requests and form rendering. The staging GET export produced inert pages."
+      "observed": "On an existing MySQL 8.4 server, 61 Django cases passed. The runtime account confirmed one concurrent final-seat request and waitlisted the other. Four protected accesses were denied, and scoped staging export and Gunicorn health passed."
     }
   ]
 }

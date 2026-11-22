@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "4eede1e0eccf6264c06c67a8795b29c8ed05040374e53a6ff4688444cceb6682",
+  "surfaceFingerprint": "274e4deae5a6bb2aaac7aaf2f24e2988a16fc5d2db9a42986a1a615aca3821d8",
   "status": "passed",
   "checks": [
     {
@@ -21,7 +21,7 @@
       ],
       "test": "tests/test_booking_deployment_files.py",
       "case": "BookingDeploymentFilesTests.test_changed_private_endpoints_reach_compose_proxy_and_built_image",
-      "testSha256": "f107245e3062a50cb529931673f428b0fb35ac8c3cc09c1f7e3e952641ec6b22",
+      "testSha256": "44c772a472bdbf162d396485c51b00c5c06fe577979fa7e6fb2273e49af3afc4",
       "assertion": "Compose, nginx, Docker and SQL files project the same private endpoint and actor roles. Local Git excludes transient and secret material.",
       "observed": "With both port and role changes Docker Compose resolved the private binding and role pair; the rendered nginx, Dockerfile and SQL changed together. Git accepted public templates and excluded the private probes."
     }
