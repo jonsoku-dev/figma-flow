@@ -12506,6 +12506,102 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "be4e79f2e9a6cdc4495dc0874e60b6261ddbce39",
+      "diff_sha256": "a6575027479ed94d961dc3f712b941ecd31c94cbbff39fad2e8767881c987ffd",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/33aff6692660a7c212e576a719dff3709cd9ae01.md",
+        "docs/llm-wiki/patches/42d1c1893bc3325c029ff36dedbe399b04b69bbe.md",
+        "docs/llm-wiki/patches/5c7fd51084bb5115ff99d81763272b4a6ea90a60.md",
+        "docs/llm-wiki/patches/edf83777ae28b6cf771e895073d5d0b6f11bf3f6.md",
+        "docs/llm-wiki/patches/ff83572d63c6e1897069d36061b46d9b7e440f3b.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "42d1c1893bc3325c029ff36dedbe399b04b69bbe"
+      ],
+      "subject": "docs: record verified Codex task parity and viewer behavior",
+      "tree": "6dd1ebab9639704bfd85aa362947f86ca5ce79f4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "1c58e3a92b867fdd37dee6c8255a0d90f6a600e6",
+      "diff_sha256": "0808028c54254c8f80c89754bcdef3397689814fed21fb6f68bec1d18e0c7742",
+      "files": [
+        "tests/helpers/relay_alignment.mjs",
+        "tests/test_relay_alignment.py"
+      ],
+      "parents": [
+        "be4e79f2e9a6cdc4495dc0874e60b6261ddbce39"
+      ],
+      "subject": "test: pin browser evidence for relay edge alignment",
+      "tree": "accafd1788ece03326f4230fb56b58e3b3a921a7",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "a88ced28d85ff9a2483efc2db8954d6f75509a8b",
+      "diff_sha256": "0451eedf5043b649fabd61deaaa58b3f31897f2ba521f1c382031c0501ae4c2c",
+      "files": [
+        "docs/guide.md",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/relay_view.js",
+        "panel-ui/src/styles/relay.css",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/references/figma-feature-routes.md",
+        "specs/README.md",
+        "specs/alignment-audit/graph.json",
+        "specs/alignment-audit/owned-workspace.rules.json",
+        "specs/alignment-audit/spec.md",
+        "tests/test_alignment_audit.py",
+        "tests/test_alignment_compare.py",
+        "tests/test_codex_viewer_parity.py",
+        "tests/test_figma_alignment.py",
+        "tests/test_figma_feature.py",
+        "tools/alignment_audit.mjs",
+        "tools/alignment_compare.py",
+        "tools/figma_alignment.py",
+        "tools/figma_control.py",
+        "tools/figma_feature.py",
+        "tools/relay_alignment.py",
+        "tools/relay_alignment_rules.json",
+        "tools/relay_view.py"
+      ],
+      "parents": [
+        "1c58e3a92b867fdd37dee6c8255a0d90f6a600e6"
+      ],
+      "subject": "feat: audit browser and Design alignment from Codex",
+      "tree": "774ace1f3155a74863bbef25e8a7768ec8288f39",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12549,6 +12645,7 @@
     "172924ede1f192cd0f8d42839a1c7d95d2854393": "6ecda83d9ad9ad40abd0bb3cda7d7a45a3d226161f2589ea3901de5d9942670d",
     "199683f8c221fcac718991dd91ad96b6a50ab144": "1384f08a99bcf88bec7fc6c4d0912c17f8c2759d827b4da8bd16a8ef4dcf0277",
     "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
+    "1c58e3a92b867fdd37dee6c8255a0d90f6a600e6": "cdbfdfd8e2233b0216997e9264a8f11a6aedcd1b8857dab8d894063da2cf203f",
     "1c813e3b05c271f043b1360247864ebd216102ae": "2f6011fbd47ec1f060134c61480d867375ee1ac700a878695898688d7e8a6da4",
     "1c8427ecab93f02ea709faa09c00666dd27ae7ce": "0f5a2ba74f466b22ff9443df61dade1132da5eee159ca640b0248bedd0d28747",
     "1cfe00b16c17ebeaa4b4cc8bddbede6ecc64222d": "c063bf2420c22c540e94e5c302c00a2919dc39e99d946596432b868b6aee4a1a",
@@ -12777,6 +12874,7 @@
     "a7378b827b74e34a6a1129f4c172303242ec73ed": "80779eb5cc8b9f49377f958bc6c0f91ff6b36ce02cee0826b88dd8453e81f5ed",
     "a787647678eb3d8369bbdc9930a18b90427ed122": "e03a2197381091f7bdce48b24f3c7a2ca9412bd14ce82a9fc98422d0d9632efa",
     "a803681008485f85e9e31c01cf40c6c48f0a26ce": "0ec6d1cbb83a27b8e2763b97516f1355949be5d509a0c9bee223c53b7350388b",
+    "a88ced28d85ff9a2483efc2db8954d6f75509a8b": "e817068c1e10f8f8ea90b8bc875d51b0548fc1b30009d23e9b1b52cbc6224e08",
     "a9521a82e965865cac74777b747dd26260532173": "72618840bd6fbc1767ffd922f49bdb9b160f0e6e2761d04632161772ea06d958",
     "a9abc696ca8d6acc7974dc54076dea5e39d8de48": "7212074526920e097d7ab11da2caf762bf779776361169bf8055a5b68ab0ad58",
     "aa0822c58b548c0b61e33874bada12ce4e2403bf": "22a082b0df42a8d81fc91c274739ac80eb26eb8a9e674082fbfc823fe36222d8",
@@ -12821,6 +12919,7 @@
     "bd20be5bdb1d5822b68b314067d912eb8ad7f43c": "1bc8a9afbdbc99720da37bd4644b607d0e565d8c935874ddf4273c8f495a11bf",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
+    "be4e79f2e9a6cdc4495dc0874e60b6261ddbce39": "99d5023ac74faa40c0b6db4a319ac656aba753b26a7fed36c4059d82fe6260e3",
     "be68110615269481f97b2867e3d12ab3eb1442a6": "cc9a9fbd12e64882bc64eef8112fda41f043f62e08efee939da5bbbd6a8c5ca4",
     "bf049266356987b6abbf62533a5d3b0f9c549b8b": "fa78850cb6adc7fc2995d5852303a29ef7777fc8c2f51c4a018695fa7861920f",
     "bf65601803dc933fe0001235237c423ac9bf2636": "d44cd46ba22350d76fbd52f5747bf444ca5db3b8b08ab68062d5653f14564761",
@@ -13233,6 +13332,10 @@
     },
     {
       "observed_at_commit": "9cc41a0c7ca53a233113fd45b86dc330907094fa",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "a88ced28d85ff9a2483efc2db8954d6f75509a8b",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -13704,7 +13807,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "42d1c1893bc3325c029ff36dedbe399b04b69bbe",
+  "source_commit": "a88ced28d85ff9a2483efc2db8954d6f75509a8b",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
