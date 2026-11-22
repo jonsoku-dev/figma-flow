@@ -25,7 +25,9 @@ jobs:
           if node -e "process.exit(Number(require('./plugin.json').version.split('.')[0]) > 0 ? 0 : 1)"; then
             npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
             python -m pip install -r requirements-optional.txt -r library/figma-rest/requirements.txt
-            brew install mysql@8.4 pkgconf
+            brew install mysql@8.4 pkgconf fribidi
+            font_shaping_lib="$(brew --prefix fribidi)/lib"
+            echo "FIGMA_FLOW_FONT_SHAPING_LIB=$font_shaping_lib" >> "$GITHUB_ENV"
             mysql_prefix="$(brew --prefix mysql@8.4)"
             PKG_CONFIG_PATH="$mysql_prefix/lib/pkgconfig" python -m pip install --require-hashes --only-binary=:all: --no-binary=mysqlclient -r apps/little-hands/requirements.lock
             npm install --prefix "$RUNNER_TEMP/figma-api-tools" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@5.9.3
@@ -73,6 +75,8 @@ jobs:
       - name: Check packaged app quality and relay transport
         if: env.FIGMA_FLOW_ARCHIVE_VALIDATION == '1'
         run: |
+          export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
+          python -B -c "from PIL import features; assert features.check_feature('raqm') and features.version_feature('fribidi'), 'RAQM and FriBiDi are required for the packaged font measurements'"
           python -B apps/little-hands/design/prepare_fonts.py
           quality="$RUNNER_TEMP/figma-flow-app-quality.json"
           trap 'rm -f "$quality"' EXIT
@@ -87,6 +91,9 @@ jobs:
           PREVIOUS_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
         shell: bash
         run: |
+          if [[ -n "$FIGMA_FLOW_FONT_SHAPING_LIB" ]]; then
+            export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
+          fi
           base_args=()
           if [[ -n "$PREVIOUS_REF" && ! "$PREVIOUS_REF" =~ ^0+$ ]]; then
             base_args=(--base-ref "$PREVIOUS_REF")

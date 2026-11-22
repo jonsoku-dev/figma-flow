@@ -80,13 +80,22 @@ jobs:
         run: |
           node examples/regression-program/design-system/build.mjs
           git diff --exit-code -- examples/regression-program/design-system/runtime.js
+      - name: Prepare native text shaping for measured font fixtures
+        run: |
+          brew install {{delivery.nativeFontShapingFormula}}
+          echo "FIGMA_FLOW_FONT_SHAPING_LIB=$(brew --prefix {{delivery.nativeFontShapingFormula}})/lib" >> "$GITHUB_ENV"
       - name: Verify the production app design adapter
         run: |
+          export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
+          python -B -c "from PIL import features; assert features.check_feature('raqm') and features.version_feature('fribidi'), 'RAQM and FriBiDi are required for the packaged font measurements'"
           python -B apps/little-hands/design/prepare_fonts.py
           python -B -m unittest discover -s apps/little-hands/design -p 'test_*.py'
       - name: Check graph decoding ownership
         run: python -B tools/maintenance.py check
-      - run: python -B -m unittest discover -v -s tests
-      - run: python -B -m unittest discover -s tests -p 'finalize_*.py'
-      - run: node --test tests/*.cjs
-      - run: python -B -m unittest discover -s examples/native-direction-review -p test_demo.py
+      - name: Run full product suites with native text shaping
+        run: |
+          export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
+          python -B -m unittest discover -v -s tests
+          python -B -m unittest discover -s tests -p 'finalize_*.py'
+          node --test tests/*.cjs
+          python -B -m unittest discover -s examples/native-direction-review -p test_demo.py
