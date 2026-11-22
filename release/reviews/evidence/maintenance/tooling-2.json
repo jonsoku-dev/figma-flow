@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "1831c0ae08b1c35d43ad664416f7645b3a518ad0f1666694d9ac373e651734a3",
+  "checks": [
+    {
+      "test": "tests/test_maintenance_contract.py",
+      "case": "MaintenanceContractTests.test_record_retains_failed_step_and_refuses_output_reuse",
+      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "covers": [
+        "tools/maintenance-contract.json",
+        "tools/maintenance.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles",
+      "assertion": "Each maintenance profile records action results and retains the failed step without rewriting existing evidence.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

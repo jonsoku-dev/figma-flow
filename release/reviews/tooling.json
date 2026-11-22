@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "tooling",
-  "fingerprint": "91c5520cac00ef6c72ebd940f4d1739fddb61837491962b1d356c83b687ae150",
+  "fingerprint": "1831c0ae08b1c35d43ad664416f7645b3a518ad0f1666694d9ac373e651734a3",
   "openFindings": [],
   "bindings": [
     {
@@ -15,7 +15,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/1.json",
-          "sha256": "56a2fc7753df77706501803c29513079af52b46357f0ca08eb984562db9bcd38"
+          "sha256": "ea80ec6f523a4d8c598bdf0cb069b897d110f463ef469377199e8bbf869595bf"
         }
       ]
     },
@@ -29,7 +29,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/2.json",
-          "sha256": "c3c14ac35421c9bc90f15dbdab9cd76b5da1c914c71be0b26976e7b7644e4369"
+          "sha256": "45c36e457a38e081d237b62236d5b6f531535344378734ca56973c850853919f"
         }
       ]
     },
@@ -42,7 +42,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/3.json",
-          "sha256": "2aa30074120a069ad3045bdebf1383ff3fcba7c1bc179bac54c58fe628002215"
+          "sha256": "2991fd29cb43bca12e3241d6d823c201091234ec51155a3dc534bef35e1948bf"
         }
       ]
     },
@@ -57,7 +57,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/4.json",
-          "sha256": "3fb78390527b69bf9916cd7f88f10b8308ea3da706a73d1229fb65f2b83ce070"
+          "sha256": "1f66cf0140a2741eb8ce90e1fe34c15bdd804ea385ccc9fe21aa900dc2351d6a"
         }
       ]
     },
@@ -75,7 +75,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/5.json",
-          "sha256": "d94ba0f32ebce8e6ff98af9b77c2bccbbae585f1ea098f9a16025cc12508a803"
+          "sha256": "15b7d81a5923105083a5614a9f9b7ead38d8559de75518b99ca6642eb71d5968"
         }
       ]
     },
@@ -90,7 +90,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/6.json",
-          "sha256": "b25fc98c50c4e6c93aabf7f6149c592485d5fe249f6190921bb7dde48ad2090d"
+          "sha256": "ce105fe3885d0e5ea614070995320a346a35b2a23a94400d2eddae50d5de2e26"
         }
       ]
     },
@@ -105,7 +105,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/7.json",
-          "sha256": "60a91911040bd51816625ace43748201471031e8842b83fed43df068c09c11c8"
+          "sha256": "8bb89e1d2066607ff868062f9b43d9e12e75b4ebf5df68cfc1b31573f114e24c"
         }
       ]
     },
@@ -124,7 +124,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/8.json",
-          "sha256": "d9e7fa65cf289fb232159899c55b4719c07c4e880b518676d2b9c9576e65ac77"
+          "sha256": "3caec256def222b89752d003e4ac31a1da360206bb90532b55257eceb74b008b"
         }
       ]
     },
@@ -138,7 +138,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/9.json",
-          "sha256": "cac83ee742574a14f5a8ec9c9e746b59cc77f0ac3bbe07ab1e5781d0da513635"
+          "sha256": "aa35a6600cf538fd7eac7046c7a1193ae63f5a18515961f6aa2888853c101fbb"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/10.json",
-          "sha256": "72cec506ef1286f285305ee559ee3ae5aa1c7b2787128fd0552cbb85971df2b5"
+          "sha256": "6ed4ee97df0b576a56e8791aaf641f6439c767757db01973491a7e44dfdaf11e"
         }
       ]
     },
@@ -175,7 +175,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/11.json",
-          "sha256": "44b6b01b3801470a837a8723c7b985ca6b414ef0ce8cc3c04d20753ef8b70882"
+          "sha256": "94d4410355862a44cfd742567b53cc726b5c81be91d5b7e503f5e1ea0240c4f5"
         }
       ]
     },
@@ -191,7 +191,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/12.json",
-          "sha256": "4e0bcf40f44217c1bce5e91ee6d407dc8a0237fb40f50f8349ddf0b709ff6675"
+          "sha256": "96b6129c48fb5942db540a608724e385bb2ec61f788a4e682e5bf45ac31ed0c0"
         }
       ]
     },
@@ -219,7 +219,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/13.json",
-          "sha256": "119ba135811520640e6bde6d900f8c247d8c80ebb0222aab30a1cd00054bce20"
+          "sha256": "1b5c16587ba2096b9a90f07ed52b51668fd55fea6a7ce4b1e6810b090f79c7dd"
         }
       ]
     },
@@ -248,7 +248,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/14.json",
-          "sha256": "f6f93a2709dee797770c487f58a439e35777ffa98b25e2836efdb77c714d189a"
+          "sha256": "0545852c803573b84af04b9aa064a5b19443ff12a14b99b464a3ea57f7cb4879"
         }
       ]
     },
@@ -263,7 +263,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/15.json",
-          "sha256": "57f6af64106ae4ba0ed8807bd09a3972186fdac786a92ea97a28dfab967d44fc"
+          "sha256": "052a0e96342ce1bc8a6dc5cde791d8970546b71ed3b276e1e3da737577a17657"
         }
       ]
     },
@@ -278,7 +278,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/16.json",
-          "sha256": "b3b8ef3d29cf365e4652790dcda550832ea30e17ba4fbd49e37524d4e935fe1a"
+          "sha256": "41f0299ed2b55d3e0657ff8793365a652b6460599d5a2fc45c1e809c2f3c5bba"
         }
       ]
     },
@@ -296,7 +296,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/17.json",
-          "sha256": "f1718f2b1cde4297c929dba6edf2ac978795f8820ce1da5b84bd5c1c3bd4ce82"
+          "sha256": "943071957c2e0b390574c6af1a82d1eec13d72555b8eb3832c117b96f42eaa2c"
         }
       ]
     },
@@ -310,7 +310,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/18.json",
-          "sha256": "d64f412fd9582627d0ca181efab87712dbf8ebd7e5672ff6f47fe65177c1113a"
+          "sha256": "7723cf33e032191b0abad5b7ab99575270042dbd3879826a0d5be13be93b1fc7"
         }
       ]
     },
@@ -323,7 +323,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/19.json",
-          "sha256": "cba1c9957525e391cbcae2402899e687a2c58fb9fb7b3bf30806b2ced574aec3"
+          "sha256": "3ea1ea74f493b128ea08397827d2433df1571c0511c8b50686a39cbc4835a6cd"
         }
       ]
     },
@@ -339,7 +339,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/20.json",
-          "sha256": "0a6b8a3c5798f329a83b17e846ef9d14a7e613d49f69dd7d4bf66fc9da0ce4d4"
+          "sha256": "663e3692783d709e8a47211f61fdf39f76a8a67d95e2a8aeffa8f0ec14f2ed75"
         }
       ]
     },
@@ -352,7 +352,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/21.json",
-          "sha256": "dd7cebad01139d5e623ed10e1168acdbd8293aefb38ff5f5a5719eff0f9d3d7a"
+          "sha256": "41d543ba134c327fa666994ac53d06498ea741edc3a6f4c228620fd70bbdee92"
         }
       ]
     },
@@ -365,7 +365,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/22.json",
-          "sha256": "f90fde674ab24a6273eb045ef4486988911438738cf109107d8d5113abbc193f"
+          "sha256": "e5ed2685f948099a71000e7cef478ece5e583b3ccefcc55bfe0c5d957e8dfbdf"
         }
       ]
     },
@@ -380,7 +380,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/23.json",
-          "sha256": "ae823b987d72fe24ea9fd10f811ba4aa3fce33d2259a450e71b70abac2819c01"
+          "sha256": "2714a153962948e5851c6776b6ec41d442b8b4311cffa5ab4aa6597f54a4864c"
         }
       ]
     },
@@ -395,7 +395,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/24.json",
-          "sha256": "8914918e6abae1fca0d712636ecc185fd008fb171f8e4c3efa690554ba03f0be"
+          "sha256": "b3aa282694b3d45c688c364dcea21c116d6dbde0e5d2a490ec67732d7a366980"
         }
       ]
     },
@@ -408,7 +408,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/25.json",
-          "sha256": "2dd5fd245141c2f760d98d48a1a0ed7cb9d1a5243b27ca7874a908c14ad4c1ee"
+          "sha256": "a09efb4232b7fd9fec52d9565bd46c32dc85857869151a69bc950121a0ad8755"
         }
       ]
     },
@@ -422,7 +422,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/26.json",
-          "sha256": "e49adfce3523731dc29e6fb683bd04c28f83c3174b50572d78b021e95b730c45"
+          "sha256": "82adda1f8fe5c5dde9e152f8cc6341ac4ee425c5d7d38139633e97c08642d4fc"
         }
       ]
     },
@@ -435,7 +435,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/27.json",
-          "sha256": "e75daeab03f357544f025659f1755f33709a60347e835d17cb1659bfcef4894d"
+          "sha256": "b3cddf038d418f8f36c6faff1b1c3ac78eb9ae7a122ef2d1b485005177d8aa03"
         }
       ]
     },
@@ -450,7 +450,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/28.json",
-          "sha256": "9caf227524a96fb6c8595e540ba168623f93d3a10c2bc49bee10802c7858c805"
+          "sha256": "20a58c52feea9a8392965489610fec069bdbd1e2ed277f1a5c9d8575918b068a"
         }
       ]
     },
@@ -465,7 +465,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/29.json",
-          "sha256": "8215543a95bfd00791cb7c0c0b03165b68741b0392cbce4dcce94ef533597057"
+          "sha256": "f2af4522144a3cdb2c82f1df06dd8412e7e1715350b2f8751ea78110e031eca6"
         }
       ]
     },
@@ -479,7 +479,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/30.json",
-          "sha256": "ffc1580a8c59e20ce9562de56cc51b753290720da798f691d3fa8504b0140915"
+          "sha256": "d2e11f3535201e05ebe9e8868635cdd383807fc10c07d283a649c53de05986d3"
         }
       ]
     },
@@ -495,7 +495,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/31.json",
-          "sha256": "22077a162f7e4ecce2bf7c0c56ea22baf081e101bcd7238cc02c0b9bbf29329c"
+          "sha256": "d2619fe6d1d879f1c04a89c93969e65569bebb336fb88983db7a26d7a51cb764"
         }
       ]
     },
@@ -508,7 +508,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/32.json",
-          "sha256": "47676970934114e79738174a7ed6875bd27ea46b4e5e5f9249a998bfd1027671"
+          "sha256": "565fe05d3c2719f36b56cf4be8f2833cfbe480cf5cf1aaaea0bea1033b8d2ccd"
         }
       ]
     },
@@ -525,7 +525,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/33.json",
-          "sha256": "92ee8f12cbe0a0be1ae7786271075f5ba0fc33571b61efb761ead4a952ea412f"
+          "sha256": "c27d17c56c0e18e9f86f81eb664194eecc23b6879189396347e0606c4adcf9f7"
         }
       ]
     },
@@ -538,7 +538,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/34.json",
-          "sha256": "b331fab09fcb95b4f88f5050cc058f747c6f8eb4a831404dbc689fbb05e867e4"
+          "sha256": "e99e22d31395dda86ebe672097165cb7b872ecb42697698a50e7a708808fbd79"
         }
       ]
     },
@@ -552,7 +552,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/35.json",
-          "sha256": "ff9f7f3b8806d611a2f63c5f51b8458fc827dc2e71a70daf3c71c84cac6f767d"
+          "sha256": "1fa9a9eaf05cc9406db94e710623e2a746c3e802ab229807d0e3da9d9ab6f3f9"
         }
       ]
     },
@@ -565,7 +565,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/36.json",
-          "sha256": "4de36778623cbae20b8fcd9e701b25f10e7eb961a16af1cd98ec589b0ac8a238"
+          "sha256": "09659c090b35113bca3717929bb5401fe807fa63e5ac40f35f632e6eb83a8243"
         }
       ]
     },
@@ -582,7 +582,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/37.json",
-          "sha256": "b90b03eda58c17e61744c29f07ee6b2b6bf7fe1051ad543faee52a31bc970ffe"
+          "sha256": "db4bb7995979c63f8a6030eb1933e8851dced0f765f7545ef78365d1900bf612"
         }
       ]
     },
@@ -598,7 +598,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/38.json",
-          "sha256": "6a99ab62734d4566e200ad7e7fef14ff6f8416aa3a15ce26d1db296d62840fde"
+          "sha256": "d5c79c2d710ab4c2ea2a61fddb0c8dab591f859dca2e8c16c38131472e51ec22"
         }
       ]
     },
@@ -613,7 +613,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/39.json",
-          "sha256": "5acde47c64bbb5c35406ef054d419cd3619e7242130a579057e47b4bc3291f08"
+          "sha256": "8954d499647d075c05ce00641eef1e7556d7b696142e516175de3f064d8d66d8"
         }
       ]
     },
@@ -626,7 +626,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/40.json",
-          "sha256": "d8b3126a8259079193baf078daab8dca2d066b021a4a28e04c4367ae79e8b2a1"
+          "sha256": "c1e9422910ebbf43e6a63305746e67d27715cbbb3356153da21d761c0f902481"
         }
       ]
     },
@@ -641,7 +641,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/41.json",
-          "sha256": "5cdd3b60663ba961f94f7cd3ca6ada805d0362adbbc4c7df11c4f9c80024b4ae"
+          "sha256": "ca0a706a3a21a06cafeda8ee902ab295af224fb1be55f8e614bed7e5732534da"
         }
       ]
     },
@@ -657,7 +657,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/42.json",
-          "sha256": "9cbefc201de63828f7bc0b0e7c947b252139130c39a687b403131837bb8182b2"
+          "sha256": "085b03c9f5a761f87aa891192e9dfb9d3a52a0bb2ae7e0ec71d4bfd720607d7e"
         }
       ]
     },
@@ -671,7 +671,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/43.json",
-          "sha256": "fe456272e68780d3fd39a13d042ad4f19f9312d77a669fdef6886ff91541296e"
+          "sha256": "dd051197935abf2e6c9048c6179cc3dff0bdc0fd35a26c5c38f312a390217a40"
         }
       ]
     },
@@ -684,7 +684,41 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/tooling/44.json",
-          "sha256": "60c3291c89ee1aaf387464168a3c8688d12e68be936baeb3d15e9644490a6ba7"
+          "sha256": "49d24b40fa26dbb9d9fe3191f5b5df0c6e97bab15974f4e2aebcb5f3132569ee"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/graph_document.py",
+        "tools/maintenance-contract.json",
+        "tools/maintenance.py",
+        "tools/graph_design_system.py",
+        "tools/review_graph.py",
+        "tools/design_graph.py",
+        "tools/major_release.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/graphDecoding",
+      "reason": "One portable decoder rejects ambiguous fields across reviewed graph input paths. The architecture check detects aliases and the graph contract rejects generated invalid cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/maintenance/tooling-1.json",
+          "sha256": "332bac7eabb091569112ef74ab0f091d4c365fa070537b3bce756c16a9f8c3d6"
+        }
+      ]
+    },
+    {
+      "files": [
+        "tools/maintenance-contract.json",
+        "tools/maintenance.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles",
+      "reason": "Each maintenance profile records action results and retains the failed step without rewriting existing evidence.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/maintenance/tooling-2.json",
+          "sha256": "ba52f14cc9556d16fd856a2b467aa05a09dea7613cca5055f9672ae4671a8b14"
         }
       ]
     }

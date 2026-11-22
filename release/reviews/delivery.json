@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "delivery",
-  "fingerprint": "941c48c70268e1d6a9eee81ff18233063ad0d4f4de7fe7110f5624db0405e268",
+  "fingerprint": "b30d589242ad0037f63e6d8454729e5d61cec09284cc23d4aea68576293520b9",
   "openFindings": [],
   "bindings": [
     {
@@ -14,7 +14,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/1.json",
-          "sha256": "ed1976351b459fb78bc86e1d11c79766db9343ccaf3b4c95f6045764f38e48f3"
+          "sha256": "e3ef58db5e1ba33eb26523e223b54fd3eaa7731fa6631f2066bec22f4fee582c"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/2.json",
-          "sha256": "a1ef6638c77ca36eb5bdb9c66670b5a94030fe81efe6384b225e851fa40ddd0d"
+          "sha256": "88c8f1f5fb429fb792cab346b9e4caeca5143aee69aa14be925d0b4a022f892c"
         }
       ]
     },
@@ -41,7 +41,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/3.json",
-          "sha256": "9c94b6db489be25b34af17db1dd0a43e38d2a6312b37a0d5fed2e5dd3ecceff3"
+          "sha256": "23bcfb0929e1dd750caa7bf22e429a37d942e82b67b3b7549c3bbab5d39d0316"
         }
       ]
     },
@@ -55,7 +55,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/4.json",
-          "sha256": "4768d160c986b90c1f4bad617dae978e9d6d80602424a3c54accee1d8dbfc531"
+          "sha256": "a3f753a0bf99c74704d5c11101c8e209fde49cc49555448a9eec3d158bee6ade"
         }
       ]
     },
@@ -69,7 +69,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/5.json",
-          "sha256": "3f4825b932f6538a78640750f7d7e81f830e7c9577abfc061b7f1ea0de9ede72"
+          "sha256": "c76c56c593acb839a597b5ff8d4acce72db35c71b020c579818bd7b4e1813442"
         }
       ]
     },
@@ -83,7 +83,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/6.json",
-          "sha256": "922b8e527167896016f53df4bbba130e70d335db91b0ceb8b95ccf00db1e1e0c"
+          "sha256": "541ed0fd8be4bc3dc36751fbe584d87e74713a4697336c4b86d0fdaf04b8cf62"
         }
       ]
     },
@@ -97,7 +97,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/7.json",
-          "sha256": "2c17983692d3847169510336caebb37543ea29f05cf9a7d526b01a9715ee5035"
+          "sha256": "7f0c6548258e7b7915d83b8ccf3dbe82d718309e9a56583e23f3af338f21945e"
         }
       ]
     },
@@ -112,7 +112,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/8.json",
-          "sha256": "a8bb173f977efad0ddc0e5149587eb82ee0fec6d7a9048477ea29acdff4c5146"
+          "sha256": "1c846d72a88330ea13746a5a7921dbc9cb7d9b5cb08024ab50677264959550e5"
         }
       ]
     },
@@ -127,7 +127,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/9.json",
-          "sha256": "dd4471018b5eea03cb4f8b5496a914b1c46698de193e84b2f96bcefb9dfe3f04"
+          "sha256": "048cdc2a97a095a833b250e56be515c9d4fbc99b6900a16ab0054bb8e53fdded"
         }
       ]
     },
@@ -142,7 +142,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/10.json",
-          "sha256": "8d0b893c50dd1fc3d284c8dc0b1b1494fe553ae8184430bcdd31b0aabd2083bc"
+          "sha256": "eadf4e9d7cb314ec8b9e9450756eb00f73b10f46098f18474303a54dce1ece1d"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/11.json",
-          "sha256": "e8b420da736fa8339e30f80ff6a41bdd2b0daf3ebd8a16bd5adccd7d56f85ce1"
+          "sha256": "479bf9d592edb74c3abf95eb6d6d604eeee741000f0558d801c3940808faacb5"
         }
       ]
     },
@@ -171,7 +171,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/12.json",
-          "sha256": "8480a1e57231470736d4966ca2e0b41b91410f22913fce0700ec2babd90cfc28"
+          "sha256": "cfaec991791572af4edf49f01b3ffb7d5deb095df25ce9397d16de45f9c4676a"
         }
       ]
     },
@@ -186,7 +186,24 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/13.json",
-          "sha256": "9aa87a85e89c660d7cc304c3f425808d763beda95a86b94b37b8c58e9b811938"
+          "sha256": "742d412ebb9600eb2afaa4fa58170d26c4eb87574fd463bfbf6c8b55d977a16c"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/pull_request_template.md",
+        ".github/workflows/reference-guard.yml",
+        ".github/workflows/test.yml",
+        "library/delivery/reference-guard.yml.in",
+        "library/delivery/test.yml.in"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles/release",
+      "reason": "The generated workflows invoke the architecture checks and the repeatable release capability, and the PR points to the evidence contract.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/maintenance/delivery-1.json",
+          "sha256": "525c052bc6bac62fc1268e89c929e5d1808622fda573385108bc6af4b4cd3d3f"
         }
       ]
     }

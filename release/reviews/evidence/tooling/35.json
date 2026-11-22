@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "91c5520cac00ef6c72ebd940f4d1739fddb61837491962b1d356c83b687ae150",
+  "surfaceFingerprint": "1831c0ae08b1c35d43ad664416f7645b3a518ad0f1666694d9ac373e651734a3",
   "status": "passed",
   "checks": [
     {
@@ -34,7 +34,7 @@
       ],
       "test": "tests/test_graph_vocabulary_owner.py",
       "case": "GraphVocabularyTests.test_feature_audit_uses_the_portable_local_endpoint_owner",
-      "testSha256": "b77840d64f5b7a3178b3b7f6044e2622d1f144d0d4eea979bafb2784ad587157",
+      "testSha256": "0029b70b3cbfad5a28938620716771c52aefd7adb92bf8990408915f36765760",
       "assertion": "All current feature roots and transitive check sources are mandatory. A borrowed observation or a file-level TAP pass is not valid evidence for the selected behavior.",
       "observed": "Crossed screen/frame receipts, missing evidence and an unregistered or skipped Node case were rejected; actual named behavior and declared graph relationships remained valid."
     },

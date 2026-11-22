@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "4fd5f3724e9492e22e9bd751fc66b990ab43a218211da2257a537a274e8c24ac",
+  "checks": [
+    {
+      "test": "tests/test_maintenance_contract.py",
+      "case": "MaintenanceContractTests.test_ci_and_maintainer_handoff_use_the_declared_evidence_profiles",
+      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "covers": [
+        "skills/patch-knowledge/SKILL.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "authority": "docs/maintenance-verification.md#/sections/새 교정의 절차",
+      "assertion": "The bundled skills link to executable maintenance evidence while the portable tool rejects ambiguous graph inputs.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_graph_input_boundary.py",
+      "case": "GraphInputBoundaryTests.test_ambiguous_fields_and_nonfinite_numbers_are_refused",
+      "testSha256": "0b1602d08f9541b51a0ccbfedba787bbf45d90a612a84183d24bc5757ed46def",
+      "covers": [
+        "skills/patch-knowledge/SKILL.md",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "authority": "docs/maintenance-verification.md#/sections/새 교정의 절차",
+      "assertion": "The bundled skills link to executable maintenance evidence while the portable tool rejects ambiguous graph inputs.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

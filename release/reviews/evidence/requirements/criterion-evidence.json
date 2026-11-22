@@ -1,5 +1,5 @@
 {
-  "surfaceFingerprint": "b6a1d3a3475ab09d284093e81fe6da3be7a8920423eb77345147302d20e487f4",
+  "surfaceFingerprint": "ec75904036529092ffc2d43fabcdbd061d0857934e3f946e6bd6b3cead540960",
   "status": "passed",
   "checks": [
     {
@@ -17,7 +17,7 @@
     {
       "test": "tests/test_graph_vocabulary_owner.py",
       "case": "GraphVocabularyTests.test_feature_audit_uses_the_portable_local_endpoint_owner",
-      "testSha256": "b77840d64f5b7a3178b3b7f6044e2622d1f144d0d4eea979bafb2784ad587157",
+      "testSha256": "0029b70b3cbfad5a28938620716771c52aefd7adb92bf8990408915f36765760",
       "authority": "specs/codex-relay/graph.json#/edges",
       "covers": [
         "specs/codex-relay/graph.json",

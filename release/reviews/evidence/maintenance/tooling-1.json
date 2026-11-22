@@ -1,0 +1,60 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "1831c0ae08b1c35d43ad664416f7645b3a518ad0f1666694d9ac373e651734a3",
+  "checks": [
+    {
+      "test": "tests/test_graph_input_boundary.py",
+      "case": "GraphInputBoundaryTests.test_ambiguous_fields_and_nonfinite_numbers_are_refused",
+      "testSha256": "0b1602d08f9541b51a0ccbfedba787bbf45d90a612a84183d24bc5757ed46def",
+      "covers": [
+        "tools/graph_document.py",
+        "tools/maintenance-contract.json",
+        "tools/maintenance.py",
+        "tools/graph_design_system.py",
+        "tools/review_graph.py",
+        "tools/design_graph.py",
+        "tools/major_release.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/graphDecoding",
+      "assertion": "One portable decoder rejects ambiguous fields across reviewed graph input paths. The architecture check detects aliases and the graph contract rejects generated invalid cases.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_maintenance_contract.py",
+      "case": "MaintenanceContractTests.test_rejects_raw_json_decoders_under_direct_and_module_aliases",
+      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "covers": [
+        "tools/graph_document.py",
+        "tools/maintenance-contract.json",
+        "tools/maintenance.py",
+        "tools/graph_design_system.py",
+        "tools/review_graph.py",
+        "tools/design_graph.py",
+        "tools/major_release.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/graphDecoding",
+      "assertion": "One portable decoder rejects ambiguous fields across reviewed graph input paths. The architecture check detects aliases and the graph contract rejects generated invalid cases.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_graph_properties.py",
+      "case": "GraphPropertiesTests.test_bounded_graph_inputs_preserve_identity_and_reject_corruption",
+      "testSha256": "dc62235d7a08bc0a52f4cbbc7336b1a510d186a66d5fa6174c73d6a7be6192ed",
+      "covers": [
+        "tools/graph_document.py",
+        "tools/maintenance-contract.json",
+        "tools/maintenance.py",
+        "tools/graph_design_system.py",
+        "tools/review_graph.py",
+        "tools/design_graph.py",
+        "tools/major_release.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/graphDecoding",
+      "assertion": "One portable decoder rejects ambiguous fields across reviewed graph input paths. The architecture check detects aliases and the graph contract rejects generated invalid cases.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}
