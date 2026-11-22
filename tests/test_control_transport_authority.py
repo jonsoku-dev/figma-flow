@@ -10,10 +10,32 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 DRIVER = r"""
-const fs=require('node:fs'), vm=require('node:vm'), assert=require('node:assert/strict');
+const fs=require('node:fs'), http=require('node:http'), vm=require('node:vm'), assert=require('node:assert/strict');
 const d=JSON.parse(fs.readFileSync(0,'utf8')), routes=[];
+function postLoopback(url, options) {
+  const endpoint = new URL(url);
+  assert.equal(endpoint.hostname, 'localhost');
+  routes.push(endpoint.pathname);
+  return new Promise((resolve, reject) => {
+    const request = http.request({
+      hostname: '127.0.0.1', port: endpoint.port, method: options.method,
+      path: endpoint.pathname, agent: false,
+      headers: {...options.headers, Host: endpoint.host, 'Content-Length': Buffer.byteLength(options.body)},
+    }, response => {
+      const chunks = [];
+      response.on('data', chunk => chunks.push(chunk));
+      response.on('error', reject);
+      response.on('end', () => resolve(new Response(Buffer.concat(chunks), {
+        status: response.statusCode, headers: response.headers,
+      })));
+    });
+    request.on('error', reject);
+    request.setTimeout(5000, () => request.destroy(new Error('Fixture loopback connection timed out')));
+    request.end(options.body);
+  });
+}
 const ctx=vm.createContext({WORKSPACE_PROFILE_POLICY:d.policy,WORKSPACE_CONTROL_CONFIG:d.config,setTimeout,clearTimeout,
-  fetch:async (url,options)=>{routes.push(new URL(url).pathname);return fetch(url,options)}});
+  fetch:postLoopback});
 vm.runInContext(fs.readFileSync('figma-bridge/workspace_transport.js','utf8'),ctx);
 (async()=>{
   const body={...d.claim,status:'ok',readback_json:d.raw};
@@ -43,7 +65,7 @@ try:
         raise AssertionError('Ordinary server path admitted an oversized receipt')
     cfg=control.config(f.root)
     packet=dict(policy=control.PROFILE_POLICY,config=dict(url='http://localhost:'+str(server.server_port),token=cfg['token']),claim=payload,raw=raw)
-    subprocess.run(['node','--dns-result-order=ipv4first','-e',sys.argv[1]],input=json.dumps(packet),text=True,check=True,timeout=15)
+    subprocess.run(['node','-e',sys.argv[1]],input=json.dumps(packet),text=True,check=True,timeout=15)
     receipt=control.status(f.root)
     assert receipt['state']=='ok'
     assert Path(receipt['readback']).read_bytes()==raw.encode()

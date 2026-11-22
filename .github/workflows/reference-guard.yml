@@ -55,6 +55,7 @@ jobs:
             echo "FIGMA_FLOW_MYSQL_TEST_HOST=127.0.0.1" >> "$GITHUB_ENV"
             echo "FIGMA_FLOW_MYSQL_TEST_PORT=$mysql_port" >> "$GITHUB_ENV"
             echo "FIGMA_FLOW_MYSQL_TEST_PASSWORD=disposable-ci-only" >> "$GITHUB_ENV"
+            echo "FIGMA_FLOW_ARCHIVE_VALIDATION=1" >> "$GITHUB_ENV"
           fi
       - name: Verify manifest projection and release gate behavior
         run: |
@@ -69,6 +70,17 @@ jobs:
         run: python -B tools/reference_distribution_guard.py --ref HEAD --format text
       - name: Run the release graph mutation checks
         run: python -B tools/maintenance.py verify --profile release --out "$RUNNER_TEMP/figma-flow-graph-evidence"
+      - name: Check packaged app quality and relay transport
+        if: env.FIGMA_FLOW_ARCHIVE_VALIDATION == '1'
+        run: |
+          python -B apps/little-hands/design/prepare_fonts.py
+          quality="$RUNNER_TEMP/figma-flow-app-quality.json"
+          trap 'rm -f "$quality"' EXIT
+          if ! python -B tools/design_quality.py --layout apps/little-hands/design/native-layout.json --out "$quality" >/dev/null; then
+            python -c 'import json,sys; report=json.load(open(sys.argv[1])); print(report["summary"]); print(report["errors"][:6])' "$quality"
+            exit 1
+          fi
+          python -B -m unittest -v tests.test_control_transport_authority
       - name: Check version and SSOT before packaging this Git tree
         env:
           RELEASE_REF: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
