@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "covers": [
+        "docs/editable-web-verification.md"
+      ],
+      "assertion": "The 0.30.0 candidate report is explicitly historical, ties its captured screen graph and API batch counts to stored evidence, and states that native receipts/raw readbacks are kept in the ignored workspace. Test assertion: GuideSourceContractTests.test_historical_design_reports_match_their_sanitized_observation_graph_counts",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_historical_design_reports_match_their_sanitized_observation_graph_counts"
+    },
+    {
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "covers": [
+        "docs/editable-web-verification.md"
+      ],
+      "assertion": "The 0.30.0 candidate report is explicitly historical, ties its captured screen graph and API batch counts to stored evidence, and states that native receipts/raw readbacks are kept in the ignored workspace. Test assertion: RequirementsSurfaceTests.test_observation_inventories_preserve_graph_identity_and_sources",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_requirements_surface.py",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "case": "RequirementsSurfaceTests.test_observation_inventories_preserve_graph_identity_and_sources"
+    },
+    {
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "covers": [
+        "docs/editable-web-verification.md"
+      ],
+      "assertion": "The 0.30.0 candidate report is explicitly historical, ties its captured screen graph and API batch counts to stored evidence, and states that native receipts/raw readbacks are kept in the ignored workspace. Test assertion: ApiPriorityTest.test_receipt_overlays_report_baseline_and_current_exact_key_union",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_api_priority.py",
+      "testSha256": "f616c7c27299ce26bf7f79176de82b641f3e3123e51875b0689904330008f1b8",
+      "case": "ApiPriorityTest.test_receipt_overlays_report_baseline_and_current_exact_key_union"
+    }
+  ]
+}

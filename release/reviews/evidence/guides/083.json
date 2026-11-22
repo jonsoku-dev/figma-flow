@@ -1,0 +1,86 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "covers": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "assertion": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status. Test assertion: GuideSourceContractTests.test_next_roadmap_docs_match_proposed_and_historical_scope_labels",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_next_roadmap_docs_match_proposed_and_historical_scope_labels"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "covers": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "assertion": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status. Test assertion: NextRoadmapBacklogTest.test_live_backlog_graph_satisfies_invariants_and_p0_contract",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_next_roadmap_backlog.py",
+      "testSha256": "e862141dde653c9c727f598a0b2a78db5435ce430866c12247fb51540b556ca3",
+      "case": "NextRoadmapBacklogTest.test_live_backlog_graph_satisfies_invariants_and_p0_contract"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "covers": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "assertion": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status. Test assertion: NextRoadmapBacklogTest.test_roadmap_markdown_links_and_portability",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_next_roadmap_backlog.py",
+      "testSha256": "e862141dde653c9c727f598a0b2a78db5435ce430866c12247fb51540b556ca3",
+      "case": "NextRoadmapBacklogTest.test_roadmap_markdown_links_and_portability"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "covers": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "assertion": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status. Test assertion: RequirementsSurfaceTests.test_interactive_web_specs_keep_observed_transitions_and_exclusions",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_requirements_surface.py",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "case": "RequirementsSurfaceTests.test_interactive_web_specs_keep_observed_transitions_and_exclusions"
+    }
+  ]
+}

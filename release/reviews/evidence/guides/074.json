@@ -1,0 +1,83 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-design-capture.md"
+      ],
+      "assertion": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning. Test assertion: GuideSourceContractTests.test_web_observation_and_capture_commands_match_public_cli_help",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_web_observation_and_capture_commands_match_public_cli_help"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-design-capture.md"
+      ],
+      "assertion": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning. Test assertion: WebDesignEntry.test_public_web_design_entry",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_entry.py",
+      "testSha256": "1e7d9aa2f18c001a3127e57daf3b13c5c4dd9395d2787b194074b247b2dd45bc",
+      "case": "WebDesignEntry.test_public_web_design_entry"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-design-capture.md"
+      ],
+      "assertion": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning. Test assertion: WebSourceTests.test_binds_only_explicit_local_bytes_and_keeps_paint_order",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_source.py",
+      "testSha256": "68b4a20c18f735416b40a25001280f74569d14efb150afa1b67f8c0a2fb48f81",
+      "case": "WebSourceTests.test_binds_only_explicit_local_bytes_and_keeps_paint_order"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-design-capture.md"
+      ],
+      "assertion": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning. Test assertion: WebDesignTrackingTests.test_nonzero_css_tracking_survives_graph_validation_and_native_plan",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_tracking.py",
+      "testSha256": "f9fc2857cc75e2f14f4b0ca7a73c63e7c2cbc21c120922aec193d0bbb2cbeb78",
+      "case": "WebDesignTrackingTests.test_nonzero_css_tracking_survives_graph_validation_and_native_plan"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-design-capture.md"
+      ],
+      "assertion": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning. Test assertion: CanvasSourceTests.test_captured_canvas_becomes_pinned_raster_and_keeps_source_measurements",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_canvas.py",
+      "testSha256": "42d4059f130c380c8992cb34c3f5e6c4f169c4df38bdd054193ff8323767b184",
+      "case": "CanvasSourceTests.test_captured_canvas_becomes_pinned_raster_and_keeps_source_measurements"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-design-capture.md"
+      ],
+      "assertion": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning. Test assertion: WebDesignTests.test_prepare_builds_graph_panel_bundle_and_bridge_syntax",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_prepare_builds_graph_panel_bundle_and_bridge_syntax"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-design-capture.md"
+      ],
+      "assertion": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning. Test assertion: WebDesignTests.test_browser_observations_join_four_captured_screens_into_canonical_graph",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_browser_observations_join_four_captured_screens_into_canonical_graph"
+    }
+  ]
+}

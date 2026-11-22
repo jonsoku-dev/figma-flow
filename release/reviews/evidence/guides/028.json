@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-api/source.json#/version",
+      "covers": [
+        "docs/figma-sdk-project.md"
+      ],
+      "assertion": "SDK scaffolding uses the pinned official API source, keeps editor mode explicit, rejects fabricated identifiers, and does not claim TypeScript is a security boundary. Test assertion: SDKProjectTest.test_no_fabricated_id_and_pinned_source",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_sdk_project.py",
+      "testSha256": "7210384b299db574ad2ea583c2a6ca1e1a10ae25018e3385b8832aa08cee295d",
+      "case": "SDKProjectTest.test_no_fabricated_id_and_pinned_source"
+    },
+    {
+      "authority": "library/figma-api/source.json#/version",
+      "covers": [
+        "docs/figma-sdk-project.md"
+      ],
+      "assertion": "SDK scaffolding uses the pinned official API source, keeps editor mode explicit, rejects fabricated identifiers, and does not claim TypeScript is a security boundary. Test assertion: SDKProjectTest.test_modes_and_id_are_explicit",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_sdk_project.py",
+      "testSha256": "7210384b299db574ad2ea583c2a6ca1e1a10ae25018e3385b8832aa08cee295d",
+      "case": "SDKProjectTest.test_modes_and_id_are_explicit"
+    },
+    {
+      "authority": "library/figma-api/source.json#/version",
+      "covers": [
+        "docs/figma-sdk-project.md"
+      ],
+      "assertion": "SDK scaffolding uses the pinned official API source, keeps editor mode explicit, rejects fabricated identifiers, and does not claim TypeScript is a security boundary. Test assertion: SDKProjectTest.test_recipe_copies_reviewable_source_and_requires_matching_editor",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_sdk_project.py",
+      "testSha256": "7210384b299db574ad2ea583c2a6ca1e1a10ae25018e3385b8832aa08cee295d",
+      "case": "SDKProjectTest.test_recipe_copies_reviewable_source_and_requires_matching_editor"
+    }
+  ]
+}

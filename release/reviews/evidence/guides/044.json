@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "covers": [
+        "docs/component-property-authoring.md"
+      ],
+      "assertion": "BOOLEAN visibility, INSTANCE_SWAP targets/defaults/preferred values, source preview behavior, and the runnable fixture are aligned with the canonical recipe payload and the actual importer/readback assertion cases. Test assertion: GuideSourceContractTests.test_component_property_authoring_example_matches_the_canonical_recipe_payload",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_component_property_authoring_example_matches_the_canonical_recipe_payload"
+    },
+    {
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "covers": [
+        "docs/component-property-authoring.md"
+      ],
+      "assertion": "BOOLEAN visibility, INSTANCE_SWAP targets/defaults/preferred values, source preview behavior, and the runnable fixture are aligned with the canonical recipe payload and the actual importer/readback assertion cases. Test assertion: DeclaredComponentPropertyTests.test_source_compile_and_bridge_preserve_declarations_and_overrides",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_declared_component_properties.py",
+      "testSha256": "c40109f94317096abef2dbdbe4ec48615d9554e17dbd0beb534825e6152cbb2f",
+      "case": "DeclaredComponentPropertyTests.test_source_compile_and_bridge_preserve_declarations_and_overrides"
+    },
+    {
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "covers": [
+        "docs/component-property-authoring.md"
+      ],
+      "assertion": "BOOLEAN visibility, INSTANCE_SWAP targets/defaults/preferred values, source preview behavior, and the runnable fixture are aligned with the canonical recipe payload and the actual importer/readback assertion cases. Test assertion: DeclaredComponentPropertyTests.test_actual_importer_component_loop",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_declared_component_properties.py",
+      "testSha256": "c40109f94317096abef2dbdbe4ec48615d9554e17dbd0beb534825e6152cbb2f",
+      "case": "DeclaredComponentPropertyTests.test_actual_importer_component_loop"
+    },
+    {
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "covers": [
+        "docs/component-property-authoring.md"
+      ],
+      "assertion": "BOOLEAN visibility, INSTANCE_SWAP targets/defaults/preferred values, source preview behavior, and the runnable fixture are aligned with the canonical recipe payload and the actual importer/readback assertion cases. Test assertion: DeclaredPropertyReadbackTests.test_complete_snapshot_checks_definitions_references_defaults_and_instances",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_declared_component_properties.py",
+      "testSha256": "c40109f94317096abef2dbdbe4ec48615d9554e17dbd0beb534825e6152cbb2f",
+      "case": "DeclaredPropertyReadbackTests.test_complete_snapshot_checks_definitions_references_defaults_and_instances"
+    }
+  ]
+}

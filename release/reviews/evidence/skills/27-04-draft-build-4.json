@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_serve_ideas.py",
+      "case": "ServerTest.test_reopen_accepted_same_draft_only_and_reject_stale",
+      "testSha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "assertion": "ServerTest.test_reopen_accepted_same_draft_only_and_reject_stale",
+      "observed": "Local reopen accepts only the same accepted draft and fails closed on stale input."
+    }
+  ]
+}

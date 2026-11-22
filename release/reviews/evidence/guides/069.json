@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-tabs-input.md"
+      ],
+      "assertion": "The tab observation schema follows the canonical observed-click spec; each distinct panel state and source-frame control is pinned and only observed click transitions compile to the signed plan. Test assertion: GuideSourceContractTests.test_web_observation_and_capture_commands_match_public_cli_help",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_web_observation_and_capture_commands_match_public_cli_help"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-tabs-input.md"
+      ],
+      "assertion": "The tab observation schema follows the canonical observed-click spec; each distinct panel state and source-frame control is pinned and only observed click transitions compile to the signed plan. Test assertion: WebDesignTests.test_observed_tab_clicks_compile_into_a_pinned_plan",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_observed_tab_clicks_compile_into_a_pinned_plan"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-tabs-input.md"
+      ],
+      "assertion": "The tab observation schema follows the canonical observed-click spec; each distinct panel state and source-frame control is pinned and only observed click transitions compile to the signed plan. Test assertion: WebDesignTests.test_tab_join_refuses_unobserved_or_ambiguous_transitions",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_tab_join_refuses_unobserved_or_ambiguous_transitions"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-tabs-input.md"
+      ],
+      "assertion": "The tab observation schema follows the canonical observed-click spec; each distinct panel state and source-frame control is pinned and only observed click transitions compile to the signed plan. Test assertion: WebDesignTests.test_checked_in_synthetic_fixture_runs_through_both_public_commands",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_checked_in_synthetic_fixture_runs_through_both_public_commands"
+    }
+  ]
+}

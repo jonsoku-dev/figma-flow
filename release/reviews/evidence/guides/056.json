@@ -1,0 +1,94 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/guide.md#/sections/7. 비교와 실제 선택 기록",
+      "covers": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "assertion": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions. Test assertion: GuideVisualEvidenceTests.test_setup_images_show_the_selected_template_and_manifest_row",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_setup_images_show_the_selected_template_and_manifest_row"
+    },
+    {
+      "authority": "docs/guide.md#/sections/7. 비교와 실제 선택 기록",
+      "covers": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "assertion": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions. Test assertion: GuideVisualEvidenceTests.test_guide_references_every_retained_documentation_image",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_guide_references_every_retained_documentation_image"
+    },
+    {
+      "authority": "docs/guide.md#/sections/7. 비교와 실제 선택 기록",
+      "covers": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "assertion": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions. Test assertion: GuideVisualEvidenceTests.test_previous_panel_images_are_labeled_as_previous_versions",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_previous_panel_images_are_labeled_as_previous_versions"
+    },
+    {
+      "authority": "docs/guide.md#/sections/7. 비교와 실제 선택 기록",
+      "covers": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "assertion": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions. Test assertion: GuideVisualEvidenceTests.test_current_panel_images_frame_candidate_cards_and_history_scroll",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_current_panel_images_frame_candidate_cards_and_history_scroll"
+    }
+  ]
+}

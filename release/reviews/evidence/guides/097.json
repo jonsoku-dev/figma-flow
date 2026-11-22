@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/development-roadmap/README.md#/sections/권장 실행 순서",
+      "covers": [
+        "docs/development-roadmap/README.md"
+      ],
+      "assertion": "The RD-01–RD-09 plan is correctly marked as a 0.26.2 proposed roadmap while its separate CURRENT_STATE and FINAL_ACCEPTANCE records define the later historical implementation/verification snapshot. Test assertion: GuideSourceContractTests.test_development_roadmap_and_starter_spec_label_their_historical_scope",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_development_roadmap_and_starter_spec_label_their_historical_scope"
+    },
+    {
+      "authority": "docs/development-roadmap/README.md#/sections/권장 실행 순서",
+      "covers": [
+        "docs/development-roadmap/README.md"
+      ],
+      "assertion": "The RD-01–RD-09 plan is correctly marked as a 0.26.2 proposed roadmap while its separate CURRENT_STATE and FINAL_ACCEPTANCE records define the later historical implementation/verification snapshot. Test assertion: GuideSourceContractTests.test_roadmap_plan_and_handoffs_keep_historical_and_user_authority_boundaries",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_roadmap_plan_and_handoffs_keep_historical_and_user_authority_boundaries"
+    },
+    {
+      "authority": "docs/development-roadmap/README.md#/sections/권장 실행 순서",
+      "covers": [
+        "docs/development-roadmap/README.md"
+      ],
+      "assertion": "The RD-01–RD-09 plan is correctly marked as a 0.26.2 proposed roadmap while its separate CURRENT_STATE and FINAL_ACCEPTANCE records define the later historical implementation/verification snapshot. Test assertion: GuideSourceContractTests.test_roadmap_ids_boundaries_and_task_test_controls_match_acceptance_matrix",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_roadmap_ids_boundaries_and_task_test_controls_match_acceptance_matrix"
+    }
+  ]
+}

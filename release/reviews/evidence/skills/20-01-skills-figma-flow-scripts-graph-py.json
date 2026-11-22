@@ -1,0 +1,95 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_graph.py",
+      "case": "GraphTests.test_strict_local_cli_is_opt_in_and_reports_declared_scope",
+      "testSha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "GraphTests.test_strict_local_cli_is_opt_in_and_reports_declared_scope",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_graph.py",
+      "case": "GraphTests.test_strict_local_accepts_complete_declared_coverage_without_figma",
+      "testSha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "GraphTests.test_strict_local_accepts_complete_declared_coverage_without_figma",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_graph.py",
+      "case": "GraphTests.test_strict_local_rejects_missing_or_mislabeled_trace_edges",
+      "testSha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "GraphTests.test_strict_local_rejects_missing_or_mislabeled_trace_edges",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_spec_graph_coverage.py",
+      "case": "SpecGraphCoverageTests.test_exercised_module_alone_does_not_establish_acceptance",
+      "testSha256": "1d290f96f1c20087c446aff224c5178d86632e243d94045da7f00753aab3cddb",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "assertion": "SpecGraphCoverageTests.test_exercised_module_alone_does_not_establish_acceptance",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph.py against the declared authority field specs/graph-roots.json#/roots."
+    }
+  ]
+}

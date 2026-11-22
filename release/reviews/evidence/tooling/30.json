@@ -1,7 +1,19 @@
 {
-  "surfaceFingerprint": "87dd50cc1c703f21ec380e94a6458238d41b7cb6387d6045ca6e3c5cfa30770a",
+  "surfaceFingerprint": "91c5520cac00ef6c72ebd940f4d1739fddb61837491962b1d356c83b687ae150",
   "status": "passed",
   "checks": [
+    {
+      "authority": "specs/startup-freshness/graph.json#/nodes/12",
+      "covers": [
+        "tools/plugin_startup.py",
+        "tools/review_destination.py"
+      ],
+      "test": "tests/test_startup_help_boundary.py",
+      "case": "StartupHelpTests.test_help_is_readable_before_the_native_runtime_is_available",
+      "testSha256": "a8185912ee75da550d85dee8c7cf56d117c14e1f5959487489caf0048e85c75a",
+      "assertion": "Installation and resumption verify the authentic current generation, preserving operator permissions and destination scope.",
+      "observed": "A matching generation remained unchanged; a forbidden operation called no native adapter and explicit design destinations survived resolution."
+    },
     {
       "authority": "specs/startup-freshness/graph.json#/nodes/12",
       "covers": [

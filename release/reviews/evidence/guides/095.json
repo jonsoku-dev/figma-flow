@@ -1,0 +1,28 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "CONSTITUTION.md#/sections/기능을 채택하는 기준",
+      "covers": [
+        "docs/STARTER_ROLE_FEATURE_SPEC.md"
+      ],
+      "assertion": "The Starter spec is a dated v0.27.1 planning snapshot; its roadmap entries are explicitly proposals, distinct from current accepted product behavior. Test assertion: GuideSourceContractTests.test_development_roadmap_and_starter_spec_label_their_historical_scope",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_development_roadmap_and_starter_spec_label_their_historical_scope"
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기능을 채택하는 기준",
+      "covers": [
+        "docs/STARTER_ROLE_FEATURE_SPEC.md"
+      ],
+      "assertion": "The Starter spec is a dated v0.27.1 planning snapshot; its roadmap entries are explicitly proposals, distinct from current accepted product behavior. Test assertion: GuideVisualEvidenceTests.test_distributed_guide_markdown_local_targets_resolve",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_distributed_guide_markdown_local_targets_resolve"
+    }
+  ]
+}

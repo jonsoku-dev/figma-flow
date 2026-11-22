@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "plugin.json#/version",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states. Test assertion: GuideSourceContractTests.test_current_docs_are_version_neutral_and_follow_manifest_pair",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_current_docs_are_version_neutral_and_follow_manifest_pair"
+    },
+    {
+      "authority": "plugin.json#/version",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states. Test assertion: StartupTests.test_check_never_upgrades_and_exact_same_candidate_is_current",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_plugin_startup.py",
+      "testSha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+      "case": "StartupTests.test_check_never_upgrades_and_exact_same_candidate_is_current"
+    },
+    {
+      "authority": "plugin.json#/version",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states. Test assertion: StartupTests.test_host_install_verifies_returned_path_both_manifests_and_all_bytes",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_plugin_startup.py",
+      "testSha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+      "case": "StartupTests.test_host_install_verifies_returned_path_both_manifests_and_all_bytes"
+    },
+    {
+      "authority": "plugin.json#/version",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states. Test assertion: RequirementsSurfaceTests.test_startup_contract_keeps_stale_runtime_and_native_proof_boundaries",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_requirements_surface.py",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "case": "RequirementsSurfaceTests.test_startup_contract_keeps_stale_runtime_and_native_proof_boundaries"
+    }
+  ]
+}

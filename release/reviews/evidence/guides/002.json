@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": ".codex-plugin/plugin.json#/version",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "Current installation instructions use a selected release tag and compare both installed manifests with that tag; the 0.36.0 runtime summary is explicitly historical. Test assertion: GuideSourceContractTests.test_current_docs_are_version_neutral_and_follow_manifest_pair",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_current_docs_are_version_neutral_and_follow_manifest_pair"
+    }
+  ]
+}

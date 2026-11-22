@@ -839,20 +839,24 @@
   "scopeLimit": "The Figma plugin host itself was not executed. Native edit, graph review, CTA, host dispatch and note-board flows were exercised in VM fixtures; standalone templates were rendered in installed Chromium with synthetic host messages.",
   "verification": [
     {
-      "command": "python3 -B -m unittest tests.test_family_authority tests.test_native_window_authority tests.test_control_transport_authority tests.test_native_appearance_authority",
-      "result": "4 graph mutation/authority tests passed on the current source freeze."
+      "command": "PYTHONPATH=tests python3 -B -m unittest <authority, native, panel and graph suites>",
+      "result": "111 tests passed in isolated archive copy; one opt-in compiler-regeneration test skipped because FIGMA_SDK_TEST_TYPESCRIPT was unset."
     },
     {
-      "command": "node --test tests/test_native_graph_review.cjs tests/test_native_specification_update.cjs tests/test_native_provision.cjs tests/test_native_edit.cjs tests/test_web_design.cjs tests/test_workspace_host.cjs tests/test_workspace_control.cjs tests/test_workspace_chat.cjs tests/test_graph_token_sync.cjs tests/test_workspace_changes.cjs tests/test_native_control_alignment.cjs tests/test_native_control_icons.cjs tests/test_native_control_transparency.cjs tests/test_native_value_paths.cjs tests/test_native_runtime_version.cjs tests/test_standalone_view_authority.cjs",
-      "result": "Current source-focused VM/native/browser suites passed on pinned Node 26.13.0; complete output retained in the agent run."
+      "command": "node --test <native VM, workspace host/control, web design, graph token sync, standalone-view and panel browser suites>",
+      "result": "237/237 passed on pinned Node 26.13.0. Chromium 157 executed graph/CTA/chat/home standalone view mutations and compiled panel routes."
     },
     {
       "command": "python3 -B tools/native_appearance.py; python3 -B tools/native_windows.py; python3 -B tools/component_family_contract.py; python3 -B tools/runtime_authority.py",
-      "result": "All projection and runtime authority checks passed."
+      "result": "All native appearance, window, component-family and runtime authority projections passed."
     },
     {
-      "command": "archive-like tree without node_modules: authority mutation tests + native VM behavior + standalone browser mutation witness",
-      "result": "Pending final run."
+      "command": "major_release.bundle_check on current candidate archive inputs",
+      "result": "Passed; candidate rebuild byte-identical to tracked compiled panel assets."
+    },
+    {
+      "command": "Archive-like tree without node_modules; pinned Node 26.13.0; external NODE_PATH for pinned package dependencies",
+      "result": "Candidate copy had no panel-ui/node_modules. 111 Python tests (1 documented opt-in skip) and 237 Node tests passed."
     }
   ]
 }

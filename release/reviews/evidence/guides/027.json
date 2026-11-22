@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "covers": [
+        "docs/api-priority.md"
+      ],
+      "assertion": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations. Test assertion: GuideSourceContractTests.test_api_priority_snapshot_numbers_match_the_pinned_inventory_report",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_api_priority_snapshot_numbers_match_the_pinned_inventory_report"
+    },
+    {
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "covers": [
+        "docs/api-priority.md"
+      ],
+      "assertion": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations. Test assertion: ApiPriorityTest.test_receipt_overlays_report_baseline_and_current_exact_key_union",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_api_priority.py",
+      "testSha256": "f616c7c27299ce26bf7f79176de82b641f3e3123e51875b0689904330008f1b8",
+      "case": "ApiPriorityTest.test_receipt_overlays_report_baseline_and_current_exact_key_union"
+    },
+    {
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "covers": [
+        "docs/api-priority.md"
+      ],
+      "assertion": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations. Test assertion: ApiPriorityTest.test_graph_export_connects_entire_queue_to_members_use_cases_facts_and_status",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_api_priority.py",
+      "testSha256": "f616c7c27299ce26bf7f79176de82b641f3e3123e51875b0689904330008f1b8",
+      "case": "ApiPriorityTest.test_graph_export_connects_entire_queue_to_members_use_cases_facts_and_status"
+    }
+  ]
+}

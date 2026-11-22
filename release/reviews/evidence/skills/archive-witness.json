@@ -1,0 +1,296 @@
+{
+  "schema": "figma-flow-skills-archive-witness-v1",
+  "surface": "skills",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "archiveTree": {
+    "git": false,
+    "panelUiNodeModules": false,
+    "nodePath": "external pinned package dependency path"
+  },
+  "namedCasesRun": 47,
+  "checks": [
+    {
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_explicit_logo_as_image_uses_identity_and_imagegen",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_multi_surface_multi_lane_directions_and_dependencies",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_figma_feature.py",
+      "case": "FeatureRoutesTests.test_flow_english_and_korean",
+      "testSha256": "3f138b296b156e138160c0cd444d3a664a859f2917a6c6a94e28d193f5ee4e59",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_draft_build_commands_use_selected_project_paths",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_browser_access.py",
+      "case": "BrowserAccessTests.test_auto_allow_has_no_origin_or_port_filter_and_is_idempotent",
+      "testSha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_browser_access.py",
+      "case": "BrowserAccessTests.test_auto_allow_replaces_only_dedicated_policy_and_preserves_other_options",
+      "testSha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_campaign_library.py",
+      "case": "CampaignLibraryTests.test_filters_and_source_joins",
+      "testSha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_campaign_library.py",
+      "case": "CampaignLibraryTests.test_plan_keeps_evidence_and_checks_untested",
+      "testSha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_design_review.py",
+      "case": "DesignReviewTests.test_current_concrete_evidence_passes_but_never_claims_skill_or_platform_attestation",
+      "testSha256": "7cce17b65fbfa39bf537fe9a4a8446bf12a151ce162a69f53b055ecb1a5f7872",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_design_directions.py",
+      "case": "DirectionAdmissionTests.test_structured_real_user_reply_and_explicit_revocation",
+      "testSha256": "e41e8042e43ee06f7343188e7839e7f9d79ddbe2f369f8eef09b31d857cf0d24",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_direction_write_guards.py",
+      "case": "WriteGuardTests.test_asset_entry_rejects_missing_choice_before_writing",
+      "testSha256": "0333a5f3fbef43fd8194ea0e87082856f745e0f75b54b37fc1e71663d87832fe",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_promote_idea.py",
+      "case": "PromoteTests.test_default_ui_creation_requires_current_selection_before_output",
+      "testSha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_serve_ideas.py",
+      "case": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+      "testSha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_figma_draft.py",
+      "case": "DraftReviewTests.test_default_is_native_pending_without_selection_or_foreign_context",
+      "testSha256": "d1ac47369b1c82e7d849bd3352b37bf4cbd3a33f068ed07a90e1b36fc9f33270",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_workflow.py",
+      "case": "WorkflowTests.test_full_human_selected_native_flow",
+      "testSha256": "e12851963cecf2c14ce93176b937dfa599288010ae9ad1f1d24c02edfb4617d8",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_native_handoff.py",
+      "case": "NativeHandoffTest.test_strict_creation_real_annotations_cover_every_required_native_node",
+      "testSha256": "f620166f468c1671d21439563fad03ce0ca451057f8053a5c7f606e5dd0a8e6b",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_graph.py",
+      "case": "GraphTests.test_strict_local_cli_is_opt_in_and_reports_declared_scope",
+      "testSha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_ssot.py",
+      "case": "SsotTests.test_unchanged_is_content_current_only_and_deterministic",
+      "testSha256": "a4e558a6d85c3cc46f1733adbf68bcdb26614adec0e54acc651e4ec6d34fe272",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_trace_report.py",
+      "case": "TraceReportTests.test_cli_creates_offline_report_without_changing_inputs",
+      "testSha256": "ccf7843c930bc2206a178b682f9cf687d1b38b36171771a180e475463f891341",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_spec_graph_coverage.py",
+      "case": "SpecGraphCoverageTests.test_exercised_module_alone_does_not_establish_acceptance",
+      "testSha256": "1d290f96f1c20087c446aff224c5178d86632e243d94045da7f00753aab3cddb",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_design_graph.py",
+      "case": "DesignGraphTests.test_exact_dependencies_and_coverage",
+      "testSha256": "3d0d9039f111d3045f71d903f6f7dec1bc0c50855e5bbd9150ea0eaf2acb46bc",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_init_then_recheck_and_diff",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_figma_graph_without_handoff_is_blocked_at_both_entries",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_current_stale_and_no_overwrite",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_figma_sync_session.py",
+      "case": "SessionTest.test_baseline_apply_restart_noop_and_chain",
+      "testSha256": "718fce4f78c6814c6053f7197cf770845671dbcff1741074c83f0ad5129dda32",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_skill_dependencies.py",
+      "case": "SkillDependencyTests.test_plugin_paths_and_cli_work_after_relocation_without_home_or_writes",
+      "testSha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_skill_dependencies.py",
+      "case": "SkillDependencyTests.test_missing_or_tampered_pinned_files_block",
+      "testSha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_sync_figma_tokens.py",
+      "case": "SyncFigmaTokenTests.test_root_edit_keeps_semantic_aliases_and_exact_graph_consumers",
+      "testSha256": "06bec1f3d6fc401cd137f665fdc1beac9998fd490f509166074b97a1a3852551",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_sync_figma_tokens.py",
+      "case": "SyncFigmaTokenTests.test_stale_compiled_source_and_stale_baseline_fail_without_outputs",
+      "testSha256": "06bec1f3d6fc401cd137f665fdc1beac9998fd490f509166074b97a1a3852551",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_design_quality.py",
+      "case": "ContrastTests.test_low_contrast_body_text_is_error",
+      "testSha256": "024c971b1e3d39f82946ae9b8bbc7931a049c89b33f1a07b7ad6c08a1f73643b",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_design_quality.py",
+      "case": "NativeTextAndProductTests.test_tracking_and_line_count_use_actual_font",
+      "testSha256": "024c971b1e3d39f82946ae9b8bbc7931a049c89b33f1a07b7ad6c08a1f73643b",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_graph.py",
+      "case": "GraphTests.test_strict_local_accepts_complete_declared_coverage_without_figma",
+      "testSha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_graph.py",
+      "case": "GraphTests.test_strict_local_rejects_missing_or_mislabeled_trace_edges",
+      "testSha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_graph_diff.py",
+      "case": "GraphDiffTests.test_title_source_metadata_and_missing_null_are_exact_fields",
+      "testSha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_graph_diff.py",
+      "case": "GraphDiffTests.test_added_removed_nodes_and_labeled_edges_preserve_multiplicity",
+      "testSha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_plugin_startup.py",
+      "case": "StartupTests.test_check_never_upgrades_and_exact_same_candidate_is_current",
+      "testSha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_plugin_startup.py",
+      "case": "StartupTests.test_host_install_verifies_returned_path_both_manifests_and_all_bytes",
+      "testSha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_patch_knowledge.py",
+      "case": "PatchKnowledgeTest.test_inventory_covers_merge_graph_versions_and_sanitizes_remote",
+      "testSha256": "6bb279ace28d5a96e336fd820dd491ba8e1e2a7cbebd79ce729bd41adedff097",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_patch_knowledge.py",
+      "case": "PatchKnowledgeTest.test_sync_is_repeatable_and_preserves_human_body_but_scaffolds_fail_verify",
+      "testSha256": "6bb279ace28d5a96e336fd820dd491ba8e1e2a7cbebd79ce729bd41adedff097",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_promote_idea.py",
+      "case": "PromoteTests.test_complete_job_runs_fixed_cli_real_tests_and_admission",
+      "testSha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_promote_idea.py",
+      "case": "PromoteTests.test_prepare_only_then_finish_has_no_build_claim_before_finish",
+      "testSha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+      "result": "passed"
+    },
+    {
+      "test": "tests/test_serve_ideas.py",
+      "case": "ServerTest.test_reopen_accepted_same_draft_only_and_reject_stale",
+      "testSha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+      "result": "passed"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: GuideSourceContractTests.test_html_asset_map_guide_matches_the_consumed_contract_and_schema_versions",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_html_asset_map_guide_matches_the_consumed_contract_and_schema_versions"
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: HtmlAssetMapTests.test_manifest_projects_image_css_and_font_bindings_into_freshness_sources",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "case": "HtmlAssetMapTests.test_manifest_projects_image_css_and_font_bindings_into_freshness_sources"
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: HtmlAssetMapTests.test_default_path_keeps_root_absolute_rejected_and_remote_unverified",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "case": "HtmlAssetMapTests.test_default_path_keeps_root_absolute_rejected_and_remote_unverified"
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: HtmlAssetMapTests.test_query_is_exact_and_unlisted_same_origin_request_is_not_inferred",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "case": "HtmlAssetMapTests.test_query_is_exact_and_unlisted_same_origin_request_is_not_inferred"
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: HtmlAssetMapTests.test_bad_origin_path_hash_duplicate_or_ambiguous_binding_is_rejected",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "case": "HtmlAssetMapTests.test_bad_origin_path_hash_duplicate_or_ambiguous_binding_is_rejected"
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: HtmlAssetMapTests.test_legacy_v3_records_stay_fresh_and_external_urls_are_never_bound",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "case": "HtmlAssetMapTests.test_legacy_v3_records_stay_fresh_and_external_urls_are_never_bound"
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: HtmlAssetMapTests.test_capture_and_manifest_metadata_are_both_part_of_freshness",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "case": "HtmlAssetMapTests.test_capture_and_manifest_metadata_are_both_part_of_freshness"
+    },
+    {
+      "authority": "tools/input-effect-contract.json#/records",
+      "covers": [
+        "docs/html-asset-map.md"
+      ],
+      "assertion": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases. Test assertion: HtmlAssetMapTests.test_same_origin_next_proxy_to_remote_source_is_never_bound",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_input_effect_html_asset_map.py",
+      "testSha256": "da0ca5c6baadfe1f2792a3ce42c575e81488d91ca16e6d309df3b7e7d1bf4dd9",
+      "case": "HtmlAssetMapTests.test_same_origin_next_proxy_to_remote_source_is_never_bound"
+    }
+  ]
+}

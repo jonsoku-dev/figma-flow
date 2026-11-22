@@ -1,0 +1,61 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-disclosure-input.md"
+      ],
+      "assertion": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases. Test assertion: GuideSourceContractTests.test_web_observation_and_capture_commands_match_public_cli_help",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_web_observation_and_capture_commands_match_public_cli_help"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-disclosure-input.md"
+      ],
+      "assertion": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases. Test assertion: WebDesignTests.test_observed_disclosure_clicks_compile_into_a_pinned_plan_and_bundle",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_observed_disclosure_clicks_compile_into_a_pinned_plan_and_bundle"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-disclosure-input.md"
+      ],
+      "assertion": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases. Test assertion: WebDesignTests.test_disclosure_join_and_validation_reject_contract_violations",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_disclosure_join_and_validation_reject_contract_violations"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-disclosure-input.md"
+      ],
+      "assertion": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases. Test assertion: WebDesignTests.test_public_entrypoints_reject_disconnected_disclosure_cycle",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_public_entrypoints_reject_disconnected_disclosure_cycle"
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-disclosure-input.md"
+      ],
+      "assertion": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases. Test assertion: WebDesignTests.test_checked_in_synthetic_fixture_runs_through_both_public_commands",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design.py",
+      "testSha256": "6eb694f7393a06fad95e0502a1e3b58e4f81571cb6fb5648d8a64730e65668f9",
+      "case": "WebDesignTests.test_checked_in_synthetic_fixture_runs_through_both_public_commands"
+    }
+  ]
+}

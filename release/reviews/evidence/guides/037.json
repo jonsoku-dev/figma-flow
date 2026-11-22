@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-api/index.json#/members",
+      "covers": [
+        "docs/native-api-probe.md"
+      ],
+      "assertion": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only. Test assertion: NativeApiProbeTest.test_audit_candidates_are_bounded_paged_and_receiver_specific",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_native_api_probe.py",
+      "testSha256": "c314400048767fca0f5004c1823eeb3f9219756792ee1aa1b1b1c555b586b77c",
+      "case": "NativeApiProbeTest.test_audit_candidates_are_bounded_paged_and_receiver_specific"
+    },
+    {
+      "authority": "library/figma-api/index.json#/members",
+      "covers": [
+        "docs/native-api-probe.md"
+      ],
+      "assertion": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only. Test assertion: NativeApiProbeTest.test_documented_read_methods_use_static_calls_and_safe_projection",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_native_api_probe.py",
+      "testSha256": "c314400048767fca0f5004c1823eeb3f9219756792ee1aa1b1b1c555b586b77c",
+      "case": "NativeApiProbeTest.test_documented_read_methods_use_static_calls_and_safe_projection"
+    },
+    {
+      "authority": "library/figma-api/index.json#/members",
+      "covers": [
+        "docs/native-api-probe.md"
+      ],
+      "assertion": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only. Test assertion: NativeApiProbeTest.test_workspace_admission_pins_selection_and_builds_public_read_only_task",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_native_api_probe.py",
+      "testSha256": "c314400048767fca0f5004c1823eeb3f9219756792ee1aa1b1b1c555b586b77c",
+      "case": "NativeApiProbeTest.test_workspace_admission_pins_selection_and_builds_public_read_only_task"
+    }
+  ]
+}

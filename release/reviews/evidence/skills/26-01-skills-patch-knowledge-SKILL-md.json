@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_patch_knowledge.py",
+      "case": "PatchKnowledgeTest.test_inventory_covers_merge_graph_versions_and_sanitizes_remote",
+      "testSha256": "6bb279ace28d5a96e336fd820dd491ba8e1e2a7cbebd79ce729bd41adedff097",
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "skills/patch-knowledge/SKILL.md"
+      ],
+      "assertion": "PatchKnowledgeTest.test_inventory_covers_merge_graph_versions_and_sanitizes_remote",
+      "observed": "The named test passed and exercises the authored guidance at skills/patch-knowledge/SKILL.md against the declared authority field docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기."
+    },
+    {
+      "test": "tests/test_patch_knowledge.py",
+      "case": "PatchKnowledgeTest.test_sync_is_repeatable_and_preserves_human_body_but_scaffolds_fail_verify",
+      "testSha256": "6bb279ace28d5a96e336fd820dd491ba8e1e2a7cbebd79ce729bd41adedff097",
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "covers": [
+        "skills/patch-knowledge/SKILL.md"
+      ],
+      "assertion": "PatchKnowledgeTest.test_sync_is_repeatable_and_preserves_human_body_but_scaffolds_fail_verify",
+      "observed": "The named test passed and exercises the authored guidance at skills/patch-knowledge/SKILL.md against the declared authority field docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route. Test assertion: GraphSyncTests.test_import_rejects_invalid_discovery_markers_without_any_writes",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_graph_sync.py",
+      "testSha256": "3151bf55af06223d0147325c6a79e75de87977bf598bd75ad0f1c0e53818243e",
+      "case": "GraphSyncTests.test_import_rejects_invalid_discovery_markers_without_any_writes"
+    },
+    {
+      "authority": "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route. Test assertion: GraphSyncTests.test_import_accepts_matching_discovery_marker",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_graph_sync.py",
+      "testSha256": "3151bf55af06223d0147325c6a79e75de87977bf598bd75ad0f1c0e53818243e",
+      "case": "GraphSyncTests.test_import_accepts_matching_discovery_marker"
+    },
+    {
+      "authority": "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route. Test assertion: GraphSyncTests.test_direct_edits_require_explicit_scope_and_reject_competing_values",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_graph_sync.py",
+      "testSha256": "3151bf55af06223d0147325c6a79e75de87977bf598bd75ad0f1c0e53818243e",
+      "case": "GraphSyncTests.test_direct_edits_require_explicit_scope_and_reject_competing_values"
+    },
+    {
+      "authority": "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route. Test assertion: actual readback downloads unchanged, stays available after errors, and reports recovery conflicts",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_graph_panel.cjs",
+      "testSha256": "63a6dda9bd6a9938d98fb97257816001bc22aa5f3ff917da5d1b25dde6e6c4c1",
+      "case": "actual readback downloads unchanged, stays available after errors, and reports recovery conflicts"
+    },
+    {
+      "authority": "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route. Test assertion: sync asks for explicit scope confirmation, then sends one apply and blocks duplicate work",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_graph_panel.cjs",
+      "testSha256": "63a6dda9bd6a9938d98fb97257816001bc22aa5f3ff917da5d1b25dde6e6c4c1",
+      "case": "sync asks for explicit scope confirmation, then sends one apply and blocks duplicate work"
+    }
+  ]
+}

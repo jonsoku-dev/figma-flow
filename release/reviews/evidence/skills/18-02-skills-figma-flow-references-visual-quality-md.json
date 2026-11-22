@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_design_quality.py",
+      "case": "ContrastTests.test_low_contrast_body_text_is_error",
+      "testSha256": "024c971b1e3d39f82946ae9b8bbc7931a049c89b33f1a07b7ad6c08a1f73643b",
+      "authority": "docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달",
+      "covers": [
+        "skills/figma-flow/references/visual-quality.md"
+      ],
+      "assertion": "ContrastTests.test_low_contrast_body_text_is_error",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/visual-quality.md against the declared authority field docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달."
+    },
+    {
+      "test": "tests/test_design_quality.py",
+      "case": "NativeTextAndProductTests.test_tracking_and_line_count_use_actual_font",
+      "testSha256": "024c971b1e3d39f82946ae9b8bbc7931a049c89b33f1a07b7ad6c08a1f73643b",
+      "authority": "docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달",
+      "covers": [
+        "skills/figma-flow/references/visual-quality.md"
+      ],
+      "assertion": "NativeTextAndProductTests.test_tracking_and_line_count_use_actual_font",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/visual-quality.md against the declared authority field docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달."
+    }
+  ]
+}

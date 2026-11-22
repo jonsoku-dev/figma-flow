@@ -1,0 +1,36 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/design-system-trials.md#/sections/0.18.2 실제 Figma 재검증",
+      "covers": [
+        "docs/design-system-trials.md",
+        "docs/trials/mui-comparison.jpg",
+        "docs/trials/mui-native-repair.jpg",
+        "docs/trials/shadcn-comparison.jpg",
+        "docs/trials/shadcn-native-repair.jpg"
+      ],
+      "assertion": "The trial record captions each desktop/mobile comparative frame and each before/after native repair frame; the images retain all four labeled crops at their recorded aspect and pixel dimensions. Test assertion: GuideVisualEvidenceTests.test_trial_images_keep_each_desktop_mobile_and_before_after_frame",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_trial_images_keep_each_desktop_mobile_and_before_after_frame"
+    },
+    {
+      "authority": "docs/design-system-trials.md#/sections/0.18.2 실제 Figma 재검증",
+      "covers": [
+        "docs/design-system-trials.md",
+        "docs/trials/mui-comparison.jpg",
+        "docs/trials/mui-native-repair.jpg",
+        "docs/trials/shadcn-comparison.jpg",
+        "docs/trials/shadcn-native-repair.jpg"
+      ],
+      "assertion": "The trial record captions each desktop/mobile comparative frame and each before/after native repair frame; the images retain all four labeled crops at their recorded aspect and pixel dimensions. Test assertion: GuideVisualEvidenceTests.test_guide_references_every_retained_documentation_image",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_guide_references_every_retained_documentation_image"
+    }
+  ]
+}

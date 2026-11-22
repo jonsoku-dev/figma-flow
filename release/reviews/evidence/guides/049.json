@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-api/index.json#/members",
+      "covers": [
+        "docs/design-type-review.md"
+      ],
+      "assertion": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members. Test assertion: GuideSourceContractTests.test_design_type_review_claims_match_its_pinned_graph_and_historical_receipt_node",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_design_type_review_claims_match_its_pinned_graph_and_historical_receipt_node"
+    },
+    {
+      "authority": "library/figma-api/index.json#/members",
+      "covers": [
+        "docs/design-type-review.md"
+      ],
+      "assertion": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members. Test assertion: DesignReviewSelectionIdentityTest.test_same_design_source_has_distinct_selection_pins_and_builds",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_review_selection_identity.py",
+      "testSha256": "55a5e4f0ac99bc7d95fb64d89188d2e607896e0e095c6fb292058d11859c7a7e",
+      "case": "DesignReviewSelectionIdentityTest.test_same_design_source_has_distinct_selection_pins_and_builds"
+    },
+    {
+      "authority": "library/figma-api/index.json#/members",
+      "covers": [
+        "docs/design-type-review.md"
+      ],
+      "assertion": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members. Test assertion: ApiPriorityTest.test_receipt_overlays_report_baseline_and_current_exact_key_union",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_api_priority.py",
+      "testSha256": "f616c7c27299ce26bf7f79176de82b641f3e3123e51875b0689904330008f1b8",
+      "case": "ApiPriorityTest.test_receipt_overlays_report_baseline_and_current_exact_key_union"
+    },
+    {
+      "authority": "library/figma-api/index.json#/members",
+      "covers": [
+        "docs/design-type-review.md"
+      ],
+      "assertion": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members. Test assertion: LibraryReleaseWitnessTests.test_recipe_manifest_and_bundle_inventory_have_closed_pinned_entries",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_library_release_witness.py",
+      "testSha256": "aeceb9cc6cab70baeb63b7ee30d409de9e20fe7492c504a0125dba75077b6790",
+      "case": "LibraryReleaseWitnessTests.test_recipe_manifest_and_bundle_inventory_have_closed_pinned_entries"
+    }
+  ]
+}

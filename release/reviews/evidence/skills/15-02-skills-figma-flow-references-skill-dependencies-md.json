@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_skill_dependencies.py",
+      "case": "SkillDependencyTests.test_plugin_paths_and_cli_work_after_relocation_without_home_or_writes",
+      "testSha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+      "authority": "vendor/skills/manifest.json#/skills",
+      "covers": [
+        "skills/figma-flow/references/skill-dependencies.md"
+      ],
+      "assertion": "SkillDependencyTests.test_plugin_paths_and_cli_work_after_relocation_without_home_or_writes",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/skill-dependencies.md against the declared authority field vendor/skills/manifest.json#/skills."
+    },
+    {
+      "test": "tests/test_skill_dependencies.py",
+      "case": "SkillDependencyTests.test_missing_or_tampered_pinned_files_block",
+      "testSha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+      "authority": "vendor/skills/manifest.json#/skills",
+      "covers": [
+        "skills/figma-flow/references/skill-dependencies.md"
+      ],
+      "assertion": "SkillDependencyTests.test_missing_or_tampered_pinned_files_block",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/skill-dependencies.md against the declared authority field vendor/skills/manifest.json#/skills."
+    }
+  ]
+}

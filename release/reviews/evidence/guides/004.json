@@ -1,0 +1,83 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels. Test assertion: GuideSourceContractTests.test_rd06_documented_native_read_witness_commands_run",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_rd06_documented_native_read_witness_commands_run"
+    },
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels. Test assertion: GuideSourceContractTests.test_rd07_and_rd09_documented_command_witnesses_run",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_rd07_and_rd09_documented_command_witnesses_run"
+    },
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels. Test assertion: GuideSourceContractTests.test_guide_procedure_assets_and_historical_import_labels_resolve",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_guide_procedure_assets_and_historical_import_labels_resolve"
+    },
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels. Test assertion: GuideVisualEvidenceTests.test_setup_images_show_the_selected_template_and_manifest_row",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_setup_images_show_the_selected_template_and_manifest_row"
+    },
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels. Test assertion: GuideVisualEvidenceTests.test_trial_images_keep_each_desktop_mobile_and_before_after_frame",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_trial_images_keep_each_desktop_mobile_and_before_after_frame"
+    },
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels. Test assertion: GuideVisualEvidenceTests.test_previous_panel_images_are_labeled_as_previous_versions",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_previous_panel_images_are_labeled_as_previous_versions"
+    },
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels. Test assertion: GuideVisualEvidenceTests.test_current_panel_images_frame_candidate_cards_and_history_scroll",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_current_panel_images_frame_candidate_cards_and_history_scroll"
+    }
+  ]
+}

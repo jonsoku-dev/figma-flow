@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_campaign_library.py",
+      "case": "CampaignLibraryTests.test_filters_and_source_joins",
+      "testSha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+      "authority": "library/campaigns.json#/categories",
+      "covers": [
+        "skills/figma-flow/references/campaign-library.md"
+      ],
+      "assertion": "CampaignLibraryTests.test_filters_and_source_joins",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/campaign-library.md against the declared authority field library/campaigns.json#/categories."
+    },
+    {
+      "test": "tests/test_campaign_library.py",
+      "case": "CampaignLibraryTests.test_plan_keeps_evidence_and_checks_untested",
+      "testSha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+      "authority": "library/campaigns.json#/categories",
+      "covers": [
+        "skills/figma-flow/references/campaign-library.md"
+      ],
+      "assertion": "CampaignLibraryTests.test_plan_keeps_evidence_and_checks_untested",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/campaign-library.md against the declared authority field library/campaigns.json#/categories."
+    }
+  ]
+}

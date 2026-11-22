@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_design_directions.py",
+      "case": "DirectionAdmissionTests.test_structured_real_user_reply_and_explicit_revocation",
+      "testSha256": "e41e8042e43ee06f7343188e7839e7f9d79ddbe2f369f8eef09b31d857cf0d24",
+      "authority": "library/workflow.json#/guards",
+      "covers": [
+        "skills/figma-flow/references/direction-selection.md"
+      ],
+      "assertion": "DirectionAdmissionTests.test_structured_real_user_reply_and_explicit_revocation",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/direction-selection.md against the declared authority field library/workflow.json#/guards."
+    },
+    {
+      "test": "tests/test_direction_write_guards.py",
+      "case": "WriteGuardTests.test_asset_entry_rejects_missing_choice_before_writing",
+      "testSha256": "0333a5f3fbef43fd8194ea0e87082856f745e0f75b54b37fc1e71663d87832fe",
+      "authority": "library/workflow.json#/guards",
+      "covers": [
+        "skills/figma-flow/references/direction-selection.md"
+      ],
+      "assertion": "WriteGuardTests.test_asset_entry_rejects_missing_choice_before_writing",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/direction-selection.md against the declared authority field library/workflow.json#/guards."
+    }
+  ]
+}

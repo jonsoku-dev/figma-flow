@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/workflow.json#/states",
+      "covers": [
+        "README.md"
+      ],
+      "assertion": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical. Test assertion: GuideSourceContractTests.test_readme_current_product_summary_and_historical_release_label_match_authorities",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_readme_current_product_summary_and_historical_release_label_match_authorities"
+    },
+    {
+      "authority": "library/workflow.json#/states",
+      "covers": [
+        "README.md"
+      ],
+      "assertion": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical. Test assertion: GuideSourceContractTests.test_current_docs_are_version_neutral_and_follow_manifest_pair",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_current_docs_are_version_neutral_and_follow_manifest_pair"
+    },
+    {
+      "authority": "library/workflow.json#/states",
+      "covers": [
+        "README.md"
+      ],
+      "assertion": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical. Test assertion: RequirementsSurfaceTests.test_codex_relay_spec_keeps_dialogue_approval_and_task_authority_in_codex",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_requirements_surface.py",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "case": "RequirementsSurfaceTests.test_codex_relay_spec_keeps_dialogue_approval_and_task_authority_in_codex"
+    },
+    {
+      "authority": "library/workflow.json#/states",
+      "covers": [
+        "README.md"
+      ],
+      "assertion": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical. Test assertion: RequirementsSurfaceTests.test_agent_instructions_retain_codex_and_design_acceptance_boundaries",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_requirements_surface.py",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "case": "RequirementsSurfaceTests.test_agent_instructions_retain_codex_and_design_acceptance_boundaries"
+    }
+  ]
+}

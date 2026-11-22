@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_graph_diff.py",
+      "case": "GraphDiffTests.test_title_source_metadata_and_missing_null_are_exact_fields",
+      "testSha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph_diff.py"
+      ],
+      "assertion": "GraphDiffTests.test_title_source_metadata_and_missing_null_are_exact_fields",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph_diff.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_graph_diff.py",
+      "case": "GraphDiffTests.test_added_removed_nodes_and_labeled_edges_preserve_multiplicity",
+      "testSha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/graph_diff.py"
+      ],
+      "assertion": "GraphDiffTests.test_added_removed_nodes_and_labeled_edges_preserve_multiplicity",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/graph_diff.py against the declared authority field specs/graph-roots.json#/roots."
+    }
+  ]
+}

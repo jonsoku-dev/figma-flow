@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "covers": [
+        "docs/design-runtime-verification.md"
+      ],
+      "assertion": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits. Test assertion: GuideSourceContractTests.test_historical_design_reports_match_their_sanitized_observation_graph_counts",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_historical_design_reports_match_their_sanitized_observation_graph_counts"
+    },
+    {
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "covers": [
+        "docs/design-runtime-verification.md"
+      ],
+      "assertion": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits. Test assertion: RequirementsSurfaceTests.test_observation_inventories_preserve_graph_identity_and_sources",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_requirements_surface.py",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "case": "RequirementsSurfaceTests.test_observation_inventories_preserve_graph_identity_and_sources"
+    },
+    {
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "covers": [
+        "docs/design-runtime-verification.md"
+      ],
+      "assertion": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits. Test assertion: NativeValuePathTests.test_public_live_value_overlay_matches_the_pinned_audit",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_native_value_paths.py",
+      "testSha256": "0cbc57f330c1759f42ad1876bcc40726e7e320dd4ac1d61b10101b6f6131f0cf",
+      "case": "NativeValuePathTests.test_public_live_value_overlay_matches_the_pinned_audit"
+    },
+    {
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "covers": [
+        "docs/design-runtime-verification.md"
+      ],
+      "assertion": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits. Test assertion: ServiceInspectionTest.test_project_is_private_design_only_and_graph_pinned",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_design_service_inspection.py",
+      "testSha256": "882593452d4951ac73109a779cbd31d1ecad79d1511d604b260b6444f6316691",
+      "case": "ServiceInspectionTest.test_project_is_private_design_only_and_graph_pinned"
+    }
+  ]
+}

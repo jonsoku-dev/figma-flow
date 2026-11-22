@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_sync_figma_tokens.py",
+      "case": "SyncFigmaTokenTests.test_root_edit_keeps_semantic_aliases_and_exact_graph_consumers",
+      "testSha256": "06bec1f3d6fc401cd137f665fdc1beac9998fd490f509166074b97a1a3852551",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/references/token-sync.md"
+      ],
+      "assertion": "SyncFigmaTokenTests.test_root_edit_keeps_semantic_aliases_and_exact_graph_consumers",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/token-sync.md against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_sync_figma_tokens.py",
+      "case": "SyncFigmaTokenTests.test_stale_compiled_source_and_stale_baseline_fail_without_outputs",
+      "testSha256": "06bec1f3d6fc401cd137f665fdc1beac9998fd490f509166074b97a1a3852551",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/references/token-sync.md"
+      ],
+      "assertion": "SyncFigmaTokenTests.test_stale_compiled_source_and_stale_baseline_fail_without_outputs",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/token-sync.md against the declared authority field specs/graph-roots.json#/roots."
+    }
+  ]
+}

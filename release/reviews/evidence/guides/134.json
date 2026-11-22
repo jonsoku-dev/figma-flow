@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available. Test assertion: DirectionAdmissionTests.test_structured_real_user_reply_and_explicit_revocation",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_design_directions.py",
+      "testSha256": "e41e8042e43ee06f7343188e7839e7f9d79ddbe2f369f8eef09b31d857cf0d24",
+      "case": "DirectionAdmissionTests.test_structured_real_user_reply_and_explicit_revocation"
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available. Test assertion: DraftReviewTests.test_default_is_native_pending_without_selection_or_foreign_context",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_draft.py",
+      "testSha256": "d1ac47369b1c82e7d849bd3352b37bf4cbd3a33f068ed07a90e1b36fc9f33270",
+      "case": "DraftReviewTests.test_default_is_native_pending_without_selection_or_foreign_context"
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available. Test assertion: PromoteTests.test_default_ui_creation_requires_current_selection_before_output",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_promote_idea.py",
+      "testSha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+      "case": "PromoteTests.test_default_ui_creation_requires_current_selection_before_output"
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available. Test assertion: ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_serve_ideas.py",
+      "testSha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+      "case": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/ssot.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/ssot.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/ssot.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/ssot.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/ssot.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/ssot.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/ssot.py"
+      ],
+      "assertion": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/ssot.py against the declared authority field specs/graph-roots.json#/roots."
+    },
+    {
+      "test": "tests/test_ssot.py",
+      "case": "SsotTests.test_unchanged_is_content_current_only_and_deterministic",
+      "testSha256": "a4e558a6d85c3cc46f1733adbf68bcdb26614adec0e54acc651e4ec6d34fe272",
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "skills/figma-flow/scripts/ssot.py"
+      ],
+      "assertion": "SsotTests.test_unchanged_is_content_current_only_and_deterministic",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/scripts/ssot.py against the declared authority field specs/graph-roots.json#/roots."
+    }
+  ]
+}

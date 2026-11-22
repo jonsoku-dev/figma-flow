@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "covers": [
+        "CONTRIBUTING.md"
+      ],
+      "assertion": "The major-release command and review evidence instructions match the actual CLI and current source/witness review gate; the document explicitly assigns tag, archive, and push steps to the release owner. Test assertion: GuideSourceContractTests.test_contribution_release_commands_match_the_current_cli",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_contribution_release_commands_match_the_current_cli"
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "covers": [
+        "CONTRIBUTING.md"
+      ],
+      "assertion": "The major-release command and review evidence instructions match the actual CLI and current source/witness review gate; the document explicitly assigns tag, archive, and push steps to the release owner. Test assertion: MajorReleaseTests.test_review_binds_coverage_authority_witness_and_exact_candidate_bytes",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_major_release.py",
+      "testSha256": "060b995cbb3a5c4df636ee71b40e97beae29259828ad01ed0030573669064ca3",
+      "case": "MajorReleaseTests.test_review_binds_coverage_authority_witness_and_exact_candidate_bytes"
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "covers": [
+        "CONTRIBUTING.md"
+      ],
+      "assertion": "The major-release command and review evidence instructions match the actual CLI and current source/witness review gate; the document explicitly assigns tag, archive, and push steps to the release owner. Test assertion: MajorReleaseTests.test_inventory_never_drops_unknown_files_or_relabels_product_as_records",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_major_release.py",
+      "testSha256": "060b995cbb3a5c4df636ee71b40e97beae29259828ad01ed0030573669064ca3",
+      "case": "MajorReleaseTests.test_inventory_never_drops_unknown_files_or_relabels_product_as_records"
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "covers": [
+        "CONTRIBUTING.md"
+      ],
+      "assertion": "The major-release command and review evidence instructions match the actual CLI and current source/witness review gate; the document explicitly assigns tag, archive, and push steps to the release owner. Test assertion: MajorReleaseTests.test_tag_packaging_checks_ref_bytes_not_dirty_checkout_or_supplied_same_major_base",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_major_release.py",
+      "testSha256": "060b995cbb3a5c4df636ee71b40e97beae29259828ad01ed0030573669064ca3",
+      "case": "MajorReleaseTests.test_tag_packaging_checks_ref_bytes_not_dirty_checkout_or_supplied_same_major_base"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_serve_ideas.py",
+      "case": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+      "testSha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+      "authority": "library/workflow.json#/edges",
+      "covers": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "assertion": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+      "observed": "The local workbench executes only after a current explicit selection and rejects changed graph state."
+    }
+  ]
+}

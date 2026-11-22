@@ -1,0 +1,2372 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "guides",
+  "fingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "openFindings": [],
+  "scopeLimitations": [
+    "Browser capture observations are synthetic/repository fixtures in these witnesses; no actual user web session or Figma file was accessed.",
+    "Detailed source and AC-specific claims in the 27 documents are not yet each mapped to individual implementation/test assertions; this is a narrow identity, status-boundary, matrix-link, path-resolution, and handoff-authority binding.",
+    "Historical font metrics and native frame values are represented by the sanitized receipt summary and document, not re-read from a live Figma file in this pass; they remain bounded historical observations, not current installation acceptance.",
+    "Host cases use local worker/DOM fixtures. No live Figma readback or user action was generated as part of this guide review.",
+    "Importer and readback cases use repository-owned fixtures; the guide separately requires live Figma acceptance, which was not performed.",
+    "Local fixtures establish the CLI contract but no actual Figma native getter run was performed; counts from a real private probe run must be retained by the operator.",
+    "NF proposal contents remain proposals; the binding reviews their labeling, dependency index, and recorded implemented-version boundaries, not the implementation of deferred features.",
+    "No Figma file or live getter run is claimed by the guide inventory.",
+    "No real browser click trace or live Figma presentation playback was recorded in this pass.",
+    "Only temporary installed-path fixtures were exercised; no Codex or Figma Desktop installation was changed.",
+    "Original browser/Figma screenshots are not included. The reported 30% Google opacity property-panel reading is retained as historical but is not independently re-read from the portable summary.",
+    "Raw native receipts are intentionally absent from the public tree; stored sanitized evidence and a historical report do not imply a fresh live run.",
+    "Real compiler case was skipped in archive-compatible run because node_modules is excluded; no native Figma Widget execution was performed.",
+    "Real compiler case was skipped in archive-compatible run because node_modules is excluded; no native Figma plugin execution was performed.",
+    "Route dispatch and source pins are tested; a route result does not prove remote API availability or live editor acceptance.",
+    "Static screenshots document their captured frame only; they do not prove current installed account/runtime state or live acceptance.",
+    "Synthetic selection replies and local project fixtures establish the guard behavior; they do not record a new real user Figma selection.",
+    "The 2026-11-13 proposal catalog is not reevaluated as a current feature request or acceptance specification.",
+    "The README is an index and history boundary; detail and acceptance remain in the linked task documents and matrix.",
+    "The README is product orientation only; real installation and Figma acceptance remain separate from its prompts.",
+    "The actual TypeScript compiler case was skipped because no pinned local TypeScript executable is available; this binds the graph/template and source-selection behavior, not compilation in this runtime.",
+    "The doc-to-graph source alignment is covered; native Figma execution is not claimed.",
+    "The guide’s browser capture example is API usage; this pass verified repository fixtures and CLI help, not an external live browser session or actual Figma import.",
+    "The image crops are source-bound; reported button coordinates, font-render differences, and overall design quality remain historical human observations, not independently recomputed measurements in this review.",
+    "The old browser and native observations are retained as bounded historical records and are not replayed against a user Figma file here.",
+    "The original browser/Figma screenshots are not included in the release archive. The local historical receipts were compared during this review, but no new live browser or Figma session was run.",
+    "The review validates local native/API fixtures and exact scope guards; it does not make a new Figma write.",
+    "The shared source failures recorded in procedureRuns remain open; no live Figma acceptance is claimed.",
+    "The test proves version-neutral instruction wording and matching manifest fixture at 1.0.0; it does not prove a published tag or a real Codex installation.",
+    "The tests use synthetic local fixtures; no private Shadow Troupe/Moss Choir artifacts were consumed or authenticated in this pass, as the document describes.",
+    "The tool validates supplied capture hashes and provenance structure but does not independently authenticate who produced the response capture; the guide states that limitation.",
+    "The validated clicks are synthetic fixture inputs; no external SaaS account, user page, or live Figma file was used.",
+    "These acceptance files are historical evidence records and do not establish current release, installation, production admission, or a fresh live Figma acceptance.",
+    "These commands run repository fixtures; no live Figma native read or installed-host acceptance is established.",
+    "This verifies local documentation/CLI contract only; no tag, ZIP, GitHub release, or push was performed.",
+    "Values are historical sanitized observations; this review did not perform a new Figma API read or reinterpret those values as current installation acceptance."
+  ],
+  "bindings": [
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "plugin.json#/version",
+      "reason": "Current installation instructions use a selected release tag and compare both installed manifests with that tag; the 0.36.0 runtime summary is explicitly historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/001.json",
+          "sha256": "bc7c2f7301392bd48835fd4f8e6e0f96c3399f48de33ab134c570c66a193c3ed"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": ".codex-plugin/plugin.json#/version",
+      "reason": "Current installation instructions use a selected release tag and compare both installed manifests with that tag; the 0.36.0 runtime summary is explicitly historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/002.json",
+          "sha256": "fff194cb6d304441b14caed4ccb003db3493c952ddf7f30d21b688130beeb18c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/development-roadmap/FINAL_ACCEPTANCE.md#/sections/AC별 매트릭스",
+      "reason": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/003.json",
+          "sha256": "3aa2bc38140152a7c4247bf39037993fe9e2f9572b58733dc6289f2f63f29089"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "reason": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/004.json",
+          "sha256": "c2d72ca2bf24bdd88d49d96d6a1504eff93a525308146104c682463d700f7688"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/6. 시안 만들기, 결과 저장, 대조",
+      "reason": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/005.json",
+          "sha256": "9268343d6b74ebae3b394e2d12e058a261e5a6c5d4fcadcdc2200d195402a664"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/Figma 기능 찾기와 데스크톱 실행",
+      "reason": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/006.json",
+          "sha256": "6b5ab74ce2c1c81bc540ea8e4a62a5a182f15f8870bdd0bd62ba6e223b3dc7c7"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/design-system-trials.md#/sections/0.18.2 실제 Figma 재검증",
+      "reason": "RD-06/07/09 command examples resolve to runnable named repository witnesses, and retained guide images resolve with current/historical labels.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/007.json",
+          "sha256": "080deb4b5e106222bc6bffbf922b51cabdc981556dcea11904b275cd0f263b19"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-recipes.md"
+      ],
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "reason": "The published recipe table covers the current manifest and identifies the canonical visual graph/projection source.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/008.json",
+          "sha256": "3ac069e96f8f195da74430a8e94c5f430017a73498567fc902324a20d970c1a7"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-recipes.md"
+      ],
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "reason": "The published recipe table covers the current manifest and identifies the canonical visual graph/projection source.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/009.json",
+          "sha256": "35ac956d6d382574d3792382e11e92e2f36f8ec340895f6a2a7db80830346ba7"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "docs/development-roadmap/FINAL_ACCEPTANCE.md#/sections/REQ와 구현 경로",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/010.json",
+          "sha256": "b837ec9df207ebd7f061438a780b13c4d685ecc099ed3212e74e206b8205ed4b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "docs/development-roadmap/FINAL_ACCEPTANCE.md#/sections/AC별 매트릭스",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/011.json",
+          "sha256": "19c13f76c18a1fe5572491a0da824b7d249813e018993de524a9245fd823433d"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "docs/development-roadmap/CURRENT_STATE.md#/sections/현재 후보의 구현 경로",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/012.json",
+          "sha256": "a2996e7b53f019bd4b9d5a7ead285b94dc3f70f46833783fb8af19f9a5b2fbaf"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "docs/development-roadmap/README.md#/sections/권장 실행 순서",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/013.json",
+          "sha256": "162baad67f821a01ea94022ab04ff57412527142df699fd7441aa6e2cfc7f40d"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "CONTRIBUTING.md#/sections/메이저 배포 전 그래프·하드코딩 검사",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/014.json",
+          "sha256": "da2e8fe0dab33bf7cb456f2f9e823c94cadd43612804b27f5d0c80c9f4e1f18c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/015.json",
+          "sha256": "3c5c4f2cb4cf7ef10c2c7115da9e3042cc064ae746919aa952489e54d9d70377"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/016.json",
+          "sha256": "d5a1ca320bc64deebf35f0056e62458b7bbbe4f98869958600257c8f0cce2053"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "CONTRIBUTING.md#/sections/버전과 GitHub Release",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/017.json",
+          "sha256": "053371377248517548ad12d58012cad378db71bcc0364c8033327af32c459141"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/018.json",
+          "sha256": "e3f4c0a0ad6d44fc5c9bfaed2679f0c15e50ef9fbb93d9427c76100264c51d89"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/019.json",
+          "sha256": "3c5c4f2cb4cf7ef10c2c7115da9e3042cc064ae746919aa952489e54d9d70377"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/CODEX_FINAL_HANDOFF.md",
+        "docs/development-roadmap/CURRENT_STATE.md",
+        "docs/development-roadmap/CURSOR_HANDOFF.md",
+        "docs/development-roadmap/FINAL_ACCEPTANCE.md",
+        "docs/development-roadmap/RD-01-components/design.md",
+        "docs/development-roadmap/RD-01-components/feature.md",
+        "docs/development-roadmap/RD-01-components/tasks.md",
+        "docs/development-roadmap/RD-02-layer-structure/design.md",
+        "docs/development-roadmap/RD-02-layer-structure/feature.md",
+        "docs/development-roadmap/RD-02-layer-structure/tasks.md",
+        "docs/development-roadmap/RD-03-task-dependencies/design.md",
+        "docs/development-roadmap/RD-03-task-dependencies/feature.md",
+        "docs/development-roadmap/RD-03-task-dependencies/tasks.md",
+        "docs/development-roadmap/RD-04-selective-sync/design.md",
+        "docs/development-roadmap/RD-04-selective-sync/feature.md",
+        "docs/development-roadmap/RD-04-selective-sync/tasks.md",
+        "docs/development-roadmap/RD-05-asset-inventory/design.md",
+        "docs/development-roadmap/RD-05-asset-inventory/feature.md",
+        "docs/development-roadmap/RD-05-asset-inventory/tasks.md",
+        "docs/development-roadmap/RD-06-native-read/design.md",
+        "docs/development-roadmap/RD-06-native-read/feature.md",
+        "docs/development-roadmap/RD-06-native-read/tasks.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/design.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/feature.md",
+        "docs/development-roadmap/RD-07-runtime-boundaries/tasks.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/design.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/feature.md",
+        "docs/development-roadmap/RD-08-operation-lifecycle/tasks.md",
+        "docs/development-roadmap/RD-09-audit-log/design.md",
+        "docs/development-roadmap/RD-09-audit-log/feature.md",
+        "docs/development-roadmap/RD-09-audit-log/tasks.md"
+      ],
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "reason": "The nine feature files retain exactly the 45 REQ and 45 AC identifiers mapped by FINAL_ACCEPTANCE; all 27 design/feature/task documents disclose the 0.27 first-implementation or candidate boundary, link current-state/handoff/acceptance references, and resolve their referenced task test/fixture files. The four handoff/state/acceptance records label historical state and current user authority explicitly.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/020.json",
+          "sha256": "d5a1ca320bc64deebf35f0056e62458b7bbbe4f98869958600257c8f0cce2053"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/api-priority.md"
+      ],
+      "authority": "library/figma-api/index.json#/members",
+      "reason": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/021.json",
+          "sha256": "1ebdd229046993c8f66f7a4f3a86dc336cab03aadd6dbc9fa564274a0d3972ad"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/api-priority.md"
+      ],
+      "authority": "library/figma-api/coverage-baseline.json#/counts",
+      "reason": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/022.json",
+          "sha256": "f4fef5ae526739a78e9a55c353b6fa7d497998a337af668b91b9a027cf29baab"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/api-priority.md"
+      ],
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "reason": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/023.json",
+          "sha256": "e9ac7c20c7ee5d10a4b5d79ba8722c251c8d9c8eb1140f3919bd45c22343f096"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/api-priority.md"
+      ],
+      "authority": "specs/responsive-web/api-observations.json#/nodes",
+      "reason": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/024.json",
+          "sha256": "c91d6fe9b5491324b61cb31053be2571c81a3d6a851fd744279df2e9d5596d28"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/api-priority.md"
+      ],
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "reason": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/025.json",
+          "sha256": "caae671297dbfb92f059f8411dcf16743b7f040eb8840a289391103f70ce29c5"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/api-priority.md"
+      ],
+      "authority": "specs/design-inspection/service-observations.json#/nodes",
+      "reason": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/026.json",
+          "sha256": "1cc07914d9a0dfa72510328198689cdc82fd231fe37f72071da2016be386ac71"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/api-priority.md"
+      ],
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "reason": "The current observation counts in the guide match the receipt-validated review report; API queue status is exact-key evidence, not runtime success inferred from type declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/027.json",
+          "sha256": "8f8d9e4376e4cfd256619ce22345af18df6bbbbc7b7b1fb407548a702d7481e2"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-sdk-project.md"
+      ],
+      "authority": "library/figma-api/source.json#/version",
+      "reason": "SDK scaffolding uses the pinned official API source, keeps editor mode explicit, rejects fabricated identifiers, and does not claim TypeScript is a security boundary.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/028.json",
+          "sha256": "fee3baea7d14eb581acdedced38ea0f414aab5b08dd63d0ae84afe9a9d58eebc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-sdk-project.md"
+      ],
+      "authority": "library/figma-api/source.json#/ref",
+      "reason": "SDK scaffolding uses the pinned official API source, keeps editor mode explicit, rejects fabricated identifiers, and does not claim TypeScript is a security boundary.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/029.json",
+          "sha256": "55f7a8aa4bb8b40bf57aeadcbeb518d1cb32fc3c8a12ef177ff261d2eb8c7bb5"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-sdk-project.md"
+      ],
+      "authority": "library/figma-api/source.json#/files",
+      "reason": "SDK scaffolding uses the pinned official API source, keeps editor mode explicit, rejects fabricated identifiers, and does not claim TypeScript is a security boundary.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/030.json",
+          "sha256": "7ae429ba573dd887c440f1526234111d6354ba4cdace6afae594849df57fad40"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-widget.md"
+      ],
+      "authority": "library/figma-widget/source.json#/version",
+      "reason": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/031.json",
+          "sha256": "6a1fc4110bdb538a8e43914959cb8fdce21d947caa82e76df8b5686c3cb02118"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-widget.md"
+      ],
+      "authority": "library/figma-widget/source.json#/ref",
+      "reason": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/032.json",
+          "sha256": "cf5f30087940edea0437dc5d7209d2b0bb9d08d05ff1f0d763b5af5fce57d277"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-widget.md"
+      ],
+      "authority": "library/figma-widget/source.json#/files",
+      "reason": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/033.json",
+          "sha256": "aafa42aa6e0439c429083cdaf9f6c1d128172a8f152910a5f25f2ac877f39e5b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-widget.md"
+      ],
+      "authority": "library/figma-widget/upstream-package.json#/version",
+      "reason": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/034.json",
+          "sha256": "3ff9b14ff133a6d903eb549ce596af531c26df2362140bd7df2a179f9cb58f0c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-widget.md"
+      ],
+      "authority": "library/figma-api/source.json#/version",
+      "reason": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/035.json",
+          "sha256": "3af56af8cc68d572910d15ab621819ecd4df6ccffc1546dfbd1568a75e25a20c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/figma-widget.md"
+      ],
+      "authority": "library/figma-api/source.json#/ref",
+      "reason": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/036.json",
+          "sha256": "ff8c2a096bb3240b9e669f88c53e233aa1ccae94a3cf31b67aed96a8c591c7d1"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/native-api-probe.md"
+      ],
+      "authority": "library/figma-api/index.json#/members",
+      "reason": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/037.json",
+          "sha256": "515e5fce6097fd710de5f8350a3a0af468fe266d7deed0be765d36e0ac6fa3f3"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/native-api-probe.md"
+      ],
+      "authority": "library/figma-api/coverage-baseline.json#/members",
+      "reason": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/038.json",
+          "sha256": "4984e72ee0660519f6e24357da5e50582b93ea1a5910c694d18b73c4e3ecfc76"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/native-api-probe.md"
+      ],
+      "authority": "library/figma-api/source.json#/files",
+      "reason": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/039.json",
+          "sha256": "927692cf3e5b283f6d65a0a7b51de832f0e09bd7186c1abfbecf8e589840dfe0"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/native-api-probe.md"
+      ],
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "reason": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/040.json",
+          "sha256": "8aeae4a15793c77285ba942c672b0dc1c6c0d2e2c4633f3ff7e5e1bc85793f58"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/native-api-probe.md"
+      ],
+      "authority": "specs/design-inspection/service-observations.json#/nodes",
+      "reason": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/041.json",
+          "sha256": "da620ca9d4b94195927139759622faf33ae3f4dfb6d721b48570a8ae7067c7c0"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/native-api-probe.md"
+      ],
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "reason": "The described probe uses exact prior readback node identity/type and official member candidates; unsupported or unavailable reads remain distinct, and its workspace task is read-only.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/042.json",
+          "sha256": "f53d28054c4b4df50bb9d26e5930a7174654b12dba7c611c27fd48fcff483a80"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/component-property-authoring.md"
+      ],
+      "authority": "library/figma-recipes/design-examples.graph.json#/nodes",
+      "reason": "BOOLEAN visibility, INSTANCE_SWAP targets/defaults/preferred values, source preview behavior, and the runnable fixture are aligned with the canonical recipe payload and the actual importer/readback assertion cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/043.json",
+          "sha256": "ca601945fbdd1c377db90e5a9128334b5799096055d4ed60b4f4ba63f62f7f6d"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/component-property-authoring.md"
+      ],
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "reason": "BOOLEAN visibility, INSTANCE_SWAP targets/defaults/preferred values, source preview behavior, and the runnable fixture are aligned with the canonical recipe payload and the actual importer/readback assertion cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/044.json",
+          "sha256": "3d0341bbe956bbcbb6102b39a180c337bbdc740f22a6022f265e3db408fbac8b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-type-review.md"
+      ],
+      "authority": "library/figma-recipes/design-type-review.graph.json#/graph",
+      "reason": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/045.json",
+          "sha256": "c82e6ab6d97197daf27daec85b6eada4738fc45694adce76f00a561e5abfd4ad"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-type-review.md"
+      ],
+      "authority": "library/figma-recipes/design-type-review.graph.json#/priority_members",
+      "reason": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/046.json",
+          "sha256": "847ca100f638db6fb41fa6fca7e7f005ed9d883ef43710039c76f4253f69af77"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-type-review.md"
+      ],
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "reason": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/047.json",
+          "sha256": "1129d0a2cc304ec678f79992abe8094e48a7241e9d2df058e0d05316bdbe922c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-type-review.md"
+      ],
+      "authority": "specs/editable-web/api-observations.json#/edges",
+      "reason": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/048.json",
+          "sha256": "23656523fd5ea914a13ff82683e0af237bd88d53d850c9998e49e47872c500a6"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-type-review.md"
+      ],
+      "authority": "library/figma-api/index.json#/members",
+      "reason": "The documented graph budget and count of 19 API member IDs match the generated graph contract and the timestamped sanitized observation node that links those exact members.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/049.json",
+          "sha256": "049303110d86442a69290f97a47ee18b9a0431fa64c602133703f63beed31d1a"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-system-trials.md",
+        "docs/trials/mui-comparison.jpg",
+        "docs/trials/mui-native-repair.jpg",
+        "docs/trials/shadcn-comparison.jpg",
+        "docs/trials/shadcn-native-repair.jpg"
+      ],
+      "authority": "docs/design-system-trials.md#/sections/이번 기획의 채택안 · MUI B",
+      "reason": "The trial record captions each desktop/mobile comparative frame and each before/after native repair frame; the images retain all four labeled crops at their recorded aspect and pixel dimensions.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/050.json",
+          "sha256": "fb19d166a1d63a9d7ac49d61ae759e4d5bdb54ff848134f536d6e97604e2de1a"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-system-trials.md",
+        "docs/trials/mui-comparison.jpg",
+        "docs/trials/mui-native-repair.jpg",
+        "docs/trials/shadcn-comparison.jpg",
+        "docs/trials/shadcn-native-repair.jpg"
+      ],
+      "authority": "docs/design-system-trials.md#/sections/shadcn~1ui를 지정하는 프로젝트의 채택안 · A",
+      "reason": "The trial record captions each desktop/mobile comparative frame and each before/after native repair frame; the images retain all four labeled crops at their recorded aspect and pixel dimensions.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/051.json",
+          "sha256": "d72a55dbef557816b8c9c39647d8078a4eef48c7325c1f260e57b095a8576a86"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-system-trials.md",
+        "docs/trials/mui-comparison.jpg",
+        "docs/trials/mui-native-repair.jpg",
+        "docs/trials/shadcn-comparison.jpg",
+        "docs/trials/shadcn-native-repair.jpg"
+      ],
+      "authority": "docs/design-system-trials.md#/sections/0.18.2 실제 Figma 재검증",
+      "reason": "The trial record captions each desktop/mobile comparative frame and each before/after native repair frame; the images retain all four labeled crops at their recorded aspect and pixel dimensions.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/052.json",
+          "sha256": "1a4be0a0a2d71c24875c9e1ab50155252448936625e7ec063bbd57136f143cf8"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "reason": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/053.json",
+          "sha256": "12cbad3f053801de5105233368250c3f19f21a1a7f1d04662b19197e4b7c3c56"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "authority": "docs/guide.md#/sections/6. 시안 만들기, 결과 저장, 대조",
+      "reason": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/054.json",
+          "sha256": "783324d2416f8aa406b2a08b347d0e56278ba4020deed8abb5781ce485ae33cb"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "authority": "docs/guide.md#/sections/Figma 기능 찾기와 데스크톱 실행",
+      "reason": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/055.json",
+          "sha256": "14d62fb9b2ddb5ce42aa399cc67cad95e797ba1ac8971ffa98bd139675f29e83"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/images/custom-ui-template.png",
+        "docs/images/development-menu.png",
+        "docs/images/finished-preview.jpg",
+        "docs/images/manifest-picker.png",
+        "docs/images/new-plugin-dialog.png",
+        "docs/images/panel-discovery.png",
+        "docs/images/panel-graph-diff.png",
+        "docs/images/panel-graph-sync.png",
+        "docs/images/panel-history.png",
+        "docs/images/panel-import.png",
+        "docs/images/panel-review.png",
+        "docs/images/panel-workspace.png"
+      ],
+      "authority": "docs/guide.md#/sections/7. 비교와 실제 선택 기록",
+      "reason": "Retained guide screenshots are linked at the procedural section that uses them, setup screenshots distinguish an offered choice from a selected choice, old panels are labeled historical across translations, and the current review/history crops visibly frame their candidate/scroll regions.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/056.json",
+          "sha256": "87204a7dbdf45c25ce43566b320afb58a50336cd32394e9bf29628cc59cc7efb"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-runtime-verification.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "reason": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/057.json",
+          "sha256": "f945cff9fbc1f27fc1afdc3e06184fd9f0410be22a5b2445ce19b2cf7f33628d"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-runtime-verification.md"
+      ],
+      "authority": "specs/design-inspection/service-observations.json#/nodes",
+      "reason": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/058.json",
+          "sha256": "1b5ee155c7cfcc0897c11f97d0ab6b7610a6c9b64537d698a4dd60f66bc00140"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-runtime-verification.md"
+      ],
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "reason": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/059.json",
+          "sha256": "a4587c3ca4c73265683bd36e062789944817b61c711aa258c43c6fcc04994e3f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/design-runtime-verification.md"
+      ],
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "reason": "The historical Design-only boundary and 0.32 inspection counts in the report match the timestamped service/value/scene observation graphs; the report explicitly describes the fixtures and scope limits.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/060.json",
+          "sha256": "0501e6d4e74175e9ed6b3f55a97f8a9d264657e4923898a34325c3b1905d490d"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/editable-web-verification.md"
+      ],
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "reason": "The 0.30.0 candidate report is explicitly historical, ties its captured screen graph and API batch counts to stored evidence, and states that native receipts/raw readbacks are kept in the ignored workspace.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/061.json",
+          "sha256": "0fb415e96db75eb5929b1d2b4f43f4f1d61dea268105cf228586c633e286bbe4"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/editable-web-verification.md"
+      ],
+      "authority": "specs/editable-web/api-observations.json#/edges",
+      "reason": "The 0.30.0 candidate report is explicitly historical, ties its captured screen graph and API batch counts to stored evidence, and states that native receipts/raw readbacks are kept in the ignored workspace.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/062.json",
+          "sha256": "2453a7ad4e04619416587b950438c4b2f14ff427012dce271185d67fbc56e05a"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/responsive-web-verification.md"
+      ],
+      "authority": "specs/responsive-web/api-observations.json#/nodes",
+      "reason": "The report’s 54-frame total and four API batch call counts match its historical responsive graph and sanitized observation graph; unsupported video and arbitrary CSS behavior remain explicitly unverified.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/063.json",
+          "sha256": "bbc9683d5cdcdd2e67af9292c5bfdde9e914ebbf4676708d99a3ae91078747e1"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/responsive-web-verification.md"
+      ],
+      "authority": "specs/responsive-web/api-observations.json#/edges",
+      "reason": "The report’s 54-frame total and four API batch call counts match its historical responsive graph and sanitized observation graph; unsupported video and arbitrary CSS behavior remain explicitly unverified.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/064.json",
+          "sha256": "1491e29feddc203beefbc057805653de4ee40f671cc1a9f25e0bfeb023691271"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-carousel-input.md"
+      ],
+      "authority": "specs/interactive-web/carousel.md#/sections/실행과 인수 경로",
+      "reason": "The documented observation schema and compiler path are bound to the canonical carousel spec and graph contract; finite state order, pinned PNGs, transition direction, manual/autoplay wrap policy, and no-overwrite behavior are exercised by public fixture tests.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/065.json",
+          "sha256": "fc48884ecc090e9444f0e020fbd809e99c844c9c5d0a4e8fc431d9b201e68b6b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-carousel-input.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "reason": "The documented observation schema and compiler path are bound to the canonical carousel spec and graph contract; finite state order, pinned PNGs, transition direction, manual/autoplay wrap policy, and no-overwrite behavior are exercised by public fixture tests.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/066.json",
+          "sha256": "8556dfa8d0ded3e3777616ab5f59bf9d68fbb7d0f9885d63cb42ea5f69f3a610"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-carousel-input.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "reason": "The documented observation schema and compiler path are bound to the canonical carousel spec and graph contract; finite state order, pinned PNGs, transition direction, manual/autoplay wrap policy, and no-overwrite behavior are exercised by public fixture tests.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/067.json",
+          "sha256": "67e15ba86d2fd92aa48deb96141a985882389dba6f9231b829ee8d87d465fa71"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-tabs-input.md"
+      ],
+      "authority": "specs/interactive-web/tabs.md#/sections/실행과 인수 경로",
+      "reason": "The tab observation schema follows the canonical observed-click spec; each distinct panel state and source-frame control is pinned and only observed click transitions compile to the signed plan.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/068.json",
+          "sha256": "535bff587da35809e1e6bee30a32f9be5d7d568677dcc1ded187f62966e51034"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-tabs-input.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "reason": "The tab observation schema follows the canonical observed-click spec; each distinct panel state and source-frame control is pinned and only observed click transitions compile to the signed plan.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/069.json",
+          "sha256": "b4f8bf7c92b53d8d17f013984c753c3e2584e3b3ddd9df664f295db929414289"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-tabs-input.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "reason": "The tab observation schema follows the canonical observed-click spec; each distinct panel state and source-frame control is pinned and only observed click transitions compile to the signed plan.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/070.json",
+          "sha256": "51b25d204c1b5fa0f7e38b80176109d4895663c8220571053957c73ab44d950f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-disclosure-input.md"
+      ],
+      "authority": "specs/interactive-web/disclosure.md#/sections/실행과 인수 경로",
+      "reason": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/071.json",
+          "sha256": "800c375c9dd57f1b3515e074c460a0db9389cd2c3d080877aa210ad61e1e06e8"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-disclosure-input.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "reason": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/072.json",
+          "sha256": "4f3c85b10fd2701115e4ecab5362b57384bf2cd8f3d3555842d1a70fe655a739"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-disclosure-input.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "reason": "The single-collapsible input contract and reachable-state boundary match the canonical disclosure graph/spec; open, close, sibling switch, answer/content digests, and disconnected-cycle rejection are covered by the public compiler cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/073.json",
+          "sha256": "eb70d032af9803b20d998ad15c53a4c95ed473314f88ad053ab3443fcf3d1bb5"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-design-capture.md"
+      ],
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "reason": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/074.json",
+          "sha256": "51abc217aa36472a8aa8a8e7a97f84d2feb2ec424312573c11e4d64ceef0a0e9"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-design-capture.md"
+      ],
+      "authority": "specs/editable-web/graph.json#/edges",
+      "reason": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/075.json",
+          "sha256": "6ce7ad16a121be38a1a214934c9ddfd55653f395f054e25a61855b199561b8cc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-design-capture.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "reason": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/076.json",
+          "sha256": "26febd72df007e96336b47619907e8b678c84804003bdc434c33fb3a0f06d1b8"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-design-capture.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "reason": "The public capture, source-to-graph, and native-plan commands shown by the guide match CLI help; tests cover explicit local bytes, tracking, canvas pixels, responsive screen selection, image/effect limits, and plan pinning.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/077.json",
+          "sha256": "7865883a8b5afd2ba493a676b845a181e9238b0fd1a5f8663de80c9a9e33b789"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/html-asset-map.md"
+      ],
+      "authority": "tools/input-effect-contract.json#/assetMap",
+      "reason": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/078.json",
+          "sha256": "172e1fdee4339821d6f4443716525cd7a6040dca7b5ad1adf3eca444fdaaa26f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/html-asset-map.md"
+      ],
+      "authority": "tools/input-effect-contract.json#/records",
+      "reason": "The manifest example and v4/v3 record names match the policy now consumed by input_effect; exact request-target, origin, hashes, freshness, unlisted-reference, and remote-source boundaries have focused positive/negative fixture cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/079.json",
+          "sha256": "525366f4f3558ba14153ddd8962139338aac04920f56a7fa711be3b8524555b5"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "authority": "docs/next-roadmap/backlog.graph.json#/nodes",
+      "reason": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/080.json",
+          "sha256": "4aaac3f17e967197591d8d35d227a3703e634ab60a7ee813245553abfe2ecfa1"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "authority": "docs/next-roadmap/backlog.graph.json#/edges",
+      "reason": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/081.json",
+          "sha256": "5b65ee262f5f646c6f9b2c9a31d804e4ca2aed1077e5e06276b8c23b1d870681"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "reason": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/082.json",
+          "sha256": "0e43326fbd65db03bd79a7e6d72a1de907f8bb0efb45d2f6ae2fe31133b2203b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "reason": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/083.json",
+          "sha256": "be2cd73f04f501b30b4df05263a12d8a3ae17815ef5ddcd8718f2b0b1ede800b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/NF-01-component-families.md",
+        "docs/next-roadmap/NF-02-incremental-native-read.md",
+        "docs/next-roadmap/NF-03-causal-history.md",
+        "docs/next-roadmap/NF-04-renderer-adapters.md",
+        "docs/next-roadmap/NF-05-improvement-runner.md",
+        "docs/next-roadmap/NF-06-domain-protocol.md",
+        "docs/next-roadmap/NF-07-web-import-editor-capabilities.md",
+        "docs/next-roadmap/NF-08-optional-plugin-routing.md",
+        "docs/next-roadmap/NF-09-interactive-web-design.md",
+        "docs/next-roadmap/README.md"
+      ],
+      "authority": "docs/next-roadmap/capability-review.md#/sections/우선순위와 의존성 그래프 (`backlog.graph.json`)",
+      "reason": "The index labels NF-01 through NF-06 and NF-08 as PROPOSED and indexes all nine NF records as historical proposals; NF-07 and NF-09 retain their implemented-version snapshots while spelling out deferred scope and separate publication/acceptance status.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/084.json",
+          "sha256": "ec943378efad09812120a515bc02272b0c8b29bad4f7c5d64d1b45a4325cf370"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "docs/next-roadmap/backlog.graph.json#/nodes",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/085.json",
+          "sha256": "905bf4ada3d261ceb1bfc39851fb10fbab363f73b2e88fb641170ab8bdfc03ad"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "docs/next-roadmap/backlog.graph.json#/edges",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/086.json",
+          "sha256": "7af6aaf969139110e197103a094df808f6cd7b31599c4934708ea21d451934fd"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/087.json",
+          "sha256": "2a030cbc70f8df05755e4a0134b4313bdc67ac52bd82f65582d4b65ccc412e9a"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "specs/design-inspection/service-observations.json#/nodes",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/088.json",
+          "sha256": "8d2944dff010994b8dbb98e37b3cf9423b10b3aed4be1aec7d28d74e6ec201fe"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/089.json",
+          "sha256": "df60de5fcc413950b29f4520c1e8020a0135ced31b08d6b76c45386f05e5e777"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/090.json",
+          "sha256": "17e8a4fe8002feff95c268332bdb310fd0f998e6eef9ca13887e4148845a7d62"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "specs/responsive-web/api-observations.json#/nodes",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/091.json",
+          "sha256": "408c03d01c9d696f26c68f896d0a7b4bc15cfd946e7d39f93bc76982f729529c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "docs/next-roadmap/capability-review.md#/sections/현재 CLI 근거 (`p0-api-queue-validation`)",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/092.json",
+          "sha256": "5aeb2eb3d29187b12d20dc4c848e9d8ce96284bbc681e94d88b38f81d3f89d49"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/next-roadmap/backlog.graph.json",
+        "docs/next-roadmap/capability-review.md",
+        "docs/next-roadmap/p0-reference-acceptance.md",
+        "docs/next-roadmap/p1-acceptance.md",
+        "docs/next-roadmap/p2-wave1-acceptance.md"
+      ],
+      "authority": "docs/next-roadmap/capability-review.md#/sections/우선순위와 의존성 그래프 (`backlog.graph.json`)",
+      "reason": "P0/P1/P2 status and dependency transitions in the review/acceptance reports agree with the canonical backlog graph; observed API counts and proof references remain tied to their specific receipt graphs and test inventories.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/093.json",
+          "sha256": "87ca9285345077d1fa92c6f9acd18c399198521e86b54f4794329197bcd2bed0"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/STARTER_ROLE_FEATURE_SPEC.md"
+      ],
+      "authority": "docs/STARTER_ROLE_FEATURE_SPEC.md#/sections/직군별 한눈에 보기",
+      "reason": "The Starter spec is a dated v0.27.1 planning snapshot; its roadmap entries are explicitly proposals, distinct from current accepted product behavior.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/094.json",
+          "sha256": "448366977a5263cde5eb99cb4448fecbe47a2b732a6f3c7d5af02c06e23f61c7"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/STARTER_ROLE_FEATURE_SPEC.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/기능을 채택하는 기준",
+      "reason": "The Starter spec is a dated v0.27.1 planning snapshot; its roadmap entries are explicitly proposals, distinct from current accepted product behavior.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/095.json",
+          "sha256": "bbad22b51ed3b8f0e2137850a41f94c98932219014b6ef6371e6df1a5506a355"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/STARTER_ROLE_FEATURE_SPEC.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/개발 경계",
+      "reason": "The Starter spec is a dated v0.27.1 planning snapshot; its roadmap entries are explicitly proposals, distinct from current accepted product behavior.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/096.json",
+          "sha256": "6ca586e0bec41759f66470c7d350cf60b996c2700aa6eadc20c980b9671998ed"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/README.md"
+      ],
+      "authority": "docs/development-roadmap/README.md#/sections/권장 실행 순서",
+      "reason": "The RD-01–RD-09 plan is correctly marked as a 0.26.2 proposed roadmap while its separate CURRENT_STATE and FINAL_ACCEPTANCE records define the later historical implementation/verification snapshot.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/097.json",
+          "sha256": "fd32e5d37a1e52e6e13fb0b7378cefbf4c6697d23c8c8bba18e432fff0dffe5f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/README.md"
+      ],
+      "authority": "docs/development-roadmap/CURRENT_STATE.md#/sections/현재 후보의 구현 경로",
+      "reason": "The RD-01–RD-09 plan is correctly marked as a 0.26.2 proposed roadmap while its separate CURRENT_STATE and FINAL_ACCEPTANCE records define the later historical implementation/verification snapshot.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/098.json",
+          "sha256": "061101cef72ea0229ce0fbae88dd84a1acd6db9d4c09ae910cf9bb9d3e6218a7"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/README.md"
+      ],
+      "authority": "docs/development-roadmap/FINAL_ACCEPTANCE.md#/sections/REQ와 구현 경로",
+      "reason": "The RD-01–RD-09 plan is correctly marked as a 0.26.2 proposed roadmap while its separate CURRENT_STATE and FINAL_ACCEPTANCE records define the later historical implementation/verification snapshot.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/099.json",
+          "sha256": "5f414a2cec9871df1b899736a6441c835656472c8682fcc9bb780d1dcdb909b0"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/development-roadmap/README.md"
+      ],
+      "authority": "docs/development-roadmap/FINAL_ACCEPTANCE.md#/sections/AC별 매트릭스",
+      "reason": "The RD-01–RD-09 plan is correctly marked as a 0.26.2 proposed roadmap while its separate CURRENT_STATE and FINAL_ACCEPTANCE records define the later historical implementation/verification snapshot.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/100.json",
+          "sha256": "81d6731d199d1f9cd834faf7d1301398c7ef0d97d8d22d5102ee3fe4f5c65f8e"
+        }
+      ]
+    },
+    {
+      "files": [
+        "README.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "reason": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/101.json",
+          "sha256": "9b0438f725d77e3bb5d26ff7bb887dbba046b1ecc237f89e4dcf1d540c27e6d4"
+        }
+      ]
+    },
+    {
+      "files": [
+        "README.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/개발 경계",
+      "reason": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/102.json",
+          "sha256": "b86246f9832070cf6ec6550df47571dcbc500fa361cb80bafefa862cdfa0e402"
+        }
+      ]
+    },
+    {
+      "files": [
+        "README.md"
+      ],
+      "authority": "library/workflow.json#/states",
+      "reason": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/103.json",
+          "sha256": "ea4c2b2c9c986e9f86228160f31a57746308731b9a32307149e1ef4305240a36"
+        }
+      ]
+    },
+    {
+      "files": [
+        "README.md"
+      ],
+      "authority": "library/figma-api/index.json#/members",
+      "reason": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/104.json",
+          "sha256": "69ba05febaf4fd69bbb1914ea809a6851735a035d139780ba5d785c2b6119f55"
+        }
+      ]
+    },
+    {
+      "files": [
+        "README.md"
+      ],
+      "authority": "plugin.json#/version",
+      "reason": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/105.json",
+          "sha256": "7cbd60360bb68678dce67d9f168636c2192f26338143eba8f26d4137a35b0f18"
+        }
+      ]
+    },
+    {
+      "files": [
+        "README.md"
+      ],
+      "authority": ".codex-plugin/plugin.json#/version",
+      "reason": "The front-page summary states the Design-only scope, Codex authority, passive Figma viewer, version-neutral selected-tag onboarding, and exact current API inventory size; the explicit 0.36.0 section is historical.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/106.json",
+          "sha256": "b918e952b4e794e76743c2945fc9cc02082c693795200db04daca6d55970a788"
+        }
+      ]
+    },
+    {
+      "files": [
+        "CONTRIBUTING.md"
+      ],
+      "authority": "CONTRIBUTING.md#/sections/메이저 배포 전 그래프·하드코딩 검사",
+      "reason": "The major-release command and review evidence instructions match the actual CLI and current source/witness review gate; the document explicitly assigns tag, archive, and push steps to the release owner.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/107.json",
+          "sha256": "31627cbba035563faed30984b82824c6a0b141816504e687a11b290f0cf45a0e"
+        }
+      ]
+    },
+    {
+      "files": [
+        "CONTRIBUTING.md"
+      ],
+      "authority": "CONTRIBUTING.md#/sections/버전과 GitHub Release",
+      "reason": "The major-release command and review evidence instructions match the actual CLI and current source/witness review gate; the document explicitly assigns tag, archive, and push steps to the release owner.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/108.json",
+          "sha256": "52ba0dd56ea00be912fe19d077ce64861fa82d045f329f753f8c947dae335e9c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "CONTRIBUTING.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "reason": "The major-release command and review evidence instructions match the actual CLI and current source/witness review gate; the document explicitly assigns tag, archive, and push steps to the release owner.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/109.json",
+          "sha256": "4cad8bab9f4c462b714597a3ccead792e59b318c8eaa549faec616199dc83554"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/optional-evidence-tests.md"
+      ],
+      "authority": "docs/optional-evidence-tests.md#/sections/Replay optional native evidence tests",
+      "reason": "The replay procedure rejects absent and partial evidence correctly, treats one-scope synthetic input as incomplete/not-run for other checks, isolates test workspaces read-only from original fixture roots, and describes CI skips without promoting them to passes.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/110.json",
+          "sha256": "57140ba8c3070c28df2e00e697a8fcedaf93dcde652d1ba2bf3444eb42b65170"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/optional-evidence-tests.md"
+      ],
+      "authority": "docs/optional-evidence-tests.md#/sections/CI skips",
+      "reason": "The replay procedure rejects absent and partial evidence correctly, treats one-scope synthetic input as incomplete/not-run for other checks, isolates test workspaces read-only from original fixture roots, and describes CI skips without promoting them to passes.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/111.json",
+          "sha256": "cd9ffed8cfecea8f3a6b980c44ab6e35de13955f622c3dbcdeb191b1bd884435"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/0",
+      "reason": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/112.json",
+          "sha256": "71c7779f58ade2d72e49cc8e07558826f007905b60031ae3c9581eb6f64b01fb"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "reason": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/113.json",
+          "sha256": "deae7cec0550047167a1c0393c81e2e1eb119635fa064c2773767a51828f053d"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "authority": "specs/editable-web/graph.json#/edges",
+      "reason": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/114.json",
+          "sha256": "258c891f7c4b72ef0ce31ae57388a85457b6aaf9ba9736887ef52669ac1095f6"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/0/screens/0/evidenceDigests",
+      "reason": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/115.json",
+          "sha256": "14d30ca618172353d3fb32a9ff59c2d1073bce5ac76b5801455a080ed37cd536"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/0/screens/1/evidenceDigests",
+      "reason": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/116.json",
+          "sha256": "872fade37a6b622e181834a5998ff40dc332ca6e142336fe269a6aa149c4c0d7"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/0/reuse",
+      "reason": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/117.json",
+          "sha256": "b1c6eb076afca6ff030fa1e806965780cca936fee712b32f5e535be2c6aaa558"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1",
+      "reason": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/118.json",
+          "sha256": "67eb40e8117fcf3b662d8a53acf1b756eeeda717f8e1d358858d64ab36f39a73"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/logos",
+      "reason": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/119.json",
+          "sha256": "987e7294e03884398f34a54002b3667d9e2579782fca43f7330dca141e78a2d0"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/nativeReadback",
+      "reason": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/120.json",
+          "sha256": "2084ee2711db5fb0e29759f16f87616fb3437265fc13e2be0c231a051900c8d4"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "reason": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/121.json",
+          "sha256": "2326366c134075878bdbbf0f1301de58538922800feac8cdb22b52908568fae1"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "authority": "specs/editable-web/graph.json#/edges",
+      "reason": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/122.json",
+          "sha256": "42c7d84b83314ba6dc89bed8ab33f5a5bc9dd6a78a3a5a13be20f20663b28a8f"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/Figma 기능 찾기와 데스크톱 실행",
+      "reason": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/123.json",
+          "sha256": "f7bbb5c7e03091bcbdf8f50a86e018e3a7f3b0a57c3e2ac7b6896c543e199c59"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/124.json",
+          "sha256": "31af22138be86c539a8dc7264f7a784bd0ae3258f4decb657e3589670f2552a1"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/125.json",
+          "sha256": "5bfb4838890e7ea362b56a86b9d7fdda8f6007f3004ba426cf1b6992f9c999f4"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "library/figma-recipes/manifest.json#/recipes",
+      "reason": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/126.json",
+          "sha256": "c0ac3b9fb263f6988045791279cae7f5fd5543db15b7fce27f01c10198f4136c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "reason": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/127.json",
+          "sha256": "fba5f3a830be64bfaba25940950d17ccf9419d461a29294d78f03950bdda4bdc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/매번 시작할 때 최신 플러그인 확인",
+      "reason": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/128.json",
+          "sha256": "fe6549ea4defaaaa05a6971ae24ddda6005a3b4e60a1095c4e2ff641d0584b8c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "plugin.json#/version",
+      "reason": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/129.json",
+          "sha256": "d59c174631f561dc7f5305c5569d0e442ce2eb2986e95b4507b69ae3d5610e67"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": ".codex-plugin/plugin.json#/version",
+      "reason": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/130.json",
+          "sha256": "40b607b19e2d5d891ccd4bbbc71b5ac2888ff656e6a8d2f17eaef012a6e5eefa"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "library/figma-profile/policy.json#/operations",
+      "reason": "Install and startup instructions use the selected release tag, inspect the returned installedPath and paired manifests, and preserve explicit policy exceptions for active/stale/unknown/offline source states.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/131.json",
+          "sha256": "c5e156454bd2166afe6410ac415ba4ad30af0be1cb6354919f3dc93ca5f1d75c"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/7. 비교와 실제 선택 기록",
+      "reason": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/132.json",
+          "sha256": "0e6877985637d25b7719e3f8537b866865e4539efe90b99dea211932542fa5dc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달",
+      "reason": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/133.json",
+          "sha256": "80ea034a67fc83f187a9f529d098ca5ede42dccb6cd559952892c5ebd2c77d62"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "reason": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/134.json",
+          "sha256": "c26a80b218f4af18629cbe81a0bc236e31e3d0a8cce6371ddf69775cd3c42e5b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "library/workflow.json#/edges",
+      "reason": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/135.json",
+          "sha256": "b8f345f613d135a6935a1ced3bc89cca97248bf4d76bbdffcfe2d28a61f36eaf"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "The guide directs users to explicit comparison and selection steps and keeps draft preparation/production admission blocked until a current choice and signed exact scope are available.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/136.json",
+          "sha256": "4e8a69bc3e57763900254e609a8d55f4a416cd833ae579c2a76ab5a484f451cc"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리",
+      "reason": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/137.json",
+          "sha256": "b719fad2a3109a23124da3d8ad7cc8695cf2ebe9afb5fb3766a92718caba1ef0"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "reason": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/138.json",
+          "sha256": "52de76cd2e96adaa51a06a726dabeca43a4b5888935843124165c122d851e355"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "library/figma-profile/policy.json#/operations",
+      "reason": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/139.json",
+          "sha256": "df3a018bf3e1d5840b020d6413a0d435dbdd770a5a389b9499a9cd128be4ce52"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "library/workflow.json#/states",
+      "reason": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/140.json",
+          "sha256": "f678a7ab08c6e67eb76a307493ccaf9e97386756525caeb24e0ea2b64f3864f2"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화",
+      "reason": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/141.json",
+          "sha256": "de7811b83b5152d1525027bbc77bb725f7d3e7e18f2ee581166cc21d3ea7fe1b"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "specs/graph-review/graph.json#/nodes",
+      "reason": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/142.json",
+          "sha256": "19d056f8e9aa351b0d3478a3b95cd968cd58faac8f38d942f62b4332dfa9a526"
+        }
+      ]
+    },
+    {
+      "files": [
+        "docs/guide.md"
+      ],
+      "authority": "library/figma-profile/policy.json#/operations",
+      "reason": "The graph sync instructions preserve selected scope, user confirmation, fresh readback, pairing and conflict-handling boundaries of the published graph sync route.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/guides/143.json",
+          "sha256": "d24de40f6eb9c801e0a4ef0b1432ba7ecdc281beaa4bb55fbfeadc8adcc908e9"
+        }
+      ]
+    }
+  ]
+}

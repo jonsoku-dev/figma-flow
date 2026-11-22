@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work. Test assertion: ControlTests.test_cli_reads_fresh_native_context_and_round_trips_profile_declaration",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_control.py",
+      "testSha256": "166d890d59266b88d3b79749d6cf1ce7101ca3857bb30cf2ef203b67d77bdc34",
+      "case": "ControlTests.test_cli_reads_fresh_native_context_and_round_trips_profile_declaration"
+    },
+    {
+      "authority": "docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work. Test assertion: RequirementsSurfaceTests.test_codex_relay_spec_keeps_dialogue_approval_and_task_authority_in_codex",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_requirements_surface.py",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c",
+      "case": "RequirementsSurfaceTests.test_codex_relay_spec_keeps_dialogue_approval_and_task_authority_in_codex"
+    },
+    {
+      "authority": "docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work. Test assertion: home exposes workflow, private scope, accessible project filtering, keyboard and empty states",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_workspace_host.cjs",
+      "testSha256": "c9b3e1a65390c780a9da98bf74a78bbad0f9d713e595b34e06657cbcea7a8174",
+      "case": "home exposes workflow, private scope, accessible project filtering, keyboard and empty states"
+    },
+    {
+      "authority": "docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The Codex/relay section maps requests, profiles, approval, task execution, readback and errors to the current workspace and profile contracts without claiming that the viewer itself approves or sends work. Test assertion: profile gates write dispatches, keeps read on mixed tasks, and masks task user identity",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_workspace_host.cjs",
+      "testSha256": "c9b3e1a65390c780a9da98bf74a78bbad0f9d713e595b34e06657cbcea7a8174",
+      "case": "profile gates write dispatches, keeps read on mixed tasks, and masks task user identity"
+    }
+  ]
+}

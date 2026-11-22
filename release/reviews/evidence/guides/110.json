@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "docs/optional-evidence-tests.md#/sections/Replay optional native evidence tests",
+      "covers": [
+        "docs/optional-evidence-tests.md"
+      ],
+      "assertion": "The replay procedure rejects absent and partial evidence correctly, treats one-scope synthetic input as incomplete/not-run for other checks, isolates test workspaces read-only from original fixture roots, and describes CI skips without promoting them to passes. Test assertion: GuideVisualEvidenceTests.test_optional_evidence_guide_matches_absent_and_available_cli_paths",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_visual_evidence.py",
+      "testSha256": "e5809cd34ed5169f712f767ac7f18487151088dd3bc19a34d1182b853bfef9d0",
+      "case": "GuideVisualEvidenceTests.test_optional_evidence_guide_matches_absent_and_available_cli_paths"
+    },
+    {
+      "authority": "docs/optional-evidence-tests.md#/sections/Replay optional native evidence tests",
+      "covers": [
+        "docs/optional-evidence-tests.md"
+      ],
+      "assertion": "The replay procedure rejects absent and partial evidence correctly, treats one-scope synthetic input as incomplete/not-run for other checks, isolates test workspaces read-only from original fixture roots, and describes CI skips without promoting them to passes. Test assertion: ReplayOptionalTests.test_parallel_checkouts_are_isolated_and_fixture_links_are_read_only_inputs",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_replay_optional_tests.py",
+      "testSha256": "e945cfd7676166811ebd948c73ea84017a09cb94ad2b4ab5621db11529a975ae",
+      "case": "ReplayOptionalTests.test_parallel_checkouts_are_isolated_and_fixture_links_are_read_only_inputs"
+    },
+    {
+      "authority": "docs/optional-evidence-tests.md#/sections/Replay optional native evidence tests",
+      "covers": [
+        "docs/optional-evidence-tests.md"
+      ],
+      "assertion": "The replay procedure rejects absent and partial evidence correctly, treats one-scope synthetic input as incomplete/not-run for other checks, isolates test workspaces read-only from original fixture roots, and describes CI skips without promoting them to passes. Test assertion: ReplayOptionalTests.test_only_zero_skip_python_and_node_results_pass",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_replay_optional_tests.py",
+      "testSha256": "e945cfd7676166811ebd948c73ea84017a09cb94ad2b4ab5621db11529a975ae",
+      "case": "ReplayOptionalTests.test_only_zero_skip_python_and_node_results_pass"
+    },
+    {
+      "authority": "docs/optional-evidence-tests.md#/sections/Replay optional native evidence tests",
+      "covers": [
+        "docs/optional-evidence-tests.md"
+      ],
+      "assertion": "The replay procedure rejects absent and partial evidence correctly, treats one-scope synthetic input as incomplete/not-run for other checks, isolates test workspaces read-only from original fixture roots, and describes CI skips without promoting them to passes. Test assertion: ReplayOptionalTests.test_file_inputs_reject_symlinks",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_replay_optional_tests.py",
+      "testSha256": "e945cfd7676166811ebd948c73ea84017a09cb94ad2b4ab5621db11529a975ae",
+      "case": "ReplayOptionalTests.test_file_inputs_reject_symlinks"
+    }
+  ]
+}

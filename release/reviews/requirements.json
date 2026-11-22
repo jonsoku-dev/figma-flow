@@ -756,7 +756,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/requirements/criterion-evidence.json",
-          "sha256": "e4fb9a710f1ef420d476252de3240962c585db497ce032c7b12a33bea13ea7ab"
+          "sha256": "551ae0c3067b5f3c74dff56e6b12064fe78bd500aa13bc259c02c28eae652389"
         }
       ]
     },

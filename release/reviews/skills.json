@@ -1,0 +1,759 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "skills",
+  "fingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "complete",
+  "openFindings": [],
+  "bindings": [
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "skills/campaign-identity/SKILL.md derives its user-facing procedure for this concern from the exact registered field library/design-routes.json#/lanes; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/campaign-identity/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/01-01-skills-campaign-identity-SKILL-md.json",
+          "sha256": "9b8f215a01d15190056c052f19638b8aa8a0709e08e4cca4e1f75a7d05903646"
+        }
+      ]
+    },
+    {
+      "authority": "library/campaign-forms.json#/forms",
+      "reason": "skills/campaign-identity/SKILL.md derives its user-facing procedure for this concern from the exact registered field library/campaign-forms.json#/forms; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/campaign-identity/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/01-02-skills-campaign-identity-SKILL-md.json",
+          "sha256": "1b3c9fafbf8417740026566a6b65b1ea7dc89e22ede1f8132361c67d6f6693cc"
+        }
+      ]
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "reason": "skills/figma-flow/SKILL.md derives its user-facing procedure for this concern from the exact registered field CONSTITUTION.md#/sections/기본 사용 환경; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/02-01-skills-figma-flow-SKILL-md.json",
+          "sha256": "c0676113ceeba19bbc9b26b7ed394ce88e415602c5034ab77bda48ef34c58f0e"
+        }
+      ]
+    },
+    {
+      "authority": "docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리",
+      "reason": "skills/figma-flow/SKILL.md derives its user-facing procedure for this concern from the exact registered field docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/02-02-skills-figma-flow-SKILL-md.json",
+          "sha256": "f645bc0892d6c1fbe14b4cbb10da612b98e9fb409489a2144e9215346bc4f438"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/edges",
+      "reason": "skills/figma-flow/SKILL.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/edges; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/02-03-skills-figma-flow-SKILL-md.json",
+          "sha256": "c05d9098bc1028056052418a3d2c8bbe9bcbdd5b40c907d5900bc74ae6d62df2"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/SKILL.md derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/02-04-skills-figma-flow-SKILL-md.json",
+          "sha256": "eaa9013f3cc00b4f065da95135331eac09379c2bd77326f87d934155d8fd5383"
+        }
+      ]
+    },
+    {
+      "authority": "docs/guide.md#/sections/Figma Flow 브라우저 접근",
+      "reason": "skills/figma-flow/references/browser-access.md derives its user-facing procedure for this concern from the exact registered field docs/guide.md#/sections/Figma Flow 브라우저 접근; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/browser-access.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/03-01-skills-figma-flow-references-browser-access-md.json",
+          "sha256": "4af87e983ae55a7ab9ac1293e631387692eb7fdb76a7c0642a32cae31e81a5a6"
+        }
+      ]
+    },
+    {
+      "authority": "library/campaigns.json#/categories",
+      "reason": "skills/figma-flow/references/campaign-library.md derives its user-facing procedure for this concern from the exact registered field library/campaigns.json#/categories; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/campaign-library.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/04-01-skills-figma-flow-references-campaign-library-md.json",
+          "sha256": "37d388ec2ce86e16edbb78f3035d1b0792bf1459e9103478e3cc6d0cb69c81f8"
+        }
+      ]
+    },
+    {
+      "authority": "library/campaigns.json#/sources",
+      "reason": "skills/figma-flow/references/campaign-library.md derives its user-facing procedure for this concern from the exact registered field library/campaigns.json#/sources; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/campaign-library.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/04-02-skills-figma-flow-references-campaign-library-md.json",
+          "sha256": "3dc51919c9fce0bb418b7c32810da04cfde6489c7884115c80f761b4b70ac067"
+        }
+      ]
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "skills/figma-flow/references/design-review.md derives its user-facing procedure for this concern from the exact registered field library/design-routes.json#/lanes; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/design-review.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/05-01-skills-figma-flow-references-design-review-md.json",
+          "sha256": "6dd1540443a5c1434712995c7a1cd033b2cf9fce8ead9a3ee5d23830bcc3ba9d"
+        }
+      ]
+    },
+    {
+      "authority": "vendor/skills/manifest.json#/skills/impeccable",
+      "reason": "skills/figma-flow/references/design-review.md derives its user-facing procedure for this concern from the exact registered field vendor/skills/manifest.json#/skills/impeccable; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/design-review.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/05-02-skills-figma-flow-references-design-review-md.json",
+          "sha256": "1a961f27c298c4ec596f9176236e9ed4b47c8974a97cbf924357471d5aab04b4"
+        }
+      ]
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "skills/figma-flow/references/design-routing.md derives its user-facing procedure for this concern from the exact registered field library/design-routes.json#/lanes; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/design-routing.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/06-01-skills-figma-flow-references-design-routing-md.json",
+          "sha256": "682a5d0bda7f5d6b3e32325ba0eca3fdb5b6059fd6dab98f7f30c22f897d2bd1"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/edges",
+      "reason": "skills/figma-flow/references/direction-selection.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/edges; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/direction-selection.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/07-01-skills-figma-flow-references-direction-selection-md.json",
+          "sha256": "8384f8266fb8373b5d976c3e932e3d32abed8642c817d435309d4cd55aa12c12"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/guards",
+      "reason": "skills/figma-flow/references/direction-selection.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/guards; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/direction-selection.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/07-02-skills-figma-flow-references-direction-selection-md.json",
+          "sha256": "2a9ea8c1662f71714061993653752dbdb51a2e82dd6526eb11a947387b1e894e"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/references/draft-build.md derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/08-01-skills-figma-flow-references-draft-build-md.json",
+          "sha256": "cdd567fa21f5b032812004fd8ff470fc05227e810e4c3c19d9278e2030bed1db"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/edges",
+      "reason": "skills/figma-flow/references/draft-build.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/edges; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/08-02-skills-figma-flow-references-draft-build-md.json",
+          "sha256": "02c14910ffd7aa19883f202fae34ab9662bbfe0ad00f6ca77ad8004ed06cb59b"
+        }
+      ]
+    },
+    {
+      "authority": "docs/guide.md#/sections/Figma 기능 찾기와 데스크톱 실행",
+      "reason": "skills/figma-flow/references/figma-feature-routes.md derives its user-facing procedure for this concern from the exact registered field docs/guide.md#/sections/Figma 기능 찾기와 데스크톱 실행; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/figma-feature-routes.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/09-01-skills-figma-flow-references-figma-feature-routes-md.json",
+          "sha256": "58635b59c928da8df79cfc3d295e109b1fc250c5679fe532dc42f9b88fdf488f"
+        }
+      ]
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "skills/figma-flow/references/figma-feature-routes.md derives its user-facing procedure for this concern from the exact registered field library/design-routes.json#/lanes; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/figma-feature-routes.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/09-02-skills-figma-flow-references-figma-feature-routes-md.json",
+          "sha256": "0678fc9235e9e9b46b0130433686d35f9f960619a0f3f6f900ec23b5121c3df7"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/evidence_contracts/native_canvas",
+      "reason": "skills/figma-flow/references/figma-workflow.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/evidence_contracts/native_canvas; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/figma-workflow.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/10-01-skills-figma-flow-references-figma-workflow-md.json",
+          "sha256": "967c221f0eca185ec58f2c32f4574df3dcc65293d68e556e898ff6938cd674ed"
+        }
+      ]
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "reason": "skills/figma-flow/references/figma-workflow.md derives its user-facing procedure for this concern from the exact registered field CONSTITUTION.md#/sections/기본 사용 환경; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/figma-workflow.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/10-02-skills-figma-flow-references-figma-workflow-md.json",
+          "sha256": "422c50332b8191a5a2eb3baa675a0164188cb85bc56a4b5a685bc2fca37b64f3"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/references/graph-contract.md derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/graph-contract.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/11-01-skills-figma-flow-references-graph-contract-md.json",
+          "sha256": "f0b426c02ae4fef90ddbe531456dd9eae607a0bb584cc9b58f625b02b10b3c91"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/references/live-example.md derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/live-example.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/12-01-skills-figma-flow-references-live-example-md.json",
+          "sha256": "f073449858daa4085685e43859138303889b0fb30864f3100e9118716bef2f0c"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/references/local-design-audit.md derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/local-design-audit.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/13-01-skills-figma-flow-references-local-design-audit-md.json",
+          "sha256": "f30428ceb5e7b3c0d675d03daef04cf3d37a955f22df2cc37df1be5869adbed1"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/evidence_contracts/native_canvas",
+      "reason": "skills/figma-flow/references/local-design-audit.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/evidence_contracts/native_canvas; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/local-design-audit.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/13-02-skills-figma-flow-references-local-design-audit-md.json",
+          "sha256": "968b778e4af154cb32ffaf12d7623007b57c34337b5a911beab93d5b2c5e4a82"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/states",
+      "reason": "skills/figma-flow/references/run-record.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/states; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/run-record.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/14-01-skills-figma-flow-references-run-record-md.json",
+          "sha256": "177532dfd56b3836ebf5ba6cae530ec8df1cb70ae8db6d48f8e692f5cda2c191"
+        }
+      ]
+    },
+    {
+      "authority": "docs/guide.md#/sections/막힌 위치 찾기",
+      "reason": "skills/figma-flow/references/run-record.md derives its user-facing procedure for this concern from the exact registered field docs/guide.md#/sections/막힌 위치 찾기; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/run-record.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/14-02-skills-figma-flow-references-run-record-md.json",
+          "sha256": "57e1304d25faee3ad5bbb3f52a6647a15d275c488703ff95ea8e32ff1324e0af"
+        }
+      ]
+    },
+    {
+      "authority": "skills/figma-flow/references/skill-dependencies.md#/sections/첫 실행",
+      "reason": "skills/figma-flow/references/skill-dependencies.md derives its user-facing procedure for this concern from the exact registered field skills/figma-flow/references/skill-dependencies.md#/sections/첫 실행; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/skill-dependencies.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/15-01-skills-figma-flow-references-skill-dependencies-md.json",
+          "sha256": "264f0b33cc79e2adad46f6ab4b6a8f9b2f9ebfbddc75cbacad115f043f293686"
+        }
+      ]
+    },
+    {
+      "authority": "vendor/skills/manifest.json#/skills",
+      "reason": "skills/figma-flow/references/skill-dependencies.md derives its user-facing procedure for this concern from the exact registered field vendor/skills/manifest.json#/skills; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/skill-dependencies.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/15-02-skills-figma-flow-references-skill-dependencies-md.json",
+          "sha256": "b96e1d8035a0aac5e3a713ec2905f8a8fc6e5d7a6e3288642c976b7fe66b20c4"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/references/token-sync.md derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/token-sync.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/16-01-skills-figma-flow-references-token-sync-md.json",
+          "sha256": "dca17af6acfabdad6672faaf395f2f0301be213d27b421fc1c89e7d7137f2051"
+        }
+      ]
+    },
+    {
+      "authority": "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화",
+      "reason": "skills/figma-flow/references/token-sync.md derives its user-facing procedure for this concern from the exact registered field docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/token-sync.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/16-02-skills-figma-flow-references-token-sync-md.json",
+          "sha256": "fc6d164fc41e8b2dd906f8f9c7f0c2890a0a783d990d502c1ec83c1cb69a25da"
+        }
+      ]
+    },
+    {
+      "authority": "vendor/skills/manifest.json#/skills/unslop",
+      "reason": "skills/figma-flow/references/unslop.md derives its user-facing procedure for this concern from the exact registered field vendor/skills/manifest.json#/skills/unslop; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/unslop.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/17-01-skills-figma-flow-references-unslop-md.json",
+          "sha256": "f85f58755a51a8923b5b93c0ca2d41a43091e5fc4b55cdd17a05dcf54404052e"
+        }
+      ]
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기능을 채택하는 기준",
+      "reason": "skills/figma-flow/references/unslop.md derives its user-facing procedure for this concern from the exact registered field CONSTITUTION.md#/sections/기능을 채택하는 기준; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/unslop.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/17-02-skills-figma-flow-references-unslop-md.json",
+          "sha256": "360c40f61200dd1d3530a5e58cecccb67895c565b9968035e74e18cbbe868e97"
+        }
+      ]
+    },
+    {
+      "authority": "library/design-routes.json#/lanes",
+      "reason": "skills/figma-flow/references/visual-quality.md derives its user-facing procedure for this concern from the exact registered field library/design-routes.json#/lanes; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/visual-quality.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/18-01-skills-figma-flow-references-visual-quality-md.json",
+          "sha256": "29b13bc25df7260f2b4a20266922ab338fc99cb439821fd5f6fbb2e3f29842ed"
+        }
+      ]
+    },
+    {
+      "authority": "docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달",
+      "reason": "skills/figma-flow/references/visual-quality.md derives its user-facing procedure for this concern from the exact registered field docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/visual-quality.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/18-02-skills-figma-flow-references-visual-quality-md.json",
+          "sha256": "440123759e31f17c6292ffd3959aa948fbc3fcde1605312c0b0dab09b5c5e77e"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/edges",
+      "reason": "skills/figma-flow/references/workflow.generated.md derives its user-facing procedure for this concern from the exact registered field library/workflow.json#/edges; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/references/workflow.generated.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/19-01-skills-figma-flow-references-workflow-generated-md.json",
+          "sha256": "19da3d1283bffaf7e43fd6023b69ef75afa88809ff35f29afa64dab022a664c7"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/scripts/graph.py derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/scripts/graph.py"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/20-01-skills-figma-flow-scripts-graph-py.json",
+          "sha256": "52920b1854f327e6cc9540b09421d506c5f572762793e95e75a8a180a6155ecb"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/scripts/graph_diff.py derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/scripts/graph_diff.py"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/21-01-skills-figma-flow-scripts-graph_diff-py.json",
+          "sha256": "01268a44c871c1042e11b30a89a55d0451dfa1ec254c052e95cbff0d45de15c2"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/scripts/ssot.py derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/scripts/ssot.py"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/22-01-skills-figma-flow-scripts-ssot-py.json",
+          "sha256": "1e6999c467e307ebed66f4b841959f0dae4f9d4ec98034258331e3cfcde782b3"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/scripts/trace_report.py derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-flow/scripts/trace_report.py"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/23-01-skills-figma-flow-scripts-trace_report-py.json",
+          "sha256": "9ed11ac7a1610eb5ced96f35bf37a1fcd1aada12a1d58cd31c0f14dbf3a7a3be"
+        }
+      ]
+    },
+    {
+      "authority": "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+      "reason": "skills/figma-plugin-setup/SKILL.md derives its user-facing procedure for this concern from the exact registered field docs/guide.md#/sections/2. 클론하고 Codex에 설치; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-plugin-setup/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/24-01-skills-figma-plugin-setup-SKILL-md.json",
+          "sha256": "0de55e4fba12374c3c61b3bfa1d18006df9546c470355dc02697be53f21efd67"
+        }
+      ]
+    },
+    {
+      "authority": "library/figma-profile/policy.json#/operations",
+      "reason": "skills/figma-plugin-setup/SKILL.md derives its user-facing procedure for this concern from the exact registered field library/figma-profile/policy.json#/operations; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/figma-plugin-setup/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/24-02-skills-figma-plugin-setup-SKILL-md.json",
+          "sha256": "6e21936deefc3b8eeb2d0ba3d22f93fd79c2d77d5b6ff5ede04e9c8120c7c087"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/graph-ssot/SKILL.md derives its user-facing procedure for this concern from the exact registered field specs/graph-roots.json#/roots; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/graph-ssot/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/25-01-skills-graph-ssot-SKILL-md.json",
+          "sha256": "fa588a5dc47c5d16563c92f205103fe6c96cf2836d72ebc870cb69b361953685"
+        }
+      ]
+    },
+    {
+      "authority": "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기",
+      "reason": "skills/patch-knowledge/SKILL.md derives its user-facing procedure for this concern from the exact registered field docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기; the linked named cases exercise the published routing, command or guard behavior.",
+      "files": [
+        "skills/patch-knowledge/SKILL.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/26-01-skills-patch-knowledge-SKILL-md.json",
+          "sha256": "93244652c31a8c331196c3198431cb3a1b3ed409ecd51027315e5bb848218867"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/references/draft-build.md documents the local fixture workflow bounded by specs/graph-roots.json#/roots; this controlled state-transition case exercises the supported path.",
+      "files": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/27-01-draft-build-1.json",
+          "sha256": "f4801fdfd49c3b89dc164bc999493dd8032860de13bf165d3c01bc4738f60024"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/edges",
+      "reason": "skills/figma-flow/references/draft-build.md documents the local fixture workflow bounded by library/workflow.json#/edges; this controlled state-transition case exercises the supported path.",
+      "files": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/27-02-draft-build-2.json",
+          "sha256": "6f80153bf977353dec6273e736c386a7f8a5c23d599f65ca8b3d693ba0cea5bb"
+        }
+      ]
+    },
+    {
+      "authority": "library/workflow.json#/edges",
+      "reason": "skills/figma-flow/references/draft-build.md documents the local fixture workflow bounded by library/workflow.json#/edges; this controlled state-transition case exercises the supported path.",
+      "files": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/27-03-draft-build-3.json",
+          "sha256": "7af1dc67c20feac1fa1e5093ed9b8e690b9327f666789a7497765134289d5cf3"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "skills/figma-flow/references/draft-build.md documents the local fixture workflow bounded by specs/graph-roots.json#/roots; this controlled state-transition case exercises the supported path.",
+      "files": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/skills/27-04-draft-build-4.json",
+          "sha256": "7e1b54f5344d12e54dd06806f92fecf0a780e19f03a109f2400c6aed7ee4c553"
+        }
+      ]
+    }
+  ],
+  "scopeLimit": [
+    "No live Figma host or user-owned Design document was opened. Native creation, rendering and acceptance in a real user file are not claimed.",
+    "No actual post-presentation human selection, Codex generation in the user workflow, or real Figma reopen was performed. The local draft-build disposable run stopped at WAIT_SELECTION; successful --finish/reopen state transitions are only fixture tests.",
+    "External campaign references were not revalidated against their source pages; pinned URL catalogs and local routing behavior were exercised.",
+    "Browser access configuration generation was checked, but applying it to an isolated browser and observing the effective runtime permission was not done.",
+    "Human visual critique, user-selected design direction and subjective output quality are human outcomes and are not asserted by these automated checks."
+  ],
+  "scopeObservations": [
+    {
+      "path": "skills/campaign-identity/SKILL.md",
+      "notObserved": "Routing is asserted, but no retained real Figma asset placement/export outcome witnesses the production steps."
+    },
+    {
+      "path": "skills/figma-flow/SKILL.md",
+      "notObserved": "Selected route and graph/trace commands pass; the full orchestrated Figma user workflow and actual host acceptance are not exercised as one scenario."
+    },
+    {
+      "path": "skills/figma-flow/references/browser-access.md",
+      "notObserved": "Config generation is tested; applying it to the isolated browser and observing effective runtime policy was not done."
+    },
+    {
+      "path": "skills/figma-flow/references/campaign-library.md",
+      "notObserved": "Source joins and evidence labeling are tested; current external campaign references were not revalidated against source pages."
+    },
+    {
+      "path": "skills/figma-flow/references/design-review.md",
+      "notObserved": "Fixture-based gates pass; no real selected Figma rendering or human visual review was observed."
+    },
+    {
+      "path": "skills/figma-flow/references/design-routing.md",
+      "notObserved": "Route planning assertions pass; execution of every routed design lane is not covered by these cases."
+    },
+    {
+      "path": "skills/figma-flow/references/direction-selection.md",
+      "notObserved": "Admission and write guards use fixtures; no actual post-presentation user selection was captured in this run."
+    },
+    {
+      "path": "skills/figma-flow/references/draft-build.md",
+      "notObserved": "No named test witnesses an actual user selection, Codex generation/finish, reviewed reopen/resumption, or browser/Figma acceptance for this guide."
+    },
+    {
+      "path": "skills/figma-flow/references/figma-feature-routes.md",
+      "notObserved": "Published route and route dispatch are checked; current external API availability and actual editor runs are not verified."
+    },
+    {
+      "path": "skills/figma-flow/references/figma-workflow.md",
+      "notObserved": "Workflow and native handoff tests use fixtures; no live Figma Design readback or round-trip occurred."
+    },
+    {
+      "path": "skills/figma-flow/references/graph-contract.md",
+      "notObserved": "Strict validate/render, local snapshot/check, and trace command examples pass; impact and reviewed-resumption examples were not run from this guide."
+    },
+    {
+      "path": "skills/figma-flow/references/live-example.md",
+      "notObserved": "The first local-runner command and promised artifacts pass. Steps 2 through 5, including manual browser checks, stale/review resume, catalog UI, and first-baseline path, were not followed end to end."
+    },
+    {
+      "path": "skills/figma-flow/references/local-design-audit.md",
+      "notObserved": "Fixture audits pass; its actual native Figma capture/readback branch remains unobserved."
+    },
+    {
+      "path": "skills/figma-flow/references/run-record.md",
+      "notObserved": "Local sync/recovery records pass; no actual Figma write uncertainty and remote readback were observed."
+    },
+    {
+      "path": "skills/figma-flow/references/skill-dependencies.md",
+      "notObserved": "Pinned bundle and relocation claims pass; the generated skills themselves are not behaviorally attested by this checker."
+    },
+    {
+      "path": "skills/figma-flow/references/token-sync.md",
+      "notObserved": "Local token graph and numeric round-trip fixtures pass; actual live Figma import/readback is not evidenced."
+    },
+    {
+      "path": "skills/figma-flow/references/unslop.md",
+      "notObserved": "Upstream attribution and license pin pass; subjective visual critique steps have no suitable automated witness or real design review in this run."
+    },
+    {
+      "path": "skills/figma-flow/references/visual-quality.md",
+      "notObserved": "Automated thresholds pass on fixtures; actual screen-level visual hierarchy and product use were not reviewed."
+    },
+    {
+      "path": "skills/figma-flow/references/workflow.generated.md",
+      "notObserved": "Generated projection bytes and a negative mutation are verified against the canonical workflow graph."
+    },
+    {
+      "path": "skills/figma-flow/scripts/graph.py",
+      "notObserved": "Strict-local CLI behavior is verified; this run does not rerun the full graph schema/render/impact assertion surface."
+    },
+    {
+      "path": "skills/figma-flow/scripts/graph_diff.py",
+      "notObserved": "Exact field and node/edge diff cases pass; the rest of the diff/report variants were not rerun."
+    },
+    {
+      "path": "skills/figma-flow/scripts/ssot.py",
+      "notObserved": "Unchanged local-only snapshot/check is verified; historical-chain and all freshness edge cases were not rerun."
+    },
+    {
+      "path": "skills/figma-flow/scripts/trace_report.py",
+      "notObserved": "Offline CLI output and no-input-mutation behavior pass; all interactive trace viewer branches were not rerun."
+    },
+    {
+      "path": "skills/figma-plugin-setup/SKILL.md",
+      "notObserved": "Two install/update cases pass in temporary fixtures; no actual Codex+Figma Desktop setup or user readback was performed."
+    },
+    {
+      "path": "skills/graph-ssot/SKILL.md",
+      "notObserved": "Core graph, SSOT, and trace command flows pass; all guide branches and actual product acceptance are not exercised."
+    },
+    {
+      "path": "skills/patch-knowledge/SKILL.md",
+      "notObserved": "Inventory/sync cases pass; the full patch publication and improvement gate sequence was not rerun."
+    }
+  ],
+  "verification": [
+    {
+      "command": "major_release.verify_review against the current 26-file skills surface and exact authority pointers",
+      "result": "Passed; the current surface matches 26 field-bound files and all named witness receipts."
+    },
+    {
+      "command": "Archive-like candidate with no .git or panel-ui/node_modules; all 47 unique exact named cases via major_release.rerun_witness",
+      "result": "47/47 passed. Pinned external NODE_PATH was used for package dependencies; candidate had no node_modules. Detailed current case list and test hashes: release/reviews/evidence/skills/archive-witness.json (sha256 d2be07fe29ee4440327142591c2f9d0430d43cf2366ca9654e10d19b381d419f)."
+    },
+    {
+      "command": "python3 -B -m unittest tests.test_skill_command_contract",
+      "result": "5/5 passed; published CLI help flags were checked for serve_ideas, promote_idea, check_project and affected_tests."
+    },
+    {
+      "command": "python3 -B tools/skill_dependencies.py --check",
+      "result": "Passed; pinned skill dependencies resolved."
+    },
+    {
+      "command": "python3 -B tools/figma_feature.py route components",
+      "result": "Passed; returned a route with execution not-executed."
+    },
+    {
+      "command": "Draft-build disposable fixture run",
+      "result": "Prepare-only, WAIT_SELECTION, stale detection and affected-test run were observed. Controlled fixture tests also passed successful --finish and same-draft reopen transitions; no actual Figma user selection or acceptance is claimed."
+    }
+  ]
+}

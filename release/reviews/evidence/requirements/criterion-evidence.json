@@ -13,6 +13,18 @@
       ],
       "assertion": "Implementation ownership and successful verification are separate relationships.",
       "observed": "An implementation-only criterion stayed unverified until an explicit checked-by test was linked."
+    },
+    {
+      "test": "tests/test_graph_vocabulary_owner.py",
+      "case": "GraphVocabularyTests.test_feature_audit_uses_the_portable_local_endpoint_owner",
+      "testSha256": "b77840d64f5b7a3178b3b7f6044e2622d1f144d0d4eea979bafb2784ad587157",
+      "authority": "specs/codex-relay/graph.json#/edges",
+      "covers": [
+        "specs/codex-relay/graph.json",
+        "specs/local-profile-init/graph.json"
+      ],
+      "assertion": "Implementation ownership and successful verification are separate relationships.",
+      "observed": "An implementation-only criterion stayed unverified until an explicit checked-by test was linked."
     }
   ]
 }

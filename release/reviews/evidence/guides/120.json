@@ -1,0 +1,72 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/nativeReadback",
+      "covers": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "assertion": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included. Test assertion: GuideSourceContractTests.test_web_fidelity_reports_match_the_sanitized_historical_visual_observations",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_web_fidelity_reports_match_the_sanitized_historical_visual_observations"
+    },
+    {
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/nativeReadback",
+      "covers": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "assertion": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included. Test assertion: GuideSourceContractTests.test_historical_visual_nodes_are_summaries_not_live_render_witnesses",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_historical_visual_nodes_are_summaries_not_live_render_witnesses"
+    },
+    {
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/nativeReadback",
+      "covers": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "assertion": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included. Test assertion: external image capture preserves supported SVG color filters and opacity",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_svg_capture.cjs",
+      "testSha256": "d233297a15fc60033654b6d60c7cb62f60d285a2bb7435750c10ecef04e67ccc",
+      "case": "external image capture preserves supported SVG color filters and opacity"
+    },
+    {
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/nativeReadback",
+      "covers": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "assertion": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included. Test assertion: WebDesignSvgFilterTests.test_brightness_zero_chain_keeps_opacity_and_recolors_solid_paints",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_svg_filter.py",
+      "testSha256": "5bd9871273e5cb12f9895ef38667395399ce207726c490f82c8c7a8c7e9284ee",
+      "case": "WebDesignSvgFilterTests.test_brightness_zero_chain_keeps_opacity_and_recolors_solid_paints"
+    },
+    {
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/nativeReadback",
+      "covers": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "assertion": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included. Test assertion: WebDesignSvgFilterLimitTests.test_unsupported_svg_paint_keeps_source_vector_and_reports_limit",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_svg_filter_limits.py",
+      "testSha256": "d60c44078568ff2e2528db4c9ab43204efebef1f797f5cf34ef9e5a958677325",
+      "case": "WebDesignSvgFilterLimitTests.test_unsupported_svg_paint_keeps_source_vector_and_reports_limit"
+    },
+    {
+      "authority": "specs/editable-web/historical-visual-observations.json#/observations/1/nativeReadback",
+      "covers": [
+        "docs/web-svg-fidelity-0322.md"
+      ],
+      "assertion": "The documented six-logo vector counts, browser/prior/current chromatic pixel counts, SVG byte totals, 480x1052 preview and reapply summary match the sanitized historical record; the screenshot-only opacity reading is explicitly marked as not included. Test assertion: vector-only and reused image screens export once, preserving valid monochrome PNG bytes",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_preview.cjs",
+      "testSha256": "3dd330c6e89396874e693f8de74a83a0ed1b060981da4a7dc3b73c1370c2c0e3",
+      "case": "vector-only and reused image screens export once, preserving valid monochrome PNG bytes"
+    }
+  ]
+}

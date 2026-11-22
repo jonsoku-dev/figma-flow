@@ -1,0 +1,40 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_explicit_logo_as_image_uses_identity_and_imagegen",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "skills/figma-flow/references/design-routing.md"
+      ],
+      "assertion": "RouteDesignTests.test_explicit_logo_as_image_uses_identity_and_imagegen",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/design-routing.md against the declared authority field library/design-routes.json#/lanes."
+    },
+    {
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "skills/figma-flow/references/design-routing.md"
+      ],
+      "assertion": "RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/design-routing.md against the declared authority field library/design-routes.json#/lanes."
+    },
+    {
+      "test": "tests/test_route_design.py",
+      "case": "RouteDesignTests.test_multi_surface_multi_lane_directions_and_dependencies",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "skills/figma-flow/references/design-routing.md"
+      ],
+      "assertion": "RouteDesignTests.test_multi_surface_multi_lane_directions_and_dependencies",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/design-routing.md against the declared authority field library/design-routes.json#/lanes."
+    }
+  ]
+}

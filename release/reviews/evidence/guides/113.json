@@ -1,0 +1,50 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "assertion": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers. Test assertion: GuideSourceContractTests.test_web_fidelity_reports_match_the_sanitized_historical_visual_observations",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_web_fidelity_reports_match_the_sanitized_historical_visual_observations"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "assertion": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers. Test assertion: GuideSourceContractTests.test_historical_visual_nodes_are_summaries_not_live_render_witnesses",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_guide_source_contract.py",
+      "testSha256": "df47dab6d8706942583bb2cfcc829357baa0257fef80b2e693acce204d0ea94d",
+      "case": "GuideSourceContractTests.test_historical_visual_nodes_are_summaries_not_live_render_witnesses"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "assertion": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers. Test assertion: WebDesignTrackingTests.test_nonzero_css_tracking_survives_graph_validation_and_native_plan",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_tracking.py",
+      "testSha256": "f9fc2857cc75e2f14f4b0ca7a73c63e7c2cbc21c120922aec193d0bbb2cbeb78",
+      "case": "WebDesignTrackingTests.test_nonzero_css_tracking_survives_graph_validation_and_native_plan"
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/nodes",
+      "covers": [
+        "docs/web-fidelity-0321.md"
+      ],
+      "assertion": "The documented 0.32.1 browser widths, baseline/measured native widths, PIXELS tracking values, screen sizes, and reapply result match the sanitized historical capture/readback summary; the record omits source screenshots and Figma identifiers. Test assertion: WebDesignTrackingTests.test_normal_css_tracking_can_remain_omitted",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_web_design_tracking.py",
+      "testSha256": "f9fc2857cc75e2f14f4b0ca7a73c63e7c2cbc21c120922aec193d0bbb2cbeb78",
+      "case": "WebDesignTrackingTests.test_normal_css_tracking_can_remain_omitted"
+    }
+  ]
+}

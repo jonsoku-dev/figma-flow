@@ -1,0 +1,51 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_promote_idea.py",
+      "case": "PromoteTests.test_default_ui_creation_requires_current_selection_before_output",
+      "testSha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+      "authority": "library/workflow.json#/edges",
+      "covers": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "assertion": "PromoteTests.test_default_ui_creation_requires_current_selection_before_output",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/draft-build.md against the declared authority field library/workflow.json#/edges."
+    },
+    {
+      "test": "tests/test_serve_ideas.py",
+      "case": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+      "testSha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+      "authority": "library/workflow.json#/edges",
+      "covers": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "assertion": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/draft-build.md against the declared authority field library/workflow.json#/edges."
+    },
+    {
+      "test": "tests/test_figma_draft.py",
+      "case": "DraftReviewTests.test_default_is_native_pending_without_selection_or_foreign_context",
+      "testSha256": "d1ac47369b1c82e7d849bd3352b37bf4cbd3a33f068ed07a90e1b36fc9f33270",
+      "authority": "library/workflow.json#/edges",
+      "covers": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "assertion": "DraftReviewTests.test_default_is_native_pending_without_selection_or_foreign_context",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/draft-build.md against the declared authority field library/workflow.json#/edges."
+    },
+    {
+      "test": "tests/test_skill_command_contract.py",
+      "case": "SkillCommandContractTests.test_draft_build_commands_use_selected_project_paths",
+      "testSha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+      "authority": "library/workflow.json#/edges",
+      "covers": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "assertion": "SkillCommandContractTests.test_draft_build_commands_use_selected_project_paths",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/draft-build.md against the declared authority field library/workflow.json#/edges."
+    }
+  ]
+}

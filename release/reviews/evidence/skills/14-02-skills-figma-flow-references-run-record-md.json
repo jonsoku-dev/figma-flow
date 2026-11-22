@@ -1,0 +1,51 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_init_then_recheck_and_diff",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "authority": "docs/guide.md#/sections/막힌 위치 찾기",
+      "covers": [
+        "skills/figma-flow/references/run-record.md"
+      ],
+      "assertion": "CheckProjectTests.test_init_then_recheck_and_diff",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/run-record.md against the declared authority field docs/guide.md#/sections/막힌 위치 찾기."
+    },
+    {
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_figma_graph_without_handoff_is_blocked_at_both_entries",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "authority": "docs/guide.md#/sections/막힌 위치 찾기",
+      "covers": [
+        "skills/figma-flow/references/run-record.md"
+      ],
+      "assertion": "CheckProjectTests.test_figma_graph_without_handoff_is_blocked_at_both_entries",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/run-record.md against the declared authority field docs/guide.md#/sections/막힌 위치 찾기."
+    },
+    {
+      "test": "tests/test_figma_sync_session.py",
+      "case": "SessionTest.test_baseline_apply_restart_noop_and_chain",
+      "testSha256": "718fce4f78c6814c6053f7197cf770845671dbcff1741074c83f0ad5129dda32",
+      "authority": "docs/guide.md#/sections/막힌 위치 찾기",
+      "covers": [
+        "skills/figma-flow/references/run-record.md"
+      ],
+      "assertion": "SessionTest.test_baseline_apply_restart_noop_and_chain",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/run-record.md against the declared authority field docs/guide.md#/sections/막힌 위치 찾기."
+    },
+    {
+      "test": "tests/test_check_project.py",
+      "case": "CheckProjectTests.test_current_stale_and_no_overwrite",
+      "testSha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+      "authority": "docs/guide.md#/sections/막힌 위치 찾기",
+      "covers": [
+        "skills/figma-flow/references/run-record.md"
+      ],
+      "assertion": "CheckProjectTests.test_current_stale_and_no_overwrite",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/run-record.md against the declared authority field docs/guide.md#/sections/막힌 위치 찾기."
+    }
+  ]
+}

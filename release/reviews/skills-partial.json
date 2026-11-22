@@ -683,6 +683,24 @@
           "case": "GraphTests.test_strict_local_cli_is_opt_in_and_reports_declared_scope",
           "sha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
           "result": "passed"
+        },
+        {
+          "path": "tests/test_graph.py",
+          "case": "GraphTests.test_strict_local_accepts_complete_declared_coverage_without_figma",
+          "sha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_graph.py",
+          "case": "GraphTests.test_strict_local_rejects_missing_or_mislabeled_trace_edges",
+          "sha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_spec_graph_coverage.py",
+          "case": "SpecGraphCoverageTests.test_exercised_module_alone_does_not_establish_acceptance",
+          "sha256": "1d290f96f1c20087c446aff224c5178d86632e243d94045da7f00753aab3cddb",
+          "result": "passed"
         }
       ],
       "openClaims": [

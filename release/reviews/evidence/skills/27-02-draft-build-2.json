@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_promote_idea.py",
+      "case": "PromoteTests.test_prepare_only_then_finish_has_no_build_claim_before_finish",
+      "testSha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+      "authority": "library/workflow.json#/edges",
+      "covers": [
+        "skills/figma-flow/references/draft-build.md"
+      ],
+      "assertion": "PromoteTests.test_prepare_only_then_finish_has_no_build_claim_before_finish",
+      "observed": "The local state machine keeps prepare-only distinct and records no build claim until controlled finish."
+    }
+  ]
+}

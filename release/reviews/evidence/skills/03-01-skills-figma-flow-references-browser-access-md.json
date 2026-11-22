@@ -1,0 +1,29 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_browser_access.py",
+      "case": "BrowserAccessTests.test_auto_allow_has_no_origin_or_port_filter_and_is_idempotent",
+      "testSha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+      "authority": "docs/guide.md#/sections/Figma Flow 브라우저 접근",
+      "covers": [
+        "skills/figma-flow/references/browser-access.md"
+      ],
+      "assertion": "BrowserAccessTests.test_auto_allow_has_no_origin_or_port_filter_and_is_idempotent",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/browser-access.md against the declared authority field docs/guide.md#/sections/Figma Flow 브라우저 접근."
+    },
+    {
+      "test": "tests/test_browser_access.py",
+      "case": "BrowserAccessTests.test_auto_allow_replaces_only_dedicated_policy_and_preserves_other_options",
+      "testSha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+      "authority": "docs/guide.md#/sections/Figma Flow 브라우저 접근",
+      "covers": [
+        "skills/figma-flow/references/browser-access.md"
+      ],
+      "assertion": "BrowserAccessTests.test_auto_allow_replaces_only_dedicated_policy_and_preserves_other_options",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/browser-access.md against the declared authority field docs/guide.md#/sections/Figma Flow 브라우저 접근."
+    }
+  ]
+}

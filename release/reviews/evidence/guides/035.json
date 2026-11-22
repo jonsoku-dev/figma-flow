@@ -1,0 +1,39 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "library/figma-api/source.json#/version",
+      "covers": [
+        "docs/figma-widget.md"
+      ],
+      "assertion": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance. Test assertion: WidgetProjectTests.test_separate_widget_manifest_without_fabricated_id_and_pinned_sources",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_widget_project.py",
+      "testSha256": "8d41e753f20fc337bde0552645adb8b506d6acbdea119af7b678d092919208b9",
+      "case": "WidgetProjectTests.test_separate_widget_manifest_without_fabricated_id_and_pinned_sources"
+    },
+    {
+      "authority": "library/figma-api/source.json#/version",
+      "covers": [
+        "docs/figma-widget.md"
+      ],
+      "assertion": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance. Test assertion: WidgetProjectTests.test_search_is_offline_and_links_exact_pinned_source",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_widget_project.py",
+      "testSha256": "8d41e753f20fc337bde0552645adb8b506d6acbdea119af7b678d092919208b9",
+      "case": "WidgetProjectTests.test_search_is_offline_and_links_exact_pinned_source"
+    },
+    {
+      "authority": "library/figma-api/source.json#/version",
+      "covers": [
+        "docs/figma-widget.md"
+      ],
+      "assertion": "Widget scaffolding and offline search use the exact pinned Widget and Plugin API source refs and do not issue identifiers or claim runtime acceptance. Test assertion: WidgetProjectTests.test_cli_verify_search_without_site_packages",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_widget_project.py",
+      "testSha256": "8d41e753f20fc337bde0552645adb8b506d6acbdea119af7b678d092919208b9",
+      "case": "WidgetProjectTests.test_cli_verify_search_without_site_packages"
+    }
+  ]
+}

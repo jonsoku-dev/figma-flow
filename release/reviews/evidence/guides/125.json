@@ -1,0 +1,61 @@
+{
+  "surfaceFingerprint": "f6bc22ae3ccf90fb9372b33f554ab113ba8d574f8080d6dcd2d8089fa867ce77",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability. Test assertion: FeatureRoutesTests.test_flow_english_and_korean",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_feature.py",
+      "testSha256": "3f138b296b156e138160c0cd444d3a664a859f2917a6c6a94e28d193f5ee4e59",
+      "case": "FeatureRoutesTests.test_flow_english_and_korean"
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability. Test assertion: FeatureRoutesTests.test_local_and_native_product_routes",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_feature.py",
+      "testSha256": "3f138b296b156e138160c0cd444d3a664a859f2917a6c6a94e28d193f5ee4e59",
+      "case": "FeatureRoutesTests.test_local_and_native_product_routes"
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability. Test assertion: FeatureRoutesTests.test_sdk_recipe_commands_match_manifest",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_figma_feature.py",
+      "testSha256": "3f138b296b156e138160c0cd444d3a664a859f2917a6c6a94e28d193f5ee4e59",
+      "case": "FeatureRoutesTests.test_sdk_recipe_commands_match_manifest"
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability. Test assertion: RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_route_design.py",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "case": "RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol"
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "covers": [
+        "docs/guide.md"
+      ],
+      "assertion": "The feature discovery entry lists the currently published Figma routes, directs the user through the local command surface, and distinguishes capability search from API availability. Test assertion: RouteDesignTests.test_explicit_logo_as_image_uses_identity_and_imagegen",
+      "observed": "The named assertion passed in the isolated source snapshot with no skip or expected failure.",
+      "test": "tests/test_route_design.py",
+      "testSha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+      "case": "RouteDesignTests.test_explicit_logo_as_image_uses_identity_and_imagegen"
+    }
+  ]
+}

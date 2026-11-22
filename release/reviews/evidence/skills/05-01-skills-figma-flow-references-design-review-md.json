@@ -1,0 +1,18 @@
+{
+  "schema": "figma-flow-major-witness-v1",
+  "surfaceFingerprint": "716135ec07c756682e0e28b2db68cac200e4ef89bf10655814ced78a77e3ead2",
+  "status": "passed",
+  "checks": [
+    {
+      "test": "tests/test_design_review.py",
+      "case": "DesignReviewTests.test_current_concrete_evidence_passes_but_never_claims_skill_or_platform_attestation",
+      "testSha256": "7cce17b65fbfa39bf537fe9a4a8446bf12a151ce162a69f53b055ecb1a5f7872",
+      "authority": "library/design-routes.json#/lanes",
+      "covers": [
+        "skills/figma-flow/references/design-review.md"
+      ],
+      "assertion": "DesignReviewTests.test_current_concrete_evidence_passes_but_never_claims_skill_or_platform_attestation",
+      "observed": "The named test passed and exercises the authored guidance at skills/figma-flow/references/design-review.md against the declared authority field library/design-routes.json#/lanes."
+    }
+  ]
+}
