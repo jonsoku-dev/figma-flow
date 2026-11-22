@@ -15970,6 +15970,37 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "233cc2a408e8e1d7699354ad684e8f08bd7109cc",
+      "diff_sha256": "55723fe14176075337800183773a91a7bf99442f96f6f0df3157c1be7c40b2f0",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0f4761e270a554324fbb29831d232e8564ad6ad2.md",
+        "docs/llm-wiki/patches/1c930384e7a8be27a505619c967bcdfd5ea850ba.md",
+        "docs/llm-wiki/patches/68ddd16ec9c5fe7d8655641f4761327c4e5bb664.md",
+        "docs/llm-wiki/patches/80e8cf9ea1c9569f24455ffef3688d90d2d544d2.md",
+        "docs/llm-wiki/patches/9d0a6350d382e3a3e0e4b947f9196c33accb9d05.md",
+        "docs/llm-wiki/patches/a0f29043828a479f6d0accc439bf6b27ea033934.md",
+        "docs/llm-wiki/patches/a1ede2a37a03f631dbad93047488031f661a29ca.md",
+        "docs/llm-wiki/releases.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "0f4761e270a554324fbb29831d232e8564ad6ad2"
+      ],
+      "subject": "docs: record 1.0.0 release readiness and MySQL proof",
+      "tree": "0eb24e14d4fdfcb857d3a87ff417d2ff9838e5fc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16037,6 +16068,7 @@
     "212cb0b57719410694bd369823c679d6a26bdbf8": "6d53a6a982bcb0335931bbef5e1e4bc7b4b1823c0aba5999ebd347fc0c35adfc",
     "2233e0af3732229d36e806063973875a043188f5": "f4e0162ae3914909866bd602a7572dc63b8a150b4286876eb7992d5ffc26540d",
     "22995b1f3658295729ddacb0c55320110a08c999": "429577f84e9d8f782ad31c47052dfdf4585a7a32ce9bec52b019110c3b658020",
+    "233cc2a408e8e1d7699354ad684e8f08bd7109cc": "9a35ad99d8b242313ce0fe2db91979ba44a8b1d9edb6e650930cfa1122f60d32",
     "23b44e3b3004639e088467bd91d808de24df38d7": "f418b64bbd6b831f60e6ba10f75d8ef86b4a94d91d769fbf57596b4902058d90",
     "24730598c912ef01c3da487193fa44e011981e7d": "305a43ada78ebf642d11eb900f8e1dd180dec93668de2db24061965d2a20161e",
     "24f34f980703e76398d8c758052adccaed92d845": "f6ad183b619f7f629378f92fc9aa1b4fb2fedfa1c84e7163edade2814c5d2d05",
@@ -16524,6 +16556,10 @@
     },
     {
       "observed_at_commit": "20495dadbee1a437cfae5d8ca2cf9c8fbe88c42c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "233cc2a408e8e1d7699354ad684e8f08bd7109cc",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -17252,10 +17288,12 @@
     },
     {
       "source_commits": [
-        "0f4761e270a554324fbb29831d232e8564ad6ad2"
+        "233cc2a408e8e1d7699354ad684e8f08bd7109cc"
       ],
-      "tagged": false,
-      "tags": [],
+      "tagged": true,
+      "tags": [
+        "v1.0.0"
+      ],
       "version": "1.0.0"
     }
   ],
@@ -17263,7 +17301,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "0f4761e270a554324fbb29831d232e8564ad6ad2",
+  "source_commit": "233cc2a408e8e1d7699354ad684e8f08bd7109cc",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -17394,6 +17432,11 @@
       "commit": "9d7eb0288d3a60097bf958d8d77692e3e2df3979",
       "tag": "v0.36.0",
       "version": "0.36.0"
+    },
+    {
+      "commit": "233cc2a408e8e1d7699354ad684e8f08bd7109cc",
+      "tag": "v1.0.0",
+      "version": "1.0.0"
     }
   ]
 }
