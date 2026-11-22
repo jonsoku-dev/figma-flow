@@ -19,11 +19,20 @@ function neighbor(task, edge, role, currentRevision) {
   };
 }
 
-function line(label, item) {
-  return `${label} ${item.title} ${item.key} 현재 ${item.current_revision} 고정 ${item.pinned_revision} ${item.relation} ${item.artifact} ${item.artifact_sha256}`;
+function line(item, translate) {
+  const key = item.role === 'predecessor' ? 'dependencyEvidencePredecessor' : 'dependencyEvidenceSuccessor';
+  return translate(key, {
+    title: item.title,
+    key: item.key,
+    current: item.current_revision,
+    pinned: item.pinned_revision,
+    relation: item.relation,
+    artifact: item.artifact,
+    digest: item.artifact_sha256,
+  });
 }
 
-export function dependencyView(tasks, selected) {
+export function dependencyView(tasks, selected, translate) {
   if (!Array.isArray(tasks)) throw new Error('unknown selected task');
   const byKey = new Map();
   for (const task of tasks) {
@@ -48,10 +57,10 @@ export function dependencyView(tasks, selected) {
     }
   }
   const text = [
-    ...predecessors.map((item) => line('선행', item)),
-    ...successors.map((item) => line('후속', item)),
+    ...predecessors.map((item) => line(item, translate)),
+    ...successors.map((item) => line(item, translate)),
   ];
-  if (!text.length) text.push('연결된 선행·후속이 없습니다');
+  if (!text.length) text.push(translate('dependencyEmpty'));
   return { selected, predecessors, successors, text };
 }
 

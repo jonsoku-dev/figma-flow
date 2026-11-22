@@ -1,3 +1,4 @@
+# Generated from library/delivery/patch-knowledge.yml.in and library/delivery/graph.json.
 name: Patch knowledge
 on:
   push:

@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/local-profile-init/graph.json#/nodes",
+      "covers": [
+        "specs/local-profile-init/spec.md"
+      ],
+      "assertion": "Runs the graph checker against the actual Markdown sources, requiring each declared REQ/AC and every referenced requirement, acceptance, screen, action, implementation, and test ID to exist in this graph; graph source targets must exist.",
+      "observed": "1 Markdown source/projection file(s) map to the registered graph with no unmapped declared or referenced IDs and no missing source targets.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_registered_source_and_acceptance_declarations_remain_closed",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+# Generated from library/delivery/reference-guard.yml.in and library/delivery/graph.json.
 name: Reference distribution guard
 on:
   push:
@@ -27,6 +28,7 @@ jobs:
       - name: Verify manifest projection and release gate behavior
         run: |
           python -B tools/plugin_manifest.py
+          python -B tools/delivery_config.py
           python -B -m unittest tests.test_major_release tests.test_major_policy_boundary tests.test_spec_graph_coverage
       - name: Run synthetic guard behavior tests
         run: python -B -m unittest -v tests.test_reference_distribution_guard

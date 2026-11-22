@@ -1,3 +1,4 @@
+# Generated from library/delivery/little-hands.yml.in and library/delivery/graph.json.
 name: Little Hands production app
 on:
   push:
@@ -35,8 +36,8 @@ jobs:
       LH_DB_USER: postgres
       LH_DB_PASSWORD: disposable-ci-only
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.13'
       - run: |

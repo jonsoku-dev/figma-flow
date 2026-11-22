@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes",
+      "covers": [
+        "specs/readable-specifications/spec.md"
+      ],
+      "assertion": "Reads the readable-spec contract and checks source-grounded human copy, graph ownership of relationships/status, screen projection identity, and fresh-readback limits.",
+      "observed": "Human copy is source bounded; graph remains canonical; stale getters cannot pass.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_readable_spec_contract_keeps_graph_canonical_and_copy_source_bound",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

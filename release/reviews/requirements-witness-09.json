@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/README.md#/sections/Proposed development",
+      "covers": [
+        "specs/README.md"
+      ],
+      "assertion": "Reads the proposal index and requires roadmap items not to become implemented registrations or acceptance evidence by listing alone.",
+      "observed": "The README explicitly labels proposed roadmap items as not implemented registrations or evidence of acceptance.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_feature_index_resolves_local_links_and_lists_registered_graphs",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

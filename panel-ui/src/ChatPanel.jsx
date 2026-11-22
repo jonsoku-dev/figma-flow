@@ -31,7 +31,23 @@ function selectedTypes(text) {
     return [];
   }
 }
-function errorKey(raw) {
+function errorKey(raw, code) {
+  const coded = {
+    scope: 'scopeError',
+    'scope-changed': 'scopeError',
+    limit: 'limitError',
+    expired: 'expired',
+    duplicate: 'duplicate',
+    uncertain: 'uncertain',
+    input: 'inputError',
+    'not-paired': 'unpairedHelp',
+    'invalid-selection': 'errorHelp',
+    'invalid-geometry': 'errorHelp',
+    connection: 'errorHelp',
+    unknown: 'errorHelp',
+  }[code];
+  if (coded) return coded;
+  // Older native chat frames send only Korean diagnostic text and have no code field.
   return /불확실|접수 여부/.test(raw)
     ? 'uncertain'
     : /20개/.test(raw)
@@ -95,7 +111,7 @@ export default function ChatPanel({ model = {}, locale, t, send, Shell }) {
         setDiagnostic(raw);
         setToolsOpen(true);
         setShowFallback(true);
-        setNotice({ title: 'error', body: errorKey(raw) });
+        setNotice({ title: 'error', body: errorKey(raw, reply.code) });
       }
     };
     window.addEventListener('message', receive);

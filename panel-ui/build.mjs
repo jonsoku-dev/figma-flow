@@ -6,6 +6,10 @@ import { panelViewRegistryModule } from './view-registry.mjs';
 const plugin = JSON.parse(await readFile(new URL('../plugin.json', import.meta.url), 'utf8'));
 const viewRegistrySource = await panelViewRegistryModule();
 execFileSync(process.execPath, [fileURLToPath(new URL('build-tokens.mjs', import.meta.url))], { stdio: 'inherit' });
+const readLimits = JSON.parse(await readFile(new URL('../library/figma-profile/read-limits.json', import.meta.url), 'utf8'));
+if (!Number.isSafeInteger(readLimits.maxNodes) || readLimits.maxNodes < 1) {
+  throw new Error('Panel selection limit must be a positive safe integer');
+}
 const paletteGraph = JSON.parse(await readFile(new URL('../library/panel-design/tokens.json', import.meta.url), 'utf8'));
 const relayBreakpoint = paletteGraph.tokens.find(({ id }) => id === 'relay-mobile-breakpoint')?.light;
 const relayStylePath = fileURLToPath(new URL('src/styles/relay.css', import.meta.url));
@@ -51,6 +55,7 @@ await build({
     'process.env.NODE_ENV': '"production"',
     __FLOW_DISPLAY_NAME__: JSON.stringify(displayName),
     __FLOW_LOCALES__: JSON.stringify(localeCodes),
+    __FLOW_MAX_NODES__: String(readLimits.maxNodes),
   },
   legalComments: 'external',
   logLevel: 'info',

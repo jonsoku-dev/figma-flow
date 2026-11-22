@@ -51,7 +51,9 @@ python3 -B tools/major_release.py --ref HEAD --candidate 1.0.0 > major-readiness
 
 [소유권 그래프](release/authority.json)는 Git 아카이브 파일을 가장 구체적인 경로로 한 번씩 분류합니다. `owned-by`는 영역의 출발점입니다. `review` 영역을 닫으려면 현 소스·소유 원본의 fingerprint에 묶인 `release/reviews/<영역 ID>.json`에 모든 파일의 구체적인 필드 소유자와 행동 검증을 연결합니다. 예를 들어 특정 색·역할을 바꿨을 때 실제 파생 결과가 함께 바뀌는지 검증합니다. 동일 색을 검색한 횟수로는 이 조건을 충족하지 못합니다.
 
-검토 파일 스키마는 `figma-flow-major-review-v1`입니다. `surface`, `fingerprint`, `openFindings`, `bindings`를 기록합니다. 각 binding의 `files`는 해당 영역의 실제 파일, `authority`는 소유권 그래프가 가리키는 JSON 문서와 JSON Pointer, `reason`은 소유 범위, `witnesses`는 검증 결과 JSON의 저장소 상대 `path`와 `sha256`입니다. 검증 결과에는 같은 `surfaceFingerprint`, `status: passed`, 각 binding의 필드(`authority`)·파일(`covers`)·구체적 단언(`assertion`)·관측값(`observed`)을 담은 `checks`가 필요합니다. 각 check에 저장소 안의 `test` 파일, `testSha256`과 `case`를 지정합니다. 검사기는 후보 소스에서 해당 unittest 메서드 또는 Node 테스트 이름을 재실행합니다. 검토자가 작성한 JSON만으로는 통과할 수 없습니다. 빈 보고서, 빠진 파일, 변경된 원본, 독립적으로 관리되는 중복 선언은 차단 사유입니다. 실제 제품 시나리오와 관측의 의미는 패치 검수에서 대조합니다. 고정된 프로토콜 키·외부 SDK 원문과 독립 테스트의 기대값은 역할을 별도로 기록합니다.
+GitHub 작업의 실행 순서는 `library/delivery/*.yml.in`에, 공통 액션 SHA·도구 버전 참조는 `library/delivery/graph.json`에 둡니다. `python3 -B tools/delivery_config.py --write`가 GitHub용 workflow를 생성하고 로컬 마켓플레이스 항목의 제품 이름·분류를 매니페스트와 맞춥니다. 인자 없이 실행하면 배포 파일을 수정하지 않고 차이를 검사합니다. 마켓플레이스 이름과 설치 정책은 기존 설정을 유지합니다.
+
+검토 파일 스키마는 `figma-flow-major-review-v1`입니다. `surface`, `fingerprint`, `openFindings`, `bindings`를 기록합니다. 각 binding의 `files`는 해당 영역의 실제 파일, `authority`는 소유권 그래프가 가리키는 JSON 문서와 JSON Pointer 또는 규범 Markdown의 고유한 제목(`문서.md#/sections/제목`, 슬래시는 `~1`), `reason`은 소유 범위, `witnesses`는 검증 결과 JSON의 저장소 상대 `path`와 `sha256`입니다. 검증 결과에는 같은 `surfaceFingerprint`, `status: passed`, 각 binding의 필드(`authority`)·파일(`covers`)·구체적 단언(`assertion`)·관측값(`observed`)을 담은 `checks`가 필요합니다. 각 check에 저장소 안의 `test` 파일, `testSha256`과 `case`를 지정합니다. 검사기는 후보 소스에서 해당 unittest 메서드 또는 Node 테스트 이름을 재실행합니다. 검토자가 작성한 JSON만으로는 통과할 수 없습니다. 빈 보고서, 빠진 파일, 변경된 원본, 독립적으로 관리되는 중복 선언은 차단 사유입니다. 실제 제품 시나리오와 관측의 의미는 패치 검수에서 대조합니다. 고정된 프로토콜 키·외부 SDK 원문과 독립 테스트의 기대값은 역할을 별도로 기록합니다.
 
 ## 버전과 GitHub Release
 

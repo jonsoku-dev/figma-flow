@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/README.md#/sections/Feature specifications",
+      "covers": [
+        "specs/README.md"
+      ],
+      "assertion": "Runs the production graph checker against the real index, requires every registered feature root to resolve through a local link, requires all local targets to exist, and preserves the stated graph/evidence/case role distinctions.",
+      "observed": "All registered graph directories are indexed; local links resolve; evidence inventories and proposed work are not misrepresented as product graphs or accepted features.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_feature_index_resolves_local_links_and_lists_registered_graphs",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

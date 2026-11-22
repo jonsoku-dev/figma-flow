@@ -1,0 +1,90 @@
+name: Test Figma Flow
+on:
+  push:
+    branches: [{{delivery.branch}}]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  api_audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@{{delivery.actions.checkout}}
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@{{delivery.actions.setup-python}}
+        with:
+          python-version: '{{delivery.python}}'
+      - uses: actions/setup-node@{{delivery.actions.setup-node}}
+        with:
+          node-version-file: {{delivery.nodeVersionFile}}
+      - name: Reproduce the pinned per-member API evidence
+        run: |
+          npm install --prefix "$RUNNER_TEMP/figma-audit" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@{{delivery.typescript}}
+          python -B tools/figma_api_audit.py verify --typescript "$RUNNER_TEMP/figma-audit/node_modules/typescript/lib/typescript.js"
+  test:
+    runs-on: macos-15-intel
+    steps:
+      - uses: actions/checkout@{{delivery.actions.checkout}}
+      - uses: actions/setup-python@{{delivery.actions.setup-python}}
+        with:
+          python-version: '{{delivery.python}}'
+      - uses: actions/setup-node@{{delivery.actions.setup-node}}
+        with:
+          node-version-file: {{delivery.nodeVersionFile}}
+      - name: Install native Codex CLI for the OS sandbox tests
+        working-directory: ${{ runner.temp }}
+        run: |
+          case "$(uname -m)" in
+            arm64) target={{delivery.sandboxCli.artifacts.arm64.target}}; digest={{delivery.sandboxCli.artifacts.arm64.sha256}} ;;
+            x86_64) target={{delivery.sandboxCli.artifacts.x86_64.target}}; digest={{delivery.sandboxCli.artifacts.x86_64.sha256}} ;;
+            *) exit 1 ;;
+          esac
+          curl --fail --location --retry 3 --output codex.tar.gz "https://github.com/openai/codex/releases/download/rust-v{{delivery.sandboxCli.version}}/codex-${target}.tar.gz"
+          echo "${digest}  codex.tar.gz" > codex.sha256
+          shasum -a 256 -c codex.sha256
+          mkdir figma-flow-cli
+          tar -xzf codex.tar.gz -C figma-flow-cli
+          mv "figma-flow-cli/codex-${target}" figma-flow-cli/codex
+          echo "$RUNNER_TEMP/figma-flow-cli" >> "$GITHUB_PATH"
+      - name: Check read-only sandbox
+        run: codex sandbox -P :read-only -C "$GITHUB_WORKSPACE" -- node --version
+      - run: python -m pip install -r requirements-optional.txt
+      - name: Verify pinned public API sources and local examples
+        run: |
+          npm install --prefix "$RUNNER_TEMP/figma-api-tools" --ignore-scripts --no-package-lock --no-audit --no-fund typescript@{{delivery.typescript}}
+          python -m pip install -r library/figma-rest/requirements.txt
+          parser="$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/typescript.js"
+          compiler="$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/tsc.js"
+          python -B tools/figma_rest_inventory.py verify
+          python -B tools/figma_api_inventory.py verify --typescript "$parser"
+          python -B tools/figma_api_inventory.py coverage --check-baseline --typescript "$parser"
+          python -B tools/workspace_recipes.py verify-helpers
+          python -B library/figma-recipes/build.py --typescript "$compiler"
+          git diff --exit-code -- library/figma-recipes
+          echo "FIGMA_API_TYPESCRIPT=$parser" >> "$GITHUB_ENV"
+          echo "FIGMA_SDK_TEST_TYPESCRIPT=$compiler" >> "$GITHUB_ENV"
+      - name: Build isolated Widget API project and verify recipe rollback
+        run: |
+          widget_dir="$RUNNER_TEMP/figma-flow-widget"
+          python -B tools/figma_widget_project.py init "$widget_dir"
+          python -B tools/figma_widget_project.py check "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
+          python -B tools/figma_widget_project.py build "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
+          node library/figma-recipes/test-rollback.cjs
+      - name: Rebuild offline React panels
+        run: |
+          {{delivery.panelInstall}}
+          npm --prefix panel-ui run build
+          git diff --exit-code -- figma-bridge/assets
+      - name: Rebuild typed regression components
+        run: |
+          node examples/regression-program/design-system/build.mjs
+          git diff --exit-code -- examples/regression-program/design-system/runtime.js
+      - name: Verify the production app design adapter
+        run: |
+          python -B apps/little-hands/design/prepare_fonts.py
+          python -B -m unittest discover -s apps/little-hands/design -p 'test_*.py'
+      - run: python -B -m unittest discover -v -s tests
+      - run: python -B -m unittest discover -s tests -p 'finalize_*.py'
+      - run: node --test tests/*.cjs
+      - run: python -B -m unittest discover -s examples/native-direction-review -p test_demo.py

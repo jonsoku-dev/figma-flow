@@ -28,7 +28,7 @@ const page={id:'1:0',type:'PAGE',selection:[]};
 const local={id:'1:1',type:'TEXT',name:'Title',opacity:.92,characters:'x'.repeat(300),fills:[],parent:page};
 const foreign={id:'9:1',type:'TEXT',name:'Off page',parent:{id:'9:0',type:'PAGE'}};
 const figs={fileKey:'demo',currentPage:page,getNodeByIdAsync:async id=>id==='1:1'?local:foreign};
-const env=vm.createContext({figma:figs,controlRunSession:'session',WORKSPACE_PROFILE_POLICY:require('./library/figma-profile/policy.json')});
+const env=vm.createContext({figma:figs,controlRunSession:'session',WORKSPACE_READ_LIMITS:require('./library/figma-profile/read-limits.json'),WORKSPACE_PROFILE_POLICY:require('./library/figma-profile/policy.json')});
 vm.runInContext(fs.readFileSync('figma-bridge/relay_view.js','utf8'),env);
 const task={kind:'discover',fileKey:'demo',pageId:'1:0',revision:'r'};
 const run=opts=>env.workspaceViewerExecute(task,{revision:'r',file_key:'demo',page_id:'1:0',operation:'selection-info',session_id:'session',viewer_options:opts},()=>{});

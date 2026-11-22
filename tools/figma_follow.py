@@ -14,7 +14,7 @@ from uuid import UUID, uuid4
 
 import figma_control as control
 import figma_workspace as workspace
-from relay_view import INSPECT_FIELDS
+from relay_view import INSPECT_FIELDS, MAX_NODES
 
 ROOT = Path(__file__).resolve().parent
 SCHEMA = 'figma-flow-live-follow-v1'
@@ -120,12 +120,12 @@ def inspect_events(args, events):
         fields.update(('width','height','x','y'))
     if not args.include_text:
         fields.discard('characters')
-    options = [v for node_id in ids[:20] for v in ('--inspect-node-id',node_id)]
+    options = [v for node_id in ids[:MAX_NODES] for v in ('--inspect-node-id',node_id)]
     options.extend(v for field in sorted(fields) for v in ('--field',field))
     if 'characters' in fields:
         options.append('--include-text')
     result = read_operation(args,args.inspect_task,args.inspect_revision,'selection-info',options)
-    result.update(node_count=len(ids), observed_limit=20, omitted_node_count=max(0,len(ids)-20),
+    result.update(node_count=len(ids), observed_limit=MAX_NODES, omitted_node_count=max(0,len(ids)-MAX_NODES),
                   requested_fields=sorted(fields), unsupported_properties=sorted(changed-set(INSPECT_FIELDS)-set(aliases)),
                   text_omitted='characters' not in fields and bool({'text','characters'} & changed))
     return result

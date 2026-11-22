@@ -22,6 +22,7 @@ import time
 import figma_workspace as workspace
 import operation_detail as detail_projection
 import relay_view
+import relay_limits
 import change_journal
 
 CAROUSEL_OPERATIONS = frozenset({'carousel-select', 'carousel-present'})
@@ -64,6 +65,8 @@ LOADED_IMPLEMENTATION = hashlib.sha256(
     + b'\0' + Path(relay_view.__file__).read_bytes()
     + b'\0' + Path(change_journal.__file__).read_bytes()
     + b'\0' + PROFILE_POLICY_PATH.read_bytes()
+    + b'\0' + Path(relay_limits.__file__).read_bytes()
+    + b'\0' + (relay_limits.ROOT / relay_limits.LIMITS_FILE).read_bytes()
 ).hexdigest()
 
 
@@ -151,7 +154,7 @@ def _validate_relay_context(value):
     if value['user_id'] is not None and (not isinstance(value['user_id'], str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,256}', value['user_id'])):
         raise ValueError('Invalid local account identifier')
     rows = value['selection']
-    if not isinstance(rows, list) or len(rows) > 20:
+    if not isinstance(rows, list) or len(rows) > relay_view.MAX_NODES:
         raise ValueError('Invalid bounded selection')
     total = value.get('selection_total', len(rows))
     truncated = value.get('selection_truncated', total > len(rows))

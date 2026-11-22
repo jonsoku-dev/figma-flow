@@ -218,7 +218,7 @@ Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을
 
 | 표시 | 의미 |
 |---|---|
-| 파일·페이지·선택 | 실제 활성 Figma 문맥에서 읽은 값. 선택은 최대 20개이며 더 있으면 전체 수와 잘림 상태를 표시합니다. |
+| 파일·페이지·선택 | 실제 활성 Figma 문맥에서 읽은 값. 선택이 읽기 한도를 넘으면 전체 개수와 생략 여부를 함께 표시합니다. |
 | 연결 상태 | 연결됨·연결 중·오프라인 또는 실행 중. 초기 상태는 오프라인입니다. |
 | 연결 정보 | 선언한 플랜·좌석과 저장 범위, 마지막 실행 결과와 진단. 선언은 Figma 구독을 측정한 값이 아닙니다. |
 
@@ -260,7 +260,7 @@ Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을
 
 | 표시 | 의미 |
 |---|---|
-| 파일·페이지·선택 | 활성 Figma 문맥에서 읽습니다. 선택은 최대 20개이며, 더 있으면 전체 수와 잘림 상태를 표시합니다. |
+| 파일·페이지·선택 | 활성 Figma 문맥에서 읽습니다. 선택이 읽기 한도를 넘으면 전체 개수와 생략 여부를 함께 표시합니다. |
 | 연결 상태 | 연결됨·연결 중·오프라인 또는 실행 중입니다. 초기 상태는 오프라인입니다. |
 | 연결 정보 | 사용자 선언 플랜·좌석, 저장 범위, 마지막 실행 결과와 진단을 표시합니다. 선언은 Figma subscription을 측정한 값이 아닙니다. |
 
@@ -650,7 +650,7 @@ Codex에서 현재 Figma 문맥과 저장된 프로필을 확인합니다.
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" profile get --workspace "$WORKSPACE"
 ```
 
-`context`는 활성 plugin session, 파일, 페이지, 사용자, 현재 선택과 불투명한 `context_fingerprint`를 반환합니다. 결과의 `native_status`와 generation을 확인합니다. fingerprint는 현재 session·파일·페이지·계정과 예상 runtime generation에 선언을 고정합니다. fingerprint를 그대로 복사합니다. 파일·페이지·사용자·runtime generation이 바뀌면 다시 조회합니다. 선택 정보는 20개까지 반환하며 전체 선택 수와 생략 여부도 함께 표시합니다. 플랜·좌석을 알 수 없으면 `unknown`으로 둡니다. Figma 구독이나 권한을 자동 판정하지 않습니다.
+`context`는 활성 plugin session, 파일, 페이지, 사용자, 현재 선택과 불투명한 `context_fingerprint`를 반환합니다. 결과의 `native_status`와 generation을 확인합니다. fingerprint는 현재 session·파일·페이지·계정과 예상 runtime generation에 선언을 고정합니다. fingerprint를 그대로 복사합니다. 파일·페이지·사용자·runtime generation이 바뀌면 다시 조회합니다. 선택 목록은 등록 플러그인의 `maxNodes`까지 반환하며, 전체 선택 수와 생략 여부도 함께 표시합니다. [읽기 한도](../library/figma-profile/read-limits.json) 플랜·좌석을 알 수 없으면 `unknown`으로 둡니다. Figma 구독이나 권한을 자동 판정하지 않습니다.
 
 사용자가 Codex 대화에서 플랜과 좌석을 확인해 주면 정확한 문맥 지문으로 선언을 저장합니다.
 
@@ -744,7 +744,7 @@ python3 -B tools/figma_alignment.py check --receipt "$READBACK" --file-key "$FIL
   --axis x --anchor-edge start --target-edge start --tolerance 0.5
 ```
 
-`READBACK`은 첫 명령이 돌려준 `readback` 파일 경로입니다. 한 번에 최대 20개 ID를 읽습니다. Figma 간격 검사에는 `--expected-offset`을 사용합니다. 회전한 레이어의 절대 바운딩 박스, 드롭섀도, 글자 윤곽의 시각적 차이는 결과 이미지를 함께 봅니다.
+`READBACK`은 첫 명령이 돌려준 `readback` 파일 경로입니다. 기준 노드와 대상 노드를 합한 개수가 읽기 한도 안에 있어야 합니다. Figma 간격 검사에는 `--expected-offset`을 사용합니다. 회전한 레이어의 절대 바운딩 박스, 드롭섀도, 글자 윤곽의 시각적 차이는 결과 이미지를 함께 봅니다.
 
 수정을 요청하면 Codex는 값을 소유하는 CSS 컨테이너나 graph를 고친 뒤 같은 규칙으로 다시 측정합니다. 전후 보고서는 브라우저, 규칙, 화면 주소와 폭이 같을 때 하나의 HTML로 묶을 수 있습니다. 뷰어 예제 서버의 임시 포트처럼 출처가 달라졌다면 같은 화면임을 확인한 뒤 `--same-screen`을 지정합니다. [기능과 인수 기준](../specs/alignment-audit/spec.md)
 
@@ -780,7 +780,7 @@ python3 -B tools/figma_follow.py \
 
 `latest.json`은 자동 세부 읽기를 수행한 최근 최대 256개 노드 값을 보여줍니다. node ID 하나만 보려면 `python3 -B tools/figma_follow.py latest --state-dir "$FOLLOW_STATE" --node-id "$NODE_ID"`를 실행합니다. 값이 없으면 미관측 상태이므로 새 `discover` 읽기가 필요합니다. 수신 공백이나 cursor epoch 변경은 기존 cache를 비웁니다. gap 뒤에는 새 세부 읽기 결과만 cache를 다시 채울 수 있습니다.
 
-`--inspect-task`는 최대 20개 변경 노드에 대해 허용된 필드만 다시 읽습니다. 텍스트는 기본 제외입니다. 텍스트 내용을 private readback에 포함해도 된다고 별도로 요청한 경우에만 `--include-text`를 추가합니다. `--read-task`는 전체 현재 상태를 graph pairing과 비교합니다. 그 readback은 편집 직전의 값이나 변경 수행자를 입증하지 않으며 이벤트 이후의 추가 편집을 포함할 수 있습니다.
+`--inspect-task`는 변경된 노드에서 허용된 필드를 다시 읽습니다. 한 번에 읽을 수 있는 노드를 초과하면 결과의 `observed_limit`과 `omitted_node_count`에서 한도와 생략된 개수를 확인합니다. 텍스트는 기본 제외입니다. 텍스트 내용을 private readback에 포함해도 된다고 별도로 요청한 경우에만 `--include-text`를 추가합니다. `--read-task`는 전체 현재 상태를 graph pairing과 비교합니다. 그 readback은 편집 직전의 값이나 변경 수행자를 입증하지 않으며 이벤트 이후의 추가 편집을 포함할 수 있습니다.
 
 로컬 graph와 web module 적용을 따로 요청받으면 감시 명령에 `--apply-clean`을 추가합니다. 이벤트의 node·property 증거가 graph update와 연결되고 수신 공백, 미지원 변경, binding repair, graph hash 편차, web module 편차가 없어야 적용됩니다. 적용은 Figma 파일에 쓰지 않습니다. pairing baseline은 자동 갱신하지 않으므로 별도 재검토와 pairing이 필요합니다.
 

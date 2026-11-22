@@ -1,0 +1,55 @@
+{
+  "schema": "figma-flow-major-review-partial-v1",
+  "surface": "libraries",
+  "status": "incomplete",
+  "fingerprint": "0de7c5d7e120545a1a8fe391389db5a7b3b12a83d357a4aeee0970856cf73e67",
+  "fileCount": 58,
+  "evidence": {
+    "tests": "tests/test_library_release_witness.py",
+    "cases": 7,
+    "verified": [
+      "Regenerated Plugin and REST API indexes and recipe bundle from pinned inputs",
+      "Checked byte-level recipe outputs, manifest closure and official upstream source digests",
+      "Checked historical audit snapshot evidence and current catalog source links"
+    ],
+    "currentApiSourceStatus": {
+      "source": "library/figma-api/coverage-baseline.json",
+      "qualified": 71,
+      "unresolvedReceiver": 675,
+      "noStaticReference": 636,
+      "meaning": "Static references only; implementation and runtime acceptance remain unverified."
+    }
+  },
+  "openFindings": [
+    {
+      "source": "library/figma-recipes/design-shapes.ts",
+      "fieldsWithoutGraphOwner": "880×380 container, 100×100 shapes, mask geometry, and shape/content fill colors"
+    },
+    {
+      "source": "library/figma-recipes/design-grid.ts",
+      "fieldsWithoutGraphOwner": "420×280 frame, two rows and columns, 16px gaps, 160×100 cells, and generated cell colors"
+    },
+    {
+      "source": "library/figma-recipes/design-motion.ts",
+      "fieldsWithoutGraphOwner": "840×300 section, 360×240 frames, 64px dot, color and 0.6s Smart Animate duration"
+    },
+    {
+      "source": "library/figma-recipes/design-component-properties.ts",
+      "fieldsWithoutGraphOwner": "Inter Regular 18px labels, frame and component padding/spacing, 24px symbols and fill colors"
+    },
+    {
+      "source": "library/figma-recipes/design-type-review.ts",
+      "fieldsWithoutGraphOwner": "font fallbacks, 560×360 frame, padding, gaps, fill, radius, shadow, and sample typography"
+    }
+  ],
+  "affectedGeneratedFiles": [
+    "library/figma-recipes/bundle.json",
+    "library/figma-recipes/bundled/",
+    "library/figma-recipes/manifest.json"
+  ],
+  "limits": [
+    "Source-to-bundle byte equality does not establish graph ownership of the named visual fields.",
+    "Historical v0.28 evidence remains scoped to its original revision.",
+    "Live Figma acceptance of these recipe visuals remains unverified."
+  ]
+}

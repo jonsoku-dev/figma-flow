@@ -1,5 +1,6 @@
 """Build an offline Figma panel with only its own messages and shared navigation."""
 from html import escape
+from relay_limits import read_limits
 import json
 import re
 from pathlib import Path
@@ -127,6 +128,9 @@ def panel_messages(view):
             params = [sorted(set(re.findall(r'\{(\w+)\}', v))) for v in values.values()]
             if any(p != params[0] for p in params):
                 raise ValueError(f'Inconsistent translation parameters: {key}')
+            if 'maxNodes' in params[0]:
+                limit = str(read_limits(BRIDGE.parent)['maxNodes'])
+                values = {lang: text.replace('{maxNodes}', limit) for lang, text in values.items()}
             messages[key] = values
     return messages
 

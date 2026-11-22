@@ -89,6 +89,16 @@
     "en": "Read actual layers and variables and save them for review.",
     "ja": "実際のレイヤーと変数を読み取り、確認用ファイルに保存します。"
   },
+  "import.partialReadSummary": {
+    "ko": "부분 읽기 · {fields}",
+    "en": "Partial read · {fields}",
+    "ja": "部分読み取り · {fields}"
+  },
+  "import.readDimensionsOnly": {
+    "ko": "너비와 높이만 읽기",
+    "en": "Read width and height only",
+    "ja": "幅と高さのみを読み取る"
+  },
   "import.readButton": {
     "ko": "현재 디자인 읽기",
     "en": "Read current design",

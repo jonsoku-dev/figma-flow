@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "covers": [
+        "specs/editable-web/api-observations.json"
+      ],
+      "assertion": "Reads this inventory by path; pins its complete observation-root ID set and per-record scope markers, verifies local source paths, source/status/provenance shape and closed graph edges, and retains the blocked observation as blocked.",
+      "observed": "specs/editable-web/api-observations.json retains all designated observation roots and scope statements, with no dangling references or missing local source files; these assertions validate evidence structure and declared scope only.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_observation_inventories_preserve_graph_identity_and_sources",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

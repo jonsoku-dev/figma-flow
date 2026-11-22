@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/pre-figma-quality/graph.json#/nodes",
+      "covers": [
+        "specs/pre-figma-quality/spec.md"
+      ],
+      "assertion": "Reads the quality contract and asserts no invented aesthetic score and no visual/Figma acceptance claim from source-only checks.",
+      "observed": "Native visual acceptance remains blocked/unverified in this source contract.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_pre_figma_review_contract_does_not_claim_visual_acceptance",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

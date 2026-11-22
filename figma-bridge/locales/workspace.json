@@ -1052,6 +1052,21 @@
     "en": "Successor",
     "ja": "後続タスク"
   },
+  "workspace.dependencyEvidencePredecessor": {
+    "ko": "선행 {title} {key} 현재 {current} 고정 {pinned} {relation} {artifact} {digest}",
+    "en": "Predecessor {title} ({key}) · Current {current} · Pinned {pinned} · {relation} {artifact} · {digest}",
+    "ja": "先行 {title} ({key}) · 現在 {current} · 固定 {pinned} · {relation} {artifact} · {digest}"
+  },
+  "workspace.dependencyEvidenceSuccessor": {
+    "ko": "후속 {title} {key} 현재 {current} 고정 {pinned} {relation} {artifact} {digest}",
+    "en": "Successor {title} ({key}) · Current {current} · Pinned {pinned} · {relation} {artifact} · {digest}",
+    "ja": "後続 {title} ({key}) · 現在 {current} · 固定 {pinned} · {relation} {artifact} · {digest}"
+  },
+  "workspace.dependencyEmpty": {
+    "ko": "연결된 선행·후속이 없습니다",
+    "en": "No linked predecessors or successors",
+    "ja": "関連する先行・後続タスクはありません"
+  },
   "workspace.journalViewDetail": {
     "ko": "상세 보기",
     "en": "View details",

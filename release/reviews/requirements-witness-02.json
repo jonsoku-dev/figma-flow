@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "AGENTS.md#/sections/패치 기록과 개선 완료 조건",
+      "covers": [
+        "AGENTS.md"
+      ],
+      "assertion": "Reads the patch-record section and requires the CHANGELOG/Wiki record, HEAD verification command, immutable checker blob/mode rule, independent check, and no-hook rule.",
+      "observed": "All five repository completion constraints remain present.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_agent_patch_record_rules_require_preserved_independent_evidence",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

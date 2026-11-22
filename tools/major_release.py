@@ -105,9 +105,65 @@ sys.exit(0 if result.wasSuccessful() and result.testsRun == 1 and not result.ski
         args = ['node','--test','--test-reporter=tap','--test-name-pattern','^' + re.escape(case) + '$',test]
     else:
         raise ValueError('Unsupported witness test runner.')
-    result = subprocess.run(args,cwd=root,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=120)
+    env = {**os.environ, 'PYTHONDONTWRITEBYTECODE':'1',
+           'PYTHONPATH':os.pathsep.join(str(p.resolve()) for p in (root, root/'tests', root/'tools'))}
+    result = subprocess.run(args,cwd=root,env=env,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=120)
     if result.returncode or (args[0]=='node' and not re.search(r'^# pass [1-9]\d*$',result.stdout,re.M)):
         raise ValueError(f'Witness did not pass at this revision: {test} {case}')
+
+
+def authority_field(path, pointer):
+    """Resolve a JSON field or a unique ATX section of a normative Markdown document."""
+    if not pointer.startswith('/') or re.search(r'~(?![01])', pointer):
+        raise ValueError('Invalid authority pointer.')
+    parts = [s.replace('~1', '/').replace('~0', '~') for s in pointer[1:].split('/')]
+    if path.suffix.lower() not in {'.md', '.markdown'}:
+        value = read_json(path)
+        for part in parts:
+            value = value[int(part)] if isinstance(value, list) and part.isdecimal() else value[part]
+        return value
+
+    if len(parts) != 2 or parts[0] != 'sections' or not parts[1].strip():
+        raise ValueError('Markdown authority requires /sections/<exact heading>.')
+    lines = path.read_text(encoding='utf-8').splitlines()
+    headings = []
+    fence = ''
+    in_comment = False
+    visible = []
+    for index, line in enumerate(lines):
+        if fence:
+            visible.append(line)
+            if re.fullmatch(r' {0,3}' + fence[0] + '{' + str(len(fence)) + r',}[ \t]*', line):
+                fence = ''
+            continue
+        if in_comment:
+            _, closed, line = line.partition('-->')
+            in_comment = not closed
+        while '<!--' in line:
+            prefix, _, tail = line.partition('<!--')
+            _, closed, suffix = tail.partition('-->')
+            line = prefix + suffix
+            if not closed:
+                in_comment = True
+                break
+        visible.append(line)
+        opening = re.match(r'^ {0,3}(`{3,}|~{3,})', line)
+        if opening:
+            fence = opening.group(1)
+            continue
+        match = re.fullmatch(r' {0,3}(#{1,6})[ \t]+(.+?)[ \t]*', line)
+        if match:
+            title = re.sub(r'[ \t]+#+$', '', match[2]).strip()
+            headings.append((index, len(match[1]), title))
+    matches = [(i, level) for i, level, title in headings if title == parts[1]]
+    if len(matches) != 1:
+        raise ValueError('Missing or ambiguous Markdown authority section: ' + parts[1])
+    start, level = matches[0]
+    end = next((i for i, depth, _ in headings if i > start and depth <= level), len(lines))
+    text = '\n'.join(visible[start + 1:end]).strip()
+    if not text:
+        raise ValueError('Empty Markdown authority section: ' + parts[1])
+    return text
 
 
 def verify_review(root, surface, paths, owners, fingerprint):
@@ -130,12 +186,9 @@ def verify_review(root, surface, paths, owners, fingerprint):
             owner, sep, pointer = binding['authority'].partition('#')
             if relative(owner) not in owners:
                 raise ValueError('Binding points outside its graph-declared authorities.')
-            value = read_json(root/owner)
-            if not sep or not pointer.startswith('/') or not isinstance(binding['reason'], str) or not binding['reason'].strip():
-                raise ValueError('Each binding needs a field-level JSON authority and an explanation.')
-            for raw in pointer[1:].split('/'):
-                token = raw.replace('~1','/').replace('~0','~')
-                value = value[int(token)] if isinstance(value, list) and token.isdecimal() else value[token]
+            if not sep or not isinstance(binding['reason'], str) or not binding['reason'].strip():
+                raise ValueError('Each binding needs a field-level authority and an explanation.')
+            authority_field(root/owner, pointer)
             if not isinstance(binding['files'], list) or not binding['files'] or not set(binding['files']) <= set(paths):
                 raise ValueError('Binding lists missing files or files outside the reviewed surface.')
             if not isinstance(binding['witnesses'], list) or not binding['witnesses']:
@@ -189,7 +242,17 @@ def inventory(root, files):
             continue
         if edge['type'] != 'owned-by' or edge['from'] not in surfaces or edge['to'] not in authorities:
             raise ValueError('Invalid release authority edge.')
-        owners[edge['from']].add(authorities[edge['to']])
+        owner_id = edge['to']
+        owner_path = authorities[owner_id]
+        owners[edge['from']].add(owner_path)
+        # The feature registry owns the list. Resolve its members from the candidate itself.
+        if 'members' in nodes[owner_id] and owner_path in files:
+            index = nodes[owner_id]['members']
+            records = authority_field(root/owner_path, index['pointer'])
+            if not isinstance(records, list):
+                raise ValueError('Authority member index must point to an array.')
+            for row in records:
+                owners[edge['from']].add(relative(row[index['pathField']]))
     roots, classified = {}, {k:[] for k in surfaces}
     for id_, surface in surfaces.items():
         if (not isinstance(surface['roots'],list) or not surface['roots'] or

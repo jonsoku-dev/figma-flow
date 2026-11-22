@@ -2,22 +2,35 @@
 
 [기존 자습 실습](live-example.md)은 번들 재현·프로젝트 등록·검토 체인을 다룹니다. 여기서는 카탈로그에서 선택한 초안 하나를 새 앱으로 만들고 변경 후 관련 테스트를 다시 실행합니다. [그래프·SSOT 계약](graph-contract.md)과 [실행 기록](run-record.md)의 증거 구분은 그대로 적용합니다. 명령은 플러그인 루트에서 실행하며 출력 경로는 매번 아직 없는 폴더로 정합니다.
 
-## 1. 실제 복습 카드 초안 선택
+## 1. 선택한 초안의 실제 입력 지정
 
-이 작업공간의 입력은 다음과 같습니다. 플러그인 배포본에 이 외부 작업 폴더가 포함된다는 뜻은 아닙니다.
+선택한 초안의 카탈로그 항목, 원문, 그래프, 선택 기록과 출력 경로를 지정합니다. 배포본에는 별도 프로젝트의 파일이 포함되지 않으므로 실제 파일 경로를 사용하세요. 출력 경로는 아직 없어야 합니다.
 
-- 카탈로그: `../figma-flow-local-0.4.0/final/ideas/catalog.json`, 라벨 `복습 카드`.
-- 원문: `../figma-flow-local-0.4.0/drafts/cards.md`.
-- 초안 그래프: `../figma-flow-local-0.4.0/drafts/cards-graph.json`.
+```sh
+export CATALOG_JSON=/path/to/reviewed/catalog.json
+export IDEA_LABEL='선택한 카탈로그 항목의 정확한 라벨'
+export IDEA_GRAPH=/path/to/selected/graph.json
+export BRIEF_PATH=/path/to/selected/brief.md
+export SELECTION_PATH=/path/to/current/selection.json
+export BUILD_OUT=/path/to/new/build-output
+export PREPARED_OUT=/path/to/new/prepared-output
+export PROJECT_ROOT=/path/to/selected/project
+export MANIFEST_PATH=/path/to/selected/project/current/manifest.json
+export PREVIOUS_GRAPH=/path/to/selected/project/current/baseline-graph.json
+export TEST_MAPPING=/path/to/selected/project/test-mapping.json
+export INSPECTION_OUT=/path/to/new/inspection-output
+export PLAN_OUT=/path/to/new/affected-test-plan
+export TEST_RUN_OUT=/path/to/new/affected-test-run
+```
 
-원문은 목록·질문·정답·다시 연습·완료·제목 검색을 설명하며 **“이번에는 화면 기획 초안까지만 만든다”**고 적혀 있습니다. 원문 자체는 구현 허가가 아닙니다. 현재 사용자가 선택한 초안을 앱으로 만들라고 별도 요청한 경우 그 요청을 실행 기록에 남기고 진행합니다. 원문 바이트와 초안 ID는 보존합니다. 다시 연습의 구체적인 저장 정책, 예시 카드 데이터 등 원문에 없는 결정은 제안/추론으로 기록하고 제품 의미를 바꾸는 미정 사항은 의존 작업만 차단합니다.
+`/path/to/...` 값을 실제 입력과 새 출력 경로로 바꾸세요. 라벨은 카탈로그에서 정확히 확인합니다. 그래프와 원문에 없는 사용자 결정은 추가하지 않습니다. 원문이 기획 초안만 허용하면 현재 사용자가 초안을 앱으로 만들라고 별도로 요청해야 구현할 수 있습니다. 원문 바이트와 초안 ID를 보존합니다. 제품 의미를 바꾸는 미정 사항은 의존 작업만 차단합니다.
 
-화면 범위는 선택한 그래프의 `SCR-CARDS-LIST`, `SCR-CARDS-REVIEW`입니다. 다른 카탈로그 항목이나 새 화면을 조용히 추가하지 않습니다. 기존 구현의 변경 요청이라면 먼저 사용자가 고른 프로젝트와 그 검토 체인을 확인합니다. 인접 폴더나 가장 최근 파일을 기존 구현 또는 승인 기준선으로 추측하지 않습니다.
+화면 범위는 선택한 그래프의 실제 화면 ID로 확인합니다. 다른 카탈로그 항목이나 새 화면을 조용히 추가하지 않습니다. 기존 구현의 변경 요청이라면 먼저 사용자가 고른 프로젝트와 그 검토 체인을 확인합니다. 인접 폴더나 가장 최근 파일을 기존 구현 또는 승인 기준선으로 추측하지 않습니다.
 
 ## 2. 작업대에서 클릭해 생성
 
 ```sh
-python3 tools/serve_ideas.py --catalog ../figma-flow-local-0.4.0/final/ideas/catalog.json --idea '복습 카드' --graph ../figma-flow-local-0.4.0/drafts/cards-graph.json --brief ../figma-flow-local-0.4.0/drafts/cards.md --selection /tmp/cards-review/selection.json --out /tmp/figma-flow-cards-build-001
+python3 tools/serve_ideas.py --catalog "$CATALOG_JSON" --idea "$IDEA_LABEL" --graph "$IDEA_GRAPH" --brief "$BRIEF_PATH" --selection "$SELECTION_PATH" --out "$BUILD_OUT"
 ```
 
 `--selection`은 실제 사용자가 고른 시안의 선택 기록입니다([시안 검토 및 사용자 선택](direction-selection.md)). 없거나 브리프·그래프가 다르면 **앱 만들기**는 `409 WAIT_SELECTION`으로 멈춥니다. 표시된 `http://127.0.0.1:포트/`를 열고 선택한 초안의 **앱 만들기**를 누릅니다. 이 서버는 정적 카탈로그와 달리 로컬 Codex·테스트 실행을 시작하는 작업대입니다. 한 번의 서버 실행에서 지정한 출력 하나만 생성합니다. 초기 상태, 생성 중, 성공 또는 실패를 화면에서 확인하고 실제 결과는 출력 폴더의 상태·로그·검사 보고서로 확인합니다. 입력이 시작 후 바뀌거나 출력이 이미 있으면 새 이름으로 상태를 숨기지 말고 원인을 확인합니다. 단순 열람에는 `idea_catalog.py`가 만든 정적 `index.html`을 사용합니다.
@@ -30,16 +43,17 @@ python3 tools/serve_ideas.py --catalog ../figma-flow-local-0.4.0/final/ideas/cat
 python3 - <<'PY'
 from pathlib import Path
 import hashlib
+import os
 import subprocess
 import sys
 
 paths = {
-    'catalog': Path('../figma-flow-local-0.4.0/final/ideas/catalog.json'),
-    'graph': Path('../figma-flow-local-0.4.0/drafts/cards-graph.json'),
-    'brief': Path('../figma-flow-local-0.4.0/drafts/cards.md'),
+    'catalog': Path(os.environ['CATALOG_JSON']),
+    'graph': Path(os.environ['IDEA_GRAPH']),
+    'brief': Path(os.environ['BRIEF_PATH']),
 }
-argv = [sys.executable, 'tools/promote_idea.py', '--idea', '복습 카드',
-        '--out', '/tmp/figma-flow-cards-prepared-001', '--prepare-only']
+argv = [sys.executable, 'tools/promote_idea.py', '--idea', os.environ['IDEA_LABEL'],
+        '--out', os.environ['PREPARED_OUT'], '--prepare-only']
 for key, path in paths.items():
     argv += ['--' + key, str(path), '--' + key + '-sha256',
              hashlib.sha256(path.read_bytes()).hexdigest()]
@@ -50,7 +64,16 @@ PY
 `--prepare-only`는 선택한 원문·초안·카탈로그 사본과 요청·프롬프트를 남깁니다. 앱과 테스트가 통과했다는 뜻은 아닙니다. 현재 세션의 에이전트가 이 새 출력 폴더의 `promotion-prompt.md`와 고정 요청을 읽고 허용된 앱·명세·그래프·바인딩·테스트를 완성한 뒤 다음을 실행합니다.
 
 ```sh
-python3 tools/promote_idea.py --finish --out /tmp/figma-flow-cards-prepared-001 --selection /tmp/cards-review/selection.json
+python3 tools/promote_idea.py --finish --out "$PREPARED_OUT" --selection "$SELECTION_PATH"
+```
+
+`--finish`가 성공한 새 프로젝트를 검사하려면 다음 값을 해당 출력에 맞춥니다.
+
+```sh
+export PROJECT_ROOT="$PREPARED_OUT"
+export MANIFEST_PATH="$PROJECT_ROOT/admission/manifest-001.json"
+export PREVIOUS_GRAPH="$PROJECT_ROOT/admission/baseline-graph.json"
+export TEST_MAPPING="$PROJECT_ROOT/test-mapping.json"
 ```
 
 처음부터 자동 생성하려면 같은 입력 명령에서 `--prepare-only`를 뺍니다. 이 경로에는 인증된 Codex CLI가 필요합니다. `--finish`는 원래 고정 요청을 사용하므로 `--out`과 `--selection`만 받습니다. 자동 생성 경로에도 `--selection`이 필요합니다. `--intent technical`(준비 단계에서 지정)은 UI가 없는 기술 작업에만 씁니다. 부분 실패는 기존 출력과 로그를 확인해 해결하며 출력 폴더를 재사용한 새 생성으로 덮어쓰지 않습니다.
@@ -69,12 +92,12 @@ python3 tools/promote_idea.py --finish --out /tmp/figma-flow-cards-prepared-001 
 
 ## 5. 기존 기준선에서 영향 계획과 실제 테스트
 
-사용자가 선택한 프로젝트의 **현재 검토 체인의 기준선**을 지정합니다. 신규 자동 생성의 첫 기준선은 생성 결과의 `admission/manifest-001.json`입니다. 기존 카드 작업을 선택했다면 실제 경로 예는 `../figma-flow-cards-work/review-cards/baseline/manifest-001.json`이며, 이를 선택했다는 이유만으로 현재/승인 상태라고 단정하지 않습니다. 먼저 `check_project.py`로 검사하고 기존 체인이 더 이어졌는지 확인합니다. 새 `--init`으로 stale 이력을 지우지 않습니다.
+사용자가 선택한 프로젝트의 **현재 검토 체인의 기준선**을 지정합니다. 새로 생성한 출력의 첫 기준선은 `$PREPARED_OUT/admission/manifest-001.json`입니다. 기존 프로젝트에서는 사용자가 선택한 실제 매니페스트를 `MANIFEST_PATH`에 지정합니다. 그 매니페스트가 현재 또는 승인된 상태라고 가정하지 마세요. 먼저 `check_project.py`로 검사하고 기존 체인이 더 이어졌는지 확인합니다. 새 `--init`으로 stale 이력을 지우지 않습니다.
 
 ```sh
-python3 tools/check_project.py /tmp/figma-flow-cards-prepared-001/admission/manifest-001.json --previous-graph /tmp/figma-flow-cards-prepared-001/admission/baseline-graph.json --out /tmp/figma-flow-cards-inspect-001
-python3 tools/affected_tests.py /tmp/figma-flow-cards-prepared-001/admission/manifest-001.json --project /tmp/figma-flow-cards-prepared-001 --mapping /tmp/figma-flow-cards-prepared-001/test-mapping.json --out /tmp/figma-flow-cards-plan-001
-python3 tools/affected_tests.py /tmp/figma-flow-cards-prepared-001/admission/manifest-001.json --project /tmp/figma-flow-cards-prepared-001 --mapping /tmp/figma-flow-cards-prepared-001/test-mapping.json --out /tmp/figma-flow-cards-tests-001 --run
+python3 tools/check_project.py "$MANIFEST_PATH" --previous-graph "$PREVIOUS_GRAPH" --out "$INSPECTION_OUT"
+python3 tools/affected_tests.py "$MANIFEST_PATH" --project "$PROJECT_ROOT" --mapping "$TEST_MAPPING" --out "$PLAN_OUT"
+python3 tools/affected_tests.py "$MANIFEST_PATH" --project "$PROJECT_ROOT" --mapping "$TEST_MAPPING" --out "$TEST_RUN_OUT" --run
 ```
 
 위 명령은 절차 예이며 실행 성공을 미리 주장하지 않습니다. 매핑 파일이 없다면 4단계의 실제 그래프·테스트 파일을 조사해 먼저 작성합니다. 형태는 다음과 같고 테스트 ID는 실제 그래프와 정확히 같아야 합니다.
@@ -90,7 +113,7 @@ python3 tools/affected_tests.py /tmp/figma-flow-cards-prepared-001/admission/man
 }
 ```
 
-이 ID/파일 조합은 기존 카드 작업의 예입니다. 새로 생성된 앱이 같은 테스트 ID나 파일을 쓴다고 가정하지 않습니다. `inputs`에는 테스트가 읽는 공통 모듈 등 추가 고정 파일을 실제 경로로 등록합니다. 선언되지 않은 import는 드리프트 검사 범위 밖입니다.
+이 ID/파일 조합은 형식 예시입니다. 프로젝트가 같은 테스트 ID나 파일을 쓴다고 가정하지 않습니다. `inputs`에는 테스트가 읽는 공통 모듈 등 추가 고정 파일을 실제 경로로 등록합니다. 선언되지 않은 import는 드리프트 검사 범위 밖입니다.
 
 계획만 실행하면 `plan.json`을 남기며 테스트는 실행하지 않습니다. `scope`, `fallback`, `global_change`, 영향 사유/경로, `selected_tests`, 제외 목록과 실제 선택 파일을 확인합니다. 변경 경로의 어느 가지라도 테스트까지 이어지지 않거나 전체 테스트 경로가 충분하지 않으면 전체 매핑으로 넓힙니다. 공통 기준 원본·brief·bindings 변경과 `--all`도 전체 매핑을 선택합니다. 경로는 선언된 영향 후보이며 의미상 완전성을 보장하지 않습니다. 공유 테스트 파일 때문에 추가 실행된 ID와 부분 파일 실행 ID도 구분합니다.
 
@@ -104,7 +127,7 @@ python3 tools/affected_tests.py /tmp/figma-flow-cards-prepared-001/admission/man
 
 ## 검토된 앱 다시 열기
 
-`tools/serve_ideas.py`의 원래 인수(카탈로그, 초안 이름, 그래프, 원문, 결과 경로)를 그대로 쓰고 `--open-reviewed` 뒤에 해당 프로젝트의 `admission/manifest-NNN.json`을 붙입니다. 작업대는 같은 초안에서 생성한 승인 기록, 파일 해시와 매니페스트 계보를 확인합니다. **완성된 앱 열기**는 제어 API가 없는 별도 루프백 주소입니다. 작업대를 종료하면 그 미리보기도 종료됩니다. 원문이 바뀌었거나 근거가 오래됐으면 먼저 해당 프로젝트의 변경 검토를 진행하세요.
+`tools/serve_ideas.py`에 같은 카탈로그, 초안 이름, 그래프, 원문과 출력 경로를 지정합니다. `--open-reviewed` 뒤에 해당 프로젝트의 `admission/manifest-NNN.json`을 붙입니다. 작업대는 같은 초안에서 생성한 승인 기록, 파일 해시와 매니페스트 계보를 확인합니다. **완성된 앱 열기**는 제어 API가 없는 별도 루프백 주소입니다. 작업대를 종료하면 그 미리보기도 종료됩니다. 원문이 바뀌었거나 근거가 오래됐으면 먼저 해당 프로젝트의 변경 검토를 진행하세요.
 
 새 초안의 복구 가능한 계약 오류나 실제 테스트 실패에는 생성기가 한 차례 수정 작업을 할 수 있습니다. 각 시도의 로그를 보존하며 검사를 통과한 테스트 영수증만 승인 경로에 기록합니다. 입력 핀 변경이나 격리 검사 실패는 부분 실패로 남습니다.
 

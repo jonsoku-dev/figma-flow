@@ -1,0 +1,935 @@
+{
+  "schema": "figma-flow-major-review-partial-v1",
+  "surface": "skills",
+  "status": "incomplete",
+  "bindings": [
+    {
+      "path": "skills/campaign-identity/SKILL.md",
+      "authorityFields": [
+        "library/design-routes.json#/lanes",
+        "library/campaign-forms.json#/forms"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_route_design.py",
+          "case": "RouteDesignTests.test_explicit_logo_as_image_uses_identity_and_imagegen",
+          "sha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_route_design.py",
+          "case": "RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol",
+          "sha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_route_design.py",
+          "case": "RouteDesignTests.test_multi_surface_multi_lane_directions_and_dependencies",
+          "sha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Routing is asserted, but no retained real Figma asset placement/export outcome witnesses the production steps."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/SKILL.md",
+      "authorityFields": [
+        "CONSTITUTION.md#/sections/기본 사용 환경",
+        "docs/guide.md#/sections/11. 대화, 프로필, 승인과 결과는 Codex에서 관리",
+        "library/workflow.json#/edges",
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_figma_feature.py",
+          "case": "FeatureRoutesTests.test_flow_english_and_korean",
+          "sha256": "3f138b296b156e138160c0cd444d3a664a859f2917a6c6a94e28d193f5ee4e59",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_draft_build_commands_use_selected_project_paths",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Selected route and graph/trace commands pass; the full orchestrated Figma user workflow and actual host acceptance are not exercised as one scenario."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/browser-access.md",
+      "authorityFields": [
+        "docs/guide.md#/sections/Figma Flow 브라우저 접근"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_browser_access.py",
+          "case": "BrowserAccessTests.test_auto_allow_has_no_origin_or_port_filter_and_is_idempotent",
+          "sha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_browser_access.py",
+          "case": "BrowserAccessTests.test_auto_allow_replaces_only_dedicated_policy_and_preserves_other_options",
+          "sha256": "b6c1e2da0ce8afdab7555100a77d4965c400b458c72c10fd5fbccc5d6b82c333",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Config generation is tested; applying it to the isolated browser and observing effective runtime policy was not done."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/campaign-library.md",
+      "authorityFields": [
+        "library/campaigns.json#/categories",
+        "library/campaigns.json#/sources"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_campaign_library.py",
+          "case": "CampaignLibraryTests.test_filters_and_source_joins",
+          "sha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_campaign_library.py",
+          "case": "CampaignLibraryTests.test_plan_keeps_evidence_and_checks_untested",
+          "sha256": "3e064b1b84c10f3dcb1b4ee356b20b45d23d5b51c5ff5a8064c2396398c814de",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Source joins and evidence labeling are tested; current external campaign references were not revalidated against source pages."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/design-review.md",
+      "authorityFields": [
+        "library/design-routes.json#/lanes",
+        "vendor/skills/manifest.json#/skills/impeccable"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_design_review.py",
+          "case": "DesignReviewTests.test_current_concrete_evidence_passes_but_never_claims_skill_or_platform_attestation",
+          "sha256": "7cce17b65fbfa39bf537fe9a4a8446bf12a151ce162a69f53b055ecb1a5f7872",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Fixture-based gates pass; no real selected Figma rendering or human visual review was observed."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/design-routing.md",
+      "authorityFields": [
+        "library/design-routes.json#/lanes"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_route_design.py",
+          "case": "RouteDesignTests.test_explicit_logo_as_image_uses_identity_and_imagegen",
+          "sha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_route_design.py",
+          "case": "RouteDesignTests.test_every_action_uses_the_resolved_direction_protocol",
+          "sha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_route_design.py",
+          "case": "RouteDesignTests.test_multi_surface_multi_lane_directions_and_dependencies",
+          "sha256": "aa7d10a3a470a7b12bfff2537cddf061130f5bbf45e70f407d31a28e80d0323d",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Route planning assertions pass; execution of every routed design lane is not covered by these cases."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/direction-selection.md",
+      "authorityFields": [
+        "library/workflow.json#/edges",
+        "library/workflow.json#/guards"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_design_directions.py",
+          "case": "DirectionAdmissionTests.test_structured_real_user_reply_and_explicit_revocation",
+          "sha256": "e41e8042e43ee06f7343188e7839e7f9d79ddbe2f369f8eef09b31d857cf0d24",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_direction_write_guards.py",
+          "case": "WriteGuardTests.test_asset_entry_rejects_missing_choice_before_writing",
+          "sha256": "0333a5f3fbef43fd8194ea0e87082856f745e0f75b54b37fc1e71663d87832fe",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Admission and write guards use fixtures; no actual post-presentation user selection was captured in this run."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/draft-build.md",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots",
+        "library/workflow.json#/edges"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_promote_idea.py",
+          "case": "PromoteTests.test_default_ui_creation_requires_current_selection_before_output",
+          "sha256": "6ca849cb2f5697254e2e0465ea0d69f972c22f72da4fdf21ef2b1f34aef67786",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_serve_ideas.py",
+          "case": "ServerTest.test_current_user_selection_executes_and_changed_graph_blocks_again",
+          "sha256": "51fd0575f99c5124dbb292e4e5f1171ef775df2c179aebda0adab0b30267ceb6",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_figma_draft.py",
+          "case": "DraftReviewTests.test_default_is_native_pending_without_selection_or_foreign_context",
+          "sha256": "8ebbc6582206850b128bd9b376cfc63483a64d93896b42cd0fda515076faff49",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_draft_build_commands_use_selected_project_paths",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "No named test witnesses an actual user selection, Codex generation/finish, reviewed reopen/resumption, or browser/Figma acceptance for this guide."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/figma-feature-routes.md",
+      "authorityFields": [
+        "docs/guide.md#/sections/Figma 기능 찾기와 데스크톱 실행",
+        "library/design-routes.json#/lanes"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_figma_feature.py",
+          "case": "FeatureRoutesTests.test_flow_english_and_korean",
+          "sha256": "3f138b296b156e138160c0cd444d3a664a859f2917a6c6a94e28d193f5ee4e59",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Published route and route dispatch are checked; current external API availability and actual editor runs are not verified."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/figma-workflow.md",
+      "authorityFields": [
+        "library/workflow.json#/evidence_contracts/native_canvas",
+        "CONSTITUTION.md#/sections/기본 사용 환경"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_workflow.py",
+          "case": "WorkflowTests.test_full_human_selected_native_flow",
+          "sha256": "e12851963cecf2c14ce93176b937dfa599288010ae9ad1f1d24c02edfb4617d8",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_native_handoff.py",
+          "case": "NativeHandoffTest.test_strict_creation_real_annotations_cover_every_required_native_node",
+          "sha256": "f620166f468c1671d21439563fad03ce0ca451057f8053a5c7f606e5dd0a8e6b",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Workflow and native handoff tests use fixtures; no live Figma Design readback or round-trip occurred."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/graph-contract.md",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_graph.py",
+          "case": "GraphTests.test_strict_local_cli_is_opt_in_and_reports_declared_scope",
+          "sha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_ssot.py",
+          "case": "SsotTests.test_unchanged_is_content_current_only_and_deterministic",
+          "sha256": "a4e558a6d85c3cc46f1733adbf68bcdb26614adec0e54acc651e4ec6d34fe272",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_trace_report.py",
+          "case": "TraceReportTests.test_cli_creates_offline_report_without_changing_inputs",
+          "sha256": "ccf7843c930bc2206a178b682f9cf687d1b38b36171771a180e475463f891341",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Strict validate/render, local snapshot/check, and trace command examples pass; impact and reviewed-resumption examples were not run from this guide."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/live-example.md",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "The first local-runner command and promised artifacts pass. Steps 2 through 5, including manual browser checks, stale/review resume, catalog UI, and first-baseline path, were not followed end to end."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/local-design-audit.md",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots",
+        "library/workflow.json#/evidence_contracts/native_canvas"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_design_review.py",
+          "case": "DesignReviewTests.test_current_concrete_evidence_passes_but_never_claims_skill_or_platform_attestation",
+          "sha256": "7cce17b65fbfa39bf537fe9a4a8446bf12a151ce162a69f53b055ecb1a5f7872",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_design_graph.py",
+          "case": "DesignGraphTests.test_exact_dependencies_and_coverage",
+          "sha256": "3d0d9039f111d3045f71d903f6f7dec1bc0c50855e5bbd9150ea0eaf2acb46bc",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_check_project.py",
+          "case": "CheckProjectTests.test_init_then_recheck_and_diff",
+          "sha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_check_project.py",
+          "case": "CheckProjectTests.test_figma_graph_without_handoff_is_blocked_at_both_entries",
+          "sha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_check_project.py",
+          "case": "CheckProjectTests.test_current_stale_and_no_overwrite",
+          "sha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Fixture audits pass; its actual native Figma capture/readback branch remains unobserved."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/run-record.md",
+      "authorityFields": [
+        "library/workflow.json#/states",
+        "docs/guide.md#/sections/막힌 위치 찾기"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_check_project.py",
+          "case": "CheckProjectTests.test_init_then_recheck_and_diff",
+          "sha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_check_project.py",
+          "case": "CheckProjectTests.test_figma_graph_without_handoff_is_blocked_at_both_entries",
+          "sha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_figma_sync_session.py",
+          "case": "SessionTest.test_baseline_apply_restart_noop_and_chain",
+          "sha256": "718fce4f78c6814c6053f7197cf770845671dbcff1741074c83f0ad5129dda32",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_check_project.py",
+          "case": "CheckProjectTests.test_current_stale_and_no_overwrite",
+          "sha256": "e0e4b06dfbfb6ba08e28c42176974cbb46c9ddacd599766240cf67ad93d0a932",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Local sync/recovery records pass; no actual Figma write uncertainty and remote readback were observed."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/skill-dependencies.md",
+      "authorityFields": [
+        "skills/figma-flow/references/skill-dependencies.md#/sections/첫 실행",
+        "vendor/skills/manifest.json#/skills"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_dependencies.py",
+          "case": "SkillDependencyTests.test_plugin_paths_and_cli_work_after_relocation_without_home_or_writes",
+          "sha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_dependencies.py",
+          "case": "SkillDependencyTests.test_missing_or_tampered_pinned_files_block",
+          "sha256": "a9dcba88004ad2d2b73ac94dab9ba555dc8befd0187277c4cd0086600d5468ec",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Pinned bundle and relocation claims pass; the generated skills themselves are not behaviorally attested by this checker."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/token-sync.md",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots",
+        "docs/guide.md#/sections/10. 그래프와 Figma 컴포넌트 동기화"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_sync_figma_tokens.py",
+          "case": "SyncFigmaTokenTests.test_root_edit_keeps_semantic_aliases_and_exact_graph_consumers",
+          "sha256": "06bec1f3d6fc401cd137f665fdc1beac9998fd490f509166074b97a1a3852551",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_sync_figma_tokens.py",
+          "case": "SyncFigmaTokenTests.test_stale_compiled_source_and_stale_baseline_fail_without_outputs",
+          "sha256": "06bec1f3d6fc401cd137f665fdc1beac9998fd490f509166074b97a1a3852551",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Local token graph and numeric round-trip fixtures pass; actual live Figma import/readback is not evidenced."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/unslop.md",
+      "authorityFields": [
+        "vendor/skills/manifest.json#/skills/unslop",
+        "CONSTITUTION.md#/sections/기능을 채택하는 기준"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Upstream attribution and license pin pass; subjective visual critique steps have no suitable automated witness or real design review in this run."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/visual-quality.md",
+      "authorityFields": [
+        "library/design-routes.json#/lanes",
+        "docs/guide.md#/sections/9. 선택한 안을 Figma 본제작으로 전달"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_design_quality.py",
+          "case": "ContrastTests.test_low_contrast_body_text_is_error",
+          "sha256": "024c971b1e3d39f82946ae9b8bbc7931a049c89b33f1a07b7ad6c08a1f73643b",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_design_quality.py",
+          "case": "NativeTextAndProductTests.test_tracking_and_line_count_use_actual_font",
+          "sha256": "024c971b1e3d39f82946ae9b8bbc7931a049c89b33f1a07b7ad6c08a1f73643b",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Automated thresholds pass on fixtures; actual screen-level visual hierarchy and product use were not reviewed."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/references/workflow.generated.md",
+      "authorityFields": [
+        "library/workflow.json#/edges"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_workflow.py",
+          "case": "WorkflowTests.test_full_human_selected_native_flow",
+          "sha256": "e12851963cecf2c14ce93176b937dfa599288010ae9ad1f1d24c02edfb4617d8",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Generated projection bytes and a negative mutation are verified against the canonical workflow graph."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/scripts/graph.py",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_graph.py",
+          "case": "GraphTests.test_strict_local_cli_is_opt_in_and_reports_declared_scope",
+          "sha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Strict-local CLI behavior is verified; this run does not rerun the full graph schema/render/impact assertion surface."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/scripts/graph_diff.py",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_graph_diff.py",
+          "case": "GraphDiffTests.test_title_source_metadata_and_missing_null_are_exact_fields",
+          "sha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_graph_diff.py",
+          "case": "GraphDiffTests.test_added_removed_nodes_and_labeled_edges_preserve_multiplicity",
+          "sha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Exact field and node/edge diff cases pass; the rest of the diff/report variants were not rerun."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/scripts/ssot.py",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_ssot.py",
+          "case": "SsotTests.test_unchanged_is_content_current_only_and_deterministic",
+          "sha256": "a4e558a6d85c3cc46f1733adbf68bcdb26614adec0e54acc651e4ec6d34fe272",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Unchanged local-only snapshot/check is verified; historical-chain and all freshness edge cases were not rerun."
+      ]
+    },
+    {
+      "path": "skills/figma-flow/scripts/trace_report.py",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_trace_report.py",
+          "case": "TraceReportTests.test_cli_creates_offline_report_without_changing_inputs",
+          "sha256": "ccf7843c930bc2206a178b682f9cf687d1b38b36171771a180e475463f891341",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Offline CLI output and no-input-mutation behavior pass; all interactive trace viewer branches were not rerun."
+      ]
+    },
+    {
+      "path": "skills/figma-plugin-setup/SKILL.md",
+      "authorityFields": [
+        "docs/guide.md#/sections/2. 클론하고 Codex에 설치",
+        "library/figma-profile/policy.json#/operations"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_plugin_startup.py",
+          "case": "StartupTests.test_check_never_upgrades_and_exact_same_candidate_is_current",
+          "sha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_plugin_startup.py",
+          "case": "StartupTests.test_host_install_verifies_returned_path_both_manifests_and_all_bytes",
+          "sha256": "c1012297d08a5efb1ca162f3c96081cd7daf567e07d4d98d646e35d9832547fa",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Two install/update cases pass in temporary fixtures; no actual Codex+Figma Desktop setup or user readback was performed."
+      ]
+    },
+    {
+      "path": "skills/graph-ssot/SKILL.md",
+      "authorityFields": [
+        "specs/graph-roots.json#/roots"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_generated_workflow_is_exact_and_rejects_a_mutated_projection",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_graph_ssot_and_trace_commands_run_and_reject_bad_coverage",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_published_live_example_first_command_produces_documented_artifacts",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_skill_command_contract.py",
+          "case": "SkillCommandContractTests.test_unslop_adaptation_credit_matches_pinned_upstream_provenance",
+          "sha256": "6ab4d3d7140a19ec786c649c3c72c4fe9bf614bb3ea594c54beddb039e34ccbf",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_graph_diff.py",
+          "case": "GraphDiffTests.test_title_source_metadata_and_missing_null_are_exact_fields",
+          "sha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_graph_diff.py",
+          "case": "GraphDiffTests.test_added_removed_nodes_and_labeled_edges_preserve_multiplicity",
+          "sha256": "8a3628241f81abf44e5edebc77b028d5f24abca51efd4e056a869123fed090b7",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_graph.py",
+          "case": "GraphTests.test_strict_local_cli_is_opt_in_and_reports_declared_scope",
+          "sha256": "2dce65e9e811e0e01e90e734b97bcac37b5d21247f082c24bb579397a6467de8",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_ssot.py",
+          "case": "SsotTests.test_unchanged_is_content_current_only_and_deterministic",
+          "sha256": "a4e558a6d85c3cc46f1733adbf68bcdb26614adec0e54acc651e4ec6d34fe272",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_trace_report.py",
+          "case": "TraceReportTests.test_cli_creates_offline_report_without_changing_inputs",
+          "sha256": "ccf7843c930bc2206a178b682f9cf687d1b38b36171771a180e475463f891341",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Core graph, SSOT, and trace command flows pass; all guide branches and actual product acceptance are not exercised."
+      ]
+    },
+    {
+      "path": "skills/patch-knowledge/SKILL.md",
+      "authorityFields": [
+        "docs/llm-wiki/README.md#/sections/기록을 갱신하고 검사하기"
+      ],
+      "tests": [
+        {
+          "path": "tests/test_patch_knowledge.py",
+          "case": "PatchKnowledgeTest.test_inventory_covers_merge_graph_versions_and_sanitizes_remote",
+          "sha256": "6bb279ace28d5a96e336fd820dd491ba8e1e2a7cbebd79ce729bd41adedff097",
+          "result": "passed"
+        },
+        {
+          "path": "tests/test_patch_knowledge.py",
+          "case": "PatchKnowledgeTest.test_sync_is_repeatable_and_preserves_human_body_but_scaffolds_fail_verify",
+          "sha256": "6bb279ace28d5a96e336fd820dd491ba8e1e2a7cbebd79ce729bd41adedff097",
+          "result": "passed"
+        }
+      ],
+      "openClaims": [
+        "Inventory/sync cases pass; the full patch publication and improvement gate sequence was not rerun."
+      ]
+    }
+  ],
+  "testCommands": [
+    "python3 -B -m unittest tests.test_skill_command_contract",
+    "python3 -B tools/skill_dependencies.py --check",
+    "python3 -B tools/figma_feature.py route components"
+  ],
+  "ownerSources": [
+    "CONSTITUTION.md",
+    "docs/guide.md",
+    "docs/llm-wiki/README.md",
+    "library/campaign-forms.json",
+    "library/campaigns.json",
+    "library/design-routes.json",
+    "library/figma-profile/policy.json",
+    "library/workflow.json",
+    "skills/figma-flow/references/skill-dependencies.md",
+    "specs/alignment-audit/graph.json",
+    "specs/codex-relay/graph.json",
+    "specs/design-specialization/graph.json",
+    "specs/editable-web/graph.json",
+    "specs/graph-review/graph.json",
+    "specs/graph-roots.json",
+    "specs/interactive-web/graph.json",
+    "specs/live-change-sync/graph.json",
+    "specs/local-profile-init/graph.json",
+    "specs/pre-figma-quality/graph.json",
+    "specs/readable-specifications/graph.json",
+    "specs/responsive-web/graph.json",
+    "specs/startup-freshness/graph.json",
+    "specs/workspace-activity/graph.json",
+    "vendor/skills/manifest.json"
+  ]
+}

@@ -22,7 +22,7 @@ export function useRelaySnapshot(send) {
           !msg.page || (msg.page.id !== null && typeof msg.page.id !== 'string')) return;
       channel.session = msg.workspaceSession;
       channel.fileKey = nonempty(msg.file.key);
-      const selection = Array.isArray(msg.selection) ? msg.selection.slice(0,20).filter(item =>
+      const selection = Array.isArray(msg.selection) ? msg.selection.slice(0,__FLOW_MAX_NODES__).filter(item =>
         typeof item?.id === 'string' && typeof item?.type === 'string' && typeof item?.name === 'string') : [];
       const snapshot = {
         status:msg.status, file:msg.file, page:msg.page, selection,

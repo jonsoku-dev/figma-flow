@@ -665,7 +665,7 @@ function workspaceRelaySelection() {
   let selected = [];
   try {if (Array.isArray(figma.currentPage?.selection)) selected = figma.currentPage.selection;} catch (_) {}
   const result = [];
-  for (const node of selected.slice(0, 20)) {
+  for (const node of selected.slice(0, WORKSPACE_READ_LIMITS.maxNodes)) {
     try {
       const item = {id:typeof node?.id === 'string' ? node.id.slice(0, 200) : '',
         name:typeof node?.name === 'string' ? node.name.slice(0, 200) : '',

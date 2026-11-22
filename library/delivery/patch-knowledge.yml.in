@@ -1,0 +1,23 @@
+name: Patch knowledge
+on:
+  push:
+    branches: [{{delivery.branch}}]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@{{delivery.actions.checkout}}
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@{{delivery.actions.setup-python}}
+        with:
+          python-version: '{{delivery.python}}'
+      - name: Test history and improvement gates
+        run: python -B -m unittest discover -s tests -p 'test_patch_knowledge*.py'
+      - name: Verify full patch knowledge coverage
+        run: python tools/patch_knowledge.py verify --ref HEAD
+      - name: Verify preserved lineage records
+        run: python tools/patch_knowledge_legacy.py verify --wiki docs/llm-wiki/legacy

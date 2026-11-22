@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "covers": [
+        "specs/codex-relay/spec.md"
+      ],
+      "assertion": "Reads the relay specification and asserts that requests, direction, approval, context, and result remain in Codex while the plugin stays a status viewer.",
+      "observed": "The Codex-centered workflow and no-duplicate-dialogue/approval boundary remain explicit and graph-linked.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_codex_relay_spec_keeps_dialogue_approval_and_task_authority_in_codex",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

@@ -1,0 +1,737 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "requirements",
+  "fingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "openFindings": [],
+  "bindings": [
+    {
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "reason": "The repository instruction defines the active Codex relay/viewer boundary, Design-only feature path, and actual-browser/Figma acceptance requirement.",
+      "files": [
+        "AGENTS.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-01.json",
+          "sha256": "04a68d34206e7d4f325f4f5b77be94c0818c1d9eb5268a60b2b4c9226265e1f4"
+        }
+      ]
+    },
+    {
+      "authority": "AGENTS.md#/sections/패치 기록과 개선 완료 조건",
+      "reason": "The authored completion policy requires patch history, independent verification, and preserving checker baselines.",
+      "files": [
+        "AGENTS.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-02.json",
+          "sha256": "0e14690a1d5f2e882b24999418a8f01fc2ed2cca2091cedb8657c2b4e1f4db4e"
+        }
+      ]
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기능을 채택하는 기준",
+      "reason": "The constitution section is normative for this boundary: 기능을 채택하는 기준.",
+      "files": [
+        "CONSTITUTION.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-03.json",
+          "sha256": "69540ab12f3d33049ac234ae26714295d8a6cc557881ca5c0abadcfb879a6e6b"
+        }
+      ]
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/기본 사용 환경",
+      "reason": "The constitution section is normative for this boundary: 기본 사용 환경.",
+      "files": [
+        "CONSTITUTION.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-04.json",
+          "sha256": "af145c5276295f58c8590c29dae9f7f618f5ed4a19635234cdcb3c346fe6e899"
+        }
+      ]
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/메이저 업데이트 조건",
+      "reason": "The constitution section is normative for this boundary: 메이저 업데이트 조건.",
+      "files": [
+        "CONSTITUTION.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-05.json",
+          "sha256": "8dc6fcb7a58cad97955571e25b2095b077d6220e2a400fe3a71a81b670c5440f"
+        }
+      ]
+    },
+    {
+      "authority": "CONSTITUTION.md#/sections/개발 경계",
+      "reason": "The constitution section is normative for this boundary: 개발 경계.",
+      "files": [
+        "CONSTITUTION.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-06.json",
+          "sha256": "78189d6972e74b3436ea0b5f2091a24b8e365c6d94beb908e1bc246a9a2ae9bd"
+        }
+      ]
+    },
+    {
+      "authority": "specs/README.md#/sections/Feature specifications",
+      "reason": "The README is the human discovery index for registered feature graphs and their distinct spec/evidence inventories.",
+      "files": [
+        "specs/README.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-07.json",
+          "sha256": "829926a8c065f3de919a6908e9067005a040f760da59f3bf5906664e6d3f4165"
+        }
+      ]
+    },
+    {
+      "authority": "specs/README.md#/sections/Test execution plans",
+      "reason": "The index section defines regression plan/case inventory status and its distinction from product relationship graphs.",
+      "files": [
+        "specs/README.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-08.json",
+          "sha256": "d931ae7463edd8c09215dd78c6a82c5660e40fcbb3885d09b8877bdcddef278b"
+        }
+      ]
+    },
+    {
+      "authority": "specs/README.md#/sections/Proposed development",
+      "reason": "The index marks roadmap documents and interactive feature proposals as proposed work, not implemented acceptance.",
+      "files": [
+        "specs/README.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-09.json",
+          "sha256": "8df560f778bfddb00dada2991a0561f674d0f56946bd73368dc895c04f9e50ee"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-roots.json#/roots",
+      "reason": "This registry is the authoritative list of canonical feature graph roots used by the production checker.",
+      "files": [
+        "specs/graph-roots.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-10.json",
+          "sha256": "47e1639356f0d89803d7cbc20f7be1a6a01f0ef54ee5090a094b03316a9237ff"
+        }
+      ]
+    },
+    {
+      "authority": "specs/verification.md#/sections/Current source checks",
+      "reason": "This file is an explicitly dated 0.26.0 historical verification record, not current release/runtime acceptance evidence.",
+      "files": [
+        "specs/verification.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-11.json",
+          "sha256": "45bc03a3074557d78763075a74e28c75f9d32d937fa62cb0983e06a05aa77117"
+        }
+      ]
+    },
+    {
+      "authority": "specs/alignment-audit/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/alignment-audit/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-12.json",
+          "sha256": "dd891d071258684d23dc0c11b14e0e356c834109348b54860d2da3a799455a26"
+        }
+      ]
+    },
+    {
+      "authority": "specs/alignment-audit/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/alignment-audit/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-13.json",
+          "sha256": "8e0e0e17d438e6e26b94106d9af495bdfe444f0c55900f5d08357da9bd5cb194"
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/codex-relay/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-14.json",
+          "sha256": "40258502269faeb70ab79cba270faf46d7df02e1b0faaa9b87b806e988043280"
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/codex-relay/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-15.json",
+          "sha256": "06edbd7883887b413de7ed492a339d8e48cfbd5512a7052ad6b73d6bf480bc87"
+        }
+      ]
+    },
+    {
+      "authority": "specs/design-specialization/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/design-specialization/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-16.json",
+          "sha256": "fda55ec3f4266dfd10b7bf974ebacec374235a36e3269df71ef1b6289865b64f"
+        }
+      ]
+    },
+    {
+      "authority": "specs/design-specialization/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/design-specialization/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-17.json",
+          "sha256": "7d48c9e04cd9d6325f9911d042794711fd1e006fb3a6cd916bbfd4fab7a68a37"
+        }
+      ]
+    },
+    {
+      "authority": "specs/editable-web/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/editable-web/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-18.json",
+          "sha256": "e8301f18905feef6199d54360a1bdad95c800e169bae088825724cebc1a60b05"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/graph-review/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-19.json",
+          "sha256": "35d3961c7831ae031d55e862951a9c62f919f2c868fba208012479b317925784"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-review/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/graph-review/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-20.json",
+          "sha256": "fbed12b404603146e7f45ea460c808a567592036b585e75f6e29bf53436bee27"
+        }
+      ]
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/interactive-web/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-21.json",
+          "sha256": "406e7e8f8c5716db9507dd9b9db8dfa703984316120835be46a35506ebd0888a"
+        }
+      ]
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/interactive-web/carousel.md",
+        "specs/interactive-web/disclosure.md",
+        "specs/interactive-web/tabs.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-22.json",
+          "sha256": "6de1231d73a200b96e633f4deb0f3eb7f194961c2c877131d70303eab92be5ac"
+        }
+      ]
+    },
+    {
+      "authority": "specs/live-change-sync/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/live-change-sync/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-23.json",
+          "sha256": "4b0e4e6690df51f08320de71d30fdc19b4212dc18d7ade906351df25417467fc"
+        }
+      ]
+    },
+    {
+      "authority": "specs/live-change-sync/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/live-change-sync/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-24.json",
+          "sha256": "cda919b6fe3b1500b421f344d106e9aaaac8d40eee3c318a6668e9c9799e5019"
+        }
+      ]
+    },
+    {
+      "authority": "specs/local-profile-init/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/local-profile-init/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-25.json",
+          "sha256": "5334d23187c0a8f70c3028f9b45444fa77f971074787c47273f971226afe3b32"
+        }
+      ]
+    },
+    {
+      "authority": "specs/local-profile-init/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/local-profile-init/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-26.json",
+          "sha256": "d23ef0a14d6d9a831a894d426b67ca4a45279b7fd29a09fb79a83f9a0a2c82b6"
+        }
+      ]
+    },
+    {
+      "authority": "specs/pre-figma-quality/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/pre-figma-quality/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-27.json",
+          "sha256": "cec3e0473333e01838e18af30c33210c67f01c2f049189653f2673b3c134ab49"
+        }
+      ]
+    },
+    {
+      "authority": "specs/pre-figma-quality/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/pre-figma-quality/request.md",
+        "specs/pre-figma-quality/screen-spec.md",
+        "specs/pre-figma-quality/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-28.json",
+          "sha256": "e3a570ddf08d8adb6cfc90491c68ce9771e4c4ae540ef1b254f1329493a0feb6"
+        }
+      ]
+    },
+    {
+      "authority": "specs/readable-specifications/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/readable-specifications/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-29.json",
+          "sha256": "25b34da0b1a16c3646fb9b64e932ad00fa520309e9ce62b6f198fab25f28ed6f"
+        }
+      ]
+    },
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/readable-specifications/request.md",
+        "specs/readable-specifications/screen-spec.md",
+        "specs/readable-specifications/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-30.json",
+          "sha256": "d8f9bb779613948a0fe422dd9a9ad674643ab34e37dc75d0e83d54002ed95c3f"
+        }
+      ]
+    },
+    {
+      "authority": "specs/responsive-web/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/responsive-web/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-31.json",
+          "sha256": "dc1a091a313585fb63a6d1b8e7c644ae35109136c24fbb97bebf48723e6c75a6"
+        }
+      ]
+    },
+    {
+      "authority": "specs/startup-freshness/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/startup-freshness/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-32.json",
+          "sha256": "d7008a89af4ad3c5e4bcc69818c7414622766ad09cf819bf33715415d10dcfb2"
+        }
+      ]
+    },
+    {
+      "authority": "specs/startup-freshness/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/startup-freshness/request.md",
+        "specs/startup-freshness/screen-spec.md",
+        "specs/startup-freshness/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-33.json",
+          "sha256": "b66fce523c1afbc1bef0d77276119c5b52acb5d6ca281ca5b93b1d4b09a4e75a"
+        }
+      ]
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/edges",
+      "reason": "This canonical graph owns the relationships between its requirements, screens, acceptance criteria, code, and tests.",
+      "files": [
+        "specs/workspace-activity/graph.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-34.json",
+          "sha256": "bb6aa1750c00dbdedfb555e065eccbc7ba922ed5630b90ad1da2c3edd54ef2bf"
+        }
+      ]
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes",
+      "reason": "These human-readable source, requirement, screen, and action documents project stable IDs from the canonical feature graph; the checker reads every direct Markdown file in this feature directory.",
+      "files": [
+        "specs/workspace-activity/request.md",
+        "specs/workspace-activity/screen-spec.md",
+        "specs/workspace-activity/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-35.json",
+          "sha256": "f86e89533da223e7ab17dc3a5229e73e2d2241cd51b04cc2839dfca622b0d995"
+        }
+      ]
+    },
+    {
+      "authority": "specs/alignment-audit/graph.json#/nodes",
+      "reason": "This canonical graph owns the alignment measurement contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/alignment-audit/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-36.json",
+          "sha256": "3c84c6e0a4632c73ec13b0934ae81a1c677aa3c27844c8d16abed8273ac66a50"
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "reason": "This canonical graph owns the Codex relay contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/codex-relay/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-37.json",
+          "sha256": "92f5f027fbbc012242d58df1a702724e3444bf5c522e23715c2eac742c789472"
+        }
+      ]
+    },
+    {
+      "authority": "specs/design-specialization/graph.json#/nodes",
+      "reason": "This canonical graph owns the Design specialization contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/design-specialization/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-38.json",
+          "sha256": "79c5f9e562de444f75323eccf8f6700145e554e5a01fd7f769d9b00e717c003d"
+        }
+      ]
+    },
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "reason": "This canonical graph owns the interactive web prototypes contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/interactive-web/carousel.md",
+        "specs/interactive-web/disclosure.md",
+        "specs/interactive-web/tabs.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-39.json",
+          "sha256": "426034a290a20c7a4489c03392dd1e8000c81349cb159c53d56f25e2a88fb002"
+        }
+      ]
+    },
+    {
+      "authority": "specs/live-change-sync/graph.json#/nodes",
+      "reason": "This canonical graph owns the live change sync contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/live-change-sync/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-40.json",
+          "sha256": "8e67773a3e67254f0eb230fb3e1a3c2ead11121919629f663ad18f1674ca02da"
+        }
+      ]
+    },
+    {
+      "authority": "specs/local-profile-init/graph.json#/nodes",
+      "reason": "This canonical graph owns the local profile contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/local-profile-init/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-41.json",
+          "sha256": "2a9028f7bf986c937b3259c963b86f11204ffadf4eb00a5913bb51747be2b23a"
+        }
+      ]
+    },
+    {
+      "authority": "specs/pre-figma-quality/graph.json#/nodes",
+      "reason": "This canonical graph owns the pre-Figma quality review contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/pre-figma-quality/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-42.json",
+          "sha256": "9ebdb6089b84e6cedd0ec85862bd59f0c85adbe90aa535e78005c1220ccbd8da"
+        }
+      ]
+    },
+    {
+      "authority": "specs/readable-specifications/graph.json#/nodes",
+      "reason": "This canonical graph owns the readable specifications contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/readable-specifications/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-43.json",
+          "sha256": "65b32a24c8af4469fc1e1e2c7787d4befc55e5f634a490fad97c2b6260d3de63"
+        }
+      ]
+    },
+    {
+      "authority": "specs/startup-freshness/graph.json#/nodes",
+      "reason": "This canonical graph owns the startup freshness contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/startup-freshness/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-44.json",
+          "sha256": "f44fc83252935a7865343ad0a4e737c4f28ba822ea18eece2a67752e7bf1543a"
+        }
+      ]
+    },
+    {
+      "authority": "specs/workspace-activity/graph.json#/nodes",
+      "reason": "This canonical graph owns the workspace activity contract; this focused witness reads its scoped narrative claims.",
+      "files": [
+        "specs/workspace-activity/spec.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-45.json",
+          "sha256": "631ed4615e121846e6d4a7ee5ca00d5ed416d69ec293f4872bb1d660abe675f7"
+        }
+      ]
+    },
+    {
+      "authority": "specs/alignment-audit/owned-workspace.rules.json#/groups",
+      "reason": "The JSON records the two authored example alignment checks and their measured CSS selectors/tolerance.",
+      "files": [
+        "specs/alignment-audit/owned-workspace.rules.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-46.json",
+          "sha256": "6f5995767c76eb2ea6f9ff89ac751e4d27d67deba0388cf1908b68c29769024a"
+        }
+      ]
+    },
+    {
+      "authority": "specs/alignment-audit/owned-workspace.rules.json#/readySelector",
+      "reason": "This field selects the ready state before the owned workspace example is considered measurable.",
+      "files": [
+        "specs/alignment-audit/owned-workspace.rules.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-47.json",
+          "sha256": "a84ae1cf5b9b0d48d82335ceece6b942c595b2dc99ab0bdcc150d0302b2f7bce"
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/parity-inventory.json#/items",
+      "reason": "The inventory is the canonical row-by-row record of legacy and current controls, routes, source evidence, and known limits; parity.md defines its source-only evidence boundary.",
+      "files": [
+        "specs/codex-relay/parity-inventory.json",
+        "specs/codex-relay/parity.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-48.json",
+          "sha256": "ced46cc7aac36818dbbb2b0b76ad917217dc4fedbbd7bd310deecdba6c39b1bb"
+        }
+      ]
+    },
+    {
+      "authority": "specs/regression-program/cases.json#/cases",
+      "reason": "cases.json owns per-case identity/status/evidence while plan.md projects the complete case acceptance table; source-head values remain historical pins, not proof of currentness.",
+      "files": [
+        "specs/regression-program/cases.json",
+        "specs/regression-program/plan.md"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-49.json",
+          "sha256": "ea44d792b37caa4e821b4966a159dc9f1a5169365021a91ae45f03489f90ba96"
+        }
+      ]
+    },
+    {
+      "authority": "specs/design-inspection/scene-observations.json#/nodes",
+      "reason": "This evidence collection is a graph-shaped observation inventory with its own exact recorded scope, source, status, and linked member nodes; it is not a canonical product requirement graph.",
+      "files": [
+        "specs/design-inspection/scene-observations.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-50.json",
+          "sha256": "f46e3f5a8f87fd5ab5020aef23cf2023e3d8e7264443e727769dfff0aa8f6986"
+        }
+      ]
+    },
+    {
+      "authority": "specs/design-inspection/service-observations.json#/nodes",
+      "reason": "This evidence collection is a graph-shaped observation inventory with its own exact recorded scope, source, status, and linked member nodes; it is not a canonical product requirement graph.",
+      "files": [
+        "specs/design-inspection/service-observations.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-51.json",
+          "sha256": "1538791a87e09d37e7b357146158efde2c7f769073f82fac14bd99d7a3790ae9"
+        }
+      ]
+    },
+    {
+      "authority": "specs/design-inspection/value-observations.json#/nodes",
+      "reason": "This evidence collection is a graph-shaped observation inventory with its own exact recorded scope, source, status, and linked member nodes; it is not a canonical product requirement graph.",
+      "files": [
+        "specs/design-inspection/value-observations.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-52.json",
+          "sha256": "72e2301a20a7b01dfeb78e03c358e85737e8f7732e57b75739baca90603873b9"
+        }
+      ]
+    },
+    {
+      "authority": "specs/editable-web/api-observations.json#/nodes",
+      "reason": "This evidence collection is a graph-shaped observation inventory with its own exact recorded scope, source, status, and linked member nodes; it is not a canonical product requirement graph.",
+      "files": [
+        "specs/editable-web/api-observations.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-53.json",
+          "sha256": "aac48dad4603d996c8029fe8465e8376b7b52495fb3e3332d8d093730ad81330"
+        }
+      ]
+    },
+    {
+      "authority": "specs/graph-review/api-observations.json#/nodes",
+      "reason": "This evidence collection is a graph-shaped observation inventory with its own exact recorded scope, source, status, and linked member nodes; it is not a canonical product requirement graph.",
+      "files": [
+        "specs/graph-review/api-observations.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-54.json",
+          "sha256": "223c964f84575c47c518a694ea9ba94a214490d42fb3e53d79b91c0d018f0278"
+        }
+      ]
+    },
+    {
+      "authority": "specs/responsive-web/api-observations.json#/nodes",
+      "reason": "This evidence collection is a graph-shaped observation inventory with its own exact recorded scope, source, status, and linked member nodes; it is not a canonical product requirement graph.",
+      "files": [
+        "specs/responsive-web/api-observations.json"
+      ],
+      "witnesses": [
+        {
+          "path": "release/reviews/requirements-witness-55.json",
+          "sha256": "138270525bf442c553ad27e795f68431cc34102dcbe2b614497e7512c1e9acd2"
+        }
+      ]
+    }
+  ]
+}

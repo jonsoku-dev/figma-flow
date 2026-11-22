@@ -29,7 +29,8 @@ class SpecGraphCoverageTests(unittest.TestCase):
         ]}
         self.write_graph()
         (self.root / "specs" / "graph-roots.json").write_text(json.dumps({"version": 1, "roots": [{"path": self.graph_rel, "role": "canonical-feature-graph"}]}), encoding="utf-8")
-        (self.root / "specs" / "README.md").write_text("[graph-roots.json](graph-roots.json)\n", encoding="utf-8")
+        (self.root / "specs" / "README.md").write_text(
+            "[graph-roots.json](graph-roots.json)\n[Sample](sample/graph.json)\n", encoding="utf-8")
 
     def tearDown(self):
         self.temp.cleanup()
@@ -74,6 +75,13 @@ class SpecGraphCoverageTests(unittest.TestCase):
         declared = [item for item in findings if item["code"] == "declared-spec-id-unmapped"]
         self.assertEqual([item["identity"] for item in declared], ["REQ-MISSING"])
 
+    def test_screen_and_prose_references_must_resolve_to_graph_ids(self):
+        spec = self.feature / "screen-spec.md"
+        spec.write_text("`SCR-MISSING` links to `AC-MISSING` and `REQ-X`.\n", encoding="utf-8")
+        findings = check(self.root)
+        missing = [item["identity"] for item in findings if item["code"] == "referenced-spec-id-unmapped"]
+        self.assertEqual(["AC-MISSING", "SCR-MISSING"], missing)
+
     def test_legacy_typed_convention_mismatch_is_advisory_not_blocking(self):
         self.graph["edges"].append({"from": "TEST-X", "to": "CODE-X", "type": "verified by"})
         self.write_graph()
@@ -87,6 +95,19 @@ class SpecGraphCoverageTests(unittest.TestCase):
         codes = {item["code"] for item in findings}
         self.assertIn("empty-root-registry", codes)
         self.assertIn("unregistered-graph", codes)
+
+    def test_feature_index_resolves_links_and_lists_every_canonical_root(self):
+        readme = self.root / "specs" / "README.md"
+        readme.write_text("[graph-roots.json](graph-roots.json)\n", encoding="utf-8")
+        self.assertIn("root-not-indexed", self.codes())
+
+        readme.write_text(
+            "[graph-roots.json](graph-roots.json)\n"
+            "[Sample](sample/graph.json)\n"
+            "[Missing](does-not-exist.md)\n", encoding="utf-8")
+        codes = self.codes()
+        self.assertNotIn("root-not-indexed", codes)
+        self.assertIn("broken-index-link", codes)
 
 
 if __name__ == "__main__":

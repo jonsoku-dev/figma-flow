@@ -20,6 +20,7 @@ import sys
 import tempfile
 import uuid
 
+from relay_limits import read_limits
 from plugin_panel import display_name, registered_home_view, render_app, supported_locales
 import input_effect
 import workspace_recipes
@@ -764,6 +765,7 @@ def publish(workspace, catalogue, *, expected_implementation=None):
         raise ValueError('Workspace exceeds its exact localhost origin limit')
     bridge = ROOT / 'figma-bridge'
     code = 'const WORKSPACE_RUNTIME = ' + json.dumps(runtime) + ';\n'
+    code += 'const WORKSPACE_READ_LIMITS = ' + json.dumps(read_limits(ROOT)) + ';\n'
     code += 'const WORKSPACE_RELAY_VIEWER = true;\n'
     code += 'const FLOW_LOCALES = ' + json.dumps(list(supported_locales()), ensure_ascii=True) + ';\n'
     code += 'const FLOW_TASKS = [' + ',\n'.join(tasks) + '];\n'

@@ -40,7 +40,7 @@ function harness(frozen = false, options = {}) {
     Object.freeze(figma.ui); Object.freeze(figma);
   }
   const context = vm.createContext({figma, __html__: 'HOME', probe, WORKSPACE_RELAY_VIEWER: options.relayViewer === true,
-    WORKSPACE_PROFILE_POLICY: profilePolicy});
+    WORKSPACE_PROFILE_POLICY: profilePolicy, WORKSPACE_READ_LIMITS: require('../library/figma-profile/read-limits.json')});
   vm.runInContext(`
 ${options.profile ? `${profilePolicySource}\n${profileAdapterSource}\n${control}\n` : ''}
 const FLOW_LOCALES = ${flowLocales};

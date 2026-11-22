@@ -30,9 +30,9 @@
     "ja": "変更したい内容を入力してください。"
   },
   "chat.includeSelection": {
-    "ko": "현재 선택한 노드 포함 (최대 20개)",
-    "en": "Include selected nodes (up to 20)",
-    "ja": "選択ノードを含める（最大 20 件）"
+    "ko": "현재 선택한 노드 포함 (최대 {maxNodes}개)",
+    "en": "Include selected nodes (up to {maxNodes})",
+    "ja": "選択ノードを含める（最大 {maxNodes} 件）"
   },
   "chat.includeText": {
     "ko": "선택한 텍스트 일부 포함 (노드당 200자, 합계 1000자)",
@@ -195,9 +195,9 @@
     "ja": "指定のファイルとページで開き直してください。"
   },
   "chat.limitError": {
-    "ko": "선택을 20개 이하로 줄여 주세요.",
-    "en": "Reduce your selection to 20 nodes or fewer.",
-    "ja": "選択を 20 件以下にしてください。"
+    "ko": "선택을 {maxNodes}개 이하로 줄여 주세요.",
+    "en": "Reduce your selection to {maxNodes} nodes or fewer.",
+    "ja": "選択を {maxNodes} 件以下にしてください。"
   },
   "chat.uncertain": {
     "ko": "접수 여부가 불확실합니다. Codex에서 확인하세요.",

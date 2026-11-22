@@ -1,0 +1,189 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "panel",
+  "fingerprint": "0548fae88eb8a0be23f516c2b4b5b6c43d5e5ece663a33db389fbbc0782405a4",
+  "status": "incomplete",
+  "openFindings": [
+    {
+      "id": "panel-graph-view-values-have-no-field-owner",
+      "severity": "blocker",
+      "paths": [
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/styles/graph.css"
+      ],
+      "authority": "library/panel-design/tokens.json",
+      "observation": [
+        "GraphPanel.jsx caps type previews at 48px and spacing previews at 96px (lines 47 and 57); these are view-specific bounds with no graph-owned tokens.",
+        "Workspace.jsx fixes the dependency graph at a minimum of 112px, uses 52px rows plus 20px padding, and truncates graph labels after 14 characters (lines 105 and 107). The view graph records route identity, not these dimensions.",
+        "styles/graph.css fixes stats text at 24px, swatch height at 36px, diagnostics max-height at 180px, and export textarea min-height at 140px (lines 14, 62, 83, and 93). The panel design graph has no field for these values."
+      ]
+    },
+    {
+      "id": "panel-view-css-dimensions-have-no-field-owner",
+      "severity": "blocker",
+      "paths": [
+        "panel-ui/src/styles/base.css",
+        "panel-ui/src/styles/chat.css",
+        "panel-ui/src/styles/components.css",
+        "panel-ui/src/styles/graph.css",
+        "panel-ui/src/styles/import.css",
+        "panel-ui/src/styles/review.css",
+        "panel-ui/src/styles/workspace.css",
+        "panel-ui/src/styles/index.css"
+      ],
+      "authority": "library/panel-design/tokens.json",
+      "observation": [
+        "The panel-workbench token graph owns palette colors and a shared 24px gutter, but no general per-view responsive or layout dimensions.",
+        "Observed per-file distinct fixed dimensions: base.css 17; chat.css 9 including 340px breakpoint; components.css 25 including 380px and 760px breakpoints; graph.css 16; import.css 15 including 440px preview height; review.css 5; workspace.css 32 including 320px, 380px, and 420px breakpoints.",
+        "Fixed palette colors resolve to graph tokens, and relay.css has no fixed dimension literals. Those checks do not assign field ownership to the listed per-view dimensions."
+      ]
+    },
+    {
+      "id": "panel-domain-enumerations-have-no-explicit-field-owner",
+      "severity": "blocker",
+      "paths": [
+        "panel-ui/src/WorkspaceActivity.mjs",
+        "panel-ui/src/workspaceRecommendation.mjs",
+        "panel-ui/src/dependencyView.mjs",
+        "panel-ui/src/assetInventory.mjs",
+        "panel-ui/src/operationDetail.mjs"
+      ],
+      "authority": "No registered panel graph field declares these domain value sets.",
+      "observation": [
+        "workspaceRecommendation.mjs defines terminal statuses and task phase/ranking rules.",
+        "WorkspaceActivity.mjs defines the counted activity states; assetInventory.mjs defines the failure statuses and sort priority.",
+        "dependencyView.mjs allowlists output artifacts; operationDetail.mjs enumerates statuses, phases, relation types/directions, revision bindings, diff kinds/reasons, and failure actions.",
+        "Behavioral tests exercise these paths, but the current panel owners (panel design tokens, view routes, relay graph, and read limits) do not declare these specific enum fields."
+      ]
+    }
+  ],
+  "partialBindings": [
+    {
+      "authority": "library/panel-design/tokens.json#/tokens",
+      "files": [
+        "panel-ui/src/styles/tokens.css",
+        "panel-ui/src/styles/relay.css",
+        "panel-ui/src/styles/base.css",
+        "panel-ui/src/styles/chat.css",
+        "panel-ui/src/styles/components.css",
+        "panel-ui/src/styles/graph.css",
+        "panel-ui/src/styles/import.css",
+        "panel-ui/src/styles/review.css",
+        "panel-ui/src/styles/workspace.css"
+      ],
+      "witnesses": [
+        {
+          "test": "tests/test_panel_release_witness.cjs",
+          "case": "panel design tokens project to the shipped CSS and all authored styles use known palette variables",
+          "testSha256": "c8e91572fe4343686fea2ca97374611b275d187a88c940c7dd87db429dd7a289",
+          "observed": "Generated token CSS matches the graph; style references resolve and no view stylesheet adds a palette hex literal."
+        }
+      ]
+    },
+    {
+      "authority": "library/panel-design/views.json#/nodes",
+      "files": [
+        "panel-ui/view-registry.mjs",
+        "panel-ui/src/app.jsx",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/Workspace.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/components.jsx",
+        "panel-ui/src/CarouselPresentLink.jsx",
+        "panel-ui/src/DiagnosticExport.jsx",
+        "panel-ui/src/WorkspaceActivity.jsx",
+        "panel-ui/src/WorkspaceProfile.jsx",
+        "panel-ui/src/WorkspaceActivity.mjs",
+        "panel-ui/src/assetInventory.mjs",
+        "panel-ui/src/dependencyView.mjs",
+        "panel-ui/src/graphSelection.mjs",
+        "panel-ui/src/nativeSummary.mjs",
+        "panel-ui/src/operationDetail.mjs",
+        "panel-ui/src/workspaceRecommendation.mjs",
+        "panel-ui/src/carouselPresentation.mjs"
+      ],
+      "witnesses": [
+        {
+          "test": "tests/test_panel_browser_witness.cjs",
+          "case": "compiled panel runs localized partial read and dependency evidence in installed Chromium",
+          "testSha256": "f1143107d706e4d4c74618b96bb3c39a611de1fcca8223214405654e8e0bc570",
+          "observed": "The compiled route app rendered all six screens in installed Chrome 157; the same run exercised profile save, carousel link validation/copy, graph partial read and diagnostic export, review readback, chat preview/errors, Import summary, and workspace dependency evidence."
+        },
+        {
+          "test": "tests/test_panel_release_witness.cjs",
+          "case": "task domain helpers preserve selection, evidence, freshness and current execution state",
+          "testSha256": "c8e91572fe4343686fea2ca97374611b275d187a88c940c7dd87db429dd7a289",
+          "observed": "Assertions cover selection count/targets, partial read readiness, dependency stale/retired behavior, asset issue ordering, current carousel links, activity states, task recommendation, operation scopes, and text redaction."
+        }
+      ]
+    },
+    {
+      "authority": "specs/codex-relay/graph.json#/nodes",
+      "files": [
+        "panel-ui/src/useRelaySnapshot.js",
+        "panel-ui/src/RelaySelection.jsx"
+      ],
+      "witnesses": [
+        {
+          "test": "tests/test_panel_browser_witness.cjs",
+          "case": "compiled panel runs localized partial read and dependency evidence in installed Chromium",
+          "testSha256": "f1143107d706e4d4c74618b96bb3c39a611de1fcca8223214405654e8e0bc570",
+          "observed": "Nonce/session-bound relay state populated the actual selection table; the same browser witness verified a host-presented URL only for the current carousel."
+        }
+      ]
+    }
+  ],
+  "unboundFiles": [
+    "panel-ui/README.md",
+    "panel-ui/build-tokens.mjs",
+    "panel-ui/build.mjs",
+    "panel-ui/package.json",
+    "panel-ui/src/styles/base.css",
+    "panel-ui/src/styles/chat.css",
+    "panel-ui/src/styles/components.css",
+    "panel-ui/src/styles/graph.css",
+    "panel-ui/src/styles/import.css",
+    "panel-ui/src/styles/review.css",
+    "panel-ui/src/styles/workspace.css",
+    "panel-ui/src/styles/index.css"
+  ],
+  "verification": [
+    {
+      "command": "node --test tests/rd06_summary_coverage.cjs tests/test_panel_browser_witness.cjs",
+      "result": "2/2 passed; rendered partial-read copy was verified through the locale catalog rather than raw JSX literals."
+    },
+    {
+      "command": "node --test --test-reporter=tap tests/test_panel_release_witness.cjs tests/test_panel_browser_witness.cjs tests/test_workspace_chat.cjs tests/test_review_panel.cjs tests/test_graph_panel.cjs tests/test_nf03_panel_ui.cjs tests/test_panel_view_registry.mjs",
+      "result": "27/27 passed at the current source baseline; installed Chrome 157 rendered all six views and exercised their supported message-driven flows."
+    },
+    {
+      "command": "python3 -B -m unittest tests.test_rd03_dependency_view tests.test_rd03_dependency_freshness tests.test_workspace_report tests.test_panel_design_tokens tests.test_panel_view_registry tests.test_panel_components",
+      "result": "25/25 passed at the current source baseline."
+    },
+    {
+      "command": "node panel-ui/build.mjs",
+      "result": "Passed; rebuilt tracked figma-bridge/assets/panels.js, panels.css, and license output."
+    },
+    {
+      "command": "archive-like candidate without panel-ui/node_modules",
+      "result": "Passed at current source baseline: 10/10 named Node tests and 8/8 Python tests; panel-ui/node_modules absent; temporary candidate removed."
+    },
+    {
+      "command": "python3 -B tools/panel_authority.py",
+      "result": "Passed."
+    },
+    {
+      "command": "python3 -B tools/major_release.py panel build projection",
+      "result": "No panel build projection findings; clean candidate build output matched the tracked bundle."
+    }
+  ],
+  "scopeLimit": "Actual Figma plugin host execution was not observed. Browser integration used installed Chromium, the compiled panel assets, and synthetic host messages.",
+  "copyAudit": {
+    "observed": "ImportPanel.jsx, Workspace.jsx, WorkspaceProfile.jsx, and dependencyView.mjs contain no hardcoded Korean client labels.",
+    "compatibilityOnly": "ChatPanel.jsx and workspace_chat.html retain a legacy Korean message parser only when a native error frame has no stable code. New native frames use code fields."
+  }
+}

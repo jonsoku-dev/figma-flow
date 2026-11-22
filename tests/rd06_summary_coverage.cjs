@@ -70,12 +70,15 @@ function node(id) {
   assert.ok(panel.includes('nativeSummaryView('));
   const block = panel.slice(panel.indexOf('function NativeSummary'), panel.indexOf('function statusCopy'));
   assert.ok(block.includes('native-summary'));
-  assert.ok(block.includes('부분 읽기'));
+  assert.ok(block.includes("t('import.partialReadSummary'"));
+  assert.ok(!block.includes('부분 읽기'));
+  const importCopy = JSON.parse(fs.readFileSync(path.join(root, 'figma-bridge/locales/import.json'), 'utf8'));
+  for (const locale of ['ko', 'en', 'ja']) assert.ok(importCopy['import.partialReadSummary'][locale]);
   assert.ok(!block.includes('send('));
   assert.ok(!block.includes('postMessage'));
   const bundle = fs.readFileSync(path.join(root, 'figma-bridge/assets/panels.js'), 'utf8');
   assert.ok(bundle.includes('native-summary'));
-  assert.ok(bundle.includes('부분 읽기'));
+  assert.ok(bundle.includes('import.partialReadSummary'));
   const code = fs.readFileSync(path.join(root, 'figma-bridge/code.js'), 'utf8');
   assert.ok(code.includes('message.type === "native-summary"'));
   assert.ok(code.includes('readNativeSemantics(figma, page, {profile: "summary"'));

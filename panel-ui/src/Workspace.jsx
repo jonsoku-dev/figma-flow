@@ -95,7 +95,7 @@ function AssetDisclosure({ summary, freshness, tr }) {
 function DependencyText({ tasks, selected, retired, onSelect, tr }) {
   const heading = useRef(null);
   useEffect(() => { heading.current?.focus(); }, [selected]);
-  const view = dependencyView(tasks, selected);
+  const view = dependencyView(tasks, selected, tr);
   const freshness = dependencyFreshness(tasks, Array.isArray(retired) ? retired : []);
   const related = freshness.labels.filter((label) => label.task_key === selected || label.dependency === selected);
   const missing = related.filter(row => row.task_key === selected && !tasks.some(task => task.key === row.dependency))

@@ -2,7 +2,7 @@
   "schema": "figma-flow-major-authority-v1",
   "nodes": [
     {"id":"manifests","type":"surface","roots":["plugin.json",".codex-plugin/plugin.json"],"coverage":"projection"},
-    {"id":"delivery","type":"surface","roots":[".agents/plugins",".github",".gitattributes",".gitignore",".npmrc",".nvmrc","requirements-optional.txt"],"coverage":"review"},
+    {"id":"delivery","type":"surface","roots":[".agents/plugins",".github",".gitattributes",".gitignore",".npmrc",".nvmrc","requirements-optional.txt","library/delivery"],"coverage":"review"},
     {"id":"tooling","type":"surface","roots":["tools"],"coverage":"review"},
     {"id":"design-host","type":"surface","roots":["figma-bridge"],"coverage":"review"},
     {"id":"panel","type":"surface","roots":["panel-ui"],"coverage":"review"},
@@ -17,10 +17,10 @@
     {"id":"pinned-upstream","type":"surface","roots":["vendor/skills","vendor/acorn"],"coverage":"upstream"},
     {"id":"records","type":"surface","roots":["docs/llm-wiki","CHANGELOG.md","LICENSE"],"coverage":"record"},
     {"id":"gate-contract","type":"surface","roots":["release"],"coverage":"gate-data"},
-
     {"id":"plugin-metadata","type":"authority","source":"plugin.json"},
     {"id":"release-contract","type":"authority","source":"CONTRIBUTING.md"},
-    {"id":"spec-roots","type":"authority","source":"specs/graph-roots.json"},
+    {"id":"spec-roots","type":"authority","source":"specs/graph-roots.json","members":{"pointer":"/roots","pathField":"path"}},
+    {"id":"read-limits","type":"authority","source":"library/figma-profile/read-limits.json"},
     {"id":"host-policy","type":"authority","source":"library/figma-profile/policy.json"},
     {"id":"view-registry","type":"authority","source":"library/panel-design/views.json"},
     {"id":"panel-system","type":"authority","source":"library/panel-design/tokens.json"},
@@ -35,7 +35,41 @@
     {"id":"check-specs","type":"check","source":"tools/spec_graph_coverage.py"},
     {"id":"check-policy","type":"check","source":"tools/runtime_authority.py"},
     {"id":"check-tokens","type":"check","source":"tools/panel_authority.py"},
-    {"id":"check-bundle","type":"check","source":"tools/major_release.py"}
+    {"id":"check-bundle","type":"check","source":"tools/major_release.py"},
+    {"id":"repo-instructions","type":"authority","source":"AGENTS.md"},
+    {"id":"constitution","type":"authority","source":"CONSTITUTION.md"},
+    {"id":"feature-index","type":"authority","source":"specs/README.md"},
+    {"id":"feature-verification","type":"authority","source":"specs/verification.md"},
+    {"id":"regression-cases","type":"authority","source":"specs/regression-program/cases.json"},
+    {"id":"codex-parity","type":"authority","source":"specs/codex-relay/parity-inventory.json"},
+    {"id":"alignment-criteria","type":"authority","source":"specs/alignment-audit/owned-workspace.rules.json"},
+    {"id":"design-inspection-scene-observations","type":"authority","source":"specs/design-inspection/scene-observations.json"},
+    {"id":"design-inspection-service-observations","type":"authority","source":"specs/design-inspection/service-observations.json"},
+    {"id":"design-inspection-value-observations","type":"authority","source":"specs/design-inspection/value-observations.json"},
+    {"id":"editable-web-api-observations","type":"authority","source":"specs/editable-web/api-observations.json"},
+    {"id":"graph-review-api-observations","type":"authority","source":"specs/graph-review/api-observations.json"},
+    {"id":"responsive-web-api-observations","type":"authority","source":"specs/responsive-web/api-observations.json"},
+    {"id":"design-routes","type":"authority","source":"library/design-routes.json"},
+    {"id":"campaigns","type":"authority","source":"library/campaigns.json"},
+    {"id":"campaign-forms","type":"authority","source":"library/campaign-forms.json"},
+    {"id":"vendor-skill-pins","type":"authority","source":"vendor/skills/manifest.json"},
+    {"id":"feature-guide","type":"authority","source":"docs/guide.md"},
+    {"id":"api-toolchain","type":"authority","source":"library/figma-api/package.json"},
+    {"id":"delivery-policy","type":"authority","source":"library/delivery/graph.json"},
+    {"id":"plugin-api-source","type":"authority","source":"library/figma-api/source.json"},
+    {"id":"plugin-api-docs","type":"authority","source":"library/figma-api/README.md"},
+    {"id":"plugin-api-audit","type":"authority","source":"library/figma-api/audit/members.json"},
+    {"id":"plugin-api-static-coverage","type":"authority","source":"library/figma-api/coverage-baseline.json"},
+    {"id":"widget-api-source","type":"authority","source":"library/figma-widget/source.json"},
+    {"id":"widget-api-docs","type":"authority","source":"library/figma-widget/README.md"},
+    {"id":"rest-api-source","type":"authority","source":"library/figma-rest/source.json"},
+    {"id":"rest-api-docs","type":"authority","source":"library/figma-rest/README.md"},
+    {"id":"rest-api-toolchain","type":"authority","source":"library/figma-rest/requirements.txt"},
+    {"id":"recipe-manifest","type":"authority","source":"library/figma-recipes/manifest.json"},
+    {"id":"recipe-bundle","type":"authority","source":"library/figma-recipes/bundle.json"},
+    {"id":"recipe-type-review-graph","type":"authority","source":"library/figma-recipes/design-type-review.graph.json"},
+    {"id":"recipe-inspection","type":"authority","source":"library/figma-recipes/inspection/values.json"},
+    {"id":"recipe-inspection-members","type":"authority","source":"library/figma-recipes/inspection/members.json"}
   ],
   "edges": [
     {"from":"manifests","to":"check-metadata","type":"checked-by"},
@@ -50,6 +84,12 @@
     {"from":"manifests","to":"plugin-metadata","type":"owned-by"},
     {"from":"delivery","to":"release-contract","type":"owned-by"},
     {"from":"tooling","to":"workflow","type":"owned-by"},
+    {"from":"tooling","to":"read-limits","type":"owned-by"},
+    {"from":"guides","to":"read-limits","type":"owned-by"},
+    {"from":"design-host","to":"read-limits","type":"owned-by"},
+    {"from":"panel","to":"read-limits","type":"owned-by"},
+    {"from":"compiled-panel","to":"read-limits","type":"owned-by"},
+    {"from":"libraries","to":"read-limits","type":"owned-by"},
     {"from":"tooling","to":"host-policy","type":"owned-by"},
     {"from":"design-host","to":"host-policy","type":"owned-by"},
     {"from":"panel","to":"relay-contract","type":"owned-by"},
@@ -68,6 +108,49 @@
     {"from":"independent-checks","to":"spec-roots","type":"owned-by"},
     {"from":"pinned-upstream","to":"dependency-contract","type":"owned-by"},
     {"from":"records","to":"patch-contract","type":"owned-by"},
-    {"from":"gate-contract","to":"release-contract","type":"owned-by"}
+    {"from":"gate-contract","to":"release-contract","type":"owned-by"},
+    {"from":"requirements","to":"repo-instructions","type":"owned-by"},
+    {"from":"requirements","to":"constitution","type":"owned-by"},
+    {"from":"requirements","to":"feature-index","type":"owned-by"},
+    {"from":"requirements","to":"feature-verification","type":"owned-by"},
+    {"from":"requirements","to":"regression-cases","type":"owned-by"},
+    {"from":"requirements","to":"codex-parity","type":"owned-by"},
+    {"from":"requirements","to":"alignment-criteria","type":"owned-by"},
+    {"from":"requirements","to":"design-inspection-scene-observations","type":"owned-by"},
+    {"from":"requirements","to":"design-inspection-service-observations","type":"owned-by"},
+    {"from":"requirements","to":"design-inspection-value-observations","type":"owned-by"},
+    {"from":"requirements","to":"editable-web-api-observations","type":"owned-by"},
+    {"from":"requirements","to":"graph-review-api-observations","type":"owned-by"},
+    {"from":"requirements","to":"responsive-web-api-observations","type":"owned-by"},
+    {"from":"skills","to":"workflow","type":"owned-by"},
+    {"from":"skills","to":"host-policy","type":"owned-by"},
+    {"from":"skills","to":"dependency-contract","type":"owned-by"},
+    {"from":"skills","to":"patch-contract","type":"owned-by"},
+    {"from":"skills","to":"design-routes","type":"owned-by"},
+    {"from":"skills","to":"campaigns","type":"owned-by"},
+    {"from":"skills","to":"campaign-forms","type":"owned-by"},
+    {"from":"skills","to":"vendor-skill-pins","type":"owned-by"},
+    {"from":"skills","to":"feature-guide","type":"owned-by"},
+    {"from":"skills","to":"constitution","type":"owned-by"},
+    {"from":"delivery","to":"api-toolchain","type":"owned-by"},
+    {"from":"delivery","to":"delivery-policy","type":"owned-by"}
+    ,{"from":"libraries","to":"campaigns","type":"owned-by"}
+    ,{"from":"libraries","to":"campaign-forms","type":"owned-by"}
+    ,{"from":"libraries","to":"design-routes","type":"owned-by"}
+    ,{"from":"libraries","to":"api-toolchain","type":"owned-by"}
+    ,{"from":"libraries","to":"plugin-api-source","type":"owned-by"}
+    ,{"from":"libraries","to":"plugin-api-docs","type":"owned-by"}
+    ,{"from":"libraries","to":"plugin-api-audit","type":"owned-by"}
+    ,{"from":"libraries","to":"plugin-api-static-coverage","type":"owned-by"}
+    ,{"from":"libraries","to":"widget-api-source","type":"owned-by"}
+    ,{"from":"libraries","to":"widget-api-docs","type":"owned-by"}
+    ,{"from":"libraries","to":"rest-api-source","type":"owned-by"}
+    ,{"from":"libraries","to":"rest-api-docs","type":"owned-by"}
+    ,{"from":"libraries","to":"rest-api-toolchain","type":"owned-by"}
+    ,{"from":"libraries","to":"recipe-manifest","type":"owned-by"}
+    ,{"from":"libraries","to":"recipe-bundle","type":"owned-by"}
+    ,{"from":"libraries","to":"recipe-type-review-graph","type":"owned-by"}
+    ,{"from":"libraries","to":"recipe-inspection","type":"owned-by"}
+    ,{"from":"libraries","to":"recipe-inspection-members","type":"owned-by"}
   ]
 }

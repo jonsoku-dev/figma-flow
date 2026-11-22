@@ -1,0 +1,19 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/interactive-web/graph.json#/nodes",
+      "covers": [
+        "specs/interactive-web/carousel.md",
+        "specs/interactive-web/disclosure.md",
+        "specs/interactive-web/tabs.md"
+      ],
+      "assertion": "Reads all three registered interaction specifications and asserts their observed transitions, state rules, timing boundaries, and explicit exclusions.",
+      "observed": "Carousel, tabs, and disclosure documents retain their distinct observed interactions and out-of-scope behavior.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_interactive_web_specs_keep_observed_transitions_and_exclusions",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

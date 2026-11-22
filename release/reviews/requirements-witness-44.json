@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/startup-freshness/graph.json#/nodes",
+      "covers": [
+        "specs/startup-freshness/spec.md"
+      ],
+      "assertion": "Reads the startup contract and asserts exact-source/runtime identity, stale runtime write blocking, explicit retirement boundaries, and separation of source tests from install/deployment evidence.",
+      "observed": "Package/server versions cannot authorize writes and stale task retirement does not re-admit execution.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_startup_contract_keeps_stale_runtime_and_native_proof_boundaries",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

@@ -56,6 +56,9 @@ const fs = require('fs'), {createRequire} = require('module');
 const repoRequire = createRequire(process.cwd() + '/package.json');
 (async () => {
   const input = JSON.parse(fs.readFileSync(0, 'utf8'));
+  const workspaceCopy = JSON.parse(fs.readFileSync('./figma-bridge/locales/workspace.json', 'utf8'));
+  const translate = (key, params = {}) => workspaceCopy['workspace.' + key].ko.replace(/\{(\w+)\}/g,
+    (literal, name) => Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : literal);
   const [{workspaceActivity}, {selectRecommendation}, {assetInventory}, {dependencyView, dependencyFreshness}] = await Promise.all([
     import('./panel-ui/src/WorkspaceActivity.mjs'), import('./panel-ui/src/workspaceRecommendation.mjs'),
     import('./panel-ui/src/assetInventory.mjs'), import('./panel-ui/src/dependencyView.mjs')]);
@@ -65,7 +68,7 @@ const repoRequire = createRequire(process.cwd() + '/package.json');
   const activity = workspaceActivity(projectTasks, projectEvents);
   const scoped = projectTasks.filter(task => !input.kind || task.kind === input.kind);
   const recommendation = selectRecommendation({fileKey:input.fileKey, tasks:input.tasks, history:input.events}, scoped);
-  const view = dependencyView(input.tasks, input.taskKey);
+  const view = dependencyView(input.tasks, input.taskKey, translate);
   const labels = dependencyFreshness(input.tasks, input.retired).labels.filter(row => row.task_key === input.taskKey || row.dependency === input.taskKey);
   const inventory = assetInventory(input.assetRows, {status:input.assetStatus, kind:input.assetKind, query:input.assetQuery});
   const taskByKey = new Map(input.tasks.map(task => [task.key, task]));

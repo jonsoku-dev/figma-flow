@@ -1,0 +1,179 @@
+{
+  "schema": "figma-flow-major-review-v1",
+  "surface": "delivery",
+  "fingerprint": "44df78e3a07606ad89a20a9b10fc197eae94fa23f4e60186ef44c3f1804c0d97",
+  "openFindings": [],
+  "bindings": [
+    {
+      "files": [
+        ".agents/plugins/marketplace.json",
+        "library/delivery/graph.json"
+      ],
+      "authority": "library/delivery/graph.json#/native/marketplace",
+      "reason": "Local source selects the product; the marketplace operator owns catalog name and installation policy.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/1.json",
+          "sha256": "c6eb6627e70d433e33b43b0f2df59e3780bcb8729c5691ae9d6d2e1a22ad619a"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".agents/plugins/marketplace.json"
+      ],
+      "authority": "plugin.json#/extensions/com.openai/interface/category",
+      "reason": "The product category follows the portable manifest while fork metadata survives regeneration.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/2.json",
+          "sha256": "0545c88b9595b9dbcb959b269c4e49d6374f2329d18700ebbb85f1a0883f0722"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".gitattributes",
+        "library/delivery/graph.json"
+      ],
+      "authority": "library/delivery/graph.json#/native/checkout",
+      "reason": "Native Git checkout attributes own which upstream inputs preserve original bytes and whitespace.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/3.json",
+          "sha256": "e554f8b7e35448d9f8f3c721ebaa07545dc60c5d7987c31762302854a26b1018"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".gitignore",
+        "library/delivery/graph.json"
+      ],
+      "authority": "library/delivery/graph.json#/native/privateFiles",
+      "reason": "Git ignores owner-local state, reference inputs, credentials and transient packages while keeping shareable examples.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/4.json",
+          "sha256": "11a93689cd1f019e3c11d413ebe621e822d95d186a732f60e62e5b89ecf2f068"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".npmrc",
+        "library/delivery/graph.json"
+      ],
+      "authority": "library/delivery/graph.json#/native/npm",
+      "reason": "Project-local npm reads its tracked lock-file policy.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/5.json",
+          "sha256": "eea95c59976e68efa5708f12b3b8efeac7e3f3fe43832da2b8825d7c7c14b83d"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".nvmrc",
+        "library/delivery/graph.json"
+      ],
+      "authority": "library/delivery/graph.json#/inputs/nodeVersionFile",
+      "reason": "Node setup steps all select the project runtime file.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/6.json",
+          "sha256": "cad0e0fdfc47623ac0fdc2aeba38575133691c0971de9148c7cfb118256ccbe2"
+        }
+      ]
+    },
+    {
+      "files": [
+        "library/delivery/graph.json",
+        "requirements-optional.txt"
+      ],
+      "authority": "library/delivery/graph.json#/native/optionalPython",
+      "reason": "The Python installer owns selection of compatible dependency versions from the shipped range declarations.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/7.json",
+          "sha256": "02e2531fc4f3025f5a1d7d8f3159b58567da9f4949c371cec99eff3d5a02e3b8"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/workflows/little-hands.yml",
+        "library/delivery/graph.json",
+        "library/delivery/little-hands.yml.in"
+      ],
+      "authority": "library/delivery/graph.json#/workflows/little-hands",
+      "reason": "Disposable service and app settings agree on the fixture database and preserve staging-only behavior.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/8.json",
+          "sha256": "c33798cbca27b498fddacd127c7b3f37f6eefac5254ea8b0616bccaf28576c10"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/workflows/patch-knowledge.yml",
+        "library/delivery/graph.json",
+        "library/delivery/patch-knowledge.yml.in"
+      ],
+      "authority": "library/delivery/graph.json#/workflows/patch-knowledge",
+      "reason": "Full and preserved-history verification must fail on missing evidence.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/9.json",
+          "sha256": "9a709cf57422481a993bbd7d8046eb5306ded8fdf2545ec64ae319fe37e51a76"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/workflows/reference-guard.yml",
+        "library/delivery/graph.json",
+        "library/delivery/reference-guard.yml.in"
+      ],
+      "authority": "library/delivery/graph.json#/workflows/reference-guard",
+      "reason": "Tag selection, previous-ref handling and major gating produce the existing package or withhold a blocked ZIP.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/10.json",
+          "sha256": "60406ccf9be049ad9961b85b00a5161fe415196928ed9e59c6517d2f96a38f0d"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/workflows/test.yml",
+        "library/delivery/graph.json",
+        "library/delivery/test.yml.in"
+      ],
+      "authority": "library/delivery/graph.json#/workflows/test",
+      "reason": "Full product CI keeps the immutable Codex and Figma compiler pins and refuses an unverified archive before extraction.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/11.json",
+          "sha256": "cdad90de3db2f9415a47e18162642b3996c8f458037ee669817a48c3d69e04cd"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/workflows/test.yml",
+        "library/delivery/test.yml.in"
+      ],
+      "authority": "library/figma-api/package.json#/devDependencies/typescript",
+      "reason": "API and recipe verification install the exact canonical compiler version.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/delivery/12.json",
+          "sha256": "ac1de41a6259c973422497908bbca253adaf8650d4d1460ab5d2d8fc562058e8"
+        }
+      ]
+    }
+  ]
+}

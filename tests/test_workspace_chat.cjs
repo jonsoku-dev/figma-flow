@@ -11,6 +11,7 @@ const renderedIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g), match =
 const translations={...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/workspace.json'))),...JSON.parse(fs.readFileSync(path.join(root,'figma-bridge/locales/chat.json')))};
 const makeFlowUI=(locale='ko')=>({locale,t:(key,params={})=>(translations[key]?.[locale]||key).replace(/\{(\w+)\}/g,(_,name)=>params[name]??'{'+name+'}'),apply(){}});
 const ctx = vm.createContext({setTimeout, clearTimeout, URL});
+ctx.WORKSPACE_READ_LIMITS = require('../library/figma-profile/read-limits.json');
 vm.runInContext('const FLOW_CHAT_DUPLICATE = ' + JSON.stringify(translations['chat.duplicate'].ko) + ';\n' + source + '\nthis.Chat = WorkspaceChat;', ctx);
 const Chat = ctx.Chat;
 const id = '12345678-1234-4234-8234-123456789abc';
@@ -98,6 +99,7 @@ async function main() {
   const unpaired = Chat.open(f,{...task,threadId:null},{...options,relay:null});
   await unpaired.handle({type:'chat:open',requestId:secondId});
   assert.equal(requests.length,1);
+  assert.ok(posts.some(p=>p.type==='chat:error' && p.code==='not-paired' && p.message.includes('복사')));
   assert.ok(posts.some(p=>p.type==='chat:error' && p.message.includes('복사')));
   assert.ok(html.includes('document.execCommand(\'copy\')'));
   assert.ok(html.includes("el('preview').select()"));
@@ -166,6 +168,9 @@ async function main() {
     listeners.get('message')({data:{pluginMessage:{type:'chat:error',message:'지정된 파일과 페이지에서 다시 열어 주세요.'}}});
     assert.equal(element('status-body').textContent,makeFlowUI(locale).t('chat.scopeError'));
     assert.equal(element('diagnostic').textContent,'지정된 파일과 페이지에서 다시 열어 주세요.');
+    listeners.get('message')({data:{pluginMessage:{type:'chat:error',code:'scope',message:'Native diagnostic without locale text.'}}});
+    assert.equal(element('status-body').textContent,makeFlowUI(locale).t('chat.scopeError'));
+    assert.equal(element('diagnostic').textContent,'Native diagnostic without locale text.');
   }
   console.log('workspace chat: selection privacy, bounds, exact preview, scope/session pins, replay and clipboard checks passed');
 }

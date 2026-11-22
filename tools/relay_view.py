@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 import re
 
+from relay_limits import MAX_NODES
+
 INSPECT_FIELDS = json.loads((Path(__file__).resolve().parents[1] / 'library/figma-profile/policy.json').read_bytes())['inspectFields']
 
 OPERATIONS = frozenset({'select-node', 'selection-info', 'viewer-history', 'viewer-language'})
@@ -31,11 +33,11 @@ def validate_options(operation, options):
         if key in options:
             if not inspecting and result['include_text']:
                 raise ValueError('Geometry-only selection-info cannot include text')
-            if (not isinstance(ids, list) or not 1 <= len(ids) <= 20 or
+            if (not isinstance(ids, list) or not 1 <= len(ids) <= MAX_NODES or
                     any(not isinstance(value, str) or len(value) > 120 or
                         not re.fullmatch(r'I?\d+:\d+(?:;\d+:\d+)*', value, re.ASCII) for value in ids) or
                     len(set(ids)) != len(ids)):
-                raise ValueError('Read 1 to 20 unique exact Design node IDs')
+                raise ValueError(f'Read 1 to {MAX_NODES} unique exact Design node IDs')
             result[key] = list(ids)
         if inspecting:
             fields = options.get('fields')

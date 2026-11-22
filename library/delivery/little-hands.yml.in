@@ -1,0 +1,49 @@
+name: Little Hands production app
+on:
+  push:
+    branches: [{{delivery.branch}}]
+    paths: ['{{delivery.appCi.root}}/**', '.github/workflows/little-hands.yml']
+  pull_request:
+    paths: ['{{delivery.appCi.root}}/**', '.github/workflows/little-hands.yml']
+permissions:
+  contents: read
+jobs:
+  app:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:17@sha256:ff87138949ad9a46f32ff23bd6852b52ce024a13dffe9b4087be98292cdd3b4f
+        env:
+          POSTGRES_DB: {{delivery.appCi.database}}
+          POSTGRES_USER: {{delivery.appCi.user}}
+          POSTGRES_PASSWORD: {{delivery.appCi.disposablePassword}}
+        ports: ['{{delivery.appCi.port}}:{{delivery.appCi.port}}']
+        options: >-
+          --health-cmd "pg_isready -U {{delivery.appCi.user}} -d {{delivery.appCi.database}}"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    defaults:
+      run:
+        working-directory: {{delivery.appCi.root}}
+    env:
+      LH_ENV: staging
+      LH_SECRET_KEY: ci-only-disposable-key-which-is-never-used-for-production-2026
+      LH_ALLOWED_HOSTS: localhost,127.0.0.1,testserver
+      LH_SITE_URL: http://localhost:8000
+      LH_DB_HOST: 127.0.0.1
+      LH_DB_PORT: '{{delivery.appCi.port}}'
+      LH_DB_NAME: {{delivery.appCi.database}}
+      LH_DB_USER: {{delivery.appCi.user}}
+      LH_DB_PASSWORD: {{delivery.appCi.disposablePassword}}
+    steps:
+      - uses: actions/checkout@{{delivery.actions.checkout}}
+      - uses: actions/setup-python@{{delivery.actions.setup-python}}
+        with:
+          python-version: '{{delivery.python}}'
+      - run: |
+          python -m pip install --require-hashes --only-binary=:all: -r requirements.lock
+      - run: python -B manage.py check
+      - run: python -B manage.py makemigrations --check --dry-run
+      - run: python -B manage.py test booking.tests config.tests --verbosity 1
+      - run: python -B -m unittest discover -s tests
+      - name: Build the production image on amd64
+        run: docker build --tag littlehands:ci .

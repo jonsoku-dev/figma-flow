@@ -113,12 +113,12 @@ function reduce(state, action) {
   return state;
 }
 
-function NativeSummary({ summary }) {
+function NativeSummary({ summary, t }) {
   const view = nativeSummaryView(summary);
   if (!view.ready) return null;
   return (
     <div className="native-summary">
-      <p>부분 읽기 · {view.coverage.fields.join(', ')}</p>
+      <p>{t('import.partialReadSummary', { fields: view.coverage.fields.join(', ') })}</p>
       <ul>
         {view.rows.map((row) => (
           <li key={row.id}>
@@ -375,7 +375,7 @@ export default function ImportPanel({ locale, t, send, Shell }) {
       )}
 
       <Section title={t('import.readHeading')} description={t('import.readHelp')}>
-        <NativeSummary summary={state.nativeSummary} />
+        <NativeSummary summary={state.nativeSummary} t={t} />
         <div className="actions">
           <button
             type="button"
@@ -383,7 +383,7 @@ export default function ImportPanel({ locale, t, send, Shell }) {
             disabled={unavailable}
             onClick={() => send({ type: 'native-summary', fields: ['width', 'height'], session_nonce: nonce })}
           >
-            너비와 높이만 읽기
+            {t('import.readDimensionsOnly')}
           </button>
         </div>
         <div className="actions">

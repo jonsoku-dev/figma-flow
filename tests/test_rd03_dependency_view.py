@@ -16,10 +16,13 @@ ROOT = Path(__file__).resolve().parents[1]
 RUNNER = r"""
 import { dependencyView } from './panel-ui/src/dependencyView.mjs';
 const input = JSON.parse(process.argv[1]);
+const copy = JSON.parse(await (await import('node:fs/promises')).readFile('./figma-bridge/locales/workspace.json', 'utf8'));
+const translate = (key, params = {}) => copy['workspace.' + key].ko.replace(/\{(\w+)\}/g,
+  (literal, name) => Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : literal);
 const before = JSON.stringify(input.tasks);
 let view;
 try {
-  view = dependencyView(input.tasks, input.selected);
+  view = dependencyView(input.tasks, input.selected, translate);
 } catch (error) {
   process.stderr.write(String(error && error.message));
   process.exit(2);
@@ -66,7 +69,9 @@ class DependencyViewTests(unittest.TestCase):
         self.assertIn('export function dependencyView', source, 'selected dependency view must list predecessors and successors')
         self.assertNotIn('controlExecute', source)
         self.assertNotIn('mutation(', source)
-        self.assertIn('연결된 선행·후속이 없습니다', source)
+        locale_copy = json.loads((ROOT / 'figma-bridge/locales/workspace.json').read_text(encoding='utf-8'))
+        self.assertIn('workspace.dependencyEmpty', locale_copy)
+        self.assertEqual(locale_copy['workspace.dependencyEmpty']['ko'], '연결된 선행·후속이 없습니다')
 
         tasks = sample()
         review, imported = 'a' * 64, 'e' * 64

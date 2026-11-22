@@ -8,6 +8,8 @@ from pathlib import Path
 import re
 import sys
 
+from relay_limits import MAX_NODES
+
 NODE_ID = re.compile(r'I?\d+:\d+(?:;\d+:\d+)*\Z', re.ASCII)
 EDGES = {'start': 0.0, 'center': 0.5, 'end': 1.0}
 
@@ -127,8 +129,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         ids = [args.anchor_id, *args.target_id]
-        if len(ids) > 20 or any(not NODE_ID.fullmatch(value) for value in ids) or len(set(ids)) != len(ids):
-            raise ValueError('Use up to 20 unique exact node IDs for anchor and targets')
+        if len(ids) > MAX_NODES or any(not NODE_ID.fullmatch(value) for value in ids) or len(set(ids)) != len(ids):
+            raise ValueError(f'Use up to {MAX_NODES} unique exact node IDs for anchor and targets')
         if isinstance(args.tolerance, bool) or not math.isfinite(args.tolerance) or args.tolerance < 0:
             raise ValueError('Tolerance must be a finite nonnegative number')
         if not math.isfinite(args.expected_offset):

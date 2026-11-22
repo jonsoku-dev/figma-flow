@@ -1,8 +1,8 @@
 {
   "counts": {
-    "no-static-reference": 664,
-    "qualified-static-reference": 70,
-    "unresolved-receiver-name-reference": 648
+    "no-static-reference": 636,
+    "qualified-static-reference": 71,
+    "unresolved-receiver-name-reference": 675
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
   "evidence": "AST source occurrences only. Qualified names do not prove execution or implementation. Generic receiver names do not identify a Plugin API member. No source occurrence does not prove missing functionality.",
@@ -71,7 +71,7 @@
       "id": "PluginAPI.currentUser#10",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.activeUsers#11",
@@ -353,49 +353,49 @@
       "id": "PluginAPI.off#57",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.off#58",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.off#59",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.off#60",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.off#61",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.off#62",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.off#63",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.off#64",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PluginAPI.mixed#65",
@@ -1445,7 +1445,7 @@
       "id": "UIAPI.on#8",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "UIAPI.once#9",
@@ -1457,7 +1457,7 @@
       "id": "UIAPI.off#10",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "UtilAPI.rgb#0",
@@ -1565,13 +1565,13 @@
       "id": "CodegenAPI.on#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "CodegenAPI.on#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "CodegenAPI.once#2",
@@ -1589,13 +1589,13 @@
       "id": "CodegenAPI.off#4",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "CodegenAPI.off#5",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "CodegenAPI.preferences#6",
@@ -1667,19 +1667,19 @@
       "id": "DevResourcesAPI.on#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DevResourcesAPI.on#1",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DevResourcesAPI.on#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DevResourcesAPI.once#3",
@@ -1703,19 +1703,19 @@
       "id": "DevResourcesAPI.off#6",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DevResourcesAPI.off#7",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DevResourcesAPI.off#8",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TimerAPI.remaining#0",
@@ -1865,7 +1865,7 @@
       "id": "ParametersAPI.on#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ParametersAPI.once#1",
@@ -1877,7 +1877,7 @@
       "id": "ParametersAPI.off#2",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "RunParametersEvent.command#0",
@@ -2129,7 +2129,7 @@
       "id": "NodeChangeEvent.nodeChanges#0",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "TextReviewEvent.text#0",
@@ -4577,7 +4577,7 @@
       "id": "ChildrenMixin.findAllWithCriteria#7",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "ChildrenMixin.findWidgetNodesByWidgetId#8",
@@ -6185,7 +6185,7 @@
       "id": "DocumentNode.findAllWithCriteria#9",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "DocumentNode.findWidgetNodesByWidgetId#10",
@@ -6299,7 +6299,7 @@
       "id": "PageNode.on#11",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PageNode.once#12",
@@ -6311,7 +6311,7 @@
       "id": "PageNode.off#13",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "unresolved-receiver-name-reference"
     },
     {
       "id": "PageNode.focusedSlide#14",
@@ -8376,6 +8376,18 @@
       "sha256": "b94c326f290e5cc323477164cb3bfa56450bdd42dba628fdb6bba4752115c512"
     },
     {
+      "path": "figma-bridge/profile_policy.js",
+      "sha256": "0ce0d7e0130e1b529e64b9920b4c39de38bd1fb817b7256e49855080f79533dd"
+    },
+    {
+      "path": "figma-bridge/relay_recipe.js",
+      "sha256": "73aed1b15b9fd1c556267a92aacbfec00c3a50bbabb861e4959b4fbe4d2f8ca6"
+    },
+    {
+      "path": "figma-bridge/relay_view.js",
+      "sha256": "9c429e519c869b7e1f4d9af3a06198691066a7dbf047c95be9dab61a9dcb6034"
+    },
+    {
       "path": "figma-bridge/semantic_components.js",
       "sha256": "171dc4ba236f051c742f3856b1d6bf3f0019d64f84849f072a5c226e9b5d816e"
     },
@@ -8388,20 +8400,28 @@
       "sha256": "5b37b6a4e5bfa19e18b6553085f62519119254e0adc4fcc3d60b667b0ec18685"
     },
     {
+      "path": "figma-bridge/workspace_changes.js",
+      "sha256": "4de4c2bb19094dae42e89701943c12648570b10dcfdf4cd917a086391727ae92"
+    },
+    {
       "path": "figma-bridge/workspace_chat.js",
-      "sha256": "13687cb16cf207914cd7b3382e9d73b9ac48dc1661f4a4db2f280a9baab559fd"
+      "sha256": "d2dc39b8f17def611c8aac0724822f31ab2bc03c34eb018e23126c729c11abca"
     },
     {
       "path": "figma-bridge/workspace_control.js",
-      "sha256": "60bff3e589716165b89f57b3f3caa59779a237d59895032d20a6db17c8e2bf68"
+      "sha256": "e6d66efcf6edf273f7b065250121c5369b521167d1b1cffa540184693fa53ee1"
     },
     {
       "path": "figma-bridge/workspace_host.js",
-      "sha256": "a697659c77337438da9e2d5c2787c78f7f16e0283204b79d2b06efde3c86fa80"
+      "sha256": "6b86242ca5ed00454d76bfc5eab9ac1dcc6a92f4aa059a6783e6529bf7946dd5"
+    },
+    {
+      "path": "figma-bridge/workspace_profile.js",
+      "sha256": "253976cc94ac8b921214f2edecb5c6223d4fa1216b32d4705a93455b9b851aa8"
     },
     {
       "path": "figma-bridge/workspace_transport.js",
-      "sha256": "8f19a6dd53024e00799053e520f323e22938966f0869b748c62eb70f2178b093"
+      "sha256": "9e9e5fd67fbb96f8a34fba4af63b5fa20f13592599841b35f2a1d413b50fe630"
     },
     {
       "path": "library/figma-recipes/bundled/design-shapes.js",
@@ -8421,7 +8441,7 @@
     },
     {
       "path": "tools/workspace_recipes.py::dispatch_source",
-      "sha256": "95e97ae84d15da3c33337385fb1d3a09b64e0ead276351600f3c62d550172100"
+      "sha256": "5cac3a0d8ca53bb2dc5cd541e39822d5209bbd45576862919cb0f447d04eedb9"
     }
   ]
 }

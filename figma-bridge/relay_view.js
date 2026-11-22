@@ -70,9 +70,9 @@ async function workspaceViewerExecute(task, cmd, checkCurrent) {
     const result = ids === undefined ? {...receipt, selection:WorkspaceChat.collect(figma, task, options.include_text === true)} :
       {...receipt, selection_included:false};
     if (ids !== undefined) {
-      if (!Array.isArray(ids) || ids.length < 1 || ids.length > 20 ||
+      if (!Array.isArray(ids) || ids.length < 1 || ids.length > WORKSPACE_READ_LIMITS.maxNodes ||
           ids.some(id => typeof id !== 'string' || id.length > 120 || !/^(?:I?[0-9]+:[0-9]+)(?:;[0-9]+:[0-9]+)*$/.test(id)) ||
-          new Set(ids).size !== ids.length) throw Error('Geometry requires 1 to 20 unique exact Design scene node IDs.');
+          new Set(ids).size !== ids.length) throw Error(`Read 1 to ${WORKSPACE_READ_LIMITS.maxNodes} unique exact Design scene node IDs.`);
       const nodes = [];
       const textBudget = {remaining:1000};
       for (const id of ids) {

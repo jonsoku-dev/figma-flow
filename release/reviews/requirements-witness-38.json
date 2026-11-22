@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "specs/design-specialization/graph.json#/nodes",
+      "covers": [
+        "specs/design-specialization/spec.md"
+      ],
+      "assertion": "Reads the Design-only specialization contract and requires a real Design scene, graph-linked evidence, and no promotion of compilation to measured acceptance.",
+      "observed": "The scope and acceptance inspection require the stated Design workflow and actual-file re-execution.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_design_specialization_requires_a_real_design_use_path",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}

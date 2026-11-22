@@ -1,0 +1,17 @@
+{
+  "surfaceFingerprint": "1360e448e6aa7c8ae3cbf7c8d80d40cb5c23adaef87cdf1542a1e2353d1a29fb",
+  "status": "passed",
+  "checks": [
+    {
+      "authority": "AGENTS.md#/sections/제품 범위",
+      "covers": [
+        "AGENTS.md"
+      ],
+      "assertion": "Reads AGENTS.md product-scope section and requires its Codex boundary, non-duplicate panel policy, graph-linked Design acceptance, and Computer Use/hook-free real acceptance path.",
+      "observed": "All six scoped statements remain in the product-scope section; linked relay and Design specialization sources exist.",
+      "test": "tests/test_requirements_surface.py",
+      "case": "RequirementsSurfaceTests.test_agent_instructions_retain_codex_and_design_acceptance_boundaries",
+      "testSha256": "b887e6b0cc0a7c7feb06cf557e0a52b3f2c5afb757930c47e55b74caf5d3712c"
+    }
+  ]
+}
