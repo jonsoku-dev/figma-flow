@@ -1,4 +1,34 @@
 // Viewer commands inspect or navigate the active file without editing design nodes.
+function workspaceReadNodeField(node, field, textBudget) {
+  try {
+    const value = node[field];
+    switch (WORKSPACE_PROFILE_POLICY.inspectFields[field]) {
+      case 'string':
+      case 'text': {
+        if (typeof value !== 'string') break;
+        const limit = field === 'characters' ? Math.min(200, textBudget.remaining) : 160;
+        const excerpt = value.slice(0, limit);
+        if (field === 'characters') textBudget.remaining -= excerpt.length;
+        return {value:excerpt, truncated:excerpt.length !== value.length};
+      }
+      case 'number': if (Number.isFinite(value)) return {value}; break;
+      case 'boolean': if (typeof value === 'boolean') return {value}; break;
+      case 'font':
+        if (typeof value?.family === 'string' && typeof value?.style === 'string')
+          return {value:{family:value.family.slice(0,120),style:value.style.slice(0,120)}};
+        break;
+      case 'paints':
+        if (Array.isArray(value) && value.length <= 8 && value.every(p => p.type === 'SOLID')) {
+          return {value:value.map(p => ({type:'SOLID', color:{r:p.color.r,g:p.color.g,b:p.color.b},
+            opacity:p.opacity ?? 1, visible:p.visible !== false}))};
+        }
+    }
+    return {unavailable:true};
+  } catch (_) {
+    return {unavailable:true};
+  }
+}
+
 async function workspaceViewerExecute(task, cmd, checkCurrent) {
   const options = cmd.viewer_options || {};
   const page = figma.currentPage;
@@ -25,41 +55,57 @@ async function workspaceViewerExecute(task, cmd, checkCurrent) {
     return {...receipt, language:workspaceState.locale, storage:persisted ? 'local' : 'session'};
   }
   if (cmd.operation === 'selection-info') {
-    if (Object.keys(options).some(key => !['include_text', 'geometry_node_ids'].includes(key)) ||
+    if (Object.keys(options).some(key => !['include_text', 'geometry_node_ids', 'inspect_node_ids', 'fields'].includes(key)) ||
         (options.include_text !== undefined && typeof options.include_text !== 'boolean') ||
         (options.geometry_node_ids !== undefined && options.include_text === true)) throw Error('Invalid selection options.');
-    const ids = options.geometry_node_ids;
+    const inspecting = options.inspect_node_ids !== undefined;
+    const fields = options.fields;
+    if (inspecting && (options.geometry_node_ids !== undefined || !Array.isArray(fields) || !fields.length ||
+        fields.length > Object.keys(WORKSPACE_PROFILE_POLICY.inspectFields).length ||
+        new Set(fields).size !== fields.length || fields.some(f => typeof f !== 'string' ||
+        !Object.prototype.hasOwnProperty.call(WORKSPACE_PROFILE_POLICY.inspectFields, f)) ||
+        fields.includes('characters') !== (options.include_text === true))) throw Error('Invalid detail fields.');
+    if (!inspecting && fields !== undefined) throw Error('Field inspection requires exact node IDs.');
+    const ids = inspecting ? options.inspect_node_ids : options.geometry_node_ids;
     const result = ids === undefined ? {...receipt, selection:WorkspaceChat.collect(figma, task, options.include_text === true)} :
       {...receipt, selection_included:false};
     if (ids !== undefined) {
       if (!Array.isArray(ids) || ids.length < 1 || ids.length > 20 ||
           ids.some(id => typeof id !== 'string' || id.length > 120 || !/^(?:I?[0-9]+:[0-9]+)(?:;[0-9]+:[0-9]+)*$/.test(id)) ||
           new Set(ids).size !== ids.length) throw Error('Geometry requires 1 to 20 unique exact Design scene node IDs.');
-      const geometry = [];
+      const nodes = [];
+      const textBudget = {remaining:1000};
       for (const id of ids) {
         check();
         const node = await figma.getNodeByIdAsync(id);
         check();
         if (!node || node.removed || ['DOCUMENT', 'PAGE'].includes(node.type)) {
-          geometry.push({id, status:'missing'});
+          nodes.push({id, status:'missing'});
           continue;
         }
         let owner = node.parent;
         while (owner && owner.type !== 'PAGE') owner = owner.parent;
         if (owner?.id !== page.id) {
-          geometry.push({id, status:'missing'});
+          nodes.push({id, status:'missing'});
+          continue;
+        }
+        if (inspecting) {
+          const values = {};
+          for (const field of fields) values[field] = workspaceReadNodeField(node, field, textBudget);
+          nodes.push({id:node.id,type:node.type,status:'observed',fields:values});
           continue;
         }
         const box = node.absoluteBoundingBox;
         const validBox = box && ['x', 'y', 'width', 'height'].every(key => Number.isFinite(box[key])) &&
           box.width >= 0 && box.height >= 0 && ['x', 'y', 'width', 'height'].every(key => Math.abs(box[key]) <= 10000000);
         const rotation = Number.isFinite(node.rotation) ? node.rotation : null;
-        geometry.push({id:node.id, name:String(node.name || '').slice(0, 120), type:node.type,
+        nodes.push({id:node.id, name:String(node.name || '').slice(0, 120), type:node.type,
           rotation, status:validBox ? 'observed' : 'unmeasurable',
           absoluteBoundingBox:validBox ? {x:box.x, y:box.y, width:box.width, height:box.height} : null});
       }
       check();
-      result.geometry = {coordinate_space:'page-absolute-axis-aligned', nodes:geometry};
+      if (inspecting) result.details = {fields,nodes};
+      else result.geometry = {coordinate_space:'page-absolute-axis-aligned', nodes};
     }
     return result;
   }

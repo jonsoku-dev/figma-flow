@@ -288,9 +288,17 @@ async function workspaceControlTick() {
     const relay = relayMode && relayContext
       ? {context:relayContext, ...(controlRelayProfileResult ? {profile_result:controlRelayProfileResult} : {})}
       : undefined;
+    if (typeof workspaceBindChangePage === 'function') workspaceBindChangePage();
+    const changeScope = typeof workspaceChangeScope === 'function' ? workspaceChangeScope() : null;
+    if (typeof workspaceChangeFeed !== 'undefined') workspaceChangeFeed.reset(changeScope);
+    const changeBatch = changeScope && typeof workspaceChangeFeed !== 'undefined'
+      ? workspaceChangeFeed.batch(changeScope,workspaceChangeFeedStatus?.status) : null;
     const reply = await controlRequest('poll', {session_id:controlRunSession,file_key:figma.fileKey,page_id:figma.currentPage.id,
       ...(relay ? {relay} : {}),
+      ...(changeBatch ? {change_batch:changeBatch} : {}),
       ...(typeof WORKSPACE_RUNTIME === 'undefined' ? {} : {runtime:WORKSPACE_RUNTIME})});
+    if (reply?.changes && changeScope && typeof workspaceChangeFeed !== 'undefined')
+      workspaceChangeFeed.acknowledge(reply.changes,changeScope);
     if (relayMode) {
       if (controlRelayProfileResult && relay?.profile_result === controlRelayProfileResult) {
         controlRelayProfileResult = null; controlRelayProfileBinding = null;

@@ -1256,12 +1256,15 @@ def export_bundle(graph_path, out, web_module, baseline=None, pairing=None, plug
     return {'graph_sha256': resolved['graphSha256'], 'native_plan': str(output / 'native-plan.json')}
 
 
-def import_values(graph_path, pairing, readback, web_module, out, apply=False, node_edit_scope=None):
+def import_values(graph_path, pairing, readback, web_module, out, apply=False, node_edit_scope=None, *,
+                  expected_graph_sha256=None, expected_web_sha256=None):
     if readback.get('partial_apply'):
         raise ValueError('partial apply is not native edit intent; export again with its full readback')
     if Path(graph_path).resolve() == Path(web_module).resolve():
         raise ValueError('web module must not overwrite graph')
     graph = load_graph(graph_path)
+    if expected_graph_sha256 is not None and graph.source_sha256 != expected_graph_sha256:
+        raise ValueError('stale graph: preview no longer matches')
     check_pairing(graph, pairing)
     if node_edit_scope not in (None, 'component'):
         raise ValueError('only explicit component scope is supported for direct node edits')
@@ -1305,7 +1308,8 @@ def import_values(graph_path, pairing, readback, web_module, out, apply=False, n
             if Path(web_module).exists():
                 (output / 'web.before.mjs').write_bytes(Path(web_module).read_bytes())
             try:
-                update_graph_values(graph_path, updates, graph.source_sha256, web_module=web_module)
+                update_graph_values(graph_path, updates, graph.source_sha256, web_module=web_module,
+                                    **({'expected_web_sha256':expected_web_sha256} if expected_web_sha256 is not None else {}))
             except ValueError:
                 raise
             except Exception as error:

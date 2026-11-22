@@ -775,7 +775,7 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     policy = read(ROOT / 'library' / 'figma-profile' / 'policy.json')
     code += 'const WORKSPACE_PROFILE_POLICY = ' + json.dumps(policy, ensure_ascii=True) + ';\n'
-    for source in ('profile_policy.js', 'workspace_profile.js', 'relay_view.js'):
+    for source in ('profile_policy.js', 'workspace_profile.js', 'relay_view.js', 'workspace_changes.js'):
         code += (bridge / source).read_text(encoding='utf-8') + '\n'
     code += assemble_shared_runtime(bridge)
     if runtime['implementation'] != trusted_sources():

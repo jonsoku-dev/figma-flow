@@ -122,6 +122,8 @@ def review(before_file, after_file, output, same_screen=False):
                 notes.append(label + ' · 수평 넘침')
             if view.get('captureClipped'):
                 notes.append(label + ' · 캡처 범위 제한')
+        if new.get('measurement') == 'paint':
+            notes.append('렌더된 픽셀의 경계 · 시각적 무게중심은 별도 검토')
         notice = '<p>' + ' / '.join(notes) + '</p>' if notes else ''
         sections.append(f'<section><h2>{width} × {new["height"]} px</h2>{notice}<div class="pair">{"".join(figures)}</div>'
                         f'<table><caption>그룹별 최대 절대 편차</caption><thead><tr><th>기준선</th><th>수정 전</th><th>수정 후</th></tr>'

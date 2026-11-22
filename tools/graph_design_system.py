@@ -248,7 +248,7 @@ def emit_web_module(graph_path, out, *, expected_sha256=None):
         return _emit_web_module_locked(path, out)
 
 
-def update_graph_values(graph_path, updates, expected_sha256, *, web_module=None):
+def update_graph_values(graph_path, updates, expected_sha256, *, web_module=None, expected_web_sha256=None):
     """Hold CAS lock through optional web publication; publication errors leave graph canonical.
 
     All writers must use this API. A caller publishing two files must retain its
@@ -263,6 +263,9 @@ def update_graph_values(graph_path, updates, expected_sha256, *, web_module=None
         graph = load_graph(path)
         if graph.source_sha256 != expected_sha256:
             raise ValueError('stale graph: expected SHA256 does not match')
+        if expected_web_sha256 is not None and (web_module is None or
+                hashlib.sha256(Path(web_module).read_bytes()).hexdigest() != expected_web_sha256):
+            raise ValueError('stale web projection: expected SHA256 does not match')
         before = resolve_design_system(graph)
         if not updates:
             return _emit_web_module_locked(path, web_module)

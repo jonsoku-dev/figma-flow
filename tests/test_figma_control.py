@@ -160,6 +160,174 @@ class ControlTests(unittest.TestCase):
         self.assertEqual(result['value']['state'], 'ok')
         self.assertEqual(control.relay_request(self.root, 'profile-get')['profile']['declared'], command['profile'])
 
+    def test_change_feed_accepts_verified_batch_and_replays_idempotently_after_restart(self):
+        runtime = workspace.current(self.root)['runtime']
+        context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': None, 'selection': []}
+        scope = {'file_key': 'fixturefile', 'page_id': '12:1', 'generation': runtime['generation'],
+                 'session_id': context['session_id']}
+        batch = {'scope': scope, 'cursor': {'epoch': 'b' * 32, 'seq': 1},
+                 'events': [{'seq': 1, 'node_id': '13:2', 'type': 'PROPERTY_CHANGE',
+                             'properties': ['fills'], 'origin': 'unknown'}], 'gap': None}
+        batch['status'] = 'available'
+        poll = {'session_id': context['session_id'], 'file_key': 'fixturefile', 'page_id': '12:1',
+                'runtime': runtime, 'relay': {'context': context}, 'change_batch': batch}
+        receipt = control.poll(self.root, poll)['changes']
+        self.assertEqual(receipt['accepted_cursor'], batch['cursor'])
+        again = control.poll(self.root, poll)['changes']
+        self.assertEqual(again['accepted_cursor'], batch['cursor'])
+        snapshot = control.change_query(self.root, 'fixturefile', '12:1')
+        self.assertEqual(snapshot['events'], [])
+        self.assertEqual(snapshot['cursor']['seq'], 1)
+        resume = control.change_query(self.root, 'fixturefile', '12:1', cursor={'epoch': snapshot['cursor']['epoch'], 'seq': 0})
+        self.assertEqual(len(resume['events']), 1)
+        self.assertEqual(resume['events'][0]['node_id'], '13:2')
+        self.assertEqual(control.change_query(self.root, 'fixturefile', '12:1', cursor=snapshot['cursor'])['events'], [])
+
+    def test_following_two_open_pages_preserves_both_live_scopes(self):
+        runtime = workspace.current(self.root)['runtime']
+        for index, file_key in enumerate(('fixturefile', 'secondfile')):
+            context = {'file_key': file_key, 'page_id': '12:1', 'session_id': 'view-' + str(index),
+                       'user_id': None, 'selection': []}
+            scope = {k: context[k] for k in ('file_key','page_id','session_id')}
+            batch = {'scope': {**scope, 'generation': runtime['generation']}, 'status':'available',
+                     'cursor': {'epoch':str(index)*32,'seq':0}, 'gap':None,'events':[]}
+            control.poll(self.root,{**scope,'runtime':runtime,'relay':{'context':context},'change_batch':batch})
+        for index, file_key in enumerate(('fixturefile', 'secondfile')):
+            snapshot = control.change_query(self.root,file_key,'12:1')
+            self.assertFalse(snapshot['offline'])
+            self.assertEqual(snapshot['scope']['session_id'],'view-' + str(index))
+
+    def test_blocked_change_query_wakes_when_authenticated_poll_records_event(self):
+        server = self.start_server()
+        runtime = workspace.current(self.root)['runtime']
+        session = 'plugin-session-1'
+        context = {'session_id': session, 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': None, 'selection': []}
+        base = {'scope': {'file_key': 'fixturefile', 'page_id': '12:1',
+                          'generation': runtime['generation'], 'session_id': session},
+                'cursor': {'epoch': 'a' * 32, 'seq': 0}, 'events': [], 'gap': None, 'status': 'available'}
+        poll = {'session_id': session, 'file_key': 'fixturefile', 'page_id': '12:1', 'runtime': runtime,
+                'relay': {'context': context}, 'change_batch': base}
+        control.poll(self.root, poll)
+        initial = control.change_query(self.root, 'fixturefile', '12:1')
+        result = []
+        waiter = threading.Thread(target=lambda: result.append(control.change_request(
+            self.root, 'fixturefile', '12:1', cursor=initial['cursor'], timeout=5)))
+        waiter.start()
+        time.sleep(.05)
+        next_batch = {**base, 'cursor': {'epoch': 'a' * 32, 'seq': 1},
+                      'events': [{'seq': 1, 'node_id': '13:3', 'type': 'PROPERTY_CHANGE',
+                                  'properties': ['opacity'], 'origin': 'unknown'}]}
+        code, _ = self.post_control(server, '/control/poll', {**poll, 'change_batch': next_batch})
+        self.assertEqual(code, 200)
+        waiter.join(2)
+        self.assertFalse(waiter.is_alive())
+        self.assertEqual(result[0]['events'][0]['node_id'], '13:3')
+
+    def test_session_rollover_is_journaled_as_a_gap_without_relabeling_old_events(self):
+        runtime = workspace.current(self.root)['runtime']
+        old_context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                       'user_id': None, 'selection': []}
+        scope = {'file_key': 'fixturefile', 'page_id': '12:1', 'generation': runtime['generation'],
+                 'session_id': old_context['session_id']}
+        batch = {'scope': scope, 'cursor': {'epoch': 'c' * 32, 'seq': 1}, 'status': 'available', 'gap': None,
+                 'events': [{'seq': 1, 'node_id': '13:4', 'type': 'PROPERTY_CHANGE',
+                             'properties': ['opacity'], 'origin': 'unknown'}]}
+        control.poll(self.root, {'session_id': old_context['session_id'], 'file_key': 'fixturefile',
+                     'page_id': '12:1', 'runtime': runtime, 'relay': {'context': old_context}, 'change_batch': batch})
+        initial = control.change_query(self.root, 'fixturefile', '12:1')
+        journal_path = control.state_dir(self.root) / 'changes.json'
+        saved = control.change_journal._read(journal_path)
+        stream = next(iter(saved['streams'].values()))
+        for source in stream['sources'].values(): source['last_seen'] = time.time() - 30
+        control.change_journal._write(journal_path, saved)
+        new_context = {**old_context, 'session_id': 'plugin-session-2'}
+        new_scope = {**scope, 'session_id': new_context['session_id']}
+        next_batch = {'scope': new_scope, 'cursor': {'epoch': 'd' * 32, 'seq': 0},
+                      'status': 'available', 'gap': None, 'events': []}
+        receipt = control.poll(self.root, {'session_id': new_context['session_id'], 'file_key': 'fixturefile',
+                                  'page_id': '12:1', 'runtime': runtime, 'relay': {'context': new_context},
+                                  'change_batch': next_batch})['changes']
+        self.assertTrue(receipt['session_rollover'])
+        resumed = control.change_query(self.root, 'fixturefile', '12:1', cursor=initial['cursor'])
+        self.assertEqual(resumed['gap']['reason'], 'session_rollover')
+        self.assertEqual(resumed['events'], [])
+        self.assertIsNone(control.change_query(self.root, 'fixturefile', '12:1')['gap'])
+        self.assertIsNone(control.change_query(self.root, 'fixturefile', '12:1', cursor=resumed['cursor'])['gap'])
+
+    def test_alternating_plugin_sessions_keep_independent_cursors_without_poll_noise(self):
+        runtime = workspace.current(self.root)['runtime']
+        scopes = []
+        for name, epoch in (('plugin-session-a', 'e' * 32), ('plugin-session-b', 'f' * 32)):
+            context = {'session_id': name, 'file_key': 'fixturefile', 'page_id': '12:1',
+                       'user_id': None, 'selection': []}
+            source_scope = {'file_key': 'fixturefile', 'page_id': '12:1',
+                            'generation': runtime['generation'], 'session_id': name}
+            scopes.append((context, source_scope, epoch))
+            batch = {'scope': source_scope, 'cursor': {'epoch': epoch, 'seq': 0},
+                     'status': 'available', 'events': [], 'gap': None}
+            control.poll(self.root, {'session_id': name, 'file_key': 'fixturefile', 'page_id': '12:1',
+                                     'runtime': runtime, 'relay': {'context': context}, 'change_batch': batch})
+        for index in range(20):
+            context, source_scope, epoch = scopes[index % 2]
+            batch = {'scope': source_scope, 'cursor': {'epoch': epoch, 'seq': 0},
+                     'status': 'available', 'events': [], 'gap': None}
+            control.poll(self.root, {'session_id': context['session_id'], 'file_key': 'fixturefile',
+                                     'page_id': '12:1', 'runtime': runtime, 'relay': {'context': context},
+                                     'change_batch': batch})
+        path = control.state_dir(self.root) / 'changes.json'
+        stream = next(iter(control.change_journal._read(path)['streams'].values()))
+        self.assertEqual(stream['seq'], 0)
+        self.assertEqual(stream['events'], [])
+        for context, source_scope, epoch in scopes:
+            batch = {'scope': source_scope, 'cursor': {'epoch': epoch, 'seq': 1},
+                     'status': 'available', 'gap': None,
+                     'events': [{'seq': 1, 'node_id': 'I1:2;3:4', 'type': 'PROPERTY_CHANGE',
+                                 'properties': ['opacity'], 'unknown_properties': [],
+                                 'properties_truncated': False, 'origin': 'unknown'}]}
+            control.poll(self.root, {'session_id': context['session_id'], 'file_key': 'fixturefile',
+                                     'page_id': '12:1', 'runtime': runtime, 'relay': {'context': context},
+                                     'change_batch': batch})
+        values = control.change_query(self.root, 'fixturefile', '12:1', cursor={'epoch': stream['epoch'], 'seq': 0})
+        self.assertEqual(len(values['events']), 2)
+        self.assertEqual({item['scope']['session_id'] for item in values['events']},
+                         {'plugin-session-a', 'plugin-session-b'})
+        self.assertIsNone(values['gap'])
+
+    def test_change_query_rechecks_online_state_after_long_poll_timeout(self):
+        runtime = workspace.current(self.root)['runtime']
+        context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',
+                   'user_id': None, 'selection': []}
+        scope = {'file_key': 'fixturefile', 'page_id': '12:1', 'generation': runtime['generation'],
+                 'session_id': context['session_id']}
+        batch = {'scope': scope, 'cursor': {'epoch': '9' * 32, 'seq': 0},
+                 'status': 'available', 'events': [], 'gap': None}
+        control.poll(self.root, {'session_id': context['session_id'], 'file_key': 'fixturefile',
+                                 'page_id': '12:1', 'runtime': runtime,
+                                 'relay': {'context': context}, 'change_batch': batch})
+        snapshot = control.change_query(self.root, 'fixturefile', '12:1')
+        calls = []
+        def provider():
+            calls.append(1)
+            return scope, len(calls) > 1
+        result = control.change_journal.query(control.state_dir(self.root) / 'changes.json',
+            'fixturefile', '12:1', cursor=snapshot['cursor'], timeout=0.05, status_provider=provider)
+        self.assertGreaterEqual(len(calls), 2)
+        self.assertFalse(result['offline'])
+
+    def test_changes_cli_uses_authenticated_loopback_query(self):
+        self.start_server()
+        initial = control.change_query(self.root, 'fixturefile', '12:1')
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            code = control.main(['changes', '--workspace', str(self.root), '--file-key', 'fixturefile',
+                                 '--page-id', '12:1', '--cursor', json.dumps(initial['cursor']), '--timeout', '0.05'])
+        self.assertEqual(code, 0)
+        value = json.loads(output.getvalue())
+        self.assertEqual(value['events'], [])
+        self.assertTrue(value['offline'])
+
     def test_profile_relay_fields_are_disjoint_and_cannot_overwrite_during_active_task(self):
         self.start_server()
         context = {'session_id': 'plugin-session-1', 'file_key': 'fixturefile', 'page_id': '12:1',

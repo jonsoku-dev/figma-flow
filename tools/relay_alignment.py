@@ -73,6 +73,7 @@ def main():
     parser.add_argument('--out', required=True, type=Path, help='new directory for report and screenshots')
     parser.add_argument('--widths', default='320,400', help='comma-separated viewport widths')
     parser.add_argument('--height', default='420', help='viewport height in CSS pixels')
+    parser.add_argument('--paint', action='store_true', help='Measure supported visible text and SVG pixels in the relay.')
     parser.add_argument('--chrome', help='Chromium executable (defaults to tools/chromium_pipe.mjs detection)')
     args = parser.parse_args()
     out = args.out.resolve()
@@ -90,7 +91,7 @@ def main():
         command = [
             'node', str(ROOT / 'tools/alignment_audit.mjs'),
             '--url', f'http://127.0.0.1:{server.server_port}/',
-            '--rules', str(ROOT / 'tools/relay_alignment_rules.json'),
+            '--rules', str(ROOT / 'tools' / ('relay_paint_rules.json' if args.paint else 'relay_alignment_rules.json')),
             '--out', str(out), '--widths', args.widths, '--height', args.height,
         ]
         if args.chrome:

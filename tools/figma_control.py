@@ -22,6 +22,7 @@ import time
 import figma_workspace as workspace
 import operation_detail as detail_projection
 import relay_view
+import change_journal
 
 CAROUSEL_OPERATIONS = frozenset({'carousel-select', 'carousel-present'})
 SCHEMA = 'figma-flow-control-v1'
@@ -61,11 +62,14 @@ LOADED_IMPLEMENTATION = hashlib.sha256(
     + b'\0' + Path(workspace.__file__).read_bytes()
     + b'\0' + Path(detail_projection.__file__).read_bytes()
     + b'\0' + Path(relay_view.__file__).read_bytes()
+    + b'\0' + Path(change_journal.__file__).read_bytes()
     + b'\0' + PROFILE_POLICY_PATH.read_bytes()
 ).hexdigest()
 
 
 NATIVE_CLIENTS = {}
+CHANGE_CLIENTS = {}
+CHANGE_CLIENTS_LOCK = threading.Lock()
 RELAY_STATES = {}
 RELAY_LOCK = threading.RLock()
 RELAY_TTL = 15
@@ -358,6 +362,47 @@ def relay_request(root, action, *, profile=None, request_id=None, expected_conte
         value = json.loads(raw)
         if not isinstance(value, dict):
             raise ReadinessError('Malformed relay response')
+        return value
+    except (ConnectionRefusedError, TimeoutError, OSError, http.client.HTTPException):
+        raise ReadinessError('Control server unavailable; reopen the same Figma Flow plugin') from None
+    finally:
+        connection.close()
+
+
+def change_query(root, file_key, page_id, *, cursor=None, timeout=0):
+    """Query the durable current-page change feed; a missing cursor starts at its head."""
+    scope(file_key, page_id, '0' * 64)
+    root = workspace.private_dir(root)
+    def live_context():
+        key = (str(root.resolve()),file_key,page_id)
+        with CHANGE_CLIENTS_LOCK:
+            observed = CHANGE_CLIENTS.get(key)
+        if observed:
+            current, runtime, seen = observed
+            online = time.time() - seen <= RELAY_TTL and runtime == workspace.current(root,repair=False).get('runtime')
+            return current, online
+        return None, False
+    return change_journal.query(state_dir(root) / 'changes.json', file_key, page_id, cursor, timeout,
+                                status_provider=live_context)
+
+
+def change_request(root, file_key, page_id, *, cursor=None, timeout=0):
+    settings = config(workspace.private_dir(root))
+    payload = {'file_key': file_key, 'page_id': page_id, 'timeout': timeout}
+    if cursor is not None:
+        payload['cursor'] = cursor
+    connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=max(5, timeout + 5))
+    try:
+        connection.request('POST', '/control/changes', workspace.encode(payload),
+                           {'Host': f'localhost:{settings["port"]}', 'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + settings['token']})
+        response = connection.getresponse()
+        raw = response.read(2_000_001)
+        if response.status != 200 or len(raw) > 2_000_000:
+            raise ReadinessError('Change query rejected or oversized; reopen the same Figma Flow plugin')
+        value = json.loads(raw)
+        if not isinstance(value, dict):
+            raise ReadinessError('Malformed change query response')
         return value
     except (ConnectionRefusedError, TimeoutError, OSError, http.client.HTTPException):
         raise ReadinessError('Control server unavailable; reopen the same Figma Flow plugin') from None
@@ -766,7 +811,7 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
 
 def poll(root, payload):
     poll_fields = {'session_id', 'file_key', 'page_id'}
-    if not isinstance(payload, dict) or set(payload) - (poll_fields | {'runtime', 'relay'}) or not poll_fields <= set(payload):
+    if not isinstance(payload, dict) or set(payload) - (poll_fields | {'runtime', 'relay', 'change_batch'}) or not poll_fields <= set(payload):
         raise ValueError('Exact plugin poll fields required')
     runtime = payload.get('runtime')
     if runtime is not None and (not isinstance(runtime, dict) or set(runtime) != {'version', 'implementation', 'generation'} or
@@ -805,11 +850,34 @@ def poll(root, payload):
             if unresolved or not current_native:
                 relay = {**relay, 'profile_request': None}
 
+        change_receipt = None
+        if 'change_batch' in payload:
+            batch = payload['change_batch']
+            batch_scope = batch.get('scope') if isinstance(batch, dict) else None
+            relay_context = relay.get('context') if relay is not None else None
+            if (not isinstance(batch_scope, dict) or set(batch_scope) != {'file_key', 'page_id', 'generation', 'session_id'} or
+                    not isinstance(relay_context, dict) or runtime is None or native['native_status'] != 'current-self-reported' or
+                    (batch_scope['session_id'], batch_scope['file_key'], batch_scope['page_id'], batch_scope['generation']) !=
+                    (session, payload['file_key'], payload['page_id'], runtime['generation']) or
+                    (relay_context['session_id'], relay_context['file_key'], relay_context['page_id']) !=
+                    (session, payload['file_key'], payload['page_id'])):
+                raise ValueError('Native changes require the verified active session, file, page and canonical runtime')
+            change_receipt = change_journal.ingest(directory / 'changes.json', payload['change_batch'], batch_scope)
+            # Other open documents may poll between two reads of this page.
+            with CHANGE_CLIENTS_LOCK:
+                change_key = (str(root.resolve()),payload['file_key'],payload['page_id'])
+                if len(CHANGE_CLIENTS) >= 128 and change_key not in CHANGE_CLIENTS:
+                    oldest = min(CHANGE_CLIENTS, key=lambda key: CHANGE_CLIENTS[key][2])
+                    del CHANGE_CLIENTS[oldest]
+                CHANGE_CLIENTS[change_key] = (dict(batch_scope),runtime,time.time())
+
+
         def poll_reply(value):
             profile_command = relay.get('profile_request') if relay is not None else None
             if profile_command:
                 relay_mark_dispatched(root, profile_command['request_id'])
-            return {**value, **({'relay': relay} if relay is not None else {})}
+            return {**value, **({'relay': relay} if relay is not None else {}),
+                    **({'changes': change_receipt} if change_receipt is not None else {})}
         if not request or request['state'] != 'pending':
             return poll_reply({'operation': None, **native})
         if request['operation'] != 'read' and native['native_status'] != 'current-self-reported':
@@ -1213,14 +1281,14 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result', '/control/result-large', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail', '/control/relay'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/result-large', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail', '/control/relay', '/control/changes'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
         self.reply(200 if self.allowed() else 403, {})
 
     def do_POST(self):
-        self.connection.settimeout(15)
+        self.connection.settimeout(70 if self.path == '/control/changes' else 15)
         if not self.allowed() or not hmac.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.server.token):
             return self.reply(403, {'error': 'Control authentication or endpoint rejected'})
         length = self.headers.get('Content-Length', '')
@@ -1247,6 +1315,11 @@ class Handler(BaseHTTPRequestHandler):
                 value = history_detail(self.server.workspace, payload)
             elif self.path == '/control/relay':
                 value = relay_command(self.server.workspace, payload)
+            elif self.path == '/control/changes':
+                if set(payload) - {'file_key', 'page_id', 'cursor', 'timeout'} or not {'file_key', 'page_id', 'timeout'} <= set(payload):
+                    raise ValueError('Exact change query fields required')
+                value = change_query(self.server.workspace, payload['file_key'], payload['page_id'],
+                                     cursor=payload.get('cursor'), timeout=payload['timeout'])
             elif self.path == '/control/result-large':
                 value = result(self.server.workspace, payload, large_body_bytes=int(length))
             else:
@@ -1282,13 +1355,18 @@ def serve(root):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    for name in ('enable', 'serve', 'run', 'status', 'context', 'profile'):
+    for name in ('enable', 'serve', 'run', 'status', 'context', 'profile', 'changes'):
         command = commands.add_parser(name)
         command.add_argument('--workspace', type=Path, required=True)
         if name == 'enable':
             command.add_argument('--port', type=int, required=True)
         elif name == 'status':
             command.add_argument('--id')
+        elif name == 'changes':
+            command.add_argument('--file-key', required=True)
+            command.add_argument('--page-id', required=True)
+            command.add_argument('--cursor', help='JSON resume cursor returned by a previous changes query')
+            command.add_argument('--timeout', type=float, default=0, help='Long-poll up to 60 seconds for new changes')
         elif name == 'profile':
             command.add_argument('action', choices=('get', 'set', 'status'))
             command.add_argument('--plan', choices=sorted(PROFILE_PLANS))
@@ -1308,6 +1386,8 @@ def main(argv=None):
             command.add_argument('--language')
             command.add_argument('--include-text', action='store_true')
             command.add_argument('--geometry-node-id', action='append', dest='geometry_node_ids')
+            command.add_argument('--inspect-node-id', action='append', dest='inspect_node_ids')
+            command.add_argument('--field', action='append', dest='inspect_fields', choices=sorted(relay_view.INSPECT_FIELDS))
             command.add_argument('--execution-id')
             command.add_argument('--state-id')
             command.add_argument('--no-wait', action='store_true', help='Return after queueing on a compatible running server')
@@ -1323,6 +1403,12 @@ def main(argv=None):
             value = status(args.workspace, args.id)
         elif args.command == 'context':
             value = relay_request(args.workspace, 'context')
+        elif args.command == 'changes':
+            cursor = json.loads(args.cursor) if args.cursor else None
+            if not 0 <= args.timeout <= 60:
+                raise ValueError('Changes timeout must be between 0 and 60 seconds')
+            value = change_request(args.workspace, args.file_key, args.page_id,
+                                   cursor=cursor, timeout=args.timeout)
         elif args.command == 'profile':
             if args.action == 'get':
                 value = relay_request(args.workspace, 'profile-get')
@@ -1342,6 +1428,8 @@ def main(argv=None):
                         value = relay_request(args.workspace, 'profile-status', request_id=value['request_id'])
         else:
             viewer_options = {}
+            if args.operation != 'selection-info' and (args.inspect_node_ids or args.inspect_fields):
+                raise ValueError('Property reads require selection-info')
             if args.operation not in CAROUSEL_OPERATIONS and (args.execution_id is not None or args.state_id is not None):
                 raise ValueError('Carousel flags do not match the selected operation')
             if args.operation == 'select-node':
@@ -1356,6 +1444,8 @@ def main(argv=None):
                     raise ValueError('Geometry-only selection-info cannot include text')
                 viewer_options = {'include_text': args.include_text}
                 if args.geometry_node_ids is not None: viewer_options['geometry_node_ids'] = args.geometry_node_ids
+                if args.inspect_node_ids: viewer_options['inspect_node_ids'] = args.inspect_node_ids
+                if args.inspect_fields: viewer_options['fields'] = args.inspect_fields
             elif args.operation == 'viewer-history':
                 if args.node_id is not None or args.language is not None or args.include_text or args.geometry_node_ids:
                     raise ValueError('Viewer flags do not match viewer-history')

@@ -729,6 +729,10 @@ node tools/alignment_audit.mjs --url http://127.0.0.1:8893/ \
 
 `delta`는 대상 좌표에서 기준 좌표를 뺀 값입니다. 의도한 간격이 8px라면 `expectedOffset`을 8로 지정합니다. 실측 10px의 편차(`deviation`)는 +2px입니다. 허용 오차는 `tolerance`로 정합니다. 정렬 검사의 종료 코드는 통과 0, 측정된 편차 1, 미확인 또는 실행 오류 2입니다. 1이나 2일 때는 해당 보고서와 오류를 먼저 확인합니다.
 
+글자나 SVG의 잉크 경계를 확인하려면 규칙 JSON 최상단에 `"measurement": "paint"`를 지정합니다. 예를 들어 **“현재 화면에서 같은 CSS 상자를 쓰는 두 레이블의 실제 잉크 끝선을 비교해 줘”**라고 요청할 수 있습니다. `paint` 모드는 웹 브라우저에서 지원하는 간단한 텍스트와 SVG만 측정합니다. 각 기준과 대상은 보이는 화면, 해당 요소를 숨긴 화면, 요소를 복원한 화면으로 캡처합니다. 대상 주변의 작은 화면 영역에서 숨기기 전후 픽셀 차이를 계산하고 복원 전후가 일치하는지 확인합니다. 배경·테두리가 있는 HTML, 비어 있거나 잘린 요소, 동적 요소, 화면 밖 요소와 지원하지 않는 노드는 미확인으로 남깁니다.
+
+보고서의 `rect`와 `boxRect`는 CSS 상자이고 `paintedRect`는 픽셀에서 관찰한 경계입니다. `delta`, `expectedOffset`, `deviation`, `tolerance`는 `paintedRect` 기준으로 판정합니다. 기본 모드의 보고서와 규칙 해시는 그대로 유지됩니다. 픽셀 변화는 측정 결과입니다. 눈에 보이는 균형이나 광학적 중심은 판단하지 않으며 `perceivedBalance`는 `not-assessed`로 기록합니다. 대상별 전·숨김·복원 PNG 경로도 보고서에 남습니다.
+
 Figma에서 ID를 아는 두 레이어는 선택을 바꾸지 않고 비교합니다. Codex가 현재 파일·페이지와 일치하는 `discover` 작업을 확인한 뒤 읽습니다.
 
 ```sh
@@ -748,6 +752,51 @@ python3 -B tools/figma_alignment.py check --receipt "$READBACK" --file-key "$FIL
 python3 -B tools/alignment_compare.py --before BEFORE/report.json --after AFTER/report.json \
   --same-screen --out alignment-review.html
 ```
+
+<a id="live-change-sync"></a>
+
+### 현재 Design 변경을 그래프에 동기화하기
+
+**“현재 열린 Figma Design 페이지 변경을 감시해. 상세 읽기와 그래프 미리보기를 알려 주고 적용은 하지 마.”**라고 요청하면 Codex가 감시 범위와 서명된 task revision을 확인합니다. 변경 수행자는 Figma 이벤트에 포함되지 않으므로 사람의 편집으로 추측하지 않습니다. 이 작업은 현재 페이지의 플러그인 listener, 같은 비공개 workspace의 control server와 watcher process를 필요로 합니다.
+
+먼저 같은 workspace에서 control server를 유지합니다. 대상 파일·페이지에서 등록된 Figma Flow 플러그인을 엽니다.
+
+```sh
+python3 -B tools/figma_control.py serve --workspace "$WORKSPACE"
+```
+
+두 번째 터미널에서 고정된 `discover` 작업으로 노드 세부 읽기를 준비합니다. 전체 graph preview에는 고정된 `discover` 또는 `sync` 읽기 작업과 현재 graph, pairing, 생성한 web module 경로를 연결합니다.
+
+```sh
+python3 -B tools/figma_follow.py \
+  --workspace "$WORKSPACE" --file-key "$FILE_KEY" --page-id "$PAGE_ID" \
+  --state-dir "$FOLLOW_STATE" \
+  --inspect-task "$DISCOVER_KEY" --inspect-revision "$DISCOVER_REV" \
+  --read-task "$SYNC_KEY" --revision "$SYNC_REV" \
+  --graph "$GRAPH" --pairing "$PAIRING" --web-module "$WEB_MODULE"
+```
+
+이 명령은 이벤트 receipt와 현재 값을 다시 읽은 graph preview를 private state directory에 저장합니다. `--state-dir`에는 subscription마다 새 private 경로를 사용합니다. 같은 설정으로 재시작할 때 같은 경로를 다시 써야 cursor를 이어받습니다. 명령은 `watching`, `offline`, `listener-unavailable` 상태를 출력합니다.
+
+`latest.json`은 자동 세부 읽기를 수행한 최근 최대 256개 노드 값을 보여줍니다. node ID 하나만 보려면 `python3 -B tools/figma_follow.py latest --state-dir "$FOLLOW_STATE" --node-id "$NODE_ID"`를 실행합니다. 값이 없으면 미관측 상태이므로 새 `discover` 읽기가 필요합니다. 수신 공백이나 cursor epoch 변경은 기존 cache를 비웁니다. gap 뒤에는 새 세부 읽기 결과만 cache를 다시 채울 수 있습니다.
+
+`--inspect-task`는 최대 20개 변경 노드에 대해 허용된 필드만 다시 읽습니다. 텍스트는 기본 제외입니다. 텍스트 내용을 private readback에 포함해도 된다고 별도로 요청한 경우에만 `--include-text`를 추가합니다. `--read-task`는 전체 현재 상태를 graph pairing과 비교합니다. 그 readback은 편집 직전의 값이나 변경 수행자를 입증하지 않으며 이벤트 이후의 추가 편집을 포함할 수 있습니다.
+
+로컬 graph와 web module 적용을 따로 요청받으면 감시 명령에 `--apply-clean`을 추가합니다. 이벤트의 node·property 증거가 graph update와 연결되고 수신 공백, 미지원 변경, binding repair, graph hash 편차, web module 편차가 없어야 적용됩니다. 적용은 Figma 파일에 쓰지 않습니다. pairing baseline은 자동 갱신하지 않으므로 별도 재검토와 pairing이 필요합니다.
+
+현재 Codex thread에 알림을 보내기로 사용자가 요청하면 같은 thread에서 감시 명령에 `--notify-current-chat`을 추가합니다. `--resume-chat`은 명시적으로 요청된 경우에만 함께 추가합니다. 이 경로는 count와 제한된 속성 이름, private receipt 경로만 queue합니다. `queued`는 local queue가 접수했다는 뜻이고 모델이 메시지를 읽거나 처리했다는 뜻은 아닙니다. webhook과 Figma 계정 작업을 사용하지 않습니다.
+
+현재 구현은 플러그인에서 약 80ms 뒤 event batch를 flush하고 watcher에서 약 350ms 편집 묶음을 기다립니다. 한 private run에서 opacity를 100%에서 92%로, 이어서 100%로 되돌린 변경을 각각 약 0.56초에 기록했습니다. 자동 세부 읽기는 복원된 값을 `1.0`으로 확인했습니다. 별도 검증에서 임시 idle Codex thread는 `--resume-chat` 뒤 재개되어 완료됐고, busy current thread는 현재 작업을 중단하지 않고 알림을 queue했습니다. 이 관찰은 subsecond 전달 SLA가 아닙니다. `queued`는 모델 소비 확인이 아닙니다. 사용자 플러그인, Desktop, OS 절전과 local Codex daemon의 지속 동작을 보장하지 않습니다.
+
+`$FOLLOW_STATE`는 감시 시작 때 지정한 같은 경로여야 합니다. 상태를 확인하고 종료를 요청합니다. `stop-requested`가 나오면 watcher가 종료한 뒤 `stopped`를 확인합니다.
+
+```sh
+python3 -B tools/figma_follow.py status --state-dir "$FOLLOW_STATE"
+python3 -B tools/figma_follow.py stop --state-dir "$FOLLOW_STATE"
+python3 -B tools/figma_follow.py status --state-dir "$FOLLOW_STATE"
+```
+
+이벤트 receipt, native detail, 전체 readback, graph preview와 `latest.json`은 서로 다른 근거입니다. gap 또는 listener outage가 있으면 최신 읽기와 검토를 거칩니다. [기능 요구사항과 한계](../specs/live-change-sync/spec.md)
 
 ## Figma Flow 브라우저 접근
 

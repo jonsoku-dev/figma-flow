@@ -57,6 +57,11 @@ ROUTES = [
     *(sdk(row['id'], '|'.join(row['aliases']), row['editorType'], row['description'], row.get('reviewGraph', False),
           row.get('workspaceMenu'), row.get('requiresFileKey', False))
       for row in design_recipes()),
+    feature('live-design-changes', 'figma edit sync|watch figma|live design changes|피그마 변경 감지|피그마 수정 감지|피그마 역동기화|피그마 변경 동기화|역방향 싱크', 'flow',
+            ['python3 -B tools/figma_control.py changes --workspace WORKSPACE --file-key FILE --page-id PAGE',
+             'python3 -B tools/figma_follow.py --workspace WORKSPACE --file-key FILE --page-id PAGE --inspect-task KEY --inspect-revision REV --notify-current-chat'],
+            ['Open the registered Design plugin on the target page. Notifications are bound to the receiving Codex thread.',
+             'After a gap, obtain fresh native values. Keep local-to-graph import reviewable unless clean paired publishing was explicitly enabled.']),
     feature('alignment-audit', 'alignment audit|check alignment|gridlines|정렬 검사|정렬 검수|기준선 검사|整列チェック', 'flow',
             ['For the registered viewer: python3 tools/relay_alignment.py --out NEW_DIR',
              'For a local Design source: node tools/alignment_audit.mjs --url LOCAL_URL --rules RULES.json --out NEW_DIR',

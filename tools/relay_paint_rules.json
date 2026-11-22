@@ -1,0 +1,18 @@
+{
+  "measurement": "paint",
+  "readySelector": ".relay-footer details[open] .relay-layers tbody tr:nth-child(2)",
+  "groups": [
+    {
+      "id": "context-icon-visible-center",
+      "axis": "x", "edge": "center", "tolerance": 0.5,
+      "anchor": ".relay-context-row:nth-last-child(3) svg",
+      "targets": [".relay-context-row:nth-last-child(-n+2) svg"]
+    },
+    {
+      "id": "context-value-visible-start",
+      "axis": "x", "edge": "start", "tolerance": 0.5,
+      "anchor": ".relay-context-row:nth-last-child(3) > strong",
+      "targets": [".relay-context-row:nth-last-child(-n+2) > strong"]
+    }
+  ]
+}

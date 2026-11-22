@@ -2,11 +2,13 @@
 
 [Codex 화면 정렬 검사와 인수 기준](alignment-audit/spec.md)
 
+[현재 Design 변경을 정본 그래프에 반영하는 live sync](live-change-sync/spec.md)
+
 [Codex 중심 중계·뷰어](codex-relay/spec.md) · [첫 실행과 로컬 환경 프로필](local-profile-init/spec.md) · [기능 판정 정책 그래프](../library/figma-profile/policy.json)
 
 [제품 헌법](../CONSTITUTION.md) · [Figma Design 전용 설계 및 인수 계약](design-specialization/spec.md)
 
-These feature folders register versioned requirements and acceptance relationships in the repository’s existing evidence graph format. Each folder contains a concise source excerpt, human requirements, a canonical `graph.json`, and a screen/action prose projection keyed by graph IDs. The graph is per feature/run and remains the only relationship inventory.
+These feature folders register versioned requirements and acceptance relationships in the repository’s existing evidence graph format. Each folder contains human-readable requirements and a canonical `graph.json`; source excerpts and screen/action prose projections are included when the feature needs them. The graph is per feature/run and remains the only relationship inventory.
 
 | Feature | Requirements | Acceptance criteria | Status boundary |
 | --- | --- | --- | --- |
@@ -19,6 +21,7 @@ These feature folders register versioned requirements and acceptance relationshi
 | [Pre-Figma Quality Review](pre-figma-quality/spec.md) | `REQ-QUALITY-01`–`REQ-QUALITY-05` | `AC-QUALITY-01`–`AC-QUALITY-06` | Three controlled fixture apps passed source/native geometry checks; utility warnings were reviewed and aesthetic production approval remains separate. |
 | [Workspace Activity](workspace-activity/spec.md) | `REQ-ACTIVITY-01`–`REQ-ACTIVITY-04` | `AC-ACTIVITY-01`–`AC-ACTIVITY-06` | Execution-linked history and the earlier native activity screen. The current registered viewer reports status and Codex presents the history. |
 | [Startup Freshness and Safe Update](startup-freshness/spec.md) | `REQ-UPDATE-01`–`REQ-UPDATE-06` | `AC-UPDATE-01`–`AC-UPDATE-08` | Loaded-runtime identity and explicit revision-checked retirement are covered separately from package installation/update/recovery. See executed verification. |
+| [Live Design change sync](live-change-sync/spec.md) | `REQ-LIVE-01`–`REQ-LIVE-05` | `AC-LIVE-01`–`AC-LIVE-08` | Source contract and one private event/queue observation are recorded. Figma actor attribution and continuous delivery guarantees remain unavailable. |
 
 The graphs follow the repository’s [evidence graph contract](../skills/figma-flow/references/graph-contract.md). The supplied request is the source for observed requirement nodes. No implementation, local test, browser, or Figma result is asserted by registration alone.
 

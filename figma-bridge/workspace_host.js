@@ -1138,8 +1138,12 @@ async function workspaceOnMessage(message) {
 }
 function workspaceInstallHomeListener() {
   figma.ui.onmessage = workspaceOnMessage;
+  if (typeof workspaceBindChangePage === 'function') workspaceBindChangePage();
   if (typeof figma !== 'undefined' && typeof figma.on === 'function') {
-    try { figma.on('currentpagechange', () => workspaceHandleScopeChange()); } catch (_) {}
+    try { figma.on('currentpagechange', () => {
+      if (typeof workspaceBindChangePage === 'function') workspaceBindChangePage();
+      workspaceHandleScopeChange();
+    }); } catch (_) {}
     if (workspaceRelayViewer) {
       try {figma.on('selectionchange', () => workspaceRelayViewerState());} catch (_) {}
       try {figma.on('currentpagechange', () => workspaceRelayViewerState());} catch (_) {}
