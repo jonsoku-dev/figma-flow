@@ -14,11 +14,25 @@ import tarfile
 import tempfile
 from urllib.parse import urlsplit
 
+def parse_options(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
+    parser.add_argument('command', choices=['check', 'ensure', 'native'])
+    parser.add_argument('--source', type=Path)
+    parser.add_argument('--authority')
+    parser.add_argument('--workspace', type=Path)
+    parser.add_argument('--figma-access', choices=['forbidden', 'allowed'], default='forbidden')
+    parser.add_argument('--pin')
+    parser.add_argument('--read-only', action='store_true')
+    return parser.parse_args(argv)
+
+
 if __name__ == '__main__':
     # Startup imports must not change the package whose bytes are verified below.
     sys.dont_write_bytecode = True
+    cli_options = parse_options()
 
 import figma_workspace as workspace
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'figma-flow-startup-v1'
@@ -416,16 +430,7 @@ def ensure(adapter, *, apply=True, figma_access='forbidden', workspace_path=None
     return result
 
 
-def main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
-    parser.add_argument('command', choices=['check', 'ensure', 'native'])
-    parser.add_argument('--source', type=Path)
-    parser.add_argument('--authority')
-    parser.add_argument('--workspace', type=Path)
-    parser.add_argument('--figma-access', choices=['forbidden', 'allowed'], default='forbidden')
-    parser.add_argument('--pin')
-    parser.add_argument('--read-only', action='store_true')
-    args = parser.parse_args(argv)
+def run_command(args):
     if args.command == 'native':
         if args.figma_access != 'allowed' or args.workspace is None:
             parser.error('native requires explicit allowed Figma access and workspace')
@@ -440,5 +445,9 @@ def main(argv=None):
     return 0
 
 
+def main(argv=None):
+    return run_command(parse_options(argv))
+
+
 if __name__ == '__main__':
-    raise SystemExit(main())
+    raise SystemExit(run_command(cli_options))

@@ -78,7 +78,8 @@ async function run(source){
         with tempfile.TemporaryDirectory() as directory:
             copied = Path(directory) / 'installation'
             copied.mkdir()
-            for folder in ('tools', 'figma-bridge', 'library'):
+            for folder in ('tools', 'figma-bridge', 'library', 'panel-ui/src', 'specs/workspace-activity',
+                           'skills/figma-flow/scripts', 'tests/fixtures'):
                 shutil.copytree(ROOT / folder, copied / folder,
                                 ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
             shutil.copy2(ROOT / 'plugin.json', copied / 'plugin.json')
