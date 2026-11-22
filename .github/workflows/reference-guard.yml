@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   guard:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -25,35 +25,36 @@ jobs:
           if node -e "process.exit(Number(require('./plugin.json').version.split('.')[0]) > 0 ? 0 : 1)"; then
             npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
             python -m pip install -r requirements-optional.txt -r library/figma-rest/requirements.txt
-            sudo apt-get update
-            sudo apt-get install -y pkg-config default-libmysqlclient-dev
-            python -m pip install --require-hashes --only-binary=:all: --no-binary=mysqlclient -r apps/little-hands/requirements.lock
+            brew install mysql@8.4 pkgconf
+            mysql_prefix="$(brew --prefix mysql@8.4)"
+            PKG_CONFIG_PATH="$mysql_prefix/lib/pkgconfig" python -m pip install --require-hashes --only-binary=:all: --no-binary=mysqlclient -r apps/little-hands/requirements.lock
             npm install --prefix "$RUNNER_TEMP/figma-api-tools" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@5.9.3
             echo "FIGMA_API_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/typescript.js" >> "$GITHUB_ENV"
             echo "FIGMA_SDK_TEST_TYPESCRIPT=$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/tsc.js" >> "$GITHUB_ENV"
             mkdir -p "$RUNNER_TEMP/figma-flow-codex"
-            target=x86_64-unknown-linux-musl
+            target=aarch64-apple-darwin
             archive="$RUNNER_TEMP/figma-flow-codex/codex.tar.gz"
             curl --fail --location --retry 3 --output "$archive" "https://github.com/openai/codex/releases/download/rust-v0.165.0/codex-${target}.tar.gz"
-            echo "be635d3486a5bd060d0fff582ae6d30160280c31344dd85719707fa920e187f0  $archive" | sha256sum --check -
+            echo "78ea9c178d2dc8fde71d6494df3b9eab902fd6d6de0a84e65234220d93bb6144  $archive" | shasum -a 256 -c -
             tar -xzf "$archive" -C "$RUNNER_TEMP/figma-flow-codex" "codex-${target}"
             mv "$RUNNER_TEMP/figma-flow-codex/codex-${target}" "$RUNNER_TEMP/figma-flow-codex/codex"
             echo "$RUNNER_TEMP/figma-flow-codex" >> "$GITHUB_PATH"
-            mysql_id=$(docker run --detach --rm --publish '127.0.0.1::3306' \
-              -e MYSQL_ROOT_HOST=% -e MYSQL_ROOT_PASSWORD=disposable-ci-only \
-              mysql:8.4.11@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70 --log-bin-trust-function-creators=ON)
-            echo "LH_CI_MYSQL_ID=$mysql_id" >> "$GITHUB_ENV"
+            fixture="$RUNNER_TEMP/figma-flow-mysql"
+            mkdir "$fixture"
+            echo "LH_CI_MYSQL_PREFIX=$mysql_prefix" >> "$GITHUB_ENV"
+            echo "LH_CI_MYSQL_SOCKET=$fixture/mysql.sock" >> "$GITHUB_ENV"
+            mysql_port=$(python -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1]); s.close()')
+            "$mysql_prefix/bin/mysqld" --no-defaults --initialize-insecure --datadir="$fixture/data"
+            "$mysql_prefix/bin/mysqld" --no-defaults --daemonize --datadir="$fixture/data" \
+              --socket="$fixture/mysql.sock" --pid-file="$fixture/mysql.pid" --log-error="$fixture/mysql.log" \
+              --bind-address=127.0.0.1 --port="$mysql_port" --mysqlx=OFF --log-bin-trust-function-creators=ON
+            "$mysql_prefix/bin/mysql_tzinfo_to_sql" /usr/share/zoneinfo |
+              "$mysql_prefix/bin/mysql" --no-defaults --protocol=socket --socket="$fixture/mysql.sock" --user=root mysql
+            "$mysql_prefix/bin/mysql" --no-defaults --protocol=socket --socket="$fixture/mysql.sock" --user=root \
+              -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'disposable-ci-only';"
             echo "FIGMA_FLOW_MYSQL_TEST_HOST=127.0.0.1" >> "$GITHUB_ENV"
-            mysql_port=$(docker port "$mysql_id" '3306/tcp')
-            echo "FIGMA_FLOW_MYSQL_TEST_PORT=${mysql_port##*:}" >> "$GITHUB_ENV"
+            echo "FIGMA_FLOW_MYSQL_TEST_PORT=$mysql_port" >> "$GITHUB_ENV"
             echo "FIGMA_FLOW_MYSQL_TEST_PASSWORD=disposable-ci-only" >> "$GITHUB_ENV"
-            for attempt in {1..40}; do
-              if docker exec "$mysql_id" mysqladmin ping --protocol=tcp --host=127.0.0.1 --silent; then
-                break
-              fi
-              sleep 2
-            done
-            docker exec "$mysql_id" mysqladmin ping --protocol=tcp --host=127.0.0.1 --silent
           fi
       - name: Verify manifest projection and release gate behavior
         run: |
@@ -80,6 +81,15 @@ jobs:
           fi
           python -B tools/major_release.py --if-major --ref "$RELEASE_REF" "${base_args[@]}" --archive "$RUNNER_TEMP/dist-check.zip"
           python -B tools/reference_distribution_guard.py --target-zip "$RUNNER_TEMP/dist-check.zip" --format text
-      - name: Remove the run-owned archive test database container
-        if: always() && env.LH_CI_MYSQL_ID != ''
-        run: docker stop "$LH_CI_MYSQL_ID"
+          shasum -a 256 "$RUNNER_TEMP/dist-check.zip"
+      - name: Remove the run-owned archive and test database
+        if: always()
+        run: |
+          rm -f "$RUNNER_TEMP/dist-check.zip"
+          if [[ -n "$LH_CI_MYSQL_SOCKET" && -S "$LH_CI_MYSQL_SOCKET" ]]; then
+            MYSQL_PWD="disposable-ci-only" "$LH_CI_MYSQL_PREFIX/bin/mysqladmin" --no-defaults \
+              --protocol=socket --socket="$LH_CI_MYSQL_SOCKET" --user=root shutdown ||
+              "$LH_CI_MYSQL_PREFIX/bin/mysqladmin" --no-defaults --protocol=socket \
+                --socket="$LH_CI_MYSQL_SOCKET" --user=root shutdown
+          fi
+          rm -rf "$RUNNER_TEMP/figma-flow-mysql"

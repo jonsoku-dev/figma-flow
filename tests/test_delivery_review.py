@@ -190,13 +190,13 @@ class DeliveryReviewTests(unittest.TestCase):
         self.assertIn('python -m pip install --require-hashes',job)
         self.assertIn('python -B manage.py test booking.tests config.tests',job)
 
-    def test_major_linux_sandbox_cli_is_verified_before_install_and_path_update(self):
+    def test_major_native_sandbox_cli_is_verified_before_install_and_path_update(self):
         import hashlib
         import io
         import tarfile
         self.copy_graph()
         fixture=self.tmp/'cli.tar.gz'
-        record=self.graph['inputs']['sandboxCli']['linuxRelease']
+        record=self.graph['inputs']['sandboxCli']['artifacts']['arm64']
         executable='codex-'+record['target']
         data=b'#!/bin/sh\nexit 0\n'
         with tarfile.open(fixture,'w:gz') as archive:
@@ -205,8 +205,11 @@ class DeliveryReviewTests(unittest.TestCase):
         record['sha256']=hashlib.sha256(fixture.read_bytes()).hexdigest()
         (self.tmp/delivery.GRAPH).write_text(json.dumps(self.graph))
         source=delivery.templates(self.tmp)[Path('.github/workflows/reference-guard.yml')]
+        self.assertIn('runs-on: macos-15',source)
+        self.assertIn('brew install mysql@8.4 pkgconf',source)
+        self.assertIn('--bind-address=127.0.0.1',source)
         start=source.index('            mkdir -p "$RUNNER_TEMP/figma-flow-codex"')
-        snippet=source[start:source.index('            mysql_id=',start)]
+        snippet=source[start:source.index('            fixture=',start)]
         bindir=self.tmp/'fixture-bin';bindir.mkdir()
         fetch=bindir/'curl'
         fetch.write_text('#!/bin/sh\nwhile [ "$1" != "--output" ]; do shift; done\ncp "$LOCAL_ARCHIVE" "$2"\n')

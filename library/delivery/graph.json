@@ -24,10 +24,6 @@
           "target": "x86_64-apple-darwin",
           "sha256": "f46451741936ebdf5201b8becd0820a41be2a01d271b98703e0d9a1670c99993"
         }
-      },
-      "linuxRelease": {
-        "target": "x86_64-unknown-linux-musl",
-        "sha256": "be635d3486a5bd060d0fff582ae6d30160280c31344dd85719707fa920e187f0"
       }
     },
     "panelInstall": "npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund",
@@ -35,7 +31,8 @@
       "root": "apps/little-hands",
       "user": "root",
       "disposablePassword": "disposable-ci-only",
-      "deploymentSource": "apps/little-hands/config/deployment.json"
+      "deploymentSource": "apps/little-hands/config/deployment.json",
+      "mysqlFormula": "mysql@8.4"
     }
   },
   "workflows": {
