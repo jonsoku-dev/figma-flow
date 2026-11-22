@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "1831c0ae08b1c35d43ad664416f7645b3a518ad0f1666694d9ac373e651734a3",
+  "surfaceFingerprint": "56c5addba861fe5392d74950d348a1c217fb42cf35e61f82fec4a00640b06dbf",
   "checks": [
     {
       "test": "tests/test_graph_input_boundary.py",
@@ -23,7 +23,7 @@
     {
       "test": "tests/test_maintenance_contract.py",
       "case": "MaintenanceContractTests.test_rejects_raw_json_decoders_under_direct_and_module_aliases",
-      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "testSha256": "92ea5b009680db98848bff45b9a591d61165daa1f0f55160271ced1abd83a109",
       "covers": [
         "tools/graph_document.py",
         "tools/maintenance-contract.json",

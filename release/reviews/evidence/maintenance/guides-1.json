@@ -1,11 +1,11 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "e0b86ca087ea7ebfbd2a4ffada18358fec13439ad50bcdc746160e60ac887dba",
+  "surfaceFingerprint": "8126009c3d22e23f96a866ae7d753a855109be7316738105ba73d47165589c3e",
   "checks": [
     {
       "test": "tests/test_maintenance_contract.py",
       "case": "MaintenanceContractTests.test_ci_and_maintainer_handoff_use_the_declared_evidence_profiles",
-      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "testSha256": "92ea5b009680db98848bff45b9a591d61165daa1f0f55160271ced1abd83a109",
       "covers": [
         "docs/maintenance-verification.md",
         "CONTRIBUTING.md"
@@ -17,7 +17,7 @@
     {
       "test": "tests/test_maintenance_contract.py",
       "case": "MaintenanceContractTests.test_record_retains_failed_step_and_refuses_output_reuse",
-      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "testSha256": "92ea5b009680db98848bff45b9a591d61165daa1f0f55160271ced1abd83a109",
       "covers": [
         "docs/maintenance-verification.md",
         "CONTRIBUTING.md"

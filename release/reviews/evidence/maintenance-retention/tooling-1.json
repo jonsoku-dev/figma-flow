@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "56c5addba861fe5392d74950d348a1c217fb42cf35e61f82fec4a00640b06dbf",
+  "checks": [
+    {
+      "test": "tests/test_verification_retention.py",
+      "case": "VerificationRetentionTests.test_owned_scratch_is_cleaned_on_success_failure_and_timeout",
+      "testSha256": "ed692e30e1814386d2026852db0cc1ec0c3b4d96321f968834c13465a6f722a8",
+      "covers": [
+        "tools/maintenance.py",
+        "tools/maintenance-contract.json"
+      ],
+      "authority": "tools/maintenance-contract.json#/artifactRetention",
+      "assertion": "Completed, failed and timed-out runs remove their scratch files and record bounded results and screen digests.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_verification_retention.py",
+      "case": "VerificationRetentionTests.test_ui_keeps_only_screenshot_fingerprints",
+      "testSha256": "ed692e30e1814386d2026852db0cc1ec0c3b4d96321f968834c13465a6f722a8",
+      "covers": [
+        "tools/maintenance.py",
+        "tools/maintenance-contract.json"
+      ],
+      "authority": "tools/maintenance-contract.json#/artifactRetention",
+      "assertion": "Completed, failed and timed-out runs remove their scratch files and record bounded results and screen digests.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

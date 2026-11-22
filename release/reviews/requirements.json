@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "requirements",
-  "fingerprint": "ec75904036529092ffc2d43fabcdbd061d0857934e3f946e6bd6b3cead540960",
+  "fingerprint": "b9ed49b16879728a44205e9c4fe8dfdfc925eadcb31244503b5ac0f3ab48dc5a",
   "openFindings": [],
   "bindings": [
     {
@@ -13,7 +13,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-01.json",
-          "sha256": "1acf5dbf93413b8d935d3d10b00e351bbc4ad1fbaf7e9c397fc88c21a784150c"
+          "sha256": "0f4999336e02885a8f3e0df9ff455b2d27860d07d8d1f47a78f46db0d1c3aafc"
         }
       ]
     },
@@ -26,7 +26,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-02.json",
-          "sha256": "4dc890218182a3e40ca143c2df232bea09fb95af2731351917317e8419ff6d14"
+          "sha256": "b50be07dbbf35b6be4818d720162dd0bbb153ec76b726a644354429951850958"
         }
       ]
     },
@@ -39,7 +39,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-03.json",
-          "sha256": "c4d686b45e911f9b5862f086064ac815dca70cfc2648af6fcacfc505a983c6d9"
+          "sha256": "ec42bdeefaed930401efe13713697df9b4d4968f7e9e5bbc0cfba92b83e3d26d"
         }
       ]
     },
@@ -52,7 +52,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-04.json",
-          "sha256": "313ad520b016df41e2a3c095d6b7a45b6d3e7f6e8ee02fe38b0c63cf24541c9e"
+          "sha256": "3d7977e79ad83f76c0be4c555a5f6784cc30324b625b987d3bd12dd4a51d8720"
         }
       ]
     },
@@ -65,7 +65,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-05.json",
-          "sha256": "68d7f16a2846c3c4d727120d7b87224938de1da0fbdc7115c3c4ebf105addf1c"
+          "sha256": "148cf3ebfc22f76f2079e41dd5442388cefdabf5f282e3679a6a4ebcea847d6f"
         }
       ]
     },
@@ -78,7 +78,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-06.json",
-          "sha256": "7422d2d914989f7a3ee3793183cb4147c699b201ddd6d976f5caa45ea2ed6d02"
+          "sha256": "973929636d5f39dffff3fc36fe1c4f8aa315abdb3fda4220da90d059a4314344"
         }
       ]
     },
@@ -91,7 +91,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-07.json",
-          "sha256": "e46dffcf24d41f156da699c509757c823defe8e6876718c9b183ed38e94a807a"
+          "sha256": "28b0cc64c0593d87fe91aa79d68d4225c88a63f0ff1ea417fc84a8f7f3c8bded"
         }
       ]
     },
@@ -104,7 +104,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-08.json",
-          "sha256": "813085f19d225f1615e893d7c92f119bf3041a5dcc155fdc004567403e38ca74"
+          "sha256": "f2e4a274504e53e678ca22f9186a88711a2111320b989a00356b8fdcd7701c24"
         }
       ]
     },
@@ -117,7 +117,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-09.json",
-          "sha256": "1b1b316f022cc6d509cb79679ecf4c358a1e264b06891b6ce617337c5b2ff220"
+          "sha256": "7371bcfd586ff9d740d8facec6e5b9a5954fef51569de9092073a4e6ce61d648"
         }
       ]
     },
@@ -130,7 +130,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-10.json",
-          "sha256": "c6e300bdf464dd3cd393a18c37d4c5447fec536ddd9d4004b5302214e23ca4b2"
+          "sha256": "898b7443927556332ea02b1b6cc38b2582d02855d309d65122a36245f430bef3"
         }
       ]
     },
@@ -143,7 +143,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-11.json",
-          "sha256": "a65458efbd3c5d70ba8efb61989d424688f596a8c8fdf7be6fde04eed3660cc5"
+          "sha256": "2cc0c6dbe4353f8c242655e9fad58652993db0fc3eca0bdc335f5a79f1c675ff"
         }
       ]
     },
@@ -156,7 +156,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-12.json",
-          "sha256": "7bb5aacd0517678bf06d0d24935fd88505463e658b3520c1273d60d60b6319a2"
+          "sha256": "e2adebc10e425af6b6d2e5823d903ecbbe593cf407a0023e4e139748c9441f83"
         }
       ]
     },
@@ -169,7 +169,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-13.json",
-          "sha256": "cdde66b7c4500d9f6d5d47588126530d1727ab9710e094a7c5223637aef73716"
+          "sha256": "e35d30bd66e4ef9d217693886b72f84aef0d0144d6e836bbd8b213d3e07b3da9"
         }
       ]
     },
@@ -182,7 +182,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-14.json",
-          "sha256": "b1587df5d774bbdbea3ca8bf8324102fe11a0e834f68a285c5044522b12ba28a"
+          "sha256": "7990bc12f6a6eede2d5a10932e3dee2bfc8fe80a8d28439c751a80666c699b97"
         }
       ]
     },
@@ -195,7 +195,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-15.json",
-          "sha256": "113e8491bce0dfea71f1b598f347876d9f38679a6d77c12898357bebf0543506"
+          "sha256": "fffdb5587837c0138e13474b224a9e2e319a8ce5e42d5a62cbd931c5af065f97"
         }
       ]
     },
@@ -208,7 +208,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-16.json",
-          "sha256": "d76bf69bb6d2fa8f48b65229c8277da670d763aa174c88f93f8ff9f21cc800df"
+          "sha256": "6a49e577a2b85fccbeaed9d901897ddedcca69b4742c77fae09665f5941877ae"
         }
       ]
     },
@@ -221,7 +221,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-17.json",
-          "sha256": "ac7a06bd227486e7c70521158769e71ba4bea29b6957edc35b4db66282e510f3"
+          "sha256": "1ad852f355166a23413ffa1c11ba235d3e735c55c95f1974e737050bb9297bf9"
         }
       ]
     },
@@ -234,7 +234,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-18.json",
-          "sha256": "6c11c38c14cd91fc71773b5d3eef205078e524034fd62b8ba3c7bc83e09257d7"
+          "sha256": "4f79f7a69220f0e9aaa064a5c728ec3bd4e5ecb80db53eb66139ac335c88f4a6"
         }
       ]
     },
@@ -247,7 +247,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-19.json",
-          "sha256": "c951f4208a4723b87f59ab311d2d2dd14bc9f387476f4cb652d380be995d37f4"
+          "sha256": "7b01cfc9718d79d1653a88a07d4eb959160287e686ce022a2ee3a29d267e85cb"
         }
       ]
     },
@@ -260,7 +260,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-20.json",
-          "sha256": "8cd5321178755c399f0a05067444fd8891cc8317bcf8135a3706ca7213da2dff"
+          "sha256": "2fc4ca8601f930ddf19051a9437371457796c448ea663b48caceb24b219d9a8c"
         }
       ]
     },
@@ -273,7 +273,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-21.json",
-          "sha256": "a5bfdd18d44fe01cc44df65ba9ffd9f0bc00c7a70ccdf6743e03625718f5d300"
+          "sha256": "8b21960137fc8f93a1c63f9ecf376a050fdf13046266838687cf1844069afd04"
         }
       ]
     },
@@ -288,7 +288,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-22.json",
-          "sha256": "604aaa09c3acaf8c621d0e262ff424ca3b93c53294a22ca6dd66b27e8e0651d5"
+          "sha256": "3e15c181753d4b7c0cac7f60749468e92486a19f2d28be24e312597fa7f6efc5"
         }
       ]
     },
@@ -301,7 +301,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-23.json",
-          "sha256": "14a4be96739d54707380edf2ed9c7b0e72be1283eb31b99e5be2a1015dcaaea8"
+          "sha256": "ab54dc57460222517b89d192d26ec3aa9e58041c0a0de556bfd56e50ea17340d"
         }
       ]
     },
@@ -314,7 +314,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-24.json",
-          "sha256": "914488ad86196e374200fad7361a5b1e564ccad9c3925522e5ba9d10d1493462"
+          "sha256": "e549b69ae466364bd490c4fff02a1d8b243118e26e4076bd12aa12c9d0f7876d"
         }
       ]
     },
@@ -327,7 +327,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-25.json",
-          "sha256": "084c1a38edefc3c8ecbc5036812681ba08dcbc678e913e99f80648147b5538e7"
+          "sha256": "de5e91ae9b91184b84dae015a644109582797da0443457e500e1881151910341"
         }
       ]
     },
@@ -340,7 +340,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-26.json",
-          "sha256": "22fa90a3199e11dd7fb7c2c768031b6bdd4c6b576b4e6108c2988bb41032b6a6"
+          "sha256": "a6fe14b18dd09a88d5e23af00aa35a95f7336a95b90990d3061bd8f11a4f6706"
         }
       ]
     },
@@ -353,7 +353,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-27.json",
-          "sha256": "2846ce06776d6e3d2fa388f42b665e6ea776ba0803d293f8e3652d740c3fec5e"
+          "sha256": "72fa48722812e79c77ba4d7c73fbaea94bf2bd41ed2745588d88297ec9cfcdd1"
         }
       ]
     },
@@ -368,7 +368,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-28.json",
-          "sha256": "c7618c9a2d4405ba9b7205a2876be5b2156328e71cabbd25de4b2d3aa837715e"
+          "sha256": "364f5819306ef31fbf35b603276d43a2e9ae155a2ae2f3ac515c1decf663e2bf"
         }
       ]
     },
@@ -381,7 +381,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-29.json",
-          "sha256": "3e7b098afea86a10b0969258d1fbda99366cca2d9239c9379aa0ef5e087e371c"
+          "sha256": "48e36d059d366fe474ba96447f676ead94702bd4d0757c449d4a641d49eb6bc3"
         }
       ]
     },
@@ -396,7 +396,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-30.json",
-          "sha256": "c5f25c734f3369001cbd05389c7e180d9d8c11f05446a4599705b9ad69b56d73"
+          "sha256": "86eb83757b855df7d8ae8b03831b1020b5bbe5a500517d582daffa29508cb13e"
         }
       ]
     },
@@ -409,7 +409,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-31.json",
-          "sha256": "e642bdc341edff7aac476fcd0698f298f157a958cd4ad9e43d47382b9bcee694"
+          "sha256": "82f021c907021c7fa0d807f934186fb4d7fd90912ad17dd209e31db994d81f23"
         }
       ]
     },
@@ -422,7 +422,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-32.json",
-          "sha256": "4ef65347cf37e00f3cb3e725d44d3a51105d1bd89aa7ba8da61d087eebe513f5"
+          "sha256": "79913e1fad9ec5e6e2ea774f3d827fe411a0d2dff9b8cc351b345244eaa6cb9d"
         }
       ]
     },
@@ -437,7 +437,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-33.json",
-          "sha256": "f3c518ac203f2228a10995a7847454986ff7169730d394e59c15accbacdb7a4d"
+          "sha256": "9e23412d5b74f1472dfc35eb327076993e097da96401f2dedbfb2258d19846a3"
         }
       ]
     },
@@ -450,7 +450,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-34.json",
-          "sha256": "d6e6f2714b2f5049d849da09765ddf2c3ad30a75e95de4456073c4002f93e82f"
+          "sha256": "28ae9b60c909739701967ec6f613e49ce6e6889561ded47be6d3c32ecf5456f2"
         }
       ]
     },
@@ -465,7 +465,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-35.json",
-          "sha256": "34394778e829e9581c6372f75055fa87955b97f08903fce09e9bf6ab5fd32647"
+          "sha256": "ffd45bdd5c4cfd4579073e7577f120781bde90aec02302bf399a05d950e39a6c"
         }
       ]
     },
@@ -478,7 +478,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-36.json",
-          "sha256": "758373968d73ec7cdfe60392024528335acc98a72f8658ec9eb9225a5b1ecada"
+          "sha256": "c3fd9b47ff74d82ff9bde64c6296650f5752c09c5cfddb7b63629dd4b07228ea"
         }
       ]
     },
@@ -491,7 +491,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-37.json",
-          "sha256": "5bcf76a81cbfd4bd2270ada61384df36186a4c31bdf835f1ec4c03b763bb6b5e"
+          "sha256": "521a91d46b343deedfd7c38f77e9514731bf6aa8a293aaab9e1b6e3c4c1339cb"
         }
       ]
     },
@@ -504,7 +504,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-38.json",
-          "sha256": "a0b29aaa064062ed2f8a082fc06b565ad9de99d33c898d9229d5024eeca3a86b"
+          "sha256": "5b0cbdc502bff39a8980c92afe9a0dc2c79824fbe62cf1571d8cd57c901881a9"
         }
       ]
     },
@@ -519,7 +519,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-39.json",
-          "sha256": "4123dc6bc01b115f1c093c57b2466d5177d38217086da7131a4d5a5d37ec346d"
+          "sha256": "830485436fe389e079c227dda979ea509df00ea97f5bbd793ec5799f48b9ccb1"
         }
       ]
     },
@@ -532,7 +532,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-40.json",
-          "sha256": "ece51a6898ac7388d0896d9dca7b57bd305070a8146cbd96c5b5672bfb9c3fbb"
+          "sha256": "91b947f0e314fe1d531103a45348f788d3279c64db90777cb341f60a7c5b1a5f"
         }
       ]
     },
@@ -545,7 +545,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-41.json",
-          "sha256": "12dd4f8c838e83dee756e4a1ae832585babfbcd529efd6dd803a2d2532c6b99a"
+          "sha256": "ffa4b19faf73abe1594e677c9c7113be17ed14adab83e03af21a175ab63eff3b"
         }
       ]
     },
@@ -558,7 +558,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-42.json",
-          "sha256": "8c8ceb69c27e763085656c2486bb7a05818e9527d2b4d75afba7556ca0a2a9d4"
+          "sha256": "7f4cc7dd19c6ca8bbd0e1b175d2d9b98c147551d2edd015c40b5e86650d36f7c"
         }
       ]
     },
@@ -571,7 +571,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-43.json",
-          "sha256": "598dbe5b85e3303600a81299e0a0ec28db51f94190a81741d42d59942bc0e959"
+          "sha256": "442e75823a4b2335a2a098d79c91633eb5abfd002e5391e3bdd099fcedebfbec"
         }
       ]
     },
@@ -584,7 +584,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-44.json",
-          "sha256": "6e7745f39ed09707a960d399bb25f6dcca2622c01a4c275962fab86b530183a1"
+          "sha256": "948cf4c25d294c87e994696a9b66939ec61c9cedb1a45d34baf05709cd40ea87"
         }
       ]
     },
@@ -597,7 +597,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-45.json",
-          "sha256": "45c21ecd0a8bf454cd61673501c3ce40709ea66cb4e414abec21a24b8c78a0ed"
+          "sha256": "3949c4379167c7bb6b3f2876a0e3d034bb1c12ae5b5a4d652d7d0a07d4ec0372"
         }
       ]
     },
@@ -610,7 +610,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-46.json",
-          "sha256": "6ce6f368d6e245e18956e4d2f2fac6a02afd019e9dc3aee44a263faebbc69b10"
+          "sha256": "6d0e1876438b16da5912f67be5fca286deba4098dc88616ac5357a4e23e51b06"
         }
       ]
     },
@@ -623,7 +623,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-47.json",
-          "sha256": "f9f9b0853f79fa47ef17f01936c8576d7a52d9c23d21cb77d945a3ea250b1c2b"
+          "sha256": "8a75cedd495c55db1fe67b9a9b42220929b7f95a71511c0e9d271f09a97592c9"
         }
       ]
     },
@@ -637,7 +637,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-48.json",
-          "sha256": "f7c4197b3f73925281de68337115296831f50c4409746219d0c459a11b6a79f2"
+          "sha256": "d5570b671dda888f11ae8fef8689ad379a3c00bdc09d768714edfe5c80179929"
         }
       ]
     },
@@ -651,7 +651,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-49.json",
-          "sha256": "df6c883e40f07decc94d77eecebd1f3f5a9c5f198476b0f12b1451fee81ac8ac"
+          "sha256": "ae1e744d13d09077f5c98ae6acb64112fe1441592f993d316832f1c7086520ca"
         }
       ]
     },
@@ -664,7 +664,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-50.json",
-          "sha256": "dd6017021206c2c8ee069d6ab69c8e5d7e8bc2d4d51f0f34b12e450cf8609005"
+          "sha256": "8a5c278607a80ab863f5d7b955b6937f907b5d52bee7e71c1283cfc7df1a9a6e"
         }
       ]
     },
@@ -677,7 +677,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-51.json",
-          "sha256": "cfcc04a4942e1f728b1a2ee0b3aacfb425b2da490278d47765486b92b522cdbb"
+          "sha256": "1a5e88180c771883dbb886745f66c5697866aeab3a67bbda2ac0fc2cc36690d4"
         }
       ]
     },
@@ -690,7 +690,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-52.json",
-          "sha256": "167bd01c9b2060360311b98b40206f1136cdf90e9dc6a0852da5ebca70cc6d63"
+          "sha256": "1210b47de6dac0ada55243945a05a2248573b57fe3386eeedb7d0b38cd18e01e"
         }
       ]
     },
@@ -703,7 +703,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-53.json",
-          "sha256": "3117be5a0654a319f12ddc7f6bb71ed7dcdbeda6be3561fdba3d83591e6cb935"
+          "sha256": "17618e406071b47c7b64edcc2bb0309862fd3d8ad64dcbcea7bd7bdc9453bd3a"
         }
       ]
     },
@@ -716,7 +716,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-54.json",
-          "sha256": "5618965ec60d14cec06f6edca384e22a4d85dea7158e12c7524c915159e1311d"
+          "sha256": "f482d101f069bd361440d988aed73165c924d4e6a33e9c3d5c2b64516977c157"
         }
       ]
     },
@@ -729,7 +729,7 @@
       "witnesses": [
         {
           "path": "release/reviews/requirements-witness-55.json",
-          "sha256": "8f581fb52411a061e15e205cd2e3fc4033e03214b3285f19f83f26be964fb2c8"
+          "sha256": "b67cba9bd3944c99cec939c4faf5838b8ad78de2067c6cab7f6bc997e4b4bf65"
         }
       ]
     },
@@ -742,7 +742,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/requirements/paired-receipts.json",
-          "sha256": "dc10077cd9454c6f34820c5e70551fed055505f00c1e031c5001dc962cbde56e"
+          "sha256": "2b9bbd284c8eb354abc1a3200b3d4018b64a29eb20016dde5112226485a9665d"
         }
       ]
     },
@@ -756,7 +756,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/requirements/criterion-evidence.json",
-          "sha256": "f8e54fe6c530660ae53ee7265e1cb792319721605e8e43bf1465188b97c51605"
+          "sha256": "78eee59751b1e5c868da95bc699f9b2cf7bb91165319eccf561b74640ba94c2f"
         }
       ]
     },
@@ -770,7 +770,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/requirements/observed-tab-targets.json",
-          "sha256": "84846c6cb2d9e95d8d629dda9cd84a78aa164ea79f307d04ad268382100c6b75"
+          "sha256": "b7fede036a39aa809fc9d3d25c8c6d0c6e1bddabc3f7a3c1c49f5b3cedccb5bf"
         }
       ]
     },
@@ -783,7 +783,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/requirements/activity-contract.json",
-          "sha256": "ce0477c7ed22c8cf0dc4c4833bfd93ff1160147e0f892ebef302efed3204220c"
+          "sha256": "0a67c5c794a0bddbff7de50193900ae37dced91c8661c6bf22ac148d9a73ba60"
         }
       ]
     },
@@ -797,7 +797,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/requirements/historical-visual-scope.json",
-          "sha256": "e58983cf365a322b43e8df82b4130866a506a22cd3039d6669a8ea17c6913529"
+          "sha256": "3e4a3b4e5baa0f7cd2c1d0980327061626c2c2603a5fc6142482d3c9585c31b4"
         }
       ]
     },
@@ -810,7 +810,21 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance/requirements-1.json",
-          "sha256": "295b880c30c029fb294e8046e5a139ed2685ef59ab43231ed8702ad041ad8005"
+          "sha256": "5a96cee76774220fc65b9d1b4972e38ae96be6fea80b6609808b6f040a6e5d00"
+        }
+      ]
+    },
+    {
+      "files": [
+        "AGENTS.md",
+        "CONSTITUTION.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/검증 산출물의 수명",
+      "reason": "The constitutional retention policy is exercised by success, failure, timeout and visual capture cases.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/maintenance-retention/requirements-1.json",
+          "sha256": "c7febadceb3a12876e71d0e1606b8ea7c00200f1a8fdfd4808f9507465cfb6c6"
         }
       ]
     }

@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "8126009c3d22e23f96a866ae7d753a855109be7316738105ba73d47165589c3e",
+  "checks": [
+    {
+      "test": "tests/test_verification_retention.py",
+      "case": "VerificationRetentionTests.test_owned_scratch_is_cleaned_on_success_failure_and_timeout",
+      "testSha256": "ed692e30e1814386d2026852db0cc1ec0c3b4d96321f968834c13465a6f722a8",
+      "covers": [
+        "docs/maintenance-verification.md",
+        "CONTRIBUTING.md"
+      ],
+      "authority": "docs/maintenance-verification.md#/sections/검증 산출물 정리",
+      "assertion": "The documented compact receipt and temporary candidate paths match actual execution.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_verification_retention.py",
+      "case": "VerificationRetentionTests.test_ui_keeps_only_screenshot_fingerprints",
+      "testSha256": "ed692e30e1814386d2026852db0cc1ec0c3b4d96321f968834c13465a6f722a8",
+      "covers": [
+        "docs/maintenance-verification.md",
+        "CONTRIBUTING.md"
+      ],
+      "authority": "docs/maintenance-verification.md#/sections/검증 산출물 정리",
+      "assertion": "The documented compact receipt and temporary candidate paths match actual execution.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

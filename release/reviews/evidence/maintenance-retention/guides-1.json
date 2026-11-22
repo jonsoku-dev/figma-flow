@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "8126009c3d22e23f96a866ae7d753a855109be7316738105ba73d47165589c3e",
+  "checks": [
+    {
+      "test": "tests/test_maintenance_contract.py",
+      "case": "MaintenanceContractTests.test_audit_is_read_only_and_reports_rule_and_comment_locations",
+      "testSha256": "92ea5b009680db98848bff45b9a591d61165daa1f0f55160271ced1abd83a109",
+      "covers": [
+        "docs/maintenance-audit.md"
+      ],
+      "authority": "docs/maintenance-verification.md#/sections/저장소 진단",
+      "assertion": "The audit reports registered rule and candidate locations while preserving the source tree.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

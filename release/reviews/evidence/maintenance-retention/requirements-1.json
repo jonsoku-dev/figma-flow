@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "b9ed49b16879728a44205e9c4fe8dfdfc925eadcb31244503b5ac0f3ab48dc5a",
+  "checks": [
+    {
+      "test": "tests/test_verification_retention.py",
+      "case": "VerificationRetentionTests.test_owned_scratch_is_cleaned_on_success_failure_and_timeout",
+      "testSha256": "ed692e30e1814386d2026852db0cc1ec0c3b4d96321f968834c13465a6f722a8",
+      "covers": [
+        "AGENTS.md",
+        "CONSTITUTION.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/검증 산출물의 수명",
+      "assertion": "The constitutional retention policy is exercised by success, failure, timeout and visual capture cases.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_verification_retention.py",
+      "case": "VerificationRetentionTests.test_ui_keeps_only_screenshot_fingerprints",
+      "testSha256": "ed692e30e1814386d2026852db0cc1ec0c3b4d96321f968834c13465a6f722a8",
+      "covers": [
+        "AGENTS.md",
+        "CONSTITUTION.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/검증 산출물의 수명",
+      "assertion": "The constitutional retention policy is exercised by success, failure, timeout and visual capture cases.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

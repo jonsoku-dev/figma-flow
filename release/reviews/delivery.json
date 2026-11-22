@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "delivery",
-  "fingerprint": "b30d589242ad0037f63e6d8454729e5d61cec09284cc23d4aea68576293520b9",
+  "fingerprint": "49e48608a8c7602d400c5e968e731becac6c8bd8947a536f66f52eda8ae0f9e5",
   "openFindings": [],
   "bindings": [
     {
@@ -14,7 +14,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/1.json",
-          "sha256": "e3ef58db5e1ba33eb26523e223b54fd3eaa7731fa6631f2066bec22f4fee582c"
+          "sha256": "6d3056bdfc72f25fa8b5daae59c00f81ef10c0cd9358287de15709385d7ea7fc"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/2.json",
-          "sha256": "88c8f1f5fb429fb792cab346b9e4caeca5143aee69aa14be925d0b4a022f892c"
+          "sha256": "dab631d9cd392ee42b116a9e3aab5e99345b45c5eef17d7b21fc8dcd2164ae25"
         }
       ]
     },
@@ -41,7 +41,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/3.json",
-          "sha256": "23bcfb0929e1dd750caa7bf22e429a37d942e82b67b3b7549c3bbab5d39d0316"
+          "sha256": "74be7bbcfe46d2a81848f2ba76f483a8bd7286c6aa10c97bc175d1a08661d1b9"
         }
       ]
     },
@@ -55,7 +55,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/4.json",
-          "sha256": "a3f753a0bf99c74704d5c11101c8e209fde49cc49555448a9eec3d158bee6ade"
+          "sha256": "794d4aaf7c7044b990bfc4a9fa885b947e292868d8d9d613f4e0ab54f87f8c56"
         }
       ]
     },
@@ -69,7 +69,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/5.json",
-          "sha256": "c76c56c593acb839a597b5ff8d4acce72db35c71b020c579818bd7b4e1813442"
+          "sha256": "047e8ff82e4d3492b5809471694d7b424bebea440203b8584d921f4063929521"
         }
       ]
     },
@@ -83,7 +83,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/6.json",
-          "sha256": "541ed0fd8be4bc3dc36751fbe584d87e74713a4697336c4b86d0fdaf04b8cf62"
+          "sha256": "64175b0a5f0de2b061bb482120abc3cc44a1f02138960bee3458b08f92866ddd"
         }
       ]
     },
@@ -97,7 +97,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/7.json",
-          "sha256": "7f0c6548258e7b7915d83b8ccf3dbe82d718309e9a56583e23f3af338f21945e"
+          "sha256": "13622930b0525c3b454ae1f2fbbbd3b11dda8a4293c0b90f6b717cadd206d8fe"
         }
       ]
     },
@@ -112,7 +112,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/8.json",
-          "sha256": "1c846d72a88330ea13746a5a7921dbc9cb7d9b5cb08024ab50677264959550e5"
+          "sha256": "a0c6d6d210dee4d28f7812d9316f04c0099be799ee9f2d90ee7b091c05f6194f"
         }
       ]
     },
@@ -127,7 +127,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/9.json",
-          "sha256": "048cdc2a97a095a833b250e56be515c9d4fbc99b6900a16ab0054bb8e53fdded"
+          "sha256": "514cfe4f18a0000c4b6bf8cb94f9d2ad4f892910d20176f7522e3d039204ffd9"
         }
       ]
     },
@@ -142,7 +142,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/10.json",
-          "sha256": "eadf4e9d7cb314ec8b9e9450756eb00f73b10f46098f18474303a54dce1ece1d"
+          "sha256": "fa8168c748326a8ecbe59c3669bd373fc7bcb515c625debe0b7fae3a6018bf82"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/11.json",
-          "sha256": "479bf9d592edb74c3abf95eb6d6d604eeee741000f0558d801c3940808faacb5"
+          "sha256": "f581185b27b7bb13d5707b83c9909d9e63b227b870081d6e22512fe367fac104"
         }
       ]
     },
@@ -171,7 +171,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/12.json",
-          "sha256": "cfaec991791572af4edf49f01b3ffb7d5deb095df25ce9397d16de45f9c4676a"
+          "sha256": "8d043a466826d7792206f07d91dfa182b27a409c9acb400565f0f044ac77b8bb"
         }
       ]
     },
@@ -186,7 +186,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/delivery/13.json",
-          "sha256": "742d412ebb9600eb2afaa4fa58170d26c4eb87574fd463bfbf6c8b55d977a16c"
+          "sha256": "9983a28aaae79b571d14a89ea8f5880c81093b98052b3666fb7a8852bbef2f1a"
         }
       ]
     },
@@ -203,7 +203,22 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance/delivery-1.json",
-          "sha256": "525c052bc6bac62fc1268e89c929e5d1808622fda573385108bc6af4b4cd3d3f"
+          "sha256": "f9d15573f1fba8160504d52b6fc1275a0015996f3e933980ef8b5eeea41591e3"
+        }
+      ]
+    },
+    {
+      "files": [
+        ".github/pull_request_template.md",
+        ".github/workflows/test.yml",
+        "library/delivery/test.yml.in"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles/release",
+      "reason": "The release profile replays generated inputs and checks removal of verification-owned artifacts.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/maintenance-retention/delivery-1.json",
+          "sha256": "cf5345114aad3dc9944f08bda994af3d9aab6df7946c44aa8de33348a41d990b"
         }
       ]
     }

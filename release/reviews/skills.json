@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "skills",
-  "fingerprint": "4fd5f3724e9492e22e9bd751fc66b990ab43a218211da2257a537a274e8c24ac",
+  "fingerprint": "702c37ab605a69e608f921c1241b1b985b360814d567e6d8482d9dbe2e3c2d49",
   "status": "complete",
   "openFindings": [],
   "bindings": [
@@ -14,7 +14,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/01-01-skills-campaign-identity-SKILL-md.json",
-          "sha256": "3a40c1812b1e5d15b97ac8fd7a7c569d1c20d9f74a3b6a41c2dc3faa3e73af81"
+          "sha256": "57fd6b1a3d5f4c599823e18439950277a63edd0410e13120546cc035e608d1c6"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/01-02-skills-campaign-identity-SKILL-md.json",
-          "sha256": "7f8525b1ea0d74430b39c05bf5668fb2c9f3117e772614b7a6683af326ac8593"
+          "sha256": "c5aa100a432b40ade56b35f0fbb9662f18e89ad6251571475879349cd430a1f7"
         }
       ]
     },
@@ -40,7 +40,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/02-01-skills-figma-flow-SKILL-md.json",
-          "sha256": "357a07f33057b84d6b15d52320834a83b971f4a8b8eebbecf4dca5d05308f32c"
+          "sha256": "94cee124cb585e178de63496df405b7df7c43d4e20c37552de506895a2160284"
         }
       ]
     },
@@ -53,7 +53,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/02-02-skills-figma-flow-SKILL-md.json",
-          "sha256": "124aeb642332cc9a0641bdeb269216c41a630f43d66873704d0c613deb1d7a63"
+          "sha256": "665cb43cbec32c3d598466a8698ce412eaf42351ca92effcb4d579e766199084"
         }
       ]
     },
@@ -66,7 +66,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/02-03-skills-figma-flow-SKILL-md.json",
-          "sha256": "f331dfbde78bb97f7e7e12b02fba7215ac7fb59bc5953c68379a5a0b86873f6e"
+          "sha256": "31ec7b702f779ca7eb75ba5b8b26f773239e666b7cbbfdadfc076b4bfc98d164"
         }
       ]
     },
@@ -79,7 +79,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/02-04-skills-figma-flow-SKILL-md.json",
-          "sha256": "95f9cf64d35248da31a451774ca0ffb52064e7d32884c3168d08ac72a23cfeb3"
+          "sha256": "2d74d123a45833eba533e755cebb3f94e55180c04849eb07e3fe78677f37df1b"
         }
       ]
     },
@@ -92,7 +92,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/03-01-skills-figma-flow-references-browser-access-md.json",
-          "sha256": "71e52d9f852675aa7b99ffde761bfb0cc9a3128d7ae29693aa0f2450ab5fdd5d"
+          "sha256": "57dfbb5981e2ba527349d8050178ddbff1932e8f448491c2b2f9f330b6d16bbe"
         }
       ]
     },
@@ -105,7 +105,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/04-01-skills-figma-flow-references-campaign-library-md.json",
-          "sha256": "93b4a963ffae5c89e685ffe5f86415bbb22be5e0a52e7836008e52b2026cdb14"
+          "sha256": "7b2826903ceb0972170bc1287cb7951aeed9da2bced86b5972d0dbcae52266fa"
         }
       ]
     },
@@ -118,7 +118,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/04-02-skills-figma-flow-references-campaign-library-md.json",
-          "sha256": "6028ea9ef2e7c95a14dd1b53e5ed38fcf03654f83ff290ba12b164131b68edbb"
+          "sha256": "0c26a5ed7d3460e1d74d723f637b03d8d9c2815668db16f9fe58bcf29fce7d28"
         }
       ]
     },
@@ -131,7 +131,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/05-01-skills-figma-flow-references-design-review-md.json",
-          "sha256": "1e2e0af6def982143f05737cecd46c290dea0813ceef31eedeb00301bdf1de9b"
+          "sha256": "9738ecf7602ce2ec9f1af8c16563f166703f06bce86d54156bb50e3a0f8cef74"
         }
       ]
     },
@@ -144,7 +144,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/05-02-skills-figma-flow-references-design-review-md.json",
-          "sha256": "03225fced1cd09c726a83e14941c489b5b88fad22cb1de5a223d4d84b5a453e1"
+          "sha256": "c1b1176aeebdf05ba97cf74575f533152cc3b79f2261074f5bebba1dd9b8ed59"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/06-01-skills-figma-flow-references-design-routing-md.json",
-          "sha256": "00cc407a4fe8455a5647e159e3d563a7d70b6c2b2f3d307f533f5e9f1bf5cb5f"
+          "sha256": "3129f9259d11d17802f9fd28aafd0bedc1c382599b60b526f33ca897d1312bb7"
         }
       ]
     },
@@ -170,7 +170,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/07-01-skills-figma-flow-references-direction-selection-md.json",
-          "sha256": "30f55cd8532547527c4eebb97cecb732d058439864684b903210e6e24bde6d82"
+          "sha256": "443eaa80221444181daff113638aa4fbe4d24711932188d869cdaf2bb75eb900"
         }
       ]
     },
@@ -183,7 +183,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/07-02-skills-figma-flow-references-direction-selection-md.json",
-          "sha256": "b5c07b04574905af8f5e6bae81a45968bba8075ea900e1f8aab452dce4f4df0d"
+          "sha256": "72cce15768f1e3a42da67b213a5ce6690a827f725aeca300b797ee525f1a593b"
         }
       ]
     },
@@ -196,7 +196,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/08-01-skills-figma-flow-references-draft-build-md.json",
-          "sha256": "f25967e91a7d76b7b8e765ada1817b9457ddc0ff8aa3bdf3cbe63538ddc97d1c"
+          "sha256": "aad48f2d1119f09aee306e8050c19085e8e7e620578c314ea8cbf6775bb7bb4c"
         }
       ]
     },
@@ -209,7 +209,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/08-02-skills-figma-flow-references-draft-build-md.json",
-          "sha256": "f59fae38ba4240d06c4e66ecfbf0b83f1c6629e34190115c40dd564ae1c05ba0"
+          "sha256": "55715849523accb65c2580bab822f61f371fd63b7c7071315abe712de8032613"
         }
       ]
     },
@@ -222,7 +222,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/09-01-skills-figma-flow-references-figma-feature-routes-md.json",
-          "sha256": "2d2db495ce0f09a940f74e538a43eb3f230303b69e32d0984ebce18297b18f9f"
+          "sha256": "188f5dfcbeee157fcd5b4e3cb2ad5e77ffaf52619296652cc96d2f39ddf82862"
         }
       ]
     },
@@ -235,7 +235,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/09-02-skills-figma-flow-references-figma-feature-routes-md.json",
-          "sha256": "4506647924e1c553c8d01f75315eb46d7caca4c4f9be544299de056e72458254"
+          "sha256": "9ee6a878f8683ecf056bceef41bf5d1cfc0463096d089caadddcdb469a6979e8"
         }
       ]
     },
@@ -248,7 +248,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/10-01-skills-figma-flow-references-figma-workflow-md.json",
-          "sha256": "c73818ad6de3e8da8d5bd76fe85265eb4125f1d7a3efe9b8fbcc0ac662c10fb1"
+          "sha256": "37f914d4a7b13c8520065d676bff63ac78823b59d4d3670b1bdf21761e7ca885"
         }
       ]
     },
@@ -261,7 +261,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/10-02-skills-figma-flow-references-figma-workflow-md.json",
-          "sha256": "87076c0752a67fcf78ee5b4c142f10ae1254eb2324f04e7bc8607d3d84f0fed1"
+          "sha256": "b6012eb67ce41b3872ae70b10efbba8bf9ce4d06ea00a6bdd2dba33476892149"
         }
       ]
     },
@@ -274,7 +274,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/11-01-skills-figma-flow-references-graph-contract-md.json",
-          "sha256": "3ad6e31c2a90e7e8cdf4d4a8d94ba5e82de39861a191f19ba6208fee8a1732c4"
+          "sha256": "b249904657abe173cb7e6d8ee33dc9508fb1fc0d2f6c06d07af766cd778624b8"
         }
       ]
     },
@@ -287,7 +287,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/12-01-skills-figma-flow-references-live-example-md.json",
-          "sha256": "2ca51857b9d808518700ddb244a1f7f19a4108a1a3b86ed9a6c921bcfc783265"
+          "sha256": "37db45fb9f4726fc18287730b90a951a0e75c4cff4bd12e21d9ccb0a0deb014e"
         }
       ]
     },
@@ -300,7 +300,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/13-01-skills-figma-flow-references-local-design-audit-md.json",
-          "sha256": "1bba73645985f9999839683743b7472c69314382ed760cc48e76940ad94ddab2"
+          "sha256": "949ebcf06f943d949f090e2231f2d97123725408fe62c67d3f7a850ccd9cbd9a"
         }
       ]
     },
@@ -313,7 +313,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/13-02-skills-figma-flow-references-local-design-audit-md.json",
-          "sha256": "7e1cbe718eb1ab16483e5dd74456560749f87aba236418abe5eef88ea4a1ee8f"
+          "sha256": "a02e05d78e65585f9d24dce6c6b2628423bca721562160ce67e2c1af67dea648"
         }
       ]
     },
@@ -326,7 +326,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/14-01-skills-figma-flow-references-run-record-md.json",
-          "sha256": "b01c8d7cbca519525450efea31bfda53abc881b010de8400a3824a557e2a55d5"
+          "sha256": "93e57fb31ac7b42bcc15f36c1a10aabd5436c4c9b5fcd305ad6939847c8ff18b"
         }
       ]
     },
@@ -339,7 +339,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/14-02-skills-figma-flow-references-run-record-md.json",
-          "sha256": "acce696aac11124a1d31f12eaaf8c912c12d9a8b1484ff8d692f0df282d37224"
+          "sha256": "d3c5a0e35d9973bcc6de46e86f6621034d2080752e350984e1a9cdf3cb765de6"
         }
       ]
     },
@@ -352,7 +352,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/15-01-skills-figma-flow-references-skill-dependencies-md.json",
-          "sha256": "1dc56f164963910a34bbce47c65d2f0417b34a9ee1995b60307b07a17133d82b"
+          "sha256": "c93a3c698b31a610b7547eb2e88a976ef8af39c344c4c245180482a0e080e565"
         }
       ]
     },
@@ -365,7 +365,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/15-02-skills-figma-flow-references-skill-dependencies-md.json",
-          "sha256": "cc0b9e66758f869334fcbafb189408d0489810cad01d4bde9e76c55d342bd7e7"
+          "sha256": "e8991d0762016d9dc2da766bb9e5d8fe1438db8768df03a5ef53a86dab1d1084"
         }
       ]
     },
@@ -378,7 +378,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/16-01-skills-figma-flow-references-token-sync-md.json",
-          "sha256": "829f70e0e523962414bde3a6e848d6214843f63e4a7d8e816c553479db47bf5d"
+          "sha256": "6e7a2388cbab523a3f7fc32f00bdf36be2b449d7e722c4a4b041d162355766ed"
         }
       ]
     },
@@ -391,7 +391,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/16-02-skills-figma-flow-references-token-sync-md.json",
-          "sha256": "754a86929f6dff8b400b810b1c4eca9b18086ec6a830fb8feffc414badd956de"
+          "sha256": "ccf2748d992895173e38123602b7ccdf058cd3c4ce78bee3e098b9fbb0a44616"
         }
       ]
     },
@@ -404,7 +404,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/17-01-skills-figma-flow-references-unslop-md.json",
-          "sha256": "fd8e542d52c9d299c3962eecf54efb525037c54faaacb2f5c9be3f884a50bb01"
+          "sha256": "b39df5a67f4a8be966ba828529847c5f34c266d379054b7af5e8a8160f82c2ed"
         }
       ]
     },
@@ -417,7 +417,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/17-02-skills-figma-flow-references-unslop-md.json",
-          "sha256": "adb01f118694943659129e05e6c554fb9c606f2a954c489cc3919455dfe5e410"
+          "sha256": "79ad5b1da0617b8f3b82a73665bd3be82ba8f71e41639b2b055293d9272229f6"
         }
       ]
     },
@@ -430,7 +430,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/18-01-skills-figma-flow-references-visual-quality-md.json",
-          "sha256": "e06e9236214458d50739496fa3b57a5e151381503519e434e9bed9ac0f07ea07"
+          "sha256": "d47acf012c464cef04f8ba5d4c91ec58f9352ebd754e11557b90c3296b708a7f"
         }
       ]
     },
@@ -443,7 +443,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/18-02-skills-figma-flow-references-visual-quality-md.json",
-          "sha256": "93acb3aea0debb0093f768d073e93dba268f482a58287dd1b76e16c9d3e74e52"
+          "sha256": "fa0f09693b08a59229a107bb06ab5bc337a7497c5fdbf1cb6ada9ca6bfd97fb6"
         }
       ]
     },
@@ -456,7 +456,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/19-01-skills-figma-flow-references-workflow-generated-md.json",
-          "sha256": "9da1580ea949d98082596fa0d19ddebe8c9be123c0b72f28f1bc9d7a50e5267e"
+          "sha256": "03790c230360a84490cf116b6a0f5aa26a23b78c5fbfc73a501e9796f4bf3b44"
         }
       ]
     },
@@ -469,7 +469,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/20-01-skills-figma-flow-scripts-graph-py.json",
-          "sha256": "bc16c719eb2b529c3290b9bd27adb42a1d61a1677617db1ff1664de5b1a6882c"
+          "sha256": "46877920e0b2ec2e4d548fadbcf128baeaa18a7cc26bd00b66b354eee2a68f68"
         }
       ]
     },
@@ -482,7 +482,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/21-01-skills-figma-flow-scripts-graph_diff-py.json",
-          "sha256": "060d5d057971e4c5292fa064d258df10150952d30edfa2b154d9a5298b0a0b8c"
+          "sha256": "01949e8ea307969758a27e1fb40f768bb156f1badef568a634e64eed83f9b7a7"
         }
       ]
     },
@@ -495,7 +495,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/22-01-skills-figma-flow-scripts-ssot-py.json",
-          "sha256": "d209faedf414ba3511c40d1019ea81bd681dc3ef4140b7d570880ecd985916a4"
+          "sha256": "0812c5c95ea7bb61a4e440ec9eae3b1fa3418cde80310eeb2a11f8d31b1f15d0"
         }
       ]
     },
@@ -508,7 +508,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/23-01-skills-figma-flow-scripts-trace_report-py.json",
-          "sha256": "1be030461abc2bcc692d45d9924c8dc93f9b63b34cad34a169d35adee280f0d4"
+          "sha256": "7aae78cf03ec71f77e3968f1e1090716e002113da1490d34d529990c872a9848"
         }
       ]
     },
@@ -521,7 +521,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/24-01-skills-figma-plugin-setup-SKILL-md.json",
-          "sha256": "3843b768fea982586b0ac7683569c8aea1511ecba9c0b8986ca26dd032cc6754"
+          "sha256": "88f486e9e4717bf350caad68d4680859046bc226d32f7b2c0bd25ab7f45aabc8"
         }
       ]
     },
@@ -534,7 +534,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/24-02-skills-figma-plugin-setup-SKILL-md.json",
-          "sha256": "a60a3c9dbc799c3ff897c3ac6659d0fce220cb6301df35f072ae8dae29665b23"
+          "sha256": "5563f5872b4c6740a963feb29c024297d356b9074fea39ec2e29c46f1eaf905d"
         }
       ]
     },
@@ -547,7 +547,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/25-01-skills-graph-ssot-SKILL-md.json",
-          "sha256": "6b31db23eda277e4a5f1878eb89240fd3b845089e264d56b815ec18233c070ce"
+          "sha256": "a0a1c451d17d8c5ecbba5cddcb5552ae936fb9126d7d332e2becf64a06942704"
         }
       ]
     },
@@ -560,7 +560,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/26-01-skills-patch-knowledge-SKILL-md.json",
-          "sha256": "3d500c4b43112875305d60fdc3c8e139dcd5c7c21743baab7dd1619b7925d365"
+          "sha256": "d8c4d3b35aaed136e722d9fe2390e4179ca2318af81ed09fc246ac0823ec34cd"
         }
       ]
     },
@@ -573,7 +573,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/27-01-draft-build-1.json",
-          "sha256": "c3791103dd562ca2e40f54eeaf71bcc036401a7549c9c468ff737a75b1f361b8"
+          "sha256": "f02d945d265472f7aef72ee337f16712b489b4c8bbe91c4dab628025cc9bf8d0"
         }
       ]
     },
@@ -586,7 +586,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/27-02-draft-build-2.json",
-          "sha256": "d8197c84fcee16a6290a1ee138a85b6ac70db6902c4e998f5057d203f5448e98"
+          "sha256": "7f180d028262b9799e20d8b882f7928faf647e2f9ab06508fa689403a8a93b24"
         }
       ]
     },
@@ -599,7 +599,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/27-03-draft-build-3.json",
-          "sha256": "419052b10f889687b5027c95deef9a1c72c524646bcb6cb53ec305b4368783d6"
+          "sha256": "ea48665feea6e1c584aaf6b6dc5ec1019bf5538f406b00d3cb14e498e8de42b5"
         }
       ]
     },
@@ -612,7 +612,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/skills/27-04-draft-build-4.json",
-          "sha256": "f1e8c4d64d6a9f9d151d192c070572d6487ab60c8fd4f67943181e6a9bcafc2f"
+          "sha256": "7296d72662785cb9681c9893e880dccd90be0a251ec236208831db016e6b6630"
         }
       ]
     },
@@ -627,7 +627,21 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance/skills-1.json",
-          "sha256": "0c2760cf54e233ce3fae852524b89cbebd9e963369e1f539acbbd74855e17fb8"
+          "sha256": "0217b6cdba90af21aaa961b25634a142f5fe8a3a648d871b4a4ea47642ac9e98"
+        }
+      ]
+    },
+    {
+      "files": [
+        "skills/figma-flow/SKILL.md",
+        "skills/patch-knowledge/SKILL.md"
+      ],
+      "authority": "CONSTITUTION.md#/sections/검증 산출물의 수명",
+      "reason": "The published skills require bounded receipt preservation and immediate scratch cleanup.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/maintenance-retention/skills-1.json",
+          "sha256": "db3a47525c60c7fd100bf66a86c6cbe67f19f96310c0d5258b1b3c079db3de2f"
         }
       ]
     }

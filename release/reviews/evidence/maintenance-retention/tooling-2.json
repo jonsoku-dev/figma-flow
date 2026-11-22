@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "56c5addba861fe5392d74950d348a1c217fb42cf35e61f82fec4a00640b06dbf",
+  "checks": [
+    {
+      "test": "tests/test_maintenance_journal_boundary.py",
+      "case": "JournalBoundaryTests.test_malformed_json_fields_reject_without_writes",
+      "testSha256": "69c0e631ca98226d9b81bd1796605400bed4d442ec544f2a14b6ff3421c7388c",
+      "covers": [
+        "tools/change_journal.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles/api",
+      "assertion": "Malformed journal inputs are rejected without mutating state.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_journal_properties.py",
+      "case": "JournalPropertiesTests.test_generated_malformed_fields_are_atomic",
+      "testSha256": "69b1d18ac3b93a71a1607f329ceaf03e6848867e21a92bff030e52bc977fa269",
+      "covers": [
+        "tools/change_journal.py"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles/api",
+      "assertion": "Malformed journal inputs are rejected without mutating state.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

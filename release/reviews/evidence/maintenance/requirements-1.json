@@ -1,11 +1,11 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "ec75904036529092ffc2d43fabcdbd061d0857934e3f946e6bd6b3cead540960",
+  "surfaceFingerprint": "b9ed49b16879728a44205e9c4fe8dfdfc925eadcb31244503b5ac0f3ab48dc5a",
   "checks": [
     {
       "test": "tests/test_maintenance_contract.py",
       "case": "MaintenanceContractTests.test_ci_and_maintainer_handoff_use_the_declared_evidence_profiles",
-      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "testSha256": "92ea5b009680db98848bff45b9a591d61165daa1f0f55160271ced1abd83a109",
       "covers": [
         "AGENTS.md"
       ],
@@ -16,7 +16,7 @@
     {
       "test": "tests/test_maintenance_contract.py",
       "case": "MaintenanceContractTests.test_rejects_raw_json_decoders_under_direct_and_module_aliases",
-      "testSha256": "3c48319c7ed89c69cd7a6cf3546944377fbc5dd41eeb04e6779c36c9dc0e7afe",
+      "testSha256": "92ea5b009680db98848bff45b9a591d61165daa1f0f55160271ced1abd83a109",
       "covers": [
         "AGENTS.md"
       ],

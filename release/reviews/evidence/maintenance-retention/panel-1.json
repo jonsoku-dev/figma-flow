@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "4109103b4bd47794fbdeff3fd5cc5c18228b78a9906d7022edec094ef81aabeb",
+  "checks": [
+    {
+      "test": "tests/test_panel_maintenance_boundary.cjs",
+      "case": "panel build flags transport and native bridge bypasses",
+      "testSha256": "7f19198c46c3876dbbb1ccd1950ff646dde27b76fb11251e789bcec5651b1aa1",
+      "covers": [
+        "panel-ui/architecture.cjs",
+        "panel-ui/src/reviewTransport.mjs",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/build.mjs"
+      ],
+      "authority": "tools/maintenance-contract.json#/panelBoundaries",
+      "assertion": "The build rejects transport bypasses and the reviewed draft adapter uses only the prepared loopback receiver.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_panel_maintenance_boundary.cjs",
+      "case": "review pairing posts only the approved payload to the prepared local receiver",
+      "testSha256": "7f19198c46c3876dbbb1ccd1950ff646dde27b76fb11251e789bcec5651b1aa1",
+      "covers": [
+        "panel-ui/architecture.cjs",
+        "panel-ui/src/reviewTransport.mjs",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/build.mjs"
+      ],
+      "authority": "tools/maintenance-contract.json#/panelBoundaries",
+      "assertion": "The build rejects transport bypasses and the reviewed draft adapter uses only the prepared loopback receiver.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

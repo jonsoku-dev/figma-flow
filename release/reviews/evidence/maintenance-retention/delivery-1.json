@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "49e48608a8c7602d400c5e968e731becac6c8bd8947a536f66f52eda8ae0f9e5",
+  "checks": [
+    {
+      "test": "tests/test_maintenance_contract.py",
+      "case": "MaintenanceContractTests.test_ci_and_maintainer_handoff_use_the_declared_evidence_profiles",
+      "testSha256": "92ea5b009680db98848bff45b9a591d61165daa1f0f55160271ced1abd83a109",
+      "covers": [
+        ".github/pull_request_template.md",
+        ".github/workflows/test.yml",
+        "library/delivery/test.yml.in"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles/release",
+      "assertion": "The release profile replays generated inputs and checks removal of verification-owned artifacts.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_verification_retention.py",
+      "case": "VerificationRetentionTests.test_owned_scratch_is_cleaned_on_success_failure_and_timeout",
+      "testSha256": "ed692e30e1814386d2026852db0cc1ec0c3b4d96321f968834c13465a6f722a8",
+      "covers": [
+        ".github/pull_request_template.md",
+        ".github/workflows/test.yml",
+        "library/delivery/test.yml.in"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles/release",
+      "assertion": "The release profile replays generated inputs and checks removal of verification-owned artifacts.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_journal_properties.py",
+      "case": "JournalPropertiesTests.test_generated_malformed_fields_are_atomic",
+      "testSha256": "69b1d18ac3b93a71a1607f329ceaf03e6848867e21a92bff030e52bc977fa269",
+      "covers": [
+        ".github/pull_request_template.md",
+        ".github/workflows/test.yml",
+        "library/delivery/test.yml.in"
+      ],
+      "authority": "tools/maintenance-contract.json#/profiles/release",
+      "assertion": "The release profile replays generated inputs and checks removal of verification-owned artifacts.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}
