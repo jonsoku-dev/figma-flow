@@ -9,11 +9,6 @@
     "engine": "django.db.backends.mysql",
     "runtimeTables": {
       "readOnly": [
-        "auth_group",
-        "auth_group_permissions",
-        "auth_permission",
-        "auth_user_groups",
-        "auth_user_user_permissions",
         "django_content_type"
       ],
       "appendOnly": [
@@ -21,7 +16,12 @@
         "booking_operation"
       ],
       "crud": [
+        "auth_group",
+        "auth_group_permissions",
+        "auth_permission",
         "auth_user",
+        "auth_user_groups",
+        "auth_user_user_permissions",
         "axes_accessattempt",
         "axes_accessfailurelog",
         "axes_accesslog",
@@ -31,6 +31,7 @@
         "booking_notification",
         "booking_operationlock",
         "booking_room",
+        "django_admin_log",
         "django_session"
       ]
     }

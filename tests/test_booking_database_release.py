@@ -109,6 +109,8 @@ class BookingDatabaseReleaseTests(unittest.TestCase):
             self.addCleanup(web.close)
             with web:
                 self.assertIsNotNone(execute('SELECT COUNT(*) FROM booking_booking', web))
+                execute("INSERT INTO auth_group (name) VALUES ('Fixture operations admin')", web)
+                self.assertEqual(execute("SELECT COUNT(*) FROM auth_group WHERE name = 'Fixture operations admin'", web), ((1,),))
                 for sql in (
                     'UPDATE booking_auditevent SET created_at = UTC_TIMESTAMP()',
                     'DELETE FROM booking_operation',

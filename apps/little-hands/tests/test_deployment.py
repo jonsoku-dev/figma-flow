@@ -54,6 +54,8 @@ class DeploymentTests(unittest.TestCase):
             self.assertIn(f"GRANT SELECT, INSERT ON `littlehands`.`{table}` TO 'littlehands_runtime'@'%';",sql)
         for table in ('django_migrations', 'booking_roomscheduleentry', 'booking_roomschedulelock'):
             self.assertNotIn(table,sql)
+        for table in ('auth_group', 'auth_group_permissions', 'auth_user_groups', 'django_admin_log'):
+            self.assertIn(f"GRANT SELECT, INSERT, UPDATE, DELETE ON `littlehands`.`{table}` TO 'littlehands_runtime'@'%';",sql)
         self.assertNotIn('WITH GRANT OPTION',sql)
         roles = (ROOT / 'deploy/roles.sql').read_text()
         self.assertIn("ON `littlehands`.* TO 'littlehands_owner'@'%';",roles)
